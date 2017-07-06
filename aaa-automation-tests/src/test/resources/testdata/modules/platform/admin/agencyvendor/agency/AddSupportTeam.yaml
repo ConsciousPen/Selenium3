@@ -1,0 +1,11 @@
+TestData: {
+  AgencyInfoTab: {},
+  ContactInfoTab: {},
+  BankingDetailsTab: {},
+  SupportTeamTab: {
+    Added Support Team: {
+      First Name: '',
+      Channel: Agency
+    }
+  }
+}

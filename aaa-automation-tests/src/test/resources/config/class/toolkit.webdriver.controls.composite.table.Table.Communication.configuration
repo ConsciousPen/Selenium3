@@ -1,0 +1,4 @@
+{
+  "rowThatTemplate": "//tbody[contains(@id,'communicationsSearchForm:searchTable:') and contains(@id, ':tb') and not(contains(@id, 'Details')) and not(contains(@id, 'details'))][%s]/tr",
+  "isNotEmptyOption": "not(.='') and tr[not(@class='hidden' or @class='invisible') and not(contains(@style,'display') and contains(@style,'none'))]" 
+}

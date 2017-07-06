@@ -1,0 +1,126 @@
+TestData: {
+  AgencyInfoTab: '@AgencyInfoTab',
+  ContactInfoTab: '@ContactInfoTab',
+  BankingDetailsTab: '@BankingDetailsTab',
+  SupportTeamTab: {}
+}
+
+TestData_All: {
+  AgencyInfoTab: '@AgencyInfoTab',
+  ContactInfoTab: '@ContactInfoTab',
+  BankingDetailsTab: '@BankingDetailsTab',
+  SupportTeamTab: '@SupportTeamTab'
+}
+
+AgencyInfoTab: {
+  Channel: Agency,
+  Location Type: index=1,
+  Agency Code: /Agency_Code_#####,
+  Agency Name: /Agency_#####,
+  'Agency Name - Alternate': AlternateName,
+  Agency Effective Date: /today,
+  Agency Expiration Date: /today+5y,
+  Tax ID: /#####,
+  External Reference ID: /#####,
+  Primary Agency: 'Yes',
+  Region: {
+    Name: Albany,
+  },
+  'Applicable for commissions Extract?': 'Yes',
+  Commission Payment Sent To: Agency (Office),
+  'Eligible for Agency Billing?': 'Yes',
+  Agency Bill Due Day: 5,
+  Retain Commission From Pay: 'Yes',
+  Exclude commissions from billing: 'No'
+}
+  
+ContactInfoTab: {
+  Zip / Postal Code: 94596,
+  Address Line 1: Address Line 1,
+  City: Walnut Creek,
+  State / Province: CA,
+  'Is Mailing Address the same as Physical Address?': 'Yes',
+  'Copy insured correspondence required?': 'No',
+  'Phone #': '1234567890',
+  'Fax #': '1234567890',
+  'Extension #': '123',
+  Add Contact: {
+    First Name: /FName_######,
+    Last Name: /LName_######
+  }
+}
+  
+BankingDetailsTab: {
+  Settlement Method: Check
+}
+
+SupportTeamTab: {
+  Added Support Team: {
+     First Name: '',
+     Last Name: ''
+    }
+}
+
+TestData_UpdateCountry: {
+  AgencyInfoTab: {
+    Country: South Africa,
+    Owner Name: /OwnerName_###,
+    'Company Registration #': /############,
+    FSP Number: /#########,
+    VAT Vendor: 'Yes',
+    VAT Number: /##########
+  }
+}
+
+TestData_AddRelatedPrimaryAgency: {
+  AgencyInfoTab: {
+    Primary Agency: 'No',
+    Related Primary Agency: {
+      Channel: Corporate,
+      Agency Name: QA Agency
+    },
+  }
+}
+
+TestData_BankingDetails: {
+  BankingDetailsTab: {
+    Account Holder Name: /Name_##,
+    'ABA Transit #': 1,
+    'Account #': /######,
+    Bank Name: index=1,
+    Bank Account Type: index=1
+  }
+}
+
+TestData_UpdateBankingDetails: {
+  BankingDetailsTab: {
+    Account Type: index=1,
+    EFT Protocol Form Received: 'Yes',
+    'Account #': /######,
+    Bank Name: index=1,
+    Bank Branch Code: index=1
+  }
+}
+
+TestData_UpdateContactInfo: {
+ ContactInfoTab: {
+  'Is Mailing Address the same as Physical Address?': 'No',
+  Mailing Zip / Postal Code: 21201,
+  Mailing Address Line 1: Mailing Address Line 1,
+  Mailing City: Baltimore,
+  Mailing State / Province: MD,
+  Add Contact: {
+    First Name: /FName_######,
+    Last Name: /LName_######
+  }
+ }
+}
+
+TestData_UpdateSupportTeam: {
+  SupportTeamTab: {
+  Added Support Team: {
+     First Name: '',
+     Last Name: ''
+    }
+ }
+}

@@ -1,0 +1,112 @@
+TestData: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab',
+  MembershipTab: '@MembershipTab',
+  VehicleTab: '@VehicleTab',
+  AssignmentTab: '@AssignmentTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+PrefillTab: {
+  First Name: Sansa,
+  Last Name: Stark,
+  Zip Code: 94544,
+  Address Line 1: 8416 Briggs Drive,
+  Date of Birth: '/today-38y:MM/dd/yyyy',
+  Validate Address: click,
+  Validate Address Dialog: {
+    },
+  Order Prefill: click
+}
+
+GeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  #CurrentCarrierInformation: '@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation'
+}
+
+NamedInsuredInformation: {
+  "Home Phone #": 1234567890 
+}
+
+AAAProductOwned: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001,
+  Member Last Name: Test,
+}
+
+PolicyInformation: {
+  Policy Type: Standard,
+  Effective Date: '/today:MM/dd/yyyy',
+  Channel Type: Phone (Direct Sales Unit),
+  Agency: SMTestCC - 400000092,
+  Sales Channel: Online,
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+DriverTab: {
+  Occupation: Self Employed,
+  Age First Licensed: 37,
+  Permit Before License: 'No',
+  License State: CA,
+  "License #": C1234567,
+  Most Recent GPA: 'None',
+  #ActivityInformation: '@ActivityInformation'
+}
+
+MembershipTab: {
+  #Customer Agreement: Customer Agrees,
+  #Sales Agent Agreement: I Agree,
+  Order Report: click
+}
+
+VehicleTab: {
+  VIN: 1GNWGPFG8B6548273,
+  Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 10,
+  Odometer Reading: 3000
+}
+
+AssignmentTab: {
+Primary Driver: index=1,
+Manually Rated Driver: index=1
+}
+
+FormsTab: {}
+PremiumAndCoveragesTab: {
+  Payment Plan: Annual,
+}
+
+DriverActivityReportsTab: {
+  "Has the customer expressed interest in purchasing the policy?": 'Yes',
+  Sales Agent Agreement: I Agree,
+  Validate Driving History: click
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    Personal Auto Application: Physically Signed,
+    Deleting Uninsured Motorist Property Damage Coverage: Physically Signed
+  },
+  #RequiredToIssue: { },
+  VehicleInformation: ['@Vehicle1'],
+}
+
+Vehicle1: {
+  "Are there any additional interest(s)?": 'No'
+}
+
+PurchaseTab: {
+  PaymentAllocation: {
+    Cash: /rest
+  }
+}

@@ -1,0 +1,47 @@
+TestDataInter_Other_Plus1Day: {
+  ChangeBrokerActionTab: {
+    Transfer Type: Inter-agency,
+    Reason: index=1,
+    Transfer Effective Upon: Other,
+    Transfer Effective Date: /today+1d,
+    Commission Impact: 'No',
+    Location Name: {
+      Agency Name: Test Agency Inter
+    },
+    Insurance Agent: index=1
+  }
+}
+
+TestDataInter_Renewal: {
+  ChangeBrokerActionTab: {
+    Transfer Type: Inter-agency,
+    Reason: index=1,
+    Transfer Effective Upon: Renewal,
+    Commission Impact: 'No',
+    Location Name: {
+      Agency Name: Test Agency Inter
+    },
+    Insurance Agent: index=1
+  }
+}
+
+TestDataIntra_Other: {
+  ChangeBrokerActionTab: {
+    Transfer Type: Intra-agency,
+    Reason: index=1,
+    Transfer Effective Upon: Other,
+    Transfer Effective Date: /today,
+    Commission Impact: 'No',
+    Insurance Agent: Test Agency Intra1 Test Agency Intra1
+  }
+}
+
+TestDataIntra_Renewal: {
+  ChangeBrokerActionTab: {
+    Transfer Type: Intra-agency,
+    Reason: index=1,
+    Transfer Effective Upon: Renewal,
+    Commission Impact: 'No',
+    Insurance Agent: Test Agency Intra1 Test Agency Intra1
+  }
+}

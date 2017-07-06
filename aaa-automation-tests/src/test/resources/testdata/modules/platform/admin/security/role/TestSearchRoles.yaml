@@ -1,0 +1,48 @@
+RolesAgencyDG: {
+  GeneralRoleTab: {
+    Role Name: /RoleForSearchXA_#####,
+    Privileges: ['Policy Issue']
+  }
+}
+
+RolesCorporateDG: {
+  GeneralRoleTab: {
+    Role Name: /RoleForSearchXC_#####,
+    Privileges: ['Policy Issue']
+  }
+}
+
+RolesVendorDG: {
+  GeneralRoleTab: {
+    Role Name: /RoleForSearchXV_#####,
+    Privileges: ['Policy Issue','Policy Renewal']
+  }
+}
+
+RolesSearch: {
+  SearchByField: {
+    Role Name: 'RoleForSearchX',
+    Business Domain: ''
+  }
+}
+
+RolesVendorSearch: {
+  SearchByField: {
+    Role Name: 'RoleForSearchX',
+    Business Domain: 'Vendor'
+  }
+}
+
+RolesDomainSearchNF: {
+  SearchByField: {
+    Role Name: '',
+    Business Domain: Agency
+  }
+}
+
+RolesNameSearchNF: {
+  SearchByField: {
+    Role Name: /iI_#######,
+    Business Domain: ''
+  }
+}

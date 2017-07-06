@@ -1,0 +1,24 @@
+<com.exigen.ipb.policy.domain.PremiumMovementCause>
+  <oid>j3gq{UID}</oid>
+  <entityStatus>added</entityStatus>
+  <transactionId>{POLICY_ID}</transactionId>
+  <transactionType>policy</transactionType>
+  <prorateFactor>1</prorateFactor>
+  <txDate class="sql-timestamp">{TODAY} 00:00:00.0</txDate>
+  <txEffectiveDate class="sql-timestamp">{TODAY} 00:00:00.0</txEffectiveDate>
+  <premiumMovements class="java.util.Set">
+    <com.exigen.ipb.policy.domain.PremiumMovement>
+      <oid>12345zep{UID}</oid>
+      <entityStatus>added</entityStatus>
+      <policyId>{POLICY_ID}</policyId>
+      <entityOid>{POLICY_OID}</entityOid>
+      <annualBasePremiumAmt>{PREMIUM}</annualBasePremiumAmt>
+      <basePremiumChangeAmt>{PREMIUM}</basePremiumChangeAmt>
+      <netPremiumChangeAmt>{PREMIUM}</netPremiumChangeAmt>
+      <grossPremiumChangeAmt>{PREMIUM}</grossPremiumChangeAmt>
+      <movementType>added</movementType>
+      <premiumLevel>policy</premiumLevel>
+      <adjustmentMovements class="java.util.Set"/>
+    </com.exigen.ipb.policy.domain.PremiumMovement>
+  </premiumMovements>
+</com.exigen.ipb.policy.domain.PremiumMovementCause>

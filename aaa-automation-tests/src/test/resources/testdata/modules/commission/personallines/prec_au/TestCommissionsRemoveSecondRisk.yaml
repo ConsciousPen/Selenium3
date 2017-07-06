@@ -1,0 +1,84 @@
+PolicyTab: {
+    Effective Date: /today,
+    Term: 12 Months,  
+    Agency/Producer: {
+      Channel: Agency,
+      Agency Name: Agency
+    },
+    Agent Sub Producer: ''
+}
+
+PremiumCoveragesTab: {
+  Coverage Type: Single,
+  Combined Single Limit: '$1,000',
+  UM/UIM Combined Single Limit: '$750',
+  Medical Payments: '$500'
+}
+
+EndorseActionTab_1Risk: {
+  EndorseActionTab: {
+    Endorsement Date: /today+60d,
+    Endorsement Reason: index=1
+  }
+}
+
+VehicleTab_Endorse: {
+  VehicleTab: {
+    Type: Regular,
+    No Vin Reason: VIN Not Applicable,
+    Model Year: '2009',
+    Make: MERCEDES,
+    Model: CLK550,
+    Body Style: Named Non-Owned,
+    Performance: Sports Performance,
+    Fuel Type: Flex - gas and ethanol,
+    Anti-Theft: Alarm,
+    Anti-Lock: ANTILOCK BRAKE DISCOUNT,
+    Daytime Running Lamps: 'No',
+    'Armored Vehicle?': 'No',
+    Distance Driven for Pleasure per Week: '1200',
+    Customer Declared Annual Distance: 0-7999,
+    Zip / Postal Code: '94596',
+    Address Line 1: /Address#####,
+    City: Walnut Creek,
+    State / Province: CA
+  }
+}
+
+PremiumAndCoveragesTab_Endorse_1Risk: {
+  PremiumCoveragesTab: {
+    Comprehensive Deductible: '$50',
+    Collision Deductible: '$50',
+    'Rental Reimbursement/Transportation Expense': '$15/$450'
+  }
+}
+
+EndorseActionTab_2Risk: {
+  EndorseActionTab: {
+    Endorsement Date: /today+90d,
+    Endorsement Reason: index=1
+  }
+}
+
+PremiumAndCoveragesTab_Endorse_2Risk: {
+  PremiumCoveragesTab: {
+    Comprehensive Deductible: '$5,000',
+    Collision Deductible: '$5,000',
+    'Rental Reimbursement/Transportation Expense': '$125/$2500'
+  }
+}
+
+EndorseActionTab_Delete2Risk: {
+  EndorseActionTab: {
+    Endorsement Date: /today+120d,
+    Endorsement Reason: index=1
+  }
+}
+
+PremiumAndCoveragesTab_Endorse_Delete2Risk: {
+  PremiumCoveragesTab: {
+    Comprehensive Deductible: index=0,
+    Collision Deductible: index=0,
+    'Rental Reimbursement/Transportation Expense': index=0
+  }
+}

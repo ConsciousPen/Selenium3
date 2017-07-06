@@ -1,0 +1,51 @@
+{  
+"endpoint": "",
+"jaxRsComponents": "org.codehaus.jackson.jaxrs.JacksonJsonProvider,com.exigen.ipb.etcsa.rest.wrapper.ModelWrapperMessageBodyReader",
+"restTargets": {
+"NOTES": {
+		"target": "/notes",
+		"methods": {		
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "notes-rs/NOTES.POST.tmpl"
+			}
+		}
+	}
+,	"NOTESBYTYPEANDREF.ITEM": {
+		"target": "/notes/{entityType}/{entityRefNo}",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "notes-rs/NOTES.ITEM.GET.tmpl"
+			}
+		}
+	}
+,	"NOTESBYTYPE.ITEM": {
+		"target": "/notes/{noteId}",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "notes-rs/NOTES.ITEM.GET.tmpl"
+			},
+			"PUT" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "notes-rs/NOTES.ITEM.PUT.tmpl"
+			}
+		}
+	}
+,"SWAGGER.JSON": {
+		"target": "/swagger.json",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "notes-rs/SWAGGER.JSON.GET.tmpl"
+			}
+		}
+	}
+}
+}

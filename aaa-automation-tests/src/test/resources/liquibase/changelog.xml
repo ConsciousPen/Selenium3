@@ -1,0 +1,10 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <include file="src/test/resources/liquibase/changelogs/AgencyAndProfiles.xml"/>
+    <include file="src/test/resources/liquibase/changelogs/Commissions.xml"/>
+    <include file="src/test/resources/liquibase/changelogs/Billing.xml"/>
+    <include file="src/test/resources/liquibase/changelogs/CEM.xml"/>
+    <include file="src/test/resources/liquibase/changelogs/RenewalStrategy.xml"/>
+    <include file="src/test/resources/liquibase/changelogs/Lookups.xml"/>
+    <include file="src/test/resources/liquibase/changelogs/TaxesAndFees.xml"/>    
+</databaseChangeLog>

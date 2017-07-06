@@ -1,0 +1,59 @@
+<#setting date_format="yyyy-mm-dd"> 
+<#assign startedOn = GeneralTab["Date business started"]> 
+{
+  "customerType" : "BUSINESS_LEAD",
+  "customerStatus" : "QUALIFIED",
+  "sourceCd" : "UNKNOWN",
+  "ratingCd" : "UNKNOWN",
+  "preferredSpokenLanguageCd" : "ENGLISH",
+  "preferredWrittenLanguageCd" : "ENGLISH",
+  "paperless" : false,
+  "segments" : [ ],
+  "individualDetails" : null,
+  "businessDetails" : {
+    "legalName" : "${GeneralTab["Name - Legal"]?ensure_starts_with("Rest")!RestName11111}",
+    "businessType" : "PRTN",
+    "dbaName" : null,
+    "sicCode" : "0111",
+    "naicsCode" : null,
+    "legalId" : "${GeneralTab["EIN"]!11-1111111}",
+    "dateStarted" : "${startedOn?date("mm/dd/yyyy")!2006-06-01}",
+    "taxExemptInd" : false,
+    "groupSponsorInd" : true,
+    "numberOfContinuous" : null,
+    "entityType" : [ ],
+    "useAsReference" : null,
+    "referenceCategories" : [ ],
+    "referenceComment" : null
+  },
+  "preferredContactMethod" : null,
+  "addresses" : [ {
+    "contactMethod" : "ADDRESS",
+    "contactType" : "legal",
+    "preferredInd" : null,
+    "doNotSolicitInd" : false,
+    "comment" : null,
+    "temporary" : false,
+    "effectiveFrom" : null,
+    "effectiveTo" : null,
+    "duration" : null,
+    "stateProvCd" : "${GeneralTab["State/Province"]!CA}",
+    "postalCode" : "${GeneralTab["Zip/Post Code"]!94720}",
+    "countryCd" : "US",
+    "addressLine1" : "${GeneralTab["Address Line 1"]!Address11111}",
+    "addressLine2" : null,
+    "addressLine3" : null,
+    "city" : "${GeneralTab["City"]?ensure_ends_with("\"")!Berkley}
+  } ],
+  "chats" : [ ],
+  "emails" : [ ],
+  "phones" : [ ],
+  "socialNets" : [ ],
+  "webAddresses" : [ ],
+  "agencies" : [ {
+    "agencyCode" : "QAG"
+  } ],
+  "indCustomerAdditionalNames" : null,
+  "businessCustomerAdditionalNames" : [ ],
+  "customerEmployments" : null
+}

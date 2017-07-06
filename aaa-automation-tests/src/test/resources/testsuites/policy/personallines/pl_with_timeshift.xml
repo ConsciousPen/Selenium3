@@ -1,0 +1,72 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Policy Personal Lines" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+
+    <test name="PREC-AU TestPolicyCancelNoticeWithCancellation"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestPolicyCancelNoticeWithCancellation"/></classes></test>
+    <test name="PREC-AU TestPolicyChangeBrokerInterAgencyOther"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestPolicyChangeBrokerInterAgencyOther"/></classes></test>
+    <test name="PREC-AU TestPolicyDoNotRenewWithRenew"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestPolicyDoNotRenewWithRenew"/></classes></test>
+    <test name="PREC-AU TestPolicyEndorsementAutomatic"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestPolicyEndorsementAutomatic"/></classes></test>
+    <test name="PREC-AU TestPolicyRenewAutomaticIssue"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestPolicyRenewAutomaticIssue"/></classes></test>
+    <test name="PREC-AU TestPolicyRenewAutomaticOfferWithLapse"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestPolicyRenewAutomaticOfferWithLapse"/></classes></test>
+    <test name="PREC-AU TestPolicyRenewAutomaticOfferWithoutLapse"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestPolicyRenewAutomaticOfferWithoutLapse"/></classes></test>
+
+    <test name="PREC-HO TestPolicyCancelNoticeWithCancellation"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestPolicyCancelNoticeWithCancellation"/></classes></test>
+    <test name="PREC-HO TestPolicyChangeBrokerInterAgencyOther"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestPolicyChangeBrokerInterAgencyOther"/></classes></test>
+    <test name="PREC-HO TestPolicyDoNotRenewWithRenew"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestPolicyDoNotRenewWithRenew"/></classes></test>
+    <test name="PREC-HO TestPolicyEndorsementAutomatic"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestPolicyEndorsementAutomatic"/></classes></test>
+    <test name="PREC-HO TestPolicyRenewAutomaticIssue"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestPolicyRenewAutomaticIssue"/></classes></test>
+    <test name="PREC-HO TestPolicyRenewAutomaticOfferWithLapse"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestPolicyRenewAutomaticOfferWithLapse"/></classes></test>
+    <test name="PREC-HO TestPolicyRenewAutomaticOfferWithoutLapse"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestPolicyRenewAutomaticOfferWithoutLapse"/></classes></test>
+
+    <test name="PREC-IA TestPolicyCancelNoticeWithCancellation"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ia.TestPolicyCancelNoticeWithCancellation"/></classes></test>
+    <test name="PREC-IA TestPolicyChangeBrokerInterAgencyOther"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ia.TestPolicyChangeBrokerInterAgencyOther"/></classes></test>
+    <test name="PREC-IA TestPolicyDoNotRenewWithRenew"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ia.TestPolicyDoNotRenewWithRenew"/></classes></test>
+    <test name="PREC-IA TestPolicyRenewAutomaticIssue"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ia.TestPolicyRenewAutomaticIssue"/></classes></test>
+    <test name="PREC-IA TestPolicyEndorsementAutomatic"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ia.TestPolicyEndorsementAutomatic"/></classes></test>
+    <test name="PREC-IA TestPolicyRenewAutomaticOfferWithLapse"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ia.TestPolicyRenewAutomaticOfferWithLapse"/></classes></test>
+    <test name="PREC-IA TestPolicyRenewAutomaticOfferWithoutLapse"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ia.TestPolicyRenewAutomaticOfferWithoutLapse"/></classes></test>
+
+    <test name="PREC-IDPPO TestPolicyCancelNoticeWithCancellation"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_idppo.TestPolicyCancelNoticeWithCancellation"/></classes></test>
+    <test name="PREC-IDPPO TestPolicyChangeBrokerInterAgencyOther"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_idppo.TestPolicyChangeBrokerInterAgencyOther"/></classes></test>
+    <test name="PREC-IDPPO TestPolicyDoNotRenewWithRenew"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_idppo.TestPolicyDoNotRenewWithRenew"/></classes></test>
+    <test name="PREC-IDPPO TestPolicyRenewAutomaticIssue"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_idppo.TestPolicyRenewAutomaticIssue"/></classes></test>
+    <test name="PREC-IDPPO TestPolicyEndorsementAutomatic"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_idppo.TestPolicyEndorsementAutomatic"/></classes></test>
+    <test name="PREC-IDPPO TestPolicyRenewAutomaticOfferWithLapse"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_idppo.TestPolicyRenewAutomaticOfferWithLapse"/></classes></test>
+    <test name="PREC-IDPPO TestPolicyRenewAutomaticOfferWithoutLapse"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_idppo.TestPolicyRenewAutomaticOfferWithoutLapse"/></classes></test>
+
+    <test name="PREC-ICI TestPolicyCancelNoticeWithCancellation"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ici.TestPolicyCancelNoticeWithCancellation"/></classes></test>
+    <test name="PREC-ICI TestPolicyChangeBrokerInterAgencyOther"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ici.TestPolicyChangeBrokerInterAgencyOther"/></classes></test>
+    <test name="PREC-ICI TestPolicyDoNotRenewWithRenew"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ici.TestPolicyDoNotRenewWithRenew"/></classes></test>
+    <test name="PREC-ICI TestPolicyRenewAutomaticIssue"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ici.TestPolicyRenewAutomaticIssue"/></classes></test>
+    <test name="PREC-ICI TestPolicyEndorsementAutomatic"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ici.TestPolicyEndorsementAutomatic"/></classes></test>
+    <test name="PREC-ICI TestPolicyRenewAutomaticOfferWithLapse"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ici.TestPolicyRenewAutomaticOfferWithLapse"/></classes></test>
+    <test name="PREC-ICI TestPolicyRenewAutomaticOfferWithoutLapse"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ici.TestPolicyRenewAutomaticOfferWithoutLapse"/></classes></test>
+
+    <test name="PREC-UM TestPolicyCancelNoticeWithCancellation"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_um.TestPolicyCancelNoticeWithCancellation"/></classes></test>
+    <test name="PREC-UM TestPolicyChangeBrokerInterAgencyOther"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_um.TestPolicyChangeBrokerInterAgencyOther"/></classes></test>
+    <test name="PREC-UM TestPolicyDoNotRenewWithRenew"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_um.TestPolicyDoNotRenewWithRenew"/></classes></test>
+    <test name="PREC-UM TestPolicyRenewAutomaticIssue"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_um.TestPolicyRenewAutomaticIssue"/></classes></test>
+    <test name="PREC-UM TestPolicyEndorsementAutomatic"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_um.TestPolicyEndorsementAutomatic"/></classes></test>
+    <test name="PREC-UM TestPolicyRenewAutomaticOfferWithLapse"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_um.TestPolicyRenewAutomaticOfferWithLapse"/></classes></test>
+    <test name="PREC-UM TestPolicyRenewAutomaticOfferWithoutLapse"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_um.TestPolicyRenewAutomaticOfferWithoutLapse"/></classes></test>
+
+	<test name="PREC-IDI TestPolicyCancelNoticeWithCancellation"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_idi.TestPolicyCancelNoticeWithCancellation"/></classes></test>
+	<test name="PREC-IDI TestPolicyChangeBrokerInterAgencyOther"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_idi.TestPolicyChangeBrokerInterAgencyOther"/></classes></test>
+	<test name="PREC-IDI TestPolicyDoNotRenewWithRenew"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_idi.TestPolicyDoNotRenewWithRenew"/></classes></test>
+	<test name="PREC-IDI TestPolicyRenewAutomaticIssue"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_idi.TestPolicyRenewAutomaticIssue"/></classes></test>
+	<test name="PREC-IDI TestPolicyEndorsementAutomatic"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_idi.TestPolicyEndorsementAutomatic"/></classes></test>
+	<test name="PREC-IDI TestPolicyRenewAutomaticOfferWithLapse"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_idi.TestPolicyRenewAutomaticOfferWithLapse"/></classes></test>
+    <test name="PREC-IDI TestPolicyRenewAutomaticOfferWithoutLapse"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_idi.TestPolicyRenewAutomaticOfferWithoutLapse"/></classes></test>
+	
+	<test name="PREC-IDHMO TestPolicyCancelNoticeWithCancellation"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_idhmo.TestPolicyCancelNoticeWithCancellation"/></classes></test>
+	<test name="PREC-IDHMO TestPolicyChangeBrokerInterAgencyOther"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_idhmo.TestPolicyChangeBrokerInterAgencyOther"/></classes></test>
+	<test name="PREC-IDHMO TestPolicyDoNotRenewWithRenew"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_idhmo.TestPolicyDoNotRenewWithRenew"/></classes></test>
+	<test name="PREC-IDHMO TestPolicyEndorsementAutomatic"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_idhmo.TestPolicyEndorsementAutomatic"/></classes></test>
+	<test name="PREC-IDHMO TestPolicyRenewAutomaticIssue"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_idhmo.TestPolicyRenewAutomaticIssue"/></classes></test>
+	<test name="PREC-IDHMO TestPolicyRenewAutomaticOfferWithLapse"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_idhmo.TestPolicyRenewAutomaticOfferWithLapse"/></classes></test>
+    <test name="PREC-IDHMO TestPolicyRenewAutomaticOfferWithoutLapse"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_idhmo.TestPolicyRenewAutomaticOfferWithoutLapse"/></classes></test>
+
+</suite>

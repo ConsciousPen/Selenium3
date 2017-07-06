@@ -1,0 +1,33 @@
+TestData: {
+  CommunicationActionTab: {
+    Communication Channel: Call,
+    Entity Type: Lead/Customer,
+    Communication Direction: Inbound
+  }
+}
+
+TestData_Account: {
+  CommunicationActionTab: {
+    Communication Channel: Call,
+    Entity Type: Account,
+    Communication Direction: Inbound
+  }
+}
+
+TestData_Opportunity: {
+  CommunicationActionTab: {
+    Communication Channel: Call,
+    Entity Type: Opportunity,
+    Communication Direction: Inbound,
+    Entity Reference ID: 111
+  }
+}
+
+TestData_Campaign: {
+  CommunicationActionTab: {
+    Communication Channel: Call,
+    Entity Type: Campaign,
+    Communication Direction: Inbound,
+    Entity Reference ID: 1
+  }
+}

@@ -1,0 +1,84 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet failOnError="false" id="1" author="pkaziuchyts">
+        <comment>GB Commission Strategy</comment>        
+             
+        <delete tableName="CommissionCoverage">
+            <where>CommissionEntry_id = 1</where>
+        </delete>
+        <delete tableName="CommissionValue">
+            <where>CommissionEntry_id = 1</where>
+        </delete>
+        <delete tableName="CommissionLocation">
+            <where>CommissionEntry_id = 1</where>
+        </delete>                      
+          
+        <delete tableName="CommissionEntry">
+            <where>CommissionStrategy_id = 1</where>
+        </delete>
+        
+        <delete tableName="CommissionStrategy">
+            <where>id = 1</where>
+        </delete>
+        
+        <insert tableName="CommissionStrategy">
+            <column name="id" value="1"/>
+            <column name="productCd" value="GB"/>            
+            <column name="rounding" value="cent"/>
+            <column name="effectiveDate" valueDate="2010-01-01"/>            
+            <column name="strategyStatus" value="active"/>
+            <column name="transactionTypes" value="quote"/>
+            <column name="policyLevel" value="1"/>
+            <column name="policyEffectiveRatesInd" value="1"/>
+            <column name="availableForOverride" value="0"/>
+        </insert> 
+        
+        <insert tableName="CommissionEntry">
+            <column name="id" value="1"/>
+            <column name="dType" value="ChannelCommissionEntry"/>            
+            <column name="salesChannelType" value="agency"/>
+            <column name="CommissionStrategy_id" value="1"/>
+            <column name="seqIdx" value="0"/>            
+            <column name="entryType" value="groupBenefitsFlat"/>
+        </insert>     
+       
+        <insert tableName="CommissionLocation">
+            <column name="id" value="1"/>
+            <column name="countryCd" value="US"/>            
+            <column name="stateCd" value="MA"/>
+            <column name="CommissionEntry_id" value="1"/>                        
+        </insert>
+        <insert tableName="CommissionValue">
+            <column name="id" value="1"/>
+            <column name="transactionCd" value="quote"/>
+            <column name="value" value="15"/>
+            <column name="CommissionEntry_id" value="1"/>
+            <column name="dType" value="CommissionValue"/>                        
+        </insert>
+        
+        <insert tableName="CommissionCoverage">
+            <column name="id" value="1"/>
+            <column name="coverageCd" value="BA"/>            
+            <column name="CommissionEntry_id" value="1"/>
+            <column name="coverageLabel" value="Basic Accident"/>                        
+        </insert>
+        <insert tableName="CommissionCoverage">
+            <column name="id" value="2"/>
+            <column name="coverageCd" value="STL"/>            
+            <column name="CommissionEntry_id" value="1"/>
+            <column name="coverageLabel" value="Spouse Term Life"/>                        
+        </insert>
+        <insert tableName="CommissionCoverage">
+            <column name="id" value="3"/>
+            <column name="coverageCd" value="BTL"/>            
+            <column name="CommissionEntry_id" value="1"/>
+            <column name="coverageLabel" value="Basic Term Life"/>                        
+        </insert>
+        <insert tableName="CommissionCoverage">
+            <column name="id" value="4"/>
+            <column name="coverageCd" value="CTL"/>            
+            <column name="CommissionEntry_id" value="1"/>
+            <column name="coverageLabel" value="Child Term Life"/>                        
+        </insert>            
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,14 @@
+TestData: {
+  SelectGroupRelationshipTypeActionTab: {
+    Relationship Type: Employment
+  },
+  AssociateExistingCustomerSearchActionTab: {
+    First Name: name
+  },
+  EmployeeInfoTab: {
+    Job Title: Worker,
+    Job Code: Any Work,
+    Original Hire Date: /today-1d,
+    Employment Status: Active,
+  }
+}

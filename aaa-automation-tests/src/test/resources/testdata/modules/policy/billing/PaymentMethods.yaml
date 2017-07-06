@@ -1,0 +1,16 @@
+TestData: {
+  CC_Visa: '@CC_Visa',
+  CC_MasterCard: '@CC_MasterCard',
+}
+
+CC_Visa: {
+  Payment Method: 'CreditCard',
+  Type: 'Visa',
+  Number: '4111111111111111'
+}
+
+CC_MasterCard: {
+  Payment Method: 'CreditCard',
+  Type: 'Master Card',
+  Number: '5447720793964498',
+}

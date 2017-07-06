@@ -1,0 +1,13 @@
+TestDataSameNumber: {
+  RewriteActionTab: {
+    Effective Date:  /today,
+    'Use Original Policy Number?': 'Yes'
+  }
+}
+
+TestDataNewNumber: {
+  RewriteActionTab: {
+    Effective Date:  /today,
+    'Use Original Policy Number?': 'No'
+  }
+}

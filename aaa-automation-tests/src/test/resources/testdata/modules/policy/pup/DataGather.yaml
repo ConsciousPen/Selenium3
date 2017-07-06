@@ -1,0 +1,1054 @@
+TestData: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+ }
+  
+PrefillTab: {
+  NamedInsured: [{
+    Relationship to primary named insured: Primary Insured,
+    Marital status: Single,
+    AAA employee: 'No',
+    LLC: 'No',
+    Trustee: 'No'
+  }],
+  
+  ActiveUnderlyingPolicies: [{
+    ActiveUnderlyingPoliciesSearch: {
+      Policy Type: HO3,
+      Policy Number: Primary_HO3
+    },
+    ActiveUnderlyingPoliciesManual: {
+      Primary policy: 'Yes'
+    }
+  }]
+}
+
+GeneralTab: {
+  PolicyInfo: {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: Independent Agent,
+    Agency: 'SMTestIA - 400001650',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  },
+  
+  NamedInsuredContacInformation: {
+    Home phone: 1234567890
+  },
+}
+
+UnderlyingRisksPropertyTab: {}
+
+UnderlyingRisksAutoTab: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: A,
+    State: UT,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+UnderlyingRisksOtherVehiclesTab: {}
+UnderlyingRisksAllResidentsTab: {}
+
+ClaimsTab: {}
+
+EndorsementsTab: {}
+
+PremiumAndCoveragesQuoteTab: {
+  Payment Plan: Pay in Full,
+  Recurring Payment: false,
+  Personal Umbrella: '$1,000,000'
+}
+
+UnderwritingAndApprovalTab: {
+  "Have any applicants had a prior insurance policy cancelled, refused or non-renewed in the past 3 years?": 'No',
+  "Has the applicant been sued for libel or slander?": 'No',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'No',
+  "Is any business, home day care or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'No',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'No',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?":  'No',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'No',
+  "Are any applicants or insureds a celebrity or a public figure?": 'No'
+}
+
+DocumentsTab: {
+  RequiredToIssue: {
+    "Applicant's statement signature": Physically Signed
+  }
+}
+
+BindTab: {}
+
+PurchaseTab: {
+  PaymentAllocation: {
+    Cash: /rest
+  }
+}
+
+TestData_AZ: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_AZ',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}  
+
+UnderlyingRisksAutoTab_AZ: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: A,
+    State: AZ,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+# ---------- TestData CA -----------
+TestData_CA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_CA',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  UnderlyingRisksAllResidentsTab: '@UnderlyingRisksAllResidentsTab_CA',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab_CA',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_CA',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}  
+
+UnderlyingRisksAutoTab_CA: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    State: CA,
+    Coverage Type: Split,
+    "BI Limits": [500000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+UnderlyingRisksAllResidentsTab_CA: {}
+
+PremiumAndCoveragesQuoteTab_CA: {}
+
+UnderwritingAndApprovalTab_CA: {
+  "Have any applicants had a prior insurance policy cancelled, refused or non-renewed in the past 3 years?": 'No',
+  "Has the applicant been sued for libel or slander?": 'No',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'No',
+  "Is there a business on premises?": 'No',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'No',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'No',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?":  'No',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'No',
+  "Any resident self-employed, public lecturer, broadcaster, telecaster, newspaper reporter, editor, publisher, professional actor or entertainer, author, professional athlete or similar, or holder of any elected or appointed public offices?": 'No'
+}
+
+# ---------- TestData CO -----------
+TestData_CO: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_CO',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}  
+
+UnderlyingRisksAutoTab_CO: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: A,
+    State: CO,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+TestData_CT: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_CT',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_CT',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}  
+
+UnderlyingRisksAutoTab_CT: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: A,
+    State: CT,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+UnderwritingAndApprovalTab_CT: {
+  "Has the applicant been sued for libel or slander?": 'No',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'No',
+  "Is any business, home day care or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'No',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'No',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?":  'No',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'No',
+  "Are any applicants or insureds a celebrity or a public figure?": 'No'
+}
+
+TestData_DC: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_DC',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+UnderlyingRisksAutoTab_DC: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: A,
+    State: DC,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+TestData_DE: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_DE',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+UnderlyingRisksAutoTab_DE: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: A,
+    State: DE,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+TestData_ID: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_ID',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+UnderlyingRisksAutoTab_ID: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: A,
+    State: ID,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+TestData_IN: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_IN',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+UnderlyingRisksAutoTab_IN: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: A,
+    State: IN,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+TestData_KS: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_KS',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+UnderlyingRisksAutoTab_KS: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: A,
+    State: KS,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+TestData_KY: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_KY',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_KY',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+UnderlyingRisksAutoTab_KY: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: A,
+    State: KY,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+UnderwritingAndApprovalTab_KY: {
+  "Has the applicant been sued for libel or slander?": 'No',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'No',
+  "Is any business, home day care or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'No',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'No',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?":  'No',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'No',
+  "Are any applicants or insureds a celebrity or a public figure?": 'No'
+}
+
+TestData_MD: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_MD',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_MD',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+UnderlyingRisksAutoTab_MD: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: '/first',
+    State: MD,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+UnderwritingAndApprovalTab_MD: {
+  "Applicant(s), who have been cancelled, refused insurance or non-renewed in the past 3 years are ineligible if based on any of the following reasons: Fraud or Material Misrepresentation, Substantial Increase in Hazard, or Claims.": 'No', 
+  "Has the applicant been sued for libel or slander?": 'No',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?" : 'No',
+  "Is any business or farming activity conducted on the premises?": 'No',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'No',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'No',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?":  'No',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'No',
+  "Are any applicants or insureds a celebrity or a public figure?": 'No'
+}
+
+
+TestData_MT: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_MT',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+UnderlyingRisksAutoTab_MT: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: A,
+    State: MT,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+TestData_NJ: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_NJ',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+UnderlyingRisksAutoTab_NJ: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: A,
+    State: NJ,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+TestData_NV: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_NV',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab_NV',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+UnderlyingRisksAutoTab_NV: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: A,
+    State: NV,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+DocumentsTab_NV: {
+  RequiredToIssue: {
+    "Applicant's statement signature": Physically Signed, 
+    "PUP UM/UIM Disclosure": Physically Signed
+  }
+}
+
+TestData_NY: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_NY',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+UnderlyingRisksAutoTab_NY: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: '/first',
+    State: NY,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+TestData_OH: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_OK',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+UnderlyingRisksAutoTab_OH: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: '/first',
+    State: OH,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+TestData_OK: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_OK',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+UnderlyingRisksAutoTab_OK: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: '/first',
+    State: OK,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+TestData_OR: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_OR',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_OR',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+UnderlyingRisksAutoTab_OR: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: '/first',
+    State: OR,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+UnderwritingAndApprovalTab_OR: {
+  "Have any applicants had a prior insurance policy cancelled, refused or non-renewed in the past 3 years?": 'No',
+  "Has the applicant been sued for libel or slander?": 'No',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'No',
+  "Is any business, adult day care, pet day care or farming activity conducted on the premises?": 'No',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'No',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'No',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?":  'No',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'No',
+  "Are any applicants or insureds a celebrity or a public figure?": 'No'
+}
+
+TestData_PA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_PA',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+UnderlyingRisksAutoTab_PA: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: '/first',
+    State: PA,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+TestData_SD: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_SD',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+UnderlyingRisksAutoTab_SD: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: '/first',
+    State: SD,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+TestData_VA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_VA',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+UnderlyingRisksAutoTab_VA: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: '/first',
+    State: VA,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+TestData_WV: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_WV',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab_WV',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+UnderlyingRisksAutoTab_WV: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: '/first',
+    State: WV,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}
+
+DocumentsTab_WV: {
+  RequiredToIssue: {
+    "Applicant's statement signature": Physically Signed, 
+    "Signature of insured for Excess Uninsured Motorists Offer": Physically Signed, 
+    "Signature of insured for Excess Underinsured Motorists Offer": Physically Signed 
+  }
+}
+
+TestData_WY: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_WY',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
+  ClaimsTab: '@ClaimsTab',
+  EndorsementsTab: '@EndorsementsTab',
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+UnderlyingRisksAutoTab_WY: {
+  Automobiles: [{
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: '91N1K36Y991234567',
+    Year: 2008,
+    Make: 'RIX TRUCK Nr3',
+    Model: '/first',
+    Current Carrier: 'index=2',
+    "Policy #": 123456,
+    Primary Auto Policy: 'Yes',
+    "Is this a signature series auto policy?": 'Yes',
+    Auto Tier: '/first',
+    State: WY,
+    Coverage Type: Split,
+    "BI Limits": [250000, 500000],
+    PD Limits: 100000,
+    Usage: Pleasure,
+    Excluded:  'No'
+  }]
+}

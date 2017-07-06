@@ -1,0 +1,99 @@
+{
+	"endpoint": "/services/product-rt-rs/v1",
+	"restTargets": {
+		"METADATA": {
+			"target": "//product-metadata",
+			"methods": {
+				"GET": {
+					"queryParams": "productCd",
+					"mediaType": "application/json",
+					"postTemplate": "product-rt-rs/METADATA.EMPTY.tmpl"
+				}
+			}
+		},
+		"PRODUCT-OPERATIONS": {
+			"target": "/product-operations",
+			"methods": {
+				"POST": {
+					"queryParams": "",
+					"mediaType": "",
+					"postTemplate": "product-rt-rs/PRODUCT-OPERATIONS.tmpl"
+				}
+			}
+		},
+		"PRODUCT-STATE.LOAD": {
+			"target": "/product-state/load",
+			"methods": {
+				"POST": {
+					"queryParams": "productCd&actionCd&customerNumber&entityClass&instanceName",
+					"mediaType": "",
+					"postTemplate": "product-rt-rs/PRODUCT-DATA.EMPTY.tmpl"
+				}
+			}
+		},
+		"PRODUCT-DATA.QUOTE.COPY": {
+			"target": "/product-data/{contextId}/instances/{instanceName}",
+			"header": "cookie",
+			"methods": {
+				"PUT": {
+					"queryParams": "",
+					"mediaType": "",
+					"postTemplate": "product-rt-rs/PRODUCT-DATA.QUOTE.COPY.PUT.tmpl"
+				}
+			}
+		},
+		"PRODUCT-DATA.QUOTE.PROPOSE": {
+			"target": "/product-data/{contextId}/instances/{instanceName}",
+			"header": "cookie",
+			"methods": {
+				"PUT": {
+					"queryParams": "",
+					"mediaType": "",
+					"postTemplate": "product-rt-rs/PRODUCT-DATA.QUOTE.PROPOSE.PUT.tmpl"
+				}
+			}
+		},
+		"PRODUCT-STATE.CHANGE_TAB": {
+			"target": "/product-state/{contextId}/change-tab",
+			"header": "cookie",
+			"methods": {
+				"POST": {
+					"queryParams": "tabName",
+					"mediaType": "",
+					"postTemplate": "product-rt-rs/PRODUCT-DATA.EMPTY.tmpl"
+				}
+			}
+		},
+		"PRODUCT-STATE.SAVE": {
+			"target": "/product-state/{contextId}/save",
+			"header": "cookie",
+			"methods": {
+				"POST": {
+					"queryParams": "",
+					"mediaType": "",
+					"postTemplate": "product-rt-rs/PRODUCT-DATA.EMPTY.tmpl"
+				}
+			}
+		},
+		"PRODUCT-STATE.START": {
+			"target": "//product-state/start",
+			"methods": {
+				"POST": {
+					"queryParams": "productCd&actionCd&customerNumber",
+					"mediaType": "",
+					"postTemplate": "product-rt-rs/PRODUCT-DATA.EMPTY.tmpl"
+				}
+			}
+		},
+		"PRODUCT-STATE.FINISH": {
+			"target": "//product-state/{contextId}/finish",
+			"methods": {
+				"POST": {
+					"queryParams": "",
+					"mediaType": "",
+					"postTemplate": "product-rt-rs/PRODUCT-DATA.EMPTY.tmpl"
+				}
+			}
+		}
+	}
+}

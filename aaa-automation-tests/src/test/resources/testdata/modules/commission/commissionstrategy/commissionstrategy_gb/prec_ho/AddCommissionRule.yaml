@@ -1,0 +1,16 @@
+TestData: {
+  AddPCCommissionRule: {
+    Policy Level Commission: 'Yes',
+    Commission Type: 'Flat',
+    Dynamic Commission Schedule: 'No',
+    Sales Channel: Commission Group Channel,
+    Commission Group: {
+      Group Name: ''
+    },    
+    Geography Selection: Defined for All locations,
+    New Business Commission Rate: 20,
+    Endorsement Commission Rate: 30,
+    Renewal Commission Rate: 40,
+    Reinstatement Commission Rate: 50
+  }
+}

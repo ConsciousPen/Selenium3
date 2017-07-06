@@ -1,0 +1,10 @@
+TestData: {
+  SearchByField: {
+    Product: '',
+    Accounting Code: '',
+    Reference Code: '',
+    Rule ID: '',
+    Type: '',
+    Status: ''
+  }
+}

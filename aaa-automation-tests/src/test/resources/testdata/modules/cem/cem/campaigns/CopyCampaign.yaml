@@ -1,0 +1,17 @@
+TestData: {
+  CopyCampaignActionTab: {
+    Campaign Name: /Campaign#####,
+    Customer Type: Individuals,
+    Campaign Products: {
+        Line of Business: All,
+        Product Name: All,
+      },
+    Marketing Channels: {
+        Campaign Channel: All,
+        Sub Channel: All,
+      },
+    Start date: /today,
+    End date: /today+300d,
+    Duration (days): 300
+  }
+}

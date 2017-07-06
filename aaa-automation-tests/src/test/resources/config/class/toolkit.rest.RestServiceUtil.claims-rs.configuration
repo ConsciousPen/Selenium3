@@ -1,0 +1,116 @@
+{  
+"endpoint": "services/claims-rs/v1/claims",
+
+"restTargets": {
+    "CLAIM.CLAIM_AU.POST": {
+		"target": "/fnol",
+		"methods": {
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "claims/CLAIM_AU.tmpl"
+			}
+		}
+	},
+    "CLAIM.CLAIM_HO.POST": {
+		"target": "/fnol",
+		"methods": {
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "claims/CLAIM_HO.tmpl"
+			}
+		}
+	},
+    "CLAIM.CLAIM_HO_BASE.POST": {
+		"target": "/fnol",
+		"methods": {
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "claims/CLAIM_BASE.tmpl"
+			}
+		}
+	},
+	"CLAIM.CLAIM_BASE_WO_POLICY.POST": {
+		"target": "/fnol",
+		"methods": {
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "claims/CLAIM_BASE_WO_POLICY.tmpl"
+			}
+		}
+	},
+	"CLAIM.CREATE_DAMAGE.POST": {
+		"target": "/{claimNumber}/ClaimsDamage/{claimInstanceName}",
+		"methods": {
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "claims/CLAIM_WO_POLICY_DAMAGE.tmpl"
+			}
+		}
+	},
+	"CLAIM.ASSOCIATE_DAMAGE.CLAIMSINJURY.POST": {
+		"target": "/{claimNumber}/{damageType}/{claimsDamageInstanceName}",
+		"methods": {
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "claims/CLAIM_WO_POLICY_DAMAGE_CLAIMSINJURY_ASSOCIATION.tmpl"
+			}
+		}
+	},
+	"CLAIM.ASSOCIATE_DAMAGE.PROPERTYDAMAGE.POST": {
+		"target": "/{claimNumber}/{damageType}/{claimsDamageInstanceName}",
+		"methods": {
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "claims/CLAIM_WO_POLICY_DAMAGE_PROPERTYDAMAGE_ASSOCIATION.tmpl"
+			}
+		}
+	},
+	"CLAIM.CREATE_DAMAGE_PARTY.POST": {
+		"target": "/{claimNumber}/{partyComponentName}/{claimsInjuryDamageInstanceName}",
+		"methods": {
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "claims/CLAIM_WO_POLICY_DAMAGE_PARTY.tmpl"
+			}
+		}
+	},
+	"CLAIM.CREATE_DAMAGE_PARTY_ADDRESS.POST": {
+		"target": "/{claimNumber}/{partyAddressComponentName}/{claimInjuryPartyInstanceName}",
+		"methods": {
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "claims/CLAIM_WO_POLICY_DAMAGE_PARTY_ADDRESS.tmpl"
+			}
+		}
+	},
+	"CLAIM.RISK_ITEM.GET": {
+		"target": "/{claimNumber}/policy/risk-items",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": ""
+			}
+		}
+	},
+	"CLAIM.PARTIES.GET": {
+		"target": "/{claimNumber}/parties",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": ""
+			}
+		}
+	}
+}
+}

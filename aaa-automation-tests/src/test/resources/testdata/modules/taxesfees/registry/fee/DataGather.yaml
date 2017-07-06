@@ -1,0 +1,11 @@
+TestData: {
+  AddFeeTaxRegistryTab: '@AddFeeTaxRegistryTab'
+}
+
+AddFeeTaxRegistryTab: {
+  Code: /CodeTax#####,
+  Type: index=1,
+  Subtype: index=1,
+  Description: /Description#####,
+  Effective Date: /today-10d
+}

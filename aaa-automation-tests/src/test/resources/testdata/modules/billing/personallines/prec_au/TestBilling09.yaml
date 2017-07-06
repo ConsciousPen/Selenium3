@@ -1,0 +1,26 @@
+TestData: {
+  PolicyTab: {},
+  InsuredTab: {},
+  DriverTab: {},
+  VehicleTab: {},
+  MVRClaimsTab: {},
+  FormsAddlInfoTab: {},
+  AssignmentTab: {},
+  PremiumCoveragesTab: {
+    Combined Single Limit: '$35',  
+  },
+}
+
+TestData2: {
+  PolicyTab: {},
+  InsuredTab: {},
+  DriverTab: {},
+  VehicleTab: {},
+  MVRClaimsTab: {},
+  FormsAddlInfoTab: {},
+  AssignmentTab: {},
+  PremiumCoveragesTab: {
+    Combined Single Limit: '$35',
+    Medical Payments: '$500', 
+  },
+}

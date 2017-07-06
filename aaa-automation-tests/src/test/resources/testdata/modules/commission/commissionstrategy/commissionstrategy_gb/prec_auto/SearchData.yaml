@@ -1,0 +1,12 @@
+TestData: {
+  SearchByField: {
+    Product Name: Home (Preconfigured),
+    Transaction Type: '',
+    Strategy Effective From: '',
+    Strategy Effective To: '',
+    Agency: '',
+    Commission Group: '',
+    Commission Group Status: '',
+    Commission Strategy Status: ''
+  }
+}

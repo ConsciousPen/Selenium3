@@ -1,0 +1,6 @@
+{
+  "rowThatTemplate": "//ancestor-or-self::div/following-sibling::div/table/tbody[1]/tr[%s]",
+  "columnByIndexTemplate": "//ancestor-or-self::div/following-sibling::div/table/tbody[1]/tr/td[%s]",
+  "cellByIndexContainsValueTemplate": "//ancestor-or-self::div/following-sibling::div/table/tbody[1]/descendant::td[position()=%1$s and (contains(., '%2$s') or contains(*/., '%2$s'))]",
+  "cellByIndexHasValueTemplate": "//ancestor-or-self::div/following-sibling::div/table/tbody[1]/descendant::td[position()=%1$s and (normalize-space(.)='%2$s' or normalize-space(*/.)='%2$s')]"
+}

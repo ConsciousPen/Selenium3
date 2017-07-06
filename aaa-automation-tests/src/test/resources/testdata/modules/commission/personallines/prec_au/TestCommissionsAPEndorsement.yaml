@@ -1,0 +1,32 @@
+PolicyTab: {
+  Effective Date: /today,
+  Term: 12 Months,  
+  Agency/Producer: {
+    Channel: Agency,
+    Agency Name: Agency
+  },
+  Agent Sub Producer: ''
+}
+
+PremiumCoveragesTab: {
+  Coverage Type: Single,
+  Combined Single Limit: '$1,000',
+  UM/UIM Combined Single Limit: '$750',
+  Medical Payments: '$5,000'
+}
+
+PremiumCoveragesTab_Endorse: {
+  PremiumCoveragesTab: {
+    Medical Payments: '$25,000'
+  }
+}
+
+EndorseActionTab: {
+    Endorsement Date: /today + 90d,
+    Endorsement Reason: index=1
+}
+
+CancellationActionTab: {
+    Cancel Date: /today + 180d,
+    Cancellation Reason: index=1
+  }

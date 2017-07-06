@@ -1,0 +1,56 @@
+TestData: {
+  UpdateTaskActionTab: {
+    Warning Date/Time: '/today+3M:MM/dd/yyyy h:mm a',
+    Due Date/Time: '/today+4M:MM/dd/yyyy h:mm a'
+  }
+}
+
+TestData_Customer: {
+  UpdateTaskActionTab: {
+    Priority: 1,
+    Warning Date/Time: '/today+3M:MM/dd/yyyy h:mm a',
+    Due Date/Time: '/today+4M:MM/dd/yyyy h:mm a',
+    Task Description: Updated Customer task description,
+    Task Note: Update Customer task Note
+  }
+}
+
+TestData_Quote: {
+  UpdateTaskActionTab: {
+    Priority: 4,
+    Warning Date/Time: '/today+3M:MM/dd/yyyy h:mm a',
+    Due Date/Time: '/today+4M:MM/dd/yyyy h:mm a',
+    Task Description: Updated Quote task description,
+    Task Note: Update Quote task Note
+  }
+}
+
+TestData_Policy: {
+  UpdateTaskActionTab: {
+    Priority: 4,
+    Warning Date/Time: '/today+3M:MM/dd/yyyy h:mm a',
+    Due Date/Time: '/today+4M:MM/dd/yyyy h:mm a',
+    Task Description: Updated Policy task description,
+    Task Note: Update Policy task Note
+  }
+}
+
+TestData_Claim: {
+  UpdateTaskActionTab: {
+    Priority: 2,
+    Warning Date/Time: '/today+3M:MM/dd/yyyy h:mm a',
+    Due Date/Time: '/today+4M:MM/dd/yyyy h:mm a',
+    Task Description: Updated Claim task description,
+    Task Note: Update Claim task Note
+  }
+}
+
+TestData_Billing: {
+  UpdateTaskActionTab: {
+    Priority: 2,
+    Warning Date/Time: '/today+3M:MM/dd/yyyy h:mm a',
+    Due Date/Time: '/today+4M:MM/dd/yyyy h:mm a',
+    Task Description: Updated Billing task description,
+    Task Note: Update Billing task Note
+  }
+}

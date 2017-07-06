@@ -1,0 +1,4 @@
+{
+  "assetLocator": "//table/tbody/tr[td[contains(., \"%1s\")] and (not(@class) or @class!='hidden' or @class!='hidden oddRow')]/td[2]",
+  "warningLocator": "/ancestor::td[1]/following-sibling::td"
+}

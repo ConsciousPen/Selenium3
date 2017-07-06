@@ -1,0 +1,5 @@
+<#setting date_format="yyyy-MM-dd">
+<#assign txDate = CopyQuoteActionTab['Quote Effective Date']?date('MM/dd/yyyy')>
+{
+	"txDate": "${txDate?date}"
+}

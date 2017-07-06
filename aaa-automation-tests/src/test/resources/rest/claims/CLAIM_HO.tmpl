@@ -1,0 +1,197 @@
+{
+	"claim": {
+		"productCd": "CLAIM_HO",
+		"lossDt": "${lossDt}",
+		"lossDesc": "Description${UID}",
+		"customerNumber": "${customerNumber}",
+		"reportedDt": "${reportedDt}",
+		"policyNumber": "${policyNumber}",
+		"causeOfLossCd": "BODILY_INJURY",
+		"lossLocationDesc": "Description of loss location",
+		"addresses": [{
+			"addressLine1": "${customerAddress}",
+			"addressLine2": "",
+			"addressLine3": "",
+			"city": "Walnut Creek",
+			"county": "",
+			"countryCd": "US",
+			"postalCode": "94596",
+			"stateProvCd": "CA",
+			"latitude": "123",
+			"longitude": "456",
+			"componentName": "LossEventAddressContact"
+		}],
+		"parties": [{
+			"componentName": "ReportingParty",
+			"firstName": "${customerFirstName}",
+			"middleName": "",
+			"lastName": "${customerLastName}",
+			"nameTypeCd": "IND",
+			"contactPreferenceCd": "MAIL",
+			"relationShipToInsuredCd": "SPOUSE",
+			"addresses": [{
+				"componentName": "ReportingPartyAddressContact",
+				"addressLine1": "${customerAddress}",
+				"addressLine2": "",
+				"addressLine3": "",
+				"city": "Beverly Hills",
+				"county": "",
+				"countryCd": "US",
+				"postalCode": "90210",
+				"stateProvCd": "CA",
+				"latitude": "123",
+				"longitude": "456",
+				"addressTypeCd": "contact"
+			}]
+		}]
+	},
+	"damages": [{
+		"componentName": "ClaimsDamage",
+		"damageType": "PropertyLoss",
+		"loss": {
+			"associatedRiskItemOid": "${riskItemOid}",
+			"componentName": "PropertyLoss",
+			"riskItemOid": "${riskItemOid}",
+			"damageDesc": "Description${UID}",
+			"partyType": "FIRST",
+			"addresses": [{
+				"componentName": "ClaimsHomeDamageAddress",
+				"addressLine1": "${customerAddress}",
+				"addressLine2": "",
+				"addressLine3": "",
+				"city": "Beverly Hills",
+				"county": "",
+				"countryCd": "US",
+				"postalCode": "90210",
+				"stateProvCd": "CA",
+				"latitude": "123",
+				"longitude": "456",
+				"addressTypeCd": "contact"
+			}],
+			"parties": [{
+				"componentName": "LossParty",
+				"firstName": "${customerFirstName}",
+				"middleName": "",
+				"lastName": "${customerLastName}",
+				"nameTypeCd": "IND",
+				"contactPreferenceCd": "MAIL",
+				"relationShipToInsuredCd": "SPOUSE",
+				"addresses": [{
+					"componentName": "LossPartyAddressContact",
+					"addressLine1": "${customerAddress}",
+					"addressLine2": "",
+					"addressLine3": "",
+					"city": "Beverly Hills",
+					"county": "",
+					"countryCd": "US",
+					"postalCode": "90210",
+					"stateProvCd": "CA",
+					"latitude": "123",
+					"longitude": "456",
+					"addressTypeCd": "contact"
+				}]
+			}]
+		}
+	}, {
+		"componentName": "ClaimsDamage",
+		"damageType": "PropertyDamage",
+		"loss": {
+			"associatedRiskItemOid": "${riskItemOid}",
+			"componentName": "PropertyDamage",
+			"damageDesc": "Description${UID}",
+			"partyType": "FIRST",  
+			"parties": [{
+				"componentName": "PropertyDamageParty",
+				"firstName": "${customerFirstName}",
+				"middleName": "",
+				"lastName": "${customerLastName}",
+				"nameTypeCd": "IND",
+				"contactPreferenceCd": "MAIL",
+				"relationShipToInsuredCd": "SPOUSE",
+				"addresses": [{
+					"componentName": "PropertyDamagePartyAddressContact",
+					"addressLine1": "${customerAddress}",
+					"addressLine2": "",
+					"addressLine3": "",
+					"city": "Beverly Hills",
+					"county": "",
+					"countryCd": "US",
+					"postalCode": "90210",
+					"stateProvCd": "CA",
+					"latitude": "123",
+					"longitude": "456",
+					"addressTypeCd": "contact"
+				}]
+			}],
+			"addresses": [{
+				"componentName": "ClaimsOtherPropertyDamageAddress",
+				"addressLine1": "Address${UID}",
+				"addressLine2": "",
+				"addressLine3": "",
+				"city": "Beverly Hills",
+				"county": "",
+				"countryCd": "US",
+				"postalCode": "90210",
+				"stateProvCd": "CA",
+				"latitude" : null,
+				"longitude" : null,
+				"componentName" : "ClaimsOtherPropertyDamageAddress",
+				"addressTypeCd": "contact"
+			}]
+		}
+	}, {
+		"componentName": "ClaimsDamage",
+		"damageType": "ClaimsInjury",
+		"loss": {
+			"associatedRiskItemOid": "${riskItemOid}",
+			"componentName": "ClaimsInjury",
+			"damageDesc": "Description${UID}",
+			"parties": [{
+				"componentName": "ClaimsInjuryParty",
+				"firstName": "${customerFirstName}",
+				"middleName": "",
+				"lastName": "${customerLastName}",
+				"nameTypeCd": "IND",
+				"contactPreferenceCd": "MAIL",
+				"relationShipToInsuredCd": "SPOUSE",
+				"addresses": [{
+					"componentName": "ClaimsInjuryPartyAddressContact",
+					"addressLine1": "${customerAddress}",
+					"addressLine2": "",
+					"addressLine3": "",
+					"city": "Beverly Hills",
+					"county": "",
+					"countryCd": "US",
+					"postalCode": "90210",
+					"stateProvCd": "CA",
+					"latitude" : null,
+					"longitude" : null,
+					"addressTypeCd": "contact"
+				}]
+			}]
+		}
+	}],
+	"authorityReports": [{
+		"parties": [{
+			"nameTypeCd": "IND",
+			"firstName": "AuthFName${UID}",
+			"middleName":"",
+			"lastName": "AuthLName${UID}",
+			"contactPreferenceCd": "MAIL",
+			"relationShipToInsuredCd": "SELF",
+			"addresses": [{
+				"addressTypeCd": "contact",
+				"countryCd": "US",
+				"postalCode": "94596",
+				"addressLine1": "Address Line 1",
+				"addressLine2": "",
+				"addressLine3": "",
+				"city": "Walnut Creek",
+				"stateProvCd": "CA",
+				"county": "",
+				"longitude": "123",
+				"latitude": "456"
+			}]
+		}]
+	}]
+}

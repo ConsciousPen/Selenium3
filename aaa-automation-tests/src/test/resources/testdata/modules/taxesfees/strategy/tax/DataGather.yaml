@@ -1,0 +1,95 @@
+TestData_RefundableStrategy: {
+  AddFeeTaxStrategyTab: '@AddTaxStrategyTab_3RulesRefundable'
+}
+
+TestData_NonRefundableStrategy: {
+  AddFeeTaxStrategyTab: '@AddTaxStrategyTab_3RulesNonRefundable'
+}
+
+AddTaxStrategyTab_3RulesRefundable: {
+  Rules Group: ['@TaxRule1','@TaxRule2','@TaxRule3']  
+}
+
+TaxRule1: {
+  Group Details: {
+    Registry Type-Description: 'contains=TaxCov',
+    Applies to Level: 'Coverage',
+    Applies to Level Select: [CLTTTUMCSLCoverage, CLTTTUIMCSLCoverage],
+    Frequency: 'Occurs every term',
+    'Refundable?': 'Yes',
+    'Refund non-refundable on Flat Cancel?': 'Yes',
+    'Amount %': '7',
+    Country: 'United States',
+    State: 'FL'
+  }
+}
+
+TaxRule2: {
+  Group Details: {
+    Registry Type-Description: 'contains=TaxRI',
+    Applies to Level: Risk Item,
+    Frequency: 'Occurs every term',
+    'Refundable?': 'Yes',
+    'Refund non-refundable on Flat Cancel?': 'Yes',
+    'Amount %': '5',
+    Country: 'United States',
+    State: 'FL'
+  }
+}
+
+TaxRule3: {
+  Group Details: {
+    Registry Type-Description: 'contains=TaxPolicy',
+    Applies to Level: Policy,
+    Frequency: 'Occurs every term',
+    'Refundable?': 'Yes',
+    'Refund non-refundable on Flat Cancel?': 'Yes',
+    'Amount %': '3',
+    Country: 'United States',
+    State: 'FL'
+  }
+}
+
+AddTaxStrategyTab_3RulesNonRefundable: {
+  Rules Group: ['@TaxRule1NonRefundable','@TaxRule2NonRefundable','@TaxRule3NonRefundable']  
+}
+
+TaxRule1NonRefundable: {
+  Group Details: {
+    Registry Type-Description: 'contains=TaxCov',
+    Applies to Level: 'Coverage',
+    Applies to Level Select: [CLTTTUMCSLCoverage, CLTTTUIMCSLCoverage],
+    Frequency: Occurs every term,
+    'Refundable?': 'No',
+    'Refund non-refundable on Flat Cancel?': 'No',
+    'Amount $': '8',
+    Country: 'United States',
+    State: 'FL'
+  }
+}
+
+TaxRule2NonRefundable: {
+  Group Details: {
+    Registry Type-Description: 'contains=TaxRI',
+    Applies to Level: Risk Item,
+    Frequency: Occurs every term,
+    'Refundable?': 'No',
+    Country: 'United States',
+    State: 'FL',
+    'Refund non-refundable on Flat Cancel?': 'No',
+    'Amount $': '6'
+  }
+}
+
+TaxRule3NonRefundable: {
+  Group Details: {
+    Registry Type-Description: 'contains=TaxPolicy',
+    Applies to Level: Policy,
+    Frequency: Occurs every term,
+    'Refundable?': 'No',
+    'Refund non-refundable on Flat Cancel?': 'No',
+    Country: 'United States',
+    State: 'FL',
+    'Amount $': '4'
+  }
+}

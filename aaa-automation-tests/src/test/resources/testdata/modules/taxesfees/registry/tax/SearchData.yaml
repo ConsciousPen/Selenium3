@@ -1,0 +1,10 @@
+TestData: {
+  SearchByField: {
+    Code: '',
+    Type: '',
+    Subtype: '',
+    Effective Date: '',
+    Expiration Date: '',
+    Status: ''
+  }
+}

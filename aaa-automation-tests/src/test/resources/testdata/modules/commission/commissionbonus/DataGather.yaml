@@ -1,0 +1,10 @@
+TestData: {
+  AddCommissionBonus: {
+    Commission Bonus Name: /Bonus_#####,
+    Sales Channel: Agency,
+    Date From: /today,
+    Date To: /today + 12m,
+    Transaction Dates: Effective,
+    Rounding: No Rounding
+  }
+}

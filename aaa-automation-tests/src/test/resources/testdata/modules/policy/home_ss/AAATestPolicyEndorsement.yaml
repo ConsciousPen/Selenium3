@@ -1,0 +1,111 @@
+TestData: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+}
+
+# ------------------ Tabs --------------------
+GeneralTab: {}
+
+ApplicantTab: {
+  NamedInsured: ['@NamedInsured'],
+  MailingAddress: '@MailingAddress'
+}
+
+ReportsTab: {}
+
+PropertyInfoTab: {
+  DetachedStructures: ['@DetachedStructures'],
+  RecreationalEquipment: '@RecreationalEquipment'
+}
+
+ProductOfferingTab: {}
+EndorsementTab: {}
+PremiumsAndCoveragesQuoteTab: {}
+ 
+MortgageesTab: {}
+ 
+UnderwritingAndApprovalTab: {}
+
+DocumentsTab: {}
+  
+BindTab: {}
+
+# ------------- Applicant Tab ----------------
+NamedInsured: {
+  Add: 'click',
+  CustomerSearchDialog: {},
+  First name: Stanly,
+  Last name: Kubrik,
+  Marital status: Married, 
+  Relationship to primary named insured:  Spouse,
+  Date of birth: '09/05/1979',
+  Social security number: '123456789',
+  Occupation: '/first',
+}
+
+MailingAddress: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '84101', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '111', 
+    Street Name: Test street
+  }
+}
+
+# ------------ PropertyInfo Tab -------------- 
+DetachedStructures: {
+  "Are there any detached structures on the property?": 'Yes', 
+   Rented to others: 'No', 
+   Description: "description",
+   Limit of liability: "100"
+}
+
+RecreationalEquipment: {
+  Swimming pool: 'index=1', 
+  "Spa/hot tub": 'index=1', 
+  Trampoline: 'index=1'
+}
+
+
+# --------- TestData for custom states ---------
+# -------------------- AZ ----------------------
+TestData_AZ: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_AZ',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+}
+
+ApplicantTab_AZ: {
+  NamedInsured: ['@NamedInsured'],
+  MailingAddress: '@MailingAddress_AZ'
+}
+
+MailingAddress_AZ: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '85003', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address' 
+  }
+}
+

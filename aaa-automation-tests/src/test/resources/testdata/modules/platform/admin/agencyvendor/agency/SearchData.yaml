@@ -1,0 +1,12 @@
+TestData: {
+  SearchByField: {
+    Agency Code: '',
+    Agency Name: '',
+    City: '',
+    State: '',
+    'Zip / Postal Code': '',
+    Tax Id: '',
+    Primary Agency: '',
+    Status: ''
+  }
+}

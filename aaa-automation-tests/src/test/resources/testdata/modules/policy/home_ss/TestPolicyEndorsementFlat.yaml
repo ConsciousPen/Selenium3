@@ -1,0 +1,17 @@
+TestData: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+      Coverage A - Dwelling limit: 161000
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}

@@ -1,0 +1,208 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="CEM" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+
+    <test name="CUSTOMER IND TestCustomerCreateDelete"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCreateDelete"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerUpdate"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerOpportunityAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerOpportunityAddRemove"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerOpportunityUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerOpportunityUpdate"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationAddRemove"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationAddRemoveAccount"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationAddRemoveAccount"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationAddRemoveCampaign"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationAddRemoveCampaign"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationAddRemoveContactsRelationships"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationAddRemoveContactsRelationships"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationAddRemoveCustomerInfo"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationAddRemoveCustomerInfo"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationAddRemoveOpportunity"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationAddRemoveOpportunity"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationThreadAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationThreadAddRemove"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationThreadAddRemoveAccount"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationThreadAddRemoveAccount"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationThreadAddRemoveCampaign"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationThreadAddRemoveCampaign"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationThreadAddRemoveContactsRelationships"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationThreadAddRemoveContactsRelationships"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationThreadAddRemoveCustomerInfo"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationThreadAddRemoveCustomerInfo"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationThreadAddRemoveOpportunity"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationThreadAddRemoveOpportunity"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationWithThreadAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationWithThreadAddRemove"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationWithThreadAddRemoveAccount"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationWithThreadAddRemoveAccount"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationWithThreadAddRemoveCampaign"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationWithThreadAddRemoveCampaign"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationWithThreadAddRemoveContactsRelationships"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationWithThreadAddRemoveContactsRelationships"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationWithThreadAddRemoveCustomerInfo"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationWithThreadAddRemoveCustomerInfo"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationWithThreadAddRemoveOpportunity"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationWithThreadAddRemoveOpportunity"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationUpdate"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationUpdateAccount"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationUpdateAccount"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationUpdateCampaign"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationUpdateCampaign"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationUpdateContactsRelationships"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationUpdateContactsRelationships"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationUpdateCustomerInfo"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationUpdateCustomerInfo"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCommunicationUpdateOpportunity"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCommunicationUpdateOpportunity"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerRelationshipAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerRelationshipAddRemove"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerRelationshipUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerRelationshipUpdate"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerRelationshipAddRemoveWhileCreating"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerRelationshipAddRemoveWhileCreating"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerScheduleUpdateRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerScheduleUpdateRemove"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerContactDetailsNewPhoneAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerContactDetailsNewPhoneAddRemove"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerNewRelationshipAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerNewRelationshipAddRemove"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerBusinessEntityAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerBusinessEntityAddRemove"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerBusinessEntityAddRemoveWhileCreating"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerBusinessEntityAddRemoveWhileCreating"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerContactDetailsNewAdrressAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerContactDetailsNewAddressAddRemove"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerContactDetailsNewProductAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerContactDetailsNewProductAddRemove"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerAgencyAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerAgencyAddRemove"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerQualifyUnqualified"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerQualifyUnqualified"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerQualifyInQualification"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerQualifyInQualification"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerContactDetailsChatAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerContactDetailsChatAddRemove"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerContactDetailsEmailAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerContactDetailsEmailAddRemove"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerContactDetailsWebUrlAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerContactDetailsWebUrlAddRemove"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerContactDetailsSocialNetAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerContactDetailsSocialNetAddRemove"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCloseOpportunity"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCloseOpportunity"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerRelationshipAddIndOnUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerRelationshipAddIndOnUpdate"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerRelationshipAddNonIndOnUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerRelationshipAddNonIndOnUpdate"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerOpportunityBamMessages"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerOpportunityBamMessages"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerViewHistoryWithPreviousVersions"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerViewHistoryWithPreviousVersions"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerViewHistoryWithoutPreviousVersions"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerViewHistoryWithoutPreviousVersions"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerNewCustomerVersionTimelineVerification"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerNewCustomerVersionTimelineVerification"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCreateNewCustomerVersion"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCreateNewCustomerVersion"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerNewContactsVersionTimelineVerification"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerNewContactsVersionTimelineVerification"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerCreateNewContactsVersion"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCreateNewContactsVersion"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerBamMessages"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerBamMessages"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerAssociateAccountAddRemoveOnCreate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerAssociateAccountAddRemoveOnCreate"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerAssociateAccountAddRemoveOnUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerAssociateAccountAddRemoveOnUpdate"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerAssociateQuoteOnCreateOpportunity"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerAssociateQuoteOnCreateOpportunity"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerAssociatePolicyOnCreateOpportunity"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerAssociatePolicyOnCreateOpportunity"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerAssociateCampaignOnCreateOpportunity"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerAssociateCampaignOnCreateOpportunity"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerStartNewQuoteForOpportunityCreateUpdatePreview"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerStartNewQuoteForOpportunityCreateUpdatePreview"/></classes></test>
+
+    <test name="CUSTOMER NONIND TestCustomerCreateDelete"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCreateDelete"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerUpdate"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerOpportunityAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerOpportunityAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerOpportunityUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerOpportunityUpdate"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationAddRemoveAccount"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationAddRemoveAccount"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationAddRemoveCampaign"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationAddRemoveCampaign"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationAddRemoveCensus"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationAddRemoveCensus"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationAddRemoveContactsRelationships"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationAddRemoveContactsRelationships"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationAddRemoveCustomerInfo"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationAddRemoveCustomerInfo"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationAddRemoveOpportunity"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationAddRemoveOpportunity"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationThreadAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationThreadAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationThreadAddRemoveAccount"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationThreadAddRemoveAccount"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationThreadAddRemoveCampaign"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationThreadAddRemoveCampaign"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationThreadAddRemoveCensus"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationThreadAddRemoveCensus"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationThreadAddRemoveContactsRelationships"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationThreadAddRemoveContactsRelationships"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationThreadAddRemoveCustomerInfo"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationThreadAddRemoveCustomerInfo"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationThreadAddRemoveOpportunity"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationThreadAddRemoveOpportunity"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationWithThreadAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationWithThreadAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationWithThreadAddRemoveAccount"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationWithThreadAddRemoveAccount"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationWithThreadAddRemoveCampaign"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationWithThreadAddRemoveCampaign"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationWithThreadAddRemoveCensus"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationWithThreadAddRemoveCensus"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationWithThreadAddRemoveContactsRelationships"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationWithThreadAddRemoveContactsRelationships"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationWithThreadAddRemoveCustomerInfo"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationWithThreadAddRemoveCustomerInfo"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationWithThreadAddRemoveOpportunity"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationWithThreadAddRemoveOpportunity"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationUpdate"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationUpdateAccount"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationUpdateAccount"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationUpdateCampaign"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationUpdateCampaign"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationUpdateCensus"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationUpdateCensus"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationUpdateContactsRelationships"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationUpdateContactsRelationships"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationUpdateCustomerInfo"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationUpdateCustomerInfo"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCommunicationUpdateOpportunity"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCommunicationUpdateOpportunity"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerRelationshipAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerRelationshipAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerRelationshipUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerRelationshipUpdate"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerRelationshipAddRemoveWhileCreating"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerRelationshipAddRemoveWhileCreating"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerScheduleUpdateRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerScheduleUpdateRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerContactDetailsNewPhoneAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerContactDetailsNewPhoneAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerNewRelationshipAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerNewRelationshipAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerContactDetailsNewAdrressAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerContactDetailsNewAddressAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerContactDetailsNewProductAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerContactDetailsNewProductAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerParticipantEmploymentAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerParticipantEmploymentAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerParticipantMembershipAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerParticipantMembershipAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerParticipantStudentAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerParticipantStudentAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerParticipantEmploymentUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerParticipantEmploymentUpdate"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerParticipantMembershipUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerParticipantMembershipUpdate"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerParticipantStudentUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerParticipantStudentUpdate"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerParticipantEmploymentRemoveOnUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerParticipantEmploymentRemoveOnUpdate"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerParticipantMembershipRemoveOnUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerParticipantMembershipRemoveOnUpdate"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerParticipantStudentRemoveOnUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerParticipantStudentRemoveOnUpdate"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerParticipantEmploymentRemoveKeepHistory"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerParticipantEmploymentRemoveKeepHistory"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerParticipantMembershipRemoveKeepHistory"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerParticipantMembershipRemoveKeepHistory"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerParticipantStudentRemoveKeepHistory"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerParticipantStudentRemoveKeepHistory"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerParticipantEmploymentRemoveDeprecatedCase1"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerParticipantEmploymentRemoveDeprecatedCase1"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerParticipantEmploymentRemoveDeprecatedCase2"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerParticipantEmploymentRemoveDeprecatedCase2"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerParticipantMembershipRemoveDeprecatedCase1"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerParticipantMembershipRemoveDeprecatedCase1"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerParticipantMembershipRemoveDeprecatedCase2"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerParticipantMembershipRemoveDeprecatedCase2"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerParticipantStudentRemoveDeprecatedCase1"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerParticipantStudentRemoveDeprecatedCase1"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerParticipantStudentRemoveDeprecatedCase2"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerParticipantStudentRemoveDeprecatedCase2"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerParticipantEmploymentRemoveNoHistory"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerParticipantEmploymentRemoveNoHistory"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerParticipantMembershipRemoveNoHistory"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerParticipantMembershipRemoveNoHistory"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerParticipantStudentRemoveNoHistory"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerParticipantStudentRemoveNoHistory"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerAssociateExistingCustomer"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerAssociateExistingCustomer"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerAgencyAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerAgencyAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerQualifyUnqualified"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerQualifyUnqualified"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerQualifyInQualification"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerQualifyInQualification"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerContactDetailsChatAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerContactDetailsChatAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerContactDetailsEmailAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerContactDetailsEmailAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerContactDetailsWebUrlAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerContactDetailsWebUrlAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerContactDetailsSocialNetAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerContactDetailsSocialNetAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCloseOpportunity"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCloseOpportunity"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerRelationshipAddIndOnUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerRelationshipAddIndOnUpdate"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerRelationshipAddNonIndOnUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerRelationshipAddNonIndOnUpdate"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerOpportunityBamMessages"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerOpportunityBamMessages"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerDivisionsOnCreateAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerDivisionsOnCreateAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerDivisionsOnUpdateAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerDivisionsOnUpdateAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerDivisionsOnUpdateRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerDivisionsOnUpdateRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerViewHistoryWithPreviousVersions"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerViewHistoryWithPreviousVersions"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerViewHistoryWithoutPreviousVersions"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerViewHistoryWithoutPreviousVersions"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerNewCustomerVersionTimelineVerification"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerNewCustomerVersionTimelineVerification"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCreateNewCustomerVersion"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCreateNewCustomerVersion"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerNewContactsVersionTimelineVerification"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerNewContactsVersionTimelineVerification"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCreateNewContactsVersion"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCreateNewContactsVersion"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerAssociateAccountAddRemoveOnCreate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerAssociateAccountAddRemoveOnCreate"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerAssociateAccountAddRemoveOnUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerAssociateAccountAddRemoveOnUpdate"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerBamMessages"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerBamMessages"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerAssociateQuoteOnCreateOpportunity"><parameter name="LOB" value="Auto"/><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerAssociateQuoteOnCreateOpportunity"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerAssociatePolicyOnCreateOpportunity"><parameter name="LOB" value="Auto"/><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerAssociatePolicyOnCreateOpportunity"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerAssociateCampaignOnCreateOpportunity"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerAssociateCampaignOnCreateOpportunity"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerStartNewQuoteForOpportunityCreateUpdatePreview"><parameter name="LOB" value="Auto"/><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerStartNewQuoteForOpportunityCreateUpdatePreview"/></classes></test>
+
+    <test name="ACCOUNT IND TestAccountAddEliminateCustomerIndividual"><classes><class name="com.exigen.ipb.etcsa.modules.cem.account.individual.TestAccountAddEliminateCustomerIndividual"/></classes></test>
+    <test name="ACCOUNT IND TestAccountAddEliminateCustomerNonIndividual"><classes><class name="com.exigen.ipb.etcsa.modules.cem.account.individual.TestAccountAddEliminateCustomerNonIndividual"/></classes></test>
+    <test name="ACCOUNT IND TestAccountMoveCustomerIndividual"><classes><class name="com.exigen.ipb.etcsa.modules.cem.account.individual.TestAccountMoveCustomerIndividual"/></classes></test>
+    <test name="ACCOUNT IND TestAccountMoveCustomerNonIndividual"><classes><class name="com.exigen.ipb.etcsa.modules.cem.account.individual.TestAccountMoveCustomerNonIndividual"/></classes></test>
+    <test name="ACCOUNT IND TestAccountMoveCustomerNewAccount"><classes><class name="com.exigen.ipb.etcsa.modules.cem.account.individual.TestAccountMoveCustomerNewAccount"/></classes></test>
+    <test name="ACCOUNT IND TestAccountAffinityGroupAddEliminate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.account.individual.TestAccountAffinityGroupAddEliminate"/></classes></test>
+    <test name="ACCOUNT IND TestAccountCommunicationAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.account.individual.TestAccountCommunicationAddRemove"/></classes></test>
+    <test name="ACCOUNT IND TestAccountUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.account.individual.TestAccountUpdate"/></classes></test>
+    <test name="ACCOUNT IND TestAccountDesignatedContactAddEliminate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.account.individual.TestAccountDesignatedContactAddEliminate"/></classes></test>
+
+    <test name="ACCOUNT NONIND TestAccountAddEliminateCustomerIndividual"><classes><class name="com.exigen.ipb.etcsa.modules.cem.account.nonindividual.TestAccountAddEliminateCustomerIndividual"/></classes></test>
+    <test name="ACCOUNT NONIND TestAccountAddEliminateCustomerNonIndividual"><classes><class name="com.exigen.ipb.etcsa.modules.cem.account.nonindividual.TestAccountAddEliminateCustomerNonIndividual"/></classes></test>
+    <test name="ACCOUNT NONIND TestAccountMoveCustomerIndividual"><classes><class name="com.exigen.ipb.etcsa.modules.cem.account.nonindividual.TestAccountMoveCustomerIndividual"/></classes></test>
+    <test name="ACCOUNT NONIND TestAccountMoveCustomerNonIndividual"><classes><class name="com.exigen.ipb.etcsa.modules.cem.account.nonindividual.TestAccountMoveCustomerNonIndividual"/></classes></test>
+    <test name="ACCOUNT NONIND TestAccountMoveCustomerNewAccount"><classes><class name="com.exigen.ipb.etcsa.modules.cem.account.nonindividual.TestAccountMoveCustomerNewAccount"/></classes></test>
+    <test name="ACCOUNT NONIND TestAccountAffinityGroupAddEliminate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.account.nonindividual.TestAccountAffinityGroupAddEliminate"/></classes></test>
+    <test name="ACCOUNT NONIND TestAccountCommunicationAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.account.nonindividual.TestAccountCommunicationAddRemove"/></classes></test>
+    <test name="ACCOUNT NONIND TestAccountUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.account.nonindividual.TestAccountUpdate"/></classes></test>
+    <test name="ACCOUNT NONIND TestAccountDesignatedContactAddEliminate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.account.nonindividual.TestAccountDesignatedContactAddEliminate"/></classes></test>
+
+    <test name="CAMPAIGNS TestCustomerCampaignArchive"><classes><class name="com.exigen.ipb.etcsa.modules.cem.cem.campaigns.TestCustomerCampaignArchive" /></classes></test>
+    <test name="CAMPAIGNS TestCustomerCampaignAssociateParentOnCreate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.cem.campaigns.TestCustomerCampaignAssociateParentOnCreate" /></classes></test>
+    <test name="CAMPAIGNS TestCustomerCampaignAssociateParentOnUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.cem.campaigns.TestCustomerCampaignAssociateParentOnUpdate" /></classes></test>
+    <test name="CAMPAIGNS TestCustomerCampaignCommunication"><classes><class name="com.exigen.ipb.etcsa.modules.cem.cem.campaigns.TestCustomerCampaignCommunication" /></classes></test>
+    <test name="CAMPAIGNS TestCustomerCampaignCopy"><classes><class name="com.exigen.ipb.etcsa.modules.cem.cem.campaigns.TestCustomerCampaignCopy" /></classes></test>
+    <test name="CAMPAIGNS TestCustomerCampaignCreate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.cem.campaigns.TestCustomerCampaignCreate" /></classes></test>
+    <test name="CAMPAIGNS TestCustomerCampaignCreateChild"><classes><class name="com.exigen.ipb.etcsa.modules.cem.cem.campaigns.TestCustomerCampaignCreateChild" /></classes></test>
+    <test name="CAMPAIGNS TestCustomerCampaignDisassociateParentOnCreate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.cem.campaigns.TestCustomerCampaignDisassociateParentOnCreate" /></classes></test>
+    <test name="CAMPAIGNS TestCustomerCampaignDisassociateParentOnUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.cem.campaigns.TestCustomerCampaignDisassociateParentOnUpdate" /></classes></test>
+    <test name="CAMPAIGNS TestCustomerCampaignEnd"><classes><class name="com.exigen.ipb.etcsa.modules.cem.cem.campaigns.TestCustomerCampaignEnd" /></classes></test>
+    <test name="CAMPAIGNS TestCustomerCampaignStart"><classes><class name="com.exigen.ipb.etcsa.modules.cem.cem.campaigns.TestCustomerCampaignStart" /></classes></test>
+    <test name="CAMPAIGNS TestCustomerCampaignSuspend"><classes><class name="com.exigen.ipb.etcsa.modules.cem.cem.campaigns.TestCustomerCampaignSuspend" /></classes></test>
+    <test name="CAMPAIGNS TestCustomerCampaignUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.cem.campaigns.TestCustomerCampaignUpdate" /></classes></test>
+
+    <test name="MAJOR LARGE ACCOUNT TestMajorLargeAccountAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.cem.majorlargeaccount.TestMajorLargeAccountAddRemove"/></classes></test>
+    <test name="MAJOR LARGE ACCOUNT TestMajorLargeAccountAddUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.cem.majorlargeaccount.TestMajorLargeAccountAddUpdate"/></classes></test>
+
+    <test name="GROUPS INFORMATION TestGroupsInformationAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.cem.groupsinformation.TestGroupsInformationAddRemove"/></classes></test>
+    <test name="GROUPS INFORMATION TestGroupsInformationAddUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.cem.groupsinformation.TestGroupsInformationAddUpdate"/></classes></test>
+
+    <test name="REST TestRestCustomerConsentFields"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.TestRestCustomerConsentFields"/></classes></test>
+    <test name="REST TestRestCustomerBrand"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.TestRestCustomerBrand"/></classes></test>
+    <test name="REST TestRestCustomerAssociateBusinessEntities"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.TestRestCustomerAssociateBusinessEntities"/></classes></test>
+    <test name="REST TestRestCustomerArchivedIndicator"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.TestRestCustomerArchivedIndicator"/></classes></test>
+    <test name="REST TestRestCustomerAddressPhoneAdditionalFields"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.TestRestCustomerAddressPhoneAdditionalFields"/></classes></test>
+    <test name="REST TestRestCustomerAddressNewFields"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.TestRestCustomerAddressNewFields"/></classes></test>
+
+</suite>

@@ -1,0 +1,62 @@
+TestData: {
+GeneralTab: '@GeneralTab',
+CRCustomer1: '@CRCustomer1',
+CRCustomer2: '@CRCustomer2',
+ExpectedError: '@ExpectedError'
+}
+
+GeneralTab: {
+  First Name: '/John######',
+  Last Name: '/Smith######',
+  Associate Business Entities: false,
+  Date of Birth: '10/10/1985',
+  Country: 'United States',
+  Zip/Post Code: '94596',
+  City: 'Walnut Creek',
+  State/Province: 'CA',
+  Address Line 1: '/Address#####'
+}
+
+CRCustomer1: {
+  CustomerType: '@Individual',
+  GeneralTab: ['@GeneralTab1','@ContactDetails1'],
+  RelationshipTab: {}
+}
+
+CRCustomer2: {
+  CustomerType: '@Individual',
+  GeneralTab: ['@GeneralTab1','@ContactDetails1','@ContactDetails2'],
+  RelationshipTab: {}
+}
+
+Individual: {
+  Customer Type: 'Individual'
+}
+
+GeneralTab1: {
+  First Name: '/CRSFName#####',
+  Last Name: '/CRSLName#####',
+  SSN/Tax Identification: '876543201',
+  Date of Birth: '04/14/1988',
+  Country: 'United States',
+  Zip/Post Code: '89001',
+  City: 'CRSCity',
+  State/Province: 'NV',
+  Address Line 1: 'CustomerRest address 1',
+}
+
+ContactDetails1: {
+    Contact Details Type: 'Phone',
+    Phone Type: 'Home',
+    Phone Number: '2345678901'
+}
+
+ContactDetails2: {
+    Contact Details Type: 'Email',
+    Email Address: 'customer@rest.test'
+}
+
+ExpectedError: {
+    errorCode: '400',
+    message: 'Malformed syntax or a bad query.'
+}

@@ -1,0 +1,4 @@
+{
+  "assetLocator": "//tr[td[normalize-space(.)=\"%1$s\"] and not(contains(@class, 'hidden'))]/td[2]",
+  "warningLocator": "/ancestor::td[1]/following-sibling::td"
+}

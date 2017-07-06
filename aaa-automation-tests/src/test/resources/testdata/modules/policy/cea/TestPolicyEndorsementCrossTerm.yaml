@@ -1,0 +1,14 @@
+TestData: {
+  PolicyTab: {},
+  InsuredTab: {},
+  UnderlyingExposuresHomeTab: {},
+  UnderlyingExposuresAutoTab: {},
+  UnderlyingExposuresDriversTab: {},
+  UnderlyingExposuresWatercraftTab: {},
+  UnderlyingExposuresAssignmentTab: {},
+  ClaimsTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Personal Umbrella Limit: '$2,000,000'
+  }
+}

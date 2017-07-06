@@ -1,0 +1,235 @@
+TestData: {
+  CustomerType: '@CustomerType',
+  CustomerGeneralTabAgency: '@CustomerGeneralTabAgency',
+  GeneralTab: '@GeneralTab',
+  DivisionsTab: {},
+  RelationshipTab: {}
+ }
+
+TestData_WithoutDivisionsTab: {
+  CustomerType: '@CustomerType',
+  CustomerGeneralTabAgency: '@CustomerGeneralTabAgency',
+  GeneralTab: '@Adjustment_WithoutAssociateDivisions',
+  RelationshipTab: {}
+}
+
+CustomerType: {
+  Customer Type: Non-Individual
+}
+
+CustomerGeneralTabAgency: {
+  Agency Name: QA Agency
+}
+
+GeneralTab: {
+  Non-Individual Type: index=1,
+  Name - Legal: /Corp#####,
+  Associate Divisions: true,
+  EIN: /##-#######,
+  Date business started: /today-10y,
+  Division: index=1,
+  Industry: index=1,
+  SIC Description: index=1,
+  Country: United States,
+  Zip/Post Code: '90210',
+  City: Beverly Hills,
+  State/Province: CA,
+  Address Line 1: /Address#####,
+  Group Sponsor: 'true'
+}
+
+Adjustment_LA_TestData: {
+  GeneralTab: {
+    Non-Individual Type: index=1,
+    Name - Legal: /Corp#####,
+    Associate Divisions: true,
+    EIN: /##-#######,
+    Date business started: /today-10y,
+    Division: index=1,
+    Industry: index=1,
+    SIC Description: index=1,
+    Country: United States,
+    Zip/Post Code: '70001',
+    City: Metairie,
+    State/Province: LA,
+    Address Line 1: /Address#####,
+    Group Sponsor: 'true'
+  }
+}
+
+Adjustment_Divisions: {
+  DivisionsTab: {
+    Division Name: EisGroup,
+    Billing Method: Monthly
+  }
+}
+
+Adjustment_WithAssociateAccount: {
+  GeneralTab: {
+    Account Type: ' New Account',
+    Account Designation Type: Major Account,
+    Non-Individual Type: index=1,
+    Name - Legal: /John######,
+    #Lead Status: Qualified,
+    Associate Divisions: true,
+    EIN: /##-#######,
+    Date business started: /today-10y,
+    Division: index=1,
+    Industry: index=1,
+    SIC Description: index=1,
+    Country: United States,
+    Zip/Post Code: '94596',
+    City: Walnut Creek,
+    State/Province: CA,
+    Address Line 1: /Address#####
+  }
+}
+
+Adjustment_WithAssociateAccountOnUpdate: {
+  GeneralTab: {
+    Account Type: ' New Account',
+    Account Designation Type: Major Account
+  }
+}
+
+Adjustment_Relationship: {
+  RelationshipTab: {
+    Type: Non-Individual,
+    Name - Legal: /FNameEisGroup####,
+    Relationship to Customer: Agent
+  }
+}
+
+Adjustment_RelationshipWithBusinessStarted: {
+  RelationshipTab: {
+    Type: Non-Individual,
+    Name - Legal: /FNameEisGroup####,
+    Relationship to Customer: Agent,
+    Date business started: 10/10/1999
+  }
+}
+
+Adjustment_RelationshipWithIndividualType: {
+  RelationshipTab: {
+    Type: Individual,
+    First Name: /FNameEisGroup####,
+    Last Name: /LNameEisGroup####,
+    Relationship to Customer: Trust
+  }
+}
+
+Adjustment_RelationshipWithNonIndividualType: {
+  RelationshipTab: {
+   Type: Non-Individual,
+    Name - Legal: /FNameEisGroup####,
+    Relationship to Customer: Agent
+  }
+}
+
+Adjustment_RelationshipUpdate: {
+  RelationshipTab: {
+     Type: Non-Individual,
+    Name - Legal: /FNameEisGroup####,
+    Relationship to Customer: Division
+  }
+}
+
+Adjustment_WithoutAssociateDivisions: {
+  GeneralTab: {
+    Non-Individual Type: index=1,
+    Name - Legal: /Corp#####,
+    Name - Legal: /Corp#####,
+    Associate Divisions: true,
+    EIN: /##-#######,
+    Date business started: /today-10y,
+    Division: index=1,
+    Industry: index=1,
+    SIC Description: index=1,
+    Country: United States,
+    Zip/Post Code: '90210',
+    City: Beverly Hills,
+    State/Province: CA,
+    Address Line 1: /Address#####,
+    Group Sponsor: 'true'
+  }
+}
+
+Adjustment_Unqualified: {
+  GeneralTab: {
+    Non-Individual Type: index=1,
+    Name - Legal: /Corp#####,
+    Lead Status: Unqualified,
+    EIN: /##-#######,
+    Date business started: /today-10y,
+    Division: index=1,
+    Industry: index=1,
+    SIC Description: index=1,
+    Country: United States,
+    Zip/Post Code: '90210',
+    City: Beverly Hills,
+    State/Province: CA,
+    Address Line 1: /Address#####,
+    Group Sponsor: 'true'
+  }
+}
+
+Adjustment_InQualification: {
+  GeneralTab: {
+    Non-Individual Type: index=1,
+    Name - Legal: /Corp#####,
+    Lead Status: In Qualification,
+    EIN: /##-#######,
+    Date business started: /today-10y,
+    Division: index=1,
+    Industry: index=1,
+    SIC Description: index=1,
+    Country: United States,
+    Zip/Post Code: '90210',
+    City: Beverly Hills,
+    State/Province: CA,
+    Address Line 1: /Address#####,
+    Group Sponsor: 'true'
+  }
+}
+
+Adjustment_RealtyPackage: {
+  GeneralTab: {
+    Group Search: {
+      Group ID: 1001
+    },
+    Non-Individual Type: index=1,
+    Name - Legal: /Corp#####,
+    Associate Divisions: true,
+    EIN: /##-#######,
+    Date business started: /today-10y,
+    Country: United States,
+    Division: 'H - Finance, Insurance & Real Estate',
+    Industry: '65 - Real Estate',
+    SIC Description: 'Apartment Building Operators',
+    Zip/Post Code: '90210',
+    City: Beverly Hills,
+    State/Province: CA,
+    Address Line 1: /Address#####,
+    Group Sponsor: 'true'
+  }
+}
+
+Adjustment_GeneralInfo: {
+  GeneralTab: {
+    Non-Individual Type: Corporation,
+    Name - Legal: /Corp#####,
+    Name - DBA: /DBA#####,
+    Associate Divisions: true,
+    EIN: /##-#######,
+    Date business started: /today-10y,
+    Division: index=1,
+    Industry: index=1,
+    SIC Description: index=1,
+    Country: United States,
+    Zip/Post Code: '90210',
+    City: Beverly Hills,
+    State/Province: CA,
+    Address Line 1: /Address#####,
+    Group Sponsor: 'true'
+  }
+}

@@ -1,0 +1,1014 @@
+TestData: {
+  NoRightsCustomerTestData: {
+      Requests:['@CustomerPost1'],
+      Responses: ['@CustomerNotesResponse1']
+  },
+  AllRightsCustomerTestData: {
+      Requests:['@CustomerPost2','@CustomerPost3','@CustomerPost4','@CustomerPost5','@CustomerPost6','@CustomerPost7','@CustomerPost8','@CustomerPost9','@CustomerPost10','@CustomerPost11','@CustomerPost12','@CustomerPost13','@CustomerPost14','@CustomerPost15','@CustomerPost16','@CustomerPost17','@CustomerPostNonExistingNumber','@CustomerPostWithoutRef'],
+      Responses: ['@CustomerNotesResponse2','@CustomerNotesResponse3','@CustomerNotesResponse4','@CustomerNotesResponse5','@CustomerNotesResponse6','@CustomerNotesResponse7','@CustomerNotesResponse8','@CustomerNotesResponse9','@CustomerNotesResponse10','@CustomerNotesResponse11','@CustomerNotesResponse12','@CustomerNotesResponse13','@CustomerNotesResponse14','@CustomerNotesResponse15','@CustomerNotesResponse16','@CustomerNotesResponse17','@CustomerNotesResponseNonExistingNumber','@CustomerNotesResponseWithoutRef']
+  },
+  PartialRightsCustomerTestData: {
+      Requests:['@CustomerPost18','@CustomerPost19'],
+      Responses: ['@CustomerNotesResponse18','@CustomerNotesResponse19']
+  },
+  PartialRightsQuoteTestData: {
+      Requests:['@QuotePost1'],
+      Responses: ['@QuoteNotesResponse1']
+  },
+  PartialRightsBillingTestData: {
+      Requests:['@BillingPost1'],
+      Responses: ['@BillingNotesResponse1']
+  },
+  PartialRightsPolicyTestData: {
+      Requests:['@PolicyPost1'],
+      Responses: ['@PolicyNotesResponse1']
+  },
+  PartialRightsClaimTestData: {
+      Requests:['@ClaimPost1'],
+      Responses: ['@ClaimNotesResponse1']
+  },
+  NoNotesInquiryUserData: {
+      Requests:['@GetRequest1'],
+      Responses: ['@GetResponse1']
+  },
+  NotesInquiryUserData: {
+      Requests:['@GetRequest2','@GetRequest3','@GetRequest4'],
+      Responses: ['@GetResponse2','@GetResponse3','@GetResponse4']
+  },
+  NotesInquiryUserDataMultipleNotes: {
+      Requests:['@GetRequest5'],
+      Responses: ['@GetResponse5']
+  },
+  NotesInquiryUserDataQuoteNotes: {
+      Requests:['@GetRequest6'],
+      Responses: ['@GetResponse6']
+  },
+  NotesInquiryUserDataCustomerWithoutNotes: {
+      Requests:['@GetRequest7'],
+      Responses: ['@GetResponse7']
+  },
+  AddNoteCategory1: {
+      AddNoteCategory : '@NoteCategory1'
+  },
+  AddNoteCategory2: {
+      AddNoteCategory : '@NoteCategory2'
+  },
+  TestData_Note: {
+    NotesAndAlertsTab: '@NotesAndAlertsTabNote'
+  },
+  NotesUpdateUserNoRights: {
+    Requests:['@UpdateCustomerPost1'],
+    Responses: ['@UpdateCustomerPostResponse1']
+  },
+  NotesUpdateNoSetAsConfidential: {
+      Requests:['@UpdateCustomerPost2','@UpdateCustomerPost3','@UpdateCustomerPost4','@UpdateCustomerPost5','@UpdateCustomerPost6','@UpdateCustomerPost7','@UpdateCustomerPost8'],
+      Responses: ['@UpdateCustomerPostResponse2','@UpdateCustomerPostResponse3','@UpdateCustomerPostResponse4','@UpdateCustomerPostResponse5','@UpdateCustomerPostResponse6','@UpdateCustomerPostResponse7','@UpdateCustomerPostResponse8']
+  },
+  NotesUpdateUserAllRights: {
+      Requests:['@UpdateCustomerPost9','@UpdateCustomerPost10'],
+      Responses: ['@UpdateCustomerPostResponse9','@UpdateCustomerPostResponse10']
+  }
+}
+
+UpdateCustomerPost1: {
+   entityRefNo: '',
+   noteId: '',
+   category: 'NotesRestCategory1',
+   confidential : 'false',
+   title: 'NotesRestCategory1',
+   description: 'Without privilege Add Note'
+}
+
+UpdateCustomerPostResponse1: {
+   errorCode: '403',
+   message: 'Authentication succeeded but authenticated user doesn''t have access to the resource.',
+   category: '',
+   confidential: 'false',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   logMessage: 'UpdateCustomerPostResponse1'
+}
+
+UpdateCustomerPost2: {
+   entityRefNo: '',
+   noteId: '',
+   confidential : 'true'
+}
+
+UpdateCustomerPostResponse2: {
+   errorCode: '',
+   message: '',
+   category: 'CROSS_SELL__UP_SELL',
+   confidential: 'true',
+   title: 'NotesRestCategory1',
+   description: 'NotesRestCategory1 Note',
+   entityType: 'Customer',
+   performerId: 'qa',
+   userNoteName: 'CUSTOMER_USER_NOTE',
+   logMessage: 'UpdateCustomerPostResponse2'
+}
+
+UpdateCustomerPost3: {
+   entityRefNo: '',
+   noteId: '',
+   confidential : 'false'
+}
+
+UpdateCustomerPostResponse3: {
+   errorCode: '403',
+   message: 'Authentication succeeded but authenticated user doesn''t have access to the resource.',
+   category: '',
+   confidential: 'false',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   logMessage: 'UpdateCustomerPostResponse3'
+}
+
+UpdateCustomerPost4: {
+   entityRefNo: '',
+   noteId: '',
+   category : 'GENERAL_INFO'
+}
+
+UpdateCustomerPostResponse4: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'true',
+   title: 'NotesRestCategory1',
+   description: 'NotesRestCategory1 Note',
+   entityType: 'Customer',
+   performerId: 'qa',
+   userNoteName: 'CUSTOMER_USER_NOTE',
+   logMessage: 'UpdateCustomerPostResponse4'
+}
+
+UpdateCustomerPost5: {
+   entityRefNo: '',
+   noteId: '',
+   title : '/string(255)'
+}
+
+UpdateCustomerPostResponse5: {
+   errorCode: 'bm0005',
+   message: 'Title is to long (max 254 characters)',
+   category: '',
+   confidential: 'false',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   logMessage: 'UpdateCustomerPostResponse5'
+}
+
+UpdateCustomerPost6: {
+   entityRefNo: '',
+   noteId: '',
+   title : '/string(254)'
+}
+
+UpdateCustomerPostResponse6: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'true',
+   title: '/string(254)',
+   description: 'NotesRestCategory1 Note',
+   entityType: 'Customer',
+   performerId: 'qa',
+   userNoteName: 'CUSTOMER_USER_NOTE',
+   logMessage: 'UpdateCustomerPostResponse6'
+}
+
+UpdateCustomerPost7: {
+   entityRefNo: '',
+   noteId: '',
+   description : '/string(4001)'
+}
+
+UpdateCustomerPostResponse7: {
+   errorCode: 'bm0004',
+   message: 'Maximum allowed length is 4000 characters, less with rich text formatting',
+   category: '',
+   confidential: 'false',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   logMessage: 'UpdateCustomerPostResponse7'
+}
+
+UpdateCustomerPost8: {
+   entityRefNo: '',
+   noteId: '',
+   description : '/string(4000)'
+}
+
+UpdateCustomerPostResponse8: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'true',
+   title: '/string(254)',
+   description: '/string(4000)',
+   entityType: 'Customer',
+   performerId: 'qa',
+   userNoteName: 'CUSTOMER_USER_NOTE',
+   logMessage: 'UpdateCustomerPostResponse8'
+}
+
+UpdateCustomerPost9: {
+   entityRefNo: '',
+   noteId: '',
+   confidential : 'false',
+   category: 'CROSS_SELL__UP_SELL',
+   title: 'NotesRestChangedTitle',
+   description: 'NotesRestChangedDescription'
+}
+
+UpdateCustomerPostResponse9: {
+   errorCode: '',
+   message: '',
+   category: 'CROSS_SELL__UP_SELL',
+   confidential: 'false',
+   title: 'NotesRestChangedTitle',
+   description: 'NotesRestChangedDescription',
+   entityType: 'Customer',
+   performerId: 'qa',
+   userNoteName: 'CUSTOMER_USER_NOTE',
+   logMessage: 'UpdateCustomerPostResponse9'
+}
+
+UpdateCustomerPost10: {
+   entityRefNo: '',
+   noteId: '',
+   confidential : 'true'
+}
+
+UpdateCustomerPostResponse10: {
+   errorCode: '',
+     message: '',
+     category: 'CROSS_SELL__UP_SELL',
+     confidential: 'true',
+     title: 'NotesRestChangedTitle',
+     description: 'NotesRestChangedDescription',
+     entityType: 'Customer',
+     performerId: 'qa',
+     userNoteName: 'CUSTOMER_USER_NOTE',
+     logMessage: 'UpdateCustomerPostResponse10'
+}
+
+NotesAndAlertsTabNote: {
+  'Note/Alert': 'Note',
+  Title: 'NotesRestCategory1',
+  'Confid.': 'Yes',
+  Note: 'NotesRestCategory1 Note'
+}
+
+NoteCategory1: {
+      Type: 'Customer',
+      Status: 'Active',
+      New Category: 'NotesRestCategory1',
+      Title: 'NotesRestCategory1'
+}
+
+NoteCategory2: {
+      Type: 'Customer',
+      Status: 'Active',
+      New Category: 'NotesRestCategory2',
+      Title: 'NotesRestCategory2'
+}
+
+GetRequest1: {
+   entityType : "Customer",
+   entityRefNo : ""
+}
+
+GetResponse1: {
+   errorCode: '403',
+   message: 'Authentication succeeded but authenticated user doesn''t have access to the resource.',
+   category: '',
+   confidential: 'false',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   logMessage: 'GetResponse1'
+}
+
+GetRequest2: {
+   entityType : "Customer",
+   entityRefNo : ""
+}
+
+GetResponse2: {
+   responses: ['@SecondGetResponse1'],
+   logMessage: 'GetResponse2'
+}
+
+SecondGetResponse1: {
+   errorCode: '',
+   message: '',
+   category: 'CROSS_SELL__UP_SELL',
+   confidential: 'false',
+   title: 'Simple Title',
+   description: 'Test Note',
+   entityType: 'Customer',
+   performerId: 'qa',
+   userNoteName: 'CUSTOMER_USER_NOTE'
+}
+
+GetRequest3: {
+   entityType : "Customer",
+   entityRefNo : "NonExisting"
+}
+
+GetResponse3: {
+   responses: [],
+   logMessage: 'GetResponse3'
+}
+
+GetRequest4: {
+   entityType : "CustomerE",
+   entityRefNo : ""
+}
+
+GetResponse4: {
+   responses: [],
+   logMessage: 'GetResponse4'
+}
+
+GetRequest5: {
+   entityType : "Customer",
+   entityRefNo : ""
+}
+
+GetResponse5: {
+   responses: ['@FifthGetResponse1','@FifthGetResponse2'],
+   logMessage: 'GetResponse5'
+}
+
+FifthGetResponse1: {
+   errorCode: '',
+   message: '',
+   category: 'CROSS_SELL__UP_SELL',
+   confidential: 'false',
+   title: 'Simple Title',
+   description: 'Test Note',
+   entityType: 'Customer',
+   performerId: 'qa',
+   userNoteName: 'CUSTOMER_USER_NOTE'
+}
+
+FifthGetResponse2: {
+   errorCode: '',
+   message: '',
+   category: 'CROSS_SELL__UP_SELL',
+   confidential: 'false',
+   title: 'Simple Title Upd',
+   description: 'Test Note Upd',
+   entityType: 'Customer',
+   performerId: 'qa',
+   userNoteName: 'CUSTOMER_USER_NOTE'
+}
+
+GetRequest6: {
+   entityType : "Quote",
+   entityRefNo : ""
+}
+
+GetResponse6: {
+   responses: ['@SixthGetResponse1'],
+   logMessage: 'GetResponse6'
+}
+
+SixthGetResponse1: {
+   errorCode: '',
+   message: '',
+   category: 'OTHER',
+   confidential: 'false',
+   title: 'Simple Title Quote',
+   description: 'Test Note Quote',
+   entityType: 'Quote',
+   performerId: 'qa',
+   userNoteName: 'PF_QUOTE_USER_NOTE'
+}
+
+GetRequest7: {
+   entityType : "Customer",
+   entityRefNo : ""
+}
+
+GetResponse7: {
+   responses: [],
+   logMessage: 'GetResponse7'
+}
+
+CustomerPost1: {
+   category: 'GENERAL_INFO',
+   confidential : 'true',
+   title: 'AuthorizationErrorNote',
+   description: 'Without privilege Add Note',
+   entityType: 'Customer',
+   entityRefNo: '',
+   userNoteName : 'CUSTOMER_USER_NOTE'
+}
+
+CustomerPost2: {
+     category: 'GENERAL_INFO',
+     confidential : 'true',
+     title: 'SuccessCustomerNote1',
+     description: 'Description for success',
+     entityType: 'Customer',
+     entityRefNo: '',
+     userNoteName : 'CUSTOMER_USER_NOTE'
+}
+
+CustomerPost3: {
+     category: 'GENERAL_INFO',
+     confidential : 'true',
+     title: 'SuccessCustomerNote2',
+     description: 'Description for success 2',
+     entityType: 'Customer',
+     entityRefNo: '',
+     userNoteName : 'CUSTOMER_USER_NOTE'
+}
+
+CustomerPost4: {
+     category: 'GENERAL_INFO',
+     confidential : 'null',
+     title: 'SuccessCustomerNote3',
+     description: 'Description for success 3',
+     entityType: 'Customer',
+     entityRefNo: '',
+     userNoteName : 'CUSTOMER_USER_NOTE'
+}
+
+CustomerPost5: {
+     category: 'GENERAL_INFO',
+     confidential : 'true',
+     title: 'string(254)',
+     description: 'Success',
+     entityType: 'Customer',
+     entityRefNo: '',
+     userNoteName : 'CUSTOMER_USER_NOTE'
+}
+
+CustomerPost6: {
+     category: 'GENERAL_INFO',
+     confidential : 'true',
+     title: 'SuccessCustomerNote5',
+     description: 'string(4000)',
+     entityType: 'Customer',
+     entityRefNo: '',
+     userNoteName : 'CUSTOMER_USER_NOTE'
+}
+
+CustomerPost7: {
+     category: 'GENERAL_INFO',
+     confidential : 'true',
+     title: 'SuccessCustomerNote6',
+     description: '<b>bold text</b>',
+     entityType: 'Customer',
+     entityRefNo: '',
+     userNoteName : 'CUSTOMER_USER_NOTE'
+}
+
+CustomerPost8: {
+     category: 'GENERAL_INFO',
+     confidential : 'true',
+     title: 'SuccessCustomerNote7',
+     description: '<b>bold text</b>',
+     entityType: 'Customer',
+     entityRefNo: '',
+     userNoteName : 'null'
+}
+
+CustomerPost9: {
+     category: 'NOT_EXISTING_CATEGORY',
+     confidential : 'true',
+     title: 'FailedCustomerNote1',
+     description: 'Failed request 1',
+     entityType: 'Customer',
+     entityRefNo: '',
+     userNoteName : 'CUSTOMER_USER_NOTE'
+}
+
+CustomerPost10: {
+     category: 'GENERAL_INFO',
+     confidential : 'trueEEE',
+     title: 'FailedCustomerNote2',
+     description: 'Failed request 2',
+     entityType: 'Customer',
+     entityRefNo: '',
+     userNoteName : 'CUSTOMER_USER_NOTE'
+}
+
+CustomerPost11: {
+     category: 'GENERAL_INFO',
+     confidential : 'true',
+     title: 'null',
+     description: 'Failed request 3',
+     entityType: 'Customer',
+     entityRefNo: '',
+     userNoteName : 'CUSTOMER_USER_NOTE'
+}
+
+CustomerPost12: {
+     category: 'GENERAL_INFO',
+     confidential : 'true',
+     title: '/string(255)',
+     description: 'Failed request 4',
+     entityType: 'Customer',
+     entityRefNo: '',
+     userNoteName : 'CUSTOMER_USER_NOTE'
+}
+
+CustomerPost13: {
+     category: 'GENERAL_INFO',
+     confidential : 'true',
+     title: 'FailedCustomerNote3',
+     description: 'null',
+     entityType: 'Customer',
+     entityRefNo: '',
+     userNoteName : 'CUSTOMER_USER_NOTE'
+}
+
+CustomerPost14: {
+     category: 'GENERAL_INFO',
+     confidential : 'true',
+     title: 'FailedCustomerNote4',
+     description: '/string(4001)',
+     entityType: 'Customer',
+     entityRefNo: '',
+     userNoteName : 'CUSTOMER_USER_NOTE'
+}
+
+CustomerPost15: {
+     category: 'GENERAL_INFO',
+     confidential : 'true',
+     title: 'FailedCustomerNote5',
+     description: 'Failed Request',
+     entityType: 'CustomerE',
+     entityRefNo: '',
+     userNoteName : 'CUSTOMER_USER_NOTE'
+}
+
+CustomerPost16: {
+     category: 'GENERAL_INFO',
+     confidential : 'true',
+     title: 'FailedCustomerNote6',
+     description: 'Failed Request',
+     entityType: 'null',
+     entityRefNo: '',
+     userNoteName : 'CUSTOMER_USER_NOTE'
+}
+
+CustomerPost17: {
+     category: 'GENERAL_INFO',
+     confidential : 'true',
+     title: 'FailedCustomerNote7',
+     description: 'Failed Request',
+     entityType: 'Customer',
+     entityRefNo: '',
+     userNoteName : 'NON_EXISTING_NOTE'
+}
+
+CustomerPost18: {
+     category: 'GENERAL_INFO',
+     confidential : 'false',
+     title: 'CustomerPost18Note',
+     description: 'Successful Request CustomerPost18',
+     entityType: 'Customer',
+     entityRefNo: '',
+     userNoteName : 'CUSTOMER_USER_NOTE'
+}
+
+CustomerPost19: {
+     category: 'GENERAL_INFO',
+     confidential : 'true',
+     title: 'CustomerPost19Note',
+     description: 'Successful Request CustomerPost19',
+     entityType: 'Customer',
+     entityRefNo: '',
+     userNoteName : 'CUSTOMER_USER_NOTE'
+}
+
+QuotePost1: {
+     category: 'OTHER',
+     confidential : 'false',
+     title: 'QuotePost1Note',
+     description: 'Successful Request QuotePost1',
+     entityType: 'Quote',
+     entityRefNo: '',
+     userNoteName : 'PF_QUOTE_USER_NOTE'
+}
+
+BillingPost1: {
+     category: 'OTHER',
+     confidential : 'false',
+     title: 'BillingPost1Note',
+     description: 'Successful Request BillingPost1',
+     entityType: 'Billing',
+     entityRefNo: '',
+     userNoteName : 'BILLING_USER_NOTE'
+}
+
+PolicyPost1: {
+     category: 'OTHER',
+     confidential : 'false',
+     title: 'PolicyPost1Note',
+     description: 'Successful Request PolicyPost1',
+     entityType: 'Policy',
+     entityRefNo: '',
+     userNoteName : 'PF_POLICY_USER_NOTE'
+}
+
+ClaimPost1: {
+     category: 'OTHER',
+     confidential : 'false',
+     title: 'ClaimPost1Note',
+     description: 'Successful Request ClaimPost1',
+     entityType: 'claim',
+     entityRefNo: '',
+     userNoteName : 'CLAIMS_USER_NOTE'
+}
+
+CustomerPostNonExistingNumber: {
+     category: 'GENERAL_INFO',
+     confidential : 'true',
+     title: 'IncorrectCustomerRef',
+     description: 'Failed Request',
+     entityType: 'Customer',
+     entityRefNo: '9876543210',
+     userNoteName : 'CUSTOMER_USER_NOTE'
+}
+
+CustomerPostWithoutRef: {
+     category: 'GENERAL_INFO',
+     confidential : 'true',
+     title: 'NoCustomerRef',
+     description: 'Failure expected',
+     entityType: 'Customer',
+     entityRefNo: 'null',
+     userNoteName : 'CUSTOMER_USER_NOTE'
+}
+
+CustomerNotesResponse1: {
+   errorCode: '403',
+   message: 'Authentication succeeded but authenticated user doesn''t have access to the resource.',
+   category: '',
+   confidential: 'false',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   presentOnUi: 'false',
+   logMessage: 'CustomerNotesResponse1'
+}
+
+CustomerNotesResponse2: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'true',
+   title: 'SuccessCustomerNote1',
+   description: 'Description for success',
+   entityType: 'Customer',
+   performerId: 'qa',
+   userNoteName: 'CUSTOMER_USER_NOTE',
+   presentOnUi: 'true',
+   logMessage: 'CustomerNotesResponse2'
+}
+
+CustomerNotesResponse3: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'true',
+   title: 'SuccessCustomerNote2',
+   description: 'Description for success 2',
+   entityType: 'Customer',
+   performerId: 'qa',
+   userNoteName: 'CUSTOMER_USER_NOTE',
+   presentOnUi: 'true',
+   logMessage: 'CustomerNotesResponse3'
+}
+
+CustomerNotesResponse4: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'SuccessCustomerNote3',
+   description: 'Description for success 3',
+   entityType: 'Customer',
+   performerId: 'qa',
+   userNoteName: 'CUSTOMER_USER_NOTE',
+   presentOnUi: 'true',
+   logMessage: 'CustomerNotesResponse4'
+}
+
+CustomerNotesResponse5: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'true',
+   title: 'string(254)',
+   description: 'Success',
+   entityType: 'Customer',
+   performerId: 'qa',
+   userNoteName: 'CUSTOMER_USER_NOTE',
+   presentOnUi: 'true',
+   logMessage: 'CustomerNotesResponse5'
+}
+
+CustomerNotesResponse6: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'true',
+   title: 'SuccessCustomerNote5',
+   description: 'string(4000)',
+   entityType: 'Customer',
+   performerId: 'qa',
+   userNoteName: 'CUSTOMER_USER_NOTE',
+   presentOnUi: 'true',
+   logMessage: 'CustomerNotesResponse6'
+}
+
+CustomerNotesResponse7: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'true',
+   title: 'SuccessCustomerNote6',
+   description: '<b>bold text</b>',
+   entityType: 'Customer',
+   performerId: 'qa',
+   userNoteName: 'CUSTOMER_USER_NOTE',
+   presentOnUi: 'true',
+   logMessage: 'CustomerNotesResponse7'
+}
+
+CustomerNotesResponse8: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'true',
+   title: 'SuccessCustomerNote7',
+   description: '<b>bold text</b>',
+   entityType: 'Customer',
+   performerId: 'qa',
+   userNoteName: 'USER_NOTE',
+   presentOnUi: 'false',
+   logMessage: 'CustomerNotesResponse8'
+}
+
+CustomerNotesResponse9: {
+   errorCode: 'bm0007',
+   message: 'Category does not exist for target entity',
+   category: '',
+   confidential: '',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   presentOnUi: 'false',
+   logMessage: 'CustomerNotesResponse9'
+}
+
+CustomerNotesResponse10: {
+   errorCode: '400',
+   message: 'Malformed syntax or a bad query.',
+   category: '',
+   confidential: '',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   presentOnUi: 'false',
+   logMessage: 'CustomerNotesResponse10'
+}
+
+CustomerNotesResponse11: {
+   errorCode: 'bm0003',
+   message: 'User Note - Title required',
+   category: '',
+   confidential: '',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   presentOnUi: 'false',
+   logMessage: 'CustomerNotesResponse11'
+}
+
+CustomerNotesResponse12: {
+   errorCode: 'bm0005',
+   message: 'Title is to long (max 254 characters)',
+   category: '',
+   confidential: '',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   presentOnUi: 'false',
+   logMessage: 'CustomerNotesResponse12'
+}
+
+CustomerNotesResponse13: {
+   errorCode: 'bm0001',
+   message: 'Message text is required',
+   category: '',
+   confidential: '',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   presentOnUi: 'false',
+   logMessage: 'CustomerNotesResponse13'
+}
+
+CustomerNotesResponse14: {
+   errorCode: 'bm0004',
+   message: 'Maximum allowed length is 4000 characters, less with rich text formatting',
+   category: '',
+   confidential: '',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   presentOnUi: 'false',
+   logMessage: 'CustomerNotesResponse14'
+}
+
+CustomerNotesResponse15: {
+   errorCode: 'bm0007',
+   message: 'Category does not exist for target entity',
+   category: '',
+   confidential: '',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   presentOnUi: 'false',
+   logMessage: 'CustomerNotesResponse15'
+}
+
+CustomerNotesResponse16: {
+   errorCode: 'bm0008',
+   message: 'Entity type is required',
+   category: '',
+   confidential: '',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   presentOnUi: 'false',
+   logMessage: 'CustomerNotesResponse16'
+}
+
+CustomerNotesResponse17: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'true',
+   title: 'FailedCustomerNote7',
+   description: 'Failed Request',
+   entityType: 'Customer',
+   performerId: 'qa',
+   userNoteName: 'NON_EXISTING_NOTE',
+   presentOnUi: 'false',
+   logMessage: 'CustomerNotesResponse17'
+}
+
+CustomerNotesResponse18: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'CustomerPost18Note',
+   description: 'Successful Request CustomerPost18',
+   entityType: 'Customer',
+   performerId: 'TestUserForRestNotes1',
+   userNoteName: 'CUSTOMER_USER_NOTE',
+   presentOnUi: 'true',
+   logMessage: 'CustomerNotesResponse18'
+}
+
+CustomerNotesResponse19: {
+   errorCode: '403',
+   message: 'Authentication succeeded but authenticated user doesn''t have access to the resource.',
+   category: '',
+   confidential: '',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   presentOnUi: 'false',
+   logMessage: 'CustomerNotesResponse19'
+}
+
+CustomerNotesResponseNonExistingNumber: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'true',
+   title: 'IncorrectCustomerRef',
+   description: 'Failed Request',
+   entityType: 'Customer',
+   performerId: 'qa',
+   userNoteName: 'CUSTOMER_USER_NOTE',
+   presentOnUi: 'false',
+   logMessage: 'CustomerNotesResponseNonExistingNumber'
+}
+
+CustomerNotesResponseWithoutRef: {
+   errorCode: 'bm0009',
+   message: 'Entity reference number is required',
+   category: '',
+   confidential: '',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   presentOnUi: 'false',
+   logMessage: 'CustomerNotesResponseWithoutRef'
+}
+
+QuoteNotesResponse1: {
+   errorCode: '',
+   message: '',
+   category: 'OTHER',
+   confidential: 'false',
+   title: 'QuotePost1Note',
+   description: 'Successful Request QuotePost1',
+   entityType: 'Quote',
+   performerId: 'TestUserForRestNotes1',
+   userNoteName: 'PF_QUOTE_USER_NOTE',
+   presentOnUi: 'true',
+   logMessage: 'QuoteNotesResponse1'
+}
+
+BillingNotesResponse1: {
+   errorCode: '',
+   message: '',
+   category: 'OTHER',
+   confidential: 'false',
+   title: 'BillingPost1Note',
+   description: 'Successful Request BillingPost1',
+   entityType: 'Billing',
+   performerId: 'TestUserForRestNotes1',
+   userNoteName: 'BILLING_USER_NOTE',
+   presentOnUi: 'true',
+   logMessage: 'BillingNotesResponse1'
+}
+
+PolicyNotesResponse1: {
+   errorCode: '',
+   message: '',
+   category: 'OTHER',
+   confidential: 'false',
+   title: 'PolicyPost1Note',
+   description: 'Successful Request PolicyPost1',
+   entityType: 'Policy',
+   performerId: 'TestUserForRestNotes1',
+   userNoteName: 'PF_POLICY_USER_NOTE',
+   presentOnUi: 'true',
+   logMessage: 'PolicyNotesResponse1'
+}
+
+ClaimNotesResponse1: {
+   errorCode: '',
+   message: '',
+   category: 'OTHER',
+   confidential: 'false',
+   title: 'ClaimPost1Note',
+   description: 'Successful Request ClaimPost1',
+   entityType: 'claim',
+   performerId: 'TestUserForRestNotes1',
+   userNoteName: 'CLAIMS_USER_NOTE',
+   presentOnUi: 'true',
+   logMessage: 'ClaimNotesResponse1'
+}

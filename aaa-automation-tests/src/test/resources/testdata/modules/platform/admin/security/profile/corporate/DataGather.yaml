@@ -1,0 +1,113 @@
+TestData: {
+  GeneralProfileTab: '@GeneralProfileTab',
+  AuthorityLevelsTab: {}
+}
+
+GeneralProfileTab: {
+  EIS User: 'Yes',
+  First Name: /FName_######,
+  Last Name: /LName_######,
+  Effective Date: /today,
+  Profile/Subproducer ID: /Subproducer_######,
+  'User Name': /qa_######,
+  'User Login': /qa_######,
+  Password: qa,
+  Confirm Password: qa,
+  User Work Status: Available,
+  Agency/Locations: '@AddPopupSearch',
+  Default: 'true'
+}
+
+AddPopupSearch: {
+  Agency Name: ''
+}
+
+TestData_WithAgency: {
+  GeneralProfileTab: '@GeneralProfileTabWithAgency',
+  AuthorityLevelsTab: '@AuthorityLevelsTab'
+}
+
+GeneralProfileTabWithAgency: {
+  EIS User: 'Yes',
+  First Name: /FName_######,
+  Last Name: /LName_######,
+  Effective Date: /today,
+  Profile/Subproducer ID: /Subproducer_######,
+  'User Name': /qa_######,
+  'User Login': /qa_######,
+  Password: qa,
+  Confirm Password: qa,
+  User Work Status: Available,
+  Agency/Locations: '@AddPopupSearchWithAgency',
+  Default: 'true',
+  Roles: QA All,
+  Billing Authority Level: 3,
+  Claim Authority Level: 3
+}
+
+AddPopupSearchWithAgency: {
+  Channel: Agency,
+  Agency Name: 'QA Agency'
+}
+
+AuthorityLevelsTab: {
+  Type: Underwriting,
+  Product: 'For All',
+  Level: 'Level 3',
+  Save New Authority: 'true'
+}
+
+TestData_Note: {
+  NotesAndAlertsTab: '@NotesAndAlertsTabNote'
+}
+
+NotesAndAlertsTabNote: {
+  'Note/Alert': ' Note',
+  Title: Simple Title,
+  'Confid.': 'No',
+  Note: 'Test Note'
+}
+
+TestData_Note_Upd: {
+  NotesAndAlertsTab: '@NotesAndAlertsTabNoteUpd'
+}
+
+NotesAndAlertsTabNoteUpd: {
+  'Note/Alert': ' Note',
+  Title: Simple Title Upd,
+  'Confid.': 'No',
+  Note: 'Test Note Upd'
+}
+
+TestData_Note_For_Quote: {
+  NotesAndAlertsTab: '@NotesAndAlertsTabNoteQuote'
+}
+
+NotesAndAlertsTabNoteQuote: {
+  'Note/Alert': ' Note',
+  Title: Simple Title Quote,
+  'Confid.': 'No',
+  Note: 'Test Note Quote'
+}
+
+TestData_Alert: {
+  NotesAndAlertsTab: '@NotesAndAlertsTabAlert'
+}
+
+NotesAndAlertsTabAlert: {
+  'Note/Alert': ' Alert',
+  Alert: 'Test Alert'
+}
+
+NoteUpdate: {
+  NotesAndAlertsTab: {
+    Title: Simple Title Update,
+    NoteUpdate: 'Update Note for User Profile'
+  }
+}
+
+AlertUpdate: {
+  NotesAndAlertsTab: {
+    AlertUpdate: 'Update Alert for User Profile'
+  }
+}

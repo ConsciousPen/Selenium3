@@ -1,0 +1,24 @@
+TestData: {
+  GeneralPolicyTab: {},
+  InsuredContactInfoTab: {},
+  InsuredEmploymentTab: {},
+  PolicyUnderwritingCoveragesTab: {
+    CSL Group: {
+      CSL: '$50'
+    }
+  },
+  PolicyUnderwritingRatingInfoTab: {},
+  ResidentDriverDriverInfoIdentificationTab: {},
+  ResidentDriverDriverInfoEmploymentTab: {},
+  ResidentDriverReportsTab: {},
+  ResidentDriverInfractionsTab: {},
+  ResidentDriverUnderwritingTab: {},
+  ResidentDriverSR22Tab: {},
+  VehicleVehInfoTab: {},
+  VehicleCoveragesTab: {},
+  VehicleGaragingRegOwnerTab: {},
+  VehicleAssignmentTab: {},
+  VehicleAddInterestTab: {},
+  VehicleUnderwritingTab: {},
+  VehiclePremiumTab: {},
+}

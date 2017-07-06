@@ -1,0 +1,86 @@
+{  
+"endpoint": "",
+"jaxRsComponents": "org.codehaus.jackson.jaxrs.JacksonJsonProvider,com.exigen.ipb.etcsa.rest.wrapper.ModelWrapperMessageBodyReader",
+"restTargets": {
+"PARTIES": {
+		"target": "/parties",
+		"methods": {		
+			"GET" : {
+				"queryParams": "partyType&agency&offset&limit&city&state&legalName&birthDate&phone&street1&zip&businessName&nationalId&legalId&firstName&lastName",
+				"mediaType": "",
+				"postTemplate": "party-rs/PARTIES.GET.tmpl"
+			}
+		}
+	}
+,	"PARTIES.INDIVIDUALS": {
+		"target": "/parties/individuals",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "party-rs/PARTIES.INDIVIDUALS.GET.tmpl"
+			}
+		}
+	}
+,	"PARTIES.LOCATIONS": {
+		"target": "/parties/locations",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "party-rs/PARTIES.LOCATIONS.GET.tmpl"
+			}
+		}
+	}
+,	"PARTIES.NON-INDIVIDUALS": {
+		"target": "/parties/non-individuals",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "party-rs/PARTIES.NON-INDIVIDUALS.GET.tmpl"
+			}
+		}
+	}
+,	"PARTIES.VEHICLES": {
+		"target": "/parties/vehicles",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "party-rs/PARTIES.VEHICLES.GET.tmpl"
+			}
+		}
+	}
+,	"PARTIES.ITEM": {
+		"target": "/parties/{partyId}",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "party-rs/PARTIES.ITEM.GET.tmpl"
+			}
+		}
+	}
+,	"PARTIES.HISTORY": {
+		"target": "/parties/{partyId}/history",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "party-rs/PARTIES.HISTORY.GET.tmpl"
+			}
+		}
+	}
+,"SWAGGER.JSON": {
+		"target": "/swagger.json",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "party-rs/SWAGGER.JSON.GET.tmpl"
+			}
+		}
+	}
+}
+}

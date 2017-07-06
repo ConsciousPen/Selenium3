@@ -1,0 +1,4 @@
+{
+  "testEnvironmentVariableName": "ENVIRONMENT",
+  "testBranchVariableName": "TEST_BRANCH"
+}

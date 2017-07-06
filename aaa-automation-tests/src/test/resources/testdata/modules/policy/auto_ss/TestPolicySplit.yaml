@@ -1,0 +1,156 @@
+TestData: {
+  PolicyTab: {},
+  InsuredTab: '@InsuredTab',
+  DriverTab: ['@DriverTab1','@DriverTab2','@DriverTab3'],
+  VehicleTab: ['@VehicleTab1','@VehicleTab2','@VehicleTab3'],
+  MVRClaimsTab: {},
+  FormsAddlInfoTab: {},
+  AssignmentTab: {},
+  PremiumCoveragesTab: '@PremiumCoveragesTab',
+  SplitActionTab: '@SplitActionTab'
+}
+
+InsuredTab: {
+  Insured Party Selection: /index=0,
+  Prior Carrier: ACE INSURANCE
+}
+
+DriverTab1: {
+  Driver Party Selection: /index=0,
+  Gender: Male,
+  Marital Status: Married
+}
+
+DriverTab2: {
+  Driver Party Selection: Create New Driver,
+  Rel. to First Named Insured: Father,
+  First Name: FirstDriverFName,
+  Last Name: FirstDriverLName,
+  Date of Birth: /today-50Y,
+  Gender: Male,
+  Marital Status: Married,
+  Zip / Postal Code: '94596',
+  Address Line 1: Address Line 2,
+}
+
+DriverTab3: {
+  Driver Party Selection: Create New Driver,
+  Rel. to First Named Insured: Mother,
+  First Name: SecondDriverFName,
+  Last Name: SecondDriverLName,
+  Date of Birth: /today-45Y,
+  Gender: Female,
+  Marital Status: Married,
+  Zip / Postal Code: '94596',
+  Address Line 1: Address Line 3,
+}
+
+VehicleTab1: {
+  Type: Regular,
+  No Vin Reason: VIN Not Applicable,
+  Model Year: '2009',
+  Make: ACURA,
+  Model: MDX,
+  Body Style: Named Non-Owned,
+  Performance: Sports Performance,
+  Fuel Type: Flex - gas and ethanol,
+  Anti-Theft: Alarm,
+  Anti-Lock: ANTILOCK BRAKE DISCOUNT,
+  Daytime Running Lamps: 'No',
+  'Armored Vehicle?': 'No',
+  Distance Driven for Pleasure per Week: '1200',
+  Customer Declared Annual Distance: 0-7999,
+  Zip / Postal Code: '94596',
+  Address Line 1: Address Line 1,
+  City: Walnut Creek,
+  State / Province: CA
+}
+
+VehicleTab2: {
+  Type: Regular,
+  No Vin Reason: VIN Not Applicable,
+  Model Year: '2010',
+  Make: AUDI,
+  Model: index=1,
+  Body Style: index=1,
+  Performance: index=1,
+  Fuel Type: index=1,
+  Anti-Theft: index=1,
+  Anti-Lock: index=1,
+  Daytime Running Lamps: 'No',
+  'Armored Vehicle?': 'No',
+  Distance Driven for Pleasure per Week: '1100',
+  Customer Declared Annual Distance: index=1,
+  Zip / Postal Code: '94596',
+  Address Line 1: Address Line 2,
+}
+
+VehicleTab3: {
+  Type: Regular,
+  No Vin Reason: VIN Not Applicable,
+  Model Year: '2007',
+  Make: FORD,
+  Model: index=1,
+  Body Style: index=1,
+  Performance: index=1,
+  Fuel Type: index=1,
+  Anti-Theft: index=1,
+  Anti-Lock: index=1,
+  Daytime Running Lamps: 'No',
+  'Armored Vehicle?': 'No',
+  Distance Driven for Pleasure per Week: '1100',
+  Customer Declared Annual Distance: index=1,
+  Zip / Postal Code: '94596',
+  Address Line 1: Address Line 3,
+}
+
+PremiumCoveragesTab: {
+  Coverage Type: Single,
+  Combined Single Limit: '$1,000',
+}
+
+SplitActionTab: {
+  Transaction Effective Date: /today,
+  'Insureds approve removal of driver and vehicles?': 'Yes',
+    Insureds: '1',
+    Vehicles : '1'
+}
+
+DataGather_AfterSplitForOneInsured: {
+  PolicyTab: {},
+  InsuredTab: {
+    Insured Party Selection: /index=0,
+    Prior Carrier: ACE INSURANCE
+  },
+  DriverTab:{},
+  VehicleTab: {},
+  MVRClaimsTab: {},
+  FormsAddlInfoTab: {},
+  AssignmentTab: {},
+  PremiumCoveragesTab: {}
+}
+
+DataGather: {
+  PolicyTab: {},
+  InsuredTab: {
+    Insured Party Selection: /index=0,
+    Date of Birth: /today-25y,
+    Address Type: /index=0,
+    Zip / Postal Code: '94596',
+    Address Line 1: Address Line 1,
+    Student Start Date: /today-2y,
+    Student Status: Active,
+    Student Type: Full-Time,
+    Student Athlete: 'Yes',
+    Prior Carrier: ACE INSURANCE
+  },
+  DriverTab:{},
+  VehicleTab: {},
+  MVRClaimsTab: {},
+  FormsAddlInfoTab: {},
+  AssignmentTab: {},
+  PremiumCoveragesTab: {
+    Coverage Type: Single,
+    Combined Single Limit: '$1,000',
+  }
+}

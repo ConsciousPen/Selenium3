@@ -1,0 +1,384 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet failOnError="false" id="1" author="mburyak">
+        <comment>Set QuoteExpiration = 30 days for all products</comment>
+        <delete tableName="LookupValue">
+            <where>LOOKUPLIST_ID = (SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')</where>
+        </delete>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="PREC-HO"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="PREC-HO"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="PREC-AU"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="PREC-AU"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="CL"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="CL"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="GB_AC"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="GB_AC"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="GB_ADD"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="GB_ADD"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="GB_CI"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="GB_CI"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+		<insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="GB_DI_LTD"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="GB_DI_LTD"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+		<insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="GB_DI_STD"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="GB_DI_STD"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="GB_DI"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="GB_DI"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+		<insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="GB_ST"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="GB_ST"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+		<insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="GB_HI"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="GB_HI"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="GB_TL"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="GB_TL"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="GB"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="GB"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="AU"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="AU"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="HO"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="HO"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="PREC-UM"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="PREC-UM"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="PREC-IA"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="PREC-IA"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="PREC-IDPPO"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="PREC-IDPPO"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="PREC-ICI"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="PREC-ICI"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="PREC-UBI"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="PREC-UBI"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+		<insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="PREC-IDHMO"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="PREC-IDHMO"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+		<insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="PREC-IDI"/>
+            <column name="displayValue" value="30"/>
+            <column name="productCd" value="PREC-IDI"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'QuoteExpiration')"/>
+        </insert>
+    </changeSet>
+    <changeSet failOnError="false" id="2" author="mburyak">
+        <comment>Set ReinstatementParameters = 30 days for all products</comment>
+        <delete tableName="LookupValue">
+            <where>LOOKUPLIST_ID = (SELECT id FROM LookupList WHERE lookupName = 'ReinstatementParameters')</where>
+        </delete>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="ReinstatementParametersLookupValue"/>
+            <column name="code" value="CL"/>
+            <column name="displayValue" value="30"/>
+            <column name="daysAllowedForReinstateLapse" value="30"/>
+            <column name="productCd" value="CL"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'ReinstatementParameters')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="ReinstatementParametersLookupValue"/>
+            <column name="code" value="GB_AC"/>
+            <column name="displayValue" value="30"/>
+            <column name="daysAllowedForReinstateLapse" value="30"/>
+            <column name="productCd" value="GB_AC"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'ReinstatementParameters')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="ReinstatementParametersLookupValue"/>
+            <column name="code" value="GB_ADD"/>
+            <column name="displayValue" value="30"/>
+            <column name="daysAllowedForReinstateLapse" value="30"/>
+            <column name="productCd" value="GB_ADD"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'ReinstatementParameters')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="ReinstatementParametersLookupValue"/>
+            <column name="code" value="GB_CI"/>
+            <column name="displayValue" value="30"/>
+            <column name="daysAllowedForReinstateLapse" value="30"/>
+            <column name="productCd" value="GB_CI"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'ReinstatementParameters')"/>
+        </insert>
+		<insert tableName="LookupValue">
+            <column name="DTYPE" value="ReinstatementParametersLookupValue"/>
+            <column name="code" value="GB_DI_LTD"/>
+            <column name="displayValue" value="30"/>
+            <column name="daysAllowedForReinstateLapse" value="30"/>
+            <column name="productCd" value="GB_DI_LTD"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'ReinstatementParameters')"/>
+        </insert>
+		<insert tableName="LookupValue">
+            <column name="DTYPE" value="ReinstatementParametersLookupValue"/>
+            <column name="code" value="GB_DI_STD"/>
+            <column name="displayValue" value="30"/>
+            <column name="daysAllowedForReinstateLapse" value="30"/>
+            <column name="productCd" value="GB_DI_STD"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'ReinstatementParameters')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="ReinstatementParametersLookupValue"/>
+            <column name="code" value="GB_DI"/>
+            <column name="displayValue" value="30"/>
+            <column name="daysAllowedForReinstateLapse" value="30"/>
+            <column name="productCd" value="GB_DI"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'ReinstatementParameters')"/>
+        </insert>
+		<insert tableName="LookupValue">
+            <column name="DTYPE" value="ReinstatementParametersLookupValue"/>
+            <column name="code" value="GB_ST"/>
+            <column name="displayValue" value="30"/>
+            <column name="daysAllowedForReinstateLapse" value="30"/>
+            <column name="productCd" value="GB_ST"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'ReinstatementParameters')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="ReinstatementParametersLookupValue"/>
+            <column name="code" value="GB_TL"/>
+            <column name="displayValue" value="30"/>
+            <column name="daysAllowedForReinstateLapse" value="30"/>
+            <column name="productCd" value="GB_TL"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'ReinstatementParameters')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="ReinstatementParametersLookupValue"/>
+            <column name="code" value="AU"/>
+            <column name="displayValue" value="30"/>
+            <column name="daysAllowedForReinstateLapse" value="30"/>
+            <column name="productCd" value="AU"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'ReinstatementParameters')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="ReinstatementParametersLookupValue"/>
+            <column name="code" value="HO"/>
+            <column name="displayValue" value="30"/>
+            <column name="daysAllowedForReinstateLapse" value="30"/>
+            <column name="productCd" value="HO"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'ReinstatementParameters')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="ReinstatementParametersLookupValue"/>
+            <column name="code" value="PREC-HO"/>
+            <column name="displayValue" value="30"/>
+            <column name="daysAllowedForReinstateLapse" value="30"/>
+            <column name="productCd" value="PREC-HO"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'ReinstatementParameters')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="ReinstatementParametersLookupValue"/>
+            <column name="code" value="PREC-AU"/>
+            <column name="displayValue" value="30"/>
+            <column name="daysAllowedForReinstateLapse" value="30"/>
+            <column name="productCd" value="PREC-AU"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'ReinstatementParameters')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="ReinstatementParametersLookupValue"/>
+            <column name="code" value="PREC-UM"/>
+            <column name="displayValue" value="30"/>
+            <column name="daysAllowedForReinstateLapse" value="30"/>
+            <column name="productCd" value="PREC-UM"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'ReinstatementParameters')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="ReinstatementParametersLookupValue"/>
+            <column name="code" value="PREC-IA"/>
+            <column name="displayValue" value="30"/>
+            <column name="daysAllowedForReinstateLapse" value="30"/>
+            <column name="productCd" value="PREC-IA"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'ReinstatementParameters')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="ReinstatementParametersLookupValue"/>
+            <column name="code" value="PREC-IDPPO"/>
+            <column name="displayValue" value="30"/>
+            <column name="daysAllowedForReinstateLapse" value="30"/>
+            <column name="productCd" value="PREC-IDPPO"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'ReinstatementParameters')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="ReinstatementParametersLookupValue"/>
+            <column name="code" value="PREC-ICI"/>
+            <column name="displayValue" value="30"/>
+            <column name="daysAllowedForReinstateLapse" value="30"/>
+            <column name="productCd" value="PREC-ICI"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'ReinstatementParameters')"/>
+        </insert>
+        <insert tableName="LookupValue">
+            <column name="DTYPE" value="ReinstatementParametersLookupValue"/>
+            <column name="code" value="PREC-UBI"/>
+            <column name="displayValue" value="30"/>
+            <column name="daysAllowedForReinstateLapse" value="30"/>
+            <column name="productCd" value="PREC-UBI"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'ReinstatementParameters')"/>
+        </insert>
+		<insert tableName="LookupValue">
+            <column name="DTYPE" value="ReinstatementParametersLookupValue"/>
+            <column name="code" value="PREC-IDHMO"/>
+            <column name="displayValue" value="30"/>
+            <column name="daysAllowedForReinstateLapse" value="30"/>
+            <column name="productCd" value="PREC-IDHMO"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'ReinstatementParameters')"/>
+        </insert>
+		<insert tableName="LookupValue">
+            <column name="DTYPE" value="ReinstatementParametersLookupValue"/>
+            <column name="code" value="PREC-IDI"/>
+            <column name="displayValue" value="30"/>
+            <column name="daysAllowedForReinstateLapse" value="30"/>
+            <column name="productCd" value="PREC-IDI"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'ReinstatementParameters')"/>
+        </insert>
+    </changeSet>
+    <changeSet failOnError="false" id="3" author="otolstovs">
+        <comment>Set value "Preferred" for SIC Code '0111' all GB prec products in lookup PreconfigGroupSicCodePreferredValue</comment>
+		<delete tableName="LookupValue">
+            <where>LOOKUPLIST_ID = (SELECT id FROM LookupList WHERE lookupName = 'PreconfigGroupSicCodePreferredValue') and code='0111'</where>
+        </delete>
+		<insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="0111"/>
+            <column name="displayValue" value="Preferred"/>
+            <column name="productCd" value="GB_CI"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'PreconfigGroupSicCodePreferredValue')"/>
+        </insert>
+		<insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="0111"/>
+            <column name="displayValue" value="Preferred"/>
+            <column name="productCd" value="GB_AC"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'PreconfigGroupSicCodePreferredValue')"/>
+        </insert>
+		<insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="0111"/>
+            <column name="displayValue" value="Preferred"/>
+            <column name="productCd" value="GB_HI"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'PreconfigGroupSicCodePreferredValue')"/>
+        </insert>
+		<insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="0111"/>
+            <column name="displayValue" value="Preferred"/>
+            <column name="productCd" value="GB_ST"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'PreconfigGroupSicCodePreferredValue')"/>
+        </insert>
+		<insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="0111"/>
+            <column name="displayValue" value="Preferred"/>
+            <column name="productCd" value="GB_TL"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'PreconfigGroupSicCodePreferredValue')"/>
+        </insert>
+		<insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="0111"/>
+            <column name="displayValue" value="Preferred"/>
+            <column name="productCd" value="GB_DI_LTD"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'PreconfigGroupSicCodePreferredValue')"/>
+        </insert>
+		<insert tableName="LookupValue">
+            <column name="DTYPE" value="BaseProductLookupValue"/>
+            <column name="code" value="0111"/>
+            <column name="displayValue" value="Preferred"/>
+            <column name="productCd" value="GB_DI_STD"/>
+            <column name="LOOKUPLIST_ID" valueComputed="(SELECT id FROM LookupList WHERE lookupName = 'PreconfigGroupSicCodePreferredValue')"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

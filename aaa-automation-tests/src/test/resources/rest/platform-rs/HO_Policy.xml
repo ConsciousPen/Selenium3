@@ -1,0 +1,2404 @@
+<com.exigen.ipb.policy.dto.PolicySummaryDatasetDto>
+  <rootEntity class="com.exigen.ipb.policy.domain.PolicyEntity">
+    <oid>kMJM1ZdOh{UID}</oid>
+    <entityStatus>added</entityStatus>
+    <version>1</version>
+    <policyNumber>SEL{UID}</policyNumber>
+    <quoteNumber>SEL{UID}</quoteNumber>
+    <refPolicyNo>SEL{UID}</refPolicyNo>
+    <customerNumber>{CUSTOMER_NUMBER}</customerNumber>
+    <productCd>HO</productCd>
+    <producerCd>QAG</producerCd>
+    <subProducerCd>qa</subProducerCd>
+    <underwriterCd>001</underwriterCd>
+    <underwriterReferral>false</underwriterReferral>
+    <contractTerm>
+      <effective class="sql-timestamp">{TODAY} 00:00:00</effective>
+      <expiration class="sql-timestamp">{TODAY+365} 00:00:00</expiration>
+      <dummy>0</dummy>
+    </contractTerm>
+    <contractTermTypeCd>AN</contractTermTypeCd>
+    <anniversaryDate class="sql-timestamp">{TODAY+365} 00:00:00</anniversaryDate>
+    <transactionEffectiveDate class="sql-timestamp">{TODAY} 00:00:00</transactionEffectiveDate>
+    <transactionDate class="sql-timestamp">{TODAY} {TIME}</transactionDate>
+    <inceptionDate class="sql-timestamp">{TODAY} 00:00:00</inceptionDate>
+    <rateEffectiveDate class="sql-timestamp">{TODAY} 00:00:00</rateEffectiveDate>
+    <rateEffectiveDateOverridenInd>false</rateEffectiveDateOverridenInd>
+    <txType>policy</txType>
+    <LOB>HOME</LOB>
+    <countryCd>US</countryCd>
+    <riskStateCd>CA</riskStateCd>
+    <policyTitle>John{UID} Smith{UID}</policyTitle>
+    <policyStatusCd>issued</policyStatusCd>
+    <timedPolicyStatusCd>inForce</timedPolicyStatusCd>
+    <prevStatusCd>rated</prevStatusCd>
+    <billingInfo class="com.exigen.ipb.policy.domain.PolicyBillingInfoEntity">
+      <oid>p9_fjOl11{UID}</oid>
+      <entityStatus>added</entityStatus>
+      <billingNameInfo>
+        <dummy>0</dummy>
+        <isDirty>false</isDirty>
+      </billingNameInfo>
+      <customerNumber>500000</customerNumber>
+      <mortgageePhone>
+        <dummy>0</dummy>
+      </mortgageePhone>
+      <phone>
+        <dummy>0</dummy>
+      </phone>
+      <producerCd>QAG</producerCd>
+      <instanceMetadata>
+        <componentInstanceName>PaymentOption</componentInstanceName>
+        <producerComponentName>PaymentOption</producerComponentName>
+        <producerComponentVersion>2.0</producerComponentVersion>
+        <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+        <instanceName>n9METfRje{UID}</instanceName>
+      </instanceMetadata>
+      <additionalFields class="java.util.HashMap"/>
+      <universalPort class="java.util.ArrayList"/>
+    </billingInfo>
+    <revisionNo>1</revisionNo>
+    <pendingRevisionNo>0</pendingRevisionNo>
+    <currentRevisionInd>true</currentRevisionInd>
+    <cancelNoticeDays>0</cancelNoticeDays>
+    <sysGeneratedTxInd>false</sysGeneratedTxInd>
+    <rootPersistenceId>{UID}</rootPersistenceId>
+    <accessInfo>
+      <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+      <updatedOn class="sql-timestamp">{TODAY} {TIME}</updatedOn>
+      <createdBy>qa</createdBy>
+      <updatedBy>qa</updatedBy>
+    </accessInfo>
+    <policyDetail>
+      <oid>jO1V0p15u{UID}</oid>
+      <entityStatus>added</entityStatus>
+      <insuredAndPrincipals class="java.util.ArrayList">
+        <com.exigen.ipb.policy.domain.InsuredPrincipalEntity>
+          <oid>unUGp4Nbr{UID}</oid>
+          <entityStatus>added</entityStatus>
+          <nameInfo>
+            <dummy>0</dummy>
+            <nameTypeCd>IND</nameTypeCd>
+            <firstName>John{UID}</firstName>
+            <lastName>Smith{UID}</lastName>
+            <salutation>1</salutation>
+            <isDirty>false</isDirty>
+            <additionalNameInd>false</additionalNameInd>
+          </nameInfo>
+          <principalRoleCd>policyHolder</principalRoleCd>
+          <communicationInfo>
+            <phoneNumber1>
+              <dummy>0</dummy>
+            </phoneNumber1>
+            <phoneType1>mobilePhone</phoneType1>
+            <phoneNumber2>
+              <dummy>0</dummy>
+            </phoneNumber2>
+            <phoneNumber3>
+              <dummy>0</dummy>
+            </phoneNumber3>
+            <phoneNumber4>
+              <dummy>0</dummy>
+            </phoneNumber4>
+          </communicationInfo>
+          <seqNo>1</seqNo>
+          <creditScores class="java.util.HashMap"/>
+          <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+          <primaryInsured>true</primaryInsured>
+          <primaryAddressEntity>
+            <oid>igwqV_7Cq{UID}</oid>
+            <entityStatus>added</entityStatus>
+            <address>
+              <stateProvCd>CA</stateProvCd>
+              <postalCode>94596</postalCode>
+              <countryCd>US</countryCd>
+              <addressLine1>Address{UID}</addressLine1>
+              <city>Walnut Creek</city>
+              <usageType>mailing</usageType>
+              <county>USA</county>
+              <isDirty>false</isDirty>
+              <standartized>false</standartized>
+            </address>
+            <contactAdditionalFields>
+              <doNotSolicitInd>false</doNotSolicitInd>
+            </contactAdditionalFields>
+            <schedulingContactInfo>
+              <dummy>0</dummy>
+            </schedulingContactInfo>
+            <addressValidatedInd>No</addressValidatedInd>
+            <instanceMetadata>
+              <componentInstanceName>InsuredPrimaryAddress</componentInstanceName>
+              <producerComponentName>InsuredPrimaryAddress</producerComponentName>
+              <producerComponentVersion>2.0</producerComponentVersion>
+              <connectedToInstanceName>v9AOuE_3y{UID}</connectedToInstanceName>
+              <instanceName>kJnLGg0Nm{UID}</instanceName>
+            </instanceMetadata>
+            <additionalFields class="java.util.HashMap"/>
+          </primaryAddressEntity>
+          <instanceMetadata>
+            <componentInstanceName>InsuredPrincipal</componentInstanceName>
+            <producerComponentName>InsuredPrincipal</producerComponentName>
+            <producerComponentVersion>2.0</producerComponentVersion>
+            <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+            <instanceName>v9AOuE_3y{UID}</instanceName>
+          </instanceMetadata>
+          <proxyComponents class="java.util.ArrayList"/>
+          <additionalFields class="java.util.HashMap"/>
+          <universalPort class="java.util.ArrayList">
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>tZDL-R2SB{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <instanceMetadata>
+                <componentInstanceName>InsuredEmploymentInfo</componentInstanceName>
+                <producerComponentName>InsuredEmploymentInfo</producerComponentName>
+                <producerComponentVersion>2.0</producerComponentVersion>
+                <connectedToInstanceName>v9AOuE_3y{UID}</connectedToInstanceName>
+                <instanceName>osgIu0P--{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>g_EYhxMsE{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <instanceMetadata>
+                <componentInstanceName>InsuredCommunicationInfo</componentInstanceName>
+                <producerComponentName>InsuredCommunicationInfo</producerComponentName>
+                <producerComponentVersion>2.0</producerComponentVersion>
+                <connectedToInstanceName>v9AOuE_3y{UID}</connectedToInstanceName>
+                <instanceName>lcA0jeuII{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>odMSuTSf2{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <uniqueInstanceId>166355027</uniqueInstanceId>
+              <instanceMetadata>
+                <componentInstanceName>InsuredWorkAddress</componentInstanceName>
+                <producerComponentName>AdditionalInterestAddress</producerComponentName>
+                <producerComponentVersion>2.0</producerComponentVersion>
+                <connectedToInstanceName>v9AOuE_3y{UID}</connectedToInstanceName>
+                <instanceName>v8jFmEBLF{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+          </universalPort>
+          <memberships class="java.util.ArrayList"/>
+          <otherOrPriorPolicys class="java.util.ArrayList"/>
+        </com.exigen.ipb.policy.domain.InsuredPrincipalEntity>
+      </insuredAndPrincipals>
+      <riskItems class="java.util.ArrayList">
+        <com.exigen.ipb.policy.domain.DwellEntity>
+          <oid>u9h6WEyuP{UID}</oid>
+          <entityStatus>added</entityStatus>
+          <territoryCd>000</territoryCd>
+          <seqNo>1</seqNo>
+          <location class="com.exigen.ipb.policy.domain.LocationEntity">
+            <oid>teoiNeQZE{UID}</oid>
+            <entityStatus>added</entityStatus>
+            <subLocations class="java.util.ArrayList"/>
+            <addressEntity>
+              <oid>qcA_m-xmc{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <address>
+                <stateProvCd>CA</stateProvCd>
+                <postalCode>94596</postalCode>
+                <countryCd>US</countryCd>
+                <addressLine1>Address{UID}</addressLine1>
+                <city>Walnut Creek</city>
+                <county>000</county>
+                <isDirty>false</isDirty>
+                <standartized>false</standartized>
+              </address>
+              <contactAdditionalFields>
+                <doNotSolicitInd>false</doNotSolicitInd>
+              </contactAdditionalFields>
+              <schedulingContactInfo>
+                <dummy>0</dummy>
+              </schedulingContactInfo>
+              <addressValidatedInd>No</addressValidatedInd>
+              <instanceMetadata>
+                <componentInstanceName>RiskAddress</componentInstanceName>
+                <producerComponentName>RiskAddress</producerComponentName>
+                <producerComponentVersion>2.0</producerComponentVersion>
+                <connectedToInstanceName>jMdr8M7Pl{UID}</connectedToInstanceName>
+                <instanceName>vr-2mx37A{UID}</instanceName>
+              </instanceMetadata>
+              <additionalFields class="java.util.HashMap"/>
+            </addressEntity>
+            <instanceMetadata>
+              <componentInstanceName>Location</componentInstanceName>
+              <producerComponentName>Location</producerComponentName>
+              <producerComponentVersion>2.0</producerComponentVersion>
+              <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+              <instanceName>jMdr8M7Pl{UID}</instanceName>
+            </instanceMetadata>
+            <additionalFields class="java.util.HashMap"/>
+          </location>
+          <otherOrPriorPolicy>
+            <oid>lIaqfsSOq{UID}</oid>
+            <entityStatus>added</entityStatus>
+            <underlyingPolicyStatus>active</underlyingPolicyStatus>
+          </otherOrPriorPolicy>
+          <coverages class="java.util.ArrayList">
+            <com.exigen.ipb.policy.domain.home.WorkersCompCoverageEntity>
+              <oid>nT6wFbcT3{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <coverageCd>WC</coverageCd>
+              <seqNo>1</seqNo>
+              <premiums class="java.util.HashMap">
+                <entry>
+                  <string>GWT</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>on_RHEFTy{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>GWT</premiumCd>
+                    <premiumType>GROSS_PREMIUM</premiumType>
+                    <annualAmt>0</annualAmt>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>CMS</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>tbu8-eq-3{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>CMS</premiumCd>
+                    <premiumType>COMMISSIONS</premiumType>
+                    <factor>0</factor>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>CMR</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>uyYtOwDBF{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>CMR</premiumCd>
+                    <premiumType>COMMISSIONS</premiumType>
+                    <factor>0</factor>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>RAW</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>r7QbWGvWb{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>RAW</premiumCd>
+                    <premiumType>BASE_PREMIUM</premiumType>
+                    <factor>1</factor>
+                    <annualAmt>0</annualAmt>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>NWT/R</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>tVWqe7E8m{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>NWT/R</premiumCd>
+                    <premiumType>NET_PREMIUM</premiumType>
+                    <annualAmt>0</annualAmt>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>NWT</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>ntgR6E2KD{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>NWT</premiumCd>
+                    <premiumType>NET_PREMIUM</premiumType>
+                    <annualAmt>0</annualAmt>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+              </premiums>
+              <installments class="java.util.ArrayList"/>
+              <premiumWaivingInfos class="java.util.HashMap"/>
+              <coverageVariations class="java.util.ArrayList"/>
+              <cappingVariations class="java.util.ArrayList"/>
+              <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              <instanceMetadata>
+                <componentInstanceName>WorkersCompensationCoverage</componentInstanceName>
+                <producerComponentName>WorkersCompensationCoverage</producerComponentName>
+                <producerComponentVersion>2.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>ugYbhQs4X{UID}</instanceName>
+              </instanceMetadata>
+              <additionalFields class="java.util.HashMap"/>
+              <universalPort class="java.util.ArrayList"/>
+              <scheduledProperties class="java.util.ArrayList"/>
+              <workersCompensationCoverageInd>true</workersCompensationCoverageInd>
+              <numberHouseholdEmployees>0</numberHouseholdEmployees>
+              <workersCompensationEmployeeDetailsEntity class="java.util.ArrayList"/>
+            </com.exigen.ipb.policy.domain.home.WorkersCompCoverageEntity>
+            <com.exigen.ipb.policy.domain.CoverageEntity>
+              <oid>mZQnVZAAv{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <coverageCd>DWELL</coverageCd>
+              <limitAmount>45000</limitAmount>
+              <seqNo>2</seqNo>
+              <premiums class="java.util.HashMap">
+                <entry>
+                  <string>GWT</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>ilIIwKI0y{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>GWT</premiumCd>
+                    <premiumType>GROSS_PREMIUM</premiumType>
+                    <annualAmt>3600</annualAmt>
+                    <periodAmt>3600</periodAmt>
+                    <actualAmt>3600</actualAmt>
+                    <changeAmt>3600</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>CMS</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>ijkyZZbxr{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>CMS</premiumCd>
+                    <premiumType>COMMISSIONS</premiumType>
+                    <factor>0</factor>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>CMR</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>mPoFA_nn7{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>CMR</premiumCd>
+                    <premiumType>COMMISSIONS</premiumType>
+                    <factor>0</factor>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>RAW</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>mVHP2wk5K{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>RAW</premiumCd>
+                    <premiumType>BASE_PREMIUM</premiumType>
+                    <factor>1</factor>
+                    <annualAmt>3600</annualAmt>
+                    <periodAmt>3600</periodAmt>
+                    <actualAmt>3600</actualAmt>
+                    <changeAmt>3600</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>NWT/R</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>kA3BKQHVC{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>NWT/R</premiumCd>
+                    <premiumType>NET_PREMIUM</premiumType>
+                    <annualAmt>3600</annualAmt>
+                    <periodAmt>3600</periodAmt>
+                    <actualAmt>3600</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>NWT</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>l3vsF-De7{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>NWT</premiumCd>
+                    <premiumType>NET_PREMIUM</premiumType>
+                    <annualAmt>3600</annualAmt>
+                    <periodAmt>3600</periodAmt>
+                    <actualAmt>3600</actualAmt>
+                    <changeAmt>3600</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+              </premiums>
+              <installments class="java.util.ArrayList"/>
+              <premiumWaivingInfos class="java.util.HashMap"/>
+              <coverageVariations class="java.util.ArrayList"/>
+              <cappingVariations class="java.util.ArrayList"/>
+              <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              <instanceMetadata>
+                <componentInstanceName>CoverageA</componentInstanceName>
+                <producerComponentName>CoverageA</producerComponentName>
+                <producerComponentVersion>2.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>pWXFcdFay{UID}</instanceName>
+              </instanceMetadata>
+              <additionalFields class="java.util.HashMap"/>
+              <universalPort class="java.util.ArrayList"/>
+              <scheduledProperties class="java.util.ArrayList"/>
+            </com.exigen.ipb.policy.domain.CoverageEntity>
+            <com.exigen.ipb.policy.domain.CoverageEntity>
+              <oid>iMFcAqLAt{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <coverageCd>OS</coverageCd>
+              <limitAmount>9000</limitAmount>
+              <seqNo>3</seqNo>
+              <premiums class="java.util.HashMap">
+                <entry>
+                  <string>GWT</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>v-YNaYq5v{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>GWT</premiumCd>
+                    <premiumType>GROSS_PREMIUM</premiumType>
+                    <annualAmt>720</annualAmt>
+                    <periodAmt>720</periodAmt>
+                    <actualAmt>720</actualAmt>
+                    <changeAmt>720</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>CMS</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>odM9pHTPw{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>CMS</premiumCd>
+                    <premiumType>COMMISSIONS</premiumType>
+                    <factor>0</factor>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>CMR</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>r5TcYF2s_{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>CMR</premiumCd>
+                    <premiumType>COMMISSIONS</premiumType>
+                    <factor>0</factor>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>RAW</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>gdCuugvas{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>RAW</premiumCd>
+                    <premiumType>BASE_PREMIUM</premiumType>
+                    <factor>1</factor>
+                    <annualAmt>720</annualAmt>
+                    <periodAmt>720</periodAmt>
+                    <actualAmt>720</actualAmt>
+                    <changeAmt>720</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>NWT/R</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>rFE5teOPo{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>NWT/R</premiumCd>
+                    <premiumType>NET_PREMIUM</premiumType>
+                    <annualAmt>720</annualAmt>
+                    <periodAmt>720</periodAmt>
+                    <actualAmt>720</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>NWT</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>iQPPJVSAh{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>NWT</premiumCd>
+                    <premiumType>NET_PREMIUM</premiumType>
+                    <annualAmt>720</annualAmt>
+                    <periodAmt>720</periodAmt>
+                    <actualAmt>720</actualAmt>
+                    <changeAmt>720</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+              </premiums>
+              <installments class="java.util.ArrayList"/>
+              <premiumWaivingInfos class="java.util.HashMap"/>
+              <coverageVariations class="java.util.ArrayList"/>
+              <cappingVariations class="java.util.ArrayList"/>
+              <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              <instanceMetadata>
+                <componentInstanceName>CoverageB</componentInstanceName>
+                <producerComponentName>CoverageB</producerComponentName>
+                <producerComponentVersion>2.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>k0G4TgteZ{UID}</instanceName>
+              </instanceMetadata>
+              <additionalFields class="java.util.HashMap"/>
+              <universalPort class="java.util.ArrayList"/>
+              <scheduledProperties class="java.util.ArrayList"/>
+            </com.exigen.ipb.policy.domain.CoverageEntity>
+            <com.exigen.ipb.policy.domain.CoverageEntity>
+              <oid>jMxZjiJit{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <coverageCd>PP</coverageCd>
+              <limitAmount>15000</limitAmount>
+              <seqNo>4</seqNo>
+              <premiums class="java.util.HashMap">
+                <entry>
+                  <string>GWT</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>u0HEd3vhT{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>GWT</premiumCd>
+                    <premiumType>GROSS_PREMIUM</premiumType>
+                    <annualAmt>1200</annualAmt>
+                    <periodAmt>1200</periodAmt>
+                    <actualAmt>1200</actualAmt>
+                    <changeAmt>1200</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>CMS</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>lIzxFqahu{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>CMS</premiumCd>
+                    <premiumType>COMMISSIONS</premiumType>
+                    <factor>0</factor>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>CMR</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>nEWBjVoTj{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>CMR</premiumCd>
+                    <premiumType>COMMISSIONS</premiumType>
+                    <factor>0</factor>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>RAW</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>j1QJiAdLa{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>RAW</premiumCd>
+                    <premiumType>BASE_PREMIUM</premiumType>
+                    <factor>1</factor>
+                    <annualAmt>1200</annualAmt>
+                    <periodAmt>1200</periodAmt>
+                    <actualAmt>1200</actualAmt>
+                    <changeAmt>1200</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>NWT/R</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>iCmv8XX8L{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>NWT/R</premiumCd>
+                    <premiumType>NET_PREMIUM</premiumType>
+                    <annualAmt>1200</annualAmt>
+                    <periodAmt>1200</periodAmt>
+                    <actualAmt>1200</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>NWT</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>vK8ybTzT8{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>NWT</premiumCd>
+                    <premiumType>NET_PREMIUM</premiumType>
+                    <annualAmt>1200</annualAmt>
+                    <periodAmt>1200</periodAmt>
+                    <actualAmt>1200</actualAmt>
+                    <changeAmt>1200</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+              </premiums>
+              <installments class="java.util.ArrayList"/>
+              <premiumWaivingInfos class="java.util.HashMap"/>
+              <coverageVariations class="java.util.ArrayList"/>
+              <cappingVariations class="java.util.ArrayList"/>
+              <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              <instanceMetadata>
+                <componentInstanceName>CoverageC</componentInstanceName>
+                <producerComponentName>CoverageC</producerComponentName>
+                <producerComponentVersion>2.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>nrNkVEhr8{UID}</instanceName>
+              </instanceMetadata>
+              <additionalFields class="java.util.HashMap"/>
+              <universalPort class="java.util.ArrayList"/>
+              <scheduledProperties class="java.util.ArrayList"/>
+            </com.exigen.ipb.policy.domain.CoverageEntity>
+            <com.exigen.ipb.policy.domain.CoverageEntity>
+              <oid>uj_K0rZf9{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <coverageCd>LOU</coverageCd>
+              <seqNo>5</seqNo>
+              <premiums class="java.util.HashMap">
+                <entry>
+                  <string>GWT</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>mv0xKyy8A{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>GWT</premiumCd>
+                    <premiumType>GROSS_PREMIUM</premiumType>
+                    <annualAmt>0</annualAmt>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>CMS</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>oR5Nx7Hrg{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>CMS</premiumCd>
+                    <premiumType>COMMISSIONS</premiumType>
+                    <factor>0</factor>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>CMR</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>tfx2HY25W{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>CMR</premiumCd>
+                    <premiumType>COMMISSIONS</premiumType>
+                    <factor>0</factor>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>RAW</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>jUlskV82s{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>RAW</premiumCd>
+                    <premiumType>BASE_PREMIUM</premiumType>
+                    <factor>1</factor>
+                    <annualAmt>0</annualAmt>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>NWT/R</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>mB2mybV69{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>NWT/R</premiumCd>
+                    <premiumType>NET_PREMIUM</premiumType>
+                    <annualAmt>0</annualAmt>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>NWT</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>tHLNiD3gF{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>NWT</premiumCd>
+                    <premiumType>NET_PREMIUM</premiumType>
+                    <annualAmt>0</annualAmt>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+              </premiums>
+              <installments class="java.util.ArrayList"/>
+              <premiumWaivingInfos class="java.util.HashMap"/>
+              <coverageVariations class="java.util.ArrayList"/>
+              <cappingVariations class="java.util.ArrayList"/>
+              <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              <instanceMetadata>
+                <componentInstanceName>CoverageD</componentInstanceName>
+                <producerComponentName>CoverageD</producerComponentName>
+                <producerComponentVersion>2.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>jZTh6IWnm{UID}</instanceName>
+              </instanceMetadata>
+              <additionalFields class="java.util.HashMap"/>
+              <universalPort class="java.util.ArrayList"/>
+              <limitAmountDisplay>Actual Loss Sustained</limitAmountDisplay>
+              <scheduledProperties class="java.util.ArrayList"/>
+            </com.exigen.ipb.policy.domain.CoverageEntity>
+            <com.exigen.ipb.policy.domain.CoverageEntity>
+              <oid>n-f8-UVQ7{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <coverageCd>LAC</coverageCd>
+              <limitAmount>50000</limitAmount>
+              <seqNo>6</seqNo>
+              <premiums class="java.util.HashMap">
+                <entry>
+                  <string>GWT</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>k3AGwhzZ5{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>GWT</premiumCd>
+                    <premiumType>GROSS_PREMIUM</premiumType>
+                    <annualAmt>4000</annualAmt>
+                    <periodAmt>4000</periodAmt>
+                    <actualAmt>4000</actualAmt>
+                    <changeAmt>4000</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>CMS</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>j6lstvG9n{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>CMS</premiumCd>
+                    <premiumType>COMMISSIONS</premiumType>
+                    <factor>0</factor>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>CMR</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>v3HP2MHx0{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>CMR</premiumCd>
+                    <premiumType>COMMISSIONS</premiumType>
+                    <factor>0</factor>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>RAW</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>ti3xhyYTF{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>RAW</premiumCd>
+                    <premiumType>BASE_PREMIUM</premiumType>
+                    <factor>1</factor>
+                    <annualAmt>4000</annualAmt>
+                    <periodAmt>4000</periodAmt>
+                    <actualAmt>4000</actualAmt>
+                    <changeAmt>4000</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>NWT/R</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>ngyU22KvX{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>NWT/R</premiumCd>
+                    <premiumType>NET_PREMIUM</premiumType>
+                    <annualAmt>4000</annualAmt>
+                    <periodAmt>4000</periodAmt>
+                    <actualAmt>4000</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>NWT</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>gyCHOK5yt{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>NWT</premiumCd>
+                    <premiumType>NET_PREMIUM</premiumType>
+                    <annualAmt>4000</annualAmt>
+                    <periodAmt>4000</periodAmt>
+                    <actualAmt>4000</actualAmt>
+                    <changeAmt>4000</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+              </premiums>
+              <installments class="java.util.ArrayList"/>
+              <premiumWaivingInfos class="java.util.HashMap"/>
+              <coverageVariations class="java.util.ArrayList"/>
+              <cappingVariations class="java.util.ArrayList"/>
+              <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              <instanceMetadata>
+                <componentInstanceName>LossAssessmentCoverage</componentInstanceName>
+                <producerComponentName>LossAssessmentCoverage</producerComponentName>
+                <producerComponentVersion>2.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>o23buTLbj{UID}</instanceName>
+              </instanceMetadata>
+              <additionalFields class="java.util.HashMap"/>
+              <universalPort class="java.util.ArrayList"/>
+              <limitIncludedInd>false</limitIncludedInd>
+              <scheduledProperties class="java.util.ArrayList"/>
+            </com.exigen.ipb.policy.domain.CoverageEntity>
+            <com.exigen.ipb.policy.domain.CoverageEntity>
+              <oid>hE-50X65s{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <coverageCd>MOLD</coverageCd>
+              <limitAmount>10000</limitAmount>
+              <seqNo>7</seqNo>
+              <premiums class="java.util.HashMap">
+                <entry>
+                  <string>GWT</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>u9C7f8lwa{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>GWT</premiumCd>
+                    <premiumType>GROSS_PREMIUM</premiumType>
+                    <annualAmt>800</annualAmt>
+                    <periodAmt>800</periodAmt>
+                    <actualAmt>800</actualAmt>
+                    <changeAmt>800</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>CMS</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>gi2xGar63{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>CMS</premiumCd>
+                    <premiumType>COMMISSIONS</premiumType>
+                    <factor>0</factor>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>CMR</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>gbP2yHF2p{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>CMR</premiumCd>
+                    <premiumType>COMMISSIONS</premiumType>
+                    <factor>0</factor>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>RAW</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>nV4H1nzCn{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>RAW</premiumCd>
+                    <premiumType>BASE_PREMIUM</premiumType>
+                    <factor>1</factor>
+                    <annualAmt>800</annualAmt>
+                    <periodAmt>800</periodAmt>
+                    <actualAmt>800</actualAmt>
+                    <changeAmt>800</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>NWT/R</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>nI174O7wW{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>NWT/R</premiumCd>
+                    <premiumType>NET_PREMIUM</premiumType>
+                    <annualAmt>800</annualAmt>
+                    <periodAmt>800</periodAmt>
+                    <actualAmt>800</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>NWT</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>ixJqa4C01{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>NWT</premiumCd>
+                    <premiumType>NET_PREMIUM</premiumType>
+                    <annualAmt>800</annualAmt>
+                    <periodAmt>800</periodAmt>
+                    <actualAmt>800</actualAmt>
+                    <changeAmt>800</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+              </premiums>
+              <installments class="java.util.ArrayList"/>
+              <premiumWaivingInfos class="java.util.HashMap"/>
+              <coverageVariations class="java.util.ArrayList"/>
+              <cappingVariations class="java.util.ArrayList"/>
+              <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              <instanceMetadata>
+                <componentInstanceName>FungiMoldCoverage</componentInstanceName>
+                <producerComponentName>FungiMoldCoverage</producerComponentName>
+                <producerComponentVersion>2.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>jMfI_0obE{UID}</instanceName>
+              </instanceMetadata>
+              <additionalFields class="java.util.HashMap"/>
+              <universalPort class="java.util.ArrayList"/>
+              <scheduledProperties class="java.util.ArrayList"/>
+            </com.exigen.ipb.policy.domain.CoverageEntity>
+            <com.exigen.ipb.policy.domain.CoverageEntity>
+              <oid>uOGSeThJu{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <coverageCd>FRAUD</coverageCd>
+              <limitAmount>25000</limitAmount>
+              <seqNo>8</seqNo>
+              <premiums class="java.util.HashMap">
+                <entry>
+                  <string>GWT</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>jeGOKb9eL{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>GWT</premiumCd>
+                    <premiumType>GROSS_PREMIUM</premiumType>
+                    <annualAmt>2000</annualAmt>
+                    <periodAmt>2000</periodAmt>
+                    <actualAmt>2000</actualAmt>
+                    <changeAmt>2000</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>CMS</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>laWm7RDEv{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>CMS</premiumCd>
+                    <premiumType>COMMISSIONS</premiumType>
+                    <factor>0</factor>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>CMR</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>sm4Gtv7IB{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>CMR</premiumCd>
+                    <premiumType>COMMISSIONS</premiumType>
+                    <factor>0</factor>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>RAW</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>mqcb9AKl0{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>RAW</premiumCd>
+                    <premiumType>BASE_PREMIUM</premiumType>
+                    <factor>1</factor>
+                    <annualAmt>2000</annualAmt>
+                    <periodAmt>2000</periodAmt>
+                    <actualAmt>2000</actualAmt>
+                    <changeAmt>2000</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>NWT/R</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>jyNwnqiLs{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>NWT/R</premiumCd>
+                    <premiumType>NET_PREMIUM</premiumType>
+                    <annualAmt>2000</annualAmt>
+                    <periodAmt>2000</periodAmt>
+                    <actualAmt>2000</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>NWT</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>hOq4CiFOg{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>NWT</premiumCd>
+                    <premiumType>NET_PREMIUM</premiumType>
+                    <annualAmt>2000</annualAmt>
+                    <periodAmt>2000</periodAmt>
+                    <actualAmt>2000</actualAmt>
+                    <changeAmt>2000</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+              </premiums>
+              <installments class="java.util.ArrayList"/>
+              <premiumWaivingInfos class="java.util.HashMap"/>
+              <coverageVariations class="java.util.ArrayList"/>
+              <cappingVariations class="java.util.ArrayList"/>
+              <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              <instanceMetadata>
+                <componentInstanceName>IdentityTheftCoverage</componentInstanceName>
+                <producerComponentName>IdentityTheftCoverage</producerComponentName>
+                <producerComponentVersion>2.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>l22s8pkey{UID}</instanceName>
+              </instanceMetadata>
+              <additionalFields class="java.util.HashMap"/>
+              <universalPort class="java.util.ArrayList"/>
+              <scheduledProperties class="java.util.ArrayList"/>
+            </com.exigen.ipb.policy.domain.CoverageEntity>
+            <com.exigen.ipb.policy.domain.CoverageEntity>
+              <oid>g_PPguxY0{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <coverageCd>SEWER</coverageCd>
+              <limitAmount>5000</limitAmount>
+              <seqNo>9</seqNo>
+              <premiums class="java.util.HashMap">
+                <entry>
+                  <string>GWT</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>rWXoTOIOA{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>GWT</premiumCd>
+                    <premiumType>GROSS_PREMIUM</premiumType>
+                    <annualAmt>400</annualAmt>
+                    <periodAmt>400</periodAmt>
+                    <actualAmt>400</actualAmt>
+                    <changeAmt>400</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>CMS</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>i-WBvpoJN{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>CMS</premiumCd>
+                    <premiumType>COMMISSIONS</premiumType>
+                    <factor>0</factor>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>CMR</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>kamkfkVMv{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>CMR</premiumCd>
+                    <premiumType>COMMISSIONS</premiumType>
+                    <factor>0</factor>
+                    <periodAmt>0</periodAmt>
+                    <actualAmt>0</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>RAW</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>swnnAfrjt{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>RAW</premiumCd>
+                    <premiumType>BASE_PREMIUM</premiumType>
+                    <factor>1</factor>
+                    <annualAmt>400</annualAmt>
+                    <periodAmt>400</periodAmt>
+                    <actualAmt>400</actualAmt>
+                    <changeAmt>400</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>NWT/R</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>phaqZhk_a{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>NWT/R</premiumCd>
+                    <premiumType>NET_PREMIUM</premiumType>
+                    <annualAmt>400</annualAmt>
+                    <periodAmt>400</periodAmt>
+                    <actualAmt>400</actualAmt>
+                    <changeAmt>0</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+                <entry>
+                  <string>NWT</string>
+                  <com.exigen.ipb.policy.domain.PremiumEntry>
+                    <oid>sNbe3mfjk{UID}</oid>
+                    <entityStatus>added</entityStatus>
+                    <premiumCd>NWT</premiumCd>
+                    <premiumType>NET_PREMIUM</premiumType>
+                    <annualAmt>400</annualAmt>
+                    <periodAmt>400</periodAmt>
+                    <actualAmt>400</actualAmt>
+                    <changeAmt>400</changeAmt>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </com.exigen.ipb.policy.domain.PremiumEntry>
+                </entry>
+              </premiums>
+              <installments class="java.util.ArrayList"/>
+              <premiumWaivingInfos class="java.util.HashMap"/>
+              <coverageVariations class="java.util.ArrayList"/>
+              <cappingVariations class="java.util.ArrayList"/>
+              <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              <instanceMetadata>
+                <componentInstanceName>BackupSewerDrainCoverage</componentInstanceName>
+                <producerComponentName>BackupSewerDrainCoverage</producerComponentName>
+                <producerComponentVersion>2.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>tN-RHP0Bm{UID}</instanceName>
+              </instanceMetadata>
+              <additionalFields class="java.util.HashMap"/>
+              <universalPort class="java.util.ArrayList"/>
+              <limitIncludedInd>false</limitIncludedInd>
+              <scheduledProperties class="java.util.ArrayList"/>
+            </com.exigen.ipb.policy.domain.CoverageEntity>
+          </coverages>
+          <forms class="java.util.ArrayList"/>
+          <reports class="java.util.ArrayList"/>
+          <premiumVariations class="java.util.ArrayList"/>
+          <endorsementFormVariations class="java.util.ArrayList"/>
+          <discounts class="java.util.ArrayList"/>
+          <additionalInterests class="java.util.ArrayList"/>
+          <mortgagee class="java.util.ArrayList"/>
+          <questionnaire class="java.util.HashMap"/>
+          <riskItemQuestionnaire class="java.util.HashMap"/>
+          <premiums class="java.util.HashMap">
+            <entry>
+              <string>GWT</string>
+              <com.exigen.ipb.policy.domain.PremiumEntry>
+                <oid>uQFCTsqLl{UID}</oid>
+                <entityStatus>added</entityStatus>
+                <premiumCd>GWT</premiumCd>
+                <premiumType>GROSS_PREMIUM</premiumType>
+                <annualAmt>12720</annualAmt>
+                <periodAmt>12720</periodAmt>
+                <actualAmt>12720</actualAmt>
+                <changeAmt>12720</changeAmt>
+                <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              </com.exigen.ipb.policy.domain.PremiumEntry>
+            </entry>
+            <entry>
+              <string>CMS</string>
+              <com.exigen.ipb.policy.domain.PremiumEntry>
+                <oid>kIMYD9v2T{UID}</oid>
+                <entityStatus>added</entityStatus>
+                <premiumCd>CMS</premiumCd>
+                <premiumType>COMMISSIONS</premiumType>
+                <factor>0</factor>
+                <periodAmt>0</periodAmt>
+                <actualAmt>0</actualAmt>
+                <changeAmt>0</changeAmt>
+                <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              </com.exigen.ipb.policy.domain.PremiumEntry>
+            </entry>
+            <entry>
+              <string>CMR</string>
+              <com.exigen.ipb.policy.domain.PremiumEntry>
+                <oid>mOdSll2Kc{UID}</oid>
+                <entityStatus>added</entityStatus>
+                <premiumCd>CMR</premiumCd>
+                <premiumType>COMMISSIONS</premiumType>
+                <factor>0</factor>
+                <periodAmt>0</periodAmt>
+                <actualAmt>0</actualAmt>
+                <changeAmt>0</changeAmt>
+                <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              </com.exigen.ipb.policy.domain.PremiumEntry>
+            </entry>
+            <entry>
+              <string>RAW</string>
+              <com.exigen.ipb.policy.domain.PremiumEntry>
+                <oid>gH7HtuMSe{UID}</oid>
+                <entityStatus>added</entityStatus>
+                <premiumCd>RAW</premiumCd>
+                <premiumType>BASE_PREMIUM</premiumType>
+                <factor>1</factor>
+                <annualAmt>12720</annualAmt>
+                <periodAmt>12720</periodAmt>
+                <actualAmt>12720</actualAmt>
+                <changeAmt>12720</changeAmt>
+                <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              </com.exigen.ipb.policy.domain.PremiumEntry>
+            </entry>
+            <entry>
+              <string>NWT/R</string>
+              <com.exigen.ipb.policy.domain.PremiumEntry>
+                <oid>rGnKvBhEu{UID}</oid>
+                <entityStatus>added</entityStatus>
+                <premiumCd>NWT/R</premiumCd>
+                <premiumType>NET_PREMIUM</premiumType>
+                <annualAmt>12720</annualAmt>
+                <periodAmt>12720</periodAmt>
+                <actualAmt>12720</actualAmt>
+                <changeAmt>0</changeAmt>
+                <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              </com.exigen.ipb.policy.domain.PremiumEntry>
+            </entry>
+            <entry>
+              <string>NWT</string>
+              <com.exigen.ipb.policy.domain.PremiumEntry>
+                <oid>inL--zg79{UID}</oid>
+                <entityStatus>added</entityStatus>
+                <premiumCd>NWT</premiumCd>
+                <premiumType>NET_PREMIUM</premiumType>
+                <annualAmt>12720</annualAmt>
+                <periodAmt>12720</periodAmt>
+                <actualAmt>12720</actualAmt>
+                <changeAmt>12720</changeAmt>
+                <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              </com.exigen.ipb.policy.domain.PremiumEntry>
+            </entry>
+          </premiums>
+          <installments class="java.util.ArrayList"/>
+          <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+          <lossInfos class="java.util.ArrayList"/>
+          <cappingVariations class="java.util.ArrayList"/>
+          <numberOfFamilies>01</numberOfFamilies>
+          <policyTypeCd>HOME</policyTypeCd>
+          <dwellDetail>
+            <oid>qqJZNiRGu{UID}</oid>
+            <entityStatus>added</entityStatus>
+            <ratingInfo>
+              <oid>vXTBnRM1g{UID}</oid>
+              <entityStatus>added</entityStatus>
+            </ratingInfo>
+            <brushFireSurcharge>
+              <oid>j1l1cYSsF{UID}</oid>
+              <entityStatus>added</entityStatus>
+            </brushFireSurcharge>
+            <courseOfConstruction>
+              <oid>k-HK4SiuA{UID}</oid>
+              <entityStatus>added</entityStatus>
+            </courseOfConstruction>
+            <construction>
+              <oid>iWozk0haO{UID}</oid>
+              <entityStatus>added</entityStatus>
+            </construction>
+          </dwellDetail>
+          <instanceMetadata>
+            <componentInstanceName>Dwell</componentInstanceName>
+            <producerComponentName>Dwell</producerComponentName>
+            <producerComponentVersion>2.0</producerComponentVersion>
+            <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+            <instanceName>htU5UR-eB{UID}</instanceName>
+          </instanceMetadata>
+          <viewResidenceInd>false</viewResidenceInd>
+          <primaryResidence>0</primaryResidence>
+          <constructionInfo class="com.exigen.ipb.policy.domain.ConstructionInfoEntity">
+            <oid>nRnNy4KSd{UID}</oid>
+            <entityStatus>added</entityStatus>
+            <constructionTypeCd>ALORPS</constructionTypeCd>
+            <yearBuilt>2012</yearBuilt>
+            <cocInd>false</cocInd>
+            <numberOfStories>01</numberOfStories>
+            <yearUpdated>2013</yearUpdated>
+            <roofType>ALUM</roofType>
+            <distanceToBrush>15</distanceToBrush>
+            <instanceMetadata>
+              <componentInstanceName>ConstructionInfo</componentInstanceName>
+              <producerComponentName>ConstructionInfo</producerComponentName>
+              <producerComponentVersion>2.0</producerComponentVersion>
+              <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+              <instanceName>inxD3eXmE{UID}</instanceName>
+            </instanceMetadata>
+            <additionalFields class="java.util.HashMap"/>
+            <universalPort class="java.util.ArrayList"/>
+          </constructionInfo>
+          <additionalFields class="java.util.HashMap"/>
+          <universalPort class="java.util.ArrayList">
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>v4-AA652E{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <instanceMetadata>
+                <componentInstanceName>LocationInformation</componentInstanceName>
+                <producerComponentName>PolicyMultiViewOnlyComponent</producerComponentName>
+                <producerComponentVersion>1.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>gRArcBBTE{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>lT83mD6h7{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <uniqueInstanceId>166367006</uniqueInstanceId>
+              <instanceMetadata>
+                <componentInstanceName>DwellQuestionnaire</componentInstanceName>
+                <producerComponentName>DwellQuestionnaire</producerComponentName>
+                <producerComponentVersion>2.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>vhJwwRclj{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>kMblUoCRl{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <instanceMetadata>
+                <componentInstanceName>RiskAddressMultiView</componentInstanceName>
+                <producerComponentName>MultiViewOnlyComponent</producerComponentName>
+                <producerComponentVersion>1.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>i1AC3CWsm{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>hoRbUnNlS{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <instanceMetadata>
+                <componentInstanceName>DwellPremiumInformation</componentInstanceName>
+                <producerComponentName>RiskItemPremium</producerComponentName>
+                <producerComponentVersion>2.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>ue9wH4Ygo{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>rFbbIgDrW{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <instanceMetadata>
+                <componentInstanceName>CoveragesMultiView_RiskAddress</componentInstanceName>
+                <producerComponentName>MultiViewOnlyComponent</producerComponentName>
+                <producerComponentVersion>1.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>qAiGIC0mx{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>uJ4dazHjN{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <instanceMetadata>
+                <componentInstanceName>CoveragesMultiView_Dwell</componentInstanceName>
+                <producerComponentName>MultiViewOnlyComponent</producerComponentName>
+                <producerComponentVersion>1.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>hse9JCDJR{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>nG-ku2JXB{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <instanceMetadata>
+                <componentInstanceName>RatingInformation</componentInstanceName>
+                <producerComponentName>MultiViewOnlyComponent</producerComponentName>
+                <producerComponentVersion>1.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>p-cE1jN9j{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>mOnraMie5{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <instanceMetadata>
+                <componentInstanceName>CreditsMultiView_Dwell</componentInstanceName>
+                <producerComponentName>MultiViewOnlyComponent</producerComponentName>
+                <producerComponentVersion>1.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>uYhM_Fy-Q{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>mV8qC9Io6{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <uniqueInstanceId>166454001</uniqueInstanceId>
+              <instanceMetadata>
+                <componentInstanceName>CreditSurchargeSummary</componentInstanceName>
+                <producerComponentName>CreditSurchargeSummary</producerComponentName>
+                <producerComponentVersion>2.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>qGys9pDOy{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>lOvrHRc--{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <instanceMetadata>
+                <componentInstanceName>CoveragesMultiView</componentInstanceName>
+                <producerComponentName>MultiViewOnlyComponent</producerComponentName>
+                <producerComponentVersion>1.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>nt_ynPLxn{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>mWXLDVd_b{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <uniqueInstanceId>166366011</uniqueInstanceId>
+              <instanceMetadata>
+                <componentInstanceName>BrushFireSurcharge</componentInstanceName>
+                <producerComponentName>BrushFireSurcharge</producerComponentName>
+                <producerComponentVersion>2.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>h8NFecUvD{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>k4AZt56We{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <uniqueInstanceId>166368006</uniqueInstanceId>
+              <instanceMetadata>
+                <componentInstanceName>BuildingImprovementsInfo</componentInstanceName>
+                <producerComponentName>BuildingImprovementsInfo</producerComponentName>
+                <producerComponentVersion>2.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>tAi7NTfEW{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>jNmeTwnKM{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <instanceMetadata>
+                <componentInstanceName>RatingInfoMultiView</componentInstanceName>
+                <producerComponentName>MultiViewOnlyComponent</producerComponentName>
+                <producerComponentVersion>1.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>miI5dn6N4{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>leRM_EqGB{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <instanceMetadata>
+                <componentInstanceName>AddResLiabilityMultiView_Dwell</componentInstanceName>
+                <producerComponentName>MultiViewOnlyComponent</producerComponentName>
+                <producerComponentVersion>1.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>m_7yS7knR{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>rY-GTw-X6{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <uniqueInstanceId>166369006</uniqueInstanceId>
+              <instanceMetadata>
+                <componentInstanceName>BuildingProtection</componentInstanceName>
+                <producerComponentName>BuildingProtection</producerComponentName>
+                <producerComponentVersion>2.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>vUPEjY2yS{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>rkQFVgjxN{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <instanceMetadata>
+                <componentInstanceName>EndorsementsMultiView</componentInstanceName>
+                <producerComponentName>MultiViewOnlyComponent</producerComponentName>
+                <producerComponentVersion>1.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>vpdWIsVFy{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>rQ6xYe4Xz{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <instanceMetadata>
+                <componentInstanceName>DwellPremium</componentInstanceName>
+                <producerComponentName>DwellPremium</producerComponentName>
+                <producerComponentVersion>2.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>q_UgTmVd8{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>stQ3he-1h{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <instanceMetadata>
+                <componentInstanceName>BrushFireMultiView</componentInstanceName>
+                <producerComponentName>MultiViewOnlyComponent</producerComponentName>
+                <producerComponentVersion>1.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>o2lZxuTOM{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+            <com.exigen.ipb.components.domain.PersistentComponentInfo>
+              <oid>rSuzWHRzP{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <instanceMetadata>
+                <componentInstanceName>EndorsementForm</componentInstanceName>
+                <producerComponentName>EndorsementForm</producerComponentName>
+                <producerComponentVersion>2.0</producerComponentVersion>
+                <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+                <instanceName>gWIxt83hq{UID}</instanceName>
+              </instanceMetadata>
+            </com.exigen.ipb.components.domain.PersistentComponentInfo>
+          </universalPort>
+          <documentsForBind class="java.util.HashMap"/>
+          <componentStates class="java.util.ArrayList"/>
+        </com.exigen.ipb.policy.domain.DwellEntity>
+      </riskItems>
+      <parties class="java.util.Set"/>
+      <additionalInterests class="java.util.Set"/>
+      <otherOrPriorPolicy class="com.exigen.ipb.policy.domain.OtherOrPriorPolicyEntity">
+        <oid>keAN12goe{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <underlyingPolicyStatus>active</underlyingPolicyStatus>
+        <instanceMetadata>
+          <componentInstanceName>OtherOrPriorPolicy</componentInstanceName>
+          <producerComponentName>OtherOrPriorPolicy</producerComponentName>
+          <producerComponentVersion>2.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>hl5vGb9kG{UID}</instanceName>
+        </instanceMetadata>
+        <additionalFields class="java.util.HashMap"/>
+      </otherOrPriorPolicy>
+      <otherOrPriorPolicyList class="java.util.ArrayList"/>
+      <forms class="java.util.ArrayList"/>
+      <coverageList class="java.util.ArrayList"/>
+      <questionnaire class="java.util.HashMap"/>
+      <policyQuestionnaire class="java.util.HashMap"/>
+      <policyAdditionalInfo class="com.exigen.ipb.policy.domain.PolicyAdditionalInfoEntity">
+        <oid>siFKyrz2C{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+        <instanceMetadata>
+          <componentInstanceName>PolicyAdditionalInfo</componentInstanceName>
+          <producerComponentName>PolicyAdditionalInfo</producerComponentName>
+          <producerComponentVersion>2.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>tR-cY7pzV{UID}</instanceName>
+        </instanceMetadata>
+        <additionalFields class="java.util.HashMap"/>
+      </policyAdditionalInfo>
+      <losses class="java.util.ArrayList"/>
+      <quoteVariations class="java.util.ArrayList"/>
+      <premiumVariations class="java.util.ArrayList"/>
+      <endorsementFormVariations class="java.util.ArrayList"/>
+      <discounts class="java.util.ArrayList"/>
+      <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+      <cappingVariations class="java.util.ArrayList"/>
+    </policyDetail>
+    <paymentOption class="com.exigen.ipb.policy.domain.PaymentOptionEntity">
+      <oid>pxmqa51Rr{UID}</oid>
+      <entityStatus>added</entityStatus>
+      <installmentList class="java.util.ArrayList"/>
+      <instanceMetadata>
+        <componentInstanceName>PolicyPaymentPlan</componentInstanceName>
+        <producerComponentName>PolicyPaymentPlan</producerComponentName>
+        <producerComponentVersion>1.0</producerComponentVersion>
+        <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+        <instanceName>gkeacXuz2{UID}</instanceName>
+      </instanceMetadata>
+    </paymentOption>
+    <premiums class="java.util.HashMap">
+      <entry>
+        <string>GWT</string>
+        <com.exigen.ipb.policy.domain.PremiumEntry>
+          <oid>pZi2Nb1SB{UID}</oid>
+          <entityStatus>added</entityStatus>
+          <premiumCd>GWT</premiumCd>
+          <premiumType>GROSS_PREMIUM</premiumType>
+          <annualAmt>12720</annualAmt>
+          <periodAmt>12720</periodAmt>
+          <actualAmt>12720</actualAmt>
+          <changeAmt>12720</changeAmt>
+          <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+        </com.exigen.ipb.policy.domain.PremiumEntry>
+      </entry>
+      <entry>
+        <string>CMS</string>
+        <com.exigen.ipb.policy.domain.PremiumEntry>
+          <oid>stSqKv93I{UID}</oid>
+          <entityStatus>added</entityStatus>
+          <premiumCd>CMS</premiumCd>
+          <premiumType>COMMISSIONS</premiumType>
+          <factor>0</factor>
+          <periodAmt>0</periodAmt>
+          <actualAmt>0</actualAmt>
+          <changeAmt>0</changeAmt>
+          <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+        </com.exigen.ipb.policy.domain.PremiumEntry>
+      </entry>
+      <entry>
+        <string>CMR</string>
+        <com.exigen.ipb.policy.domain.PremiumEntry>
+          <oid>k4gtF-jHw{UID}</oid>
+          <entityStatus>added</entityStatus>
+          <premiumCd>CMR</premiumCd>
+          <premiumType>COMMISSIONS</premiumType>
+          <factor>0</factor>
+          <periodAmt>0</periodAmt>
+          <actualAmt>0</actualAmt>
+          <changeAmt>0</changeAmt>
+          <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+        </com.exigen.ipb.policy.domain.PremiumEntry>
+      </entry>
+      <entry>
+        <string>RAW</string>
+        <com.exigen.ipb.policy.domain.PremiumEntry>
+          <oid>r_tv3xPZV{UID}</oid>
+          <entityStatus>added</entityStatus>
+          <premiumCd>RAW</premiumCd>
+          <premiumType>BASE_PREMIUM</premiumType>
+          <factor>1</factor>
+          <annualAmt>12720</annualAmt>
+          <periodAmt>12720</periodAmt>
+          <actualAmt>12720</actualAmt>
+          <changeAmt>12720</changeAmt>
+          <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+        </com.exigen.ipb.policy.domain.PremiumEntry>
+      </entry>
+      <entry>
+        <string>NWT/R</string>
+        <com.exigen.ipb.policy.domain.PremiumEntry>
+          <oid>gAPZidvFX{UID}</oid>
+          <entityStatus>added</entityStatus>
+          <premiumCd>NWT/R</premiumCd>
+          <premiumType>NET_PREMIUM</premiumType>
+          <annualAmt>12720</annualAmt>
+          <periodAmt>12720</periodAmt>
+          <actualAmt>12720</actualAmt>
+          <changeAmt>12720</changeAmt>
+          <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+        </com.exigen.ipb.policy.domain.PremiumEntry>
+      </entry>
+      <entry>
+        <string>NWT</string>
+        <com.exigen.ipb.policy.domain.PremiumEntry>
+          <oid>twitbcfdz{UID}</oid>
+          <entityStatus>added</entityStatus>
+          <premiumCd>NWT</premiumCd>
+          <premiumType>NET_PREMIUM</premiumType>
+          <annualAmt>12720</annualAmt>
+          <periodAmt>12720</periodAmt>
+          <actualAmt>12720</actualAmt>
+          <changeAmt>12720</changeAmt>
+          <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+        </com.exigen.ipb.policy.domain.PremiumEntry>
+      </entry>
+    </premiums>
+    <renewalCycle>0</renewalCycle>
+    <currencyCd>USD</currencyCd>
+    <rootEntityType>policy</rootEntityType>
+    <entitySubtype>policy</entitySubtype>
+    <premiumWaivingInfos class="java.util.HashMap"/>
+    <policyGroupInfo/>
+    <insuredTypeCd>INDV</insuredTypeCd>
+    <imported>NEW</imported>
+    <productVersion>1.0</productVersion>
+    <preConversionPolicyPremium>
+      <currencyCd>USD</currencyCd>
+    </preConversionPolicyPremium>
+    <printingInfo class="com.exigen.ipb.policy.domain.PolicyPrintingInfoEntity">
+      <oid>srJdR9J9m{UID}</oid>
+      <entityStatus>added</entityStatus>
+      <instanceMetadata>
+        <componentInstanceName>PolicyPrintingInfo</componentInstanceName>
+        <producerComponentName>PolicyPrintingInfo</producerComponentName>
+        <producerComponentVersion>2.0</producerComponentVersion>
+        <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+        <instanceName>n3-p963qB{UID}</instanceName>
+      </instanceMetadata>
+      <additionalFields class="java.util.HashMap"/>
+      <suppressPrintingInd>false</suppressPrintingInd>
+    </printingInfo>
+    <instanceMetadata>
+      <componentInstanceName>Policy</componentInstanceName>
+      <producerComponentName>HomePolicy</producerComponentName>
+      <producerComponentVersion>1.0</producerComponentVersion>
+      <instanceName>rnMLaqH5M{UID}</instanceName>
+    </instanceMetadata>
+    <additionalFields class="java.util.HashMap"/>
+    <documentsForBind class="java.util.HashMap"/>
+    <documentsForIssue class="java.util.HashMap"/>
+    <universalPort class="java.util.ArrayList">
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>mHLFJBs03{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>ProducerInfo</componentInstanceName>
+          <producerComponentName>ProducerInfo</producerComponentName>
+          <producerComponentVersion>2.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>uPHBmQcC7{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>lVwaM4PfH{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>PolicyTransactionInfo</componentInstanceName>
+          <producerComponentName>PolicyTransactionInfo</producerComponentName>
+          <producerComponentVersion>2.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>s0VknVY1R{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>oWb3KeAq9{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>InsuredInformation</componentInstanceName>
+          <producerComponentName>PolicyMultiViewOnlyComponent</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>pwE_8yOEj{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>ntc1ubLkX{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>CustomerAccess</componentInstanceName>
+          <producerComponentName>CustomerAccess</producerComponentName>
+          <producerComponentVersion>2.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>ol8cx34li{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>jCRVaZ2hd{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>PolicyBillingInfo</componentInstanceName>
+          <producerComponentName>PolicyBillingInfo</producerComponentName>
+          <producerComponentVersion>2.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>kXwcpWmOF{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>o_hrVmDcv{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>RiskItemCommissionOverride</componentInstanceName>
+          <producerComponentName>RiskItemCommissionOverride</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>v7Y7c-Df_{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>h1JhgOefl{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>QuoteDeletePendingTransactionAction</componentInstanceName>
+          <producerComponentName>QuoteDeletePendingTransactionAction</producerComponentName>
+          <producerComponentVersion>2.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>jMO0ZVaPx{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>qCSo6Mm4T{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>PolicyAddFromCancelAction</componentInstanceName>
+          <producerComponentName>PolicyAddFromCancelAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>lDbhXeglo{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>k9HKXfiAC{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>PolicyDoNotRenewAction</componentInstanceName>
+          <producerComponentName>PolicyDoNotRenewAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>hSxpQE-oE{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>uKblGW6tf{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>PolicyChangeReinstatementLapseAction</componentInstanceName>
+          <producerComponentName>PolicyChangeReinstatementLapseAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>kCf9SpzYS{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>t1U2Rw4W3{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <uniqueInstanceId>166456001</uniqueInstanceId>
+        <instanceMetadata>
+          <componentInstanceName>PolicyIssueSummary</componentInstanceName>
+          <producerComponentName>PolicyIssueSummary</producerComponentName>
+          <producerComponentVersion>2.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>lvV9x_tq2{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>jdu4ucpta{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>CopyQuoteInfo</componentInstanceName>
+          <producerComponentName>CopyQuoteInfo</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>rTo-DmE2Y{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>ju7cpDNca{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>PolicyRescindCancellationAction</componentInstanceName>
+          <producerComponentName>PolicyRescindCancellationAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>hCQTQOhBC{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>iPekrz5Jm{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>PolicyDeleteCancelNoticeAction</componentInstanceName>
+          <producerComponentName>PolicyDeleteCancelNoticeAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>tpK0Wu2vH{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>hzsIZdqak{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>PolicyManualRenewAction</componentInstanceName>
+          <producerComponentName>PolicyManualRenewAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>piYncvMxO{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>psERBSb2F{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>PolicyRemoveDoNotRenewAction</componentInstanceName>
+          <producerComponentName>PolicyRemoveDoNotRenewAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>gy1IgKRjm{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>taTnxYhvZ{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>ProposeQuoteAction</componentInstanceName>
+          <producerComponentName>ProposeQuoteAction</producerComponentName>
+          <producerComponentVersion>2.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>hYSaljPCR{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>i20hmrgHn{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>RateAction</componentInstanceName>
+          <producerComponentName>RateAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>omZzuNkvs{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>rCmtqBJub{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>ChangeBrokerRequestAction</componentInstanceName>
+          <producerComponentName>ChangeBrokerRequestAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>rEJHdH1QM{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>kU-TEVKTn{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>PolicyChangeRenewalLapseAction</componentInstanceName>
+          <producerComponentName>PolicyChangeRenewalLapseAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>u2yu8lGsB{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>kGPzdEgAi{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>QuoteIssueAction</componentInstanceName>
+          <producerComponentName>QuoteIssueAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>r0NgLM-n8{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>tlXjVTBMg{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>CopyPolicyInfo</componentInstanceName>
+          <producerComponentName>CopyPolicyInfo</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>gBCj8s0tb{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>n0p4PiM-8{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>QuoteChangeRenewalLapseAction</componentInstanceName>
+          <producerComponentName>QuoteChangeRenewalLapseAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>jwYPHba1q{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>p-y8E_jIa{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>PolicyMultiView_riskStateCd</componentInstanceName>
+          <producerComponentName>MultiViewOnlyComponent</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>maGbXU8z0{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>gDa4A8wtP{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>QuoteCustomerDeclineAction</componentInstanceName>
+          <producerComponentName>QuoteCustomerDeclineAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>i1RG3euMK{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>la3YIfTOw{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>QuoteSuspendAction</componentInstanceName>
+          <producerComponentName>QuoteSuspendAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>utoEYUrqG{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>oLMflStF4{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>BrokerChangeAction</componentInstanceName>
+          <producerComponentName>BrokerChangeAction</producerComponentName>
+          <producerComponentVersion>2.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>vfDwQFASd{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>uNdw4FTKq{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>PolicyPremium</componentInstanceName>
+          <producerComponentName>PolicyPremium</producerComponentName>
+          <producerComponentVersion>2.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>vxU9tVW1u{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>tWfh7QFFT{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>PolicyRemoveManualRenewAction</componentInstanceName>
+          <producerComponentName>PolicyRemoveManualRenewAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>vkx1STuya{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>oyH-kRTOP{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>PolicyCancelNoticeAction</componentInstanceName>
+          <producerComponentName>PolicyCancelNoticeAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>k1bUwO29R{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>n12H-WYf2{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>PolicyCancelAction</componentInstanceName>
+          <producerComponentName>PolicyCancelAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>m_rqbRNmM{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>jn6GxCv8H{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>QuoteCompanyDeclineAction</componentInstanceName>
+          <producerComponentName>QuoteCompanyDeclineAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>t2EuhLGx1{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>sZE8tIVOw{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>PremiumRateAction</componentInstanceName>
+          <producerComponentName>RateAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>g_HhCL2TF{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>oeuYBc2kw{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>PolicyReinstateAction</componentInstanceName>
+          <producerComponentName>PolicyReinstateAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>iWPuxnSZm{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>q6KMsqZnQ{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>PolicyDocGen</componentInstanceName>
+          <producerComponentName>PolicyDocGen</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>tfIHkXi-L{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>strcsypfh{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>PolicyNPBEAction</componentInstanceName>
+          <producerComponentName>PolicyNPBEAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>lSWA1f9AS{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>s0bciOskf{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>ExtensionRenewalAction</componentInstanceName>
+          <producerComponentName>ExtensionRenewalAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>upEgah9nm{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+      <com.exigen.ipb.components.domain.PersistentComponentInfo>
+        <oid>mMklV-Z_U{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>PolicyRetroEndorsementAction</componentInstanceName>
+          <producerComponentName>PolicyRetroEndorsementAction</producerComponentName>
+          <producerComponentVersion>1.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>i0NQ6-Lfa{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.components.domain.PersistentComponentInfo>
+    </universalPort>
+    <orderReports class="java.util.ArrayList"/>
+    <importEntities class="java.util.ArrayList"/>
+    <importDetail/>
+    <packageInfos class="java.util.ArrayList"/>
+  </rootEntity>
+  <entities>
+    <com.exigen.ipb.policy.activity.PolicyActivity>
+      <name>Action Performed</name>
+      <lastStatus>FINISHED</lastStatus>
+      <startedTime class="sql-timestamp">{TODAY} {TIME}</startedTime>
+      <endedTime class="sql-timestamp">{TODAY} {TIME}</endedTime>
+      <performerId>qa</performerId>
+      <primaryEntityId>SEL{UID}</primaryEntityId>
+      <primaryEntityClass>Policy</primaryEntityClass>
+      <duration>0</duration>
+      <messageId>issuedPolicy</messageId>
+      <version>0</version>
+      <customerNumber>{CUSTOMER_NUMBER}</customerNumber>
+      <quoteNumber>SEL{UID}</quoteNumber>
+      <policyNumber>SEL{UID}</policyNumber>
+      <policyEffectiveDate class="sql-timestamp">{TODAY} 00:00:00</policyEffectiveDate>
+      <LOBCd>HOME</LOBCd>
+    </com.exigen.ipb.policy.activity.PolicyActivity>
+    <com.exigen.ipb.policy.activity.PolicyActivity>
+      <name>Policy Tab Inquiry</name>
+      <lastStatus>FINISHED</lastStatus>
+      <startedTime class="sql-timestamp">{TODAY} {TIME}</startedTime>
+      <endedTime class="sql-timestamp">{TODAY} {TIME}</endedTime>
+      <performerId>qa</performerId>
+      <primaryEntityId>SEL{UID}</primaryEntityId>
+      <primaryEntityClass>Policy</primaryEntityClass>
+      <duration>0</duration>
+      <messageId>policyTabInquiryActivity</messageId>
+      <version>0</version>
+      <flowId>policy-detail-flow</flowId>
+      <customerNumber>{CUSTOMER_NUMBER}</customerNumber>
+      <quoteNumber>SEL{UID}</quoteNumber>
+      <policyNumber>SEL{UID}</policyNumber>
+      <policyEffectiveDate class="sql-timestamp">{TODAY} 00:00:00</policyEffectiveDate>
+      <policyTxDate class="sql-timestamp">{TODAY} 00:00:00</policyTxDate>
+      <LOBCd>HOME</LOBCd>
+    </com.exigen.ipb.policy.activity.PolicyActivity>
+    <com.exigen.ipb.policy.domain.PolicyTransaction>
+      <oid>t_8QqHct5{UID}</oid>
+      <entityStatus>added</entityStatus>
+      <version>0</version>
+      <txType>policy</txType>
+      <txDate class="sql-timestamp">{TODAY} {TIME}</txDate>
+      <txEffDate class="sql-timestamp">{TODAY} 00:00:00</txEffDate>
+      <effectiveDate class="sql-timestamp">{TODAY} 00:00:00</effectiveDate>
+      <ledgerProcessedInd>true</ledgerProcessedInd>
+      <policyID>166370006</policyID>
+      <premiumChangeAmt>
+        <amount>12720</amount>
+        <currencyCd>USD</currencyCd>
+      </premiumChangeAmt>
+      <performerLogin>qa</performerLogin>
+      <grossEndingPremiumAmt>
+        <amount>12720</amount>
+        <currencyCd>USD</currencyCd>
+      </grossEndingPremiumAmt>
+    </com.exigen.ipb.policy.domain.PolicyTransaction>
+  </entities>
+  <universalPortEntities>
+    <entry>
+      <string>qGys9pDOy{UID}</string>
+      <com.exigen.ipb.policy.domain.CreditSurchargeSummaryEntity>
+        <oid>p6ybx-LmK{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <creditSurcharge class="java.util.HashMap"/>
+        <additionalFields class="java.util.HashMap"/>
+        <instanceMetadata>
+          <componentInstanceName>CreditSurchargeSummary</componentInstanceName>
+          <producerComponentName>CreditSurchargeSummary</producerComponentName>
+          <producerComponentVersion>2.0</producerComponentVersion>
+          <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+          <instanceName>qGys9pDOy{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.policy.domain.CreditSurchargeSummaryEntity>
+    </entry>
+    <entry>
+      <string>h8NFecUvD{UID}</string>
+      <com.exigen.ipb.policy.domain.BrushFireSurchargeEntity>
+        <oid>rq4lGbbBF{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <brushFireSurchargeInd>false</brushFireSurchargeInd>
+        <alternativeRoadAvailabilityInd>false</alternativeRoadAvailabilityInd>
+        <closedEaves>false</closedEaves>
+        <unpavedAccessRoad>false</unpavedAccessRoad>
+        <primaryAccessRoadLessThan16FeetWide>false</primaryAccessRoadLessThan16FeetWide>
+        <additionalFields class="java.util.HashMap"/>
+        <instanceMetadata>
+          <componentInstanceName>BrushFireSurcharge</componentInstanceName>
+          <producerComponentName>BrushFireSurcharge</producerComponentName>
+          <producerComponentVersion>2.0</producerComponentVersion>
+          <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+          <instanceName>h8NFecUvD{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.policy.domain.BrushFireSurchargeEntity>
+    </entry>
+    <entry>
+      <string>vUPEjY2yS{UID}</string>
+      <com.exigen.ipb.policy.domain.BuildingProtectionEntity>
+        <oid>gd4ZB3Kme{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <buildingProtectionInfo>
+          <protectionClassGradeCd>1</protectionClassGradeCd>
+        </buildingProtectionInfo>
+        <instanceMetadata>
+          <componentInstanceName>BuildingProtection</componentInstanceName>
+          <producerComponentName>BuildingProtection</producerComponentName>
+          <producerComponentVersion>2.0</producerComponentVersion>
+          <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+          <instanceName>vUPEjY2yS{UID}</instanceName>
+        </instanceMetadata>
+        <additionalFields class="java.util.HashMap"/>
+      </com.exigen.ipb.policy.domain.BuildingProtectionEntity>
+    </entry>
+    <entry>
+      <string>tAi7NTfEW{UID}</string>
+      <com.exigen.ipb.policy.domain.BuildingImprovementsInfoEntity>
+        <oid>grY0hQsFK{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <buildingImprovementsInfo>
+          <renovated>false</renovated>
+        </buildingImprovementsInfo>
+        <instanceMetadata>
+          <componentInstanceName>BuildingImprovementsInfo</componentInstanceName>
+          <producerComponentName>BuildingImprovementsInfo</producerComponentName>
+          <producerComponentVersion>2.0</producerComponentVersion>
+          <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+          <instanceName>tAi7NTfEW{UID}</instanceName>
+        </instanceMetadata>
+        <additionalFields class="java.util.HashMap"/>
+      </com.exigen.ipb.policy.domain.BuildingImprovementsInfoEntity>
+    </entry>
+    <entry>
+      <string>v8jFmEBLF{UID}</string>
+      <com.exigen.ipb.policy.domain.ComponentizedAddressEntity>
+        <oid>ryiM1I-i2{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <address>
+          <countryCd>US</countryCd>
+          <isDirty>false</isDirty>
+        </address>
+        <contactAdditionalFields>
+          <doNotSolicitInd>false</doNotSolicitInd>
+        </contactAdditionalFields>
+        <schedulingContactInfo>
+          <dummy>0</dummy>
+        </schedulingContactInfo>
+        <addressValidatedInd>No</addressValidatedInd>
+        <instanceMetadata>
+          <componentInstanceName>InsuredWorkAddress</componentInstanceName>
+          <producerComponentName>AdditionalInterestAddress</producerComponentName>
+          <producerComponentVersion>2.0</producerComponentVersion>
+          <connectedToInstanceName>v9AOuE_3y{UID}</connectedToInstanceName>
+          <instanceName>v8jFmEBLF{UID}</instanceName>
+        </instanceMetadata>
+        <additionalFields class="java.util.HashMap"/>
+      </com.exigen.ipb.policy.domain.ComponentizedAddressEntity>
+    </entry>
+    <entry>
+      <string>lvV9x_tq2{UID}</string>
+      <com.exigen.ipb.policy.domain.PolicyIssueSummaryEntity>
+        <oid>qQLGUsdfm{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <instanceMetadata>
+          <componentInstanceName>PolicyIssueSummary</componentInstanceName>
+          <producerComponentName>PolicyIssueSummary</producerComponentName>
+          <producerComponentVersion>2.0</producerComponentVersion>
+          <connectedToInstanceName>rnMLaqH5M{UID}</connectedToInstanceName>
+          <instanceName>lvV9x_tq2{UID}</instanceName>
+        </instanceMetadata>
+        <additionalFields class="java.util.HashMap"/>
+      </com.exigen.ipb.policy.domain.PolicyIssueSummaryEntity>
+    </entry>
+    <entry>
+      <string>vhJwwRclj{UID}</string>
+      <com.exigen.ipb.policy.domain.DwellQuestionnaireEntity>
+        <oid>hgrHGjiGX{UID}</oid>
+        <entityStatus>added</entityStatus>
+        <primaryResidenceInd>false</primaryResidenceInd>
+        <primaryLocationInd>false</primaryLocationInd>
+        <ownerOccupiedInd>false</ownerOccupiedInd>
+        <rentedToOthersInd>false</rentedToOthersInd>
+        <businessConductedOnPremisesInd>false</businessConductedOnPremisesInd>
+        <farmingOnPremisesInd>false</farmingOnPremisesInd>
+        <seasonalSecondaryUsageInd>false</seasonalSecondaryUsageInd>
+        <isThereGasShutoffValveInd>false</isThereGasShutoffValveInd>
+        <excludeLiabilityInd>false</excludeLiabilityInd>
+        <withinSafeDistanceToFireStationInd>false</withinSafeDistanceToFireStationInd>
+        <withinSafeDistanceToHydrantInd>false</withinSafeDistanceToHydrantInd>
+        <within1000FeetToShoreInd>false</within1000FeetToShoreInd>
+        <riskRetrofittedInd>false</riskRetrofittedInd>
+        <brushFireEligibilityInd>false</brushFireEligibilityInd>
+        <brushEligibilityInd>false</brushEligibilityInd>
+        <studentAwayFromHomeInd>false</studentAwayFromHomeInd>
+        <earthquakeCoverageInd>false</earthquakeCoverageInd>
+        <additionalFields class="java.util.HashMap"/>
+        <instanceMetadata>
+          <componentInstanceName>DwellQuestionnaire</componentInstanceName>
+          <producerComponentName>DwellQuestionnaire</producerComponentName>
+          <producerComponentVersion>2.0</producerComponentVersion>
+          <connectedToInstanceName>htU5UR-eB{UID}</connectedToInstanceName>
+          <instanceName>vhJwwRclj{UID}</instanceName>
+        </instanceMetadata>
+      </com.exigen.ipb.policy.domain.DwellQuestionnaireEntity>
+    </entry>
+  </universalPortEntities>
+</com.exigen.ipb.policy.dto.PolicySummaryDatasetDto>

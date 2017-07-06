@@ -1,0 +1,12 @@
+TestData: {
+  MoveCustomerSearchActionTab: {
+    'Customer #': 12345
+  },
+  MoveCustomerConfirmationActionTab: {}
+}
+
+TestData_NewAccount: {
+  MoveCustomerSearchActionTab: {
+    'Customer #': 12345
+  },
+}

@@ -1,0 +1,40 @@
+PolicyTab: {
+    Policy Form: HO3 Homeowner Special Form,
+    Effective Date: /today-90d,
+    Term: 12 Months,  
+    Agency/Producer: {
+      Channel: Agency,
+      Agency Name: Agency
+    }
+}
+
+CoveragesPremiumCoveragesPremiumTab: {
+    A. Dwelling Limit: '$500,000',
+    B. Other Structures: '$50,000',
+    C. Personal Property: '$250,000',
+    D. Loss of Use: '$150,000',     
+    E. Personal Liability: '$500,000',
+    F. Medical Payments: '$5,000',
+    Loss Assessment: '$100,000',
+    Identity Theft: '$25,000',
+    Fungi and Mold: '$5,000',
+    Water Backup of Sewer and D...: '$5,000',
+}
+
+TestData_1Cancel: {
+  CancellationActionTab: {
+    Cancel Date: /today,
+    Cancellation Reason: index=1
+  }
+}
+
+TestData_2Cancel: {
+  CancellationActionTab: {
+    Cancel Date: /today+90d,
+    Cancellation Reason: index=1
+  }
+}
+
+ReinstatementActionTab: {
+    Reinstate Date: /today
+  }

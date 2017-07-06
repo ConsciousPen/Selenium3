@@ -1,0 +1,20 @@
+TestData: {
+  SearchSuspenseActionTab: {
+    'Suspense Reference #': Reference
+  },
+
+  ClearSuspenseActionTab: {
+    Allocation: {
+      Billing Account Name Type: Individual,
+      'Policy #': ''
+    }
+  }
+}
+
+TestData_Benefits: {
+  SearchSuspenseActionTab: {
+    'Suspense Reference #': Reference,
+    'Billing Account': Number,
+    'Payment Designation': Benefits Accounts
+  }
+}

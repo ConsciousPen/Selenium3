@@ -1,0 +1,16 @@
+{
+	"endpoint": "",
+	"restTargets": {		
+		"PRODUCT-DATA.EXECUTE": {
+			"target": "//policy-data/{contextId}/instances/{instanceName}/execution",
+			"header": "cookie",
+			"methods": {
+				"POST": {
+					"queryParams": "",
+					"mediaType": "",
+					"postTemplate": "product-rt-rs/PRODUCT-DATA.EMPTY.tmpl"
+				}
+			}
+		}
+	}
+}

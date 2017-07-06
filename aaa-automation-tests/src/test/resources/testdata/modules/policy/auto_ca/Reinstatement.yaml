@@ -1,0 +1,11 @@
+TestData: {
+  ReinstateActionTab: {
+    Reinstate Date: /today
+  }
+}
+
+TestData_Plus14Days: {
+  ReinstateActionTab: {
+    Reinstate Date: /today+14d
+  }
+}

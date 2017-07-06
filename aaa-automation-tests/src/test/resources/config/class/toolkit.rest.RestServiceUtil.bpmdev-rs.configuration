@@ -1,0 +1,102 @@
+{  
+"endpoint": "",
+"jaxRsComponents": "",
+"restTargets": {
+"PROCESS": {
+		"target": "/process",
+		"methods": {		
+		}
+	}
+,
+"PROCESS.ITEM": {
+		"target": "/process/{processKey}/{entityRefNo}/{entityType}",
+		"methods": {		
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/xml",
+				"postTemplate": "bpmdev-rs/PROCESS.ITEM.POST.tmpl"
+			}
+		}
+	}
+,"TASKS": {
+		"target": "/tasks",
+		"methods": {		
+		}
+	}
+,	"TASKS.ASSIGNTOQUEUE.ITEM": {
+		"target": "/tasks/assignToQueue/{taskId}/{queueCode}",
+		"methods": {		
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "bpmdev-rs/TASKS.ASSIGNTOQUEUE.ITEM.POST.tmpl"
+			}
+		}
+	}
+,	"TASKS.ATTACHDOCUMENT.ITEM": {
+		"target": "/tasks/attachDocument/{taskId}/{documentUuid}",
+		"methods": {		
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "bpmdev-rs/TASKS.ATTACHDOCUMENT.ITEM.POST.tmpl"
+			}
+		}
+	}
+,	"TASKS.ITEM": {
+		"target": "/tasks/{processId}",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "bpmdev-rs/TASKS.ITEM.GET.tmpl"
+			}
+		}
+	}
+,	"TASKS.ITEM": {
+		"target": "/tasks/{taskId}",
+		"methods": {		
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "*/*",
+				"postTemplate": "bpmdev-rs/TASKS.ITEM.POST.tmpl"
+			}
+		}
+	}
+,	"TASKS.SUSPENSE": {
+		"target": "/tasks/{taskId}/suspense",
+		"methods": {		
+			"DELETE" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "bpmdev-rs/TASKS.SUSPENSE.DELETE.tmpl"
+			},
+			"PUT" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "bpmdev-rs/TASKS.SUSPENSE.PUT.tmpl"
+			}
+		}
+	}
+,	"TASKS.ITEM": {
+		"target": "/tasks/{taskId}/{loginName}",
+		"methods": {		
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "bpmdev-rs/TASKS.ITEM.POST.tmpl"
+			}
+		}
+	}
+,"SWAGGER.JSON": {
+		"target": "/swagger.json",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "bpmdev-rs/SWAGGER.JSON.GET.tmpl"
+			}
+		}
+	}
+}
+}

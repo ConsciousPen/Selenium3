@@ -1,0 +1,92 @@
+PolicyTab: {
+  Effective Date: /today,
+  Term: 12 Months,  
+  Agency/Producer: {
+    Channel: Agency,
+    Agency Name: Agency
+  },
+  Agent Sub Producer: ''
+}
+
+PremiumCoveragesTab: {
+  Coverage Type: Single,
+  Combined Single Limit: '$1,000',
+  UM/UIM Combined Single Limit: '$750',
+  Medical Payments: '$500'
+}
+
+EndorseActionTab: {
+  Endorsement Date: /today + 60d,
+  Endorsement Reason: index=1
+}
+
+SplitActionTab: {
+  Transaction Effective Date: /today + 150d,
+  Reason for Split: 'Divorce',
+  Insureds: '1',
+  Vehicles: '1'
+}
+  
+Endorsement_TestData: {
+  PolicyTab: {},
+  InsuredTab: {},
+  DriverTab: ['@EmptyTab','@DriverTab_Endorsement'],
+  VehicleTab: ['@EmptyTab','@VehicleTab_Endorsement'],
+  MVRClaimsTab: {},
+  FormsAddlInfoTab: {},
+  AssignmentTab: {},
+  PremiumCoveragesTab: '@PremiumCoveragesTab'
+}
+
+EmptyTab: {}
+
+InsuredTab_SplitPolicyWithSingleInsured: {
+  InsuredTab: {
+    Insured Party Selection: index=0,
+    Prior Carrier: index=1
+  }
+}
+  
+DriverTab_Endorsement: {
+  Driver Party Selection: /index=0,
+  Rel. to First Named Insured: Wife
+}
+  
+VehicleTab_Endorsement: {
+  Type: Regular,
+  No Vin Reason: VIN Not Applicable,
+  Model Year: '2010',
+  Make: AUDI,
+  Model: TT,
+  Body Style: Named Non-Owned,
+  Performance: Sports Performance,
+  Fuel Type: Flex - gas and ethanol,
+  Anti-Theft: Alarm,
+  Anti-Lock: ANTILOCK BRAKE DISCOUNT,
+  Daytime Running Lamps: 'No',
+  'Armored Vehicle?': 'No',
+  Distance Driven for Pleasure per Week: '1200',
+  Customer Declared Annual Distance: 0-7999,
+  Zip / Postal Code: '94596',
+  Address Line 1: Address Line 1,
+  City: Walnut Creek,
+  State / Province: CA
+}
+
+Split_TestData: {
+  PolicyTab: {
+    Term: 9 Months
+  },
+  InsuredTab: {},
+  DriverTab: {},
+  VehicleTab: {},
+  MVRClaimsTab: {},
+  FormsAddlInfoTab: {},
+  AssignmentTab: {},
+  PremiumCoveragesTab: {
+    Coverage Type: Single,
+    Combined Single Limit: '$1,000',
+    UM/UIM Combined Single Limit: '$1,000',
+    Medical Payments: '$1,000'
+  }
+}

@@ -1,0 +1,603 @@
+    <com.exigen.ipb.billing.dto.BillingAccountDatasetDto>
+      <rootEntity class="com.exigen.ipb.billing.personal.domain.PersonalBillingAccount">
+        <billingInfo>
+          <oid>nb9DGg7Yc{UID}</oid>
+          <entityStatus>added</entityStatus>
+          <billingNameInfo>
+            <dummy>0</dummy>
+            <nameTypeCd>IND</nameTypeCd>
+            <firstName>{CUSTOMER_FIRSTNAME}</firstName>
+            <lastName>{CUSTOMER_LASTNAME}</lastName>
+            <isDirty>false</isDirty>
+          </billingNameInfo>
+          <customerNumber>{CUSTOMER_NUMBER}</customerNumber>
+          <billingAccountName>John Smith</billingAccountName>
+          <billType>direct</billType>
+          <billingAddress>
+            <stateProvCd>CA</stateProvCd>
+            <postalCode>94596</postalCode>
+            <countryCd>US</countryCd>
+            <addressLine1>Address{UID}</addressLine1>
+            <city>Walnut Creek</city>
+            <isDirty>false</isDirty>
+          </billingAddress>
+          <dueDate>31</dueDate>
+          <dueDayConfig class="java.util.ArrayList">
+            <com.exigen.ipb.billing.domain.MonthlyDueDayConfig>
+              <monthDays class="java.util.SortedSet">
+                <int>31</int>
+              </monthDays>
+            </com.exigen.ipb.billing.domain.MonthlyDueDayConfig>
+          </dueDayConfig>
+          <currency>USD</currency>
+          <producerCd>QAG</producerCd>
+          <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+        </billingInfo>
+        <accountNumber>{UID}</accountNumber>
+        <creationDate class="sql-timestamp">{TODAY} 00:00:00</creationDate>
+        <status>active</status>
+        <overpaidAmountOption>nextInstallments</overpaidAmountOption>
+        <balanceInfo>
+          <balanceDue>
+            <amount>2615</amount>
+            <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+            <premium>
+              <amount>2615</amount>
+              <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              <net>
+                <amount>2615</amount>
+                <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              </net>
+              <taxes class="java.util.Set"/>
+              <fees class="java.util.Set"/>
+            </premium>
+            <fees class="java.util.Set"/>
+          </balanceDue>
+          <totalWrittenPremium>
+            <amount>2615</amount>
+            <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+            <premium>
+              <amount>2615</amount>
+              <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              <net>
+                <amount>2615</amount>
+                <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              </net>
+              <taxes class="java.util.Set"/>
+              <fees class="java.util.Set"/>
+            </premium>
+            <fees class="java.util.Set"/>
+          </totalWrittenPremium>
+          <balanceAmountFactory class="com.exigen.ipb.billing.amount.domain.DefaultBalanceAmountFactory">
+            <parents>
+              <entry>
+                <java-class>com.exigen.ipb.billing.amount.domain.CompositePremiumAmount</java-class>
+                <java-class>com.exigen.ipb.billing.amount.domain.BalanceAmount</java-class>
+              </entry>
+              <entry>
+                <java-class>com.exigen.ipb.billing.amount.domain.PolicyTaxAmount</java-class>
+                <java-class>com.exigen.ipb.billing.amount.domain.CompositePremiumAmount</java-class>
+              </entry>
+              <entry>
+                <java-class>com.exigen.ipb.billing.amount.domain.PolicyNetPremiumAmount</java-class>
+                <java-class>com.exigen.ipb.billing.amount.domain.CompositePremiumAmount</java-class>
+              </entry>
+              <entry>
+                <java-class>com.exigen.ipb.billing.amount.domain.PolicyFeeAmount</java-class>
+                <java-class>com.exigen.ipb.billing.amount.domain.CompositePremiumAmount</java-class>
+              </entry>
+              <entry>
+                <java-class>com.exigen.ipb.billing.amount.domain.BillingFeeAmount</java-class>
+                <java-class>com.exigen.ipb.billing.amount.domain.BalanceAmount</java-class>
+              </entry>
+            </parents>
+          </balanceAmountFactory>
+          <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+          <updatedOn class="sql-timestamp">{TODAY} {TIME}</updatedOn>
+        </balanceInfo>
+        <enableRecurringPayments>false</enableRecurringPayments>
+        <useRecurringMethod>true</useRecurringMethod>
+        <paymentMethods class="java.util.ArrayList"/>
+        <version>3</version>
+        <dirtyVersion>3</dirtyVersion>
+        <policies class="java.util.ArrayList">
+          <com.exigen.ipb.billing.domain.BillablePolicyTerm>
+            <policyNumber>SEL{UID}</policyNumber>
+            <termEffectiveDate class="sql-timestamp">{TODAY} 00:00:00</termEffectiveDate>
+            <termExpirationDate class="sql-timestamp">{TODAY+365} 00:00:00</termExpirationDate>
+            <scheduleEffectiveDate class="sql-timestamp">{TODAY} 00:00:00</scheduleEffectiveDate>
+            <installments class="java.util.ArrayList">
+              <com.exigen.ipb.billing.domain.Installment>
+                <dueDate class="sql-timestamp">{TODAY} 00:00:00</dueDate>
+                <amount>
+                  <amount>217.88</amount>
+                  <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  <premium>
+                    <amount>217.88</amount>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    <net>
+                      <amount>217.88</amount>
+                      <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    </net>
+                    <taxes class="java.util.Set"/>
+                    <fees class="java.util.Set"/>
+                  </premium>
+                  <fees class="java.util.Set"/>
+                </amount>
+                <creationDate class="sql-timestamp">{TODAY} {TIME}</creationDate>
+                <status>pending</status>
+                <type>installment</type>
+              </com.exigen.ipb.billing.domain.Installment>
+              <com.exigen.ipb.billing.domain.Installment>
+                <dueDate class="sql-timestamp">{TODAY+30} 00:00:00</dueDate>
+                <amount>
+                  <amount>217.92</amount>
+                  <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  <premium>
+                    <amount>217.92</amount>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    <net>
+                      <amount>217.92</amount>
+                      <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    </net>
+                    <taxes class="java.util.Set"/>
+                    <fees class="java.util.Set"/>
+                  </premium>
+                  <fees class="java.util.Set"/>
+                </amount>
+                <creationDate class="sql-timestamp">{TODAY} {TIME}</creationDate>
+                <status>pending</status>
+                <type>installment</type>
+              </com.exigen.ipb.billing.domain.Installment>
+              <com.exigen.ipb.billing.domain.Installment>
+                <dueDate class="sql-timestamp">{TODAY+61} 00:00:00</dueDate>
+                <amount>
+                  <amount>217.92</amount>
+                  <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  <premium>
+                    <amount>217.92</amount>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    <net>
+                      <amount>217.92</amount>
+                      <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    </net>
+                    <taxes class="java.util.Set"/>
+                    <fees class="java.util.Set"/>
+                  </premium>
+                  <fees class="java.util.Set"/>
+                </amount>
+                <creationDate class="sql-timestamp">{TODAY} {TIME}</creationDate>
+                <status>pending</status>
+                <type>installment</type>
+              </com.exigen.ipb.billing.domain.Installment>
+              <com.exigen.ipb.billing.domain.Installment>
+                <dueDate class="sql-timestamp">{TODAY+92} 00:00:00</dueDate>
+                <amount>
+                  <amount>217.92</amount>
+                  <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  <premium>
+                    <amount>217.92</amount>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    <net>
+                      <amount>217.92</amount>
+                      <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    </net>
+                    <taxes class="java.util.Set"/>
+                    <fees class="java.util.Set"/>
+                  </premium>
+                  <fees class="java.util.Set"/>
+                </amount>
+                <creationDate class="sql-timestamp">{TODAY} {TIME}</creationDate>
+                <status>pending</status>
+                <type>installment</type>
+              </com.exigen.ipb.billing.domain.Installment>
+              <com.exigen.ipb.billing.domain.Installment>
+                <dueDate class="sql-timestamp">{TODAY+120} 00:00:00</dueDate>
+                <amount>
+                  <amount>217.92</amount>
+                  <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  <premium>
+                    <amount>217.92</amount>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    <net>
+                      <amount>217.92</amount>
+                      <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    </net>
+                    <taxes class="java.util.Set"/>
+                    <fees class="java.util.Set"/>
+                  </premium>
+                  <fees class="java.util.Set"/>
+                </amount>
+                <creationDate class="sql-timestamp">{TODAY} {TIME}</creationDate>
+                <status>pending</status>
+                <type>installment</type>
+              </com.exigen.ipb.billing.domain.Installment>
+              <com.exigen.ipb.billing.domain.Installment>
+                <dueDate class="sql-timestamp">{TODAY+151} 00:00:00</dueDate>
+                <amount>
+                  <amount>217.92</amount>
+                  <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  <premium>
+                    <amount>217.92</amount>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    <net>
+                      <amount>217.92</amount>
+                      <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    </net>
+                    <taxes class="java.util.Set"/>
+                    <fees class="java.util.Set"/>
+                  </premium>
+                  <fees class="java.util.Set"/>
+                </amount>
+                <creationDate class="sql-timestamp">{TODAY} {TIME}</creationDate>
+                <status>pending</status>
+                <type>installment</type>
+              </com.exigen.ipb.billing.domain.Installment>
+              <com.exigen.ipb.billing.domain.Installment>
+                <dueDate class="sql-timestamp">{TODAY+181} 00:00:00</dueDate>
+                <amount>
+                  <amount>217.92</amount>
+                  <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  <premium>
+                    <amount>217.92</amount>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    <net>
+                      <amount>217.92</amount>
+                      <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    </net>
+                    <taxes class="java.util.Set"/>
+                    <fees class="java.util.Set"/>
+                  </premium>
+                  <fees class="java.util.Set"/>
+                </amount>
+                <creationDate class="sql-timestamp">{TODAY} {TIME}</creationDate>
+                <status>pending</status>
+                <type>installment</type>
+              </com.exigen.ipb.billing.domain.Installment>
+              <com.exigen.ipb.billing.domain.Installment>
+                <dueDate class="sql-timestamp">{TODAY+212} 00:00:00</dueDate>
+                <amount>
+                  <amount>217.92</amount>
+                  <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  <premium>
+                    <amount>217.92</amount>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    <net>
+                      <amount>217.92</amount>
+                      <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    </net>
+                    <taxes class="java.util.Set"/>
+                    <fees class="java.util.Set"/>
+                  </premium>
+                  <fees class="java.util.Set"/>
+                </amount>
+                <creationDate class="sql-timestamp">{TODAY} {TIME}</creationDate>
+                <status>pending</status>
+                <type>installment</type>
+              </com.exigen.ipb.billing.domain.Installment>
+              <com.exigen.ipb.billing.domain.Installment>
+                <dueDate class="sql-timestamp">{TODAY+242} 00:00:00</dueDate>
+                <amount>
+                  <amount>217.92</amount>
+                  <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  <premium>
+                    <amount>217.92</amount>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    <net>
+                      <amount>217.92</amount>
+                      <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    </net>
+                    <taxes class="java.util.Set"/>
+                    <fees class="java.util.Set"/>
+                  </premium>
+                  <fees class="java.util.Set"/>
+                </amount>
+                <creationDate class="sql-timestamp">{TODAY} {TIME}</creationDate>
+                <status>pending</status>
+                <type>installment</type>
+              </com.exigen.ipb.billing.domain.Installment>
+              <com.exigen.ipb.billing.domain.Installment>
+                <dueDate class="sql-timestamp">{TODAY+273} 00:00:00</dueDate>
+                <amount>
+                  <amount>217.92</amount>
+                  <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  <premium>
+                    <amount>217.92</amount>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    <net>
+                      <amount>217.92</amount>
+                      <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    </net>
+                    <taxes class="java.util.Set"/>
+                    <fees class="java.util.Set"/>
+                  </premium>
+                  <fees class="java.util.Set"/>
+                </amount>
+                <creationDate class="sql-timestamp">{TODAY} {TIME}</creationDate>
+                <status>pending</status>
+                <type>installment</type>
+              </com.exigen.ipb.billing.domain.Installment>
+              <com.exigen.ipb.billing.domain.Installment>
+                <dueDate class="sql-timestamp">{TODAY+304} 00:00:00</dueDate>
+                <amount>
+                  <amount>217.92</amount>
+                  <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  <premium>
+                    <amount>217.92</amount>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    <net>
+                      <amount>217.92</amount>
+                      <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    </net>
+                    <taxes class="java.util.Set"/>
+                    <fees class="java.util.Set"/>
+                  </premium>
+                  <fees class="java.util.Set"/>
+                </amount>
+                <creationDate class="sql-timestamp">{TODAY} {TIME}</creationDate>
+                <status>pending</status>
+                <type>installment</type>
+              </com.exigen.ipb.billing.domain.Installment>
+              <com.exigen.ipb.billing.domain.Installment>
+                <dueDate class="sql-timestamp">{TODAY+334} 00:00:00</dueDate>
+                <amount>
+                  <amount>217.92</amount>
+                  <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  <premium>
+                    <amount>217.92</amount>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    <net>
+                      <amount>217.92</amount>
+                      <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    </net>
+                    <taxes class="java.util.Set"/>
+                    <fees class="java.util.Set"/>
+                  </premium>
+                  <fees class="java.util.Set"/>
+                </amount>
+                <creationDate class="sql-timestamp">{TODAY} {TIME}</creationDate>
+                <status>pending</status>
+                <type>installment</type>
+              </com.exigen.ipb.billing.domain.Installment>
+            </installments>
+            <status>active</status>
+            <balanceInfo>
+              <balanceDue>
+                <amount>2615</amount>
+                <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                <premium>
+                  <amount>2615</amount>
+                  <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  <net>
+                    <amount>2615</amount>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </net>
+                  <taxes class="java.util.Set"/>
+                  <fees class="java.util.Set"/>
+                </premium>
+                <fees class="java.util.Set"/>
+              </balanceDue>
+              <totalWrittenPremium>
+                <amount>2615</amount>
+                <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                <premium>
+                  <amount>2615</amount>
+                  <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  <net>
+                    <amount>2615</amount>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  </net>
+                  <taxes class="java.util.Set"/>
+                  <fees class="java.util.Set"/>
+                </premium>
+                <fees class="java.util.Set"/>
+              </totalWrittenPremium>
+              <balanceAmountFactory class="com.exigen.ipb.billing.amount.domain.DefaultBalanceAmountFactory">
+                <parents>
+                  <entry>
+                    <java-class>com.exigen.ipb.billing.amount.domain.CompositePremiumAmount</java-class>
+                    <java-class>com.exigen.ipb.billing.amount.domain.BalanceAmount</java-class>
+                  </entry>
+                  <entry>
+                    <java-class>com.exigen.ipb.billing.amount.domain.PolicyTaxAmount</java-class>
+                    <java-class>com.exigen.ipb.billing.amount.domain.CompositePremiumAmount</java-class>
+                  </entry>
+                  <entry>
+                    <java-class>com.exigen.ipb.billing.amount.domain.PolicyNetPremiumAmount</java-class>
+                    <java-class>com.exigen.ipb.billing.amount.domain.CompositePremiumAmount</java-class>
+                  </entry>
+                  <entry>
+                    <java-class>com.exigen.ipb.billing.amount.domain.PolicyFeeAmount</java-class>
+                    <java-class>com.exigen.ipb.billing.amount.domain.CompositePremiumAmount</java-class>
+                  </entry>
+                  <entry>
+                    <java-class>com.exigen.ipb.billing.amount.domain.BillingFeeAmount</java-class>
+                    <java-class>com.exigen.ipb.billing.amount.domain.BalanceAmount</java-class>
+                  </entry>
+                </parents>
+              </balanceAmountFactory>
+              <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              <updatedOn class="sql-timestamp">{TODAY} {TIME}</updatedOn>
+            </balanceInfo>
+            <productCd>PREC-HO</productCd>
+            <riskState>CA</riskState>
+            <riskPostalCode>94596</riskPostalCode>
+            <countryCd>US</countryCd>
+            <billingCycle>billing</billingCycle>
+            <paymentPlan>OncePerMonth</paymentPlan>
+            <pending>false</pending>
+            <tfsSupported>true</tfsSupported>
+            <holds class="java.util.Set"/>
+            <version>2</version>
+            <billingAccount class="com.exigen.ipb.billing.personal.domain.PersonalBillingAccount" reference="../../.."/>
+            <enableRecurringPayments>false</enableRecurringPayments>
+            <useRecurringMethod>true</useRecurringMethod>
+            <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+            <ignoredByNsfCancellation>false</ignoredByNsfCancellation>
+          </com.exigen.ipb.billing.domain.BillablePolicyTerm>
+        </policies>
+        <billingExcludeCommissionMode>false</billingExcludeCommissionMode>
+      </rootEntity>
+      <entities>
+        <com.exigen.ipb.billing.activity.BillingAccountActivity>
+          <name>Created Billing Account</name>
+          <lastStatus>FINISHED</lastStatus>
+          <startedTime class="sql-timestamp">{TODAY} {TIME}</startedTime>
+          <endedTime class="sql-timestamp">{TODAY} {TIME}</endedTime>
+          <performerId>qa</performerId>
+          <primaryEntityId>{UID}</primaryEntityId>
+          <primaryEntityClass>Billing</primaryEntityClass>
+          <duration>0</duration>
+          <messageId>createBillingAccount</messageId>
+          <version>0</version>
+          <customerNumber>{CUSTOMER_NUMBER}</customerNumber>
+          <billingAccountNumber>{UID}</billingAccountNumber>
+          <currency>USD</currency>
+        </com.exigen.ipb.billing.activity.BillingAccountActivity>
+        <com.exigen.ipb.billing.activity.BillingPolicyProcessingActivity>
+          <name>Policy Issued</name>
+          <lastStatus>FINISHED</lastStatus>
+          <startedTime class="sql-timestamp">{TODAY} {TIME}</startedTime>
+          <endedTime class="sql-timestamp">{TODAY} {TIME}</endedTime>
+          <performerId>qa</performerId>
+          <primaryEntityId>{UID}</primaryEntityId>
+          <primaryEntityClass>Billing</primaryEntityClass>
+          <duration>0</duration>
+          <messageId>policyIssued</messageId>
+          <version>0</version>
+          <customerNumber>{CUSTOMER_NUMBER}</customerNumber>
+          <policyNumber>SEL{UID}</policyNumber>
+          <billingAccountNumber>{UID}</billingAccountNumber>
+          <amount>2615</amount>
+          <currency>USD</currency>
+          <policyEffectiveDate class="sql-timestamp">{TODAY} 00:00:00</policyEffectiveDate>
+          <updatedEffectiveDate class="sql-timestamp">{TODAY} 00:00:00</updatedEffectiveDate>
+          <updatedPolicyNumber>SEL{UID}</updatedPolicyNumber>
+        </com.exigen.ipb.billing.activity.BillingPolicyProcessingActivity>
+        <com.exigen.ipb.billing.domain.BillingTransaction>
+          <transactionNumber>{UID}</transactionNumber>
+          <amount>2615</amount>
+          <dueDate class="sql-timestamp">{TODAY} 00:00:00</dueDate>
+          <creationDate class="sql-timestamp">{TODAY} {TIME}</creationDate>
+          <applyDate class="sql-timestamp">{TODAY} {TIME}</applyDate>
+          <modificationDate class="sql-timestamp">{TODAY} {TIME}</modificationDate>
+          <effectiveDate class="sql-timestamp">{TODAY} 00:00:00</effectiveDate>
+          <createdBy>qa</createdBy>
+          <policyId>{POLICY_ID}</policyId>
+          <type>premium</type>
+          <status>applied</status>
+          <account class="com.exigen.ipb.billing.personal.domain.PersonalBillingAccount" reference="../../../rootEntity"/>
+          <allocations class="java.util.ArrayList">
+            <com.exigen.ipb.billing.domain.TransactionAllocation>
+              <transaction reference="../../.."/>
+              <amount>2615</amount>
+              <balanceDelta>
+                <balanceDue>
+                  <amount>2615</amount>
+                  <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  <premium>
+                    <amount>2615</amount>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    <net>
+                      <amount>2615</amount>
+                      <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    </net>
+                    <taxes class="java.util.Set"/>
+                    <fees class="java.util.Set"/>
+                  </premium>
+                  <fees class="java.util.Set"/>
+                </balanceDue>
+                <totalWrittenPremium reference="../balanceDue"/>
+                <balanceAmountFactory class="com.exigen.ipb.billing.amount.domain.DefaultBalanceAmountFactory">
+                  <parents>
+                    <entry>
+                      <java-class>com.exigen.ipb.billing.amount.domain.CompositePremiumAmount</java-class>
+                      <java-class>com.exigen.ipb.billing.amount.domain.BalanceAmount</java-class>
+                    </entry>
+                    <entry>
+                      <java-class>com.exigen.ipb.billing.amount.domain.PolicyTaxAmount</java-class>
+                      <java-class>com.exigen.ipb.billing.amount.domain.CompositePremiumAmount</java-class>
+                    </entry>
+                    <entry>
+                      <java-class>com.exigen.ipb.billing.amount.domain.PolicyNetPremiumAmount</java-class>
+                      <java-class>com.exigen.ipb.billing.amount.domain.CompositePremiumAmount</java-class>
+                    </entry>
+                    <entry>
+                      <java-class>com.exigen.ipb.billing.amount.domain.PolicyFeeAmount</java-class>
+                      <java-class>com.exigen.ipb.billing.amount.domain.CompositePremiumAmount</java-class>
+                    </entry>
+                    <entry>
+                      <java-class>com.exigen.ipb.billing.amount.domain.BillingFeeAmount</java-class>
+                      <java-class>com.exigen.ipb.billing.amount.domain.BalanceAmount</java-class>
+                    </entry>
+                  </parents>
+                </balanceAmountFactory>
+                <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              </balanceDelta>
+              <balanceTotal>
+                <balanceDue>
+                  <amount>2615</amount>
+                  <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  <premium>
+                    <amount>2615</amount>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    <net>
+                      <amount>2615</amount>
+                      <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    </net>
+                    <taxes class="java.util.Set"/>
+                    <fees class="java.util.Set"/>
+                  </premium>
+                  <fees class="java.util.Set"/>
+                </balanceDue>
+                <totalWrittenPremium>
+                  <amount>2615</amount>
+                  <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                  <premium>
+                    <amount>2615</amount>
+                    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    <net>
+                      <amount>2615</amount>
+                      <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+                    </net>
+                    <taxes class="java.util.Set"/>
+                    <fees class="java.util.Set"/>
+                  </premium>
+                  <fees class="java.util.Set"/>
+                </totalWrittenPremium>
+                <balanceAmountFactory class="com.exigen.ipb.billing.amount.domain.DefaultBalanceAmountFactory">
+                  <parents>
+                    <entry>
+                      <java-class>com.exigen.ipb.billing.amount.domain.CompositePremiumAmount</java-class>
+                      <java-class>com.exigen.ipb.billing.amount.domain.BalanceAmount</java-class>
+                    </entry>
+                    <entry>
+                      <java-class>com.exigen.ipb.billing.amount.domain.PolicyTaxAmount</java-class>
+                      <java-class>com.exigen.ipb.billing.amount.domain.CompositePremiumAmount</java-class>
+                    </entry>
+                    <entry>
+                      <java-class>com.exigen.ipb.billing.amount.domain.PolicyNetPremiumAmount</java-class>
+                      <java-class>com.exigen.ipb.billing.amount.domain.CompositePremiumAmount</java-class>
+                    </entry>
+                    <entry>
+                      <java-class>com.exigen.ipb.billing.amount.domain.PolicyFeeAmount</java-class>
+                      <java-class>com.exigen.ipb.billing.amount.domain.CompositePremiumAmount</java-class>
+                    </entry>
+                    <entry>
+                      <java-class>com.exigen.ipb.billing.amount.domain.BillingFeeAmount</java-class>
+                      <java-class>com.exigen.ipb.billing.amount.domain.BalanceAmount</java-class>
+                    </entry>
+                  </parents>
+                </balanceAmountFactory>
+                <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+              </balanceTotal>
+              <policy reference="../../../../../rootEntity/policies/com.exigen.ipb.billing.domain.BillablePolicyTerm"/>
+              <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+            </com.exigen.ipb.billing.domain.TransactionAllocation>
+          </allocations>
+          <policyTxType>policy</policyTxType>
+          <originalPolicyTxType>quote</originalPolicyTxType>
+          <version>0</version>
+        </com.exigen.ipb.billing.domain.BillingTransaction>
+      </entities>
+    </com.exigen.ipb.billing.dto.BillingAccountDatasetDto>

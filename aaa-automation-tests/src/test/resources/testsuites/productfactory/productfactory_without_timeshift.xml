@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Product Factory Without Timeshift" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+
+    <test name="PF TestProductFactoryAddNewProduct"><classes><class name="com.exigen.ipb.etcsa.modules.productfactory.policy.TestProductFactoryAddNewProduct"/></classes></test>
+    <test name="PF TestProductFactoryUpdateComponentAttribute"><classes><class name="com.exigen.ipb.etcsa.modules.productfactory.policy.TestProductFactoryUpdateComponentAttribute"/></classes></test>
+    <test name="PF TestProductFactoryCopyProduct"><classes><class name="com.exigen.ipb.etcsa.modules.productfactory.policy.TestProductFactoryCopyProduct"/></classes></test>
+    <test name="PF TestProductFactoryRenameComponent"><classes><class name="com.exigen.ipb.etcsa.modules.productfactory.policy.TestProductFactoryRenameComponent"/></classes></test>
+    <test name="PF TestProductFactoryManageComponentAttributes"><classes><class name="com.exigen.ipb.etcsa.modules.productfactory.policy.TestProductFactoryManageComponentAttributes"/></classes></test>
+    <test name="PF TestProductFactoryManageRules"><classes><class name="com.exigen.ipb.etcsa.modules.productfactory.policy.TestProductFactoryManageRules"/></classes></test>
+
+</suite>

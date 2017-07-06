@@ -1,0 +1,498 @@
+{
+"endpoint": "",
+"jaxRsComponents": "org.codehaus.jackson.jaxrs.JacksonJsonProvider,com.exigen.ipb.etcsa.rest.wrapper.ModelWrapperMessageBodyReader",
+"restTargets": {
+    "COMMUNICATIONS": {
+		"target": "/communications/",
+		"methods": {		
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/COMMUNICATIONS.POST.tmpl"
+			}
+		}
+	},
+
+    "CUSTOMERS": {
+		"target": "/customers/",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CUSTOMERS.GET.tmpl"
+			},
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/CUSTOMERS.POST.tmpl"
+			}
+		}
+	},
+	"POSTCUSTOMERENTITY":{
+     	"target": "/customers/",
+     	"methods": {
+     		"POST" : {
+     			"queryParams": "",
+     			"mediaType": "application/json",
+     			"postTemplate": "Entity/stub"
+     		}
+     	}
+     },
+    "PUTCUSTOMERENTITY":{
+     	"target": "/customers/{customerNumber}",
+     	"methods": {
+     		"PUT" : {
+     			"queryParams": "",
+     			"mediaType": "application/json",
+     			"postTemplate": "Entity/stub"
+     		}
+     	}
+     },
+     "CUSTOMERS.PUTADDRESSESENTITY.ITEM":{
+     	"target": "/customers/{customerNumber}/addresses/{contactId}",
+     	"methods": {
+     		"PUT" : {
+     			"queryParams": "",
+     			"mediaType": "application/json",
+     			"postTemplate": "Entity/stub"
+     		}
+     	}
+     },
+     "CUSTOMERS.POSTADDRESSESENTITY.ITEM":{
+     	"target": "/customers/{customerNumber}/addresses",
+     	"methods": {
+     		"PUT" : {
+     			"queryParams": "",
+     			"mediaType": "application/json",
+     			"postTemplate": "Entity/stub"
+     		}
+     	}
+     },
+	"CUSTOMERS.TYPE.INDIVIDUAL": {
+		"target": "/customers",
+		"methods": {		
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/CUSTOMERS.TYPE.INDIVIDUAL.POST.tmpl"
+			}
+		}
+	},
+
+	"CUSTOMERS.TYPE.NONINDIVIDUAL": {
+		"target": "/customers",
+		"methods": {		
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/CUSTOMERS.TYPE.NONINDIVIDUAL.POST.tmpl"
+			}
+		}
+	},
+
+	"CUSTOMERS.ANONYMOUS": {
+		"target": "/customers/anonymous",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CUSTOMERS.ANONYMOUS.GET.tmpl"
+			}
+		}
+	},
+
+	"CUSTOMERS.DETAILS": {
+		"target": "/customers/details",
+		"methods": {		
+			"GET" : {
+				"queryParams": "customerNumber",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CUSTOMERS.DETAILS.GET.tmpl"
+			}
+		}
+	},
+
+	"CUSTOMERS.WITH-ACTIVE-CAMPAIGNS": {
+		"target": "/customers/with-active-campaigns",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CUSTOMERS.WITH-ACTIVE-CAMPAIGNS.GET.tmpl"
+			}
+		}
+	},
+
+	"CUSTOMERS.ITEM": {
+		"target": "/customers/{customerNumber}",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CUSTOMERS.ITEM.GET.tmpl"
+			},
+			"PUT" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/CUSTOMERS.ITEM.PUT.tmpl"
+			}
+		}
+	},
+
+	"CUSTOMERS.ADDRESSES": {
+		"target": "/customers/{customerNumber}/addresses",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CUSTOMERS.ADDRESSES.GET.tmpl"
+			},
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/CUSTOMERS.ADDRESSES.POST.tmpl"
+			}
+		}
+	},
+
+	"CUSTOMERS.ADDRESSES.ITEM": {
+		"target": "/customers/{customerNumber}/addresses/{contactId}",
+		"methods": {		
+			"DELETE" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CUSTOMERS.ADDRESSES.ITEM.DELETE.tmpl"
+			},
+			"PUT" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/CUSTOMERS.ADDRESSES.ITEM.PUT.tmpl"
+			}
+		}
+	},
+
+	"CUSTOMERS.CHATS": {
+		"target": "/customers/{customerNumber}/chats",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CUSTOMERS.CHATS.GET.tmpl"
+			},
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/CUSTOMERS.CHATS.POST.tmpl"
+			}
+		}
+	},
+
+	"CUSTOMERS.CHATS.ITEM": {
+		"target": "/customers/{customerNumber}/chats/{contactId}",
+		"methods": {		
+			"DELETE" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CUSTOMERS.CHATS.ITEM.DELETE.tmpl"
+			},
+			"PUT" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/CUSTOMERS.CHATS.ITEM.PUT.tmpl"
+			}
+		}
+	},
+
+	"CUSTOMERS.EMAILS": {
+		"target": "/customers/{customerNumber}/emails",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CUSTOMERS.EMAILS.GET.tmpl"
+			},
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/CUSTOMERS.EMAILS.POST.tmpl"
+			}
+		}
+	},
+
+	"CUSTOMERS.EMAILS.ITEM": {
+		"target": "/customers/{customerNumber}/emails/{contactId}",
+		"methods": {		
+			"DELETE" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CUSTOMERS.EMAILS.ITEM.DELETE.tmpl"
+			},
+			"PUT" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/CUSTOMERS.EMAILS.ITEM.PUT.tmpl"
+			}
+		}
+	},
+
+	"CUSTOMERS.EMAILSENTITY.ITEM": {
+    		"target": "/customers/{customerNumber}/emails/{contactId}",
+    		"methods": {
+    			"DELETE" : {
+    				"queryParams": "",
+    				"mediaType": "",
+    				"postTemplate": "Entity/stub"
+    			},
+    			"PUT" : {
+    				"queryParams": "",
+    				"mediaType": "application/json",
+    				"postTemplate": "Entity/stub"
+    			}
+    		}
+    },
+    "CUSTOMERS.POSTEMAILSENTITY.ITEM": {
+    		"target": "/customers/{customerNumber}/emails",
+    		"methods": {
+    			"POST" : {
+    				"queryParams": "",
+    				"mediaType": "",
+    				"postTemplate": "Entity/stub"
+    			}
+    		}
+    },
+
+	"CUSTOMERS.PHONES": {
+		"target": "/customers/{customerNumber}/phones",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CUSTOMERS.PHONES.GET.tmpl"
+			},
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/CUSTOMERS.PHONES.POST.tmpl"
+			}
+		}
+	},
+	"CUSTOMERS.PHONESENTITY": {
+    	"target": "/customers/{customerNumber}/phones",
+    	"methods": {
+    		"GET" : {
+    			"queryParams": "",
+    			"mediaType": "",
+    			"postTemplate": "Entity/stub"
+    		},
+    		"POST" : {
+    			"queryParams": "",
+    			"mediaType": "application/json",
+    			"postTemplate": "Entity/stub"
+    		}
+    	}
+    },
+
+	"CUSTOMERS.PHONES.ITEM": {
+		"target": "/customers/{customerNumber}/phones/{contactId}",
+		"methods": {		
+			"DELETE" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CUSTOMERS.PHONES.ITEM.DELETE.tmpl"
+			},
+			"PUT" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/CUSTOMERS.PHONES.ITEM.PUT.tmpl"
+			}
+		}
+	},
+	"CUSTOMERS.PHONESENTITY.ITEM": {
+    	"target": "/customers/{customerNumber}/phones/{contactId}",
+    	"methods": {
+    		"DELETE" : {
+    		"queryParams": "",
+            "mediaType": "application/json",
+            "postTemplate": "Entity/stub"
+    		},
+         	"PUT" : {
+         		"queryParams": "",
+         		"mediaType": "application/json",
+         		"postTemplate": "Entity/stub"
+         	}
+    	}
+    },
+
+	"CUSTOMERS.SOCIALNETS": {
+		"target": "/customers/{customerNumber}/socialNets",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CUSTOMERS.SOCIALNETS.GET.tmpl"
+			},
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/CUSTOMERS.SOCIALNETS.POST.tmpl"
+			}
+		}
+	},
+
+	"CUSTOMERS.SOCIALNETS.ITEM": {
+		"target": "/customers/{customerNumber}/socialNets/{contactId}",
+		"methods": {		
+			"DELETE" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CUSTOMERS.SOCIALNETS.ITEM.DELETE.tmpl"
+			},
+			"PUT" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/CUSTOMERS.SOCIALNETS.ITEM.PUT.tmpl"
+			}
+		}
+	},
+
+	"CUSTOMERS.WEBADDRESSES": {
+		"target": "/customers/{customerNumber}/webAddresses",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CUSTOMERS.WEBADDRESSES.GET.tmpl"
+			},
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/CUSTOMERS.WEBADDRESSES.POST.tmpl"
+			}
+		}
+	},
+
+	"CUSTOMERS.WEBADDRESSES.ITEM": {
+		"target": "/customers/{customerNumber}/webAddresses/{contactId}",
+		"methods": {		
+			"DELETE" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CUSTOMERS.WEBADDRESSES.ITEM.DELETE.tmpl"
+			},
+			"PUT" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/CUSTOMERS.WEBADDRESSES.ITEM.PUT.tmpl"
+			}
+		}
+	},
+    
+    "CAMPAIGNS": {
+		"target": "/campaigns/",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CAMPAIGNS.GET.tmpl"
+			},
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/CAMPAIGNS.POST.tmpl"
+			}
+		}
+	},
+
+	"CAMPAIGNS.ITEM": {
+		"target": "/campaigns/{campaignId}",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CAMPAIGNS.ITEM.GET.tmpl"
+			},
+			"PUT" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/CAMPAIGNS.ITEM.PUT.tmpl"
+			}
+		}
+	},
+
+	"CAMPAIGNS.ASSOCIATED-CUSTOMERS": {
+		"target": "/campaigns/{campaignId}/associated-customers",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CAMPAIGNS.ASSOCIATED-CUSTOMERS.GET.tmpl"
+			}
+		}
+	},
+
+	"CAMPAIGNS.PERFORMANCE-SUMMARY": {
+		"target": "/campaigns/{campaignId}/performance-summary",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CAMPAIGNS.PERFORMANCE-SUMMARY.GET.tmpl"
+			}
+		}
+	},
+    
+    "CUSTOMERS.OPPORTUNITIES": {
+		"target": "/customers/{customerNumber}/opportunities/",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CUSTOMERS.OPPORTUNITIES.GET.tmpl"
+			},
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/CUSTOMERS.OPPORTUNITIES.POST.tmpl"
+			}
+		}
+	},
+
+	"CUSTOMERS.OPPORTUNITIES.ITEM": {
+		"target": "/customers/{customerNumber}/opportunities/{opportunityId}",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/CUSTOMERS.OPPORTUNITIES.ITEM.GET.tmpl"
+			},
+			"PUT" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/CUSTOMERS.OPPORTUNITIES.ITEM.PUT.tmpl"
+			}
+		}
+	},
+
+	"CUSTOMERS.OPPORTUNITIES.CLOSE": {
+		"target": "/customers/{customerNumber}/opportunities/{opportunityId}/close",
+		"methods": {		
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "customercore-rs/CUSTOMERS.OPPORTUNITIES.CLOSE.POST.tmpl"
+			}
+		}
+	},
+    
+    "OPPORTUNITIES": {
+		"target": "/opportunities/",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "customercore-rs/OPPORTUNITIES.GET.tmpl"
+			}
+		}
+	}
+}
+}

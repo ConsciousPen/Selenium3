@@ -1,0 +1,13 @@
+TestData: {
+  SelectContactTab: {
+    Role: '',
+    First Name: Actuarial,
+    Last Name: Actuarial,
+    Category: '',
+    Channel: ''
+  },
+  DesignatedContactsTab: {
+    Contact Phone: 123456789
+  },
+  AffinityGroupsTab: {}
+}

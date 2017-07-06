@@ -1,0 +1,4 @@
+{
+  "assetLocator": "//table[tbody/tr[td/span[.=\"%1$s\"] and (not(@class) or @class!='hidden' or @class!='hidden oddRow')]]/../../../td[2]/span/div/table/tbody/tr/td/span/div/table/tbody/tr[count(//table/tbody/tr[td/span[.=\"%1$s\"] and (not(@class) or @class!='hidden' or @class!='hidden oddRow')]/preceding-sibling::tr) + 1]/td",
+  "warningLocator": "/ancestor::td[1]/following-sibling::td"
+}

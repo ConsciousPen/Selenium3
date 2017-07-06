@@ -1,0 +1,9 @@
+TestData: {
+  StartNonPremiumBearingEndorsementActionTab: {
+    Endorsement date: /today,
+  },
+  NonPremiumBearingEndorsementActionTab: {
+    First Name: EndorsementFirst,
+    Last Name: EndorsementLast
+  }
+}

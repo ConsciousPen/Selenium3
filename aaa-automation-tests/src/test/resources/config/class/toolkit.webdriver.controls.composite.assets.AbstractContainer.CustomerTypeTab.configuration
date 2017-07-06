@@ -1,0 +1,4 @@
+{
+    "assetLocator": "",
+    "warningLocator": "/ancestor::td[1]/following-sibling::td"
+}

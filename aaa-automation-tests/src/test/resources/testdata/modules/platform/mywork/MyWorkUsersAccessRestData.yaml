@@ -1,0 +1,52 @@
+TestData : {
+  Upload: '@Upload',
+  CreateManualTask1 : '@CreateManualTask1',
+  EmptyNonAuthorizedData:{
+    Request: '@EmptyRequest',
+    Response: '@NoAccessResponse'
+  },
+  UploadDocumentRequest : {
+    taskId: '10000',
+    folderUuid: '10000',
+    documentType: 'MISC',
+    fileName: 'RestTestName',
+    comment: 'Comment REST'
+  },
+  SecurityAdministratorRole: {
+    SearchByField: '@SearchByField1'
+  },
+  MyWorkTaskAndUserRole: {
+     SearchByField: '@SearchByField2'
+  }
+}
+
+SearchByField1: {
+Role Name: 'Security administrator'
+}
+
+SearchByField2: {
+ Role Name: 'MyWork and Task User'
+}
+
+Upload : {
+  Upload File: "/file:myWorkTest.bpmn"
+}
+
+CreateManualTask1 : {
+ CreateTaskActionTab: {
+    Type: 'Customer',
+    Task Name: 'Opportunity is in cold',
+    Reference ID: '',
+    Warning Date/Time: '/today+1M:MM/dd/yyyy h:mm a',
+    Due Date/Time: '/today+2M:MM/dd/yyyy hh:mm a'
+  }
+}
+
+EmptyRequest: {
+
+}
+
+NoAccessResponse: {
+  errorCode: "403",
+  message: "Authentication succeeded but authenticated user doesn't have access to the resource."
+}

@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Data Generator" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+    
+    <test name="DataGenerator HomePreconfigured"><classes><class name="com.exigen.ipb.etcsa.utils.DataGenerator"><methods><include name="createHomePreconfigured"/></methods></class></classes></test>
+    <test name="DataGenerator AutoPreconfigured"><classes><class name="com.exigen.ipb.etcsa.utils.DataGenerator"><methods><include name="createAutoPreconfigured"/></methods></class></classes></test>
+    <test name="DataGenerator CommercialLinesMultiLob"><classes><class name="com.exigen.ipb.etcsa.utils.DataGenerator"><methods><include name="createCommercialLinesMultiLob"/></methods></class></classes></test>
+
+    </suite>

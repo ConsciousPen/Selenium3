@@ -1,0 +1,134 @@
+ProfileInformationSection: {
+  GeneralProfileTab: '@ProfileInformation'
+}
+
+ProfileInformation: {
+  First Name: /FName_######,
+  Middle Name: MName,
+  Last Name: /LName_######,
+  Effective Date: /today,
+  Expiration Date: /today-1d,
+  Job Title: jobTitle,
+  Signature URI: signatureUri,
+  Profile/Subproducer ID: /Subproducer_######,
+  'User Name': /qa_######,
+  'User Login': /qa_######,
+  Password: qa,
+  Confirm Password: qa
+}
+
+AgencyData: {
+  GeneralProfileTab: {
+    Agency/Locations: {
+      Agency Name: 'QA Agency'
+    }
+  }
+}
+
+PasswordData: {
+  GeneralProfileTab: {
+    Password: qa,
+    Confirm Password: qa
+  }
+}
+
+ProfileAuthorityLevels: {
+  Item1: {
+    AuthorityLevelsTab: {
+      Type: Underwriting,
+      Product: Group Accident,
+      Level: Level 1,
+      Save New Authority: CLICK
+    }
+  },
+  Item2: {
+    AuthorityLevelsTab: {
+      Type: Underwriting,
+      Product: Critical Illness Insurance,
+      Level: Level 4,
+      Save New Authority: CLICK
+    }
+  },
+  Item3: {
+    AuthorityLevelsTab: {
+      Type: Underwriting,
+      Product: Term Life Insurance,
+      Level: Level 2,
+      Save New Authority: CLICK
+    }
+  },
+  Item1_Update: {
+    AuthorityLevelsTab: {
+      Level: Level 3,
+      Update Authority: CLICK
+    }
+  },
+  Item1_Updated: {
+    AuthorityLevelsTab: {
+      Type: Underwriting,
+      Product: Group Accident,
+      Level: Level 3
+    }
+  },
+  Item3_Update: {
+    AuthorityLevelsTab: {
+      Type: Underwriting,
+      Product: Statutory Disability Insurance,
+      Level: Level 1,
+      Cancel Authority: CLICK
+    }
+  },
+  Item4: {
+    AuthorityLevelsTab: {
+      Type: Underwriting,
+      Product: Statutory Disability Insurance,
+      Level: Level 2,
+      Cancel Authority: CLICK
+    }
+  }
+}
+
+
+ProfileManager: {
+
+GeneralProfileTab: {
+  EIS User: 'Yes',
+  First Name: /FName_######,
+  Last Name: /LName_######,
+  Effective Date: /today,
+  Profile/Subproducer ID: /Subproducer_######,
+  'User Name': /qa_######,
+  'User Login': /qa_######,
+  Password: qa,
+  Confirm Password: qa,
+  User Work Status: Available,
+  Agency/Locations: {
+    Agency Name: ''
+  },
+  Default: 'true'
+},
+AuthorityLevelsTab: {},
+
+}
+
+ProfileSubordinate: {
+
+GeneralProfileTab: {
+  EIS User: 'Yes',
+  First Name: /FName_######,
+  Last Name: /LName_######,
+  Effective Date: /today,
+  Profile/Subproducer ID: /Subproducer_######,
+  'User Name': /qa_######,
+  'User Login': /qa_######,
+  Password: qa,
+  Confirm Password: qa,
+  User Work Status: Available,
+  Agency/Locations: {
+    Agency Name: ''
+  },
+  Default: 'true'
+},
+AuthorityLevelsTab: {},
+
+}

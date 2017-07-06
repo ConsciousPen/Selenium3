@@ -1,0 +1,106 @@
+TestData: {
+ GeneralTab: {
+   Contact Details Type: Phone,
+   Phone Type: Work,
+   Phone Number: '0123456789'
+  }, 
+  BusinessEntityTab: {},
+  RelationshipTab: {}
+}
+
+Adjustment_NewAddress: {
+  GeneralTab: {
+    Contact Details Type: Address,
+    Address Type: Billing,       
+    Country: United States,
+    Zip/Post Code: '12345',
+    City: As,
+    State/Province: CA,
+    Address Line 1: EISGROUP    
+  }
+}
+
+Adjustment_NewChat: {
+  GeneralTab: {
+    Contact Details Type: Chat,
+    Chat Type: Skype,       
+    Chat ID: 1    
+  }
+}
+
+Adjustment_NewEmail: {
+  GeneralTab: {
+    Contact Details Type: Email,
+    Email Type: Common,       
+    Email Address: eis@eis.com    
+  }
+}
+
+Adjustment_NewSocialNet: {
+  GeneralTab: {
+    Contact Details Type: Social Net,
+    Social Net Type: Facebook,       
+    Social Net ID: 1    
+  }
+}
+
+Adjustment_NewWebUrl: {
+  GeneralTab: {
+    Contact Details Type: Web URL,
+    Web URL Type: Corporate,       
+    Web URL: 1    
+  }
+}
+
+Adjustment_NewProduct: {
+  GeneralTab: {
+    Policy Type: Auto,
+    Carrier Name: AIGM      
+  }
+}
+
+Adjustment_UpdateAddressType: {
+  GeneralTab: {
+    Address Type: Legal,       
+    Country: United States,
+    Zip/Post Code: '12345',
+    City: As,
+    State/Province: CA,
+    Address Line 1: EISGROUP
+  }
+}
+
+Adjustment_UpdatePhoneNumber: {
+  GeneralTab: {    
+    Phone Type: Work,
+    Phone Number: 9876543210  
+  }
+}
+
+Adjustment_UpdateChatId: {
+  GeneralTab: {   
+    Chat Type: Skype,       
+    Chat ID: 2    
+  }
+}
+
+Adjustment_UpdateWebUrl: {
+  GeneralTab: {
+    Web URL Type: Corporate,       
+    Web URL: 2    
+  }
+}
+
+Adjustment_UpdateSocialNetId: {
+   GeneralTab: {    
+    Social Net Type: Facebook,       
+    Social Net ID: 2
+  }
+}
+
+Adjustment_UpdateEmailAddress: {
+    GeneralTab: {
+    Email Type: Common,       
+    Email Address: eis@eisas.com
+  }
+}

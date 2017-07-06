@@ -1,0 +1,12 @@
+TestData: {
+  PolicyTab: {},
+  InsuredTab: {},
+  DriverTab: {},
+  VehicleTab: {},
+  MVRClaimsTab: {},
+  FormsAddlInfoTab: {},
+  AssignmentTab: {},
+  PremiumCoveragesTab: {
+    Medical Payments: '$2,000'
+  },
+}

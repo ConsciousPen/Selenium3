@@ -1,0 +1,987 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet failOnError="false" id="1" author="vmarkouski">
+        <comment>Fees Strategies</comment>
+        <delete tableName="FeeState"/>
+        <delete tableName="FeeCountry"/>
+        <delete tableName="SelectedCoverage">
+            <where>FeeRule_id = 2</where>
+        </delete>
+        <delete tableName="FeeRule"/>
+        <delete tableName="FeeStrategyProduct"/>
+        <delete tableName="FeeStrategy"/>
+        <delete tableName="Fee"/>
+
+        <insert tableName="Fee">
+            <column name="id" value="1"/>
+            <column name="code" value="FEE1"/>
+            <column name="description" value="FEE1"/>
+            <column name="effectiveDate" valueDate="2010-01-01"/>
+            <column name="feeType" value="GENERAL"/>
+        </insert>
+        <insert tableName="FeeStrategy">
+            <column name="id" value="1"/>
+            <column name="effectiveDate" valueDate="2010-01-01"/>
+            <column name="rounding" value="cent"/>
+            <column name="paymentFrequency" value="monthly"/>
+        </insert>
+
+        <insert tableName="FeeStrategyProduct">
+            <column name="id" value="1"/>
+            <column name="FeeStrategy_id" value="1"/>
+            <column name="productCd" value="PREC-HO"/>
+            <column name="productName" value="Home (Preconfigured)"/>
+        </insert>
+        <insert tableName="FeeStrategyProduct">
+            <column name="id" value="2"/>
+            <column name="FeeStrategy_id" value="1"/>
+            <column name="productCd" value="PREC-AU"/>
+            <column name="productName" value="Auto (Preconfigured)"/>
+        </insert>
+        <insert tableName="FeeStrategyProduct">
+            <column name="id" value="3"/>
+            <column name="FeeStrategy_id" value="1"/>
+            <column name="productCd" value="CL"/>
+            <column name="productName" value="Commercial (Preconfigured)"/>
+        </insert>
+
+        <insert tableName="FeeRule">
+            <column name="id" value="1"/>
+            <column name="seqIdx" value="0"/>
+            <column name="salesChannel" value="agency"/>
+            <column name="applyLevel" value="POLICY"/>
+            <column name="applyEntity" value="policy"/>
+            <column name="includedInPremiumInd" value="0"/>
+            <column name="retainedInd" value="0"/>
+            <column name="refundableInd" value="0"/>
+            <column name="refundFeesOnFlatCancelInd" value="0"/>
+            <column name="frequency" value="occursEveryTerm"/>
+            <column name="FeeStrategy_id" value="1"/>
+            <column name="Fee_id" value="1"/>
+            <column name="amount" value="17"/>
+            <column name="denomination" value="flat"/>
+            <column name="splitInd" value="0"/>
+            <column name="taxableInd" value="0"/>
+            <column name="disbursableInd" value="1"/>
+            <column name="currencyCd" value="UDS"/>
+            <column name="dynamicFeeInd" value="0"/>
+            <column name="expenseInd" value="1"/>
+            <column name="FEERULECD" value="FEE1/1"/>
+        </insert>
+        <insert tableName="FeeCountry">
+            <column name="id" value="1"/>
+            <column name="FeeRule_id" value="1"/>
+            <column name="countryCd" value="US"/>
+        </insert>
+        <insert tableName="FeeState">
+            <column name="id" value="1"/>
+            <column name="FeeRule_id" value="1"/>
+            <column name="stateProvCd" value="LA"/>
+        </insert>
+        <insert tableName="FeeState">
+            <column name="id" value="2"/>
+            <column name="FeeRule_id" value="1"/>
+            <column name="stateProvCd" value="OK"/>
+        </insert>
+
+        <insert tableName="Fee">
+            <column name="id" value="2"/>
+            <column name="code" value="FEE2"/>
+            <column name="description" value="FEE2"/>
+            <column name="effectiveDate" valueDate="2010-01-01"/>
+            <column name="feeType" value="GENERAL"/>
+        </insert>
+        <insert tableName="FeeRule">
+            <column name="id" value="2"/>
+            <column name="seqIdx" value="1"/>
+            <column name="salesChannel" value="agency"/>
+            <column name="applyLevel" value="COVERAGE"/>
+            <column name="applyEntity" value="policy"/>
+            <column name="includedInPremiumInd" value="0"/>
+            <column name="retainedInd" value="0"/>
+            <column name="refundableInd" value="0"/>
+            <column name="refundFeesOnFlatCancelInd" value="0"/>
+            <column name="frequency" value="occursEveryTerm"/>
+            <column name="FeeStrategy_id" value="1"/>
+            <column name="Fee_id" value="2"/>
+            <column name="amount" value="19"/>
+            <column name="denomination" value="flat"/>
+            <column name="splitInd" value="0"/>
+            <column name="taxableInd" value="0"/>
+            <column name="disbursableInd" value="1"/>
+            <column name="currencyCd" value="UDS"/>
+            <column name="dynamicFeeInd" value="0"/>
+            <column name="expenseInd" value="1"/>
+            <column name="FEERULECD" value="FEE2/2"/>
+        </insert>
+        <insert tableName="FeeCountry">
+            <column name="id" value="2"/>
+            <column name="FeeRule_id" value="2"/>
+            <column name="countryCd" value="US"/>
+        </insert>
+        <insert tableName="FeeState">
+            <column name="id" value="3"/>
+            <column name="FeeRule_id" value="2"/>
+            <column name="stateProvCd" value="LA"/>
+        </insert>
+        <insert tableName="FeeState">
+            <column name="id" value="4"/>
+            <column name="FeeRule_id" value="2"/>
+            <column name="stateProvCd" value="OK"/>
+        </insert>
+
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="111"/>
+            <column name="coverageCd" value="CLTTTMPCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="112"/>
+            <column name="coverageCd" value="CLTTTPIPCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="113"/>
+            <column name="coverageCd" value="CLTTTCSLCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="114"/>
+            <column name="coverageCd" value="CLPPTPIPCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="115"/>
+            <column name="coverageCd" value="CLPPTMPCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="116"/>
+            <column name="coverageCd" value="CLPPTCSLCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="117"/>
+            <column name="coverageCd" value="CLPAMPCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="118"/>
+            <column name="coverageCd" value="CLPAPIPCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="119"/>
+            <column name="coverageCd" value="CLPACSLCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1110"/>
+            <column name="coverageCd" value="CLSTPIPCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1111"/>
+            <column name="coverageCd" value="CLSTMPCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1112"/>
+            <column name="coverageCd" value="CLSTCSLCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1113"/>
+            <column name="coverageCd" value="CLDealersGLBIPDCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1114"/>
+            <column name="coverageCd" value="CLDealersPersAndAdvInjuryCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1115"/>
+            <column name="coverageCd" value="CLDealersUIMCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1116"/>
+            <column name="coverageCd" value="CLDealersEachAccLimitCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1117"/>
+            <column name="coverageCd" value="CLDealersProductsAggLimitCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1118"/>
+            <column name="coverageCd" value="CLDealersProductsAggLimitCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1119"/>
+            <column name="coverageCd" value="CLDealersPIPCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1120"/>
+            <column name="coverageCd" value="CLDealersUMCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1121"/>
+            <column name="coverageCd" value="CLDealersMedPayCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1122"/>
+            <column name="coverageCd" value="CLDealersLiabAggLimitCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1123"/>
+            <column name="coverageCd" value="CLGarageKeepersCollCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1124"/>
+            <column name="coverageCd" value="CLStructureCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1125"/>
+            <column name="coverageCd" value="CLPersonalPropertyCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1126"/>
+            <column name="coverageCd" value="CLBusinessIncomeCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1127"/>
+            <column name="coverageCd" value="CLPRODCOCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1128"/>
+            <column name="coverageCd" value="CLPREMOPSCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1129"/>
+            <column name="coverageCd" value="CLScheduledPropertyCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1130"/>
+            <column name="coverageCd" value="CLARPremisesCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1131"/>
+            <column name="coverageCd" value="EarthquakeLossAssessment"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1132"/>
+            <column name="coverageCd" value="HurricaneCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1133"/>
+            <column name="coverageCd" value="Earthquake"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1134"/>
+            <column name="coverageCd" value="LossAssessment"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1135"/>
+            <column name="coverageCd" value="WaterBackupOfSewerAndDrain"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1136"/>
+            <column name="coverageCd" value="FMedicalPayments"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1137"/>
+            <column name="coverageCd" value="DLossOfUse"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1138"/>
+            <column name="coverageCd" value="EPersonalLiability"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1139"/>
+            <column name="coverageCd" value="CourseOfConstruction"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1140"/>
+            <column name="coverageCd" value="FungiAndMold"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1141"/>
+            <column name="coverageCd" value="BOtherStructures"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1142"/>
+            <column name="coverageCd" value="CPersonalProperty"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1143"/>
+            <column name="coverageCd" value="IdentityTheft"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1144"/>
+            <column name="coverageCd" value="ADwellingLimit"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1145"/>
+            <column name="coverageCd" value="clUtilityCoverage"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1146"/>
+            <column name="coverageCd" value="MEDPM"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1147"/>
+            <column name="coverageCd" value="CSL"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1148"/>
+            <column name="coverageCd" value="UMCSL"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1149"/>
+            <column name="coverageCd" value="MEDPM"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1150"/>
+            <column name="coverageCd" value="Collision"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1151"/>
+            <column name="coverageCd" value="COMP"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1152"/>
+            <column name="coverageCd" value="RAC"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1153"/>
+            <column name="coverageCd" value="RREIM"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1154"/>
+            <column name="coverageCd" value="CSL"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1155"/>
+            <column name="coverageCd" value="UMCSL"/>
+            <column name="FeeRule_id" value="2"/>
+        </insert>
+    </changeSet>
+
+    <changeSet failOnError="false" id="2" author="vmarkouski">
+        <comment>Taxes Strategies</comment>
+        <delete tableName="TAXSTATE"/>
+        <delete tableName="TAXCOUNTRY"/>
+        <delete tableName="SelectedCoverage">
+            <where>TaxRule_ID = 1</where>
+        </delete>
+        <delete tableName="SelectedCoverage">
+            <where>TaxRule_ID = 2</where>
+        </delete>
+        <delete tableName="SelectedCoverage">
+            <where>TaxRule_ID = 3</where>
+        </delete>
+        <delete tableName="SelectedCoverage">
+            <where>TaxRule_ID = 4</where>
+        </delete>
+        <delete tableName="SelectedCoverage">
+            <where>TaxRule_ID = 7</where>
+        </delete>
+        <delete tableName="TAXRULE"/>
+        <delete tableName="TAXSTRATEGYPRODUCT"/>
+        <delete tableName="TAXSTRATEGY"/>
+        <delete tableName="Tax"/>
+
+        <insert tableName="Tax">
+            <column name="id" value="1"/>
+            <column name="effectiveDate" valueDate="2010-01-01"/>
+            <column name="type" value="FEDERAL"/>
+            <column name="subType" value="VAT"/>
+            <column name="description" value="TAX1"/>
+            <column name="applyEntity" value="policy"/>
+            <column name="code" value="TAX1"/>
+            <column name="currencyCd" value="USD"/>
+        </insert>
+
+        <insert tableName="TAXSTRATEGY">
+            <column name="id" value="1"/>
+            <column name="EFFECTIVEDATE" valueDate="2010-01-01"/>
+        </insert>
+        <insert tableName="TAXSTRATEGYPRODUCT">
+            <column name="id" value="1"/>
+            <column name="TAXSTRATEGY_ID" value="1"/>
+            <column name="PRODUCTCD" value="PREC-HO"/>
+            <column name="PRODUCTNAME" value="Home (Preconfigured)"/>
+        </insert>
+        <insert tableName="TAXSTRATEGYPRODUCT">
+            <column name="id" value="2"/>
+            <column name="TAXSTRATEGY_ID" value="1"/>
+            <column name="PRODUCTCD" value="PREC-AU"/>
+            <column name="PRODUCTNAME" value="Auto (Preconfigured)"/>
+        </insert>
+        <insert tableName="TAXSTRATEGYPRODUCT">
+            <column name="id" value="3"/>
+            <column name="TAXSTRATEGY_ID" value="1"/>
+            <column name="PRODUCTCD" value="CL"/>
+            <column name="PRODUCTNAME" value="Commercial (Preconfigured)"/>
+        </insert>
+
+        <insert tableName="TAXRULE">
+            <column name="id" value="1"/>
+            <column name="REFUNDTAXESONFLATCANCELIND" value="0"/>
+            <column name="REFUNDABLEIND" value="0"/>
+            <column name="SEQIDX" value="0"/>
+            <column name="TAX_ID" value="1"/>
+            <column name="APPLYENTITY" value="policy"/>
+            <column name="APPLYLEVEL" value="COVERAGE"/>
+            <column name="DENOMINATION" value="flat"/>
+            <column name="TAXSTRATEGY_ID" value="1"/>
+            <column name="AMOUNT" value="25"/>
+            <column name="TAXRULECD" value="TAX1/1"/>
+            <column name="FREQUENCY" value="occursEveryTerm"/>
+        </insert>
+        <insert tableName="TAXCOUNTRY">
+            <column name="id" value="1"/>
+            <column name="TAXRULE_ID" value="1"/>
+            <column name="COUNTRYCD" value="US"/>
+        </insert>
+        <insert tableName="TAXSTATE">
+            <column name="id" value="1"/>
+            <column name="TAXRULE_ID" value="1"/>
+            <column name="STATEPROVCD" value="LA"/>
+        </insert>
+        <insert tableName="TAXSTATE">
+            <column name="id" value="2"/>
+            <column name="TAXRULE_ID" value="1"/>
+            <column name="STATEPROVCD" value="OK"/>
+        </insert>
+
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="1"/>
+            <column name="coverageCd" value="CLTTTMPCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="2"/>
+            <column name="coverageCd" value="CLTTTPIPCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="3"/>
+            <column name="coverageCd" value="CLTTTCSLCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="4"/>
+            <column name="coverageCd" value="CLPPTPIPCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="5"/>
+            <column name="coverageCd" value="CLPPTMPCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="6"/>
+            <column name="coverageCd" value="CLPPTCSLCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="7"/>
+            <column name="coverageCd" value="CLPAMPCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="8"/>
+            <column name="coverageCd" value="CLPAPIPCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="9"/>
+            <column name="coverageCd" value="CLPACSLCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="10"/>
+            <column name="coverageCd" value="CLSTPIPCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="11"/>
+            <column name="coverageCd" value="CLSTMPCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="12"/>
+            <column name="coverageCd" value="CLSTCSLCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="13"/>
+            <column name="coverageCd" value="CLDealersGLBIPDCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="14"/>
+            <column name="coverageCd" value="CLDealersPersAndAdvInjuryCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="15"/>
+            <column name="coverageCd" value="CLDealersUIMCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="16"/>
+            <column name="coverageCd" value="CLDealersEachAccLimitCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="17"/>
+            <column name="coverageCd" value="CLDealersProductsAggLimitCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="18"/>
+            <column name="coverageCd" value="CLDealersDamageRentedPremiseCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="19"/>
+            <column name="coverageCd" value="CLDealersPIPCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="20"/>
+            <column name="coverageCd" value="CLDealersUMCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="21"/>
+            <column name="coverageCd" value="CLDealersMedPayCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="22"/>
+            <column name="coverageCd" value="CLDealersLiabAggLimitCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="23"/>
+            <column name="coverageCd" value="CLGarageKeepersCollCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="24"/>
+            <column name="coverageCd" value="CLStructureCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="25"/>
+            <column name="coverageCd" value="CLPersonalPropertyCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="26"/>
+            <column name="coverageCd" value="CLBusinessIncomeCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="27"/>
+            <column name="coverageCd" value="CLPRODCOCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="28"/>
+            <column name="coverageCd" value="CLPREMOPSCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="29"/>
+            <column name="coverageCd" value="CLScheduledPropertyCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="30"/>
+            <column name="coverageCd" value="CLARPremisesCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="31"/>
+            <column name="coverageCd" value="EarthquakeLossAssessment"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="32"/>
+            <column name="coverageCd" value="HurricaneCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="33"/>
+            <column name="coverageCd" value="Earthquake"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="34"/>
+            <column name="coverageCd" value="LossAssessment"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="35"/>
+            <column name="coverageCd" value="WaterBackupOfSewerAndDrain"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="36"/>
+            <column name="coverageCd" value="FMedicalPayments"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="37"/>
+            <column name="coverageCd" value="DLossOfUse"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="38"/>
+            <column name="coverageCd" value="EPersonalLiability"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="39"/>
+            <column name="coverageCd" value="CourseOfConstruction"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="40"/>
+            <column name="coverageCd" value="FungiAndMold"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="41"/>
+            
+            <column name="coverageCd" value="BOtherStructures"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="42"/>
+            <column name="coverageCd" value="CPersonalProperty"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="43"/>
+            <column name="coverageCd" value="IdentityTheft"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="44"/>
+            <column name="coverageCd" value="ADwellingLimit"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="45"/>
+            <column name="coverageCd" value="clUtilityCoverage"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="46"/>
+            <column name="coverageCd" value="MEDPM"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="47"/>
+            <column name="coverageCd" value="CSL"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="48"/>
+            <column name="coverageCd" value="UMCSL"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="49"/>
+            <column name="coverageCd" value="MEDPM"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="50"/>
+            <column name="coverageCd" value="Collision"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="51"/>
+            <column name="coverageCd" value="COMP"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="52"/>
+            <column name="coverageCd" value="RAC"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="53"/>
+            <column name="coverageCd" value="RREIM"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="54"/>
+            <column name="coverageCd" value="CSL"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="55"/>
+            <column name="coverageCd" value="UMCSL"/>
+            <column name="TaxRule_ID" value="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet failOnError="false" id="3" author="pkaziuchtys">
+        <comment>Taxes E2E Strategy</comment>
+        <insert tableName="Tax">
+            <column name="id" value="2"/>
+            <column name="effectiveDate" valueDate="2010-01-01"/>
+            <column name="type" value="FEDERAL"/>
+            <column name="subType" value="VAT"/>
+            <column name="description" value="TaxPolicy"/>
+            <column name="applyEntity" value="policy"/>
+            <column name="code" value="TaxPolicy"/>
+            <column name="currencyCd" value="USD"/>
+        </insert>
+        <insert tableName="Tax">
+            <column name="id" value="3"/>
+            <column name="effectiveDate" valueDate="2010-01-01"/>
+            <column name="type" value="FEDERAL"/>
+            <column name="subType" value="VAT"/>
+            <column name="description" value="TaxRI"/>
+            <column name="applyEntity" value="policy"/>
+            <column name="code" value="TaxRI"/>
+            <column name="currencyCd" value="USD"/>
+        </insert>
+        <insert tableName="Tax">
+            <column name="id" value="4"/>
+            <column name="effectiveDate" valueDate="2010-01-01"/>
+            <column name="type" value="FEDERAL"/>
+            <column name="subType" value="VAT"/>
+            <column name="description" value="TaxCov"/>
+            <column name="applyEntity" value="policy"/>
+            <column name="code" value="TaxCov"/>
+            <column name="currencyCd" value="USD"/>
+        </insert>
+
+        <insert tableName="TAXRULE">
+            <column name="id" value="2"/>
+            <column name="REFUNDTAXESONFLATCANCELIND" value="0"/>
+            <column name="REFUNDABLEIND" value="0"/>
+            <column name="CITY" value="CityTaxNonRef"/>
+            <column name="SEQIDX" value="1"/>
+            <column name="TAX_ID" value="2"/>
+            <column name="APPLYENTITY" value="policy"/>
+            <column name="APPLYLEVEL" value="POLICY"/>
+            <column name="DENOMINATION" value="flat"/>
+            <column name="TAXSTRATEGY_ID" value="1"/>
+            <column name="AMOUNT" value="4"/>
+            <column name="TAXRULECD" value="TAX1/2"/>
+            <column name="FREQUENCY" value="occursEveryTerm"/>
+        </insert>
+        <insert tableName="TAXCOUNTRY">
+            <column name="id" value="2"/>
+            <column name="TAXRULE_ID" value="2"/>
+            <column name="COUNTRYCD" value="US"/>
+        </insert>
+        <insert tableName="TAXSTATE">
+            <column name="id" value="3"/>
+            <column name="TAXRULE_ID" value="2"/>
+            <column name="STATEPROVCD" value="FL"/>
+        </insert>
+
+        <insert tableName="TAXRULE">
+            <column name="id" value="3"/>
+            <column name="REFUNDTAXESONFLATCANCELIND" value="0"/>
+            <column name="REFUNDABLEIND" value="0"/>
+            <column name="CITY" value="CityTaxNonRef"/>
+            <column name="SEQIDX" value="2"/>
+            <column name="TAX_ID" value="3"/>
+            <column name="APPLYENTITY" value="policy"/>
+            <column name="APPLYLEVEL" value="RISKITEM"/>
+            <column name="DENOMINATION" value="flat"/>
+            <column name="TAXSTRATEGY_ID" value="1"/>
+            <column name="AMOUNT" value="6"/>
+            <column name="TAXRULECD" value="TAX1/3"/>
+            <column name="FREQUENCY" value="occursEveryTerm"/>
+        </insert>
+        <insert tableName="TAXCOUNTRY">
+            <column name="id" value="3"/>
+            <column name="TAXRULE_ID" value="3"/>
+            <column name="COUNTRYCD" value="US"/>
+        </insert>
+        <insert tableName="TAXSTATE">
+            <column name="id" value="4"/>
+            <column name="TAXRULE_ID" value="3"/>
+            <column name="STATEPROVCD" value="FL"/>
+        </insert>
+
+        <insert tableName="TAXRULE">
+            <column name="id" value="4"/>
+            <column name="REFUNDTAXESONFLATCANCELIND" value="0"/>
+            <column name="REFUNDABLEIND" value="0"/>
+            <column name="CITY" value="CityTaxNonRef"/>
+            <column name="SEQIDX" value="3"/>
+            <column name="TAX_ID" value="4"/>
+            <column name="APPLYENTITY" value="policy"/>
+            <column name="APPLYLEVEL" value="COVERAGE"/>
+            <column name="DENOMINATION" value="flat"/>
+            <column name="TAXSTRATEGY_ID" value="1"/>
+            <column name="AMOUNT" value="8"/>
+            <column name="TAXRULECD" value="TAX1/4"/>
+            <column name="FREQUENCY" value="occursEveryTerm"/>
+        </insert>
+        <insert tableName="TAXCOUNTRY">
+            <column name="id" value="4"/>
+            <column name="TAXRULE_ID" value="4"/>
+            <column name="COUNTRYCD" value="US"/>
+        </insert>
+        <insert tableName="TAXSTATE">
+            <column name="id" value="5"/>
+            <column name="TAXRULE_ID" value="4"/>
+            <column name="STATEPROVCD" value="FL"/>
+        </insert>
+
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="56"/>
+            <column name="coverageCd" value="CLTTTUMCSLCoverage"/>
+            <column name="TaxRule_ID" value="4"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="57"/>
+            <column name="coverageCd" value="CLTTTUIMCSLCoverage"/>
+            <column name="TaxRule_ID" value="4"/>
+        </insert>
+
+        <insert tableName="TAXRULE">
+            <column name="id" value="5"/>
+            <column name="REFUNDTAXESONFLATCANCELIND" value="1"/>
+            <column name="REFUNDABLEIND" value="1"/>
+            <column name="CITY" value="CityTaxRef"/>
+            <column name="SEQIDX" value="4"/>
+            <column name="TAX_ID" value="2"/>
+            <column name="APPLYENTITY" value="policy"/>
+            <column name="APPLYLEVEL" value="POLICY"/>
+            <column name="DENOMINATION" value="percentage"/>
+            <column name="TAXSTRATEGY_ID" value="1"/>
+            <column name="AMOUNT" value="3"/>
+            <column name="TAXRULECD" value="TAX1/5"/>
+            <column name="FREQUENCY" value="occursEveryTerm"/>
+        </insert>
+        <insert tableName="TAXCOUNTRY">
+            <column name="id" value="5"/>
+            <column name="TAXRULE_ID" value="5"/>
+            <column name="COUNTRYCD" value="US"/>
+        </insert>
+        <insert tableName="TAXSTATE">
+            <column name="id" value="6"/>
+            <column name="TAXRULE_ID" value="5"/>
+            <column name="STATEPROVCD" value="FL"/>
+        </insert>
+
+        <insert tableName="TAXRULE">
+            <column name="id" value="6"/>
+            <column name="REFUNDTAXESONFLATCANCELIND" value="1"/>
+            <column name="REFUNDABLEIND" value="1"/>
+            <column name="CITY" value="CityTaxRef"/>
+            <column name="SEQIDX" value="5"/>
+            <column name="TAX_ID" value="3"/>
+            <column name="APPLYENTITY" value="policy"/>
+            <column name="APPLYLEVEL" value="RISKITEM"/>
+            <column name="DENOMINATION" value="percentage"/>
+            <column name="TAXSTRATEGY_ID" value="1"/>
+            <column name="AMOUNT" value="5"/>
+            <column name="TAXRULECD" value="TAX1/6"/>
+            <column name="FREQUENCY" value="occursEveryTerm"/>
+        </insert>
+        <insert tableName="TAXCOUNTRY">
+            <column name="id" value="6"/>
+            <column name="TAXRULE_ID" value="6"/>
+            <column name="COUNTRYCD" value="US"/>
+        </insert>
+        <insert tableName="TAXSTATE">
+            <column name="id" value="7"/>
+            <column name="TAXRULE_ID" value="6"/>
+            <column name="STATEPROVCD" value="FL"/>
+        </insert>
+
+        <insert tableName="TAXRULE">
+            <column name="id" value="7"/>
+            <column name="REFUNDTAXESONFLATCANCELIND" value="1"/>
+            <column name="REFUNDABLEIND" value="1"/>
+            <column name="CITY" value="CityTaxRef"/>
+            <column name="SEQIDX" value="6"/>
+            <column name="TAX_ID" value="4"/>
+            <column name="APPLYENTITY" value="policy"/>
+            <column name="APPLYLEVEL" value="COVERAGE"/>
+            <column name="DENOMINATION" value="percentage"/>
+            <column name="TAXSTRATEGY_ID" value="1"/>
+            <column name="AMOUNT" value="7"/>
+            <column name="TAXRULECD" value="TAX1/7"/>
+            <column name="FREQUENCY" value="occursEveryTerm"/>
+        </insert>
+        <insert tableName="TAXCOUNTRY">
+            <column name="id" value="7"/>
+            <column name="TAXRULE_ID" value="7"/>
+            <column name="COUNTRYCD" value="US"/>
+        </insert>
+        <insert tableName="TAXSTATE">
+            <column name="id" value="8"/>
+            <column name="TAXRULE_ID" value="7"/>
+            <column name="STATEPROVCD" value="FL"/>
+        </insert>
+
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="58"/>
+            <column name="coverageCd" value="CLTTTUMCSLCoverage"/>
+            <column name="TaxRule_ID" value="7"/>
+        </insert>
+        <insert tableName="SelectedCoverage">
+            <column name="id" value="59"/>
+            <column name="coverageCd" value="CLTTTUIMCSLCoverage"/>
+            <column name="TaxRule_ID" value="7"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

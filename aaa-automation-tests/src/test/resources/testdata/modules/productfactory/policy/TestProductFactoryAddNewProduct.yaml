@@ -1,0 +1,21 @@
+TestData: {
+  PolicyTab: '@PolicyTab',
+  RiskItemRiskItemTab: '@RiskItemRiskItemTab',
+  RiskItemCoveragesTab: {},
+  NewTabTab: {}  
+}
+
+PolicyTab: {
+  Source: New,  
+  Effective Date: /today,
+  'Premium State/Province': FL,
+  Underwriting Company: index=1,
+  Insured Type: Individual,
+  Override Rate Effective Date: 'No',
+  Rate Effective Date: /today,
+  #Branch: index=0
+}
+
+RiskItemRiskItemTab: {
+  itemName: itemName  
+}

@@ -1,0 +1,9 @@
+TestData: {
+  SponsorParticipantRelationshipAssociationRemovalActionTab: {}
+}
+
+Adjustment_KeepHistory: {
+  SponsorParticipantRelationshipAssociationRemovalActionTab: {
+    Keep Relationship history: true
+  }
+}

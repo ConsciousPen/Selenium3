@@ -1,0 +1,7 @@
+TestData: {
+  AcctInfoTab: {
+    Confidential Account: 'Yes'
+  },
+  DesignatedContactsTab: {},
+  AffinityGroupsTab: {}
+}

@@ -1,0 +1,25 @@
+TestData: {
+  CommunicationActionTab: {
+    Entity Type: Lead/Customer,
+  }
+}
+
+TestData_Account: {
+  CommunicationActionTab: {
+    Entity Type: Account,
+  }
+}
+
+TestData_Opportunity: {
+  CommunicationActionTab: {
+    Entity Type: Opportunity,
+    Entity Reference ID: 1
+  }
+}
+
+TestData_Campaign: {
+  CommunicationActionTab: {
+    Entity Type: Campaign,
+    Entity Reference ID: 1
+  }
+}

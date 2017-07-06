@@ -1,0 +1,41 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet failOnError="false" id="1" author="vmarkouski">
+        <comment>Remove / Add CEM group</comment>
+        <delete tableName="GroupInfo"/>
+        <insert tableName="GroupInfo">
+            <column name="id" value="1"/>
+            <column name="groupId" value="1"/>
+            <column name="groupInfoId" value="AFFINITY"/>
+            <column name="groupName" value="AFFINITY"/>
+            <column name="groupType" value="AFFINITY"/>
+            <column name="effectiveDate" valueDate="2010-01-01"/>
+        </insert>
+        <insert tableName="GroupInfo">
+            <column name="id" value="2"/>
+            <column name="groupId" value="2"/>
+            <column name="groupInfoId" value="PROFESSIONAL"/>
+            <column name="groupName" value="PROFESSIONAL"/>
+            <column name="groupType" value="PROFESSIONAL"/>
+            <column name="effectiveDate" valueDate="2010-01-01"/>
+        </insert>
+        <insert tableName="GroupInfo">
+            <column name="id" value="3"/>
+            <column name="groupId" value="3"/>
+            <column name="groupInfoId" value="1001"/>
+            <column name="groupName" value="1001"/>
+            <column name="groupType" value="1001"/>
+            <column name="effectiveDate" valueDate="2010-01-01"/>
+        </insert>
+    </changeSet>
+    <changeSet failOnError="false" id="2" author="vmarkouski">
+        <comment>CEM Configuration</comment>
+        <delete tableName="CrmConfiguration_Options">
+            <where>options IN ('LEAD_LIFECYCLE')</where>
+        </delete>
+        <insert tableName="CrmConfiguration_Options">
+            <column name="confiurationId" value="1"/>
+            <column name="options" value="LEAD_LIFECYCLE"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Coverage Default" verbose="1" parallel="tests" thread-count="1024">
+
+    <listeners>
+    <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+
+    <test name="AU TestQuoteIssue"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.au.TestQuoteIssue"/></classes></test>
+    <test name="HO TestQuoteIssue"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.ho.TestQuoteIssue"/></classes></test>
+    <test name="PREC-AU TestQuoteIssue"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestQuoteIssue"/></classes></test>
+    <test name="PREC-HO TestQuoteIssue"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestQuoteIssue"/></classes></test>
+    <test name="CL TestQuoteIssue NonIndividual Auto"><parameter name="LOB" value="Auto"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestQuoteIssue"/></classes></test>
+
+</suite>

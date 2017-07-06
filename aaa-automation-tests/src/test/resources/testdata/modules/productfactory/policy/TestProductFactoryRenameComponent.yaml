@@ -1,0 +1,47 @@
+TestData: {
+  ProductProductFactorySearch: {
+    Product Code: ''
+  },  
+  HomeTab: {},
+  PropertiesTab: {},
+  ActionsTab: {},  
+  ComponentsTab: ['@ComponentAddComponent','@ComponentRenameComponent','@ComponentAddCoverage']
+}
+
+ComponentAddComponent: {
+  Type: Port,
+  Path: [Policy 1.0,marketing],
+  Add Component: {
+    Name: Marketing 2.0,
+    Description: Marketing Information
+  }  
+}
+
+ComponentRenameComponent: {
+  Type: Port,
+  Path: [Policy 1.0,marketing,Marketing 2.0],
+  Properties: {
+    Reference name: 'UpdatedName'                
+  }
+}
+
+ComponentAddCoverage: {
+  Type: Repository,
+  Add Component: {
+    Name: Address 1.0
+  }
+}
+
+TestDataInquiry: {
+  ProductProductFactorySearch: {
+    Product Code: ''
+  },  
+  HomeTab: {},
+  PropertiesTab: {},
+  ActionsTab: {},  
+  ComponentsTab: {
+    Type: Relation,
+    Path: [Policy 1.0,UpdatedName 2.0],    
+  }
+}
+

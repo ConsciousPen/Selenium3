@@ -1,0 +1,5 @@
+TestData: {
+  SuspendCampaignActionTab: {
+    Suspend From: /today,
+  }
+}

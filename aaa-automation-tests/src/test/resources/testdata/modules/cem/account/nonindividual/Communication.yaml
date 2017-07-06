@@ -1,0 +1,7 @@
+TestData: {
+  CommunicationActionTab: {
+    Communication Channel: Call,
+    Entity Type: Account,
+    Communication Direction: Inbound
+  }
+}

@@ -1,0 +1,10 @@
+TestData_PREC_HO: {
+  AddCommissionReferral: {
+    Product Code-Name: 'PREC-HO - Home (Preconfigured)',
+    Commission Payment Trigger: Premium Written,
+    Rounding: No Rounding,
+    Payment Frequency: Monthly,
+    Effective Date: /today,
+    Expiration Date: /today + 12m
+  }  
+}

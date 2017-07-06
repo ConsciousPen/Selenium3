@@ -1,0 +1,821 @@
+TestData: {
+  AgencyProducer1: '@AgencyProducer1',
+  Step1: {
+    Requests:['@PostRequest1'],
+    Responses: ['@PostResponse1']
+  },
+  Step2: {
+      Requests:['@PostRequest2'],
+      Responses: ['@PostResponse2']
+    },
+  Step3: {
+      Requests:['@GetRequest1'],
+      Responses: ['@GetResponse1']
+    },
+  Step4: {
+      Requests:['@GetRequest2'],
+      Responses: ['@GetResponse2']
+    },
+  Step5: {
+      Requests:['@GetRequest3'],
+      Responses: ['@GetResponse3']
+    },
+  Step6: {
+      Requests:['@GetRequest4'],
+      Responses: ['@GetResponse4']
+    },
+  Step7: {
+      Requests:['@PutRequest1'],
+      Responses: ['@PutResponse1']
+    },
+  Step8: {
+      Requests:['@PutRequest2'],
+      Responses: ['@PutResponse2']
+    },
+  Step9: {
+      Requests:['@PostRequest3'],
+      Responses: ['@PostResponse3']
+    },
+  Step10: {
+      Requests:['@GetRequest5'],
+      Responses: ['@GetResponse5']
+    },
+  Step11: {
+      Requests:['@GetRequest6'],
+      Responses: ['@GetResponse6']
+    },
+  Step12: {
+      Requests:['@GetRequest7'],
+      Responses: ['@GetResponse7']
+    },
+  Step13: {
+      Requests:['@GetRequest8'],
+      Responses: ['@GetResponse8']
+    },
+  Step14: {
+      Requests:['@GetRequest9'],
+      Responses: ['@GetResponse9']
+    },
+  Step15: {
+      Requests:['@GetRequest10'],
+      Responses: ['@GetResponse10']
+    },
+  Step16: {
+      Requests:['@PostRequest4'],
+      Responses: ['@PostResponse4']
+    },
+  Step17: {
+      Requests:['@GetRequest11'],
+      Responses: ['@GetResponse11']
+    },
+  Step18: {
+      Requests:['@GetRequest12'],
+      Responses: ['@GetResponse12']
+    },
+  Step19: {
+      Requests:['@GetRequest13'],
+      Responses: ['@GetResponse13']
+    },
+  Step20: {
+      Requests:['@GetRequest14'],
+      Responses: ['@GetResponse14']
+    },
+  Step21: {
+      Requests:['@GetRequest15'],
+      Responses: ['@GetResponse15']
+    },
+  Step22: {
+      Requests:['@GetRequest16'],
+      Responses: ['@GetResponse16']
+    },
+  Step23: {
+      Requests:['@GetRequest17'],
+      Responses: ['@GetResponse17']
+    },
+  Step24: {
+      Requests:['@GetRequest18'],
+      Responses: ['@GetResponse18']
+    },
+  Step25: {
+      Requests:['@GetRequest19'],
+      Responses: ['@GetResponse19']
+    },
+  Step26: {
+      Requests:['@GetRequest20'],
+      Responses: ['@GetResponse20']
+    },
+  Step27: {
+      Requests:['@PutRequest3'],
+      Responses: ['@PutResponse3']
+    },
+  Step28: {
+      Requests:['@PutRequest4'],
+      Responses: ['@PutResponse4']
+    },
+  Step29: {
+      Requests:['@PutRequest5'],
+      Responses: ['@PutResponse5']
+    },
+  Step30: {
+      Requests:['@PutRequest6'],
+      Responses: ['@PutResponse6']
+    },
+  Step31: {
+      Requests:['@PutRequest7'],
+      Responses: ['@PutResponse7']
+    },
+  Step32: {
+      Requests:['@PutRequest8'],
+      Responses: ['@PutResponse8']
+    }
+}
+
+AgencyProducer1 : {
+Channel : 'Agency',
+Agency Name : 'NotesPA2C2C1'
+}
+
+PostRequest1: {
+     category: 'GENERAL_INFO',
+     confidential : 'false',
+     title: 'Post1Created',
+     description: 'Post1Created',
+     entityType: 'Quote',
+     entityRefNo: '',
+     userNoteName : 'PF_QUOTE_USER_NOTE'
+}
+
+PostResponse1: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post1Created',
+   description: 'Post1Created',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser4',
+   userNoteName: 'PF_QUOTE_USER_NOTE',
+   logMessage: 'PostResponse1'
+}
+
+PostRequest2: {
+     category: 'GENERAL_INFO',
+     confidential : 'false',
+     title: 'Post2Created',
+     description: 'Post2Created',
+     entityType: 'Quote',
+     entityRefNo: '',
+     userNoteName : 'PF_QUOTE_USER_NOTE'
+}
+
+PostResponse2: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post2Created',
+   description: 'Post2Created',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser3',
+   userNoteName: 'PF_QUOTE_USER_NOTE',
+   logMessage: 'PostResponse2'
+}
+
+GetRequest1: {
+    entityType : "Quote",
+    entityRefNo : ""
+ }
+
+GetResponse1: {
+    responses: ['@FirstGetResponse1'],
+    logMessage: 'GetResponse1'
+ }
+
+FirstGetResponse1: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post1Created',
+   description: 'Post1Created',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser4',
+   userNoteName: 'PF_QUOTE_USER_NOTE'
+}
+
+GetRequest2: {
+    entityType : "Quote",
+    entityRefNo : ""
+ }
+
+GetResponse2: {
+    responses: ['@SecondGetResponse1','@SecondGetResponse2'],
+    logMessage: 'GetResponse2'
+ }
+
+SecondGetResponse1: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post1Created',
+   description: 'Post1Created',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser4',
+   userNoteName: 'PF_QUOTE_USER_NOTE'
+}
+
+SecondGetResponse2: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post2Created',
+   description: 'Post2Created',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser3',
+   userNoteName: 'PF_QUOTE_USER_NOTE'
+}
+
+
+GetRequest3: {
+   noteId : ""
+}
+
+GetResponse3: {
+   errorCode: 'bm0010',
+   message: 'User Note does not exist',
+   category: '',
+   confidential: 'false',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   logMessage: 'GetResponse3'
+}
+
+GetRequest4: {
+   noteId : ""
+}
+
+GetResponse4: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post2Created',
+   description: 'Post2Created',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser3',
+   userNoteName: 'PF_QUOTE_USER_NOTE',
+   logMessage: 'GetResponse4'
+}
+
+PutRequest1: {
+   entityRefNo: '',
+   noteId: '',
+   description : 'Updated Description'
+}
+
+PutResponse1: {
+   errorCode: "bm0010",
+   message: "User Note does not exist",
+   category: '',
+   confidential: 'false',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   logMessage: 'PutResponse1'
+}
+
+PutRequest2: {
+   entityRefNo: '',
+   noteId: '',
+   description : 'Updated Description'
+}
+
+PutResponse2: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post2Created',
+   description: 'Updated Description',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser3',
+   userNoteName: 'PF_QUOTE_USER_NOTE',
+   logMessage: 'PutResponse2'
+}
+
+PostRequest3: {
+     category: 'GENERAL_INFO',
+     confidential : 'false',
+     title: 'Post3Created',
+     description: 'Post3Created',
+     entityType: 'Quote',
+     entityRefNo: '',
+     userNoteName : 'PF_QUOTE_USER_NOTE'
+}
+
+PostResponse3: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post3Created',
+   description: 'Post3Created',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser2',
+   userNoteName: 'PF_QUOTE_USER_NOTE',
+   logMessage: 'PostResponse3'
+}
+
+GetRequest5: {
+    entityType : "Quote",
+    entityRefNo : ""
+ }
+
+GetResponse5: {
+    responses: ['@FifthGetResponse1','@FifthGetResponse2'],
+    logMessage: 'GetResponse5'
+ }
+
+FifthGetResponse1: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post3Created',
+   description: 'Post3Created',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser2',
+   userNoteName: 'PF_QUOTE_USER_NOTE'
+}
+
+FifthGetResponse2: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post2Created',
+   description: 'Updated Description',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser3',
+   userNoteName: 'PF_QUOTE_USER_NOTE'
+}
+
+GetRequest6: {
+   noteId : ""
+}
+
+GetResponse6: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post2Created',
+   description: 'Updated Description',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser3',
+   userNoteName: 'PF_QUOTE_USER_NOTE',
+   logMessage: 'GetResponse6'
+}
+
+GetRequest7: {
+   noteId : ""
+}
+
+GetResponse7: {
+   errorCode: 'bm0010',
+   message: 'User Note does not exist',
+   category: '',
+   confidential: 'false',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   logMessage: 'GetResponse7'
+}
+
+GetRequest8: {
+   noteId : ""
+}
+
+GetResponse8: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post3Created',
+   description: 'Post3Created',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser2',
+   userNoteName: 'PF_QUOTE_USER_NOTE',
+   logMessage: 'GetResponse8'
+}
+
+GetRequest9: {
+   entityType : "Quote",
+   entityRefNo : ""
+}
+
+GetResponse9: {
+   responses: [],
+   logMessage: 'GetResponse9'
+}
+
+GetRequest10: {
+   noteId : ""
+}
+
+GetResponse10: {
+   errorCode: 'bm0010',
+   message: 'User Note does not exist',
+   category: '',
+   confidential: 'false',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   logMessage: 'GetResponse10'
+}
+
+PostRequest4: {
+     category: 'GENERAL_INFO',
+     confidential : 'false',
+     title: 'Post4Created',
+     description: 'Post4Created',
+     entityType: 'Quote',
+     entityRefNo: '',
+     userNoteName : 'PF_QUOTE_USER_NOTE'
+}
+
+PostResponse4: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post4Created',
+   description: 'Post4Created',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser6',
+   userNoteName: 'PF_QUOTE_USER_NOTE',
+   logMessage: 'PostResponse4'
+}
+
+GetRequest11: {
+    entityType : "Quote",
+    entityRefNo : ""
+ }
+
+GetResponse11: {
+    responses: ['@ElevenethGetResponse1','@ElevenethGetResponse2','@ElevenethGetResponse3'],
+    logMessage: 'GetResponse11'
+ }
+
+ElevenethGetResponse1: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post3Created',
+   description: 'Post3Created',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser2',
+   userNoteName: 'PF_QUOTE_USER_NOTE'
+}
+
+ElevenethGetResponse2: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post2Created',
+   description: 'Updated Description',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser3',
+   userNoteName: 'PF_QUOTE_USER_NOTE'
+}
+
+ElevenethGetResponse3: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post4Created',
+   description: 'Post4Created',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser6',
+   userNoteName: 'PF_QUOTE_USER_NOTE'
+}
+
+GetRequest12: {
+    entityType : "Quote",
+    entityRefNo : ""
+}
+
+GetResponse12: {
+    responses: [],
+    logMessage: 'GetResponse12'
+}
+
+GetRequest13: {
+    entityType : "Quote",
+    entityRefNo : ""
+ }
+
+GetResponse13: {
+    responses: ['@ThirteenthGetResponse1','@ThirteenthGetResponse2','@ThirteenthGetResponse3','@ThirteenthGetResponse4'],
+    logMessage: 'GetResponse13'
+}
+
+ThirteenthGetResponse1: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post3Created',
+   description: 'Post3Created',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser2',
+   userNoteName: 'PF_QUOTE_USER_NOTE'
+}
+
+ThirteenthGetResponse2: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post2Created',
+   description: 'Updated Description',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser3',
+   userNoteName: 'PF_QUOTE_USER_NOTE'
+}
+
+ThirteenthGetResponse3: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post1Created',
+   description: 'Post1Created',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser4',
+   userNoteName: 'PF_QUOTE_USER_NOTE'
+}
+
+ThirteenthGetResponse4: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post4Created',
+   description: 'Post4Created',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser6',
+   userNoteName: 'PF_QUOTE_USER_NOTE'
+}
+
+GetRequest14: {
+    entityType : "Quote",
+    entityRefNo : ""
+ }
+
+GetResponse14: {
+    responses: ['@FourteenthGetResponse1'],
+    logMessage: 'GetResponse14'
+}
+
+FourteenthGetResponse1: {
+    errorCode: '',
+    message: '',
+    category: 'GENERAL_INFO',
+    confidential: 'false',
+    title: 'Post4Created',
+    description: 'Post4Created',
+    entityType: 'Quote',
+    performerId: 'BOBNotesRSUser6',
+    userNoteName: 'PF_QUOTE_USER_NOTE'
+}
+
+GetRequest15: {
+   noteId : ""
+}
+
+GetResponse15: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post4Created',
+   description: 'Post4Created',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser6',
+   userNoteName: 'PF_QUOTE_USER_NOTE',
+   logMessage: 'GetResponse15'
+}
+
+GetRequest16: {
+   noteId : ""
+}
+
+GetResponse16: {
+   errorCode: 'bm0010',
+   message: 'User Note does not exist',
+   category: '',
+   confidential: 'false',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   logMessage: 'GetResponse16'
+}
+
+GetRequest17: {
+   noteId : ""
+}
+
+GetResponse17: {
+   errorCode: 'bm0010',
+   message: 'User Note does not exist',
+   category: '',
+   confidential: 'false',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   logMessage: 'GetResponse17'
+}
+
+GetRequest18: {
+   noteId : ""
+}
+
+GetResponse18: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post3Created',
+   description: 'Post3Created',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser2',
+   userNoteName: 'PF_QUOTE_USER_NOTE',
+   logMessage: 'GetResponse18'
+}
+
+GetRequest19: {
+   noteId : ""
+}
+
+GetResponse19: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post2Created',
+   description: 'Updated Description',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser3',
+   userNoteName: 'PF_QUOTE_USER_NOTE',
+   logMessage: 'GetResponse19'
+}
+
+GetRequest20: {
+   noteId : ""
+}
+
+GetResponse20: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post2Created',
+   description: 'Updated Description',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser3',
+   userNoteName: 'PF_QUOTE_USER_NOTE',
+   logMessage: 'GetResponse20'
+}
+
+PutRequest3: {
+   entityRefNo: '',
+   noteId: '',
+   description : 'Updated By BOBNotesRSUser1'
+}
+
+PutResponse3: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post4Created',
+   description: 'Updated By BOBNotesRSUser1',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser6',
+   userNoteName: 'PF_QUOTE_USER_NOTE',
+   logMessage: 'PutResponse3'
+}
+
+PutRequest4: {
+   entityRefNo: '',
+   noteId: '',
+   description : 'Updated By BOBNotesRSUser5'
+}
+
+PutResponse4: {
+   errorCode: 'bm0010',
+   message: 'User Note does not exist',
+   category: '',
+   confidential: 'false',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   logMessage: 'PutResponse4'
+}
+
+PutRequest5: {
+   entityRefNo: '',
+   noteId: '',
+   description : 'Updated By BOBNotesRSUser2'
+}
+
+PutResponse5: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post4Created',
+   description: 'Updated By BOBNotesRSUser2',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser6',
+   userNoteName: 'PF_QUOTE_USER_NOTE',
+   logMessage: 'PutResponse5'
+}
+
+PutRequest6: {
+   entityRefNo: '',
+   noteId: '',
+   description : 'Updated By BOBNotesRSUser6'
+}
+
+PutResponse6: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post4Created',
+   description: 'Updated By BOBNotesRSUser6',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser6',
+   userNoteName: 'PF_QUOTE_USER_NOTE',
+   logMessage: 'PutResponse6'
+}
+
+PutRequest7: {
+   entityRefNo: '',
+   noteId: '',
+   description : 'Updated By BOBNotesRSUser6'
+}
+
+PutResponse7: {
+   errorCode: 'bm0010',
+   message: 'User Note does not exist',
+   category: '',
+   confidential: 'false',
+   title: '',
+   description: '',
+   entityType: '',
+   performerId: '',
+   userNoteName: '',
+   logMessage: 'PutResponse7'
+}
+
+PutRequest8: {
+   entityRefNo: '',
+   noteId: '',
+   description : 'Updated By BOBNotesRSUser3'
+}
+
+PutResponse8: {
+   errorCode: '',
+   message: '',
+   category: 'GENERAL_INFO',
+   confidential: 'false',
+   title: 'Post3Created',
+   description: 'Updated By BOBNotesRSUser3',
+   entityType: 'Quote',
+   performerId: 'BOBNotesRSUser2',
+   userNoteName: 'PF_QUOTE_USER_NOTE',
+   logMessage: 'PutResponse8'
+}

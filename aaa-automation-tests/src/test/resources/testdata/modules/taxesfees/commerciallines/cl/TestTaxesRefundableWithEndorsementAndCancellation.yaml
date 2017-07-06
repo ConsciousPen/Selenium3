@@ -1,0 +1,162 @@
+TestData: {
+  PolicyTab: '@PolicyTab',
+  InsuredTab: '@InsuredTab',
+  RiskLocationsTab: '@RiskLocationsTab',
+  AutoBusinessAutoGeneralTab: '@AutoBusinessAutoGeneralTab',
+  AutoBusinessAutoTrucksTractorsTrailersVehicleInformationTab: '@Vehicle1',
+  AutoBusinessAutoTrucksTractorsTrailersCoveragesTab: '@Coverage',
+  AutoBusinessAutoPrivatePassengerTypesVehicleInformationTab: {},
+  AutoBusinessAutoPublicAutosVehicleInformationTab: {},
+  AutoBusinessAutoSpecialTypeAutosVehicleInformationTab: {},
+  AutoAutoDealersDealerInformationTab: {},
+  AutoAutoDealersCoveragesTab: {},
+  AutoGarageKeepersGarageInformationTab: {},
+  AutoGarageKeepersCoveragesTab: {}
+}
+
+TestData_EndorsementFirst: {
+  ProductInitiniateDialog: {},
+  PolicyTab: {},
+  InsuredTab: {},
+  CommercialProductsTab: {},
+  RiskLocationsTab: {},
+  AutoPriorInfoTab: {},
+  AutoBusinessAutoGeneralTab: {},
+  AutoBusinessAutoDriversDriverInformationTab: {},
+  AutoBusinessAutoNonVehicleLevelCoveragesCoveragesTab: {},
+  AutoBusinessAutoNonVehicleLevelCoveragesFormsTab: [],
+  AutoBusinessAutoTrucksTractorsTrailersVehicleInformationTab: {},
+  AutoBusinessAutoTrucksTractorsTrailersCoveragesTab: {
+    Uninsured Motorist Limit: '$600,000',
+    Underinsured Motorist Limit: '$50,000'
+  },
+  AutoBusinessAutoTrucksTractorsTrailersFormsTab: {},
+  AutoBusinessAutoPrivatePassengerTypesVehicleInformationTab: {},
+  AutoBusinessAutoPrivatePassengerTypesCoveragesTab: {},
+  AutoBusinessAutoPrivatePassengerTypesFormsTab: {},
+  AutoBusinessAutoPublicAutosVehicleInformationTab: {},
+  AutoBusinessAutoPublicAutosCoveragesTab: {},
+  AutoBusinessAutoPublicAutosFormsTab: {},
+  AutoBusinessAutoSpecialTypeAutosVehicleInformationTab: {},
+  AutoBusinessAutoSpecialTypeAutosCoveragesTab: {},
+  AutoBusinessAutoSpecialTypeAutosFormsTab: {},
+  AutoAutoDealersGeneralTab: {},
+  AutoAutoDealersDealerInformationTab: {},
+  AutoAutoDealersCoveragesTab: {},
+  AutoAutoDealersFormsTab: {},
+  AutoGarageKeepersGeneralTab: {},
+  AutoGarageKeepersGarageInformationTab: {},
+  AutoGarageKeepersCoveragesTab: {},
+  AutoGarageKeepersFormsTab: {},
+  FormsSummaryAutoTab: {},
+  PremiumSummaryTab: {},
+  PremiumAutoSummaryTab: {},
+  PremiumAutoBusinessAutoSummaryTab: {},
+  PremiumAutoBusinessAutoTrucksTractorsTrailersTab: {},
+  PremiumAutoBusinessAutoPublicAutosTab: {},
+  PremiumAutoBusinessAutoSpecialTypeAutosTab: {},
+  PremiumAutoAutoDealersTab: {},
+}
+
+PolicyTab: {
+  Primary Reporting State: FL
+}
+
+InsuredTab: {
+  Company Group: {
+    City: CityTaxRef,
+    State/Province: FL
+  },
+  Insured Group: {
+    First Name: /John#####,
+    Last Name: /Smith#####,
+    Email Address: e2e_autotest@test.com,
+    'Preferred?': 'Yes',
+    Policy Service Role: [Policy Cancel,Policy Change]
+  },
+  Business Information Group: {
+    Total Number of Employees: '60',
+    Prior Year Annual Revenue: '5000'
+  },
+  Subsidiary Franchise Group: ['@SubsidiaryDetails','@FranchiseeDetails']
+}
+
+SubsidiaryDetails: {
+  Group Details: {
+    Subsidiary/Franchisee: Subsidiary,
+    Company Name: /CompanyName#####,
+    Country: index=224,
+    Zip/Postal Code: '90210',
+    Address Line 1: /Address######,
+    City: CityTaxRef,
+    State/Province: FL
+  }
+}
+
+FranchiseeDetails: {
+  Group Details: {
+    Subsidiary/Franchisee: Franchisee,
+    Company Name: /CompanyName#####,
+    Country: United States,
+    Zip/Postal Code: '90210',
+    Address Line 1: /Address######,
+    City: CityTaxRef,
+    State/Province: FL
+  }
+}
+
+RiskLocationsTab: {
+  Zip/Postal Code: '32011',
+  Address Line 1: /Address######,
+  City: CityTaxRef,
+  State/Province: FL,
+  Structure Description: /Description#####,
+  Year Built: '2012',
+  Total building area (square feet): '50',
+  Construction Type: index=6,
+  Percent Occupied: '70',
+  Roof Type: index=5,
+  Feet to Water Source/Hydrant: index=1,
+  Protection Class: index=5,
+  Miles to Fire Station: index=1
+}
+
+AutoBusinessAutoGeneralTab: {
+  Liability - Combined Single Limit: '$100,000',
+  Uninsured Motorist Limit: '$400,000',
+  Underinsured Motorist Limit: '$125,000',
+  Covered Autos Liability Symbols: [1],
+  Auto Medical Payments Symbols: [2],
+  Uninsured Motorist Symbols: [3],
+  Underinsured Motorist Symbols: [4]
+}
+
+Vehicle1: {
+  Territory: index=1,
+  VIN: /###**##############,
+  Make: index=1,
+  Model: index=1,
+  Year: '2012',
+  Original Cost New: '20000',
+  Size Class: index=1,
+  Radius: index=1,
+  Business Use: index=1,
+  Primary Class Code: index=1,
+  Secondary Class Description: index=1
+}
+
+Coverage: {
+  Coverage Type: 'Combined Single Limit',
+  Liability - Combined Single Limit: '$100,000',
+  Liability Deductible: 'No Deductible',
+  Medical Payments Limit: '$5,000',
+  Uninsured Motorist Coverage: 'Yes',
+  Uninsured Motorist Limit: '$400,000',
+  Underinsured Motorist Coverage: 'Yes',
+  Underinsured Motorist Limit: '$125,000'
+}
+
+CancellationActionTab: {
+    Cancel Date: /today + 2m,
+    Cancellation Reason: index=1
+  }

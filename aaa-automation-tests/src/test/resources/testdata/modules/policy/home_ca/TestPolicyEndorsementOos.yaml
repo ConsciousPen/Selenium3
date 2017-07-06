@@ -1,0 +1,39 @@
+TestData: {
+  GeneralPolicyTab: {},
+  InsuredContactInfoTab: {},
+  InsuredEmploymentTab: {},
+  LocationRiskAddressTab: {},
+  LocationInspectionTab: {},
+  LocationAddInterestTab: {},
+  LocationRatingInfoTab: {},
+  LocationBrushFireTab: {},
+  LocationCoveragesTab: {
+    A. Dwelling Limit: 55000,
+  },
+  LocationAddResLiabilityTab: {},
+  LocationCreditsTab: {},
+  LocationEndorsementsTab: {},
+  LocationPremiumTab: {},
+  AdditionalInfoTab: {},
+  PremiumTab: {}
+}
+
+TestData2: {
+  GeneralPolicyTab: {},
+  InsuredContactInfoTab: {},
+  InsuredEmploymentTab: {},
+  LocationRiskAddressTab: {},
+  LocationInspectionTab: {},
+  LocationAddInterestTab: {},
+  LocationRatingInfoTab: {},
+  LocationBrushFireTab: {},
+  LocationCoveragesTab: {
+    A. Dwelling Limit: 55000,
+  },
+  LocationAddResLiabilityTab: {},
+  LocationCreditsTab: {},
+  LocationEndorsementsTab: {},
+  LocationPremiumTab: {},
+  AdditionalInfoTab: {},
+  PremiumTab: {}
+}

@@ -1,0 +1,16 @@
+TestData: {
+  GeneralProfileTab: '@GeneralProfileTab',
+  AuthorityLevelsTab: {}
+}
+
+GeneralProfileTab: {
+  EIS User: 'Yes',
+  First Name: /FName_######,
+  Last Name: /LName_######,
+  Effective Date: /today,
+  'User Name': /qa_######,
+  'User Login': /qa_######,
+  Password: qa,
+  Confirm Password: qa,
+  User Work Status: Available,
+}

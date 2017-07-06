@@ -1,0 +1,1209 @@
+TestData : {
+AgencyProducer1 : '@AgencyProducer1',
+AgencyProducer2 : '@AgencyProducer2',
+AgencyProducer3 : '@AgencyProducer3',
+CreateTaskForRest1 : '@CreateTaskForRest1',
+CreateTaskForRest2 : '@CreateTaskForRest2',
+CreateTaskForRest3: '@CreateTaskForRest3',
+CreateTaskForRest4: '@CreateTaskForRest4',
+CreateTaskForRest5: '@CreateTaskForRest5',
+CreateManualTask1 : '@CreateManualTask1',
+CreateManualTask2 : '@CreateManualTask2',
+CreateManualTask3 : '@CreateManualTask3',
+TasksRestTestData : {
+Requests : ['@GetRequest1','@GetRequest2','@GetRequest3','@GetRequest4','@GetRequest5','@GetRequest6','@GetRequest7','@GetRequest8','@GetRequest9','@GetRequest10','@GetRequest11','@GetRequest12','@GetRequest13','@GetRequest14','@GetRequest15','@GetRequest16'],
+Responses : ['@GetResponse1','@GetResponse2','@GetResponse3','@GetResponse4','@GetResponse5','@GetResponse6','@GetResponse7','@GetResponse8','@GetResponse9','@GetResponse10','@GetResponse11','@GetResponse12','@GetResponse13','@GetResponse14','@GetResponse15','@GetResponse16']
+},
+CreateTaskRestData: {
+Requests:['@PostRequest1'],
+Responses: ['@PostResponse1']
+},
+TaskAssignCreateTaskRestData:{
+Requests: ['@TaskAssigneeRequestStep1','@TaskAssigneeRequestStep2','@TaskAssigneeRequestStep3','@TaskAssigneeRequestStep4','@TaskAssigneeRequestStep5','@TaskAssigneeRequestStep6','@TaskAssigneeRequestStep7','@TaskAssigneeRequestStep8'],
+Responses: ['@TaskAssigneeResponseStep1','@TaskAssigneeResponseStep2','@TaskAssigneeResponseStep3','@TaskAssigneeResponseStep4','@TaskAssigneeResponseStep5','@TaskAssigneeResponseStep6','@TaskAssigneeResponseStep7','@TaskAssigneeResponseStep8']
+},
+TaskAssignCreateTaskErrorsRestData:{
+Requests: ['@TaskAssigneeRequestStep9','@TaskAssigneeRequestStep10','@TaskAssigneeRequestStep11','@TaskAssigneeRequestStep12','@TaskAssigneeRequestStep13'],
+Responses: ['@TaskAssigneeResponseStep9','@TaskAssigneeResponseStep10','@TaskAssigneeResponseStep11','@TaskAssigneeResponseStep12','@TaskAssigneeResponseStep13']
+},
+TaskAssignCreateTaskErrorsUsr4RestData:{
+Requests: ['@TaskAssigneeRequestStep14'],
+Responses: ['@TaskAssigneeResponseStep14']
+},
+TaskAssignCreateTaskErrorsUsr6RestData:{
+Requests: ['@TaskAssigneeRequestStep15','@TaskAssigneeRequestStep16'],
+Responses: ['@TaskAssigneeResponseStep15','@TaskAssigneeResponseStep16']
+},
+TaskAssignCreateTaskErrorsUsr7RestData:{
+Requests: ['@TaskAssigneeRequestStep17'],
+Responses: ['@TaskAssigneeResponseStep17']
+},
+TaskAssignPutTaskAssignmentUsr1RestData:{
+Requests: ['@TaskAssigneePutRequestStep1','@TaskAssigneePutRequestStep3','@TaskAssigneePutRequestStep4','@TaskAssigneePutRequestStep5','@TaskAssigneePutRequestStep6','@TaskAssigneePutRequestStep7','@TaskAssigneePutRequestStep12','@TaskAssigneePutRequestStep17','@TaskAssigneePutRequestStep18'],
+Responses: ['@TaskAssigneePutResponseStep1','@TaskAssigneePutResponseStep3','@TaskAssigneePutResponseStep4','@TaskAssigneePutResponseStep5','@TaskAssigneePutResponseStep6','@TaskAssigneePutResponseStep7','@TaskAssigneePutResponseStep12','@TaskAssigneePutResponseStep17','@TaskAssigneePutResponseStep18']
+},
+TaskAssignPutTaskAssignmentUsr8RestData:{
+Requests: ['@TaskAssigneePutRequestStep15'],
+Responses: ['@TaskAssigneePutResponseStep15']
+},
+TaskAssignPutTaskAssignmentErrorUsr1RestData:{
+Requests: ['@TaskAssigneePutRequestStep2','@TaskAssigneePutRequestStep16','@TaskAssigneePutRequestStep19','@TaskAssigneePutRequestStep20'],
+Responses: ['@TaskAssigneePutResponseStep2','@TaskAssigneePutResponseStep16','@TaskAssigneePutResponseStep19','@TaskAssigneePutResponseStep20']
+},
+TaskAssignPutTaskAssignmentErrorUsr4RestData:{
+Requests: ['@TaskAssigneePutRequestStep8'],
+Responses: ['@TaskAssigneePutResponseStep8']
+},
+TaskAssignPutTaskAssignmentErrorUsr5RestData:{
+Requests: ['@TaskAssigneePutRequestStep9'],
+Responses: ['@TaskAssigneePutResponseStep9']
+},
+TaskAssignPutTaskAssignmentErrorUsr7RestData:{
+Requests: ['@TaskAssigneePutRequestStep10'],
+Responses: ['@TaskAssigneePutResponseStep10']
+},
+TaskAssignPutTaskAssignmentErrorUsr8RestData:{
+Requests: ['@TaskAssigneePutRequestStep11','@TaskAssigneePutRequestStep14'],
+Responses: ['@TaskAssigneePutResponseStep11','@TaskAssigneePutResponseStep14']
+},
+TaskAssignPutTaskAssignmentErrorUsr6RestData:{
+Requests: ['@TaskAssigneePutRequestStep13'],
+Responses: ['@TaskAssigneePutResponseStep13']
+}
+}
+
+CreateTaskForRest1 : {
+CreateManualTaskDefinitionTab: {
+    Definition Key: 'TasksRest1',
+    Entity Type: 'Quote',
+    Task Name: 'TasksRest1Name',
+    Effective Date: '/today',
+    Priority: '1'
+  }
+}
+
+CreateTaskForRest2 : {
+CreateManualTaskDefinitionTab: {
+    Definition Key: 'TasksRest2',
+    Entity Type: 'Quote',
+    Task Name: 'TasksRest2Name',
+    Effective Date: '/today',
+    Priority: '1'
+  }
+}
+
+CreateTaskForRest3 : {
+CreateManualTaskDefinitionTab: {
+    Definition Key: 'TasksRest3',
+    Entity Type: 'Quote',
+    Task Name: 'TasksRest3Name',
+    Effective Date: '/today',
+    Priority: '1'
+  }
+}
+
+CreateTaskForRest4 : {
+CreateManualTaskDefinitionTab: {
+    Definition Key: 'BAMTASKRS1',
+    Entity Type: 'Customer',
+    Task Name: 'BAMTASKRS1Name',
+    Effective Date: '/today',
+    Priority: '1'
+  }
+}
+
+CreateTaskForRest5 : {
+CreateManualTaskDefinitionTab: {
+    Definition Key: 'TRATtask',
+    Entity Type: 'Quote',
+    Task Name: 'TRAT1name',
+    Effective Date: '/today',
+    Priority: '1'
+  }
+}
+
+AgencyProducer1 : {
+Channel : 'Agency',
+Agency Name : 'TaskRestAgency3'
+}
+
+AgencyProducer2 : {
+Channel : 'Agency',
+Agency Name : 'TaskRestAgency2'
+}
+
+AgencyProducer3 : {
+Channel : 'Agency',
+Agency Name : 'TRAT1name'
+}
+
+CreateManualTask1 : {
+ CreateTaskActionTab: {
+    Type: 'Quote',
+    Task Name: 'TasksRest1Name',
+    Reference ID: '',
+    Warning Date/Time: '/today+1M:MM/dd/yyyy h:mm a',
+    Due Date/Time: '/today+2M:MM/dd/yyyy hh:mm a'
+  }
+}
+
+CreateManualTask2 : {
+ CreateTaskActionTab: {
+    Type: 'Quote',
+    Task Name: 'TasksRest2Name',
+    Reference ID: '',
+    Warning Date/Time: '/today+1M:MM/dd/yyyy h:mm a',
+    Due Date/Time: '/today+2M:MM/dd/yyyy hh:mm a'
+  }
+}
+
+CreateManualTask3 : {
+ CreateTaskActionTab: {
+    Type: 'Customer',
+    Task Name: 'BAMTASKRS1Name',
+    Reference ID: '',
+    Warning Date/Time: '/today+1M:MM/dd/yyyy h:mm a',
+    Due Date/Time: '/today+2M:MM/dd/yyyy hh:mm a'
+  }
+}
+
+GetRequest1 : {
+    agencyCd : "TaskRestAgency3",
+    completionDateAfter : "/today-2d:yyyy-MM-dd",
+    completionDateBefore : "/today-1d:yyyy-MM-dd",
+    name : "TasksRest2Name",
+    assignee : 'TestUserForRestTasks'
+}
+
+GetResponse1 : {
+    responses : ['@FirstResponseAgency1'],
+    logMessage: "GetResponse1"
+}
+
+FirstResponseAgency1 : {
+    agencyCd : "TaskRestAgency3",
+    name : "TasksRest2Name",
+    id : "task2"
+}
+
+GetRequest2 : {
+    agencyCd : "TaskRestAgency3NotExisting",
+    assignee : 'TestUserForRestTasks'
+}
+
+GetResponse2 : {
+    responses : [],
+    logMessage: "GetResponse2"
+}
+
+GetRequest3 : {
+    agencyCd : "TaskRestAgency3",
+    assignee : 'TestUserForRestTasks'
+}
+
+GetResponse3 : {
+    responses : ['@ThirdResponseAgency1','@ThirdResponseAgency2','@ThirdResponseAgency3'],
+    logMessage: "GetResponse3"
+}
+
+ThirdResponseAgency1 : {
+    agencyCd : "TaskRestAgency3",
+    name : "TasksRest1Name",
+    id: "task1"
+}
+
+ThirdResponseAgency2 : {
+    agencyCd : "TaskRestAgency3",
+    name : "TasksRest2Name",
+    id: "task2"
+}
+
+ThirdResponseAgency3 : {
+    agencyCd : "TaskRestAgency3",
+    name : "TasksRest1Name",
+    id: "task5"
+}
+
+GetRequest4 : {
+    agencyCd : "TaskRestAgency2",
+    assignee : 'TestUserForRestTasks'
+}
+
+GetResponse4 : {
+    responses : ['@FourthResponseAgency1','@FourthResponseAgency2'],
+    logMessage: "GetResponse4"
+}
+
+FourthResponseAgency1 : {
+    agencyCd : "TaskRestAgency2",
+    name : "TasksRest1Name",
+    id: "task3"
+}
+
+FourthResponseAgency2 : {
+    agencyCd : "TaskRestAgency2",
+    name : "TasksRest2Name",
+    id: "task4"
+}
+
+GetRequest5 : {
+    agencyCd : "TaskRestAgency1",
+    assignee : 'TestUserForRestTasks'
+}
+
+GetResponse5 : {
+    responses : [],
+    logMessage: "GetResponse5"
+}
+
+GetRequest6 : {
+    name : "NonExistingName",
+    assignee : 'TestUserForRestTasks'
+}
+
+GetResponse6 : {
+    responses : [],
+    logMessage: "GetResponse6"
+}
+
+GetRequest7 : {
+    name : "TasksRest1Name",
+    assignee : 'TestUserForRestTasks'
+}
+
+GetResponse7 : {
+    responses : ['@SeventhResponseAgency1','@SeventhResponseAgency2','@SeventhResponseAgency3'],
+    logMessage: "GetResponse7"
+}
+
+SeventhResponseAgency1 : {
+    agencyCd : "TaskRestAgency3",
+    name : "TasksRest1Name",
+    id: "task1"
+}
+
+SeventhResponseAgency2 : {
+    agencyCd : "TaskRestAgency2",
+    name : "TasksRest1Name",
+    id: "task3"
+}
+
+SeventhResponseAgency3 : {
+    agencyCd : "TaskRestAgency3",
+    name : "TasksRest1Name",
+    id: "task5"
+}
+
+GetRequest8 : {
+    name : "TasksRest2Name",
+    assignee : 'TestUserForRestTasks'
+}
+
+GetResponse8 : {
+    responses : ['@EighthResponseAgency1','@EighthResponseAgency2'],
+    logMessage: "GetResponse8"
+}
+
+EighthResponseAgency1 : {
+    agencyCd : "TaskRestAgency3",
+    name : "TasksRest2Name",
+    id: "task2"
+}
+
+EighthResponseAgency2 : {
+    agencyCd : "TaskRestAgency2",
+    name : "TasksRest2Name",
+    id: "task4"
+}
+
+GetRequest9 : {
+    completionDateAfter : "/today-2d:yyyy-MM-dd",
+    assignee : 'TestUserForRestTasks'
+}
+
+GetResponse9 : {
+    responses : ['@NinthResponseAgency1','@NinthResponseAgency2','@NinthResponseAgency3','@NinthResponseAgency4'],
+    logMessage: "GetResponse9"
+}
+
+NinthResponseAgency1 : {
+    agencyCd : "TaskRestAgency3",
+    name : "TasksRest2Name",
+    id: "task2"
+}
+
+NinthResponseAgency2 : {
+    agencyCd : "TaskRestAgency2",
+    name : "TasksRest1Name",
+    id: "task3"
+}
+
+NinthResponseAgency3 : {
+    agencyCd : "TaskRestAgency2",
+    name : "TasksRest2Name",
+    id: "task4"
+}
+
+NinthResponseAgency4 : {
+    agencyCd : "TaskRestAgency3",
+    name : "TasksRest1Name",
+    id: "task5"
+}
+
+GetRequest10 : {
+    completionDateAfter : "/today-1d:yyyy-MM-dd",
+    assignee : 'TestUserForRestTasks'
+}
+
+GetResponse10 : {
+    responses : ['@TenthResponseAgency1','@TenthResponseAgency2'],
+    logMessage: "GetResponse10"
+}
+
+TenthResponseAgency1 : {
+    agencyCd : "TaskRestAgency2",
+    name : "TasksRest1Name",
+    id: "task3"
+}
+
+TenthResponseAgency2 : {
+    agencyCd : "TaskRestAgency2",
+    name : "TasksRest2Name",
+    id: "task4"
+}
+
+GetRequest11 : {
+    completionDateAfter : "/today:yyyy-MM-dd",
+    assignee : 'TestUserForRestTasks'
+}
+
+GetResponse11 : {
+    responses : ['@EleventhResponseAgency1'],
+    logMessage: "GetResponse11"
+}
+
+EleventhResponseAgency1 : {
+    agencyCd : "TaskRestAgency2",
+    name : "TasksRest2Name",
+    id: "task4"
+}
+
+GetRequest12 : {
+    completionDateAfter : "/today+1d:yyyy-MM-dd",
+    assignee : 'TestUserForRestTasks'
+}
+
+GetResponse12 : {
+    responses : [],
+    logMessage: "GetResponse12"
+}
+
+GetRequest13 : {
+    completionDateBefore : "/today-2d:yyyy-MM-dd",
+    assignee : 'TestUserForRestTasks'
+}
+
+GetResponse13 : {
+    responses : [],
+    logMessage: "GetResponse13"
+}
+
+GetRequest14 : {
+    completionDateBefore : "/today-1d:yyyy-MM-dd",
+    assignee : 'TestUserForRestTasks'
+}
+
+GetResponse14 : {
+    responses : ['@FourteenthResponseAgency1','@FourteenthResponseAgency2'],
+    logMessage: "GetResponse14"
+}
+
+FourteenthResponseAgency1 : {
+    agencyCd : "TaskRestAgency3",
+    name : "TasksRest2Name",
+    id: "task2"
+}
+
+FourteenthResponseAgency2 : {
+    agencyCd : "TaskRestAgency3",
+    name : "TasksRest1Name",
+    id: "task5"
+}
+
+GetRequest15 : {
+    completionDateBefore : "/today:yyyy-MM-dd",
+    assignee : 'TestUserForRestTasks'
+}
+
+GetResponse15 : {
+    responses : ['@FifteenthResponseAgency1','@FifteenthResponseAgency2','@FifteenthResponseAgency3'],
+    logMessage: "GetResponse15"
+}
+
+FifteenthResponseAgency1 : {
+    agencyCd : "TaskRestAgency3",
+    name : "TasksRest2Name",
+    id: "task2"
+}
+
+FifteenthResponseAgency2 : {
+    agencyCd : "TaskRestAgency2",
+    name : "TasksRest1Name",
+    id: "task3"
+}
+
+FifteenthResponseAgency3 : {
+    agencyCd : "TaskRestAgency3",
+    name : "TasksRest1Name",
+    id: "task5"
+}
+
+GetRequest16 : {
+    completionDateBefore : "/today+1d:yyyy-MM-dd",
+    assignee : 'TestUserForRestTasks'
+}
+
+GetResponse16 : {
+    responses : ['@SixteenthResponseAgency1','@SixteenthResponseAgency2','@SixteenthResponseAgency3','@SixteenthResponseAgency4'],
+    logMessage: "GetResponse16"
+}
+
+SixteenthResponseAgency1 : {
+    agencyCd : "TaskRestAgency3",
+    name : "TasksRest2Name",
+    id: "task2"
+}
+
+SixteenthResponseAgency2 : {
+    agencyCd : "TaskRestAgency2",
+    name : "TasksRest1Name",
+    id: "task3"
+}
+
+SixteenthResponseAgency3 : {
+    agencyCd : "TaskRestAgency2",
+    name : "TasksRest2Name",
+    id: "task4"
+}
+
+SixteenthResponseAgency4 : {
+    agencyCd : "TaskRestAgency3",
+    name : "TasksRest1Name",
+    id: "task5"
+}
+
+PostRequest1 : {
+    entityType : "Quote",
+    processKey : 'TasksRest3',
+    referenceId: '',
+    priority: '1',
+    assignmentType: 'User',
+    assignmentValue: 'qa',
+    taskDescription: 'PostRequest1 description'
+}
+
+PostResponse1 : {
+    responses : ['@FirstPostResponse1'],
+    logMessage: 'PostResponse1'
+}
+
+FirstPostResponse1: {
+    entityType : "Quote",
+    processKey : 'TasksRest3',
+    referenceId: '',
+    priority: '1',
+    assignmentType: 'User',
+    assignmentValue: 'qa',
+    taskDescription: 'PostRequest1 description'
+}
+
+TaskAssigneeRequestStep1 : {
+    entityType : "Quote",
+    processKey : 'TRATtask',
+    referenceId: '',
+    priority: '1',
+    dueTypeDate: 'PERIOD',
+    dueDays: '1',
+    queueCode: 'General',
+    userName: 'TRATUsr1',
+    taskDescription: 'TaskAssigneeRequestStep1 description'
+}
+
+TaskAssigneeResponseStep1 : {
+    assignmentType: 'Queue',
+    assignmentValue: 'General',
+    displayValue: 'General',
+    queueCode: 'General',
+    queueDisplayValue: 'General',
+    userName : 'TRATUsr1',
+    userDisplayValue: 'Test User Tasks Assignee REST',
+    logMessage: 'TaskAssigneeResponseStep1'
+}
+
+TaskAssigneeRequestStep2 : {
+    entityType : "Quote",
+    processKey : 'TRATtask',
+    referenceId: '',
+    priority: '1',
+    dueTypeDate: 'PERIOD',
+    dueDays: '1',
+    taskDescription: 'TaskAssigneeRequestStep2 description'
+}
+
+TaskAssigneeResponseStep2 : {
+    assignmentType: 'User',
+    assignmentValue: 'TRATUsr1',
+    displayValue: 'Test User Tasks Assignee REST',
+    userName : 'TRATUsr1',
+    userDisplayValue: 'Test User Tasks Assignee REST',
+    logMessage: 'TaskAssigneeResponseStep2'
+}
+
+TaskAssigneeRequestStep3 : {
+    entityType : "Quote",
+    processKey : 'TRATtask',
+    referenceId: '',
+    priority: '1',
+    dueTypeDate: 'PERIOD',
+    dueDays: '1',
+    assignmentType: 'User',
+    assignmentValue: 'TRATUsr3',
+    taskDescription: 'TaskAssigneeRequestStep3 description'
+}
+
+TaskAssigneeResponseStep3 : {
+    assignmentType: 'User',
+    assignmentValue: 'TRATUsr3',
+    displayValue: 'Test User Tasks Assignee REST',
+    userName : 'TRATUsr3',
+    userDisplayValue: 'Test User Tasks Assignee REST',
+    logMessage: 'TaskAssigneeResponseStep3'
+}
+
+TaskAssigneeRequestStep4 : {
+    entityType : "Quote",
+    processKey : 'TRATtask',
+    referenceId: '',
+    priority: '1',
+    dueTypeDate: 'PERIOD',
+    dueDays: '1',
+    assignmentType: 'Queue',
+    assignmentValue: 'General',
+    taskDescription: 'TaskAssigneeRequestStep4 description'
+}
+
+TaskAssigneeResponseStep4 : {
+    assignmentType: 'Queue',
+    assignmentValue: 'General',
+    displayValue: 'General',
+    queueCode: 'General',
+    queueDisplayValue: 'General',
+    logMessage: 'TaskAssigneeResponseStep4'
+}
+
+TaskAssigneeRequestStep5 : {
+    entityType : "Quote",
+    processKey : 'TRATtask',
+    referenceId: '',
+    priority: '1',
+    dueTypeDate: 'PERIOD',
+    dueDays: '1',
+    queueCode: 'General',
+    taskDescription: 'TaskAssigneeRequestStep5 description'
+}
+
+TaskAssigneeResponseStep5 : {
+    assignmentType: 'Queue',
+    assignmentValue: 'General',
+    displayValue: 'General',
+    queueCode: 'General',
+    queueDisplayValue: 'General',
+    logMessage: 'TaskAssigneeResponseStep5'
+}
+
+TaskAssigneeRequestStep6 : {
+    entityType : "Quote",
+    processKey : 'TRATtask',
+    referenceId: '',
+    priority: '1',
+    dueTypeDate: 'PERIOD',
+    dueDays: '1',
+    userName: 'TRATUsr1',
+    taskDescription: 'TaskAssigneeRequestStep6 description'
+}
+
+TaskAssigneeResponseStep6 : {
+    assignmentType: 'User',
+    assignmentValue: 'TRATUsr1',
+    displayValue: 'Test User Tasks Assignee REST',
+    userName : 'TRATUsr1',
+    userDisplayValue: 'Test User Tasks Assignee REST',
+    logMessage: 'TaskAssigneeResponseStep6'
+}
+
+TaskAssigneeRequestStep7 : {
+    entityType : "Quote",
+    processKey : 'TRATtask',
+    referenceId: '',
+    priority: '1',
+    dueTypeDate: 'PERIOD',
+    dueDays: '1',
+    taskDescription: 'TaskAssigneeRequestStep7 description',
+    userName: 'TRATUsr1',
+    assignmentType: 'Queue',
+    assignmentValue: 'General',
+    queueCode: 'Nurse Review'
+}
+
+TaskAssigneeResponseStep7 : {
+    assignmentType: 'Queue',
+    assignmentValue: 'Nurse Review',
+    displayValue: 'Nurse Review',
+    queueCode: 'Nurse Review',
+    queueDisplayValue: 'Nurse Review',
+    userName : 'TRATUsr1',
+    userDisplayValue: 'Test User Tasks Assignee REST',
+    logMessage: 'TaskAssigneeResponseStep7'
+}
+
+TaskAssigneeRequestStep8 : {
+    entityType : "Quote",
+    processKey : 'TRATtask',
+    referenceId: '',
+    priority: '1',
+    dueTypeDate: 'PERIOD',
+    dueDays: '1',
+    taskDescription: 'TaskAssigneeRequestStep8 description',
+    assignmentType: 'User',
+    assignmentValue: 'TRATUsr1',
+    queueCode: 'General',
+    userName: 'TRATUsr3'
+}
+
+TaskAssigneeResponseStep8 : {
+    assignmentType: 'Queue',
+    assignmentValue: 'General',
+    displayValue: 'General',
+    queueCode: 'General',
+    queueDisplayValue: 'General',
+    userName : 'TRATUsr3',
+    userDisplayValue: 'Test User Tasks Assignee REST',
+    logMessage: 'TaskAssigneeResponseStep8'
+}
+
+TaskAssigneeRequestStep9 : {
+    entityType : "Quote",
+    processKey : 'TRATtask',
+    referenceId: '',
+    priority: '1',
+    dueTypeDate: 'PERIOD',
+    dueDays: '1',
+    taskDescription: 'TaskAssigneeRequestStep9 description',
+    userName: 'TRATUsr2',
+    assignmentType: 'null',
+    assignmentValue: 'null',
+    queueCode: 'null'
+}
+
+TaskAssigneeResponseStep9 : {
+    errorCode: 'err_wrong_assignee_for_task_hdr',
+    message: 'Task can not be assigned to : Test User Tasks Assignee REST due to Book Of Business rules.',
+    logMessage: 'TaskAssigneeResponseStep9'
+}
+
+TaskAssigneeRequestStep10 : {
+    entityType : "Quote",
+    processKey : 'TRATtask',
+    referenceId: '',
+    priority: '1',
+    dueTypeDate: 'PERIOD',
+    dueDays: '1',
+    taskDescription: 'TaskAssigneeRequestStep10 description',
+    userName: 'NON_EXISTING666',
+    assignmentType: 'User',
+    assignmentValue: 'TRATUsr1',
+    queueCode: 'null'
+}
+
+TaskAssigneeResponseStep10 : {
+    errorCode: 'UAEC001',
+    message: 'User is unavailable.',
+    logMessage: 'TaskAssigneeResponseStep10'
+}
+
+TaskAssigneeRequestStep11 : {
+    entityType : "Quote",
+    processKey : 'TRATtask',
+    referenceId: '',
+    priority: '1',
+    dueTypeDate: 'PERIOD',
+    dueDays: '1',
+    taskDescription: 'TaskAssigneeRequestStep11 description',
+    userName: 'null',
+    assignmentType: 'Queue',
+    assignmentValue: 'General',
+    queueCode: 'GeneralA'
+}
+
+TaskAssigneeResponseStep11 : {
+    errorCode: '422',
+    message: 'Assignment value is invalid',
+    logMessage: 'TaskAssigneeResponseStep11'
+}
+
+TaskAssigneeRequestStep12 : {
+    entityType : "Quote",
+    processKey : 'TRATtask',
+    referenceId: '',
+    priority: '1',
+    dueTypeDate: 'PERIOD',
+    dueDays: '1',
+    taskDescription: 'TaskAssigneeRequestStep12 description',
+    userName: 'null',
+    assignmentType: 'null',
+    assignmentValue: 'null',
+    queueCodeA: 'General'
+}
+
+TaskAssigneeResponseStep12 : {
+    errorCode: '400',
+    message: 'Malformed syntax or a bad query.',
+    logMessage: 'TaskAssigneeResponseStep12'
+}
+
+TaskAssigneeRequestStep13 : {
+    entityType : "Quote",
+    processKey : 'TRATtask',
+    referenceId: '',
+    priority: '1',
+    dueTypeDate: 'PERIOD',
+    dueDays: '1',
+    taskDescription: 'TaskAssigneeRequestStep13 description',
+    userNameA: 'TRATUsr1',
+    assignmentType: 'null',
+    assignmentValue: 'null',
+    queueCode: 'General'
+}
+
+TaskAssigneeResponseStep13 : {
+    errorCode: '400',
+    message: 'Malformed syntax or a bad query.',
+    logMessage: 'TaskAssigneeResponseStep13'
+}
+
+TaskAssigneeRequestStep14 : {
+    entityType : "Quote",
+    processKey : 'TRATtask',
+    referenceId: '',
+    priority: '1',
+    dueTypeDate: 'PERIOD',
+    dueDays: '1',
+    taskDescription: 'TaskAssigneeRequestStep14 description',
+    userNameA: 'null',
+    assignmentType: 'null',
+    assignmentValue: 'null',
+    queueCode: 'General'
+}
+
+TaskAssigneeResponseStep14 : {
+    errorCode: '403',
+    message: 'Access denied while assigning TRAT1name task',
+    logMessage: 'TaskAssigneeResponseStep14'
+}
+
+TaskAssigneeRequestStep15 : {
+    entityType : "Quote",
+    processKey : 'TRATtask',
+    referenceId: '',
+    priority: '1',
+    dueTypeDate: 'PERIOD',
+    dueDays: '1',
+    taskDescription: 'TaskAssigneeRequestStep15 description',
+    userName: 'TRATUsr1',
+    assignmentType: 'null',
+    assignmentValue: 'null',
+    queueCode: 'null'
+}
+
+TaskAssigneeResponseStep15 : {
+    errorCode: '403',
+    message: 'Access denied while assigning TRAT1name task',
+    logMessage: 'TaskAssigneeResponseStep15'
+}
+
+TaskAssigneeRequestStep16 : {
+    entityType : "Quote",
+    processKey : 'TRATtask',
+    referenceId: '',
+    priority: '1',
+    dueTypeDate: 'PERIOD',
+    dueDays: '1',
+    taskDescription: 'TaskAssigneeRequestStep16 description',
+    userName: 'TRATUsr6',
+    assignmentType: 'null',
+    assignmentValue: 'null',
+    queueCode: 'null'
+}
+
+TaskAssigneeResponseStep16 : {
+    errorCode: '403',
+    message: 'Access denied while assigning TRAT1name task',
+    logMessage: 'TaskAssigneeResponseStep16'
+}
+
+TaskAssigneeRequestStep17 : {
+    entityType : "Quote",
+    processKey : 'TRATtask',
+    referenceId: '',
+    priority: '1',
+    dueTypeDate: 'PERIOD',
+    dueDays: '1',
+    taskDescription: 'TaskAssigneeRequestStep17 description',
+    userNameA: 'null',
+    assignmentType: 'null',
+    assignmentValue: 'null',
+    queueCode: 'General'
+}
+
+TaskAssigneeResponseStep17 : {
+    errorCode: '403',
+    message: 'Access denied while assigning TRAT1name task',
+    logMessage: 'TaskAssigneeResponseStep17'
+}
+
+TaskAssigneePutRequestStep1 : {
+    taskId: '2',
+    queueCode: 'General',
+    queueDisplayValue: 'General',
+    userName: 'TRATUsr3',
+    userDisplayValue: 'Test User Tasks Assignee REST'
+}
+
+TaskAssigneePutResponseStep1 : {
+   assignmentType: 'Queue',
+   assignmentValue: 'General',
+   displayValue: 'General',
+   queueCode: 'General',
+   queueDisplayValue: 'General',
+   userName: 'TRATUsr3',
+   userDisplayValue: 'Test User Tasks Assignee REST',
+   logMessage: 'TaskAssigneePutResponseStep1'
+}
+
+TaskAssigneePutRequestStep2 : {
+    taskId: '3',
+    queueDisplayValue: 'General',
+    userDisplayValue: 'Test User Tasks Assignee REST'
+}
+
+TaskAssigneePutResponseStep2 : {
+   errorCode: '422',
+   message: 'Assignment value is invalid',
+   logMessage: 'TaskAssigneePutResponseStep2'
+}
+
+TaskAssigneePutRequestStep3 : {
+    taskId: '6',
+    assignmentType: 'User',
+    assignmentValue: 'TRATUsr3',
+}
+
+TaskAssigneePutResponseStep3 : {
+   assignmentType: 'User',
+   assignmentValue: 'TRATUsr3',
+   displayValue: 'Test User Tasks Assignee REST',
+   userName: 'TRATUsr3',
+   userDisplayValue: 'Test User Tasks Assignee REST',
+      logMessage: 'TaskAssigneePutResponseStep3'
+}
+
+TaskAssigneePutRequestStep4 : {
+    taskId: '4',
+    assignmentType: 'Queue',
+    assignmentValue: 'Nurse Review',
+}
+
+TaskAssigneePutResponseStep4 : {
+   assignmentType: 'Queue',
+   assignmentValue: 'Nurse Review',
+   displayValue: 'Nurse Review',
+   queueCode: 'Nurse Review',
+   queueDisplayValue: 'Nurse Review',
+   logMessage: 'TaskAssigneePutResponseStep4'
+}
+
+TaskAssigneePutRequestStep5 : {
+    taskId: '4',
+    queueCode: 'General',
+}
+
+TaskAssigneePutResponseStep5 : {
+   assignmentType: 'Queue',
+   assignmentValue: 'General',
+   displayValue: 'General',
+   queueCode: 'General',
+   queueDisplayValue: 'General',
+   logMessage: 'TaskAssigneePutResponseStep5'
+}
+
+TaskAssigneePutRequestStep6 : {
+    taskId: '3',
+    userName: 'TRATUsr4',
+}
+
+TaskAssigneePutResponseStep6 : {
+   assignmentType: 'User',
+   assignmentValue: 'TRATUsr4',
+   displayValue: 'Test User Tasks Assignee REST',
+   userName: 'TRATUsr4',
+   userDisplayValue: 'Test User Tasks Assignee REST',
+   logMessage: 'TaskAssigneePutResponseStep6'
+}
+
+TaskAssigneePutRequestStep7 : {
+    taskId: '1',
+    queueCode: 'Nurse Review',
+}
+
+TaskAssigneePutResponseStep7 : {
+   assignmentType: 'Queue',
+   assignmentValue: 'Nurse Review',
+   displayValue: 'Nurse Review',
+   queueCode: 'Nurse Review',
+   queueDisplayValue: 'Nurse Review',
+   logMessage: 'TaskAssigneePutResponseStep7'
+}
+
+TaskAssigneePutRequestStep8 : {
+    taskId: '1',
+    queueCode: 'General'
+}
+
+TaskAssigneePutResponseStep8 : {
+   errorCode: '422',
+   message: 'Current user does not have Queue General Access permissions to Task with id TASK_ID_PUT_HERE state.; Access denied.',
+   errors: ['@RestError3','@RestError4'],
+   logMessage: 'TaskAssigneePutResponseStep8'
+}
+
+RestError3: {
+   errorCode: 'NQAPEC001',
+   message: 'Current user does not have Queue General Access permissions to Task with id TASK_ID_PUT_HERE state.',
+   field: 'ERROR'
+}
+
+RestError4: {
+   errorCode: 'ADEC_001',
+   message: 'Access denied.',
+   field: 'ERROR'
+}
+
+TaskAssigneePutRequestStep9 : {
+    taskId: '4',
+    queueCode: 'General'
+}
+
+TaskAssigneePutResponseStep9 : {
+   errorCode: '422',
+   message: 'Current user does not have Queue General Control permissions to change the Task with id TASK_ID_PUT_HERE state.; Access denied.',
+   errors: ['@RestError5','@RestError6'],
+   logMessage: 'TaskAssigneePutResponseStep9'
+}
+
+RestError5: {
+   errorCode: 'NQCPEC001',
+   message: 'Current user does not have Queue General Control permissions to change the Task with id TASK_ID_PUT_HERE state.',
+   field: 'ERROR'
+}
+
+RestError6: {
+   errorCode: 'ADEC_001',
+   message: 'Access denied.',
+   field: 'ERROR'
+}
+
+TaskAssigneePutRequestStep10 : {
+    taskId: '3',
+    queueCode: 'General'
+}
+
+TaskAssigneePutResponseStep10 : {
+   errorCode: 'ADEC_001',
+   message: 'Access denied.',
+   logMessage: 'TaskAssigneePutResponseStep10'
+}
+
+TaskAssigneePutRequestStep11 : {
+    taskId: '6',
+    queueCode: 'General'
+}
+
+TaskAssigneePutResponseStep11 : {
+   errorCode: '422',
+   message: 'Access denied.; Access denied.',
+   errors: ['@RestError7','@RestError8'],
+   logMessage: 'TaskAssigneePutResponseStep11'
+}
+
+RestError7: {
+   errorCode: 'ADEC_001',
+   message: 'Access denied.',
+   field: 'ERROR'
+}
+
+RestError8: {
+   errorCode: 'ADEC_001',
+   message: 'Access denied.',
+   field: 'ERROR'
+}
+
+TaskAssigneePutRequestStep12 : {
+    taskId: '1',
+    userName: 'TRATUsr3'
+}
+
+TaskAssigneePutResponseStep12 : {
+   assignmentType: 'User',
+   assignmentValue: 'TRATUsr3',
+   displayValue: 'Test User Tasks Assignee REST',
+   userName: 'TRATUsr3',
+   userDisplayValue: 'Test User Tasks Assignee REST',
+   logMessage: 'TaskAssigneePutResponseStep12'
+}
+
+TaskAssigneePutRequestStep13 : {
+    taskId: '1',
+    userName: 'TRATUsr1'
+}
+
+TaskAssigneePutResponseStep13 : {
+   errorCode: 'ADEC_001',
+   message: 'Access denied.',
+   logMessage: 'TaskAssigneePutResponseStep13'
+}
+
+TaskAssigneePutRequestStep14 : {
+    taskId: '6',
+    userName: 'TRATUsr1'
+}
+
+TaskAssigneePutResponseStep14 : {
+   errorCode: '422',
+   message: 'Access denied.; Access denied.',
+   errors: ['@RestError7','@RestError8'],
+   logMessage: 'TaskAssigneePutResponseStep14'
+}
+
+RestError9: {
+   errorCode: 'ADEC_001',
+   message: 'Access denied.',
+   field: 'ERROR'
+}
+
+RestError10: {
+   errorCode: 'ADEC_001',
+   message: 'Access denied.',
+   field: 'ERROR'
+}
+
+TaskAssigneePutRequestStep15 : {
+    taskId: '2',
+    userName: 'TRATUsr1'
+}
+
+TaskAssigneePutResponseStep15 : {
+   assignmentType: 'User',
+   assignmentValue: 'TRATUsr1',
+   displayValue: 'Test User Tasks Assignee REST',
+   userName: 'TRATUsr1',
+   userDisplayValue: 'Test User Tasks Assignee REST',
+   logMessage: 'TaskAssigneePutResponseStep15'
+}
+
+TaskAssigneePutRequestStep16 : {
+    taskId: '3',
+    userName: 'TRATUsr2'
+}
+
+TaskAssigneePutResponseStep16 : {
+   errorCode: 'err_wrong_assignee_for_task_hdr',
+   message: 'Task can not be assigned to : Test User Tasks Assignee REST due to Book Of Business rules.',
+   logMessage: 'TaskAssigneePutResponseStep16'
+}
+
+TaskAssigneePutRequestStep17 : {
+    taskId: '1',
+    assignmentType: 'User',
+    assignmentValue: 'TRATUsr1',
+    queueCode: 'General',
+    userName: 'TRATUsr3'
+}
+
+TaskAssigneePutResponseStep17 : {
+   assignmentType: 'Queue',
+   assignmentValue: 'General',
+   displayValue: 'General',
+   queueCode: 'General',
+   queueDisplayValue: 'General',
+   userName: 'TRATUsr3',
+   userDisplayValue: 'Test User Tasks Assignee REST',
+   logMessage: 'TaskAssigneePutResponseStep17'
+}
+
+TaskAssigneePutRequestStep18 : {
+    taskId: '3',
+    assignmentType: 'User',
+    assignmentValue: 'TRATUsr1',
+    queueCode: 'Nurse Review',
+    userName: 'TRATUsr3'
+}
+
+TaskAssigneePutResponseStep18 : {
+   assignmentType: 'Queue',
+   assignmentValue: 'Nurse Review',
+   displayValue: 'Nurse Review',
+   queueCode: 'Nurse Review',
+   queueDisplayValue: 'Nurse Review',
+   userName: 'TRATUsr3',
+   userDisplayValue: 'Test User Tasks Assignee REST',
+   logMessage: 'TaskAssigneePutResponseStep18'
+}
+
+TaskAssigneePutRequestStep19 : {
+    taskId: '1',
+    assignmentType: 'Queue',
+    assignmentValue: 'Nurse Review',
+    queueCode: 'Non_Existing_Queue'
+}
+
+TaskAssigneePutResponseStep19 : {
+   errorCode: '422',
+   message: 'Error, queue [Non_Existing_Queue] is not accessible. Please check if queue with this name was deployed properly.; Access denied.',
+   errors: ['@RestError1','@RestError2'],
+   logMessage: 'TaskAssigneePutResponseStep19'
+}
+
+RestError1: {
+   errorCode: 'queue not found',
+   message: 'Error, queue [Non_Existing_Queue] is not accessible. Please check if queue with this name was deployed properly.',
+   field: 'ERROR'
+}
+
+RestError2: {
+   errorCode: 'ADEC_001',
+   message: 'Access denied.',
+   field: 'ERROR'
+}
+
+TaskAssigneePutRequestStep20 : {
+    taskId: '1',
+    assignmentType: 'User',
+    assignmentValue: 'TRATUsr4',
+    userName: 'TRATUsr9'
+}
+
+TaskAssigneePutResponseStep20 : {
+   errorCode: 'UAEC001',
+   message: 'User is unavailable.',
+   logMessage: 'TaskAssigneePutResponseStep20'
+}

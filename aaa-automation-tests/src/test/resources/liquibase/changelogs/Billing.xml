@@ -1,0 +1,1219 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet failOnError="false" id="1" author="mburyak">
+        <comment>Billing Cycle Billing Calendar</comment>
+        <delete tableName="BillingCycleCalendarExclusion">
+            <where>billingCycleCalendar_id = 1</where>
+        </delete>
+        <delete tableName="BillingCycleCalendar">
+            <where>id = 1</where>
+        </delete>
+        <insert tableName="BillingCycleCalendar">
+            <column name="id" value="1"/>
+            <column name="name" value="Default"/>
+            <column name="weekendMonday" value="0"/>
+            <column name="weekendTuesday" value="0"/>
+            <column name="weekendWednesday" value="0"/>
+            <column name="weekendThursday" value="0"/>
+            <column name="weekendFriday" value="0"/>
+            <column name="weekendSaturday" value="0"/>
+            <column name="weekendSunday" value="0"/>
+            <column name="nonWorkingDaysRule" value="processExact"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="uniqueHash" value="1a2b3c4d-5e6f-7g"/>
+            <column name="userName" value="qa"/>
+        </insert>
+    </changeSet>
+
+    <changeSet failOnError="false" id="2" author="mburyak">
+        <comment>Billing Cycle Payroll Calendar</comment>
+        <delete tableName="BillingDeductionApplicability">
+            <where>id = 1</where>
+        </delete>
+        <insert tableName="BillingDeductionApplicability">
+            <column name="id" value="1"/>
+            <column name="hash" value="9ade6160-9e5d-43"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="userName" value="qa"/>
+        </insert>
+
+        <delete tableName="CalendarAbstraction">
+            <where>id = 1</where>
+        </delete>
+        <insert tableName="CalendarAbstraction">
+            <column name="id" value="1"/>
+            <column name="frequency" value="Monthly"/>
+            <column name="firstDay" valueDate="5"/>
+            <column name="DTYPE" value="DueDates"/>
+        </insert>
+
+        <delete tableName="BillingGeography">
+            <where>id = 1</where>
+        </delete>
+
+        <insert tableName="BillingGeography">
+            <column name="id" value="1"/>
+        </insert>
+
+        <delete tableName="PayrollDeductionStrategy">
+            <where>id = 1</where>
+        </delete>
+        <insert tableName="PayrollDeductionStrategy">
+            <column name="id" value="1"/>
+            <column name="hash" value="g7f6e5d4-c3b2-a1"/>
+            <column name="billingCycleCalendarHash" value="1a2b3c4d-5e6f-7g"/>
+            <column name="name" value="Default"/>
+            <column name="deductionApplicabilityHash" value="9ade6160-9e5d-43"/>
+            <column name="billingGeography_id" value="1"/>
+            <column name="PayrollCalendar_id" value="1"/>
+            <column name="effective" valueDate="2010-01-01"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="userName" value="qa"/>
+        </insert>
+    </changeSet>
+
+    <changeSet failOnError="false" id="3" author="pkaziuchyts">
+        <comment>Billing Cycle Bill</comment>
+
+        <delete tableName="BillingCycleTemplate">
+            <where>id = 1</where>
+        </delete>
+        <delete tableName="BillingGeography">
+            <where>id = 2</where>
+        </delete>
+        
+        <delete tableName="BillingCycleTemplate_PMTypes">
+            <where>billingCycleTemplate_id = 1</where>
+        </delete>
+        <delete tableName="BillingCycleTemplate_PMTypes">
+            <where>billingCycleTemplate_id = 2</where>
+        </delete>
+        <delete tableName="BillingCycleTemplate_PMTypes">
+            <where>billingCycleTemplate_id = 5</where>
+        </delete>
+        
+        <insert tableName="BillingGeography">
+            <column name="id" value="2"/>
+        </insert>
+
+        <insert tableName="BillingCycleTemplate">
+            <column name="id" value="1"/>
+            <column name="dType" value="BillingCycleBillsTemplate"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="billingCycleCalendarHash" value="1a2b3c4d-5e6f-7g"/>
+            <column name="billingGeography_id" value="2"/>
+            <column name="userName" value="qa"/>
+            <column name="directBillDaysStart" value="30"/>
+            <column name="mortgageeBillDaysStart" value="30"/>
+            <column name="agencyBillDaysStart" value="30"/>
+            <column name="directBillDaysEnd" value="5"/>
+            <column name="mortgageeBillDaysEnd" value="5"/>
+            <column name="agencyBillDaysEnd" value="5"/>
+            <column name="skippedPeriodsDirect" value="0"/>
+            <column name="skippedPeriodsMortgagee" value="0"/>
+            <column name="skippedPeriodsAgency" value="0"/>
+            <column name="multipleInvoicesPerMonth" value="0"/>
+        </insert>
+        
+        <insert tableName="BillingCycleTemplate_PMTypes">
+            <column name="paymentMethodType" value="cash"/>
+            <column name="billingCycleTemplate_id" value="1"/>
+        </insert>
+        <insert tableName="BillingCycleTemplate_PMTypes">
+            <column name="paymentMethodType" value="eft"/>
+            <column name="billingCycleTemplate_id" value="1"/>
+        </insert>
+        <insert tableName="BillingCycleTemplate_PMTypes"> 
+            <column name="paymentMethodType" value="pciCreditCard"/>
+            <column name="billingCycleTemplate_id" value="1"/>
+        </insert>
+        <insert tableName="BillingCycleTemplate_PMTypes">
+            <column name="paymentMethodType" value="cheque"/>
+            <column name="billingCycleTemplate_id" value="1"/>
+        </insert>
+        <insert tableName="BillingCycleTemplate_PMTypes">
+            <column name="paymentMethodType" value="creditCard"/>
+            <column name="billingCycleTemplate_id" value="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet failOnError="false" id="4" author="mburyak">
+        <comment>Billing Cycle Cancellation</comment>
+        <delete tableName="BillingConfig_billTypes">
+            <where>billingCycleTemplate_id = 2</where>
+        </delete>
+        <delete tableName="BillingConfig_cancelReasons">
+            <where>billingCycleTemplateWL_id = 2 OR billingCycleTemplateWOL_id = 2</where>
+        </delete>
+        <delete tableName="BillingCycleTemplateEntry">
+            <where>billingCycleTemplate_id = 2</where>
+        </delete>
+        <delete tableName="BillingCycleTemplate">
+            <where>id = 2</where>
+        </delete>
+        <delete tableName="BillingGeography">
+            <where>id = 3</where>
+        </delete>
+
+        <insert tableName="BillingGeography">
+            <column name="id" value="3"/>
+        </insert>
+
+        <insert tableName="BillingCycleTemplate">
+            <column name="id" value="2"/>
+            <column name="dType" value="BillingCycleCancellationTemplate"/>
+            <column name="cancellationReasonCd" value="1"/>
+            <column name="reinstatementDaysWithoutLapse" value="2"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="billingCycleCalendarHash" value="1a2b3c4d-5e6f-7g"/>
+            <column name="billingGeography_id" value="3"/>
+            <column name="userName" value="qa"/>
+            <column name="reinstatementDaysWithLapse" value="7"/>
+            <column name="reinstateReasonWithLapse" value="RLAR_0"/>
+            <column name="reinstateReasonWithoutLapse" value="RLAR_2"/>
+            <column name="multipleInvoicesPerMonth" value="0"/>
+        </insert>
+
+        <insert tableName="BillingConfig_billTypes">
+            <column name="billTypeCd" value="direct"/>
+            <column name="seqIdx" value="0"/>
+            <column name="billingCycleTemplate_id" value="2"/>
+        </insert>
+
+        <insert tableName="BillingConfig_billTypes">
+            <column name="billTypeCd" value="mortgageeBilled"/>
+            <column name="seqIdx" value="1"/>
+            <column name="billingCycleTemplate_id" value="2"/>
+        </insert>
+
+        <insert tableName="BillingConfig_billTypes">
+            <column name="billTypeCd" value="agency"/>
+            <column name="seqIdx" value="2"/>
+            <column name="billingCycleTemplate_id" value="2"/>
+        </insert>
+
+        <insert tableName="BillingCycleTemplateEntry">
+            <column name="id" value="1"/>
+            <column name="generationDay" value="5"/>
+            <column name="typeCd" value="cancelNotice"/>
+            <column name="billingCycleTemplate_id" value="2"/>
+            <column name="outstandingDebt" value="0"/>
+            <column name="seqIdx" value="0"/>
+        </insert>
+
+        <insert tableName="BillingCycleTemplateEntry">
+            <column name="id" value="2"/>
+            <column name="generationDay" value="18"/>
+            <column name="typeCd" value="cancellation"/>
+            <column name="billingCycleTemplate_id" value="2"/>
+            <column name="outstandingDebt" value="0"/>
+            <column name="seqIdx" value="1"/>
+        </insert>
+
+        <insert tableName="BillingConfig_cancelReasons">
+            <column name="cancelReasonCd" value="1"/>
+            <column name="billingCycleTemplateWL_id" value="2"/>
+        </insert>
+
+        <insert tableName="BillingConfig_cancelReasons">
+            <column name="cancelReasonCd" value="1"/>
+            <column name="billingCycleTemplateWOL_id" value="2"/>
+        </insert>
+    </changeSet>
+
+    <changeSet failOnError="false" id="5" author="mburyak">
+        <comment>Billing Rules Renewal Parameters</comment>
+        <delete tableName="BillingConfig_billTypes">
+            <where>billingRenewalParameters_id = 4</where>
+        </delete>
+        <delete tableName="BillingRenewalParameters">
+            <where>id = 2</where>
+        </delete>
+        <delete tableName="BillingRenewalParameters">
+            <where>billingGeography_id = 4</where>
+        </delete>
+        <delete tableName="BillingGeography">
+            <where>id = 4</where>
+        </delete>
+
+        <insert tableName="BillingGeography">
+            <column name="id" value="4"/>
+        </insert>
+
+        <insert tableName="BillingRenewalParameters">
+            <column name="id" value="4"/>
+            <column name="name" value="RenewalParameters"/>
+            <column name="acceptanceDaysWithoutLapse" value="10"/>
+            <column name="acceptanceDaysWithLapse" value="25"/>
+            <column name="billingCycleCalendarHash" value="1a2b3c4d-5e6f-7g"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="billingGeography_id" value="4"/>
+            <column name="renewalReason" value="RLAR_0"/>
+            <column name="userName" value="qa"/>
+        </insert>
+
+        <insert tableName="BillingConfig_billTypes">
+            <column name="billTypeCd" value="direct"/>
+            <column name="seqIdx" value="0"/>
+            <column name="billingRenewalParameters_id" value="4"/>
+        </insert>
+
+        <insert tableName="BillingConfig_billTypes">
+            <column name="billTypeCd" value="mortgageeBilled"/>
+            <column name="seqIdx" value="1"/>
+            <column name="billingRenewalParameters_id" value="4"/>
+        </insert>
+
+        <insert tableName="BillingConfig_billTypes">
+            <column name="billTypeCd" value="agency"/>
+            <column name="seqIdx" value="2"/>
+            <column name="billingRenewalParameters_id" value="4"/>
+        </insert>
+    </changeSet>
+
+    <changeSet failOnError="false" id="6" author="mburyak">
+        <comment>Billing Global Payment Time</comment>
+        <delete tableName="BillingPaymentTime"/>
+
+        <insert tableName="BillingPaymentTime">
+            <column name="id" value="1"/>
+            <column name="billingPaymentTimeEnabled" value="0"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="userName" value="qa"/>
+        </insert>
+    </changeSet>
+
+    <changeSet failOnError="false" id="7" author="mburyak">
+        <comment>Billing Cycle Write Off</comment>
+        <delete tableName="BillingCycleTemplateEntry">
+            <where>billingCycleTemplate_id = 5</where>
+        </delete>
+        <delete tableName="BillingCycleTemplate">
+            <where>id = 5</where>
+        </delete>
+        <delete tableName="BillingGeography">
+            <where>id = 5</where>
+        </delete>
+
+        <insert tableName="BillingGeography">
+            <column name="id" value="5"/>
+        </insert>
+
+        <insert tableName="BillingCycleTemplate">
+            <column name="id" value="5"/>
+            <column name="dType" value="BillingCycleWriteOffTemplate"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="billingCycleCalendarHash" value="1a2b3c4d-5e6f-7g"/>
+            <column name="billingGeography_id" value="5"/>
+            <column name="userName" value="qa"/>
+        </insert>
+
+        <insert tableName="BillingCycleTemplateEntry">
+            <column name="id" value="5"/>
+            <column name="generationDay" value="6"/>
+            <column name="typeCd" value="earnPremiumWriteoff"/>
+            <column name="threshold" value="10000"/>
+            <column name="billingCycleTemplate_id" value="5"/>
+            <column name="outstandingDebt" value="1"/>
+            <column name="seqIdx" value="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet failOnError="false" id="8" author="mburyak">
+        <comment>Billing Rules Fees</comment>
+        <delete tableName="BillingConfig_products">
+            <where>billingFee_id IN (SELECT id FROM BillingFee)</where>
+        </delete>
+        <delete tableName="BillingConfig_products">
+            <where>billingWriteOff_id IN (SELECT id FROM BillingWriteOff where billingDescription_id IN (6, 7, 8, 9, 10, 11, 12))</where>
+        </delete>
+        <delete tableName="BillingConfig_products">
+            <where>billingPaymentPlan_id IN (SELECT id FROM BillingPaymentPlan where billingDescription_id IN (6, 7, 8, 9, 10, 11, 12))</where>
+        </delete>
+        <delete tableName="BillingConfig_money">
+            <where>billingFee_id IN (SELECT id FROM BillingFee)</where>
+        </delete>
+        <delete tableName="BillingConfig_cancelReasons">
+            <where>rulesBillingFee_id IN (SELECT id FROM BillingFee)</where>
+        </delete>
+        <delete tableName="BillingFee"/>
+        <delete tableName="BillingGeography">
+            <where>id IN (6, 7, 8, 9, 10, 11, 12)</where>
+        </delete>
+        <delete tableName="BillingDescriptionEntry">
+            <where>id IN (6, 7, 8, 9, 10, 11, 12)</where>
+        </delete>
+        <delete tableName="BillingDescriptionEntry">
+            <where>billingDescription_id IN (6, 7, 8, 9, 10, 11, 12)</where>
+        </delete>
+        <delete tableName="BillingDescriptionEntry">
+            <where>billingWriteOff_id IN (SELECT id FROM BillingWriteOff where billingDescription_id IN (6, 7, 8, 9, 10, 11, 12))</where>
+        </delete>
+        <delete tableName="BillingConfig_money">
+            <where>billingWriteOff_id IN (SELECT id FROM BillingWriteOff where billingDescription_id IN (6, 7, 8, 9, 10, 11, 12))</where>
+        </delete>
+        <delete tableName="BillingWriteOff">
+            <where>billingDescription_id IN (6, 7, 8, 9, 10, 11, 12)</where>
+        </delete>
+        <delete tableName="BillingConfig_billTypes">
+            <where>billingPaymentPlan_id IN (SELECT id FROM BillingPaymentPlan WHERE billingDescription_id IN (6, 7, 8, 9, 10, 11, 12))</where>
+        </delete>
+        <delete tableName="BillingPaymentPlan">
+            <where>billingDescription_id IN (6, 7, 8, 9, 10, 11, 12)</where>
+        </delete>
+        <delete tableName="BillingDescription">
+            <where>id IN (6, 7, 8, 9, 10, 11, 12)</where>
+        </delete>
+
+        <insert tableName="BillingGeography">
+            <column name="id" value="6"/>
+        </insert>
+
+        <insert tableName="BillingDescription">
+            <column name="id" value="6"/>
+        </insert>
+
+        <insert tableName="BillingDescriptionEntry">
+            <column name="id" value="6"/>
+            <column name="text" value="Payment Decline Counterfeit"/>
+            <column name="localeCd" value="en"/>
+            <column name="billingDescription_id" value="6"/>
+        </insert>
+
+        <insert tableName="BillingFee">
+            <column name="id" value="6"/>
+            <column name="feeCd" value="paymentDecline"/>
+            <column name="effective" valueDate="2010-01-01"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="billingDescription_id" value="6"/>
+            <column name="billingGeography_id" value="6"/>
+            <column name="userName" value="qa"/>
+        </insert>
+
+        <insert tableName="BillingConfig_money">
+            <column name="currencyCd" value="USD"/>
+            <column name="amount" value="7"/>
+            <column name="billingFee_id" value="6"/>
+        </insert>
+
+        <insert tableName="BillingGeography">
+            <column name="id" value="7"/>
+        </insert>
+
+        <insert tableName="BillingDescription">
+            <column name="id" value="7"/>
+        </insert>
+
+        <insert tableName="BillingDescriptionEntry">
+            <column name="id" value="7"/>
+            <column name="text" value="Cancel Notice Non Payment of Premium"/>
+            <column name="localeCd" value="en"/>
+            <column name="billingDescription_id" value="7"/>
+        </insert>
+
+        <insert tableName="BillingFee">
+            <column name="id" value="7"/>
+            <column name="feeCd" value="cancellNoticeFee"/>
+            <column name="effective" valueDate="2010-01-01"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="feeReason" value="1"/>
+            <column name="billingDescription_id" value="7"/>
+            <column name="billingGeography_id" value="7"/>
+            <column name="userName" value="qa"/>
+        </insert>
+
+        <insert tableName="BillingConfig_money">
+            <column name="currencyCd" value="USD"/>
+            <column name="amount" value="10"/>
+            <column name="billingFee_id" value="7"/>
+        </insert>
+
+        <insert tableName="BillingGeography">
+            <column name="id" value="8"/>
+        </insert>
+
+        <insert tableName="BillingDescription">
+            <column name="id" value="8"/>
+        </insert>
+
+        <insert tableName="BillingDescriptionEntry">
+            <column name="id" value="8"/>
+            <column name="text" value="Cancellation Non Payment of Premium"/>
+            <column name="localeCd" value="en"/>
+            <column name="billingDescription_id" value="8"/>
+        </insert>
+
+        <insert tableName="BillingFee">
+            <column name="id" value="8"/>
+            <column name="feeCd" value="cancellationFee"/>
+            <column name="effective" valueDate="2010-01-01"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="feeReason" value="1"/>
+            <column name="billingDescription_id" value="8"/>
+            <column name="billingGeography_id" value="8"/>
+            <column name="userName" value="qa"/>
+        </insert>
+
+        <insert tableName="BillingConfig_money">
+            <column name="currencyCd" value="USD"/>
+            <column name="amount" value="15"/>
+            <column name="billingFee_id" value="8"/>
+        </insert>
+
+        <insert tableName="BillingGeography">
+            <column name="id" value="9"/>
+        </insert>
+
+        <insert tableName="BillingDescription">
+            <column name="id" value="9"/>
+        </insert>
+
+        <insert tableName="BillingDescriptionEntry">
+            <column name="id" value="9"/>
+            <column name="text" value="Reinstatement"/>
+            <column name="localeCd" value="en"/>
+            <column name="billingDescription_id" value="9"/>
+        </insert>
+
+        <insert tableName="BillingFee">
+            <column name="id" value="9"/>
+            <column name="feeCd" value="reinstatementFee"/>
+            <column name="effective" valueDate="2010-01-01"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="billingDescription_id" value="9"/>
+            <column name="billingGeography_id" value="9"/>
+            <column name="userName" value="qa"/>
+        </insert>
+
+        <insert tableName="BillingConfig_money">
+            <column name="currencyCd" value="USD"/>
+            <column name="amount" value="20"/>
+            <column name="billingFee_id" value="9"/>
+        </insert>
+
+        <insert tableName="BillingConfig_cancelReasons">
+            <column name="cancelReasonCd" value="1"/>
+            <column name="rulesBillingFee_id" value="9"/>
+        </insert>
+
+        <insert tableName="BillingGeography">
+            <column name="id" value="10"/>
+        </insert>
+
+        <insert tableName="BillingDescription">
+            <column name="id" value="10"/>
+        </insert>
+
+        <insert tableName="BillingDescriptionEntry">
+            <column name="id" value="10"/>
+            <column name="text" value="Reinstatement With Lapse"/>
+            <column name="localeCd" value="en"/>
+            <column name="billingDescription_id" value="10"/>
+        </insert>
+
+        <insert tableName="BillingFee">
+            <column name="id" value="10"/>
+            <column name="feeCd" value="reinstatementWithLapse"/>
+            <column name="effective" valueDate="2010-01-01"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="billingDescription_id" value="10"/>
+            <column name="billingGeography_id" value="10"/>
+            <column name="userName" value="qa"/>
+        </insert>
+
+        <insert tableName="BillingConfig_money">
+            <column name="currencyCd" value="USD"/>
+            <column name="amount" value="25"/>
+            <column name="billingFee_id" value="10"/>
+        </insert>
+
+        <insert tableName="BillingConfig_cancelReasons">
+            <column name="cancelReasonCd" value="1"/>
+            <column name="rulesBillingFee_id" value="10"/>
+        </insert>
+
+        <insert tableName="BillingGeography">
+            <column name="id" value="11"/>
+        </insert>
+
+        <insert tableName="BillingDescription">
+            <column name="id" value="11"/>
+        </insert>
+
+        <insert tableName="BillingDescriptionEntry">
+            <column name="id" value="11"/>
+            <column name="text" value="Offer Without Lapse"/>
+            <column name="localeCd" value="en"/>
+            <column name="billingDescription_id" value="11"/>
+        </insert>
+
+        <insert tableName="BillingFee">
+            <column name="id" value="11"/>
+            <column name="feeCd" value="renewalWithoutLapse"/>
+            <column name="effective" valueDate="2010-01-01"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="billingDescription_id" value="11"/>
+            <column name="billingGeography_id" value="11"/>
+            <column name="userName" value="qa"/>
+        </insert>
+
+        <insert tableName="BillingConfig_money">
+            <column name="currencyCd" value="USD"/>
+            <column name="amount" value="30"/>
+            <column name="billingFee_id" value="11"/>
+        </insert>
+
+        <insert tableName="BillingGeography">
+            <column name="id" value="12"/>
+        </insert>
+
+        <insert tableName="BillingDescription">
+            <column name="id" value="12"/>
+        </insert>
+
+        <insert tableName="BillingDescriptionEntry">
+            <column name="id" value="12"/>
+            <column name="text" value="Offer With Lapse"/>
+            <column name="localeCd" value="en"/>
+            <column name="billingDescription_id" value="12"/>
+        </insert>
+
+        <insert tableName="BillingFee">
+            <column name="id" value="12"/>
+            <column name="feeCd" value="renewalWithLapse"/>
+            <column name="effective" valueDate="2010-01-01"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="billingDescription_id" value="12"/>
+            <column name="billingGeography_id" value="12"/>
+            <column name="userName" value="qa"/>
+        </insert>
+
+        <insert tableName="BillingConfig_money">
+            <column name="currencyCd" value="USD"/>
+            <column name="amount" value="35"/>
+            <column name="billingFee_id" value="12"/>
+        </insert>
+    </changeSet>
+
+    <changeSet failOnError="false" id="9" author="mburyak">
+        <comment>Billing Payment Plans</comment>
+        <update tableName="BillingDescriptionEntry">
+            <column name="text" value="Once per month OLD"/>
+            <where>text='Once per month'</where>
+        </update>
+        <update tableName="BillingDescriptionEntry">
+            <column name="text" value="Twice per year OLD"/>
+            <where>text='Twice per year'</where>
+        </update>
+        <update tableName="BillingDescriptionEntry">
+            <column name="text" value="Once per year OLD"/>
+            <where>text='Once per year'</where>
+        </update>
+        <update tableName="BillingPaymentPlan">
+            <column name="planCd" value="OncePerMonthOLD"/>
+            <where>planCd='OncePerMonth'</where>
+        </update>
+        <update tableName="BillingPaymentPlan">
+            <column name="planCd" value="TwicePerYearOLD"/>
+            <where>planCd='TwicePerYear'</where>
+        </update>
+        <update tableName="BillingPaymentPlan">
+            <column name="planCd" value="OncePerYearOLD"/>
+            <where>planCd='OncePerYear'</where>
+        </update>
+        <update tableName="BillingPaymentPlan">
+            <column name="recordTo" valueComputed="(SELECT recordFrom FROM BillingPaymentPlan WHERE planCd='OncePerYearOLD')"/>
+        </update>
+
+        <delete tableName="BillingConfig_money">
+            <where>billingPaymentPlan_id IN (13, 14, 17)</where>
+        </delete>
+        <delete tableName="BillingConfig_billTypes">
+            <where>billingPaymentPlan_id IN (13, 14, 17)</where>
+        </delete>
+        <delete tableName="BillingDescriptionEntry">
+            <where>id IN (13, 14, 17)</where>
+        </delete>
+        <delete tableName="BillingDescriptionEntry">
+            <where>billingDescription_id IN (13, 14, 17)</where>
+        </delete>
+        <delete tableName="BillingConfig_products">
+            <where>billingPaymentPlan_id IN (13, 14, 17)</where>
+        </delete>
+        <delete tableName="BillingConfig_products">
+            <where>billingPaymentPlan_id IN (SELECT id FROM BillingPaymentPlan WHERE billingDescription_id IN (13, 14, 17))</where>
+        </delete>
+        <delete tableName="BillingPaymentPlan">
+            <where>id IN (13, 14, 17)</where>
+        </delete>
+        <delete tableName="BillingConfig_billTypes">
+            <where>billingPaymentPlan_id IN (SELECT id FROM BillingPaymentPlan WHERE billingDescription_id IN (13, 14, 17))</where>
+        </delete>
+        <delete tableName="BillingPaymentPlan">
+            <where>billingDescription_id IN (13, 14, 17)</where>
+        </delete>
+        <delete tableName="BillingDescription">
+            <where>id IN (13, 14, 17)</where>
+        </delete>
+        <delete tableName="BillingGeography">
+            <where>id IN (13, 14, 17)</where>
+        </delete>
+
+        <insert tableName="BillingGeography">
+            <column name="id" value="13"/>
+        </insert>
+
+        <insert tableName="BillingDescription">
+            <column name="id" value="13"/>
+        </insert>
+
+        <insert tableName="BillingPaymentPlan">
+            <column name="id" value="13"/>
+            <column name="planCd" value="OncePerMonth"/>
+            <column name="installmentFrequency" value="1"/>
+            <column name="installmentsNumber" value="12"/>
+            <column name="installmentFeeType" value="flatAmountPerPolicy"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="ratingFactor" value="1"/>
+            <column name="onlyForRenewal" value="0"/>
+            <column name="effective" valueDate="2010-01-01"/>
+            <column name="billingDescription_id" value="13"/>
+            <column name="billingGeography_id" value="13"/>
+            <column name="userName" value="qa"/>
+            <column name="DTYPE" value="MonthlyPaymentPlan"/>
+            <column name="recurringPaymentsRule" value="both"/>
+        </insert>
+
+        <insert tableName="BillingDescriptionEntry">
+            <column name="id" value="13"/>
+            <column name="text" value="Once per month"/>
+            <column name="localeCd" value="en"/>
+            <column name="billingPaymentPlan_id" value="13"/>
+            <column name="billingDescription_id" value="13"/>
+        </insert>
+
+        <insert tableName="BillingConfig_money">
+            <column name="currencyCd" value="USD"/>
+            <column name="amount" value="5"/>
+            <column name="billingPaymentPlan_id" value="13"/>
+        </insert>
+
+        <insert tableName="BillingConfig_billTypes">
+            <column name="billTypeCd" value="direct"/>
+            <column name="seqIdx" value="0"/>
+            <column name="billingPaymentPlan_id" value="13"/>
+        </insert>
+
+        <insert tableName="BillingConfig_billTypes">
+            <column name="billTypeCd" value="mortgageeBilled"/>
+            <column name="seqIdx" value="1"/>
+            <column name="billingPaymentPlan_id" value="13"/>
+        </insert>
+
+        <insert tableName="BillingConfig_billTypes">
+            <column name="billTypeCd" value="agency"/>
+            <column name="seqIdx" value="2"/>
+            <column name="billingPaymentPlan_id" value="13"/>
+        </insert>
+
+        <insert tableName="BillingGeography">
+            <column name="id" value="14"/>
+        </insert>
+
+        <insert tableName="BillingDescription">
+            <column name="id" value="14"/>
+        </insert>
+
+        <insert tableName="BillingPaymentPlan">
+            <column name="id" value="14"/>
+            <column name="planCd" value="TwicePerYear"/>
+            <column name="installmentFrequency" value="6"/>
+            <column name="installmentsNumber" value="2"/>
+            <column name="installmentFeeType" value="flatAmountPerPolicy"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="ratingFactor" value="1"/>
+            <column name="onlyForRenewal" value="0"/>
+            <column name="effective" valueDate="2010-01-01"/>
+            <column name="billingDescription_id" value="14"/>
+            <column name="billingGeography_id" value="14"/>
+            <column name="userName" value="qa"/>
+            <column name="DTYPE" value="MonthlyPaymentPlan"/>
+            <column name="recurringPaymentsRule" value="both"/>
+        </insert>
+
+        <insert tableName="BillingDescriptionEntry">
+            <column name="id" value="14"/>
+            <column name="text" value="Twice per year"/>
+            <column name="localeCd" value="en"/>
+            <column name="billingPaymentPlan_id" value="14"/>
+            <column name="billingDescription_id" value="14"/>
+        </insert>
+
+        <insert tableName="BillingConfig_money">
+            <column name="currencyCd" value="USD"/>
+            <column name="amount" value="10"/>
+            <column name="billingPaymentPlan_id" value="14"/>
+        </insert>
+
+        <insert tableName="BillingConfig_billTypes">
+            <column name="billTypeCd" value="direct"/>
+            <column name="seqIdx" value="0"/>
+            <column name="billingPaymentPlan_id" value="14"/>
+        </insert>
+
+        <insert tableName="BillingConfig_billTypes">
+            <column name="billTypeCd" value="mortgageeBilled"/>
+            <column name="seqIdx" value="1"/>
+            <column name="billingPaymentPlan_id" value="14"/>
+        </insert>
+
+        <insert tableName="BillingConfig_billTypes">
+            <column name="billTypeCd" value="agency"/>
+            <column name="seqIdx" value="2"/>
+            <column name="billingPaymentPlan_id" value="14"/>
+        </insert>
+
+        <insert tableName="BillingGeography">
+            <column name="id" value="17"/>
+        </insert>
+
+        <insert tableName="BillingDescription">
+            <column name="id" value="17"/>
+        </insert>
+
+        <insert tableName="BillingPaymentPlan">
+            <column name="id" value="17"/>
+            <column name="planCd" value="OncePerYear"/>
+            <column name="installmentFrequency" value="12"/>
+            <column name="installmentsNumber" value="1"/>
+            <column name="installmentFeeType" value="flatAmountPerPolicy"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="ratingFactor" value="1"/>
+            <column name="onlyForRenewal" value="0"/>
+            <column name="effective" valueDate="2010-01-01"/>
+            <column name="billingDescription_id" value="17"/>
+            <column name="billingGeography_id" value="17"/>
+            <column name="userName" value="qa"/>
+            <column name="DTYPE" value="MonthlyPaymentPlan"/>
+            <column name="recurringPaymentsRule" value="both"/>
+        </insert>
+
+        <insert tableName="BillingDescriptionEntry">
+            <column name="id" value="17"/>
+            <column name="text" value="Once per year"/>
+            <column name="localeCd" value="en"/>
+            <column name="billingPaymentPlan_id" value="17"/>
+            <column name="billingDescription_id" value="17"/>
+        </insert>
+
+        <insert tableName="BillingConfig_money">
+            <column name="currencyCd" value="USD"/>
+            <column name="amount" value="5"/>
+            <column name="billingPaymentPlan_id" value="17"/>
+        </insert>
+
+        <insert tableName="BillingConfig_billTypes">
+            <column name="billTypeCd" value="direct"/>
+            <column name="seqIdx" value="0"/>
+            <column name="billingPaymentPlan_id" value="17"/>
+        </insert>
+
+        <insert tableName="BillingConfig_billTypes">
+            <column name="billTypeCd" value="mortgageeBilled"/>
+            <column name="seqIdx" value="1"/>
+            <column name="billingPaymentPlan_id" value="17"/>
+        </insert>
+
+        <insert tableName="BillingConfig_billTypes">
+            <column name="billTypeCd" value="agency"/>
+            <column name="seqIdx" value="2"/>
+            <column name="billingPaymentPlan_id" value="17"/>
+        </insert>
+
+        <update tableName="BillablePolicyTerm">
+            <column name="paymentPlan" value="OncePerMonth"/>
+            <where>paymentPlan NOT IN ('OncePerMonth', 'TwicePerYear', 'OncePerYear')</where>
+        </update>
+    </changeSet>
+    <changeSet failOnError="false" id="10" author="mburyak">
+        <comment>Remove payment tolerance</comment>
+        <delete tableName="BillingConfig_money">
+            <where>billingPaymentTolerance_id IN (SELECT id FROM BillingPaymentTolerance)</where>
+        </delete>
+        <delete tableName="BillingPaymentTolerance"/>
+    </changeSet>
+
+    <changeSet failOnError="false" id="11" author="mburyak">
+        <comment>No Approval Required Max</comment>
+        <delete tableName="BillingDescriptionEntry">
+            <where>billingDescription_id=15</where>
+        </delete>
+        <delete tableName="BillingDescriptionEntry">
+            <where>id=15</where>
+        </delete>
+        <delete tableName="BillingConfig_products">
+            <where>billingPaymentPlan_id IN (SELECT id FROM BillingPaymentPlan where billingDescription_id=15)</where>
+        </delete>
+        <delete tableName="BillingConfig_billTypes">
+            <where>billingPaymentPlan_id IN (SELECT id FROM BillingPaymentPlan WHERE billingDescription_id=15)</where>
+        </delete>
+        <delete tableName="BillingConfig_billTypes">
+            <where>billingRefundAutoApp_id IN (SELECT id FROM BillingRefundAutoApproval WHERE billingDescription_id=15)</where>
+        </delete>
+        <delete tableName="BillingConfig_money">
+            <where>billingRefundAutoApp_id IN (SELECT id FROM BillingRefundAutoApproval WHERE billingDescription_id=15)</where>
+        </delete>
+        <delete tableName="BillingPaymentPlan">
+            <where>billingDescription_id=15</where>
+        </delete>
+        <delete tableName="BillingRefundAutoApproval">
+            <where>billingDescription_id=15</where>
+        </delete>
+        <delete tableName="BillingDescription">
+            <where>id=15</where>
+        </delete>
+        <delete tableName="BillingGeographyEntry">
+            <where>id=15</where>
+        </delete>
+        <delete tableName="BillingGeography">
+            <where>id=15</where>
+        </delete>
+
+        <update tableName="BillingRefundAutoApproval">
+            <column name="recordTo" valueComputed="(SELECT recordFrom FROM BillingRefundAutoApproval WHERE id=1)"/>
+        </update>
+
+        <insert tableName="BillingGeography">
+            <column name="id" value="15"/>
+        </insert>
+
+        <insert tableName="BillingGeographyEntry">
+            <column name="id" value="15"/>
+            <column name="countryCd" value="US"/>
+            <column name="stateCd" value="WA"/>
+            <column name="billingGeography_id" value="15"/>
+        </insert>
+
+        <insert tableName="BillingDescription">
+            <column name="id" value="15"/>
+        </insert>
+
+        <insert tableName="BillingDescriptionEntry">
+            <column name="id" value="15"/>
+            <column name="text" value="No Approval Required Max"/>
+            <column name="localeCd" value="en"/>
+            <column name="billingDescription_id" value="15"/>
+        </insert>
+
+        <insert tableName="BillingRefundAutoApproval">
+            <column name="id" value="15"/>
+            <column name="refundApprovalCd" value="NoApprovalRequiredMax"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="billingDescription_id" value="15"/>
+            <column name="billingGeography_id" value="15"/>
+            <column name="userName" value="qa"/>
+            <column name="DTYPE" value="BillingRefundAutoApproval"/>
+        </insert>
+
+        <insert tableName="BillingConfig_money">
+            <column name="currencyCd" value="USD"/>
+            <column name="amount" value="5000"/>
+            <column name="billingRefundAutoApp_id" value="15"/>
+        </insert>
+
+        <insert tableName="BillingConfig_billTypes">
+            <column name="billTypeCd" value="direct"/>
+            <column name="seqIdx" value="0"/>
+            <column name="billingRefundAutoApp_id" value="15"/>
+        </insert>
+
+        <insert tableName="BillingConfig_billTypes">
+            <column name="billTypeCd" value="mortgageeBilled"/>
+            <column name="seqIdx" value="1"/>
+            <column name="billingRefundAutoApp_id" value="15"/>
+        </insert>
+
+        <insert tableName="BillingConfig_billTypes">
+            <column name="billTypeCd" value="agency"/>
+            <column name="seqIdx" value="2"/>
+            <column name="billingRefundAutoApp_id" value="15"/>
+        </insert>
+    </changeSet>
+
+    <changeSet failOnError="false" id="12" author="mburyak">
+        <comment>Refund Approval and Wait Days</comment>
+
+        <delete tableName="BillingDescriptionEntry">
+            <where>id=16</where>
+        </delete>
+        <delete tableName="BillingDescriptionEntry">
+            <where>billingDescription_id=16</where>
+        </delete>
+        <delete tableName="BillingConfig_billTypes">
+            <where>billingPaymentPlan_id IN (SELECT id FROM BillingPaymentPlan WHERE billingDescription_id=16)</where>
+        </delete>
+        <delete tableName="BillingConfig_billTypes">
+            <where>billingRefundWaitDays_id IN (SELECT id FROM BillingRefundWaitDays WHERE billingDescription_id=16)</where>
+        </delete>
+        <delete tableName="BillingRefundRange">
+            <where>billingRefundWaitDays_id IN (SELECT id FROM BillingRefundWaitDays WHERE billingDescription_id=16)</where>
+        </delete>
+        <delete tableName="BillingPaymentPlan">
+            <where>billingDescription_id=16</where>
+        </delete>
+        <delete tableName="BillingRefundWaitDays">
+            <where>billingDescription_id=16</where>
+        </delete>
+        <delete tableName="BillingDescription">
+            <where>id=16</where>
+        </delete>
+        <delete tableName="BillingGeographyEntry">
+            <where>id=16</where>
+        </delete>
+        <delete tableName="BillingGeography">
+            <where>id=16</where>
+        </delete>
+        <delete tableName="BillingRefundRange">
+            <where>id=16</where>
+        </delete>
+
+        <update tableName="BillingRefundWaitDays">
+            <column name="recordTo" valueComputed="(SELECT recordFrom FROM BillingRefundWaitDays WHERE id=5)"/>
+        </update>
+
+        <insert tableName="BillingGeography">
+            <column name="id" value="16"/>
+        </insert>
+
+        <insert tableName="BillingGeographyEntry">
+            <column name="id" value="16"/>
+            <column name="countryCd" value="US"/>
+            <column name="stateCd" value="WA"/>
+            <column name="billingGeography_id" value="16"/>
+        </insert>
+
+        <insert tableName="BillingDescription">
+            <column name="id" value="16"/>
+        </insert>
+
+        <insert tableName="BillingDescriptionEntry">
+            <column name="id" value="16"/>
+            <column name="text" value="Refund Approval Code"/>
+            <column name="localeCd" value="en"/>
+            <column name="billingDescription_id" value="16"/>
+        </insert>
+
+        <insert tableName="BillingRefundWaitDays">
+            <column name="id" value="16"/>
+            <column name="refundWaitDaysCd" value="RefundApprovalCode"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="billingDescription_id" value="16"/>
+            <column name="billingGeography_id" value="16"/>
+            <column name="userName" value="qa"/>
+            <column name="refundReasonCd" value="Misapplied"/>
+        </insert>
+
+        <insert tableName="BillingRefundRange">
+            <column name="id" value="16"/>
+            <column name="currencyCd" value="USD"/>
+            <column name="minAmount" value="1"/>
+            <column name="maxAmount" value="5000"/>
+            <column name="waitDays" value="0"/>
+            <column name="billingRefundWaitDays_id" value="16"/>
+        </insert>
+
+        <insert tableName="BillingConfig_billTypes">
+            <column name="billTypeCd" value="direct"/>
+            <column name="seqIdx" value="0"/>
+            <column name="billingRefundWaitDays_id" value="16"/>
+        </insert>
+
+        <insert tableName="BillingConfig_billTypes">
+            <column name="billTypeCd" value="mortgageeBilled"/>
+            <column name="seqIdx" value="1"/>
+            <column name="billingRefundWaitDays_id" value="16"/>
+        </insert>
+
+        <insert tableName="BillingConfig_billTypes">
+            <column name="billTypeCd" value="agency"/>
+            <column name="seqIdx" value="2"/>
+            <column name="billingRefundWaitDays_id" value="16"/>
+        </insert>
+    </changeSet>
+
+    <changeSet failOnError="false" id="13" author="mburyak">
+        <comment>Billing Off-Cycle</comment>
+        <delete tableName="BillingCycleTemplate">
+            <where>id=6</where>
+        </delete>
+        <delete tableName="BillingGeography">
+            <where>id=18</where>
+        </delete>
+
+        <insert tableName="BillingGeography">
+            <column name="id" value="18"/>
+        </insert>
+
+        <insert tableName="BillingCycleTemplate">
+            <column name="id" value="6"/>
+            <column name="dType" value="BillingOffCycleBillControl"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="billingGeography_id" value="18"/>
+            <column name="userName" value="qa"/>
+        </insert>
+    </changeSet>
+    <changeSet failOnError="false" id="14" author="rzapereckaite">
+        <comment>Outstanding Amount</comment>
+        <delete tableName="BillingConfig_cancelReasons">
+            <where>billingCycleTemplateOA_id=19</where>
+        </delete>
+        <delete tableName="BillingCycleTemplate">
+            <where>id=19</where>
+        </delete>
+        <delete tableName="BillingGeographyEntry">
+            <where>id=19</where>
+        </delete>
+        <delete tableName="BillingGeography">
+            <where>id=19</where>
+        </delete>
+
+        <insert tableName="BillingGeography">
+            <column name="id" value="19"/>
+        </insert>
+
+        <insert tableName="BillingGeographyEntry">
+            <column name="id" value="19"/>
+            <column name="countryCd" value="US"/>
+            <column name="stateCd" value="WY"/>
+            <column name="billingGeography_id" value="19"/>
+        </insert>
+
+        <insert tableName="BillingCycleTemplate">
+            <column name="id" value="19"/>
+            <column name="dType" value="BillingOutstandingAmountControl"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="billingGeography_id" value="19"/>
+            <column name="userName" value="qa"/>
+        </insert>
+
+        <insert tableName="BillingConfig_cancelReasons">
+            <column name="cancelReasonCd" value="4"/>
+            <column name="billingCycleTemplateOA_id" value="19"/>
+        </insert>
+    </changeSet>
+    
+    <changeSet failOnError="false" id="15" author="rkazlauskiene">
+        <comment>Billing Cycle Billing Calendar for in Advance non-working days</comment>
+        <delete tableName="BillingCycleCalendarExclusion">
+            <where>billingCycleCalendar_id = 2</where>
+        </delete>
+        <delete tableName="BillingCycleCalendar">
+            <where>id = 2</where>
+        </delete>
+        <insert tableName="BillingCycleCalendar">
+            <column name="id" value="2"/>
+            <column name="name" value="DefaultInAdvanceForNonWorkingDays"/>
+            <column name="weekendMonday" value="0"/>
+            <column name="weekendTuesday" value="0"/>
+            <column name="weekendWednesday" value="0"/>
+            <column name="weekendThursday" value="0"/>
+            <column name="weekendFriday" value="0"/>
+            <column name="weekendSaturday" value="1"/>
+            <column name="weekendSunday" value="1"/>
+            <column name="nonWorkingDaysRule" value="processEarlier"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="uniqueHash" value="1a2b3c4d-5e6f-7g-74-a2"/>
+            <column name="userName" value="qa"/>
+        </insert>
+        <insert tableName="BillingCycleCalendarExclusion">
+            <column name="id" value="1"/>
+            <column name="day" valueDate="2072-01-23"/>
+            <column name="working" value="1"/>
+            <column name="billingCycleCalendar_id" value="2"/>
+             <column name="seqIdx" value="0"/>
+        </insert>
+        <insert tableName="BillingCycleCalendarExclusion">
+            <column name="id" value="2"/>
+            <column name="day" valueDate="2072-05-23"/>
+            <column name="working" value="0"/>
+            <column name="billingCycleCalendar_id" value="2"/>
+            <column name="seqIdx" value="1"/>
+        </insert>
+    </changeSet>
+     <changeSet failOnError="false" id="16" author="rkazlauskiene">
+        <comment>Billing Cycle Billing Calendar on non-working days</comment>
+        <delete tableName="BillingCycleCalendarExclusion">
+            <where>billingCycleCalendar_id = 3</where>
+        </delete>
+        <delete tableName="BillingCycleCalendar">
+            <where>id = 3</where>
+        </delete>
+        <insert tableName="BillingCycleCalendar">
+            <column name="id" value="3"/>
+            <column name="name" value="DefaultInAdvanceOnNonWorkingDays"/>
+            <column name="weekendMonday" value="0"/>
+            <column name="weekendTuesday" value="0"/>
+            <column name="weekendWednesday" value="0"/>
+            <column name="weekendThursday" value="0"/>
+            <column name="weekendFriday" value="0"/>
+            <column name="weekendSaturday" value="1"/>
+            <column name="weekendSunday" value="1"/>
+            <column name="nonWorkingDaysRule" value="processExact"/>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="uniqueHash" value="1a2b3c4d-5e6f-7g7g-10-11"/>
+            <column name="userName" value="qa"/>
+        </insert>
+        <insert tableName="BillingCycleCalendarExclusion">
+            <column name="id" value="3"/>
+            <column name="day" valueDate="2044-07-23"/>
+            <column name="working" value="1"/>
+            <column name="billingCycleCalendar_id" value="3"/>
+             <column name="seqIdx" value="0"/>
+        </insert>
+        <insert tableName="BillingCycleCalendarExclusion">
+            <column name="id" value="4"/>
+            <column name="day" valueDate="2044-03-23"/>
+            <column name="working" value="0"/>
+            <column name="billingCycleCalendar_id" value="3"/>
+            <column name="seqIdx" value="1"/>
+        </insert>
+    </changeSet>
+    
+        <changeSet failOnError="false" id="17" author="rkazlauskiene">
+        <comment>Default Invoicing Calendar Template</comment>
+        <delete tableName="BillingGeography">
+            <where>id = 20</where>
+        </delete>
+        <insert tableName="BillingGeography">
+            <column name="id" value="20"/>
+        </insert>
+        
+        <delete tableName="CalendarAbstraction">
+            <where>id = 2</where>
+        </delete>
+        <insert tableName="CalendarAbstraction">
+            <column name="id" value="2"/>
+            <column name="frequency" value="Monthly"/>
+            <column name="firstDay" valueDate="31"/>
+            <column name="DTYPE" value="DueDates"/>
+        </insert>
+        
+        <delete tableName="InvoicingStrategy">
+            <where>id = 1</where>
+        </delete>
+        <insert tableName="InvoicingStrategy">
+            <column name="id" value="1"/>
+            <column name="hash" value="e96d3c24-bcc6-45"/>
+            <column name="name">Default Invoicing Calendar</column>
+            <column name="recordFrom" valueDate="2010-01-01"/>
+            <column name="billingCycleCalendarHash" value="1a2b3c4d-5e6f-7g"/>
+            <column name="generationOffset" value="30"/>
+            <column name="invoicingRule" value="onTime"/>
+            <column name="invoicingRuleOffset" value="0"/>
+            <column name="userName" value="qa"/>
+            <column name="invoicingStrategyType" value="DEFAULT_TEMPLATE"/>
+            <column name="calendarAbstraction_id" value="2"/>
+            <column name="billingGeography_id" value="20"/>
+        </insert>
+    </changeSet> 
+</databaseChangeLog>

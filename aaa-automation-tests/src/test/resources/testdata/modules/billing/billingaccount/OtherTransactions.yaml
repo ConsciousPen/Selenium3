@@ -1,0 +1,23 @@
+TestData_ServiceFee: {
+  OtherTransactionsActionTab: {
+    Transaction Type: Fee,
+    Transaction Subtype: Service Fee,
+    Amount: 20
+  }
+}
+
+TestData_CancellationFee: {
+  OtherTransactionsActionTab: {
+    Transaction Type: Fee,
+    Transaction Subtype: Cancellation Fee,
+    Amount: 15
+  }
+}
+
+TestData_Adjustment: {
+  OtherTransactionsActionTab: {
+    Transaction Type: Adjustment,
+    Transaction Subtype: Write-off,
+    Amount: 100
+  }
+}

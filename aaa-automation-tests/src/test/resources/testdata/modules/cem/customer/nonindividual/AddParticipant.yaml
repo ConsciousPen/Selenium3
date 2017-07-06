@@ -1,0 +1,54 @@
+TestData_Employment: {
+  SelectGroupRelationshipTypeActionTab: {
+    Relationship Type: Employment
+  },
+  GeneralTab: {
+    First Name: /John######,
+    Last Name: /Smith######,
+    Zip/Post Code: '94596',
+    City: Walnut Creek,
+    State/Province: CA,
+    Address Line 1: Address Line 1
+  },
+  RelationshipTab: {},
+  EmployeeInfoTab: {
+    Job Title: Worker,
+    Job Code: Any Work,
+    Original Hire Date: /today-1d,
+    Employment Status: Active,
+  }
+}
+
+TestData_Membership: {
+  SelectGroupRelationshipTypeActionTab: {
+    Relationship Type: Membership
+  },
+  GeneralTab: {
+    First Name: /John######,
+    Last Name: /Smith######,
+    Membership Status: Active,
+    Membership Start Date: /today-1d,
+    Zip/Post Code: '94596',
+    City: Walnut Creek,
+    State/Province: CA,
+    Address Line 1: Address Line 1
+  },
+  RelationshipTab: {},
+}
+
+TestData_Student: {
+  SelectGroupRelationshipTypeActionTab: {
+    Relationship Type: Student
+  },
+  GeneralTab: {
+    First Name: /John######,
+    Last Name: /Smith######,
+    Student Start Date: /today-1d,
+    Student Status: Active,
+    Zip/Post Code: '94596',
+    City: Walnut Creek,
+    State/Province: CA,
+    Address Line 1: Address Line 1
+  },
+  RelationshipTab: {},
+}

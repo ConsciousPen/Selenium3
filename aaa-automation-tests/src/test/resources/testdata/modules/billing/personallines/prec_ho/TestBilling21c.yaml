@@ -1,0 +1,25 @@
+Adjustment_Customer_State: {
+  GeneralTab: {
+    First Name: /John######,
+    Last Name: /Smith######,
+    Associate Business Entities: true,
+    Date of Birth: 10/10/1985,
+    #Lead Status: Qualified,
+    Country: United States,
+    Zip/Post Code: '70001',
+    City: Metairie,
+    State/Province: LA,
+    Address Line 1: /Address#####
+  }
+}
+
+Adjustment_Policy_State: {
+  PolicyTab: {
+    Policy State: LA,
+    Policy Form: HO3 Homeowner Special Form
+  },
+  InsuredTab: {
+    Insured Party Selection: /index=0,
+    State / Province: LA
+  }
+}

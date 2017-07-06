@@ -1,0 +1,444 @@
+TestData: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab',
+  RelationshipTab: {}
+}
+
+TestData_WithoutBusinessEntityTab: {
+  CustomerType: '@CustomerType',
+  CustomerGeneralTabAgency: '@CustomerGeneralTabAgency',
+  GeneralTab: '@Adjustment_WithoutAssociateBusinessEntities',
+  RelationshipTab: {}
+}
+
+CustomerType: {
+  Customer Type: Individual
+}
+
+CustomerGeneralTabAgency: {
+  Agency Name: QA Agency
+}
+
+GeneralTab: {
+  First Name: '/Tim######',
+  Last Name: '/Cook######',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '84003',
+  Address Line 1: 265 CHIPMAN AVE
+}
+
+# ------ Test Data for custom states --------
+
+# ---------- Test Data for AZ ---------------
+
+TestData_AZ: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_AZ',
+  RelationshipTab: {}
+}
+
+GeneralTab_AZ: {
+  First Name: '/#####Fernando',
+  Last Name: '/#####Alonso',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '85003',
+  Address Line 1: 265 CHIPMAN AVE
+}
+
+# ---------- Test Data for CA ----------------
+
+TestData_CA: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_CA',
+  RelationshipTab: {}
+}
+
+GeneralTab_CA: {
+  First Name: '/#####Nicolas',
+  Last Name: '/#####Cage',
+  Date of Birth: 09/05/1972,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '90201',
+  Address Line 1: 265 CHIPMAN AVE
+}
+
+
+# ---------- Test Data for CO ----------------
+
+TestData_CO: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_CO',
+  RelationshipTab: {}
+}
+
+GeneralTab_CO: {
+  First Name: '/#####Zinaida',
+  Last Name: '/#####Petrosyan',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '80004',
+  Address Line 1: 265 CHIPMAN AVE
+}
+
+# ---------- Test Data for CT ---------------
+
+TestData_CT: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_CT',
+  RelationshipTab: {}
+}
+
+GeneralTab_CT: {
+  First Name: '/#####Cristiano',
+  Last Name: '/#####Ronaldo',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '06519',
+  Address Line 1: 265 CHIPMAN AVE
+}
+
+# ---------- Test Data for DC ---------------
+
+TestData_DC: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_DC',
+  RelationshipTab: {}
+}
+
+GeneralTab_DC: {
+  First Name: '/#####Robert',
+  Last Name: '/#####Lewandowski',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '20004',
+  Address Line 1: 265 CHIPMAN AVE
+}
+  
+# ---------- Test Data for DE ---------------
+  
+TestData_DE: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_DE',
+  RelationshipTab: {}
+}
+
+GeneralTab_DE: {
+  First Name: '/#####Paul',
+  Last Name: '/#####Wesley',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '19802',
+  Address Line 1: 265 CHIPMAN AVE
+}
+
+# ---------- Test Data for ID ---------------
+ 
+TestData_ID: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_ID',
+  RelationshipTab: {}
+}
+
+GeneralTab_ID: {
+  First Name: '/#####Juan',
+  Last Name: '/#####Cuadrado',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '83212',
+  Address Line 1: 265 CHIPMAN AVE
+}
+
+# ---------- Test Data for IN ---------------
+  
+TestData_IN: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_IN',
+  RelationshipTab: {}
+}
+
+GeneralTab_IN: {
+  First Name: '/#####Harry',
+  Last Name: '/#####Kane',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '46064',
+  Address Line 1: 265 CHIPMAN AVE
+}
+  
+# ---------- Test Data for KS ---------------
+  
+TestData_KS: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_KS',
+  RelationshipTab: {}
+}
+
+GeneralTab_KS: {
+  First Name: '/#####Paul',
+  Last Name: '/#####Scholes',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '66006',
+  Address Line 1: 265 CHIPMAN AVE
+}
+
+# ---------- Test Data for KY ---------------
+  
+TestData_KY: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_KY',
+  RelationshipTab: {}
+}
+
+GeneralTab_KY: {
+  First Name: '/#####Alvaro',
+  Last Name: '/#####Morata',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '40006',
+  Address Line 1: 265 CHIPMAN AVE
+}
+
+# ---------- Test Data for MD ---------------
+  
+TestData_MD: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_MD',
+  RelationshipTab: {}
+}
+
+GeneralTab_MD: {
+  First Name: '/#####Lady',
+  Last Name: '/#####Gaga',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '21217',
+  Address Line 1: 265 CHIPMAN AVE
+}
+  
+# ---------- Test Data for MT ---------------
+  
+TestData_MT: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_MT',
+  RelationshipTab: {}
+}
+
+GeneralTab_MT: {
+  First Name: '/#####Andrey',
+  Last Name: '/#####Andrejeev',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '59003',
+  Address Line 1: 265 CHIPMAN AVE
+}
+
+# ---------- Test Data for NJ ---------------
+  
+TestData_NJ: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_NJ',
+  RelationshipTab: {}
+}
+
+GeneralTab_NJ: {
+  First Name: '/#####Robin',
+  Last Name: '/#####Good',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '07005',
+  Address Line 1: 265 CHIPMAN AVE
+}
+
+# ---------- Test Data for NV ---------------
+  
+TestData_NV: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_NV',
+  RelationshipTab: {}
+}
+
+GeneralTab_NV: {
+  First Name: '/#####Paul',
+  Last Name: '/#####Pogba',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '89010',
+  Address Line 1: 265 CHIPMAN AVE
+}
+
+# ---------- Test Data for NY ---------------
+
+TestData_NY: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_NY',
+  RelationshipTab: {}
+}
+
+GeneralTab_NY: {
+  First Name: '/#####Fernando',
+  Last Name: '/#####Torres',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '10451',
+  Address Line 1: 265 CHIPMAN AVE
+}
+
+# ---------- Test Data for OH ---------------
+
+TestData_OH: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_OH',
+  RelationshipTab: {}
+}
+
+GeneralTab_OH: {
+  First Name: '/#####Leo',
+  Last Name: '/#####Messi',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '43202',
+  Address Line 1: 265 CHIPMAN AVE
+}
+
+TestData_OK: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_OK',
+  RelationshipTab: {}
+}
+
+# ---------- Test Data for OK ---------------
+
+GeneralTab_OK: {
+  First Name: '/#####Phil',
+  Last Name: '/#####Jones',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '73099',
+  Address Line 1: 265 CHIPMAN AVE
+}
+
+TestData_OR: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_OR',
+  RelationshipTab: {}
+}
+
+# ---------- Test Data for OR ---------------
+
+GeneralTab_OR: {
+  First Name: '/#####Tomas',
+  Last Name: '/#####Muller',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '97017',
+  Address Line 1: 265 CHIPMAN AVE
+}
+
+# ---------- Test Data for PA ---------------
+TestData_PA: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_PA',
+  RelationshipTab: {}
+}
+
+GeneralTab_PA: {
+  First Name: '/#####Steve',
+  Last Name: '/#####Jobsik',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '15001',
+  Address Line 1: 265 CHIPMAN AVE
+}
+
+# ---------- Test Data for SD ---------------
+
+TestData_SD: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_SD',
+  RelationshipTab: {}
+}
+
+GeneralTab_SD: {
+  First Name: '/#####Arcadiy',
+  Last Name: '/#####Ukupnik',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '57010',
+  Address Line 1: 265 CHIPMAN AVE
+}
+
+# ---------- Test Data for VA --------------- 
+TestData_VA: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_VA',
+  RelationshipTab: {}
+}
+
+GeneralTab_VA: {
+  First Name: '/#####Ben',
+  Last Name: '/#####Afflek',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '20105',
+  Address Line 1: 265 CHIPMAN AVE
+}
+
+# ---------- Test Data for WV ---------------
+TestData_WV: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_WV',
+  RelationshipTab: {}
+}
+
+GeneralTab_WV: {
+  First Name: '/#####Nadezhda',
+  Last Name: '/#####Babkina',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '24714',
+  Address Line 1: 265 CHIPMAN AVE
+}
+
+# ---------- Test Data for WY ---------------
+TestData_WY: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_WY',
+  RelationshipTab: {}
+}
+
+GeneralTab_WY: {
+  First Name: '/#####Paulo',
+  Last Name: '/#####Dybala',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '82081',
+  Address Line 1: 265 CHIPMAN AVE
+}
+  

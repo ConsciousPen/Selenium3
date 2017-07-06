@@ -1,0 +1,11 @@
+TestData: {
+  CopyPolicyActionTab: {
+    Quote Effective Date: /today
+  }
+}
+
+TestData_BackDated: {
+  CopyPolicyActionTab: {
+    Quote Effective Date: /today-1m,
+  }
+}

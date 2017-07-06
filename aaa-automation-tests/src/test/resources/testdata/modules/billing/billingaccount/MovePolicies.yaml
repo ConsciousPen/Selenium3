@@ -1,0 +1,7 @@
+TestData: {
+  MovePoliciesActionTab: {
+    Create New Account: 'True',
+    Billing Account Name: John Smith,
+    Payment Plan: Once per month
+  }
+}

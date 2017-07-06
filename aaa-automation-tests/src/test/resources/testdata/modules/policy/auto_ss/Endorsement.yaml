@@ -1,0 +1,27 @@
+TestData: {
+  EndorsementActionTab: {
+    Endorsement Date: /today,
+    Endorsement Reason: index=1,
+  }
+}
+
+TestData_Plus1Month: {
+  EndorseActionTab: {
+    Endorsement Date: /today+1m,
+    Endorsement Reason: index=1,
+  }
+}
+
+TestData_Minus1Week: {
+  EndorseActionTab: {
+    Endorsement Date: /today-7d,
+    Endorsement Reason: index=1,
+  }
+}
+
+TestData_Minus1Day: {
+  EndorseActionTab: {
+    Endorsement Date: /today-1d,
+    Endorsement Reason: index=1,
+  }
+}

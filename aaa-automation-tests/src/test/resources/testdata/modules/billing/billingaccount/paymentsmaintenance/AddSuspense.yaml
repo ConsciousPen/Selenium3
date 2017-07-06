@@ -1,0 +1,14 @@
+TestData: {
+  AddSuspenseActionTab: {
+    Suspense Amount: 100,
+    'Suspense Reference #': /Reference####,
+  }
+}
+
+TestData_Payment Designation: {
+  AddSuspenseActionTab: {
+    Suspense Amount: 100,
+    'Suspense Reference #': /Reference####,
+    Payment Designation: Benefits Accounts,
+  }
+}

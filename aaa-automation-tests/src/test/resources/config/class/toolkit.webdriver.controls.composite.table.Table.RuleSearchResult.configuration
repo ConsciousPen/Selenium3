@@ -1,0 +1,3 @@
+{
+  "isNotEmptyOption": "td[not(.='No rules')] and not(@class='ng-hide')"
+}

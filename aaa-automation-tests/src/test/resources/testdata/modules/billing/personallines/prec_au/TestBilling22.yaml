@@ -1,0 +1,13 @@
+TestData: {
+  PolicyTab: {},
+  InsuredTab: {},
+  DriverTab: {},
+  VehicleTab: {},
+  MVRClaimsTab: {},
+  FormsAddlInfoTab: {},
+  AssignmentTab: {},
+  PremiumCoveragesTab: {
+    Combined Single Limit: '$35',
+    Collision Deductible: '$100'
+  }
+}

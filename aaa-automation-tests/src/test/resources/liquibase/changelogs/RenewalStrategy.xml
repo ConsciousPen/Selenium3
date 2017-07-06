@@ -1,0 +1,416 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet failOnError="false" id="1" author="mburyak">
+        <comment>Add Renewal Strategy</comment>
+        <delete tableName="AutomatedProcessingLog"/>
+        <delete tableName="AutomatedProcessingStage"/>
+        <delete tableName="APSConfig_riskStates"/>
+        <delete tableName="APSConfig_products"/>
+        <delete tableName="AutomatedProcessingStrategy"/>
+        <delete tableName="AutomatedProcessingRule"/>
+        
+        <insert tableName="AutomatedProcessingRule">
+            <column name="id" value="1"/>
+            <column name="triggerType" value="timeBased"/>
+            <column name="basedBasis" value="expirationDate"/>
+            <column name="daysAllowedForRenewalLapse" value="7"/>
+            <column name="allowManualRenewalPolicies" value="0"/>
+            <column name="allowDoNotRenewPolicies" value="0"/>
+            <column name="ratePolicyInd" value="1"/>
+        </insert>
+        <insert tableName="AutomatedProcessingStage">
+            <column name="id" value="1"/>
+            <column name="seqIdx" value="0"/>
+            <column name="stageType" value="init"/>
+            <column name="daysFromBasisDate" value="60"/>
+            <column name="runType" value="runPrior"/>
+            <column name="AutomatedProcessingRule_ID" value="1"/>
+        </insert>
+        <insert tableName="AutomatedProcessingStage">
+            <column name="id" value="2"/>
+            <column name="seqIdx" value="1"/>
+            <column name="stageType" value="reportsServices"/>
+            <column name="daysFromBasisDate" value="60"/>
+            <column name="runType" value="runPrior"/>
+            <column name="AutomatedProcessingRule_ID" value="1"/>
+        </insert>
+        <insert tableName="AutomatedProcessingStage">
+            <column name="id" value="3"/>
+            <column name="seqIdx" value="2"/>
+            <column name="stageType" value="rate"/>
+            <column name="daysFromBasisDate" value="60"/>
+            <column name="runType" value="runPrior"/>
+            <column name="AutomatedProcessingRule_ID" value="1"/>
+        </insert>
+        <insert tableName="AutomatedProcessingStage">
+            <column name="id" value="4"/>
+            <column name="seqIdx" value="3"/>
+            <column name="stageType" value="offerIssue"/>
+            <column name="daysFromBasisDate" value="60"/>
+            <column name="runType" value="runPrior"/>
+            <column name="AutomatedProcessingRule_ID" value="1"/>
+        </insert>
+        <insert tableName="AutomatedProcessingStrategy">
+            <column name="id" value="1"/>
+            <column name="StrategyRule_ID" value="1"/>
+            <column name="strategyId" value="ANNUAL_RENEWAL_ISSUE"/>
+            <column name="status" value="active"/>
+            <column name="type" value="renewal"/>
+            <column name="renewalTypeCd" value="ANN"/>
+            <column name="proposalType" value="issue"/>
+            <column name="effective" valueDate="2010-01-01"/>
+        </insert>
+        
+        <insert tableName="APSConfig_riskStates">
+            <column name="riskStateCd" value="CA"/>
+            <column name="strategy_id" value="1"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-HO"/>
+            <column name="strategy_id" value="1"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-AU"/>
+            <column name="strategy_id" value="1"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-UM"/>
+            <column name="strategy_id" value="1"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-IA"/>
+            <column name="strategy_id" value="1"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-IDPPO"/>
+            <column name="strategy_id" value="1"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-ICI"/>
+            <column name="strategy_id" value="1"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-UBI"/>
+            <column name="strategy_id" value="1"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="CL"/>
+            <column name="strategy_id" value="1"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="GB_AC"/>
+            <column name="strategy_id" value="1"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="GB_CI"/>
+            <column name="strategy_id" value="1"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="GB_TL"/>
+            <column name="strategy_id" value="1"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="HO"/>
+            <column name="strategy_id" value="1"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="AU"/>
+            <column name="strategy_id" value="1"/>
+        </insert>
+		<insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-IDI"/>
+            <column name="strategy_id" value="1"/>
+        </insert>
+		<insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-IDHMO"/>
+            <column name="strategy_id" value="1"/>
+        </insert>
+    </changeSet>
+    
+    <changeSet failOnError="false" id="2" author="mburyak">
+        <comment>Add Renewal Strategy</comment>
+        <insert tableName="AutomatedProcessingRule">
+            <column name="id" value="2"/>
+            <column name="triggerType" value="timeBased"/>
+            <column name="basedBasis" value="expirationDate"/>
+            <column name="daysAllowedForRenewalLapse" value="7"/>
+            <column name="allowManualRenewalPolicies" value="0"/>
+            <column name="allowDoNotRenewPolicies" value="0"/>
+            <column name="ratePolicyInd" value="1"/>
+        </insert>
+        <insert tableName="AutomatedProcessingStage">
+            <column name="id" value="5"/>
+            <column name="seqIdx" value="0"/>
+            <column name="stageType" value="init"/>
+            <column name="daysFromBasisDate" value="60"/>
+            <column name="runType" value="runPrior"/>
+            <column name="AutomatedProcessingRule_ID" value="2"/>
+        </insert>
+        <insert tableName="AutomatedProcessingStage">
+            <column name="id" value="6"/>
+            <column name="seqIdx" value="1"/>
+            <column name="stageType" value="reportsServices"/>
+            <column name="daysFromBasisDate" value="60"/>
+            <column name="runType" value="runPrior"/>
+            <column name="AutomatedProcessingRule_ID" value="2"/>
+        </insert>
+        <insert tableName="AutomatedProcessingStage">
+            <column name="id" value="7"/>
+            <column name="seqIdx" value="2"/>
+            <column name="stageType" value="rate"/>
+            <column name="daysFromBasisDate" value="60"/>
+            <column name="runType" value="runPrior"/>
+            <column name="AutomatedProcessingRule_ID" value="2"/>
+        </insert>
+        <insert tableName="AutomatedProcessingStage">
+            <column name="id" value="8"/>
+            <column name="seqIdx" value="3"/>
+            <column name="stageType" value="offerIssue"/>
+            <column name="daysFromBasisDate" value="60"/>
+            <column name="runType" value="runPrior"/>
+            <column name="AutomatedProcessingRule_ID" value="2"/>
+        </insert>
+        <insert tableName="AutomatedProcessingStrategy">
+            <column name="id" value="2"/>
+            <column name="StrategyRule_ID" value="2"/>
+            <column name="strategyId" value="ANNUAL_RENEWAL_OFFER"/>
+            <column name="status" value="active"/>
+            <column name="type" value="renewal"/>
+            <column name="renewalTypeCd" value="ANN"/>
+            <column name="proposalType" value="offer"/>
+            <column name="effective" valueDate="2010-01-01"/>
+        </insert>
+        <insert tableName="APSConfig_riskStates">
+            <column name="riskStateCd" value="NJ"/>
+            <column name="strategy_id" value="2"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-HO"/>
+            <column name="strategy_id" value="2"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-AU"/>
+            <column name="strategy_id" value="2"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-UM"/>
+            <column name="strategy_id" value="2"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-IA"/>
+            <column name="strategy_id" value="2"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-IDPPO"/>
+            <column name="strategy_id" value="2"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-ICI"/>
+            <column name="strategy_id" value="2"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-UBI"/>
+            <column name="strategy_id" value="2"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="CL"/>
+            <column name="strategy_id" value="2"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="GB_AC"/>
+            <column name="strategy_id" value="2"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="GB_CI"/>
+            <column name="strategy_id" value="2"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="GB_TL"/>
+            <column name="strategy_id" value="2"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="HO"/>
+            <column name="strategy_id" value="2"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="AU"/>
+            <column name="strategy_id" value="2"/>
+        </insert>
+		<insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-IDI"/>
+            <column name="strategy_id" value="2"/>
+        </insert>
+		<insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-IDHMO"/>
+            <column name="strategy_id" value="2"/>
+        </insert>
+    </changeSet>
+    
+    <changeSet failOnError="false" id="3" author="mburyak">
+        <comment>Add Endorsement Strategy</comment>
+        <insert tableName="AutomatedProcessingRule">
+            <column name="id" value="3"/>
+            <column name="triggerType" value="timeBased"/>
+            <column name="basedBasis" value="policyEffectiveDate"/>
+            <column name="pendedTransactionHandling" value="bypassPolicy"/>
+            <column name="ratePolicyInd" value="1"/>
+        </insert>
+        <insert tableName="AutomatedProcessingStage">
+            <column name="id" value="9"/>
+            <column name="seqIdx" value="0"/>
+            <column name="stageType" value="init"/>
+            <column name="daysFromBasisDate" value="305"/>
+            <column name="runType" value="runAfter"/>
+            <column name="AutomatedProcessingRule_ID" value="3"/>
+        </insert>
+        <insert tableName="AutomatedProcessingStage">
+            <column name="id" value="10"/>
+            <column name="seqIdx" value="1"/>
+            <column name="stageType" value="reportsServices"/>
+            <column name="daysFromBasisDate" value="305"/>
+            <column name="runType" value="runAfter"/>
+            <column name="AutomatedProcessingRule_ID" value="3"/>
+        </insert>
+        <insert tableName="AutomatedProcessingStage">
+            <column name="id" value="11"/>
+            <column name="seqIdx" value="2"/>
+            <column name="stageType" value="rate"/>
+            <column name="daysFromBasisDate" value="305"/>
+            <column name="runType" value="runAfter"/>
+            <column name="AutomatedProcessingRule_ID" value="3"/>
+        </insert>
+        <insert tableName="AutomatedProcessingStage">
+            <column name="id" value="12"/>
+            <column name="seqIdx" value="3"/>
+            <column name="stageType" value="offerIssue"/>
+            <column name="daysFromBasisDate" value="305"/>
+            <column name="runType" value="runAfter"/>
+            <column name="AutomatedProcessingRule_ID" value="3"/>
+        </insert>
+        <insert tableName="AutomatedProcessingStrategy">
+            <column name="id" value="3"/>
+            <column name="StrategyRule_ID" value="3"/>
+            <column name="strategyId" value="AUTOMATIC_ENDORSEMENT"/>
+            <column name="status" value="active"/>
+            <column name="type" value="endorsement"/>
+            <column name="termType" value="firstTermOnly"/>
+            <column name="proposalType" value="issue"/>
+            <column name="effective" valueDate="2010-01-01"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-HO"/>
+            <column name="strategy_id" value="3"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-AU"/>
+            <column name="strategy_id" value="3"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-UM"/>
+            <column name="strategy_id" value="3"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-IA"/>
+            <column name="strategy_id" value="3"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-IDPPO"/>
+            <column name="strategy_id" value="3"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-ICI"/>
+            <column name="strategy_id" value="3"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-UBI"/>
+            <column name="strategy_id" value="3"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="CL"/>
+            <column name="strategy_id" value="3"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="GB_AC"/>
+            <column name="strategy_id" value="3"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="GB_CI"/>
+            <column name="strategy_id" value="3"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="GB_TL"/>
+            <column name="strategy_id" value="3"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="HO"/>
+            <column name="strategy_id" value="3"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="AU"/>
+            <column name="strategy_id" value="3"/>
+        </insert>
+		<insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-IDI"/>
+            <column name="strategy_id" value="3"/>
+        </insert>
+		<insert tableName="APSConfig_products">
+            <column name="productCd" value="PREC-IDHMO"/>
+            <column name="strategy_id" value="3"/>
+        </insert>
+    </changeSet>
+    
+    <changeSet failOnError="false" id="4" author="pkaziuchyts">
+        <comment>Add Renewal Strategy</comment>
+        <insert tableName="AutomatedProcessingRule">
+            <column name="id" value="4"/>
+            <column name="triggerType" value="timeBased"/>
+            <column name="basedBasis" value="policyEffectiveDate"/>
+            <column name="daysAllowedForRenewalLapse" value="90"/>
+            <column name="allowManualRenewalPolicies" value="0"/>
+            <column name="allowDoNotRenewPolicies" value="0"/>
+            <column name="ratePolicyInd" value="1"/>
+        </insert>
+        <insert tableName="AutomatedProcessingStage">
+            <column name="id" value="13"/>
+            <column name="seqIdx" value="0"/>
+            <column name="stageType" value="init"/>
+            <column name="AutomatedProcessingRule_ID" value="4"/>
+        </insert>
+        <insert tableName="AutomatedProcessingStage">
+            <column name="id" value="14"/>
+            <column name="seqIdx" value="1"/>
+            <column name="stageType" value="reportsServices"/>
+            <column name="AutomatedProcessingRule_ID" value="4"/>
+        </insert>
+        <insert tableName="AutomatedProcessingStage">
+            <column name="id" value="15"/>
+            <column name="seqIdx" value="2"/>
+            <column name="stageType" value="rate"/>
+            <column name="AutomatedProcessingRule_ID" value="4"/>
+        </insert>
+        <insert tableName="AutomatedProcessingStage">
+            <column name="id" value="16"/>
+            <column name="seqIdx" value="3"/>
+            <column name="stageType" value="offerIssue"/>
+            <column name="AutomatedProcessingRule_ID" value="4"/>
+        </insert>
+        <insert tableName="AutomatedProcessingStrategy">
+            <column name="id" value="4"/>
+            <column name="StrategyRule_ID" value="4"/>
+            <column name="strategyId" value="RENEWAL_CL_STRATEGY"/>
+            <column name="status" value="active"/>
+            <column name="type" value="renewal"/>
+            <column name="renewalTypeCd" value="ANN"/>
+            <column name="proposalType" value="offer"/>
+            <column name="effective" valueDate="2010-01-01"/>
+        </insert>
+        <insert tableName="APSConfig_riskStates">
+            <column name="riskStateCd" value="FL"/>
+            <column name="strategy_id" value="4"/>
+        </insert>
+        <insert tableName="APSConfig_products">
+            <column name="productCd" value="CL"/>
+            <column name="strategy_id" value="4"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

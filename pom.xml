@@ -1,0 +1,248 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.exigen.etcs</groupId>
+	<artifactId>aaa</artifactId>
+	<version>1.2-SNAPSHOT</version>
+	<name>AAA-ETCSA parent</name>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>aaa-automation-ui</module>
+		<module>aaa-automation-tests</module>
+	</modules>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- <project.version>1.0-SNAPSHOT</project.version> -->
+		<parrent.version>${project.version}</parrent.version>
+		<core.project.version>8.8-SNAPSHOT</core.project.version>
+		<maven.compiler.version>3.3</maven.compiler.version>
+		<!--<product>ALL</product> -->
+
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.version}</version>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
+				<configuration>
+					<show>private</show>
+					<nohelp>true</nohelp>
+					<excludePackageNames>*.helpers.*:*.utils.*:*BaseTest*:*.scenarios.*:*.compatibility.*</excludePackageNames>
+					<doclet>com.exigen.ipb.etcsa.utils.javadoc.DocLet</doclet>
+					<docletArtifact>
+						<groupId>com.exigen.eis</groupId>
+						<artifactId>eis-automation</artifactId>
+						<version>0.1</version>
+					</docletArtifact>
+					<!--<additionalparam>-product ${product}</additionalparam> -->
+					<useStandardDocletOptions>false</useStandardDocletOptions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-server</artifactId>
+			<version>2.53.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>6.9.11</version>
+		</dependency>
+
+		<!-- EIS BASE CORE -->
+		<dependency>
+			<groupId>com.exigen.eis</groupId>
+			<artifactId>etcs-automation-core</artifactId>
+			<version>8.8.M1</version>
+		</dependency>
+		<!-- EIS BASE CORE END -->
+		<!-- ISTF Artifacts START -->
+		<dependency>
+			<groupId>com.exigen.istf</groupId>
+			<artifactId>istf-core</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.exigen.istf</groupId>
+			<artifactId>test-analytics-listener</artifactId>
+			<version>2.13.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.uncommons</groupId>
+			<artifactId>reportng</artifactId>
+			<version>1.1.4</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.testng</groupId>
+					<artifactId>testng</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- ISTF Artifacts END -->
+
+		<!-- PEF Artifacts START -->
+		<dependency>
+			<groupId>com.exigen.istf.exec</groupId>
+			<artifactId>istf-exec-testng</artifactId>
+			<version>1.7.3.3</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+				<exclusion>
+					<artifactId>istf-core-legacy</artifactId>
+					<groupId>com.exigen.istf</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.exigen.istf.exec</groupId>
+			<artifactId>istf-exec-report</artifactId>
+			<version>1.7.3.3</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.exigen.istf.exec</groupId>
+			<artifactId>istf-exec-web-console</artifactId>
+			<version>1.7.3.3</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>slf4j-log4j12</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+			</exclusions>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.exigen.istf.exec</groupId>
+			<artifactId>istf-exec-timeshift-client</artifactId>
+			<version>1.7.3.3</version>
+			<scope>test</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.exigen.istf.timesetter</groupId>
+			<artifactId>istf-timesetter-client</artifactId>
+			<version>2.0.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.exigen.istf</groupId>
+					<artifactId>istf-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-io</artifactId>
+					<groupId>commons-io</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- PEF Artifacts END -->
+
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.7</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- <dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc6</artifactId> 
+			<version>11.1.0.7.0</version> </dependency> -->
+
+		<dependency>
+			<groupId>cn.guoyukun.jdbc</groupId>
+			<artifactId>oracle-ojdbc6</artifactId>
+			<version>11.2.0.3.0</version>
+		</dependency>
+		<!-- <dependency> <groupId>commons-io</groupId> <artifactId>commons-io</artifactId> 
+			<version>2.4</version> </dependency> -->
+		<dependency>
+			<groupId>com.sun</groupId>
+			<artifactId>tools</artifactId>
+			<version>1.7</version>
+			<scope>system</scope>
+			<systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20160212</version>
+		</dependency>
+		<dependency>
+			<groupId>com.atlassian.jira</groupId>
+			<artifactId>jira-rest-java-client-core</artifactId>
+			<version>4.0.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>httpcore</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>httpclient</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.atlassian.fugue</groupId>
+			<artifactId>fugue</artifactId>
+			<version>2.2.1</version>
+		</dependency>
+
+		<!--Yaml buglist reader related dependency -->
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>1.18</version>
+		</dependency>
+		<!--Temporary added glassfish JAXB messagebody readers till same will be 
+			added to istf-core -->
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-jaxb</artifactId>
+			<version>2.23.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-json-jackson</artifactId>
+			<version>2.23.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.9.0.pr1</version>
+		</dependency>
+	</dependencies>
+</project>

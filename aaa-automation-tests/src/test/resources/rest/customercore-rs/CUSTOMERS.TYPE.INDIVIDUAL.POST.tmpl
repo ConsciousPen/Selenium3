@@ -1,0 +1,57 @@
+<#setting date_format="yyyy-mm-dd"> 
+<#assign bornOn = GeneralTab["Date of Birth"]> 
+{
+  "customerType" : "INDIVIDUAL_LEAD",
+  "customerStatus" : "QUALIFIED",
+  "sourceCd" : "UNKNOWN",
+  "ratingCd" : "UNKNOWN",
+  "preferredSpokenLanguageCd" : "ENGLISH",
+  "preferredWrittenLanguageCd" : "ENGLISH",
+  "paperless" : false,
+  "segments" : [ ],
+  "individualDetails" : {
+    "firstName" : "${GeneralTab["First Name"]?ensure_starts_with("Rest")!John11111}",
+    "lastName" : "${GeneralTab["Last Name"]?ensure_starts_with("Rest")!Smith11111}",
+    "middleName" : null,
+    "title" : null,
+    "suffix" : null,
+    "birthDate" : "${bornOn?date("mm/dd/yyyy")!1985-10-10}",
+    "genderCd" : null,
+    "maritalStatusCd" : null,
+    "taxId" : null,
+    "occupationCd" : null,
+    "occupationDescription" : null,
+    "tobaccoCd" : null
+  },
+  "businessDetails" : null,
+  "preferredContactMethod" : null,
+  "addresses" : [ {
+    "contactMethod" : "ADDRESS",
+    "contactType" : "mailing",
+    "preferredInd" : null,
+    "doNotSolicitInd" : false,
+    "comment" : null,
+    "temporary" : false,
+    "effectiveFrom" : null,
+    "effectiveTo" : null,
+    "duration" : null,
+    "stateProvCd" : "${GeneralTab["State/Province"]!CA}",
+    "postalCode" : "${GeneralTab["Zip/Post Code"]!96094}",
+    "countryCd" : "US",
+    "addressLine1" : "${GeneralTab["Address Line 1"]!Address11111}",
+    "addressLine2" : null,
+    "addressLine3" : null,
+    "city" : "${GeneralTab["City"]?ensure_ends_with("\"")!Weed}
+  } ],
+  "chats" : [ ],
+  "emails" : [ ],
+  "phones" : [ ],
+  "socialNets" : [ ],
+  "webAddresses" : [ ],
+  "agencies" : [ {
+    "agencyCode" : "QAG"
+  } ],
+  "indCustomerAdditionalNames" : [ ],
+  "businessCustomerAdditionalNames" : null,
+  "customerEmployments" : null
+}

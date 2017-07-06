@@ -1,0 +1,5 @@
+TestData: {
+  CreateManualTaskDefinitionTab: {
+    Entity Type: Policy
+  }
+}

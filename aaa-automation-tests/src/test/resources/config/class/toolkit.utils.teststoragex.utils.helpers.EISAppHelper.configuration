@@ -1,0 +1,5 @@
+{
+  "locatorEISException": "//form[@id='errorsForm']//tbody[contains(@id, 'errorsForm')]//td[not(.='')]",
+  "locatorFormException": ".//div[contains(@class, 'contentFrame')]/span/ul[not(contains(@class, 'tabs'))]|.//div[@class='error-container']//span[text() != '']|.//span[contains(@class, 'rf-msg-det')]|.//div[@id='contents']//tbody[contains(@id,'tbody_element')]//tr[.//td[contains(text(),'Error')]]",
+  "locatorApplicationException": "//form[@id='loginForm' or @id='errorForm']/table/tbody/tr/td|.//*[@id = 'errorTitleText']"
+}

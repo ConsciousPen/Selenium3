@@ -1,0 +1,201 @@
+{  
+"endpoint": "",
+"jaxRsComponents": "org.codehaus.jackson.jaxrs.JacksonJsonProvider,com.exigen.ipb.etcsa.rest.wrapper.ModelWrapperMessageBodyReader",
+"restTargets": {
+"ACCOUNTS": {
+		"target": "/accounts",
+		"methods": {		
+			"GET" : {
+				"queryParams": "policyNumber&effectiveDate",
+				"mediaType": "",
+				"postTemplate": "billing-rs/ACCOUNTS.GET.tmpl"
+			}
+		}
+	}
+,	"ACCOUNTS.ITEM": {
+		"target": "/accounts/{accountNumber}",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "billing-rs/ACCOUNTS.ITEM.GET.tmpl"
+			},
+			"PUT" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "billing-rs/ACCOUNTS.ITEM.PUT.tmpl"
+			}
+		}
+	}
+,	"ACCOUNTS.INSTALLMENTS": {
+		"target": "/accounts/{accountNumber}/installments",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "billing-rs/ACCOUNTS.INSTALLMENTS.GET.tmpl"
+			}
+		}
+	}
+,	"ACCOUNTS.INVOICES": {
+		"target": "/accounts/{accountNumber}/invoices",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "billing-rs/ACCOUNTS.INVOICES.GET.tmpl"
+			}
+		}
+	}
+,	"ACCOUNTS.INVOICES.ITEM": {
+		"target": "/accounts/{accountNumber}/invoices/{invoiceNumber}",
+		"methods": {		
+			"GET" : {
+				"queryParams": "coverageOffset&coverageLimit",
+				"mediaType": "",
+				"postTemplate": "billing-rs/ACCOUNTS.INVOICES.ITEM.GET.tmpl"
+			}
+		}
+	}
+,	"ACCOUNTS.INVOICES.COVERAGES.PARTICIPANTS": {
+		"target": "/accounts/{accountNumber}/invoices/{invoiceNumber}/coverages/{referenceNumber}/participants",
+		"methods": {		
+			"GET" : {
+				"queryParams": "offset&limit",
+				"mediaType": "",
+				"postTemplate": "billing-rs/ACCOUNTS.INVOICES.COVERAGES.PARTICIPANTS.GET.tmpl"
+			}
+		}
+	}
+,	"ACCOUNTS.PAYMENTS": {
+		"target": "/accounts/{accountNumber}/payments",
+		"methods": {		
+			"GET" : {
+				"queryParams": "offset&limit",
+				"mediaType": "",
+				"postTemplate": "billing-rs/ACCOUNTS.PAYMENTS.GET.tmpl"
+			},
+			"POST" : {
+				"queryParams": "policyNumber&effectiveDate",
+				"mediaType": "application/json",
+				"postTemplate": "billing-rs/ACCOUNTS.PAYMENTS.POST.tmpl"
+			}
+		}
+	}
+,	"ACCOUNTS.PAYMENTS.PAY-BY-POLICY": {
+		"target": "/accounts/{accountNumber}/payments/pay-by-policy",
+		"methods": {		
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "billing-rs/ACCOUNTS.PAYMENTS.PAY-BY-POLICY.POST.tmpl"
+			}
+		}
+	}
+,	"ACCOUNTS.STATEMENT": {
+		"target": "/accounts/{accountNumber}/statement",
+		"methods": {		
+			"GET" : {
+				"queryParams": "Range",
+				"mediaType": "",
+				"postTemplate": "billing-rs/ACCOUNTS.STATEMENT.GET.tmpl"
+			}
+		}
+	}
+,	"ACCOUNTS.TRANSACTIONS": {
+		"target": "/accounts/{accountNumber}/transactions",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "billing-rs/ACCOUNTS.TRANSACTIONS.GET.tmpl"
+			}
+		}
+	}
+,"CUSTOMERS": {
+		"target": "/customers",
+		"methods": {		
+		}
+	}
+,	"CUSTOMERS.ACCOUNTS": {
+		"target": "/customers/{customerNumber}/accounts",
+		"methods": {		
+			"GET" : {
+				"queryParams": "agencyCd",
+				"mediaType": "application/json",
+				"postTemplate": "billing-rs/CUSTOMERS.ACCOUNTS.GET.tmpl"
+			}
+		}
+	}
+,	"CUSTOMERS.PAYMENT-METHODS": {
+		"target": "/customers/{customerNumber}/payment-methods",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "billing-rs/CUSTOMERS.PAYMENT-METHODS.GET.tmpl"
+			},
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "billing-rs/CUSTOMERS.PAYMENT-METHODS.POST.tmpl"
+			}
+		}
+	}
+,	"CUSTOMERS.PAYMENT-METHODS.ITEM": {
+		"target": "/customers/{customerNumber}/payment-methods/{paymentMethodId}",
+		"methods": {		
+			"DELETE" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "billing-rs/CUSTOMERS.PAYMENT-METHODS.ITEM.DELETE.tmpl"
+			},
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "billing-rs/CUSTOMERS.PAYMENT-METHODS.ITEM.GET.tmpl"
+			},
+			"PUT" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "billing-rs/CUSTOMERS.PAYMENT-METHODS.ITEM.PUT.tmpl"
+			}
+		}
+	}
+,"POLICIES": {
+		"target": "/policies",
+		"methods": {		
+		}
+	}
+,	"POLICIES.AVAILABLE-PAYMENT-PLANS": {
+		"target": "/policies/available-payment-plans",
+		"methods": {		
+			"GET" : {
+				"queryParams": "productCd&countryCd&stateCd&billType&brandCd&recurring&dueDayConfig",
+				"mediaType": "",
+				"postTemplate": "billing-rs/POLICIES.AVAILABLE-PAYMENT-PLANS.GET.tmpl"
+			}
+		}
+	}
+,	"POLICIES.ISSUE": {
+		"target": "/policies/{policyNumber}/issue",
+		"methods": {		
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "billing-rs/POLICIES.ISSUE.POST.tmpl"
+			}
+		}
+	}
+,"SWAGGER.JSON": {
+		"target": "/swagger.json",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "billing-rs/SWAGGER.JSON.GET.tmpl"
+			}
+		}
+	}
+}
+}

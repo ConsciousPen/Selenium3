@@ -1,0 +1,30 @@
+TestData: {
+  ProductProductFactorySearch: {
+    Product Code: ''
+  },  
+  HomeTab: {},
+  PropertiesTab: {},
+  ActionsTab: {},  
+  ComponentsTab: ['@PolicyNumberItem']
+}
+
+PolicyNumberItem: {
+  Type: Relation,
+  Path: [Policy 1.0,policyNumber],
+  Properties: {
+    Required: 'true'                
+  }
+}
+
+TestDataInquiry: {
+  ProductProductFactorySearch: {
+    Product Code: ''
+  },  
+  HomeTab: {},
+  PropertiesTab: {},
+  ActionsTab: {},  
+  ComponentsTab: {
+    Type: Relation,
+    Path: [Policy 1.0,policyNumber],    
+  }
+}

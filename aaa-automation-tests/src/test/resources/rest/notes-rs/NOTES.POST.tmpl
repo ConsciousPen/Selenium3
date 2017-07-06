@@ -1,0 +1,18 @@
+{
+<#global listSize=testDataNode?keys?size>
+<#list testDataNode?keys as key>
+<#if testDataNode[key]!='null'>
+"${key}":"${testDataNode[key]}"<#if hasNextNotNullValue(testDataNode?keys[key?counter..*listSize])==true>,</#if>
+</#if>
+</#list>
+}
+
+<#function hasNextNotNullValue list>
+<#assign hasNext=false>
+<#list list as listValue>
+<#if testDataNode[listValue]!='null'>
+<#assign hasNext=true>
+</#if>
+</#list>
+<#return hasNext>
+</#function>

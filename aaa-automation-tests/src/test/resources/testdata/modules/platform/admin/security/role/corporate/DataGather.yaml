@@ -1,0 +1,19 @@
+TestData: {
+  GeneralRoleTab: {
+    Role Name: /Role#####,
+    Privileges: [ALL, EXCLUDE Claim Create]
+  }
+}
+
+TestData_All: {
+  GeneralRoleTab: {
+    Role Name: /role_#####,
+    Privileges: [ALL]
+  }
+}
+
+TestData_NonSecureUser: {
+  GeneralRoleTab: {
+    Privileges: [ALL, EXCLUDE Claim Secure Claim]
+  }
+}

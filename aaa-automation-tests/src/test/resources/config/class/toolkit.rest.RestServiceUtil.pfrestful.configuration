@@ -1,0 +1,26 @@
+{
+"endpoint": "/services/PfRestful",
+   
+"restTargets": {
+"DEPLOY": {
+		"target": "/productServices/product/deploy/{productCode}/{productVersion}/",
+		"methods": {		
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "pfrestful/DEPLOY.EMPTY.tmpl"
+			}
+		}
+	}
+,"EXIST": {
+		"target": "/productServices/product/exists/{productCode}/{productVersion}",
+		"methods": {		
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "text/plain",
+				"postTemplate": "customercore-rs/EXIST.EMPTY.tmpl"
+			}
+		}
+	}
+}
+}

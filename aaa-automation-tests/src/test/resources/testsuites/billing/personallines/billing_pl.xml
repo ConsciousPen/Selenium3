@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Billing Personal Lines" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+    <suite-files>
+        <suite-file path="billing_pl_with_timeshift.xml"/>
+        <suite-file path="billing_pl_without_timeshift.xml"/>
+    </suite-files>
+</suite>

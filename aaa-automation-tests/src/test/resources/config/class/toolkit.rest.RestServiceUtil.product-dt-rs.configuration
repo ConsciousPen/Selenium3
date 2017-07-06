@@ -1,0 +1,15 @@
+{
+	"endpoint": "/services/product-dt-rs/v1",
+	"restTargets": {
+		"PRODUCTS": {
+			"target": "/products",
+			"methods": {
+				"GET": {
+					"queryParams": "productCd",
+					"mediaType": "application/json",
+					"postTemplate": "product-rt-rs/METADATA.EMPTY.tmpl"
+				}
+			}
+		}
+	}
+}

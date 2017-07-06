@@ -1,0 +1,10 @@
+TestData: {
+  PolicyTab: {},
+  InsuredTab: {},
+  RiskAddressTab: {},
+  ClaimReportTab: {},
+  MortgageesTab: {},
+  CoveragesPremiumCoveragesPremiumTab: {
+    Fungi and Mold: '$5,000',
+  }
+}

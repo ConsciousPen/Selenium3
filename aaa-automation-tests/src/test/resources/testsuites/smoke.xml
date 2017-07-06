@@ -1,0 +1,202 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Smoke" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+
+    <test name="PREC-HO TestPolicyCancellationFlat"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestPolicyCancellationFlat"/></classes></test>
+    <test name="PREC-AU TestPolicyCancellationFlat"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestPolicyCancellationFlat"/></classes></test>
+    <test name="PREC-AU TestPolicyCancellationFutureDatedRescind"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestPolicyCancellationFutureDatedRescind"/></classes></test>
+    <test name="PREC-HO TestPolicyCancellationFutureDatedRescind"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestPolicyCancellationFutureDatedRescind"/></classes></test>
+    <test name="PREC-HO TestPolicyCopy"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestPolicyCopy"/></classes></test>
+    <test name="PREC-AU TestPolicyCopy"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestPolicyCopy"/></classes></test>
+    <test name="PREC-HO TestPolicyEndorsementCrossTerm"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestPolicyEndorsementCrossTerm"/></classes></test>
+    <test name="PREC-AU TestPolicyEndorsementCrossTerm"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestPolicyEndorsementCrossTerm"/></classes></test>
+    <test name="PREC-AU TestPolicyEndorsementFlat"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestPolicyEndorsementFlat"/></classes></test>
+    <test name="PREC-HO TestPolicyEndorsementFlat"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestPolicyEndorsementFlat"/></classes></test>
+    <test name="PREC-AU TestPolicyEndorsementMidTerm"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestPolicyEndorsementMidTerm"/></classes></test>
+    <test name="PREC-HO TestPolicyEndorsementMidTerm"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestPolicyEndorsementMidTerm"/></classes></test>
+    <test name="PREC-AU TestPolicyEndorsementOos"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestPolicyEndorsementOos"/></classes></test>
+    <test name="PREC-HO TestPolicyEndorsementOos"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestPolicyEndorsementOos"/></classes></test>
+    <test name="PREC-HO TestPolicyReinstatement"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestPolicyReinstatement"/></classes></test>
+    <test name="PREC-AU TestPolicyReinstatement"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestPolicyReinstatement"/></classes></test>
+    <test name="PREC-AU TestPolicyRenew"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestPolicyRenew"/></classes></test>
+    <test name="PREC-HO TestPolicyRenew"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestPolicyRenew"/></classes></test>
+    <test name="PREC-AU TestPolicyRewriteToNewNumber"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestPolicyRewriteToNewNumber"/></classes></test>
+    <test name="PREC-HO TestPolicyRewriteToNewNumber"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestPolicyRewriteToNewNumber"/></classes></test>
+    <test name="PREC-AU TestPolicyRewriteToSameNumber"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestPolicyRewriteToSameNumber"/></classes></test>
+    <test name="PREC-HO TestPolicyRewriteToSameNumber"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestPolicyRewriteToSameNumber"/></classes></test>
+    <test name="PREC-AU TestQuoteCopy"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestQuoteCopy"/></classes></test>
+    <test name="PREC-HO TestQuoteCopy"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestQuoteCopy"/></classes></test>
+    <test name="PREC-AU TestQuoteInitiate"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestQuoteInitiate"/></classes></test>
+    <test name="PREC-AU TestQuoteIssue"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_au.TestQuoteIssue"/></classes></test>
+    <test name="PREC-HO TestQuoteIssue"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestQuoteIssue"/></classes></test>
+    <test name="PREC-HO TestQuoteInitiate"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.prec_ho.TestQuoteInitiate"/></classes></test>
+
+    <!--<test name="AU TestPolicyCancellationFlatPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.au.TestPolicyCancellationFlatPPO"/></classes></test>-->
+    <!--<test name="AU TestPolicyCancellationFutureDatedRescindPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.au.TestPolicyCancellationFutureDatedRescindPPO"/></classes></test>-->
+    <!--<test name="AU TestQuoteInitiatePPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.au.TestQuoteInitiatePPO"/></classes></test>-->
+    <!--<test name="AU TestQuoteIssuePPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.au.TestQuoteIssuePPO"/></classes></test>-->
+    <!--<test name="AU TestQuoteCopyPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.au.TestQuoteCopyPPO"/></classes></test>-->
+    <!--<test name="AU TestPolicyCopyPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.au.TestPolicyCopyPPO"/></classes></test>-->
+    <!--<test name="AU TestPolicyRewriteToSameNumberPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.au.TestPolicyRewriteToSameNumberPPO"/></classes></test>-->
+    <!--<test name="AU TestPolicyEndorsementCrossTermPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.au.TestPolicyEndorsementCrossTermPPO"/></classes></test>-->
+    <!--<test name="AU TestPolicyEndorsementFlatPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.au.TestPolicyEndorsementFlatPPO"/></classes></test>-->
+    <!--<test name="AU TestPolicyEndorsementMidTermPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.au.TestPolicyEndorsementMidTermPPO"/></classes></test>    -->
+    <!--<test name="AU TestPolicyEndorsementOosPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.au.TestPolicyEndorsementOosPPO"/></classes></test>-->
+    <!--<test name="AU TestPolicyRewriteToNewNumberPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.au.TestPolicyRewriteToNewNumberPPO"/></classes></test>-->
+    <!--<test name="AU TestPolicyRenewPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.au.TestPolicyRenewPPO"/></classes></test>-->
+    <!--<test name="AU TestPolicyReinstatementPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.au.TestPolicyReinstatementPPO"/></classes></test>  -->
+
+    <!--<test name="HO TestPolicyRenewPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.ho.TestPolicyRenewPPO"/></classes></test>-->
+    <!--<test name="HO TestPolicyReinstatementPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.ho.TestPolicyReinstatementPPO"/></classes></test>-->
+    <!--<test name="HO TestPolicyEndorsementOosPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.ho.TestPolicyEndorsementOosPPO"/></classes></test>-->
+    <!--<test name="HO TestPolicyEndorsementMidTermPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.ho.TestPolicyEndorsementMidTermPPO"/></classes></test>-->
+    <!--<test name="HO TestPolicyEndorsementFlatPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.ho.TestPolicyEndorsementFlatPPO"/></classes></test>-->
+    <!--<test name="HO TestPolicyEndorsementCrossTermPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.ho.TestPolicyEndorsementCrossTermPPO"/></classes></test>-->
+    <!--<test name="HO TestPolicyRewriteToNewNumberPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.ho.TestPolicyRewriteToNewNumberPPO"/></classes></test>-->
+    <!--<test name="HO TestQuoteInitiatePPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.ho.TestQuoteInitiatePPO"/></classes></test>-->
+    <!--<test name="HO TestQuoteIssuePPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.ho.TestQuoteIssuePPO"/></classes></test>    -->
+    <!--<test name="HO TestPolicyRewriteToSameNumberPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.ho.TestPolicyRewriteToSameNumberPPO"/></classes></test>-->
+    <!--<test name="HO TestQuoteCopyPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.ho.TestQuoteCopyPPO"/></classes></test>-->
+    <!--<test name="HO TestPolicyCopyPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.ho.TestPolicyCopyPPO"/></classes></test>-->
+    <!--<test name="HO TestPolicyCancellationFutureDatedRescindPPO"><classes><class name="com.exigen.ipb.etcsa.modules.policy.personallines.ho.TestPolicyCancellationFutureDatedRescindPPO"/></classes></test>-->
+
+    <test name="CL TestQuoteIssue NonIndividual Auto"><parameter name="LOB" value="Auto"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestQuoteIssue"/></classes></test>
+    <test name="CL TestQuoteIssue NonIndividual Property"><parameter name="LOB" value="Property"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestQuoteIssue"/></classes></test>
+    <test name="CL TestQuoteIssue NonIndividual GeneralLiability"><parameter name="LOB" value="GeneralLiability"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestQuoteIssue"/></classes></test>
+    <test name="CL TestQuoteIssue NonIndividual InlandMarine"><parameter name="LOB" value="InlandMarine"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestQuoteIssue"/></classes></test>
+    <test name="CL TestQuoteInitiate NonIndividual"><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestQuoteInitiate"/></classes></test>
+    <test name="CL TestQuoteCopy NonIndividual"><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestQuoteCopy"/></classes></test>
+    <test name="CL TestQuoteIssue Individual Auto"><parameter name="LOB" value="Auto"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.individual.TestQuoteIssue"/></classes></test>
+    <test name="CL TestQuoteIssue Individual Property"><parameter name="LOB" value="Property"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.individual.TestQuoteIssue"/></classes></test>
+    <test name="CL TestQuoteIssue Individual GeneralLiability"><parameter name="LOB" value="GeneralLiability"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.individual.TestQuoteIssue"/></classes></test>
+    <test name="CL TestQuoteIssue Individual InlandMarine"><parameter name="LOB" value="InlandMarine"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.individual.TestQuoteIssue"/></classes></test>
+    <test name="CL TestQuoteInitiate Individual"><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.individual.TestQuoteInitiate"/></classes></test>
+    <test name="CL TestQuoteCopy Individual"><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.individual.TestQuoteCopy"/></classes></test>
+    <test name="CL TestPolicyRewriteToSameNumber NonIndividual Auto"><parameter name="LOB" value="Auto"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyRewriteToSameNumber"/></classes></test>
+    <test name="CL TestPolicyRewriteToSameNumber NonIndividual Property"><parameter name="LOB" value="Property"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyRewriteToSameNumber"/></classes></test>
+    <test name="CL TestPolicyRewriteToSameNumber NonIndividual GeneralLiability"><parameter name="LOB" value="GeneralLiability"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyRewriteToSameNumber"/></classes></test>
+    <test name="CL TestPolicyRewriteToSameNumber NonIndividual InlandMarine"><parameter name="LOB" value="InlandMarine"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyRewriteToSameNumber"/></classes></test>
+    <test name="CL TestPolicyRewriteToSameNumber Individual Auto"><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.individual.TestPolicyRewriteToSameNumber"/></classes></test>
+    <test name="CL TestPolicyCancellationFlat NonIndividual Auto"><parameter name="LOB" value="Auto"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyCancellationFlat"/></classes></test>
+    <test name="CL TestPolicyCancellationFlat NonIndividual Property"><parameter name="LOB" value="Property"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyCancellationFlat"/></classes></test>
+    <test name="CL TestPolicyCancellationFlat NonIndividual GeneralLiability"><parameter name="LOB" value="GeneralLiability"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyCancellationFlat"/></classes></test>
+    <test name="CL TestPolicyCancellationFlat NonIndividual InlandMarine"><parameter name="LOB" value="InlandMarine"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyCancellationFlat"/></classes></test>
+    <test name="CL TestPolicyCancellationFlat Individual Auto"><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.individual.TestPolicyCancellationFlat"/></classes></test>
+    <test name="CL TestPolicyRenew NonIndividual Auto"><parameter name="LOB" value="Auto"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyRenew"/></classes></test>
+    <test name="CL TestPolicyRenew NonIndividual Property"><parameter name="LOB" value="Property"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyRenew"/></classes></test>
+    <test name="CL TestPolicyRenew NonIndividual GeneralLiability"><parameter name="LOB" value="GeneralLiability"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyRenew"/></classes></test>
+    <test name="CL TestPolicyRenew NonIndividual InlandMarine"><parameter name="LOB" value="InlandMarine"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyRenew"/></classes></test>
+    <test name="CL TestPolicyRenew Individual Auto"><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.individual.TestPolicyRenew"/></classes></test>
+    <test name="CL TestPolicyCopy NonIndividual Auto"><parameter name="LOB" value="Auto"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyCopy"/></classes></test>
+    <test name="CL TestPolicyCopy NonIndividual Property"><parameter name="LOB" value="Property"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyCopy"/></classes></test>
+    <test name="CL TestPolicyCopy NonIndividual GeneralLiability"><parameter name="LOB" value="GeneralLiability"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyCopy"/></classes></test>
+    <test name="CL TestPolicyCopy NonIndividual InlandMarine"><parameter name="LOB" value="InlandMarine"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyCopy"/></classes></test>
+    <test name="CL TestPolicyCopy Individual Auto"><parameter name="LOB" value="Auto"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.individual.TestPolicyCopy"/></classes></test>
+    <test name="CL TestPolicyRewriteToNewNumber NonIndividual Auto"><parameter name="LOB" value="Auto"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyRewriteToNewNumber"/></classes></test>
+    <test name="CL TestPolicyRewriteToNewNumber NonIndividual Property"><parameter name="LOB" value="Property"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyRewriteToNewNumber"/></classes></test>
+    <test name="CL TestPolicyRewriteToNewNumber NonIndividual GeneralLiability"><parameter name="LOB" value="GeneralLiability"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyRewriteToNewNumber"/></classes></test>
+    <test name="CL TestPolicyRewriteToNewNumber NonIndividual InlandMarine"><parameter name="LOB" value="InlandMarine"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyRewriteToNewNumber"/></classes></test>
+    <test name="CL TestPolicyRewriteToNewNumber Individual Auto"><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.individual.TestPolicyRewriteToNewNumber"/></classes></test>
+    <test name="CL TestPolicyEndorsementCrossTerm NonIndividual Auto"><parameter name="LOB" value="Auto"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyEndorsementCrossTerm"/></classes></test>
+    <test name="CL TestPolicyEndorsementCrossTerm NonIndividual Property"><parameter name="LOB" value="Property"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyEndorsementCrossTerm"/></classes></test>
+    <test name="CL TestPolicyEndorsementCrossTerm NonIndividual GeneralLiability"><parameter name="LOB" value="GeneralLiability"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyEndorsementCrossTerm"/></classes></test>
+    <test name="CL TestPolicyEndorsementCrossTerm NonIndividual InlandMarine"><parameter name="LOB" value="InlandMarine"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyEndorsementCrossTerm"/></classes></test>
+    <test name="CL TestPolicyEndorsementCrossTerm Individual Auto"><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.individual.TestPolicyEndorsementCrossTerm"/></classes></test>
+    <test name="CL TestPolicyReinstatement NonIndividual Auto"><parameter name="LOB" value="Auto"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyReinstatement"/></classes></test>
+    <test name="CL TestPolicyReinstatement NonIndividual Property"><parameter name="LOB" value="Property"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyReinstatement"/></classes></test>
+    <test name="CL TestPolicyReinstatement NonIndividual GeneralLiability"><parameter name="LOB" value="GeneralLiability"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyReinstatement"/></classes></test>
+    <test name="CL TestPolicyReinstatement NonIndividual InlandMarine"><parameter name="LOB" value="InlandMarine"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyReinstatement"/></classes></test>
+    <test name="CL TestPolicyReinstatement Individual Auto"><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.individual.TestPolicyReinstatement"/></classes></test>
+    <test name="CL TestPolicyEndorsementFlat NonIndividual Auto"><parameter name="LOB" value="Auto"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyEndorsementFlat"/></classes></test>
+    <test name="CL TestPolicyEndorsementFlat NonIndividual Property"><parameter name="LOB" value="Property"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyEndorsementFlat"/></classes></test>
+    <test name="CL TestPolicyEndorsementFlat NonIndividual GeneralLiability"><parameter name="LOB" value="GeneralLiability"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyEndorsementFlat"/></classes></test>
+    <test name="CL TestPolicyEndorsementFlat NonIndividual InlandMarine"><parameter name="LOB" value="InlandMarine"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyEndorsementFlat"/></classes></test>
+    <test name="CL TestPolicyEndorsementFlat Individual Auto"><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.individual.TestPolicyEndorsementFlat"/></classes></test>
+    <test name="CL TestPolicyEndorsementMidTerm NonIndividual Auto"><parameter name="LOB" value="Auto"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyEndorsementMidTerm"/></classes></test>
+    <test name="CL TestPolicyEndorsementMidTerm NonIndividual Property"><parameter name="LOB" value="Property"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyEndorsementMidTerm"/></classes></test>
+    <test name="CL TestPolicyEndorsementMidTerm NonIndividual GeneralLiability"><parameter name="LOB" value="GeneralLiability"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyEndorsementMidTerm"/></classes></test>
+    <test name="CL TestPolicyEndorsementMidTerm NonIndividual InlandMarine"><parameter name="LOB" value="InlandMarine"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyEndorsementMidTerm"/></classes></test>
+    <test name="CL TestPolicyEndorsementMidTerm Individual Auto"><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.individual.TestPolicyEndorsementMidTerm"/></classes></test>
+    <test name="CL TestPolicyEndorsementOos NonIndividual Auto"><parameter name="LOB" value="Auto"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyEndorsementOos"/></classes></test>
+    <test name="CL TestPolicyEndorsementOos NonIndividual Property"><parameter name="LOB" value="Property"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyEndorsementOos"/></classes></test>
+    <test name="CL TestPolicyEndorsementOos NonIndividual GeneralLiability"><parameter name="LOB" value="GeneralLiability"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyEndorsementOos"/></classes></test>
+    <test name="CL TestPolicyEndorsementOos NonIndividual InlandMarine"><parameter name="LOB" value="InlandMarine"/><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.nonindividual.TestPolicyEndorsementOos"/></classes></test>
+    <test name="CL TestPolicyEndorsementOos Individual Auto"><classes><class name="com.exigen.ipb.etcsa.modules.policy.commerciallines.cl.individual.TestPolicyEndorsementOos"/></classes></test>
+
+    <test name="GB-BASE CERTIFICATE TestQuoteIssue"><classes><class name="com.exigen.ipb.etcsa.modules.policy.groupbenefits.gb_base.certificate.TestQuoteIssue"/></classes></test>
+    <test name="GB-BASE CERTIFICATE TestQuoteInitiate"><classes><class name="com.exigen.ipb.etcsa.modules.policy.groupbenefits.gb_base.certificate.TestQuoteInitiate"/></classes></test>
+    <test name="GB-BASE MASTER TestQuoteIssue"><classes><class name="com.exigen.ipb.etcsa.modules.policy.groupbenefits.gb_base.master.TestQuoteIssue"/></classes></test>
+    <test name="GB-BASE MASTER TestQuoteIssueSelfAdmin"><classes><class name="com.exigen.ipb.etcsa.modules.policy.groupbenefits.gb_base.master.TestQuoteIssueSelfAdmin"/></classes></test>
+    <test name="GB-BASE MASTER TestQuoteInitiate"><classes><class name="com.exigen.ipb.etcsa.modules.policy.groupbenefits.gb_base.master.TestQuoteInitiate"/></classes></test>
+    <test name="GB-BASE MASTER TestQuoteCopy"><classes><class name="com.exigen.ipb.etcsa.modules.policy.groupbenefits.gb_base.master.TestQuoteCopy"/></classes></test>
+    <test name="GB-BASE MASTER TestPolicyCancellationFlat"><classes><class name="com.exigen.ipb.etcsa.modules.policy.groupbenefits.gb_base.master.TestPolicyCancellationFlat"/></classes></test>
+    <test name="GB-BASE CERTIFICATE TestPolicyCancellationFlat"><classes><class name="com.exigen.ipb.etcsa.modules.policy.groupbenefits.gb_base.certificate.TestPolicyCancellationFlat"/></classes></test>
+    <test name="GB-BASE MASTER TestPolicyCancellationFutureDatedRescind"><classes><class name="com.exigen.ipb.etcsa.modules.policy.groupbenefits.gb_base.master.TestPolicyCancellationFutureDatedRescind"/></classes></test>
+    <test name="GB-BASE CERTIFICATE TestPolicyEndorsementMidTerm"><classes><class name="com.exigen.ipb.etcsa.modules.policy.groupbenefits.gb_base.certificate.TestPolicyEndorsementMidTerm"/></classes></test>
+    <test name="GB-BASE MASTER TestPolicyEndorsementMidTerm"><classes><class name="com.exigen.ipb.etcsa.modules.policy.groupbenefits.gb_base.master.TestPolicyEndorsementMidTerm"/></classes></test>
+    <test name="GB-BASE CERTIFICATE TestPolicyReinstatement"><classes><class name="com.exigen.ipb.etcsa.modules.policy.groupbenefits.gb_base.certificate.TestPolicyReinstatement"/></classes></test>
+    <test name="GB-BASE MASTER TestPolicyReinstatement"><classes><class name="com.exigen.ipb.etcsa.modules.policy.groupbenefits.gb_base.master.TestPolicyReinstatement"/></classes></test>
+    <test name="GB-BASE MASTER TestPolicyCopy"><classes><class name="com.exigen.ipb.etcsa.modules.policy.groupbenefits.gb_base.master.TestPolicyCopy"/></classes></test>
+    <test name="GB-BASE CERTIFICATE TestPolicyRenew"><classes><class name="com.exigen.ipb.etcsa.modules.policy.groupbenefits.gb_base.certificate.TestPolicyRenew"/></classes></test>
+    <test name="GB-BASE MASTER TestPolicyRenew"><classes><class name="com.exigen.ipb.etcsa.modules.policy.groupbenefits.gb_base.master.TestPolicyRenew"/></classes></test>
+    <test name="GB-BASE CERTIFICATE TestPolicyEndorsementFlat"><classes><class name="com.exigen.ipb.etcsa.modules.policy.groupbenefits.gb_base.certificate.TestPolicyEndorsementFlat"/></classes></test>
+    <test name="GB-BASE MASTER TestPolicyEndorsementFlat"><classes><class name="com.exigen.ipb.etcsa.modules.policy.groupbenefits.gb_base.master.TestPolicyEndorsementFlat"/></classes></test>
+
+    <test name="CLAIM PREC-AU TestClaimUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.claim.personallines.prec_au.TestClaimUpdate"/></classes></test>
+    <test name="CLAIM PREC-HO TestClaimUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.claim.personallines.prec_ho.TestClaimUpdate"/></classes></test>
+    <test name="CLAIM PREC-HO-BASE TestClaimUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.claim.personallines.prec_ho_base.TestClaimUpdate"/></classes></test>
+    <test name="CLAIM CL TestClaimUpdate" preserve-order="true"><classes><class name="com.exigen.ipb.etcsa.modules.claim.commerciallines.cl.TestClaimUpdate"/></classes></test>
+    <test name="CLAIM PREC-AU TestClaimReopen"><classes><class name="com.exigen.ipb.etcsa.modules.claim.personallines.prec_au.TestClaimReopen"/></classes></test>
+    <test name="CLAIM PREC-HO-BASE TestClaimReopen"><classes><class name="com.exigen.ipb.etcsa.modules.claim.personallines.prec_ho_base.TestClaimReopen"/></classes></test>
+    <test name="CLAIM PREC-HO TestClaimReopen"><classes><class name="com.exigen.ipb.etcsa.modules.claim.personallines.prec_ho.TestClaimReopen"/></classes></test>
+    <test name="CLAIM CL TestClaimReopen" preserve-order="true"><classes><class name="com.exigen.ipb.etcsa.modules.claim.commerciallines.cl.TestClaimReopen"/></classes></test>
+    <test name="CLAIM PREC-HO TestClaimReopenWithoutPolicy"><classes><class name="com.exigen.ipb.etcsa.modules.claim.personallines.prec_ho.TestClaimReopenWithoutPolicy"/></classes></test>
+    <test name="CLAIM PREC-AU TestClaimReopenWithoutPolicy"><classes><class name="com.exigen.ipb.etcsa.modules.claim.personallines.prec_au.TestClaimReopenWithoutPolicy"/></classes></test>
+    <test name="CLAIM PREC-HO-BASE TestClaimReopenWithoutPolicy"><classes><class name="com.exigen.ipb.etcsa.modules.claim.personallines.prec_ho_base.TestClaimReopenWithoutPolicy"/></classes></test>
+    <test name="CLAIM CL TestClaimReopenWithoutPolicy" preserve-order="true"><classes><class name="com.exigen.ipb.etcsa.modules.claim.commerciallines.cl.TestClaimReopenWithoutPolicy"/></classes></test>
+    <test name="CLAIM PREC-AU TestClaimNewDamageVehicleAddUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.claim.personallines.prec_au.TestClaimNewDamageVehicleAddUpdate"/></classes></test>
+    <test name="CLAIM CL TestClaimNewDamageAutoAddUpdate Auto" preserve-order="true"><parameter name="LOB" value="Auto"/><classes><class name="com.exigen.ipb.etcsa.modules.claim.commerciallines.cl.TestClaimNewDamageAutoAddUpdate"/></classes></test>
+    <test name="CLAIM PREC-HO TestClaimNewDamageHome"><classes><class name="com.exigen.ipb.etcsa.modules.claim.personallines.prec_ho.TestClaimNewDamageHome"/></classes></test>
+    <test name="CLAIM PREC-HO-BASE TestClaimNewDamageInjury"><classes><class name="com.exigen.ipb.etcsa.modules.claim.personallines.prec_ho_base.TestClaimNewDamageInjury"/></classes></test>
+    <test name="CLAIM PREC-AU TestClaimNewDamageVehicleAddUpdateWithoutPolicy"><classes><class name="com.exigen.ipb.etcsa.modules.claim.personallines.prec_au.TestClaimNewDamageVehicleAddUpdateWithoutPolicy"/></classes></test>
+    <test name="CLAIM CL TestClaimNewDamageAutoAddUpdateWithoutPolicy" preserve-order="true"><classes><class name="com.exigen.ipb.etcsa.modules.claim.commerciallines.cl.TestClaimNewDamageAutoAddUpdateWithoutPolicy"/></classes></test>
+    <test name="CLAIM PREC-HO TestClaimNewDamageHomeWithoutPolicy"><classes><class name="com.exigen.ipb.etcsa.modules.claim.personallines.prec_ho.TestClaimNewDamageHomeWithoutPolicy"/></classes></test>
+    <test name="CLAIM PREC-HO-BASE TestClaimNewDamageInjuryWithoutPolicy"><classes><class name="com.exigen.ipb.etcsa.modules.claim.personallines.prec_ho_base.TestClaimNewDamageInjuryWithoutPolicy"/></classes></test>
+
+    <test name="CUSTOMER IND TestCustomerCreateDelete"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerCreateDelete"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerUpdate"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerOpportunityAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerOpportunityAddRemove"/></classes></test>
+    <test name="CUSTOMER IND TestCustomerRelationshipAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.individual.TestCustomerRelationshipAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerRelationshipAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerRelationshipAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerCreateDelete"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerCreateDelete"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerOpportunityAddRemove"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerOpportunityAddRemove"/></classes></test>
+    <test name="CUSTOMER NONIND TestCustomerUpdate"><classes><class name="com.exigen.ipb.etcsa.modules.cem.customer.nonindividual.TestCustomerUpdate"/></classes></test>
+
+    <test name="BILLING PREC-AU Test12 Payment transfer and decline"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_au.TestBilling12"/></classes></test>
+    <test name="BILLING PREC-HO Test12 Payment transfer and decline"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_ho.TestBilling12"/></classes></test>
+    <test name="BILLING PREC-AU Test18 Manual Renewal"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_au.TestBilling18"/></classes></test>
+    <test name="BILLING PREC-HO Test18 Manual Renewal"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_ho.TestBilling18"/></classes></test>
+    <test name="BILLING CL Test12 Payment transfer and decline"><classes><class name="com.exigen.ipb.etcsa.modules.billing.commerciallines.cl.TestBilling12"/></classes></test>
+    <test name="BILLING CL Test18 Manual Renewal"><classes><class name="com.exigen.ipb.etcsa.modules.billing.commerciallines.cl.TestBilling18"/></classes></test>
+    <test name="BILLING GB TestAddPaymentNotSelfAdmin"><classes><class name="com.exigen.ipb.etcsa.modules.billing.groupbenefits.fulladmin.TestAddPaymentFullAdmin"/></classes></test>
+    <test name="BILLING GB TestAddPaymentSelfAdmin"><classes><class name="com.exigen.ipb.etcsa.modules.billing.groupbenefits.selfadmin.TestAddPaymentSelfAdmin"/></classes></test>
+
+    <!--test name="BILLING AU Test18 Manual Renewal"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.au.TestBilling18"/></classes></test-->
+    <!--test name="BILLING AU Test12 Payment transfer and decline"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.au.TestBilling12"/></classes></test-->
+    <!--test name="BILLING HO Test12 Payment transfer and decline"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.ho.TestBilling12"/></classes></test-->
+    <!--test name="BILLING HO Test18 Manual Renewal"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.ho.TestBilling18"/></classes></test-->
+
+    <test name="COMMISSION PREC-HO TestCommissionsAPEndorsement"><classes><class name="com.exigen.ipb.etcsa.modules.commission.personallines.prec_ho.TestCommissionsAPEndorsement"/></classes></test>
+    <test name="COMMISSION PREC-AU TestCommissionsAPEndorsement"><classes><class name="com.exigen.ipb.etcsa.modules.commission.personallines.prec_au.TestCommissionsAPEndorsement"/></classes></test>
+
+    <test name="PLATFORM TestReportsTabsNavigation"><classes><class name="com.exigen.ipb.etcsa.modules.platform.admin.reports.operationalreports.TestReportsTabsNavigation"/></classes></test>
+    <test name="PLATFORM TestOperationalReportCreation"><classes><class name="com.exigen.ipb.etcsa.modules.platform.admin.reports.operationalreports.TestOperationalReportCreation"/></classes></test>
+
+    <test name="TAXESFEES CL TestTaxesNonRefundableWithEndorsementAndOOSCancellation" preserve-order="true"><classes><class name="com.exigen.ipb.etcsa.modules.taxesfees.commerciallines.cl.TestTaxesNonRefundableWithEndorsementAndOOSCancellation"/></classes></test>
+    <test name="TAXESFEES CL TestTaxesRefundableWithEndorsementAndOOSEndorsement"><classes><class name="com.exigen.ipb.etcsa.modules.taxesfees.commerciallines.cl.TestTaxesRefundableWithEndorsementAndOOSEndorsement"/></classes></test>
+
+    <test name="PF TestProductFactoryAddNewProduct"><classes><class name="com.exigen.ipb.etcsa.modules.productfactory.policy.TestProductFactoryAddNewProduct"/></classes></test>
+</suite>

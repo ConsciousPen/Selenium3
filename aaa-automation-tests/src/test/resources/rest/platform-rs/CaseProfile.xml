@@ -1,0 +1,268 @@
+<com.exigen.ipb.policy.group.caseprofile.domain.CaseProfile>
+  <name>Case Profile Name {UID}</name>
+  <caseNumber>{UID}</caseNumber>
+  <customerNumber>{CUSTOMER_NUMBER}</customerNumber>
+  <statusCd>ACTIVE</statusCd>
+  <version>0</version>
+  <term>
+    <effective class="sql-timestamp">{TODAY-90} 00:00:00</effective>
+    <dummy>0</dummy>
+  </term>
+  <geographyCd>US</geographyCd>
+  <stateCd>CA</stateCd>
+  <applicablePaymentModes class="java.util.Set">
+    <string>1</string>
+    <string>12</string>
+  </applicablePaymentModes>
+  <producerCd>QAG</producerCd>
+  <subProducerCd>qa</subProducerCd>
+  <censusIntakeRequired>false</censusIntakeRequired>
+  <selectedProducts class="java.util.ArrayList">
+    <com.exigen.ipb.policy.group.caseprofile.domain.PolicyProduct>
+      <productCd>GB_ADD</productCd>
+      <policyPlanRequired>false</policyPlanRequired>
+      <selectedPolicyPlans class="java.util.ArrayList"/>
+    </com.exigen.ipb.policy.group.caseprofile.domain.PolicyProduct>
+    <com.exigen.ipb.policy.group.caseprofile.domain.PolicyProduct>
+      <productCd>GB_CI</productCd>
+      <policyPlanRequired>false</policyPlanRequired>
+      <selectedPolicyPlans class="java.util.ArrayList"/>
+    </com.exigen.ipb.policy.group.caseprofile.domain.PolicyProduct>
+    <com.exigen.ipb.policy.group.caseprofile.domain.PolicyProduct>
+      <productCd>GB_DI</productCd>
+      <policyPlanRequired>false</policyPlanRequired>
+      <selectedPolicyPlans class="java.util.ArrayList"/>
+    </com.exigen.ipb.policy.group.caseprofile.domain.PolicyProduct>
+    <com.exigen.ipb.policy.group.caseprofile.domain.PolicyProduct>
+      <productCd>GB_TL</productCd>
+      <policyPlanRequired>false</policyPlanRequired>
+      <selectedPolicyPlans class="java.util.ArrayList"/>
+    </com.exigen.ipb.policy.group.caseprofile.domain.PolicyProduct>
+    <com.exigen.ipb.policy.group.caseprofile.domain.PolicyProduct>
+      <productCd>GB_AC</productCd>
+      <policyPlanRequired>false</policyPlanRequired>
+      <selectedPolicyPlans class="java.util.ArrayList"/>
+    </com.exigen.ipb.policy.group.caseprofile.domain.PolicyProduct>
+    <com.exigen.ipb.policy.group.caseprofile.domain.PolicyProduct>
+      <productCd>GB</productCd>
+      <policyPlanRequired>false</policyPlanRequired>
+      <selectedPolicyPlans class="java.util.ArrayList"/>
+    </com.exigen.ipb.policy.group.caseprofile.domain.PolicyProduct>
+  </selectedProducts>
+  <classificationGroups class="java.util.ArrayList">
+    <com.exigen.ipb.policy.group.caseprofile.domain.ClassificationGroup>
+      <oid>uAB7EvIkA{UID}</oid>
+      <entityStatus>added</entityStatus>
+      <name>Employment</name>
+      <code>Employment</code>
+      <type>ELG</type>
+      <relationshipType>EMP</relationshipType>
+      <originalEffectiveDate class="sql-date">{TODAY}</originalEffectiveDate>
+      <payClass>FULL_TIME</payClass>
+      <payType>SALARY</payType>
+      <unionMember>false</unionMember>
+      <selectedJobCds class="java.util.ArrayList">
+        <com.exigen.ipb.policy.group.caseprofile.domain.GroupJobCd>
+          <jobCd>ANY</jobCd>
+        </com.exigen.ipb.policy.group.caseprofile.domain.GroupJobCd>
+        <com.exigen.ipb.policy.group.caseprofile.domain.GroupJobCd>
+          <jobCd>SE</jobCd>
+        </com.exigen.ipb.policy.group.caseprofile.domain.GroupJobCd>
+        <com.exigen.ipb.policy.group.caseprofile.domain.GroupJobCd>
+          <jobCd>LI</jobCd>
+        </com.exigen.ipb.policy.group.caseprofile.domain.GroupJobCd>
+        <com.exigen.ipb.policy.group.caseprofile.domain.GroupJobCd>
+          <jobCd>VH</jobCd>
+        </com.exigen.ipb.policy.group.caseprofile.domain.GroupJobCd>
+        <com.exigen.ipb.policy.group.caseprofile.domain.GroupJobCd>
+          <jobCd>HE</jobCd>
+        </com.exigen.ipb.policy.group.caseprofile.domain.GroupJobCd>
+        <com.exigen.ipb.policy.group.caseprofile.domain.GroupJobCd>
+          <jobCd>ME</jobCd>
+        </com.exigen.ipb.policy.group.caseprofile.domain.GroupJobCd>
+      </selectedJobCds>
+      <selectedEmploymentStatuses class="java.util.ArrayList">
+        <com.exigen.ipb.policy.group.caseprofile.domain.GroupEmploymentStatus>
+          <employmentStatus>ACT</employmentStatus>
+        </com.exigen.ipb.policy.group.caseprofile.domain.GroupEmploymentStatus>
+        <com.exigen.ipb.policy.group.caseprofile.domain.GroupEmploymentStatus>
+          <employmentStatus>LWOP</employmentStatus>
+        </com.exigen.ipb.policy.group.caseprofile.domain.GroupEmploymentStatus>
+        <com.exigen.ipb.policy.group.caseprofile.domain.GroupEmploymentStatus>
+          <employmentStatus>DEC</employmentStatus>
+        </com.exigen.ipb.policy.group.caseprofile.domain.GroupEmploymentStatus>
+        <com.exigen.ipb.policy.group.caseprofile.domain.GroupEmploymentStatus>
+          <employmentStatus>INA</employmentStatus>
+        </com.exigen.ipb.policy.group.caseprofile.domain.GroupEmploymentStatus>
+        <com.exigen.ipb.policy.group.caseprofile.domain.GroupEmploymentStatus>
+          <employmentStatus>TER</employmentStatus>
+        </com.exigen.ipb.policy.group.caseprofile.domain.GroupEmploymentStatus>
+        <com.exigen.ipb.policy.group.caseprofile.domain.GroupEmploymentStatus>
+          <employmentStatus>RET</employmentStatus>
+        </com.exigen.ipb.policy.group.caseprofile.domain.GroupEmploymentStatus>
+        <com.exigen.ipb.policy.group.caseprofile.domain.GroupEmploymentStatus>
+          <employmentStatus>LWP</employmentStatus>
+        </com.exigen.ipb.policy.group.caseprofile.domain.GroupEmploymentStatus>
+      </selectedEmploymentStatuses>
+      <selectedEmploymentTypes class="java.util.ArrayList">
+        <com.exigen.ipb.policy.group.caseprofile.domain.GroupEmploymentType>
+          <employmentType>EXE</employmentType>
+        </com.exigen.ipb.policy.group.caseprofile.domain.GroupEmploymentType>
+        <com.exigen.ipb.policy.group.caseprofile.domain.GroupEmploymentType>
+          <employmentType>DIR</employmentType>
+        </com.exigen.ipb.policy.group.caseprofile.domain.GroupEmploymentType>
+        <com.exigen.ipb.policy.group.caseprofile.domain.GroupEmploymentType>
+          <employmentType>CLE</employmentType>
+        </com.exigen.ipb.policy.group.caseprofile.domain.GroupEmploymentType>
+      </selectedEmploymentTypes>
+      <selectedMembershipStatuses class="java.util.ArrayList"/>
+      <selectedStudentStatuses class="java.util.ArrayList"/>
+      <classificationSubgroupProfiles class="java.util.ArrayList">
+        <com.exigen.ipb.policy.group.caseprofile.domain.DefaultClassificationSubgroupProfile>
+          <name>DEFAULT</name>
+          <classificationSubgroups class="java.util.ArrayList">
+            <com.exigen.ipb.policy.group.caseprofile.domain.DefaultClassificationSubgroup>
+              <oid>jlw9ewtO-{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <name>DEFAULT</name>
+            </com.exigen.ipb.policy.group.caseprofile.domain.DefaultClassificationSubgroup>
+            <com.exigen.ipb.policy.group.caseprofile.domain.RatingGroupClassificationSubgroup>
+              <oid>sruOPb2Gl{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <name>SubGroup1{UID}</name>
+              <gender>male</gender>
+              <tobacco>YES</tobacco>
+              <minAge>20</minAge>
+              <maxAge>50</maxAge>
+            </com.exigen.ipb.policy.group.caseprofile.domain.RatingGroupClassificationSubgroup>
+            <com.exigen.ipb.policy.group.caseprofile.domain.RatingGroupClassificationSubgroup>
+              <oid>sWfRWvw_l{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <name>SubGroup2{UID}</name>
+              <gender>male</gender>
+              <tobacco>NO</tobacco>
+              <minAge>30</minAge>
+              <maxAge>40</maxAge>
+            </com.exigen.ipb.policy.group.caseprofile.domain.RatingGroupClassificationSubgroup>
+          </classificationSubgroups>
+        </com.exigen.ipb.policy.group.caseprofile.domain.DefaultClassificationSubgroupProfile>
+      </classificationSubgroupProfiles>
+      <createSubgroups>true</createSubgroups>
+      <automaticSubgroupsCreation>false</automaticSubgroupsCreation>
+    </com.exigen.ipb.policy.group.caseprofile.domain.ClassificationGroup>
+    <com.exigen.ipb.policy.group.caseprofile.domain.ClassificationGroup>
+      <oid>qLkJVrVRA{UID}</oid>
+      <entityStatus>added</entityStatus>
+      <name>Membership</name>
+      <code>Membership</code>
+      <type>ELG</type>
+      <relationshipType>MEM</relationshipType>
+      <originalEffectiveDate class="sql-date">{TODAY}</originalEffectiveDate>
+      <payClass>FULL_TIME</payClass>
+      <payType>SALARY</payType>
+      <unionMember>false</unionMember>
+      <selectedJobCds class="java.util.ArrayList"/>
+      <selectedEmploymentStatuses class="java.util.ArrayList"/>
+      <selectedEmploymentTypes class="java.util.ArrayList"/>
+      <selectedMembershipStatuses class="java.util.ArrayList">
+        <com.exigen.ipb.policy.group.caseprofile.domain.GroupMembershipStatus>
+          <membershipStatus>ACT</membershipStatus>
+        </com.exigen.ipb.policy.group.caseprofile.domain.GroupMembershipStatus>
+      </selectedMembershipStatuses>
+      <selectedStudentStatuses class="java.util.ArrayList"/>
+      <classificationSubgroupProfiles class="java.util.ArrayList">
+        <com.exigen.ipb.policy.group.caseprofile.domain.DefaultClassificationSubgroupProfile>
+          <name>DEFAULT</name>
+          <classificationSubgroups class="java.util.ArrayList">
+            <com.exigen.ipb.policy.group.caseprofile.domain.DefaultClassificationSubgroup>
+              <oid>ihmwt83ES{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <name>DEFAULT</name>
+            </com.exigen.ipb.policy.group.caseprofile.domain.DefaultClassificationSubgroup>
+            <com.exigen.ipb.policy.group.caseprofile.domain.RatingGroupClassificationSubgroup>
+              <oid>juXzmY58F{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <name>SubGroup3{UID}</name>
+              <gender>male</gender>
+              <tobacco>YES</tobacco>
+              <minAge>20</minAge>
+              <maxAge>50</maxAge>
+            </com.exigen.ipb.policy.group.caseprofile.domain.RatingGroupClassificationSubgroup>
+            <com.exigen.ipb.policy.group.caseprofile.domain.RatingGroupClassificationSubgroup>
+              <oid>hivtnnFDj{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <name>SubGroup4{UID}</name>
+              <gender>male</gender>
+              <tobacco>NO</tobacco>
+              <minAge>30</minAge>
+              <maxAge>40</maxAge>
+            </com.exigen.ipb.policy.group.caseprofile.domain.RatingGroupClassificationSubgroup>
+          </classificationSubgroups>
+        </com.exigen.ipb.policy.group.caseprofile.domain.DefaultClassificationSubgroupProfile>
+      </classificationSubgroupProfiles>
+      <createSubgroups>true</createSubgroups>
+      <automaticSubgroupsCreation>false</automaticSubgroupsCreation>
+    </com.exigen.ipb.policy.group.caseprofile.domain.ClassificationGroup>
+    <com.exigen.ipb.policy.group.caseprofile.domain.ClassificationGroup>
+      <oid>mlppLgpGm{UID}</oid>
+      <entityStatus>added</entityStatus>
+      <name>Student</name>
+      <code>Student</code>
+      <type>ELG</type>
+      <relationshipType>STU</relationshipType>
+      <originalEffectiveDate class="sql-date">{TODAY}</originalEffectiveDate>
+      <payClass>FULL_TIME</payClass>
+      <payType>SALARY</payType>
+      <unionMember>false</unionMember>
+      <studentType>FULL_TIME</studentType>
+      <selectedJobCds class="java.util.ArrayList"/>
+      <selectedEmploymentStatuses class="java.util.ArrayList"/>
+      <selectedEmploymentTypes class="java.util.ArrayList"/>
+      <selectedMembershipStatuses class="java.util.ArrayList"/>
+      <selectedStudentStatuses class="java.util.ArrayList">
+        <com.exigen.ipb.policy.group.caseprofile.domain.GroupStudentStatus>
+          <studentStatus>ACT</studentStatus>
+        </com.exigen.ipb.policy.group.caseprofile.domain.GroupStudentStatus>
+      </selectedStudentStatuses>
+      <classificationSubgroupProfiles class="java.util.ArrayList">
+        <com.exigen.ipb.policy.group.caseprofile.domain.DefaultClassificationSubgroupProfile>
+          <name>DEFAULT</name>
+          <classificationSubgroups class="java.util.ArrayList">
+            <com.exigen.ipb.policy.group.caseprofile.domain.DefaultClassificationSubgroup>
+              <oid>iX_-rfYZt{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <name>DEFAULT</name>
+            </com.exigen.ipb.policy.group.caseprofile.domain.DefaultClassificationSubgroup>
+            <com.exigen.ipb.policy.group.caseprofile.domain.RatingGroupClassificationSubgroup>
+              <oid>rN_Sv4T5d{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <name>SubGroup5{UID}</name>
+              <gender>male</gender>
+              <tobacco>YES</tobacco>
+              <minAge>20</minAge>
+              <maxAge>50</maxAge>
+            </com.exigen.ipb.policy.group.caseprofile.domain.RatingGroupClassificationSubgroup>
+            <com.exigen.ipb.policy.group.caseprofile.domain.RatingGroupClassificationSubgroup>
+              <oid>t3JKdnWTK{UID}</oid>
+              <entityStatus>added</entityStatus>
+              <name>SubGroup6{UID}</name>
+              <gender>male</gender>
+              <tobacco>NO</tobacco>
+              <minAge>30</minAge>
+              <maxAge>40</maxAge>
+            </com.exigen.ipb.policy.group.caseprofile.domain.RatingGroupClassificationSubgroup>
+          </classificationSubgroups>
+        </com.exigen.ipb.policy.group.caseprofile.domain.DefaultClassificationSubgroupProfile>
+      </classificationSubgroupProfiles>
+      <createSubgroups>true</createSubgroups>
+      <automaticSubgroupsCreation>false</automaticSubgroupsCreation>
+    </com.exigen.ipb.policy.group.caseprofile.domain.ClassificationGroup>
+  </classificationGroups>
+  <accessInfo>
+    <createdOn class="sql-timestamp">{TODAY} {TIME}</createdOn>
+    <updatedOn class="sql-timestamp">{TODAY} {TIME}</updatedOn>
+    <createdBy>qa</createdBy>
+    <updatedBy>qa</updatedBy>
+  </accessInfo>
+  <extensions class="java.util.ArrayList"/>
+</com.exigen.ipb.policy.group.caseprofile.domain.CaseProfile>

@@ -1,0 +1,53 @@
+TestData: {
+  PolicyTab: '@PolicyTab',
+  InsuredTab: ['@InsuredTab','@InsuredTabWife'],
+  RiskAddressTab: '@RiskAddressTab',
+  ClaimReportTab: {},
+  MortgageesTab: {},
+  CoveragesPremiumCoveragesPremiumTab: '@CoveragesPremiumCoveragesPremiumTab',
+  CoveragesPremiumCoveragesPremiumTabIso: '@CoveragesPremiumCoveragesPremiumTabIso',
+}
+PolicyTab: {
+  Policy Form: HO3 Homeowner Special Form
+}
+InsuredTab: {
+  Insured Party Selection: /index=0
+}
+InsuredTabWife: {
+  Insured Party Selection: New Person,
+  First Name: /TestMartha######,
+  Last Name: /TestSmith######,
+  Date of Birth: '10/10/1985',
+  Country: United States,
+  Zip / Postal Code: '94596',
+  City: Walnut Creek,
+  State/Province: CA,
+  Address Line 1: /Address#####
+  
+}
+RiskAddressTab: {
+  Number of Stories: '2',
+  Year Built: '1954',
+  Construction Type: Masonry,
+  Roof Type: Asphalt,
+  'Is this Residence owned or rented?': Owned,
+  Area / Square Footage: '2621',
+  Distance to Fire Station(Mile): '20',
+  Distance to Fire Hydrant(Feet): '10',
+  Number Of Families: '1',
+  Fire Line Score: '1',
+  'Property renovated in last 5 years?': 'No',
+  Slope of Insured Location: Moderate,
+  Road Access: Somewhat Limited,
+  Fuel: Light
+}
+CoveragesPremiumCoveragesPremiumTab: {
+  A. Dwelling Limit: '1000000',
+  E. Personal Liability: '$500,000',
+  Loss Assessment: '$10,000',
+  Fungi and Mold: '$50,000',
+  Water Backup of Sewer and D...: '$5,000'
+}
+CoveragesPremiumCoveragesPremiumTabIso: {
+  ISO Replacement Cost: '$1,005,000.00'
+}

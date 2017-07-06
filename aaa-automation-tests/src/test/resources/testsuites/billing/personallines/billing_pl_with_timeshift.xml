@@ -1,0 +1,34 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Billing Personal Lines With Timeshift" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+    
+    <test name="Test01a Reinstatement with lapse PREC-AU"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_au.TestBilling01a"/></classes></test>
+    <test name="Test01a Reinstatement with lapse PREC-HO"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_ho.TestBilling01a"/></classes></test>
+    <test name="Test01b Reinstatement without lapse PREC-AU"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_au.TestBilling01b"/></classes></test>
+    <test name="Test01b Reinstatement without lapse PREC-HO"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_ho.TestBilling01b"/></classes></test>
+    <test name="Test02 RP Endorsement PREC-AU"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_au.TestBilling02"/></classes></test>
+    <test name="Test02 RP Endorsement PREC-HO"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_ho.TestBilling02"/></classes></test>
+    <test name="Test03 Two policies and payment allocation PREC-AU"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_au.TestBilling03"/></classes></test>
+    <test name="Test03 Two policies and payment allocation PREC-HO"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_ho.TestBilling03"/></classes></test>
+    <test name="Test05 Partial payment and subsequent cancellation processing PREC-AU"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_au.TestBilling05"/></classes></test>
+    <test name="Test05 Partial payment and subsequent cancellation processing PREC-HO"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_ho.TestBilling05"/></classes></test>
+    <test name="Test06 Premium that is overpaid upon mid-term cancellation PREC-AU"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_au.TestBilling06"/></classes></test>
+    <test name="Test06 Premium that is overpaid upon mid-term cancellation PREC-HO"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_ho.TestBilling06"/></classes></test>
+    <test name="Test07 Payment declined and policy cancelled PREC-AU"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_au.TestBilling07"/></classes></test>
+    <test name="Test07 Payment declined and policy cancelled PREC-HO"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_ho.TestBilling07"/></classes></test>    
+    <test name="Test09 Impact of pending out of sequence on billing PREC-AU"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_au.TestBilling09"/></classes></test>
+    <test name="Test09 Impact of pending out of sequence on billing PREC-HO"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_ho.TestBilling09"/></classes></test>
+    <test name="Test10 Issue RP Endorsement before next invoice is due PREC-AU"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_au.TestBilling10"/></classes></test>
+    <test name="Test10 Issue RP Endorsement before next invoice is due PREC-HO"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_ho.TestBilling10"/></classes></test>    
+    <!--test name="Test11 Declined payment for renewal PREC-AU"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_au.TestBilling11"/></classes></test-->
+    <!--test name="Test11 Declined payment for renewal PREC-HO"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_ho.TestBilling11"/></classes></test-->
+    <test name="Test16 Generate EP write-off using batch job PREC-AU"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_au.TestBilling16"/></classes></test>
+    <test name="Test16 Generate EP write-off using batch job PREC-HO"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_ho.TestBilling16"/></classes></test>
+    <test name="Test20 Test off-cycle bill by applying an AP endorsement PREC-HO"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_ho.TestBilling20"/></classes></test>
+    <test name="Test20 Test off-cycle bill by applying an AP endorsement PREC-AU"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_au.TestBilling20"/></classes></test>
+    <test name="Test23 Test rescinds PREC_AU policy cancellation and verify billing account: Outstanding Amount rule is added"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_au.TestBilling23"/></classes></test>
+    <test name="Test23 Test rescinds PREC_HO policy cancellation and verify billing account: Outstanding Amount rule is added"><classes><class name="com.exigen.ipb.etcsa.modules.billing.personallines.prec_ho.TestBilling23"/></classes></test>  
+</suite>

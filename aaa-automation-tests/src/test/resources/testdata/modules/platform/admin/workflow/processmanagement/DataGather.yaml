@@ -1,0 +1,9 @@
+TestData: {
+  CreateManualTaskDefinitionTab: {
+    Definition Key: /key####,
+    Entity Type: Account,
+    Task Name: /AT_NEW_TASK_####,
+    Effective Date: /today,
+    Priority: 1
+  }
+}

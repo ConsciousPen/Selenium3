@@ -1,0 +1,180 @@
+{
+	"claim": {
+		"customerNumber": "${customerNumber}",
+		"productCd": "CLAIM_BASE",
+		"lossDt": "${lossDt}",
+		"reportedDt": "${reportedDt}",
+		"lossLocationDesc": "Description of loss location",
+		"causeOfLossCd": "BODILY_INJURY",
+		"lossDesc": "Description${UID}",
+		"policy": {
+			"termEffectiveDate": "${termEffectiveDate}",
+			"termExpirationDate": "${termExpirationDate}",
+			"inceptionDate": "${inceptionDate}",
+			"componentName": "ClaimsPolicy",
+			"riskItems": [{
+				"reportedRiskItemName": "",
+				"componentName": "PolicyRiskItem",
+				"coverages": [{
+					"componentName": "RiskItemCoverage",
+					"coverageCd": "ADwellingLimit",
+					"coverageDetails": [{
+						"limitLevel": "CLAIMANT",
+						"componentName": "ClaimsRiskItemCoverageDetails"
+					}]
+				}],
+				"scheduledItems": [{
+					"componentName": "ClaimsPolicyScheduledItem",
+					"displayValue": "Item${UID}",
+					"coverages": [{
+						"componentName": "ClaimsPolicyScheduledItemCoverage",
+						"coverageCd": "ADwellingLimit",
+						"designatedCoverageInd": "false",
+						"coverageDetails": [{
+							"limitLevel": "OCCURRENCE",
+							"componentName": "ClaimsScheduledItemCoverageDetails",
+							"limitAmount": {
+								"amount": 100.0,
+								"currencyCd": ""
+							}
+						}]
+					}]
+				}]
+			}, {
+				"displayValue": "",
+				"componentName": "ClaimsPolicyRiskParty",
+				"coverages": [{
+					"componentName": "ClaimsPolicyRiskPartyCoverage",
+					"coverageCd": "DWELL",
+					"coverageDetails": [{
+						"limitLevel": "CLAIMANT",
+						"componentName": "ClaimsRiskPartyCoverageDetails",
+						"limitAmount": {
+							"amount": 100.0,
+							"currencyCd": ""
+						}
+					}]
+				}],
+				"party": {
+					"componentName": "ClaimsPolicyRefParty",
+					"nameTypeCd": "IND",
+					"firstName": "BenificiaryFName${UID}",
+					"lastName": "BenificiaryLName${UID}",
+					"relationShipToInsuredCd": "SPOUSE",
+					"contactPreferenceCd": "MAIL",
+					"addresses": [{
+						"addressTypeCd": "mailing",
+						"countryCd": "US",
+						"postalCode": "94596",
+						"addressLine1": "Address Line 1",
+						"addressLine2": "",
+						"addressLine3": "",
+						"city": "Walnut Creek",
+						"stateProvCd": "CA",
+						"county": "",
+						"longitude": "123",
+						"latitude": "456"
+					}]
+				}
+			}],
+			"parties": [{
+				"componentName": "ClaimsWoPolicyInsured",
+				"nameTypeCd": "IND",
+				"firstName": "InsuredFName${UID}",
+				"lastName": "InsuredLName${UID}",
+				"relationShipToInsuredCd": "SELF",
+				"contactPreferenceCd": "MAIL",
+				"addresses": [{
+					"addressTypeCd": "mailing",
+					"countryCd": "US",
+					"postalCode": "94596",
+					"addressLine1": "Address Line 1",
+					"addressLine2": "",
+					"addressLine3": "",
+					"city": "Walnut Creek",
+					"stateProvCd": "CA",
+					"county": "",
+					"longitude": "123",
+					"latitude": "456"
+				}]
+			}, {
+				"componentName": "ClaimsWoPolicyInsuranceAgent",
+				"nameTypeCd": "IND",
+				"firstName": "AgentFName${UID}",
+				"lastName": "AgentLName${UID}",
+				"relationShipToInsuredCd": "SELF",
+				"contactPreferenceCd": "MAIL",
+				"addresses": [{
+					"addressTypeCd": "mailing",
+					"countryCd": "US",
+					"postalCode": "94596",
+					"addressLine1": "Address Line 1",
+					"addressLine2": "",
+					"addressLine3": "",
+					"city": "Walnut Creek",
+					"stateProvCd": "CA",
+					"county": "",
+					"longitude": "123",
+					"latitude": "456"
+				}]
+			}]
+		},
+		"addresses": [{
+			"addressTypeCd": "mailing",
+			"countryCd": "US",
+			"postalCode": "94596",
+			"addressLine1": "Address Line 1",
+			"addressLine2": "",
+			"addressLine3": "",
+			"city": "Walnut Creek",
+			"stateProvCd": "CA",
+			"county": "",
+			"longitude": "123",
+			"latitude": "456"
+		}],
+		"parties": [{
+			"componentName": "ReportingParty",
+			"nameTypeCd": "IND",
+			"firstName": "BenificiaryFName${UID}",
+			"lastName": "BenificiaryLName${UID}",
+			"relationShipToInsuredCd": "SPOUSE",
+			"contactPreferenceCd": "MAIL",
+			"addresses": [{
+				"addressTypeCd": "mailing",
+				"countryCd": "US",
+				"postalCode": "94596",
+				"addressLine1": "Address Line 1",
+				"addressLine2": "",
+				"addressLine3": "",
+				"city": "Walnut Creek",
+				"stateProvCd": "CA",
+				"county": "",
+				"longitude": "123",
+				"latitude": "456"
+			}]
+		}]
+	},
+	"authorityReports": [{
+		"parties": [{
+			"nameTypeCd": "IND",
+			"firstName": "AuthFName${UID}",
+			"middleName": "",
+			"lastName": "AuthLName${UID}",
+			"contactPreferenceCd": "MAIL",
+			"relationShipToInsuredCd": "SELF",
+			"addresses": [{
+				"addressTypeCd": "mailing",
+				"countryCd": "US",
+				"postalCode": "94596",
+				"addressLine1": "Address Line 1",
+				"addressLine2": "",
+				"addressLine3": "",
+				"city": "Walnut Creek",
+				"stateProvCd": "CA",
+				"county": "",
+				"longitude": "123",
+				"latitude": "456"
+			}]
+		}]
+	}]
+}

@@ -1,0 +1,12 @@
+TestData: {
+  RenewActionTab: {
+    Renewal Date: /today+1y
+  }  
+}
+
+TestData_Plus370Days: {
+  RenewActionTab: {
+    Renewal Date: /today+370d,
+    Reason for Renewal with Lapse: index=1
+  }  
+}

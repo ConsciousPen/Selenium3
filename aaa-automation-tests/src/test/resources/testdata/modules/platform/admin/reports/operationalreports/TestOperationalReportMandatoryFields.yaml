@@ -1,0 +1,60 @@
+TestData_EmptyDates: {
+  OperationalReportsTab: {
+    Category: Policy,
+    Type: Policy Status,
+    Name: Active (In Force) Policies Report,
+    Activity Date From: '',
+    Activity Date To: ''
+  }
+}
+
+TestData_IncorrectDates: {
+  OperationalReportsTab: {
+    Category: Policy,
+    Type: Policy Status,
+    Name: Active (In Force) Policies Report,
+    Activity Date From: test message,
+    Activity Date To: test message
+  }
+}
+
+TestData_IncorrectDatesRange: {
+  OperationalReportsTab: {
+    Category: Policy,
+    Type: Policy Status,
+    Name: Active (In Force) Policies Report,
+    Activity Date From: '/today+1d:MM/dd/yyyy',
+    Activity Date To: '/today:MM/dd/yyyy'
+  }
+}
+
+TestData_EmptyNameAndType: {
+  OperationalReportsTab: {
+    Category: Policy,
+    Type: '',
+    Name: ''
+  }
+}
+
+TestData_EmptyEmails: {
+  OperationalReportsTab: {
+    Category: Policy,
+    Type: Policy Status,
+    Name: Active (In Force) Policies Report,
+    Activity Date From: '/today:MM/dd/yyyy',
+    Activity Date To: '/today:MM/dd/yyyy',
+    Delivery type: ' E-Mail'
+  }
+}
+
+TestData_ScheduleDownload: {
+  OperationalReportsTab: {
+    Category: Policy,
+    Type: Policy Status,
+    Name: Active (In Force) Policies Report,
+    Activity Date From: '/today:MM/dd/yyyy',
+    Activity Date To: '/today:MM/dd/yyyy',
+    Delivery type: Download,
+    'Do you want to schedule?': Yes
+  }
+}

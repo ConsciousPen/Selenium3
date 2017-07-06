@@ -1,0 +1,3 @@
+{
+   "allTemplate": "./descendant::*[self::input[(@type='text') and %1$s] or self::textarea[%1$s]]"
+}

@@ -1,0 +1,7 @@
+TestData: {
+  CreateGroupsInformationTab: {
+    Group Type: EIS,
+    Group ID: /####,   
+    Group Name: EISGROUP
+  }
+}

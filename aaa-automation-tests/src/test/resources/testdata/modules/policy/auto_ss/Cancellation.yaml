@@ -1,0 +1,34 @@
+TestData: {
+  CancellationActionTab: {
+    Cancel Date: /today,
+    Cancellation Reason: 'Insured Request - Due To High Premium'
+  }
+}
+
+TestData_NonPaymentOfPremium: {
+  CancellationActionTab: {
+    Cancel Date: /today,
+    Cancellation Reason: Non Payment of Premium
+  }
+}
+
+TestData_Plus3Days: {
+  CancellationActionTab: {
+    Cancel Date: /today+3d,
+    Cancellation Reason: 'Insured Request - Due To High Premium'
+  }
+}
+
+TestData_Plus1Month: {
+  CancellationActionTab: {
+    Cancel Date: /today+1m,
+    Cancellation Reason: 'Insured Request - Due To High Premium'
+  }
+}
+
+TestData_Plus1Year: {
+  CancellationActionTab: {
+    Cancel Date: /today+1y,
+    Cancellation Reason: 'Insured Request - Due To High Premium'
+  }
+}

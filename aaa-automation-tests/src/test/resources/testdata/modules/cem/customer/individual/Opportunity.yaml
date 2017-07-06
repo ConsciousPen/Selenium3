@@ -1,0 +1,13 @@
+TestData: {
+  OpportunityActionTab: {
+    Channel: Broker,
+    Likelihood: High
+  }
+}
+
+Adjustment_Likehool: {
+  OpportunityActionTab: {
+    Channel: Broker,
+    Likelihood: Low
+  }
+}

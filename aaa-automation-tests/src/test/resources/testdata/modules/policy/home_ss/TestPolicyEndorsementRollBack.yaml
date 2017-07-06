@@ -1,0 +1,10 @@
+TestData: {
+  PolicyTab: {},
+  InsuredTab: {},
+  RiskAddressTab: {},
+  ClaimReportTab: {},
+  MortgageesTab: {},
+  CoveragesPremiumCoveragesPremiumTab: {
+    A. Dwelling Limit: '1100000'
+  }
+}

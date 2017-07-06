@@ -1,0 +1,3 @@
+{
+  "isNotEmptyOption": "not(contains(.,'No records found.')) and td[not(@class='hidden' or @class='invisible') and not(contains(@style,'display') and contains(@style,'none'))]" 
+}

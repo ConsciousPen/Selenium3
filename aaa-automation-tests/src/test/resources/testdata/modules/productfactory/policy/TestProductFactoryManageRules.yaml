@@ -1,0 +1,47 @@
+TestData: {
+  ProductProductFactorySearch: {
+    Product Code: ''
+  },  
+  HomeTab: {},
+  PropertiesTab: {},
+  ActionsTab: {},  
+  ComponentsTab: [],
+  WorkspacesTab: [],
+  DecisionTablesTab: {},
+  ConsolidationTab: {},
+  TemplatesTab: {},  
+  RulesTab: []
+}
+
+RuleAdd: {
+  Action: Add,  
+  RuleProperties: {
+    Rule name: CustomRule,
+    Applied to: Policy.policyTitle,
+    Description: new custome rule,
+    Error Meaasge: error message,
+    Disable rule: 'false',
+    Global: 'false',
+    Assertion expression: 'TabNavigation == applicationContext;',
+    Condition expression: 'PreconfigTitle == applicationContext',
+    Default value expression: applicationContext     
+  }
+}
+
+RuleEdit: {
+  Action: Edit,
+  RuleSearch: '@RuleSearch',
+  RuleProperties: {   
+    Disable rule: 'true'      
+  }
+}
+
+RuleDelete: {
+  Action: Delete,
+  RuleSearch: '@RuleSearch'
+}
+
+RuleSearch: {
+  Rule name: CustomRule
+}
+

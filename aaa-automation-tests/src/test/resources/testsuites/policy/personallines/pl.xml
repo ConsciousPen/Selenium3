@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Policy Personal Lines" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+    
+    <suite-files>
+        <suite-file path="pl_with_timeshift.xml"/>
+        <suite-file path="pl_without_timeshift.xml"/>
+    </suite-files>
+    
+</suite>

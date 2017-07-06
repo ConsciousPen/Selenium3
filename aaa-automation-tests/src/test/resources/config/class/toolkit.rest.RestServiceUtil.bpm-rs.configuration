@@ -1,0 +1,316 @@
+{  
+"endpoint": "",
+"jaxRsComponents": "org.codehaus.jackson.jaxrs.JacksonJsonProvider,com.exigen.ipb.etcsa.rest.wrapper.ModelWrapperMessageBodyReader",
+"restTargets": {
+"TASKS": {
+		"target": "/work/tasks",
+		"methods": {		
+			"GET" : {
+				"queryParams": "agencyCd&completionDateAfter&completionDateBefore&name&offset&limit&assignee&entityRefNo&entityType",
+				"mediaType": "application/json",
+				"postTemplate": "bpm-rs/TASKS.GET.tmpl"
+			}
+		}
+	},
+"POSTTASKS": {
+		"target": "/work/tasks",
+		"methods": {
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "bpm-rs/POSTTASKS.POST.tmpl"
+			}
+		}
+	},
+"TASKSBYID": {
+		"target": "/work/tasks/{taskId}",
+		"methods": {
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "bpm-rs/TASKSBYID.GET.tmpl"
+			}
+		}
+	},
+"TASKCOMPLETION": {
+		"target": "/work/tasks/{taskId}/completion",
+		"methods": {
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "bpm-rs/TASKCOMPLETION.GET.tmpl"
+			}
+		}
+	},
+"POSTTASKCOMPLETION": {
+		"target": "/work/tasks/{taskId}/completion",
+		"methods": {
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "bpm-rs/POSTTASKCOMPLETION.POST.tmpl"
+			}
+		}
+	},
+"TASKASSIGNMENT": {
+		"target": "/work/tasks/{taskId}/assignment",
+		"methods": {
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "bpm-rs/TASKASSIGNMENT.GET.tmpl"
+			}
+		}
+	},
+"PUTTASKASSIGNMENT": {
+		"target": "/work/tasks/{taskId}/assignment",
+		"methods": {
+			"PUT" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "bpm-rs/PUTTASKASSIGNMENT.PUT.tmpl"
+			}
+		}
+	},
+"PUTTASKASSIGNMENTENTITY": {
+		"target": "/work/tasks/{taskId}/assignment",
+		"methods": {
+			"PUT" : {
+				"queryParams": "",
+				"mediaType": "application/json",
+				"postTemplate": "Entity/stub"
+			}
+		}
+	},
+"TASKACTIVITIES": {
+		"target": "/work/tasks/{taskId}/activities",
+		"methods": {
+			"GET" : {
+				"queryParams": "notes",
+				"mediaType": "",
+				"postTemplate": "bpm-rs/TASKACTIVITIES.GET.tmpl"
+			}
+		}
+	},
+"POSTTASKACTIVITIES": {
+		"target": "/work/tasks/{taskId}/activities",
+		"methods": {
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "",
+				"postTemplate": "bpm-rs/POSTTASKACTIVITIES.GET.tmpl"
+			}
+		}
+	},
+"TASKACTIONHISTORY": {
+		"target": "/work/task-action-history/actions",
+		"methods": {
+			"GET" : {
+				"queryParams": "taskId&actionType&lastAction",
+				"mediaType": "",
+				"postTemplate": "bpm-rs/TASKACTIONHISTORY.GET.tmpl"
+			}
+		}
+	},
+"PROCESSINSTANCE": {
+		"target": "/work/images/proc-instance/{pinId}",
+		"methods": {
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "*/*",
+				"postTemplate": "bpm-rs/PROCESSINSTANCE.GET.tmpl"
+			}
+		}
+	},
+"PROCDEFINITION": {
+		"target": "/work/images/proc-definition/{procDefId}",
+		"methods": {
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "*/*",
+				"postTemplate": "bpm-rs/PROCDEFINITION.GET.tmpl"
+			}
+		}
+	},
+"GETWORKGROUP": {
+		"target": "/work/work-group/{groupCode}",
+		"methods": {
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "*/*",
+				"postTemplate": "bpm-rs/GETWORKGROUP.GET.tmpl"
+			}
+		}
+	},
+"DELETEWORKGROUP": {
+		"target": "/work/work-group/{groupCode}/delete",
+		"methods": {
+			"DELETE" : {
+				"queryParams": "",
+				"mediaType": "*/*",
+				"postTemplate": "bpm-rs/DELETEWORKGROUP.DELETE.tmpl"
+			}
+		}
+	},
+"UPDATEWORKGROUP": {
+		"target": "/work/work-group/{groupCode}/update",
+		"methods": {
+			"PUT" : {
+				"queryParams": "",
+				"mediaType": "*/*",
+				"postTemplate": "bpm-rs/UPDATEWORKGROUP.PUT.tmpl"
+			}
+		}
+	},
+"CREATEWORKGROUP": {
+		"target": "/work/work-group/create",
+		"methods": {
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "*/*",
+				"postTemplate": "bpm-rs/CREATEWORKGROUP.POST.tmpl"
+			}
+		}
+	},
+"UPLOADDOCUMENT": {
+		"target": "/work/documents/{taskId}/{folderUuid}",
+		"methods": {
+			"POST" : {
+				"queryParams": "documentType&fileName&comment",
+				"mediaType": "*/*",
+				"postTemplate": "bpm-rs/UPLOADDOCUMENT.POST.tmpl"
+			}
+		}
+	},
+"EVENTS": {
+		"target": "/work/events",
+		"methods": {
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "*/*",
+				"postTemplate": "bpm-rs/EVENTS.GET.tmpl"
+			}
+		}
+	},
+"MANUALTASKDEF": {
+		"target": "/work/manual-task-definition",
+		"methods": {
+			"GET" : {
+				"queryParams": "processKey",
+				"mediaType": "*/*",
+				"postTemplate": "bpm-rs/MANUALTASKDEF.GET.tmpl"
+			}
+		}
+	},
+"MANUALTASKDEPLOY": {
+		"target": "/work/manual-task-definition/deploy",
+		"methods": {
+			"POST" : {
+				"queryParams": "migration",
+				"mediaType": "*/*",
+				"postTemplate": "bpm-rs/MANUALTASKDEPLOY.POST.tmpl"
+			}
+		}
+	},
+"POSTPROCESSDEFINITION": {
+		"target": "/work/processDefinition",
+		"methods": {
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "*/*",
+				"postTemplate": "bpm-rs/POSTPROCESSDEFINITION.POST.tmpl"
+			}
+		}
+	},
+"POSTPROCESSDEFINITIONBINDEVENT": {
+		"target": "/work/processDefinition/bindEvent",
+		"methods": {
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "*/*",
+				"postTemplate": "bpm-rs/POSTPROCESSDEFINITIONBINDEVENT.POST.tmpl"
+			}
+		}
+	},
+"QUEUES": {
+		"target": "/work/queues",
+		"methods": {
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "*/*",
+				"postTemplate": "bpm-rs/QUEUES.GET.tmpl"
+			}
+		}
+	},
+"QUEUESDEPLOY": {
+		"target": "/work/queues/deploy",
+		"methods": {
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "*/*",
+				"postTemplate": "bpm-rs/QUEUESDEPLOY.POST.tmpl"
+			}
+		}
+	},
+"QUEUESEXPORT": {
+		"target": "/work/queues/export",
+		"methods": {
+			"GET" : {
+				"queryParams": "subsystem",
+				"mediaType": "*/*",
+				"postTemplate": "bpm-rs/QUEUESEXPORT.GET.tmpl"
+			}
+		}
+	},
+"QUEUESEXPORTBYFN": {
+		"target": "/work/queues/export/{fileName}",
+		"methods": {
+			"GET" : {
+				"queryParams": "subsystem",
+				"mediaType": "*/*",
+				"postTemplate": "bpm-rs/QUEUESEXPORTBYFN.GET.tmpl"
+			}
+		}
+	},
+"PERMISSIONS": {
+		"target": "/work/users/permissions",
+		"methods": {
+			"GET" : {
+				"queryParams": "",
+				"mediaType": "*/*",
+				"postTemplate": "bpm-rs/PERMISSIONS.GET.tmpl"
+			}
+		}
+	},
+"POSTSEARCH": {
+		"target": "/work/users/search",
+		"methods": {
+			"POST" : {
+				"queryParams": "",
+				"mediaType": "*/*",
+				"postTemplate": "bpm-rs/POSTSEARCH.POST.tmpl"
+			}
+		}
+	},
+"GETSEARCH": {
+		"target": "/work/users/search/{lastName}",
+		"methods": {
+			"GET" : {
+				"queryParams": "firstName&location&availableForWork",
+				"mediaType": "*/*",
+				"postTemplate": "bpm-rs/GETSEARCH.GET.tmpl"
+			}
+		}
+	},
+"INBOX": {
+        "target": "/work/inbox",
+        		"methods": {
+        			"GET" : {
+        				"queryParams": "offset&limit",
+        				"mediaType": "",
+        				"postTemplate": "bpm-rs/INBOX.GET.tmpl"
+        			}
+        		}
+        }
+}
+}
