@@ -1,0 +1,28 @@
+TestData: {
+  #TODO Update data, but use links to default where possible
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@home_ca@DataGather@ApplicantTab',
+  ReportsTab: '@home_ca@DataGather@ReportsTab',
+  PropertyInfoTab: '@home_ca@DataGather@PropertyInfoTab',
+  EndorsementTab: '@home_ca@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@home_ca@DataGather@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ca@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@home_ca@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ca@DataGather@DocumentsTab',
+  BindTab: '@home_ca@DataGather@BindTab',
+  PurchaseTab: '@home_ca@DataGather@PurchaseTab'
+}
+
+GeneralTab: {
+  PolicyInfo: {
+    Policy type: 'DP3',
+    Effective date: '/today:MM/dd/yyyy',
+    Lead source: 'AAA Magazines',
+    },
+  CurrentCarrier: {
+    Carrier name: 'AAA - NCNU',
+    Policy type: 'HO3',
+    Continuous years with HO insurance: '5',
+    Base date with AAA: '/today:MM/dd/yyyy',
+    }
+}

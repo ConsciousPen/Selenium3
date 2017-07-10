@@ -11,6 +11,9 @@ import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.assets.AssetList;
+import toolkit.webdriver.controls.composite.table.Table;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -22,6 +25,9 @@ import toolkit.webdriver.controls.Button;
  * @category Generated
  */
 public class VehicleTab extends Tab {
+	
+	public static Table tblVehicleList = new Table(By.xpath("//div[@id='policyDataGatherForm:componentList_Vehicle_body']//table"));
+	
 	public VehicleTab() {
 		super(AutoSSMetaData.VehicleTab.class);
 
@@ -38,5 +44,19 @@ public class VehicleTab extends Tab {
 	public Tab submitTab() {
 		buttonNext.click();
 		return this;
+	}
+	
+    public void removeVehicle(int index){
+   	 if (tblVehicleList.isPresent() && tblVehicleList.getRow(index).isPresent()){
+   		tblVehicleList.getRow(index).getCell(5).controls.links.get("Remove").click(Waiters.AJAX);
+   		 Page.dialogConfirmation.confirm();
+   	 }
+	}
+    
+    public AssetList getOwnershipAssetList() {
+    	return getAssetList().getControl(AutoSSMetaData.VehicleTab.OWNERSHIP.getLabel(), AssetList.class);
+	}
+    public AssetList getAdditionalInterestInfoAssetList() {
+    	return getAssetList().getControl(AutoSSMetaData.VehicleTab.ADDITIONAL_INTEREST_INFORMATION.getLabel(), AssetList.class);
 	}
 }

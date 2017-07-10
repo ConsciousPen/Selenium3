@@ -14,13 +14,13 @@ import aaa.main.metadata.policy.AutoCaMetaData;
  * @category Generated
  */
 public class AssignmentTab extends Tab {
-    public AssignmentTab() {
-        super(AutoCaMetaData.AssignmentTab.class);
-    }
+	public AssignmentTab() {
+		super(AutoCaMetaData.AssignmentTab.class);
+	}
 
-    @Override
-    public Tab submitTab() {
-        buttonNext.click();
-        return this;
-    }
+	@Override
+	public Tab submitTab() {
+		buttonNext.click();
+		return this;
+	}
 }

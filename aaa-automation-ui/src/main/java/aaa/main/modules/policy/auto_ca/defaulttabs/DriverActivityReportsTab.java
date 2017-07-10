@@ -14,13 +14,13 @@ import aaa.main.metadata.policy.AutoCaMetaData;
  * @category Generated
  */
 public class DriverActivityReportsTab extends Tab {
-    public DriverActivityReportsTab() {
-        super(AutoCaMetaData.DriverActivityReportsTab.class);
-    }
+	public DriverActivityReportsTab() {
+		super(AutoCaMetaData.DriverActivityReportsTab.class);
+	}
 
-    @Override
-    public Tab submitTab() {
-        buttonNext.click();
-        return this;
-    }
+	@Override
+	public Tab submitTab() {
+		buttonNext.click();
+		return this;
+	}
 }

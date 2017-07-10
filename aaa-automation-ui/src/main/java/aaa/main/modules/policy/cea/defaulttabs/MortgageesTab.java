@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.CaliforniaEarthquakeMetaData;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
@@ -26,4 +27,20 @@ public class MortgageesTab extends Tab {
         btnContinue.click();
         return this;
     }
+    
+    public AssetList getMortgageeInfoAssetList() {
+    	return getAssetList().getControl(CaliforniaEarthquakeMetaData.MortgageesTab.MORTGAGEE_INFORMATION.getLabel(), AssetList.class);
+	}
+    public AssetList getLegalPropetyAddressAssetList() {
+    	return getAssetList().getControl(CaliforniaEarthquakeMetaData.MortgageesTab.LEGAL_PROPERTY_ADDRESS.getLabel(), AssetList.class);
+	}
+    public AssetList getAdditionalInsuredAssetList() {
+    	return getAssetList().getControl(CaliforniaEarthquakeMetaData.MortgageesTab.ADDITIONAL_INSURED.getLabel(), AssetList.class);
+	}
+    public AssetList getAdditionalInterestAssetList() {
+    	return getAssetList().getControl(CaliforniaEarthquakeMetaData.MortgageesTab.ADDITIONAL_INTEREST.getLabel(), AssetList.class);
+	}
+    public AssetList getThirdPartyDesigneeAssetList() {
+    	return getAssetList().getControl(CaliforniaEarthquakeMetaData.MortgageesTab.THIRD_PARTY_DESIGNEE.getLabel(), AssetList.class);
+	}
 }

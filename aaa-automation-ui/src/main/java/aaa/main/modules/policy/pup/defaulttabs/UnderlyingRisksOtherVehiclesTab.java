@@ -4,6 +4,7 @@ package aaa.main.modules.policy.pup.defaulttabs;
 
 import aaa.common.Tab;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
+import toolkit.webdriver.controls.composite.assets.AssetList;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -21,4 +22,11 @@ public class UnderlyingRisksOtherVehiclesTab extends Tab {
         buttonNext.click();
         return this;
     }
+    
+    public AssetList getWatercraftAssetList() {
+    	return getAssetList().getControl(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.WATERCRAFT.getLabel(), AssetList.class);
+	}
+    public AssetList getRecreationalVehicleAssetList() {
+    	return getAssetList().getControl(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RECREATIONAL_VEHICLE.getLabel(), AssetList.class);
+	}
 }

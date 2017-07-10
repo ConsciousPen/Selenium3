@@ -194,10 +194,17 @@ public class NavigationEnum {
 	        }
 	    }
 
-	    //TODO update
 	    public enum AutoCaTab {
+	    	PREFILL("Prefill"),
+	    	GENERAL("General"),
+	    	DRIVER("Driver"),
+	    	MEMBERSHIP("Membership"),
+	    	VEHICLE("Vehicle"),
+	    	ASSIGNMENT("Assignment"),
+	    	FORMS("Forms"),
 	        PREMIUM_AND_COVERAGES("Premium & Coverages"),
-	        BIND("Documents And Bind");
+	        DRIVER_ACTIVITY_REPORTS("Driver Activity Reports"),
+	        DOCUMENTS_AND_BIND("Documents & Bind");
 
 	        String id;
 
@@ -211,16 +218,16 @@ public class NavigationEnum {
 	    }
 
 	    public enum AutoSSTab {
-	        ASSIGNMENT("Assignment"),
-	        BIND("Bind"),
-	        DOCUMENTS("Documents"),
-	        DRIVER("Driver"),
-	        FORMS_ADDL_INFO("Forms/Addl Info"),
-	        INSURED("Insured"),
-	        MVR_CLAIMS("MVR/Claims"),
-	        POLICY("Policy"),
+	    	PREFILL("Prefill"),
+	    	GENERAL("General"),
+	    	DRIVER("Driver"),
+	    	RATING_DETAIL_REPORTS("Rating Detail Reports"),
+	    	VEHICLE("Vehicle"),
+	    	ASSIGNMENT("Assignment"),
+	    	FORMS("Forms"),
 	        PREMIUM_AND_COVERAGES("Premium & Coverages"),
-	        VEHICLE("Vehicle");
+	        DRIVER_ACTIVITY_REPORTS("Driver Activity Reports"),
+	        DOCUMENTS_AND_BIND("Documents & Bind");
 
 	        String id;
 

@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
@@ -29,4 +30,11 @@ public class GeneralTab extends Tab {
     	btnContinue.click();
         return this;
     }
+    
+    public AssetList getPolicyInfoAssetList() {
+    	return getAssetList().getControl(HomeCaMetaData.GeneralTab.POLICY_INFO.getLabel(), AssetList.class);
+	}
+    public AssetList getCurrentCarrierAssetList() {
+    	return getAssetList().getControl(HomeCaMetaData.GeneralTab.CURRENT_CARRIER.getLabel(), AssetList.class);
+	}
 }

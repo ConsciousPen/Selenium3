@@ -50,6 +50,8 @@ import aaa.main.modules.policy.PolicyActions.Rewrite;
 import aaa.main.modules.policy.PolicyActions.RollOn;
 import aaa.main.modules.policy.PolicyActions.SuspendQuote;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.auto_ca.views.DefaultView;
@@ -106,16 +108,20 @@ public class AutoCaPolicy implements IPolicy {
 	}
 
 	@Override
-	public void calculatePremium() {
+	public void calculatePremium(TestData td) {
 		dataGather().start();
 		NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.buttonCalculatePremium.click();
 	}
 	
 	@Override
     public void calculatePremiumAndPurchase(TestData td) {
-        calculatePremium();
-        NavigationPage.toViewTab(AutoCaTab.BIND.get());
+        calculatePremium(td);
+        NavigationPage.toViewTab(AutoCaTab.MEMBERSHIP.get());
+        new MembershipTab().fillTab(td);
+        NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
+        NavigationPage.toViewTab(AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+        new DriverActivityReportsTab().fillTab(td);
+        NavigationPage.toViewTab(AutoCaTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
         new PurchaseTab().fillTab(td).submitTab();
     }
@@ -123,7 +129,7 @@ public class AutoCaPolicy implements IPolicy {
 	@Override
     public void purchase(TestData td) {
         dataGather().start();
-        NavigationPage.toViewTab(AutoCaTab.BIND.get());
+        NavigationPage.toViewTab(AutoCaTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
         new PurchaseTab().fillTab(td).submitTab();
         log.info("Purchased Quote " + EntityLogger.getEntityHeader(EntityType.POLICY));
@@ -134,13 +140,6 @@ public class AutoCaPolicy implements IPolicy {
 		policyCopy().perform(td);
 		calculatePremiumAndPurchase(td);
 		log.info("Copy Policy " + EntityLogger.getEntityHeader(EntityType.POLICY));
-	}
-
-	@Override
-	public void copyQuote(TestData td) {
-		copyQuote().perform(td);
-		calculatePremium();
-		log.info("Copy Quote " + EntityLogger.getEntityHeader(EntityType.POLICY));
 	}
 
 	@Override

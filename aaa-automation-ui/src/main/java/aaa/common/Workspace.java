@@ -74,6 +74,14 @@ public abstract class Workspace {
         return this;
     }
 
+
+    /**
+     * Fill registered all tab until specified one.
+     * @param td TestData object
+     * @param tabClass class of the last tab to be filled
+     * @param isFillTab true if you want to fill tabClass or false if tabClass shouldn't be filled
+     * @return
+     */
     public Workspace fillUpTo(TestData td, Class<? extends Tab> tabClass, boolean isFillTab) {
         fillUpTo(td, tabClass);
         if (isFillTab) {

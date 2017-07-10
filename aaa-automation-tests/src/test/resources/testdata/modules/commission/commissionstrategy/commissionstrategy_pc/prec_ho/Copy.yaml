@@ -1,6 +1,0 @@
-TestData: {
-  CopyPCCommissionStrategy: {
-    Select Strategy to Copy: 'contains=PREC-HO',
-    Select Product: 'PREC-HO'
-  }
-}

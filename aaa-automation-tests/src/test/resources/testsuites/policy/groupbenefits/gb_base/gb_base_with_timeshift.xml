@@ -1,9 +1,0 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Policy Group Benefits Base" verbose="1" parallel="tests" thread-count="1024">
-    <listeners>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
-    </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
-    
-    <test name="GB-BASE MASTER TestAddPremiumWaiverInExpiredPolicy"><classes><class name="com.exigen.ipb.etcsa.modules.policy.groupbenefits.gb_base.master.TestAddPremiumWaiverInExpiredPolicy"/></classes></test>
-</suite>

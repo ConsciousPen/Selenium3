@@ -6,6 +6,7 @@ package aaa.main.modules.policy.auto_ca.defaulttabs;
 
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoCaMetaData;
+import toolkit.webdriver.controls.composite.assets.AssetList;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -23,4 +24,24 @@ public class GeneralTab extends Tab {
         buttonNext.click();
         return this;
     }
+    
+    public AssetList getNamedInsuredInfoAssetList() {
+    	return getAssetList().getControl(AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class);
+	}
+    public AssetList getValidateAddressDialogAssetList() {
+    	return getAssetList().getControl(AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class)
+    			.getControl(AutoCaMetaData.GeneralTab.NamedInsuredInformation.VALIDATE_ADDRESS_DIALOG.getLabel(), AssetList.class);
+	}
+    public AssetList getAAAProductOwnedAssetList() {
+    	return getAssetList().getControl(AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AssetList.class);
+	}
+    public AssetList getCurrentCarrierInfoAssetList() {
+    	return getAssetList().getControl(AutoCaMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), AssetList.class);
+	}
+    public AssetList getPolicyInfoAssetList() {
+    	return getAssetList().getControl(AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AssetList.class);
+	}
+    public AssetList getThirdPartyDesigneeInfoAssetList() {
+    	return getAssetList().getControl(AutoCaMetaData.GeneralTab.THIRD_PARTY_DESIGNEE_INFORMATION.getLabel(), AssetList.class);
+	}
 }

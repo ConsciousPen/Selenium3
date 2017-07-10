@@ -4,7 +4,13 @@
  */
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
+import org.openqa.selenium.By;
+
+import toolkit.webdriver.controls.composite.assets.AssetList;
+import toolkit.webdriver.controls.composite.table.Table;
+import toolkit.webdriver.controls.waiters.Waiters;
 import aaa.common.Tab;
+import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoSSMetaData;
 
 /**
@@ -14,6 +20,9 @@ import aaa.main.metadata.policy.AutoSSMetaData;
  * @category Generated
  */
 public class GeneralTab extends Tab {
+	
+    public static Table tblInsuredList = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_Insured_body']//table"));
+	
     public GeneralTab() {
         super(AutoSSMetaData.GeneralTab.class);
     }
@@ -23,4 +32,28 @@ public class GeneralTab extends Tab {
         buttonNext.click();
         return this;
     }
+    
+    public void removeInsured(int index){
+    	 if (tblInsuredList.isPresent() && tblInsuredList.getRow(index).isPresent()){
+    		 tblInsuredList.getRow(index).getCell(4).controls.links.get("Remove").click(Waiters.AJAX);
+    		 Page.dialogConfirmation.confirm();
+    	 }
+    }
+    
+    public AssetList getNamedInsuredInfoAssetList() {
+    	return getAssetList().getControl(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class);
+	}
+    public AssetList getValidateAddressDialogAssetList() {
+    	return getAssetList().getControl(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class)
+    			.getControl(AutoSSMetaData.GeneralTab.NamedInsuredInformation.VALIDATE_ADDRESS_DIALOG.getLabel(), AssetList.class);
+	}
+    public AssetList getAAAProductOwnedAssetList() {
+    	return getAssetList().getControl(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AssetList.class);
+	}
+    public AssetList getCurrentCarrierInfoAssetList() {
+    	return getAssetList().getControl(AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), AssetList.class);
+	}
+    public AssetList getPolicyInfoAssetList() {
+    	return getAssetList().getControl(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AssetList.class);
+	}
 }

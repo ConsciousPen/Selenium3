@@ -21,6 +21,7 @@ import toolkit.utils.DBHelper;
  * Methods for policy and related entities insertion
  * @author Deivydas Piliukaitis
  */
+@SuppressWarnings("restriction")
 public class PolicyRESTMethods {
 
     public enum TxType {

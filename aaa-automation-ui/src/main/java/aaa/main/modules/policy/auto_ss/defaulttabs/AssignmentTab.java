@@ -5,10 +5,9 @@
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
 import org.openqa.selenium.By;
-
-import toolkit.webdriver.controls.Button;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import toolkit.webdriver.controls.Button;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -17,15 +16,21 @@ import aaa.main.metadata.policy.AutoSSMetaData;
  * @category Generated
  */
 public class AssignmentTab extends Tab {
-    public AssignmentTab() {
-        super(AutoSSMetaData.AssignmentTab.class);
-    }
+	public Button btnContinue = new Button(By.id("policyDataGatherForm:continueBtn_AAAAssignmentContinueAction_footer"));
+	public Button btnAssign = new Button(By.xpath(".//input[contains(@id, 'AssignButton')]"));
 
-    public Button btnContinue = new Button(By.id("policyDataGatherForm:continueBtn_AAAAssignmentContinueAction_footer"));
-    
-    @Override
-    public Tab submitTab() {
-    	btnContinue.click();
-        return this;
-    }
+	public AssignmentTab() {
+		super(AutoSSMetaData.AssignmentTab.class);
+	}
+
+	@Override
+	public Tab submitTab() {
+		if (btnAssign.isPresent() && btnAssign.isVisible() && btnAssign.isEnabled()) {
+			btnAssign.click();
+		}
+		if (btnContinue.isPresent() && btnContinue.isVisible()) {
+			btnContinue.click();
+		}
+		return this;
+	}
 }

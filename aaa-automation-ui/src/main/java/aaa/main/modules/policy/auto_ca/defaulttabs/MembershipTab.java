@@ -6,7 +6,6 @@ package aaa.main.modules.policy.auto_ca.defaulttabs;
 
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import toolkit.datax.TestData;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -15,18 +14,13 @@ import toolkit.datax.TestData;
  * @category Generated
  */
 public class MembershipTab extends Tab {
-    public MembershipTab() {
-        super(AutoCaMetaData.MembershipTab.class);
-    }
+	public MembershipTab() {
+		super(AutoCaMetaData.MembershipTab.class);
+	}
 
-    @Override
-    public Tab submitTab() {
-        buttonNext.click();
-        return this;
-    }
-    
-    public Tab fillTab(TestData td) {
-        assetList.fill(td);
-        return this;
-    }
+	@Override
+	public Tab submitTab() {
+		buttonNext.click();
+		return this;
+	}
 }

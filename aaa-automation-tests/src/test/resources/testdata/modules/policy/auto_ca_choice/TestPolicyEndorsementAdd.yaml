@@ -1,0 +1,81 @@
+TestData: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab',
+  MembershipTab: '@MembershipTab',
+  VehicleTab: '@VehicleTab',
+  AssignmentTab: '@AssignmentTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab'
+}
+
+GeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: {},
+  PolicyInformation: '@PolicyInformation'
+}
+
+NamedInsuredInformation: {
+  Add: Click,
+  InsuredSearchDialog: {},
+  First Name: Tom,
+  Last Name: Harris,
+  "Home Phone #": 5554567890, 
+}
+
+PolicyInformation: {
+  Authorized by: QA
+}
+
+DriverTab: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Named Insured: 'Tom Harris',
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
+  Date of Birth: '/today-37y:MM/dd/yyyy',
+  Occupation: Self Employed,
+  Gender: Male,
+  Marital Status: Single,
+  Age First Licensed: 36,
+  Permit Before License: 'No',
+  License State: CA,
+  "License #": C1234501,
+  Most Recent GPA: 'None',
+}
+
+MembershipTab: {
+  #Customer Agreement: Customer Agrees,
+  #Sales Agent Agreement: I Agree,
+  Order Report: click
+}
+
+VehicleTab: {
+  Add Vehicle: Click,
+  VIN: 4S3BC6534NDDEJ76X,
+  Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Odometer Reading: 7000
+}
+
+AssignmentTab: {
+#Primary Driver: index=1,
+#Manually Rated Driver: index=1,
+Primary Driver2: index=2,
+}
+
+DriverActivityReportsTab: {
+  Sales Agent Agreement: I Agree,
+  Validate Driving History: click
+}
+
+DocumentsAndBindTab: {
+  VehicleInformation: ['@Vehicle1'],
+}
+
+Vehicle1: {
+  "Are there any additional interest(s)?": 'No'
+}
+

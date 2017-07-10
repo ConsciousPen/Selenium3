@@ -91,7 +91,7 @@ public class DataGenerator extends BaseTest {
 			for (int i = 1; i < count; i++) {
 				try {
 					type.get().copyQuote().perform(tdc.getTestData("CopyFromQuote", "TestData"));
-					type.get().calculatePremium();
+					type.get().calculatePremium(tdc.getTestData("DataGather", "TestData"));
 
 					products.get(type.getName()).add(PolicySummaryPage.labelPolicyNumber.getValue());
 				} catch (Exception e) {

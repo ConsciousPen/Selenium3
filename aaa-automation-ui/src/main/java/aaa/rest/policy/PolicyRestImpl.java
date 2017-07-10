@@ -59,6 +59,7 @@ public class PolicyRestImpl {
         return quoteNumber;
     }
 
+    //TODO not updated during AAA customization 
     public void calculatePremium() {
         if (!PolicyType.PUP.equals(policyType)) {
             calculatePremiumAPI();
@@ -67,7 +68,7 @@ public class PolicyRestImpl {
                     PropertyProvider.getProperty(TestProperties.EU_USER),
                     PropertyProvider.getProperty(TestProperties.EU_PASSWORD))).open();
             MainPage.QuickSearch.search(quoteNumber);
-            policyType.get().calculatePremium();
+            policyType.get().calculatePremium(null);
         }
     }
 

@@ -10,6 +10,7 @@ import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
@@ -42,5 +43,15 @@ public class DocumentsAndBindTab extends Tab {
 			confirmEndorsementPurchase.confirm();
 		}
 		return this;
+	}
+	
+	public AssetList getDocumentsForPrintingAssetList() {
+    	return getAssetList().getControl(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING.getLabel(), AssetList.class);
+	}
+	public AssetList getRequiredToBindAssetList() {
+    	return getAssetList().getControl(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(), AssetList.class);
+	}
+	public AssetList getRequiredToIssueAssetList() {
+    	return getAssetList().getControl(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel(), AssetList.class);
 	}
 }

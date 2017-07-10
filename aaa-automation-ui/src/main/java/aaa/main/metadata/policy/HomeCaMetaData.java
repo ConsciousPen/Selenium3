@@ -3,8 +3,8 @@
 package aaa.main.metadata.policy;
 
 import org.openqa.selenium.By;
-
-import aaa.main.metadata.DialogsMetaData.AddressValidationMetaData;
+import aaa.main.metadata.DialogsMetaData;
+import aaa.toolkit.webdriver.customcontrols.FillableTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
@@ -12,6 +12,7 @@ import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
@@ -25,17 +26,17 @@ import toolkit.webdriver.controls.waiters.Waiters;
  * contains metadata classes as direct children. For multi-root products the
  * root class contains a set of entity classes under which metadata classes are
  * grouped. Modify this class if metadata needs to be altered.
- * 
+ *
  * @category Generated
  */
 public final class HomeCaMetaData {
-	
+
 	// --------- General Tab -------- 
 	public static final class GeneralTab extends MetaData {
-		
+
 		public static final AttributeDescriptor POLICY_INFO = declare("PolicyInfo", AssetList.class, PolicyInfo.class);
 		public static final AttributeDescriptor CURRENT_CARRIER = declare("CurrentCarrier", AssetList.class, CurrentCarrier.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAHOPolicyPriorCarrier']"));
-		
+
 		// PolicyInfo
 		public static final class PolicyInfo extends MetaData {
 			public static final AttributeDescriptor STATE = declare("State", TextBox.class, Waiters.NONE);
@@ -50,6 +51,7 @@ public final class HomeCaMetaData {
 			public static final AttributeDescriptor CALVET = declare("CalVet", RadioGroup.class, Waiters.AJAX);
 			public static final AttributeDescriptor ADVERSELY_IMPACTED = declare("Adversely Impacted", ComboBox.class);
 		}
+
 		// Current Carrier
 		public static final class CurrentCarrier extends MetaData {
 			public static final AttributeDescriptor CARRIER_NAME = declare("Carrier name", ComboBox.class, Waiters.AJAX);
@@ -58,7 +60,7 @@ public final class HomeCaMetaData {
 			public static final AttributeDescriptor BASE_DATE_WITH_AAA = declare("Base date with AAA", TextBox.class, Waiters.AJAX);
 		}
 	}
-	
+
 	// --------- Applicant Tab -------- 
 	public static final class ApplicantTab extends MetaData {
 
@@ -70,7 +72,7 @@ public final class HomeCaMetaData {
 		public static final AttributeDescriptor NAMED_INSURED_INFORMATION = declare("NamedInsuredInformation", AssetList.class, NamedInsuredInformation.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHOCommunicationInfo']"));
 		public static final AttributeDescriptor OTHER_ACTIVE_AAA_POLICIES = declare("OtherActiveAAAPolicies", MultiInstanceAfterAssetList.class, OtherActiveAAAPolicies.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHOOtherOrPriorPolicyComponent']"));
 		public static final AttributeDescriptor AGENT_INFORMATION = declare("AgentInfo", AssetList.class, AgentInfo.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAProducerInfo']"));
-		
+
 		// Named Insured
 		public static final class NamedInsured extends MetaData {
 			public static final AttributeDescriptor PREFIX = declare("Prefix", ComboBox.class);
@@ -106,9 +108,9 @@ public final class HomeCaMetaData {
 			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor ADDRESS_VALIDATED = declare("Address Validated?", TextBox.class);
 			public static final AttributeDescriptor VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateHODwellAddressButton"));
-			public static final AttributeDescriptor VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, AddressValidationMetaData.class, By.id(".//*[@id='addressValidationPopupAAAHODwellAddressValidationComp_container']"));
+			public static final AttributeDescriptor VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class, By.id(".//*[@id='addressValidationPopupAAAHODwellAddressValidationComp_container']"));
 		}
-		
+
 		// Previous Dwelling Address
 		public static final class PreviousDwellingAddress extends MetaData {
 			public static final AttributeDescriptor HAS_PREVIOUS_DWELLING_ADDRESS = declare("Has there been another dwelling address within the last 3 consecutive years?", RadioGroup.class, Waiters.AJAX, false,
@@ -120,9 +122,9 @@ public final class HomeCaMetaData {
 			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor ADDRESS_VALIDATED = declare("Address validated", TextBox.class);
 			public static final AttributeDescriptor BTN_VALIDATE_ADDRESS = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateHOPreAddressButton"));
-			public static final AttributeDescriptor VALIDATE_ADDRESS = declare("Validate Address", AddressValidationDialog.class, AddressValidationMetaData.class, By.id("addressValidationPopupAAAHOPrevAddressValidationComp_container"));
+			public static final AttributeDescriptor VALIDATE_ADDRESS = declare("Validate Address", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class, By.id("addressValidationPopupAAAHOPrevAddressValidationComp_container"));
 		}
-		
+
 		// Mailing address
 		public static final class MailingAddress extends MetaData {
 			public static final AttributeDescriptor IS_DIFFERENT_MAILING_ADDRESS = declare("Is the mailing address different from the dwelling address?", RadioGroup.class, Waiters.AJAX, false,
@@ -135,9 +137,9 @@ public final class HomeCaMetaData {
 			public static final AttributeDescriptor COUTRY = declare("Country", ComboBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor ADDRESS_VALIDATED = declare("Address validated", TextBox.class);
 			public static final AttributeDescriptor BTN_VALIDATE_ADDRESS = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateHOMailingAddressButtonUS"));
-			public static final AttributeDescriptor VALIDATE_ADDRESS = declare("Validate Address", AddressValidationDialog.class, AddressValidationMetaData.class, By.id("addressValidationPopupAAAHOMailingAddressValidation_container"));
+			public static final AttributeDescriptor VALIDATE_ADDRESS = declare("Validate Address", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class, By.id("addressValidationPopupAAAHOMailingAddressValidation_container"));
 		}
-		
+
 		// Named insured contact information
 		public static final class NamedInsuredInformation extends MetaData {
 			public static final AttributeDescriptor HOME_PHONE_NUMBER = declare("Home Phone Number", TextBox.class, Waiters.AJAX);
@@ -194,15 +196,67 @@ public final class HomeCaMetaData {
 		}
 	}
 
-	// --------- Reports Tab -------- 
+	// --------- Reports Tab --------
 	public static final class ReportsTab extends MetaData {
-
 		/*
 		 * public static final AttributeDescriptor CUSTOMER_AGREEMENT = declare(
 		 * "Customer Agreement", RadioGroup.class, Waiters.AJAX, false,
 		 * By.xpath("//table[@id='policyDataGatherForm:customerRadio']"));
 		 */
 		public static final AttributeDescriptor SALES_AGENT_AGREEMENT = declare("Sales Agent Agreement", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:sedit_AAAHOCommonDisclosureMessageComponent_agentAgrees']"));
+
+		public static final AttributeDescriptor AAA_MEMBERSHIP_REPORT = declare("AAAMembershipReport", FillableTable.class, AaaMembershipReportRow.class, By.xpath("//table[@id='policyDataGatherForm:membershipReports']"));
+		public static final AttributeDescriptor FIRELINE_REPORT = declare("FirelineReport", FillableTable.class, FirelineReportRow.class, By.xpath("//table[@id='policyDataGatherForm:firelineReportTable']"));
+		public static final AttributeDescriptor PUBLIC_PROTECTION_CLASS = declare("PublicProtectionClass", FillableTable.class, PublicProtectionClassRow.class, By.xpath("//table[@id='policyDataGatherForm:ppcReportTable']"));
+		public static final AttributeDescriptor CLUE_REPORT = declare("CLUEreport", FillableTable.class, CLUEreportRow.class, By.xpath("//table[@id='policyDataGatherForm:orderClueReports']"));
+		public static final AttributeDescriptor ISO360_REPORT = declare("ISO360Report", FillableTable.class, ISO360ReportRow.class, By.xpath("//table[@id='policyDataGatherForm:iso360ReportTable']"));
+
+		public static final class AaaMembershipReportRow extends MetaData {
+			public static final AttributeDescriptor LAST_NAME = declare("Last Name", StaticElement.class);
+			public static final AttributeDescriptor MEMBERSHIP_NO = declare("Membership No.", StaticElement.class);
+			public static final AttributeDescriptor MEMBER_SINCE_DATE = declare("Member Since Date", StaticElement.class);
+			public static final AttributeDescriptor ORDER_DATE = declare("Order Date", StaticElement.class);
+			public static final AttributeDescriptor RECEIPT_DATE = declare("Receipt Date", StaticElement.class);
+			public static final AttributeDescriptor STATUS = declare("Status", StaticElement.class);
+			public static final AttributeDescriptor REPORT = declare("Report", Link.class);
+		}
+
+		public static final class FirelineReportRow extends MetaData {
+			public static final AttributeDescriptor DWELLING_ADDRESS = declare("Dwelling Address", StaticElement.class);
+			public static final AttributeDescriptor WILDFIRE_SCORE = declare("Wildfire Score", StaticElement.class);
+			public static final AttributeDescriptor ORDER_DATE = declare("Order Date", StaticElement.class);
+			public static final AttributeDescriptor EXPIRATION_DATE = declare("Expiration Date", StaticElement.class);
+			public static final AttributeDescriptor STATUS = declare("Status", StaticElement.class);
+			public static final AttributeDescriptor REPORT = declare("Report", Link.class);
+		}
+
+		public static final class PublicProtectionClassRow extends MetaData {
+			public static final AttributeDescriptor NAME = declare("Name", StaticElement.class);
+			public static final AttributeDescriptor DWELLING_ADDRESS = declare("Dwelling Address", StaticElement.class);
+			public static final AttributeDescriptor PPC_VALUE = declare("PPC Value", StaticElement.class);
+			public static final AttributeDescriptor ORDER_DATE = declare("Order Date", StaticElement.class);
+			public static final AttributeDescriptor EXPIRATION_DATE = declare("Expiration Date", StaticElement.class);
+			public static final AttributeDescriptor STATUS = declare("Status", StaticElement.class);
+			public static final AttributeDescriptor REPORT = declare("Report", Link.class);
+		}
+
+		public static final class CLUEreportRow extends MetaData {
+			public static final AttributeDescriptor DWELLING_ADDRESS = declare("Dwelling Address", StaticElement.class);
+			public static final AttributeDescriptor NO_OF_CLAIMS = declare("No. of Claims", StaticElement.class);
+			public static final AttributeDescriptor ORDER_DATE = declare("Order Date", StaticElement.class);
+			public static final AttributeDescriptor EXPIRATION_DATE = declare("Expiration Date", StaticElement.class);
+			public static final AttributeDescriptor STATUS = declare("Status", StaticElement.class);
+			public static final AttributeDescriptor REPORT = declare("Report", Link.class);
+		}
+
+		public static final class ISO360ReportRow extends MetaData {
+			public static final AttributeDescriptor DWELLING_ADDRESS = declare("Dwelling Address", StaticElement.class);
+			public static final AttributeDescriptor REPLACEMENT_COST = declare("Replacement Cost", StaticElement.class);
+			public static final AttributeDescriptor ORDER_DATE = declare("Order Date", StaticElement.class);
+			public static final AttributeDescriptor EXPIRATION_DATE = declare("Expiration Date", StaticElement.class);
+			public static final AttributeDescriptor STATUS = declare("Status", StaticElement.class);
+			public static final AttributeDescriptor REPORT = declare("Report", Link.class);
+		}
 
 		public static final class HssOverrideInsuranceScore extends MetaData {
 			public static final AttributeDescriptor SCORE_AFTER_OVERRIDE = declare("Score after override", TextBox.class);
@@ -295,7 +349,7 @@ public final class HomeCaMetaData {
 		}
 	}
 
-	// --------- Property Info Tab -------- 
+	// --------- Property Info Tab --------
 	public static final class PropertyInfoTab extends MetaData {
 
 		public static final AttributeDescriptor DWELLING_ADDRESS = declare("DwellingAddress", AssetList.class, DwellingAddress.class, By.xpath(".//table[@id='policyDataGatherForm:formGrid_AAAHOAddiDwellAddrMVO']"));
@@ -339,7 +393,7 @@ public final class HomeCaMetaData {
 			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor ADDRESS_VALIDATED = declare("Address validated", TextBox.class);
 			public static final AttributeDescriptor BTN_VALIDATE_ADDRESS = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateHOAddAddressButton"));
-			public static final AttributeDescriptor VALIDATE_ADDRESS = declare("Validate Address", AddressValidationDialog.class, AddressValidationMetaData.class, By.id("addressValidationFormAAAHOAdditionalDwelAddressValidation"));
+			public static final AttributeDescriptor VALIDATE_ADDRESS = declare("Validate Address", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class, By.id("addressValidationFormAAAHOAdditionalDwelAddressValidation"));
 			public static final AttributeDescriptor BTN_ADD = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addAAAHOAdditionalAddress"));
 			public static final AttributeDescriptor BTN_REMOVE = declare("Remove", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:eliminateAAAHOAdditionalAddress"));
 		}
@@ -417,7 +471,7 @@ public final class HomeCaMetaData {
 			public static final AttributeDescriptor DOES_DWELLING_HAVE_CRIPLE_WALS = declare("Does the dwelling have cripple walls?", RadioGroup.class, Waiters.AJAX);
 			public static final AttributeDescriptor ARE_CRIPPLE_WALLS_BRACED_WITH_PLYWODD = declare("Are cripple walls braced with plywood or its equivalent and installed in accordance with California building code?", RadioGroup.class, Waiters.AJAX);
 			public static final AttributeDescriptor DOES_DWELLING_HAVE_POST_AND_PIER_FOUNDATION = declare("Does dwelling have post-and-pier or post-and-beam foundation?", RadioGroup.class, Waiters.AJAX);
-			public static final AttributeDescriptor IS_DWELLING_HAD_BEEN_MODIFIED_ACCORDING_BUILDING_CODE = declare("Is dwelling with post-and-pier or post-and-beam foundation, has been modified in accordance with California building code?", RadioGroup.class,	Waiters.AJAX);
+			public static final AttributeDescriptor IS_DWELLING_HAD_BEEN_MODIFIED_ACCORDING_BUILDING_CODE = declare("Is dwelling with post-and-pier or post-and-beam foundation, has been modified in accordance with California building code?", RadioGroup.class, Waiters.AJAX);
 		}
 
 		public static final class FireProtectiveDD extends MetaData {
@@ -452,7 +506,7 @@ public final class HomeCaMetaData {
 			public static final AttributeDescriptor HEATING_COOLING_RENOVATION = declare("Heating/cooling renovation", ComboBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor HEATING_COOLING_PERCENT_COMPLETE = declare("Heating/cooling % complete", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:sedit_AAAHOBuildingImprovementsInfo_heatingOrCoolingPercentComplete']"));
 			public static final AttributeDescriptor HEATING_COOLING_MONTH_OF_COMPLECTION = declare("Heating/cooling Month of completion", ComboBox.class, Waiters.AJAX, false, By.xpath("//select[@id='policyDataGatherForm:sedit_AAAHOBuildingImprovementsInfo_heatingOrCoolingRenovationMonth']"));
-			public static final AttributeDescriptor HEATING_COOLING_YEAR_OF_COMPLECTION = declare("Heating/cooling Year of completion", TextBox.class, Waiters.AJAX, false,	By.xpath("//input[@id='policyDataGatherForm:sedit_AAAHOBuildingImprovementsInfo_heatingOrCoolingRenovationYear']"));
+			public static final AttributeDescriptor HEATING_COOLING_YEAR_OF_COMPLECTION = declare("Heating/cooling Year of completion", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:sedit_AAAHOBuildingImprovementsInfo_heatingOrCoolingRenovationYear']"));
 
 			// public static final AttributeDescriptor GREEN_HOME_DISCOUNT = declare("Green Home discount", RadioGroup.class, Waiters.AJAX);
 			public static final AttributeDescriptor STORM_SHUTTER_DISCOUNT = declare("Storm Shutter discount", RadioGroup.class, Waiters.AJAX);
@@ -577,12 +631,12 @@ public final class HomeCaMetaData {
 		}
 	}
 
-	// --------- Premium and Coverage - Endorsement Tab -------- 
+	// --------- Premium and Coverage - Endorsement Tab --------
 	public static final class EndorsementTab extends MetaData {
 		public static final AttributeDescriptor OPTIONAL_ENDORSEMENTS_FILTER = declare("Optional Endorsements Filter", TextBox.class, Waiters.NONE, false, By.id("policyDataGatherForm:filterCriteria_AAAHoPolicyEndorsementFormManager"));
 		public static final AttributeDescriptor BTN_FILTER = declare("Filter", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:filterFormsButton_AAAHoPolicyEndorsementFormManager"));
 		public static final AttributeDescriptor BTN_VIEW_ALL = declare("View All", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:viewAllButton_AAAHoPolicyEndorsementFormManager"));
-		
+
 		public enum IncludedAndSelectedEndorsementsTblHeaders {
 
 			FORM_ID("Form ID"), NAME("Name"), CATEGORY("Category"), NUMBER_OF_FORMS("Number of Forms"), DESCRIPTION("Description"), CONTROLS("");
@@ -597,7 +651,7 @@ public final class HomeCaMetaData {
 				return value;
 			}
 		}
-		
+
 		public enum OptionalEndorsementsTblHeaders {
 
 			FORM_ID("Form ID"), NAME("Name"), CATEGORY("Category"), DESCRIPTION("Description"), CONTROLS("");
@@ -614,6 +668,7 @@ public final class HomeCaMetaData {
 		}
 	}
 
+	//TODO Update
 	public static final class PersonalPropertyTab extends MetaData {
 		public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class);
 		public static final AttributeDescriptor SCHEDULED_PROPERTY_COVERAGE = declare("Scheduled Property Coverage", RadioGroup.class);
@@ -696,7 +751,7 @@ public final class HomeCaMetaData {
 		}
 	}
 
-	// --------- Premium & Coverages - Quote Tab -------- 
+	// --------- Premium & Coverages - Quote Tab --------
 	public static final class PremiumsAndCoveragesQuoteTab extends MetaData {
 		public static final AttributeDescriptor PAYMENT_PLAN = declare("Payment Plan", ComboBox.class, Waiters.AJAX);
 		public static final AttributeDescriptor PAYMENT_PLAN_AT_RENEWAL = declare("Payment plan at renewal", ComboBox.class, Waiters.AJAX);
@@ -730,6 +785,11 @@ public final class HomeCaMetaData {
 		 * final AttributeDescriptor STATE = declare("State", ComboBox.class,
 		 * Waiters.AJAX);
 		 */
+		public static final AttributeDescriptor OPTIONAL_COVERAGE_MASONRY_VENEER = declare("Optional coverage - Masonry veneer", RadioGroup.class, Waiters.AJAX);
+		public static final AttributeDescriptor OPTIONAL_COVERAGE_BREAKAGE_OF_PERSONAL_PROPERTY = declare("Optional coverage - Breakage of personal property", RadioGroup.class, Waiters.AJAX);
+		public static final AttributeDescriptor CALCULATE_PREMIUM_BUTTON = declare("Calculate Premium", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:premiumRecalcCov"));
+		public static final AttributeDescriptor ACCEPT_CEA_OFFER = declare("Accept CEA offer", RadioGroup.class, Waiters.AJAX);
+		public static final AttributeDescriptor CEA_PRODUCT = declare("CEA Product", ComboBox.class, Waiters.AJAX);
 
 		public static final class CeaCoverages extends MetaData {
 			public static final AttributeDescriptor COVERAGE_A_DWELLING_LIMIT = declare(HomeCaCeaCoverages.COVERAGE_A_DWELLING_LIMIT.get(), StaticElement.class, Waiters.AJAX, true,
@@ -743,14 +803,6 @@ public final class HomeCaMetaData {
 			public static final AttributeDescriptor ADDITIONAL = declare(HomeCaCeaCoverages.ADDITIONAL.get(), ComboBox.class, Waiters.AJAX, true,
 					By.xpath(String.format("//table[@id='policyDataGatherForm:ceaCoverageSummaryTable']//tr[td[.='%s']]//select", HomeCaCeaCoverages.ADDITIONAL.get())));
 		}
-
-		public static final AttributeDescriptor OPTIONAL_COVERAGE_MASONRY_VENEER = declare("Optional coverage - Masonry veneer", RadioGroup.class, Waiters.AJAX);
-		public static final AttributeDescriptor OPTIONAL_COVERAGE_BREAKAGE_OF_PERSONAL_PROPERTY = declare("Optional coverage - Breakage of personal property", RadioGroup.class, Waiters.AJAX);
-
-		public static final AttributeDescriptor CALCULATE_PREMIUM_BUTTON = declare("Calculate Premium", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:premiumRecalcCov"));
-
-		public static final AttributeDescriptor ACCEPT_CEA_OFFER = declare("Accept CEA offer", RadioGroup.class, Waiters.AJAX);
-		public static final AttributeDescriptor CEA_PRODUCT = declare("CEA Product", ComboBox.class, Waiters.AJAX);
 
 		public enum HomeCaCoverages {
 			COVERAGE_A("Coverage A - Dwelling limit"), COVERAGE_B("Coverage B - Other Structures limit"), COVERAGE_C("Coverage C - Personal Property limit"), COVERAGE_D("Coverage D - Loss of Use limit"), COVERAGE_E(
@@ -807,7 +859,7 @@ public final class HomeCaMetaData {
 			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor ADDRESS_VALIDATED = declare("Address validated", TextBox.class, Waiters.NONE);
 			public static final AttributeDescriptor VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateHOMortAddressButton"));
-			public static final AttributeDescriptor VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, AddressValidationMetaData.class, By.id(".//div[@id='addressValidationPopupAAAHOMortgageeAddressValidation_container']"));
+			public static final AttributeDescriptor VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class, By.id(".//div[@id='addressValidationPopupAAAHOMortgageeAddressValidation_container']"));
 			public static final AttributeDescriptor LOAN_NUMBER = declare("Loan number", TextBox.class, Waiters.NONE);
 			public static final AttributeDescriptor USE_LEGAL_MORTGAGEE_FOR_EVIDENCE_OF_INSURANCE = declare("Use legal mortgagee for evidence of insurance", RadioGroup.class, Waiters.AJAX);
 			public static final AttributeDescriptor LEGAL_MORTGAGEE_NAME = declare("Legal mortgagee name", TextBox.class, Waiters.AJAX);
@@ -822,7 +874,7 @@ public final class HomeCaMetaData {
 			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor ADDRESS_VALIDATED = declare("Address validated", TextBox.class);
 			public static final AttributeDescriptor VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateHOLegAddressButton"));
-			public static final AttributeDescriptor VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, AddressValidationMetaData.class, By.id(".//div[@id='addressValidationPopupAAAHOLegalPropAddressValidationComp_container']"));
+			public static final AttributeDescriptor VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class, By.id(".//div[@id='addressValidationPopupAAAHOLegalPropAddressValidationComp_container']"));
 		}
 
 		public static final class AdditionalInsured extends MetaData {
@@ -937,16 +989,16 @@ public final class HomeCaMetaData {
 
 	public static final class BindTab extends MetaData {
 	}
-	
+
 	// policy Actions
 	public static final class ExtensionRenewalActionTab extends MetaData {
 	}
 
 	public static final class CancelNoticeActionTab extends MetaData {
-	    public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancellation effective date", TextBox.class, Waiters.AJAX);
-        public static final AttributeDescriptor CANCELLATION_REASON = declare("Cancellation reason", ComboBox.class, Waiters.NONE);
-        public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
-        public static final AttributeDescriptor DAYS_OF_NOTICE = declare("Days of notice", TextBox.class, Waiters.NONE);
+		public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancellation effective date", TextBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor CANCELLATION_REASON = declare("Cancellation reason", ComboBox.class, Waiters.NONE);
+		public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
+		public static final AttributeDescriptor DAYS_OF_NOTICE = declare("Days of notice", TextBox.class, Waiters.NONE);
 	}
 
 	public static final class RescindCancellationActionTab extends MetaData {
@@ -982,8 +1034,8 @@ public final class HomeCaMetaData {
 	}
 
 	public static final class ReinstatementActionTab extends MetaData {
-	    public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancellation Effective Date", TextBox.class, Waiters.NONE);
-        public static final AttributeDescriptor REINSTATE_DATE = declare("Reinstate Date", TextBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancellation Effective Date", TextBox.class, Waiters.NONE);
+		public static final AttributeDescriptor REINSTATE_DATE = declare("Reinstate Date", TextBox.class, Waiters.AJAX);
 	}
 
 	public static final class DeclineActionTab extends MetaData {
@@ -1025,9 +1077,9 @@ public final class HomeCaMetaData {
 	}
 
 	public static final class CancelActionTab extends MetaData {
-	    public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancellation effective date", TextBox.class, Waiters.AJAX);
-        public static final AttributeDescriptor CANCELLATION_REASON = declare("Cancellation reason", ComboBox.class, Waiters.AJAX);
-        public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class);
+		public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancellation effective date", TextBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor CANCELLATION_REASON = declare("Cancellation reason", ComboBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class);
 	}
 
 	public static final class NonPremiumBearingEndorsementActionTab extends MetaData {
@@ -1110,10 +1162,10 @@ public final class HomeCaMetaData {
 
 	public static final class DeletePendedTransactionActionTab extends MetaData {
 	}
-	
+
 	public static final class RewriteActionTab extends MetaData {
-	    public static final AttributeDescriptor EFFECTIVE_DATE = declare("Effective Date", TextBox.class, Waiters.AJAX);
-        public static final AttributeDescriptor REWRITE_REASON = declare("Rewrite reason", ComboBox.class);
+		public static final AttributeDescriptor EFFECTIVE_DATE = declare("Effective Date", TextBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor REWRITE_REASON = declare("Rewrite reason", ComboBox.class);
 	}
 
 	public static final class RemoveDoNotRenewActionTab extends MetaData {
@@ -1131,15 +1183,15 @@ public final class HomeCaMetaData {
 	}
 
 	public static final class EndorsementActionTab extends MetaData {
-	    public static final AttributeDescriptor ENDORSEMENT_DATE = declare("Endorsement Date", TextBox.class, Waiters.AJAX);
-        public static final AttributeDescriptor ENDORSEMENT_REASON = declare("Endorsement Reason", ComboBox.class, Waiters.AJAX);
-        public static final AttributeDescriptor OTHER = declare("Other", TextBox.class);
+		public static final AttributeDescriptor ENDORSEMENT_DATE = declare("Endorsement Date", TextBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor ENDORSEMENT_REASON = declare("Endorsement Reason", ComboBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor OTHER = declare("Other", TextBox.class);
 	}
 
 	public static final class RenewActionTab extends MetaData {
-	    public static final AttributeDescriptor EXPIRATION_DATE = declare("Expiration Date", StaticElement.class);
-        public static final AttributeDescriptor RENEWAL_DATE = declare("Renewal Date", TextBox.class, Waiters.AJAX);
-        public static final AttributeDescriptor REASON_FOR_RENEWAL_WITH_LAPSE = declare("Reason for Renewal with Lapse", ComboBox.class, Waiters.AJAX);
-        public static final AttributeDescriptor OTHER = declare("Other", TextBox.class, Waiters.NONE);
+		public static final AttributeDescriptor EXPIRATION_DATE = declare("Expiration Date", StaticElement.class);
+		public static final AttributeDescriptor RENEWAL_DATE = declare("Renewal Date", TextBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor REASON_FOR_RENEWAL_WITH_LAPSE = declare("Reason for Renewal with Lapse", ComboBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor OTHER = declare("Other", TextBox.class, Waiters.NONE);
 	}
 }

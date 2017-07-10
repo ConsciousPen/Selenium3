@@ -125,7 +125,7 @@ public class CeaPolicy implements IPolicy {
     }
 
 	@Override
-	public void calculatePremium() {
+	public void calculatePremium(TestData td) {
 		dataGather().start();
 		NavigationPage.toViewTab(CaliforniaEarthquakeTab.PREMIUMS_AND_COVERAGES.get());
 		PremiumCoveragesTab.btnCalculatePremium.click();
@@ -133,7 +133,7 @@ public class CeaPolicy implements IPolicy {
 	
 	@Override
     public void calculatePremiumAndPurchase(TestData td) {
-        calculatePremium();
+        calculatePremium(td);
         NavigationPage.toViewTab(CaliforniaEarthquakeTab.BIND.get());
         new BindTab().submitTab();
         new PurchaseTab().fillTab(td).submitTab();
@@ -144,13 +144,6 @@ public class CeaPolicy implements IPolicy {
 		policyCopy().perform(td);
 		calculatePremiumAndPurchase(td);
 		log.info("Copy Policy " + EntityLogger.getEntityHeader(EntityType.POLICY));
-	}
-
-	@Override
-	public void copyQuote(TestData td) {
-		copyQuote().perform(td);
-		calculatePremium();
-		log.info("Copy Quote " + EntityLogger.getEntityHeader(EntityType.POLICY));
 	}
 
 	@Override
@@ -250,7 +243,7 @@ public class CeaPolicy implements IPolicy {
 
 	@Override
 	public PolicyCopy policyCopy() {
-		return new CeaPolicyActions.PolicyCopy();
+		throw new UnsupportedOperationException("Action 'Copy from Policy' is not supported by California Earthquake product");
 	}
 
 	@Override

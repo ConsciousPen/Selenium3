@@ -113,7 +113,7 @@ public class BaseTest {
         if (!EntitiesHolder.isEntityPresent(key)) {
             customer.create(td);
             customerNumber = CustomerSummaryPage.labelCustomerNumber.getValue();
-            EntitiesHolder.addNewEntiry(key, customerNumber);
+            EntitiesHolder.addNewEntity(key, customerNumber);
             return customerNumber;
         }
         else {
@@ -140,7 +140,7 @@ public class BaseTest {
         if (!EntitiesHolder.isEntityPresent(key)) {
             customer.create(td);
             customerNumber = CustomerSummaryPage.labelCustomerNumber.getValue();
-            EntitiesHolder.addNewEntiry(key, customerNumber);
+            EntitiesHolder.addNewEntity(key, customerNumber);
             return customerNumber;
         }
         else {
@@ -159,11 +159,12 @@ public class BaseTest {
         Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
         TestData tdPolicy = testDataManager.policy.get(getPolicyType());
         createQuote(getStateTestData(tdPolicy, "DataGather", "TestData"));
-
     }
 
     /**
      * Create quote using provided TestData
+     * Note: Suitable only for quote type that is returned by test's getPolicyType()
+     * @param td - test data for quote filling
      */
     protected void createQuote(TestData td) {
         Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
@@ -175,28 +176,19 @@ public class BaseTest {
 
     /**
      * Create Policy using default TestData
+     * @return policy number
      */
     protected String createPolicy() {
+    	Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
         TestData tdPolicy = testDataManager.policy.get(getPolicyType());
         return createPolicy(getStateTestData(tdPolicy, "DataGather", "TestData"));
     }
 
     /**
-     * Create quote using provided policy type and default testdata
-     */
-    protected String createPolicy(PolicyType type) {
-        Assert.assertNotNull(type, "PolicyType is not set");
-        createCustomerIndividual();
-        log.info("Policy Creation Started...");
-        TestData tdPolicy = testDataManager.policy.get(type);
-        type.get().createPolicy(getStateTestData(tdPolicy, "DataGather", "TestData"));
-        String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-        EntitiesHolder.addNewEntiry(EntitiesHolder.makePolicyKey(getPolicyType(), getState()), policyNumber);
-        return policyNumber;
-    }
-
-    /**
      * Create quote using provided TestData
+     * Note: Suitable only for policy type that is returned by test's getPolicyType()
+     * @param td - test data for policy filling and purchase
+     * @return policy number
      */
     protected String createPolicy(TestData td) {
         Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
@@ -204,16 +196,28 @@ public class BaseTest {
         log.info("Policy Creation Started...");
         getPolicyType().get().createPolicy(td);
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-        EntitiesHolder.addNewEntiry(EntitiesHolder.makePolicyKey(getPolicyType(), getState()), policyNumber);
+        EntitiesHolder.addNewEntity(EntitiesHolder.makePolicyKey(getPolicyType(), getState()), policyNumber);
         return policyNumber;
     }
-
-    protected void Policy() {
-        Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
-        TestData tdPolicy = testDataManager.policy.get(getPolicyType());
-        createPolicy(tdPolicy.getTestData("DataGather", getStateTestDataName("TestData")));
+    
+    /**
+     * Copy default policy with test's type and purchase it (Customer of default policy will be used)
+     * Note: California Earthquake can not be copied
+     * @return policy number
+     */
+    protected String getCopiedPolicy() {
+    	Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
+    	String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState());
+		if (EntitiesHolder.isEntityPresent(key)) {
+			SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, EntitiesHolder.getEntity(key));
+		} else {
+			createPolicy();
+			EntitiesHolder.addNewEntity(key, PolicySummaryPage.labelPolicyNumber.getValue());
+		}
+		getPolicyType().get().copyPolicy(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData"));
+		return PolicySummaryPage.labelPolicyNumber.getValue();
     }
-
+    
     protected PolicyType getPolicyType() {
         return null;
     }

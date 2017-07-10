@@ -117,17 +117,18 @@ public class HomeCaPolicy implements IPolicy {
     }
 
     @Override
-    public void calculatePremium() {
+    public void calculatePremium(TestData td) {
         dataGather().start();
         NavigationPage.toViewTab(HomeCaTab.REPORTS.get());
-        new ReportsTab().orderAllReports();
+        new ReportsTab().fillTab(td);
         NavigationPage.toViewTab(HomeCaTab.PREMIUMS_AND_COVERAGES.get());
+        NavigationPage.toViewSubTab(HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         new PremiumsAndCoveragesQuoteTab().calculatePremium();
     }
     
     @Override
     public void calculatePremiumAndPurchase(TestData td) {
-        calculatePremium();
+        calculatePremium(td);
         NavigationPage.toViewTab(HomeCaTab.UNDERWRITING_AND_APPROVAL.get());
         new UnderwritingAndApprovalTab().fillTab(td);
         NavigationPage.toViewTab(HomeCaTab.BIND.get());
@@ -140,13 +141,6 @@ public class HomeCaPolicy implements IPolicy {
         policyCopy().perform(td);
         calculatePremiumAndPurchase(td);
         log.info("Copy Policy  " + EntityLogger.getEntityHeader(EntityType.POLICY));
-    }
-
-    @Override
-    public void copyQuote(TestData td) {
-        copyQuote().perform(td);
-        calculatePremium();
-        log.info("Copy Quote  " + EntityLogger.getEntityHeader(EntityType.POLICY));
     }
 
     @Override

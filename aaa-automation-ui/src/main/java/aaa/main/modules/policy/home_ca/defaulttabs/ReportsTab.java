@@ -5,15 +5,9 @@
 package aaa.main.modules.policy.home_ca.defaulttabs;
 
 import org.openqa.selenium.By;
-
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeCaMetaData;
-import toolkit.datax.TestData;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.composite.table.Cell;
 import toolkit.webdriver.controls.composite.table.Table;
-import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -22,17 +16,17 @@ import toolkit.webdriver.controls.waiters.Waiters;
  * @category Generated
  */
 public class ReportsTab extends Tab {
-    public ReportsTab() {
-        super(HomeCaMetaData.ReportsTab.class);
-    }
-
-    public Table tblAAAMembershipReport = new Table(By.xpath("//table[@id='policyDataGatherForm:membershipReports']"));
+	public Table tblAAAMembershipReport = new Table(By.xpath("//table[@id='policyDataGatherForm:membershipReports']"));
 	//public Table tblInsuranceScoreReport = new Table(By.xpath("//table[@id='policyDataGatherForm:creditReports']"));
 	//public Table tblInsuranceScoreOverride = new Table(By.xpath("//table[@id='policyDataGatherForm:creditScoreOverride']"));
 	public Table tblFirelineReport = new Table(By.xpath("//table[@id='policyDataGatherForm:firelineReportTable']"));
 	public Table tblPublicProtectionClass = new Table(By.xpath("//table[@id='policyDataGatherForm:ppcReportTable']"));
 	public Table tblClueReport = new Table(By.xpath("//table[@id='policyDataGatherForm:orderClueReports']"));
 	public Table tblISO360Report = new Table(By.xpath("//table[@id='policyDataGatherForm:iso360ReportTable']"));
+
+	public ReportsTab() {
+		super(HomeCaMetaData.ReportsTab.class);
+	}
 	//public Table tblRiskMeterReport = new Table(By.xpath("//table[@id='policyDataGatherForm:riskMeterReportTable']"));
 
 	@Override
@@ -40,39 +34,4 @@ public class ReportsTab extends Tab {
 		buttonNext.click();
 		return this;
 	}
-
-	@Override
-	public Tab fillTab(TestData td) {
-		//assetList.fill(td);
-	    orderAllReports();
-		
-		return this;
-	} 
-
-	protected static void orderReports(Table reportTable) {
-		if (reportTable.isPresent()) {
-			for (int i = 1; i <= reportTable.getRowsCount(); i++) {
-				Cell cell = reportTable.getRow(i).getCell("Report");
-				Link report = cell.controls.links.get("Order Report') or contains(.,'Order report");
-				if (report.isPresent() && !report.getAttribute("class").equals("link_disabled")) {
-					report.click(Waiters.AJAX);
-					// cell.controls.links.get(1).waitForAccessible(10000);
-				}
-			}
-		}
-	}
-	
-	public void orderAllReports() {
-	    RadioGroup agentAgreement = getAssetList().getControl(HomeCaMetaData.ReportsTab.SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class);
-        if (agentAgreement.isPresent())
-            agentAgreement.setValue("I Agree");
-        orderReports(tblAAAMembershipReport);
-        //orderReports(tblInsuranceScoreReport);
-        /*if (BaseTest.getState().equals("VA") || BaseTest.getState().equals("NJ") || BaseTest.getState().equals("DE") || BaseTest.getState().equals("CT") || BaseTest.getState().equals("MD")) {
-            orderReports(tblRiskMeterReport, Waiters.AJAX);
-        }*/
-        orderReports(tblFirelineReport);
-        orderReports(tblPublicProtectionClass);
-        orderReports(tblClueReport);
-    }
 }

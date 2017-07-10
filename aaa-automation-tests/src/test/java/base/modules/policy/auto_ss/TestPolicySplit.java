@@ -50,10 +50,10 @@ public class TestPolicySplit extends AutoSSBaseTest {
         PolicySummaryPage.buttonPendedEndorsement.click();
         policy.dataGather().perform(tdSpecific.getTestData("DataGather_AfterSplitForOneInsured"));
         PolicySummaryPage.buttonPendedEndorsement.click();
-        policy.calculatePremium();
-        PolicySummaryPage.buttonPendedEndorsement.click();
+//        policy.calculatePremium(td);
+//        PolicySummaryPage.buttonPendedEndorsement.click();
 //        policy.issue().perform(tdPolicy.getTestData("Issue", "TestDataWOPaymentPlan"));
-        policy.purchase(tdPolicy.getTestData("DataGather", "TestDataWOPaymentPlan"));
+        policy.calculatePremiumAndPurchase(tdPolicy.getTestData("DataGather", "TestDataWOPaymentPlan"));
 
         PolicySummaryPage.tablePolicyDrivers.getRow(PolicyConstants.PolicyDriversTable.NAME, "FirstDriverFName FirstDriverLName").verify.present();
         PolicySummaryPage.tablePolicyDrivers.getRow(PolicyConstants.PolicyDriversTable.NAME, "SecondDriverFName SecondDriverLName").verify.present();

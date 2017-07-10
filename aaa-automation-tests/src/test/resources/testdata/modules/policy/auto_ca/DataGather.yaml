@@ -65,7 +65,8 @@ DriverTab: {
 MembershipTab: {
   #Customer Agreement: Customer Agrees,
   #Sales Agent Agreement: I Agree,
-  Order Report: click
+  Order Report: click,
+  AAAMembershipReport: [{}]
 }
 
 VehicleTab: {
@@ -78,8 +79,11 @@ VehicleTab: {
 }
 
 AssignmentTab: {
-Primary Driver: index=1,
-Manually Rated Driver: index=1
+  DriverVehicleRelationshipTable: [{
+    Vehicle: '2011, CHEVROLET, EXPRESS VAN',
+    Primary Driver: index=1,
+    Manually Rated Driver: index=1
+  }]
 }
 
 FormsTab: {}
@@ -87,10 +91,18 @@ PremiumAndCoveragesTab: {
   Payment Plan: Annual,
 }
 
+PremiumAndCoveragesTab: {
+  Bodily Injury Liability: 'contains=$500,000/$500,000', 
+  Property Damage Liability: 'contains=$100,000'
+}
+
 DriverActivityReportsTab: {
   "Has the customer expressed interest in purchasing the policy?": 'Yes',
   Sales Agent Agreement: I Agree,
-  Validate Driving History: click
+  Validate Driving History: click,
+  OrderCLUEReport: [{}],
+  OrderMVRReport: [{}],
+  OrderInternalClaimsReport: [{}]
 }
 
 DocumentsAndBindTab: {

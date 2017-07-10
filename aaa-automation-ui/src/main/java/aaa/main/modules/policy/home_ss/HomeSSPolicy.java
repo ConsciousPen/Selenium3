@@ -117,17 +117,17 @@ public class HomeSSPolicy implements IPolicy {
 	}
 
 	@Override
-	public void calculatePremium() {
+	public void calculatePremium(TestData td) {
 		dataGather().start();
 		NavigationPage.toViewTab(HomeSSTab.REPORTS.get());
-		new ReportsTab().orderAllReports();
+		new ReportsTab().fillTab(td);
 		NavigationPage.toViewTab(HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		new ProductOfferingTab().btnCalculatePremium.click();
 	}
 	
 	@Override
 	public void calculatePremiumAndPurchase(TestData td) {
-	    calculatePremium();
+	    calculatePremium(td);
 	    NavigationPage.toViewTab(HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
         new UnderwritingAndApprovalTab().fillTab(td);
 	    NavigationPage.toViewTab(HomeSSTab.BIND.get());
@@ -140,14 +140,6 @@ public class HomeSSPolicy implements IPolicy {
 		policyCopy().perform(td);
 		calculatePremiumAndPurchase(td);
 		log.info("Copy Policy " + EntityLogger.getEntityHeader(EntityType.POLICY));
-	}
-
-	//TODO Edit or delete this method
-	@Override
-	public void copyQuote(TestData td) {
-		copyQuote().perform(td);
-//		calculatePremiumAndPurchase(td);
-		log.info("Copy Quote " + EntityLogger.getEntityHeader(EntityType.POLICY));
 	}
 
 	@Override

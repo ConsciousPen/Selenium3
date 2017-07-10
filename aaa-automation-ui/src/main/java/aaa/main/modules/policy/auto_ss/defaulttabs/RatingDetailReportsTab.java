@@ -14,13 +14,13 @@ import aaa.main.metadata.policy.AutoSSMetaData;
  * @category Generated
  */
 public class RatingDetailReportsTab extends Tab {
-    public RatingDetailReportsTab() {
-        super(AutoSSMetaData.RatingDetailReportsTab.class);
-    }
+	public RatingDetailReportsTab() {
+		super(AutoSSMetaData.RatingDetailReportsTab.class);
+	}
 
-    @Override
-    public Tab submitTab() {
-        buttonNext.click();
-        return this;
-    }
+	@Override
+	public Tab submitTab() {
+		buttonNext.click();
+		return this;
+	}
 }

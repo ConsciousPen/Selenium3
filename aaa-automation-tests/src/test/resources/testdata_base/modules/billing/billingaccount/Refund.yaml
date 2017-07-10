@@ -1,0 +1,6 @@
+TestData_Cash: {
+  RefundActionTab: {
+    Payment Method: 'Cash',
+    Amount: 100
+  }
+}

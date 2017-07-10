@@ -6,6 +6,7 @@ package aaa.main.modules.policy.home_ca.defaulttabs;
 
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeCaMetaData;
+import toolkit.webdriver.controls.composite.assets.AssetList;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -23,4 +24,20 @@ public class MortgageesTab extends Tab {
         buttonNext.click();
         return this;
     }
+    
+    public AssetList getMortgageeInfoAssetList() {
+    	return getAssetList().getControl(HomeCaMetaData.MortgageesTab.MORTGAGEE_INFORMATION.getLabel(), AssetList.class);
+	}
+    public AssetList getLegalPropetyAddressAssetList() {
+    	return getAssetList().getControl(HomeCaMetaData.MortgageesTab.LEGAL_PROPERTY_ADDRESS.getLabel(), AssetList.class);
+	}
+    public AssetList getAdditionalInsuredAssetList() {
+    	return getAssetList().getControl(HomeCaMetaData.MortgageesTab.ADDITIONAL_INSURED.getLabel(), AssetList.class);
+	}
+    public AssetList getAdditionalInterestAssetList() {
+    	return getAssetList().getControl(HomeCaMetaData.MortgageesTab.ADDITIONAL_INTEREST.getLabel(), AssetList.class);
+	}
+    public AssetList getThirdPartyDesigneeAssetList() {
+    	return getAssetList().getControl(HomeCaMetaData.MortgageesTab.THIRD_PARTY_DESIGNEE.getLabel(), AssetList.class);
+	}
 }

@@ -30,4 +30,8 @@ public class DocumentsTab extends Tab {
 		buttonNext.click();
 		return this;
 	}
+	
+	public AssetList getDocumentsToBindAssetList() {
+    	return getAssetList().getControl(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(), AssetList.class);
+	}
 }

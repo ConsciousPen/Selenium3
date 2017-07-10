@@ -1,7 +1,9 @@
 TestData: {
   CopyPolicyActionTab: {
     Quote Effective Date: /today
-  }
+  },
+  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab',
+  PurchaseTab: '@DataGather@PurchaseTab'
 }
 
 TestData_BackDated: {

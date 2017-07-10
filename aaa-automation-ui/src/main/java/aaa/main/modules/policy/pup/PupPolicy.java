@@ -107,15 +107,16 @@ public class PupPolicy implements IPolicy {
 	}
 	
 	@Override
-	public void calculatePremium() {
+	public void calculatePremium(TestData td) {
 		dataGather().start();
 		NavigationPage.toViewTab(PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
+		NavigationPage.toViewSubTab(PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
 		PremiumAndCoveragesQuoteTab.btnCalculatePremium.click();
 	}
 	
     @Override
     public void calculatePremiumAndPurchase(TestData td) {
-        calculatePremium();
+        calculatePremium(td);
         NavigationPage.toViewTab(PersonalUmbrellaTab.UNDERWRITING_AND_APPROVAL.get());
         new UnderwritingAndApprovalTab().fillTab(td);
         NavigationPage.toViewTab(PersonalUmbrellaTab.BIND.get());
@@ -128,13 +129,6 @@ public class PupPolicy implements IPolicy {
 		policyCopy().perform(td);
 		calculatePremiumAndPurchase(td);
 		log.info("Copy Policy " + EntityLogger.getEntityHeader(EntityType.POLICY));
-	}
-
-	@Override
-	public void copyQuote(TestData td) {
-		copyQuote().perform(td);
-		calculatePremium();
-		log.info("Copy Quote " + EntityLogger.getEntityHeader(EntityType.POLICY));
 	}
 
 	@Override

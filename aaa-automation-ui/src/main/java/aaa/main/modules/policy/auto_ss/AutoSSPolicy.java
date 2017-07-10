@@ -9,7 +9,6 @@ import aaa.EntityLogger;
 import aaa.EntityLogger.EntityType;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
-import aaa.common.enums.NavigationEnum.AutoCaTab;
 import aaa.common.enums.NavigationEnum.AutoSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.IPolicy;
@@ -51,8 +50,10 @@ import aaa.main.modules.policy.PolicyActions.Rewrite;
 import aaa.main.modules.policy.PolicyActions.RollOn;
 import aaa.main.modules.policy.PolicyActions.SuspendQuote;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.main.modules.policy.auto_ss.views.DefaultView;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.pages.summary.QuoteSummaryPage;
@@ -108,24 +109,26 @@ public class AutoSSPolicy implements IPolicy {
     
     @Override
     public void purchase(TestData td) {
-        NavigationPage.toViewTab(AutoSSTab.BIND.get());
+        NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
         new PurchaseTab().fillTab(td).submitTab();
         log.info("Purchased Quote " + EntityLogger.getEntityHeader(EntityType.POLICY));
     }
 
     @Override
-    public void calculatePremium() {
+    public void calculatePremium(TestData td) {
         dataGather().start();
+        NavigationPage.toViewTab(AutoSSTab.RATING_DETAIL_REPORTS.get());
+        new RatingDetailReportsTab().fillTab(td);
         NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        PremiumAndCoveragesTab.buttonCalculatePremium.click();
-        PremiumAndCoveragesTab.buttonSaveAndExit.click();
     }
     
     @Override
     public void calculatePremiumAndPurchase(TestData td) {
-        calculatePremium();
-        NavigationPage.toViewTab(AutoCaTab.BIND.get());
+        calculatePremium(td);
+        NavigationPage.toViewTab(AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
+        new DriverActivityReportsTab().fillTab(td);
+        NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
         new PurchaseTab().fillTab(td).submitTab();
     }
@@ -135,13 +138,6 @@ public class AutoSSPolicy implements IPolicy {
         policyCopy().perform(td);
         calculatePremiumAndPurchase(td);
         log.info("Copy Policy " + EntityLogger.getEntityHeader(EntityType.POLICY));
-    }
-
-    @Override
-    public void copyQuote(TestData td) {
-        copyQuote().perform(td);
-        calculatePremium();
-        log.info("Copy Quote " + EntityLogger.getEntityHeader(EntityType.POLICY));
     }
 
     @Override

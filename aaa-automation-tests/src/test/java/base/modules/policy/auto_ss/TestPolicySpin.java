@@ -76,10 +76,10 @@ public class TestPolicySpin extends AutoSSBaseTest {
         MainPage.QuickSearch.search(policyNumber);
 
         PolicySummaryPage.buttonPendedEndorsement.click();
-        policy.calculatePremium();
-        PolicySummaryPage.buttonPendedEndorsement.click();
+//        policy.calculatePremium(td);
+//        PolicySummaryPage.buttonPendedEndorsement.click();
 //        policy.issue().perform(tdPolicy.getTestData("Issue", "TestDataWOPaymentPlan"));
-        policy.purchase(tdPolicy.getTestData("DataGather", "TestDataWOPaymentPlan"));
+        policy.calculatePremiumAndPurchase(tdPolicy.getTestData("DataGather", "TestDataWOPaymentPlan"));
 
         PolicySummaryPage.tablePolicyDrivers.getRow(PolicyConstants.PolicyDriversTable.NAME, "FirstDriverFName FirstDriverLName" + customerID).verify.present(false);
         PolicySummaryPage.tablePolicyDrivers.getRow(PolicyConstants.PolicyDriversTable.NAME, "SecondDriverFName SecondDriverLName").verify.present();

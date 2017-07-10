@@ -1,0 +1,44 @@
+TestData_Cash: {
+  AcceptPaymentActionTab: {
+    Payment Method: 'Cash',
+    Amount: 100,
+  }
+}
+
+TestData_Check: {
+  AcceptPaymentActionTab: {
+    Payment Method: 'Check',
+    Check Number: 1234567890,
+    Amount: 100,
+  }
+}
+
+TestData_CC: {
+  AcceptPaymentActionTab: {
+    PaymentMethods: '@PaymentMethods_Visa',
+    Payment Method: 'contains=Visa',
+    Amount: 100
+  }
+}
+
+TestData_EFT: {
+  AcceptPaymentActionTab: {
+    PaymentMethods: '@PaymentMethods_EFT',
+    Payment Method: 'contains=Checking',
+    Amount: 100
+  }
+}
+
+#----- 
+
+PaymentMethods_Visa: {
+  Payment Method: 'CreditCard',
+  Type: 'Visa',
+  Number: '4111111111111111'
+}
+
+PaymentMethods_EFT: {
+  Payment Method: 'Checking/Savings (ACH)',
+  'Transit #': "/011104209",
+  'Account #': 1234567890
+}

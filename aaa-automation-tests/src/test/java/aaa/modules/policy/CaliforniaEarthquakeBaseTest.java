@@ -70,7 +70,7 @@ public class CaliforniaEarthquakeBaseTest extends PolicyBaseTest {
 		log.info("Policy Creation Started...");
 		getPolicyType().get().createPolicy(td);
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		EntitiesHolder.addNewEntiry(EntitiesHolder.makePolicyKey(getPolicyType(), getState()), policyNumber);
+		EntitiesHolder.addNewEntity(EntitiesHolder.makePolicyKey(getPolicyType(), getState()), policyNumber);
 		return policyNumber;
 	}
 
@@ -93,7 +93,7 @@ public class CaliforniaEarthquakeBaseTest extends PolicyBaseTest {
 		// CEA policy creation
 		((CeaPolicy) getPolicyType().get()).createPolicyFromCa(td);
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		EntitiesHolder.addNewEntiry(EntitiesHolder.makePolicyKey(getPolicyType(), getState()), policyNumber);
+		EntitiesHolder.addNewEntity(EntitiesHolder.makePolicyKey(getPolicyType(), getState()), policyNumber);
 		return policyNumber;
 	}
 

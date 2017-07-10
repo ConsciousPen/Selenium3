@@ -105,7 +105,7 @@ public final class PersonalUmbrellaMetaData {
 		public static final AttributeDescriptor DWELLING_ADDRESS = declare("DwellingAddress", AssetList.class, DwellingAddress.class);
 		public static final AttributeDescriptor MAILING_ADDRESS = declare("MailingAddress", AssetList.class, MailingAddress.class, By.xpath(".//table[@id='policyDataGatherForm:formGrid_AAAHOMailingAddressComponent']"));
 		public static final AttributeDescriptor THIRD_PARTY_DESIGNEE = declare("ThirdPartyDesignee", AssetList.class, ThirdPartyDesignee.class);
-		public static final AttributeDescriptor NAMED_INSURED_CONTACT_INFORMATION = declare("NamedInsuredContacInformation", AssetList.class, NamedInsuredContacInformation.class);
+		public static final AttributeDescriptor NAMED_INSURED_CONTACT_INFORMATION = declare("NamedInsuredContactInformation", AssetList.class, NamedInsuredContactInformation.class);
 		
 		public static final class PolicyInfo extends MetaData {
 			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.NONE);
@@ -176,7 +176,7 @@ public final class PersonalUmbrellaMetaData {
 			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.AJAX);
 		}
 
-		public static final class NamedInsuredContacInformation extends MetaData {
+		public static final class NamedInsuredContactInformation extends MetaData {
 			public static final AttributeDescriptor HOME_PHONE = declare("Home phone", TextBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor WORK_PHONE = declare("Work phone", TextBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor MOBILE_PHONE = declare("Mobile phone", TextBox.class, Waiters.AJAX);

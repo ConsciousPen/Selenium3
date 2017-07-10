@@ -11,6 +11,8 @@ import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.assets.AssetList;
+import toolkit.webdriver.controls.composite.table.Table;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -22,6 +24,9 @@ import toolkit.webdriver.controls.Button;
  * @category Generated
  */
 public class DriverTab extends Tab {
+	
+	public static Table tblDriverList = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_Driver_body']//table"));
+	   
 	public DriverTab() {
 		super(AutoSSMetaData.DriverTab.class);
 		assetList = new MultiInstanceAfterAssetList(By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER), metaDataClass) {
@@ -37,5 +42,9 @@ public class DriverTab extends Tab {
 	public Tab submitTab() {
 		buttonNext.click();
 		return this;
+	}
+	
+	public AssetList getActivityInformationAssetList() {
+    	return getAssetList().getControl(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), AssetList.class);
 	}
 }

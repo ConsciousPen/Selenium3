@@ -6,6 +6,7 @@ TestData: {
   DriverTab: '@DriverTab',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@VehicleTab',
+  AssignmentTab: '@AssignmentTab',
   FormsTab: '@FormsTab',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
@@ -58,7 +59,9 @@ DriverTab: {
 RatingDetailReportsTab: {
   Customer Agreement: Customer Agrees,
   Sales Agent Agreement: I Agree,
-  Order Report: click
+  Order Report: click,
+  AAAMembershipReport: [{}],
+  OrderInsuranceScoreReport: [{}]
 }
 
 VehicleTab: {
@@ -66,7 +69,10 @@ VehicleTab: {
   VIN: 1GNWGPFG8B6548273,
 }
 
-AssignmentTab: {}
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [{}],
+  ExcessVehiclesTable: [{}]
+}
 
 FormsTab: {}
 
@@ -81,7 +87,10 @@ PremiumAndCoveragesTab: {
 
 DriverActivityReportsTab: {
   "Has the customer expressed interest in purchasing the quote?": 'Yes',
-  Validate Driving History: click
+  Validate Driving History: click,
+  OrderCLUEReport: [{}],
+  OrderMVRReport: [{}],
+  OrderInternalClaimsReport: [{}]
 }
 
 DocumentsAndBindTab: {

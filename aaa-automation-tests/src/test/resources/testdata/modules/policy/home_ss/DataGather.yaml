@@ -36,7 +36,51 @@ ApplicantTab: {
   OtherActiveAAAPolicies: {},
 }
 
-ReportsTab: {}
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  Customer Agreement: 'Customer agrees',
+  AAAMembershipReport: ['@AAAMembershipReport1'],
+  InsuranceScoreReport: ['@InsuranceScoreReport1'],
+  FirelineReport: ['@FirelineReport1'],
+  PublicProtectionClass: ['@PublicProtectionClass1'],
+  CLUEreport: ['@CLUEreport1'],
+  #ISO360Report: ['@ISO360Report1']
+}
+
+AAAMembershipReport1: {
+  Last Name: 'Test',
+  Membership No.: '4290023667710001', #can be removed, just for row search by query demo purpose
+  Status: 'Not started', #can be removed, just for row search by query demo purpose
+  Report: 'Order report'
+}
+
+InsuranceScoreReport1: {
+  Named Insured: 'contains=Cook',
+  Status: 'Not started',
+  #Order Insurance Score: 'Decline', #can be removed, just for setting inner control demo purpose
+  Reorder at renewal: 'No', #can be removed, just for setting inner control demo purpose
+  Report: 'Order report'
+}
+
+FirelineReport1: {
+  Dwelling Address: '265 CHIPMAN AVE, AMERICAN FORK, UT, 84003',
+  Report: 'Order Report'
+}
+
+PublicProtectionClass1: {
+  Dwelling Address: '265 CHIPMAN AVE, AMERICAN FORK, UT, 84003',
+  Report: 'Order Report'
+}
+
+CLUEreport1: {
+  Dwelling Address: '265 CHIPMAN AVE,AMERICAN FORK,84003,UT',
+  Report: 'Order report'
+}
+
+ISO360Report1: {
+  Dwelling Address: '265 CHIPMAN AVE, AMERICAN FORK, UT, 84003',
+  Report: 'Order report'
+}
 
 PropertyInfoTab: {
   DwellingAddress: '@DwellingAddress_PropertyInfoTab',

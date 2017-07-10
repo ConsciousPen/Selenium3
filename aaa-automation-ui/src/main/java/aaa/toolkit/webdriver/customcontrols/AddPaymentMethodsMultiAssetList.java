@@ -8,11 +8,12 @@ import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.composite.table.Table;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 public class AddPaymentMethodsMultiAssetList extends MultiAssetList {
-	private Button buttonAddUpdateCreditCard = new Button(By.xpath("//a[@id='purchaseForm:addPaymentMethodBtn' or @id='updateForm:addPaymentMethodBtn']"));
-	private Button buttonAddUpdatePaymentMethod = new Button(By.id("paymentMethodForm:pciSaveBtn"));
-	private Button buttonBack = new Button(By.id("primaryButtonsForm:backButton_footer"));
+	private Button buttonAddUpdateCreditCard = new Button(By.xpath("//a[@id='purchaseForm:addPaymentMethodBtn' or @id='updateForm:addPaymentMethodBtn' or @id='paymentForm:addPaymentMethodButton']"));
+	private Button buttonAddUpdatePaymentMethod = new Button(By.xpath("//input[@id='paymentMethodForm:pciSaveBtn' or @id='paymentMethodEFTForm:eftSaveBtn']"));
+	private Button buttonBack = new Button(By.id("primaryButtonsForm:backButton_footer"), Waiters.AJAX);
 	private Table tablePaymentMethods = new Table(By.id("paymentMethodListTable:paymentMethodDataTable"));
 
 	public AddPaymentMethodsMultiAssetList(By locator, Class<? extends MetaData> metaDataClass) {

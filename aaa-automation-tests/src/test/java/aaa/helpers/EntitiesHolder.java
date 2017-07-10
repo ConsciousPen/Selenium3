@@ -46,7 +46,7 @@ public class EntitiesHolder {
 		return String.format(pattern, policyTypeStr, stateStr);
 	}
 
-	public static void addNewEntiry(String key, String value) {
+	public static void addNewEntity(String key, String value) {
 		singleEntities.put(key, value);
 	}
 

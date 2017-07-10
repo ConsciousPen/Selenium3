@@ -1,0 +1,27 @@
+TestData: {
+  #TODO Update data, but use links to default where possible
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@home_ss@DataGather@ApplicantTab',
+  ReportsTab: '@home_ss@DataGather@ReportsTab',
+  PropertyInfoTab: '@home_ss@DataGather@PropertyInfoTab',
+  ProductOfferingTab: '@home_ss@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@home_ss@DataGather@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@home_ss@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ss@DataGather@DocumentsTab',
+  BindTab: '@home_ss@DataGather@BindTab',
+  PurchaseTab: '@home_ss@DataGather@PurchaseTab'
+}
+
+GeneralTab: {
+  State: 'UT',
+  Policy type: 'HO4',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}

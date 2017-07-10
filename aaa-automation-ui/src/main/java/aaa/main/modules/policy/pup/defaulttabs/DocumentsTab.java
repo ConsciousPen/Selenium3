@@ -28,4 +28,14 @@ public class DocumentsTab extends Tab {
 		buttonNext.click();
 		return this;
 	}
+	
+	public AssetList getDocumentsForPrintingAssetList() {
+    	return getAssetList().getControl(PersonalUmbrellaMetaData.DocumentsTab.DOCUMENTS_FOR_PRINTING.getLabel(), AssetList.class);
+	}
+	public AssetList getRequiredToBindAssetList() {
+    	return getAssetList().getControl(PersonalUmbrellaMetaData.DocumentsTab.REQUIRED_TO_BIND.getLabel(), AssetList.class);
+	}
+	public AssetList getRequiredToIssueAssetList() {
+    	return getAssetList().getControl(PersonalUmbrellaMetaData.DocumentsTab.REQUIRED_TO_ISSUE.getLabel(), AssetList.class);
+	}
 }

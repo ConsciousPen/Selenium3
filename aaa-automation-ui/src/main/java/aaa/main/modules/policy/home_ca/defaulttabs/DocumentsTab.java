@@ -6,6 +6,7 @@ package aaa.main.modules.policy.home_ca.defaulttabs;
 
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeCaMetaData;
+import toolkit.webdriver.controls.composite.assets.AssetList;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -23,4 +24,14 @@ public class DocumentsTab extends Tab {
         buttonNext.click();
         return this;
     }
+    
+    public AssetList getDocumentsForPrintingAssetList() {
+    	return getAssetList().getControl(HomeCaMetaData.DocumentsTab.DOCUMENTS_FOR_PRINTING.getLabel(), AssetList.class);
+	}
+    public AssetList getDocumentsToBindAssetList() {
+    	return getAssetList().getControl(HomeCaMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(), AssetList.class);
+	}
+    public AssetList getDocumentsToIssueAssetList() {
+    	return getAssetList().getControl(HomeCaMetaData.DocumentsTab.DOCUMENTS_TO_ISSUE.getLabel(), AssetList.class);
+	}
 }

@@ -8,6 +8,7 @@ import aaa.common.Tab;
 import aaa.main.metadata.policy.CaliforniaEarthquakeMetaData;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
@@ -30,5 +31,27 @@ public class GeneralTab extends Tab {
     
     public TestData adjustWithRealPolicy(TestData td, String expectedValue){
     	return td.adjust(TestData.makeKeyPath(getMetaKey(), CaliforniaEarthquakeMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), CaliforniaEarthquakeMetaData.GeneralTab.PolicyInformation.POLICY_NUMBER.getLabel()), expectedValue);
+	}
+    
+    public AssetList getPolicyInfoAssetList() {
+    	return getAssetList().getControl(CaliforniaEarthquakeMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AssetList.class);
+	}
+    public AssetList getCeaPolicyInfoAssetList() {
+    	return getAssetList().getControl(CaliforniaEarthquakeMetaData.GeneralTab.CEA_POLICY_INFORMATION.getLabel(), AssetList.class);
+	}
+    public AssetList getDwellingAddressAssetList() {
+    	return getAssetList().getControl(CaliforniaEarthquakeMetaData.GeneralTab.DWELLING_ADDRESS.getLabel(), AssetList.class);
+	}
+    public AssetList getMailingAddressAssetList() {
+    	return getAssetList().getControl(CaliforniaEarthquakeMetaData.GeneralTab.MAILING_ADDRESS.getLabel(), AssetList.class);
+	}
+    public AssetList getNamedInsuredAssetList() {
+    	return getAssetList().getControl(CaliforniaEarthquakeMetaData.GeneralTab.NAMED_INSURED.getLabel(), AssetList.class);
+	}
+    public AssetList getNamedInsuredContactInfoAssetList() {
+    	return getAssetList().getControl(CaliforniaEarthquakeMetaData.GeneralTab.NAMED_INSURED_CONTACT_INFORMATION.getLabel(), AssetList.class);
+	}
+    public AssetList getAgencyInfoAssetList() {
+    	return getAssetList().getControl(CaliforniaEarthquakeMetaData.GeneralTab.AGENCY_INFORMATION.getLabel(), AssetList.class);
 	}
 }

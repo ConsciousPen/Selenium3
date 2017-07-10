@@ -90,11 +90,17 @@ public final class TestDataManager {
 	public EnumMap<RESTServiceType, TestData> rest = new EnumMap<>(RESTServiceType.class);
 
 	public TestDataManager() {
+		policy.put(PolicyType.AUTO_SS, dataProvider.get("modules/policy/auto_ss"));
 		policy.put(PolicyType.AUTO_CA, dataProvider.get("modules/policy/auto_ca"));
 		policy.put(PolicyType.AUTO_CA_CHOICE, dataProvider.get("modules/policy/auto_ca_choice"));
 		policy.put(PolicyType.HOME_CA, dataProvider.get("modules/policy/home_ca"));
-		policy.put(PolicyType.AUTO_SS, dataProvider.get("modules/policy/auto_ss"));
+		policy.put(PolicyType.HOME_CA_HO4, dataProvider.get("modules/policy/home_ca_ho4"));
+		policy.put(PolicyType.HOME_CA_HO6, dataProvider.get("modules/policy/home_ca_ho6"));
+		policy.put(PolicyType.HOME_CA_DP3, dataProvider.get("modules/policy/home_ca_dp3"));
 		policy.put(PolicyType.HOME_SS, dataProvider.get("modules/policy/home_ss"));
+		policy.put(PolicyType.HOME_SS_HO4, dataProvider.get("modules/policy/home_ss_ho4"));
+		policy.put(PolicyType.HOME_SS_HO6, dataProvider.get("modules/policy/home_ss_ho6"));
+		policy.put(PolicyType.HOME_SS_DP3, dataProvider.get("modules/policy/home_ss_dp3"));
 		policy.put(PolicyType.PUP, dataProvider.get("modules/policy/pup"));
 		policy.put(PolicyType.CEA, dataProvider.get("modules/policy/cea"));
 
@@ -104,7 +110,7 @@ public final class TestDataManager {
 		account.put(AccountType.INDIVIDUAL, dataProvider.get("modules/cem/account/individual"));
 		account.put(AccountType.NON_INDIVIDUAL, dataProvider.get("modules/cem/account/nonindividual"));
 
-		billingAccount.put(BillingAccountType.BILLING_ACCOUNT, dataProvider.get("modules/billing/billingaccount"));
+		billingAccount.put(BillingAccountType.BILLING_ACCOUNT, dataProvider.get("modules/billing"));
 		paymentMaintenance.put(PaymentsMaintenanceType.PAYMENTS_MAINTENANCE, dataProvider.get("modules/billing/billingaccount/paymentsmaintenance"));
 		myWork.put(MyWorkType.MY_WORK, dataProvider.get("modules/platform/mywork"));
 

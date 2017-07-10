@@ -11,6 +11,7 @@ import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.assets.AssetList;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -38,5 +39,12 @@ public class VehicleTab extends Tab {
 	public Tab submitTab() {
 		buttonNext.click();
 		return this;
+	}
+	
+	public AssetList getOwnershipAssetList() {
+    	return getAssetList().getControl(AutoCaMetaData.VehicleTab.OWNERSHIP.getLabel(), AssetList.class);
+	}
+    public AssetList getAdditionalInterestInfoAssetList() {
+    	return getAssetList().getControl(AutoCaMetaData.VehicleTab.ADDITIONAL_INTEREST_INFORMATION.getLabel(), AssetList.class);
 	}
 }

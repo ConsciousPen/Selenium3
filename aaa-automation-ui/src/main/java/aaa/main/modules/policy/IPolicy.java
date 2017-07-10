@@ -45,8 +45,9 @@ public interface IPolicy {
 
     /**
      * Open Data Gathering mode, order reports, Calculate premium, stay in data gathering mode
+     * @param td TODO
      */
-    void calculatePremium();
+    void calculatePremium(TestData td);
     
     /**
      * Open Data Gathering mode, order reports, Calculate premium, Purchase policy
@@ -59,9 +60,6 @@ public interface IPolicy {
      * @param td - data for Copy action, filling tabs such as Underwriting & Approval if needed, purchase data
      **/
     void copyPolicy(TestData td);
-
-    //TODO Edit or delete this method
-    void copyQuote(TestData td);
 
     /**
      * Open Data Gathering mode, navigate to Bind tab and purchase quote (quote should be in Premium Calculated status and have been ready for purchasing)

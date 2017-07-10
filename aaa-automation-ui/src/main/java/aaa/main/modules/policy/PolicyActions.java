@@ -126,6 +126,12 @@ public final class PolicyActions {
         public String getName() {
             return "Cancellation";
         }
+        
+        @Override
+        public AbstractAction perform(TestData td) {
+            return super.perform(td);
+        }
+        
     }
     
     public abstract static class CancelNotice extends AbstractAction {

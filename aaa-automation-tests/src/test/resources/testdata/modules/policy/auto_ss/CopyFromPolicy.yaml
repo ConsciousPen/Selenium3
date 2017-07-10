@@ -1,7 +1,13 @@
 TestData: {
   CopyFromPolicyActionTab: {
     Quote Effective Date: /today
-  }
+  },
+  RatingDetailReportsTab: {
+    Customer Agreement: Customer Agrees,
+    Order Report: click
+  },
+  DriverActivityReportsTab: '@DataGather@DriverActivityReportsTab',
+  PurchaseTab: '@DataGather@PurchaseTab'
 }
 
 TestData_BackDated: {

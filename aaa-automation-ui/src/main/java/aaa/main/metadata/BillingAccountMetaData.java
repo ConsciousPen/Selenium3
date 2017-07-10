@@ -3,11 +3,14 @@
 package aaa.main.metadata;
 
 import org.openqa.selenium.By;
+
 import com.exigen.ipb.etcsa.controls.dialog.DialogMultiSelector;
 import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
+
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.PurchaseMetaData;
+import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.ComboBox;
@@ -25,6 +28,7 @@ public final class BillingAccountMetaData {
 	}
 
 	public static final class AcceptPaymentActionTab extends MetaData {
+		public static final AttributeDescriptor PAYMENT_METHODS = declare("PaymentMethods", AddPaymentMethodsMultiAssetList.class, BillingAccountMetaData.AddPaymentMethodTab.class);
 		public static final AttributeDescriptor AMOUNT = declare("Amount", TextBox.class);
 		public static final AttributeDescriptor INVOICE = declare("Invoice", ComboBox.class);
 		public static final AttributeDescriptor PAYMENT_METHOD = declare("Payment Method", ComboBox.class);
@@ -221,7 +225,7 @@ public final class BillingAccountMetaData {
 		public static final AttributeDescriptor EXPIRATION_MONTH_YEAR = declare("Expiration Month/Year", DoubleComboBox.class, Waiters.AJAX);
 		public static final AttributeDescriptor TRANSIT = declare("Transit #", TextBox.class, Waiters.AJAX);
 		public static final AttributeDescriptor BANK_NAME = declare("Bank Name", TextBox.class);
-		public static final AttributeDescriptor ACCOUNT = declare("Account #", TextBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor ACCOUNT = declare("Account #", TextBox.class);
 		public static final AttributeDescriptor ACCOUNT_TYPE = declare("Account Type", ComboBox.class);
 		public static final AttributeDescriptor PREFIX = declare("Prefix", ComboBox.class);
 		public static final AttributeDescriptor FIRST_NAME = declare("First Name", TextBox.class);

@@ -1,0 +1,23 @@
+TestData: {
+  PurchaseTab: '@PurchaseTab'
+}
+
+PurchaseTab: {
+  PaymentMethods: ['@billing@PaymentMethods@CC_Visa', '@PaymentMethods_EFT'],
+  PaymentAllocation: '@PaymentAllocation'
+}
+
+PaymentMethods_EFT: {
+  Payment Method: 'Checking/Savings (ACH)',
+  "Transit #": '011104209',
+  "Account #": '1234567890'
+}
+
+PaymentAllocation: {
+   Cash: $10, 
+   Check: $40, 
+   Visa: $50,
+   Checking: /rest,
+   Check Number Check: '123456', 
+   Check Number Visa: '123123'
+}

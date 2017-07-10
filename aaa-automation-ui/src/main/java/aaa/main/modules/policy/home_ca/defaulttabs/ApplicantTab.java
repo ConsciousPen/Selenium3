@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeCaMetaData;
+import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.table.Table;
 
 /**
@@ -29,4 +30,29 @@ public class ApplicantTab extends Tab {
         buttonNext.click();
         return this;
     }
+    
+    public AssetList getNamedInsuredAssetList() {
+    	return getAssetList().getControl(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), AssetList.class);
+	}
+    public AssetList getAAAMembershipAssetList() {
+    	return getAssetList().getControl(HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), AssetList.class);
+	}
+    public AssetList getDwellingAddressAssetList() {
+    	return getAssetList().getControl(HomeCaMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(), AssetList.class);
+	}
+    public AssetList getPreviousDwellingAddressAssetList() {
+    	return getAssetList().getControl(HomeCaMetaData.ApplicantTab.PREVIOUS_DWELLING_ADDRESS.getLabel(), AssetList.class);
+	}
+    public AssetList getMailingAddressAssetList() {
+    	return getAssetList().getControl(HomeCaMetaData.ApplicantTab.MAILING_ADDRESS.getLabel(), AssetList.class);
+	}
+    public AssetList getNamedInsuredInfoAssetList() {
+    	return getAssetList().getControl(HomeCaMetaData.ApplicantTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class);
+	}
+    public AssetList getOtherAAAPoliciesAssetList() {
+    	return getAssetList().getControl(HomeCaMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel(), AssetList.class);
+	}
+    public AssetList getAgentInfoAssetList() {
+    	return getAssetList().getControl(HomeCaMetaData.ApplicantTab.AGENT_INFORMATION.getLabel(), AssetList.class);
+	}
 }

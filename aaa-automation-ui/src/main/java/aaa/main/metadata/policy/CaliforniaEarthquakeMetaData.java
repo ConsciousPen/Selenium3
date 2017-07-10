@@ -190,80 +190,80 @@ public final class CaliforniaEarthquakeMetaData {
 		}
 	}
 	
-	 public static final class MortgageesTab extends MetaData {
-		 public static final AttributeDescriptor MORTGAGEE = declare("Mortgagee", RadioGroup.class, Waiters.AJAX);
-			public static final AttributeDescriptor MORTGAGEE_INFORMATION = declare("MortgageeInformation", MultiInstanceAfterAssetList.class, MortgageeInformation.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHOMortgageeInfo']"));
-			public static final AttributeDescriptor USE_LEGAL_NAMED_INSURED = declare("Use legal named insured", RadioGroup.class, Waiters.AJAX);
-			public static final AttributeDescriptor LEGAL_NAMED_INSURED = declare("Legal named insured", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:aaaLegalName']"));
-			public static final AttributeDescriptor USE_LEGAL_PROPERTY_ADDRESS = declare("Use legal property address", RadioGroup.class, Waiters.AJAX);
-			public static final AttributeDescriptor LEGAL_PROPERTY_ADDRESS = declare("LegalPropetyAddress", AssetList.class, LegalPropetyAddress.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHOLegalPropAddressComp']"));
-			public static final AttributeDescriptor IS_THERE_ADDITIONA_INSURED = declare("Is there an additional insured?", RadioGroup.class, Waiters.AJAX);
-			public static final AttributeDescriptor ADDITIONAL_INSURED = declare("AdditionalInsured", MultiInstanceAfterAssetList.class, AdditionalInsured.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHOAdditionalInsured']"));
-			public static final AttributeDescriptor IS_THERE_ADDITIONA_INTEREST = declare("Is there an additional interest?", RadioGroup.class, Waiters.AJAX);
-			public static final AttributeDescriptor ADDITIONAL_INTEREST = declare("AdditionalInterest", MultiInstanceAfterAssetList.class, AdditionalInterest.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHOAdditionalInterest']"));
-			public static final AttributeDescriptor IS_THERE_ANY_THIRD_PARTY_DESIGNEE = declare("Is there any third party designee?", RadioGroup.class, Waiters.AJAX);
-			public static final AttributeDescriptor THIRD_PARTY_DESIGNEE = declare("ThirdPartyDesignee", AssetList.class, ThirdPartyDesignee.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAThirdPartyDesignee']"));
-
-			public static final class MortgageeInformation extends MetaData {
-				public static final AttributeDescriptor NAME = declare("Name", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor CITY = declare("City", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor ADDRESS_VALIDATED = declare("Address validated", TextBox.class, Waiters.NONE);
-				public static final AttributeDescriptor VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateHOMortAddressButton"));
-				public static final AttributeDescriptor VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, AddressValidationMetaData.class, By.id(".//div[@id='addressValidationPopupAAAHOMortgageeAddressValidation_container']"));
-				public static final AttributeDescriptor LOAN_NUMBER = declare("Loan number", TextBox.class, Waiters.NONE);
-				public static final AttributeDescriptor USE_LEGAL_MORTGAGEE_FOR_EVIDENCE_OF_INSURANCE = declare("Use legal mortgagee for evidence of insurance", RadioGroup.class, Waiters.AJAX);
-				public static final AttributeDescriptor LEGAL_MORTGAGEE_NAME = declare("Legal mortgagee name", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor ADD = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addAAAHOMortgageeInfo"));
-			}
-
-			public static final class LegalPropetyAddress extends MetaData {
-				public static final AttributeDescriptor ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor CITY = declare("City", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor ADDRESS_VALIDATED = declare("Address validated", TextBox.class);
-				public static final AttributeDescriptor VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateHOLegAddressButton"));
-				public static final AttributeDescriptor VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, AddressValidationMetaData.class, By.id(".//div[@id='addressValidationPopupAAAHOLegalPropAddressValidationComp_container']"));
-			}
-
-			public static final class AdditionalInsured extends MetaData {
-				public static final AttributeDescriptor INTEREST = declare("Interest", ComboBox.class, Waiters.NONE);
-				public static final AttributeDescriptor NAME = declare("Name", TextBox.class, Waiters.NONE);
-				public static final AttributeDescriptor SAME_AS_INSURED_S_MAILING_ADDRESS = declare("Same as insured's mailing address?", RadioGroup.class, Waiters.AJAX);
-				public static final AttributeDescriptor ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor CITY = declare("City", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor ADD = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addAAAHOAdditionalInsured"));
-			}
-
-			public static final class AdditionalInterest extends MetaData {
-				public static final AttributeDescriptor NAME = declare("Name", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor CITY = declare("City", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor DESCRIPTION_OF_INTEREST = declare("Description of interest", TextBox.class, Waiters.NONE);
-				public static final AttributeDescriptor EFFECTIVE_DATE = declare("Effective date", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor ADD = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addAAAHOAdditionalInterest"));
-			}
-
-			public static final class ThirdPartyDesignee extends MetaData {
-				public static final AttributeDescriptor NAME = declare("Name", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor CITY = declare("City", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.AJAX);
-			}
-	    }
+	public static final class MortgageesTab extends MetaData {
+		public static final AttributeDescriptor MORTGAGEE = declare("Mortgagee", RadioGroup.class, Waiters.AJAX);
+		public static final AttributeDescriptor MORTGAGEE_INFORMATION = declare("MortgageeInformation", MultiInstanceAfterAssetList.class, MortgageeInformation.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHOMortgageeInfo']"));
+		public static final AttributeDescriptor USE_LEGAL_NAMED_INSURED = declare("Use legal named insured", RadioGroup.class, Waiters.AJAX);
+		public static final AttributeDescriptor LEGAL_NAMED_INSURED = declare("Legal named insured", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:aaaLegalName']"));
+		public static final AttributeDescriptor USE_LEGAL_PROPERTY_ADDRESS = declare("Use legal property address", RadioGroup.class, Waiters.AJAX);
+		public static final AttributeDescriptor LEGAL_PROPERTY_ADDRESS = declare("LegalPropetyAddress", AssetList.class, LegalPropetyAddress.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHOLegalPropAddressComp']"));
+		public static final AttributeDescriptor IS_THERE_ADDITIONA_INSURED = declare("Is there an additional insured?", RadioGroup.class, Waiters.AJAX);
+		public static final AttributeDescriptor ADDITIONAL_INSURED = declare("AdditionalInsured", MultiInstanceAfterAssetList.class, AdditionalInsured.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHOAdditionalInsured']"));
+		public static final AttributeDescriptor IS_THERE_ADDITIONA_INTEREST = declare("Is there an additional interest?", RadioGroup.class, Waiters.AJAX);
+		public static final AttributeDescriptor ADDITIONAL_INTEREST = declare("AdditionalInterest", MultiInstanceAfterAssetList.class, AdditionalInterest.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHOAdditionalInterest']"));
+		public static final AttributeDescriptor IS_THERE_ANY_THIRD_PARTY_DESIGNEE = declare("Is there any third party designee?", RadioGroup.class, Waiters.AJAX);
+		public static final AttributeDescriptor THIRD_PARTY_DESIGNEE = declare("ThirdPartyDesignee", AssetList.class, ThirdPartyDesignee.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAThirdPartyDesignee']"));
+		
+		public static final class MortgageeInformation extends MetaData {
+			public static final AttributeDescriptor NAME = declare("Name", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor CITY = declare("City", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor ADDRESS_VALIDATED = declare("Address validated", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateHOMortAddressButton"));
+			public static final AttributeDescriptor VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, AddressValidationMetaData.class, By.id(".//div[@id='addressValidationPopupAAAHOMortgageeAddressValidation_container']"));
+			public static final AttributeDescriptor LOAN_NUMBER = declare("Loan number", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor USE_LEGAL_MORTGAGEE_FOR_EVIDENCE_OF_INSURANCE = declare("Use legal mortgagee for evidence of insurance", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor LEGAL_MORTGAGEE_NAME = declare("Legal mortgagee name", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor ADD = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addAAAHOMortgageeInfo"));
+		}
+		
+		public static final class LegalPropetyAddress extends MetaData {
+			public static final AttributeDescriptor ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor CITY = declare("City", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor ADDRESS_VALIDATED = declare("Address validated", TextBox.class);
+			public static final AttributeDescriptor VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateHOLegAddressButton"));
+			public static final AttributeDescriptor VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, AddressValidationMetaData.class, By.id(".//div[@id='addressValidationPopupAAAHOLegalPropAddressValidationComp_container']"));
+		}
+		
+		public static final class AdditionalInsured extends MetaData {
+			public static final AttributeDescriptor INTEREST = declare("Interest", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor NAME = declare("Name", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor SAME_AS_INSURED_S_MAILING_ADDRESS = declare("Same as insured's mailing address?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor CITY = declare("City", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor ADD = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addAAAHOAdditionalInsured"));
+		}
+		
+		public static final class AdditionalInterest extends MetaData {
+			public static final AttributeDescriptor NAME = declare("Name", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor CITY = declare("City", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor DESCRIPTION_OF_INTEREST = declare("Description of interest", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor EFFECTIVE_DATE = declare("Effective date", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor ADD = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addAAAHOAdditionalInterest"));
+		}
+		
+		public static final class ThirdPartyDesignee extends MetaData {
+			public static final AttributeDescriptor NAME = declare("Name", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor CITY = declare("City", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.AJAX);
+		}
+	}
     
 	public static final class DocumentsTab extends MetaData {
 		public static final AttributeDescriptor DOCUMENTS_FOR_PRINTING = declare("DocumentsForPrinting", AssetList.class, DocumentsForPrinting.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAHODocGenPrint']"));

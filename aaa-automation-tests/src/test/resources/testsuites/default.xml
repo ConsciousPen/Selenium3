@@ -1,6 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="default" verbose="1">
-    <test name="default" preserve-order="true">
-        <classes/>
-    </test>
+	<test name="default" preserve-order="true">
+	</test>
 </suite>
