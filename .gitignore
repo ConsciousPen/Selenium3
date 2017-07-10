@@ -1,4 +1,3 @@
-
 *.html
 target/*
 .svn/*
@@ -12,9 +11,13 @@ test-output/*
 *.log
 .externalToolBuilders/*
 
+aaa-automation-ui/test-output/*
+aaa-automation-ui/target/*
+
 aaa-automation-tests/external_run_id.txt
 
 aaa-automation-tests/test-output/*
+aaa-automation-tests/target/*
 aaa-automation-tests/src/test/resources/config/local.properties
 
 aaa-automation-tests/src/test/resources/config/x-local.properties
