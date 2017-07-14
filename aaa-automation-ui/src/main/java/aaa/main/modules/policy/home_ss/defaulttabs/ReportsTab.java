@@ -7,11 +7,7 @@ package aaa.main.modules.policy.home_ss.defaulttabs;
 import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.composite.table.Cell;
 import toolkit.webdriver.controls.composite.table.Table;
-import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -41,42 +37,4 @@ public class ReportsTab extends Tab {
 		buttonNext.click();
 		return this;
 	}
-
-	public void reorderReports() {
-		//Set Yes to all named insured
-		for (int i = 1; i <= tblInsuranceScoreReport.getRowsCount(); i++) {
-			RadioGroup rgConfirm = tblInsuranceScoreReport.getRow(i).getCell("Order Insurance Score").controls.radioGroups.get(1, Waiters.AJAX);
-			if (rgConfirm.isEnabled()) {
-				rgConfirm.setValue("Yes", Waiters.AJAX);
-			}
-		}
-
-		RadioGroup customerAgreement = getAssetList().getControl(HomeSSMetaData.ReportsTab.CUSTOMER_AGREEMENT.getLabel(), RadioGroup.class);
-		RadioGroup agentAgreement = getAssetList().getControl(HomeSSMetaData.ReportsTab.SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class);
-		if (agentAgreement.isPresent()) {
-			agentAgreement.setValue("I Agree");
-		}
-		if (customerAgreement.isPresent()) {
-			customerAgreement.setValue("Customer agrees");
-		}
-		reOrderReports(tblAAAMembershipReport);
-		reOrderReports(tblInsuranceScoreReport);
-		reOrderReports(tblFirelineReport);
-		reOrderReports(tblPublicProtectionClass);
-		reOrderReports(tblClueReport);
-	}
-
-	protected void reOrderReports(Table reportTable) {
-		if (reportTable.isPresent()) {
-			for (int i = 1; i <= reportTable.getRowsCount(); i++) {
-				Cell cell = reportTable.getRow(i).getCell("Report");
-				Link report = cell.controls.links.get("Re-order report') or contains(.,'Re-order report");
-				if (report.isPresent() && !report.getAttribute("class").equals("link_disabled")) {
-					report.click(Waiters.AJAX);
-					// cell.controls.links.get(1).waitForAccessible(10000);
-				}
-			}
-		}
-	}
-
 }

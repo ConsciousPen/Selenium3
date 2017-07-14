@@ -5,6 +5,13 @@ TestData: {
   }
 }
 
+TestData_Plus3Days: {
+  EndorsementActionTab: {
+    Endorsement Date: /today+3d,
+    Endorsement Reason: index=1,
+  }
+}
+
 TestData_Plus1Month: {
   EndorsementActionTab: {
     Endorsement Date: /today+1m,

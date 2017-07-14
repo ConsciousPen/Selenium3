@@ -20,7 +20,18 @@ ApplicantTab: {
   MailingAddress: '@MailingAddress'
 }
 
-ReportsTab: {}
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  InsuranceScoreReport: ['@InsuranceScoreReport'],
+  CLUEreport: [{Report: 'Re-order report'}]
+}
+
+InsuranceScoreReport: {
+  Named Insured: 'Stanly Kubrik', 
+  Order Insurance Score: 'Yes', 
+  Customer Agreement: 'Customer agrees',
+  Report: 'Order report'
+}
 
 PropertyInfoTab: {
   DetachedStructures: ['@DetachedStructures'],
@@ -109,3 +120,491 @@ MailingAddress_AZ: {
   }
 }
 
+# -------------------- CO ----------------------
+TestData_CO: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_CO',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+}
+
+ApplicantTab_CO: {
+  NamedInsured: ['@NamedInsured'],
+  MailingAddress: '@MailingAddress_CO'
+}
+
+MailingAddress_CO: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '80004', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address' 
+  }
+}
+
+# -------------------- CT ----------------------
+# not ready
+# risk meter report
+TestData_CT: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_CT',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+}
+
+ApplicantTab_CT: {
+  NamedInsured: ['@NamedInsured'],
+  MailingAddress: '@MailingAddress_CT'
+}
+
+MailingAddress_CT: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '06010', 
+  Street address 1: '58 Willis St', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address' 
+  }
+}
+
+# -------------------- DC ----------------------
+TestData_DC: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_DC',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+}
+
+ApplicantTab_DC: {
+  NamedInsured: ['@NamedInsured'],
+  MailingAddress: '@MailingAddress_DC'
+}
+
+MailingAddress_DC: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '20005', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '111', 
+    Street Name: Test street
+  }
+}
+
+# -------------------- DE ----------------------
+# not ready
+# risk meter report
+TestData_DE: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_DE',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+}
+
+ApplicantTab_DE: {
+  NamedInsured: ['@NamedInsured'],
+  MailingAddress: '@MailingAddress_DE'
+}
+
+MailingAddress_DE: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '19802', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address' 
+  }
+}
+
+# -------------------- ID ----------------------
+TestData_ID: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_ID',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+}
+
+ApplicantTab_ID: {
+  NamedInsured: ['@NamedInsured'],
+  MailingAddress: '@MailingAddress_ID'
+}
+
+MailingAddress_ID: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '83212', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address' 
+  }
+}
+
+# -------------------- IN ----------------------
+TestData_IN: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_IN',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+}
+
+ApplicantTab_IN: {
+  NamedInsured: ['@NamedInsured'],
+  MailingAddress: '@MailingAddress_IN'
+}
+
+MailingAddress_IN: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '46064', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+     Mailing Address: 'Override and use original address' 
+  }
+}
+
+# -------------------- KS ----------------------
+TestData_KS: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_KS',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+}
+
+ApplicantTab_KS: {
+  NamedInsured: ['@NamedInsured'],
+  MailingAddress: '@MailingAddress_KS'
+}
+
+MailingAddress_KS: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '84101', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '111', 
+    Street Name: Test street
+  }
+}
+
+# -------------------- KY ----------------------
+TestData_KY: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_KY',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+}
+
+ApplicantTab_KY: {
+  NamedInsured: ['@NamedInsured'],
+  MailingAddress: '@MailingAddress_KY'
+}
+
+MailingAddress_KY: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '40004', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '111', 
+    Street Name: Test street
+  }
+}
+
+# -------------------- MD ---------------------- 
+# risk meter report needed
+TestData_MD: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_MD',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+}
+
+ApplicantTab_MD: {
+  NamedInsured: ['@NamedInsured'],
+  MailingAddress: '@MailingAddress_MD'
+}
+
+MailingAddress_MD: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '21218', 
+  Street address 1: '1201 Windermere Ave', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '1201', 
+    Street Name: Windermere Ave
+  }
+}
+
+# -------------------- MT ----------------------
+TestData_MT: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_MT',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+}
+
+ApplicantTab_MT: {
+  NamedInsured: ['@NamedInsured'],
+  MailingAddress: '@MailingAddress_MT'
+}
+
+MailingAddress_MT: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '59003', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address'
+  }
+}
+
+# -------------------- NJ ----------------------
+TestData_NJ: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_NJ',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+}
+
+ApplicantTab_NJ: {
+  NamedInsured: ['@NamedInsured'],
+  MailingAddress: '@MailingAddress_NJ'
+}
+
+MailingAddress_NJ: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '07005', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address'
+  }
+}
+
+# -------------------- NV ----------------------
+TestData_NV: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_NV',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+}
+
+ApplicantTab_NV: {
+  NamedInsured: ['@NamedInsured'],
+  MailingAddress: '@MailingAddress_NV'
+}
+
+MailingAddress_NV: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '89010', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address'
+  }
+}
+
+# -------------------- NY ----------------------
+TestData_NY: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_NY',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+}
+
+ApplicantTab_NY: {
+  NamedInsured: ['@NamedInsured'],
+  MailingAddress: '@MailingAddress_NY'
+}
+
+MailingAddress_NY: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '10451', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address'
+  }
+}
+
+# -------------------- OH ----------------------
+TestData_OH: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_OH',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+}
+
+ApplicantTab_OH: {
+  NamedInsured: ['@NamedInsured'],
+  MailingAddress: '@MailingAddress_OH'
+}
+
+MailingAddress_OH: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '43609', 
+  Street address 1: '708 Spencer St', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address'
+  }
+}
+
+# -------------------- OK ----------------------
+TestData_OK: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_OK',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+}
+
+ApplicantTab_OK: {
+  NamedInsured: ['@NamedInsured'],
+  MailingAddress: '@MailingAddress_OK'
+}
+
+MailingAddress_OK: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '73073', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+     Mailing Address: 'Override and use original address'
+  }
+}
+
+# -------------------- OR ----------------------
+TestData_OR: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_OR',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+}
+
+ApplicantTab_OR: {
+  NamedInsured: ['@NamedInsured'],
+  MailingAddress: '@MailingAddress_OR'
+}
+
+MailingAddress_OR: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '97017', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address'
+  }
+}

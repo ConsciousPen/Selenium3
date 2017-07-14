@@ -24,15 +24,13 @@ public class TestPolicyCancellationFlat extends HomeSSBaseTest {
     @Test
     @TestInfo(component = "Policy.PersonalLines")
     public void testPolicyCancellationFlat() {
-        mainApp().open();
+		mainApp().open();
 
-        createCustomerIndividual();
+		createPolicy();
 
-        createPolicy();
+		log.info("TEST: Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
+		policy.cancel().perform(getStateTestData(tdPolicy, "Cancellation", "TestData"));
 
-        log.info("TEST: Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.cancel().perform(tdPolicy.getTestData("Cancellation", "TestData"));
-
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-    }
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+	}
 }

@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.table.Table;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -24,6 +25,9 @@ public class PrefillTab extends Tab {
 		super(AutoSSMetaData.PrefillTab.class);
 	}
 
+	public static Table tableVehicles = new Table(By.id("policyDataGatherForm:vehicles"));
+	public static Table tableDrivers = new Table(By.id("policyDataGatherForm:drivers"));
+	
 	public Button btnContinue = new Button(By.id("policyDataGatherForm:prefillNext_footer"));
 
 	@Override

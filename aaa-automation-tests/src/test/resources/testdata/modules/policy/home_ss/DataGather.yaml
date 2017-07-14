@@ -38,48 +38,12 @@ ApplicantTab: {
 
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
-  Customer Agreement: 'Customer agrees',
-  AAAMembershipReport: ['@AAAMembershipReport1'],
-  InsuranceScoreReport: ['@InsuranceScoreReport1'],
-  FirelineReport: ['@FirelineReport1'],
-  PublicProtectionClass: ['@PublicProtectionClass1'],
-  CLUEreport: ['@CLUEreport1'],
-  #ISO360Report: ['@ISO360Report1']
-}
-
-AAAMembershipReport1: {
-  Last Name: 'Test',
-  Membership No.: '4290023667710001', #can be removed, just for row search by query demo purpose
-  Status: 'Not started', #can be removed, just for row search by query demo purpose
-  Report: 'Order report'
-}
-
-InsuranceScoreReport1: {
-  Named Insured: 'contains=Cook',
-  Status: 'Not started',
-  #Order Insurance Score: 'Decline', #can be removed, just for setting inner control demo purpose
-  Reorder at renewal: 'No', #can be removed, just for setting inner control demo purpose
-  Report: 'Order report'
-}
-
-FirelineReport1: {
-  Dwelling Address: '265 CHIPMAN AVE, AMERICAN FORK, UT, 84003',
-  Report: 'Order Report'
-}
-
-PublicProtectionClass1: {
-  Dwelling Address: '265 CHIPMAN AVE, AMERICAN FORK, UT, 84003',
-  Report: 'Order Report'
-}
-
-CLUEreport1: {
-  Dwelling Address: '265 CHIPMAN AVE,AMERICAN FORK,84003,UT',
-  Report: 'Order report'
-}
-
-ISO360Report1: {
-  Dwelling Address: '265 CHIPMAN AVE, AMERICAN FORK, UT, 84003',
-  Report: 'Order report'
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+  #ISO360Report: [{Report: 'Order report'}]
 }
 
 PropertyInfoTab: {
@@ -410,7 +374,7 @@ UnderwritingAndApprovalTab_CT: {
 TestData_DC: {
   GeneralTab: '@GeneralTab_DC',
   ApplicantTab: '@ApplicantTab_DC',
-  ReportsTab: '@ReportsTab',
+  ReportsTab: '@ReportsTab_DC',
   PropertyInfoTab: '@PropertyInfoTab',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
@@ -455,6 +419,15 @@ DwellingAddress_DC: {
    #Select Address: "/default" 
    }
 } 
+
+ReportsTab_DC: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
 
 # --------- TestData DE ------------
 
@@ -555,7 +528,7 @@ DwellingAddress_ID: {
 TestData_IN: {
   GeneralTab: '@GeneralTab_IN',
   ApplicantTab: '@ApplicantTab_IN',
-  ReportsTab: '@ReportsTab',
+  ReportsTab: '@ReportsTab_IN',
   PropertyInfoTab: '@PropertyInfoTab_IN',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
@@ -615,6 +588,16 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_IN:  {
   Auto Insurance Persistency: '21'
 }
 
+ReportsTab_IN: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+
 PropertyInfoTab_IN: {
   DwellingAddress: '@DwellingAddress_PropertyInfoTab',
   AdditionalAddress: [{}],
@@ -648,7 +631,7 @@ Construction_IN: {
 TestData_KS: {
   GeneralTab: '@GeneralTab_KS',
   ApplicantTab: '@ApplicantTab_KS',
-  ReportsTab: '@ReportsTab',
+  ReportsTab: '@ReportsTab_KS',
   PropertyInfoTab: '@PropertyInfoTab_KS',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
@@ -708,6 +691,15 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_KS:  {
   Auto Insurance Persistency: '21'
 }
 
+ReportsTab_KS: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
 PropertyInfoTab_KS: {
   DwellingAddress: '@DwellingAddress_PropertyInfoTab',
   AdditionalAddress: [{}],
@@ -741,7 +733,7 @@ Construction_KS: {
 TestData_KY: {
   GeneralTab: '@GeneralTab_KY',
   ApplicantTab: '@ApplicantTab_KY',
-  ReportsTab: '@ReportsTab',
+  ReportsTab: '@ReportsTab_KY',
   PropertyInfoTab: '@PropertyInfoTab_KY',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
@@ -799,6 +791,15 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_KY:  {
   Policy tier: '/first',
   Auto policy BI limit: '/first',
   Auto Insurance Persistency: '21'
+}
+
+ReportsTab_KY: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
 }
 
 PropertyInfoTab_KY: {
@@ -896,7 +897,7 @@ UnderwritingAndApprovalTab_MD: {
 TestData_MT: {
   GeneralTab: '@GeneralTab_MT',
   ApplicantTab: '@ApplicantTab_MT',
-  ReportsTab: '@ReportsTab',
+  ReportsTab: '@ReportsTab_MT',
   PropertyInfoTab: '@PropertyInfoTab',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
@@ -936,6 +937,15 @@ DwellingAddress_MT: {
   Street address 1: 265 CHIPMAN AVE,
   Validate Address: true,
   Validate Address Dialog: {}
+}
+
+ReportsTab_MT: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
 } 
 
 # --------- TestData NJ ------------
@@ -943,7 +953,7 @@ DwellingAddress_MT: {
 TestData_NJ: {
   GeneralTab: '@GeneralTab_NJ',
   ApplicantTab: '@ApplicantTab_NJ',
-  ReportsTab: '@ReportsTab',
+  ReportsTab: '@ReportsTab_NJ',
   PropertyInfoTab: '@PropertyInfoTab',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
@@ -984,6 +994,15 @@ DwellingAddress_NJ: {
   Validate Address: true,
   Validate Address Dialog: {}
 } 
+
+ReportsTab_NJ: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
 
 # --------- TestData NV ------------
 
@@ -1046,7 +1065,7 @@ UnderwritingAndApprovalTab_NV: {
 TestData_NY: {
   GeneralTab: '@GeneralTab_NY',
   ApplicantTab: '@ApplicantTab_NY',
-  ReportsTab: '@ReportsTab',
+  ReportsTab: '@ReportsTab_NY',
   PropertyInfoTab: '@PropertyInfoTab',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
@@ -1088,12 +1107,21 @@ DwellingAddress_NY: {
   Validate Address Dialog: {}
 }
 
+ReportsTab_NY: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
 # --------- TestData OH ------------
 
 TestData_OH: {
   GeneralTab: '@GeneralTab_OH',
   ApplicantTab: '@ApplicantTab_OH',
-  ReportsTab: '@ReportsTab',
+  ReportsTab: '@ReportsTab_OH',
   PropertyInfoTab: '@PropertyInfoTab_OH',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
@@ -1153,6 +1181,15 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_OH:  {
   Auto Insurance Persistency: '21'
 }
 
+ReportsTab_OH: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
 PropertyInfoTab_OH: {
   DwellingAddress: '@DwellingAddress_PropertyInfoTab',
   AdditionalAddress: [{}],
@@ -1186,7 +1223,7 @@ Construction_OH: {
 TestData_OK: {
   GeneralTab: '@GeneralTab_OK',
   ApplicantTab: '@ApplicantTab_OK',
-  ReportsTab: '@ReportsTab',
+  ReportsTab: '@ReportsTab_OK',
   PropertyInfoTab: '@PropertyInfoTab_OK',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
@@ -1244,6 +1281,15 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_OK:  {
   Policy tier: '/first',
   Auto policy BI limit: '/first',
   Auto Insurance Persistency: '21'
+}
+
+ReportsTab_OK: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
 }
 
 PropertyInfoTab_OK: {

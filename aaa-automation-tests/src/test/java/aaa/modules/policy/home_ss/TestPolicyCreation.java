@@ -11,18 +11,20 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Viachaslau Markouski
- * @name Test Create Home Quote
+ * @name Test Create SS Home Policy
  * @scenario
- * 1. Create Customer
- * 2. Create Home (Preconfigured) Quote
- * 3. Verify quote status is 'Premium Calculated'
+ * 1. Create new or open existed customer.
+ * 2. Initiate HSS quote creation.
+ * 3. Fill all mandatory fields on all tabs, order reports, calculate premium. 
+ * 4. Purchase policy.
+ * 5. Verify policy status is Active on Consolidated policy view.
  * @details
  */
 public class TestPolicyCreation extends HomeSSBaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")
-    public void testQuoteCreation() {
+    public void testPolicyCreation() {
         mainApp().open();
         createCustomerIndividual();
         policy.createPolicy(getStateTestData(tdPolicy, "DataGather", "TestData"));

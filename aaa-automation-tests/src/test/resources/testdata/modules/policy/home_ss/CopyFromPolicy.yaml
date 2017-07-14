@@ -2,6 +2,10 @@ TestData: {
   CopyFromPolicyActionTab: {
     Quote Effective Date: /today
   },
+  ReportsTab: {
+    Sales Agent Agreement: 'I Agree',
+    AAAMembershipReport: [{Report: 'Order report'}],
+  },
   UnderwritingAndApprovalTab: {
     "Underwriter-selected inspection type": "No Inspection Required",
     "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",

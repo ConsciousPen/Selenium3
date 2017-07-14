@@ -27,12 +27,10 @@ public class TestPolicyEndorsementDeletePending extends HomeSSBaseTest {
     public void testPolicyEndorsementDeletePending() {
         mainApp().open();
 
-        createCustomerIndividual();
-
         createPolicy();
 
         log.info("TEST: Delete Pending Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.endorse().perform(tdPolicy.getTestData("Endorsement", "TestData"));
+        policy.endorse().performAndExit(tdPolicy.getTestData("Endorsement", "TestData"));
         PolicySummaryPage.buttonPendedEndorsement.click();
 
         policy.deletePendedTransaction().perform(new SimpleDataProvider());

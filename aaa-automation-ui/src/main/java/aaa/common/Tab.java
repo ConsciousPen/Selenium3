@@ -13,6 +13,7 @@ import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
+import toolkit.webdriver.controls.composite.assets.metadata.AttributeDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
 /**
@@ -138,7 +139,19 @@ public abstract class Tab {
         CustomAssert.assertEquals(errorMessage, expectedValue, actualValue);
         return this;
     }
-
+    
+    public Tab verifyFieldHasValue(AttributeDescriptor attributeDescriptor, String expectedValue) {
+        return verifyFieldHasValue(assetList, attributeDescriptor, expectedValue);
+    }
+    
+    public Tab verifyFieldHasValue(AbstractContainer<?, ?> assetList, AttributeDescriptor attributeDescriptor, String expectedValue) {
+        String actualValue = assetList.getControl(attributeDescriptor.getLabel()).getValue().toString();
+        String errorMessage = String.format("'%s' field's actual value '%s' is not equal to the expected value of '%s'",
+        		attributeDescriptor.getLabel(), actualValue, expectedValue);
+        CustomAssert.assertEquals(errorMessage, expectedValue, actualValue);
+        return this;
+    }
+    
     public Tab verifyFieldHasNotValue(String label, String expectedValue) {
         String actualValue = assetList.getControl(label).getValue().toString();
         String errorMessage = String.format("'%s' field's actual value '%s' is not equal to the expected value of '%s'",

@@ -139,6 +139,12 @@ public final class PolicyActions {
         public String getName() {
             return "Cancel Notice";
         }
+        
+        @Override
+        public AbstractAction submit() {
+            Tab.buttonOk.click();
+            return this;
+        }
     }
     
     public abstract static class ChangeBrokerRequest extends AbstractAction {
@@ -414,7 +420,7 @@ public final class PolicyActions {
     public abstract static class DeletePendedTransaction extends AbstractAction {
         @Override
         public String getName() {
-            return "Delete Pending Transaction";
+            return "Delete Pended Transaction";
         }
         @Override
         public AbstractAction submit() {

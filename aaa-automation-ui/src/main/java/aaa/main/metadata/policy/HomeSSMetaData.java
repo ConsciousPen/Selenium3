@@ -194,7 +194,6 @@ public final class HomeSSMetaData {
 	}
 
 	public static final class ReportsTab extends MetaData {
-		public static final AttributeDescriptor CUSTOMER_AGREEMENT = declare("Customer Agreement", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:customerRadio']"));
 		public static final AttributeDescriptor SALES_AGENT_AGREEMENT = declare("Sales Agent Agreement", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:sedit_AAAHOCommonDisclosureMessageComponent_agentAgrees']"));
 
 		public static final AttributeDescriptor AAA_MEMBERSHIP_REPORT = declare("AAAMembershipReport", FillableTable.class, AaaMembershipReportRow.class, By.xpath("//table[@id='policyDataGatherForm:membershipReports']"));
@@ -223,6 +222,7 @@ public final class HomeSSMetaData {
 			public static final AttributeDescriptor EXPIRATION_DATE = declare("Expiration Date", StaticElement.class);
 			public static final AttributeDescriptor STATUS = declare("Status", StaticElement.class);
 			public static final AttributeDescriptor BAND_NUMBER = declare("Band Number", StaticElement.class);
+			public static final AttributeDescriptor CUSTOMER_AGREEMENT = declare("Customer Agreement", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:customerRadio']"));
 			public static final AttributeDescriptor REPORT = declare("Report", Link.class);
 		}
 

@@ -19,6 +19,27 @@ import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import aaa.main.modules.policy.home_ss.HomeSSPolicyActions;
 
+/**
+ * @author Olga Reva
+ * @name Test Policy Endorsement
+ * @scenario
+ * 1. Find customer or create new if customer does not exist.
+ * 2. Create new HSS policy.
+ * 3. Initiate Endorsement action. 
+ * 4. Fill Endorsement tab, confirm endorsement. 
+ * 6. Navigate to Applicant tab, add 2nd Insured and Mailing information. 
+ * 7. Navigate to Reports tab and re-order reports.
+ * 8. Navigate to Property Info tab and fill sections Detached Structures and Recreational Equipment.
+ * 9. Recalculate premium. 
+ * 10. Bind endorsement. 
+ * 11. On Policy Summary Page verify endorsement is completed: 
+ * 	Second Insured is displaying; 
+ * 	Pended Endorsement button is disabled;
+ * 	Premium is not equal to initial policy;
+ * 	Policy status is Active.
+ * @details
+ */
+
 public class TestPolicyEndorsement extends HomeSSBaseTest {
 
 	@Test
@@ -26,11 +47,12 @@ public class TestPolicyEndorsement extends HomeSSBaseTest {
 	public void testPolicyEndorsement(){
 		mainApp().open();
 		
+		//getCopiedPolicy();
 		createPolicy();
 		
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 		
-		log.info("TEST: Flat Endorsement for HSS Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
+		log.info("TEST: Endorsement for HSS Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
 		
 		TestData td = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData").adjust(tdPolicy.getTestData("Endorsement", "TestData"));
 		
@@ -39,7 +61,6 @@ public class TestPolicyEndorsement extends HomeSSBaseTest {
 		policy.getDefaultView().fillUpTo(td, ApplicantTab.class, true);
 		
 		NavigationPage.toViewTab(HomeSSTab.REPORTS.get());
-		new ReportsTab().reorderReports();
 		
 		policy.getDefaultView().fillFromTo(td, ReportsTab.class, BindTab.class);
 		new BindTab().submitTab();

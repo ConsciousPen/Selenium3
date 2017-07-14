@@ -7,6 +7,7 @@ package aaa.main.modules.policy.auto_ss.defaulttabs;
 import org.openqa.selenium.By;
 
 import toolkit.webdriver.controls.composite.assets.AssetList;
+import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 import aaa.common.Tab;
@@ -40,8 +41,14 @@ public class GeneralTab extends Tab {
     	 }
     }
     
-    public AssetList getNamedInsuredInfoAssetList() {
-    	return getAssetList().getControl(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class);
+    public void viewInsured(int index){
+   	 if (tblInsuredList.isPresent() && tblInsuredList.getRow(index).isPresent()){
+   		 tblInsuredList.getRow(index).getCell(4).controls.links.get("View/Edit").click(Waiters.AJAX);
+   	 }
+   }
+    
+    public MultiAssetList getNamedInsuredInfoAssetList() {
+    	return getAssetList().getControl(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), MultiAssetList.class);
 	}
     public AssetList getValidateAddressDialogAssetList() {
     	return getAssetList().getControl(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class)

@@ -1,0 +1,282 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Auto Smoke tests" verbose="1"> <!-- parallel="tests" thread-count="10">
+     <listeners>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/-->
+   
+	<test name="UT Auto Smoke Tests">
+	    <parameter name="state" value="UT"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>			
+   		</classes>
+    </test>
+	
+    <test name="AZ Auto Smoke Tests">
+	    <parameter name="state" value="AZ"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+
+	<test name="CO Auto Smoke Tests">
+	    <parameter name="state" value="CO"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+		
+	<test name="CT Auto Smoke Tests">
+	    <parameter name="state" value="CT"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+	
+	<test name="DC Auto Smoke Tests">
+	    <parameter name="state" value="DC"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+
+	<test name="DE Auto Smoke Tests">
+	    <parameter name="state" value="DE"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+	
+	<test name="ID Auto Smoke Tests">
+	    <parameter name="state" value="ID"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+	
+	<test name="IN Auto Smoke Tests">
+	    <parameter name="state" value="IN"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+	
+	<test name="KS Auto Smoke Tests">
+	    <parameter name="state" value="KS"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+	
+	<test name="KY Auto Smoke Tests">
+	    <parameter name="state" value="KY"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+	
+	<test name="MD Auto Smoke Tests">
+	    <parameter name="state" value="MD"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+	
+   <test name="MT Auto Smoke Tests">
+	    <parameter name="state" value="MT"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+	
+	<test name="NJ Auto Smoke Tests">
+	    <parameter name="state" value="NJ"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+	
+	<test name="NV Auto Smoke Tests">
+	    <parameter name="state" value="NV"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+	
+	<test name="NY Auto Smoke Tests">
+	    <parameter name="state" value="NY"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+	
+	<test name="OH Auto Smoke Tests">
+	    <parameter name="state" value="OH"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+	
+	<test name="OK Auto Smoke Tests">
+	    <parameter name="state" value="OK"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+	
+	<test name="OR Auto Smoke Tests">
+	    <parameter name="state" value="OR"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+	
+	<test name="PA Auto Smoke Tests">
+	    <parameter name="state" value="PA"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+	
+	<test name="SD Auto Smoke Tests">
+	    <parameter name="state" value="SD"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+	
+	<test name="VA Auto Smoke Tests">
+	    <parameter name="state" value="VA"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+	
+	<test name="WV Auto Smoke Tests">
+	    <parameter name="state" value="WV"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+	
+	<test name="WY Auto Smoke Tests">
+	    <parameter name="state" value="WY"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>		
+   		</classes>
+    </test>
+	
+	<test name="CA Auto Smoke Tests">
+	    <parameter name="state" value="CA"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ca.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ca.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ca.TestPolicyEndorsementAdd"/>
+   		</classes>
+    </test>
+
+	<test name="CA Choice Auto Smoke Tests">
+	    <parameter name="state" value="CA"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ca_choice.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ca_choice.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ca_choice.TestPolicyEndorsementAdd"/>
+   		</classes>
+    </test>
+	
+</suite>

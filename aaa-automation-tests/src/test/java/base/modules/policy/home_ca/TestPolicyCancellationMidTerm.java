@@ -26,14 +26,12 @@ public class TestPolicyCancellationMidTerm extends HomeCaBaseTest {
     public void testPolicyCancellationMidTerm() {
         mainApp().open();
 
-        createCustomerIndividual();
-
-        createPolicy(tdPolicy.getTestData("DataGather", "TestData")
-                .adjust(tdPolicy.getTestData("Issue", "TestData").resolveLinks())
-                .adjust(tdPolicy.getTestData("CopyFromQuote", "TestData_BackDated").resolveLinks()));
-
+		createPolicy(getStateTestData(tdPolicy, "DataGather", "TestData")
+				.adjust("GeneralTab|PolicyInfo|Effective date", "/today-2d:MM/dd/yyyy")
+				.adjust("GeneralTab|CurrentCarrier|Base date with AAA", "/today-2d:MM/dd/yyyy"));
+		
         log.info("TEST: MidTerm Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.cancel().perform(tdPolicy.getTestData("Cancellation", "TestData"));
+		policy.cancel().perform(getStateTestData(tdPolicy, "Cancellation", "TestData"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
     }

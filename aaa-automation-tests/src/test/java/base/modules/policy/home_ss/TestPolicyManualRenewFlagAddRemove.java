@@ -28,8 +28,6 @@ public class TestPolicyManualRenewFlagAddRemove extends HomeSSBaseTest {
     public void testPolicyManualRenewFlagAddRemove() {
         mainApp().open();
 
-        createCustomerIndividual();
-
         createPolicy();
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();

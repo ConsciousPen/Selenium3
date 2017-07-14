@@ -3,9 +3,7 @@
 package base.modules.policy.home_ca;
 
 import org.testng.annotations.Test;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
-
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaBaseTest;
@@ -31,18 +29,15 @@ public class TestPolicyEndorsementMidTerm extends HomeCaBaseTest {
     public void testPolicyEndorsementMidTerm() {
         mainApp().open();
 
-        createCustomerIndividual();
-
-        createPolicy(tdPolicy.getTestData("DataGather", "TestData")
-                .adjust(tdPolicy.getTestData("Issue", "TestData").resolveLinks())
-                .adjust(tdPolicy.getTestData("CopyFromQuote", "TestData_BackDated").resolveLinks()));
-
+        createPolicy(getStateTestData(tdPolicy, "DataGather", "TestData")
+				.adjust("GeneralTab|PolicyInfo|Effective date", "/today-2d:MM/dd/yyyy")
+				.adjust("GeneralTab|CurrentCarrier|Base date with AAA", "/today-2d:MM/dd/yyyy"));
+        
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
         log.info("TEST: MidTerm Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
         policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData")
-                .adjust(tdSpecific.getTestData("TestData").resolveLinks())
-                .adjust(tdPolicy.getTestData("Issue", "TestData_ExistentBillingAccount").resolveLinks()));
+                .adjust(tdSpecific.getTestData("TestData").resolveLinks()));
 
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

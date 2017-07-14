@@ -1,15 +1,11 @@
 TestData: {
-  ReinstateActionTab: {
-    Reason: Other,
-    Other: Other reason, 
-    Reinstate Date: /today
+  ReinstatementActionTab: {
+    Reinstate date: /today
   }
 }
 
 TestData_Plus14Days: {
-  ReinstateActionTab: {
-    Reason: Other,
-    Other: Other reason,
-    Reinstate Date: /today+14d
+  ReinstatementActionTab: {
+    Reinstate date: /today+14d
   }
 }

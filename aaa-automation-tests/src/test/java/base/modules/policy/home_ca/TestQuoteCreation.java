@@ -25,9 +25,7 @@ public class TestQuoteCreation extends HomeCaBaseTest {
     public void testQuoteCreation() {
         mainApp().open();
 
-        createCustomerIndividual();
-
-        policy.createQuote(tdPolicy.getTestData("DataGather", "TestData"));
+        createQuote();
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
     }

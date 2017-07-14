@@ -1,156 +1,395 @@
-TestData: {
-  PolicyTab: {},
-  InsuredTab: '@InsuredTab',
-  DriverTab: ['@DriverTab1','@DriverTab2','@DriverTab3'],
-  VehicleTab: ['@VehicleTab1','@VehicleTab2','@VehicleTab3'],
-  MVRClaimsTab: {},
-  FormsAddlInfoTab: {},
-  AssignmentTab: {},
-  PremiumCoveragesTab: '@PremiumCoveragesTab',
-  SplitActionTab: '@SplitActionTab'
-}
-
-InsuredTab: {
-  Insured Party Selection: /index=0,
-  Prior Carrier: ACE INSURANCE
-}
-
-DriverTab1: {
-  Driver Party Selection: /index=0,
-  Gender: Male,
-  Marital Status: Married
-}
-
-DriverTab2: {
-  Driver Party Selection: Create New Driver,
-  Rel. to First Named Insured: Father,
-  First Name: FirstDriverFName,
-  Last Name: FirstDriverLName,
-  Date of Birth: /today-50Y,
-  Gender: Male,
-  Marital Status: Married,
-  Zip / Postal Code: '94596',
-  Address Line 1: Address Line 2,
-}
-
-DriverTab3: {
-  Driver Party Selection: Create New Driver,
-  Rel. to First Named Insured: Mother,
-  First Name: SecondDriverFName,
-  Last Name: SecondDriverLName,
-  Date of Birth: /today-45Y,
-  Gender: Female,
-  Marital Status: Married,
-  Zip / Postal Code: '94596',
-  Address Line 1: Address Line 3,
-}
-
-VehicleTab1: {
-  Type: Regular,
-  No Vin Reason: VIN Not Applicable,
-  Model Year: '2009',
-  Make: ACURA,
-  Model: MDX,
-  Body Style: Named Non-Owned,
-  Performance: Sports Performance,
-  Fuel Type: Flex - gas and ethanol,
-  Anti-Theft: Alarm,
-  Anti-Lock: ANTILOCK BRAKE DISCOUNT,
-  Daytime Running Lamps: 'No',
-  'Armored Vehicle?': 'No',
-  Distance Driven for Pleasure per Week: '1200',
-  Customer Declared Annual Distance: 0-7999,
-  Zip / Postal Code: '94596',
-  Address Line 1: Address Line 1,
-  City: Walnut Creek,
-  State / Province: CA
-}
-
-VehicleTab2: {
-  Type: Regular,
-  No Vin Reason: VIN Not Applicable,
-  Model Year: '2010',
-  Make: AUDI,
-  Model: index=1,
-  Body Style: index=1,
-  Performance: index=1,
-  Fuel Type: index=1,
-  Anti-Theft: index=1,
-  Anti-Lock: index=1,
-  Daytime Running Lamps: 'No',
-  'Armored Vehicle?': 'No',
-  Distance Driven for Pleasure per Week: '1100',
-  Customer Declared Annual Distance: index=1,
-  Zip / Postal Code: '94596',
-  Address Line 1: Address Line 2,
-}
-
-VehicleTab3: {
-  Type: Regular,
-  No Vin Reason: VIN Not Applicable,
-  Model Year: '2007',
-  Make: FORD,
-  Model: index=1,
-  Body Style: index=1,
-  Performance: index=1,
-  Fuel Type: index=1,
-  Anti-Theft: index=1,
-  Anti-Lock: index=1,
-  Daytime Running Lamps: 'No',
-  'Armored Vehicle?': 'No',
-  Distance Driven for Pleasure per Week: '1100',
-  Customer Declared Annual Distance: index=1,
-  Zip / Postal Code: '94596',
-  Address Line 1: Address Line 3,
-}
-
-PremiumCoveragesTab: {
-  Coverage Type: Single,
-  Combined Single Limit: '$1,000',
-}
-
-SplitActionTab: {
+SplitTestData: {
+   SplitActionTab: {
   Transaction Effective Date: /today,
-  'Insureds approve removal of driver and vehicles?': 'Yes',
-    Insureds: '1',
-    Vehicles : '1'
+    Insureds: '2',
+    Vehicles : '2'
+    }
 }
 
-DataGather_AfterSplitForOneInsured: {
-  PolicyTab: {},
-  InsuredTab: {
-    Insured Party Selection: /index=0,
-    Prior Carrier: ACE INSURANCE
-  },
-  DriverTab:{},
+#------ Test data for endorsement 
+
+TestData_endorsement: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
   VehicleTab: {},
-  MVRClaimsTab: {},
-  FormsAddlInfoTab: {},
-  AssignmentTab: {},
-  PremiumCoveragesTab: {}
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
 }
 
-DataGather: {
-  PolicyTab: {},
-  InsuredTab: {
-    Insured Party Selection: /index=0,
-    Date of Birth: /today-25y,
-    Address Type: /index=0,
-    Zip / Postal Code: '94596',
-    Address Line 1: Address Line 1,
-    Student Start Date: /today-2y,
-    Student Status: Active,
-    Student Type: Full-Time,
-    Student Athlete: 'Yes',
-    Prior Carrier: ACE INSURANCE
-  },
-  DriverTab:{},
+# -- endorsement for states with additional Assignment tab
+
+TestData_endorsement_VA: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
   VehicleTab: {},
-  MVRClaimsTab: {},
-  FormsAddlInfoTab: {},
   AssignmentTab: {},
-  PremiumCoveragesTab: {
-    Coverage Type: Single,
-    Combined Single Limit: '$1,000',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_endorsement_NY: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+#----- Test Data for binding spun quote --- 
+
+#----- default state
+
+TestData: {
+  PrefillTab: {},
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  PolicyInformation: '@PolicyInformation'
+}
+
+NamedInsuredInformation: {
+  Zip Code: 86012,
+  Address Line 1: test,
+  Home Phone Number: 1234567890,
+  Residence: Own Home,
+  Validate Address: click,
+  Validate Address Dialog: {}
+}
+
+AAAProductOwned: {
+  Membership Number: 4290020029946000,
+  Last name: Test,
+}
+
+PolicyInformation: {
+  Channel Type: Independent Agent,
+  Agency: SMTestIA - 400001650,
+  Authorized by: QA
+}
+
+DriverTab: {
+  Marital Status: Single,
+  Occupation: Employed
+}
+
+RatingDetailReportsTab: {
+  Customer Agreement: Customer Agrees,
+  Order Report: click
+}
+
+VehicleTab: {
+  Usage: Pleasure
+}
+
+PremiumAndCoveragesTab: {
+  Payment Plan: Annual
+}
+
+DriverActivityReportsTab: {
+  Validate Driving History: click,
+  OrderCLUEReport: [{}]
+}
+
+DocumentsAndBindTab: {
+   RequiredToBind: {
+       Auto Insurance Application: Physically Signed
+    }
+ }
+ 
+PurchaseTab: {
+  PaymentAllocation: {
+    Cash: /rest
   }
 }
+
+#----- Custom states ---
+
+TestData_CT: {
+  PrefillTab: {},
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_CT',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DocumentsAndBindTab_CT: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Informed Consent Form - Uninsured Motorist Coverage: Physically Signed
+  }
+}
+
+#---- DC -----
+
+TestData_DC: {
+  PrefillTab: {},
+  GeneralTab: '@GeneralTab_DC',
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_DC',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_DC: {
+  NamedInsuredInformation: ['@NamedInsuredInformation_DC'],
+  AAAProductOwned: '@AAAProductOwned',
+  PolicyInformation: '@PolicyInformation'
+}
+
+NamedInsuredInformation_DC: {
+  Zip Code: 86012,
+  Address Line 1: test,
+  Home Phone Number: 1234567890,
+  Residence: Own Home,
+  Validate Address: click,
+  Validate Address Dialog: {Street Name: 265 CHIPMAN AVE}
+}
+
+DocumentsAndBindTab_DC: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    District of Columbia Coverage Selection/Rejection Form: Physically Signed
+  }
+}
+
+#----- DE -----
+
+TestData_DE: {
+  PrefillTab: {},
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_DE',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DocumentsAndBindTab_DE: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Delaware Motorists Protection Act: Physically Signed,
+    Important Information Personal Injury Protection (PIP) - Delaware Understanding (PIP) Deductibles: Physically Signed,
+    Acknowledgement of Deductible Selections: Physically Signed
+  }
+}
+
+#----- KS -----
+
+TestData_KS: {
+  PrefillTab: {},
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_KS',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DocumentsAndBindTab_KS: {
+  RequiredToBind: {
+    Personal Auto Application: Physically Signed
+  }
+}
+
+#----- MD -----
+
+TestData_MD: {
+  PrefillTab: {},
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_MD',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DocumentsAndBindTab_MD: {
+  RequiredToBind: {
+    Notice And Waiver Of Increased Limits Of Uninsured Motorists Coverage: Physically Signed,
+    Maryland Notice And Waiver Of Personal Injury Protection (PIP) Coverage: Physically Signed,
+    Maryland Auto Insurance Application: Physically Signed
+  }
+}
+
+#----- NJ -----
+
+TestData_NJ: {
+  PrefillTab: {},
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_NJ',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DocumentsAndBindTab_NJ: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    NJ Auto Standard Policy Coverage Selection Form: Physically Signed,
+    Acknowledgement of Requirement for Insurance Inspection: Physically Signed
+  },
+  RequiredToIssue: {
+    CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver: 'Yes',
+    Separate Vehicle 1: 'Yes'
+  }
+}
+
+#----- NY -----
+
+TestData_NY: {
+  PrefillTab: {},
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_NY',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DocumentsAndBindTab_NY: {
+  RequiredToBind: {
+    Acknowledgement of Requirement for Photo Inspection: Physically Signed,
+    New York Auto Insurance Application: Physically Signed
+  },
+  RequiredToIssue: {
+    Separate Vehicle 1: 'Yes'
+  }
+}
+
+#----- OK -----
+
+TestData_OK: {
+  PrefillTab: {},
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_OK',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DocumentsAndBindTab_OK: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+  },
+  RequiredToIssue: {
+    Coverage Selection Form: 'Yes'
+  }
+}
+
+#----- PA -----
+
+TestData_PA: {
+  PrefillTab: {},
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_PA',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DocumentsAndBindTab_PA: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Uninsured Motorists Coverage Selection/Rejection: Physically Signed,
+    Underinsured Motorists Coverage Selection/Rejection: Physically Signed,
+    First Party Benefits Coverage and Limits Selection Form: Physically Signed,
+    Pennsylvania Important Notice: Physically Signed,
+    Pennsylvania Notice to Named Insured Regarding Tort Options: Physically Signed,
+    Invoice-Minimum Coverages: Physically Signed
+  }
+}
+
+#----- VA -----
+
+TestData_VA: {
+  PrefillTab: {},
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+ }
+  
+#----- WV -----
+
+TestData_WV: {
+  PrefillTab: {},
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_WV',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DocumentsAndBindTab_WV: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Uninsured/Underinsured Motorists Coverage Offer: Physically Signed
+  }
+}
+
+

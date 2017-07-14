@@ -29,8 +29,6 @@ public class TestPolicyReinstatementWithLapse extends HomeSSBaseTest {
     public void testPolicyReinstatementWithLapse() {
         mainApp().open();
 
-        createCustomerIndividual();
-
         createPolicy();
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();

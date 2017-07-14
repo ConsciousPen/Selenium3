@@ -2,6 +2,9 @@ TestData: {
   CopyPolicyActionTab: {
     Quote Effective Date: /today
   },
+  ReportsTab: {
+    Sales Agent Agreement: 'I Agree'
+  },
   UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab',
   PurchaseTab: '@DataGather@PurchaseTab'
 }

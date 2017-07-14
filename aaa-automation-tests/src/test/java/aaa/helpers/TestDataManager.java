@@ -88,6 +88,7 @@ public final class TestDataManager {
 	public EnumMap<FeeGroupType, TestData> feeGroup = new EnumMap<>(FeeGroupType.class);
 
 	public EnumMap<RESTServiceType, TestData> rest = new EnumMap<>(RESTServiceType.class);
+	public Map<PolicyType, TestData> timepoint = new HashMap<PolicyType, TestData>();
 
 	public TestDataManager() {
 		policy.put(PolicyType.AUTO_SS, dataProvider.get("modules/policy/auto_ss"));
@@ -103,6 +104,20 @@ public final class TestDataManager {
 		policy.put(PolicyType.HOME_SS_DP3, dataProvider.get("modules/policy/home_ss_dp3"));
 		policy.put(PolicyType.PUP, dataProvider.get("modules/policy/pup"));
 		policy.put(PolicyType.CEA, dataProvider.get("modules/policy/cea"));
+		
+		timepoint.put(PolicyType.AUTO_SS, dataProvider.get("modules/timepoints").getTestData("auto_ss"));
+		timepoint.put(PolicyType.AUTO_CA, dataProvider.get("modules/timepoints").getTestData("auto_ca"));
+		timepoint.put(PolicyType.AUTO_CA_CHOICE, dataProvider.get("modules/timepoints").getTestData("auto_ca"));
+		timepoint.put(PolicyType.HOME_CA, dataProvider.get("modules/timepoints").getTestData("home_ca"));
+		timepoint.put(PolicyType.HOME_CA_DP3, dataProvider.get("modules/timepoints").getTestData("home_ca"));
+		timepoint.put(PolicyType.HOME_CA_HO4, dataProvider.get("modules/timepoints").getTestData("home_ca"));
+		timepoint.put(PolicyType.HOME_CA_HO6, dataProvider.get("modules/timepoints").getTestData("home_ca"));
+		timepoint.put(PolicyType.HOME_SS, dataProvider.get("modules/timepoints").getTestData("home_ss"));
+		timepoint.put(PolicyType.HOME_SS_HO4, dataProvider.get("modules/timepoints").getTestData("home_ss"));
+		timepoint.put(PolicyType.HOME_SS_HO6, dataProvider.get("modules/timepoints").getTestData("home_ss"));
+		timepoint.put(PolicyType.HOME_SS_DP3, dataProvider.get("modules/timepoints").getTestData("home_ss"));
+		timepoint.put(PolicyType.PUP, dataProvider.get("modules/timepoints").getTestData("pup"));
+		timepoint.put(PolicyType.CEA, dataProvider.get("modules/timepoints").getTestData("cea"));
 
 		customer.put(CustomerType.INDIVIDUAL, dataProvider.get("modules/cem/customer/individual"));
 		customer.put(CustomerType.NON_INDIVIDUAL, dataProvider.get("modules/cem/customer/nonindividual"));

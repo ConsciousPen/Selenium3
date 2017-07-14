@@ -25,7 +25,7 @@ import toolkit.verification.CustomAssert;
 public class TestPolicyEndorsementAdd extends AutoSSBaseTest {
 
     @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @TestInfo(component = "Policy.AutoSS")
     public void testPolicyEndorsementAdd() {
         mainApp().open();
         

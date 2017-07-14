@@ -18,7 +18,6 @@ import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.ListBox;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
@@ -109,9 +108,9 @@ public final class AutoSSMetaData {
 			public static final class AddressValidation extends MetaData {
 				public static final AttributeDescriptor ADDRESS_IS_PO_BOX = declare("Address is PO Box", CheckBox.class, Waiters.AJAX);
 
-				public static final AttributeDescriptor STREET_NUMBER = declare("Street number", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor STREET_NAME = declare("Street Name", TextBox.class, Waiters.AJAX);
-				public static final AttributeDescriptor UNIT_NUMBER = declare("Unit number", TextBox.class, Waiters.AJAX);
+				public static final AttributeDescriptor STREET_NUMBER = declare("Street number", TextBox.class, Waiters.AJAX, By.xpath(".//input[contains(@id, ':primaryStreetNumberInput')]"));
+				public static final AttributeDescriptor STREET_NAME = declare("Street Name", TextBox.class, Waiters.AJAX, By.xpath(".//input[contains(@id, ':primaryStreetNameInput')]"));
+				public static final AttributeDescriptor UNIT_NUMBER = declare("Unit number", TextBox.class, Waiters.AJAX, By.xpath(".//input[contains(@id, ':primaryUnitNumberInput')]"));
 				public static final AttributeDescriptor RADIOGROUP_SELECT = declare("Select Address", RadioGroup.class, Waiters.AJAX);
 
 				public static final AttributeDescriptor MAILING_STREET_NUMBER = declare("Mailing Street number", TextBox.class, Waiters.AJAX, false, By.id("addressValidationFormAAAInsuredAddressValidation:secondaryStreetNumberInput"));
@@ -347,17 +346,17 @@ public final class AutoSSMetaData {
 	}
 
 	public static final class AssignmentTab extends MetaData {
-		public static final AttributeDescriptor DRIVER_VEHICLE_RELATIONSHIP = declare("DriverVehicleRelationshipTable", FillableTable.class, DriverVehicleRelationshipTableRow.class, By.xpath("//table[@id='policyDataGatherForm:driverAssignmentTable']"));
-		public static final AttributeDescriptor EXCESS_VEHICLES_TABLE = declare("ExcessVehiclesTable", FillableTable.class, ExcessVehiclesRow.class, By.xpath("//table[@id='policyDataGatherForm:excessVehiclesTable']"));
+		public static final AttributeDescriptor DRIVER_VEHICLE_RELATIONSHIP = declare("DriverVehicleRelationshipTable", FillableTable.class, DriverVehicleRelationshipTableRow.class, By.xpath("//table[contains(@id, 'riverAssignmentTable')]"));
+		public static final AttributeDescriptor EXCESS_VEHICLES_TABLE = declare("ExcessVehiclesTable", FillableTable.class, ExcessVehiclesRow.class, By.xpath("//table[contains(@id, 'excessVehiclesTable')]"));
 
 		public static final class DriverVehicleRelationshipTableRow extends MetaData {
 			public static final AttributeDescriptor DRIVER = declare("Driver", StaticElement.class, Waiters.NONE);
-			public static final AttributeDescriptor SELECT_VEHICLE = declare("Select Vehicle", ListBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor SELECT_VEHICLE = declare("Select Vehicle", ComboBox.class, Waiters.AJAX);
 		}
 
 		public static final class ExcessVehiclesRow extends MetaData {
 			public static final AttributeDescriptor EXCESS_VEHICLES = declare("Excess Vehicle(s)", StaticElement.class, Waiters.NONE);
-			public static final AttributeDescriptor SELECT_DRIVER = declare("Select Driver", ListBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor SELECT_DRIVER = declare("Select Driver", ComboBox.class, Waiters.AJAX);
 		}
 	}
 
@@ -502,13 +501,17 @@ public final class AutoSSMetaData {
 			public static final AttributeDescriptor INVOICE_MINIMUM_COVERAGES = declare("Invoice-Minimum Coverages", RadioGroup.class, Waiters.NONE);
 			//WV
 			public static final AttributeDescriptor UNINSURED_UNDERINSURED_MOTORISTS_COVERAGE_OFFER = declare("Uninsured/Underinsured Motorists Coverage Offer", RadioGroup.class, Waiters.NONE);
+			//Nano
+			public static final AttributeDescriptor NON_OWNER_AUTOMOBILE_ENDORSEMENT = declare("Non-Owner Automobile Endorsement", RadioGroup.class, Waiters.NONE, By.id("policyDataGatherForm:supportingDocsContent_OptionalSupportingDocuments_NONOE"));
 		}
 
 		public static final class RequiredToIssue extends MetaData {
 			public static final AttributeDescriptor PHOTOS_FOR_SALVATAGE_VEHICLE_WITH_PHYSICAL_DAMAGE_COVERAGE = declare("Photos for salvage vehicle with physical damage coverage", RadioGroup.class, Waiters.NONE);
 			//NJ
+			public static final AttributeDescriptor PROOF_OF_ANTI_THEFT_RECOVERY_DEVICE = declare("Proof of Anti-Theft Recovery Device", RadioGroup.class, Waiters.NONE);
 			public static final AttributeDescriptor CARGO_VEHICLE_INSPECTION_COMPLETED = declare("CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver", RadioGroup.class, Waiters.NONE);
 			public static final AttributeDescriptor SEPARATE_VEHICLE_1 = declare("Separate Vehicle 1", RadioGroup.class, By.xpath("//table[@id='policyDataGatherForm:driverName_0']"));
+			public static final AttributeDescriptor SEPARATE_VEHICLE_2 = declare("Separate Vehicle 2", RadioGroup.class, By.xpath("//table[@id='policyDataGatherForm:driverName_1']"));
 			//OK
 			public static final AttributeDescriptor COVERAGE_SELECTION_FORM = declare("Coverage Selection Form", RadioGroup.class, Waiters.NONE);
 		}
@@ -699,7 +702,7 @@ public final class AutoSSMetaData {
 	public static final class SpinActionTab extends MetaData {
 		public static final AttributeDescriptor TRANSACTION_EFFECTIVE_DATE = declare("Transaction Effective Date", TextBox.class);
 		public static final AttributeDescriptor REASON_FOR_SPIN = declare("Reason for Spin", ComboBox.class);
-		public static final AttributeDescriptor INSUREDS_APPROVE_REMOVAL_OF_DRIVER_AND_VEHICLES = declare("Insureds approve removal of driver and vehicles?", RadioGroup.class);
+		public static final AttributeDescriptor INSUREDS_APPROVE_REMOVAL_OF_DRIVER_AND_VEHICLES = declare("Insureds approve removal of drivers and vehicles", RadioGroup.class);
 	}
 
 	public static final class ReinstatementActionTab extends MetaData {

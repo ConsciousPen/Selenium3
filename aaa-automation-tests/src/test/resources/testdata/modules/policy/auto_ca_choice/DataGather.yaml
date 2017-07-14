@@ -77,9 +77,17 @@ VehicleTab: {
 }
 
 AssignmentTab: {
-Primary Driver: index=1,
-Manually Rated Driver: index=1
+DriverVehicleRelationshipTable: ['@AssignedDriver1']
 }
+
+AssignedDriver1: {
+Primary Driver: /index=1
+}
+  
+#AssignmentTab: {
+#Primary Driver: index=1,
+##Manually Rated Driver: index=1
+#}
 
 FormsTab: {}
 PremiumAndCoveragesTab: {

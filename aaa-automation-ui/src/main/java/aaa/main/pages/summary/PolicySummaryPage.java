@@ -70,6 +70,7 @@ public class PolicySummaryPage extends SummaryPage {
             + "or @id='productConsolidatedViewForm:scolumn_InsuredInformation' "
             + "or @id='productConsolidatedViewForm:scolumn_CLPolicyInsuredConsolidatedView'"
             + "or @id='scolumn_AAAHONamedInsured'"
+            + "or @id='scolumn_AAAHONamedInsuredInformation'"
             + "or @id='scolumn_InsuredInformationMVO']//table"));
     public static Table tableCoveragePremiumSummary = new Table(By.id("policyDataGatherForm:policySummary_ListCLGLPremOpsProdCoveragePremiumSummary"));
     public static Table tableCompare = new Table(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']/table[@role='treegrid']"));

@@ -10,6 +10,7 @@ import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * Control for filling table with payments allocation by payment methods on Purchase Tab.</br>
@@ -61,9 +62,9 @@ public class PaymentMethodAllocationControl extends AbstractContainer<TestData, 
             }
             TextBox input = null;
             if (key.startsWith("Check Number ")) {
-                input = new TextBox(this, By.xpath(String.format(".//tr[td/input[contains(@value,'%s')]]/td[3]/input", key.replace("Check Number ", ""))));
+                input = new TextBox(this, By.xpath(String.format(".//tr[td/input[contains(@value,'%s')]]/td[3]/input", key.replace("Check Number ", ""))), Waiters.AJAX);
             } else {
-                input = new TextBox(this, By.xpath(String.format(".//tr[td/input[contains(@value,'%s')]]/td[2]/input", key)));
+                input = new TextBox(this, By.xpath(String.format(".//tr[td/input[contains(@value,'%s')]]/td[2]/input", key)), Waiters.AJAX);
             }
             String value = data.getValue(key);
             if (value.equals("rest")) {

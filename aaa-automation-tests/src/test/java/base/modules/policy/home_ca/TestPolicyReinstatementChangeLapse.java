@@ -32,8 +32,6 @@ public class TestPolicyReinstatementChangeLapse extends HomeCaBaseTest {
     public void testPolicyReinstatementChangeLapse() {
         mainApp().open();
 
-        createCustomerIndividual();
-
         createPolicy();
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();

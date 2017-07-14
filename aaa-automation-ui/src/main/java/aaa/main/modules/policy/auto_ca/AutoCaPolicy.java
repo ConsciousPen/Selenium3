@@ -110,15 +110,14 @@ public class AutoCaPolicy implements IPolicy {
 	@Override
 	public void calculatePremium(TestData td) {
 		dataGather().start();
+		NavigationPage.toViewTab(AutoCaTab.MEMBERSHIP.get());
+		new MembershipTab().fillTab(td);
 		NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
 	}
 	
 	@Override
     public void calculatePremiumAndPurchase(TestData td) {
         calculatePremium(td);
-        NavigationPage.toViewTab(AutoCaTab.MEMBERSHIP.get());
-        new MembershipTab().fillTab(td);
-        NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
         NavigationPage.toViewTab(AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
         new DriverActivityReportsTab().fillTab(td);
         NavigationPage.toViewTab(AutoCaTab.DOCUMENTS_AND_BIND.get());

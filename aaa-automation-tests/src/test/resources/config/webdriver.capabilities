@@ -1,0 +1,9 @@
+nativeEvents=false
+unexpectedAlertBehaviour=accept
+ignoreProtectedModeSettings=true
+disable-popup-blocking=true
+enablePersistentHover=true
+ie.ensureCleanSession=true
+enableElementCacheCleanup=true
+ignoreZoomSetting= true
+

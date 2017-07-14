@@ -20,7 +20,7 @@ import toolkit.verification.CustomAssert;
 public class TestPolicyCreationBig extends AutoSSBaseTest {
 
     @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @TestInfo(component = "Policy.AutoSS")
     public void testPolicyCreationBig() {
     	
         mainApp().open();

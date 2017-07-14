@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+	<define name="rootLevel"
+		class="toolkit.utils.logging.CustomLoggerPropertyProvider">
+		<name>test.loglevel</name>
+		<defaultValue>INFO</defaultValue>
+	</define>
+
+	<timestamp key="bySecond" datePattern="yyyy-MM-dd_HH-mm-ss" />
+
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{ISO8601} | %5p | %c{0}:%M:%L %m%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="testng" class="toolkit.utils.logging.TestNGReporterAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+		</filter>
+		<pattern>%d{ISO8601} | %5p | %c{0}:%M:%L %m%n</pattern>
+	</appender>
+
+	<appender name="testLog" class="ch.qos.logback.classic.sift.SiftingAppender">
+		<discriminator class="toolkit.utils.logging.CustomLoggerDiscriminator">
+			<key>ISTF-LogFileName</key>
+		</discriminator>
+		<sift>
+			<appender name="TEST-${ISTF-LogFileName}" class="ch.qos.logback.core.FileAppender">
+				<file>${ISTF-LogFileName}</file>
+				<append>true</append>
+				<encoder>
+					<pattern>%d{ISO8601} | %5p | %c{0}:%M:%L %m%n</pattern>
+				</encoder>
+			</appender>
+		</sift>
+	</appender>
+
+	<appender name="pef-file" class="ch.qos.logback.core.FileAppender">
+		<file>target/test-output/pef_logs/pef-${bySecond}.log</file>
+		<encoder>
+			<pattern>%d{ISO8601} | %-5p | %20.20t | %20.20c{0} | %m%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="com.exigen.istf.exec.core.timeshift.TimeSetterLogger"
+		additivity="false">
+		<level value="info" />
+		<appender-ref ref="console" />
+		<appender-ref ref="testLog" />
+		<appender-ref ref="testng" />
+	</logger>
+
+	<logger name="com.exigen.istf.exec" additivity="false">
+		<level value="debug" />
+		<appender-ref ref="pef-file" />
+	</logger>
+
+	<logger name="org.openqa" level="OFF" />
+	<logger name="org.apache.cxf" level="OFF" />
+	<logger name="org.apache.http" level="OFF" />
+	<logger name="com.exigen.istf.exec.core.statistics" level="OFF" />
+    <logger name="com.exigen.istf.exec.core.browser.impl" level="OFF" />
+	<!-- <logger name="toolkit.utils.teststoragex.listeners" level="OFF" /> -->
+	<!-- <logger name="com.exigen.istf.exec" level="ERROR" /> -->
+	<!-- <logger name="com.exigen.istf.timesetter" level="INFO"> <appender-ref 
+		ref="testng" /> </logger> -->
+
+	<root level="${rootLevel}">
+		<appender-ref ref="console" />
+		<appender-ref ref="testLog" />
+		<appender-ref ref="testng" />
+	</root>
+</configuration>

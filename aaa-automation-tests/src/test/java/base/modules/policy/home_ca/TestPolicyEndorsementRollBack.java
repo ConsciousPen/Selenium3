@@ -33,17 +33,14 @@ public class TestPolicyEndorsementRollBack extends HomeCaBaseTest {
     public void testPolicyEndorsementRollBack() {
         mainApp().open();
 
-        createCustomerIndividual();
-
         createPolicy();
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
         log.info("MidTerm Endorsement for Policy #" + policyNumber);
-        policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData_Plus1Month")
-                .adjust(tdSpecific.getTestData("TestData").resolveLinks())
-                .adjust(tdPolicy.getTestData("Issue", "TestData_ExistentBillingAccount").resolveLinks()));
+        policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData_Plus3Days")
+                .adjust(tdSpecific.getTestData("TestData").resolveLinks()));
 
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

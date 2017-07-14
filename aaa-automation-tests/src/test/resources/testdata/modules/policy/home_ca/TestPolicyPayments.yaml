@@ -1,0 +1,31 @@
+TestData: {
+  PurchaseTab: '@PurchaseTab'
+}
+
+PurchaseTab: {
+  PaymentMethods: ['@CC_Visa', '@PaymentMethods_EFT'],
+  Activate Autopay: true, 
+  Autopay Selection: 'index=1',
+  PaymentAllocation: '@PaymentAllocation'
+}
+
+CC_Visa: {
+  Payment Method: 'CreditCard',
+  Type: 'Visa',
+  Number: '4111111111111111'
+}
+
+PaymentMethods_EFT: {
+  Payment Method: 'Checking/Savings (ACH)',
+  "Transit #": '011104209',
+  "Account #": '1234567890'
+}
+
+PaymentAllocation: {
+   Cash: $10, 
+   Check: $40, 
+   Visa: $50,
+   Checking: /rest,
+   Check Number Check: '123456', 
+   Check Number Visa: '123123'
+}

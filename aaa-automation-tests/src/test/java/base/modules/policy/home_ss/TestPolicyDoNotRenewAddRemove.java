@@ -31,8 +31,6 @@ public class TestPolicyDoNotRenewAddRemove extends HomeSSBaseTest {
     public void testPolicyDoNotRenewAddRemove() {
         mainApp().open();
 
-        createCustomerIndividual();
-
         createPolicy();
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();

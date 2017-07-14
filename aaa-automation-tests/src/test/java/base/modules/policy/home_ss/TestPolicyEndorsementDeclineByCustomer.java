@@ -27,12 +27,10 @@ public class TestPolicyEndorsementDeclineByCustomer extends HomeSSBaseTest {
     public void testPolicyEndorsementDeclineByCustomer() {
         mainApp().open();
 
-        createCustomerIndividual();
-
         createPolicy();
 
         log.info("TEST: Decline By Customer Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.endorse().perform(tdPolicy.getTestData("Endorsement", "TestData"));
+        policy.endorse().performAndExit(tdPolicy.getTestData("Endorsement", "TestData"));
         PolicySummaryPage.buttonPendedEndorsement.click();
 
         policy.declineByCustomerQuote().perform(tdPolicy.getTestData("DeclineByCustomer", "TestData"));

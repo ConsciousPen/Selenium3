@@ -28,7 +28,7 @@ public class TestPolicyEndorsementRemove extends AutoSSBaseTest {
 	private TestData class_td = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData"); 
 	
     @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @TestInfo(component = "Policy.AutoSS")
     public void testPolicyEndorsementAdd() {
     	
         mainApp().open();

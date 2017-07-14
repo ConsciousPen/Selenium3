@@ -1,39 +1,33 @@
 TestData: {
-  GeneralPolicyTab: {},
-  InsuredContactInfoTab: {},
-  InsuredEmploymentTab: {},
-  LocationRiskAddressTab: {},
-  LocationInspectionTab: {},
-  LocationAddInterestTab: {},
-  LocationRatingInfoTab: {},
-  LocationBrushFireTab: {},
-  LocationCoveragesTab: {
-    A. Dwelling Limit: 55000,
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+      Coverage A - Dwelling limit: 76000
+    }
   },
-  LocationAddResLiabilityTab: {},
-  LocationCreditsTab: {},
-  LocationEndorsementsTab: {},
-  LocationPremiumTab: {},
-  AdditionalInfoTab: {},
-  PremiumTab: {}
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
 }
 
 TestData2: {
-  GeneralPolicyTab: {},
-  InsuredContactInfoTab: {},
-  InsuredEmploymentTab: {},
-  LocationRiskAddressTab: {},
-  LocationInspectionTab: {},
-  LocationAddInterestTab: {},
-  LocationRatingInfoTab: {},
-  LocationBrushFireTab: {},
-  LocationCoveragesTab: {
-    A. Dwelling Limit: 55000,
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+      Coverage A - Dwelling limit: 77000
+    }
   },
-  LocationAddResLiabilityTab: {},
-  LocationCreditsTab: {},
-  LocationEndorsementsTab: {},
-  LocationPremiumTab: {},
-  AdditionalInfoTab: {},
-  PremiumTab: {}
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
 }

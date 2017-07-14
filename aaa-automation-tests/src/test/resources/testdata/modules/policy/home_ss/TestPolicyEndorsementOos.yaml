@@ -1,21 +1,35 @@
 TestData: {
-  PolicyTab: {},
-  InsuredTab: {},
-  RiskAddressTab: {},
-  ClaimReportTab: {},
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+      Coverage A - Dwelling limit: 155000
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
   MortgageesTab: {},
-  CoveragesPremiumCoveragesPremiumTab: {
-    A. Dwelling Limit: '1100000'
-  }
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
 }
 
 TestData2: {
-  PolicyTab: {},
-  InsuredTab: {},
-  RiskAddressTab: {},
-  ClaimReportTab: {},
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+      Coverage A - Dwelling limit: 155000
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
   MortgageesTab: {},
-  CoveragesPremiumCoveragesPremiumTab: {
-    A. Dwelling Limit: '1300000'
-  }
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
 }

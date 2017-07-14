@@ -75,6 +75,8 @@ public final class HomeCaMetaData {
 
 		// Named Insured
 		public static final class NamedInsured extends MetaData {
+			public static final AttributeDescriptor BTN_ADD_INSURED = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addAAAHONamedInsured"));
+			public static final AttributeDescriptor CUSTOMER_SEARCH = declare("CustomerSearchDialog", SingleSelectSearchDialog.class, CustomerSearch.class, By.xpath(".//form[@id='customerSearchFrom']"));
 			public static final AttributeDescriptor PREFIX = declare("Prefix", ComboBox.class);
 			public static final AttributeDescriptor FIRST_NAME = declare("First Name", TextBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor MIDDLE_NAME = declare("Middle Name", TextBox.class);
@@ -87,9 +89,13 @@ public final class HomeCaMetaData {
 			public static final AttributeDescriptor OCCUPATION = declare("Occupation", ComboBox.class);
 			public static final AttributeDescriptor AAA_EMPLOYEE = declare("AAA employee", RadioGroup.class);
 			public static final AttributeDescriptor TRUSTEE_LLC_OWNER = declare("Trustee/LLC Owner", RadioGroup.class);
-			public static final AttributeDescriptor BTN_ADD_INSURED = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addAAAHONamedInsured"));
+			//public static final AttributeDescriptor BTN_ADD_INSURED = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addAAAHONamedInsured"));
 		}
 
+		public static final class CustomerSearch extends MetaData {
+			public static final AttributeDescriptor BTN_CANCEL = declare("Cancel", Button.class, Waiters.AJAX, false, By.id("customerSearchFrom:cancelSearch"));
+		}
+		
 		// AAA Membership
 		public static final class AAAMembership extends MetaData {
 			public static final AttributeDescriptor CURRENT_AAA_MEMBER = declare("Current AAA Member", ComboBox.class, Waiters.AJAX);
@@ -128,7 +134,7 @@ public final class HomeCaMetaData {
 		// Mailing address
 		public static final class MailingAddress extends MetaData {
 			public static final AttributeDescriptor IS_DIFFERENT_MAILING_ADDRESS = declare("Is the mailing address different from the dwelling address?", RadioGroup.class, Waiters.AJAX, false,
-					By.id("policyDataGatherForm:addOptionalQuestionFormGrid_AAAHOMailingAddressComponent"));
+					By.xpath(".//table[@id='policyDataGatherForm:addOptionalQuestionFormGrid_AAAHOMailingAddressComponent']"));
 			public static final AttributeDescriptor ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
@@ -136,8 +142,8 @@ public final class HomeCaMetaData {
 			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor COUTRY = declare("Country", ComboBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor ADDRESS_VALIDATED = declare("Address validated", TextBox.class);
-			public static final AttributeDescriptor BTN_VALIDATE_ADDRESS = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateHOMailingAddressButtonUS"));
-			public static final AttributeDescriptor VALIDATE_ADDRESS = declare("Validate Address", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class, By.id("addressValidationPopupAAAHOMailingAddressValidation_container"));
+			public static final AttributeDescriptor VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateHOMailingAddressButtonUS"));
+			public static final AttributeDescriptor VALIDATE_ADDRESS = declare("Validate Address Dialog", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class, By.id("addressValidationPopupAAAHOMailingAddressValidation_container"));
 		}
 
 		// Named insured contact information
@@ -1034,8 +1040,8 @@ public final class HomeCaMetaData {
 	}
 
 	public static final class ReinstatementActionTab extends MetaData {
-		public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancellation Effective Date", TextBox.class, Waiters.NONE);
-		public static final AttributeDescriptor REINSTATE_DATE = declare("Reinstate Date", TextBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancellation effective date", TextBox.class, Waiters.NONE);
+		public static final AttributeDescriptor REINSTATE_DATE = declare("Reinstate date", TextBox.class, Waiters.AJAX);
 	}
 
 	public static final class DeclineActionTab extends MetaData {

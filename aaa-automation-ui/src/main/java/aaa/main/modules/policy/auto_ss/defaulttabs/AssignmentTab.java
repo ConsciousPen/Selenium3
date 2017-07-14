@@ -17,7 +17,7 @@ import toolkit.webdriver.controls.Button;
  */
 public class AssignmentTab extends Tab {
 	public Button btnContinue = new Button(By.id("policyDataGatherForm:continueBtn_AAAAssignmentContinueAction_footer"));
-	public Button btnAssign = new Button(By.xpath(".//input[contains(@id, 'AssignButton')]"));
+	public Button btnAssign = new Button(By.xpath("//input[@value='Assign']"));
 
 	public AssignmentTab() {
 		super(AutoSSMetaData.AssignmentTab.class);

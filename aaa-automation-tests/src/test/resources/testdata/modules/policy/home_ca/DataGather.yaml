@@ -60,37 +60,11 @@ ApplicantTab: {
 
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: ['@AAAMembershipReport1'],
-  FirelineReport: ['@FirelineReport1'],
-  PublicProtectionClass: ['@PublicProtectionClass1'],
-  CLUEreport: ['@CLUEreport1'],
-  #ISO360Report: ['@ISO360Report1']
-}
-
-AAAMembershipReport1: {
-  Last Name: 'Test',
-  Membership No.: '4290023667710001',
-  Report: 'Order report'
-}
-
-FirelineReport1: {
-  Dwelling Address: '265 CHIPMAN AVE, Bell, CA, 90201',
-  Report: 'Order Report'
-}
-
-PublicProtectionClass1: {
-  Dwelling Address: '265 CHIPMAN AVE, Bell, CA, 90201',
-  Report: 'Order Report'
-}
-
-CLUEreport1: {
-  Dwelling Address: '265 CHIPMAN AVE,Bell,90201,CA',
-  Report: 'Order report'
-}
-
-ISO360Report1: {
-  Dwelling Address: '265 CHIPMAN AVE, Bell, CA, 90201',
-  Report: 'Order report'
+  AAAMembershipReport: [{Report: 'Order report'}],
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  #ISO360Report: [{Report: 'Order report'}]
 }
 
 PropertyInfoTab: {

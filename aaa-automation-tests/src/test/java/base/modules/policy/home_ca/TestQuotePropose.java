@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 import aaa.common.Tab;
-import aaa.common.components.Efolder;
+//import aaa.common.components.Efolder;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ca.actiontabs.GenerateProposalActionTab;
@@ -35,8 +35,6 @@ public class TestQuotePropose extends HomeCaBaseTest {
     public void testQuotePropose() {
         mainApp().open();
 
-        createCustomerIndividual();
-
         createQuote();
 
         log.info("TEST: Click Cancel button on Propose screen for Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
@@ -51,7 +49,7 @@ public class TestQuotePropose extends HomeCaBaseTest {
         new StaticElement(By.id("policyDataGatherForm:note")).verify.value("Please note that once you click \"OK\" the documents will be queued for generation " +
                 "and will be available for viewing within the folder structure as soon as they have been successfully processed. This usually takes 3 to 5 minutes.");
         policy.propose().submit();
-        Efolder.isDocumentExist("Applications and Proposals", "New Business");
+//        Efolder.isDocumentExist("Applications and Proposals", "New Business");
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PROPOSED);
     }
