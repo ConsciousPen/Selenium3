@@ -75,6 +75,9 @@ public class PolicySummaryPage extends SummaryPage {
     public static Table tableCoveragePremiumSummary = new Table(By.id("policyDataGatherForm:policySummary_ListCLGLPremOpsProdCoveragePremiumSummary"));
     public static Table tableCompare = new Table(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']/table[@role='treegrid']"));
     public static Table tableOtherUnderlyingRisks = new Table(By.xpath("//div[@id='productConsolidatedViewForm:pupUnderlyingRiskPanel_body'//table"));
+    //cea
+    public static Table tablePaymentSummary = new Table(By.xpath("//table[@id='productConsolidatedViewForm:billing_transactions_active']"));
+    public static Table tableTransactionSummary = new Table(By.xpath("//table[@id='productConsolidatedViewForm:billing_transactions_active2']"));
     
     public static Dialog dialogRemoveSuspense = new Dialog("//div[@id='validateActionPopup_container']");
 

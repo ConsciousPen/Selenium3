@@ -139,7 +139,7 @@ public final class HomeSSMetaData {
 			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor ADDRESS_VALIDATED = declare("Address validated", TextBox.class);
 			public static final AttributeDescriptor BTN_VALIDATE_ADDRESS = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateHOPreAddressButton"));
-			public static final AttributeDescriptor VALIDATE_ADDRESS = declare("Validate Address", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class, By.id("addressValidationPopupAAAHOPrevAddressValidationComp_container"));
+			public static final AttributeDescriptor VALIDATE_ADDRESS = declare("Validate Address Dialog", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class, By.id("addressValidationPopupAAAHOPrevAddressValidationComp_container"));
 		}
 
 		public static final class AgentInfo extends MetaData {
@@ -158,6 +158,7 @@ public final class HomeSSMetaData {
 			public static final AttributeDescriptor HOME_PHONE_NUMBER = declare("Home Phone Number", TextBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor WORK_PHONE_NUMBER = declare("Work Phone Number", TextBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor MOBILE_PHONE_NUMBER = declare("Mobile Phone Number", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor PREFFERRED_PHONE_NUMBER = declare("Preferred Phone #", ComboBox.class);
 			public static final AttributeDescriptor EMAIL = declare("Email", TextBox.class, Waiters.AJAX);
 		}
 
@@ -199,10 +200,20 @@ public final class HomeSSMetaData {
 		public static final AttributeDescriptor AAA_MEMBERSHIP_REPORT = declare("AAAMembershipReport", FillableTable.class, AaaMembershipReportRow.class, By.xpath("//table[@id='policyDataGatherForm:membershipReports']"));
 		public static final AttributeDescriptor INSURANCE_SCORE_REPORT = declare("InsuranceScoreReport", FillableTable.class, InsuranceScoreReportRow.class, By.xpath("//table[@id='policyDataGatherForm:creditReports']"));
 		public static final AttributeDescriptor FIRELINE_REPORT = declare("FirelineReport", FillableTable.class, FirelineReportRow.class, By.xpath("//table[@id='policyDataGatherForm:firelineReportTable']"));
+		public static final AttributeDescriptor RISK_METER_REPORT = declare("RiskMeterReport", FillableTable.class, RiskMeterReportRow.class, By.xpath("//table[@id='policyDataGatherForm:riskMeterReportTable']"));
 		public static final AttributeDescriptor PUBLIC_PROTECTION_CLASS = declare("PublicProtectionClass", FillableTable.class, PublicProtectionClassRow.class, By.xpath("//table[@id='policyDataGatherForm:ppcReportTable']"));
 		public static final AttributeDescriptor CLUE_REPORT = declare("CLUEreport", FillableTable.class, CLUEreportRow.class, By.xpath("//table[@id='policyDataGatherForm:orderClueReports']"));
 		public static final AttributeDescriptor ISO360_REPORT = declare("ISO360Report", FillableTable.class, ISO360ReportRow.class, By.xpath("//table[@id='policyDataGatherForm:iso360ReportTable']"));
 
+		public static final class RiskMeterReportRow extends MetaData {
+			public static final AttributeDescriptor DWELLING_ADDRESS = declare("Dwelling Address", StaticElement.class);
+			public static final AttributeDescriptor DISTANCE_TO_COAST = declare("Distance To Coast", StaticElement.class);
+			public static final AttributeDescriptor ELEVATION = declare("Elevation", StaticElement.class);
+			public static final AttributeDescriptor ORDER_DATE = declare("Order Date", StaticElement.class);
+			public static final AttributeDescriptor STATUS = declare("Status", StaticElement.class);
+			public static final AttributeDescriptor REPORT = declare("Report", Link.class);
+		}
+		
 		public static final class AaaMembershipReportRow extends MetaData {
 			public static final AttributeDescriptor LAST_NAME = declare("Last Name", StaticElement.class);
 			public static final AttributeDescriptor MEMBERSHIP_NO = declare("Membership No.", StaticElement.class);
@@ -338,6 +349,21 @@ public final class HomeSSMetaData {
 			}
 
 		}
+		
+		public enum RiskMeterReportTblHeaders {
+			
+			DWELLING_ADDRESS("Dwelling Address"), DISTANCE_TO_COAST("Distance To Coast"), ELEVATION("Elevation"), ORDER_DATE("Order Date"), STATUS("Status"), REPORT("Report");
+
+			private String value;
+			
+			private RiskMeterReportTblHeaders(String value) {
+				this.value = value;
+			}
+			
+			public String get() {
+				return value;
+			}
+		}
 
 		public enum PublicProtectionClassTblHeaders {
 
@@ -432,7 +458,7 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class AdditionalAddress extends MetaData {
-			public static final AttributeDescriptor ARE_THERE_ANY_ADDITIONAL_ADDRESSES = declare("Are there any additional addresses?", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:addOptionalQuestion_AAAHOAdditionalAddress']"));
+			public static final AttributeDescriptor ARE_THERE_ANY_ADDITIONAL_ADDRESSES = declare("Are there any additional address", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:sedit_AAAHOAddiDwellAddrMVO_proxiedComponents_PreconfigDwell_addAddressInd']"));
 			public static final AttributeDescriptor ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
@@ -440,7 +466,7 @@ public final class HomeSSMetaData {
 			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor ADDRESS_VALIDATED = declare("Address validated", TextBox.class);
 			public static final AttributeDescriptor BTN_VALIDATE_ADDRESS = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateHOAddAddressButton"));
-			public static final AttributeDescriptor VALIDATE_ADDRESS = declare("Validate Address", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class, By.id("addressValidationFormAAAHOAdditionalDwelAddressValidation"));
+			public static final AttributeDescriptor VALIDATE_ADDRESS = declare("Validate Address Dialog", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class, By.id("addressValidationFormAAAHOAdditionalDwelAddressValidation"));
 			public static final AttributeDescriptor BTN_ADD = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addAAAHOAdditionalAddress"));
 		}
 
@@ -550,7 +576,7 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class PetsOrAnimals extends MetaData {
-			public static final AttributeDescriptor ARE_ANY_PETS_OR_ANIMALS_KEPT_ON_THE_PROPERTY = declare("Are any pets or animals kept on the property?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor ARE_ANY_PETS_OR_ANIMALS_KEPT_ON_THE_PROPERTY = declare("Are any insured-owned pets or animals kept on the property?", RadioGroup.class, Waiters.AJAX);
 			public static final AttributeDescriptor REMOVE_CONFIRMATION = declare("Remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmOptionalNoSelected_AAADwellAnimalInfoComponent_Dialog_container"));
 			public static final AttributeDescriptor ANIMAL_TYPE = declare("Animal type", ComboBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor OTHER_SPECIFY = declare("Other - specify", TextBox.class, Waiters.AJAX);

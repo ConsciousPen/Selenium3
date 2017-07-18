@@ -321,7 +321,7 @@ Construction_CO: {
 TestData_CT: {
   GeneralTab: '@GeneralTab_CT',
   ApplicantTab: '@ApplicantTab_CT',
-  ReportsTab: '@ReportsTab',
+  ReportsTab: '@ReportsTab_CT',
   PropertyInfoTab: '@PropertyInfoTab',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
@@ -363,10 +363,20 @@ DwellingAddress_CT: {
  Validate Address Dialog: {}
 }  
 
+ReportsTab_CT: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  RiskMeterReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+  #ISO360Report: [{Report: 'Order report'}]
+}
+
 UnderwritingAndApprovalTab_CT: {
-  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": "No",
-  "Do employees of any resident or applicant reside in the dwelling?": "No",
-  "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No"
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'No',
+  "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No'
 }
 
 # --------- TestData DC ------------
@@ -434,7 +444,7 @@ ReportsTab_DC: {
 TestData_DE: {
   GeneralTab: '@GeneralTab_DE',
   ApplicantTab: '@ApplicantTab_DE',
-  ReportsTab: '@ReportsTab',
+  ReportsTab: '@ReportsTab_DE',
   PropertyInfoTab: '@PropertyInfoTab',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
@@ -475,6 +485,16 @@ DwellingAddress_DE: {
   Validate Address: true,
   Validate Address Dialog: {}
 } 
+
+ReportsTab_DE: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  RiskMeterReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+  #ISO360Report: [{Report: 'Order report'}]
+}
 
 # --------- TestData ID ------------
 
@@ -1380,7 +1400,7 @@ UnderwritingAndApprovalTab_OR: {
 TestData_PA: {
   GeneralTab: '@GeneralTab_PA',
   ApplicantTab: '@ApplicantTab_PA',
-  ReportsTab: '@ReportsTab',
+  ReportsTab: '@ReportsTab_PA',
   PropertyInfoTab: '@PropertyInfoTab',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
@@ -1422,12 +1442,21 @@ DwellingAddress_PA: {
   Validate Address Dialog: {}
 }
 
+ReportsTab_PA: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
 # --------- TestData SD ------------
 
 TestData_SD: {
   GeneralTab: '@GeneralTab_SD',
   ApplicantTab: '@ApplicantTab_SD',
-  ReportsTab: '@ReportsTab',
+  ReportsTab: '@ReportsTab_SD',
   PropertyInfoTab: '@PropertyInfoTab_SD',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
@@ -1469,6 +1498,15 @@ DwellingAddress_SD: {
   Validate Address Dialog: {}
 }
 
+ReportsTab_SD: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
 PropertyInfoTab_SD: {
   DwellingAddress: '@DwellingAddress_PropertyInfoTab',
   AdditionalAddress: [{}],
@@ -1502,7 +1540,7 @@ Construction_SD: {
 TestData_VA: {
   GeneralTab: '@GeneralTab_VA',
   ApplicantTab: '@ApplicantTab_VA',
-  ReportsTab: '@ReportsTab',
+  ReportsTab: '@ReportsTab_VA',
   PropertyInfoTab: '@PropertyInfoTab',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
@@ -1544,12 +1582,21 @@ DwellingAddress_VA: {
   Validate Address Dialog: {}
 }
 
+ReportsTab_VA: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
 # --------- TestData WV ------------
 
 TestData_WV: {
   GeneralTab: '@GeneralTab_WV',
   ApplicantTab: '@ApplicantTab_WV',
-  ReportsTab: '@ReportsTab',
+  ReportsTab: '@ReportsTab_WV',
   PropertyInfoTab: '@PropertyInfoTab_WV',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
@@ -1591,6 +1638,15 @@ DwellingAddress_WV: {
   Validate Address Dialog: {}
 }
 
+ReportsTab_WV: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
 PropertyInfoTab_WV: {
   DwellingAddress: '@DwellingAddress_PropertyInfoTab',
   AdditionalAddress: [{}],
@@ -1624,7 +1680,7 @@ Construction_WV: {
 TestData_WY: {
   GeneralTab: '@GeneralTab_WY',
   ApplicantTab: '@ApplicantTab_WY',
-  ReportsTab: '@ReportsTab',
+  ReportsTab: '@ReportsTab_WY',
   PropertyInfoTab: '@PropertyInfoTab',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
@@ -1666,3 +1722,11 @@ DwellingAddress_WY: {
   Validate Address Dialog: {}
 }
 
+ReportsTab_WY: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}

@@ -1,0 +1,726 @@
+UpdateRulesTestData: {
+   UpdateRulesOverrideActionTab: {
+   UpdateRulesOverride: [{
+    Message: 'A signed Auto Insurance Application must be received',
+    Update All: 'true',
+    Authorize/Delete All: 'true',
+    Duration: Term,
+    Reason for override: 'Other'
+   }]
+   }
+}
+
+
+# -- Default test data for UT state ---
+
+TestData: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  AssignmentTab: '@AssignmentTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# ------------- Tabs ----------
+
+PrefillTab: {
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+GeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  PolicyInformation: '@PolicyInformation'
+}
+
+NamedInsuredInformation: {
+  Social Security Number: 123456789,
+  "Has lived here for less than three years?": 'No',
+  Home Phone Number: 1234567890,
+  Residence: Own Home,
+}
+
+AAAProductOwned: {
+  Membership Number: 4290020029946000,
+  Last name: Test,
+}
+
+PolicyInformation: {
+  Policy Type: Standard,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: Independent Agent,
+  Agency: SMTestIA - 400001650,
+  Authorized by: QA,
+  Lead Source: AAA Magazines
+}
+
+DriverTab: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: 400064773
+}
+
+RatingDetailReportsTab: {
+  Customer Agreement: Customer Agrees,
+  Sales Agent Agreement: I Agree,
+  Order Report: click,
+  AAAMembershipReport: [{}],
+  OrderInsuranceScoreReport: [{}]
+}
+
+VehicleTab: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273,
+}
+
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [{}],
+  ExcessVehiclesTable: [{}]
+}
+
+FormsTab: {}
+
+PremiumAndCoveragesTab: {
+  Payment Plan: Annual,
+  Policy Term: Annual,
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750',
+  Collision Deductible: 'contains=$500',
+  Special Equipment Coverage: 1100
+}
+
+DriverActivityReportsTab: {
+  "Has the customer expressed interest in purchasing the quote?": 'Yes',
+  Validate Driving History: click,
+  OrderCLUEReport: [{}],
+  OrderMVRReport: [{}],
+  OrderInternalClaimsReport: [{}]
+}
+
+DocumentsAndBindTab: {
+  #RequiredToBind: {
+  #  Auto Insurance Application: Physically Signed
+  #},
+  Agreement: I agree
+}
+
+ErrorTab: {
+   ErrorsOverride: [{
+    Message: "contains=A signed Auto Insurance Application must be received",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Term,
+    Reason for override: 'Other'
+   }]
+}
+   
+PurchaseTab: {
+  PaymentAllocation: {
+    Cash: /rest
+  }
+}
+
+# ------- Test Data for custom states ------
+
+# ------- AZ ------
+
+TestData_AZ: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_AZ',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab_AZ: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: A12345678
+}
+
+# ------- CO ------
+
+TestData_CO: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_CO',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab_CO: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: A552183
+}
+
+# ------- CT ------
+
+TestData_CT: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_CT',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_CT',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab_CT: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: 156773434
+}
+
+DocumentsAndBindTab_CT: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Informed Consent Form - Uninsured Motorist Coverage: Physically Signed
+  },
+  Agreement: I agree
+}
+
+# ------- DC ------
+
+TestData_DC: {
+  PrefillTab: '@PrefillTab_DC',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_DC',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_DC',
+  PurchaseTab: '@PurchaseTab'
+}
+
+PrefillTab_DC: {
+  Validate Address: click,
+  Validate Address Dialog: { 
+      Street Name: 265 CHIPMAN AVE
+     },
+  Order Prefill: click
+}
+
+DriverTab_DC: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: 9992617
+}
+
+DocumentsAndBindTab_DC: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    District of Columbia Coverage Selection/Rejection Form: Physically Signed
+  },
+  Agreement: I agree
+}
+
+# ------- DE ------
+
+TestData_DE: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_DE',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_DE',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab_DE: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: 7135439
+}
+
+DocumentsAndBindTab_DE: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Delaware Motorists Protection Act: Physically Signed,
+    Important Information Personal Injury Protection (PIP) - Delaware Understanding (PIP) Deductibles: Physically Signed,
+    Acknowledgement of Deductible Selections: Physically Signed
+  },
+  Agreement: I agree
+}
+
+# ------- ID ------
+
+TestData_ID: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_ID',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab_ID: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: AA223456A
+}
+
+# ------- IN ------
+
+TestData_IN: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_IN',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab_IN: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: 154673421
+}
+
+# ------- KS ------
+
+TestData_KS: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_KS',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_KS',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab_KS: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: B54673421
+}
+
+DocumentsAndBindTab_KS: {
+  RequiredToBind: {
+    Personal Auto Application: Physically Signed
+  },
+  Agreement: I agree
+}
+
+
+# ------- KY ------
+
+TestData_KY: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_KY',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab_KY: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: A12121215
+}
+
+# ------- MD ------
+
+TestData_MD: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_MD',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_MD',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_MD',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab_MD: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: S123456789999
+}
+
+PremiumAndCoveragesTab_MD: {
+  Payment Plan: Annual,
+  Policy Term: Annual,
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750',
+  Collision Deductible: 'contains=$500',
+  Special Equipment: 1100
+}
+
+DocumentsAndBindTab_MD: {
+  RequiredToBind: {
+    Notice And Waiver Of Increased Limits Of Uninsured Motorists Coverage: Physically Signed,
+    Maryland Notice And Waiver Of Personal Injury Protection (PIP) Coverage: Physically Signed,
+    Maryland Auto Insurance Application: Physically Signed
+  },
+  Agreement: I agree
+}
+
+# ------- MT ------
+
+TestData_MT: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_MT',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab_MT: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: 212790136
+}
+
+# ------- NJ ------
+
+TestData_NJ: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_NJ',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_NJ',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab_NJ: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: A12345678987657
+}
+
+DocumentsAndBindTab_NJ: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    NJ Auto Standard Policy Coverage Selection Form: Physically Signed,
+    Acknowledgement of Requirement for Insurance Inspection: Physically Signed
+  },
+  RequiredToIssue: {
+    CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver: 'Yes',
+    Separate Vehicle 1: 'Yes'
+  },
+  Agreement: I agree
+}
+
+# ------- NV ------
+
+TestData_NV: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_NV',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab_NV: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: 2127901365
+}
+
+# ------- NY ------
+
+TestData_NY: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_NY',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab_NY',
+  AssignmentTab: '@AssignmentTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_NY',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab_NY: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: A5467342112658242
+}
+
+VehicleTab_NY: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273,
+  "Less Than 3,000 Miles": 'No'
+}
+
+DocumentsAndBindTab_NY: {
+  RequiredToBind: {
+    Acknowledgement of Requirement for Photo Inspection: Physically Signed,
+    New York Auto Insurance Application: Physically Signed
+  },
+  RequiredToIssue: {
+    Separate Vehicle 1: 'Yes'
+  },
+  Agreement: I agree
+}
+
+# ------- OH ------
+
+TestData_OH: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_OH',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab_OH: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: AB546734
+}
+
+# ------- OK ------
+
+TestData_OK: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_OK',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_OK',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab_OK: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: 123123121
+}
+
+DocumentsAndBindTab_OK: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+  },
+  RequiredToIssue: {
+    Coverage Selection Form: 'Yes'
+  },
+  Agreement: I agree
+}
+
+# ------- OR ------
+
+TestData_OR: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_OR',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab_OR: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: 001234567
+}
+
+# ------- PA ------
+
+TestData_PA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_PA',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_PA',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab_PA: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: 83127880
+}
+
+DocumentsAndBindTab_PA: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Uninsured Motorists Coverage Selection/Rejection: Physically Signed,
+    Underinsured Motorists Coverage Selection/Rejection: Physically Signed,
+    First Party Benefits Coverage and Limits Selection Form: Physically Signed,
+    Pennsylvania Important Notice: Physically Signed,
+    Pennsylvania Notice to Named Insured Regarding Tort Options: Physically Signed,
+    Invoice-Minimum Coverages: Physically Signed
+  },
+  Agreement: I agree
+}
+
+# ------- SD ------
+
+TestData_SD: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_SD',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab_SD: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: 112345678
+}
+
+# ------- VA ------
+
+TestData_VA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_VA',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  AssignmentTab: '@AssignmentTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_VA',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab_VA: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: 831278809
+}
+
+PremiumAndCoveragesTab_VA: {
+  Payment Plan: Annual,
+  Policy Term: Annual,
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750',
+  Collision Deductible: 'contains=$500'
+}
+
+# ------- WV ------
+
+TestData_WV: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_WV',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_WV',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab_WV: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: S123456
+}
+
+DocumentsAndBindTab_WV: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Uninsured/Underinsured Motorists Coverage Offer: Physically Signed
+  },
+  Agreement: I agree
+}
+
+# ------- WY ------
+
+TestData_WY: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_WY',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+DriverTab_WY: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Number: 4000647712
+}

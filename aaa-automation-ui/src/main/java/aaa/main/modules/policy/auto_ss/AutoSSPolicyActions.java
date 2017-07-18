@@ -41,6 +41,7 @@ import aaa.main.modules.policy.auto_ss.views.RollOnChangesView;
 import aaa.main.modules.policy.auto_ss.views.SpinView;
 import aaa.main.modules.policy.auto_ss.views.SplitView;
 import aaa.main.modules.policy.auto_ss.views.SuspendQuoteView;
+import aaa.main.modules.policy.auto_ss.views.UpdateRulesOverrideView;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.TextBox;
 
@@ -300,6 +301,13 @@ public final class AutoSSPolicyActions {
         @Override
         public Workspace getView() {
             return new SuspendQuoteView();
+        }
+    }
+    
+    public static class UpdateRulesOverride extends PolicyActions.UpdateRulesOverride {
+        @Override
+        public Workspace getView() {
+            return new UpdateRulesOverrideView();
         }
     }
     

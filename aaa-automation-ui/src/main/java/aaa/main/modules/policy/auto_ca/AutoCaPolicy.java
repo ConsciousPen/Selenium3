@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.modules.policy.auto_ca;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,6 +50,7 @@ import aaa.main.modules.policy.PolicyActions.RollBackEndorsement;
 import aaa.main.modules.policy.PolicyActions.Rewrite;
 import aaa.main.modules.policy.PolicyActions.RollOn;
 import aaa.main.modules.policy.PolicyActions.SuspendQuote;
+import aaa.main.modules.policy.PolicyActions.UpdateRulesOverride;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
@@ -295,6 +297,11 @@ public class AutoCaPolicy implements IPolicy {
 	public SuspendQuote suspendQuote() {
 		return new AutoCaPolicyActions.SuspendQuote();
 	}
+	
+    @Override
+    public UpdateRulesOverride updateRulesOverride() {
+    	throw new NotImplementedException();
+    }
 
 	@Override
 	public Bind bind() {
@@ -320,4 +327,5 @@ public class AutoCaPolicy implements IPolicy {
 	public RollOn rollOn() {
 		return null;
 	}
+	
 }

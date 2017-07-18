@@ -65,6 +65,8 @@ public class BaseTest {
 		CustomAssert.initDriver(AssertDriverType.TESTNG);
 		tdCustomerIndividual = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		tdCustomerNonIndividual = new TestDataManager().customer.get(CustomerType.NON_INDIVIDUAL);
+		if (StringUtils.isNotBlank(PropertyProvider.getProperty("test.usstate")))
+			setState(PropertyProvider.getProperty("test.usstate"));
 	}
 
 	protected TestData tdSpecific;
@@ -86,13 +88,10 @@ public class BaseTest {
 	@Parameters({ "state" })
 	@BeforeClass
 	public void beforeClassConfiguration(@Optional("UT") String state) {
-		if (getPolicyType().equals(PolicyType.HOME_CA) || getPolicyType().equals(PolicyType.AUTO_CA) || getPolicyType().equals(PolicyType.CEA)) {
+		if (getPolicyType().equals(PolicyType.HOME_CA) || getPolicyType().equals(PolicyType.AUTO_CA) || getPolicyType().equals(PolicyType.CEA))
 			setState(States.CA.get());
-		} else if (StringUtils.isNotBlank(PropertyProvider.getProperty("test.usstate"))) {
-			setState(PropertyProvider.getProperty("test.usstate"));
-		} else {
+		else
 			setState(state);
-		}
 	}
 
 	/**
@@ -290,7 +289,7 @@ public class BaseTest {
 			log.info(String.format("==== %s Test Data is used: %s:%s ====", getState(), fileName, getStateTestDataName(tdName)));
 		} else {
 			returnTD = returnTD.getTestData(tdName);
-			log.info(String.format("==== Default state %s Test Data is used: %s:%s ====", getState(), fileName, getStateTestDataName(tdName)));
+			log.info(String.format("==== Default state UT Test Data is used. Requested Test Data %s:%s is missing ====", fileName, getStateTestDataName(tdName)));
 		}
 		return returnTD;
 	}

@@ -23,6 +23,7 @@ import aaa.main.modules.policy.PolicyActions.PolicySplit;
 import aaa.main.modules.policy.PolicyActions.QuoteDocGen;
 import aaa.main.modules.policy.PolicyActions.Rewrite;
 import aaa.main.modules.policy.PolicyActions.RollOn;
+import aaa.main.modules.policy.PolicyActions.UpdateRulesOverride;
 import aaa.main.modules.policy.home_ca.HomeCaPolicyActions.Cancel;
 import aaa.main.modules.policy.home_ca.HomeCaPolicyActions.CancelNotice;
 import aaa.main.modules.policy.home_ca.HomeCaPolicyActions.ChangeBrokerRequest;
@@ -321,5 +322,10 @@ public class HomeCaPolicy implements IPolicy {
     @Override
     public RollOn rollOn() {
         throw new NotImplementedException();
+    }
+    
+    @Override
+    public UpdateRulesOverride updateRulesOverride() {
+    	throw new NotImplementedException();
     }
 }

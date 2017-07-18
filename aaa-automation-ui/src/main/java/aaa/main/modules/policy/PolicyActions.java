@@ -456,6 +456,18 @@ public final class PolicyActions {
         }
     }
     
+    public abstract static class UpdateRulesOverride extends AbstractAction {
+    	@Override
+        public String getName() {
+            return "Update Rules Override";
+        }
+
+        @Override
+        public AbstractAction perform(TestData td) {
+              return super.perform(td);
+          }
+        }
+    
     //TODO Remove next actions if not used in AAA:
     public abstract static class RemoveSuspendQuote extends AbstractAction {
         @Override

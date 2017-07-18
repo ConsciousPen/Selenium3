@@ -1,0 +1,3516 @@
+TestData: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab: {
+  State: 'UT',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress',
+  PreviousDwellingAddress: '@PreviousDwellingAddress',
+  MailingAddress: '@MailingAddress',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AgentInfo: '@AgentInfo',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+}
+
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+  #ISO360Report: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction',
+  #AdditionalQuestions: {},
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+  #RentalInformation: {}
+}
+
+ProductOfferingTab: {}
+EndorsementTab: {}
+PremiumsAndCoveragesQuoteTab: {
+  Payment plan: Pay in Full,
+  Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+  Coverage E - Personal Liability Each Occurrence: '$300,000'
+  }
+ 
+MortgageesTab: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest'
+}
+ 
+UnderwritingAndApprovalTab: {
+  #Underwriter-selected inspection type: '/first',
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No"
+}
+
+DocumentsTab: {
+  DocumentsToIssue: {
+  Signed policy application: Physically Signed
+  }
+}
+  
+BindTab: {}
+
+PurchaseTab: {
+ PaymentAllocation: {
+  Cash: /rest
+ },
+}
+
+# ------------- Applicant Tab -------------
+NamedInsured: {
+  Relationship to primary named insured:  Primary Insured,
+  Social security number: 1234567890,
+  Employer: '1234567890',
+}
+
+AAAMembership: {
+  Membership number: '4290023667710001',
+  Last name: Test,
+}
+
+DwellingAddress: {
+ Zip code: '84003',
+ Street address 1: 265 CHIPMAN AVE,
+ Validate Address: true,
+ Validate Address Dialog: {}
+}
+
+PreviousDwellingAddress: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '84101', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '112', 
+    Street Name: Test street
+  }
+}
+
+MailingAddress: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '84101', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '111', 
+    Street Name: Test street
+  }
+}
+
+NamedInsuredInformation: {
+  Home Phone Number: '1234567890', 
+  Work Phone Number: '1234565432', 
+  Mobile Phone Number: '1234543231', 
+  "Preferred Phone #": 'index=1',
+  Email: qwqwq@qw.qw
+}
+
+OtherActiveAAAPolicies: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual'
+}
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual:  {
+  Policy type: HO3,
+  Policy number: '345345345',
+  Coverage E: '1000',
+  Deductible: '1000',
+  Dwelling usage: Primary,
+  Occupancy type: Owner occupied
+}
+
+AgentInfo: {
+  Channel Type: Independent Agent,
+  Agency: SMTestIA - 400001650
+}
+
+# ------------- PropertyInfo Tab -------------
+DwellingAddress_PropertyInfoTab: {
+  Number of family units: 2-Duplex
+}
+
+AdditionalAddress: {
+  Are there any additional address: 'Yes', 
+  Zip code: '84003', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+
+PropertyValue: {
+  Coverage A - Dwelling limit: 150000,
+  ISO replacement cost: 145000,
+  Reason replacement cost differs from the tool value: '/first',
+  Purchase date of home: '/today-1y:MM/dd/yyyy'
+}
+
+Construction: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: '/first',
+    Construction type: '/first'
+  }
+
+Interior: {
+  Dwelling usage: Primary, 
+  Number of residents: '3',
+  Number of stories: '/first'
+}
+
+DetachedStructures: {
+  "Are there any detached structures on the property?": 'Yes', 
+   Rented to others: 'No', 
+   Description: 'description',
+   Limit of liability: '100'
+}
+
+HomeRenovation: {
+  Plumbing renovation: '100% Copper', 
+  "Plumbing % complete": '100', 
+  "Plumbing Month of completion": 3, 
+  "Plumbing Year of completion": '2009', 
+  Electrical renovation: '100% Circuit/Romex',
+  "Electrical % complete": '90', 
+  "Electrical Month of completion": 10, 
+  "Electrical Year of completion": '2010', 
+  Roof renovation: '100% Replace', 
+  "Roof % complete": '100', 
+  "Roof Month of completion": 6, 
+  "Roof Year of completion": '2012', 
+  "Heating/cooling renovation": Forced Air, 
+  "Heating/cooling % complete": '100', 
+  "Heating/cooling Month of completion": 5,
+  "Heating/cooling Year of completion": '2011', 
+  Green Home discount: 'No'
+}
+
+PetsOrAnimals: {
+  "Are any insured-owned pets or animals kept on the property?": 'Yes', 
+  Animal type: Livestock - Cow, 
+  Animal count: 2
+}
+
+Stoves: {
+  "Does the property have a wood-burning stove?": 'Yes', 
+  "Is the stove the sole source of heat?": 'No', 
+  "Was the stove installed by a licensed contractor?": 'Yes', 
+  "Does the dwelling have at least one smoke detector per story?": 'Yes'
+}
+
+RecreationalEquipment: {
+  Swimming pool: 'index=1', 
+  "Spa/hot tub": 'index=1', 
+  Trampoline: 'index=1'
+}
+
+# ------------- Mortgagees Tab -------------
+MortgageeInformation: {
+  Name: Leopold Stotch, 
+  Zip code: '84003', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+LegalPropetyAddress: {
+  Validate Address: true, 
+  Validate Address Dialog: {}
+} 
+
+AdditionalInsured: {
+  Interest: Trust, 
+  Name: Pasha Ulybasha
+}
+
+AdditionalInterest: {
+  Name: Stas Ivanov, 
+  Zip code: '84003', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+# =============== TestData for custom states ===============
+
+# ====================== TestData AZ =======================
+TestData_AZ: {
+  GeneralTab: '@GeneralTab_AZ',
+  ApplicantTab: '@ApplicantTab_AZ',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab_AZ',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_AZ',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_AZ: {
+  State: 'AZ',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_AZ: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_AZ',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_AZ',
+  MailingAddress: '@MailingAddress_AZ',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}
+
+PropertyInfoTab_AZ: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_AZ'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_AZ: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_AZ', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_AZ'
+}
+
+# --------- AZ: Applicant Tab ----------
+DwellingAddress_AZ: {
+ Zip code: '85003',
+ Street address 1: 265 CHIPMAN AVE,
+ Validate Address: true,
+ Validate Address Dialog: {}
+}
+
+PreviousDwellingAddress_AZ: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '85003', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Previous Address: 'Override and use original address' 
+  }
+}
+
+MailingAddress_AZ: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '85003', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address' 
+  }
+}
+
+# --------- AZ: PropertyInfo Tab ----------
+AdditionalAddress_AZ: {
+  Are there any additional address: 'Yes', 
+  Zip code: '85001', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+
+# --------- AZ: Mortgagees Tab ----------
+MortgageeInformation_AZ: {
+  Name: Leopold Stotch, 
+  Zip code: '85003', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+AdditionalInterest_AZ: {
+  Name: Stas Ivanov, 
+  Zip code: '85003', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+# ====================== TestData CO =======================
+TestData_CO: {
+  GeneralTab: '@GeneralTab_CO',
+  ApplicantTab: '@ApplicantTab_CO',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab_CO',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_CO',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_CO: {
+  State: 'CO',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_CO: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_CO',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_CO',
+  MailingAddress: '@MailingAddress_CO',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherActiveAAAPolicies_CO'],
+  AgentInfo: '@AgentInfo'
+}
+
+PropertyInfoTab_CO: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_CO'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction_CO',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_CO: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_CO', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_CO'
+}
+
+# --------- CO: Applicant Tab ----------
+DwellingAddress_CO: {
+ Zip code: '80004',
+ Street address 1: 265 CHIPMAN AVE,
+ Validate Address: true,
+ Validate Address Dialog: {}
+}
+
+PreviousDwellingAddress_CO: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '80210', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '112', 
+    Street Name: Test street
+  }
+}
+
+MailingAddress_CO: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '80210', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '111', 
+    Street Name: Test street
+  }
+}
+
+OtherActiveAAAPolicies_CO: {
+  #Other active AAA policies: "Yes",
+  #Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_CO' 
+}
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_CO:  {
+  Policy type: Auto,
+  "Companion Auto Pending with Discount?": 'No',
+  Auto policy state: CO, 
+  Policy number: '345345345',
+  Effective date: '/today:MM/dd/yyyy',
+  Policy tier: '/first',
+  Auto policy BI limit: '/first',
+  Auto Insurance Persistency: '21'
+}
+
+# --------- CO: PropertyInfo Tab ----------
+AdditionalAddress_CO: {
+  Are there any additional address: 'Yes', 
+  Zip code: '80004', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+
+Construction_CO: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: '/first',
+    Construction type: '/first',
+    Hail-resistance rating: '/first'
+  }
+
+# --------- CO: Mortgagees Tab ----------
+MortgageeInformation_CO: {
+  Name: Leopold Stotch, 
+  Zip code: '80004', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+AdditionalInterest_CO: {
+  Name: Stas Ivanov, 
+  Zip code: '80004', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+# ====================== TestData CT =======================
+TestData_CT: {
+  GeneralTab: '@GeneralTab_CT',
+  ApplicantTab: '@ApplicantTab_CT',
+  ReportsTab: '@ReportsTab_CT',
+  PropertyInfoTab: '@PropertyInfoTab_CT',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_CT',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_CT',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_CT: {
+  State: 'CT',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_CT: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_CT',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_CT',
+  MailingAddress: '@MailingAddress_CT',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}
+
+ReportsTab_CT: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  RiskMeterReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+  #ISO360Report: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab_CT: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_CT'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_CT: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_CT', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_CT'
+}
+
+UnderwritingAndApprovalTab_CT: {
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'No',
+  "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No'
+}
+
+# --------- CT: Applicant Tab ----------
+DwellingAddress_CT: {
+  Zip code: '06519',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}  
+
+PreviousDwellingAddress_CT: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '06010', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Previous Address: 'Override and use original address'
+  }
+}
+
+MailingAddress_CT: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '06010', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address'
+  }
+}
+
+# --------- CT: PropertyInfo Tab ----------
+AdditionalAddress_CT: {
+  Are there any additional address: 'Yes', 
+  Zip code: '06519', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+
+# --------- CT: Mortgagees Tab ----------
+MortgageeInformation_CT: {
+  Name: Leopold Stotch, 
+  Zip code: '06519', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+AdditionalInterest_CT: {
+  Name: Stas Ivanov, 
+  Zip code: '06519', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+# ====================== TestData DC =======================
+TestData_DC: {
+  GeneralTab: '@GeneralTab_DC',
+  ApplicantTab: '@ApplicantTab_DC',
+  ReportsTab: '@ReportsTab_DC',
+  PropertyInfoTab: '@PropertyInfoTab_DC',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_DC',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_DC: {
+  State: 'DC',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_DC: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_DC',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_DC',
+  MailingAddress: '@MailingAddress_DC',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+
+ReportsTab_DC: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab_DC: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_DC'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_DC: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_DC', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress_DC',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_DC'
+}
+
+# --------- DC: Applicant Tab ----------
+DwellingAddress_DC: {
+  Zip code: '20004',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '265',
+    Street Name: CHIPMAN AVE
+  }
+}   
+
+PreviousDwellingAddress_DC: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '20001', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '112', 
+    Street Name: Test street
+  }
+}
+
+MailingAddress_DC: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '20001', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '111', 
+    Street Name: Test street
+  }
+}
+
+# --------- DC: PropertyInfo Tab ----------
+AdditionalAddress_DC: {
+  Are there any additional address: 'Yes', 
+  Zip code: '20004', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Street number: '266', 
+    Street Name: Chipman Ave
+  }
+}
+
+# --------- DC: Mortgagees Tab ----------
+MortgageeInformation_DC: {
+  Name: Leopold Stotch, 
+  Zip code: '20004', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Street number: '265', 
+    Street Name: CHIPMAN AVE
+  }, 
+  Loan number: '12345678'
+}
+
+LegalPropetyAddress_DC: {
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Street number: '265', 
+    Street Name: CHIPMAN AVE
+  }
+} 
+
+AdditionalInterest_DC: {
+  Name: Stas Ivanov, 
+  Zip code: '20004', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+# ====================== TestData DE =======================
+TestData_DE: {
+  GeneralTab: '@GeneralTab_DE',
+  ApplicantTab: '@ApplicantTab_DE',
+  ReportsTab: '@ReportsTab_DE',
+  PropertyInfoTab: '@PropertyInfoTab_DE',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_DE',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_DE: {
+  State: 'DE',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_DE: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_DE',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_DE',
+  MailingAddress: '@MailingAddress_DE',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+
+ReportsTab_DE: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  RiskMeterReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+  #ISO360Report: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab_DE: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_DE'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_DE: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_DE', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_DE'
+}
+
+# --------- DE: Applicant Tab ----------
+DwellingAddress_DE: {
+  Zip code: '19802',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}  
+
+PreviousDwellingAddress_DE: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '19701', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '112', 
+    Street Name: Test street
+  }
+}
+
+MailingAddress_DE: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '19701', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '111', 
+    Street Name: Test street
+  }
+}
+
+# --------- DE: PropertyInfo Tab ----------
+AdditionalAddress_DE: {
+  Are there any additional address: 'Yes', 
+  Zip code: '19802', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+
+# --------- DE: Mortgagees Tab ----------
+MortgageeInformation_DE: {
+  Name: Leopold Stotch, 
+  Zip code: '19802', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+AdditionalInterest_DE: {
+  Name: Stas Ivanov, 
+  Zip code: '19802', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+# ====================== TestData ID =======================
+TestData_ID: {
+  GeneralTab: '@GeneralTab_ID',
+  ApplicantTab: '@ApplicantTab_ID',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab_ID',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_ID',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_ID: {
+  State: 'ID',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_ID: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_ID',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_ID',
+  MailingAddress: '@MailingAddress_ID',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+ 
+PropertyInfoTab_ID: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_ID'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_ID: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_ID', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_ID'
+} 
+
+# --------- ID: Applicant Tab ----------
+DwellingAddress_ID: {
+  Zip code: '83212',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}  
+
+PreviousDwellingAddress_ID: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '83220', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Previous Address: 'Override and use original address'
+  }
+}
+
+MailingAddress_ID: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '83220', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address'
+  }
+}
+
+# --------- ID: PropertyInfo Tab ----------
+AdditionalAddress_ID: {
+  Are there any additional address: 'Yes', 
+  Zip code: '83212', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+
+# --------- ID: Mortgagees Tab ----------
+MortgageeInformation_ID: {
+  Name: Leopold Stotch, 
+  Zip code: '83212', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+AdditionalInterest_ID: {
+  Name: Stas Ivanov, 
+  Zip code: '83212', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+# ====================== TestData IN =======================
+TestData_IN: {
+  GeneralTab: '@GeneralTab_IN',
+  ApplicantTab: '@ApplicantTab_IN',
+  ReportsTab: '@ReportsTab_IN',
+  PropertyInfoTab: '@PropertyInfoTab_IN',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_IN',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_IN: {
+  State: 'IN',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_IN: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_IN',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_IN',
+  MailingAddress: '@MailingAddress_IN',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_IN',
+  AgentInfo: '@AgentInfo'
+}  
+
+ReportsTab_IN: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab_IN: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_IN'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction_IN',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_IN: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_IN', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_IN'
+} 
+
+# --------- IN: Applicant Tab ----------
+DwellingAddress_IN: {
+  Zip code: '46064',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+} 
+
+PreviousDwellingAddress_IN: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '46039', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '112', 
+    Street Name: Test street
+  }
+}
+
+MailingAddress_IN: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '46039', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '111', 
+    Street Name: Test street
+  }
+}
+
+OtherActiveAAAPolicies_IN: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_IN', 
+}
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_IN:  {
+  Policy type: Auto,
+  "Companion Auto Pending with Discount?": 'No',
+  Auto policy state: IN, 
+  Policy number: '345345345',
+  Effective date: '/today:MM/dd/yyyy',
+  Policy tier: '/first',
+  Auto policy BI limit: '/first',
+  Auto Insurance Persistency: '21'
+}
+
+
+# --------- IN: PropertyInfo Tab ----------
+AdditionalAddress_IN: {
+  Are there any additional address: 'Yes', 
+  Zip code: '46064', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+
+Construction_IN: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: '/first',
+    Construction type: '/first',
+    Hail-resistance rating: '/first'
+}
+
+# --------- IN: Mortgagees Tab ----------
+MortgageeInformation_IN: {
+  Name: Leopold Stotch, 
+  Zip code: '46064', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+AdditionalInterest_IN: {
+  Name: Stas Ivanov, 
+  Zip code: '46064', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+  
+# ====================== TestData KS =======================
+TestData_KS: {
+  GeneralTab: '@GeneralTab_KS',
+  ApplicantTab: '@ApplicantTab_KS',
+  ReportsTab: '@ReportsTab_KS',
+  PropertyInfoTab: '@PropertyInfoTab_KS',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_KS',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_KS: {
+  State: 'KS',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_KS: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_KS',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_KS',
+  MailingAddress: '@MailingAddress_KS',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_KS',
+  AgentInfo: '@AgentInfo'
+}  
+
+ReportsTab_KS: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab_KS: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_KS'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction_KS',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_KS: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_KS', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_KS'
+} 
+
+# --------- KS: Applicant Tab ----------
+DwellingAddress_KS: {
+  Zip code: '66006',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+} 
+
+PreviousDwellingAddress_KS: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '66008', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '112', 
+    Street Name: Test street
+  }
+}
+
+MailingAddress_KS: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '66008', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '111', 
+    Street Name: Test street
+  }
+}
+
+OtherActiveAAAPolicies_KS: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_KS', 
+}
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_KS:  {
+  Policy type: Auto,
+  "Companion Auto Pending with Discount?": 'No',
+  Auto policy state: KS, 
+  Policy number: '345345345',
+  Effective date: '/today:MM/dd/yyyy',
+  Policy tier: '/first',
+  Auto policy BI limit: '/first',
+  Auto Insurance Persistency: '21'
+}
+
+# --------- KS: PropertyInfo Tab ----------
+AdditionalAddress_KS: {
+  Are there any additional address: 'Yes', 
+  Zip code: '66006', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+
+Construction_KS: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: '/first',
+    Construction type: '/first',
+    Hail-resistance rating: '/first'
+}
+
+# --------- KS: Mortgagees Tab ----------
+MortgageeInformation_KS: {
+  Name: Leopold Stotch, 
+  Zip code: '66006', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+AdditionalInterest_KS: {
+  Name: Stas Ivanov, 
+  Zip code: '66006', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+
+# ====================== TestData KY =======================
+TestData_KY: {
+  GeneralTab: '@GeneralTab_KY',
+  ApplicantTab: '@ApplicantTab_KY',
+  ReportsTab: '@ReportsTab_KY',
+  PropertyInfoTab: '@PropertyInfoTab_KY',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_KY',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_KY',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_KY: {
+  State: 'KY',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_KY: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_KY',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_KY',
+  MailingAddress: '@MailingAddress_KY',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_KY',
+  AgentInfo: '@AgentInfo'
+}  
+  
+ReportsTab_KY: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab_KY: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_KY'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction_KY',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_KY: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_KY', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_KY'
+} 
+
+UnderwritingAndApprovalTab_KY: {
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Has the property been in foreclosure proceedings within the past 18 months?": 'No', 
+  "Do employees of any resident or applicant reside in the dwelling?": 'No', 
+  "Is any business or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No'
+}
+
+# --------- KY: Applicant Tab ----------
+DwellingAddress_KY: {
+  Zip code: '40006',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+} 
+
+PreviousDwellingAddress_KY: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '40026', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '112', 
+    Street Name: Test street
+  }
+}
+
+MailingAddress_KY: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '40026', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '111', 
+    Street Name: Test street
+  }
+}
+
+OtherActiveAAAPolicies_KY: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_KY', 
+}
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_KY:  {
+  Policy type: Auto,
+  "Companion Auto Pending with Discount?": 'No',
+  Auto policy state: KY, 
+  Policy number: '345345345',
+  Effective date: '/today:MM/dd/yyyy',
+  Policy tier: '/first',
+  Auto policy BI limit: '/first',
+  Auto Insurance Persistency: '21'
+}
+
+# --------- KY: PropertyInfo Tab ----------
+AdditionalAddress_KY: {
+  Are there any additional address: 'Yes', 
+  Zip code: '40006', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+
+Construction_KY: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: '/first',
+    Construction type: '/first',
+    Hail-resistance rating: '/first'
+}
+
+# --------- KY: Mortgagees Tab ----------
+MortgageeInformation_KY: {
+  Name: Leopold Stotch, 
+  Zip code: '40006', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+AdditionalInterest_KY: {
+  Name: Stas Ivanov, 
+  Zip code: '40006', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+
+# ====================== TestData MD =======================
+TestData_MD: {
+  GeneralTab: '@GeneralTab_MD',
+  ApplicantTab: '@ApplicantTab_MD',
+  ReportsTab: '@ReportsTab_MD',
+  PropertyInfoTab: '@PropertyInfoTab_MD',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_MD',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_MD',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_MD: {
+  State: 'MD',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_MD: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_MD',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_MD',
+  MailingAddress: '@MailingAddress_MD',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+ 
+ReportsTab_MD: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  #InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  RiskMeterReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+} 
+
+PropertyInfoTab_MD: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_MD'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_MD: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_MD', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_MD'
+}  
+
+UnderwritingAndApprovalTab_MD: {
+  "Applicant(s), who have been cancelled, refused insurance or non-renewed in the past 3 years are ineligible if based on any of the following reasons: Fraud or Material Misrepresentation, Substantial Increase in Hazard, or Claims.": "No",
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No", 
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No", 
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is any business or farming activity conducted on the premises?": "No"
+}
+
+# --------- MD: Applicant Tab ----------
+DwellingAddress_MD: {
+  Zip code: '21217',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+PreviousDwellingAddress_MD: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '21218', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Previous Address: 'Override and use original address'
+  }
+}
+
+MailingAddress_MD: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '21218', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address'
+  }
+}
+
+# --------- MD: PropertyInfo Tab ----------
+AdditionalAddress_MD: {
+  Are there any additional address: 'Yes', 
+  Zip code: '21217', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+
+# --------- MD: Mortgagees Tab ----------
+MortgageeInformation_MD: {
+  Name: Leopold Stotch, 
+  Zip code: '21217', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+AdditionalInterest_MD: {
+  Name: Stas Ivanov, 
+  Zip code: '21217', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+
+# ====================== TestData MT =======================
+TestData_MT: {
+  GeneralTab: '@GeneralTab_MT',
+  ApplicantTab: '@ApplicantTab_MT',
+  ReportsTab: '@ReportsTab_MT',
+  PropertyInfoTab: '@PropertyInfoTab_MT',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_MT',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_MT: {
+  State: 'MT',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_MT: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_MT',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_MT',
+  MailingAddress: '@MailingAddress_MT',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+
+ReportsTab_MT: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+} 
+
+PropertyInfoTab_MT: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_MT'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_MT: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_MT', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_MT'
+}  
+
+# --------- MT: Applicant Tab ----------
+DwellingAddress_MT: {
+  Zip code: '59003',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+PreviousDwellingAddress_MT: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '59024', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Previous Address: 'Override and use original address'
+  }
+}
+
+MailingAddress_MT: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '59024', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address'
+  }
+}
+
+# --------- MT: PropertyInfo Tab ----------
+AdditionalAddress_MT: {
+  Are there any additional address: 'Yes', 
+  Zip code: '59003', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+
+# --------- MT: Mortgagees Tab ----------
+MortgageeInformation_MT: {
+  Name: Leopold Stotch, 
+  Zip code: '59003', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+AdditionalInterest_MT: {
+  Name: Stas Ivanov, 
+  Zip code: '59003', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+
+
+# ====================== TestData NJ =======================
+TestData_NJ: {
+  GeneralTab: '@GeneralTab_NJ',
+  ApplicantTab: '@ApplicantTab_NJ',
+  ReportsTab: '@ReportsTab_NJ',
+  PropertyInfoTab: '@PropertyInfoTab_NJ',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_NJ',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_NJ: {
+  State: 'NJ',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_NJ: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_NJ',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_NJ',
+  MailingAddress: '@MailingAddress_NJ',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+ 
+ReportsTab_NJ: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+} 
+
+PropertyInfoTab_NJ: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_NJ'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_NJ: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_NJ', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_NJ'
+}  
+ 
+# --------- NJ: Applicant Tab ----------
+DwellingAddress_NJ: {
+  Zip code: '07005',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+} 
+
+PreviousDwellingAddress_NJ: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '07005', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Previous Address: 'Override and use original address'
+  }
+}
+
+MailingAddress_NJ: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '07005', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address'
+  }
+}
+
+# --------- NJ: PropertyInfo Tab ----------
+AdditionalAddress_NJ: {
+  Are there any additional address: 'Yes', 
+  Zip code: '07005', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+
+# --------- NJ: Mortgagees Tab ----------
+MortgageeInformation_NJ: {
+  Name: Leopold Stotch, 
+  Zip code: '07005', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+AdditionalInterest_NJ: {
+  Name: Stas Ivanov, 
+  Zip code: '07005', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+
+# ====================== TestData NV =======================
+TestData_NV: {
+  GeneralTab: '@GeneralTab_NV',
+  ApplicantTab: '@ApplicantTab_NV',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab_NV',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_NV',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_NV',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_NV: {
+  State: 'NV',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_NV: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_NV',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_NV',
+  MailingAddress: '@MailingAddress_NV',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+
+PropertyInfoTab_NV: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_NV'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_NV: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_NV', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_NV'
+}  
+
+UnderwritingAndApprovalTab_NV: {
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No", 
+  "Are all water heaters (except tankless and electric heaters) strapped to the wall with at least one strap and if located in the garage, raised at least 18 inches from the floor?": "No"
+}
+
+# --------- NV: Applicant Tab ----------
+DwellingAddress_NV: {
+  Zip code: '89010',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+} 
+
+PreviousDwellingAddress_NV: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '89014', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '112', 
+    Street Name: Test street
+  }
+}
+
+MailingAddress_NV: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '89014', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '111', 
+    Street Name: Test street
+  }
+}
+
+# --------- NV: PropertyInfo Tab ----------
+AdditionalAddress_NV: {
+  Are there any additional address: 'Yes', 
+  Zip code: '89010', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+
+# --------- NV: Mortgagees Tab ----------
+MortgageeInformation_NV: {
+  Name: Leopold Stotch, 
+  Zip code: '89010', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+AdditionalInterest_NV: {
+  Name: Stas Ivanov, 
+  Zip code: '89010', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+# ====================== TestData NY =======================
+TestData_NY: {
+  GeneralTab: '@GeneralTab_NY',
+  ApplicantTab: '@ApplicantTab_NY',
+  ReportsTab: '@ReportsTab_NY',
+  PropertyInfoTab: '@PropertyInfoTab_NY',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_NY',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_NY: {
+  State: 'NY',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_NY: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_NY',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_NY',
+  MailingAddress: '@MailingAddress_NY',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+
+ReportsTab_NY: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab_NY: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_NY'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_NY: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_NY', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_NY'
+}  
+
+# --------- NY: Applicant Tab ----------
+DwellingAddress_NY: {
+  Zip code: '10451',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+PreviousDwellingAddress_NY: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '10502', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Previous Address: 'Override and use original address'
+  }
+}
+
+MailingAddress_NY: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '10502', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address'
+  }
+}
+
+# --------- NY: PropertyInfo Tab ----------
+AdditionalAddress_NY: {
+  Are there any additional address: 'Yes', 
+  Zip code: '10451', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+
+# --------- NY: Mortgagees Tab ----------
+MortgageeInformation_NY: {
+  Name: Leopold Stotch, 
+  Zip code: '10451', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+AdditionalInterest_NY: {
+  Name: Stas Ivanov, 
+  Zip code: '10451', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+# ====================== TestData OH =======================
+TestData_OH: {
+  GeneralTab: '@GeneralTab_OH',
+  ApplicantTab: '@ApplicantTab_OH',
+  ReportsTab: '@ReportsTab_OH',
+  PropertyInfoTab: '@PropertyInfoTab_OH',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_OH',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_OH: {
+  State: 'OH',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_OH: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_OH',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_OH',
+  MailingAddress: '@MailingAddress_OH',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_OH',
+  AgentInfo: '@AgentInfo'
+}  
+
+ReportsTab_OH: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab_OH: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_OH'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction_OH',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_OH: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_OH', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_OH'
+} 
+
+# --------- OH: Applicant Tab ----------  
+DwellingAddress_OH: {
+  Zip code: '43202',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+PreviousDwellingAddress_OH: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '43609', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Previous Address: 'Override and use original address'
+  }
+}
+
+MailingAddress_OH: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '43609', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address'
+  }
+}
+
+OtherActiveAAAPolicies_OH: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_OH', 
+}
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_OH:  {
+  Policy type: Auto,
+  "Companion Auto Pending with Discount?": 'No',
+  Auto policy state: OH, 
+  Policy number: '345345345',
+  Effective date: '/today:MM/dd/yyyy',
+  Policy tier: '/first',
+  Auto policy BI limit: '/first',
+  Auto Insurance Persistency: '21'
+}
+
+# --------- OH: PropertyInfo Tab ----------
+AdditionalAddress_OH: {
+  Are there any additional address: 'Yes', 
+  Zip code: '43202', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+
+Construction_OH: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: '/first',
+    Construction type: '/first',
+    Hail-resistance rating: '/first'
+}
+
+# --------- OH: Mortgagees Tab ----------
+MortgageeInformation_OH: {
+  Name: Leopold Stotch, 
+  Zip code: '43202', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+AdditionalInterest_OH: {
+  Name: Stas Ivanov, 
+  Zip code: '43202', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+
+
+# ====================== TestData OK =======================
+TestData_OK: {
+  GeneralTab: '@GeneralTab_OK',
+  ApplicantTab: '@ApplicantTab_OK',
+  ReportsTab: '@ReportsTab_OK',
+  PropertyInfoTab: '@PropertyInfoTab_OK',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_OK',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_OK: {
+  State: 'OK',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_OK: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_OK',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_OK',
+  MailingAddress: '@MailingAddress_OK',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_OK',
+  AgentInfo: '@AgentInfo'
+}  
+
+ReportsTab_OK: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab_OK: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_OK'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction_OK',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_OK: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_OK', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_OK'
+} 
+
+# --------- OK: Applicant Tab ----------  
+DwellingAddress_OK: {
+  Zip code: '73099',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+PreviousDwellingAddress_OK: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '73073', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Previous Address: 'Override and use original address'
+  }
+}
+
+MailingAddress_OK: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '73073', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address'
+  }
+}
+
+OtherActiveAAAPolicies_OK: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_OK', 
+}
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_OK:  {
+  Policy type: Auto,
+  "Companion Auto Pending with Discount?": 'No',
+  Auto policy state: OK, 
+  Policy number: '345345345',
+  Effective date: '/today:MM/dd/yyyy',
+  Policy tier: '/first',
+  Auto policy BI limit: '/first',
+  Auto Insurance Persistency: '21'
+}
+
+# --------- OK: PropertyInfo Tab ----------
+AdditionalAddress_OK: {
+  Are there any additional address: 'Yes', 
+  Zip code: '73099', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+
+Construction_OK: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: '/first',
+    Construction type: '/first',
+    Hail-resistance rating: '/first'
+}
+
+# --------- OK: Mortgagees Tab ----------
+MortgageeInformation_OK: {
+  Name: Leopold Stotch, 
+  Zip code: '73099', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+AdditionalInterest_OK: {
+  Name: Stas Ivanov, 
+  Zip code: '73099', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+
+# ====================== TestData OR =======================
+TestData_OR: {
+  GeneralTab: '@GeneralTab_OR',
+  ApplicantTab: '@ApplicantTab_OR',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab_OR',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_OR',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_OR',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_OR: {
+  State: 'OR',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_OR: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_OR',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_OR',
+  MailingAddress: '@MailingAddress_OR',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+} 
+
+PropertyInfoTab_OR: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_OR'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_OR: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_OR', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_OR'
+} 
+
+UnderwritingAndApprovalTab_OR: {
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is any business, adult day care, pet day care or farming activity conducted on the premises?": "No"
+}
+
+# --------- OR: Applicant Tab ----------  
+DwellingAddress_OR: {
+  Zip code: '97017',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+PreviousDwellingAddress_OR: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '97020', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Previous Address: 'Override and use original address'
+  }
+}
+
+MailingAddress_OR: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '97020', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address'
+  }
+}
+
+# --------- OR: PropertyInfo Tab ----------
+AdditionalAddress_OR: {
+  Are there any additional address: 'Yes', 
+  Zip code: '97017', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+
+# --------- OR: Mortgagees Tab ----------
+MortgageeInformation_OR: {
+  Name: Leopold Stotch, 
+  Zip code: '97017', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+AdditionalInterest_OR: {
+  Name: Stas Ivanov, 
+  Zip code: '97017', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+
+
+# ====================== TestData PA =======================
+TestData_PA: {
+  GeneralTab: '@GeneralTab_PA',
+  ApplicantTab: '@ApplicantTab_PA',
+  ReportsTab: '@ReportsTab_PA',
+  PropertyInfoTab: '@PropertyInfoTab_PA',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_PA',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_PA: {
+  State: 'PA',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_PA: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_PA',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_PA',
+  MailingAddress: '@MailingAddress_PA',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+  
+ReportsTab_PA: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab_PA: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_PA'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_PA: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_PA', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_PA'
+} 
+
+# --------- PA: Applicant Tab ----------  
+DwellingAddress_PA: {
+  Zip code: '15001',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+PreviousDwellingAddress_PA: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '15001', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Previous Address: 'Override and use original address'
+  }
+}
+
+MailingAddress_PA: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '15001', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Mailing Address: 'Override and use original address'
+  }
+}
+
+# --------- PA: PropertyInfo Tab ----------
+AdditionalAddress_PA: {
+  Are there any additional address: 'Yes', 
+  Zip code: '15001', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+
+# --------- PA: Mortgagees Tab ----------
+MortgageeInformation_PA: {
+  Name: Leopold Stotch, 
+  Zip code: '15001', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+AdditionalInterest_PA: {
+  Name: Stas Ivanov, 
+  Zip code: '15001', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+
+# ====================== TestData SD =======================
+TestData_SD: {
+  GeneralTab: '@GeneralTab_SD',
+  ApplicantTab: '@ApplicantTab_SD',
+  ReportsTab: '@ReportsTab_SD',
+  PropertyInfoTab: '@PropertyInfoTab_SD',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_SD',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_SD: {
+  State: 'SD',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_SD: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_SD',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_SD',
+  MailingAddress: '@MailingAddress_SD',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+
+ReportsTab_SD: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab_SD: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_SD'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction_SD',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_SD: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_SD', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_SD'
+} 
+
+# --------- SD: Applicant Tab ----------
+DwellingAddress_SD: {
+  Zip code: '57010',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+PreviousDwellingAddress_SD: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '57012', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '112', 
+    Street Name: Test street
+  }
+}
+
+MailingAddress_SD: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '57012', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '111', 
+    Street Name: Test street
+  }
+}
+
+# --------- SD: PropertyInfo Tab ----------
+AdditionalAddress_SD: {
+  Are there any additional address: 'Yes', 
+  Zip code: '57010', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+
+Construction_SD: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: '/first',
+    Construction type: '/first',
+    Hail-resistance rating: '/first'
+}
+
+# --------- SD: Mortgagees Tab ----------
+MortgageeInformation_SD: {
+  Name: Leopold Stotch, 
+  Zip code: '57010', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+AdditionalInterest_SD: {
+  Name: Stas Ivanov, 
+  Zip code: '57010', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+
+# ====================== TestData VA =======================
+TestData_VA: {
+  GeneralTab: '@GeneralTab_VA',
+  ApplicantTab: '@ApplicantTab_VA',
+  ReportsTab: '@ReportsTab_VA',
+  PropertyInfoTab: '@PropertyInfoTab_VA',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_VA',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_VA: {
+  State: 'VA',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_VA: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_VA',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_VA',
+  MailingAddress: '@MailingAddress_VA',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+
+ReportsTab_VA: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab_VA: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_VA'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_VA: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_VA', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_VA'
+} 
+
+# --------- VA: Applicant Tab ----------
+DwellingAddress_VA: {
+  Zip code: '20105',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+PreviousDwellingAddress_VA: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '20105', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '112', 
+    Street Name: Test street
+  }
+}
+
+MailingAddress_VA: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '20105', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '111', 
+    Street Name: Test street
+  }
+}
+
+# --------- VA: PropertyInfo Tab ----------
+AdditionalAddress_VA: {
+  Are there any additional address: 'Yes', 
+  Zip code: '20105', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+
+# --------- VA: Mortgagees Tab ----------
+MortgageeInformation_VA: {
+  Name: Leopold Stotch, 
+  Zip code: '20105', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+AdditionalInterest_VA: {
+  Name: Stas Ivanov, 
+  Zip code: '20105', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+
+# ====================== TestData WV =======================
+TestData_WV: {
+  GeneralTab: '@GeneralTab_WV',
+  ApplicantTab: '@ApplicantTab_WV',
+  ReportsTab: '@ReportsTab_WV',
+  PropertyInfoTab: '@PropertyInfoTab_WV',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_WV',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_WV: {
+  State: 'WV',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_WV: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_WV',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_WV',
+  MailingAddress: '@MailingAddress_WV',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+  
+ReportsTab_WV: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab_WV: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_WV'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction_WV',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_WV: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_WV', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_WV'
+} 
+
+# --------- WV: Applicant Tab ----------
+DwellingAddress_WV: {
+  Zip code: '24714',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+PreviousDwellingAddress_WV: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '24712', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '112', 
+    Street Name: Test street
+  }
+}
+
+MailingAddress_WV: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '24712', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '111', 
+    Street Name: Test street
+  }
+}
+
+# --------- WV: PropertyInfo Tab ----------
+AdditionalAddress_WV: {
+  Are there any additional address: 'Yes', 
+  Zip code: '24714', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+Construction_WV: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: '/first',
+    Construction type: '/first',
+    Hail-resistance rating: '/first'
+}
+
+# --------- WV: Mortgagees Tab ----------
+MortgageeInformation_WV: {
+  Name: Leopold Stotch, 
+  Zip code: '24714', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+AdditionalInterest_WV: {
+  Name: Stas Ivanov, 
+  Zip code: '24714', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+
+# ====================== TestData WY =======================
+TestData_WY: {
+  GeneralTab: '@GeneralTab_WY',
+  ApplicantTab: '@ApplicantTab_WY',
+  ReportsTab: '@ReportsTab_WY',
+  PropertyInfoTab: '@PropertyInfoTab_WY',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_WY',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_WY: {
+  State: 'WY',
+  Policy type: 'HO3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_WY: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_WY',
+  PreviousDwellingAddress: '@PreviousDwellingAddress_WY',
+  MailingAddress: '@MailingAddress_WY',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+  
+ReportsTab_WY: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab_WY: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: ['@AdditionalAddress_WY'],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction',
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+}
+
+MortgageesTab_WY: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: '@MortgageeInformation_WY', 
+  Use legal named insured: 'Yes', 
+  Legal named insured: Pasha Ulybasha, 
+  "Use legal property address": 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: '@AdditionalInsured', 
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: '@AdditionalInterest_WY'
+} 
+
+# --------- WY: Applicant Tab ----------
+DwellingAddress_WY: {
+  Zip code: '82081',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+PreviousDwellingAddress_WY: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
+  Zip code: '82213', 
+  Street address 1: '112 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '112', 
+    Street Name: Test street
+  }
+}
+
+MailingAddress_WY: {
+  "Is the mailing address different from the dwelling address?": 'Yes', 
+  Zip code: '82213', 
+  Street address 1: '111 Test street', 
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: '111', 
+    Street Name: Test street
+  }
+}
+
+# --------- WY: PropertyInfo Tab ----------
+AdditionalAddress_WY: {
+  Are there any additional address: 'Yes', 
+  Zip code: '82081', 
+  Street address 1: '266 Chipman Ave', 
+  Validate Address: true, 
+  Validate Address Dialog: {
+    Additional Dwelling Address: 'Override and use original address'
+  }
+}
+
+# --------- WY: Mortgagees Tab ----------
+MortgageeInformation_WY: {
+  Name: Leopold Stotch, 
+  Zip code: '82081', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Validate Address: true, 
+  Validate Address Dialog: {}, 
+  Loan number: '12345678'
+}
+
+AdditionalInterest_WY: {
+  Name: Stas Ivanov, 
+  Zip code: '82081', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: test,
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+

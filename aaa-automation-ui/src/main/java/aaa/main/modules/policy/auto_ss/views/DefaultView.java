@@ -5,6 +5,7 @@
 package aaa.main.modules.policy.auto_ss.views;
 
 import aaa.common.Workspace;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.AssignmentTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
@@ -37,6 +38,7 @@ public class DefaultView extends Workspace {
 		registerTab(PremiumAndCoveragesTab.class);
 		registerTab(DriverActivityReportsTab.class);
 		registerTab(DocumentsAndBindTab.class);
+		registerTab(ErrorTab.class);
 		registerTab(PurchaseTab.class);
 	}
 }

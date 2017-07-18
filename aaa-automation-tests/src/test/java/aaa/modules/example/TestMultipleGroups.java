@@ -3,9 +3,7 @@ package aaa.modules.example;
 import org.testng.annotations.Test;
 
 import aaa.helpers.Groups;
-import aaa.helpers.TimePoints.TimepointsList;
 import aaa.modules.policy.HomeSSBaseTest;
-import toolkit.utils.datetime.DateTime;
 
 /**
  * Rule 1: all Test classes should start from "Test" prefix. 
@@ -23,19 +21,19 @@ public class TestMultipleGroups extends HomeSSBaseTest {
 	@Test(groups = { Groups.SMOKE, Groups.AUTO_SS })
 	public void test1() {
 		log.info("TestMultipleGroups1");
-		log.info(getTimePoints().getTimepoint(new DateTime(), TimepointsList.RENEW_GENERATE_IMAGE, false).toString());
+		//log.info(getTimePoints().getTimepoint(new DateTime(), TimepointsList.RENEW_GENERATE_IMAGE, false).toString());
 	}
 
 	@Test(groups = { Groups.SMOKE, Groups.AUTO_CA })
 	public void test2() {
 		log.info("TestMultipleGroups2");
-		log.info(getTimePoints().getRenewCheckUWRules(new DateTime()).toString());
+		//log.info(getTimePoints().getRenewCheckUWRules(new DateTime()).toString());
 	}
 
 	@Test(groups = { Groups.SMOKE, Groups.HOME_SS })
 	public void test3() {
 		log.info("TestMultipleGroups3");
-		log.info(getTimePoints().getRenewOfferGenerationDate(new DateTime()).toString());
+		//log.info(getTimePoints().getRenewOfferGenerationDate(new DateTime()).toString());
 	}
 
 	@Test(groups = { Groups.SMOKE, Groups.HOME_CA })

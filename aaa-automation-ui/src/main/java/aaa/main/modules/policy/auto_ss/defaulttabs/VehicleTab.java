@@ -53,6 +53,12 @@ public class VehicleTab extends Tab {
    	 }
 	}
     
+    public void viewVehicle(int index){
+     	 if (tblVehicleList.isPresent() && tblVehicleList.getRow(index).isPresent()){
+     		tblVehicleList.getRow(index).getCell(5).controls.links.get("View/Edit").click(Waiters.AJAX);
+     	 }
+     }
+    
     public AssetList getOwnershipAssetList() {
     	return getAssetList().getControl(AutoSSMetaData.VehicleTab.OWNERSHIP.getLabel(), AssetList.class);
 	}

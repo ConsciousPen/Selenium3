@@ -5,6 +5,7 @@ package aaa.main.metadata.policy;
 import org.openqa.selenium.By;
 import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.ComboBoxFixed;
+import aaa.toolkit.webdriver.customcontrols.DetailedVehicleCoveragesRepeatAssetList;
 import aaa.toolkit.webdriver.customcontrols.FillableTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
@@ -364,7 +365,6 @@ public final class AutoCaMetaData {
 
 	public static final class PremiumAndCoveragesTab extends MetaData {
 		public static final AttributeDescriptor PRODUCT = declare("Product", ComboBox.class);
-
 		public static final AttributeDescriptor PAYMENT_PLAN = declare("Payment Plan", ComboBox.class);
 		public static final AttributeDescriptor POLICY_TERM = declare("Policy Term", ComboBox.class);
 
@@ -377,52 +377,51 @@ public final class AutoCaMetaData {
 		public static final AttributeDescriptor MEDICAL_PAYMENTS = declare("Medical Payments", ComboBoxFixed.class, By.xpath(".//table[@id='policyDataGatherForm:policyCoverageDetail']//span[normalize-space(.)='Medical Payments']/ancestor::tr[1]//select"));
 		public static final AttributeDescriptor POLICY_LEVEL_LIABILITY_COVERAGES =
 				declare("Policy Level Liability Coverages", StaticElement.class, By.xpath(".//table[@id='policyDataGatherForm:policyTableTotalVehiclePremium']//td[normalize-space(.)='Policy Level Liability Coverages']/ancestor::tr[1]//td[3]"));
-		// public static final AttributeDescriptor
-		// POLICY_LEVEL_LIABILITY_COVERAGES = declare("Policy Level Liability
-		// Coverages", StaticElement.class,
-		// By.id("policyDataGatherForm:policyTableTotalVehiclePremium:0:j_id_1_1x_56_1_a_1_2_k_1_1_3z"));
-
-		public static final AttributeDescriptor COMPREGENSIVE_DEDUCTIBLE = declare("Comprehensive Deductible", ComboBoxFixed.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Comprehensive Deductible']/ancestor::tr[1]//select"));
-		public static final AttributeDescriptor FULL_SAFETY_GLASS = declare("Full Safety Glass", ComboBoxFixed.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Full Safety Glass']/ancestor::tr[1]//select"));
-		public static final AttributeDescriptor COLLISION_DEDUCTIBLE = declare("Collision Deductible", ComboBoxFixed.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Collision Deductible']/ancestor::tr[1]//select"));
-		public static final AttributeDescriptor UNINSURED_MOTORIST_PROPERTY_DAMEGE =
-				declare("Uninsured Motorist Property Damage", ComboBoxFixed.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Uninsured Motorist Property Damage']/ancestor::tr[1]//select"));
-		public static final AttributeDescriptor COLLISION_DEDUCTIBLE_WAIVER = declare("Collision Deductible Waiver", ComboBoxFixed.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Collision Deductible Waiver']/ancestor::tr[1]//select"));
-		public static final AttributeDescriptor RENTAL_REIMBURSEMENT = declare("Rental Reimbursement", ComboBoxFixed.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Rental Reimbursement']/ancestor::tr[1]//select"));
-		public static final AttributeDescriptor TOWING_AND_LABOR_COVERAGE = declare("Towing and Labor Coverage", ComboBoxFixed.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Towing and Labor Coverage']/ancestor::tr[1]//select"));
-		public static final AttributeDescriptor SPECIAL_EQUIPMENT_COVERAGE = declare("Special Equipment Coverage", TextBox.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Special Equipment Coverage']/ancestor::tr[1]//select"));
-		public static final AttributeDescriptor SPECIAL_EQUIPMENT_DESCRIPTION = declare("Special Equipment Description", TextBox.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Special Equipment Description']/ancestor::tr[1]//select"));
-
-		public static final AttributeDescriptor ENHANCED_TRASPORTATION_EXPENCE =
-				declare("Enhanced Transportation Expense", ComboBoxFixed.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Enhanced Transportation Expense']/ancestor::tr[1]//select"));
-		public static final AttributeDescriptor ALL_RISK = declare("All Risk", ComboBoxFixed.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='All Risk']/ancestor::tr[1]//select"));
-		public static final AttributeDescriptor ORIGINAL_EQUIPMENT_MANUFACTURER_PARTS =
-				declare("Original Equipment Manufacturer Parts", ComboBoxFixed.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Original Equipment Manufacturer Parts']/ancestor::tr[1]//select"));
-		public static final AttributeDescriptor RIDE_SHARING_COVERAGE = declare("Ridesharing Coverage", ComboBoxFixed.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Ridesharing Coverage']/ancestor::tr[1]//select"));
-		public static final AttributeDescriptor VEHICLE_COVERAGE = declare("Vehicle Coverage", StaticElement.class, By.xpath(".//table[@id='policyDataGatherForm:subtotalVehiclePremium_1']//td[normalize-space(.)='Vehicle Coverage']/ancestor::tr[1]//td[3]"));
-
-		//public static final AttributeDescriptor SPECIAL_EQUIPMENT_COVERAGE = declare("Special Equipment Coverage", TextBox.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Special Equipment Coverage']/ancestor::tr[1]//input"));
-
-		//public static final AttributeDescriptor RENTAL_REIMBURSEMENT = declare("Rental Reimbursement", ComboBoxFixed.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Rental Reimbursement']/ancestor::tr[1]//select"));
-		//public static final AttributeDescriptor TOWING_AND_LABOR_COVERAGE = declare("Towing and Labor Coverage", ComboBoxFixed.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Towing and Labor Coverage']/ancestor::tr[1]//select"));
-
-		//public static final AttributeDescriptor UNACCEPTABLE_RISK_SURCHARGE = declare("Unacceptable Risk Surcharge", CheckBox.class, Waiters.AJAX, By.id("policyDataGatherForm:unacceptableRiskSurchargeCheckbox"));
-		//public static final AttributeDescriptor REASON = declare("Reason", TextBox.class, Waiters.AJAX, By.id("policyDataGatherForm:unacceptableRiskSurchargeReason"));
-		// public static final AttributeDescriptor
-		// UNVERIFIABLE_DRIVING_RECORD_SURCHARGE = declare("Unverifiable Driving
-		// Record Surcharge", CheckBox.class, Waiters.AJAX);
-
+		public static final AttributeDescriptor DETAILED_VEHICLE_COVERAGES = declare("DetailedVehicleCoverages", DetailedVehicleCoveragesRepeatAssetList.class, DetailedVehicleCoverages.class, false);
 		public static final AttributeDescriptor CALCULATE_PREMIUM = declare("Calculate Premium", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:premiumRecalc"));
+		public static final AttributeDescriptor OVERRIDE_PREMIUM = declare("Override Premium", Link.class, By.id("policyDataGatherForm:overridePremiumLink"));
+		public static final AttributeDescriptor RATE_DETAILS = declare("Rate Details", Button.class, Waiters.AJAX, By.xpath("//button[text()='Rate Details']"));
+		public static final AttributeDescriptor VIEW_AUTO_QUOTE = declare("View Auto Quote", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:viewAutoQuote_Link"));
+		public static final AttributeDescriptor VIEW_RATING_DETAILS = declare("View Rating Details", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:viewRatingDetails_Link"));
+		public static final AttributeDescriptor VIEW_OVERRIDE_RULES = declare("View Override Rules", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:viewRules_Overrides"));
 		public static final AttributeDescriptor ADDITIONAL_SAVINGS_OPTIONS = declare("Additional Savings Options", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:visibleRadio']"));
+		public static final AttributeDescriptor HOME = declare("Home", CheckBox.class, By.xpath("//td[text()='Home']//input"));
+		public static final AttributeDescriptor RENTERS = declare("Renters", CheckBox.class, By.xpath("//td[text()='Renters']//input"));
+		public static final AttributeDescriptor CONDO = declare("Condo", CheckBox.class, By.xpath("//td[text()='Condo']//input"));
+		public static final AttributeDescriptor MOTORCYCLE = declare("Motorcycle", CheckBox.class, By.xpath("//td[text()='Motorcycle']//input"));
+		public static final AttributeDescriptor LIFE = declare("Life", CheckBox.class, By.xpath("//td[text()='Life']//input"));
+		public static final AttributeDescriptor MULTI_CAR = declare("Multi-car", CheckBox.class, By.xpath("//td[text()='Multi-car']//input"));
+		public static final AttributeDescriptor VIEW_QUOTE_WITH_DISCOUNTS = declare("View Quote with Discounts", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:applySelectedDiscounts"));
+		public static final AttributeDescriptor DRIVER_DISCOUNTS_TABLE = declare("Driver Discounts", FillableTable.class, DriverDiscountsRow.class, By.id("policyDataGatherForm:j_id_1_1x_56_1_s_1_2_k_1_1_c_3"));
+		//UNKNOWN CONTROLS below, should we remove them?
+		public static final AttributeDescriptor UNINSURED_MOTORIST_PROPERTY_DAMEGE =
+				declare("Uninsured Motorist Property Damage", ComboBoxFixed.class, By.xpath("./*//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Uninsured Motorist Property Damage']/ancestor::tr[1]//select"));
+		public static final AttributeDescriptor COLLISION_DEDUCTIBLE_WAIVER = declare("Collision Deductible Waiver", ComboBoxFixed.class, By.xpath("./*//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Collision Deductible Waiver']/ancestor::tr[1]//select"));
+		public static final AttributeDescriptor SPECIAL_EQUIPMENT_DESCRIPTION = declare("Special Equipment Description", TextBox.class, By.xpath("./*//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Special Equipment Description']/ancestor::tr[1]//select"));
+		public static final AttributeDescriptor SPECIAL_EQUIPMENT_COVERAGE = declare("Special Equipment Coverage", TextBox.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Special Equipment Coverage']/ancestor::tr[1]//input"));
+		public static final AttributeDescriptor RENTAL_REIMBURSEMENT = declare("Rental Reimbursement", ComboBoxFixed.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Rental Reimbursement']/ancestor::tr[1]//select"));
+		public static final AttributeDescriptor TOWING_AND_LABOR_COVERAGE = declare("Towing and Labor Coverage", ComboBoxFixed.class, By.xpath("./[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Towing and Labor Coverage']/ancestor::tr[1]//select"));
+		public static final AttributeDescriptor UNACCEPTABLE_RISK_SURCHARGE = declare("Unacceptable Risk Surcharge", CheckBox.class, Waiters.AJAX, By.id("policyDataGatherForm:unacceptableRiskSurchargeCheckbox"));
+		public static final AttributeDescriptor REASON = declare("Reason", TextBox.class, Waiters.AJAX, By.id("policyDataGatherForm:unacceptableRiskSurchargeReason"));
+		public static final AttributeDescriptor UNVERIFIABLE_DRIVING_RECORD_SURCHARGE = declare("Unverifiable DrivingRecord Surcharge", CheckBox.class, Waiters.AJAX);
 
-		public static final AttributeDescriptor HOME = declare("Home", CheckBox.class);
-		public static final AttributeDescriptor RENTERS = declare("Renters", CheckBox.class);
-		public static final AttributeDescriptor CONDO = declare("Condo", CheckBox.class);
-		public static final AttributeDescriptor MOTORCYCLE = declare("Motorcycle", CheckBox.class);
-		public static final AttributeDescriptor LIFE = declare("Life", CheckBox.class);
-		public static final AttributeDescriptor MULTI_CAR = declare("Multi-car", CheckBox.class);
-		//public static final AttributeDescriptor GOOD_STUDENT = declare("Good Student", CheckBox.class, By.id(""));
+		public static final class DetailedVehicleCoverages extends MetaData {
+			public static final AttributeDescriptor COMPREGENSIVE_DEDUCTIBLE = declare("Comprehensive Deductible", ComboBoxFixed.class);
+			public static final AttributeDescriptor FULL_SAFETY_GLASS = declare("Full Safety Glass", ComboBoxFixed.class);
+			public static final AttributeDescriptor COLLISION_DEDUCTIBLE = declare("Collision Deductible", ComboBoxFixed.class);
+			public static final AttributeDescriptor ENHANCED_TRASPORTATION_EXPENCE = declare("Enhanced Transportation Expense", ComboBoxFixed.class);
+			public static final AttributeDescriptor ALL_RISK = declare("All Risk", ComboBoxFixed.class);
+			public static final AttributeDescriptor ORIGINAL_EQUIPMENT_MANUFACTURER_PARTS = declare("Original Equipment Manufacturer Parts", ComboBoxFixed.class);
+			public static final AttributeDescriptor RIDESHARING_COVERAGE = declare("Ridesharing Coverage", ComboBoxFixed.class);
+			// *** DO NOT DECLARE "Waive Liability" and "Vehicle Coverage" controls in this MetaData. They are added within DetailedVehicleCoveragesRepeatAssetList.class ***
+		}
 
+		public static final class DriverDiscountsRow extends MetaData {
+			public static final AttributeDescriptor DRIVER = declare("Driver", StaticElement.class);
+			public static final AttributeDescriptor GOOD_STUDENT = declare("Good Student", CheckBox.class);
+			public static final AttributeDescriptor MATURE_DRIVER = declare("Mature Driver", CheckBox.class);
+			public static final AttributeDescriptor SMART_DRIVER = declare("Smart Driver", CheckBox.class);
+		}
 	}
 
 	public static final class DriverActivityReportsTab extends MetaData {

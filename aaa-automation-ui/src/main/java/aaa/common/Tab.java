@@ -133,6 +133,10 @@ public abstract class Tab {
     }
 
     public Tab verifyFieldHasValue(String label, String expectedValue) {
+       return verifyFieldHasValue(assetList, label, expectedValue);
+    }
+    
+    public Tab verifyFieldHasValue(AbstractContainer<?, ?> assetList, String label, String expectedValue) {
         String actualValue = assetList.getControl(label).getValue().toString();
         String errorMessage = String.format("'%s' field's actual value '%s' is not equal to the expected value of '%s'",
                 label, actualValue, expectedValue);

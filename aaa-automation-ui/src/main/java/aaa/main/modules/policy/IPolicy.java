@@ -137,6 +137,7 @@ public interface IPolicy {
     
     PolicyActions.NonPremiumBearingEndorsement nonPremiumBearingEndorsement();
     
+    PolicyActions.UpdateRulesOverride updateRulesOverride();
     
     //TODO check if used in AAA and delete
     PolicyActions.RemoveSuspendQuote removeSuspendQuote();

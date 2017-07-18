@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.modules.policy.pup;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,6 +50,7 @@ import aaa.main.modules.policy.PolicyActions.RollBackEndorsement;
 import aaa.main.modules.policy.PolicyActions.Rewrite;
 import aaa.main.modules.policy.PolicyActions.RollOn;
 import aaa.main.modules.policy.PolicyActions.SuspendQuote;
+import aaa.main.modules.policy.PolicyActions.UpdateRulesOverride;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
@@ -319,4 +321,10 @@ public class PupPolicy implements IPolicy {
 	public Rewrite rewrite() {
 		return new PupPolicyActions.Rewrite();
 	}
+	
+    
+    @Override
+    public UpdateRulesOverride updateRulesOverride() {
+    	throw new NotImplementedException();
+    }
 }

@@ -49,6 +49,7 @@ import aaa.main.modules.policy.PolicyActions.RollBackEndorsement;
 import aaa.main.modules.policy.PolicyActions.Rewrite;
 import aaa.main.modules.policy.PolicyActions.RollOn;
 import aaa.main.modules.policy.PolicyActions.SuspendQuote;
+import aaa.main.modules.policy.PolicyActions.UpdateRulesOverride;
 import aaa.main.modules.policy.cea.defaulttabs.BindTab;
 import aaa.main.modules.policy.cea.defaulttabs.PremiumCoveragesTab;
 import aaa.main.modules.policy.cea.defaulttabs.PurchaseTab;
@@ -325,4 +326,10 @@ public class CeaPolicy implements IPolicy {
 	public SuspendQuote suspendQuote() {
 		return new CeaPolicyActions.SuspendQuote();
 	}
+	
+    @Override
+    public UpdateRulesOverride updateRulesOverride() {
+    	throw new UnsupportedOperationException("Action is not implemented yet");
+    }
+    
 }

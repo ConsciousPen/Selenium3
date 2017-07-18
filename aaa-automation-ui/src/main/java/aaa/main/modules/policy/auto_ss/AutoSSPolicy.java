@@ -12,6 +12,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.NavigationEnum.AutoSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.IPolicy;
+import aaa.main.modules.policy.PolicyActions.UpdateRulesOverride;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.PolicyActions.Bind;
 import aaa.main.modules.policy.PolicyActions.Cancel;
@@ -318,6 +319,11 @@ public class AutoSSPolicy implements IPolicy {
     @Override
     public SuspendQuote suspendQuote() {
         return new AutoSSPolicyActions.SuspendQuote();
+    }
+    
+    @Override
+    public UpdateRulesOverride updateRulesOverride() {
+        return new AutoSSPolicyActions.UpdateRulesOverride();
     }
 
 }

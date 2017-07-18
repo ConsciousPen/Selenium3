@@ -11,7 +11,7 @@ public final class ProductConstants {
         public static final String CANCELLATION_PENDING = "Cancellation Pending";
         public static final String COMPANY_DECLINED = "Company Declined";
         public static final String CUSTOMER_DECLINED = "Customer Declined";
-        public static final String DATA_GATHERING = "Data Gathering";
+        public static final String DATA_GATHERING = "Gathering Info";
         public static final String ISSUED = "Issued";
         public static final String PENDING_OUT_OF_SEQUENCE_COMPLETION = "Pending out of sequence completion";
         public static final String POLICY_ACTIVE = "Policy Active";
