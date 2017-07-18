@@ -12,7 +12,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<suiteFile>src/test/resources/testsuites/default.xml</suiteFile>
+		<suiteFile>default.xml</suiteFile>
 		<time.service.file>src/test/resources/config/timeservice.properties</time.service.file>
 		<browser.pool.config>src/test/resources/config/BrowserPool.xml</browser.pool.config>
 		<timeshift.report.dir>target/test-output/timeshift-report</timeshift.report.dir>
