@@ -5,10 +5,8 @@ package aaa.common.enums;
 public class NavigationEnum {
 
 	 public enum AppMainTabs {
-	        ACCOUNT("Account"),
 	        BILLING("Billing"),
 	        CASE("Case"),
-	        CLAIM("Claim"),
 	        CUSTOMER("Customer"),
 	        MY_WORK("My Work"),
 	        POLICY("Policy"),
@@ -115,13 +113,13 @@ public class NavigationEnum {
 	            this.flow = flow;
 	        }
 
-	        public String get() {
-	            return id;
-	        }
-
 	        public String getFlow() {
 	            return flow;
 	        }
+
+		    public String get() {
+			    return id;
+		    }
 	    }
 
 	    public enum AdminAppSubTabs {
@@ -264,12 +262,15 @@ public class NavigationEnum {
 	        APPLICANT("Applicant"),
 	        PROPERTY_INFO("Property Info"),
 	        REPORTS("Reports"),
-	        PREMIUMS_AND_COVERAGES("Premium & Coverages"),
-	        PREMIUMS_AND_COVERAGES_PRODUCT_OFFERING("Product Offering"),
-	        PREMIUMS_AND_COVERAGES_ENDORSEMENT("Endorsement"),
-	        PREMIUMS_AND_COVERAGES_SCHEDULED_PP("Scheduled Personal Property"),
-	        PREMIUMS_AND_COVERAGES_QUOTE("Quote"),
-	        MORTGAGEE_AND_ADDITIONAL_INTERESTS("Mortgagee & Additional Interests"),
+		    ENDORSEMENT("Endorsement"),
+		    PREMIUMS_AND_COVERAGES("Premium & Coverages"),
+		    PREMIUMS_AND_COVERAGES_PRODUCT_OFFERING("Product Offering"),
+		    PREMIUMS_AND_COVERAGES_ENDORSEMENT("Endorsement"),
+		    PREMIUMS_AND_COVERAGES_ENDORSEMENT_OTHER_ENDORSEMENTS("Other Endorsements"),
+		    PREMIUMS_AND_COVERAGES_ENDORSEMENT_SCHEDULED_PERSONAL_PROPERTY("Scheduled Personal Property"),
+		    PREMIUMS_AND_COVERAGES_SCHEDULED_PP("Scheduled Personal Property"),
+		    PREMIUMS_AND_COVERAGES_QUOTE("Quote"),
+		    MORTGAGEE_AND_ADDITIONAL_INTERESTS("Mortgagee & Additional Interests"),
 	        UNDERWRITING_AND_APPROVAL("Underwriting & Approval"),
 	        DOCUMENTS("Documents"),
 	        BIND("Bind");
@@ -294,9 +295,10 @@ public class NavigationEnum {
             PREMIUMS_AND_COVERAGES("Premiums & Coverages"),
             PREMIUMS_AND_COVERAGES_PRODUCT_OFFERING("Product Offering"),
             PREMIUMS_AND_COVERAGES_ENDORSEMENT("Endorsement"),
-            PREMIUMS_AND_COVERAGES_ENDORSEMENT_SCHEDULED_PERSONAL_PROPERTY("Scheduled Personal Property"),
-            PREMIUMS_AND_COVERAGES_QUOTE("Quote"),
-            MORTGAGEE_AND_ADDITIONAL_INTERESTS("Mortgagee & Additional interests"),
+		    PREMIUMS_AND_COVERAGES_ENDORSEMENT_OTHER_ENDORSEMENTS("Other Endorsements"),
+		    PREMIUMS_AND_COVERAGES_ENDORSEMENT_SCHEDULED_PERSONAL_PROPERTY("Scheduled Personal Property"),
+		    PREMIUMS_AND_COVERAGES_QUOTE("Quote"),
+		    MORTGAGEE_AND_ADDITIONAL_INTERESTS("Mortgagee & Additional interests"),
             UNDERWRITING_AND_APPROVAL("Underwriting & Approval"),
             DOCUMENTS("Documents"),
             BIND("Bind");
@@ -339,22 +341,39 @@ public class NavigationEnum {
 	        }
 	    }
 
+	    /**
+	     * Use NavigationPage.toMainTab() method
+	     */
 	    public enum CustomerSummaryTab {
+	    	CUSTOMER("Customer Info"),
 	        ACCOUNT("Account"),
 	        CAMPAIGN("Campaign"),
-	        CENSUS("Census"),
-	        COMMUNICATION("Communication"),
-	        CONTACTS_RELATIONSHIPS("Contacts & Relationships"),
-	        CUSTOMER("Customer Info"),
-	        OPPORTUNITY("Opportunity"),
-	        PORTFOLIO("Portfolio");
-
+	        COMMUNICATION("Communication");
+	        
 	        String id;
 
 	        CustomerSummaryTab(String id) {
 	            this.id = id;
 	        }
 
+	        public String get() {
+	            return id;
+	        }
+	    }
+	    
+	    /**
+	     * Use NavigationPage.toViewSubTab() method
+	     */
+	    public enum CustomerSummarySecondaryTab {
+	    	PORTFOLIO("Portfolio"),
+		    CONTACTS_RELATIONSHIPS("Contacts & Relationships");
+	
+	        String id;
+	
+	        CustomerSummarySecondaryTab(String id) {
+	            this.id = id;
+	        }
+	
 	        public String get() {
 	            return id;
 	        }

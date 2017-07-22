@@ -5,7 +5,6 @@
 package aaa.main.modules.policy.auto_ca.views;
 
 import aaa.common.Workspace;
-import aaa.main.modules.policy.auto_ca.actiontabs.RenewActionTab;
 
 /**
  * Shared workspace class for Renew action
@@ -13,7 +12,6 @@ import aaa.main.modules.policy.auto_ca.actiontabs.RenewActionTab;
  */
 public class RenewView extends Workspace {
     public RenewView() {
-        super();
-        registerTab(RenewActionTab.class);
+	    //registerTab(RenewActionTab.class);
     }
 }

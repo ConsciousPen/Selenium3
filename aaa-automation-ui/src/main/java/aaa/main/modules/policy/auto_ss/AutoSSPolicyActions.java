@@ -7,9 +7,7 @@ package aaa.main.modules.policy.auto_ss;
 import aaa.common.AbstractAction;
 import aaa.common.Tab;
 import aaa.common.Workspace;
-import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyActions;
-import aaa.main.modules.policy.auto_ss.actiontabs.RenewActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.views.BindView;
 import aaa.main.modules.policy.auto_ss.views.CancelNoticeView;
@@ -43,7 +41,6 @@ import aaa.main.modules.policy.auto_ss.views.SplitView;
 import aaa.main.modules.policy.auto_ss.views.SuspendQuoteView;
 import aaa.main.modules.policy.auto_ss.views.UpdateRulesOverrideView;
 import toolkit.datax.TestData;
-import toolkit.webdriver.controls.TextBox;
 
 /**
  * Set of concrete actions for a specific entity type.
@@ -70,8 +67,8 @@ public final class AutoSSPolicyActions {
     }
 
     public static class Renew extends PolicyActions.Renew {
-        private TextBox textBoxRenewalDate = getView().getTab(RenewActionTab.class).getAssetList().getControl(
-                AutoSSMetaData.RenewActionTab.RENEWAL_DATE.getLabel(), TextBox.class);
+	    // private TextBox textBoxRenewalDate = getView().getTab(RenewActionTab.class).getAssetList().getControl(
+	    //         AutoSSMetaData.RenewActionTab.RENEWAL_DATE.getLabel(), TextBox.class);
 
         @Override
         public Workspace getView() {
@@ -81,19 +78,19 @@ public final class AutoSSPolicyActions {
         @Override
         public AbstractAction performAndFill(TestData td) {
             start();
-            getView().fill(td);
-            submit();
-            new DataGather().getView().fill(td);
-            return this;
+	        //getView().fill(td);
+	        new DataGather().getView().fill(td);
+	        submit();
+	        return this;
         }
 
         @Override
         public AbstractAction submit() {
-            if (textBoxRenewalDate.isPresent() && textBoxRenewalDate.isVisible()) {
-                return super.submit();
-            }
-            Tab.buttonSaveAndExit.click();
-            return this;
+	        //    if (textBoxRenewalDate.isPresent() && textBoxRenewalDate.isVisible()) {
+	        //        return super.submit();
+	        //    }
+	        Tab.buttonSaveAndExit.click();
+	        return this;
 
         }
     }
@@ -303,17 +300,17 @@ public final class AutoSSPolicyActions {
             return new SuspendQuoteView();
         }
     }
-    
-    public static class UpdateRulesOverride extends PolicyActions.UpdateRulesOverride {
-        @Override
-        public Workspace getView() {
-            return new UpdateRulesOverrideView();
-        }
-    }
-    
-    //TODO Remove next actions if not used in AAA
-    public static class NonPremiumBearingEndorsement extends PolicyActions.NonPremiumBearingEndorsement {
-        @Override
+
+	public static class UpdateRulesOverride extends PolicyActions.UpdateRulesOverride {
+		@Override
+		public Workspace getView() {
+			return new UpdateRulesOverrideView();
+		}
+	}
+
+	//TODO Remove next actions if not used in AAA
+	public static class NonPremiumBearingEndorsement extends PolicyActions.NonPremiumBearingEndorsement {
+		@Override
         public String getName() {
             return "Update Insured/Interest Info";
         }

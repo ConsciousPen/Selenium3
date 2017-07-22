@@ -25,6 +25,7 @@ public class ErrorTab extends Tab {
 	@Override
 	public Tab submitTab() {
 		btnOverride.click();
+		new DocumentsAndBindTab().submitTab();
 		return this;
 	}
 }

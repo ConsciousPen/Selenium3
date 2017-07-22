@@ -3,9 +3,7 @@
 package base.modules.policy.home_ss;
 
 import org.testng.annotations.Test;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
-
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSBaseTest;
@@ -31,16 +29,17 @@ public class TestPolicyEndorsementMidTerm extends HomeSSBaseTest {
     public void testPolicyEndorsementMidTerm() {
         mainApp().open();
 
-        createPolicy(getStateTestData(tdPolicy, "DataGather", "TestData")
-				.adjust("GeneralTab|Effective date", "/today-2d:MM/dd/yyyy")
-				.adjust("GeneralTab|Property insurance base date with CSAA IG", "/today-2d:MM/dd/yyyy"));
+        createCustomerIndividual();
+	    createPolicy(getStateTestData(tdPolicy, "DataGather", "TestData")
+			    .adjust("GeneralTab|Effective date", "/today-2d:MM/dd/yyyy")
+			    .adjust("GeneralTab|Property insurance base date with CSAA IG", "/today-2d:MM/dd/yyyy"));
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
         log.info("TEST: MidTerm Endorsement for Policy #" + policyNumber);
         policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData")
-                .adjust(tdSpecific.getTestData("TestData").resolveLinks()));
+		        .adjust(tdSpecific.getTestData("TestData").resolveLinks()));
 
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

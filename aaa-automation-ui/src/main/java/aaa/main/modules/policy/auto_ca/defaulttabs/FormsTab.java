@@ -14,6 +14,7 @@ import aaa.main.metadata.policy.AutoCaMetaData;
  * @category Generated
  */
 public class FormsTab extends Tab {
+	
     public FormsTab() {
         super(AutoCaMetaData.FormsTab.class);
     }
@@ -23,4 +24,8 @@ public class FormsTab extends Tab {
         buttonNext.click();
         return this;
     }
+    
+  
+    
+  
 }

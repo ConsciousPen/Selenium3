@@ -3,7 +3,6 @@
 package aaa.modules.policy.auto_ss;
 
 import org.testng.annotations.Test;
-
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.ProductConstants;
@@ -29,7 +28,7 @@ public class TestPolicyEndorsementRemove extends AutoSSBaseTest {
 	
     @Test
     @TestInfo(component = "Policy.AutoSS")
-    public void testPolicyEndorsementAdd() {
+    public void testPolicyEndorsementRemove() {
     	
         mainApp().open();
         

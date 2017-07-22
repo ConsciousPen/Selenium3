@@ -3,12 +3,15 @@
 package aaa.main.metadata.policy;
 
 import org.openqa.selenium.By;
+import aaa.common.pages.Page;
 import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.FillableTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
+import aaa.toolkit.webdriver.customcontrols.PersonalPropertyMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
+import aaa.toolkit.webdriver.customcontrols.endorsements.HomeCAEndorsementsMultiAssetList;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.ComboBox;
@@ -95,7 +98,7 @@ public final class HomeCaMetaData {
 		public static final class CustomerSearch extends MetaData {
 			public static final AttributeDescriptor BTN_CANCEL = declare("Cancel", Button.class, Waiters.AJAX, false, By.id("customerSearchFrom:cancelSearch"));
 		}
-		
+
 		// AAA Membership
 		public static final class AAAMembership extends MetaData {
 			public static final AttributeDescriptor CURRENT_AAA_MEMBER = declare("Current AAA Member", ComboBox.class, Waiters.AJAX);
@@ -151,6 +154,7 @@ public final class HomeCaMetaData {
 			public static final AttributeDescriptor HOME_PHONE_NUMBER = declare("Home Phone Number", TextBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor WORK_PHONE_NUMBER = declare("Work Phone Number", TextBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor MOBILE_PHONE_NUMBER = declare("Mobile Phone Number", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor PREFERRED_PHONE = declare("Preferred Phone", TextBox.class, Waiters.AJAX, By.id("policyDataGatherForm:sedit_AAAHOCommunicationInfo_preferredContact_label"));
 			public static final AttributeDescriptor EMAIL = declare("Email", TextBox.class, Waiters.AJAX);
 		}
 
@@ -284,7 +288,7 @@ public final class HomeCaMetaData {
 
 			private String value;
 
-			private AAAMembershipReportsTblHeaders(String value) {
+			AAAMembershipReportsTblHeaders(String value) {
 				this.value = value;
 			}
 
@@ -299,7 +303,7 @@ public final class HomeCaMetaData {
 
 			private String value;
 
-			private FirelineReportTblHeaders(String value) {
+			FirelineReportTblHeaders(String value) {
 				this.value = value;
 			}
 
@@ -315,7 +319,7 @@ public final class HomeCaMetaData {
 
 			private String value;
 
-			private PublicProtectionClassTblHeaders(String value) {
+			PublicProtectionClassTblHeaders(String value) {
 				this.value = value;
 			}
 
@@ -330,7 +334,7 @@ public final class HomeCaMetaData {
 
 			private String value;
 
-			private CLUEReportTblHeaders(String value) {
+			CLUEReportTblHeaders(String value) {
 				this.value = value;
 			}
 
@@ -345,7 +349,7 @@ public final class HomeCaMetaData {
 
 			private String value;
 
-			private ISO360reportTblHeaders(String value) {
+			ISO360reportTblHeaders(String value) {
 				this.value = value;
 			}
 
@@ -438,6 +442,7 @@ public final class HomeCaMetaData {
 			public static final AttributeDescriptor IS_THIS_A_LOG_HOME_ASSEMBLED_BY_A_LICENSED_BUILDING_CONTRACTOR = declare("Is this a log home assembled by a licensed building contractor?", RadioGroup.class, Waiters.AJAX);
 			public static final AttributeDescriptor MASONRY_VENEER = declare("Masonry Veneer", RadioGroup.class);
 			public static final AttributeDescriptor HAIL_RESISTANCE_RATING = declare("Hail-resistance rating", ComboBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor FOUNDATION_TYPE = declare("Foundation Type", ComboBox.class, Waiters.AJAX);
 		}
 
 		public static final class AdditionalQuestions extends MetaData {
@@ -582,7 +587,7 @@ public final class HomeCaMetaData {
 
 			private String value;
 
-			private AdditionalAddressTblHeaders(String value) {
+			AdditionalAddressTblHeaders(String value) {
 				this.value = value;
 			}
 
@@ -597,7 +602,7 @@ public final class HomeCaMetaData {
 
 			private String value;
 
-			private DetachedStructuresTblHeaders(String value) {
+			DetachedStructuresTblHeaders(String value) {
 				this.value = value;
 			}
 
@@ -612,7 +617,7 @@ public final class HomeCaMetaData {
 
 			private String value;
 
-			private PetsOrAnimalsTblHeaders(String value) {
+			PetsOrAnimalsTblHeaders(String value) {
 				this.value = value;
 			}
 
@@ -627,7 +632,7 @@ public final class HomeCaMetaData {
 
 			private String value;
 
-			private ClaimsTblHeaders(String value) {
+			ClaimsTblHeaders(String value) {
 				this.value = value;
 			}
 
@@ -643,13 +648,301 @@ public final class HomeCaMetaData {
 		public static final AttributeDescriptor BTN_FILTER = declare("Filter", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:filterFormsButton_AAAHoPolicyEndorsementFormManager"));
 		public static final AttributeDescriptor BTN_VIEW_ALL = declare("View All", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:viewAllButton_AAAHoPolicyEndorsementFormManager"));
 
+		//		public static final AttributeDescriptor DL_01_04 = declare("DL 01 04", HomeCAEndorsementsMultiAssetList.class, EndorsementDL0104.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor DL_24_02 = declare("DL 24 02", HomeCAEndorsementsMultiAssetList.class, EndorsementDL2402.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor DL_24_11 = declare("DL 24 11", HomeCAEndorsementsMultiAssetList.class, EndorsementDL2411.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor DL_24_33 = declare("DL 24 33", HomeCAEndorsementsMultiAssetList.class, EndorsementDL2433.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor DL_24_82 = declare("DL 24 82", HomeCAEndorsementsMultiAssetList.class, EndorsementDL2482.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor DP_04_18 = declare("DP 04 18", HomeCAEndorsementsMultiAssetList.class, EndorsementDP0418.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor DP_04_22 = declare("DP 04 22", HomeCAEndorsementsMultiAssetList.class, EndorsementDP0422.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor DP_04_71 = declare("DP 04 71", HomeCAEndorsementsMultiAssetList.class, EndorsementDP0471.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor DP_04_73 = declare("DP 04 73", HomeCAEndorsementsMultiAssetList.class, EndorsementDP0473.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor DP_04_75 = declare("DP 04 75", HomeCAEndorsementsMultiAssetList.class, EndorsementDP0475.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor DP_04_95 = declare("DP 04 95", HomeCAEndorsementsMultiAssetList.class, EndorsementDP0495.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor DW_04_20 = declare("DW 04 20", HomeCAEndorsementsMultiAssetList.class, EndorsementDW0420.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor DW_04_21 = declare("DW 04 21", HomeCAEndorsementsMultiAssetList.class, EndorsementDW0421.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor DW_04_41 = declare("DW 04 41", HomeCAEndorsementsMultiAssetList.class, EndorsementDW0441.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor DW_04_63 = declare("DW 04 63", HomeCAEndorsementsMultiAssetList.class, EndorsementDW0463.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor DW_09_25 = declare("DW 09 25", HomeCAEndorsementsMultiAssetList.class, EndorsementDW0925.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor F1759C = declare("F1759C", HomeCAEndorsementsMultiAssetList.class, EndorsementF1759C.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor HARI = declare("HARI", HomeCAEndorsementsMultiAssetList.class, EndorsementHARI.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_01_04 = declare("HO 01 04", HomeCAEndorsementsMultiAssetList.class, EndorsementHO0104.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_04_10 = declare("HO 04 10", HomeCAEndorsementsMultiAssetList.class, EndorsementHO0410.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_04_55 = declare("HO 04 55", HomeCAEndorsementsMultiAssetList.class, EndorsementHO0455.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_04_96 = declare("HO 04 96", HomeCAEndorsementsMultiAssetList.class, EndorsementHO0496.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_09_15 = declare("HO 09 15", HomeCAEndorsementsMultiAssetList.class, EndorsementHO0915.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_1004 = declare("HO-1004", HomeCAEndorsementsMultiAssetList.class, EndorsementHO1004.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor HO_164 = declare("HO-164", HomeCAEndorsementsMultiAssetList.class, EndorsementHO164.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor HO_164C = declare("HO-164C", HomeCAEndorsementsMultiAssetList.class, EndorsementHO164C.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_177 = declare("HO-177", HomeCAEndorsementsMultiAssetList.class, EndorsementHO177.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_17_31 = declare("HO 17 31", HomeCAEndorsementsMultiAssetList.class, EndorsementHO1731.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_17_32 = declare("HO 17 32", HomeCAEndorsementsMultiAssetList.class, EndorsementHO1732.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_17_33 = declare("HO 17 33", HomeCAEndorsementsMultiAssetList.class, EndorsementHO1733.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor HO_210 = declare("HO-210", HomeCAEndorsementsMultiAssetList.class, EndorsementHO210.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor HO_210C = declare("HO-210C", HomeCAEndorsementsMultiAssetList.class, EndorsementHO210C.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor HO_28 = declare("HO-28", HomeCAEndorsementsMultiAssetList.class, EndorsementHO28.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_29 = declare("HO-29", HomeCAEndorsementsMultiAssetList.class, EndorsementHO29.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor HO_300 = declare("HO-300", HomeCAEndorsementsMultiAssetList.class, EndorsementHO300.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_40 = declare("HO-40", HomeCAEndorsementsMultiAssetList.class, EndorsementHO40.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_41 = declare("HO-41", HomeCAEndorsementsMultiAssetList.class, EndorsementHO41.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor HO_42 = declare("HO-42", HomeCAEndorsementsMultiAssetList.class, EndorsementHO42.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor HO_42C = declare("HO-42C", HomeCAEndorsementsMultiAssetList.class, EndorsementHO42C.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor HO_43 = declare("HO-43", HomeCAEndorsementsMultiAssetList.class, EndorsementHO43.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor HO_43C = declare("HO-43C", HomeCAEndorsementsMultiAssetList.class, EndorsementHO43C.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_44 = declare("HO-44", HomeCAEndorsementsMultiAssetList.class, EndorsementHO44.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor HO_48 = declare("HO-48", HomeCAEndorsementsMultiAssetList.class, EndorsementHO48.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_51 = declare("HO-51", HomeCAEndorsementsMultiAssetList.class, EndorsementHO51.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_57 = declare("HO-57", HomeCAEndorsementsMultiAssetList.class, EndorsementHO57.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_58 = declare("HO-58", HomeCAEndorsementsMultiAssetList.class, EndorsementHO58.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_58C = declare("HO-58C", HomeCAEndorsementsMultiAssetList.class, EndorsementHO58C.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_59 = declare("HO-59", HomeCAEndorsementsMultiAssetList.class, EndorsementHO59.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_59C = declare("HO-59C", HomeCAEndorsementsMultiAssetList.class, EndorsementHO59C.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_60 = declare("HO-60", HomeCAEndorsementsMultiAssetList.class, EndorsementHO60.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_60C = declare("HO-60C", HomeCAEndorsementsMultiAssetList.class, EndorsementHO60C.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_61 = declare("HO-61", HomeCAEndorsementsMultiAssetList.class, EndorsementHO61.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_61C = declare("HO-61C", HomeCAEndorsementsMultiAssetList.class, EndorsementHO61C.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_61_1004 = declare("61 1004", HomeCAEndorsementsMultiAssetList.class, EndorsementHO611004.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor HO_62_6501 = declare("HO 62 6501", HomeCAEndorsementsMultiAssetList.class, EndorsementHO626501.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor HO_70 = declare("HO-70", HomeCAEndorsementsMultiAssetList.class, EndorsementHO70.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor HO_71 = declare("HO-71", HomeCAEndorsementsMultiAssetList.class, EndorsementHO71.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor HO_75 = declare("HO-75", HomeCAEndorsementsMultiAssetList.class, EndorsementHO75.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_76 = declare("HO-76", HomeCAEndorsementsMultiAssetList.class, EndorsementHO76.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_76C = declare("HO-76C", HomeCAEndorsementsMultiAssetList.class, EndorsementHO76C.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HO_77 = declare("HO-77", HomeCAEndorsementsMultiAssetList.class, EndorsementHO77.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HW_00_08 = declare("HW 00 08", HomeCAEndorsementsMultiAssetList.class, EndorsementHW0008.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor HW_04_35 = declare("HW 04 35", HomeCAEndorsementsMultiAssetList.class, EndorsementHW0435.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HW_04_61 = declare("HW 04 61", HomeCAEndorsementsMultiAssetList.class, EndorsementHW0461.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor HW_04_95 = declare("HW 04 95", HomeCAEndorsementsMultiAssetList.class, EndorsementHW0495.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor HW_05_28 = declare("HW 05 28", HomeCAEndorsementsMultiAssetList.class, EndorsementHW0528.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor HW_09_06 = declare("HW 09 06", HomeCAEndorsementsMultiAssetList.class, EndorsementHW0906.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HW_09_34 = declare("HW 09 34", HomeCAEndorsementsMultiAssetList.class, EndorsementHW0934.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HW_24_82 = declare("HW 24 82", HomeCAEndorsementsMultiAssetList.class, EndorsementHW2482.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HW_28 = declare("HW-28", HomeCAEndorsementsMultiAssetList.class, EndorsementHW28.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor HW_A6_00 = declare("HW A6 00", HomeCAEndorsementsMultiAssetList.class, EndorsementHWA600.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+
+		public static final class EndorsementHARI extends MetaData {
+			public static final AttributeDescriptor NUMBER_OF_FAMILY_UNITS = declare("Number of family units", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor CITY = declare("City", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor SECTION_II_TERRITORY = declare("Section II territory", ComboBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementHO164 extends MetaData {
+			public static final AttributeDescriptor MAKE = declare("Make", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor MODEL = declare("Model", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor HORSEPOWER = declare("Horsepower", TextBox.class, Waiters.AJAX);
+		}
+
+		public static final class EndorsementHO210 extends MetaData {
+			public static final AttributeDescriptor COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class, Waiters.AJAX);
+		}
+
+		public static final class EndorsementHO42C extends MetaData {
+			public static final AttributeDescriptor OFFICE_TYPE = declare("Office type", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor DESCRIPTION_OF_BUSINESS_EQUIPMENT = declare("Description of business / equipment", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor BUSINESS_EQUIPMENT_OVER_50_000 = declare("Business equipment over $50,000?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor FOOT_TRAFFIC_EXCEEDING_2_CUSTOMERS_PER_WEEK = declare("Foot traffic exceeding 2 customers per week?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor EMPLOYEES_WORKING_ON_THE_PREMISES = declare("Employees working on the premises?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor BUSINESS_INVOLVING_HAZARDOUS_SITUATIONS_OR_MATERIALS = declare("Business involving hazardous situations or materials?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor BUSINESS_INVOLVING_THE_MANUFACTURING_OR_REPAIRING_OF_GOODS_OR_PRODUCTS = declare("Business involving the manufacturing or repairing of goods or products?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor ADD_A_COMMENT_IF_YOU_ANSWERED_YES_TO_ANY_OF_THE_ABOVE_QUESTIONS = declare("Add a comment if you answered yes to any of the above questions", TextBox.class, Waiters.AJAX);
+		}
+
+		public static final class EndorsementHO43C extends MetaData {
+			public static final AttributeDescriptor DESCRIPTION_OF_BUSINESS_EQUIPMENT = declare("Description of business / equipment", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor CITY = declare("City", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor ZIP_CODE = declare("Zip code", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor SECTION_II_TERRITORY = declare("Section II territory", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor BUSINESS_EQUIPMENT_OVER_50_000 = declare("Business equipment over $50,000?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor FOOT_TRAFFIC_EXCEEDING_2_CUSTOMERS_PER_WEEK = declare("Foot traffic exceeding 2 customers per week?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor EMPLOYEES_WORKING_ON_THE_PREMISES = declare("Employees working on the premises?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor BUSINESS_INVOLVING_HAZARDOUS_SITUATIONS_OR_MATERIALS = declare("Business involving hazardous situations or materials?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor BUSINESS_INVOLVING_THE_MANUFACTURING_OR_REPAIRING_OF_GOODS_OR_PRODUCTS = declare("Business involving the manufacturing or repairing of goods or products?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor ADD_A_COMMENT_IF_YOU_ANSWERED_YES_TO_ANY_OF_THE_ABOVE_QUESTIONS = declare("Add a comment if you answered yes to any of the above questions", TextBox.class, Waiters.AJAX);
+		}
+
+		public static final class EndorsementHO70 extends MetaData {
+			public static final AttributeDescriptor NUMBER_OF_FAMILY_UNITS = declare("Number of family units", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor ZIP_CODE = declare("Zip Code", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor STREET_ADDRESS_1 = declare("Street Address 1", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street Address 2", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor CITY = declare("City", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor SECTION_II_TERRITORY = declare("Section II territory", ComboBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementHO71 extends MetaData {
+			public static final AttributeDescriptor NAME_OF_BUSINESS = declare("Name of business", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor CLASSIFICATION_OCCUPATION = declare("Classification/occupation", ComboBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor CO_APPLICANT_CLASSIFICATION_OCCUPATION = declare("Co-applicant Classification/occupation", ComboBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor TEACHERS_EXTENDED_LIABILITY = declare("Teachers extended liability", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor DESCRIPTION_OF_BUSINESS = declare("Description of Business", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor IS_THE_INSURED_SELF_EMPLOYED_A_PARTNER_IN_THE_BUSINESS = declare("Is the insured self-employed, a partner in the business, or maintain any financial control in this business?", RadioGroup.class, Waiters.AJAX);
+		}
+
+		public static final class EndorsementHO626501 extends MetaData {
+			public static final AttributeDescriptor NAME_OF_EVENT = declare("Name of Event", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor CITY = declare("City", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor ZIP_CODE = declare("Zip code", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor START_DATE = declare("Start Date", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor END_DATE = declare("End Date", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor DESCRIPTION_OF_EVENT = declare("Description of event", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementHO28 extends MetaData {
+			public static final AttributeDescriptor AMOUNT_OF_INSURANCE = declare("Amount of insurance", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementHW0906 extends MetaData {
+			public static final AttributeDescriptor MORTGAGE_COVERAGE_LIMIT_PER_MONTH_MAXIMUM = declare("Mortgage coverage limit (per month / maximum)", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementHW0528 extends MetaData {
+			public static final AttributeDescriptor LIMIT_OF_LIABILITY = declare("Limit of liability", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor DEDUCTIBLE = declare("Deductible", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor YEAR = declare("Year", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor MAKE_OR_MODEL = declare("Make or model", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor SERIAL_NUMBER = declare("Serial number", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class Endorsement611004 extends MetaData {
+			public static final AttributeDescriptor TYPE = declare("Type", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor NAME = declare("Name", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor CITY = declare("City", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementHO210C extends MetaData {
+			public static final AttributeDescriptor COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementHO164C extends MetaData {
+			public static final AttributeDescriptor MAKE = declare("Make", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor MODEL = declare("Model", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor HORSEPOWER = declare("Horsepower", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementDW0420 extends MetaData {
+			public static final AttributeDescriptor ADDITIONAL_COVERAGE_LIMIT = declare("Additional coverage limit", ComboBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementHO300 extends MetaData {
+			public static final AttributeDescriptor DESCRIPTION_OF_EXCLUDED_STRUCTURES = declare("Description of excluded structures", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementDW0925 extends MetaData {
+			public static final AttributeDescriptor REASON_FOR_VACANCY = declare("Reason for vacancy", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor LENGTH_OF_VACANCY = declare("Length of vacancy", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementHW0495 extends MetaData {
+			public static final AttributeDescriptor COVERAGE_LIMIT = declare("Coverage Limit", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor DEDUCTIBLE = declare("Deductible", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementHW0435 extends MetaData {
+			public static final AttributeDescriptor ZIP_CODE = declare("Zip code", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor LOCATION_TYPE = declare("Location Type", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor DESCRIPTION_OF_STRUCTURE = declare("Description of structure", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor CITY = declare("City", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementHO48 extends MetaData {
+			public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor COVERAGE_LIMIT = declare("Coverage Limit", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementHO43 extends MetaData {
+			public static final AttributeDescriptor DESCRIPTION_OF_BUSINESS_EQUIPMENT = declare("Description of business/equipment", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor CITY = declare("City", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor ZIP_CODE = declare("Zip code", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor SECTION_II_TERRITORY = declare("Section II territory", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor BUSSINESS_EQUIPMENT_OVER_$5000 = declare("Business equipment over $50,000?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor FOOT_TRAFIC_EXCEEDING_2_CUSTOMERS = declare("Foot traffic exceeding 2 customers per week?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor EMPLOYEES_WORKING_ON_PREMISES = declare("Employees working on the premises?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor BUSSINESS_INVOLVING_HAZZARDOUS_SITUATIONS = declare("Business involving hazardous situations or materials?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor BUSSINESS_INVOLVING_THE_MANUFACTORING = declare("Business involving the manufacturing or repairing of goods or products?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor IS_BUSINESS_CONDUCTED = declare("Is business conducted or is there equipment stored in a detached structure?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor ADD_COMMENT_IF_YOU_ANSWERED_YES = declare("Add a comment if you answered yes to any of the above questions", TextBox.class, Waiters.AJAX);
+
+		}
+
+		public static final class EndorsementHO42 extends MetaData {
+			public static final AttributeDescriptor OFFICE_TYPE = declare("Office type", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor DESCRIPTION_OF_BUSINESS_EQUIPMENT = declare("Description of business / equipment", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor BUSINESS_EQUIPMENT_OVER_50_000 = declare("Business equipment over $50,000?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor FOOT_TRAFFIC_EXCEEDING_2_CUSTOMERS_PER_WEEK = declare("Foot traffic exceeding 2 customers per week?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor EMPLOYEES_WORKING_ON_THE_PREMISES = declare("Employees working on the premises?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor BUSINESS_INVOLVING_HAZARDOUS_SITUATIONS_OR_MATERIALS = declare("Business involving hazardous situations or materials?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor BUSINESS_INVOLVING_THE_MANUFACTURING_OR_REPAIRING_OF_GOODS_OR_PRODUCTS = declare("Business involving the manufacturing or repairing of goods or products?", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor IS_BUSINESS_CONDUCTED_OR_IS_THERE_EQUIPMENT_STORED = declare("Is business conducted or is there equipment stored in a detached structure?", RadioGroup.class, Waiters.AJAX);
+		}
+
+		public static final class EndorsementDP0422 extends MetaData {
+			public static final AttributeDescriptor COVERAGE_LIMIT = declare("Coverage limit", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementDP0471 extends MetaData {
+			public static final AttributeDescriptor COVERAGE_LIMIT = declare("Coverage Limit", ComboBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementDW0463 extends MetaData {
+			public static final AttributeDescriptor COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class, Waiters.AJAX);
+		}
+
+		public static final class EndorsementDP0418 extends MetaData {
+			public static final AttributeDescriptor COVERAGE_LIMIT = declare("Structure coverage limit", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementDW0421 extends MetaData {
+			public static final AttributeDescriptor DESCRIPTION_OF_STRUCTURE = declare("Description Of Structure", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor LIMIT_OF_LIABILITY = declare("Limit Of Liability", TextBox.class, Waiters.AJAX);
+		}
+
+		public static final class EndorsementDP0495 extends MetaData {
+			public static final AttributeDescriptor COVERAGE_LIMIT = declare("Coverage limit", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor DEDUCTIBLE = declare("Deductible", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementHO75 extends MetaData {
+			public static final AttributeDescriptor BOAT_TYPE = declare("Boat type", ComboBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor HIN = declare("HIN#", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor YEAR = declare("Year", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor MAKE = declare("Make", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor MODEL = declare("Model", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor DESCRIPTION_OF_ENGINE_MOTOR = declare("Description of engine/motor", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor HORSEPOWER = declare("Horsepower", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor LENGTH = declare("Length", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor MAXIMUM_SPEED = declare("Maximum speed", TextBox.class, Waiters.AJAX);
+		}
+		
+
 		public enum IncludedAndSelectedEndorsementsTblHeaders {
 
 			FORM_ID("Form ID"), NAME("Name"), CATEGORY("Category"), NUMBER_OF_FORMS("Number of Forms"), DESCRIPTION("Description"), CONTROLS("");
 
 			private String value;
 
-			private IncludedAndSelectedEndorsementsTblHeaders(String value) {
+			IncludedAndSelectedEndorsementsTblHeaders(String value) {
 				this.value = value;
 			}
 
@@ -664,7 +957,7 @@ public final class HomeCaMetaData {
 
 			private String value;
 
-			private OptionalEndorsementsTblHeaders(String value) {
+			OptionalEndorsementsTblHeaders(String value) {
 				this.value = value;
 			}
 
@@ -674,9 +967,90 @@ public final class HomeCaMetaData {
 		}
 	}
 
-	//TODO Update
 	public static final class PersonalPropertyTab extends MetaData {
-		public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class);
+		public static final AttributeDescriptor BOATS = declare("Boats", PersonalPropertyMultiAssetList.class, Boats.class, By.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyBoatsItem']"));
+		public static final AttributeDescriptor CAMERAS = declare("Cameras", PersonalPropertyMultiAssetList.class, Cameras.class, By.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyCamerasItem']"));
+		public static final AttributeDescriptor COINS = declare("Coins", PersonalPropertyMultiAssetList.class, Coins.class, By.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyCoinsItem']"));
+		public static final AttributeDescriptor FINE_ARTS = declare("Fine arts", PersonalPropertyMultiAssetList.class, FineArts.class, By.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyFineArtsItem']"));
+		public static final AttributeDescriptor FURS = declare("Furs", PersonalPropertyMultiAssetList.class, Furs.class, By.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyFursItem']"));
+		public static final AttributeDescriptor GOLF_EQUIPMENT = declare("Golf equipment", PersonalPropertyMultiAssetList.class, GolfEquipment.class, By.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyGolfItem']"));
+		public static final AttributeDescriptor JEWELRY = declare("Jewelry", PersonalPropertyMultiAssetList.class, Jewelry.class, By.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyJewelryItem']"));
+		public static final AttributeDescriptor MUSICAL_INSTRUMENTS = declare("Musical instruments", PersonalPropertyMultiAssetList.class, MusicalInstruments.class, By.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyMusicalItem']"));
+		public static final AttributeDescriptor POSTAGE_STAMPS = declare("Postage stamps", PersonalPropertyMultiAssetList.class, PostageStamps.class, By.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertyPostageItem']"));
+		public static final AttributeDescriptor SILVERWARE = declare("Silverware", PersonalPropertyMultiAssetList.class, Silverware.class, By.xpath("//div[@id='policyDataGatherForm:componentView_ScheduledPropertySilverwareItem']"));
+
+		public static final class Boats extends MetaData {
+			public static final AttributeDescriptor BOAT_TYPE = declare("Boat type", ComboBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor HIN_NO = declare("HIN#", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor YEAR = declare("Year", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor MAKE = declare("Make", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor MODEL = declare("Model", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor HORSEPOWER = declare("Horsepower", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor LENGTH_INCHES = declare("Length(inches)", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor DEDUCTIBLE = declare("Deductible", ComboBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor AMOUNT_OF_INSURANCE = declare("Amount of insurance", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor LOSS_PAYEE = declare("Loss payee", RadioGroup.class, Waiters.AJAX);
+			public static final AttributeDescriptor NAME = declare("Name", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor CITY = declare("City", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor ZIP_CODE = declare("Zip code", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class Cameras extends MetaData {
+			public static final AttributeDescriptor LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class Coins extends MetaData {
+			public static final AttributeDescriptor LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor NUMBER_OF_ARTICLES = declare("Number of articles", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class FineArts extends MetaData {
+			public static final AttributeDescriptor LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor FORM_OF_ART = declare("Form of art", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class Furs extends MetaData {
+			public static final AttributeDescriptor LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class GolfEquipment extends MetaData {
+			public static final AttributeDescriptor LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor LEFT_OR_RIGHT_HANDED_CLUB = declare("Left- or right-handed club", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class Jewelry extends MetaData {
+			public static final AttributeDescriptor LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor JEWELRY_CATEGORY = declare("Jewelry category", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class MusicalInstruments extends MetaData {
+			public static final AttributeDescriptor LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class PostageStamps extends MetaData {
+			public static final AttributeDescriptor LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor NUMBER_OF_STAMPS = declare("Number of stamps", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class Silverware extends MetaData {
+			public static final AttributeDescriptor LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor SET_OR_INDIVIDUAL_PIECE = declare("Set or individual piece", ComboBox.class, Waiters.NONE);
+			public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
+		}
+
+		//TODO-dchubkov: old metadata, should we remove it?
+		/*public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class);
 		public static final AttributeDescriptor SCHEDULED_PROPERTY_COVERAGE = declare("Scheduled Property Coverage", RadioGroup.class);
 		public static final AttributeDescriptor LIMIT_AMOUNT = declare("Limit Amount", TextBox.class);
 		public static final AttributeDescriptor PAYMENT_BASIS = declare("Payment Basis", TextBox.class);
@@ -754,7 +1128,7 @@ public final class HomeCaMetaData {
 			public static final AttributeDescriptor ITEM_NUMBER = declare("Item Number", TextBox.class);
 			public static final AttributeDescriptor AMOUNT = declare("Amount", TextBox.class);
 			public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class);
-		}
+		}*/
 	}
 
 	// --------- Premium & Coverages - Quote Tab --------
@@ -816,7 +1190,7 @@ public final class HomeCaMetaData {
 
 			private String value;
 
-			private HomeCaCoverages(String value) {
+			HomeCaCoverages(String value) {
 				this.value = value;
 			}
 
@@ -831,7 +1205,7 @@ public final class HomeCaMetaData {
 
 			private String value;
 
-			private HomeCaCeaCoverages(String value) {
+			HomeCaCeaCoverages(String value) {
 				this.value = value;
 			}
 
@@ -902,7 +1276,7 @@ public final class HomeCaMetaData {
 			public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor CITY = declare("City", TextBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.AJAX);
-			public static final AttributeDescriptor DESCRIPTION_OF_INTEREST = declare("Description of interest", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor DESCRIPTION_OF_INTEREST = declare("Description of interest", TextBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor EFFECTIVE_DATE = declare("Effective date", TextBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor ADD = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addAAAHOAdditionalInterest"));
 		}
@@ -990,6 +1364,7 @@ public final class HomeCaMetaData {
 			public static final AttributeDescriptor CEA_OFFER_DECLINATION = declare("CEA Offer Declination", RadioGroup.class, Waiters.AJAX);
 			public static final AttributeDescriptor CALIFORNIA_RESIDENTIAL_PROPERTY_INSURANCE_DISCLOSURE = declare("California Residential Property Insurance Disclosure", RadioGroup.class, Waiters.AJAX);
 			public static final AttributeDescriptor SIGNED_POLICY_APPLICATION = declare("Signed policy application", RadioGroup.class, Waiters.NONE);
+			public static final AttributeDescriptor AUTOPAY_AUTHORIZATION_FORM = declare("AutoPay Authorization Form", RadioGroup.class, Waiters.NONE);
 		}
 	}
 

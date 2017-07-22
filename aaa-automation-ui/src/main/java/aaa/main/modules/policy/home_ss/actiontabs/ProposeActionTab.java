@@ -4,8 +4,11 @@
  */
 package aaa.main.modules.policy.home_ss.actiontabs;
 
+import org.openqa.selenium.By;
+
 import aaa.common.ActionTab;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import toolkit.webdriver.controls.StaticElement;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -17,4 +20,6 @@ public class ProposeActionTab extends ActionTab {
     public ProposeActionTab() {
         super(HomeSSMetaData.ProposeActionTab.class);
     }
+    
+    public static StaticElement message = new StaticElement(By.id("policyDataGatherForm:note"));
 }

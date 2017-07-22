@@ -2,7 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.modules.policy;
 
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.AutoCaPolicy;
 import aaa.main.modules.policy.auto_ss.AutoSSPolicy;
 import aaa.main.modules.policy.cea.CeaPolicy;
@@ -19,6 +18,20 @@ import aaa.rest.policy.personallines.PersonalLinesPolicyRest;
  */
 public class PolicyType {
 
+	public static final PolicyType AUTO_CA = new PolicyType("AutoCA", "California Auto", new AutoCaPolicy());
+	public static final PolicyType AUTO_CA_CHOICE = new PolicyType("AutoCAC", "California Auto", new AutoCaPolicy());
+	public static final PolicyType AUTO_SS = new PolicyType("AutoSS", "Auto Signature Series", new AutoSSPolicy());
+	public static final PolicyType HOME_SS = new PolicyType("HomeSS", "Homeowners Signature Series", new HomeSSPolicy());
+	public static final PolicyType HOME_SS_HO4 = new PolicyType("HomeSS_HO4", "Homeowners Signature Series", new HomeSSPolicy());
+	public static final PolicyType HOME_SS_HO6 = new PolicyType("HomeSS_HO6", "Homeowners Signature Series", new HomeSSPolicy());
+	public static final PolicyType HOME_SS_DP3 = new PolicyType("HomeSS_DP3", "Homeowners Signature Series", new HomeSSPolicy());
+	public static final PolicyType HOME_CA = new PolicyType("HomeCA", "California Homeowners", new HomeCaPolicy());
+	public static final PolicyType HOME_CA_HO3 = new PolicyType("HOME_CA_HO3", "California Homeowners", new HomeCaPolicy());
+	public static final PolicyType HOME_CA_HO4 = new PolicyType("HOME_CA_HO4", "California Homeowners", new HomeCaPolicy());
+	public static final PolicyType HOME_CA_HO6 = new PolicyType("HOME_CA_HO6", "California Homeowners", new HomeCaPolicy());
+	public static final PolicyType HOME_CA_DP3 = new PolicyType("HOME_CA_DP3", "California Homeowners", new HomeCaPolicy());
+	public static final PolicyType PUP = new PolicyType("PUP", "Personal Umbrella Policy", new PupPolicy());
+	public static final PolicyType CEA = new PolicyType("CEA", "California Earthquake", new CeaPolicy());
 	protected IPolicy policy;
 	protected String shortName;
 	protected String fullName;
@@ -31,20 +44,6 @@ public class PolicyType {
 		policyRest = new PersonalLinesPolicyRest(this);
 	}
 
-	public static final PolicyType AUTO_CA = new PolicyType("AutoCA", "California Auto", new AutoCaPolicy());
-	public static final PolicyType AUTO_CA_CHOICE = new PolicyType("AutoCAC", "California Auto", new AutoCaPolicy());
-	public static final PolicyType AUTO_SS = new PolicyType("AutoSS", "Auto Signature Series", new AutoSSPolicy());
-	public static final PolicyType HOME_SS = new PolicyType("HomeSS", "Homeowners Signature Series", new HomeSSPolicy());
-	public static final PolicyType HOME_SS_HO4 = new PolicyType("HomeSS_HO4", "Homeowners Signature Series", new HomeSSPolicy());
-	public static final PolicyType HOME_SS_HO6 = new PolicyType("HomeSS_HO6", "Homeowners Signature Series", new HomeSSPolicy());
-	public static final PolicyType HOME_SS_DP3 = new PolicyType("HomeSS_DP3", "Homeowners Signature Series", new HomeSSPolicy());
-	public static final PolicyType HOME_CA = new PolicyType("HomeCA", "California Homeowners", new HomeCaPolicy());
-	public static final PolicyType HOME_CA_HO4 = new PolicyType("HOME_CA_HO4", "California Homeowners", new HomeCaPolicy());
-	public static final PolicyType HOME_CA_HO6 = new PolicyType("HOME_CA_HO6", "California Homeowners", new HomeCaPolicy());
-	public static final PolicyType HOME_CA_DP3 = new PolicyType("HOME_CA_DP3", "California Homeowners", new HomeCaPolicy());
-	public static final PolicyType PUP = new PolicyType("PUP", "Personal Umbrella Policy", new PupPolicy());
-	public static final PolicyType CEA = new PolicyType("CEA", "California Earthquake", new CeaPolicy());
-
 	public String getName() {
 		return fullName;
 	}
@@ -55,10 +54,6 @@ public class PolicyType {
 
 	public String getKey() {
 		return policy.getClass().getSimpleName();
-	}
-
-	public IPolicy get() {
-		return policy;
 	}
 
 	public PolicyRest getPolicyRest() {
@@ -77,12 +72,13 @@ public class PolicyType {
 			return false;
 		}
 		PolicyType policyType = (PolicyType) anObject;
-		if ((this.shortName == null) ? (policyType.getShortName() != null) : !this.shortName.equals(policyType.getShortName())) {
+		if (this.shortName == null ? policyType.getShortName() != null : !this.shortName.equals(policyType.getShortName())) {
 			return false;
 		}
-		if ((this.fullName == null) ? (policyType.getName() != null) : !this.fullName.equals(policyType.getName())) {
-			return false;
-		}
-		return true;
+		return this.fullName == null ? policyType.getName() == null : this.fullName.equals(policyType.getName());
+	}
+
+	public IPolicy get() {
+		return policy;
 	}
 }

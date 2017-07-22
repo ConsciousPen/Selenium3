@@ -3,7 +3,6 @@
 package base.modules.policy.home_ss;
 
 import org.testng.annotations.Test;
-
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSBaseTest;
 import toolkit.datax.impl.SimpleDataProvider;
@@ -30,8 +29,8 @@ public class TestPolicyEndorsementDeletePending extends HomeSSBaseTest {
         createPolicy();
 
         log.info("TEST: Delete Pending Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.endorse().performAndExit(tdPolicy.getTestData("Endorsement", "TestData"));
-        PolicySummaryPage.buttonPendedEndorsement.click();
+	    policy.endorse().performAndExit(tdPolicy.getTestData("Endorsement", "TestData"));
+	    PolicySummaryPage.buttonPendedEndorsement.click();
 
         policy.deletePendedTransaction().perform(new SimpleDataProvider());
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);

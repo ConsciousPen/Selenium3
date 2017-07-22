@@ -2,7 +2,7 @@
 <suite name="groups" verbose="1">
 	<test name="groups" preserve-order="true">
 		<packages>
-			<package name="aaa.modules.*" />
+            <package name="aaa.modules.*"/>
 		</packages>
 	</test>
 </suite>

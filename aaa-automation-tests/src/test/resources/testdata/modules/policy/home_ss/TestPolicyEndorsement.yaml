@@ -70,7 +70,7 @@ MailingAddress: {
   Validate Address: true,
   Validate Address Dialog: {
     Street number: '111', 
-    Street Name: Test street
+    Street Name: Test street,
   }
 }
 
@@ -372,7 +372,7 @@ MailingAddress_KY: {
 TestData_MD: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_MD',
-  ReportsTab: '@ReportsTab',
+  ReportsTab: '@ReportsTab_MD',
   PropertyInfoTab: '@PropertyInfoTab',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
@@ -394,9 +394,14 @@ MailingAddress_MD: {
   Street address 1: '1201 Windermere Ave', 
   Validate Address: true,
   Validate Address Dialog: {
-    Street number: '1201', 
-    Street Name: Windermere Ave
+    Mailing Address: 'Override and use original address'
   }
+}
+
+ReportsTab_MD: {
+  Sales Agent Agreement: 'I Agree',
+  #InsuranceScoreReport: ['@InsuranceScoreReport'],
+  CLUEreport: [{Report: 'Re-order report'}]
 }
 
 # -------------------- MT ----------------------

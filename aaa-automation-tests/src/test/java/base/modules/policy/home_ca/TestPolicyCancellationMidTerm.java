@@ -3,7 +3,6 @@
 package base.modules.policy.home_ca;
 
 import org.testng.annotations.Test;
-
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaBaseTest;
@@ -26,12 +25,13 @@ public class TestPolicyCancellationMidTerm extends HomeCaBaseTest {
     public void testPolicyCancellationMidTerm() {
         mainApp().open();
 
-		createPolicy(getStateTestData(tdPolicy, "DataGather", "TestData")
-				.adjust("GeneralTab|PolicyInfo|Effective date", "/today-2d:MM/dd/yyyy")
-				.adjust("GeneralTab|CurrentCarrier|Base date with AAA", "/today-2d:MM/dd/yyyy"));
+        createCustomerIndividual();
+	    createPolicy(getStateTestData(tdPolicy, "DataGather", "TestData")
+			    .adjust("GeneralTab|PolicyInfo|Effective date", "/today-2d:MM/dd/yyyy")
+			    .adjust("GeneralTab|CurrentCarrier|Base date with AAA", "/today-2d:MM/dd/yyyy"));
 		
         log.info("TEST: MidTerm Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-		policy.cancel().perform(getStateTestData(tdPolicy, "Cancellation", "TestData"));
+	    policy.cancel().perform(getStateTestData(tdPolicy, "Cancellation", "TestData"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
     }

@@ -3,7 +3,6 @@
 package aaa.modules.policy.auto_ss;
 
 import org.testng.annotations.Test;
-
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;

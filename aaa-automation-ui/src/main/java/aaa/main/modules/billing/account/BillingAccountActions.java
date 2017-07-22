@@ -607,7 +607,7 @@ public final class BillingAccountActions {
 	    public static class Update extends AbstractAction {
 	        @Override
 	        public String getName() {
-	            return "Update Billing Account";
+	            return "Update";
 	        }
 
 	        @Override
@@ -625,7 +625,7 @@ public final class BillingAccountActions {
 	    public static class AddHold extends AbstractAction {
 	        @Override
 	        public String getName() {
-	            return "Add/Update Hold for Billing Account";
+	            return "Hold Policies";
 	        }
 
 	        @Override
@@ -635,7 +635,7 @@ public final class BillingAccountActions {
 
 	        @Override
 	        public AbstractAction submit() {
-	            AddHoldActionTab.buttonSave.click();
+	            AddHoldActionTab.buttonAddUpdate.click();
 	            return this;
 	        }
 	    }
@@ -643,7 +643,7 @@ public final class BillingAccountActions {
 	    public static class RemoveHold extends AbstractAction {
 	        @Override
 	        public String getName() {
-	            return "Remove Billing Account Hold";
+	            return "Hold Policies";
 	        }
 
 	        @Override
@@ -653,7 +653,8 @@ public final class BillingAccountActions {
 
 	        @Override
 	        public AbstractAction submit() {
-	            new Button(By.id("holdForm:removeButton_footer")).click();
+	            new Button(By.id("holdPoliciesForm:holdsTable:0:_remove_")).click();
+	            Page.dialogConfirmation.confirm();
 	            return this;
 	        }
 	    }

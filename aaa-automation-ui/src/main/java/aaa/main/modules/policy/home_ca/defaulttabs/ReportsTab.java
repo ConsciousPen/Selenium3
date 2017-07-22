@@ -38,7 +38,7 @@ public class ReportsTab extends Tab {
 		buttonNext.click();
 		return this;
 	}
-	
+
 	public void reorderReports() {
 		RadioGroup agentAgreement = getAssetList().getControl(HomeCaMetaData.ReportsTab.SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class);
 		if (agentAgreement.isPresent()) {
@@ -49,7 +49,7 @@ public class ReportsTab extends Tab {
 		reOrderReports(tblPublicProtectionClass);
 		reOrderReports(tblClueReport);
 	}
-	
+
 	protected void reOrderReports(Table reportTable) {
 		if (reportTable.isPresent()) {
 			for (int i = 1; i <= reportTable.getRowsCount(); i++) {

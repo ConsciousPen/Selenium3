@@ -1,20 +1,43 @@
-TestDataSameNumber: {
+TestDataSameDate: {
   RewriteActionTab: {
-    Effective Date:  /today,
-    'Use Original Policy Number?': 'Yes'
+    Effective Date:  /today
   }
 }
 
-TestDataFutureSameNumber: {
+TestDataFutureDate: {
   RewriteActionTab: {
-    Effective Date:  /today+3d,
-    'Use Original Policy Number?': 'Yes'
+    Effective Date:  /today+3d
   }
 }
 
-TestDataNewNumber: {
-  RewriteActionTab: {
-    Effective Date:  /today,
-    'Use Original Policy Number?': 'No'
+# ---- TestData required for bind rewritten policy ---
+
+TestDataForBindRewrittenPolicy: {
+  PrefillTab: {},
+  GeneralTab: {
+     PolicyInformation: { Authorized by: QA}
+   },
+  DriverTab: {},
+  RatingDetailReportsTab: {
+     Customer Agreement: Customer Agrees,
+     Order Report: click
+  },
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+     "Has the customer expressed interest in purchasing the quote?": 'Yes',
+      Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+     RequiredToBind: {
+       Auto Insurance Application: Physically Signed
+      }
+   },
+  PurchaseTab: {
+  PaymentAllocation: {
+    Cash: /rest
   }
+ }
 }

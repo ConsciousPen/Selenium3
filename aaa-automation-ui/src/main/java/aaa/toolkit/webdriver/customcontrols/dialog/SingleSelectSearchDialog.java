@@ -1,11 +1,8 @@
 package aaa.toolkit.webdriver.customcontrols.dialog;
 
 import java.util.Map;
-
 import org.openqa.selenium.By;
-
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialogSingleSearch;
-
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.AbstractClickableStringElement;
 import toolkit.webdriver.controls.BaseElement;
@@ -16,23 +13,20 @@ import toolkit.webdriver.controls.waiters.Waiters;
 
 public class SingleSelectSearchDialog extends AbstractDialogSingleSearch {
 
-	private static final By RESULT_TABLE_LOCATOR = By.xpath(".//table[contains(@id,'SearchTabel') or contains(@id='SearchTable')]");
+	private static final By RESULT_TABLE_LOCATOR = By.xpath(".//table[contains(@id,'SearchTabel') or contains(@id, 'SearchTable')]");
+	public ResultTable tableSearchResults = new ResultTable(POPUP_PARENT, RESULT_TABLE_LOCATOR);
+	Button buttonSearch = new Button(POPUP_PARENT, By.xpath(".//input[@value = 'Search'] | .//button[contains(. , 'Search')]"), Waiters.AJAX);
+	Button buttonCancel = new Button(POPUP_PARENT, By.xpath(".//input[@value = 'cancel' or @value = 'Cancel']"), Waiters.AJAX.then(Waiters.AJAX));
 
 	public SingleSelectSearchDialog(By locator) {
 		super(locator);
 	}
-
 	public SingleSelectSearchDialog(By locator, Class<? extends MetaData> metaDataClass) {
 		super(locator, metaDataClass);
 	}
-
 	public SingleSelectSearchDialog(BaseElement<?, ?> parent, By locator, Class<? extends MetaData> metaDataClass) {
 		super(parent, locator, metaDataClass);
 	}
-
-	Button buttonSearch = new Button(POPUP_PARENT, By.xpath(".//input[@value = 'Search'] | .//button[contains(. , 'Search')]"), Waiters.AJAX);
-	public ResultTable tableSearchResults = new ResultTable(POPUP_PARENT, RESULT_TABLE_LOCATOR);
-	Button buttonCancel = new Button(POPUP_PARENT, By.xpath(".//input[@value = 'cancel' or @value = 'Cancel']"), Waiters.AJAX);
 
 	// ResultTable tableSearchResults = new ResultTable(POPUP_PARENT,
 	// RESULT_TABLE_LOCATOR);
@@ -52,10 +46,6 @@ public class SingleSelectSearchDialog extends AbstractDialogSingleSearch {
 		}
 	}
 
-	public void cancel() {
-		buttonCancel.click();
-	}
-
 	@Override
 	public void setRawValue(TestData data) {
 		if (data != null && !data.getKeys().isEmpty()) {
@@ -67,6 +57,10 @@ public class SingleSelectSearchDialog extends AbstractDialogSingleSearch {
 		} else {
 			cancel();
 		}
+	}
+
+	public void cancel() {
+		buttonCancel.click();
 	}
 
 	private AbstractClickableStringElement getSelectControl() {

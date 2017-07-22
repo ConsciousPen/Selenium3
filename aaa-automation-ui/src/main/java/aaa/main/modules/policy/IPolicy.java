@@ -136,10 +136,11 @@ public interface IPolicy {
     PolicyActions.RescindCancellation rescindCancellation();
     
     PolicyActions.NonPremiumBearingEndorsement nonPremiumBearingEndorsement();
-    
-    PolicyActions.UpdateRulesOverride updateRulesOverride();
-    
-    //TODO check if used in AAA and delete
-    PolicyActions.RemoveSuspendQuote removeSuspendQuote();
-    PolicyActions.ChangeRenewalQuoteLapse changeRenewalQuoteLapse();
+
+	PolicyActions.UpdateRulesOverride updateRulesOverride();
+
+	//TODO check if used in AAA and delete
+	PolicyActions.RemoveSuspendQuote removeSuspendQuote();
+
+	PolicyActions.ChangeRenewalQuoteLapse changeRenewalQuoteLapse();
 }

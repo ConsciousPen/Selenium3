@@ -16,7 +16,6 @@ import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
-import aaa.main.modules.billing.account.BillingAccountType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSBaseTest;
@@ -50,7 +49,7 @@ import toolkit.utils.datetime.DateTime;
  * @details
  */
 public class TestPolicyRenewAutomaticOfferWithLapse extends HomeSSBaseTest {
-    private TestData tdBillingAccount = testDataManager.billingAccount.get(BillingAccountType.BILLING_ACCOUNT);
+    private TestData tdBillingAccount = testDataManager.billingAccount;
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

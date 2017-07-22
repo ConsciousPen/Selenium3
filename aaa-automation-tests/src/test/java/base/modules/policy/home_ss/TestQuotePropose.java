@@ -4,9 +4,7 @@ package base.modules.policy.home_ss;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
-
 import aaa.common.Tab;
-//import aaa.common.components.Efolder;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.actiontabs.ProposeActionTab;
@@ -15,6 +13,8 @@ import aaa.modules.policy.HomeSSBaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
+
+//import aaa.common.components.Efolder;
 
 /**
  * @author Marina Buryak
@@ -50,7 +50,7 @@ public class TestQuotePropose extends HomeSSBaseTest {
                 "and will be available for viewing within the folder structure as soon as they have been successfully processed. This usually takes 3 to 5 minutes.");
         policy.propose().getView().getTab(ProposeActionTab.class).getAssetList().getControl(HomeSSMetaData.ProposeActionTab.NOTES.getLabel(), TextBox.class).setValue("Comment");
         policy.propose().submit();
-//        Efolder.isDocumentExist("Applications and Proposals", "New Business");
+	    //        Efolder.isDocumentExist("Applications and Proposals", "New Business");
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PROPOSED);
     }

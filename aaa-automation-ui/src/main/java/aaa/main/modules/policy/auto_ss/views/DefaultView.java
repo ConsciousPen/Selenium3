@@ -5,16 +5,16 @@
 package aaa.main.modules.policy.auto_ss.views;
 
 import aaa.common.Workspace;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.AssignmentTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 
@@ -27,7 +27,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
  */
 public class DefaultView extends Workspace {
 	public DefaultView() {
-		super();
 		registerTab(PrefillTab.class);
 		registerTab(GeneralTab.class);
 		registerTab(DriverTab.class);

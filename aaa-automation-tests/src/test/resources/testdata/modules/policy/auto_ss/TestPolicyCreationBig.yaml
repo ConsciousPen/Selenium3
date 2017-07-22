@@ -24,13 +24,13 @@ PrefillTab: {
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
   AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
   PolicyInformation: '@PolicyInformation'
 }
 
 NamedInsuredInformation1: {
   Social Security Number: 123456789,
   "Has lived here for less than three years?": 'No',
-  Home Phone Number: 1234567890,
   Residence: Own Home,
 }
 
@@ -41,13 +41,16 @@ NamedInsuredInformation2: {
   Base Date: /today,
   Social Security Number: 223456789,
   "Has lived here for less than three years?": 'No',
-  Home Phone Number: 2234567890,
   Residence: Own Home,
 }
 
 AAAProductOwned: {
-  Membership Number: 4290020029946000,
+  Membership Number: 4290023667710001,
   Last name: Test,
+}
+
+ContactInformation: {
+   Home Phone Number: 1234567890
 }
 
 PolicyInformation: {
@@ -63,6 +66,7 @@ PolicyInformation: {
 DriverTab1: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 400064773
 }
 
@@ -75,6 +79,7 @@ DriverTab2: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 400064774
 }
 
@@ -136,6 +141,7 @@ TestData_AZ: {
 DriverTab1_AZ: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: A12345678
 }
 
@@ -148,6 +154,7 @@ DriverTab2_AZ: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: A22345678
 }
 
@@ -170,6 +177,7 @@ TestData_CO: {
 DriverTab1_CO: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: A552183
 }
 
@@ -182,6 +190,7 @@ DriverTab2_CO: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: A552184
 }
 
@@ -203,6 +212,7 @@ TestData_CT: {
 DriverTab1_CT: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 156773434
 }
 
@@ -215,6 +225,7 @@ DriverTab2_CT: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 156773435
 }
 
@@ -252,6 +263,7 @@ PrefillTab_DC: {
 DriverTab1_DC: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 9992617
 }
 
@@ -264,6 +276,7 @@ DriverTab2_DC: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 9992618
 }
 
@@ -293,6 +306,7 @@ TestData_DE: {
 DriverTab1_DE: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 9992617
 }
 
@@ -305,6 +319,7 @@ DriverTab2_DE: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 9992618
 }
 
@@ -337,6 +352,7 @@ TestData_ID: {
 DriverTab1_ID: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: AA223456A
 }
 
@@ -349,6 +365,7 @@ DriverTab2_ID: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: AA223457A
 }
 
@@ -370,6 +387,7 @@ TestData_IN: {
 DriverTab1_IN: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 154673421
 }
 
@@ -382,6 +400,7 @@ DriverTab2_IN: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 154673422
 }
 
@@ -403,6 +422,7 @@ TestData_KS: {
 DriverTab1_KS: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: B54673421
 }
 
@@ -415,6 +435,7 @@ DriverTab2_KS: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: B54673422
 }
 
@@ -443,6 +464,7 @@ TestData_KY: {
 DriverTab1_KY: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: A12121215
 }
 
@@ -455,6 +477,7 @@ DriverTab2_KY: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: A12121216
 }
 
@@ -476,6 +499,7 @@ TestData_MD: {
 DriverTab1_MD: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: S123456789999
 }
 
@@ -488,6 +512,7 @@ DriverTab2_MD: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: S123456789998
 }
 
@@ -527,6 +552,7 @@ TestData_MT: {
 DriverTab1_MT: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 212790136
 }
 
@@ -539,6 +565,7 @@ DriverTab2_MT: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 212790137
 }
 
@@ -560,6 +587,7 @@ TestData_NJ: {
 DriverTab1_NJ: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: A12345678987657
 }
 
@@ -572,6 +600,7 @@ DriverTab2_NJ: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: A12345678987658
 }
 
@@ -607,6 +636,7 @@ TestData_NV: {
 DriverTab1_NV: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 2127901365
 }
 
@@ -619,6 +649,7 @@ DriverTab2_NV: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 2127901366
 }
 
@@ -641,6 +672,7 @@ TestData_NY: {
 DriverTab1_NY: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: A5467342112658242
 }
 
@@ -653,6 +685,7 @@ DriverTab2_NY: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: A5467342112658243
 }
 
@@ -713,6 +746,7 @@ TestData_OH: {
 DriverTab1_OH: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: AB546734
 }
 
@@ -725,6 +759,7 @@ DriverTab2_OH: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: AB546735
 }
 
@@ -758,6 +793,7 @@ DriverTab2_OK: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 123123122
 }
 
@@ -789,6 +825,7 @@ TestData_OR: {
 DriverTab1_OR: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: /001234567
 }
 
@@ -801,6 +838,7 @@ DriverTab2_OR: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: /001234568
 }
 
@@ -822,6 +860,7 @@ TestData_PA: {
 DriverTab1_PA: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 83127880
 }
 
@@ -834,6 +873,7 @@ DriverTab2_PA: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 83127881
 }
 
@@ -869,6 +909,7 @@ TestData_SD: {
 DriverTab1_SD: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 112345677
 }
 
@@ -881,6 +922,7 @@ DriverTab2_SD: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 112345678
 }
 
@@ -903,6 +945,7 @@ TestData_VA: {
 DriverTab1_VA: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 831278809
 }
 
@@ -915,6 +958,7 @@ DriverTab2_VA: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 831278808
 }
 
@@ -954,6 +998,7 @@ TestData_WV: {
 DriverTab1_WV: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: S123456
 }
 
@@ -966,6 +1011,7 @@ DriverTab2_WV: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: S123457
 }
 
@@ -996,6 +1042,7 @@ TestData_WY: {
 DriverTab1_WY: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 4000647712
 }
 
@@ -1008,6 +1055,7 @@ DriverTab2_WY: {
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 4000647711
 }
 

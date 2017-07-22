@@ -3,7 +3,6 @@
 package base.modules.policy.home_ss;
 
 import org.testng.annotations.Test;
-
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSBaseTest;
@@ -30,8 +29,8 @@ public class TestPolicyEndorsementDeclineByCompany extends HomeSSBaseTest {
         createPolicy();
 
         log.info("TEST: Decline By Company Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.endorse().performAndExit(tdPolicy.getTestData("Endorsement", "TestData"));
-        PolicySummaryPage.buttonPendedEndorsement.click();
+	    policy.endorse().performAndExit(tdPolicy.getTestData("Endorsement", "TestData"));
+	    PolicySummaryPage.buttonPendedEndorsement.click();
 
         policy.declineByCompanyQuote().perform(tdPolicy.getTestData("DeclineByCompany", "TestData"));
         PolicySummaryPage.buttonPendedEndorsement.click();

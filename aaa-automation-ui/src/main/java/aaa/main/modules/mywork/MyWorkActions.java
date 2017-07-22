@@ -38,7 +38,7 @@ public final class MyWorkActions {
 
         @Override
         public AbstractAction start() {
-        	CreateTaskActionTab.buttonCreateTask.click();
+        	MyWorkSummaryPage.buttonCreateTask.click();
             return this;
         }
 
@@ -65,14 +65,14 @@ public final class MyWorkActions {
             throw new UnsupportedOperationException("start() method without parameters is not supported for this action. Use start(int rowNumber) instead.");
         }
 
-        public AbstractAction start(int rowNumber) {
-            MyWorkSummaryPage.selectTask(rowNumber);
+        public AbstractAction start(String taskId) {
+            MyWorkSummaryPage.selectTaskById(taskId);
             MyWorkSummaryPage.buttonAssign.click();
             return this;
         }
 
-        public AbstractAction startFromView(int rowNumber) {
-        	MyWorkSummaryPage.openTaskDetails(rowNumber);
+        public AbstractAction startFromView(String taskId) {
+        	MyWorkSummaryPage.openTaskDetailsById(taskId);
             TaskDetailsSummaryPage.buttonAssign.click();
             return this;
         }
@@ -82,14 +82,14 @@ public final class MyWorkActions {
             throw new UnsupportedOperationException("perform(TestData td) method without rowNumber is not supported for this action. Use perform(int rowNumber, TestData td) instead.");
         }
 
-        public AbstractAction perform(int rowNumber, TestData td) {
-            start(rowNumber);
+        public AbstractAction perform(String taskId, TestData td) {
+            start(taskId);
             getView().fill(td);
             return submit();
         }
 
-        public AbstractAction performFromView(int rowNumber, TestData td) {
-        	startFromView(rowNumber);
+        public AbstractAction performFromView(String taskId, TestData td) {
+        	startFromView(taskId);
             getView().fill(td);
             return submitFromView();
         }
@@ -123,8 +123,8 @@ public final class MyWorkActions {
             throw new UnsupportedOperationException("start() method without parameters is not supported for this action. Use start(int rowNumber) instead.");
         }
 
-        public AbstractAction start(int rowNumber) {
-        	MyWorkSummaryPage.selectTask(rowNumber);
+        public AbstractAction start(String taskId) {
+        	MyWorkSummaryPage.selectTaskById(taskId);
         	MyWorkSummaryPage.buttonComplete.click();
             return this;
         }
@@ -140,8 +140,8 @@ public final class MyWorkActions {
             throw new UnsupportedOperationException("perform(TestData td) method without rowNumber is not supported for this action. Use perform(int rowNumber, TestData td) instead.");
         }
 
-        public AbstractAction perform(int rowNumber, TestData td) {
-            start(rowNumber);
+        public AbstractAction perform(String taskId, TestData td) {
+            start(taskId);
             getView().fill(td);
             return submit();
         }
@@ -163,8 +163,8 @@ public final class MyWorkActions {
             throw new UnsupportedOperationException("start() method without parameters is not supported for this action. Use start(int rowNumber) instead.");
         }
 
-        public AbstractAction start(int rowNumber) {
-            MyWorkSummaryPage.openTaskDetails(rowNumber);
+        public AbstractAction start(String taskId) {
+            MyWorkSummaryPage.openTaskDetailsById(taskId);
             TaskDetailsSummaryPage.buttonUpdate.click();
             return this;
         }
@@ -181,8 +181,8 @@ public final class MyWorkActions {
             throw new UnsupportedOperationException("perform(TestData td) method without rowNumber is not supported for this action. Use perform(int rowNumber, TestData td) instead.");
         }
 
-        public AbstractAction perform(int rowNumber, TestData td) {
-            start(rowNumber);
+        public AbstractAction perform(String taskId, TestData td) {
+            start(taskId);
             getView().fill(td);
             return submit();
         }

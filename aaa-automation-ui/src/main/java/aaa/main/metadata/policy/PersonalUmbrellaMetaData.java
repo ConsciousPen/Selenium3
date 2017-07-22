@@ -3,16 +3,16 @@
 package aaa.main.metadata.policy;
 
 import org.openqa.selenium.By;
-
 import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
-
-import aaa.main.metadata.DialogsMetaData.AddressValidationMetaData;
+import aaa.common.pages.Page;
+import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdditionalPoliciesMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
+import aaa.toolkit.webdriver.customcontrols.endorsements.PupEndorsementsMultiAssetList;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.ComboBox;
@@ -35,7 +35,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
  */
 public final class PersonalUmbrellaMetaData {
 
-	public final static class PrefillTab extends MetaData {
+	public static final class PrefillTab extends MetaData {
 
 		public static final AttributeDescriptor NAMED_INSURED = declare("NamedInsured", MultiInstanceAfterAssetList.class, NamedInsured.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAInsured']"));
 		public static final AttributeDescriptor ACTIVE_UNDERLYING_PRIMARY_POLICY = declare("ActiveUnderlyingPrimaryPolicy", AdditionalPoliciesMultiAssetList.class, ActiveUnderlyingPolicies.class);
@@ -89,7 +89,7 @@ public final class PersonalUmbrellaMetaData {
 
 			private String value;
 
-			private ActiveUnderlyingPoliciesTblHeaders(String value) {
+			ActiveUnderlyingPoliciesTblHeaders(String value) {
 				this.value = value;
 			}
 
@@ -163,7 +163,7 @@ public final class PersonalUmbrellaMetaData {
 			public static final AttributeDescriptor COUNTRY = declare("Country", ComboBox.class, Waiters.AJAX);
 			public static final AttributeDescriptor ADDRESS_VALIDATED = declare("Address validated?", TextBox.class, Waiters.NONE);
 			public static final AttributeDescriptor VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateHOMailingAddressButtonUS"));
-			public static final AttributeDescriptor VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, AddressValidationMetaData.class,
+			public static final AttributeDescriptor VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class,
 					By.id(".//form[@id='addressValidationFormAAAHOMailingAddressValidation']"));
 		}
 
@@ -183,7 +183,7 @@ public final class PersonalUmbrellaMetaData {
 			public static final AttributeDescriptor FAX = declare("Fax", TextBox.class, Waiters.AJAX);
 		}
 	}
-	
+
 	public static final class UnderlyingRisksPropertyTab extends MetaData {
 		public static final AttributeDescriptor ADDITIONAL_RESIDENCIES = declare("AdditionalResidencies", MultiInstanceAfterAssetList.class, AdditionalResidencies.class, By.xpath(".//table[@id='policyDataGatherForm:formGrid_PupAdditionalDwelling']"));
 		public static final AttributeDescriptor BUSINESS_OR_FARMING_COVERAGE = declare("BusinessOrFarmingCoverage", MultiInstanceAfterAssetList.class, BusinessOrFarmingCoverage.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_PupUnderlyingFormsMVO']"));
@@ -217,7 +217,7 @@ public final class PersonalUmbrellaMetaData {
 			public static final AttributeDescriptor EXCLUDED = declare("Excluded", RadioGroup.class, Waiters.AJAX);
 			public static final AttributeDescriptor REASON_FOR_EXCLUSION = declare("Reason for exclusion", TextBox.class, Waiters.NONE);
 			public static final AttributeDescriptor VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateAdditionalDwellingAddressButton"));
-			public static final AttributeDescriptor VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, AddressValidationMetaData.class,
+			public static final AttributeDescriptor VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class,
 					By.id(".//div[@id='addressValidationPopupAAAPupAdditionalDwellAddressValidation_container']"));
 			public static final AttributeDescriptor ADD = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addPupAdditionalDwelling"));
 			
@@ -476,7 +476,95 @@ public final class PersonalUmbrellaMetaData {
 	}
 	
 	public static final class EndorsementsTab extends MetaData {
-		
+
+		public static final AttributeDescriptor F1752C = declare("F1752C", PupEndorsementsMultiAssetList.class, EndorsementF1752C.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor F1755C = declare("F1755C", PupEndorsementsMultiAssetList.class, EndorsementF1755C.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor F1757C = declare("F1757C", PupEndorsementsMultiAssetList.class, EndorsementF1757C.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor F1758C = declare("F1758C", PupEndorsementsMultiAssetList.class, EndorsementF1758C.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor F1759C = declare("F1759C", PupEndorsementsMultiAssetList.class, EndorsementF1759C.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor PS_09_22 = declare("PS 09 22", PupEndorsementsMultiAssetList.class, EndorsementPS0922.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		//		public static final AttributeDescriptor PS_09_23 = declare("PS 09 23", PupEndorsementsMultiAssetList.class, EndorsementPS0923.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor PS_98_11 = declare("PS 98 11", PupEndorsementsMultiAssetList.class, EndorsementPS9811.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor PS_98_13 = declare("PS 98 13", PupEndorsementsMultiAssetList.class, EndorsementPS9813.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor PS_98_14 = declare("PS 98 14", PupEndorsementsMultiAssetList.class, EndorsementPS9814.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor PS_98_15 = declare("PS 98 15", PupEndorsementsMultiAssetList.class, EndorsementPS9815.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+		public static final AttributeDescriptor _58_1027_CA = declare("58 1027 CA", PupEndorsementsMultiAssetList.class, Endorsement581027CA.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+
+		public static final class EndorsementPS9813 extends MetaData {
+			public static final AttributeDescriptor YEAR = declare("Year", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor MAKE = declare("Make", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor MODEL = declare("Model", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor VIN = declare("VIN", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementPS9814 extends MetaData {
+			public static final AttributeDescriptor YEAR = declare("Year", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor MAKE = declare("Make", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor MODEL = declare("Model", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor VIN = declare("VIN", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementPS9815 extends MetaData {
+			public static final AttributeDescriptor YEAR = declare("Year", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor MAKE = declare("Make", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor MODEL = declare("Model", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor HIN = declare("HIN", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementPS9811 extends MetaData {
+			public static final AttributeDescriptor REASON_FOR_EXCLUSION = declare("Reason for exclusion", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class Endorsement581027CA extends MetaData {
+			public static final AttributeDescriptor YEAR = declare("Year", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor MAKE = declare("Make", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor MODEL = declare("Model", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor VIN = declare("VIN", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementPS0922 extends MetaData {
+			public static final AttributeDescriptor FIRST_NAME = declare("First Name", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor MIDDLE_NAME = declare("Middle Name", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor LAST_NAME = declare("Last Name", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor DATE_OF_BIRTH = declare("Date of Birth", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor LICENSE_NUMBER = declare("License Number", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementF1758C extends MetaData {
+			public static final AttributeDescriptor ZIP_CODE = declare("Zip Code", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STREET_ADDRESS_1 = declare("Street Address 1", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STREET_ADDRESS_2 = declare("Street Address 2", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor CITY = declare("City", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor STATE = declare("State", ComboBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementF1757C extends MetaData {
+			public static final AttributeDescriptor YEAR = declare("Year", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor MAKE = declare("Make", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor MODEL = declare("Model", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor VIN = declare("VIN", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementF1759C extends MetaData {
+			public static final AttributeDescriptor ANIMAL_TYPE = declare("Animal Type", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor NAME = declare("Name", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor AGE = declare("Age", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementF1752C extends MetaData {
+			public static final AttributeDescriptor FIRST_NAME = declare("First Name", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor MIDDLE_NAME = declare("Middle Name", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor LAST_NAME = declare("Last Name", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor DATE_OF_BIRTH = declare("Date of Birth", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor LICENCE_NUMBER = declare("License Number", TextBox.class, Waiters.NONE);
+		}
+
+		public static final class EndorsementF1755C extends MetaData {
+			public static final AttributeDescriptor YEAR = declare("Year", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor MAKE = declare("Make", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor MODEL = declare("Model", TextBox.class, Waiters.NONE);
+			public static final AttributeDescriptor VIN = declare("VIN", TextBox.class, Waiters.NONE);
+		}
 	}
 	
 	public static final class PremiumAndCoveragesQuoteTab extends MetaData {
@@ -585,8 +673,8 @@ public final class PersonalUmbrellaMetaData {
 	
 
 	public static final class CancellationActionTab extends MetaData {
-	    public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancellation effective date", TextBox.class, Waiters.AJAX);
-        public static final AttributeDescriptor CANCELLATION_REASON = declare("Cancellation reason", ComboBox.class, Waiters.AJAX);
+	    public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancellation effective date", TextBox.class,By.xpath("//input[@id='policyDataGatherForm:sedit_AAAPolicyCancelAction_policyTxInfo_txDateInputDate']"));
+        public static final AttributeDescriptor CANCELLATION_REASON = declare("Cancellation reason", ComboBox.class,By.xpath("//select[@id='policyDataGatherForm:sedit_AAAPolicyCancelAction_policyCancelTxInfo_cancelTxReasonCd']"));
         public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class);
 	}
 

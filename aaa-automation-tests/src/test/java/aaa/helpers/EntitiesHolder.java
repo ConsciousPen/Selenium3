@@ -45,6 +45,14 @@ public class EntitiesHolder {
 
 		return String.format(pattern, policyTypeStr, stateStr);
 	}
+	
+	public static String makeDefaultQuoteKey(PolicyType policyType, String state) {
+		String pattern = "%s_quote_default_%s";
+		String policyTypeStr = policyType == null ? "" : policyType.getShortName();
+		String stateStr = state == null ? "" : state;
+
+		return String.format(pattern, policyTypeStr, stateStr);
+	}
 
 	public static void addNewEntity(String key, String value) {
 		singleEntities.put(key, value);

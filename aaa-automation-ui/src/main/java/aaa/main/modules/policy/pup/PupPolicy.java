@@ -5,52 +5,13 @@ package aaa.main.modules.policy.pup;
 import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import aaa.EntityLogger;
-import aaa.EntityLogger.EntityType;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
-import aaa.common.enums.NavigationEnum.PersonalUmbrellaTab;
 import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.IPolicy;
+import aaa.main.modules.policy.PolicyActions;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.PolicyActions.Bind;
-import aaa.main.modules.policy.PolicyActions.Cancel;
-import aaa.main.modules.policy.PolicyActions.CancelNotice;
-import aaa.main.modules.policy.PolicyActions.ChangeBrokerRequest;
-import aaa.main.modules.policy.PolicyActions.ChangeReinstatementLapse;
-import aaa.main.modules.policy.PolicyActions.ChangeRenewalQuoteLapse;
-import aaa.main.modules.policy.PolicyActions.CopyQuote;
-import aaa.main.modules.policy.PolicyActions.DataGather;
-import aaa.main.modules.policy.PolicyActions.DeclineByCompanyQuote;
-import aaa.main.modules.policy.PolicyActions.DeclineByCustomerQuote;
-import aaa.main.modules.policy.PolicyActions.DeleteCancelNotice;
-import aaa.main.modules.policy.PolicyActions.DeletePendedTransaction;
-import aaa.main.modules.policy.PolicyActions.DoNotRenew;
-import aaa.main.modules.policy.PolicyActions.Endorse;
-import aaa.main.modules.policy.PolicyActions.ManualRenew;
-import aaa.main.modules.policy.PolicyActions.NonPremiumBearingEndorsement;
-import aaa.main.modules.policy.PolicyActions.PendedEndorsementChange;
-import aaa.main.modules.policy.PolicyActions.PolicyChangeRenewalLapse;
-import aaa.main.modules.policy.PolicyActions.PolicyCopy;
-import aaa.main.modules.policy.PolicyActions.PolicyDocGen;
-import aaa.main.modules.policy.PolicyActions.PolicyInquiry;
-import aaa.main.modules.policy.PolicyActions.PolicySpin;
-import aaa.main.modules.policy.PolicyActions.PolicySplit;
-import aaa.main.modules.policy.PolicyActions.Propose;
-import aaa.main.modules.policy.PolicyActions.QuoteDocGen;
-import aaa.main.modules.policy.PolicyActions.QuoteInquiry;
-import aaa.main.modules.policy.PolicyActions.Reinstate;
-import aaa.main.modules.policy.PolicyActions.RemoveDoNotRenew;
-import aaa.main.modules.policy.PolicyActions.RemoveManualRenew;
-import aaa.main.modules.policy.PolicyActions.RemoveSuspendQuote;
-import aaa.main.modules.policy.PolicyActions.Renew;
-import aaa.main.modules.policy.PolicyActions.RescindCancellation;
-import aaa.main.modules.policy.PolicyActions.RollBackEndorsement;
-import aaa.main.modules.policy.PolicyActions.Rewrite;
-import aaa.main.modules.policy.PolicyActions.RollOn;
-import aaa.main.modules.policy.PolicyActions.SuspendQuote;
-import aaa.main.modules.policy.PolicyActions.UpdateRulesOverride;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
@@ -88,14 +49,14 @@ public class PupPolicy implements IPolicy {
 		getDefaultView().fillUpTo(td, BindTab.class, false);
 		BindTab.buttonSaveAndExit.click();
 
-		log.info("Created Quote " + EntityLogger.getEntityHeader(EntityType.QUOTE));
+		log.info("Created Quote " + EntityLogger.getEntityHeader(EntityLogger.EntityType.QUOTE));
 	}
 
 	@Override
 	public void createPolicy(TestData td) {
 		initiate();
 		getDefaultView().fill(td);
-		log.info("Created Policy " + EntityLogger.getEntityHeader(EntityType.POLICY));
+		log.info("Created Policy " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
 	}
 
 	@Override
@@ -107,224 +68,223 @@ public class PupPolicy implements IPolicy {
 	public void createEndorsement(TestData td) {
 	    endorse().performAndFill(td);
 	}
-	
+
 	@Override
 	public void calculatePremium(TestData td) {
 		dataGather().start();
-		NavigationPage.toViewTab(PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
-		NavigationPage.toViewSubTab(PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
+		NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
 		PremiumAndCoveragesQuoteTab.btnCalculatePremium.click();
 	}
-	
+
     @Override
     public void calculatePremiumAndPurchase(TestData td) {
         calculatePremium(td);
-        NavigationPage.toViewTab(PersonalUmbrellaTab.UNDERWRITING_AND_APPROVAL.get());
-        new UnderwritingAndApprovalTab().fillTab(td);
-        NavigationPage.toViewTab(PersonalUmbrellaTab.BIND.get());
-        new BindTab().submitTab();
-        new PurchaseTab().fillTab(td).submitTab();
+	    NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERWRITING_AND_APPROVAL.get());
+	    new UnderwritingAndApprovalTab().fillTab(td);
+	    NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
+	    new BindTab().submitTab();
+	    new PurchaseTab().fillTab(td).submitTab();
     }
 
 	@Override
 	public void copyPolicy(TestData td) {
 		policyCopy().perform(td);
 		calculatePremiumAndPurchase(td);
-		log.info("Copy Policy " + EntityLogger.getEntityHeader(EntityType.POLICY));
+		log.info("Copy Policy " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
 	}
 
 	@Override
 	public void purchase(TestData td) {
 	    dataGather().start();
-        NavigationPage.toViewTab(PersonalUmbrellaTab.BIND.get());
-        new BindTab().submitTab();
-        new PurchaseTab().fillTab(td).submitTab();
-        log.info("Purchased Quote " + EntityLogger.getEntityHeader(EntityType.POLICY));
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
+		new BindTab().submitTab();
+		new PurchaseTab().fillTab(td).submitTab();
+		log.info("Purchased Quote " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
 	}
 
 	@Override
-	public Endorse endorse() {
+	public PolicyActions.Endorse endorse() {
 		return new PupPolicyActions.Endorse();
 	}
 
 	@Override
-	public Renew renew() {
+	public PolicyActions.Renew renew() {
 		return new PupPolicyActions.Renew();
 	}
 
 	@Override
-	public Bind bind() {
+	public PolicyActions.Bind bind() {
 		return new PupPolicyActions.Bind();
 	}
 
 	@Override
-	public Cancel cancel() {
+	public PolicyActions.Cancel cancel() {
 		return new PupPolicyActions.Cancel();
 	}
 
 	@Override
-	public CancelNotice cancelNotice() {
+	public PolicyActions.CancelNotice cancelNotice() {
 		return new PupPolicyActions.CancelNotice();
 	}
 
 	@Override
-	public ChangeBrokerRequest changeBrokerRequest() {
+	public PolicyActions.ChangeBrokerRequest changeBrokerRequest() {
 		return new PupPolicyActions.ChangeBrokerRequest();
 	}
 
 	@Override
-	public ChangeReinstatementLapse changeReinstatementLapse() {
+	public PolicyActions.ChangeReinstatementLapse changeReinstatementLapse() {
 		throw new UnsupportedOperationException("Action policySpin is not defined in entity \"Default Policy's Root Configuration\"");
 	}
 
 	@Override
-	public ChangeRenewalQuoteLapse changeRenewalQuoteLapse() {
+	public PolicyActions.ChangeRenewalQuoteLapse changeRenewalQuoteLapse() {
 		throw new UnsupportedOperationException("Action policySpin is not defined in entity \"Default Policy's Root Configuration\"");
 	}
 
 	@Override
-	public CopyQuote copyQuote() {
+	public PolicyActions.CopyQuote copyQuote() {
 		return new PupPolicyActions.CopyQuote();
 	}
 
 	@Override
-	public DataGather dataGather() {
+	public PolicyActions.DataGather dataGather() {
 		return new PupPolicyActions.DataGather();
 	}
 
 	@Override
-	public DeclineByCompanyQuote declineByCompanyQuote() {
+	public PolicyActions.DeclineByCompanyQuote declineByCompanyQuote() {
 		return new PupPolicyActions.DeclineByCompanyQuote();
 	}
 
 	@Override
-	public DeclineByCustomerQuote declineByCustomerQuote() {
+	public PolicyActions.DeclineByCustomerQuote declineByCustomerQuote() {
 		return new PupPolicyActions.DeclineByCustomerQuote();
 	}
 
 	@Override
-	public DeleteCancelNotice deleteCancelNotice() {
+	public PolicyActions.DeleteCancelNotice deleteCancelNotice() {
 		return new PupPolicyActions.DeleteCancelNotice();
 	}
 
 	@Override
-	public DeletePendedTransaction deletePendedTransaction() {
+	public PolicyActions.DeletePendedTransaction deletePendedTransaction() {
 		return new PupPolicyActions.DeletePendingTransaction();
 	}
 
 	@Override
-	public DoNotRenew doNotRenew() {
+	public PolicyActions.DoNotRenew doNotRenew() {
 		return new PupPolicyActions.DoNotRenew();
 	}
 
 	@Override
-	public ManualRenew manualRenew() {
+	public PolicyActions.ManualRenew manualRenew() {
 		return new PupPolicyActions.ManualRenew();
 	}
 
 	@Override
-	public NonPremiumBearingEndorsement nonPremiumBearingEndorsement() {
+	public PolicyActions.NonPremiumBearingEndorsement nonPremiumBearingEndorsement() {
 		return new PupPolicyActions.NonPremiumBearingEndorsement();
 	}
 
 	@Override
-	public PendedEndorsementChange pendedEndorsementChange() {
+	public PolicyActions.PendedEndorsementChange pendedEndorsementChange() {
 		return new PupPolicyActions.PendedEndorsementChange();
 	}
 
 	@Override
-	public PolicyChangeRenewalLapse policyChangeRenewalLapse() {
+	public PolicyActions.PolicyChangeRenewalLapse policyChangeRenewalLapse() {
 		throw new UnsupportedOperationException("Action policySpin is not defined in entity \"Default Policy's Root Configuration\"");
 	}
 
 	@Override
-	public PolicyCopy policyCopy() {
+	public PolicyActions.PolicyCopy policyCopy() {
 		return new PupPolicyActions.PolicyCopy();
 	}
 
 	@Override
-	public PolicyInquiry policyInquiry() {
+	public PolicyActions.PolicyInquiry policyInquiry() {
 		return new PupPolicyActions.PolicyInquiry();
 	}
 
 	@Override
-	public PolicySpin policySpin() {
+	public PolicyActions.PolicySpin policySpin() {
 		throw new UnsupportedOperationException("Action policySpin is not defined in entity \"Default Policy's Root Configuration\"");
 	}
 
 	@Override
-	public PolicySplit policySplit() {
+	public PolicyActions.PolicySplit policySplit() {
 		throw new UnsupportedOperationException("Action policySplit is not defined in entity \"Default Policy's Root Configuration\"");
 	}
 
 	@Override
-	public PolicyDocGen policyDocGen() {
+	public PolicyActions.PolicyDocGen policyDocGen() {
 		return new PupPolicyActions.PolicyDocGenFlow();
 	}
 
 	@Override
-	public Propose propose() {
+	public PolicyActions.Propose propose() {
 		return new PupPolicyActions.Propose();
 	}
 
 	@Override
-	public QuoteInquiry quoteInquiry() {
+	public PolicyActions.QuoteInquiry quoteInquiry() {
 		return new PupPolicyActions.QuoteInquiry();
 	}
 
 	@Override
-	public Reinstate reinstate() {
+	public PolicyActions.Reinstate reinstate() {
 		return new PupPolicyActions.Reinstate();
 	}
 
 	@Override
-	public RemoveDoNotRenew removeDoNotRenew() {
+	public PolicyActions.RemoveDoNotRenew removeDoNotRenew() {
 		return new PupPolicyActions.RemoveDoNotRenew();
 	}
 
 	@Override
-	public RemoveManualRenew removeManualRenew() {
+	public PolicyActions.RemoveManualRenew removeManualRenew() {
 		return new PupPolicyActions.RemoveManualRenew();
 	}
 
 	@Override
-	public RemoveSuspendQuote removeSuspendQuote() {
+	public PolicyActions.RemoveSuspendQuote removeSuspendQuote() {
 		return new PupPolicyActions.RemoveSuspendQuote();
 	}
 
 	@Override
-	public RescindCancellation rescindCancellation() {
+	public PolicyActions.RescindCancellation rescindCancellation() {
 		return new PupPolicyActions.RescindCancellation();
 	}
 
 	@Override
-	public RollBackEndorsement rollBackEndorsement() {
+	public PolicyActions.RollBackEndorsement rollBackEndorsement() {
 		return new PupPolicyActions.RollBackEndorsement();
 	}
 
 	@Override
-	public RollOn rollOn() {
+	public PolicyActions.RollOn rollOn() {
 		return new PupPolicyActions.RollOn();
 	}
 
 	@Override
-	public SuspendQuote suspendQuote() {
+	public PolicyActions.SuspendQuote suspendQuote() {
 		return new PupPolicyActions.SuspendQuote();
 	}
 
 	@Override
-	public QuoteDocGen quoteDocGen() {
+	public PolicyActions.QuoteDocGen quoteDocGen() {
 		return new PupPolicyActions.QuoteDocGenFlow();
 	}
 
 	@Override
-	public Rewrite rewrite() {
+	public PolicyActions.Rewrite rewrite() {
 		return new PupPolicyActions.Rewrite();
 	}
-	
-    
-    @Override
-    public UpdateRulesOverride updateRulesOverride() {
-    	throw new NotImplementedException();
-    }
+
+	@Override
+	public PolicyActions.UpdateRulesOverride updateRulesOverride() {
+		throw new NotImplementedException();
+	}
 }

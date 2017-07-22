@@ -3,7 +3,7 @@
 package aaa.modules.policy;
 
 import org.testng.Assert;
-
+import aaa.common.Constants;
 import aaa.helpers.EntitiesHolder;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.cea.CeaPolicy;
@@ -14,6 +14,7 @@ import toolkit.datax.TestData;
 public class CaliforniaEarthquakeBaseTest extends PolicyBaseTest {
 
 	public CaliforniaEarthquakeBaseTest() {
+		setState(Constants.States.CA.get());
 	}
 
 	@Override
@@ -50,15 +51,10 @@ public class CaliforniaEarthquakeBaseTest extends PolicyBaseTest {
 		return returnValue;
 	}
 
-	protected TestData adjustHO3PrimaryPolicy(TestData td, String primaryHO3Policy) {
-		GeneralTab generaltab = new GeneralTab();
-		return generaltab.adjustWithRealPolicy(td, primaryHO3Policy);
-	}
-
 	/**
 	 * Fill tabs of associated workspace with provided data and submit policy.
 	 * Method returns policy number
-	 * 
+	 *
 	 * @param td
 	 *            - appropriate TestData to the policy creation
 	 */
@@ -72,6 +68,11 @@ public class CaliforniaEarthquakeBaseTest extends PolicyBaseTest {
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		EntitiesHolder.addNewEntity(EntitiesHolder.makePolicyKey(getPolicyType(), getState()), policyNumber);
 		return policyNumber;
+	}
+
+	protected TestData adjustHO3PrimaryPolicy(TestData td, String primaryHO3Policy) {
+		GeneralTab generaltab = new GeneralTab();
+		return generaltab.adjustWithRealPolicy(td, primaryHO3Policy);
 	}
 
 	/**

@@ -36,6 +36,7 @@ public class PremiumsAndCoveragesQuoteTab extends Tab {
 
 	public static Button  btnCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalcCov"), Waiters.AJAX);
 	public static Table tablePremiumSummary = new Table(By.id("policyDataGatherForm:riskItemPremiumInfoTable"));
+	public static Table tableDiscounts = new Table(By.id("policyDataGatherForm:discountInfoTable"));
 	public Button btnContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
 
 	@Override

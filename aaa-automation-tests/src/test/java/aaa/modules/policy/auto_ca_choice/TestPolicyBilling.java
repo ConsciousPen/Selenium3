@@ -31,7 +31,7 @@ public class TestPolicyBilling extends aaa.modules.policy.templates.PolicyBillin
     
     @Override
     @Test
-    @TestInfo(component = "Policy.Billing")
+    @TestInfo(component = "Policy.AutoCA.Billing")
     public void testBilling() {
 
         super.testBilling();

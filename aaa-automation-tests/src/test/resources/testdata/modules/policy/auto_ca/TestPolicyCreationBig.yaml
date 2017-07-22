@@ -110,9 +110,14 @@ VehicleTab2: {
 }
 
 AssignmentTab: {
-Primary Driver: index=1,
-Manually Rated Driver: index=1,
-Primary Driver2: index=2,
+  DriverVehicleRelationshipTable: [{
+    Primary Driver: index=1,
+    Manually Rated Driver: index=1
+  },
+  {
+    Primary Driver: index=2,
+    Manually Rated Driver: index=2
+  }]
 }
 
 FormsTab: {}

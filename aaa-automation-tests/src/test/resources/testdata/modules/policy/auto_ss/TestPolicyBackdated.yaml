@@ -1,0 +1,15 @@
+TestData: {
+  ErrorTab: '@ErrorTab',
+}
+
+ErrorTab: {
+   ErrorsOverride: [{
+    Message: "contains=Requested Effective Date not Available",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: /index=1
+   }]
+}
+ 
+ 

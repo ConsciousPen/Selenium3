@@ -1,15 +1,26 @@
-UpdateRulesTestData: {
+UpdateRulesTestData_1: {
    UpdateRulesOverrideActionTab: {
    UpdateRulesOverride: [{
-    Message: 'A signed Auto Insurance Application must be received',
+    Message: "contains=Auto Insurance Application",
     Update All: 'true',
     Authorize/Delete All: 'true',
     Duration: Term,
-    Reason for override: 'Other'
+    Reason for override: 'Justified through supporting documentation'
    }]
    }
 }
 
+UpdateRulesTestData_2: {
+   UpdateRulesOverrideActionTab: {
+   UpdateRulesOverride: [{
+    Message: "contains=Auto Insurance Application",
+    Update All: 'true',
+    Authorize/Delete All: 'true',
+    Duration: Life,
+    Reason for override: 'Temporary Issue'
+   }]
+   }
+}
 
 # -- Default test data for UT state ---
 
@@ -39,19 +50,23 @@ PrefillTab: {
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
   PolicyInformation: '@PolicyInformation'
 }
 
 NamedInsuredInformation: {
   Social Security Number: 123456789,
   "Has lived here for less than three years?": 'No',
-  Home Phone Number: 1234567890,
   Residence: Own Home,
 }
 
 AAAProductOwned: {
-  Membership Number: 4290020029946000,
+  Membership Number: 4290023667710001,
   Last name: Test,
+}
+
+ContactInformation: {
+   Home Phone Number: 1234567890
 }
 
 PolicyInformation: {
@@ -67,6 +82,7 @@ PolicyInformation: {
 DriverTab: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 400064773
 }
 
@@ -108,18 +124,15 @@ DriverActivityReportsTab: {
 }
 
 DocumentsAndBindTab: {
-  #RequiredToBind: {
-  #  Auto Insurance Application: Physically Signed
-  #},
   Agreement: I agree
 }
 
 ErrorTab: {
    ErrorsOverride: [{
-    Message: "contains=A signed Auto Insurance Application must be received",
+    Message: "contains=Auto Insurance Application",
     Override: 'true',
     Approval: 'true',
-    Duration: Term,
+    Duration: Life,
     Reason for override: 'Other'
    }]
 }
@@ -144,6 +157,7 @@ TestData_AZ: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -165,6 +179,7 @@ TestData_CO: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -186,6 +201,7 @@ TestData_CT: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_CT',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -197,7 +213,7 @@ DriverTab_CT: {
 
 DocumentsAndBindTab_CT: {
   RequiredToBind: {
-    Auto Insurance Application: Physically Signed,
+    #Auto Insurance Application: Physically Signed,
     Informed Consent Form - Uninsured Motorist Coverage: Physically Signed
   },
   Agreement: I agree
@@ -215,6 +231,7 @@ TestData_DC: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_DC',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -234,7 +251,7 @@ DriverTab_DC: {
 
 DocumentsAndBindTab_DC: {
   RequiredToBind: {
-    Auto Insurance Application: Physically Signed,
+    #Auto Insurance Application: Physically Signed,
     District of Columbia Coverage Selection/Rejection Form: Physically Signed
   },
   Agreement: I agree
@@ -252,6 +269,7 @@ TestData_DE: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_DE',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -263,7 +281,7 @@ DriverTab_DE: {
 
 DocumentsAndBindTab_DE: {
   RequiredToBind: {
-    Auto Insurance Application: Physically Signed,
+    #Auto Insurance Application: Physically Signed,
     Delaware Motorists Protection Act: Physically Signed,
     Important Information Personal Injury Protection (PIP) - Delaware Understanding (PIP) Deductibles: Physically Signed,
     Acknowledgement of Deductible Selections: Physically Signed
@@ -283,6 +301,7 @@ TestData_ID: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -304,6 +323,7 @@ TestData_IN: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -324,7 +344,8 @@ TestData_KS: {
   FormsTab: '@FormsTab',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab_KS',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -354,6 +375,7 @@ TestData_KY: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -375,6 +397,7 @@ TestData_MD: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_MD',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_MD',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -397,7 +420,7 @@ DocumentsAndBindTab_MD: {
   RequiredToBind: {
     Notice And Waiver Of Increased Limits Of Uninsured Motorists Coverage: Physically Signed,
     Maryland Notice And Waiver Of Personal Injury Protection (PIP) Coverage: Physically Signed,
-    Maryland Auto Insurance Application: Physically Signed
+    #Maryland Auto Insurance Application: Physically Signed
   },
   Agreement: I agree
 }
@@ -414,6 +437,7 @@ TestData_MT: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -435,6 +459,7 @@ TestData_NJ: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_NJ',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -446,7 +471,7 @@ DriverTab_NJ: {
 
 DocumentsAndBindTab_NJ: {
   RequiredToBind: {
-    Auto Insurance Application: Physically Signed,
+    #Auto Insurance Application: Physically Signed,
     NJ Auto Standard Policy Coverage Selection Form: Physically Signed,
     Acknowledgement of Requirement for Insurance Inspection: Physically Signed
   },
@@ -469,6 +494,7 @@ TestData_NV: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -491,6 +517,7 @@ TestData_NY: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_NY',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -509,7 +536,7 @@ VehicleTab_NY: {
 DocumentsAndBindTab_NY: {
   RequiredToBind: {
     Acknowledgement of Requirement for Photo Inspection: Physically Signed,
-    New York Auto Insurance Application: Physically Signed
+    #New York Auto Insurance Application: Physically Signed
   },
   RequiredToIssue: {
     Separate Vehicle 1: 'Yes'
@@ -529,6 +556,7 @@ TestData_OH: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -550,6 +578,7 @@ TestData_OK: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_OK',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -561,7 +590,7 @@ DriverTab_OK: {
 
 DocumentsAndBindTab_OK: {
   RequiredToBind: {
-    Auto Insurance Application: Physically Signed,
+    #Auto Insurance Application: Physically Signed,
   },
   RequiredToIssue: {
     Coverage Selection Form: 'Yes'
@@ -581,6 +610,7 @@ TestData_OR: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -602,6 +632,7 @@ TestData_PA: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_PA',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -613,7 +644,7 @@ DriverTab_PA: {
 
 DocumentsAndBindTab_PA: {
   RequiredToBind: {
-    Auto Insurance Application: Physically Signed,
+    #Auto Insurance Application: Physically Signed,
     Uninsured Motorists Coverage Selection/Rejection: Physically Signed,
     Underinsured Motorists Coverage Selection/Rejection: Physically Signed,
     First Party Benefits Coverage and Limits Selection Form: Physically Signed,
@@ -636,6 +667,7 @@ TestData_SD: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -658,6 +690,7 @@ TestData_VA: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_VA',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -687,6 +720,7 @@ TestData_WV: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_WV',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -698,7 +732,7 @@ DriverTab_WV: {
 
 DocumentsAndBindTab_WV: {
   RequiredToBind: {
-    Auto Insurance Application: Physically Signed,
+    #Auto Insurance Application: Physically Signed,
     Uninsured/Underinsured Motorists Coverage Offer: Physically Signed
   },
   Agreement: I agree
@@ -716,6 +750,7 @@ TestData_WY: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
 }
 

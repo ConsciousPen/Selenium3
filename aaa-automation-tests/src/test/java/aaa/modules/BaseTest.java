@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -20,12 +21,11 @@ import org.testng.annotations.Parameters;
 import com.exigen.ipb.etcsa.base.app.ApplicationFactory;
 import com.exigen.ipb.etcsa.base.app.MainApplication;
 import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
-import com.exigen.istf.exec.testng.TimeShiftTestUtil;
+import com.exigen.ipb.etcsa.utils.listener.ETCSAListener;
 
 import aaa.EntityLogger;
-import aaa.common.Constants.States;
-import aaa.common.enums.SearchEnum.SearchBy;
-import aaa.common.enums.SearchEnum.SearchFor;
+import aaa.common.Constants;
+import aaa.common.enums.SearchEnum;
 import aaa.common.metadata.LoginPageMeta;
 import aaa.common.pages.LoginPage;
 import aaa.common.pages.SearchPage;
@@ -44,9 +44,8 @@ import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.verification.CustomAssert;
-import toolkit.verification.CustomAssert.AssertDriverType;
 
-@Listeners({ com.exigen.ipb.etcsa.utils.listener.ETCSAListener.class })
+@Listeners({ ETCSAListener.class })
 public class BaseTest {
 
 	protected static Logger log = LoggerFactory.getLogger(BaseTest.class);
@@ -54,44 +53,101 @@ public class BaseTest {
 	protected static TestData tdCustomerIndividual;
 	protected static TestData tdCustomerNonIndividual;
 	private static Map<String, String> entities;
-
-	private String quoteNumber;
 	public String customerNumber;
-	private String key;
-	private static ThreadLocal<String> state = new ThreadLocal<String>();
 	protected Customer customer = new Customer();
-
-	static {
-		CustomAssert.initDriver(AssertDriverType.TESTNG);
-		tdCustomerIndividual = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
-		tdCustomerNonIndividual = new TestDataManager().customer.get(CustomerType.NON_INDIVIDUAL);
-		if (StringUtils.isNotBlank(PropertyProvider.getProperty("test.usstate")))
-			setState(PropertyProvider.getProperty("test.usstate"));
-	}
-
 	protected TestData tdSpecific;
 	protected TestDataManager testDataManager;
+	private String quoteNumber;
+	private String key;
+	private String state;
+	private String usState = PropertyProvider.getProperty("test.usstate");
+	private static Map<String, Integer> policyCount = new HashMap<String, Integer>();
+
+	static {
+		CustomAssert.initDriver(CustomAssert.AssertDriverType.TESTNG);
+		tdCustomerIndividual = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
+		tdCustomerNonIndividual = new TestDataManager().customer.get(CustomerType.NON_INDIVIDUAL);
+	}
 
 	public BaseTest() {
+		if (StringUtils.isNotBlank(usState)) {
+			setState(usState);
+		} else {
+			setState(Constants.States.UT.get());
+		}
 		testDataManager = new TestDataManager();
 		initTestDataForTest();
 	}
 
-	private void initTestDataForTest() {
-		try {
-			tdSpecific = testDataManager.getDefault(this.getClass());
-		} catch (TestDataException tde) {
-			log.debug(String.format("Specified TestData for test is absent: %s", tde.getMessage()));
-		}
+	protected static synchronized Map<String, String> getEntities() {
+		entities = EntitiesHolder.getEntities();
+		Map<String, String> returnValue = entities;
+		return returnValue;
+	}
+
+	protected PolicyType getPolicyType() {
+		return null;
+	}
+
+	protected PolicyRestImpl getPolicyRest() {
+		return getPolicyType().getPolicyRest().createInstance(customerNumber, quoteNumber);
+	}
+
+	protected String getState() {
+		return state;
+	}
+
+	protected void setState(String newState) {
+		this.state = newState;
+	}
+
+	protected TimePoints getTimePoints() {
+		return new TimePoints(testDataManager.timepoint.get(getPolicyType()).getTestData(getStateTestDataName("TestData")));
 	}
 
 	@Parameters({ "state" })
 	@BeforeClass
 	public void beforeClassConfiguration(@Optional("UT") String state) {
-		if (getPolicyType().equals(PolicyType.HOME_CA) || getPolicyType().equals(PolicyType.AUTO_CA) || getPolicyType().equals(PolicyType.CEA))
-			setState(States.CA.get());
-		else
+		if (isStateCA()) {
+			setState(Constants.States.CA.get());
+		} else if (StringUtils.isNotBlank(usState) && state.equals(Constants.States.UT.get())) {
+			setState(usState);
+		} else
 			setState(state);
+	}
+
+	/**
+	 * Login to the application
+	 */
+	public MainApplication mainApp() {
+		return ApplicationFactory.get().mainApp(new LoginPage(initiateLoginTD()));
+	}
+
+	/**
+	 * Login to the application and open admin page
+	 */
+	public MainApplication adminApp() {
+		return ApplicationFactory.get().adminApp(new LoginPage(initiateLoginTD()));
+	}
+
+	@AfterMethod(alwaysRun = true)
+	public void logout() {
+		if (Boolean.parseBoolean(PropertyProvider.getProperty("isCiMode", "true"))) {
+			mainApp().close();
+			opReportApp().close();
+		}
+	}
+
+	@AfterSuite(alwaysRun = true)
+	public void afterSuite() {
+	}
+
+	@AfterClass(alwaysRun = true)
+	protected void closeBrowser() {
+		/*
+		 * if (Boolean.parseBoolean(PropertyProvider.getProperty("isCiMode",
+		 * "true"))) { mainApp().close(); opReportApp().close(); }
+		 */
 	}
 
 	/**
@@ -114,7 +170,7 @@ public class BaseTest {
 			return customerNumber;
 		} else {
 			customerNumber = EntitiesHolder.getEntity(key);
-			SearchPage.search(SearchFor.CUSTOMER, SearchBy.CUSTOMER, customerNumber);
+			SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, customerNumber);
 			log.info("Use existing " + EntityLogger.getEntityHeader(EntityLogger.EntityType.CUSTOMER));
 		}
 
@@ -140,7 +196,7 @@ public class BaseTest {
 			return customerNumber;
 		} else {
 			customerNumber = EntitiesHolder.getEntity(key);
-			SearchPage.search(SearchFor.CUSTOMER, SearchBy.CUSTOMER, customerNumber);
+			SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, customerNumber);
 			log.info("Use existing " + EntityLogger.getEntityHeader(EntityLogger.EntityType.CUSTOMER));
 		}
 
@@ -159,21 +215,41 @@ public class BaseTest {
 	/**
 	 * Create quote using provided TestData Note: Suitable only for quote type
 	 * that is returned by test's getPolicyType()
-	 * 
+	 *
 	 * @param td
 	 *            - test data for quote filling
 	 */
 	protected void createQuote(TestData td) {
 		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
-		createCustomerIndividual();
 		log.info("Quote Creation Started...");
 		getPolicyType().get().createQuote(td);
 		// return PolicySummaryPage.labelPolicyNumber.getValue();
 	}
 
 	/**
-	 * Create Policy using default TestData
+	 * Gets default quote number and makes quote copy. If default quote doen't
+	 * exist - created it first
 	 * 
+	 * @return Copied quote number
+	 */
+	protected String getCopiedQuote() {
+		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
+		String key = EntitiesHolder.makeDefaultQuoteKey(getPolicyType(), getState()).intern();
+		synchronized (key) {
+			if (EntitiesHolder.isEntityPresent(key)) {
+				SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, EntitiesHolder.getEntity(key));
+			} else {
+				createQuote();
+				EntitiesHolder.addNewEntity(key, PolicySummaryPage.labelPolicyNumber.getValue());
+			}
+		}
+		getPolicyType().get().copyQuote().perform(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromQuote", "TestData"));
+		return PolicySummaryPage.labelPolicyNumber.getValue();
+	}
+
+	/**
+	 * Create Policy using default TestData
+	 *
 	 * @return policy number
 	 */
 	protected String createPolicy() {
@@ -185,14 +261,13 @@ public class BaseTest {
 	/**
 	 * Create quote using provided TestData Note: Suitable only for policy type
 	 * that is returned by test's getPolicyType()
-	 * 
+	 *
 	 * @param td
 	 *            - test data for policy filling and purchase
 	 * @return policy number
 	 */
 	protected String createPolicy(TestData td) {
 		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
-		createCustomerIndividual();
 		log.info("Policy Creation Started...");
 		getPolicyType().get().createPolicy(td);
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
@@ -203,42 +278,27 @@ public class BaseTest {
 	/**
 	 * Copy default policy with test's type and purchase it (Customer of default
 	 * policy will be used) Note: California Earthquake can not be copied
-	 * 
+	 *
 	 * @return policy number
 	 */
 	protected String getCopiedPolicy() {
 		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
-		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState());
-		if (EntitiesHolder.isEntityPresent(key)) {
-			SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, EntitiesHolder.getEntity(key));
-		} else {
-			createPolicy();
-			EntitiesHolder.addNewEntity(key, PolicySummaryPage.labelPolicyNumber.getValue());
+		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState()).intern();
+		synchronized (key) {
+			Integer count = policyCount.get(key);
+			if (EntitiesHolder.isEntityPresent(key) && count < 10) {
+				count++;
+				SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, EntitiesHolder.getEntity(key));
+			} else {
+				count = 1;
+				createCustomerIndividual();
+				createPolicy();
+				EntitiesHolder.addNewEntity(key, PolicySummaryPage.labelPolicyNumber.getValue());
+			}
+			policyCount.put(key, count);
 		}
 		getPolicyType().get().copyPolicy(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData"));
 		return PolicySummaryPage.labelPolicyNumber.getValue();
-	}
-
-	protected PolicyType getPolicyType() {
-		return null;
-	}
-
-	protected PolicyRestImpl getPolicyRest() {
-		return getPolicyType().getPolicyRest().createInstance(customerNumber, quoteNumber);
-	}
-
-	/**
-	 * Login to the application
-	 */
-	public static MainApplication mainApp() {
-		return ApplicationFactory.get().mainApp(new LoginPage(initiateLoginTD()));
-	}
-
-	/**
-	 * Login to the application and open admin page
-	 */
-	public static MainApplication adminApp() {
-		return ApplicationFactory.get().adminApp(new LoginPage(initiateLoginTD()));
 	}
 
 	/**
@@ -246,40 +306,6 @@ public class BaseTest {
 	 */
 	protected OperationalReportApplication opReportApp() {
 		return ApplicationFactory.get().opReportApp(new LoginPage(initiateLoginTD()));
-	}
-
-	@AfterMethod(alwaysRun = true)
-	public void logout() {
-		if (TimeShiftTestUtil.isContextAvailable()) {
-			mainApp().close();
-			opReportApp().close();
-		}
-	}
-
-	@AfterClass(alwaysRun = true)
-	protected void closeBrowser() {
-	}
-
-	@AfterSuite(alwaysRun = true)
-	public void afterSuite() {
-		if (Boolean.parseBoolean(PropertyProvider.getProperty("isCiMode", "true"))) {
-			mainApp().close();
-			opReportApp().close();
-		}
-	}
-
-	protected static String getState() {
-		return state.get();
-	}
-
-	private static void setState(String newState) {
-		BaseTest.state.set(newState);
-	}
-
-	protected static synchronized Map<String, String> getEntities() {
-		entities = EntitiesHolder.getEntities();
-		Map<String, String> returnValue = entities;
-		return returnValue;
 	}
 
 	protected TestData getStateTestData(TestData td, String fileName, String tdName) {
@@ -301,15 +327,24 @@ public class BaseTest {
 		return tdName;
 	}
 
-	protected TimePoints getTimePoints() {
-		return new TimePoints(testDataManager.timepoint.get(getPolicyType()).getTestData(getStateTestDataName("TestData")));
-	}
-
-	protected static TestData initiateLoginTD() {
+	protected TestData initiateLoginTD() {
 		Map<String, Object> td = new LinkedHashMap<String, Object>();
 		td.put(LoginPageMeta.USER.getLabel(), PropertyProvider.getProperty(TestProperties.EU_USER));
 		td.put(LoginPageMeta.PASSWORD.getLabel(), PropertyProvider.getProperty(TestProperties.EU_PASSWORD));
 		td.put(LoginPageMeta.STATES.getLabel(), getState());
 		return new SimpleDataProvider(td);
+	}
+
+	protected Boolean isStateCA() {
+		return getPolicyType().equals(PolicyType.HOME_CA) || getPolicyType().equals(PolicyType.AUTO_CA) || getPolicyType().equals(PolicyType.CEA) || getPolicyType().equals(PolicyType.HOME_CA_DP3) || getPolicyType().equals(PolicyType.HOME_CA_HO4)
+				|| getPolicyType().equals(PolicyType.HOME_CA_HO6) || getPolicyType().equals(PolicyType.AUTO_CA_CHOICE);
+	}
+
+	private void initTestDataForTest() {
+		try {
+			tdSpecific = testDataManager.getDefault(this.getClass());
+		} catch (TestDataException tde) {
+			log.debug(String.format("Specified TestData for test is absent: %s", tde.getMessage()));
+		}
 	}
 }

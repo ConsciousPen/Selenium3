@@ -1,0 +1,20 @@
+TestData_1: {
+  AddHoldActionTab: {
+    Check Policy: 'true',
+    Reason: 'Natural Disaster',
+    Effective Date: '/today-1d',
+    Expiration Date: '/today-1d',
+  }
+}
+
+TestData_2: {
+  AddHoldActionTab: {
+    Hold Name: 'Test',
+    Hold Description: 'Test',
+    Reason: 'Other',
+    Additional Info: 'Because we can',
+    Hold Type: ['Invoice','Cancellation'],
+    Effective Date: '/today',
+    Expiration Date: '/today+1d',
+  }
+}

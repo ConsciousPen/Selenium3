@@ -1,7 +1,8 @@
 TestData: {
   CancellationActionTab: {
     Cancel Date: /today,
-    Cancellation Reason: 'Insured Request - Due To High Premium'
+    Cancellation Reason: /index=1,
+    Authorized By: QA
   }
 }
 

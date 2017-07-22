@@ -1,0 +1,34 @@
+TestData: {
+  CompleteTaskActionTab: {
+  }
+}
+
+TestData_Note: {
+  CompleteTaskActionTab: {
+    Task Note: Complete task Note
+  }
+}
+
+TestData_AuditFinished: {
+  CompleteTaskActionTab: {
+    Completion Reason: 'Audit Finished'
+  }
+}
+
+TestData_AuditApproved: {
+  CompleteTaskActionTab: {
+    Completion Reason: 'Audit Approved'
+  }
+}
+
+TestData_AuditCancelled: {
+  CompleteTaskActionTab: {
+    Completion Reason: 'Audit Cancelled'
+  }
+}
+
+TestData_AuditRefused: {
+  CompleteTaskActionTab: {
+    Completion Reason: 'Audit Refused'
+  }
+}

@@ -7,9 +7,7 @@ package aaa.main.modules.policy.auto_ca;
 import aaa.common.AbstractAction;
 import aaa.common.Tab;
 import aaa.common.Workspace;
-import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.PolicyActions;
-import aaa.main.modules.policy.auto_ca.actiontabs.RenewActionTab;
 import aaa.main.modules.policy.auto_ca.views.CancelNoticeView;
 import aaa.main.modules.policy.auto_ca.views.CancellationView;
 import aaa.main.modules.policy.auto_ca.views.ChangeBrokerView;
@@ -31,13 +29,12 @@ import aaa.main.modules.policy.auto_ca.views.RemoveDoNotRenewView;
 import aaa.main.modules.policy.auto_ca.views.RemoveManualRenewFlagView;
 import aaa.main.modules.policy.auto_ca.views.RenewView;
 import aaa.main.modules.policy.auto_ca.views.RescindCancellationView;
-import aaa.main.modules.policy.auto_ca.views.RollBackEndorsementView;
 import aaa.main.modules.policy.auto_ca.views.RewriteView;
+import aaa.main.modules.policy.auto_ca.views.RollBackEndorsementView;
 import aaa.main.modules.policy.auto_ca.views.SpinView;
 import aaa.main.modules.policy.auto_ca.views.SplitView;
 import aaa.main.modules.policy.auto_ca.views.SuspendQuoteView;
 import toolkit.datax.TestData;
-import toolkit.webdriver.controls.TextBox;
 
 /**
  * Set of concrete actions for a specific entity type.
@@ -64,7 +61,7 @@ public final class AutoCaPolicyActions {
     }
 
     public static class Renew extends PolicyActions.Renew {
-        private TextBox textBoxRenewalDate = getView().getTab(RenewActionTab.class).getAssetList().getControl(HomeCaMetaData.RenewActionTab.RENEWAL_DATE.getLabel(), TextBox.class);
+	    //private TextBox textBoxRenewalDate = getView().getTab(RenewActionTab.class).getAssetList().getControl(HomeCaMetaData.RenewActionTab.RENEWAL_DATE.getLabel(), TextBox.class);
 
         @Override
         public Workspace getView() {
@@ -74,19 +71,19 @@ public final class AutoCaPolicyActions {
         @Override
         public AbstractAction performAndFill(TestData td) {
             start();
-            getView().fill(td);
-            submit();
-            new DataGather().getView().fill(td);
-            return this;
+	        //getView().fill(td);
+	        new DataGather().getView().fill(td);
+	        submit();
+	        return this;
         }
 
         @Override
         public AbstractAction submit() {
-            if (textBoxRenewalDate.isPresent() && textBoxRenewalDate.isVisible()) {
-                return super.submit();
-            }
-            Tab.buttonSaveAndExit.click();
-            return this;
+	        // if (textBoxRenewalDate.isPresent() && textBoxRenewalDate.isVisible()) {
+	        //     return super.submit();
+	        //  }
+	        Tab.buttonSaveAndExit.click();
+	        return this;
 
         }
     }

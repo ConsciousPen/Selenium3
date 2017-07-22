@@ -3,9 +3,7 @@
 package aaa.modules.policy.auto_ss;
 
 import org.testng.annotations.Test;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
-
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -29,6 +27,7 @@ public class TestPolicyEndorsementAdd extends AutoSSBaseTest {
     public void testPolicyEndorsementAdd() {
         mainApp().open();
         
+        createCustomerIndividual();
         createPolicy();
 
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();

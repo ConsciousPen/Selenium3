@@ -14,8 +14,7 @@ import aaa.main.modules.policy.auto_ss.actiontabs.UpdateRulesOverrideActionTab;
  * @category Generated
  */
 public class UpdateRulesOverrideView extends Workspace {
-    public UpdateRulesOverrideView() {
-        super();
-        registerTab(UpdateRulesOverrideActionTab.class);
-    }
+	public UpdateRulesOverrideView() {
+		registerTab(UpdateRulesOverrideActionTab.class);
+	}
 }

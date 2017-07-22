@@ -5,9 +5,10 @@
 package aaa.main.modules.policy.home_ca.defaulttabs;
 
 import org.openqa.selenium.By;
-
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeCaMetaData;
+import aaa.main.modules.policy.abstract_tabs.PropertyEndorsementsTab;
+import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.table.Table;
 
 /**
@@ -16,13 +17,19 @@ import toolkit.webdriver.controls.composite.table.Table;
  * Modify this class if tab filling procedure has to be customized, extra asset list to be added, custom testdata key to be defined, etc.
  * @category Generated
  */
-public class EndorsementTab extends Tab {
+public class EndorsementTab extends PropertyEndorsementsTab {
     public EndorsementTab() {
         super(HomeCaMetaData.EndorsementTab.class);
+
+	    tblIncludedEndorsements = new Table(By.xpath("//div[@id='policyDataGatherForm:selectedObjects_AAAHoPolicyEndorsementFormManager:content']/div/table"));
+	    tblOptionalEndorsements = new Table(By.xpath("//table[@id='policyDataGatherForm:availableTable_AAAHoPolicyEndorsementFormManager']"));
+
+	    TBL_SUB_ENDORSEMENTS_BY_FORMID_TEMPLATE = "//div[@id='policyDataGatherForm:selectedObjects_AAAHoPolicyEndorsementFormManager:content']/descendant::table[1]/tbody/tr[count(../tr[td[position()=1 and normalize-space(.)='%s']]/preceding-sibling::tr)+3]/descendant::table[1]";
+	    LNK_ADD_SUB_ENDORSEMENT_BY_FORMID_TEMPLATE = "//div[@id='policyDataGatherForm:selectedObjects_AAAHoPolicyEndorsementFormManager:content']/descendant::table[1]/tbody/tr[count(../tr[td[position()=1 and normalize-space(.)='%s']]/preceding-sibling::tr)+2]//a[.='Add']";
+
+	    btnSaveForm = new Button(By.id("policyDataGatherForm:editObjectSaveBtnAAAHoPolicyEndorsementFormManager"));
+	    btnCancelForm = new Button(By.xpath("//input[@id='policyDataGatherForm:editObjectCancelEliminateBtn_AAAHoPolicyEndorsementFormManager' or @id='policyDataGatherForm:editObjectCancelBtn_AAAHoPolicyEndorsementFormManager']"));
     }
-    
-    public Table tblIncludedAndSelectedEndorsements = new Table(By.xpath("//div[@id='policyDataGatherForm:selectedObjects_AAAHoPolicyEndorsementFormManager:content']//table"));
-    public Table tblOptionalEndorsements = new Table(By.xpath("//table[@id='policyDataGatherForm:availableTable_AAAHoPolicyEndorsementFormManager']"));
     
     @Override
     public Tab submitTab() {

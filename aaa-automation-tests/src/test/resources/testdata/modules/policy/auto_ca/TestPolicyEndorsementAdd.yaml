@@ -60,9 +60,11 @@ VehicleTab: {
 }
 
 AssignmentTab: {
-#Primary Driver: index=1,
-#Manually Rated Driver: index=1,
-Primary Driver2: index=2,
+  DriverVehicleRelationshipTable: [{
+    Vehicle: '2011, MERCEDES-BENZ, G55AMG',
+    Primary Driver: 'Tom Harris',
+    Manually Rated Driver: 'Tom Harris'
+  }]
 }
 
 DriverActivityReportsTab: {

@@ -1,0 +1,407 @@
+TestData: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab: {}
+
+ApplicantTab: {}
+
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+}
+
+PropertyInfoTab: {}
+
+ProductOfferingTab: {}
+EndorsementTab: {}
+
+PremiumsAndCoveragesQuoteTab: {
+  #Payment plan: Pay in Full,
+  #Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+  #Coverage E - Personal Liability Each Occurrence: '$300,000'
+  }
+ 
+MortgageesTab: {}
+ 
+UnderwritingAndApprovalTab: {
+  Underwriter-selected inspection type: '/first',
+  #"Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  #"Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
+  #"Has the property been in foreclosure proceedings within the past 18 months?": "No",
+  #"Do employees of any resident or applicant reside in the dwelling?": "No",
+  #"Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No"
+}
+
+DocumentsTab: {}
+  
+BindTab: {}
+
+PurchaseTab: {
+ PaymentAllocation: {
+  Cash: /rest
+ },
+}
+
+# --------- TestData AZ -----------
+TestData_AZ: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# --------- TestData CO ------------
+TestData_CO: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# --------- TestData CT ------------
+TestData_CT: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# --------- TestData DC ------------
+TestData_DC: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# --------- TestData DE ------------
+TestData_DE: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# --------- TestData ID ------------
+TestData_ID: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# --------- TestData IN ------------
+TestData_IN: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# --------- TestData KS ------------
+TestData_KS: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# --------- TestData KY ------------
+TestData_KY: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# --------- TestData MD ------------
+TestData_MD: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# --------- TestData MT ------------
+TestData_MT: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# --------- TestData NJ ------------
+TestData_NJ: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# --------- TestData NV ------------
+TestData_NV: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# --------- TestData NY ------------
+TestData_NY: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# --------- TestData OH ------------
+TestData_OH: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# --------- TestData OK ------------
+TestData_OK: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# --------- TestData OR ------------
+TestData_OR: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# --------- TestData PA ------------
+TestData_PA: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# --------- TestData SD ------------
+TestData_SD: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# --------- TestData VA ------------
+TestData_VA: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# --------- TestData WV ------------
+TestData_WV: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# --------- TestData WY ------------
+TestData_WY: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}

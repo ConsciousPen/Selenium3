@@ -7,7 +7,6 @@ import java.util.Map;
 
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
-import aaa.main.modules.billing.account.BillingAccountType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -30,7 +29,7 @@ import toolkit.verification.CustomAssert;
 
 public abstract class PolicyBilling extends PolicyBaseTest {
 	
-	private TestData tdBilling = testDataManager.billingAccount.get(BillingAccountType.BILLING_ACCOUNT);
+	private TestData tdBilling = testDataManager.billingAccount;
 	private TestData cash_payment = tdBilling.getTestData("AcceptPayment", "TestData_Cash");
 	private TestData check_payment = tdBilling.getTestData("AcceptPayment", "TestData_Check");
 	private TestData cc_payment = tdBilling.getTestData("AcceptPayment", "TestData_CC");

@@ -9,6 +9,8 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO6BaseTest;
 import toolkit.utils.TestInfo;
 
+
+
 /**
  * @author Viachaslau Markouski
  * @name Test Create Home Quote
@@ -22,12 +24,13 @@ public class TestPolicyCreation extends HomeCaHO6BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")
-    public void testQuoteCreation() {
+    public void testQuoteCreation() throws InterruptedException {
         mainApp().open();
 
         createCustomerIndividual();
         policy.createPolicy(tdPolicy.getTestData("DataGather", "TestData"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
     }
 }

@@ -64,7 +64,7 @@ DriverTab: {
   Permit Before License: 'No',
   License State: CA,
   "License #": C1234567,
-  Most Recent GPA: 'None',
+  #Most Recent GPA: 'None',
   #ActivityInformation: '@ActivityInformation'
 }
 
@@ -81,7 +81,7 @@ DriverTab2: {
   Permit Before License: 'No',
   License State: CA,
   "License #": C1234500,
-  Most Recent GPA: 'None',
+  #Most Recent GPA: 'None',
   #ActivityInformation: '@ActivityInformation'
 }
 
@@ -109,9 +109,14 @@ VehicleTab2: {
 }
 
 AssignmentTab: {
-Primary Driver: index=1,
-Manually Rated Driver: index=1,
-Primary Driver2: index=2,
+  DriverVehicleRelationshipTable: [{
+    Primary Driver: index=1,
+    #Manually Rated Driver: index=1
+  },
+  {
+    Primary Driver: index=2,
+    #Manually Rated Driver: index=2
+  }]
 }
 
 FormsTab: {}

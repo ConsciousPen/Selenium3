@@ -5,7 +5,6 @@
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
 import org.openqa.selenium.By;
-
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import toolkit.webdriver.controls.Button;
@@ -21,14 +20,13 @@ import toolkit.webdriver.controls.composite.table.Table;
  * @category Generated
  */
 public class PrefillTab extends Tab {
+	public static Table tableVehicles = new Table(By.id("policyDataGatherForm:vehicles"));
+	public static Table tableDrivers = new Table(By.id("policyDataGatherForm:drivers"));
+	public Button btnContinue = new Button(By.id("policyDataGatherForm:prefillNext_footer"));
+	
 	public PrefillTab() {
 		super(AutoSSMetaData.PrefillTab.class);
 	}
-
-	public static Table tableVehicles = new Table(By.id("policyDataGatherForm:vehicles"));
-	public static Table tableDrivers = new Table(By.id("policyDataGatherForm:drivers"));
-	
-	public Button btnContinue = new Button(By.id("policyDataGatherForm:prefillNext_footer"));
 
 	@Override
 	public Tab submitTab() {

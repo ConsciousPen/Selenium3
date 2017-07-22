@@ -24,7 +24,6 @@ public class TestPolicyCreation extends HomeCaHO4BaseTest {
     @TestInfo(component = "Policy.PersonalLines")
     public void testQuoteCreation() {
         mainApp().open();
-
         createCustomerIndividual();
         policy.createPolicy(tdPolicy.getTestData("DataGather", "TestData"));
 

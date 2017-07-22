@@ -3,7 +3,6 @@
 package aaa.common;
 
 import org.openqa.selenium.By;
-
 import aaa.common.pages.Page;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
@@ -41,6 +40,7 @@ public abstract class Tab {
     public static Button buttonSaveAndExit = new Button(By.id("topSaveAndExitLink"));
     public static Button buttonYes = new Button(By.xpath("//input[(@value = 'Yes' or @value = 'YES') and not(@class = 'hidden') and not(contains(@style,'none'))]"));
     public static Button buttonGo = new Button(By.xpath("//input[(@value = 'Go' or @value = 'GO') and not(@class = 'hidden') and not(contains(@style,'none'))]"));
+    public static Button buttonAddUpdate = new Button(By.xpath("//input[(@value = 'Add/Update') and not(@class = 'hidden') and not(contains(@style,'none'))]"));
 
     public static Link linkAdminApp = new Link(By.id("logoutForm:switchToAdmin"));
     public static Link linkMainApp = new Link(By.id("logoutForm:switchToApp"));
@@ -61,6 +61,14 @@ public abstract class Tab {
      */
     public String getMetaKey() {
         return assetList.getName();
+    }
+
+    /**
+     * Get default asset list of this tab
+     * @return asset list
+     */
+    public AbstractContainer<?, ?> getAssetList() {
+        return assetList;
     }
 
     /**
@@ -90,14 +98,6 @@ public abstract class Tab {
      */
     public Tab submitTab() {
         return this;
-    }
-
-    /**
-     * Get default asset list of this tab
-     * @return asset list
-     */
-    public AbstractContainer<?, ?> getAssetList() {
-        return assetList;
     }
 
     public boolean isEmpty(TestData td) {
@@ -133,9 +133,9 @@ public abstract class Tab {
     }
 
     public Tab verifyFieldHasValue(String label, String expectedValue) {
-       return verifyFieldHasValue(assetList, label, expectedValue);
+        return verifyFieldHasValue(assetList, label, expectedValue);
     }
-    
+
     public Tab verifyFieldHasValue(AbstractContainer<?, ?> assetList, String label, String expectedValue) {
         String actualValue = assetList.getControl(label).getValue().toString();
         String errorMessage = String.format("'%s' field's actual value '%s' is not equal to the expected value of '%s'",
@@ -143,15 +143,15 @@ public abstract class Tab {
         CustomAssert.assertEquals(errorMessage, expectedValue, actualValue);
         return this;
     }
-    
+
     public Tab verifyFieldHasValue(AttributeDescriptor attributeDescriptor, String expectedValue) {
         return verifyFieldHasValue(assetList, attributeDescriptor, expectedValue);
     }
-    
+
     public Tab verifyFieldHasValue(AbstractContainer<?, ?> assetList, AttributeDescriptor attributeDescriptor, String expectedValue) {
         String actualValue = assetList.getControl(attributeDescriptor.getLabel()).getValue().toString();
         String errorMessage = String.format("'%s' field's actual value '%s' is not equal to the expected value of '%s'",
-        		attributeDescriptor.getLabel(), actualValue, expectedValue);
+                attributeDescriptor.getLabel(), actualValue, expectedValue);
         CustomAssert.assertEquals(errorMessage, expectedValue, actualValue);
         return this;
     }

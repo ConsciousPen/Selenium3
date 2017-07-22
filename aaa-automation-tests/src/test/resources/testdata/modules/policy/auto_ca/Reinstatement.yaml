@@ -1,11 +1,13 @@
 TestData: {
-  ReinstateActionTab: {
-    Reinstate Date: /today
+  ReinstatementActionTab: {
+  #  Reinstate Date: /today,
+    Authorized By: QA
   }
 }
 
 TestData_Plus14Days: {
   ReinstateActionTab: {
-    Reinstate Date: /today+14d
+    Reinstate Date: /today+14d,
+    Authorized By: QA
   }
 }

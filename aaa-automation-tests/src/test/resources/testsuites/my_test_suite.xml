@@ -4,10 +4,9 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners-->
     <parameter name="timeshift-scenario-mode" value="test"/>
-    
     <test name="TestPolicyCreation">
     	<classes>
-   			<class name="aaa.modules.policy.personallines.home_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.policy.personallines.home_ss.TestPolicyCreation"/>
    		</classes>
     </test>
 

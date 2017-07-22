@@ -1,7 +1,6 @@
 package aaa.modules.policy.cea;
 
 import org.testng.annotations.Test;
-
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.CaliforniaEarthquakeBaseTest;
@@ -22,17 +21,17 @@ import toolkit.utils.TestInfo;
  * @details
  */
 public class TestPolicyCreation extends CaliforniaEarthquakeBaseTest {
-	
+
 	@Test
 	@TestInfo(component = "Policy.PersonalLines.CEA")
 	public void testPolicyCreation() {
 		mainApp().open();
-		
+
 		TestData td = tdPolicy.getTestData("DataGather", "TestData");
 		createPolicy(td);
-		
+
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.BOUND);
-		
+
 	}
 
 }

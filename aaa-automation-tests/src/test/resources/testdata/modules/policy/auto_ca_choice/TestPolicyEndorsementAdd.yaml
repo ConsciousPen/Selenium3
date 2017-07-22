@@ -42,7 +42,7 @@ DriverTab: {
   Permit Before License: 'No',
   License State: CA,
   "License #": C1234501,
-  Most Recent GPA: 'None',
+  #Most Recent GPA: 'None',
 }
 
 MembershipTab: {
@@ -61,9 +61,10 @@ VehicleTab: {
 }
 
 AssignmentTab: {
-#Primary Driver: index=1,
-#Manually Rated Driver: index=1,
-Primary Driver2: index=2,
+  DriverVehicleRelationshipTable: [{
+    Vehicle: '1992, SUBARU, LEGACY',
+    Primary Driver: 'Tom Harris'
+  }]
 }
 
 DriverActivityReportsTab: {

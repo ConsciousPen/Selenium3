@@ -23,7 +23,7 @@ public class NavigationPage extends Page {
     public static final String FLOW_NAVIGATE_TEMPLATE = "/flow?_flowId={0}&_windowId={1}";
 
     private static final String LABEL_NAVIGATION_MAIN_TAB =
-            "//form[@id='tabForm' or @id='adminTabsForm' or @id='tabForm:topTabsBarList' or @id='customerMainTab' or @id='caseForm']//span[text()='%1s']";
+            "//form[@id='tabForm' or @id='adminTabsForm' or @id='tabForm:topTabsBarList' or @id='customerMainTab' or @id='caseForm']//a/span[text()='%1s']";
     private static final String LABEL_NAVIGATION_VIEW_TAB = "//*[contains(@id, ':billingTabs') or @id='policyDataGatherForm:CFClaimOverviewDataGatherTabsList' "
             + "or @id='policyDataGatherForm:tabList' or @id='customerMainTab:customerFirstTabs' or @id='pmBrokerForm:brokerInformationTabs' or @id='producContextInfoPanel' "
             + "or @id='producContextInfoForm:CFClaimOverviewTabsList' or contains(@id, 'CFClaimOverviewTabsList') or contains(@id, 'TopTabsList') "

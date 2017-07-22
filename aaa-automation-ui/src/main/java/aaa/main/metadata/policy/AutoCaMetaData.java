@@ -3,6 +3,7 @@
 package aaa.main.metadata.policy;
 
 import org.openqa.selenium.By;
+
 import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.ComboBoxFixed;
 import aaa.toolkit.webdriver.customcontrols.DetailedVehicleCoveragesRepeatAssetList;
@@ -13,6 +14,7 @@ import aaa.toolkit.webdriver.customcontrols.VehicleMultiInstanceBeforeAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
+import aaa.toolkit.webdriver.customcontrols.endorsements.AutoCAForms;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.ComboBox;
@@ -361,13 +363,34 @@ public final class AutoCaMetaData {
 	}
 
 	public static final class FormsTab extends MetaData {
+		
+		public static final AttributeDescriptor POLICY_FORMS = declare("Policy Forms", AutoCAForms.AutoCAPolicyFormsController.class, PolicyForms.class);
+		public static final AttributeDescriptor VEHICLE_FORMS = declare("Vehicle Forms", AutoCAForms.AutoCAVehicleFormsController.class, VehicleForms.class);
+		public static final AttributeDescriptor DRIVER_FORMS = declare("Driver Forms", AutoCAForms.AutoCADriverFormsController.class, DriverForms.class);
+		
+		public static final class PolicyForms extends MetaData {
+			public static final AttributeDescriptor AA53CA = declare("AA53CA", AssetList.class, CommonFormMeta.class, false, By.id("addComponentPopup_PolicyEndorsementFormsManager_container"));
+			public static final AttributeDescriptor APPAE = declare("APPAE", AssetList.class, CommonFormMeta.class, false, By.id("addComponentPopup_PolicyEndorsementFormsManager_container"));
+		}
+		
+		public static final class VehicleForms extends MetaData {
+//			formAssetLocator = By.id("addComponentPopup_VehicleEndorsementFormsManager_container");
+		}
+		
+		public static final class DriverForms extends MetaData {
+//			formAssetLocator = By.id("addComponentPopup_DriverEndorsementFormsManager_container");
+		}
+		
+		public static final class CommonFormMeta extends MetaData {
+			public static final AttributeDescriptor FORM_CODE = declare("Form Code", TextBox.class);
+			public static final AttributeDescriptor FORM_DESCRIPTION = declare("Form Description", TextBox.class);
+		}
 	}
 
 	public static final class PremiumAndCoveragesTab extends MetaData {
 		public static final AttributeDescriptor PRODUCT = declare("Product", ComboBox.class);
 		public static final AttributeDescriptor PAYMENT_PLAN = declare("Payment Plan", ComboBox.class);
 		public static final AttributeDescriptor POLICY_TERM = declare("Policy Term", ComboBox.class);
-
 		public static final AttributeDescriptor BODILY_INJURY_LIABILITY = declare("Bodily Injury Liability", ComboBoxFixed.class, By.xpath(".//table[@id='policyDataGatherForm:policyCoverageDetail']//span[normalize-space(.)='Bodily Injury Liability']/ancestor::tr[1]//select"));
 		public static final AttributeDescriptor PROPERTY_DAMAGE_LIABILITY = declare("Property Damage Liability", ComboBoxFixed.class, By.xpath(".//table[@id='policyDataGatherForm:policyCoverageDetail']//span[normalize-space(.)='Property Damage Liability']/ancestor::tr[1]//select"));
 		public static final AttributeDescriptor UNINSURED_MOTORISTS_BODILY_INJURY =
@@ -404,6 +427,7 @@ public final class AutoCaMetaData {
 		public static final AttributeDescriptor UNACCEPTABLE_RISK_SURCHARGE = declare("Unacceptable Risk Surcharge", CheckBox.class, Waiters.AJAX, By.id("policyDataGatherForm:unacceptableRiskSurchargeCheckbox"));
 		public static final AttributeDescriptor REASON = declare("Reason", TextBox.class, Waiters.AJAX, By.id("policyDataGatherForm:unacceptableRiskSurchargeReason"));
 		public static final AttributeDescriptor UNVERIFIABLE_DRIVING_RECORD_SURCHARGE = declare("Unverifiable DrivingRecord Surcharge", CheckBox.class, Waiters.AJAX);
+		public static StaticElement labelProductInquiry = new StaticElement(By.xpath("//span[@id='policyDataGatherForm:sedit_AAAProductOverride_policyFormCd']")); // TODO-dchubkov: should be removed
 
 		public static final class DetailedVehicleCoverages extends MetaData {
 			public static final AttributeDescriptor COMPREGENSIVE_DEDUCTIBLE = declare("Comprehensive Deductible", ComboBoxFixed.class);
@@ -626,9 +650,10 @@ public final class AutoCaMetaData {
 	}
 
 	public static final class CancellationActionTab extends MetaData {
-		public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancellation effective date", TextBox.class, Waiters.AJAX);
-		public static final AttributeDescriptor CANCELLATION_REASON = declare("Cancellation reason", ComboBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancel Date", TextBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor CANCELLATION_REASON = declare("Cancellation Reason", ComboBox.class, Waiters.AJAX);
 		public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class);
+		public static final AttributeDescriptor AUTHORIZED_BY = declare("Authorized By", TextBox.class);
 	}
 
 	public static final class IssueSummaryActionTab extends MetaData {
@@ -695,6 +720,7 @@ public final class AutoCaMetaData {
 	public static final class ReinstatementActionTab extends MetaData {
 		public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancellation Effective Date", TextBox.class, Waiters.NONE);
 		public static final AttributeDescriptor REINSTATE_DATE = declare("Reinstate Date", TextBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor AUTHORIZED_BY = declare("Authorized By", TextBox.class);
 	}
 
 	public static final class SplitActionTab extends MetaData {

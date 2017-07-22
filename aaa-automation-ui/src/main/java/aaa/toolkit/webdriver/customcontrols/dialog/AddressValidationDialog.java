@@ -1,7 +1,6 @@
 package aaa.toolkit.webdriver.customcontrols.dialog;
 
 import org.openqa.selenium.By;
-
 import aaa.main.metadata.DialogsMetaData;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.BaseElement;
@@ -44,38 +43,31 @@ public class AddressValidationDialog extends DialogAssetList {
 		}
 	}
 
-	protected void close() {
-		Button buttonClosePopup = (Button) getAssetCollection().get(DEFAULT_POPUP_CLOSER_NAME);
-		if (buttonClosePopup != null) {
-			buttonClosePopup.click();
-		}
-	}
-
 	@Override
 	public void fill(TestData td) {
 		if (td.containsKey(name)) {
-			
+
 			//TODO auto ss: popup opens with delay, temp solution
-			Button buttonClosePopup = (Button) getAssetCollection().get(DEFAULT_POPUP_SUBMITTER_NAME);
-			if (!buttonClosePopup.isPresent()){
-				buttonClosePopup.waitForAccessible(5000);
-			}
+			//Button buttonClosePopup = (Button) getAssetCollection().get(DEFAULT_POPUP_SUBMITTER_NAME);
+			//if (!buttonClosePopup.isPresent()){
+			//	buttonClosePopup.waitForAccessible(7000);
+			//}
 //TODO Think on filling.
 			// openDialog();
 			TestData data = getValueToFill(td);
 
 			if (data.containsKey(DEFAULT_SELECT_ADDRESS_NAME)) {
 				switch (data.getValue(DEFAULT_SELECT_ADDRESS_NAME)) {
-				case "default":
+					case "default":
 					break;
-				case "override":
-					if (data.containsKey(DialogsMetaData.AddressValidationMetaData.STREET_NAME.getLabel())){
-						data.adjust(DialogsMetaData.AddressValidationMetaData.RADIOGROUP_SELECT.getLabel(), OVERRIDE);
-						setValue(data);
-					} else {
-						RadioGroup r = (RadioGroup) getAssetCollection().get(DEFAULT_SELECT_ADDRESS_NAME);
-						r.setValue(OVERRIDE);
-					}
+					case "override":
+						if (data.containsKey(DialogsMetaData.AddressValidationMetaData.STREET_NAME.getLabel())) {
+							data.adjust(DialogsMetaData.AddressValidationMetaData.RADIOGROUP_SELECT.getLabel(), OVERRIDE);
+							setValue(data);
+						} else {
+							RadioGroup r = (RadioGroup) getAssetCollection().get(DEFAULT_SELECT_ADDRESS_NAME);
+							r.setValue(OVERRIDE);
+						}
 					break;
 				default:
 					break;
@@ -83,6 +75,13 @@ public class AddressValidationDialog extends DialogAssetList {
 			} else
 				setValue(data);
 			submit();
+		}
+	}
+
+	protected void close() {
+		Button buttonClosePopup = (Button) getAssetCollection().get(DEFAULT_POPUP_CLOSER_NAME);
+		if (buttonClosePopup != null) {
+			buttonClosePopup.click();
 		}
 	}
 

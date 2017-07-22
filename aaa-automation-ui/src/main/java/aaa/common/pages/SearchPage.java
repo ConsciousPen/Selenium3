@@ -7,7 +7,7 @@ import org.openqa.selenium.By;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
-
+import aaa.common.enums.SearchEnum;
 import aaa.common.enums.SearchEnum.SearchBy;
 import aaa.common.enums.SearchEnum.SearchFor;
 import aaa.common.metadata.SearchMetaData;
@@ -70,4 +70,13 @@ public class SearchPage extends MainPage {
 	public static void openFirstResult() {
 		SearchPage.tableSearchResults.getRow(1).getCell(1).controls.links.getFirst().click();
 	}
+	
+	public static void openPolicy(String policyNum){
+		search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
+	}
+	
+	public static void openQuote(String quoteNum){
+		search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNum);
+	}
+	
 }

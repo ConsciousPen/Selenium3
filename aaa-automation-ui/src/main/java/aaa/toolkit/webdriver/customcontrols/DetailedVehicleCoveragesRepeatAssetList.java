@@ -1,6 +1,5 @@
 package aaa.toolkit.webdriver.customcontrols;
 
-import org.openqa.selenium.By;
 import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.RadioGroup;
@@ -16,16 +15,16 @@ import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
  * Also sections on UI starts from 1 index therefore index is incremented in overridden getSection() and sectionExists() methods.
  */
 public class DetailedVehicleCoveragesRepeatAssetList extends RepeatAssetList {
-	private static final String VEHICLE_COMMON_LOCATOR = "policyDataGatherForm:vehicle_detail_%1$s";
-	private static final String WAIVE_LIABILITY_COMMON_LOCATOR = "policyDataGatherForm:waive_Liability_%1$s";
-	private static final String VEHICLE_COVERAGE_COMMON_LOCATOR = "policyDataGatherForm:subtotalVehiclePremium_%1$s";
+	private static final ByT VEHICLE_COMMON_LOCATOR = ByT.id("policyDataGatherForm:vehicle_detail_%1$s");
+	private static final ByT WAIVE_LIABILITY_COMMON_LOCATOR = ByT.id("policyDataGatherForm:waive_Liability_%1$s");
+	private static final ByT VEHICLE_COVERAGE_COMMON_LOCATOR = ByT.id("policyDataGatherForm:subtotalVehiclePremium_%1$s");
 
 	public DetailedVehicleCoveragesRepeatAssetList(BaseElement<?, ?> parent, Class<? extends MetaData> metaDataClass) {
-		super(parent, ByT.id(VEHICLE_COMMON_LOCATOR), metaDataClass);
+		super(parent, VEHICLE_COMMON_LOCATOR, metaDataClass);
 	}
 
 	public DetailedVehicleCoveragesRepeatAssetList(Class<? extends MetaData> metaDataClass) {
-		super(ByT.id(VEHICLE_COMMON_LOCATOR), metaDataClass);
+		super(VEHICLE_COMMON_LOCATOR, metaDataClass);
 	}
 
 	@Override
@@ -37,11 +36,11 @@ public class DetailedVehicleCoveragesRepeatAssetList extends RepeatAssetList {
 	public AssetList getSection(int sectionIndex) {
 		sectionIndex++; //sections on UI starts from 1
 		AssetList al = super.getSection(sectionIndex);
-		RadioGroup waiveLiability = new RadioGroup(By.id(String.format(WAIVE_LIABILITY_COMMON_LOCATOR, sectionIndex)));
+		RadioGroup waiveLiability = new RadioGroup(WAIVE_LIABILITY_COMMON_LOCATOR.format(sectionIndex));
 		waiveLiability.setName("Waive Liability");
 		al.addAsset(waiveLiability);
 
-		StaticElement vehicleCoverage = new StaticElement(By.id(String.format(VEHICLE_COVERAGE_COMMON_LOCATOR, sectionIndex)));
+		StaticElement vehicleCoverage = new StaticElement(VEHICLE_COVERAGE_COMMON_LOCATOR.format(sectionIndex));
 		vehicleCoverage.setName("Vehicle Coverage");
 		al.addAsset(vehicleCoverage);
 

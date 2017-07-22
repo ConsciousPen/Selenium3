@@ -1,7 +1,8 @@
 TestData: {
   CancellationActionTab: {
     Cancel Date: /today,
-    Cancellation Reason: 'Insured Request - Due To High Premium'
+    Cancellation Reason: 'Insured Non-Payment Of Premium',
+    Authorized By: QA
   }
 }
 
@@ -18,3 +19,4 @@ TestData_Plus1Year: {
     Cancellation Reason: 'Insured Request - Due To High Premium'
   }
 }
+

@@ -3,9 +3,7 @@
 package base.modules.policy.home_ss;
 
 import org.testng.annotations.Test;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
-
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSBaseTest;
@@ -38,14 +36,14 @@ public class TestPolicyEndorsementOos extends HomeSSBaseTest {
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
         log.info("MidTerm Endorsement for Policy #" + policyNumber);
-        policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData_Plus3Days")
-                .adjust(tdSpecific.getTestData("TestData").resolveLinks()));
+	    policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData_Plus3Days")
+			    .adjust(tdSpecific.getTestData("TestData").resolveLinks()));
 
         Dollar policyPremium2 = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
         log.info("OOS Endorsement for Policy #" + policyNumber);
         policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData")
-                .adjust(tdSpecific.getTestData("TestData2").resolveLinks()));
+		        .adjust(tdSpecific.getTestData("TestData2").resolveLinks()));
 
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);

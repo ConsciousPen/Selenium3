@@ -1,6 +1,7 @@
 TestData: {
   ReinstatementActionTab: {
-    Reinstate Date: /today
+    Reinstate Date: /today,
+    Authorized By: QA
   }
 }
 

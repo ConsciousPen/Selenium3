@@ -5,52 +5,13 @@ package aaa.main.modules.policy.auto_ca;
 import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import aaa.EntityLogger;
-import aaa.EntityLogger.EntityType;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
-import aaa.common.enums.NavigationEnum.AutoCaTab;
 import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.IPolicy;
+import aaa.main.modules.policy.PolicyActions;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.PolicyActions.Bind;
-import aaa.main.modules.policy.PolicyActions.Cancel;
-import aaa.main.modules.policy.PolicyActions.CancelNotice;
-import aaa.main.modules.policy.PolicyActions.ChangeBrokerRequest;
-import aaa.main.modules.policy.PolicyActions.ChangeReinstatementLapse;
-import aaa.main.modules.policy.PolicyActions.ChangeRenewalQuoteLapse;
-import aaa.main.modules.policy.PolicyActions.CopyQuote;
-import aaa.main.modules.policy.PolicyActions.DataGather;
-import aaa.main.modules.policy.PolicyActions.DeclineByCompanyQuote;
-import aaa.main.modules.policy.PolicyActions.DeclineByCustomerQuote;
-import aaa.main.modules.policy.PolicyActions.DeleteCancelNotice;
-import aaa.main.modules.policy.PolicyActions.DeletePendedTransaction;
-import aaa.main.modules.policy.PolicyActions.DoNotRenew;
-import aaa.main.modules.policy.PolicyActions.Endorse;
-import aaa.main.modules.policy.PolicyActions.ManualRenew;
-import aaa.main.modules.policy.PolicyActions.NonPremiumBearingEndorsement;
-import aaa.main.modules.policy.PolicyActions.PendedEndorsementChange;
-import aaa.main.modules.policy.PolicyActions.PolicyChangeRenewalLapse;
-import aaa.main.modules.policy.PolicyActions.PolicyCopy;
-import aaa.main.modules.policy.PolicyActions.PolicyDocGen;
-import aaa.main.modules.policy.PolicyActions.PolicyInquiry;
-import aaa.main.modules.policy.PolicyActions.PolicySpin;
-import aaa.main.modules.policy.PolicyActions.PolicySplit;
-import aaa.main.modules.policy.PolicyActions.Propose;
-import aaa.main.modules.policy.PolicyActions.QuoteDocGen;
-import aaa.main.modules.policy.PolicyActions.QuoteInquiry;
-import aaa.main.modules.policy.PolicyActions.Reinstate;
-import aaa.main.modules.policy.PolicyActions.RemoveDoNotRenew;
-import aaa.main.modules.policy.PolicyActions.RemoveManualRenew;
-import aaa.main.modules.policy.PolicyActions.RemoveSuspendQuote;
-import aaa.main.modules.policy.PolicyActions.Renew;
-import aaa.main.modules.policy.PolicyActions.RescindCancellation;
-import aaa.main.modules.policy.PolicyActions.RollBackEndorsement;
-import aaa.main.modules.policy.PolicyActions.Rewrite;
-import aaa.main.modules.policy.PolicyActions.RollOn;
-import aaa.main.modules.policy.PolicyActions.SuspendQuote;
-import aaa.main.modules.policy.PolicyActions.UpdateRulesOverride;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
@@ -89,14 +50,14 @@ public class AutoCaPolicy implements IPolicy {
 		getDefaultView().fillUpTo(td, DocumentsAndBindTab.class, false);
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
-		log.info("QUOTE CREATED: " + EntityLogger.getEntityHeader(EntityType.QUOTE));
+		log.info("QUOTE CREATED: " + EntityLogger.getEntityHeader(EntityLogger.EntityType.QUOTE));
 	}
 
 	@Override
 	public void createPolicy(TestData td) {
 		initiate();
 		getDefaultView().fill(td);
-		log.info("POLICY CREATED: " + EntityLogger.getEntityHeader(EntityType.POLICY));
+		log.info("POLICY CREATED: " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
 	}
 
 	@Override
@@ -112,220 +73,221 @@ public class AutoCaPolicy implements IPolicy {
 	@Override
 	public void calculatePremium(TestData td) {
 		dataGather().start();
-		NavigationPage.toViewTab(AutoCaTab.MEMBERSHIP.get());
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.MEMBERSHIP.get());
 		new MembershipTab().fillTab(td);
-		NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().fillTab(td);
 	}
-	
+
 	@Override
     public void calculatePremiumAndPurchase(TestData td) {
         calculatePremium(td);
-        NavigationPage.toViewTab(AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
-        new DriverActivityReportsTab().fillTab(td);
-        NavigationPage.toViewTab(AutoCaTab.DOCUMENTS_AND_BIND.get());
-        new DocumentsAndBindTab().submitTab();
-        new PurchaseTab().fillTab(td).submitTab();
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+		new DriverActivityReportsTab().fillTab(td);
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+		new PurchaseTab().fillTab(td).submitTab();
     }
-	
+
 	@Override
     public void purchase(TestData td) {
         dataGather().start();
-        NavigationPage.toViewTab(AutoCaTab.DOCUMENTS_AND_BIND.get());
-        new DocumentsAndBindTab().submitTab();
-        new PurchaseTab().fillTab(td).submitTab();
-        log.info("Purchased Quote " + EntityLogger.getEntityHeader(EntityType.POLICY));
-    }
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+		new PurchaseTab().fillTab(td).submitTab();
+		log.info("Purchased Quote " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
+	}
 
 	@Override
 	public void copyPolicy(TestData td) {
 		policyCopy().perform(td);
 		calculatePremiumAndPurchase(td);
-		log.info("Copy Policy " + EntityLogger.getEntityHeader(EntityType.POLICY));
+		log.info("Copy Policy " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
 	}
 
 	@Override
-	public Endorse endorse() {
+	public PolicyActions.Endorse endorse() {
 		return new AutoCaPolicyActions.Endorse();
 	}
 
 	@Override
-	public Renew renew() {
+	public PolicyActions.Renew renew() {
 		return new AutoCaPolicyActions.Renew();
 	}
 
 	@Override
-	public Cancel cancel() {
+	public PolicyActions.Cancel cancel() {
 		return new AutoCaPolicyActions.Cancel();
 	}
 
 	@Override
-	public CancelNotice cancelNotice() {
+	public PolicyActions.CancelNotice cancelNotice() {
 		return new AutoCaPolicyActions.CancelNotice();
 	}
 
 	@Override
-	public ChangeBrokerRequest changeBrokerRequest() {
+	public PolicyActions.ChangeBrokerRequest changeBrokerRequest() {
 		return new AutoCaPolicyActions.ChangeBrokerRequest();
 	}
 
 	@Override
-	public ChangeReinstatementLapse changeReinstatementLapse() {
+	public PolicyActions.ChangeReinstatementLapse changeReinstatementLapse() {
 		throw new UnsupportedOperationException("Action changeReinstatementLapse is not defined in entity \"AU_EP1\"");
 	}
 
 	@Override
-	public ChangeRenewalQuoteLapse changeRenewalQuoteLapse() {
+	public PolicyActions.ChangeRenewalQuoteLapse changeRenewalQuoteLapse() {
 		throw new UnsupportedOperationException("Action changeRenewalQuoteLapse is not defined in entity \"AU_EP1\"");
 	}
 
 	@Override
-	public PolicyCopy policyCopy() {
+	public PolicyActions.PolicyCopy policyCopy() {
 		return new AutoCaPolicyActions.PolicyCopy();
 	}
 
 	@Override
-	public CopyQuote copyQuote() {
+	public PolicyActions.CopyQuote copyQuote() {
 		return new AutoCaPolicyActions.CopyQuote();
 	}
 
 	@Override
-	public DataGather dataGather() {
+	public PolicyActions.DataGather dataGather() {
 		return new AutoCaPolicyActions.DataGather();
 	}
 
 	@Override
-	public DeclineByCompanyQuote declineByCompanyQuote() {
+	public PolicyActions.DeclineByCompanyQuote declineByCompanyQuote() {
 		return new AutoCaPolicyActions.DeclineByCompanyQuote();
 	}
 
 	@Override
-	public DeclineByCustomerQuote declineByCustomerQuote() {
+	public PolicyActions.DeclineByCustomerQuote declineByCustomerQuote() {
 		return new AutoCaPolicyActions.DeclineByCustomerQuote();
 	}
 
 	@Override
-	public DeleteCancelNotice deleteCancelNotice() {
+	public PolicyActions.DeleteCancelNotice deleteCancelNotice() {
 		return new AutoCaPolicyActions.DeleteCancelNotice();
 	}
 
 	@Override
-	public DeletePendedTransaction deletePendedTransaction() {
+	public PolicyActions.DeletePendedTransaction deletePendedTransaction() {
 		return new AutoCaPolicyActions.DeletePendedTransaction();
 	}
 
 	@Override
-	public DoNotRenew doNotRenew() {
+	public PolicyActions.DoNotRenew doNotRenew() {
 		return new AutoCaPolicyActions.DoNotRenew();
 	}
 
 	@Override
-	public ManualRenew manualRenew() {
+	public PolicyActions.ManualRenew manualRenew() {
 		return new AutoCaPolicyActions.ManualRenew();
 	}
 
 	@Override
-	public NonPremiumBearingEndorsement nonPremiumBearingEndorsement() {
+	public PolicyActions.NonPremiumBearingEndorsement nonPremiumBearingEndorsement() {
 		return new AutoCaPolicyActions.NonPremiumBearingEndorsement();
 	}
 
 	@Override
-	public PendedEndorsementChange pendedEndorsementChange() {
+	public PolicyActions.PendedEndorsementChange pendedEndorsementChange() {
 		return new AutoCaPolicyActions.PendedEndorsementChange();
 	}
 
 	@Override
-	public PolicyChangeRenewalLapse policyChangeRenewalLapse() {
+	public PolicyActions.PolicyChangeRenewalLapse policyChangeRenewalLapse() {
 		throw new UnsupportedOperationException("Action policyChangeRenewalLapse is not defined in entity \"AU_EP1\"");
 	}
 
 	@Override
-	public PolicyInquiry policyInquiry() {
+	public PolicyActions.PolicyInquiry policyInquiry() {
 		return new AutoCaPolicyActions.PolicyInquiry();
 	}
 
 	@Override
-	public PolicySpin policySpin() {
+	public PolicyActions.PolicySpin policySpin() {
 		return new AutoCaPolicyActions.PolicySpin();
 	}
 
 	@Override
-	public PolicySplit policySplit() {
+	public PolicyActions.PolicySplit policySplit() {
 		return new AutoCaPolicyActions.PolicySplit();
 	}
 
 	@Override
-	public Propose propose() {
+	public PolicyActions.Propose propose() {
 		return new AutoCaPolicyActions.Propose();
 	}
 
 	@Override
-	public QuoteInquiry quoteInquiry() {
+	public PolicyActions.QuoteInquiry quoteInquiry() {
 		return new AutoCaPolicyActions.QuoteInquiry();
 	}
 
 	@Override
-	public Reinstate reinstate() {
+	public PolicyActions.Reinstate reinstate() {
 		return new AutoCaPolicyActions.Reinstate();
 	}
 
 	@Override
-	public RemoveDoNotRenew removeDoNotRenew() {
+	public PolicyActions.RemoveDoNotRenew removeDoNotRenew() {
 		return new AutoCaPolicyActions.RemoveDoNotRenew();
 	}
 
 	@Override
-	public RemoveManualRenew removeManualRenew() {
+	public PolicyActions.RemoveManualRenew removeManualRenew() {
 		return new AutoCaPolicyActions.RemoveManualRenew();
 	}
 
 	@Override
-	public RemoveSuspendQuote removeSuspendQuote() {
+	public PolicyActions.RemoveSuspendQuote removeSuspendQuote() {
 		return new AutoCaPolicyActions.RemoveSuspendQuote();
 	}
 
 	@Override
-	public RescindCancellation rescindCancellation() {
+	public PolicyActions.RescindCancellation rescindCancellation() {
 		return new AutoCaPolicyActions.RescindCancellation();
 	}
 
 	@Override
-	public RollBackEndorsement rollBackEndorsement() {
+	public PolicyActions.RollBackEndorsement rollBackEndorsement() {
 		return new AutoCaPolicyActions.RollBackEndorsement();
 	}
 
 	@Override
-	public SuspendQuote suspendQuote() {
+	public PolicyActions.SuspendQuote suspendQuote() {
 		return new AutoCaPolicyActions.SuspendQuote();
 	}
-	
-    @Override
-    public UpdateRulesOverride updateRulesOverride() {
-    	throw new NotImplementedException();
-    }
 
 	@Override
-	public Bind bind() {
+	public PolicyActions.UpdateRulesOverride updateRulesOverride() {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public PolicyActions.Bind bind() {
 		return null;
 	}
 
 	@Override
-	public PolicyDocGen policyDocGen() {
+	public PolicyActions.PolicyDocGen policyDocGen() {
 		return null;
 	}
 
 	@Override
-	public Rewrite rewrite() {
+	public PolicyActions.Rewrite rewrite() {
 		return new AutoCaPolicyActions.Rewrite();
 	}
 
 	@Override
-	public QuoteDocGen quoteDocGen() {
+	public PolicyActions.QuoteDocGen quoteDocGen() {
 		return null;
 	}
 
 	@Override
-	public RollOn rollOn() {
+	public PolicyActions.RollOn rollOn() {
 		return null;
 	}
-	
+
 }

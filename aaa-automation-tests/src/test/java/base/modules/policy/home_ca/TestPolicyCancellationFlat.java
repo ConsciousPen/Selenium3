@@ -3,7 +3,6 @@
 package  base.modules.policy.home_ca;
 
 import org.testng.annotations.Test;
-
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaBaseTest;
@@ -24,13 +23,13 @@ public class TestPolicyCancellationFlat extends HomeCaBaseTest {
     @Test
     @TestInfo(component = "Policy.PersonalLines")
     public void testPolicyCancellationFlat() {
-		mainApp().open();
+	    mainApp().open();
 
-		createPolicy();
+	    createPolicy();
 
-		log.info("TEST: Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-		policy.cancel().perform(getStateTestData(tdPolicy, "Cancellation", "TestData"));
+	    log.info("TEST: Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
+	    policy.cancel().perform(getStateTestData(tdPolicy, "Cancellation", "TestData"));
 
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-	}
+	    PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+    }
 }

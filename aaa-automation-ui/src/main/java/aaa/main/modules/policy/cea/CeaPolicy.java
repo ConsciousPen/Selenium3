@@ -4,52 +4,13 @@ package aaa.main.modules.policy.cea;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import aaa.EntityLogger;
-import aaa.EntityLogger.EntityType;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
-import aaa.common.enums.NavigationEnum.CaliforniaEarthquakeTab;
 import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.IPolicy;
+import aaa.main.modules.policy.PolicyActions;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.PolicyActions.Bind;
-import aaa.main.modules.policy.PolicyActions.Cancel;
-import aaa.main.modules.policy.PolicyActions.CancelNotice;
-import aaa.main.modules.policy.PolicyActions.ChangeBrokerRequest;
-import aaa.main.modules.policy.PolicyActions.ChangeReinstatementLapse;
-import aaa.main.modules.policy.PolicyActions.ChangeRenewalQuoteLapse;
-import aaa.main.modules.policy.PolicyActions.CopyQuote;
-import aaa.main.modules.policy.PolicyActions.DataGather;
-import aaa.main.modules.policy.PolicyActions.DeclineByCompanyQuote;
-import aaa.main.modules.policy.PolicyActions.DeclineByCustomerQuote;
-import aaa.main.modules.policy.PolicyActions.DeleteCancelNotice;
-import aaa.main.modules.policy.PolicyActions.DeletePendedTransaction;
-import aaa.main.modules.policy.PolicyActions.DoNotRenew;
-import aaa.main.modules.policy.PolicyActions.Endorse;
-import aaa.main.modules.policy.PolicyActions.ManualRenew;
-import aaa.main.modules.policy.PolicyActions.NonPremiumBearingEndorsement;
-import aaa.main.modules.policy.PolicyActions.PendedEndorsementChange;
-import aaa.main.modules.policy.PolicyActions.PolicyChangeRenewalLapse;
-import aaa.main.modules.policy.PolicyActions.PolicyCopy;
-import aaa.main.modules.policy.PolicyActions.PolicyDocGen;
-import aaa.main.modules.policy.PolicyActions.PolicyInquiry;
-import aaa.main.modules.policy.PolicyActions.PolicySpin;
-import aaa.main.modules.policy.PolicyActions.PolicySplit;
-import aaa.main.modules.policy.PolicyActions.Propose;
-import aaa.main.modules.policy.PolicyActions.QuoteDocGen;
-import aaa.main.modules.policy.PolicyActions.QuoteInquiry;
-import aaa.main.modules.policy.PolicyActions.Reinstate;
-import aaa.main.modules.policy.PolicyActions.RemoveDoNotRenew;
-import aaa.main.modules.policy.PolicyActions.RemoveManualRenew;
-import aaa.main.modules.policy.PolicyActions.RemoveSuspendQuote;
-import aaa.main.modules.policy.PolicyActions.Renew;
-import aaa.main.modules.policy.PolicyActions.RescindCancellation;
-import aaa.main.modules.policy.PolicyActions.RollBackEndorsement;
-import aaa.main.modules.policy.PolicyActions.Rewrite;
-import aaa.main.modules.policy.PolicyActions.RollOn;
-import aaa.main.modules.policy.PolicyActions.SuspendQuote;
-import aaa.main.modules.policy.PolicyActions.UpdateRulesOverride;
 import aaa.main.modules.policy.cea.defaulttabs.BindTab;
 import aaa.main.modules.policy.cea.defaulttabs.PremiumCoveragesTab;
 import aaa.main.modules.policy.cea.defaulttabs.PurchaseTab;
@@ -85,25 +46,14 @@ public class CeaPolicy implements IPolicy {
 		initiate();
 		getDefaultView().fillUpTo(td, BindTab.class, false);
 		BindTab.buttonSaveAndExit.click();
-		log.info("Created " + EntityLogger.getEntityHeader(EntityType.QUOTE));
+		log.info("Created " + EntityLogger.getEntityHeader(EntityLogger.EntityType.QUOTE));
 	}
 
 	@Override
 	public void createPolicy(TestData td) {
 		initiate();
 		getDefaultView().fill(td);
-		log.info("Created " + EntityLogger.getEntityHeader(EntityType.POLICY));
-	}
-
-	public void createQuoteFromCa(TestData td) {
-		getDefaultView().fillUpTo(td, BindTab.class, false);
-		BindTab.buttonSaveAndExit.click();
-		log.info("Created " + EntityLogger.getEntityHeader(EntityType.QUOTE));
-	}
-
-	public void createPolicyFromCa(TestData td) {
-		getDefaultView().fill(td);
-		log.info("Created " + EntityLogger.getEntityHeader(EntityType.POLICY));
+		log.info("Created " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
 	}
 
 	@Override
@@ -115,221 +65,232 @@ public class CeaPolicy implements IPolicy {
 	public void createEndorsement(TestData td) {
 		endorse().performAndFill(td);
 	}
-	
+
     @Override
     public void purchase(TestData td) {
         dataGather().start();
-        NavigationPage.toViewTab(CaliforniaEarthquakeTab.BIND.get());
-        new BindTab().submitTab();
-        new PurchaseTab().fillTab(td).submitTab();
-        log.info("Issue " + EntityLogger.getEntityHeader(EntityType.POLICY));
+	    NavigationPage.toViewTab(NavigationEnum.CaliforniaEarthquakeTab.BIND.get());
+	    new BindTab().submitTab();
+	    new PurchaseTab().fillTab(td).submitTab();
+	    log.info("Issue " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
     }
 
 	@Override
 	public void calculatePremium(TestData td) {
 		dataGather().start();
-		NavigationPage.toViewTab(CaliforniaEarthquakeTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(NavigationEnum.CaliforniaEarthquakeTab.PREMIUMS_AND_COVERAGES.get());
 		PremiumCoveragesTab.btnCalculatePremium.click();
 	}
-	
+
 	@Override
     public void calculatePremiumAndPurchase(TestData td) {
         calculatePremium(td);
-        NavigationPage.toViewTab(CaliforniaEarthquakeTab.BIND.get());
-        new BindTab().submitTab();
-        new PurchaseTab().fillTab(td).submitTab();
+		NavigationPage.toViewTab(NavigationEnum.CaliforniaEarthquakeTab.BIND.get());
+		new BindTab().submitTab();
+		new PurchaseTab().fillTab(td).submitTab();
     }
 
 	@Override
 	public void copyPolicy(TestData td) {
 		policyCopy().perform(td);
 		calculatePremiumAndPurchase(td);
-		log.info("Copy Policy " + EntityLogger.getEntityHeader(EntityType.POLICY));
+		log.info("Copy Policy " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
 	}
 
 	@Override
-	public Endorse endorse() {
+	public PolicyActions.Endorse endorse() {
 		return new CeaPolicyActions.Endorse();
 	}
 
 	@Override
-	public Renew renew() {
+	public PolicyActions.Renew renew() {
 		return new CeaPolicyActions.Renew();
 	}
 
 	@Override
-	public Bind bind() {
+	public PolicyActions.Bind bind() {
 		return new CeaPolicyActions.Bind();
 	}
 
 	@Override
-	public Cancel cancel() {
+	public PolicyActions.Cancel cancel() {
 		return new CeaPolicyActions.Cancel();
 	}
 
 	@Override
-	public CancelNotice cancelNotice() {
+	public PolicyActions.CancelNotice cancelNotice() {
 		return new CeaPolicyActions.CancelNotice();
 	}
 
 	@Override
-	public ChangeBrokerRequest changeBrokerRequest() {
+	public PolicyActions.ChangeBrokerRequest changeBrokerRequest() {
 		return new CeaPolicyActions.ChangeBrokerRequest();
 	}
 
 	@Override
-	public ChangeReinstatementLapse changeReinstatementLapse() {
+	public PolicyActions.ChangeReinstatementLapse changeReinstatementLapse() {
 		throw new UnsupportedOperationException("Action changeReinstatementLapse is not defined in entity \"Default Policy's Root Configuration\"");
 	}
 
 	@Override
-	public ChangeRenewalQuoteLapse changeRenewalQuoteLapse() {
+	public PolicyActions.ChangeRenewalQuoteLapse changeRenewalQuoteLapse() {
 		throw new UnsupportedOperationException("Action changeRenewalQuoteLapse is not defined in entity \"Default Policy's Root Configuration\"");
 	}
 
 	@Override
-	public CopyQuote copyQuote() {
+	public PolicyActions.CopyQuote copyQuote() {
 		return new CeaPolicyActions.CopyQuote();
 	}
 
 	@Override
-	public DataGather dataGather() {
+	public PolicyActions.DataGather dataGather() {
 		return new CeaPolicyActions.DataGather();
 	}
 
 	@Override
-	public DeclineByCompanyQuote declineByCompanyQuote() {
+	public PolicyActions.DeclineByCompanyQuote declineByCompanyQuote() {
 		return new CeaPolicyActions.DeclineByCompanyQuote();
 	}
 
 	@Override
-	public DeclineByCustomerQuote declineByCustomerQuote() {
+	public PolicyActions.DeclineByCustomerQuote declineByCustomerQuote() {
 		return new CeaPolicyActions.DeclineByCustomerQuote();
 	}
 
 	@Override
-	public DeleteCancelNotice deleteCancelNotice() {
+	public PolicyActions.DeleteCancelNotice deleteCancelNotice() {
 		return new CeaPolicyActions.DeleteCancelNotice();
 	}
 
 	@Override
-	public DeletePendedTransaction deletePendedTransaction() {
+	public PolicyActions.DeletePendedTransaction deletePendedTransaction() {
 		return new CeaPolicyActions.DeletePendedTransaction();
 	}
 
 	@Override
-	public DoNotRenew doNotRenew() {
+	public PolicyActions.DoNotRenew doNotRenew() {
 		return new CeaPolicyActions.DoNotRenew();
 	}
 
 	@Override
-	public ManualRenew manualRenew() {
+	public PolicyActions.ManualRenew manualRenew() {
 		return new CeaPolicyActions.ManualRenew();
 	}
 
 	@Override
-	public NonPremiumBearingEndorsement nonPremiumBearingEndorsement() {
+	public PolicyActions.NonPremiumBearingEndorsement nonPremiumBearingEndorsement() {
 		return new CeaPolicyActions.NonPremiumBearingEndorsement();
 	}
 
 	@Override
-	public PendedEndorsementChange pendedEndorsementChange() {
+	public PolicyActions.PendedEndorsementChange pendedEndorsementChange() {
 		return new CeaPolicyActions.PendedEndorsementChange();
 	}
 
 	@Override
-	public PolicyChangeRenewalLapse policyChangeRenewalLapse() {
+	public PolicyActions.PolicyChangeRenewalLapse policyChangeRenewalLapse() {
 		throw new UnsupportedOperationException("Action policyChangeRenewalLapse is not defined in entity \"Default Policy's Root Configuration\"");
 	}
 
 	@Override
-	public PolicyCopy policyCopy() {
+	public PolicyActions.PolicyCopy policyCopy() {
 		throw new UnsupportedOperationException("Action 'Copy from Policy' is not supported by California Earthquake product");
 	}
 
 	@Override
-	public PolicyDocGen policyDocGen() {
+	public PolicyActions.PolicyDocGen policyDocGen() {
 		return new CeaPolicyActions.PolicyDocGen();
 	}
 
 	@Override
-	public PolicyInquiry policyInquiry() {
+	public PolicyActions.PolicyInquiry policyInquiry() {
 		return new CeaPolicyActions.PolicyInquiry();
 	}
 
 	@Override
-	public PolicySpin policySpin() {
+	public PolicyActions.PolicySpin policySpin() {
 		return new CeaPolicyActions.PolicySpin();
 	}
 
 	@Override
-	public PolicySplit policySplit() {
+	public PolicyActions.PolicySplit policySplit() {
 		return new CeaPolicyActions.PolicySplit();
 	}
 
 	@Override
-	public Rewrite rewrite() {
+	public PolicyActions.Rewrite rewrite() {
 		return new CeaPolicyActions.Rewrite();
 	}
 
 	@Override
-	public Propose propose() {
+	public PolicyActions.Propose propose() {
 		return new CeaPolicyActions.Propose();
 	}
 
 	@Override
-	public QuoteDocGen quoteDocGen() {
+	public PolicyActions.QuoteDocGen quoteDocGen() {
 		return new CeaPolicyActions.QuoteDocGen();
 	}
 
 	@Override
-	public QuoteInquiry quoteInquiry() {
+	public PolicyActions.QuoteInquiry quoteInquiry() {
 		return new CeaPolicyActions.QuoteInquiry();
 	}
 
 	@Override
-	public Reinstate reinstate() {
+	public PolicyActions.Reinstate reinstate() {
 		return new CeaPolicyActions.Reinstate();
 	}
 
 	@Override
-	public RemoveDoNotRenew removeDoNotRenew() {
+	public PolicyActions.RemoveDoNotRenew removeDoNotRenew() {
 		return new CeaPolicyActions.RemoveDoNotRenew();
 	}
 
 	@Override
-	public RemoveManualRenew removeManualRenew() {
+	public PolicyActions.RemoveManualRenew removeManualRenew() {
 		return new CeaPolicyActions.RemoveManualRenew();
 	}
 
 	@Override
-	public RemoveSuspendQuote removeSuspendQuote() {
+	public PolicyActions.RemoveSuspendQuote removeSuspendQuote() {
 		return new CeaPolicyActions.RemoveSuspendQuote();
 	}
 
 	@Override
-	public RescindCancellation rescindCancellation() {
+	public PolicyActions.RescindCancellation rescindCancellation() {
 		return new CeaPolicyActions.RescindCancellation();
 	}
 
 	@Override
-	public RollBackEndorsement rollBackEndorsement() {
+	public PolicyActions.RollBackEndorsement rollBackEndorsement() {
 		return new CeaPolicyActions.RollBackEndorsement();
 	}
 
 	@Override
-	public RollOn rollOn() {
+	public PolicyActions.RollOn rollOn() {
 		return new CeaPolicyActions.RollOn();
 	}
 
 	@Override
-	public SuspendQuote suspendQuote() {
+	public PolicyActions.SuspendQuote suspendQuote() {
 		return new CeaPolicyActions.SuspendQuote();
 	}
-	
-    @Override
-    public UpdateRulesOverride updateRulesOverride() {
-    	throw new UnsupportedOperationException("Action is not implemented yet");
-    }
-    
+
+	@Override
+	public PolicyActions.UpdateRulesOverride updateRulesOverride() {
+		throw new UnsupportedOperationException("Action is not implemented yet");
+	}
+
+	public void createQuoteFromCa(TestData td) {
+		getDefaultView().fillUpTo(td, BindTab.class, false);
+		BindTab.buttonSaveAndExit.click();
+		log.info("Created " + EntityLogger.getEntityHeader(EntityLogger.EntityType.QUOTE));
+	}
+
+	public void createPolicyFromCa(TestData td) {
+		getDefaultView().fill(td);
+		log.info("Created " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
+	}
+
 }

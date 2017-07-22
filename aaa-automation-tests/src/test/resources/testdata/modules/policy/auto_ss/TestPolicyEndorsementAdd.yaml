@@ -16,6 +16,7 @@ TestData: {
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: {},
+  ContactInformation: '@ContactInformation',
   PolicyInformation: '@PolicyInformation'
 }
 
@@ -26,8 +27,11 @@ NamedInsuredInformation: {
   Last Name: Smith,
   Social Security Number: 223456789,
   "Has lived here for less than three years?": 'No',
-  Home Phone Number: 1234567890,
   Residence: Own Home,
+}
+
+ContactInformation: {
+   Home Phone Number: 1234567890
 }
 
 PolicyInformation: {
@@ -44,6 +48,7 @@ DriverTab: {
   Marital Status: Married,
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 400064774
 }
 
@@ -87,6 +92,7 @@ DriverTab_AZ: {
   Marital Status: Married,
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: A22345678
 }
 
@@ -113,5 +119,553 @@ DriverTab_CO: {
   Marital Status: Married,
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: A552184
 }
+
+# ------- CT ------
+
+TestData_CT: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_CT',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+DriverTab_CT: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: /index=0,
+  'Rel. to First Named Insured': /index=1,
+  Date of Birth: '01/01/1980',
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 156773435
+}
+
+# ------- DC ------
+
+TestData_DC: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_DC',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+DriverTab_DC: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: /index=0,
+  'Rel. to First Named Insured': /index=1,
+  Date of Birth: '01/01/1980',
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 9992618
+}
+
+
+# ------- DE ------
+
+TestData_DE: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_DE',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+DriverTab_DE: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: /index=0,
+  'Rel. to First Named Insured': /index=1,
+  Date of Birth: '01/01/1980',
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 7135438
+}
+
+# ------- ID ------
+
+TestData_ID: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_ID',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+DriverTab_ID: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: /index=0,
+  'Rel. to First Named Insured': /index=1,
+  Date of Birth: '01/01/1980',
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: AA223457A
+}
+
+# ------- IN ------
+
+TestData_IN: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_IN',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+DriverTab_IN: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: /index=0,
+  'Rel. to First Named Insured': /index=1,
+  Date of Birth: '01/01/1980',
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 154673422
+}
+
+# ------- KS ------
+
+TestData_KS: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_KS',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+DriverTab_KS: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: /index=0,
+  'Rel. to First Named Insured': /index=1,
+  Date of Birth: '01/01/1980',
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: B54673422
+}
+
+# ------- KY ------
+
+TestData_KY: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_KY',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+DriverTab_KY: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: /index=0,
+  'Rel. to First Named Insured': /index=1,
+  Date of Birth: '01/01/1980',
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A12121216
+}
+
+
+# ------- MD ------
+
+TestData_MD: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_MD',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+DriverTab_MD: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: /index=0,
+  'Rel. to First Named Insured': /index=1,
+  Date of Birth: '01/01/1980',
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: S123456789997
+}
+
+# ------- MT ------
+
+TestData_MT: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_MT',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+DriverTab_MT: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: /index=0,
+  'Rel. to First Named Insured': /index=1,
+  Date of Birth: '01/01/1980',
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 212790137
+}
+
+# ------- NJ ------
+
+TestData_NJ: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_NJ',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+DriverTab_NJ: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: /index=0,
+  'Rel. to First Named Insured': /index=1,
+  Date of Birth: '01/01/1980',
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A12345678987656
+}
+
+# ------- NV ------
+
+TestData_NV: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_NV',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+DriverTab_NV: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: /index=0,
+  'Rel. to First Named Insured': /index=1,
+  Date of Birth: '01/01/1980',
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 2127901366
+}
+
+# ------- NY ------
+
+TestData_NY: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_NY',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+DriverTab_NY: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: /index=0,
+  'Rel. to First Named Insured': /index=1,
+  Date of Birth: '01/01/1980',
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A5467342112658243
+}
+
+
+# ------- OH ------
+
+TestData_OH: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_OH',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+DriverTab_OH: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: /index=0,
+  'Rel. to First Named Insured': /index=1,
+  Date of Birth: '01/01/1980',
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: AB546735
+}
+
+# ------- OK ------
+
+TestData_OK: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_OK',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+DriverTab_OK: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: /index=0,
+  'Rel. to First Named Insured': /index=1,
+  Date of Birth: '01/01/1980',
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 123123122
+}
+
+# ------- OR ------
+
+TestData_OR: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_OR',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+DriverTab_OR: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: /index=0,
+  'Rel. to First Named Insured': /index=1,
+  Date of Birth: '01/01/1980',
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: /001234568
+}
+
+# ------- PA ------
+
+TestData_PA: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_PA',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+DriverTab_PA: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: /index=0,
+  'Rel. to First Named Insured': /index=1,
+  Date of Birth: '01/01/1980',
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 83127881
+}
+
+
+# ------- SD ------
+
+TestData_SD: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_SD',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+DriverTab_SD: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: /index=0,
+  'Rel. to First Named Insured': /index=1,
+  Date of Birth: '01/01/1980',
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 112345679
+}
+
+
+# ------- VA ------
+
+TestData_VA: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_VA',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+DriverTab_VA: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: /index=0,
+  'Rel. to First Named Insured': /index=1,
+  Date of Birth: '01/01/1980',
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 831278807
+}
+
+# ------- WV ------
+
+TestData_WV: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_WV',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+DriverTab_WV: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: /index=0,
+  'Rel. to First Named Insured': /index=1,
+  Date of Birth: '01/01/1980',
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: S123455
+}
+
+# ------- WY ------
+
+TestData_WY: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_WY',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+DriverTab_WY: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Named Insured: /index=0,
+  'Rel. to First Named Insured': /index=1,
+  Date of Birth: '01/01/1980',
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 4000647713
+}
+
+

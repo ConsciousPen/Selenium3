@@ -25,11 +25,11 @@ import toolkit.utils.TestInfo;
 public class TestPolicyCreation extends AutoCaChoiceBaseTest {
 
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.AutoCA")
 	public void testQuoteCreation() {
 		mainApp().open();
 
-		//createCustomerIndividual();
+		createCustomerIndividual();
 
 		createPolicy();
 		//policy.createPolicy(tdPolicy.getTestData("DataGather", "TestData"));

@@ -57,7 +57,7 @@ DriverTab: {
   Permit Before License: 'No',
   License State: CA,
   "License #": C1234567,
-  Most Recent GPA: 'None',
+  #Most Recent GPA: 'None',
   #ActivityInformation: '@ActivityInformation'
 }
 
@@ -90,6 +90,7 @@ Primary Driver: /index=1
 #}
 
 FormsTab: {}
+
 PremiumAndCoveragesTab: {
   Payment Plan: Annual,
 }

@@ -64,6 +64,7 @@ ReportsTab: {
   FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
   CLUEreport: [{Report: 'Order report'}],
+#  Description of interest:
   #ISO360Report: [{Report: 'Order report'}]
 }
 
@@ -84,7 +85,8 @@ PropertyInfoTab: {
     Square footage: 1,
     Roof type: Laminate / Architectural,
     Roof shape: /first,
-    Construction type: /first
+    Construction type: /first, 
+    Foundation Type: Slab
     },
   AdditionalQuestions: {},
   Interior: {
@@ -93,13 +95,12 @@ PropertyInfoTab: {
     "Number of stories, including basement": '1'
     },
   DetachedStructures: [{}],
-  CeaInformation: {
-    Foundation type: Slab,
-    "Is the dwelling anchored to foundation using approved anchor bolts in accordance with California building code?": 'No',
-    "Is the water heater secured to the building frame in accordance with guidelines for earthquake bracing of residential water heaters?": 'No',
-    "Does the dwelling have cripple walls?": 'No',
-    "Does dwelling have post-and-pier or post-and-beam foundation?": 'No',
-    },
+  #CeaInformation: {
+  #  Foundation type: Slab,
+  #  "Is the water heater secured to the building frame in accordance with guidelines for earthquake bracing of residential water heaters?": 'No',
+  #  "Does the dwelling have cripple walls?": 'No',
+  #  "Does dwelling have post-and-pier or post-and-beam foundation?": 'No',
+  #  },
   FireProtectiveDD: {},
   TheftProtectiveTPDD: {},
   HomeRenovation: {},
@@ -111,11 +112,11 @@ PropertyInfoTab: {
 
 EndorsementTab: {}
 PremiumsAndCoveragesQuoteTab: {
-  Payment plan: Pay in Full,
+  Payment plan: Annual,
   Coverage C - Personal Property limit: '75|Coverage A - Dwelling limit',
   Coverage D - Loss of Use limit: '45|Coverage A - Dwelling limit',
   Calculate Premium: true,
-  Accept CEA offer: 'No'
+  #Accept CEA offer: 'No'
 }
  
 MortgageesTab: {}
@@ -133,7 +134,7 @@ UnderwritingAndApprovalTab: {
 
 DocumentsTab: {
   DocumentsToIssue: {
-  CEA Offer Declination: Physically Signed,
+  #CEA Offer Declination: Physically Signed,
   California Residential Property Insurance Disclosure: Physically Signed,
   Signed policy application: Physically Signed,
   }

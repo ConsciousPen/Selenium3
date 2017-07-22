@@ -11,13 +11,7 @@ import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.PurchaseMetaData;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.CheckBox;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.DoubleComboBox;
-import toolkit.webdriver.controls.RadioButton;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.TextBox;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AttributeDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
@@ -45,6 +39,7 @@ public final class BillingAccountMetaData {
 	public static final class BillingAccountTab extends MetaData {
 		public static final AttributeDescriptor SELECT_ACTION = declare("Select Action", RadioGroup.class);
 		public static final AttributeDescriptor CREATE_NEW_ACCOUNT = declare("Create New Account", CheckBox.class);
+		public static final AttributeDescriptor BILLING_ACCOUNT_POLICIES_STATUS = declare("Biling Account Policies status", StaticElement.class, By.id("billingDetailedForm:billing_policies_info_table:0:column_status")); //billingDetailedForm:billing_policies_info_table:0:statusLink
 		public static final AttributeDescriptor BILLING_ACCOUNT_NAME = declare("Billing Account Name", TextBox.class);
 		public static final AttributeDescriptor BILL_TYPE = declare("Bill Type", ComboBox.class);
 		public static final AttributeDescriptor BILLING_ACCOUNT_DUE_DAY = declare("Billing Account Due Day", TextBox.class);
@@ -204,10 +199,14 @@ public final class BillingAccountMetaData {
 	}
 
 	public static final class AddHoldActionTab extends MetaData {
-		public static final AttributeDescriptor INVOICE = declare("Invoice", CheckBox.class, By.id("holdForm:holdType:0"));
-		public static final AttributeDescriptor CANCEL_NOTICE = declare("Cancel Notice", CheckBox.class, By.id("holdForm:holdType:1"));
-		public static final AttributeDescriptor HOLD_EFFECTIVE_DATE = declare("Hold Effective Date", TextBox.class);
-		public static final AttributeDescriptor HOLD_EXPIRATION_DATE = declare("Hold Expiration Date", TextBox.class);
+		public static final AttributeDescriptor CHECK_POLICY = declare("Check Policy", CheckBox.class, By.xpath("//input[@type='checkbox']"));
+		public static final AttributeDescriptor HOLD_NAME = declare("Hold Name", TextBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor HOLD_DESCRIPTION = declare("Hold Description", TextBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor REASON = declare("Reason", ComboBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor ADDITIONAL_INFO = declare("Additional Info", TextBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor HOLD_TYPE = declare("Hold Type", ListBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor HOLD_EFFECTIVE_DATE = declare("Effective Date", TextBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor HOLD_EXPIRATION_DATE = declare("Expiration Date", TextBox.class, Waiters.AJAX);
 	}
 
 	public static final class AddPaymentMethodTab extends MetaData {

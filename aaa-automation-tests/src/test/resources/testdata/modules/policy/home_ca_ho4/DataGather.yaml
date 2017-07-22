@@ -26,3 +26,150 @@ GeneralTab: {
     Base date with AAA: '/today:MM/dd/yyyy',
     }
 }
+
+TestData_Full: {
+  GeneralTab: {
+    PolicyInfo: {
+      Policy type: 'HO4',
+      Effective date: '/today:MM/dd/yyyy',
+      Application Type: 'New',
+      Commission Type: 'New Business',
+      Lead source: 'AAA Magazines',
+      Suppress Print: 'Print Declaration'
+    },
+    CurrentCarrier: {
+      Carrier name: 'AAA - NCNU',
+      Policy type: 'HO4',
+      Continuous years with HO insurance: '5',
+      Base date with AAA: '/today:MM/dd/yyyy',
+    }
+  },
+
+  ApplicantTab: {
+    NamedInsured: [{
+      Prefix: 'Mr.',
+      Middle Name: 'Middle Name',
+      Suffix: 'Jr.',
+      Relationship to primary named insured:  Primary Insured,
+    }],
+    AAAMembership: {
+      Membership number: '4290023667710001',
+      Last name: Test,
+    },
+    DwellingAddress: {
+      Zip code: '90201',
+      Street address 1: 265 CHIPMAN AVE,
+      Street address 2: 265 CHIPMAN AVE,
+      Validate Address: true,
+      Validate Address Dialog: {}
+    },
+    PreviousDwellingAddress: {},
+    MailingAddress: {},
+    NamedInsuredInformation: {
+      Home Phone Number: '1234567890',
+      Work Phone Number: '1234567891',
+      Mobile Phone Number: '1234567892',
+      Email: 'test@esigroup.com'
+    },
+    AgentInfo: {
+      Channel Type: AAA Agent,
+      Agency: 'SMTestNCNU - 400001005',
+      Agency Location: 'SMTestNCNU LOCATION - 400001105 - Emeryville',
+      TollFree Number: 500001002
+    },
+    OtherActiveAAAPolicies: {},
+  },
+
+  ReportsTab: {
+    Sales Agent Agreement: 'I Agree',
+    AAAMembershipReport: [{Report: 'Order report'}],
+    PublicProtectionClass: [{Report: 'Order Report'}],
+    CLUEreport: [{Report: 'Order report'}],
+  },
+
+  PropertyInfoTab: {
+    DwellingAddress: {
+      Number of family units: '1-Single Family',
+      Section II territory: '/first',
+    },
+    AdditionalAddress: [{}],
+    PublicProtectionClass: {},
+    FireReport: {},
+    PropertyValue: {},
+    Construction: {
+      Year built: 2009,
+      Square footage: 1,
+      Roof type: Laminate / Architectural,
+      Construction type: /first
+    },
+    AdditionalQuestions: {},
+    Interior: {
+      Dwelling usage: Primary,
+      Occupancy type: Tenant occupied,
+      Number of residents: 3,
+      "Number of stories, including basement": '1'
+    },
+    DetachedStructures: [{}],
+    FireProtectiveDD: {
+      Local fire alarm: true,
+      Central fire alarm: true
+    },
+    TheftProtectiveTPDD: {
+      Local fire alarm: true,
+      Central fire alarm: true
+    },
+    PetsOrAnimals: {
+      "Are any insured-owned pets or animals kept on the property?": 'Yes',
+    },
+    RecreationalEquipment: {
+      Swimming pool: '/first',
+      Spa/hot tub: '/first',
+      Trampoline: '/first',
+    },
+  },
+
+  EndorsementTab: {},
+
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Annual,
+    Payment plan at renewal: Annual (Renewal),
+    Recurring Payment: true,
+    Bill to at renewal: Insured,
+    Coverage D - Loss of Use limit: 3500,
+    Coverage E - Personal Liability Each Occurrence: '/first',
+    Deductible: '/first',
+    Calculate Premium: true,
+    Accept CEA offer: 'No',
+  },
+  MortgageesTab: {
+    Use legal named insured: 'Yes',
+    Use legal property address: 'No',
+    "Is there an additional insured?": 'No',
+    "Is there an additional interest?": 'No',
+    "Is there any third party designee?": 'No',
+  },
+
+  UnderwritingAndApprovalTab: {
+    "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?": "No",
+    "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?":  "No",
+    "Do employees of any resident or applicant reside in the dwelling?": "No",
+    "Is there a business on premises?": "No",
+  },
+
+  DocumentsTab: {
+    Required to bind: {
+      Proof of central fire alarm: "Yes",
+    },
+    DocumentsToIssue: {
+      AutoPay Authorization Form: Physically Signed,
+      CEA Offer Declination: Physically Signed,
+      Signed policy application: Physically Signed,
+    },
+  },
+  BindTab: {},
+  PurchaseTab: {
+    PaymentAllocation: {
+      Cash: /rest
+    }
+  }
+}

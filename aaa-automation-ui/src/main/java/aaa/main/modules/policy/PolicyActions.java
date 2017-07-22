@@ -3,11 +3,10 @@
 package aaa.main.modules.policy;
 
 import org.openqa.selenium.By;
-
 import aaa.common.AbstractAction;
 import aaa.common.Tab;
 import aaa.common.pages.Page;
-
+import aaa.main.modules.policy.auto_ss.actiontabs.UpdateRulesOverrideActionTab;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
@@ -40,7 +39,16 @@ public final class PolicyActions {
         public AbstractAction perform(TestData td) {
             return super.perform(td);
         }
-        
+
+	    @Override
+	    public AbstractAction submit() {
+		    Tab.buttonOk.click();
+		    if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
+			    Page.dialogConfirmation.confirm();
+		    }
+		    return this;
+	    }
+
         /**
          * Fill Endorsement action tab, confirm endorsement and press Save and Exit without filling policy
          * @param td - test data for filling Endorsement action tab
@@ -58,15 +66,6 @@ public final class PolicyActions {
          * @param td - test data for filling Endorsement action tab and policy endorsement
          */
         public abstract AbstractAction performAndFill(TestData td);
-        
-        @Override
-        public AbstractAction submit() {
-        	Tab.buttonOk.click();
-            if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
-                Page.dialogConfirmation.confirm();
-            }
-            return this;
-        }
     }
     
     public abstract static class Renew extends AbstractAction {
@@ -84,7 +83,17 @@ public final class PolicyActions {
         public AbstractAction perform(TestData td) {
             return super.perform(td);
         }
-        
+
+	    @Override
+	    public AbstractAction submit() {
+		    Tab.buttonOk.click();
+		    // Renew with lapse
+		    if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
+			    Page.dialogConfirmation.confirm();
+		    }
+		    return this;
+	    }
+
         /**
          * Fill Renew action tab, confirm and press Save and Exit without filling policy
          * @param td - test data for filling Renew action tab
@@ -102,16 +111,6 @@ public final class PolicyActions {
          * @param td - test data for filling Renew action tab and policy renewal data
          */
         public abstract AbstractAction performAndFill(TestData td);
-        
-        @Override
-        public AbstractAction submit() {
-        	Tab.buttonOk.click();
-            // Renew with lapse
-            if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
-                Page.dialogConfirmation.confirm();
-            }
-            return this;
-        }
     }
     
     public abstract static class Bind extends AbstractAction {
@@ -287,12 +286,12 @@ public final class PolicyActions {
         public String getName() {
             return "Rewrite Policy";
         }
-        @Override
-        public AbstractAction submit() {
-            super.submit();
-            Tab.buttonSaveAndExit.click();
-            return this;
-        }
+        //@Override
+       // public AbstractAction submit() {
+       //     super.submit();
+            //Tab.buttonSaveAndExit.click();
+       //     return this;
+       // }
     }
     
     public abstract static class Propose extends AbstractAction {
@@ -364,7 +363,13 @@ public final class PolicyActions {
         public String getName() {
             return "Roll On Changes";
         }
-        
+
+	    @Override
+	    public AbstractAction submit() {
+		    buttonRollOnChanges.click();
+		    return this;
+	    }
+
         public AbstractAction perform(boolean isAutomatic, boolean setOldValues) {
             start();
 
@@ -402,12 +407,6 @@ public final class PolicyActions {
             }
             return submit();
         }
-
-        @Override
-        public AbstractAction submit() {
-            buttonRollOnChanges.click();
-            return this;
-        }
     }
     
     public abstract static class SuspendQuote extends AbstractAction {
@@ -440,38 +439,49 @@ public final class PolicyActions {
             return this;
         }
     }
-    
-    public abstract static class RescindCancellation extends AbstractAction {
-    	@Override
-        public String getName() {
-            return "Rescind Cancellation";
-        }
-        public AbstractAction perform() {
-            start();
-            return submit();
-        }
-        @Override
-        public AbstractAction perform(TestData td) {
-            throw new UnsupportedOperationException("perform(TestData td) method with testData is not supported for this action. Use perform() instead.");
-        }
-    }
-    
-    public abstract static class UpdateRulesOverride extends AbstractAction {
-    	@Override
-        public String getName() {
-            return "Update Rules Override";
-        }
 
+	public abstract static class RescindCancellation extends AbstractAction {
+		@Override
+		public String getName() {
+			return "Rescind Cancellation";
+		}
+
+		@Override
+		public AbstractAction perform(TestData td) {
+			throw new UnsupportedOperationException("perform(TestData td) method with testData is not supported for this action. Use perform() instead.");
+		}
+
+		public AbstractAction perform() {
+			start();
+			return submit();
+		}
+	}
+
+	public abstract static class UpdateRulesOverride extends AbstractAction {
+		@Override
+		public String getName() {
+			return "Update Rules Override";
+		}
+
+		@Override
+		public AbstractAction submit() {
+			UpdateRulesOverrideActionTab.btnUpdateOverride.click();
+			return this;
+		}
+
+/*
         @Override
         public AbstractAction perform(TestData td) {
               return super.perform(td);
           }
-        }
-    
-    //TODO Remove next actions if not used in AAA:
-    public abstract static class RemoveSuspendQuote extends AbstractAction {
-        @Override
-        public AbstractAction submit() {
+              */
+
+	}
+
+	//TODO Remove next actions if not used in AAA:
+	public abstract static class RemoveSuspendQuote extends AbstractAction {
+		@Override
+		public AbstractAction submit() {
             Page.dialogConfirmation.confirm();
             Tab.buttonSaveAndExit.click();
             return this;

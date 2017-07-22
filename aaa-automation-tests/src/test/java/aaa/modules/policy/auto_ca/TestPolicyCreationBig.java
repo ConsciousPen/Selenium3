@@ -26,7 +26,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyCreationBig extends AutoCaBaseTest {
 
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.AutoCA")
 	public void testQuoteCreation() {
 		mainApp().open();
 

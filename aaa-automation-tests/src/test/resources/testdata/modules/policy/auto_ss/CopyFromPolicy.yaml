@@ -3,7 +3,7 @@ TestData: {
     Quote Effective Date: /today
   },
   RatingDetailReportsTab: {
-    Customer Agreement: Customer Agrees,
+    #Customer Agreement: Customer Agrees,
     Order Report: click
   },
   DriverActivityReportsTab: '@DataGather@DriverActivityReportsTab',

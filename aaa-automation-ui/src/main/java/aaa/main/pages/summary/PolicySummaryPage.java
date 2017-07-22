@@ -3,9 +3,7 @@
 package aaa.main.pages.summary;
 
 import org.openqa.selenium.By;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
-
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.main.enums.PolicyConstants;
@@ -70,8 +68,8 @@ public class PolicySummaryPage extends SummaryPage {
             + "or @id='productConsolidatedViewForm:scolumn_InsuredInformation' "
             + "or @id='productConsolidatedViewForm:scolumn_CLPolicyInsuredConsolidatedView'"
             + "or @id='scolumn_AAAHONamedInsured'"
-            + "or @id='scolumn_AAAHONamedInsuredInformation'"
-            + "or @id='scolumn_InsuredInformationMVO']//table"));
+		    + "or @id='scolumn_AAAHONamedInsuredInformation'"
+		    + "or @id='scolumn_InsuredInformationMVO']//table"));
     public static Table tableCoveragePremiumSummary = new Table(By.id("policyDataGatherForm:policySummary_ListCLGLPremOpsProdCoveragePremiumSummary"));
     public static Table tableCompare = new Table(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']/table[@role='treegrid']"));
     public static Table tableOtherUnderlyingRisks = new Table(By.xpath("//div[@id='productConsolidatedViewForm:pupUnderlyingRiskPanel_body'//table"));
@@ -95,8 +93,8 @@ public class PolicySummaryPage extends SummaryPage {
 
     public static DateTime getEffectiveDate() {
         DateTime dateEffective;
-        if ((!tableGeneralInformation.isPresent()) || (tableGeneralInformation.isPresent() && !tableGeneralInformation.getHeader().getValue().contains("Effective Date"))) {
-            dateEffective = new DateTime(labelPolicyEffectiveDate.getValue(), DateTime.MM_DD_YYYY);
+	    if (!tableGeneralInformation.isPresent() || tableGeneralInformation.isPresent() && !tableGeneralInformation.getHeader().getValue().contains("Effective Date")) {
+		    dateEffective = new DateTime(labelPolicyEffectiveDate.getValue(), DateTime.MM_DD_YYYY);
         } else {
             dateEffective = new DateTime(tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.EFFECTIVE_DATE).getValue(), DateTime.MM_DD_YYYY);
         }
@@ -105,6 +103,26 @@ public class PolicySummaryPage extends SummaryPage {
     }
 
     public static class TransactionHistory {
+	    public static DateTime getEffectiveDate() {
+		    return getEffectiveDate(1);
+	    }
+
+	    public static Dollar getTranPremium() {
+		    return getTranPremium(1);
+	    }
+
+	    public static Dollar getEndingPremium() {
+		    return getEndingPremium(1);
+	    }
+
+	    public static String getReason() {
+		    return getReason(1);
+	    }
+
+	    public static String getType() {
+		    return getType(1);
+	    }
+
         public static void open() {
             buttonTransactionHistory.click();
         }
@@ -194,26 +212,6 @@ public class PolicySummaryPage extends SummaryPage {
             close();
 
             return content;
-        }
-
-        public static DateTime getEffectiveDate() {
-            return getEffectiveDate(1);
-        }
-
-        public static Dollar getTranPremium() {
-            return getTranPremium(1);
-        }
-
-        public static Dollar getEndingPremium() {
-            return getEndingPremium(1);
-        }
-
-        public static String getReason() {
-            return getReason(1);
-        }
-
-        public static String getType() {
-            return getType(1);
         }
     }
 }

@@ -1,11 +1,8 @@
 package aaa.toolkit.webdriver.customcontrols;
 
 import org.openqa.selenium.By;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
-
 import toolkit.datax.TestData;
-import toolkit.datax.TestData.Type;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
@@ -39,17 +36,9 @@ public class PaymentMethodAllocationControl extends AbstractContainer<TestData, 
     }
 
     @Override
-    public Type testDataType() {
-        return Type.TESTDATA;
-    }
-
-    @Override
-    protected TestData normalize(Object rawValue) {
-        if (rawValue instanceof TestData) {
-            return (TestData) rawValue;
-        } else {
-            throw new IllegalArgumentException("Value " + rawValue + " has incorrect type " + rawValue.getClass());
-        }
+    protected TestData getRawValue() {
+	    // TODO Auto-generated method stub
+	    return null;
     }
 
     @Override
@@ -62,9 +51,9 @@ public class PaymentMethodAllocationControl extends AbstractContainer<TestData, 
             }
             TextBox input = null;
             if (key.startsWith("Check Number ")) {
-                input = new TextBox(this, By.xpath(String.format(".//tr[td/input[contains(@value,'%s')]]/td[3]/input", key.replace("Check Number ", ""))), Waiters.AJAX);
+	            input = new TextBox(this, By.xpath(String.format(".//tr[td/input[contains(@value,'%s')]]/td[3]/input", key.replace("Check Number ", ""))), Waiters.AJAX);
             } else {
-                input = new TextBox(this, By.xpath(String.format(".//tr[td/input[contains(@value,'%s')]]/td[2]/input", key)), Waiters.AJAX);
+	            input = new TextBox(this, By.xpath(String.format(".//tr[td/input[contains(@value,'%s')]]/td[2]/input", key)), Waiters.AJAX);
             }
             String value = data.getValue(key);
             if (value.equals("rest")) {
@@ -78,9 +67,17 @@ public class PaymentMethodAllocationControl extends AbstractContainer<TestData, 
     }
 
     @Override
-    protected TestData getRawValue() {
-        // TODO Auto-generated method stub
-        return null;
+    public TestData.Type testDataType() {
+	    return TestData.Type.TESTDATA;
+    }
+
+	@Override
+	protected TestData normalize(Object rawValue) {
+		if (rawValue instanceof TestData) {
+			return (TestData) rawValue;
+		} else {
+			throw new IllegalArgumentException("Value " + rawValue + " has incorrect type " + rawValue.getClass());
+		}
     }
 
     @Override

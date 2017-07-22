@@ -6,7 +6,6 @@ package aaa.main.modules.policy.home_ss.defaulttabs;
 
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
-import toolkit.webdriver.controls.composite.assets.AssetList;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -15,38 +14,13 @@ import toolkit.webdriver.controls.composite.assets.AssetList;
  * @category Generated
  */
 public class PersonalPropertyTab extends Tab {
-    public PersonalPropertyTab() {
-        super(HomeSSMetaData.PersonalPropertyTab.class);
-    }
+	public PersonalPropertyTab() {
+		super(HomeSSMetaData.PersonalPropertyTab.class);
+	}
 
-    @Override
-    public Tab submitTab() {
-        buttonNext.click();
-        return this;
-    }
-    
-    public AssetList getJewelryAssetList() {
-    	return getAssetList().getControl(HomeSSMetaData.PersonalPropertyTab.JEWELRY_TAB.getLabel(), AssetList.class);
-	}
-    public AssetList getFineArtsAssetList() {
-    	return getAssetList().getControl(HomeSSMetaData.PersonalPropertyTab.FINE_ARTS_TAB.getLabel(), AssetList.class);
-	}
-    public AssetList getPortableElectronicEquipmentAssetList() {
-    	return getAssetList().getControl(HomeSSMetaData.PersonalPropertyTab.PORTABLE_ELECTRONIC_TAB.getLabel(), AssetList.class);
-	}
-    public AssetList getSportsEquipmentAssetList() {
-    	return getAssetList().getControl(HomeSSMetaData.PersonalPropertyTab.SPORTS_EQUIPMENT_TAB.getLabel(), AssetList.class);
-	}
-    public AssetList getSecuritiesAssetList() {
-    	return getAssetList().getControl(HomeSSMetaData.PersonalPropertyTab.SEQURITIES_TAB.getLabel(), AssetList.class);
-	}
-    public AssetList getFursAssetList() {
-    	return getAssetList().getControl(HomeSSMetaData.PersonalPropertyTab.FURS_TAB.getLabel(), AssetList.class);
-	}
-    public AssetList getFirearmsAssetList() {
-    	return getAssetList().getControl(HomeSSMetaData.PersonalPropertyTab.FIREARMS_TAB.getLabel(), AssetList.class);
-	}
-    public AssetList getSilverwareAssetList() {
-    	return getAssetList().getControl(HomeSSMetaData.PersonalPropertyTab.SILVERWARE_TAB.getLabel(), AssetList.class);
+	@Override
+	public Tab submitTab() {
+		buttonNext.click();
+		return this;
 	}
 }

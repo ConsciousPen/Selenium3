@@ -3,7 +3,6 @@
 package aaa.modules.policy.auto_ss;
 
 import org.testng.annotations.Test;
-
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -18,22 +17,21 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyNano extends AutoSSBaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.AutoSS")
-    public void testPolicyNano() {
-    	
-        mainApp().open();
-        
-        createCustomerIndividual();
-        
-		log.info("Nano Policy Creation Started...");
-		
-        TestData td = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData");
-		getPolicyType().get().createPolicy(td);
-        
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+	@Test
+	@TestInfo(component = "Policy.AutoSS")
+	public void testPolicyNano() {
 
-    }
-    
-    
+		mainApp().open();
+
+		createCustomerIndividual();
+
+		log.info("Nano Policy Creation Started...");
+
+		TestData td = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData");
+		getPolicyType().get().createPolicy(td);
+
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+	}
+
 }

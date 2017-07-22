@@ -5,7 +5,6 @@
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
 import org.openqa.selenium.By;
-
 import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -39,26 +38,26 @@ public class DriverTab extends Tab {
 		};
 	}
 
-    public void removeDriver(int index){
-   	 if (tblDriverList.isPresent() && tblDriverList.getRow(index).isPresent()){
-   		tblDriverList.getRow(index).getCell(5).controls.links.get("Remove").click(Waiters.AJAX);
-   		 Page.dialogConfirmation.confirm();
-   	 }
-   }
-   
-   public void viewDriver(int index){
-  	 if (tblDriverList.isPresent() && tblDriverList.getRow(index).isPresent()){
-  		tblDriverList.getRow(index).getCell(5).controls.links.get("View/Edit").click(Waiters.AJAX);
-  	 }
-  }
+	public AssetList getActivityInformationAssetList() {
+		return getAssetList().getControl(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), AssetList.class);
+	}
    
 	@Override
 	public Tab submitTab() {
 		buttonNext.click();
 		return this;
 	}
-	
-	public AssetList getActivityInformationAssetList() {
-    	return getAssetList().getControl(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), AssetList.class);
+
+	public void removeDriver(int index) {
+		if (tblDriverList.isPresent() && tblDriverList.getRow(index).isPresent()) {
+			tblDriverList.getRow(index).getCell(5).controls.links.get("Remove").click(Waiters.AJAX);
+			Page.dialogConfirmation.confirm();
+		}
+	}
+
+	public void viewDriver(int index) {
+		if (tblDriverList.isPresent() && tblDriverList.getRow(index).isPresent()) {
+			tblDriverList.getRow(index).getCell(5).controls.links.get("View/Edit").click(Waiters.AJAX);
+		}
 	}
 }

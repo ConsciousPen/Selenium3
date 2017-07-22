@@ -3,9 +3,7 @@
 package base.modules.policy.home_ss;
 
 import org.testng.annotations.Test;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
-
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSBaseTest;
@@ -39,8 +37,8 @@ public class TestPolicyEndorsementRollBack extends HomeSSBaseTest {
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
         log.info("MidTerm Endorsement for Policy #" + policyNumber);
-        policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData_Plus3Days")
-                .adjust(tdSpecific.getTestData("TestData").resolveLinks()));
+	    policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData_Plus3Days")
+			    .adjust(tdSpecific.getTestData("TestData").resolveLinks()));
 
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

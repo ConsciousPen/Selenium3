@@ -7,9 +7,9 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import aaa.common.enums.SearchEnum.SearchBy;
-import aaa.common.enums.SearchEnum.SearchFor;
+import aaa.common.enums.SearchEnum;
 import aaa.common.pages.SearchPage;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -34,81 +34,78 @@ import toolkit.verification.CustomAssert;
  * @details
  */
 public class TestPolicySpin extends AutoSSBaseTest {
-	
-    @Test
-    @TestInfo(component = "Policy.AutoSS")
-    public void testPolicySpin() {
-    	
-        mainApp().open();
-        
-        //0. Create customer and auto SS policy with 2NI/2Drivers/2Vehicles
-        
-        createCustomerIndividual();
-        
+
+	@Test
+	@TestInfo(component = "Policy.AutoSS")
+	public void testPolicySpin() {
+
+		mainApp().open();
+
+		//0. Create customer and auto SS policy with 2NI/2Drivers/2Vehicles
+
+		createCustomerIndividual();
+
 		log.info("Policy Creation Started...");
-		
-        TestData bigPolicy_td = getStateTestData(tdPolicy, "TestPolicyCreationBig", "TestData");
+
+		TestData bigPolicy_td = getStateTestData(tdPolicy, "TestPolicyCreationBig", "TestData");
 		getPolicyType().get().createPolicy(bigPolicy_td);
-		
+
 		//Read and store zip code from UI, will need it to fill values for spun quote
-		String zip_code  = PolicySummaryPage.tablePolicyVehicles.getRow(1).getCell("Garaging Zip").getValue();
-		
-        CustomAssert.enableSoftMode();
-        
+		String zip_code = PolicySummaryPage.tablePolicyVehicles.getRow(1).getCell("Garaging Zip").getValue();
+
+		CustomAssert.enableSoftMode();
+
 		//1. initiate spin action
 		policy.policySpin().perform(getStateTestData(tdPolicy, this.getClass().getSimpleName(), "SpinTestData"));
-		
 
 		//as a result on Spin action two items are created: 
 		//A) pended endorsement for current policy
 		//B) new quote with one driver and one vehicle which has been spun from current policy 
-		
+
 		//2. open activities section, check spin has been executed, store spun quote number 
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
 		String description = NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(1).getCell("Description").getValue();
 		CustomAssert.assertTrue("Checking spin action in activities", description.contains("has been spun to a new quote"));
-		String quoteNumber = description.substring(description.indexOf("Q"+getState()+"SS"));
-		
+		String quoteNumber = description.substring(description.indexOf("Q" + getState() + "SS"));
 
 		//A. Steps for checking pended endorsement for current policy
-        //3. Open pended endorsement, fill all mandatory fields to bind policy
-        PolicySummaryPage.buttonPendedEndorsement.click();
-        PolicySummaryPage.tableEndorsements.getRow(1).getCell(8).controls.buttons.getFirst().click();
+		//3. Open pended endorsement, fill all mandatory fields to bind policy
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		PolicySummaryPage.tableEndorsements.getRow(1).getCell(8).controls.buttons.getFirst().click();
 
-        policy.dataGather().getView().fill(getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_endorsement"));
-        
-        //4. Check policy is bind and now has 1NI/1Driver/1Vehicle
-        PolicySummaryPage.tablePolicyDrivers.verify.rowsCount(1);
-        PolicySummaryPage.tablePolicyVehicles.verify.rowsCount(1);
-        PolicySummaryPage.tableInsuredInformation.verify.rowsCount(1);
-        
-        //B. Steps to checking new quote which has been spun from initial policy
-        //5. Search spun quote
-        SearchPage.search(SearchFor.QUOTE, SearchBy.POLICY_QUOTE, quoteNumber);
-        //SearchPage.search(SearchFor.QUOTE, SearchBy.POLICY_QUOTE, "QUTSS927278692");
+		policy.dataGather().getView().fill(getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_endorsement"));
 
-        //modify zip code corresponding to state
-        TestData quoteTestData = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData");
-        
-        TestData namedInsured = quoteTestData.getTestData("GeneralTab").getTestDataList("NamedInsuredInformation").get(0)
-        		.adjust(TestData.makeKeyPath("Zip Code"), zip_code);
+		//4. Check policy is bind and now has 1NI/1Driver/1Vehicle
+		PolicySummaryPage.tablePolicyDrivers.verify.rowsCount(1);
+		PolicySummaryPage.tablePolicyVehicles.verify.rowsCount(1);
+		PolicySummaryPage.tableInsuredInformation.verify.rowsCount(1);
 
-        List<TestData> namedInsuredList = new ArrayList<>();
-        namedInsuredList.add(namedInsured);
-         
-        //6. Open quote for data gather and fill all mandatory fields required to bind and purchase
-        policy.dataGather().start();
-        policy.getDefaultView().fill(
-        		quoteTestData.adjust(TestData.makeKeyPath("GeneralTab", "NamedInsuredInformation"), namedInsuredList));
+		//B. Steps to checking new quote which has been spun from initial policy
+		//5. Search spun quote
+		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
+		//SearchPage.search(SearchFor.QUOTE, SearchBy.POLICY_QUOTE, "QUTSS927278692");
 
-        //7. Check policy is bind and now has 1NI/1Driver/1Vehicle
-        PolicySummaryPage.tablePolicyDrivers.verify.rowsCount(1);
-        PolicySummaryPage.tablePolicyVehicles.verify.rowsCount(1);
-        PolicySummaryPage.tableInsuredInformation.verify.rowsCount(1);
-        
-        CustomAssert.assertAll();
-    }
-    
-    
+		//modify zip code corresponding to state
+		TestData quoteTestData = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData");
+
+		TestData namedInsured = quoteTestData.getTestData("GeneralTab").getTestDataList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel()).get(0)
+				.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ZIP_CODE.getLabel()), zip_code);
+
+		List<TestData> namedInsuredList = new ArrayList<>();
+		namedInsuredList.add(namedInsured);
+
+		//6. Open quote for data gather and fill all mandatory fields required to bind and purchase
+		policy.dataGather().start();
+		policy.getDefaultView().fill(
+				quoteTestData.adjust(TestData.makeKeyPath("GeneralTab", AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel()), namedInsuredList));
+
+		//7. Check policy is bind and now has 1NI/1Driver/1Vehicle
+		PolicySummaryPage.tablePolicyDrivers.verify.rowsCount(1);
+		PolicySummaryPage.tablePolicyVehicles.verify.rowsCount(1);
+		PolicySummaryPage.tableInsuredInformation.verify.rowsCount(1);
+
+		CustomAssert.assertAll();
+	}
+
 }
 

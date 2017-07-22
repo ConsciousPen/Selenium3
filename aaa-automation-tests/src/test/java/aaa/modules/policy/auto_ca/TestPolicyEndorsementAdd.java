@@ -22,10 +22,11 @@ import toolkit.verification.CustomAssert;
 public class TestPolicyEndorsementAdd extends AutoCaBaseTest {
 
     @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @TestInfo(component = "Policy.AutoCA")
     public void testPolicyEndorsementAdd() {
         mainApp().open();
         
+        createCustomerIndividual();
         createPolicy();
 
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();

@@ -3133,6 +3133,7 @@ ReportsTab_VA: {
   AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
+  RiskMeterReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
   CLUEreport: [{Report: 'Order report'}]
 }
@@ -3182,8 +3183,7 @@ PreviousDwellingAddress_VA: {
   Street address 1: '112 Test street', 
   Validate Address: true,
   Validate Address Dialog: {
-    Street number: '112', 
-    Street Name: Test street
+    Previous Address: 'Override and use original address'
   }
 }
 
@@ -3193,8 +3193,7 @@ MailingAddress_VA: {
   Street address 1: '111 Test street', 
   Validate Address: true,
   Validate Address Dialog: {
-    Street number: '111', 
-    Street Name: Test street
+    Mailing Address: 'Override and use original address'
   }
 }
 
@@ -3468,8 +3467,7 @@ PreviousDwellingAddress_WY: {
   Street address 1: '112 Test street', 
   Validate Address: true,
   Validate Address Dialog: {
-    Street number: '112', 
-    Street Name: Test street
+    Previous Address: 'Override and use original address'
   }
 }
 
@@ -3479,8 +3477,7 @@ MailingAddress_WY: {
   Street address 1: '111 Test street', 
   Validate Address: true,
   Validate Address Dialog: {
-    Street number: '111', 
-    Street Name: Test street
+    Mailing Address: 'Override and use original address'
   }
 }
 

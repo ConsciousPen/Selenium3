@@ -14,6 +14,8 @@ import aaa.main.metadata.policy.AutoSSMetaData;
  * @category Generated
  */
 public class FormsTab extends Tab {
+	
+	//Tables and methods for work with Forms can be accessed with AutoFormsController objects
     public FormsTab() {
         super(AutoSSMetaData.FormsTab.class);
     }

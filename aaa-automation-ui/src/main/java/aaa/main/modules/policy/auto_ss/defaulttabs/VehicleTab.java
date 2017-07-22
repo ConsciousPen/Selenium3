@@ -5,7 +5,6 @@
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
 import org.openqa.selenium.By;
-
 import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -40,29 +39,30 @@ public class VehicleTab extends Tab {
 		};
 	}
 
+	public AssetList getOwnershipAssetList() {
+		return getAssetList().getControl(AutoSSMetaData.VehicleTab.OWNERSHIP.getLabel(), AssetList.class);
+	}
+
+	public AssetList getAdditionalInterestInfoAssetList() {
+		return getAssetList().getControl(AutoSSMetaData.VehicleTab.ADDITIONAL_INTEREST_INFORMATION.getLabel(), AssetList.class);
+	}
+
 	@Override
 	public Tab submitTab() {
 		buttonNext.click();
 		return this;
 	}
-	
-    public void removeVehicle(int index){
+
+	public void removeVehicle(int index){
    	 if (tblVehicleList.isPresent() && tblVehicleList.getRow(index).isPresent()){
    		tblVehicleList.getRow(index).getCell(5).controls.links.get("Remove").click(Waiters.AJAX);
    		 Page.dialogConfirmation.confirm();
    	 }
 	}
-    
-    public void viewVehicle(int index){
-     	 if (tblVehicleList.isPresent() && tblVehicleList.getRow(index).isPresent()){
-     		tblVehicleList.getRow(index).getCell(5).controls.links.get("View/Edit").click(Waiters.AJAX);
-     	 }
-     }
-    
-    public AssetList getOwnershipAssetList() {
-    	return getAssetList().getControl(AutoSSMetaData.VehicleTab.OWNERSHIP.getLabel(), AssetList.class);
-	}
-    public AssetList getAdditionalInterestInfoAssetList() {
-    	return getAssetList().getControl(AutoSSMetaData.VehicleTab.ADDITIONAL_INTEREST_INFORMATION.getLabel(), AssetList.class);
+
+	public void viewVehicle(int index) {
+		if (tblVehicleList.isPresent() && tblVehicleList.getRow(index).isPresent()) {
+			tblVehicleList.getRow(index).getCell(5).controls.links.get("View/Edit").click(Waiters.AJAX);
+		}
 	}
 }

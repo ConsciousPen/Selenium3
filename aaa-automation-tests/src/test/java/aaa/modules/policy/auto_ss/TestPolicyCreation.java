@@ -27,6 +27,7 @@ public class TestPolicyCreation extends AutoSSBaseTest {
     	
         mainApp().open();
 
+        createCustomerIndividual();
         createPolicy();
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

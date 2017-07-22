@@ -1,0 +1,66 @@
+TestData: {
+  GeneralTab: '@DataGather@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@DataGather@ReportsTab',
+  PropertyInfoTab: '@DataGather@PropertyInfoTab',
+  ProductOfferingTab: '@DataGather@ProductOfferingTab',
+  EndorsementTab: '@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@DataGather@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DataGather@DocumentsTab',
+  BindTab: '@DataGather@BindTab',
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+ApplicantTab: {
+  NamedInsured: '@DataGather@NamedInsured',
+  AAAMembership: '@DataGather@AAAMembership',
+  DwellingAddress: '@DataGather@DwellingAddress',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@DataGather@NamedInsuredInformation',
+  AgentInfo: '@DataGather@AgentInfo',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+}
+
+OtherActiveAAAPolicies: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual'
+}
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual:  {
+  Policy type: Auto,
+  "Companion Auto Pending with Discount?": 'No',
+  Auto policy state: UT, 
+  Policy number: '345345345',
+  Effective date: '/today:MM/dd/yyyy',
+  Policy tier: '/first',
+  Auto policy BI limit: '/first',
+  Auto Insurance Persistency: '21'
+}
+
+# --------- TestData for endorsement 
+TestData_Endorsement: {
+  ApplicantTab: '@ApplicantTab_Endorsement'
+}
+
+ApplicantTab_Endorsement: {
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_Endorsement'
+}
+
+OtherActiveAAAPolicies_Endorsement: {
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_Pup'
+}
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_Pup:  {
+  Policy type: PUP,
+  "Companion PUP/DP3 Pending with Discount?": 'No',
+  Policy number: '123456789',
+  Effective date: '/today+2d:MM/dd/yyyy',
+}
+

@@ -5,14 +5,13 @@
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
 import org.openqa.selenium.By;
-
+import aaa.common.Tab;
+import aaa.common.pages.Page;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
-import aaa.common.Tab;
-import aaa.common.pages.Page;
-import aaa.main.metadata.policy.AutoSSMetaData;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -28,39 +27,43 @@ public class GeneralTab extends Tab {
         super(AutoSSMetaData.GeneralTab.class);
     }
 
-    @Override
-    public Tab submitTab() {
-        buttonNext.click();
-        return this;
-    }
-    
-    public void removeInsured(int index){
-    	 if (tblInsuredList.isPresent() && tblInsuredList.getRow(index).isPresent()){
-    		 tblInsuredList.getRow(index).getCell(4).controls.links.get("Remove").click(Waiters.AJAX);
-    		 Page.dialogConfirmation.confirm();
-    	 }
-    }
-    
-    public void viewInsured(int index){
-   	 if (tblInsuredList.isPresent() && tblInsuredList.getRow(index).isPresent()){
-   		 tblInsuredList.getRow(index).getCell(4).controls.links.get("View/Edit").click(Waiters.AJAX);
-   	 }
-   }
-    
-    public MultiAssetList getNamedInsuredInfoAssetList() {
-    	return getAssetList().getControl(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), MultiAssetList.class);
+	public MultiAssetList getNamedInsuredInfoAssetList() {
+		return getAssetList().getControl(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), MultiAssetList.class);
 	}
-    public AssetList getValidateAddressDialogAssetList() {
+
+	public AssetList getValidateAddressDialogAssetList() {
     	return getAssetList().getControl(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class)
     			.getControl(AutoSSMetaData.GeneralTab.NamedInsuredInformation.VALIDATE_ADDRESS_DIALOG.getLabel(), AssetList.class);
 	}
-    public AssetList getAAAProductOwnedAssetList() {
+
+	public AssetList getAAAProductOwnedAssetList() {
     	return getAssetList().getControl(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AssetList.class);
 	}
-    public AssetList getCurrentCarrierInfoAssetList() {
+
+	public AssetList getCurrentCarrierInfoAssetList() {
     	return getAssetList().getControl(AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), AssetList.class);
 	}
+
     public AssetList getPolicyInfoAssetList() {
     	return getAssetList().getControl(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AssetList.class);
+	}
+
+	@Override
+	public Tab submitTab() {
+		buttonNext.click();
+		return this;
+	}
+
+	public void removeInsured(int index) {
+		if (tblInsuredList.isPresent() && tblInsuredList.getRow(index).isPresent()) {
+			tblInsuredList.getRow(index).getCell(4).controls.links.get("Remove").click(Waiters.AJAX);
+			Page.dialogConfirmation.confirm();
+		}
+	}
+
+	public void viewInsured(int index) {
+		if (tblInsuredList.isPresent() && tblInsuredList.getRow(index).isPresent()) {
+			tblInsuredList.getRow(index).getCell(4).controls.links.get("View/Edit").click(Waiters.AJAX);
+		}
 	}
 }

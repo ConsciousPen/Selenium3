@@ -3,7 +3,6 @@
 package base.modules.policy.home_ss;
 
 import org.testng.annotations.Test;
-
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSBaseTest;
@@ -25,7 +24,7 @@ public class TestQuoteCreation extends HomeSSBaseTest {
     public void testQuoteCreation() {
         mainApp().open();
 
-        createQuote();
+	    createQuote();
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
     }

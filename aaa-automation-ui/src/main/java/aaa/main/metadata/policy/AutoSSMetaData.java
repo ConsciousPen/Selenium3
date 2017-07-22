@@ -3,9 +3,11 @@
 package aaa.main.metadata.policy;
 
 import org.openqa.selenium.By;
+
 import com.exigen.ipb.etcsa.controls.PartySearchTextBox;
 import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
+
 import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.ComboBoxFixed;
 import aaa.toolkit.webdriver.customcontrols.FillableTable;
@@ -14,6 +16,7 @@ import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
+import aaa.toolkit.webdriver.customcontrols.endorsements.AutoSSForms;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.ComboBox;
@@ -48,13 +51,14 @@ public final class AutoSSMetaData {
 		public static final AttributeDescriptor STATE_PROVINCE = declare("State / Province", ComboBox.class);
 		public static final AttributeDescriptor DATE_OF_BIRTH = declare("Date of Birth", TextBox.class);
 		public static final AttributeDescriptor POLICY_STATE = declare("Policy State", ComboBox.class);
-		public static final AttributeDescriptor VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateAddressButton"));
+		public static final AttributeDescriptor VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX.then(Waiters.SLEEP(2000)), false, By.id("policyDataGatherForm:validateAddressButton"));
 		public static final AttributeDescriptor VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class, By.id(".//*[@id='addressValidationPopupAAAPrefillAddressValidation_container']"));
 		public static final AttributeDescriptor ORDER_PREFILL = declare("Order Prefill", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:orderPrefillButton"));
 	}
 
 	public static final class GeneralTab extends MetaData {
 		public static final AttributeDescriptor AAA_PRODUCT_OWNED = declare("AAAProductOwned", AssetList.class, AAAProductOwned.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_ExistingPolicies']"));
+		public static final AttributeDescriptor CONTACT_INFORMATION = declare("ContactInformation", AssetList.class, ContactInformation.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAContactInformationMVO']"));
 		public static final AttributeDescriptor CURRENT_CARRIER_INFORMATION = declare("CurrentCarrierInformation", AssetList.class, CurrentCarrierInformation.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_OtherOrPriorPolicy']"));
 		public static final AttributeDescriptor POLICY_INFORMATION = declare("PolicyInformation", AssetList.class, PolicyInformation.class);// ,
 
@@ -63,7 +67,7 @@ public final class AutoSSMetaData {
 
 		// By.xpath(".//div[@id='policyDataGatherForm:componentView_ExistingPolicies']"));
 		public static final class NamedInsuredInformation extends MetaData {
-			public static final AttributeDescriptor ADD_INSURED = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addInsured"));
+			public static final AttributeDescriptor ADD_INSURED = declare("Add", Button.class, Waiters.AJAX.then(Waiters.AJAX), false, By.id("policyDataGatherForm:addInsured"));
 			public static final AttributeDescriptor INSURED_SEARCH_DIALOG = declare("InsuredSearchDialog", SingleSelectSearchDialog.class, DialogsMetaData.DialogSearch.class, false, By.id("customerSearchPanel_container"));
 			public static final AttributeDescriptor PREFIX = declare("Prefix", ComboBox.class);
 			public static final AttributeDescriptor FIRST_NAME = declare("First Name", TextBox.class);
@@ -96,11 +100,6 @@ public final class AutoSSMetaData {
 			public static final AttributeDescriptor MAILING_CITY = declare("Mailing City", TextBox.class, By.id("policyDataGatherForm:insuredInformation_secondaryAddress_address_city"));
 			public static final AttributeDescriptor MAILING_STATE = declare("Mailing State", ComboBox.class, By.id("policyDataGatherForm:insuredInformation_secondaryAddress_address_stateProvCd"));
 
-			public static final AttributeDescriptor HOME_PHONE_NUMBER = declare("Home Phone Number", TextBox.class);
-			public static final AttributeDescriptor WORK_PHONE_NUMBER = declare("Work Phone Number", TextBox.class);
-			public static final AttributeDescriptor MOBILE_PHONE_NUMBER = declare("Mobile Phone Number", TextBox.class);
-			public static final AttributeDescriptor PREFERED_PHONE_NUMBER = declare("Preferred Phone #", ComboBox.class);
-			public static final AttributeDescriptor EMAIL = declare("Email", TextBox.class);
 			public static final AttributeDescriptor RESIDENCE = declare("Residence", ComboBox.class);
 			public static final AttributeDescriptor VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateAddressButton"));
 			public static final AttributeDescriptor VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, AddressValidation.class, By.id(".//*[@id='addressValidationPopupAAAInsuredAddressValidation_container']"));
@@ -123,6 +122,14 @@ public final class AutoSSMetaData {
 			}
 		}
 
+		public static final class ContactInformation extends MetaData {
+			public static final AttributeDescriptor HOME_PHONE_NUMBER = declare("Home Phone Number", TextBox.class, Waiters.AJAX);
+			public static final AttributeDescriptor WORK_PHONE_NUMBER = declare("Work Phone Number", TextBox.class);
+			public static final AttributeDescriptor MOBILE_PHONE_NUMBER = declare("Mobile Phone Number", TextBox.class);
+			public static final AttributeDescriptor PREFERED_PHONE_NUMBER = declare("Preferred Phone #", ComboBox.class);
+			public static final AttributeDescriptor EMAIL = declare("Email", TextBox.class, Waiters.AJAX);
+		}
+		
 		public static final class AAAProductOwned extends MetaData {
 			public static final AttributeDescriptor CURRENT_AAA_MEMBER = declare("Current AAA Member", ComboBox.class);
 			public static final AttributeDescriptor MEMBERSHIP_NUMBER = declare("Membership Number", TextBox.class);
@@ -343,6 +350,37 @@ public final class AutoSSMetaData {
 	}
 
 	public static final class FormsTab extends MetaData {
+		public static final AttributeDescriptor POLICY_FORMS = declare("Policy Forms", AutoSSForms.AutoSSPolicyFormsController.class, PolicyForms.class);
+		public static final AttributeDescriptor VEHICLE_FORMS = declare("Vehicle Forms", AutoSSForms.AutoSSVehicleFormsController.class, VehicleForms.class);
+		public static final AttributeDescriptor DRIVER_FORMS = declare("Driver Forms", AutoSSForms.AutoSSDriverFormsController.class, DriverForms.class);
+
+		public static final class PolicyForms extends MetaData {
+			// formAssetLocator =
+			// By.id("addComponentPopup_PolicyEndorsementFormsManager_container");
+		}
+
+		public static final class VehicleForms extends MetaData {
+			public static final AttributeDescriptor AALP = declare("AALP", AssetList.class, CommonFormMeta.class, false, By.id("addComponentPopup_VehicleEndorsementFormsManager_container"));
+			public static final AttributeDescriptor AA09 = declare("AA09", AssetList.class, CommonFormMeta.class, false, By.id("addComponentPopup_VehicleEndorsementFormsManager_container"));
+		}
+
+		public static final class DriverForms extends MetaData {
+			public static final AttributeDescriptor ADBE = declare("ADBE", AssetList.class, CommonFormMeta.class, false, By.id("addComponentPopup_DriverEndorsementFormsManager_container"));
+			public static final AttributeDescriptor SR22 = declare("SR22", AssetList.class, SR22FormMeta.class, false, By.id("addComponentPopup_DriverEndorsementFormsManager_container"));
+		}
+
+		public static final class CommonFormMeta extends MetaData {
+			public static final AttributeDescriptor FORM_CODE = declare("Form Code", TextBox.class);
+			public static final AttributeDescriptor FORM_DESCRIPTION = declare("Form Description", TextBox.class);
+		}
+
+		public static final class SR22FormMeta extends MetaData {
+			public static final AttributeDescriptor FINANCIAL_RESPONSIBILITY_TYPE = declare("Financial Responsibility Type", TextBox.class);
+			public static final AttributeDescriptor FILLING_DATE = declare("Filing Date", TextBox.class);
+			public static final AttributeDescriptor CASE_NUMBER = declare("Case Number", TextBox.class);
+			public static final AttributeDescriptor STATE = declare("State", ComboBox.class);
+			public static final AttributeDescriptor EXPIRATION_DATE = declare("Expiration Date", TextBox.class);
+		}
 	}
 
 	public static final class AssignmentTab extends MetaData {
@@ -646,8 +684,9 @@ public final class AutoSSMetaData {
 	}
 
 	public static final class CancellationActionTab extends MetaData {
-		public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancellation effective date", TextBox.class, Waiters.AJAX);
-		public static final AttributeDescriptor CANCELLATION_REASON = declare("Cancellation reason", ComboBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancel Date", TextBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor CANCELLATION_REASON = declare("Cancellation Reason", ComboBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor AUTHORIZED_BY = declare("Authorized By", TextBox.class, Waiters.AJAX);
 		public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class);
 	}
 
@@ -708,6 +747,7 @@ public final class AutoSSMetaData {
 	public static final class ReinstatementActionTab extends MetaData {
 		public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancellation Effective Date", TextBox.class, Waiters.NONE);
 		public static final AttributeDescriptor REINSTATE_DATE = declare("Reinstate Date", TextBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor AUTHORIZED_BY = declare("Authorized By", TextBox.class, Waiters.AJAX);
 	}
 
 	public static final class RewriteActionTab extends MetaData {
@@ -717,10 +757,10 @@ public final class AutoSSMetaData {
 
 	public static final class BindActionTab extends MetaData {
 	}
-	
+
 	public static final class UpdateRulesOverrideActionTab extends MetaData {
-		public static final AttributeDescriptor UPDATE_RULES_OVERRIDE = declare("UpdateRulesOverride", FillableTable.class, RuleRow.class, By.id("errorsForm:msgList']"));
-		
+		public static final AttributeDescriptor UPDATE_RULES_OVERRIDE = declare("UpdateRulesOverride", FillableTable.class, RuleRow.class, By.id("errorsForm:msgList"));
+
 		public static final class RuleRow extends MetaData {
 			public static final AttributeDescriptor UPDATE = declare("Update All", CheckBox.class);
 			public static final AttributeDescriptor AUTHORIZE = declare("Authorize/Delete All", CheckBox.class);
@@ -728,13 +768,13 @@ public final class AutoSSMetaData {
 			public static final AttributeDescriptor DURATION = declare("Duration", RadioGroup.class);
 			public static final AttributeDescriptor REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class);
 			public static final AttributeDescriptor RULE_NAME = declare("Rule name", StaticElement.class);
-			public static final AttributeDescriptor MESSAGE = declare("Message", StaticElement.class);	
+			public static final AttributeDescriptor MESSAGE = declare("Message", StaticElement.class);
 		}
 	}
-	
+
 	public static final class ErrorTab extends MetaData {
-		public static final AttributeDescriptor ERROR_OVERRIDE = declare("ErrorsOverride", FillableTable.class, RuleRow.class, By.id("errorsForm:msgList']"));
-		
+		public static final AttributeDescriptor ERROR_OVERRIDE = declare("ErrorsOverride", FillableTable.class, RuleRow.class, By.id("errorsForm:msgList"));
+
 		public static final class RuleRow extends MetaData {
 			public static final AttributeDescriptor OVERRIDE = declare("Override", CheckBox.class);
 			public static final AttributeDescriptor APPROVAL = declare("Approval", CheckBox.class);
@@ -742,7 +782,7 @@ public final class AutoSSMetaData {
 			public static final AttributeDescriptor SEVERITY = declare("Severity", StaticElement.class);
 			public static final AttributeDescriptor MESSAGE = declare("Message", StaticElement.class);
 			public static final AttributeDescriptor DURATION = declare("Duration", RadioGroup.class);
-			public static final AttributeDescriptor REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class);	
+			public static final AttributeDescriptor REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class);
 		}
 	}
 	

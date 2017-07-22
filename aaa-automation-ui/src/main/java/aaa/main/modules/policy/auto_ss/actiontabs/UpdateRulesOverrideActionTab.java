@@ -5,10 +5,10 @@
 package aaa.main.modules.policy.auto_ss.actiontabs;
 
 import org.openqa.selenium.By;
-
-import toolkit.webdriver.controls.Button;
 import aaa.common.ActionTab;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.table.Table;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -17,16 +17,17 @@ import aaa.main.metadata.policy.AutoSSMetaData;
  * @category Generated
  */
 public class UpdateRulesOverrideActionTab extends ActionTab {
-	
-	public Button btnUpdateOverride = new Button(By.id("errorsForm:updateOverrideRules"));
-	
-    public UpdateRulesOverrideActionTab() {
-        super(AutoSSMetaData.UpdateRulesOverrideActionTab.class);
-    }
-    
+
+	public static Table tblRulesList = new Table(By.id("errorsForm:msgList"));
+	public static Button btnUpdateOverride = new Button(By.id("errorsForm:updateOverrideRules"));
+	public static Button btnCancel = new Button(By.id("errorsForm:cancel"));
+
+	public UpdateRulesOverrideActionTab() {
+		super(AutoSSMetaData.UpdateRulesOverrideActionTab.class);
+	}
+
 	public void updateOverride() {
 		btnUpdateOverride.click();
 	}
-	
-	
+
 }

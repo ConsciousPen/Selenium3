@@ -3,7 +3,6 @@
 package base.modules.policy.home_ss;
 
 import org.testng.annotations.Test;
-
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSBaseTest;
 import toolkit.datax.impl.SimpleDataProvider;

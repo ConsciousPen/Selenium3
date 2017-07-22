@@ -97,7 +97,6 @@ PurchaseTab: {
  PaymentAllocation: {
   Cash: /rest
  },
- #PaymentMethods: ['@billing@PaymentMethods@CC_Visa','@billing@PaymentMethods@CC_MasterCard']
 }
 
 # ApplicantTab
@@ -862,7 +861,7 @@ UnderwritingAndApprovalTab_KY: {
 TestData_MD: {
   GeneralTab: '@GeneralTab_MD',
   ApplicantTab: '@ApplicantTab_MD',
-  ReportsTab: '@ReportsTab',
+  ReportsTab: '@ReportsTab_MD',
   PropertyInfoTab: '@PropertyInfoTab',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
@@ -903,6 +902,16 @@ DwellingAddress_MD: {
   Validate Address: true,
   Validate Address Dialog: {}
 } 
+
+ReportsTab_MD: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  #InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  RiskMeterReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
 
 UnderwritingAndApprovalTab_MD: {
   "Applicant(s), who have been cancelled, refused insurance or non-renewed in the past 3 years are ineligible if based on any of the following reasons: Fraud or Material Misrepresentation, Substantial Increase in Hazard, or Claims.": "No",
@@ -1587,6 +1596,7 @@ ReportsTab_VA: {
   AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
+  RiskMeterReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
   CLUEreport: [{Report: 'Order report'}]
 }

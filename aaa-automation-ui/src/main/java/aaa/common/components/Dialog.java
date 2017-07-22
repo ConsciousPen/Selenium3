@@ -3,7 +3,6 @@
 package aaa.common.components;
 
 import org.openqa.selenium.By;
-
 import aaa.common.metadata.SearchMetaData;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
@@ -13,19 +12,16 @@ import toolkit.webdriver.controls.composite.assets.AssetList;
 
 public class Dialog {
 
-    private String locator;
-
     public Button buttonYes;
     public Button buttonNo;
     public Button buttonOk;
     public Button buttonCancel;
     public Button buttonNext;
     public Button buttonProceed;
-
     public StaticElement labelHeader;
     public StaticElement labelMessage;
-
     public Controls controls;
+	private String locator;
 
     public Dialog(String dialogLocator) {
         locator = dialogLocator;
@@ -43,19 +39,6 @@ public class Dialog {
                 + "//*[contains(@id, 'Message') or contains(@class, 'textBold') or contains(@class, 'message')]"));
     }
 
-    public void confirm() {
-        new Button(By.xpath(locator + "//*[text()='Yes' or text()='YES' or text()='Ok' or text()='OK'  or text()='Confirm' or text()='Proceed' or text()='PROCEED' "
-                + "or @value='Yes' or @value='YES' or @value='Ok' or @value='OK' or @value='Proceed' or @value='PROCEED']")).click();
-    }
-
-    public void reject() {
-        new Button(By.xpath(locator + "//*[@value='Cancel' or @value='CANCEL' or @value='No' or @value='NO' or text()='Cancel' or text()='CANCEL' or text()='No' or text()='NO']")).click();
-    }
-
-    public void fillAssetList(TestData testData, String nameOfAssetTypeRange) {
-        new AssetList(By.xpath(locator), SearchMetaData.DialogSearch.class).setValue(testData.getTestData(nameOfAssetTypeRange));
-    }
-
     public boolean isPresent() {
         return new StaticElement(By.xpath(locator)).isPresent();
     }
@@ -67,4 +50,17 @@ public class Dialog {
     public String getLocator() {
         return locator;
     }
+
+	public void confirm() {
+		new Button(By.xpath(locator + "//*[text()='Yes' or text()='YES' or text()='Ok' or text()='OK' or text()='Confirm' or text()='Proceed' or text()='PROCEED' "
+				+ "or @value='Yes' or @value='YES' or @value='Ok' or @value='OK' or @value='Confirm' or @value='CONFIRM' or @value='Proceed' or @value='PROCEED']")).click();
+	}
+
+	public void reject() {
+		new Button(By.xpath(locator + "//*[@value='Cancel' or @value='CANCEL' or @value='No' or @value='NO' or text()='Cancel' or text()='CANCEL' or text()='No' or text()='NO']")).click();
+	}
+
+	public void fillAssetList(TestData testData, String nameOfAssetTypeRange) {
+		new AssetList(By.xpath(locator), SearchMetaData.DialogSearch.class).setValue(testData.getTestData(nameOfAssetTypeRange));
+	}
 }

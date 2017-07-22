@@ -65,13 +65,13 @@ TestData: {
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
   PolicyInformation: '@PolicyInformation'
 }
 
 NamedInsuredInformation: {
   Zip Code: 86012,
   Address Line 1: test,
-  Home Phone Number: 1234567890,
   Residence: Own Home,
   Validate Address: click,
   Validate Address Dialog: {}
@@ -80,6 +80,10 @@ NamedInsuredInformation: {
 AAAProductOwned: {
   Membership Number: 4290020029946000,
   Last name: Test,
+}
+
+ContactInformation: {
+   Home Phone Number: 1234567890
 }
 
 PolicyInformation: {

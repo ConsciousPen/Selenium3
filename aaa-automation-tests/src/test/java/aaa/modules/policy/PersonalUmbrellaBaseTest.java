@@ -34,7 +34,7 @@ public class PersonalUmbrellaBaseTest extends PolicyBaseTest {
 		// EntitiesHolder.addNewEntiry(EntitiesHolder.makeDefaultHo3PolicyKey(PersonalLinesType.HOME_SS,
 		// getState()), "AZH3927277286");
 		Map<String, String> returnValue = new LinkedHashMap<String, String>();
-		String state = getState();
+		String state = getState().intern();
 		synchronized (state) {
 			PolicyType type;
 			PolicyType typeAuto = null;
@@ -47,22 +47,24 @@ public class PersonalUmbrellaBaseTest extends PolicyBaseTest {
 			if (EntitiesHolder.isEntityPresent(key))
 				returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
 			else {
+				createCustomerIndividual();
 				type.get().createPolicy(getStateTestData(testDataManager.policy.get(type), "DataGather", "TestData"));
 				EntitiesHolder.addNewEntity(key, PolicySummaryPage.labelPolicyNumber.getValue());
 				returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
 			}
-			
-			if(typeAuto != null){
+
+			if (typeAuto != null) {
 				String keyAuto = EntitiesHolder.makeDefaultPolicyKey(typeAuto, state);
 				if (EntitiesHolder.isEntityPresent(keyAuto))
 					returnValue.put("Primary_Auto", EntitiesHolder.getEntity(keyAuto));
 				else {
+					createCustomerIndividual();
 					typeAuto.get().createPolicy(getStateTestData(testDataManager.policy.get(typeAuto), "DataGather", "TestData"));
 					EntitiesHolder.addNewEntity(keyAuto, PolicySummaryPage.labelPolicyNumber.getValue());
 					returnValue.put("Primary_Auto", EntitiesHolder.getEntity(keyAuto));
 				}
 			}
-				return returnValue;
+			return returnValue;
 		}
 	}
 
@@ -82,9 +84,9 @@ public class PersonalUmbrellaBaseTest extends PolicyBaseTest {
 	@Override
 	protected String createPolicy(TestData td) {
 		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
-		createCustomerIndividual();
 		td = adjustWithRealPolicies(td, getPrimaryPolicies());
 		log.info("Policy Creation Started...");
+		createCustomerIndividual();
 		getPolicyType().get().createPolicy(td);
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		EntitiesHolder.addNewEntity(EntitiesHolder.makePolicyKey(getPolicyType(), getState()), policyNumber);
