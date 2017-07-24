@@ -1,4 +1,4 @@
-package aaa.modules.policy.home_ss_ho3;
+package aaa.modules.policy.auto_ss;
 
 import org.testng.annotations.Test;
 
@@ -9,7 +9,7 @@ public class TestQuoteManualTask extends QuoteManualTask {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO3;
+		return PolicyType.AUTO_SS;
 	}
 	
 	@Test

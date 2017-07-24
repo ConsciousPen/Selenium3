@@ -1,4 +1,4 @@
-package aaa.modules.policy.home_ss_ho3;
+package aaa.modules.policy.home_ca_ho3;
 
 import org.testng.annotations.Test;
 
@@ -9,7 +9,7 @@ public class TestQuoteManualTask extends QuoteManualTask {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO3;
+		return PolicyType.HOME_CA_HO3;
 	}
 	
 	@Test

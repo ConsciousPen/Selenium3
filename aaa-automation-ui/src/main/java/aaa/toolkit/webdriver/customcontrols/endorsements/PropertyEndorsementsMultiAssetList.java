@@ -22,17 +22,17 @@ import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
  * <b>Example of Test Data:</b></br>
  * <pre>
  * 'HS 24 64': [{
- Make or Model: 'Model1',
- Serial or Motor number: 'FR424'
- }, {
- Action: 'Edit',
- Instance Number: 1,
- Make or Model: 'Model2',
- Serial or Motor number: 'JG533'
- }, {
- Action: 'Remove',
- Instance Number: 1,
- }]
+ *      Make or Model: 'Model1',
+ *      Serial or Motor number: 'FR424'
+ *    }, {
+ *      Action: 'Edit',
+ *      Instance Number: 1,
+ *      Make or Model: 'Model2',
+ *      Serial or Motor number: 'JG533'
+ *    }, {
+ *      Action: 'Remove',
+ *      Instance Number: 1,
+ *  }]
  * </pre>
  */
 public abstract class PropertyEndorsementsMultiAssetList extends AbstractContainer<List<TestData>, List<TestData>> {

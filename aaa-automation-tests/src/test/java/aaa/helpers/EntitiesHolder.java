@@ -27,7 +27,7 @@ public class EntitiesHolder {
 		String customerTypeStr = customerType == null ? "" : customerType.getName();
 		String stateStr = state == null ? "" : state;
 
-		return String.format(pattern, customerTypeStr, stateStr);
+		return String.format(pattern, customerTypeStr, stateStr).intern();
 	}
 
 	public static String makePolicyKey(PolicyType policyType, String state) {
@@ -35,7 +35,7 @@ public class EntitiesHolder {
 		String policyTypeStr = policyType == null ? "" : policyType.getShortName();
 		String stateStr = state == null ? "" : state;
 
-		return String.format(pattern, policyTypeStr, stateStr);
+		return String.format(pattern, policyTypeStr, stateStr).intern();
 	}
 	
 	public static String makeDefaultPolicyKey(PolicyType policyType, String state) {
@@ -43,17 +43,9 @@ public class EntitiesHolder {
 		String policyTypeStr = policyType == null ? "" : policyType.getShortName();
 		String stateStr = state == null ? "" : state;
 
-		return String.format(pattern, policyTypeStr, stateStr);
+		return String.format(pattern, policyTypeStr, stateStr).intern();
 	}
 	
-	public static String makeDefaultQuoteKey(PolicyType policyType, String state) {
-		String pattern = "%s_quote_default_%s";
-		String policyTypeStr = policyType == null ? "" : policyType.getShortName();
-		String stateStr = state == null ? "" : state;
-
-		return String.format(pattern, policyTypeStr, stateStr);
-	}
-
 	public static void addNewEntity(String key, String value) {
 		singleEntities.put(key, value);
 	}
