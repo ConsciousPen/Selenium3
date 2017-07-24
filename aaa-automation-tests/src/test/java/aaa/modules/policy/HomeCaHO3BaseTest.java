@@ -5,15 +5,15 @@ package aaa.modules.policy;
 import aaa.common.Constants;
 import aaa.main.modules.policy.PolicyType;
 
-public class HomeCaBaseTest extends PolicyBaseTest {
+public class HomeCaHO3BaseTest extends PolicyBaseTest {
 
-	public HomeCaBaseTest() {
+	public HomeCaHO3BaseTest() {
 		setState(Constants.States.CA.get());
 	}
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_CA;
+		return PolicyType.HOME_CA_HO3;
 	}
 
 }

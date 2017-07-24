@@ -1,11 +1,11 @@
-package aaa.modules.policy.auto_ca;
+package aaa.modules.policy.auto_ca_select;
 
 import org.testng.annotations.Test;
 
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaBaseTest;
+import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -20,7 +20,7 @@ import toolkit.utils.TestInfo;
  * @details
  */
 
-public class TestPolicyFuturedated extends AutoCaBaseTest {
+public class TestPolicyFuturedated extends AutoCaSelectBaseTest {
 	@Test
 	@TestInfo(component = "Policy.AutoCA")
 	public void testpolicyfuturedate() {
