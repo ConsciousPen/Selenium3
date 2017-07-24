@@ -28,15 +28,11 @@ TestDataForBindRewrittenPolicy: {
      Validate Driving History: click
   },
   DocumentsAndBindTab: {
-  RequiredToBind: {
-    California Car Policy Application: Physically Signed,
-    Subscriber Agreement: Physically Signed
+    RequiredToBind: {
+      Personal Auto Application: Physically Signed,
+      Deleting Uninsured Motorist Property Damage Coverage: Physically Signed
+    },
   },
-  RequiredToIssue: {
-    Policy Application: 'Yes',
-    Auto Billing Plan Explanation: 'Yes'
-  }
- },
   PurchaseTab: {
   PaymentAllocation: {
     Cash: /rest
