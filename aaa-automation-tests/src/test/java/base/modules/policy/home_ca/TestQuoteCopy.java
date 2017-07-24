@@ -9,7 +9,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeCaBaseTest;
+import aaa.modules.policy.HomeCaHO3BaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
@@ -24,7 +24,7 @@ import toolkit.verification.CustomAssert;
  * 5. Verify quote status is 'Data Gathering'
  * @details
  */
-public class TestQuoteCopy extends HomeCaBaseTest {
+public class TestQuoteCopy extends HomeCaHO3BaseTest {
 
     @Test(groups = "6.2.2_Benefits-Base_CreateMasterQuote")
     @TestInfo(component = "Policy.PersonalLines")

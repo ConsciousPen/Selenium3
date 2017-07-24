@@ -3,7 +3,7 @@ package aaa.modules.policy.home_ss_ho3;
 import org.testng.annotations.Test;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
@@ -24,7 +24,7 @@ import toolkit.verification.CustomAssert;
  * 12. Verify new Policy number is different from cancelled policy number
  * @details
  */
-public class TestPolicyCancellationFlatRewrite extends HomeSSBaseTest {
+public class TestPolicyCancellationFlatRewrite extends HomeSSHO3BaseTest {
 
 	@Test
 	@TestInfo(component = "Policy.PersonalLines")

@@ -2,7 +2,7 @@ package aaa.modules.policy.home_ca_ho3;
 
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeCaBaseTest;
+import aaa.modules.policy.HomeCaHO3BaseTest;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
@@ -16,7 +16,7 @@ import toolkit.utils.TestInfo;
  * 4. Copy Quote
  * 5. Verify that status of the copied Quote is "Gathering Info"
  */
-public class TestCreateAndCopyQuote extends HomeCaBaseTest {
+public class TestCreateAndCopyQuote extends HomeCaHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

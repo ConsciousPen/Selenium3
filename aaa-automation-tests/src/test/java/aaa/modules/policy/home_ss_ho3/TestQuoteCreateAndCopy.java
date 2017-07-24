@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.home_ss.HomeSSPolicyActions;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -24,7 +24,7 @@ import toolkit.utils.TestInfo;
  * 10. Verify that policy is created and in Active status.
  * @details
  */
-public class TestQuoteCreateAndCopy extends HomeSSBaseTest {
+public class TestQuoteCreateAndCopy extends HomeSSHO3BaseTest {
 	
 	@Test
     @TestInfo(component = "Quote.HomeSS")

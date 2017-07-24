@@ -5,7 +5,7 @@ package base.modules.policy.home_ca;
 import org.testng.annotations.Test;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeCaBaseTest;
+import aaa.modules.policy.HomeCaHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -18,7 +18,7 @@ import toolkit.utils.TestInfo;
  * 4. Verify Policy status is "Policy Cancelled"
  * @details
  */
-public class TestPolicyCancellationMidTerm extends HomeCaBaseTest {
+public class TestPolicyCancellationMidTerm extends HomeCaHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

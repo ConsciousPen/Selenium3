@@ -10,7 +10,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.auto_ca.actiontabs.CopyQuoteActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaBaseTest;
+import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
@@ -25,7 +25,7 @@ import toolkit.verification.CustomAssert;
  * 5. Verify quote status is 'Data Gathering'
  * @details
  */
-public class TestQuoteCopy extends AutoCaBaseTest {
+public class TestQuoteCopy extends AutoCaSelectBaseTest {
 
     @Test(groups = "6.2.2_Benefits-Base_CreateMasterQuote")
     @TestInfo(component = "Policy.PersonalLines")

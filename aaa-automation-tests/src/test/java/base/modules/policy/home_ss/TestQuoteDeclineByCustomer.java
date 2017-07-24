@@ -11,7 +11,7 @@ import aaa.main.modules.policy.home_ss.actiontabs.DeclineByCompanyActionTab;
 import aaa.main.modules.policy.home_ss.actiontabs.DeclineByCustomerActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -24,7 +24,7 @@ import toolkit.utils.TestInfo;
  * 4. Verify quote status is 'Customer Declined'
  * @details
  */
-public class TestQuoteDeclineByCustomer extends HomeSSBaseTest {
+public class TestQuoteDeclineByCustomer extends HomeSSHO3BaseTest {
 
     @Test(groups = "6.2.1_Benefits-Base_DeclineByCustomerMasterQuote")
     @TestInfo(component = "Policy.PersonalLines")

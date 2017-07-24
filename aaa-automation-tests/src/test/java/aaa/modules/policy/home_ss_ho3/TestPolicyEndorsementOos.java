@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
@@ -23,7 +23,7 @@ import toolkit.verification.CustomAssert;
  * 7. Verify Policy Premium is changed
  * @details
  */
-public class TestPolicyEndorsementOos extends HomeSSBaseTest {
+public class TestPolicyEndorsementOos extends HomeSSHO3BaseTest {
 
 	@Test
 	@TestInfo(component = "Policy.PersonalLines")

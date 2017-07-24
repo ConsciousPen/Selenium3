@@ -12,7 +12,7 @@ import aaa.common.pages.Page;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.table.Table;
@@ -27,7 +27,7 @@ import toolkit.webdriver.controls.composite.table.Table;
  * 4. Verify document is generated successfully and saved in the specified folder.
  * @details
  */
-public class TestQuoteDocGen extends HomeSSBaseTest {
+public class TestQuoteDocGen extends HomeSSHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

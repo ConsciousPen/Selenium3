@@ -8,7 +8,7 @@ public class ExampleQuoteActionTest extends ExampleQuoteActionAbstract {
 	
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS;
+		return PolicyType.HOME_SS_HO3;
 	}
 	
 	@Test

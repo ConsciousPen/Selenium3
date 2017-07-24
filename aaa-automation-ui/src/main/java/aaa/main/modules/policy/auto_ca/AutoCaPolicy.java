@@ -40,7 +40,7 @@ public class AutoCaPolicy implements IPolicy {
 	@Override
 	public void initiate() {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.QUOTE.get());
-		QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.AUTO_CA.getName());
+		QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.AUTO_CA_SELECT.getName());
 		QuoteSummaryPage.buttonAddNewQuote.click();
 	}
 

@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaBaseTest;
+import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
@@ -22,7 +22,7 @@ import toolkit.verification.CustomAssert;
  * 6. Verify Policy number different the cancelled policy number
  * @details
  */
-public class TestPolicyRewriteToNewNumber extends AutoCaBaseTest {
+public class TestPolicyRewriteToNewNumber extends AutoCaSelectBaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

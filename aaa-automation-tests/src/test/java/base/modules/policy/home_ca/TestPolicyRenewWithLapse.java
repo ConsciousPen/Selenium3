@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeCaBaseTest;
+import aaa.modules.policy.HomeCaHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -23,7 +23,7 @@ import toolkit.utils.TestInfo;
  * 8. Verify 'Term includes lapse period' is displayed in the header.
  * @details
  */
-public class TestPolicyRenewWithLapse extends HomeCaBaseTest {
+public class TestPolicyRenewWithLapse extends HomeCaHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

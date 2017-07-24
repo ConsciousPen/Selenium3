@@ -5,7 +5,7 @@ package  base.modules.policy.auto_ca;
 import org.testng.annotations.Test;
 
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaBaseTest;
+import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
@@ -19,7 +19,7 @@ import toolkit.verification.CustomAssert;
  * 4. Verify new Policy
  * @details
  */
-public class TestPolicyCopy extends AutoCaBaseTest {
+public class TestPolicyCopy extends AutoCaSelectBaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

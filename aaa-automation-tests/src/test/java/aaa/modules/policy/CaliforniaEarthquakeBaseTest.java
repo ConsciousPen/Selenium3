@@ -30,7 +30,7 @@ public class CaliforniaEarthquakeBaseTest extends PolicyBaseTest {
 	 */
 	protected synchronized String getPrimaryHO3Policy() {
 		String returnValue = new String();
-		PolicyType type = PolicyType.HOME_CA;
+		PolicyType type = PolicyType.HOME_CA_HO3;
 
 		/*
 		 * String key = EntitiesHolder.makeDefaultPolicyKey(type, getState());
@@ -87,7 +87,7 @@ public class CaliforniaEarthquakeBaseTest extends PolicyBaseTest {
 		createCustomerIndividual();
 		log.info("Policy Creation Started...");
 		// CA policy creation
-		PolicyType type = PolicyType.HOME_CA;
+		PolicyType type = PolicyType.HOME_CA_HO3;
 		TestData tdPolicy = testDataManager.policy.get(type);
 		type.get().initiate();
 		type.get().getDefaultView().fill(tdPolicy.getTestData("DataGather", "TestData").adjust(tdPolicy.getTestData("DataGather", "Adjustment_CEA")));

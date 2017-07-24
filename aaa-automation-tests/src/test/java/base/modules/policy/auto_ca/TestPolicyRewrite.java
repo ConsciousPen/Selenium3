@@ -17,7 +17,7 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.actiontabs.RewriteActionTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaBaseTest;
+import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
@@ -37,7 +37,7 @@ import toolkit.verification.CustomAssert;
  * @details
  */
 
-public class TestPolicyRewrite extends AutoCaBaseTest {
+public class TestPolicyRewrite extends AutoCaSelectBaseTest {
 
 	private String policyNumber, effectiveDate;
 

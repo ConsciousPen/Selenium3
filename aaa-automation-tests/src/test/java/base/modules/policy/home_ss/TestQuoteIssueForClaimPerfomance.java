@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -19,7 +19,7 @@ import toolkit.utils.TestInfo;
  * 4. Verify policy status is 'Policy Active'
  * @details
  */
-public class TestQuoteIssueForClaimPerfomance extends HomeSSBaseTest {
+public class TestQuoteIssueForClaimPerfomance extends HomeSSHO3BaseTest {
 
     @Test()
     @TestInfo(component = "Policy.PersonalLines")

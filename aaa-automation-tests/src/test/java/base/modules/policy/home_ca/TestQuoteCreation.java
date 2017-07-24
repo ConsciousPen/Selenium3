@@ -5,7 +5,7 @@ package  base.modules.policy.home_ca;
 import org.testng.annotations.Test;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeCaBaseTest;
+import aaa.modules.policy.HomeCaHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -17,7 +17,7 @@ import toolkit.utils.TestInfo;
  * 3. Verify quote status is 'Premium Calculated'
  * @details
  */
-public class TestQuoteCreation extends HomeCaBaseTest {
+public class TestQuoteCreation extends HomeCaHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

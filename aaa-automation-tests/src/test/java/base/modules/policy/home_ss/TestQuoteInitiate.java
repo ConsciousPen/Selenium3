@@ -10,7 +10,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.main.pages.summary.QuoteSummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -22,7 +22,7 @@ import toolkit.utils.TestInfo;
  * 3. Verify quote status is 'Data Gathering' and policy number is present
  * @details
  */
-public class TestQuoteInitiate extends HomeSSBaseTest {
+public class TestQuoteInitiate extends HomeSSHO3BaseTest {
 
     @Test(groups = "7.2_AUTOP,HOME_UC_InitiateHomeOrAutoQuoteAndSelectProduct")
     @TestInfo(component = "Policy.PersonalLines")

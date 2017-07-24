@@ -5,7 +5,7 @@ package aaa.modules.policy.home_ss_ho3;
 import org.testng.annotations.Test;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
 
@@ -23,7 +23,7 @@ import toolkit.utils.TestInfo;
  * 8. Verify 'Do Not Renew' flag isn't displayed in the policy overview header
  * @details
  */
-public class TestPolicyDoNotRenewAddRemove extends HomeSSBaseTest {
+public class TestPolicyDoNotRenewAddRemove extends HomeSSHO3BaseTest {
 
 	@Test
 	@TestInfo(component = "Policy.PersonalLines")

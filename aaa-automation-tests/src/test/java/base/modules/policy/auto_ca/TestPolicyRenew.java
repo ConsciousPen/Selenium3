@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaBaseTest;
+import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -21,7 +21,7 @@ import toolkit.utils.TestInfo;
  * 6. Verify Policy status is 'Policy Pending'
  * @details
  */
-public class TestPolicyRenew extends AutoCaBaseTest {
+public class TestPolicyRenew extends AutoCaSelectBaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

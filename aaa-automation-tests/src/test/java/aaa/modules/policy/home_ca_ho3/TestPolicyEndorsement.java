@@ -11,7 +11,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeCaBaseTest;
+import aaa.modules.policy.HomeCaHO3BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -29,7 +29,7 @@ import toolkit.verification.CustomAssert;
  * 7. Check that endorsement was added.
  * @details
  */
-public class TestPolicyEndorsement extends HomeCaBaseTest {
+public class TestPolicyEndorsement extends HomeCaHO3BaseTest {
 
 	@Test
 	@TestInfo(component = "Policy.PersonalLines")

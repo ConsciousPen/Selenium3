@@ -27,7 +27,7 @@ public class DataGenerator extends BaseTest {
 
 	static {
 		products.put(PolicyType.AUTO_SS.getName(), new ArrayList<String>());
-		products.put(PolicyType.HOME_SS.getName(), new ArrayList<String>());
+		products.put(PolicyType.HOME_SS_HO3.getName(), new ArrayList<String>());
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class DataGenerator extends BaseTest {
 	@Test
 	@TestInfo(component = "Policy.PersonalLines")
 	public void createHomePreconfigured() {
-		createPersonalLinesQuotes(PolicyType.HOME_SS, Integer.parseInt(PropertyProvider.getProperty("HOME_PRECONFIGURED", "0")));
+		createPersonalLinesQuotes(PolicyType.HOME_SS_HO3, Integer.parseInt(PropertyProvider.getProperty("HOME_PRECONFIGURED", "0")));
 	}
 
 	@Test

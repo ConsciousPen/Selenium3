@@ -5,7 +5,7 @@ package base.modules.policy.home_ss;
 import org.testng.annotations.Test;
 
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -23,7 +23,7 @@ import toolkit.utils.TestInfo;
  * 11. Verify 'Term includes lapse period' flag is not displayed
  * @details
  */
-public class TestPolicyRenewChangeLapse extends HomeSSBaseTest {
+public class TestPolicyRenewChangeLapse extends HomeSSHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

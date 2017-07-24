@@ -43,7 +43,7 @@ public class TestQuoteManualTask extends BaseTest {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS;
+		return PolicyType.HOME_SS_HO3;
 	}
 	
 	@Test
