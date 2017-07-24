@@ -61,7 +61,7 @@ public class BaseTest {
 	private String key;
 	private String state;
 	private String usState = PropertyProvider.getProperty("test.usstate");
-	private static Map<String, Integer> policyCount = new HashMap<String, Integer>();
+	private static Map<String, Integer> policyCount = new HashMap<>();
 
 	static {
 		CustomAssert.initDriver(CustomAssert.AssertDriverType.TESTNG);
@@ -81,8 +81,7 @@ public class BaseTest {
 
 	protected static synchronized Map<String, String> getEntities() {
 		entities = EntitiesHolder.getEntities();
-		Map<String, String> returnValue = entities;
-		return returnValue;
+		return entities;
 	}
 
 	protected PolicyType getPolicyType() {
@@ -239,6 +238,7 @@ public class BaseTest {
 			if (EntitiesHolder.isEntityPresent(key)) {
 				SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, EntitiesHolder.getEntity(key));
 			} else {
+				createCustomerIndividual();
 				createQuote();
 				EntitiesHolder.addNewEntity(key, PolicySummaryPage.labelPolicyNumber.getValue());
 			}
@@ -328,7 +328,7 @@ public class BaseTest {
 	}
 
 	protected TestData initiateLoginTD() {
-		Map<String, Object> td = new LinkedHashMap<String, Object>();
+		Map<String, Object> td = new LinkedHashMap<>();
 		td.put(LoginPageMeta.USER.getLabel(), PropertyProvider.getProperty(TestProperties.EU_USER));
 		td.put(LoginPageMeta.PASSWORD.getLabel(), PropertyProvider.getProperty(TestProperties.EU_PASSWORD));
 		td.put(LoginPageMeta.STATES.getLabel(), getState());

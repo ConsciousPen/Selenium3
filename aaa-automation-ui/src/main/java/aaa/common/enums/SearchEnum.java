@@ -22,7 +22,7 @@ public class SearchEnum {
         BROKER_NAME("Broker Name"),
         BROKER("Broker #");
 
-        String id;
+        final String id;
 
         SearchBy(String id) {
             this.id = id;
@@ -36,14 +36,14 @@ public class SearchEnum {
     public enum SearchFor {
         ACCOUNT("Account"),
         CUSTOMER("Customer"),
-        QUOTE("Quote"),
-        POLICY("Policy"),
         BILLING("Billing"),
-        CLAIM("Claim"),
+        POLICY("Policy"),
+        QUOTE("Quote");
+        /*CLAIM("Claim"),
         NEW_CLAIM("NewClaim"),
-        PARTY("Party");
+        PARTY("Party");*/
 
-        String id;
+        final String id;
 
         SearchFor(String id) {
             this.id = id;
