@@ -87,7 +87,7 @@ public final class PersonalUmbrellaMetaData {
 		public enum ActiveUnderlyingPoliciesTblHeaders {
 			OCCUPANCY_TYPE("Occupancy Type"), DWELLING_USAGE("Dwelling Usage"), SOURCE("Source"), PRIMARY("Primary"), STATUS("Status"), POLICY_TYPE("Policy Type"), POLICY_NUMBER("Policy Number");
 
-			private String value;
+			private final String value;
 
 			ActiveUnderlyingPoliciesTblHeaders(String value) {
 				this.value = value;
@@ -673,8 +673,8 @@ public final class PersonalUmbrellaMetaData {
 	
 
 	public static final class CancellationActionTab extends MetaData {
-	    public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancellation effective date", TextBox.class,By.xpath("//input[@id='policyDataGatherForm:sedit_AAAPolicyCancelAction_policyTxInfo_txDateInputDate']"));
-        public static final AttributeDescriptor CANCELLATION_REASON = declare("Cancellation reason", ComboBox.class,By.xpath("//select[@id='policyDataGatherForm:sedit_AAAPolicyCancelAction_policyCancelTxInfo_cancelTxReasonCd']"));
+		public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancellation effective date", TextBox.class, Waiters.AJAX);
+		public static final AttributeDescriptor CANCELLATION_REASON = declare("Cancellation reason", ComboBox.class, Waiters.AJAX);
         public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class);
 	}
 
