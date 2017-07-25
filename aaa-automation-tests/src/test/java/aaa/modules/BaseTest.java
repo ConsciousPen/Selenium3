@@ -218,13 +218,14 @@ public class BaseTest {
 	 *
 	 * @param td
 	 *            - test data for quote filling
+	 * @return 
 	 */
 	protected void createQuote(TestData td) {
-		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
-		log.info("Quote Creation Started...");
-		getPolicyType().get().createQuote(td);
-		// return PolicySummaryPage.labelPolicyNumber.getValue();
-	}
+	  Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
+	  log.info("Quote Creation Started...");
+	  getPolicyType().get().createQuote(td);
+	  // return PolicySummaryPage.labelPolicyNumber.getValue();
+	 }
 
 	/**
 	 * Gets default quote number and makes quote copy. If default quote doesn't

@@ -2,10 +2,12 @@ package aaa.helpers;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import toolkit.datax.TestData;
-import toolkit.utils.datetime.DateTime;
+import toolkit.utils.datetime.DateTimeUtils;
 
 public class TimePoints {
 
@@ -18,7 +20,7 @@ public class TimePoints {
 	}
 
 	public LocalDateTime getTimepoint(LocalDateTime date, TimepointsList timePointName, Boolean applyShift) {
-		LocalDateTime returnDate = date.toString(DATE_FORMAT), DATE_FORMAT);
+		LocalDateTime returnDate = date;
 		List<String> timepoint = td.getList(timePointName.get());
 		if (timepoint.size() == 1) {
 			timepoint.add("NONE");
@@ -26,14 +28,14 @@ public class TimePoints {
 		if (timepoint.size() > 2) {
 			throw new IllegalArgumentException("Wrong timepoint entry, please check testdata");
 		}
-		returnDate = returnDate.addDays(Integer.parseInt(timepoint.get(0)));
+		returnDate = returnDate.plusDays(Integer.parseInt(timepoint.get(0)));
 		if (applyShift) {
 			switch (timepoint.get(1).toUpperCase()) {
 				case "PREVIOUS":
-					returnDate = returnDate.toPreviousBusinessDay();
+					returnDate = returnDate.with(DateTimeUtils.previousWorkingDay);
 					break;
 				case "NEXT":
-					returnDate = returnDate.toNextBusinessDay();
+					returnDate = returnDate.with(DateTimeUtils.nextWorkingDay);
 					break;
 				case "NONE":
 					break;
@@ -45,115 +47,115 @@ public class TimePoints {
 		return returnDate;
 	}
 
-	public DateTime getBillDueDate(DateTime date) {
+	public LocalDateTime getBillDueDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.BILL_PAYMENT, true);
 	}
 
-	public DateTime getBillGenerationDate(DateTime date) {
+	public LocalDateTime getBillGenerationDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.BILL_GENERATION, true);
 	}
 
-	public DateTime getOffcycleBillGenerationDate(DateTime date) {
+	public LocalDateTime getOffcycleBillGenerationDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.OFFCYCLE_BILL_GENERATION, true);
 	}
 
-	public DateTime getRenewImageGenerationDate(DateTime date) {
+	public LocalDateTime getRenewImageGenerationDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.RENEW_GENERATE_IMAGE, true);
 	}
 
-	public DateTime getRenewMsgGenerationDate(DateTime date) {
+	public LocalDateTime getRenewMsgGenerationDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.RENEW_GENERATE_MSG, true);
 	}
 
-	public DateTime getRenewCheckUWRules(DateTime date) {
+	public LocalDateTime getRenewCheckUWRules(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.RENEW_CHECK_UW_RULES, true);
 	}
 
-	public DateTime getRenewReportsDate(DateTime date) {
+	public LocalDateTime getRenewReportsDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.RENEW_REPORTS, true);
 	}
 
-	public DateTime getRenewPreviewGenerationDate(DateTime date) {
+	public LocalDateTime getRenewPreviewGenerationDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.RENEW_GENERATE_PREVIEW, true);
 	}
 
-	public DateTime getRenewOfferGenerationDate(DateTime date) {
+	public LocalDateTime getRenewOfferGenerationDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.RENEW_GENERATE_OFFER, true);
 	}
 
-	public DateTime getUpdatePolicyStatusDate(DateTime date) {
+	public LocalDateTime getUpdatePolicyStatusDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.UPDATE_POLICY_STATUS, true);
 	}
 
-	public DateTime getCancellationDate(DateTime date) {
+	public LocalDateTime getCancellationDate(LocalDateTime date) {
 		return getTimepoint(getCancellationNoticeDate(date), TimepointsList.CANCELLATION, true);
 	}
 
-	public DateTime getCancellationNoticeDate(DateTime date) {
+	public LocalDateTime getCancellationNoticeDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.CANCELLATION_NOTICE, true);
 	}
 
-	public DateTime getRenewCustomerDeclineDate(DateTime date) {
+	public LocalDateTime getRenewCustomerDeclineDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.RENEW_CUSTOMER_DECLINE, true);// .addHours(1);
 	}
 
-	public DateTime getEarnedPremiumBillFirst(DateTime date) {
+	public LocalDateTime getEarnedPremiumBillFirst(LocalDateTime date) {
 		return getTimepoint(getCancellationDate(date), TimepointsList.EARNED_PREMIUM_BILL_FIRST, true);
 	}
 
-	public DateTime getEarnedPremiumBillSecond(DateTime date) {
+	public LocalDateTime getEarnedPremiumBillSecond(LocalDateTime date) {
 		return getTimepoint(getCancellationDate(date), TimepointsList.EARNED_PREMIUM_BILL_SECOND, true);
 	}
 
-	public DateTime getEarnedPremiumBillThird(DateTime date) {
+	public LocalDateTime getEarnedPremiumBillThird(LocalDateTime date) {
 		return getTimepoint(getCancellationDate(date), TimepointsList.EARNED_PREMIUM_BILL_THIRD, true);
 	}
 
-	public DateTime getEarnedPremiumWriteOff(DateTime date) {
+	public LocalDateTime getEarnedPremiumWriteOff(LocalDateTime date) {
 		return getTimepoint(getCancellationDate(date), TimepointsList.EARNED_PREMIUM_WRITE_OFF, true);
 	}
 
-	public DateTime getPayLapsedRenewShort(DateTime date) {
+	public LocalDateTime getPayLapsedRenewShort(LocalDateTime date) {
 		return getTimepoint(getRenewCustomerDeclineDate(date), TimepointsList.PAY_LAPSED_RENEW_SHORT, true);
 	}
 
-	public DateTime getPayLapsedRenewLong(DateTime date) {
+	public LocalDateTime getPayLapsedRenewLong(LocalDateTime date) {
 		return getTimepoint(getRenewCustomerDeclineDate(date), TimepointsList.PAY_LAPSED_RENEW_LONG, true);
 	}
 
-	public DateTime getEndorsePolicyBeforeOfferGen(DateTime date) {
+	public LocalDateTime getEndorsePolicyBeforeOfferGen(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.ENDORSE_POLICY_BEFORE_OFFER_GEN, true);
 	}
 
-	public DateTime getMembershipRenewBatchOrder(DateTime date) {
+	public LocalDateTime getMembershipRenewBatchOrder(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.MEMBERSHIP_RENEW_BATCH_ORDER, true);
 	}
 
-	public DateTime getRenewalCancellationDate(DateTime date) {
+	public LocalDateTime getRenewalCancellationDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.RENEW_CANCEL_NOTICE, true);
 	}
 
-	public DateTime getPolicyReinstateDate(DateTime date) {
+	public LocalDateTime getPolicyReinstateDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.POLICY_REINSTATEMENT_DATE, true);
 	}
 
-	public DateTime getUserCancelNoticeDate(DateTime date) {
+	public LocalDateTime getUserCancelNoticeDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.USER_CANCEL_NOTICE, true);
 	}
 
-	public DateTime getReinstatementDate(DateTime date) {
+	public LocalDateTime getReinstatementDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.REINSTATEMENT, true);
 	}
 
-	public DateTime getManualCancellationDate(DateTime date) {
+	public LocalDateTime getManualCancellationDate(LocalDateTime date) {
 		return getTimepoint(getCancellationNoticeDate(date), TimepointsList.MANUAL_CANCELLATION, true);
 	}
 
-	public DateTime getRefundDate(DateTime date) {
+	public LocalDateTime getRefundDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.REFUND, true);
 	}
 
-	public DateTime getInsuranceRenewalReminderDate(DateTime date) {
+	public LocalDateTime getInsuranceRenewalReminderDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.INSURANCE_RENEWAL_REMINDER, true);
 	}
 

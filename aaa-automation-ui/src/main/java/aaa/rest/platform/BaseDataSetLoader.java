@@ -4,6 +4,7 @@ package aaa.rest.platform;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -16,9 +17,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
-
-import toolkit.utils.datetime.DateTime;
-import toolkit.utils.datetime.DateTimeUtils;
 
 /**
  * Class for XML dataset processing
@@ -62,7 +60,7 @@ public class BaseDataSetLoader {
             throw new IllegalArgumentException("Dataset " + resourceName
                     + " not found in test classpath!");
         }
-        String xmlString = IOUtils.toString(input);
+        String xmlString = IOUtils.toString(input, Charset.defaultCharset());
         return xmlString;
     }
 

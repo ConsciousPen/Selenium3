@@ -738,4 +738,33 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<ComboBox> REASON_FOR_RENEWAL_WITH_LAPSE = declare("Reason for Renewal with Lapse", ComboBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> OTHER = declare("Other", TextBox.class, Waiters.NONE);
 	}
+	
+	public static final class UpdateRulesOverrideActionTab extends MetaData {
+		public static final AssetDescriptor<FillableTable> UPDATE_RULES_OVERRIDE = declare("UpdateRulesOverride", FillableTable.class, RuleRow.class, By.id("errorsForm:msgList"));
+
+		public static final class RuleRow extends MetaData {
+			public static final AssetDescriptor<CheckBox> UPDATE = declare("Update All", CheckBox.class);
+			public static final AssetDescriptor<CheckBox> AUTHORIZE = declare("Authorize/Delete All", CheckBox.class);
+			public static final AssetDescriptor<StaticElement> STATUS = declare("Status", StaticElement.class);
+			public static final AssetDescriptor<RadioGroup> DURATION = declare("Duration", RadioGroup.class);
+			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class);
+			public static final AssetDescriptor<StaticElement> RULE_NAME = declare("Rule name", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> MESSAGE = declare("Message", StaticElement.class);
+		}
+	}
+
+	public static final class ErrorTab extends MetaData {
+		public static final AssetDescriptor<FillableTable> ERROR_OVERRIDE = declare("ErrorsOverride", FillableTable.class, RuleRow.class, By.id("errorsForm:msgList"));
+
+		public static final class RuleRow extends MetaData {
+			public static final AssetDescriptor<CheckBox> OVERRIDE = declare("Override", CheckBox.class);
+			public static final AssetDescriptor<CheckBox> APPROVAL = declare("Approval", CheckBox.class);
+			public static final AssetDescriptor<Link> CODE = declare("Code", Link.class);
+			public static final AssetDescriptor<StaticElement> SEVERITY = declare("Severity", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> MESSAGE = declare("Message", StaticElement.class);
+			public static final AssetDescriptor<RadioGroup> DURATION = declare("Duration", RadioGroup.class);
+			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class);
+		}
+	}
+	
 }

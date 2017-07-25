@@ -795,6 +795,7 @@ public final class PersonalUmbrellaMetaData {
 		public static final AssetDescriptor<TextBox> DATE = declare("Date", TextBox.class);
 		public static final AssetDescriptor<ComboBox> REASON = declare("Reason", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> DO_NOT_RENEW_STATUS = declare("Do Not Renew Status", ComboBox.class);
+		public static final AssetDescriptor<TextBox> SUPPORTING_DATA = declare("Supporting Data", TextBox.class);
 	}
 
 	public static final class ReinstatementActionTab extends MetaData {
