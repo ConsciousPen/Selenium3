@@ -79,7 +79,7 @@ public final class TestDataManager {
 
 	public TestDataManager() {
 		policy.put(PolicyType.AUTO_SS, dataProvider.get("modules/policy/auto_ss"));
-		policy.put(PolicyType.AUTO_CA_SELECT, dataProvider.get("modules/policy/auto_ca"));
+		policy.put(PolicyType.AUTO_CA_SELECT, dataProvider.get("modules/policy/auto_ca_select"));
 		policy.put(PolicyType.AUTO_CA_CHOICE, dataProvider.get("modules/policy/auto_ca_choice"));
 		policy.put(PolicyType.HOME_CA_HO3, dataProvider.get("modules/policy/home_ca_ho3"));
 		policy.put(PolicyType.HOME_CA_HO4, dataProvider.get("modules/policy/home_ca_ho4"));
