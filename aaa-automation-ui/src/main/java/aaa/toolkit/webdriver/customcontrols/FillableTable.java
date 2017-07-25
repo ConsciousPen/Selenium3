@@ -57,7 +57,7 @@ import toolkit.webdriver.controls.composite.table.Table;
  *<br>
  * If you additionally need to interact with any control outside the FillableTable then declare it in appropriate MetaData class with locator and hasParent=false argument.
  *<br>
- * E.g.: <pre>"public static final AttributeDescriptor CUSTOMER_AGREEMENT = declare("Customer Agreement", RadioGroup.class, Waiters.AJAX, <b>false</b>, <b>By.xpath("//table[@id='policyDataGatherForm:customerRadio']")</b>);"</pre>
+ * E.g.: <pre>"public static final AssetDescriptor<RadioGroup> CUSTOMER_AGREEMENT = declare("Customer Agreement", RadioGroup.class, Waiters.AJAX, <b>false</b>, <b>By.xpath("//table[@id='policyDataGatherForm:customerRadio']")</b>);"</pre>
  *
  */
 public class FillableTable extends AbstractContainer<List<TestData>, List<TestData>> {
@@ -86,7 +86,7 @@ public class FillableTable extends AbstractContainer<List<TestData>, List<TestDa
 		rowToFillIndex = 1;
 
 		for (TestData rowData : testDataList) {
-			if (rowData.isEqualTo(DataProviderFactory.emptyData())) {
+			if (rowData.equals(DataProviderFactory.emptyData())) {
 				rowToFillIndex++;
 				continue;
 			}

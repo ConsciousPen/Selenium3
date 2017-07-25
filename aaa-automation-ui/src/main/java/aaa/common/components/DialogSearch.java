@@ -59,7 +59,7 @@ public class DialogSearch {
     public void search(SearchBy searchBy, String searchString) {
         for (String key : assetListDialogSearch.getAssetNames()) {
             if (key.contains(searchBy.get())) {
-                ((AbstractEditableStringElement) assetListDialogSearch.getControl(key)).setValue(searchString);
+                ((AbstractEditableStringElement) assetListDialogSearch.getAsset(key)).setValue(searchString);
                 break;
             }
         }
@@ -70,7 +70,7 @@ public class DialogSearch {
     public void search(Map<String, String> searchCriteria) {
         for (String key : assetListDialogSearch.getAssetNames()) {
             if (searchCriteria.containsKey(key)) {
-                ((AbstractEditableStringElement) assetListDialogSearch.getControl(key)).setValue(searchCriteria.get(key));
+                ((AbstractEditableStringElement) assetListDialogSearch.getAsset(key)).setValue(searchCriteria.get(key));
             }
         }
         buttonSearch.click();

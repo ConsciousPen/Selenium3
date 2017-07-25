@@ -24,9 +24,9 @@ public class UnderlyingRisksOtherVehiclesTab extends Tab {
     }
     
     public AssetList getWatercraftAssetList() {
-    	return getAssetList().getControl(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.WATERCRAFT.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.WATERCRAFT.getLabel(), AssetList.class);
 	}
     public AssetList getRecreationalVehicleAssetList() {
-    	return getAssetList().getControl(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RECREATIONAL_VEHICLE.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RECREATIONAL_VEHICLE.getLabel(), AssetList.class);
 	}
 }

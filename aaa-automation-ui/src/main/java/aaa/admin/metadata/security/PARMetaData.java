@@ -7,21 +7,21 @@ import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.controls.AdvancedSelector;
 
 import toolkit.webdriver.controls.TextBox;
-import toolkit.webdriver.controls.composite.assets.metadata.AttributeDescriptor;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
 public final class PARMetaData {
 
     public static final class GeneralPARTab extends MetaData {
-        public static final AttributeDescriptor ROLE_CODE = declare("Role Code", TextBox.class);
-        public static final AttributeDescriptor ROLE_NAME = declare("Role Name", TextBox.class);
-        public static final AttributeDescriptor PRODUCTS = declare("Products", AdvancedSelector.class, By.xpath("//table[@class='pfForm pfSimpleForm' and .//input[@id='roleForm:select_products']]"));
-        public static final AttributeDescriptor PRIVILEGES = declare("Privileges", AdvancedSelector.class,
+        public static final AssetDescriptor<TextBox> ROLE_CODE = declare("Role Code", TextBox.class);
+        public static final AssetDescriptor<TextBox> ROLE_NAME = declare("Role Name", TextBox.class);
+        public static final AssetDescriptor<AdvancedSelector> PRODUCTS = declare("Products", AdvancedSelector.class, By.xpath("//table[@class='pfForm pfSimpleForm' and .//input[@id='roleForm:select_products']]"));
+        public static final AssetDescriptor<AdvancedSelector> PRIVILEGES = declare("Privileges", AdvancedSelector.class,
                 By.xpath("//table[@class='pfForm pfSimpleForm' and .//input[@id='roleForm:select_privileges']]"));
     }
 
     public static final class SearchByField extends MetaData {
-        public static final AttributeDescriptor PRODUCT_ACCESS_ROLE_NAME = declare("Product Access Role Name", TextBox.class);
-        public static final AttributeDescriptor PRODUCT_ACCESS_ROLE_CODE = declare("Product Access Role Code", TextBox.class);
+        public static final AssetDescriptor<TextBox> PRODUCT_ACCESS_ROLE_NAME = declare("Product Access Role Name", TextBox.class);
+        public static final AssetDescriptor<TextBox> PRODUCT_ACCESS_ROLE_CODE = declare("Product Access Role Code", TextBox.class);
     }
 }

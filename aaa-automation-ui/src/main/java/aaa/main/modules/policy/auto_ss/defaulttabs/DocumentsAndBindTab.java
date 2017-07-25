@@ -46,12 +46,12 @@ public class DocumentsAndBindTab extends Tab {
 	}
 	
 	public AssetList getDocumentsForPrintingAssetList() {
-    	return getAssetList().getControl(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING.getLabel(), AssetList.class);
 	}
 	public AssetList getRequiredToBindAssetList() {
-    	return getAssetList().getControl(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(), AssetList.class);
 	}
 	public AssetList getRequiredToIssueAssetList() {
-    	return getAssetList().getControl(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel(), AssetList.class);
 	}
 }

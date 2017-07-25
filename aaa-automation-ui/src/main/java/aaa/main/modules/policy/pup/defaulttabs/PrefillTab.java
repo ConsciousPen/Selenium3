@@ -47,7 +47,7 @@ public class PrefillTab extends Tab {
 	 */
 
 	/*public Table tblActivePoliciesList() {
-		return assetList.getControl(PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel(), AdditionalPoliciesMultiAssetList.class).getControl(PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.POLICIES_LIST_TABLE.getLabel(), Table.class);
+		return assetList.getAsset(PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel(), AdditionalPoliciesMultiAssetList.class).getAsset(PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.POLICIES_LIST_TABLE.getLabel(), Table.class);
 	}*/
 
 	public Row getNamedInsuredRow(int rowNum) {

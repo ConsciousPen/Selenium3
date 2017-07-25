@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -17,6 +18,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.io.IOUtils;
 
 import toolkit.utils.datetime.DateTime;
+import toolkit.utils.datetime.DateTimeUtils;
 
 /**
  * Class for XML dataset processing
@@ -95,7 +97,7 @@ public class BaseDataSetLoader {
                 String number = dateHolder.replaceAll("[^-,0-9]", "");
                 int days = number.isEmpty() ? 0 : Integer.parseInt(number);
                 String date = XML_DATE_FORMAT
-                        .format(new DateTime().addDays(days + offset).convertToJavaDate());
+                        .format(LocalDateTime.now().plusDays(days + offset));
                 xmlString = xmlString.replace(dateHolder, date);
             }
         }

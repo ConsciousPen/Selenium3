@@ -10,31 +10,31 @@ import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.TextBox;
-import toolkit.webdriver.controls.composite.assets.metadata.AttributeDescriptor;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
 public final class BrandMetaData {
 
     public static final class BrandTab extends MetaData {
 
-        public static final AttributeDescriptor ADD_BRAND_TYPE = declare("Add Brand Type", DialogAssetList.class, AddBrandTypeDialog.class, false, By.id("brandTypeEditForm:brandTypeEditDialog"));
-        public static final AttributeDescriptor ADD_BRAND = declare("Add Brand", DialogAssetList.class, AddBrandDialog.class, false, By.id("brandEditForm:brandEditDialog"));
+        public static final AssetDescriptor<DialogAssetList> ADD_BRAND_TYPE = declare("Add Brand Type", DialogAssetList.class, AddBrandTypeDialog.class, false, By.id("brandTypeEditForm:brandTypeEditDialog"));
+        public static final AssetDescriptor<DialogAssetList> ADD_BRAND = declare("Add Brand", DialogAssetList.class, AddBrandDialog.class, false, By.id("brandEditForm:brandEditDialog"));
 
         public static final class AddBrandTypeDialog extends MetaData {
-            public static final AttributeDescriptor BRAND_TYPE_CODE = declare("Brand Type Code", TextBox.class, By.id("brandTypeEditForm:brandType_code"));
-            public static final AttributeDescriptor BRAND_TYPE_NAME = declare("Brand Type Name", TextBox.class);
+            public static final AssetDescriptor<TextBox> BRAND_TYPE_CODE = declare("Brand Type Code", TextBox.class, By.id("brandTypeEditForm:brandType_code"));
+            public static final AssetDescriptor<TextBox> BRAND_TYPE_NAME = declare("Brand Type Name", TextBox.class);
         }
 
         public static final class AddBrandDialog extends MetaData {
-            public static final AttributeDescriptor BRAND_CODE = declare("Brand Code", TextBox.class, By.id("brandEditForm:brand_code"));
-            public static final AttributeDescriptor BRAND_NAME = declare("Brand Name", TextBox.class, By.id("brandEditForm:brand_name"));
-            public static final AttributeDescriptor BRAND_TYPE = declare("Brand Type", ComboBox.class, By.id("brandEditForm:brand_type"));
-            public static final AttributeDescriptor BRAND_EFFECTIVE_DATE = declare("Brand Effective Date", TextBox.class);
-            public static final AttributeDescriptor BRAND_EXPIRATION_DATE = declare("Brand Expiration Date", TextBox.class);
-            public static final AttributeDescriptor UNDERWRITING_COMPANIES = declare("Underwriting Companies", AdvancedSelector.class,
+            public static final AssetDescriptor<TextBox> BRAND_CODE = declare("Brand Code", TextBox.class, By.id("brandEditForm:brand_code"));
+            public static final AssetDescriptor<TextBox> BRAND_NAME = declare("Brand Name", TextBox.class, By.id("brandEditForm:brand_name"));
+            public static final AssetDescriptor<ComboBox> BRAND_TYPE = declare("Brand Type", ComboBox.class, By.id("brandEditForm:brand_type"));
+            public static final AssetDescriptor<TextBox> BRAND_EFFECTIVE_DATE = declare("Brand Effective Date", TextBox.class);
+            public static final AssetDescriptor<TextBox> BRAND_EXPIRATION_DATE = declare("Brand Expiration Date", TextBox.class);
+            public static final AssetDescriptor<AdvancedSelector> UNDERWRITING_COMPANIES = declare("Underwriting Companies", AdvancedSelector.class,
                     By.xpath("//table[@class='pfForm pfSimpleForm' and .//button[@id='brandEditForm:selectCoveragesBtn']]"));
-            public static final AttributeDescriptor BUTTON_CANCEL = declare("Cancel", Button.class, By.id("brandEditForm:cancelBrand"));
-            public static final AttributeDescriptor BUTTON_UPDATE = declare("Update", Button.class, By.id("brandEditForm:updateBrand"));
+            public static final AssetDescriptor<Button> BUTTON_CANCEL = declare("Cancel", Button.class, By.id("brandEditForm:cancelBrand"));
+            public static final AssetDescriptor<Button> BUTTON_UPDATE = declare("Update", Button.class, By.id("brandEditForm:updateBrand"));
         }
     }
 }

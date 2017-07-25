@@ -26,22 +26,22 @@ public class GeneralTab extends Tab {
     }
     
     public AssetList getNamedInsuredInfoAssetList() {
-    	return getAssetList().getControl(AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class);
 	}
     public AssetList getValidateAddressDialogAssetList() {
-    	return getAssetList().getControl(AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class)
-    			.getControl(AutoCaMetaData.GeneralTab.NamedInsuredInformation.VALIDATE_ADDRESS_DIALOG.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class)
+    			.getAsset(AutoCaMetaData.GeneralTab.NamedInsuredInformation.VALIDATE_ADDRESS_DIALOG.getLabel(), AssetList.class);
 	}
     public AssetList getAAAProductOwnedAssetList() {
-    	return getAssetList().getControl(AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AssetList.class);
 	}
     public AssetList getCurrentCarrierInfoAssetList() {
-    	return getAssetList().getControl(AutoCaMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), AssetList.class);
 	}
     public AssetList getPolicyInfoAssetList() {
-    	return getAssetList().getControl(AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AssetList.class);
 	}
     public AssetList getThirdPartyDesigneeInfoAssetList() {
-    	return getAssetList().getControl(AutoCaMetaData.GeneralTab.THIRD_PARTY_DESIGNEE_INFORMATION.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.THIRD_PARTY_DESIGNEE_INFORMATION.getLabel(), AssetList.class);
 	}
 }

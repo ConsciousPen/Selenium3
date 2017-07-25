@@ -35,7 +35,7 @@ public class SponsorParticipantRelationshipAssociationRemovalActionTab extends A
 
     @Override
     public Tab submitTab() {
-        if (assetList.getControl(CustomerMetaData.SponsorParticipantRelationshipAssociationRemovalActionTab.KEEP_RELATIONSHIP_HISTORY.getLabel(), CheckBox.class).getValue()) {
+        if (assetList.getAsset(CustomerMetaData.SponsorParticipantRelationshipAssociationRemovalActionTab.KEEP_RELATIONSHIP_HISTORY.getLabel(), CheckBox.class).getValue()) {
             buttonRelationshipAssociationRemove.click();
         } else {
             Page.dialogConfirmation.confirm();

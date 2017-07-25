@@ -1,5 +1,6 @@
 package aaa.helpers;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +17,8 @@ public class TimePoints {
 		this.td = td;
 	}
 
-	public DateTime getTimepoint(DateTime date, TimepointsList timePointName, Boolean applyShift) {
-		DateTime returnDate = new DateTime(date.toString(DATE_FORMAT), DATE_FORMAT);
+	public LocalDateTime getTimepoint(LocalDateTime date, TimepointsList timePointName, Boolean applyShift) {
+		LocalDateTime returnDate = date.toString(DATE_FORMAT), DATE_FORMAT);
 		List<String> timepoint = td.getList(timePointName.get());
 		if (timepoint.size() == 1) {
 			timepoint.add("NONE");

@@ -57,7 +57,7 @@ public class PremiumsAndCoveragesQuoteTab extends Tab {
 			Matcher m = p.matcher(returnValue);
 			m.find();
 			Double percent = Double.parseDouble(m.group(1));
-			Dollar coverage = new Dollar(getAssetList().getControl((m.group(2)), StaticElement.class).getValue());
+			Dollar coverage = new Dollar(getAssetList().getAsset((m.group(2)), StaticElement.class).getValue());
 			returnValue = coverage.getPercentage(percent).toPlaingString();
 			td.adjust(TestData.makeKeyPath(getAssetList().getName(), HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel()), returnValue);
 		}
