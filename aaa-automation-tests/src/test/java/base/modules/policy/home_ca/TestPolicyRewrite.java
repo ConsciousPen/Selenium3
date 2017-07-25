@@ -154,7 +154,7 @@ public class TestPolicyRewrite extends HomeCaHO3BaseTest {
 
         SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, policyNumber);
 
-        SearchPage.labelSearchError.verify.value("Policy not found");
+        SearchPage.verifyWarningsExist("Policy not found");
 
         log.info("TEST: Issue Rewritten Policy #" + rewrittenPolicyNumber);
 

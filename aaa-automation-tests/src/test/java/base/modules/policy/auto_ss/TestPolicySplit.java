@@ -64,7 +64,7 @@ public class TestPolicySplit extends AutoSSBaseTest {
         PolicySummaryPage.tablePolicyVehicles.getRow(PolicyConstants.PolicyVehiclesTable.MAKE, "FORD").verify.present();
 
         SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.FIRST_NAME, customerName.split(" ")[0]);
-        SearchPage.linkSecondSearchedResult.click();
+        SearchPage.selectSearchedResult(2);
 
         String newPolicyNumber = CustomerSummaryPage.tableQuotes.getRow(1).getCell(CustomerConstants.CustomerQuotesTable.QUOTE).getValue();
         MainPage.QuickSearch.search(newPolicyNumber);

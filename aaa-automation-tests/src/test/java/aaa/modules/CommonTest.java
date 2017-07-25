@@ -12,9 +12,9 @@ public class CommonTest extends BaseTest {
 
 	protected CommonTest() {
 		final List<PolicyType> policyTypes = new ArrayList<>();
-		policyTypes.add(PolicyType.HOME_CA);
+		policyTypes.add(PolicyType.HOME_CA_HO3);
 		policyTypes.add(PolicyType.AUTO_SS);
-		policyTypes.add(PolicyType.AUTO_CA);
+		policyTypes.add(PolicyType.AUTO_CA_SELECT);
 		//TODO-dchubkov: add all policy types to list
 
 		type = ThreadLocal.withInitial(() -> policyTypes.get(new Random().nextInt(policyTypes.size())));

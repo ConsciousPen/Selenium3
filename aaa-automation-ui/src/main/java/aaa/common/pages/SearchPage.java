@@ -2,14 +2,18 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common.pages;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import org.apache.commons.collections4.CollectionUtils;
 import org.openqa.selenium.By;
 import aaa.common.enums.SearchEnum;
 import aaa.common.metadata.SearchMetaData;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
+import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
@@ -23,14 +27,11 @@ public class SearchPage extends MainPage {
 	public static Button buttonClear = new Button(By.id("searchForm:clearBtn"));
 	public static Button buttonCreateCustomer = new Button(By.id("searchForm:createAccountBtnAlway"));
 	public static Button buttonSearch = new Button(By.id("searchForm:searchBtn"));
-
-	public static StaticElement labelSearchError = new StaticElement(By.id("messages:0"));
-
 	public static Table tableSearchResults = new Table(By.id("searchTable1Form:body_searchTable1"));
-	public static Link linkSecondSearchedResult = new Link(By.xpath("(//table[@id='searchTable1Form:body_searchTable1']/tbody)/tr[2]/td[1]//span[text()]"));
-
 	public static StaticElement labelNameParty = new StaticElement(By.xpath("//span[@id='partyPopup:name']"));
 	public static Table tableRoleInfo = new Table(By.xpath("//table[@id='partyPopup:body_rolesTable']"));
+
+	private static ByT linkSearchedResultTemplate = ByT.xpath("(//table[@id='searchTable1Form:body_searchTable1']/tbody)/tr[%s]/td[1]//span[text()]");
 
 	//public static RadioGroup rbtnSearchFor = new RadioGroup(By.xpath("//table[@id='searchForm:entityTypeSelect']"), Waiters.AJAX);
 
@@ -69,6 +70,7 @@ public class SearchPage extends MainPage {
 	}
 
 	public static void openFirstResult() {
+		//TODO-dchubkov: reuse selectSearchedResult(1) ?
 		tableSearchResults.getRow(1).getCell(1).controls.links.getFirst().click();
 	}
 
@@ -80,19 +82,28 @@ public class SearchPage extends MainPage {
 		search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNum);
 	}
 
+	public static void selectSearchedResult(int index) {
+		//TODO-dchubkov: test this method
+		new Link(linkSearchedResultTemplate.format(index)).click();
+	}
+
+	public static void clear() {
+		buttonClear.click();
+	}
+
+	//---------- verify methods ----------
+
 	public static void verifyWarningsExist(String... warningMessages) {
 		verifyWarningsExist(true, warningMessages);
 	}
 
 	public static void verifyWarningsExist(boolean expectedValue, String... warningMessages) {
-		String assertMessage = String.format("Warning messages are %1$s on search page.\nExpected warnings list is: %2$s\nActual warnings list is: %3$s.",
-				expectedValue ? "absent" : "present", Arrays.toString(warningMessages), getBottomWarningsList());
 		if (expectedValue) {
-			CustomAssert.assertTrue(assertMessage, warningsExist(warningMessages));
+			CustomAssert.assertTrue("Warning message(s) is(are) absent on search page: " + CollectionUtils.removeAll(Arrays.asList(warningMessages), getBottomWarningsList()),
+					warningsExist(warningMessages));
 		} else {
-			CustomAssert.assertFalse(assertMessage, warningsExist(warningMessages));
+			Collection<String> existedWarnings = CollectionUtils.retainAll(getBottomWarningsList(), Arrays.asList(warningMessages));
+			CustomAssert.assertTrue("Unexpeted warning message(s) is(are) present on search page: " + existedWarnings, existedWarnings.isEmpty());
 		}
 	}
-
-	//TODO-dchubkov: add clear all search results method
 }

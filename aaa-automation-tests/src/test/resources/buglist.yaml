@@ -308,3 +308,15 @@ EISDEV-164038:
   failures:
     - tests: [com.exigen.ipb.etcsa.modules.policy.]
       messages: ['Unable to locate element: {"method":"id","selector":"endorsementForm:endorsementList"}']
+EISDEV-XXXXX1:
+  summary: "[TO_BE_CREATED] Maximum allowable length of 'Underwriting Company' criteria warning is incorrect on Search page"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.common.SearchTests.searchCriteriaLengthAndFormatWarningsChecks]
+      messages: ["Unexpeted warning message(s) is(are) present on search page: [Maximum criteria length for 'Underwriting Company #' is 255]"]
+EISDEV-XXXXX2:
+  summary: "[TO_BE_CREATED] base00003 error message appears if search for customer by phone number in correct format"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.common.SearchTests.searchCriteriaLengthAndFormatWarningsChecks]
+      messages: ["Cannot get value of StaticElement {<unnamed>: By.xpath: //ul[@id='messages']}"]
