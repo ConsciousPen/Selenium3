@@ -1,0 +1,161 @@
+UpdateRulesTestData_1: {
+   UpdateRulesOverrideActionTab: {
+   UpdateRulesOverride: [{
+    Message: "contains=California Car Policy Application",
+    Update All: 'true',
+    Authorize/Delete All: 'true',
+    Duration: Term,
+    Reason for override: 'Justified through supporting documentation'
+   }]
+   }
+}
+
+UpdateRulesTestData_2: {
+   UpdateRulesOverrideActionTab: {
+   UpdateRulesOverride: [{
+    Message: "contains=California Car Policy Application",
+    Update All: 'true',
+    Authorize/Delete All: 'true',
+    Duration: Life,
+    Reason for override: 'Temporary Issue'
+   }]
+   }
+}
+
+# -- Test data for CA state ---
+
+TestData: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab',
+  MembershipTab: '@MembershipTab',
+  VehicleTab: '@VehicleTab',
+  AssignmentTab: '@AssignmentTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+PrefillTab: {
+  First Name: Susie,
+  Last Name: Jones20,
+  Zip Code: 94544,
+  Address Line 1: 8416 Briggs Drive,
+  #City:  Fruitland,
+  #State: UT,
+  Date of Birth: '07/08/1976',
+  Validate Address: click,
+  Validate Address Dialog: {
+    },
+  Order Prefill: click
+}
+
+GeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  #CurrentCarrierInformation: '@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation'
+}
+
+NamedInsuredInformation: {
+  "Home Phone #": 1234567890 
+}
+
+AAAProductOwned: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001,
+  Member Last Name: Test,
+}
+
+PolicyInformation: {
+  Policy Type: Standard,
+  Effective Date: '/today:MM/dd/yyyy',
+  Channel Type: Phone (Direct Sales Unit),
+  Agency: SMTestCC - 400000092,
+  Sales Channel: Online,
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+DriverTab: {
+  Occupation: Self Employed,
+  Age First Licensed: 18,
+  Permit Before License: 'No',
+  License State: CA,
+  "License #": C1234567
+  #ActivityInformation: '@ActivityInformation'
+}
+
+MembershipTab: {
+  #Customer Agreement: Customer Agrees,
+  #Sales Agent Agreement: I Agree,
+  Order Report: click,
+  AAAMembershipReport: [{}]
+}
+
+VehicleTab: {
+  VIN: 1GNWGPFG8B6548273,
+  Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 10,
+  Odometer Reading: 3000
+}
+
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [{
+    Vehicle: '2011, CHEVROLET, EXPRESS VAN',
+    Primary Driver: index=1,
+    Manually Rated Driver: index=1
+  }]
+}
+
+FormsTab: {}
+PremiumAndCoveragesTab: {
+  Payment Plan: Annual,
+}
+
+PremiumAndCoveragesTab: {
+  Bodily Injury Liability: 'contains=$500,000/$500,000', 
+  Property Damage Liability: 'contains=$100,000'
+}
+
+DriverActivityReportsTab: {
+  "Has the customer expressed interest in purchasing the policy?": 'Yes',
+  Sales Agent Agreement: I Agree,
+  Validate Driving History: click,
+  OrderCLUEReport: [{}],
+  OrderMVRReport: [{}],
+  OrderInternalClaimsReport: [{}]
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    #California Car Policy Application: Physically Signed,
+    Subscriber Agreement: Physically Signed
+  },
+  RequiredToIssue: {
+    Policy Application: 'Yes',
+    Auto Billing Plan Explanation: 'Yes'
+  }
+}
+
+ErrorTab: {
+   ErrorsOverride: [{
+    Message: "contains=California Car Policy Application",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: 'Other'
+   }]
+}
+
+PurchaseTab: {
+  PaymentAllocation: {
+    Cash: /rest
+  }
+}
+
