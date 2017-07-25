@@ -719,7 +719,7 @@ public final class PersonalUmbrellaMetaData {
 	public static final class RemoveDoNotRenewActionTab extends MetaData {
 		public static final AttributeDescriptor DATE = declare("Date", TextBox.class);
 		public static final AttributeDescriptor REASON = declare("Reason", ComboBox.class);
-		public static final AttributeDescriptor DO_NOT_RENEW_STATUS = declare("Do Not Renew Status", ComboBox.class);
+		public static final AttributeDescriptor DO_NOT_RENEW_STATUS = declare("Do Not Renew Status", ComboBox.class);		
 	}
 
 	public static final class CopyFromPolicyActionTab extends MetaData {
@@ -796,6 +796,7 @@ public final class PersonalUmbrellaMetaData {
 		public static final AttributeDescriptor DATE = declare("Date", TextBox.class);
 		public static final AttributeDescriptor REASON = declare("Reason", ComboBox.class);
 		public static final AttributeDescriptor DO_NOT_RENEW_STATUS = declare("Do Not Renew Status", ComboBox.class);
+		public static final AttributeDescriptor SUPPORTING_DATA = declare("Supporting Data", TextBox.class);
 	}
 
 	public static final class ReinstatementActionTab extends MetaData {
