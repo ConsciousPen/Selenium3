@@ -673,8 +673,9 @@ public final class PersonalUmbrellaMetaData {
 	
 
 	public static final class CancellationActionTab extends MetaData {
-		public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancellation effective date", TextBox.class, Waiters.AJAX);
-		public static final AttributeDescriptor CANCELLATION_REASON = declare("Cancellation reason", ComboBox.class, Waiters.AJAX);
+	    public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancellation effective date", TextBox.class,By.xpath("//input[@id='policyDataGatherForm:sedit_AAAPolicyCancelAction_policyTxInfo_txDateInputDate']"));
+//        public static final AttributeDescriptor CANCELLATION_REASON = declare("Cancellation reason", ComboBox.class,By.xpath("//select[@id='policyDataGatherForm:sedit_AAAPolicyCancelAction_policyCancelTxInfo_cancelTxReasonCd']"));
+        public static final AttributeDescriptor CANCELLATION_REASON = declare("Cancellation reason", ComboBox.class);
         public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class);
 	}
 
@@ -816,7 +817,7 @@ public final class PersonalUmbrellaMetaData {
 	    public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancellation effective date", TextBox.class, Waiters.AJAX);
         public static final AttributeDescriptor CANCELLATION_REASON = declare("Cancellation reason", ComboBox.class, Waiters.NONE);
         public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
-        public static final AttributeDescriptor DAYS_OF_NOTICE = declare("Days of notice", TextBox.class, Waiters.NONE);
+        public static final AttributeDescriptor DAYS_OF_NOTICE = declare("Days Of Notice", TextBox.class, Waiters.NONE);
 	}
 
 	public static final class RemoveManualRenewActionTab extends MetaData {
