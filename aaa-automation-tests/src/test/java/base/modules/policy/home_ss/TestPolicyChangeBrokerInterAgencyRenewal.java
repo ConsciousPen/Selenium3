@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoSSMetaData.ChangeBrokerActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
@@ -23,7 +23,7 @@ import toolkit.verification.CustomAssert;
  * 6. Verify Broker name was changed
  * @details
  */
-public class TestPolicyChangeBrokerInterAgencyRenewal extends HomeSSBaseTest {
+public class TestPolicyChangeBrokerInterAgencyRenewal extends HomeSSHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

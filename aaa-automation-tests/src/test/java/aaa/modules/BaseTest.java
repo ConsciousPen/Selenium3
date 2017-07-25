@@ -217,33 +217,28 @@ public class BaseTest {
 	 *
 	 * @param td
 	 *            - test data for quote filling
+	 * @return
 	 */
-	protected void createQuote(TestData td) {
+	protected String createQuote(TestData td) {
 		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
 		log.info("Quote Creation Started...");
 		getPolicyType().get().createQuote(td);
 		// return PolicySummaryPage.labelPolicyNumber.getValue();
+		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		EntitiesHolder.addNewEntity(EntitiesHolder.makePolicyKey(getPolicyType(), getState()), quoteNumber);
+		return quoteNumber;
 	}
 
 	/**
-	 * Gets default quote number and makes quote copy. If default quote doen't
+	 * Gets default quote number and makes quote copy. If default quote doesn't
 	 * exist - created it first
 	 * 
 	 * @return Copied quote number
 	 */
 	protected String getCopiedQuote() {
-		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
-		String key = EntitiesHolder.makeDefaultQuoteKey(getPolicyType(), getState()).intern();
-		synchronized (key) {
-			if (EntitiesHolder.isEntityPresent(key)) {
-				SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, EntitiesHolder.getEntity(key));
-			} else {
-				createCustomerIndividual();
-				createQuote();
-				EntitiesHolder.addNewEntity(key, PolicySummaryPage.labelPolicyNumber.getValue());
-			}
-		}
-		getPolicyType().get().copyQuote().perform(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromQuote", "TestData"));
+		openDefaultPolicy(getPolicyType(), getState());
+		getPolicyType().get().policyCopy().perform(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData"));
+		log.info("Quote copied " + EntityLogger.getEntityHeader(EntityLogger.EntityType.QUOTE));
 		return PolicySummaryPage.labelPolicyNumber.getValue();
 	}
 
@@ -282,23 +277,32 @@ public class BaseTest {
 	 * @return policy number
 	 */
 	protected String getCopiedPolicy() {
-		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
-		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState()).intern();
+		openDefaultPolicy(getPolicyType(), getState());
+		getPolicyType().get().copyPolicy(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData"));
+		return PolicySummaryPage.labelPolicyNumber.getValue();
+	}
+
+	private String openDefaultPolicy(PolicyType policyType, String state) {
+		Assert.assertNotNull(policyType, "PolicyType is not set");
+		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState());
+		String policyNumber = "";
 		synchronized (key) {
 			Integer count = policyCount.get(key);
+			if (count == null) count = 1;
 			if (EntitiesHolder.isEntityPresent(key) && count < 10) {
 				count++;
-				SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, EntitiesHolder.getEntity(key));
+				policyNumber = EntitiesHolder.getEntity(key);
+				SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			} else {
 				count = 1;
 				createCustomerIndividual();
 				createPolicy();
-				EntitiesHolder.addNewEntity(key, PolicySummaryPage.labelPolicyNumber.getValue());
+				policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+				EntitiesHolder.addNewEntity(key, policyNumber);
 			}
 			policyCount.put(key, count);
 		}
-		getPolicyType().get().copyPolicy(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData"));
-		return PolicySummaryPage.labelPolicyNumber.getValue();
+		return policyNumber;
 	}
 
 	/**
@@ -336,7 +340,7 @@ public class BaseTest {
 	}
 
 	protected Boolean isStateCA() {
-		return getPolicyType().equals(PolicyType.HOME_CA) || getPolicyType().equals(PolicyType.AUTO_CA) || getPolicyType().equals(PolicyType.CEA) || getPolicyType().equals(PolicyType.HOME_CA_DP3) || getPolicyType().equals(PolicyType.HOME_CA_HO4)
+		return getPolicyType().equals(PolicyType.HOME_CA_HO3) || getPolicyType().equals(PolicyType.AUTO_CA_SELECT) || getPolicyType().equals(PolicyType.CEA) || getPolicyType().equals(PolicyType.HOME_CA_DP3) || getPolicyType().equals(PolicyType.HOME_CA_HO4)
 				|| getPolicyType().equals(PolicyType.HOME_CA_HO6) || getPolicyType().equals(PolicyType.AUTO_CA_CHOICE);
 	}
 

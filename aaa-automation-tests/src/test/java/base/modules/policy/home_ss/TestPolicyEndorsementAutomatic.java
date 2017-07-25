@@ -15,7 +15,7 @@ import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.product.ProductEndorsementsVerifier;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTime;
 
@@ -38,7 +38,7 @@ import toolkit.utils.datetime.DateTime;
  * 13. Verify 'Pended Endorsement' button is disabled
  * @details
  */
-public class TestPolicyEndorsementAutomatic extends HomeSSBaseTest {
+public class TestPolicyEndorsementAutomatic extends HomeSSHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

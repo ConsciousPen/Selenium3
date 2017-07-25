@@ -11,7 +11,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeCaBaseTest;
+import aaa.modules.policy.HomeCaHO3BaseTest;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
 
@@ -27,7 +27,7 @@ import toolkit.utils.TestInfo;
  * 6. Verify quote status is 'Data Gathering'
  * @details
  */
-public class TestQuoteSuspenseAddRemove extends HomeCaBaseTest {
+public class TestQuoteSuspenseAddRemove extends HomeCaHO3BaseTest {
 
     @Test(groups = {"7.2_AUTOP,HOME_UC_SuspendQuote", "7.2_AUTOP,HOME_UC_RemoveQuoteSuspense"})
     @TestInfo(component = "Policy.PersonalLines")

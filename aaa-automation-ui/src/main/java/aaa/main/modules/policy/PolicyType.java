@@ -18,15 +18,14 @@ import aaa.rest.policy.personallines.PersonalLinesPolicyRest;
  */
 public class PolicyType {
 
-	public static final PolicyType AUTO_CA = new PolicyType("AutoCA", "California Auto", new AutoCaPolicy());
+	public static final PolicyType AUTO_CA_SELECT = new PolicyType("AutoCA", "California Auto", new AutoCaPolicy());
 	public static final PolicyType AUTO_CA_CHOICE = new PolicyType("AutoCAC", "California Auto", new AutoCaPolicy());
 	public static final PolicyType AUTO_SS = new PolicyType("AutoSS", "Auto Signature Series", new AutoSSPolicy());
-	public static final PolicyType HOME_SS = new PolicyType("HomeSS", "Homeowners Signature Series", new HomeSSPolicy());
+	public static final PolicyType HOME_SS_HO3 = new PolicyType("HomeSS", "Homeowners Signature Series", new HomeSSPolicy());
 	public static final PolicyType HOME_SS_HO4 = new PolicyType("HomeSS_HO4", "Homeowners Signature Series", new HomeSSPolicy());
 	public static final PolicyType HOME_SS_HO6 = new PolicyType("HomeSS_HO6", "Homeowners Signature Series", new HomeSSPolicy());
 	public static final PolicyType HOME_SS_DP3 = new PolicyType("HomeSS_DP3", "Homeowners Signature Series", new HomeSSPolicy());
-	public static final PolicyType HOME_CA = new PolicyType("HomeCA", "California Homeowners", new HomeCaPolicy());
-	public static final PolicyType HOME_CA_HO3 = new PolicyType("HOME_CA_HO3", "California Homeowners", new HomeCaPolicy());
+	public static final PolicyType HOME_CA_HO3 = new PolicyType("HomeCA", "California Homeowners", new HomeCaPolicy());
 	public static final PolicyType HOME_CA_HO4 = new PolicyType("HOME_CA_HO4", "California Homeowners", new HomeCaPolicy());
 	public static final PolicyType HOME_CA_HO6 = new PolicyType("HOME_CA_HO6", "California Homeowners", new HomeCaPolicy());
 	public static final PolicyType HOME_CA_DP3 = new PolicyType("HOME_CA_DP3", "California Homeowners", new HomeCaPolicy());

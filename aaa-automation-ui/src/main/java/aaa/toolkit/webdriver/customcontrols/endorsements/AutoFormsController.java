@@ -25,21 +25,21 @@ import toolkit.webdriver.controls.composite.table.Table;
  * <b>Example of Test Data:</b></br>
  * <pre>
  * Driver Forms: [{
-    Forms Subject: 'Michael Trevor',
-    ADBE: {
-      Action: Add
-    },
-    SR22: {
-      Action: Edit,
-      State: CO,
-      Expiration Date: '/today'
-    }
-  },{
-    Forms Subject: 'John Smith',
-    ADBE: {
-      Action: Add
-    }
-  }]
+ *   Forms Subject: 'Michael Trevor',
+ *   ADBE: {
+ *     Action: Add
+ *   },
+ *   SR22: {
+ *     Action: Edit,
+ *     State: CO,
+ *     Expiration Date: '/today'
+ *   }
+ * },{
+ *   Forms Subject: 'John Smith',
+ *   ADBE: {
+ *     Action: Add
+ *   }
+ * }]
  *
  */
 public abstract class AutoFormsController extends AbstractContainer<List<TestData>, List<TestData>>{

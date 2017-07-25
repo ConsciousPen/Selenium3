@@ -8,7 +8,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaBaseTest;
+import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
@@ -26,7 +26,7 @@ import toolkit.verification.CustomAssert;
  * 8. Verify Ending Premium was roll back
  * @details
  */
-public class TestPolicyEndorsementRollBack extends AutoCaBaseTest {
+public class TestPolicyEndorsementRollBack extends AutoCaSelectBaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

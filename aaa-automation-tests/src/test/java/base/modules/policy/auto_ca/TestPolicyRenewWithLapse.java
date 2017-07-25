@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaBaseTest;
+import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -23,7 +23,7 @@ import toolkit.utils.TestInfo;
  * 8. Verify 'Term includes lapse period' is displayed in the header.
  * @details
  */
-public class TestPolicyRenewWithLapse extends AutoCaBaseTest {
+public class TestPolicyRenewWithLapse extends AutoCaSelectBaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

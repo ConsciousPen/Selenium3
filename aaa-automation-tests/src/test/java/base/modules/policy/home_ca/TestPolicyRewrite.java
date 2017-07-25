@@ -15,7 +15,7 @@ import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.actiontabs.RewriteActionTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeCaBaseTest;
+import aaa.modules.policy.HomeCaHO3BaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
@@ -35,7 +35,7 @@ import toolkit.verification.CustomAssert;
  * @details
  */
 
-public class TestPolicyRewrite extends HomeCaBaseTest {
+public class TestPolicyRewrite extends HomeCaHO3BaseTest {
 
     private String policyNumber, effectiveDate;
 

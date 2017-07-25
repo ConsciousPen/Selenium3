@@ -5,7 +5,7 @@ package aaa.modules.policy.home_ss_ho3;
 import org.testng.annotations.Test;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -21,7 +21,7 @@ import toolkit.utils.TestInfo;
  * 7. Verify policy status is Active on Consolidated policy view.
  * @details
  */
-public class TestPolicyCreateHO3Full extends HomeSSBaseTest {
+public class TestPolicyCreateHO3Full extends HomeSSHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.HomeSS")

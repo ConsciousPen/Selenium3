@@ -2,7 +2,7 @@ package aaa.modules.example;
 
 import org.testng.annotations.Test;
 import aaa.helpers.Groups;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 
 /**
  * Rule 1: all Test classes should start from "Test" prefix. 
@@ -15,7 +15,7 @@ import aaa.modules.policy.HomeSSBaseTest;
  *
  *
  */
-public class TestMultipleGroups extends HomeSSBaseTest {
+public class TestMultipleGroups extends HomeSSHO3BaseTest {
 
 	@Test(groups = {Groups.SMOKE, Groups.AUTO_SS})
 	public void test1() {

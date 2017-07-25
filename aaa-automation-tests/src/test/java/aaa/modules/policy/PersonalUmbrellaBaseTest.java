@@ -39,10 +39,10 @@ public class PersonalUmbrellaBaseTest extends PolicyBaseTest {
 			PolicyType type;
 			PolicyType typeAuto = null;
 			if (state.equals(States.CA.get())) {
-				type = PolicyType.HOME_CA;
-				typeAuto = PolicyType.AUTO_CA;
+				type = PolicyType.HOME_CA_HO3;
+				typeAuto = PolicyType.AUTO_CA_SELECT;
 			} else
-				type = PolicyType.HOME_SS;
+				type = PolicyType.HOME_SS_HO3;
 			String key = EntitiesHolder.makeDefaultPolicyKey(type, state);
 			if (EntitiesHolder.isEntityPresent(key))
 				returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
@@ -91,5 +91,16 @@ public class PersonalUmbrellaBaseTest extends PolicyBaseTest {
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		EntitiesHolder.addNewEntity(EntitiesHolder.makePolicyKey(getPolicyType(), getState()), policyNumber);
 		return policyNumber;
+	}
+	
+	@Override
+	protected String createQuote(TestData td) {
+		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
+		td = adjustWithRealPolicies(td, getPrimaryPolicies());
+		log.info("Quote Creation Started...");
+		getPolicyType().get().createQuote(td);
+		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		EntitiesHolder.addNewEntity(EntitiesHolder.makePolicyKey(getPolicyType(), getState()), quoteNumber);
+		return quoteNumber;
 	}
 }

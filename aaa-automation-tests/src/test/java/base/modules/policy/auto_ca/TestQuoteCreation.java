@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaBaseTest;
+import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -18,7 +18,7 @@ import toolkit.utils.TestInfo;
  * 3. Verify quote status is 'Premium Calculated'
  * @details
  */
-public class TestQuoteCreation extends AutoCaBaseTest {
+public class TestQuoteCreation extends AutoCaSelectBaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

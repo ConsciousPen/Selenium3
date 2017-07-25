@@ -11,7 +11,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.actiontabs.GenerateProposalActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaBaseTest;
+import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.StaticElement;
 
@@ -28,7 +28,7 @@ import toolkit.webdriver.controls.StaticElement;
  * 7. Verify quote status is 'Proposed'
  * @details
  */
-public class TestQuotePropose extends AutoCaBaseTest {
+public class TestQuotePropose extends AutoCaSelectBaseTest {
 
     @Test(groups = "7.2_DISABILITY,LIFE,AUTO,CGL,PROPC,AUTOP,HOME,UMBRP,ACHE,GROUP,INMRC_UC_ProposeQuote")
     @TestInfo(component = "Policy.PersonalLines")

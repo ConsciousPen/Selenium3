@@ -12,7 +12,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -43,7 +43,7 @@ import toolkit.utils.TestInfo;
  * 19740:US CL Capture Effective Date - V02
  * </pre>
  **/
-public class TestQuoteValidateRules extends HomeSSBaseTest {
+public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
 	
 	private TestData td = getStateTestData(tdPolicy, "DataGather", "TestData");
 		

@@ -9,7 +9,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeCaBaseTest;
+import aaa.modules.policy.HomeCaHO3BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -28,7 +28,7 @@ import toolkit.utils.TestInfo;
  * 9. Navigate to Billing tab and verify that all deposit payments are displaying. 
  * @details
  */
-public class TestPolicyPayments extends HomeCaBaseTest {
+public class TestPolicyPayments extends HomeCaHO3BaseTest {
 
 	@Test
 	@TestInfo(component = "Policy.PersonalLines")

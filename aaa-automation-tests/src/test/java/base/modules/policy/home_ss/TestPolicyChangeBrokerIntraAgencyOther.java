@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 
 import aaa.main.metadata.policy.AutoSSMetaData.ChangeBrokerActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.StaticElement;
 
@@ -21,7 +21,7 @@ import toolkit.webdriver.controls.StaticElement;
  * 4. Verify Insurance Agent name was changed
  * @details
  */
-public class TestPolicyChangeBrokerIntraAgencyOther extends HomeSSBaseTest {
+public class TestPolicyChangeBrokerIntraAgencyOther extends HomeSSHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

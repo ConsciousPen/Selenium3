@@ -9,6 +9,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.verification.CustomAssert;
 
 public class TestPolicyCreateHO3Full extends HomeCaHO3BaseTest {
 
@@ -29,6 +30,8 @@ public class TestPolicyCreateHO3Full extends HomeCaHO3BaseTest {
 	@TestInfo(component = "Policy.PersonalLines")
 	public void testPolicyCreation() {
 
+		CustomAssert.assertTrue("NOT COMPLETED TEST: add HO3_FULL test data from old project's file \"CA_HSS_Smoke.xls\"", false);
+		
 		TestData td = tdPolicy.getTestData("DataGather", "TestData").adjust("EndorsementAddForm", "TestData");
 
 		mainApp().open();

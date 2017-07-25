@@ -4,9 +4,11 @@ package aaa.main.modules.mywork;
 
 import aaa.common.AbstractAction;
 import aaa.common.Workspace;
+import aaa.main.metadata.MyWorkMetaData;
 import aaa.main.modules.mywork.actiontabs.AssignTaskToActionTab;
 import aaa.main.modules.mywork.actiontabs.CompleteTaskActionTab;
 import aaa.main.modules.mywork.actiontabs.CreateTaskActionTab;
+import aaa.main.modules.mywork.actiontabs.FilterTaskActionTab;
 import aaa.main.modules.mywork.actiontabs.UpdateTaskActionTab;
 import aaa.main.modules.mywork.views.AssignTaskToView;
 import aaa.main.modules.mywork.views.CompleteTaskView;
@@ -16,6 +18,7 @@ import aaa.main.modules.mywork.views.UpdateTaskView;
 import aaa.main.pages.summary.MyWorkSummaryPage;
 import aaa.main.pages.summary.TaskDetailsSummaryPage;
 import toolkit.datax.TestData;
+import toolkit.webdriver.controls.TextBox;
 
 /**
  * Set of abstract classes describing all actions available for the product entities of each type.
@@ -209,6 +212,13 @@ public final class MyWorkActions {
         public AbstractAction submit() {
             MyWorkSummaryPage.submitFilter();
             return this;
+        }
+        
+        public AbstractAction performByReferenceId(String referenceId) {
+            start();
+            getView().getTab(FilterTaskActionTab.class).getAssetList().getControl(
+            		MyWorkMetaData.FilterTaskActionTab.REFERENCE_ID.getLabel(), TextBox.class).setValue(referenceId);
+            return submit();
         }
     }
 }

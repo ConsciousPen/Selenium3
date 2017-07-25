@@ -8,7 +8,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaBaseTest;
+import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
@@ -25,7 +25,7 @@ import toolkit.verification.CustomAssert;
  * 7. Verify Policy Premium is changed
  * @details
  */
-public class TestPolicyEndorsementOos extends AutoCaBaseTest {
+public class TestPolicyEndorsementOos extends AutoCaSelectBaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

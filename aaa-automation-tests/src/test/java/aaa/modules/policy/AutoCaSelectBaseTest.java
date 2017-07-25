@@ -2,13 +2,18 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.policy;
 
+import aaa.common.Constants;
 import aaa.main.modules.policy.PolicyType;
 
-public class HomeSSBaseTest extends PolicyBaseTest {
+public class AutoCaSelectBaseTest extends PolicyBaseTest {
 
+	public AutoCaSelectBaseTest() {
+		setState(Constants.States.CA.get());
+	}
+	
     @Override
     protected PolicyType getPolicyType() {
-        return PolicyType.HOME_SS;
+        return PolicyType.AUTO_CA_SELECT;
     }
 
 }

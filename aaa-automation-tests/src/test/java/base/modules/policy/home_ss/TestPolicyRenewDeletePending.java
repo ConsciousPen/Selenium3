@@ -5,7 +5,7 @@ package base.modules.policy.home_ss;
 import org.testng.annotations.Test;
 
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
 
@@ -20,7 +20,7 @@ import toolkit.utils.TestInfo;
  * 5. Verify 'Renewals' button is disabled
  * @details
  */
-public class TestPolicyRenewDeletePending extends HomeSSBaseTest {
+public class TestPolicyRenewDeletePending extends HomeSSHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

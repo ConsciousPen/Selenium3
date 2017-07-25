@@ -11,7 +11,7 @@ import aaa.main.modules.policy.home_ss.actiontabs.SuspendQuoteActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
 
@@ -27,7 +27,7 @@ import toolkit.utils.TestInfo;
  * 6. Verify quote status is 'Data Gathering'
  * @details
  */
-public class TestQuoteSuspenseAddRemove extends HomeSSBaseTest {
+public class TestQuoteSuspenseAddRemove extends HomeSSHO3BaseTest {
 
     @Test(groups = {"7.2_AUTOP,HOME_UC_SuspendQuote", "7.2_AUTOP,HOME_UC_RemoveQuoteSuspense"})
     @TestInfo(component = "Policy.PersonalLines")

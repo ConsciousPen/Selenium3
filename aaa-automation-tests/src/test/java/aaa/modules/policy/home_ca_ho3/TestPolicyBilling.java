@@ -25,7 +25,7 @@ public class TestPolicyBilling extends PolicyBilling {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_CA;
+		return PolicyType.HOME_CA_HO3;
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package aaa.modules.policy.auto_ca;
+package aaa.modules.policy.auto_ca_select;
 
 import org.testng.annotations.Test;
 
@@ -17,7 +17,7 @@ public class TestPolicyCancelRewrite extends PolicyCancelRewrite {
 
     @Override
     protected PolicyType getPolicyType() {
-        return PolicyType.AUTO_CA;
+        return PolicyType.AUTO_CA_SELECT;
     }
     
 	@Test

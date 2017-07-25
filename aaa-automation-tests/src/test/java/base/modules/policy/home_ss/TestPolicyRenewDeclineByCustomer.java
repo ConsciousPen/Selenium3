@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
 
@@ -21,7 +21,7 @@ import toolkit.utils.TestInfo;
  * 5. Verify Policy status is 'Customer Declined'
  * @details
  */
-public class TestPolicyRenewDeclineByCustomer extends HomeSSBaseTest {
+public class TestPolicyRenewDeclineByCustomer extends HomeSSHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

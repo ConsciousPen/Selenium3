@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -21,7 +21,7 @@ import toolkit.utils.TestInfo;
  * 6. Verify Policy number is the same cancelled policy number
  * @details
  */
-public class TestPolicyRewriteToSameNumber extends HomeSSBaseTest {
+public class TestPolicyRewriteToSameNumber extends HomeSSHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

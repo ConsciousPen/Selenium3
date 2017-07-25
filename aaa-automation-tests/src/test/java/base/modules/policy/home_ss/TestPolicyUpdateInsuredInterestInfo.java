@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import aaa.main.metadata.policy.AutoSSMetaData.NonPremiumBearingEndorsementActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -20,7 +20,7 @@ import toolkit.utils.TestInfo;
  * 4. Verify Updated information appears in InsuredInformation at consolidated view
  * @details
  */
-public class TestPolicyUpdateInsuredInterestInfo extends HomeSSBaseTest {
+public class TestPolicyUpdateInsuredInterestInfo extends HomeSSHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

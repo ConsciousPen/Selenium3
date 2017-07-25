@@ -10,7 +10,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.auto_ca.actiontabs.ReinstatementActionTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaBaseTest;
+import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -35,7 +35,7 @@ import toolkit.utils.TestInfo;
  * @details
  * https://jira.exigeninsurance.com/browse/EISDEV-146523
  */
-public class TestPolicyReinstatement extends AutoCaBaseTest {
+public class TestPolicyReinstatement extends AutoCaSelectBaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

@@ -5,7 +5,7 @@ package base.modules.policy.home_ss;
 import org.testng.annotations.Test;
 
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
@@ -19,7 +19,7 @@ import toolkit.verification.CustomAssert;
  * 4. Verify new Policy
  * @details
  */
-public class TestPolicyCopy extends HomeSSBaseTest {
+public class TestPolicyCopy extends HomeSSHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

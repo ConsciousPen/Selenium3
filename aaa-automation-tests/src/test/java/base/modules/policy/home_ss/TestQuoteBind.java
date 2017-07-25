@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -19,7 +19,7 @@ import toolkit.utils.TestInfo;
  * 4. Verify Quote status is 'Bound'
  * @details
  */
-public class TestQuoteBind extends HomeSSBaseTest {
+public class TestQuoteBind extends HomeSSHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

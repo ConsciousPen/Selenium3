@@ -41,7 +41,7 @@ public class HomeSSPolicy implements IPolicy {
 	@Override
 	public void initiate() {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.QUOTE.get());
-		QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.HOME_SS.getName());
+		QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.HOME_SS_HO3.getName());
 		QuoteSummaryPage.buttonAddNewQuote.click();
 	}
 

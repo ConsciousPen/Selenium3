@@ -12,7 +12,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -38,7 +38,7 @@ import toolkit.verification.CustomAssert;
  * @details
  */
 
-public class TestPolicyEndorsement extends HomeSSBaseTest {
+public class TestPolicyEndorsement extends HomeSSHO3BaseTest {
 
 	@Test
 	@TestInfo(component = "Policy.PersonalLines")

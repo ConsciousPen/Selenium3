@@ -16,7 +16,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.actiontabs.CancelNoticeActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -33,7 +33,7 @@ import toolkit.utils.TestInfo;
  * 8. Verify 'Cancel Notice' flag is not displayed in the policy overview header
  * @details
  */
-public class TestPolicyCancelNoticeWithCancellation extends HomeSSBaseTest {
+public class TestPolicyCancelNoticeWithCancellation extends HomeSSHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

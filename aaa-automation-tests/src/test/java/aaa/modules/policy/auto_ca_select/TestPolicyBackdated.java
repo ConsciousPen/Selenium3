@@ -1,12 +1,12 @@
 /* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
-package aaa.modules.policy.auto_ca;
+package aaa.modules.policy.auto_ca_select;
 
 import org.testng.annotations.Test;
 
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaBaseTest;
+import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -20,7 +20,7 @@ import toolkit.utils.TestInfo;
  * 4. Verify Policy is backdated
  * @details
  */
-public class TestPolicyBackdated extends AutoCaBaseTest {
+public class TestPolicyBackdated extends AutoCaSelectBaseTest {
 
 	@Test
 	@TestInfo(component = "Policy.AutoCA")

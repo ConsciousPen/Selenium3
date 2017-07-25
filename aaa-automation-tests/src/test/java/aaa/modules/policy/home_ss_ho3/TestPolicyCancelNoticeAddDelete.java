@@ -4,7 +4,7 @@ package aaa.modules.policy.home_ss_ho3;
 
 import org.testng.annotations.Test;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
 
@@ -20,7 +20,7 @@ import toolkit.utils.TestInfo;
  * 6. Verify 'Cancel Notice' flag is not displayed in the policy overview header
  * @details
  */
-public class TestPolicyCancelNoticeAddDelete extends HomeSSBaseTest {
+public class TestPolicyCancelNoticeAddDelete extends HomeSSHO3BaseTest {
 
 	@Test
 	@TestInfo(component = "Policy.PersonalLines")
