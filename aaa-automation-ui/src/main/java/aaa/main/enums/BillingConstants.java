@@ -39,6 +39,10 @@ public final class BillingConstants {
         public static final String REFUND = "Refund";
     }
 
+    public static final class BillingPendingTransactionsType {
+        public static final String REFUND = "Refund";
+    }
+
     public static final class PaymentsAndOtherTransactionTypeGB {
         public static final String INVOICE = "Invoice";
         public static final String DISCARD_INVOICE = "Discard Invoice";
@@ -125,6 +129,10 @@ public final class BillingConstants {
         public static final String REINSTATEMENT_OTHER = "Reinstatement ( - / Other)";
     }
 
+    public static final class BillingPendingTransactionsActions {
+        public static final String APPROVE = "Approve";
+    }
+
     public static final class BillingStatementsTable {
         public static final String MINIMUM_DUE = "Minimum Due";
     }
@@ -145,6 +153,8 @@ public final class BillingConstants {
     public static final class BillingGeneralInformationTable {
         public static final String ID = "ID";
         public static final String MINIMUM_DUE = "Minimum Due";
+        public static final String TOTAL_DUE = "Total Due";
+        public static final String TOTAL_PAID = "Total Paid";
     }
 
     public static final class BillingSuspensePaymentsTable {
@@ -171,6 +181,7 @@ public final class BillingConstants {
         public static final String AMOUNT = "Amount";
         public static final String SUBTYPE_REASON = "Subtype/Reason";
         public static final String POLICY = "Policy #";
+        public static final String STATUS = "Status";
     }
 
     public static final class BillingInstallmentScheduleTable {
@@ -180,6 +191,7 @@ public final class BillingConstants {
     public static final class BillingPendingTransactionsTable {
         public static final String AMOUNT = "Amount";
         public static final String TYPE = "Type";
+        public static final String ACTION = "Action";
     }
 
     public static final class BillingModalPremiumTable {
