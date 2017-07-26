@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.helpers.billing;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -16,7 +17,7 @@ import aaa.main.enums.PolicyConstants;
 import aaa.main.modules.billing.account.defaulttabs.BillingAccountTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import toolkit.utils.datetime.DateTime;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
@@ -81,27 +82,27 @@ public final class BillingHelper {
 
 		int iCounter = 1;
 
-		DateTime policyEffectiveDate = new DateTime(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.EFFECTIVE_DATE).getValue(), DateTime.MM_DD_YYYY);
-		DateTime policyExpirationDate = new DateTime(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.EXPIRATION_DATE).getValue(), DateTime.MM_DD_YYYY);
-		DateTime dateToday = new DateTime(TimeSetterUtil.getInstance().getCurrentTime().toString(DateTime.MM_DD_YYYY));
+		LocalDateTime policyEffectiveDate = LocalDateTime.parse(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.EFFECTIVE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
+		LocalDateTime policyExpirationDate = LocalDateTime.parse(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.EXPIRATION_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
+		LocalDateTime dateToday = TimeSetterUtil.getInstance().getCurrentTime();
 
 		// if todays day is bigger than effective date, than get today as first
 		// installment date
-		DateTime installmentDateFirst, installementDateLast;
+		LocalDateTime installmentDateFirst, installementDateLast;
 		int dayToday = Integer.parseInt(dateToday.toString().split("/")[1]);
 		int dayEffective = Integer.parseInt(policyEffectiveDate.toString().split("/")[1]);
 		if (dayToday > dayEffective) {
-			installmentDateFirst = new DateTime(policyEffectiveDate.addDays(dayToday - dayEffective).toString(DateTime.MM_DD_YYYY), DateTime.MM_DD_YYYY);
+			installmentDateFirst = LocalDateTime.parse(policyEffectiveDate.plusDays(dayToday - dayEffective).format(DateTimeUtils.MM_DD_YYYY), DateTimeUtils.MM_DD_YYYY);
 		} else {
 			// else take next month with todays day
 			installmentDateFirst = policyEffectiveDate;
 		}
-		installementDateLast = policyExpirationDate.subtractMonths(1);
+		installementDateLast = policyExpirationDate.minusMonths(1);
 
 		// count months between First and Last dates
 		for (;; iCounter++) {
-			DateTime period = installmentDateFirst.addMonths(iCounter);
-			if ((period.equals(installementDateLast)) || (period.equals(installementDateLast.addDays(dayToday - dayEffective)))) {
+			LocalDateTime period = installmentDateFirst.plusMonths(iCounter);
+			if ((period.equals(installementDateLast)) || (period.equals(installementDateLast.plusDays(dayToday - dayEffective)))) {
 				iCounter++;
 				break;
 			}

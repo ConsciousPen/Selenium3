@@ -2,11 +2,13 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.helpers.product;
 
+import java.time.LocalDateTime;
+
 import com.exigen.ipb.etcsa.utils.Dollar;
 
 import aaa.helpers.TableVerifier;
 import aaa.main.pages.summary.PolicySummaryPage;
-import toolkit.utils.datetime.DateTime;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.composite.table.Table;
 
 public class ProductTransactionHistoryVerifier extends TableVerifier {
@@ -16,13 +18,13 @@ public class ProductTransactionHistoryVerifier extends TableVerifier {
         return this;
     }
 
-    public ProductTransactionHistoryVerifier setTransactionDate(DateTime value) {
-        setValue("Tran. Premium", value.toString(DateTime.MM_DD_YYYY));
+    public ProductTransactionHistoryVerifier setTransactionDate(LocalDateTime value) {
+        setValue("Tran. Premium", value.format(DateTimeUtils.MM_DD_YYYY));
         return this;
     }
 
-    public ProductTransactionHistoryVerifier setEffectiveDate(DateTime value) {
-        setValue("Effective Date", value.toString(DateTime.MM_DD_YYYY));
+    public ProductTransactionHistoryVerifier setEffectiveDate(LocalDateTime value) {
+        setValue("Effective Date", value.format(DateTimeUtils.MM_DD_YYYY));
         return this;
     }
 

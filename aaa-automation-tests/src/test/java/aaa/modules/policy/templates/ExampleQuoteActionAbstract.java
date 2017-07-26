@@ -36,10 +36,10 @@ public abstract class ExampleQuoteActionAbstract extends PolicyBaseTest {
 		policy.propose().start();
 
 		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
-			policy.propose().getView().getTab(ProposeActionTab.class).getAssetList().getControl(HomeSSMetaData.ProposeActionTab.NOTES.getLabel()).verify.enabled();
+			policy.propose().getView().getTab(ProposeActionTab.class).getAssetList().getAsset(HomeSSMetaData.ProposeActionTab.NOTES.getLabel()).verify.enabled();
 			ProposeActionTab.message.verify
 					.value("Please note that once you click \"OK\" the documents will be queued for generation " + "and will be available for viewing within the folder structure as soon as they have been successfully processed. This usually takes 3 to 5 minutes.");
-			policy.propose().getView().getTab(ProposeActionTab.class).getAssetList().getControl(HomeSSMetaData.ProposeActionTab.NOTES.getLabel(), TextBox.class).setValue("Comment");
+			policy.propose().getView().getTab(ProposeActionTab.class).getAssetList().getAsset(HomeSSMetaData.ProposeActionTab.NOTES.getLabel(), TextBox.class).setValue("Comment");
 		}
 		//Another if for other product
 
