@@ -9,6 +9,8 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.components.Dialog;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.pages.NavigationPage;
+import aaa.toolkit.webdriver.customcontrols.TableWithPages;
+import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
@@ -16,15 +18,17 @@ import toolkit.webdriver.controls.composite.table.Table;
 
 public class BillingSummaryPage extends SummaryPage {
 
+	private static final ByT PAGINATION_LOCATOR = ByT.xpath("//table[@id='%s']/ancestor::tr[1]/following-sibling::tr[1]/descendant::span[1]");
+	
     public static StaticElement labelBillingAccountNumber = new StaticElement(By.id("billingInfoForm:accountNumber"));
     public static StaticElement labelBillingAccountName = new StaticElement(By.xpath("//*[@id='billingInfoForm']/div/table/tbody/tr[1]/td[1]//div[2]/span"));
     public static StaticElement labelBillingAccountStatus = new StaticElement(By.id("billingInfoForm:accountStatus"));
 
     public static Table tableBillingGeneralInformation = new Table(By.id("billingDetailedForm:general_info_table"));
     public static Table tableBillingAccountPolicies = new Table(By.id("billingDetailedForm:billing_policies_info_table"));
-    public static Table tableInstallmentSchedule = new Table(By.id("billingDetailedForm:billing_installments_info_table"));
-    public static Table tableBillsStatements = new Table(By.id("billingDetailedForm:billing_bills_statements"));
-    public static Table tablePaymentsOtherTransactions = new Table(By.id("billingDetailedForm:billing_transactions_active"));
+    public static TableWithPages tableInstallmentSchedule = new TableWithPages(By.id("billingDetailedForm:billing_installments_info_table"), PAGINATION_LOCATOR.format("billingDetailedForm:billing_installments_info_table"));
+    public static TableWithPages tableBillsStatements = new TableWithPages(By.id("billingDetailedForm:billing_bills_statements"), PAGINATION_LOCATOR.format("billingDetailedForm:billing_bills_statements"));
+    public static TableWithPages tablePaymentsOtherTransactions = new TableWithPages(By.id("billingDetailedForm:billing_transactions_active"), PAGINATION_LOCATOR.format("billingDetailedForm:billing_transactions_active"));
     public static Table tablePendingTransactions = new Table(By.id("billingDetailedForm:billing_transactions_pending"));
     public static Table tableBenefitAccounts = new Table(By.xpath("//div[@id='billingAccountListForm:group_billing_account_list_table']//table"));
     public static Table tableModalPremiums = new Table(By.xpath("//div[@id='modalPremiumForm:billing_modal_premium']//table"));
