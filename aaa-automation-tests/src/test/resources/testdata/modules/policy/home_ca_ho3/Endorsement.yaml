@@ -32,3 +32,21 @@ TestData_Minus1Day: {
     Endorsement Reason: index=1,
   }
 }
+
+TestData_AddForm_HO75: {
+  EndorsementTab: {
+    'HO-75': [{
+      Action: 'Add',
+      Instance Number: 1,
+      Boat type: Inboard,
+      'HIN#': 123456789,
+      Year: 2000,
+      Make: Make1,
+      Model: Model1,
+      'Description of engine/motor': Diesel,
+      Horsepower: 60,
+      Length: 7,
+      Maximum speed: 50
+    }]
+  }
+} 
