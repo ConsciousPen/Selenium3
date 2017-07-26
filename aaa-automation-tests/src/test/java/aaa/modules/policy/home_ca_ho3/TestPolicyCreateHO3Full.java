@@ -25,8 +25,6 @@ public class TestPolicyCreateHO3Full extends HomeCaHO3BaseTest {
     @TestInfo(component = "Policy.PersonalLines")
     public void testPolicyCreation() {
 
-        //CustomAssert.assertTrue("NOT COMPLETED TEST: add HO3_FULL test data from old project's file \"CA_HSS_Smoke.xls\"", false);
-
         mainApp().open();
         createCustomerIndividual();
         createPolicy(tdSpecific.getTestData("TestData").adjust(tdPolicy.getTestData("Endorsement", "TestData_AddForm_HO75")).resolveLinks());
