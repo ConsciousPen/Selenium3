@@ -3,10 +3,18 @@
 package aaa.main.modules.billing.account.actiontabs;
 
 import aaa.common.ActionTab;
+import aaa.common.Tab;
 import aaa.main.metadata.BillingAccountMetaData;
 
 public class OtherTransactionsActionTab extends ActionTab {
     public OtherTransactionsActionTab() {
         super(BillingAccountMetaData.OtherTransactionsActionTab.class);
     }
+
+    @Override
+    public Tab submitTab() {
+        buttonOk.click();
+        return this;
+    }
+
 }

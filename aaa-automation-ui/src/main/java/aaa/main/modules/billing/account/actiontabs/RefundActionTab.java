@@ -3,10 +3,17 @@
 package aaa.main.modules.billing.account.actiontabs;
 
 import aaa.common.ActionTab;
+import aaa.common.Tab;
 import aaa.main.metadata.BillingAccountMetaData;
 
 public class RefundActionTab extends ActionTab {
     public RefundActionTab() {
         super(BillingAccountMetaData.RefundActionTab.class);
+    }
+
+    @Override
+    public Tab submitTab() {
+        buttonOk.click();
+        return this;
     }
 }
