@@ -39,6 +39,10 @@ public final class BillingConstants {
         public static final String REFUND = "Refund";
     }
 
+    public static final class BillingPendingTransactionsType {
+        public static final String REFUND = "Refund";
+    }
+
     public static final class PaymentsAndOtherTransactionTypeGB {
         public static final String INVOICE = "Invoice";
         public static final String DISCARD_INVOICE = "Discard Invoice";
@@ -125,6 +129,10 @@ public final class BillingConstants {
         public static final String REINSTATEMENT_OTHER = "Reinstatement ( - / Other)";
     }
 
+    public static final class BillingPendingTransactionsActions {
+        public static final String APPROVE = "Approve";
+    }
+
     public static final class BillingStatementsTable {
         public static final String MINIMUM_DUE = "Minimum Due";
     }
@@ -143,8 +151,15 @@ public final class BillingConstants {
     }
 
     public static final class BillingGeneralInformationTable {
-        public static final String ID = "ID";
-        public static final String MINIMUM_DUE = "Minimum Due";
+    	public static final String ID = "ID";
+    	public static final String BILLING_ADDRESS = "Billing Address";
+    	public static final String BILL_TYPE = "Bill Type";
+    	public static final String DUE_DATE = "Due Day";
+    	public static final String MINIMUM_DUE = "Minimum Due";
+    	public static final String PAST_DUE = "Past Due";
+    	public static final String TOTAL_DUE = "Total Due";
+    	public static final String TOTAL_PAID = "Total Paid";
+    	public static final String BILLABLE_AMOUNT = "Billable Amount";
     }
 
     public static final class BillingSuspensePaymentsTable {
@@ -171,15 +186,28 @@ public final class BillingConstants {
         public static final String AMOUNT = "Amount";
         public static final String SUBTYPE_REASON = "Subtype/Reason";
         public static final String POLICY = "Policy #";
+        public static final String STATUS = "Status";
     }
 
     public static final class BillingInstallmentScheduleTable {
-        public static final String BILLED_STATUS = "Billed Status";
+    	public static final String DESCRIPTION = "Description";
+    	public static final String INSTALLMENT_DUE = "Schedule Due Amount";
+    	public static final String INSTALLMENT_DUE_DATE = "Schedule Due Date";
+    	public static final String BILLED_STATUS = "Billed Status";
+    	public static final String BILL_GENERATION_DATE = "Bill Generation Date";
+    	public static final String BILL_DUE_DATE = "Bill Due Date";
+    	public static final String BILLED_AMOUNT = "Billed Amount";
     }
 
     public static final class BillingPendingTransactionsTable {
-        public static final String AMOUNT = "Amount";
-        public static final String TYPE = "Type";
+    	public static final String TRANSACTION_DATE = "Transaction Date";
+    	public static final String EFF_DATE = "Effective Date";
+    	public static final String TYPE = "Type";
+    	public static final String SUBTYPE_REASON = "Subtype/Reason";
+    	public static final String REASON = "Reason";
+    	public static final String AMOUNT = "Amount";
+    	public static final String STATUS = "Status";
+    	public static final String ACTION = "Action";
     }
 
     public static final class BillingModalPremiumTable {
@@ -190,7 +218,20 @@ public final class BillingConstants {
     }
 
     public static final class BillingAccountPoliciesTable {
-        public static final String POLICY_STATUS = "Policy Status";
+    	public static final String POLICY_NUM = "Policy #";
+    	public static final String TYPE = "Type";
+    	public static final String EFF_DATE = "Eff. Date";
+    	public static final String PAYMENT_PLAN = "Payment Plan";
+    	public static final String POLICY_STATUS = "Policy Status";
+    	public static final String POLICY_FLAG = "Policy Flag";
+    	public static final String BILLING_STATUS = "Billing Status";
+    	public static final String MIN_DUE = "Min. Due";
+    	public static final String PAST_DUE = "Past Due";
+    	public static final String TOTAL_DUE = "Total Due";
+    	public static final String TOTAL_PAID = "Total Paid";
+    	public static final String PREPAID = "Prepaid";
+    	public static final String BILLABLE_AMOUNT = "Billable Amount";
+    	public static final String PAID_THROUGH = "Paid Through"; 
     }
 
     public static final class BillingAccountsTable {
