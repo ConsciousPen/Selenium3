@@ -7,9 +7,16 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.Test;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.SearchEnum;
 import aaa.common.metadata.SearchMetaData;
+import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.EntitiesHolder;
+import aaa.main.metadata.CustomerMetaData;
+import aaa.main.modules.customer.CustomerType;
+import aaa.main.modules.customer.defaulttabs.GeneralTab;
+import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.CommonTest;
 import toolkit.datax.DataProviderFactory;
@@ -22,7 +29,7 @@ import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
-public class SearchTests extends CommonTest {
+public class TestSearchPage extends CommonTest {
 	private static final int MIN_ACC_NUMBER_LENGTH = 9;
 	private static final int CITY_LENGTH = 30;
 	private static final int STATE_LENGTH = 2;
@@ -32,6 +39,19 @@ public class SearchTests extends CommonTest {
 	private static final int COMMON_MAX_LENGTH = 255;
 	private Random random = new Random();
 
+	//TODO-dchubkov: write test with search by all valid fields
+	//TODO-dchubkov: write test with search by all valid fields but for different entities
+	//TODO-dchubkov: write test with search by wrong criteria
+	//TODO-dchubkov: write test with search by first part values
+	//TODO-dchubkov: write test for search for Account
+	//TODO-dchubkov: write test for search for Customer
+	//TODO-dchubkov: write test for search for Billing
+	//TODO-dchubkov: write test for search for Policy
+	//TODO-dchubkov: write test for search for Quote
+	//TODO-dchubkov: write test for search table (e.g. click on link, check values in table, etc.)
+	//TODO-dchubkov: write test for search for Quote by billing account from existent policy
+	//TODO-dchubkov: ask should I write tests for Create Account feature? E.g. create account with same name, etc
+	//TODO-dchubkov: add logging to existing tests except comments
 
 	@Test
 	@TestInfo(component = "Common.Search")
@@ -42,6 +62,76 @@ public class SearchTests extends CommonTest {
 		String quoteNumber = "QCAH3926252606";
 		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
 		PolicySummaryPage.labelPolicyNumber.verify.value(quoteNumber);
+	}
+
+	@Test
+	@TestInfo(component = "Common.Search")
+	//TODO-dchubkov: test javadoc
+	public void searchPolicyByNumberPositiveTest() {
+		String customerKey = EntitiesHolder.makeCustomerKey(CustomerType.INDIVIDUAL, getState());
+		EntitiesHolder.addNewEntity(customerKey, "700032659");
+		String policyKey = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState());
+		EntitiesHolder.addNewEntity(policyKey, "CAAS926252998");
+
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		//String policyNumber = "CAAS926252998";
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		CustomAssert.assertTrue(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.POLICY.get()));
+		PolicySummaryPage.labelPolicyNumber.verify.value(policyNumber);
+
+		TestData fullSearchData = DataProviderFactory.emptyData();
+		TestData td = DataProviderFactory.emptyData();
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
+		fullSearchData.adjust(SearchMetaData.Search.SEARCH_FOR.getLabel(), SearchEnum.SearchFor.POLICY.get());
+		fullSearchData.adjust(SearchMetaData.Search.POLICY_QUOTE.getLabel(), policyNumber);
+		fullSearchData.adjust(SearchMetaData.Search.CUSTOMER.getLabel(), CustomerSummaryPage.labelCustomerNumber.getValue());
+		fullSearchData.adjust(SearchMetaData.Search.FIRST_NAME.getLabel(), CustomerSummaryPage.labelCustomerName.getValue().split("\\s")[0]);
+		fullSearchData.adjust(SearchMetaData.Search.LAST_NAME.getLabel(), CustomerSummaryPage.labelCustomerName.getValue().split("\\s")[1]);
+
+		fullSearchData.adjust(SearchMetaData.Search.ZIP_CODE.getLabel(), tdCustomerIndividual.getTestData("DataGather", "TestData").getTestData("GeneralTab").getValue("Zip Code"));
+
+		td.adjust(SearchPage.assetListSearch.getName(), fullSearchData);
+		SearchPage.search(td);
+		PolicySummaryPage.buttonTransactionHistory.isPresent();
+		PolicySummaryPage.labelPolicyNumber.verify.value(policyNumber);
+	}
+
+	@Test
+	@TestInfo(component = "Common.Search")
+	//TODO-dchubkov: test javadoc
+	public void searchPolicyByFullTestData() {
+		TestData customerData = tdSpecific.getTestData("CustomerCreation");
+		TestData policyData = tdSpecific.getTestData("PolicyCreation");
+		TestData customerGeneralTabData = customerData.getTestData(customer.getDefaultView().getTab(GeneralTab.class).getClass().getSimpleName());
+
+		mainApp().open();
+		String customerNumber = createCustomerIndividual(customerData);
+		String policyNumber = createPolicy(policyData);
+
+		//String policyNumber = "CAAS926252998";
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		CustomAssert.assertTrue(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.POLICY.get()));
+		PolicySummaryPage.labelPolicyNumber.verify.value(policyNumber);
+
+		TestData fullSearchData = DataProviderFactory.emptyData();
+		TestData td = DataProviderFactory.emptyData();
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
+		fullSearchData.adjust(SearchMetaData.Search.SEARCH_FOR.getLabel(), SearchEnum.SearchFor.POLICY.get());
+		fullSearchData.adjust(SearchMetaData.Search.POLICY_QUOTE.getLabel(), policyNumber);
+		fullSearchData.adjust(SearchMetaData.Search.CUSTOMER.getLabel(), customerNumber);
+		fullSearchData.adjust(SearchMetaData.Search.FIRST_NAME.getLabel(), CustomerSummaryPage.labelCustomerName.getValue().split("\\s")[0]);
+		fullSearchData.adjust(SearchMetaData.Search.LAST_NAME.getLabel(), CustomerSummaryPage.labelCustomerName.getValue().split("\\s")[1]);
+
+		fullSearchData.adjust(SearchMetaData.Search.ZIP_CODE.getLabel(), customerGeneralTabData.getValue(CustomerMetaData.GeneralTab.ZIP_CODE.getLabel()));
+		fullSearchData.adjust(SearchMetaData.Search.SSN.getLabel(), customerGeneralTabData.getValue(CustomerMetaData.GeneralTab.SSN.getLabel()));
+		List<TestData> agencyList = customerGeneralTabData.getTestDataList(CustomerMetaData.GeneralTab.AGENCY_ASSIGNMENT.getLabel());
+		fullSearchData.adjust(SearchMetaData.Search.AGENCY_NAME.getLabel(), agencyList.get(random.nextInt(agencyList.size())).getValue(CustomerMetaData.GeneralTab.AddAgencyMetaData.AGENCY_NAME.getLabel()));
+
+		td.adjust(SearchPage.assetListSearch.getName(), fullSearchData);
+		SearchPage.search(td);
+		PolicySummaryPage.buttonTransactionHistory.isPresent();
+		PolicySummaryPage.labelPolicyNumber.verify.value(policyNumber);
 	}
 
 	/**
@@ -123,6 +213,7 @@ public class SearchTests extends CommonTest {
 		final String maxLengthWarningTemplate = "Maximum criteria length for '%s' is " + COMMON_MAX_LENGTH;
 		final String emptySearchCriteriaWarning = "Search criteria must be entered";
 		final String notFoundWarningTemplate = "%s not found";
+		final String resultSetTooLargeWarning = "Result set too large, refine search criteria"; //TODO-dchubkov: add check for this warning
 
 		TestData wrongSearchData = DataProviderFactory.emptyData();
 		TestData td = DataProviderFactory.emptyData();

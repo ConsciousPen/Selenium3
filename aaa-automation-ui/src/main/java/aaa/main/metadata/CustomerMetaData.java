@@ -9,6 +9,7 @@ import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import com.exigen.ipb.etcsa.controls.productfactory.DatePicker;
 
+import aaa.toolkit.webdriver.customcontrols.AgencyAssignmentMultiAssetList;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.ComboBox;
@@ -32,7 +33,7 @@ public final class CustomerMetaData {
 		public static final AttributeDescriptor LAST_NAME = declare("Last Name", TextBox.class);
 		public static final AttributeDescriptor SUFFIX = declare("Suffix", ComboBox.class);
 		public static final AttributeDescriptor NICKNAME = declare("Nickname", TextBox.class);
-		 public static final AttributeDescriptor LEAD_STATUS = declare("Lead Status", ComboBox.class);
+        public static final AttributeDescriptor LEAD_STATUS = declare("Lead Status", ComboBox.class);
 		public static final AttributeDescriptor DATE_OF_BIRTH = declare("Date of Birth", TextBox.class);
 		public static final AttributeDescriptor GENDER = declare("Gender", ComboBox.class);
 		public static final AttributeDescriptor MARITAL_STATUS = declare("Marital Status", ComboBox.class);
@@ -62,7 +63,7 @@ public final class CustomerMetaData {
         public static final AttributeDescriptor ADDRESS_LINE_3 = declare("Address Line 3", TextBox.class);
         public static final AttributeDescriptor NON_INDIVIDUAL_TYPE = declare("Non-Individual Type", ComboBox.class);
         public static final AttributeDescriptor NAME_LEGAL = declare("Name - Legal", TextBox.class);
-        public static final AttributeDescriptor AGENCY_PRODUCER = declare("Agency/Producer", DialogSingleSelector.class, AddAgencyMetaData.class);
+        public static final AttributeDescriptor AGENCY_ASSIGNMENT = declare("Agency Assignment", AgencyAssignmentMultiAssetList.class, AddAgencyMetaData.class);
         public static final AttributeDescriptor EIN = declare("EIN", TextBox.class);
         public static final AttributeDescriptor DATE_BUSINESS_STARTED = declare("Date business started", TextBox.class);
         public static final AttributeDescriptor DIVISION = declare("Division", ComboBox.class);
@@ -124,15 +125,12 @@ public final class CustomerMetaData {
         }
 
         public static final class AddAgencyMetaData extends MetaData {
-            public static final AttributeDescriptor CHANNEL = declare("Channel", ComboBox.class);
-            public static final AttributeDescriptor AGENCY_NAME = declare("Agency Name", TextBox.class);
-            public static final AttributeDescriptor AGENCY_CODE = declare("Agency Code", TextBox.class);
-            public static final AttributeDescriptor ZIP_CODE = declare("Zip Code", TextBox.class);
-            public static final AttributeDescriptor CITY = declare("City", TextBox.class);
-            public static final AttributeDescriptor STATE = declare("State", TextBox.class);
-
-            public static final AttributeDescriptor BUTTON_OPEN_POPUP = declare(AbstractDialog.DEFAULT_POPUP_OPENER_NAME, Button.class, Waiters.DEFAULT, false,
-                    By.id("crmForm:changeCustomerProducerCdBtn_0"));
+            public static final AttributeDescriptor AGENCY_CHANNEL = declare("Channel", ComboBox.class, Waiters.NONE, false, By.id("brokerSearchFromcrmCustomerBrokerCd:brokerSearchCriteria_channelCd"));
+            public static final AttributeDescriptor AGENCY_NAME = declare("Agency Name", TextBox.class, Waiters.NONE, false);
+            public static final AttributeDescriptor AGENCY_CODE = declare("Agency Code", TextBox.class, Waiters.NONE, false);
+            public static final AttributeDescriptor AGENCY_ZIP_CODE = declare("Zip Code", TextBox.class, Waiters.NONE, false, By.id("brokerSearchFromcrmCustomerBrokerCd:brokerSearchCriteria_postalCode"));
+            public static final AttributeDescriptor AGENCY_CITY = declare("City", TextBox.class, Waiters.NONE, false, By.id("brokerSearchFromcrmCustomerBrokerCd:brokerSearchCriteria_city"));
+            public static final AttributeDescriptor AGENCY_STATE = declare("State", TextBox.class, Waiters.NONE, false);
         }
     }
 

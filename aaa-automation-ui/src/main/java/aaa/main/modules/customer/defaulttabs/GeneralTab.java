@@ -70,7 +70,7 @@ public class GeneralTab extends DefaultTab {
                 assetList = new AssetList(By.xpath("//*"), metaDataClass);
             }
 
-            ((AssetList) super.getAssetList()).setValue(testData.mask(key, "Account Type", "Account Designation Type"));
+            ((AssetList) getAssetList()).setValue(testData.mask(key, "Account Type", "Account Designation Type"));
         }
 
         if (buttonAddAllContacts.isPresent() && buttonAddAllContacts.isVisible()) {
