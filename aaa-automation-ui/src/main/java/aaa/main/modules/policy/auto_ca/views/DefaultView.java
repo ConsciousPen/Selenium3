@@ -16,6 +16,7 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
 
 /**
  * Concrete workspace implementation.
@@ -36,6 +37,7 @@ public class DefaultView extends Workspace {
 		registerTab(PremiumAndCoveragesTab.class);
 		registerTab(DriverActivityReportsTab.class);
 		registerTab(DocumentsAndBindTab.class);
+		registerTab(ErrorTab.class);
 		registerTab(PurchaseTab.class);
     }
 }

@@ -169,7 +169,7 @@ public class GeneralSchedulerPage extends AdminPage {
     public static void reopenGeneralScheduler() {
         ApplicationFactory.get().adminApp(new LoginPage(
                 PropertyProvider.getProperty(TestProperties.EU_USER),
-                PropertyProvider.getProperty(TestProperties.EU_PASSWORD))).reopen();
+                PropertyProvider.getProperty(TestProperties.EU_PASSWORD))).open();
         NavigationPage.toViewLeftMenu(AdminAppLeftMenu.GENERAL_SCHEDULER.get());
     }
 

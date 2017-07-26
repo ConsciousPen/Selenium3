@@ -26,19 +26,20 @@ TestDataSameDate: {
   }
 }
 
-TestDataIssueRewritingPolicy: {
+
+TestDataForBindRewrittenPolicy: {
+  GeneralTab: {},
+  ApplicantTab: {},
   ReportsTab: {
     Sales Agent Agreement: 'I Agree',
     PublicProtectionClass: [{Report: 'Order Report'}],
   },
-  UnderwritingAndApprovalTab: {
-    Underwriter-selected inspection type: '/first',
-    "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": "No",
-    "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
-    "Has the property been in foreclosure proceedings within the past 18 months?": "No",
-    "Do employees of any resident or applicant reside in the dwelling?": "No",
-    "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No"
-  },
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
   DocumentsTab: {
     DocumentsToIssue: {
       Signed policy application: Physically Signed
@@ -50,4 +51,13 @@ TestDataIssueRewritingPolicy: {
       Cash: /rest
     }
   }
+}
+
+UnderwritingAndApprovalTab: {
+    Underwriter-selected inspection type: '/first',
+    "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": "No",
+    "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
+    "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+    "Do employees of any resident or applicant reside in the dwelling?": "No",
+    "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No"
 }
