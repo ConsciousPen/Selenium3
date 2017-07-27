@@ -4,6 +4,7 @@ package aaa.main.modules.policy.cea;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import aaa.EntityLogger;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
@@ -165,6 +166,11 @@ public class CeaPolicy implements IPolicy {
 	@Override
 	public PolicyActions.DeletePendedTransaction deletePendedTransaction() {
 		return new CeaPolicyActions.DeletePendedTransaction();
+	}
+	
+	@Override
+	public PolicyActions.DeletePendingRenwals deletePendingRenwals() {
+		return new CeaPolicyActions.DeletePendingRenwals();
 	}
 
 	@Override

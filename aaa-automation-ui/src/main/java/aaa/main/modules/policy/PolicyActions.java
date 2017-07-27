@@ -428,6 +428,18 @@ public final class PolicyActions {
         }
     }
     
+    public abstract static class DeletePendingRenwals extends AbstractAction {
+        @Override
+        public String getName() {
+            return "Delete Pending Renewals";
+        }
+        @Override
+        public AbstractAction submit() {
+            Tab.buttonOk.click();
+            return this;
+        }
+    }
+    
     public abstract static class NonPremiumBearingEndorsement extends AbstractAction {
     	@Override
         public String getName() {

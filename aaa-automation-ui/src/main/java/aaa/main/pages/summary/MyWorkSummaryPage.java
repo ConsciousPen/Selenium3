@@ -5,13 +5,13 @@ package aaa.main.pages.summary;
 import org.openqa.selenium.By;
 
 import aaa.main.enums.MyWorkConstants.MyWorkTasksTable;
+import aaa.toolkit.webdriver.customcontrols.TableWithPages;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.composite.table.Table;
 
 public class MyWorkSummaryPage extends SummaryPage {
 
-    public static Table tableTasks = new Table(By.xpath("//div[@id='taskListForm:customTaskTable:workTasks']//table")).applyConfiguration("NoRecordsFound");
+    public static TableWithPages tableTasks = (TableWithPages) new TableWithPages(By.xpath("//div[@id='taskListForm:customTaskTable:workTasks']")).applyConfiguration("NoRecordsFound");
 
     public static Button buttonShowFilter = new Button(By.id("taskManagingForm:filterDisplayBtn"));
     public static Button buttonFilterGo = new Button(By.id("filterContainerForm:filterGoBtn"));

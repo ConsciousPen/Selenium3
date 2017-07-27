@@ -178,6 +178,13 @@ public final class AutoSSPolicyActions {
             return new DeletePendedTransactionView();
         }
     }
+    
+    public static class DeletePendingRenwals extends PolicyActions.DeletePendingRenwals {
+        @Override
+        public Workspace getView() {
+            return new DeletePendedTransactionView();
+        }
+    }
 
     public static class DoNotRenew extends PolicyActions.DoNotRenew {
         @Override
