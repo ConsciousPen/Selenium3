@@ -17,7 +17,7 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy"/>
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules"/>
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold"/>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancellationFlatRewrite"/>
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite"/>
    		</classes>
     </test>
 
