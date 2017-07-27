@@ -16,7 +16,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -54,7 +54,7 @@ import toolkit.verification.CustomAssert;
  * 		7d. Verify policy status is Active and term premium on Consolidated view equals to term premium calculated during endorsement.
  * @details
  */
-public class TestPolicyMembershipDiscount extends HomeSSBaseTest {
+public class TestPolicyMembershipDiscount extends HomeSSHO3BaseTest {
 	
 	private TestData td_MembershipPending = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_MembershipPending"); 
 	private TestData td_CopyPolicy = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_CopyPolicy"); 

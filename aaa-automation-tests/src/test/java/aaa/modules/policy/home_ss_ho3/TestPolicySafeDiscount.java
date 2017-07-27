@@ -15,7 +15,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -38,7 +38,7 @@ import toolkit.verification.CustomAssert;
  * @details
  */
 
-public class TestPolicySafeDiscount extends HomeSSBaseTest {
+public class TestPolicySafeDiscount extends HomeSSHO3BaseTest {
 	
 	private TestData td = getStateTestData(tdPolicy, "DataGather", "TestData"); 
 	private TestData td_safeHome = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData"); 
