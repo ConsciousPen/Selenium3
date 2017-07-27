@@ -63,11 +63,23 @@ PropertyInfoTab: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
-  #RentalInformation: {}
 }
 
 ProductOfferingTab: {}
-EndorsementTab: {}
+
+EndorsementTab: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '84003',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
+}
+
 PremiumsAndCoveragesQuoteTab: {
   Payment plan: Pay in Full,
   Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
@@ -290,6 +302,16 @@ AdditionalInterest: {
   Effective date: '/today:MM/dd/yyyy'
 }
 
+# Reports tab - order PPC after endorsement added 
+TestData_OrderPPC: {
+  ReportsTab: '@ReportsTab_OrderPPC'
+}
+
+ReportsTab_OrderPPC: {
+  Sales Agent Agreement: 'I Agree',
+  PublicProtectionClass: [{}, {Report: 'Order Report'}]
+}
+
 # =============== TestData for custom states ===============
 
 # ====================== TestData AZ =======================
@@ -299,7 +321,7 @@ TestData_AZ: {
   ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab_AZ',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_AZ',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_AZ',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
@@ -347,6 +369,19 @@ PropertyInfoTab_AZ: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
+}
+
+EndorsementTab_AZ: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '85003',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
 }
 
 MortgageesTab_AZ: {
@@ -426,7 +461,7 @@ TestData_CO: {
   ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab_CO',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_CO',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_CO',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
@@ -474,6 +509,19 @@ PropertyInfoTab_CO: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
+}
+
+EndorsementTab_CO: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '80004',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
 }
 
 MortgageesTab_CO: {
@@ -582,7 +630,7 @@ TestData_CT: {
   ReportsTab: '@ReportsTab_CT',
   PropertyInfoTab: '@PropertyInfoTab_CT',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_CT',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_CT',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_CT',
@@ -640,6 +688,19 @@ PropertyInfoTab_CT: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
+}
+
+EndorsementTab_CT: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '84003',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
 }
 
 MortgageesTab_CT: {
@@ -725,7 +786,7 @@ TestData_DC: {
   ReportsTab: '@ReportsTab_DC',
   PropertyInfoTab: '@PropertyInfoTab_DC',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_DC',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_DC',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
@@ -782,6 +843,19 @@ PropertyInfoTab_DC: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
+}
+
+EndorsementTab_DC: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '84003',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
 }
 
 MortgageesTab_DC: {
@@ -878,7 +952,7 @@ TestData_DE: {
   ReportsTab: '@ReportsTab_DE',
   PropertyInfoTab: '@PropertyInfoTab_DE',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_DE',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_DE',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
@@ -936,6 +1010,19 @@ PropertyInfoTab_DE: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
+}
+
+EndorsementTab_DE: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '19802',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
 }
 
 MortgageesTab_DE: {
@@ -1017,7 +1104,7 @@ TestData_ID: {
   ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab_ID',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_ID',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_ID',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
@@ -1065,6 +1152,19 @@ PropertyInfoTab_ID: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
+}
+
+EndorsementTab_ID: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '83212',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
 }
 
 MortgageesTab_ID: {
@@ -1144,7 +1244,7 @@ TestData_IN: {
   ReportsTab: '@ReportsTab_IN',
   PropertyInfoTab: '@PropertyInfoTab_IN',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_IN',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_IN',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
@@ -1201,6 +1301,19 @@ PropertyInfoTab_IN: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
+}
+
+EndorsementTab_IN: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '46064',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
 }
 
 MortgageesTab_IN: {
@@ -1311,7 +1424,7 @@ TestData_KS: {
   ReportsTab: '@ReportsTab_KS',
   PropertyInfoTab: '@PropertyInfoTab_KS',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_KS',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_KS',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
@@ -1368,6 +1481,19 @@ PropertyInfoTab_KS: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
+}
+
+EndorsementTab_KS: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '66006',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
 }
 
 MortgageesTab_KS: {
@@ -1477,7 +1603,7 @@ TestData_KY: {
   ReportsTab: '@ReportsTab_KY',
   PropertyInfoTab: '@PropertyInfoTab_KY',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_KY',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_KY',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_KY',
@@ -1534,6 +1660,19 @@ PropertyInfoTab_KY: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
+}
+
+EndorsementTab_KY: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '40006',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
 }
 
 MortgageesTab_KY: {
@@ -1650,7 +1789,7 @@ TestData_MD: {
   ReportsTab: '@ReportsTab_MD',
   PropertyInfoTab: '@PropertyInfoTab_MD',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_MD',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_MD',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_MD',
@@ -1708,6 +1847,19 @@ PropertyInfoTab_MD: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
+}
+
+EndorsementTab_MD: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '21217',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
 }
 
 MortgageesTab_MD: {
@@ -1796,7 +1948,7 @@ TestData_MT: {
   ReportsTab: '@ReportsTab_MT',
   PropertyInfoTab: '@PropertyInfoTab_MT',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_MT',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_MT',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
@@ -1853,6 +2005,19 @@ PropertyInfoTab_MT: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
+}
+
+EndorsementTab_MT: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '59003',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
 }
 
 MortgageesTab_MT: {
@@ -1934,7 +2099,7 @@ TestData_NJ: {
   ReportsTab: '@ReportsTab_NJ',
   PropertyInfoTab: '@PropertyInfoTab_NJ',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_NJ',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_NJ',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
@@ -1991,6 +2156,19 @@ PropertyInfoTab_NJ: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
+}
+
+EndorsementTab_NJ: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '07005',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
 }
 
 MortgageesTab_NJ: {
@@ -2071,7 +2249,7 @@ TestData_NV: {
   ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab_NV',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_NV',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_NV',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_NV',
@@ -2133,6 +2311,19 @@ MortgageesTab_NV: {
   "Is there an additional interest?": 'Yes', 
   AdditionalInterest: '@AdditionalInterest_NV'
 }  
+
+EndorsementTab_NV: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '89010',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
+}
 
 UnderwritingAndApprovalTab_NV: {
   "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
@@ -2209,7 +2400,7 @@ TestData_NY: {
   ReportsTab: '@ReportsTab_NY',
   PropertyInfoTab: '@PropertyInfoTab_NY',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_NY',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_NY',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
@@ -2266,6 +2457,19 @@ PropertyInfoTab_NY: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
+}
+
+EndorsementTab_NY: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '10451',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
 }
 
 MortgageesTab_NY: {
@@ -2345,7 +2549,7 @@ TestData_OH: {
   ReportsTab: '@ReportsTab_OH',
   PropertyInfoTab: '@PropertyInfoTab_OH',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_OH',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_OH',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
@@ -2402,6 +2606,19 @@ PropertyInfoTab_OH: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
+}
+
+EndorsementTab_OH: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '43202',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
 }
 
 MortgageesTab_OH: {
@@ -2510,7 +2727,7 @@ TestData_OK: {
   ReportsTab: '@ReportsTab_OK',
   PropertyInfoTab: '@PropertyInfoTab_OK',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_OK',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_OK',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
@@ -2567,6 +2784,19 @@ PropertyInfoTab_OK: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
+}
+
+EndorsementTab_OK: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '73099',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
 }
 
 MortgageesTab_OK: {
@@ -2674,7 +2904,7 @@ TestData_OR: {
   ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab_OR',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_OR',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_OR',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_OR',
@@ -2722,6 +2952,19 @@ PropertyInfoTab_OR: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
+}
+
+EndorsementTab_OR: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '97017',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
 }
 
 MortgageesTab_OR: {
@@ -2811,7 +3054,7 @@ TestData_PA: {
   ReportsTab: '@ReportsTab_PA',
   PropertyInfoTab: '@PropertyInfoTab_PA',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_PA',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_PA',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
@@ -2868,6 +3111,19 @@ PropertyInfoTab_PA: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
+}
+
+EndorsementTab_PA: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '15001',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
 }
 
 MortgageesTab_PA: {
@@ -2948,7 +3204,7 @@ TestData_SD: {
   ReportsTab: '@ReportsTab_SD',
   PropertyInfoTab: '@PropertyInfoTab_SD',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_SD',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_SD',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
@@ -3005,6 +3261,19 @@ PropertyInfoTab_SD: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
+}
+
+EndorsementTab_SD: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '57010',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
 }
 
 MortgageesTab_SD: {
@@ -3096,7 +3365,7 @@ TestData_VA: {
   ReportsTab: '@ReportsTab_VA',
   PropertyInfoTab: '@PropertyInfoTab_VA',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_VA',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_VA',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
@@ -3154,6 +3423,19 @@ PropertyInfoTab_VA: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
+}
+
+EndorsementTab_VA: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '20105',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
 }
 
 MortgageesTab_VA: {
@@ -3234,7 +3516,7 @@ TestData_WV: {
   ReportsTab: '@ReportsTab_WV',
   PropertyInfoTab: '@PropertyInfoTab_WV',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_WV',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_WV',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
@@ -3291,6 +3573,19 @@ PropertyInfoTab_WV: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
+}
+
+EndorsementTab_WV: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '24714',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
 }
 
 MortgageesTab_WV: {
@@ -3381,7 +3676,7 @@ TestData_WY: {
   ReportsTab: '@ReportsTab_WY',
   PropertyInfoTab: '@PropertyInfoTab_WY',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: '@EndorsementTab_WY',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_WY',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
@@ -3438,6 +3733,19 @@ PropertyInfoTab_WY: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
+}
+
+EndorsementTab_WY: {
+  HS 04 92: {
+    Action: 'Add', 
+    Description of Structure: Description of Structure, 
+    Zip code: '82081',
+    Street address 1: '267 CHIPMAN AVE', 
+    Limit of liability: '1100', 
+    "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
+    "Is the structure used to conduct any business or to store any business property?": 'No', 
+    "Is the structure rented or held for rental to any person who is not a resident of the household?": 'No' 
+  }
 }
 
 MortgageesTab_WY: {
