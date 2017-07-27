@@ -11,7 +11,7 @@ import aaa.main.modules.policy.auto_ca.actiontabs.SuspendQuoteActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaBaseTest;
+import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
 
@@ -27,7 +27,7 @@ import toolkit.utils.TestInfo;
  * 6. Verify quote status is 'Data Gathering'
  * @details
  */
-public class TestQuoteSuspenseAddRemove extends AutoCaBaseTest {
+public class TestQuoteSuspenseAddRemove extends AutoCaSelectBaseTest {
 
     @Test(groups = {"7.2_AUTOP,HOME_UC_SuspendQuote", "7.2_AUTOP,HOME_UC_RemoveQuoteSuspense"})
     @TestInfo(component = "Policy.PersonalLines")

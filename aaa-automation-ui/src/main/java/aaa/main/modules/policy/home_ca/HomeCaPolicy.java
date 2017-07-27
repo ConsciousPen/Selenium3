@@ -5,6 +5,7 @@ package aaa.main.modules.policy.home_ca;
 import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import aaa.EntityLogger;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
@@ -39,7 +40,7 @@ public class HomeCaPolicy implements IPolicy {
     @Override
     public void initiate() {
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.QUOTE.get());
-        QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.HOME_CA.getName());
+        QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.HOME_CA_HO3.getName());
         QuoteSummaryPage.buttonAddNewQuote.click();
     }
 
@@ -169,6 +170,11 @@ public class HomeCaPolicy implements IPolicy {
     public HomeCaPolicyActions.DeletePendedTransaction deletePendedTransaction() {
 	    return new HomeCaPolicyActions.DeletePendedTransaction();
     }
+    
+    @Override
+	public PolicyActions.DeletePendingRenwals deletePendingRenwals() {
+		return new HomeCaPolicyActions.DeletePendingRenwals();
+	}
 
     @Override
     public HomeCaPolicyActions.DoNotRenew doNotRenew() {

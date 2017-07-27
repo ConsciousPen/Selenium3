@@ -4,6 +4,7 @@ package aaa.main.modules.policy.auto_ss;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import aaa.EntityLogger;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
@@ -171,6 +172,11 @@ public class AutoSSPolicy implements IPolicy {
     public PolicyActions.DeletePendedTransaction deletePendedTransaction() {
         return new AutoSSPolicyActions.DeletePendedTransaction();
     }
+    
+    @Override
+	public PolicyActions.DeletePendingRenwals deletePendingRenwals() {
+		return new AutoSSPolicyActions.DeletePendingRenwals();
+	}
 
     @Override
     public PolicyActions.DoNotRenew doNotRenew() {

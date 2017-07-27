@@ -35,7 +35,7 @@ public abstract class ExampleQuoteActionAbstract extends PolicyBaseTest {
 		log.info("TEST: Propose Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
 		policy.propose().start();
 
-		if (getPolicyType().equals(PolicyType.HOME_SS)) {
+		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
 			policy.propose().getView().getTab(ProposeActionTab.class).getAssetList().getControl(HomeSSMetaData.ProposeActionTab.NOTES.getLabel()).verify.enabled();
 			ProposeActionTab.message.verify
 					.value("Please note that once you click \"OK\" the documents will be queued for generation " + "and will be available for viewing within the folder structure as soon as they have been successfully processed. This usually takes 3 to 5 minutes.");

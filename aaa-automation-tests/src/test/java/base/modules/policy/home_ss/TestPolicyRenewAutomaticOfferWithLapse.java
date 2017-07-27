@@ -18,7 +18,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTime;
@@ -48,7 +48,7 @@ import toolkit.utils.datetime.DateTime;
  * 19. Verify 'Term includes lapse period' is displayed in the header
  * @details
  */
-public class TestPolicyRenewAutomaticOfferWithLapse extends HomeSSBaseTest {
+public class TestPolicyRenewAutomaticOfferWithLapse extends HomeSSHO3BaseTest {
     private TestData tdBillingAccount = testDataManager.billingAccount;
 
     @Test

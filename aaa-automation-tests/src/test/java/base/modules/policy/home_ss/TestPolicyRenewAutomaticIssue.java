@@ -15,7 +15,7 @@ import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTime;
 
@@ -37,7 +37,7 @@ import toolkit.utils.datetime.DateTime;
  * 12. Verify Policy status is 'Policy Pending'
  * @details
  */
-public class TestPolicyRenewAutomaticIssue extends HomeSSBaseTest {
+public class TestPolicyRenewAutomaticIssue extends HomeSSHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

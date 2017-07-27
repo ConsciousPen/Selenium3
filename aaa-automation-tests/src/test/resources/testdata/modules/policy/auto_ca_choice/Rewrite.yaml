@@ -1,0 +1,41 @@
+TestDataSameDate: {
+  RewriteActionTab: {
+    Effective Date:  /today
+  }
+}
+
+TestDataFutureDate: {
+  RewriteActionTab: {
+    Effective Date:  /today+3d
+  }
+}
+
+# ---- TestData required for bind rewritten policy ---
+
+TestDataForBindRewrittenPolicy: {
+  GeneralTab: {
+     PolicyInformation: { Authorized by: QA}
+   },
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+     "Has the customer expressed interest in purchasing the policy?": 'Yes',
+     Sales Agent Agreement: I Agree,
+     Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Personal Auto Application: Physically Signed,
+      Deleting Uninsured Motorist Property Damage Coverage: Physically Signed
+    },
+  },
+  PurchaseTab: {
+  PaymentAllocation: {
+    Cash: /rest
+  }
+ }
+}

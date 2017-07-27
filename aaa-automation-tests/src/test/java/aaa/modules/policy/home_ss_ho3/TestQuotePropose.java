@@ -9,7 +9,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.actiontabs.ProposeActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.TextBox;
 
@@ -28,7 +28,7 @@ import toolkit.webdriver.controls.TextBox;
  * 7. Verify quote status is 'Proposed'
  * @details
  */
-public class TestQuotePropose extends HomeSSBaseTest {
+public class TestQuotePropose extends HomeSSHO3BaseTest {
 
 	@Test(groups = "7.2_DISABILITY,LIFE,AUTO,CGL,PROPC,AUTOP,HOME,UMBRP,ACHE,GROUP,INMRC_UC_ProposeQuote")
 	@TestInfo(component = "Policy.PersonalLines")

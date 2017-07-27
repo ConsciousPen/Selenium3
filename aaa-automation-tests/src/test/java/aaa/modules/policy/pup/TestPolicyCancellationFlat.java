@@ -3,7 +3,6 @@
 package aaa.modules.policy.pup;
 
 import org.testng.annotations.Test;
-
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
@@ -21,19 +20,15 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyCancellationFlat extends PersonalUmbrellaBaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.PersonalLines")
-    public void testPolicyCancellationFlat() {
-        mainApp().open();
+	@Test
+	@TestInfo(component = "Policy.PUP.Cancellation")
+	public void testPolicyCancellationFlat() {
+		mainApp().open();
 
-        createCustomerIndividual();
+		createPolicy();
+		log.info("TEST: Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
+		policy.cancel().perform(getStateTestData(tdPolicy, "Cancellation", "TestData"));
 
-        createCustomerIndividual();
-        createPolicy();
-
-        log.info("TEST: Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.cancel().perform(getStateTestData(tdPolicy, "Cancellation", "TestData"));
-
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-    }
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+	}
 }

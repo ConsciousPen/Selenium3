@@ -126,11 +126,11 @@ public class PolicyRESTMethods {
         params.put("{POLICY_OID}", restServiceUtils.getXmlAttributeValue(policyDoc, "//rootEntity/oid"));
         Document movementCauseDoc = restServiceUtils.loadXmlFrom(restServiceUtils.DATASETS_ROOT + "PremiumMovementCause.xml");
 
-        if (policyType.equals(PolicyType.AUTO_CA.toString())) {
+        if (policyType.equals(PolicyType.AUTO_CA_SELECT.toString())) {
             movementCauseDoc =
                     createRiskItemAndCoveragePremiumMovements(policyDoc, movementCauseDoc, params, "com.exigen.ipb.policy.auto.domain.VehicleEntity", "com.exigen.ipb.policy.domain.CoverageEntity",
                             persistenceId);
-        } else if (policyType.equals(PolicyType.HOME_CA.toString()) || policyType.equals(PolicyType.HOME_SS.toString())) {
+        } else if (policyType.equals(PolicyType.HOME_CA_HO3.toString()) || policyType.equals(PolicyType.HOME_SS_HO3.toString())) {
             movementCauseDoc =
                     createRiskItemAndCoveragePremiumMovements(policyDoc, movementCauseDoc, params, "com.exigen.ipb.policy.domain.DwellEntity", "com.exigen.ipb.policy.domain.CoverageEntity",
                             persistenceId);

@@ -1,0 +1,30 @@
+TestData_Fee: {
+  OtherTransactionsActionTab: {
+    Transaction Type: Fee,
+    Transaction Subtype: Prior term premium,
+    Amount: 50
+  }
+}
+
+TestData_Payment_1000: {
+  AcceptPaymentActionTab: {
+    Payment Method: Check,
+    Check Number: 1234567890,
+    Amount: 1000
+  }
+}
+
+TestData_Refund_1000: {
+  RefundActionTab: {
+    Payment Method: Check,
+    Amount: 1000
+  }
+}
+
+TestData_WriteOff: {
+  OtherTransactionsActionTab: {
+    Transaction Type: Adjustment,
+    Transaction Subtype: Write-off,
+    Amount: -100
+  }
+}

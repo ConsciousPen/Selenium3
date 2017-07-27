@@ -10,6 +10,7 @@ import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
+import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
@@ -23,6 +24,7 @@ import toolkit.webdriver.controls.composite.assets.AssetList;
  * @category Generated
  */
 public class VehicleTab extends Tab {
+	public static Button buttonAddVehicle = new Button(By.xpath("//input[@id='policyDataGatherForm:addVehicle']"));
 	public VehicleTab() {
 		super(AutoCaMetaData.VehicleTab.class);
 
@@ -46,5 +48,10 @@ public class VehicleTab extends Tab {
 	}
     public AssetList getAdditionalInterestInfoAssetList() {
     	return getAssetList().getControl(AutoCaMetaData.VehicleTab.ADDITIONAL_INTEREST_INFORMATION.getLabel(), AssetList.class);
+	}
+
+	public void addVehicle(TestData vehicleTestData) {
+		buttonAddVehicle.click();
+		this.fillTab(vehicleTestData);
 	}
 }

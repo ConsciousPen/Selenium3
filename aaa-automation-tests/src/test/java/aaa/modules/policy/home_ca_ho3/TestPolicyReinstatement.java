@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.home_ca.HomeCaPolicyActions;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeCaBaseTest;
+import aaa.modules.policy.HomeCaHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -20,7 +20,7 @@ import toolkit.utils.TestInfo;
  * @details
  */
 
-public class TestPolicyReinstatement extends HomeCaBaseTest {
+public class TestPolicyReinstatement extends HomeCaHO3BaseTest {
 
 	@Test
 	@TestInfo(component = "Policy.PersonalLines")

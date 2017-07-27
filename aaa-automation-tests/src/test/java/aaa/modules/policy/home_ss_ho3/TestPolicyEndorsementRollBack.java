@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
@@ -24,7 +24,7 @@ import toolkit.verification.CustomAssert;
  * 8. Verify Ending Premium was roll back
  * @details
  */
-public class TestPolicyEndorsementRollBack extends HomeSSBaseTest {
+public class TestPolicyEndorsementRollBack extends HomeSSHO3BaseTest {
 
 	@Test
 	@TestInfo(component = "Policy.PersonalLines")

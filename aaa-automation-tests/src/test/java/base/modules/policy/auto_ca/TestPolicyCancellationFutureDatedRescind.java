@@ -10,7 +10,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.auto_ca.actiontabs.RescindCancellationActionTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaBaseTest;
+import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -27,7 +27,7 @@ import toolkit.utils.TestInfo;
  * @details https://jira.exigeninsurance.com/browse/EISDEV-147611 Blueprint ID:
  *          UC2959518
  */
-public class TestPolicyCancellationFutureDatedRescind extends AutoCaBaseTest {
+public class TestPolicyCancellationFutureDatedRescind extends AutoCaSelectBaseTest {
 	
 	@Test
 	@TestInfo(component = "Policy.PersonalLines")

@@ -5,7 +5,7 @@ package aaa.modules.policy.home_ca_ho3;
 import org.testng.annotations.Test;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeCaBaseTest;
+import aaa.modules.policy.HomeCaHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -19,7 +19,7 @@ import toolkit.utils.TestInfo;
  * 5. Verify policy status is Active on Consolidated policy view.
  * @details
  */
-public class TestPolicyCreation extends HomeCaBaseTest {
+public class TestPolicyCreation extends HomeCaHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

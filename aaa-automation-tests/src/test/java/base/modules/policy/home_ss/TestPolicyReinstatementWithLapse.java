@@ -5,7 +5,7 @@ package base.modules.policy.home_ss;
 import org.testng.annotations.Test;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -21,7 +21,7 @@ import toolkit.utils.TestInfo;
  * 7. Verify 'Term includes lapse period' flag is displayed in the policy consolidated view header
  * @details
  */
-public class TestPolicyReinstatementWithLapse extends HomeSSBaseTest {
+public class TestPolicyReinstatementWithLapse extends HomeSSHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

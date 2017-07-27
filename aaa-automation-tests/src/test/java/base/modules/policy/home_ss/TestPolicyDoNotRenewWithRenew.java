@@ -14,7 +14,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.billing.BillingHelper;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -31,7 +31,7 @@ import toolkit.utils.TestInfo;
  * 8. Verify 'Renewals' button is not displayed in the policy overview header
  * @details
  */
-public class TestPolicyDoNotRenewWithRenew extends HomeSSBaseTest {
+public class TestPolicyDoNotRenewWithRenew extends HomeSSHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

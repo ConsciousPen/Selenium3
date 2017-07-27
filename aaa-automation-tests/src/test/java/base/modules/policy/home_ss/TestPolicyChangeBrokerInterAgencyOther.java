@@ -13,7 +13,7 @@ import aaa.common.pages.MainPage;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.AutoSSMetaData.ChangeBrokerActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
@@ -30,7 +30,7 @@ import toolkit.verification.CustomAssert;
  * 7. Verify Broker name was changed
  * @details
  */
-public class TestPolicyChangeBrokerInterAgencyOther extends HomeSSBaseTest {
+public class TestPolicyChangeBrokerInterAgencyOther extends HomeSSHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

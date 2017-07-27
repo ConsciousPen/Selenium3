@@ -87,7 +87,7 @@ public final class PersonalUmbrellaMetaData {
 		public enum ActiveUnderlyingPoliciesTblHeaders {
 			OCCUPANCY_TYPE("Occupancy Type"), DWELLING_USAGE("Dwelling Usage"), SOURCE("Source"), PRIMARY("Primary"), STATUS("Status"), POLICY_TYPE("Policy Type"), POLICY_NUMBER("Policy Number");
 
-			private String value;
+			private final String value;
 
 			ActiveUnderlyingPoliciesTblHeaders(String value) {
 				this.value = value;
@@ -674,7 +674,8 @@ public final class PersonalUmbrellaMetaData {
 
 	public static final class CancellationActionTab extends MetaData {
 	    public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancellation effective date", TextBox.class,By.xpath("//input[@id='policyDataGatherForm:sedit_AAAPolicyCancelAction_policyTxInfo_txDateInputDate']"));
-        public static final AttributeDescriptor CANCELLATION_REASON = declare("Cancellation reason", ComboBox.class,By.xpath("//select[@id='policyDataGatherForm:sedit_AAAPolicyCancelAction_policyCancelTxInfo_cancelTxReasonCd']"));
+//        public static final AttributeDescriptor CANCELLATION_REASON = declare("Cancellation reason", ComboBox.class,By.xpath("//select[@id='policyDataGatherForm:sedit_AAAPolicyCancelAction_policyCancelTxInfo_cancelTxReasonCd']"));
+        public static final AttributeDescriptor CANCELLATION_REASON = declare("Cancellation reason", ComboBox.class);
         public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class);
 	}
 
@@ -718,7 +719,7 @@ public final class PersonalUmbrellaMetaData {
 	public static final class RemoveDoNotRenewActionTab extends MetaData {
 		public static final AttributeDescriptor DATE = declare("Date", TextBox.class);
 		public static final AttributeDescriptor REASON = declare("Reason", ComboBox.class);
-		public static final AttributeDescriptor DO_NOT_RENEW_STATUS = declare("Do Not Renew Status", ComboBox.class);
+		public static final AttributeDescriptor DO_NOT_RENEW_STATUS = declare("Do Not Renew Status", ComboBox.class);		
 	}
 
 	public static final class CopyFromPolicyActionTab extends MetaData {
@@ -795,6 +796,7 @@ public final class PersonalUmbrellaMetaData {
 		public static final AttributeDescriptor DATE = declare("Date", TextBox.class);
 		public static final AttributeDescriptor REASON = declare("Reason", ComboBox.class);
 		public static final AttributeDescriptor DO_NOT_RENEW_STATUS = declare("Do Not Renew Status", ComboBox.class);
+		public static final AttributeDescriptor SUPPORTING_DATA = declare("Supporting Data", TextBox.class);
 	}
 
 	public static final class ReinstatementActionTab extends MetaData {
@@ -816,7 +818,7 @@ public final class PersonalUmbrellaMetaData {
 	    public static final AttributeDescriptor CANCELLATION_EFFECTIVE_DATE = declare("Cancellation effective date", TextBox.class, Waiters.AJAX);
         public static final AttributeDescriptor CANCELLATION_REASON = declare("Cancellation reason", ComboBox.class, Waiters.NONE);
         public static final AttributeDescriptor DESCRIPTION = declare("Description", TextBox.class, Waiters.NONE);
-        public static final AttributeDescriptor DAYS_OF_NOTICE = declare("Days of notice", TextBox.class, Waiters.NONE);
+        public static final AttributeDescriptor DAYS_OF_NOTICE = declare("Days Of Notice", TextBox.class, Waiters.NONE);
 	}
 
 	public static final class RemoveManualRenewActionTab extends MetaData {

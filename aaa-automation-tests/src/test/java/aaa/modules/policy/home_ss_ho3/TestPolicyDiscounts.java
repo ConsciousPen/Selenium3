@@ -15,7 +15,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.TestData;
 //import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -31,7 +31,7 @@ import toolkit.utils.TestInfo;
  * 5. Verify policy status is Active on Consolidated policy view.
  * @details
  */
-public class TestPolicyDiscounts extends HomeSSBaseTest {
+public class TestPolicyDiscounts extends HomeSSHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.HomeSS")

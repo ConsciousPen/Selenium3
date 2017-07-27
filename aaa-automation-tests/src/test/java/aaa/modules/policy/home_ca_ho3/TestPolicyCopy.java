@@ -2,11 +2,11 @@ package aaa.modules.policy.home_ca_ho3;
 
 import org.testng.annotations.Test;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeCaBaseTest;
+import aaa.modules.policy.HomeCaHO3BaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
-public class TestPolicyCopy extends HomeCaBaseTest {
+public class TestPolicyCopy extends HomeCaHO3BaseTest {
 	/**
 	 * @author Jurij Kuznecov
 	 * @name Test Policy Copy

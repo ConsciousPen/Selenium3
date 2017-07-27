@@ -10,7 +10,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.main.pages.summary.QuoteSummaryPage;
-import aaa.modules.policy.AutoCaBaseTest;
+import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -22,7 +22,7 @@ import toolkit.utils.TestInfo;
  * 3. Verify quote status is 'Data Gathering' and policy number is present
  * @details
  */
-public class TestQuoteInitiate extends AutoCaBaseTest {
+public class TestQuoteInitiate extends AutoCaSelectBaseTest {
 
     @Test(groups = "7.2_AUTOP,HOME_UC_InitiateHomeOrAutoQuoteAndSelectProduct")
     @TestInfo(component = "Policy.PersonalLines")
@@ -32,7 +32,7 @@ public class TestQuoteInitiate extends AutoCaBaseTest {
         createCustomerIndividual();
 
         CustomerSummaryPage.buttonAddQuote.click();
-        QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.AUTO_CA.getName());
+        QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.AUTO_CA_SELECT.getName());
         QuoteSummaryPage.buttonAddNewQuote.verify.enabled();
         QuoteSummaryPage.buttonAddNewQuote.click();
         //new GeneralPolicyTab().getAssetList().verify.enabled();

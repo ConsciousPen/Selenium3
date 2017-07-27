@@ -5,7 +5,7 @@ package base.modules.policy.home_ss;
 import org.testng.annotations.Test;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -19,7 +19,7 @@ import toolkit.utils.TestInfo;
  * 5. Verify Policy status is 'Customer Declined' in endorsement
  * @details
  */
-public class TestPolicyEndorsementDeclineByCustomer extends HomeSSBaseTest {
+public class TestPolicyEndorsementDeclineByCustomer extends HomeSSHO3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")

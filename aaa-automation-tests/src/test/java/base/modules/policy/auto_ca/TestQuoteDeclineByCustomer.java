@@ -11,7 +11,7 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.actiontabs.DeclineActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaBaseTest;
+import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -24,7 +24,7 @@ import toolkit.utils.TestInfo;
  * 4. Verify quote status is 'Customer Declined'
  * @details
  */
-public class TestQuoteDeclineByCustomer extends AutoCaBaseTest {
+public class TestQuoteDeclineByCustomer extends AutoCaSelectBaseTest {
 
     @Test(groups = "6.2.1_Benefits-Base_DeclineByCustomerMasterQuote")
     @TestInfo(component = "Policy.PersonalLines")

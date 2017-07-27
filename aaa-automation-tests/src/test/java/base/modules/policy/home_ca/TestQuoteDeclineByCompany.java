@@ -13,7 +13,7 @@ import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.actiontabs.DeclineActionTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeCaBaseTest;
+import aaa.modules.policy.HomeCaHO3BaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTime;
 import toolkit.verification.CustomAssert;
@@ -28,7 +28,7 @@ import toolkit.verification.CustomAssert;
  * 4. Verify quote status is 'Company Declined'
  * @details
  */
-public class TestQuoteDeclineByCompany extends HomeCaBaseTest {
+public class TestQuoteDeclineByCompany extends HomeCaHO3BaseTest {
 
     @Test(groups = "6.2.1_Benefits-Base_DeclineByCompanyMasterQuote")
     @TestInfo(component = "Policy.PersonalLines")

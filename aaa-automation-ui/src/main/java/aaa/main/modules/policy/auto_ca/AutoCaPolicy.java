@@ -2,9 +2,9 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.modules.policy.auto_ca;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import aaa.EntityLogger;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
@@ -17,6 +17,7 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ca.AutoCaPolicyActions;
 import aaa.main.modules.policy.auto_ca.views.DefaultView;
 import aaa.main.pages.summary.QuoteSummaryPage;
 import toolkit.datax.TestData;
@@ -40,7 +41,7 @@ public class AutoCaPolicy implements IPolicy {
 	@Override
 	public void initiate() {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.QUOTE.get());
-		QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.AUTO_CA.getName());
+		QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.AUTO_CA_SELECT.getName());
 		QuoteSummaryPage.buttonAddNewQuote.click();
 	}
 
@@ -174,6 +175,11 @@ public class AutoCaPolicy implements IPolicy {
 	public PolicyActions.DeletePendedTransaction deletePendedTransaction() {
 		return new AutoCaPolicyActions.DeletePendedTransaction();
 	}
+	
+	@Override
+	public PolicyActions.DeletePendingRenwals deletePendingRenwals() {
+		return new AutoCaPolicyActions.DeletePendingRenwals();
+	}
 
 	@Override
 	public PolicyActions.DoNotRenew doNotRenew() {
@@ -262,7 +268,7 @@ public class AutoCaPolicy implements IPolicy {
 
 	@Override
 	public PolicyActions.UpdateRulesOverride updateRulesOverride() {
-		throw new NotImplementedException();
+		return new AutoCaPolicyActions.UpdateRulesOverride();
 	}
 
 	@Override

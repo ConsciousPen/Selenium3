@@ -10,7 +10,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.actiontabs.DeclineActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeCaBaseTest;
+import aaa.modules.policy.HomeCaHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -23,7 +23,7 @@ import toolkit.utils.TestInfo;
  * 4. Verify quote status is 'Customer Declined'
  * @details
  */
-public class TestQuoteDeclineByCustomer extends HomeCaBaseTest {
+public class TestQuoteDeclineByCustomer extends HomeCaHO3BaseTest {
 
     @Test(groups = "6.2.1_Benefits-Base_DeclineByCustomerMasterQuote")
     @TestInfo(component = "Policy.PersonalLines")

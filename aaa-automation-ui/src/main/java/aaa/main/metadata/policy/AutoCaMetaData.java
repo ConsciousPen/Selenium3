@@ -740,4 +740,33 @@ public final class AutoCaMetaData {
 		public static final AttributeDescriptor REASON_FOR_RENEWAL_WITH_LAPSE = declare("Reason for Renewal with Lapse", ComboBox.class, Waiters.AJAX);
 		public static final AttributeDescriptor OTHER = declare("Other", TextBox.class, Waiters.NONE);
 	}
+	
+	public static final class UpdateRulesOverrideActionTab extends MetaData {
+		public static final AttributeDescriptor UPDATE_RULES_OVERRIDE = declare("UpdateRulesOverride", FillableTable.class, RuleRow.class, By.id("errorsForm:msgList"));
+
+		public static final class RuleRow extends MetaData {
+			public static final AttributeDescriptor UPDATE = declare("Update All", CheckBox.class);
+			public static final AttributeDescriptor AUTHORIZE = declare("Authorize/Delete All", CheckBox.class);
+			public static final AttributeDescriptor STATUS = declare("Status", StaticElement.class);
+			public static final AttributeDescriptor DURATION = declare("Duration", RadioGroup.class);
+			public static final AttributeDescriptor REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class);
+			public static final AttributeDescriptor RULE_NAME = declare("Rule name", StaticElement.class);
+			public static final AttributeDescriptor MESSAGE = declare("Message", StaticElement.class);
+		}
+	}
+
+	public static final class ErrorTab extends MetaData {
+		public static final AttributeDescriptor ERROR_OVERRIDE = declare("ErrorsOverride", FillableTable.class, RuleRow.class, By.id("errorsForm:msgList"));
+
+		public static final class RuleRow extends MetaData {
+			public static final AttributeDescriptor OVERRIDE = declare("Override", CheckBox.class);
+			public static final AttributeDescriptor APPROVAL = declare("Approval", CheckBox.class);
+			public static final AttributeDescriptor CODE = declare("Code", Link.class);
+			public static final AttributeDescriptor SEVERITY = declare("Severity", StaticElement.class);
+			public static final AttributeDescriptor MESSAGE = declare("Message", StaticElement.class);
+			public static final AttributeDescriptor DURATION = declare("Duration", RadioGroup.class);
+			public static final AttributeDescriptor REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class);
+		}
+	}
+	
 }
