@@ -1158,7 +1158,7 @@ EndorsementTab_ID: {
   HS 04 92: {
     Action: 'Add', 
     Description of Structure: Description of Structure, 
-    Zip code: '83212',
+    Zip code: '84003',
     Street address 1: '267 CHIPMAN AVE', 
     Limit of liability: '1100', 
     "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
@@ -1487,7 +1487,7 @@ EndorsementTab_KS: {
   HS 04 92: {
     Action: 'Add', 
     Description of Structure: Description of Structure, 
-    Zip code: '66006',
+    Zip code: '84003',
     Street address 1: '267 CHIPMAN AVE', 
     Limit of liability: '1100', 
     "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
@@ -1666,7 +1666,7 @@ EndorsementTab_KY: {
   HS 04 92: {
     Action: 'Add', 
     Description of Structure: Description of Structure, 
-    Zip code: '40006',
+    Zip code: '84003',
     Street address 1: '267 CHIPMAN AVE', 
     Limit of liability: '1100', 
     "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
@@ -2011,7 +2011,7 @@ EndorsementTab_MT: {
   HS 04 92: {
     Action: 'Add', 
     Description of Structure: Description of Structure, 
-    Zip code: '59003',
+    Zip code: '84003',
     Street address 1: '267 CHIPMAN AVE', 
     Limit of liability: '1100', 
     "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
@@ -2316,7 +2316,7 @@ EndorsementTab_NV: {
   HS 04 92: {
     Action: 'Add', 
     Description of Structure: Description of Structure, 
-    Zip code: '89010',
+    Zip code: '84003',
     Street address 1: '267 CHIPMAN AVE', 
     Limit of liability: '1100', 
     "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
@@ -2463,7 +2463,7 @@ EndorsementTab_NY: {
   HS 04 92: {
     Action: 'Add', 
     Description of Structure: Description of Structure, 
-    Zip code: '10451',
+    Zip code: '84003',
     Street address 1: '267 CHIPMAN AVE', 
     Limit of liability: '1100', 
     "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
@@ -2612,7 +2612,7 @@ EndorsementTab_OH: {
   HS 04 92: {
     Action: 'Add', 
     Description of Structure: Description of Structure, 
-    Zip code: '43202',
+    Zip code: '84003',
     Street address 1: '267 CHIPMAN AVE', 
     Limit of liability: '1100', 
     "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
@@ -2790,7 +2790,7 @@ EndorsementTab_OK: {
   HS 04 92: {
     Action: 'Add', 
     Description of Structure: Description of Structure, 
-    Zip code: '73099',
+    Zip code: '84003',
     Street address 1: '267 CHIPMAN AVE', 
     Limit of liability: '1100', 
     "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
@@ -2958,7 +2958,7 @@ EndorsementTab_OR: {
   HS 04 92: {
     Action: 'Add', 
     Description of Structure: Description of Structure, 
-    Zip code: '97017',
+    Zip code: '84003',
     Street address 1: '267 CHIPMAN AVE', 
     Limit of liability: '1100', 
     "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
@@ -3267,7 +3267,7 @@ EndorsementTab_SD: {
   HS 04 92: {
     Action: 'Add', 
     Description of Structure: Description of Structure, 
-    Zip code: '57010',
+    Zip code: '84003',
     Street address 1: '267 CHIPMAN AVE', 
     Limit of liability: '1100', 
     "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
@@ -3579,7 +3579,7 @@ EndorsementTab_WV: {
   HS 04 92: {
     Action: 'Add', 
     Description of Structure: Description of Structure, 
-    Zip code: '24714',
+    Zip code: '84003',
     Street address 1: '267 CHIPMAN AVE', 
     Limit of liability: '1100', 
     "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
@@ -3739,7 +3739,7 @@ EndorsementTab_WY: {
   HS 04 92: {
     Action: 'Add', 
     Description of Structure: Description of Structure, 
-    Zip code: '82081',
+    Zip code: '84003',
     Street address 1: '267 CHIPMAN AVE', 
     Limit of liability: '1100', 
     "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
