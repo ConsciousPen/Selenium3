@@ -59,7 +59,6 @@ public class TimeSetterUtil {
 		else
 			currentTime = istfDateToJava(timeSetterClient.getDateTime());
 		return currentTime;
-
 	}
 
 	public LocalDateTime getPhaseStartTime() {
@@ -127,7 +126,13 @@ public class TimeSetterUtil {
 
 	@SuppressWarnings("deprecation")
 	public static LocalDateTime istfDateToJava(toolkit.utils.datetime.DateTime date) {
-		return LocalDateTime.parse(date.toString("yyyyMMddHHmmssSSS"), DateTimeUtils.TIME_STAMP_WITH_MS);
+		try {
+			LocalDateTime.parse(date.toString("yyyyMMddHHmmss"), DateTimeUtils.TIME_STAMP);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return LocalDateTime.parse(date.toString("yyyyMMddHHmmss"), DateTimeUtils.TIME_STAMP);
 	}
 	
 	@SuppressWarnings("deprecation")
