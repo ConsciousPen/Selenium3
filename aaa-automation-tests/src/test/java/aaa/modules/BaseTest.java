@@ -21,7 +21,6 @@ import org.testng.annotations.Parameters;
 import com.exigen.ipb.etcsa.base.app.ApplicationFactory;
 import com.exigen.ipb.etcsa.base.app.MainApplication;
 import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
-import com.exigen.ipb.etcsa.utils.listener.ETCSAListener;
 
 import aaa.EntityLogger;
 import aaa.common.Constants;
@@ -43,9 +42,10 @@ import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.utils.teststoragex.listeners.TestngTestListener2;
 import toolkit.verification.CustomAssert;
 
-@Listeners({ ETCSAListener.class })
+@Listeners({ TestngTestListener2.class })
 public class BaseTest {
 
 	protected static Logger log = LoggerFactory.getLogger(BaseTest.class);
@@ -134,12 +134,16 @@ public class BaseTest {
 	public void logout() {
 		if (Boolean.parseBoolean(PropertyProvider.getProperty("isCiMode", "true"))) {
 			mainApp().close();
+			adminApp().close();
 			opReportApp().close();
 		}
 	}
 
 	@AfterSuite(alwaysRun = true)
 	public void afterSuite() {
+		mainApp().close();
+		adminApp().close();
+		opReportApp().close();
 	}
 
 	@AfterClass(alwaysRun = true)
@@ -161,21 +165,13 @@ public class BaseTest {
 	 * Create individual customer using provided TestData
 	 */
 	protected String createCustomerIndividual(TestData td) {
-		String key = EntitiesHolder.makeCustomerKey(CustomerType.INDIVIDUAL, getState());
-		// EntitiesHolder.addNewEntiry(key, "700032098");
-		if (!EntitiesHolder.isEntityPresent(key)) {
-			customer.create(td);
-			customerNumber = CustomerSummaryPage.labelCustomerNumber.getValue();
-			EntitiesHolder.addNewEntity(key, customerNumber);
-			return customerNumber;
-		} else {
-			customerNumber = EntitiesHolder.getEntity(key);
-			SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, customerNumber);
-			log.info("Use existing " + EntityLogger.getEntityHeader(EntityLogger.EntityType.CUSTOMER));
-		}
+		customer.create(td);
+		customerNumber = CustomerSummaryPage.labelCustomerNumber.getValue();
+		EntitiesHolder.addNewEntity(key, customerNumber);
 
 		return customerNumber;
 	}
+	
 
 	/**
 	 * Create NonIndividual customer using default TestData
@@ -188,18 +184,9 @@ public class BaseTest {
 	 * Create individual customer using provided TestData
 	 */
 	protected String createCustomerNonIndividual(TestData td) {
-		key = EntitiesHolder.makeCustomerKey(CustomerType.NON_INDIVIDUAL, getState());
-		if (!EntitiesHolder.isEntityPresent(key)) {
-			customer.create(td);
-			customerNumber = CustomerSummaryPage.labelCustomerNumber.getValue();
-			EntitiesHolder.addNewEntity(key, customerNumber);
-			return customerNumber;
-		} else {
-			customerNumber = EntitiesHolder.getEntity(key);
-			SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, customerNumber);
-			log.info("Use existing " + EntityLogger.getEntityHeader(EntityLogger.EntityType.CUSTOMER));
-		}
-
+		customer.create(td);
+		customerNumber = CustomerSummaryPage.labelCustomerNumber.getValue();
+		EntitiesHolder.addNewEntity(key, customerNumber);
 		return customerNumber;
 	}
 
@@ -218,14 +205,14 @@ public class BaseTest {
 	 *
 	 * @param td
 	 *            - test data for quote filling
-	 * @return 
+	 * @return
 	 */
 	protected void createQuote(TestData td) {
-	  Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
-	  log.info("Quote Creation Started...");
-	  getPolicyType().get().createQuote(td);
-	  // return PolicySummaryPage.labelPolicyNumber.getValue();
-	 }
+		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
+		log.info("Quote Creation Started...");
+		getPolicyType().get().createQuote(td);
+		// return PolicySummaryPage.labelPolicyNumber.getValue();
+	}
 
 	/**
 	 * Gets default quote number and makes quote copy. If default quote doesn't
@@ -279,14 +266,15 @@ public class BaseTest {
 		getPolicyType().get().copyPolicy(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData"));
 		return PolicySummaryPage.labelPolicyNumber.getValue();
 	}
-	
+
 	private String openDefaultPolicy(PolicyType policyType, String state) {
 		Assert.assertNotNull(policyType, "PolicyType is not set");
 		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState());
 		String policyNumber = "";
 		synchronized (key) {
 			Integer count = policyCount.get(key);
-			if (count == null) count = 1;
+			if (count == null)
+				count = 1;
 			if (EntitiesHolder.isEntityPresent(key) && count < 10) {
 				count++;
 				policyNumber = EntitiesHolder.getEntity(key);
@@ -338,8 +326,8 @@ public class BaseTest {
 	}
 
 	protected Boolean isStateCA() {
-		return getPolicyType() != null && (getPolicyType().equals(PolicyType.HOME_CA_HO3) || getPolicyType().equals(PolicyType.AUTO_CA_SELECT) || getPolicyType().equals(PolicyType.CEA) || getPolicyType().equals(PolicyType.HOME_CA_DP3) || getPolicyType().equals(PolicyType.HOME_CA_HO4)
-				|| getPolicyType().equals(PolicyType.HOME_CA_HO6) || getPolicyType().equals(PolicyType.AUTO_CA_CHOICE));
+		return getPolicyType() != null && (getPolicyType().equals(PolicyType.HOME_CA_HO3) || getPolicyType().equals(PolicyType.AUTO_CA_SELECT) || getPolicyType().equals(PolicyType.CEA) || getPolicyType().equals(PolicyType.HOME_CA_DP3)
+				|| getPolicyType().equals(PolicyType.HOME_CA_HO4) || getPolicyType().equals(PolicyType.HOME_CA_HO6) || getPolicyType().equals(PolicyType.AUTO_CA_CHOICE));
 	}
 
 	private void initTestDataForTest() {

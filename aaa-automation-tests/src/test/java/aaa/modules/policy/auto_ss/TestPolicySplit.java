@@ -62,8 +62,8 @@ public class TestPolicySplit extends AutoSSBaseTest {
 
 		//2. open activities section, check spin has been executed, store spun quote number 
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		String description = NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(1).getCell("Description").getValue();
-		CustomAssert.assertTrue("Checking split action in activities", description.contains("has been split to a new quote"));
+		String description = NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "has been split to a new quote").getCell("Description").getValue();
+		CustomAssert.assertTrue("Split action is missing in Activities and User Notes", description.contains("has been split to a new quote"));
 		String quoteNumber = description.substring(description.indexOf("Q" + getState() + "SS"));
 
 		//A. Steps for checking pended endorsement for current policy

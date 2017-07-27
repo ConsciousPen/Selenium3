@@ -26,7 +26,7 @@ public class TestPolicyCreation extends HomeCaDP3BaseTest {
         mainApp().open();
 
         createCustomerIndividual();
-        policy.createPolicy(tdPolicy.getTestData("DataGather", "TestData"));
+        createPolicy();
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }

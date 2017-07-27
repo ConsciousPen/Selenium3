@@ -45,7 +45,7 @@ NamedInsured: {
   Last Name: Kubrik, 
   Relationship to primary named insured: Spouse,
   Date Of Birth: '09/05/1979',
-  Occupation: '/first',
+  Occupation: 'index=1',
 }
 
 MailingAddress: {

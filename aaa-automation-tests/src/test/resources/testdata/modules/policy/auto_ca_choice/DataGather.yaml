@@ -81,7 +81,7 @@ DriverVehicleRelationshipTable: ['@AssignedDriver1']
 }
 
 AssignedDriver1: {
-Primary Driver: /index=1
+Primary Driver: index=1
 }
   
 #AssignmentTab: {
