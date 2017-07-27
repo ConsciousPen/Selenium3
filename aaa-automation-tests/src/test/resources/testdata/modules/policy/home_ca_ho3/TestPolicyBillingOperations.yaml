@@ -20,3 +20,11 @@ TestData_Refund_1000: {
     Amount: 1000
   }
 }
+
+TestData_WriteOff: {
+  OtherTransactionsActionTab: {
+    Transaction Type: Adjustment,
+    Transaction Subtype: Write-off,
+    Amount: -100
+  }
+}
