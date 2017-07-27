@@ -32,16 +32,14 @@ public class TestPolicyFuturedated extends AutoSSBaseTest {
          createCustomerIndividual();
               
          TestData td = getStateTestData(tdPolicy, "DataGather", "TestData")
-       // 		 .adjust(TestData.makeKeyPath("GeneralTab","PolicyInformation","Effective Date"), "/today+1m:MM/dd/yyyy");
-        		 
-        		 .adjust(TestData.makeKeyPath("GeneralTab",
+        		  .adjust(TestData.makeKeyPath("GeneralTab",
         					AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
         					AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()),
         					"/today+1m:MM/dd/yyyy");
 		
          getPolicyType().get().createPolicy(td);
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);
+         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);
         
     }
 }
