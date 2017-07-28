@@ -55,7 +55,7 @@ public abstract class PropertyQuoteTab extends Tab {
 
 	@Override
 	public Tab submitTab() {
-		btnContinue.click();
+		buttonNext.click();
 		return this;
 	}
 
