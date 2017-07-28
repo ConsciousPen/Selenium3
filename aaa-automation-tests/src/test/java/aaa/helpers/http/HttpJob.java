@@ -1,7 +1,6 @@
-package aaa.http;
+package aaa.helpers.http;
 
-/*import java.io.IOException;
-import java.net.URL;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,19 +10,16 @@ import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+import aaa.helpers.http.impl.HtmlParser;
+import aaa.helpers.http.impl.HttpAAARequestor;
+import aaa.helpers.http.impl.HttpConstants;
+import aaa.helpers.http.impl.HttpHelper;
+import aaa.helpers.http.impl.HttpQueryBuilder;
 import toolkit.exceptions.IstfException;
-import toolkit.utils.http.HttpExecutor;
-import toolkit.utils.http.HttpQueryBuilder;
-import toolkit.utils.http.HttpRequest;
-import toolkit.utils.http.HttpRequest.HttpRequestHeader;
-import toolkit.utils.http.HttpResponse.HttpResponseHeader;
-import toolkit.utils.http.HttpResponse;*/
-
 
 public class HttpJob {
 
-	/*private static Logger log = LoggerFactory.getLogger(HttpJob.class);
+	private static Logger log = LoggerFactory.getLogger(HttpJob.class);
 	private static final String ASYNC_MANAGER_REGEX = "<a([^>]+)id=\"asyncTaskSummaryForm\\:([^\"]+)\"([^>]+)>([^>]+)</a>";
 	private static final String WAITING_REGEX = ".*Waiting:.*[^0-9]([0-9]+)<";
 	private static final String PROCESSING_REGEX = ".*Processing:.*[^0-9]([0-9]+)<";
@@ -39,20 +35,15 @@ public class HttpJob {
 
 	private static final String JOB_ADD_PARAMS_FILENAME = "job_run.txt";
 	private static final String STOP_ASYNC_PARAMS_FILENAME = "stop_async.txt";
-	private static final long ASYNC_TIMEOUT = 300000;*/
+	private static final long ASYNC_TIMEOUT = 300000;
 
 	private HttpJob() {
 	}
 
-	/*public static void checkAsyncManager(HttpRequest httpRequestor) throws Exception {
+	public static void checkAsyncManager(HttpAAARequestor httpRequestor) throws Exception {
 		HttpQueryBuilder queryBuilder = new HttpQueryBuilder();
 		queryBuilder.readParamsFile(JOB_ADD_PARAMS_FILENAME);
-		
-		httpRequestor.setUrl(new URL(httpRequestor.getUrl(), "/aaa-admin/admin/flow?_flowId=async-task-statistics-flow"));
-		HttpResponse response = HttpExecutor.sendRequest(httpRequestor);
-		response.getHeader(HttpResponseHeader.SET_COOKIE);
-		
-		
+
 		httpRequestor.sendGetRequest("/aaa-admin/admin/flow?_flowId=async-task-statistics-flow");
 		String asyncManager = HttpHelper.find(httpRequestor.getResponse(), ASYNC_MANAGER_REGEX, 4);
 
@@ -102,10 +93,10 @@ public class HttpJob {
 	}
 
 	public static synchronized void executeJob(String jobName) throws Exception {
-		
+		/*
 		 * System.setProperty("http.proxyHost", "localhost");
 		 * System.setProperty("http.proxyPort", "8888");
-		 
+		 */
 		log.info("HTTP Job: ---> Started Job '" + jobName + "' execution");
 		log.info("HTTP: Starting login");
 		HttpAAARequestor httpRequestor = HttpLogin.loginAd();
@@ -244,5 +235,5 @@ public class HttpJob {
 
 		log.info("HTTP Job: Waiting async task: " + waiting + ". Processing async task: " + processing);
 
-	}*/
+	}
 }
