@@ -3,11 +3,8 @@
 package aaa.main.modules.billing.account;
 
 import java.util.List;
-import java.util.Map;
 
 import org.openqa.selenium.By;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
 
 import aaa.common.AbstractAction;
 import aaa.common.Tab;
@@ -22,7 +19,6 @@ import aaa.main.modules.billing.account.actiontabs.DeclinePaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.MovePoliciesActionTab;
 import aaa.main.modules.billing.account.actiontabs.OtherTransactionsActionTab;
 import aaa.main.modules.billing.account.actiontabs.RefundActionTab;
-import aaa.main.modules.billing.account.actiontabs.TransferPaymentBenefitsActionTab;
 import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
 import aaa.main.modules.billing.account.views.AcceptPaymentView;
 import aaa.main.modules.billing.account.views.AddHoldView;
@@ -34,20 +30,17 @@ import aaa.main.modules.billing.account.views.OtherTransactionsView;
 import aaa.main.modules.billing.account.views.RefundView;
 import aaa.main.modules.billing.account.views.RegenerateBillView;
 import aaa.main.modules.billing.account.views.RemoveHoldView;
-import aaa.main.modules.billing.account.views.TransferPaymentBenefitsView;
 import aaa.main.modules.billing.account.views.TransferPaymentView;
 import aaa.main.modules.billing.account.views.UnallocatePaymentView;
 import aaa.main.modules.billing.account.views.UpdateBillingAccountView;
 import aaa.main.modules.billing.account.views.ViewModalPremiumView;
 import aaa.main.modules.billing.account.views.WaiveFeeView;
-import aaa.main.pages.summary.BillingSummaryGBPage;
 import aaa.main.pages.summary.BillingSummaryPage;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.RadioButton;
 import toolkit.webdriver.controls.TextBox;
-import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 
 public final class BillingAccountActions {
@@ -112,38 +105,7 @@ public final class BillingAccountActions {
 	            super.perform(td);
 	        }
 
-	        //Manual Allocation to Billable items
-	        public void perform(TestData td, String amount, List<String> allocations, int tableAllocationsRowNumber,
-	                int tableAllocationsIntoBGroupsRowNumber, Map<String, Dollar> amountsByCoverage, String referenceNumber) {
-	            td.adjust(TestData.makeKeyPath(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName(), BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()), amount)
-	                    .adjust(TestData.makeKeyPath(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName(), BillingAccountMetaData.AcceptPaymentActionTab.ALLOCATIONS.getLabel()),
-	                            allocations);
-	            perform(td);
-
-	            Table tableAllocations = new Table(By.xpath("//div[@id='paymentForm:invoicesDistributionsTable']/div/table"));
-	            if (tableAllocations.isPresent()) {
-
-	                tableAllocations.getRow(tableAllocationsRowNumber).getCell(BillingConstants.BillingAllocationsTable.INVOICE).controls.links.getFirst().click();
-	                new RadioButton(By.id("advAllocationForm:automaticDestination_radio:1")).setValue(true);
-	                Table tableAllocationsIntoBillingGroups = new Table(By.xpath("//div[@id='advAllocationForm:invoiceDistributionsTable_0']/div/table"));
-	                tableAllocationsIntoBillingGroups.getRow(tableAllocationsIntoBGroupsRowNumber).getCell(BillingConstants.BillingAllocationsIntoGroupsTable.BILLING_GROUP).controls.links.getFirst()
-	                        .click();
-
-	                fillManualAllocationsByCoverage(amountsByCoverage);
-
-	                submit();
-	                submit();
-	                submit();
-
-	                Table tableSuspendRemainingError = new Table(By.id("paymentForm:error_message"));
-	                if (tableSuspendRemainingError.isPresent()) {
-	                    new RadioButton(By.id("paymentForm:suspendRemainingAmount_radio:0")).setValue(true);
-	                    new TextBox(By.id("paymentForm:cashReferenceNumber")).setValue(referenceNumber);
-	                    submit();
-	                }
-	            }
-	        }
-
+	        /* TODO Make Custom control for Payment Allocation
 	        private void fillManualAllocationsByCoverage(Map<String, Dollar> amountsByCoverage) {
 	            Table tablePaymentAllocation = new Table(By.xpath("//div[@id='advAllocationForm:invoice_items_info_table']/div/table"));
 	            for (Row row : tablePaymentAllocation.getRows()) {
@@ -161,7 +123,7 @@ public final class BillingAccountActions {
 	                amountsByCoverage.put(coverageCode, amountToAllocate.subtract(allocatedAmount));
 
 	            }
-	        }
+	        }*/
 
 	        @Override
 	        public AbstractAction perform(TestData td) {
@@ -228,13 +190,8 @@ public final class BillingAccountActions {
 	        }
 
 	        public AbstractAction start(int rowNumber) {
-	            if (BillingSummaryGBPage.tableBillsAndStatments.isPresent()) {
-	                BillingSummaryGBPage.tableBillsAndStatments.getRow(rowNumber).getCell(BillingConstants.BillingGBBillsAndStatmentsTable.ACTION).controls.links.get(
-	                        ActionConstants.BillingBillsAndStatementsAction.DISCARD).click();
-	            } else {
-	                BillingSummaryPage.tableBillsStatements.getRow(rowNumber).getCell(BillingConstants.BillingBillsAndStatmentsTable.ACTIONS).controls.links.get(
-	                        ActionConstants.BillingBillsAndStatementsAction.DISCARD).click();
-	            }
+                BillingSummaryPage.tableBillsStatements.getRow(rowNumber).getCell(BillingConstants.BillingBillsAndStatmentsTable.ACTIONS).controls.links.get(
+                        ActionConstants.BillingBillsAndStatementsAction.DISCARD).click();
 	            return this;
 	        }
 
@@ -268,13 +225,8 @@ public final class BillingAccountActions {
 	        }
 
 	        public AbstractAction start(int rowNumber) {
-	            if (BillingSummaryGBPage.tablePaymentsOtherTransactions.isPresent()) {
-	                BillingSummaryGBPage.tablePaymentsOtherTransactions.getRow(rowNumber).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.buttons.get("Unallocate")
-	                        .click();
-	            } else {
-	                BillingSummaryPage.tablePaymentsOtherTransactions.getRow(rowNumber).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.buttons.get("Unallocate")
-	                        .click();
-	            }
+                BillingSummaryPage.tablePaymentsOtherTransactions.getRow(rowNumber).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.buttons.get("Unallocate")
+                        .click();
 	            return submit();
 	        }
 
@@ -308,13 +260,8 @@ public final class BillingAccountActions {
 	        }
 
 	        public AbstractAction start(int rowNumber) {
-	            if (BillingSummaryGBPage.tableBillsAndStatments.isPresent()) {
-	                BillingSummaryGBPage.tableBillsAndStatments.getRow(rowNumber).getCell(BillingConstants.BillingGBBillsAndStatmentsTable.ACTION).controls.links.get(
-	                        ActionConstants.BillingBillsAndStatementsAction.REGENERATE).click();
-	            } else {
-	                BillingSummaryPage.tableBillsStatements.getRow(rowNumber).getCell(BillingConstants.BillingBillsAndStatmentsTable.ACTIONS).controls.links.get(
-	                        ActionConstants.BillingBillsAndStatementsAction.DISCARD).click();
-	            }
+                BillingSummaryPage.tableBillsStatements.getRow(rowNumber).getCell(BillingConstants.BillingBillsAndStatmentsTable.ACTIONS).controls.links.get(
+                        ActionConstants.BillingBillsAndStatementsAction.DISCARD).click();
 	            return this;
 	        }
 
@@ -377,63 +324,6 @@ public final class BillingAccountActions {
 	        }
 	    }
 
-	    public static class TransferPaymentBenefits extends AbstractAction {
-	        @Override
-	        public String getName() {
-	            return "Transfer Payment";
-	        }
-
-	        @Override
-	        public Workspace getView() {
-	            return new TransferPaymentBenefitsView();
-	        }
-
-	        //FIXME(vmarkouski) - magic number
-	        @Override
-	        public AbstractAction start() {
-	            return start(1);
-	        }
-
-	        public AbstractAction start(int rowNumber) {
-	            BillingSummaryGBPage.tablePaymentsOtherTransactions.getRow(rowNumber).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.buttons.get("Transfer").click();
-	            return this;
-	        }
-
-	        public AbstractAction perform(TestData td, int rowNumber) {
-	            start(rowNumber);
-	            getView().fill(td);
-	            return submit();
-	        }
-
-	        public AbstractAction perform(TestData td, String policy, String transferAmount) {
-	            td.adjust(
-	                    TestData.makeKeyPath(BillingAccountMetaData.TransferPaymentBenefitsActionTab.class.getSimpleName(),
-	                            BillingAccountMetaData.TransferPaymentBenefitsActionTab.BILLING_ACCOUNT.getLabel(),
-	                            BillingAccountMetaData.TransferPaymentBenefitsActionTab.BillingAccountSingleSelector.POLICY_NUMBER.getLabel()),
-	                    policy)
-	                    .adjust(TestData.makeKeyPath(BillingAccountMetaData.TransferPaymentBenefitsActionTab.class.getSimpleName(),
-	                            BillingAccountMetaData.TransferPaymentBenefitsActionTab.TRANSFER_AMOUNT.getLabel()), transferAmount);
-	            return perform(td);
-	        }
-
-	        public void perform(int rowNumber, String billingAccountNumber, String transferAmount) {
-	            start(rowNumber);
-	            new TextBox(By.id("paymentForm:transferAmount")).setValue(transferAmount);
-	            new Button(By.id("paymentForm:showBillingAccountSearchPopupLnk")).click();
-	            new TextBox(By.id("searchBillingAccountsForm:accountNumber")).setValue(billingAccountNumber);
-	            new Button(By.id("searchBillingAccountsForm:searchBtn")).click();
-	            Table tableAcountSearchResults = new Table(By.xpath("//div[@id='searchBillingAccountsForm:accountSearchResults']//table"));
-	            tableAcountSearchResults.getRow(1).getCell(BillingConstants.BillingAccountsSearchResultTable.BILLING_ACCOUNT).controls.buttons.getFirst().click();
-	            TransferPaymentBenefitsActionTab.buttonOk.click();
-	        }
-
-	        @Override
-	        public AbstractAction submit() {
-	            new Button(By.xpath("//input[@id='paymentForm:okButton_footer']")).click();
-	            return this;
-	        }
-	    }
-
 	    public static class DeclinePayment extends AbstractAction {
 	        @Override
 	        public String getName() {
@@ -451,13 +341,8 @@ public final class BillingAccountActions {
 	        }
 
 	        public AbstractAction start(int rowNumber) {
-	            if (BillingSummaryGBPage.tablePaymentsOtherTransactions.isPresent()) {
-	                BillingSummaryGBPage.tablePaymentsOtherTransactions.getRow(rowNumber).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.buttons.get(
-	                        ActionConstants.BillingPaymentsAndOtherTransactionAction.DECLINE).click();
-	            } else {
-	                BillingSummaryPage.tablePaymentsOtherTransactions.getRow(rowNumber).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(
-	                        ActionConstants.BillingPaymentsAndOtherTransactionAction.DECLINE).click();
-	            }
+                BillingSummaryPage.tablePaymentsOtherTransactions.getRow(rowNumber).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(
+                        ActionConstants.BillingPaymentsAndOtherTransactionAction.DECLINE).click();
 	            return this;
 	        }
 

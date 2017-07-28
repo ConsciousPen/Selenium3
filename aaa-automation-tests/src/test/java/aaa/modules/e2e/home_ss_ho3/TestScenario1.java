@@ -14,7 +14,7 @@ public class TestScenario1 extends Scenario1 {
 	
 	@Test
 	@Override
-	public void step1() {
-		super.step1();
+	public void TC01_createPolicy() {
+		super.TC01_createPolicy();
 	}
 }
