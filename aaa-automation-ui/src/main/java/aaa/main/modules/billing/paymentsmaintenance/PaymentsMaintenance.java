@@ -6,7 +6,6 @@ import aaa.main.modules.billing.paymentsmaintenance.PaymentsMaintenanceActions.A
 import aaa.main.modules.billing.paymentsmaintenance.PaymentsMaintenanceActions.AddPaymentBatch;
 import aaa.main.modules.billing.paymentsmaintenance.PaymentsMaintenanceActions.AddSuspense;
 import aaa.main.modules.billing.paymentsmaintenance.PaymentsMaintenanceActions.ClearSuspense;
-import aaa.main.modules.billing.paymentsmaintenance.PaymentsMaintenanceActions.ClearSuspenseGB;
 
 public class PaymentsMaintenance implements IPaymentsMaintenance {
 
@@ -28,10 +27,5 @@ public class PaymentsMaintenance implements IPaymentsMaintenance {
     @Override
     public ClearSuspense clearSuspense() {
         return new PaymentsMaintenanceActions.ClearSuspense();
-    }
-
-    @Override
-    public ClearSuspenseGB clearSuspenseGB() {
-        return new PaymentsMaintenanceActions.ClearSuspenseGB();
     }
 }

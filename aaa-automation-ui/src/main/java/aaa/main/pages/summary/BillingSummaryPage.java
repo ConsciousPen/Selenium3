@@ -47,9 +47,6 @@ public class BillingSummaryPage extends SummaryPage {
     public static Button buttonShowPriorTerms = new Button(By.id("billingDetailedForm:showPriorTerms"));
     public static Button buttonHidePriorTerms = new Button(By.id("billingDetailedForm:hidePriorTerms"));
     public static Button buttonPaymentsBillingMaintenance = new Button(By.id("billingInfoForm:backOffice"));
-    public static Button buttonAddBulkPayment = new Button(By.id("backOfficeGeneralForm:addBulkPaymentBtn"));
-    public static Button buttonAddSuspense = new Button(By.id("backOfficeGeneralForm:addSuspenseBtn"));
-    public static Button buttonClearSuspense = new Button(By.id("backOfficeGeneralForm:clearSuspenseBtn"));
     public static Button buttonTasks = new Button(By.xpath("//*[contains(@id,'tasksList') and text()='Tasks']"));
 
     public static void open() {

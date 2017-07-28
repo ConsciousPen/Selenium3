@@ -2,7 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.helpers.billing;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +42,10 @@ public final class BillingHelper {
 
 	public static final DateTimeFormatter MM_DD_YYYY = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 	
-	public static List<LocalDate> getInstallmentDueDates() {
-		ArrayList<LocalDate> dates = new ArrayList<LocalDate>();
+	public static List<LocalDateTime> getInstallmentDueDates() {
+		ArrayList<LocalDateTime> dates = new ArrayList<LocalDateTime>();
 		for (Row row : BillingSummaryPage.tableInstallmentSchedule.getRows()) {
-			dates.add(LocalDate.parse(row.getCell(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).getValue(), MM_DD_YYYY));
+			dates.add(LocalDateTime.parse(row.getCell(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).getValue(), MM_DD_YYYY));
 		}
 		return dates;
 	}
