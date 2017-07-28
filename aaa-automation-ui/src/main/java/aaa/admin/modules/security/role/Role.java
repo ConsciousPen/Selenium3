@@ -35,7 +35,7 @@ public class Role implements IRole {
     @Override
     public void initiate() {
         navigateToFlow();
-        ((ComboBox) RolePage.assetListSearchForm.getControl(SearchByField.BUSINESS_DOMAIN.getLabel())).setValue(channelType.getName());
+        ((ComboBox) RolePage.assetListSearchForm.getAsset(SearchByField.BUSINESS_DOMAIN.getLabel())).setValue(channelType.getName());
         RolePage.buttonAddNewRole.click();
     }
 

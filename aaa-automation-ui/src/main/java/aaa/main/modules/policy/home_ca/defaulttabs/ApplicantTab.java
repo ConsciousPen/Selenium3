@@ -32,27 +32,27 @@ public class ApplicantTab extends Tab {
     }
     
     public AssetList getNamedInsuredAssetList() {
-    	return getAssetList().getControl(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), AssetList.class);
 	}
     public AssetList getAAAMembershipAssetList() {
-    	return getAssetList().getControl(HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), AssetList.class);
 	}
     public AssetList getDwellingAddressAssetList() {
-    	return getAssetList().getControl(HomeCaMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeCaMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(), AssetList.class);
 	}
     public AssetList getPreviousDwellingAddressAssetList() {
-    	return getAssetList().getControl(HomeCaMetaData.ApplicantTab.PREVIOUS_DWELLING_ADDRESS.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeCaMetaData.ApplicantTab.PREVIOUS_DWELLING_ADDRESS.getLabel(), AssetList.class);
 	}
     public AssetList getMailingAddressAssetList() {
-    	return getAssetList().getControl(HomeCaMetaData.ApplicantTab.MAILING_ADDRESS.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeCaMetaData.ApplicantTab.MAILING_ADDRESS.getLabel(), AssetList.class);
 	}
     public AssetList getNamedInsuredInfoAssetList() {
-    	return getAssetList().getControl(HomeCaMetaData.ApplicantTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeCaMetaData.ApplicantTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class);
 	}
     public AssetList getOtherAAAPoliciesAssetList() {
-    	return getAssetList().getControl(HomeCaMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeCaMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel(), AssetList.class);
 	}
     public AssetList getAgentInfoAssetList() {
-    	return getAssetList().getControl(HomeCaMetaData.ApplicantTab.AGENT_INFORMATION.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeCaMetaData.ApplicantTab.AGENT_INFORMATION.getLabel(), AssetList.class);
 	}
 }

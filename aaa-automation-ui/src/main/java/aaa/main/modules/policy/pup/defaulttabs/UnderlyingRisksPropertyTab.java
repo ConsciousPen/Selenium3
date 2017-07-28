@@ -33,15 +33,15 @@ public class UnderlyingRisksPropertyTab extends Tab {
     }
     
     public AssetList getAdditionalResidenciesAssetList() {
-    	return getAssetList().getControl(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.ADDITIONAL_RESIDENCIES.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.ADDITIONAL_RESIDENCIES.getLabel(), AssetList.class);
 	}
     public AssetList getBusinessOrFarmingCoverageAssetList() {
-    	return getAssetList().getControl(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.BUSINESS_OR_FARMING_COVERAGE.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.BUSINESS_OR_FARMING_COVERAGE.getLabel(), AssetList.class);
 	}
     public AssetList getPetsOrAnimalsInfoAssetList() {
-    	return getAssetList().getControl(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.PETS_OR_ANIMAL_INFORMATION.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.PETS_OR_ANIMAL_INFORMATION.getLabel(), AssetList.class);
 	}
     public AssetList getRecreationalEquipmentInfoAssetList() {
-    	return getAssetList().getControl(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.RECREATIONAL_EQUIPMENT_INFORMATION.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.RECREATIONAL_EQUIPMENT_INFORMATION.getLabel(), AssetList.class);
 	}
 }

@@ -52,7 +52,7 @@ public class TestPolicyDoNotRenewWithRenew extends HomeSSHO3BaseTest {
 
         log.info("TEST: Policy cannot bew renewed #" + policyNumber);
 
-        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().subtractDays(
+        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(
                 BillingHelper.DAYS_RENEW_STRATEGY));
 
         adminApp().reopen();

@@ -55,7 +55,7 @@ public class LoginPage extends Page implements ILogin {
 	public static AssetList login = new AssetList(By.tagName("body"), LoginPageMeta.class);
 
 	public static boolean isPageDisplayed() {
-		TextBox user = login.getControl(LoginPageMeta.USER.getLabel(), TextBox.class);
+		TextBox user = login.getAsset(LoginPageMeta.USER.getLabel(), TextBox.class);
 		if (user.isPresent() && user.isVisible())
 			return true;
 		else
@@ -80,9 +80,9 @@ public class LoginPage extends Page implements ILogin {
 	public void fillLogin(TestData td) {
 		startLogin();
 		if (td.containsKey(LoginPageMeta.STATES.getLabel()))
-			login.getControl(LoginPageMeta.STATES.getLabel(), ListBox.class).unsetAllValues();
+			login.getAsset(LoginPageMeta.STATES.getLabel(), ListBox.class).unsetAllValues();
 		if (td.containsKey(LoginPageMeta.GROUPS.getLabel()))
-			login.getControl(LoginPageMeta.GROUPS.getLabel(), ListBox.class).unsetAllValues();
+			login.getAsset(LoginPageMeta.GROUPS.getLabel(), ListBox.class).unsetAllValues();
 		login.setValue(td);
 		btnLogin.click();
 	}

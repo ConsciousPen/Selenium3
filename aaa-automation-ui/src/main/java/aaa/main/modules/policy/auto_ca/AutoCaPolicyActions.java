@@ -62,7 +62,7 @@ public final class AutoCaPolicyActions {
     }
 
     public static class Renew extends PolicyActions.Renew {
-	    //private TextBox textBoxRenewalDate = getView().getTab(RenewActionTab.class).getAssetList().getControl(HomeCaMetaData.RenewActionTab.RENEWAL_DATE.getLabel(), TextBox.class);
+	    //private TextBox textBoxRenewalDate = getView().getTab(RenewActionTab.class).getAssetList().getAsset(HomeCaMetaData.RenewActionTab.RENEWAL_DATE.getLabel(), TextBox.class);
 
         @Override
         public Workspace getView() {
@@ -160,6 +160,13 @@ public final class AutoCaPolicyActions {
     }
 
     public static class DeletePendedTransaction extends PolicyActions.DeletePendedTransaction {
+        @Override
+        public Workspace getView() {
+            return new DeletePendedTransactionView();
+        }
+    }
+    
+    public static class DeletePendingRenwals extends PolicyActions.DeletePendingRenwals {
         @Override
         public Workspace getView() {
             return new DeletePendedTransactionView();

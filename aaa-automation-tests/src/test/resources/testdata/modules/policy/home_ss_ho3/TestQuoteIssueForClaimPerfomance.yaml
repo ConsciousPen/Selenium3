@@ -11,7 +11,7 @@ PolicyTab: {
   Policy Form: HO3 Homeowner Special Form
 }
 InsuredTab: {
-  Insured Party Selection: /index=0
+  Insured Party Selection: index=0
 }
 InsuredTabWife: {
   Insured Party Selection: New Person,

@@ -2,17 +2,19 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.helpers.billing;
 
+import java.time.LocalDateTime;
+
 import com.exigen.ipb.etcsa.utils.Dollar;
 
 import aaa.helpers.TableVerifier;
 import aaa.main.pages.summary.BillingSummaryPage;
-import toolkit.utils.datetime.DateTime;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.composite.table.Table;
 
 public class BillingBillsAndStatementsVerifier extends TableVerifier {
 
-    public BillingBillsAndStatementsVerifier setDueDate(DateTime value) {
-        setValue("Due Date", value.toString(DateTime.MM_DD_YYYY));
+    public BillingBillsAndStatementsVerifier setDueDate(LocalDateTime value) {
+        setValue("Due Date", value.format(DateTimeUtils.MM_DD_YYYY));
         return this;
     }
 

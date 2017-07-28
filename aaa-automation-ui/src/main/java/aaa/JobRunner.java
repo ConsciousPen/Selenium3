@@ -2,6 +2,7 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,7 +17,6 @@ import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.admin.pages.general.GeneralSchedulerPage.Job;
 import aaa.common.enums.NavigationEnum.AdminAppLeftMenu;
 import aaa.common.pages.NavigationPage;
-import toolkit.utils.datetime.DateTime;
 
 public final class JobRunner {
 
@@ -24,7 +24,7 @@ public final class JobRunner {
 
     private static List<Job> jobs = Collections.synchronizedList(new ArrayList<Job>());
     private static boolean isAsyncManagerRestarted = false;
-    private static DateTime currentPhase;
+    private static LocalDateTime currentPhase;
 
     private JobRunner() {}
 
@@ -34,7 +34,7 @@ public final class JobRunner {
 
     public static void executeJob(Job job, boolean forceExecution) {
         if (TimeSetterUtil.getInstance().isPEF()) {
-            DateTime phaseTime = TimeSetterUtil.getInstance().getPhaseStartTime();
+            LocalDateTime phaseTime = TimeSetterUtil.getInstance().getPhaseStartTime();
             if (!phaseTime.equals(currentPhase)) {
                 jobs.clear();
                 isAsyncManagerRestarted = false;

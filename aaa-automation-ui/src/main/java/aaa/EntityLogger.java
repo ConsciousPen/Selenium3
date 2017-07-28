@@ -151,8 +151,8 @@ public abstract class EntityLogger {
                     break;
 
                 case PAR:
-                    content = "(RoleCode = " + new GeneralPARTab().getAssetList().getControl(PARMetaData.GeneralPARTab.ROLE_CODE.getLabel()).getValue() + "; " +
-                            "RoleName = " + new GeneralPARTab().getAssetList().getControl(PARMetaData.GeneralPARTab.ROLE_NAME.getLabel()).getValue() + ")";
+                    content = "(RoleCode = " + new GeneralPARTab().getAssetList().getAsset(PARMetaData.GeneralPARTab.ROLE_CODE.getLabel()).getValue() + "; " +
+                            "RoleName = " + new GeneralPARTab().getAssetList().getAsset(PARMetaData.GeneralPARTab.ROLE_NAME.getLabel()).getValue() + ")";
                     break;
 
                 case TAX_FEE_REGISTRY:
@@ -168,13 +168,13 @@ public abstract class EntityLogger {
                     break;
 
                 case BRAND:
-                    content = "(Brand Code = " + BrandPage.assetListAddBrand.getControl(BrandMetaData.BrandTab.AddBrandDialog.BRAND_CODE.getLabel(), TextBox.class).getValue() + "; "
-                            + "Brand Name = " + BrandPage.assetListAddBrand.getControl(BrandMetaData.BrandTab.AddBrandDialog.BRAND_NAME.getLabel(), TextBox.class).getValue() + ")";
+                    content = "(Brand Code = " + BrandPage.assetListAddBrand.getAsset(BrandMetaData.BrandTab.AddBrandDialog.BRAND_CODE.getLabel(), TextBox.class).getValue() + "; "
+                            + "Brand Name = " + BrandPage.assetListAddBrand.getAsset(BrandMetaData.BrandTab.AddBrandDialog.BRAND_NAME.getLabel(), TextBox.class).getValue() + ")";
                     break;
 
                 case BRAND_TYPE:
-                    content = "(Brand Type Code = " + BrandPage.assetListAddBrandType.getControl(BrandMetaData.BrandTab.AddBrandTypeDialog.BRAND_TYPE_CODE.getLabel(), TextBox.class).getValue() + "; "
-                            + "Brand Type Name = " + BrandPage.assetListAddBrandType.getControl(BrandMetaData.BrandTab.AddBrandTypeDialog.BRAND_TYPE_NAME.getLabel(), TextBox.class).getValue() + ")";
+                    content = "(Brand Type Code = " + BrandPage.assetListAddBrandType.getAsset(BrandMetaData.BrandTab.AddBrandTypeDialog.BRAND_TYPE_CODE.getLabel(), TextBox.class).getValue() + "; "
+                            + "Brand Type Name = " + BrandPage.assetListAddBrandType.getAsset(BrandMetaData.BrandTab.AddBrandTypeDialog.BRAND_TYPE_NAME.getLabel(), TextBox.class).getValue() + ")";
                     break;
 
                 case MAJOR_LARGE_ACCOUNT:

@@ -1,7 +1,5 @@
 package aaa.modules.policy.templates;
 
-import org.testng.annotations.Test;
-
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -23,7 +21,6 @@ import toolkit.verification.CustomAssert;
  */
 public class PolicyCancelRewrite extends PolicyBaseTest {
 
-	@Test
 	public void testPolicyCancelRewrite() {
 		
 		mainApp().open();

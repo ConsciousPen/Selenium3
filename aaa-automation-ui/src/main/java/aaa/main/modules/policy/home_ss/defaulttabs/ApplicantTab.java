@@ -33,24 +33,24 @@ public class ApplicantTab extends Tab {
     }
     
     public AssetList getNamedInsuredAssetList() {
-    	return getAssetList().getControl(HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), AssetList.class);
 	}
     public AssetList getAAAMembershipAssetList() {
-    	return getAssetList().getControl(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), AssetList.class);
 	}
     public AssetList getDwellingAddressAssetList() {
-    	return getAssetList().getControl(HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(), AssetList.class);
 	}
     public AssetList getMailingAddressAssetList() {
-    	return getAssetList().getControl(HomeSSMetaData.ApplicantTab.MAILING_ADDRESS.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.MAILING_ADDRESS.getLabel(), AssetList.class);
 	}
     public AssetList getNamedInsuredInfoAssetList() {
-    	return getAssetList().getControl(HomeSSMetaData.ApplicantTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class);
 	}
     public AssetList getOtherAAAPoliciesAssetList() {
-    	return getAssetList().getControl(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel(), AssetList.class);
 	}
     public AssetList getAgentInfoAssetList() {
-    	return getAssetList().getControl(HomeSSMetaData.ApplicantTab.AGENT_INFORMATION.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeSSMetaData.ApplicantTab.AGENT_INFORMATION.getLabel(), AssetList.class);
 	}
 }

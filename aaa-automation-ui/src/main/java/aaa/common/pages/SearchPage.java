@@ -49,7 +49,7 @@ public class SearchPage extends MainPage {
 
 		for (String key : assetListSearch.getAssetNames()) {
 			if (key.contains(searchBy.get())) {
-				((AbstractEditableStringElement) assetListSearch.getControl(key)).setValue(searchString);
+				((AbstractEditableStringElement) assetListSearch.getAsset(key)).setValue(searchString);
 				break;
 			}
 		}

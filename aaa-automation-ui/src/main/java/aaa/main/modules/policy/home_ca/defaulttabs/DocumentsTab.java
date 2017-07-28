@@ -26,12 +26,12 @@ public class DocumentsTab extends Tab {
     }
     
     public AssetList getDocumentsForPrintingAssetList() {
-    	return getAssetList().getControl(HomeCaMetaData.DocumentsTab.DOCUMENTS_FOR_PRINTING.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeCaMetaData.DocumentsTab.DOCUMENTS_FOR_PRINTING.getLabel(), AssetList.class);
 	}
     public AssetList getDocumentsToBindAssetList() {
-    	return getAssetList().getControl(HomeCaMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeCaMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(), AssetList.class);
 	}
     public AssetList getDocumentsToIssueAssetList() {
-    	return getAssetList().getControl(HomeCaMetaData.DocumentsTab.DOCUMENTS_TO_ISSUE.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeCaMetaData.DocumentsTab.DOCUMENTS_TO_ISSUE.getLabel(), AssetList.class);
 	}
 }

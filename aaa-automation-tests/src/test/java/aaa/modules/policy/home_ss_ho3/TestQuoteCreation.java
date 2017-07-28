@@ -25,7 +25,7 @@ public class TestQuoteCreation extends HomeSSHO3BaseTest {
 		mainApp().open();
 
 		createCustomerIndividual();
-		createQuote();
+		createPolicy();
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
 	}

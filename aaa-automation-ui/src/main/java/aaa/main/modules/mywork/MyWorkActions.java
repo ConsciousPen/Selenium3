@@ -216,7 +216,7 @@ public final class MyWorkActions {
         
         public AbstractAction performByReferenceId(String referenceId) {
             start();
-            getView().getTab(FilterTaskActionTab.class).getAssetList().getControl(
+            getView().getTab(FilterTaskActionTab.class).getAssetList().getAsset(
             		MyWorkMetaData.FilterTaskActionTab.REFERENCE_ID.getLabel(), TextBox.class).setValue(referenceId);
             return submit();
         }
