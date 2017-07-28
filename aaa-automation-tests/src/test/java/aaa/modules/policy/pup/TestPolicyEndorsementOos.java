@@ -27,7 +27,7 @@ import toolkit.verification.CustomAssert;
 public class TestPolicyEndorsementOos extends PersonalUmbrellaBaseTest {
 	
     @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @TestInfo(component = "Policy.PUP.EndorsementOos")
     public void testPolicyEndorsementOos() {
         mainApp().open();
         createCustomerIndividual();
