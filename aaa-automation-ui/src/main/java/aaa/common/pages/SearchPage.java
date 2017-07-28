@@ -2,7 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common.pages;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -10,6 +9,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.openqa.selenium.By;
 import aaa.common.enums.SearchEnum;
 import aaa.common.metadata.SearchMetaData;
+import aaa.toolkit.webdriver.customcontrols.TableWithPages;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
@@ -27,7 +27,7 @@ public class SearchPage extends MainPage {
 	public static Button buttonClear = new Button(By.id("searchForm:clearBtn"));
 	public static Button buttonCreateCustomer = new Button(By.id("searchForm:createAccountBtnAlway"));
 	public static Button buttonSearch = new Button(By.id("searchForm:searchBtn"));
-	public static Table tableSearchResults = new Table(By.id("searchTable1Form:body_searchTable1"));
+	public static Table tableSearchResults = new TableWithPages(By.id("searchTable1Form:body_searchTable1"), By.id("searchTable1Form:body_searchTable1:dataScrollersearchTable1"));
 	public static StaticElement labelNameParty = new StaticElement(By.xpath("//span[@id='partyPopup:name']"));
 	public static Table tableRoleInfo = new Table(By.xpath("//table[@id='partyPopup:body_rolesTable']"));
 
@@ -61,6 +61,7 @@ public class SearchPage extends MainPage {
 	}
 
 	public static void search(TestData tdSearch) {
+		log.info("Searching with criteria: " + tdSearch);
 		//TODO-dchubkov: call search dialog instead?
 		if (!buttonSearch.isPresent()) {
 			MainPage.QuickSearch.buttonSearchPlus.click();

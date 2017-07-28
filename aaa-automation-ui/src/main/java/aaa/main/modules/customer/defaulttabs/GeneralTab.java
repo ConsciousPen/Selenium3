@@ -64,8 +64,8 @@ public class GeneralTab extends DefaultTab {
                 assetList = new AssetList(By.id("associateMajorAccountPopup_container"), metaDataClass);
                 assetList.config.applyConfiguration("AssociateAccount");
                 buttonAssociateAccount.click();
-                ((AssetList) super.getAssetList()).setValue(testData.ksam(accountType, designation));
-                ((AssetList) super.getAssetList()).fill(testData.purgeAdjustments());
+                ((AssetList) getAssetList()).setValue(testData.ksam(accountType, designation));
+                getAssetList().fill(testData.purgeAdjustments());
                 buttonAddMajorAccount.click();
                 assetList = new AssetList(By.xpath("//*"), metaDataClass);
             }

@@ -13,9 +13,7 @@ import aaa.common.metadata.SearchMetaData;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.EntitiesHolder;
-import aaa.main.metadata.CustomerMetaData;
 import aaa.main.modules.customer.CustomerType;
-import aaa.main.modules.customer.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.CommonTest;
@@ -52,6 +50,7 @@ public class TestSearchPage extends CommonTest {
 	//TODO-dchubkov: write test for search for Quote by billing account from existent policy
 	//TODO-dchubkov: ask should I write tests for Create Account feature? E.g. create account with same name, etc
 	//TODO-dchubkov: add logging to existing tests except comments
+	//TODO-dchubkov: pagination tests
 
 	@Test
 	@TestInfo(component = "Common.Search")
@@ -97,42 +96,6 @@ public class TestSearchPage extends CommonTest {
 		PolicySummaryPage.labelPolicyNumber.verify.value(policyNumber);
 	}
 
-	@Test
-	@TestInfo(component = "Common.Search")
-	//TODO-dchubkov: test javadoc
-	public void searchPolicyByFullTestData() {
-		TestData customerData = tdSpecific.getTestData("CustomerCreation");
-		TestData policyData = tdSpecific.getTestData("PolicyCreation");
-		TestData customerGeneralTabData = customerData.getTestData(customer.getDefaultView().getTab(GeneralTab.class).getClass().getSimpleName());
-
-		mainApp().open();
-		String customerNumber = createCustomerIndividual(customerData);
-		String policyNumber = createPolicy(policyData);
-
-		//String policyNumber = "CAAS926252998";
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		CustomAssert.assertTrue(NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.POLICY.get()));
-		PolicySummaryPage.labelPolicyNumber.verify.value(policyNumber);
-
-		TestData fullSearchData = DataProviderFactory.emptyData();
-		TestData td = DataProviderFactory.emptyData();
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
-		fullSearchData.adjust(SearchMetaData.Search.SEARCH_FOR.getLabel(), SearchEnum.SearchFor.POLICY.get());
-		fullSearchData.adjust(SearchMetaData.Search.POLICY_QUOTE.getLabel(), policyNumber);
-		fullSearchData.adjust(SearchMetaData.Search.CUSTOMER.getLabel(), customerNumber);
-		fullSearchData.adjust(SearchMetaData.Search.FIRST_NAME.getLabel(), CustomerSummaryPage.labelCustomerName.getValue().split("\\s")[0]);
-		fullSearchData.adjust(SearchMetaData.Search.LAST_NAME.getLabel(), CustomerSummaryPage.labelCustomerName.getValue().split("\\s")[1]);
-
-		fullSearchData.adjust(SearchMetaData.Search.ZIP_CODE.getLabel(), customerGeneralTabData.getValue(CustomerMetaData.GeneralTab.ZIP_CODE.getLabel()));
-		fullSearchData.adjust(SearchMetaData.Search.SSN.getLabel(), customerGeneralTabData.getValue(CustomerMetaData.GeneralTab.SSN.getLabel()));
-		List<TestData> agencyList = customerGeneralTabData.getTestDataList(CustomerMetaData.GeneralTab.AGENCY_ASSIGNMENT.getLabel());
-		fullSearchData.adjust(SearchMetaData.Search.AGENCY_NAME.getLabel(), agencyList.get(random.nextInt(agencyList.size())).getValue(CustomerMetaData.GeneralTab.AddAgencyMetaData.AGENCY_NAME.getLabel()));
-
-		td.adjust(SearchPage.assetListSearch.getName(), fullSearchData);
-		SearchPage.search(td);
-		PolicySummaryPage.buttonTransactionHistory.isPresent();
-		PolicySummaryPage.labelPolicyNumber.verify.value(policyNumber);
-	}
 
 	/**
 	 * @author Dmitry Chubkov
