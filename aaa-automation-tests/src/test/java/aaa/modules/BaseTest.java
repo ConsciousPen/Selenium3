@@ -25,6 +25,7 @@ import com.exigen.ipb.etcsa.utils.listener.ETCSAListener;
 
 import aaa.EntityLogger;
 import aaa.common.Constants;
+import aaa.common.Constants.States;
 import aaa.common.enums.SearchEnum;
 import aaa.common.metadata.LoginPageMeta;
 import aaa.common.pages.LoginPage;
@@ -59,8 +60,8 @@ public class BaseTest {
 	protected TestDataManager testDataManager;
 	private String quoteNumber;
 	private String key;
-	private String state;
-	private String usState = PropertyProvider.getProperty("test.usstate");
+	private static ThreadLocal<String> state = new ThreadLocal<String>();
+	private static String usState = PropertyProvider.getProperty("test.usstate");
 	private static Map<String, Integer> policyCount = new HashMap<String, Integer>();
 
 	static {
@@ -70,11 +71,6 @@ public class BaseTest {
 	}
 
 	public BaseTest() {
-		if (StringUtils.isNotBlank(usState)) {
-			setState(usState);
-		} else {
-			setState(Constants.States.UT.get());
-		}
 		testDataManager = new TestDataManager();
 		initTestDataForTest();
 	}
@@ -93,12 +89,13 @@ public class BaseTest {
 		return getPolicyType().getPolicyRest().createInstance(customerNumber, quoteNumber);
 	}
 
-	protected String getState() {
-		return state;
+	public static String getState() {
+		return state.get();
 	}
 
-	protected void setState(String newState) {
-		this.state = newState;
+	private void setState(String newState) {
+		state.set(newState);
+		log.info(getState());
 	}
 
 	protected TimePoints getTimePoints() {
@@ -106,16 +103,19 @@ public class BaseTest {
 	}
 
 	@Parameters({ "state" })
-	@BeforeClass
-	public void beforeClassConfiguration(@Optional("UT") String state) {
+	@BeforeClass(alwaysRun=true)
+	public void beforeMethodStateConfiguration(@Optional("") String state) {
 		if (isStateCA()) {
 			setState(Constants.States.CA.get());
-		} else if (StringUtils.isNotBlank(usState) && state.equals(Constants.States.UT.get())) {
+		} else if (StringUtils.isNotBlank(usState) && StringUtils.isBlank(state)) {
 			setState(usState);
-		} else
+		} else if (StringUtils.isNotBlank(state)) {
 			setState(state);
+		} else {
+			setState(States.UT.get());
+		}
 	}
-
+	
 	/**
 	 * Login to the application
 	 */
@@ -338,8 +338,8 @@ public class BaseTest {
 	}
 
 	protected Boolean isStateCA() {
-		return getPolicyType().equals(PolicyType.HOME_CA_HO3) || getPolicyType().equals(PolicyType.AUTO_CA_SELECT) || getPolicyType().equals(PolicyType.CEA) || getPolicyType().equals(PolicyType.HOME_CA_DP3) || getPolicyType().equals(PolicyType.HOME_CA_HO4)
-				|| getPolicyType().equals(PolicyType.HOME_CA_HO6) || getPolicyType().equals(PolicyType.AUTO_CA_CHOICE);
+		return getPolicyType() != null && (getPolicyType().equals(PolicyType.HOME_CA_HO3) || getPolicyType().equals(PolicyType.AUTO_CA_SELECT) || getPolicyType().equals(PolicyType.CEA) || getPolicyType().equals(PolicyType.HOME_CA_DP3) || getPolicyType().equals(PolicyType.HOME_CA_HO4)
+				|| getPolicyType().equals(PolicyType.HOME_CA_HO6) || getPolicyType().equals(PolicyType.AUTO_CA_CHOICE));
 	}
 
 	private void initTestDataForTest() {

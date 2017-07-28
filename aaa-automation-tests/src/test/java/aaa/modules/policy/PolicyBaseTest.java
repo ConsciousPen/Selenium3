@@ -14,7 +14,9 @@ public abstract class PolicyBaseTest extends BaseTest {
     
     public PolicyBaseTest() {
         PolicyType type = (PolicyType) getPolicyType();
-        policy = type.get();
+        if(type!=null) {
+        	policy = type.get();
+        }
         tdPolicy = testDataManager.policy.get(type);
     }
 
