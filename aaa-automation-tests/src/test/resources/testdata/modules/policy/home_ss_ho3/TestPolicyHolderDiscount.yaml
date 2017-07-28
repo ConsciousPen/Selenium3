@@ -1,0 +1,105 @@
+# --------- TestData: Young HomeOwner Discount ----------
+TestData_YoungHomeOwner: {
+  ApplicantTab: '@ApplicantTab_YoungHomeOwner', 
+  ReportsTab: '@ReportsTab'
+}
+
+ApplicantTab_YoungHomeOwner: {
+  NamedInsured: '@NamedInsured_YoungHomeOwner',
+}
+
+NamedInsured_YoungHomeOwner: {
+  Date of birth: '/today-30y:MM/dd/yyyy'
+}
+
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  InsuranceScoreReport: [{Report: 'Re-ord'}],
+  CLUEreport: [{Report: 'Re-order report'}]
+}
+
+# --------- TestData: Mature HomeOwner Discount ----------
+TestData_MatureHomeowner: {
+  ApplicantTab: '@ApplicantTab_MatureHomeowner', 
+  ReportsTab: '@ReportsTab'
+}
+
+ApplicantTab_MatureHomeowner: {
+  NamedInsured: '@NamedInsured_MatureHomeowner',
+}
+
+NamedInsured_MatureHomeowner: {
+  Date of birth: '/today-55y:MM/dd/yyyy'
+}
+
+# ------------- TestData: No Discounts --------------
+TestData_NoPolicyHolderDiscount: {
+  ApplicantTab: '@ApplicantTab_NoPolicyHolderDiscount', 
+  ReportsTab: '@ReportsTab'
+}
+
+ApplicantTab_NoPolicyHolderDiscount: {
+  NamedInsured: '@NamedInsured_NoPolicyHolderDiscount',
+}
+
+NamedInsured_NoPolicyHolderDiscount: {
+  Date of birth: '/today-50y:MM/dd/yyyy'
+}
+
+# ----------- TestData: AAA Employee Discount ------------
+TestData_EmployeeDiscount: {
+  ApplicantTab: '@ApplicantTab_EmployeeDiscount', 
+  ReportsTab: '@ReportsTab'
+}
+
+ApplicantTab_EmployeeDiscount: {
+  NamedInsured: '@NamedInsured_EmployeeDiscount',
+}
+
+NamedInsured_EmployeeDiscount: {
+  AAA employee: 'Yes'
+}
+
+# ------------ TestData for custom states --------------
+# ------------ MD
+TestData_YoungHomeOwner_MD: {
+  ApplicantTab: '@ApplicantTab_YoungHomeOwner', 
+  ReportsTab: '@ReportsTab_MD'
+}
+
+ReportsTab_MD: {
+  Sales Agent Agreement: 'I Agree',
+  #InsuranceScoreReport: [{Report: 'Re-ord'}],
+  CLUEreport: [{Report: 'Re-order report'}]
+}
+
+TestData_MatureHomeowner_MD: {
+  ApplicantTab: '@ApplicantTab_MatureHomeowner', 
+  ReportsTab: '@ReportsTab_MD'
+}
+
+TestData_NoPolicyHolderDiscount_MD: {
+  ApplicantTab: '@ApplicantTab_NoPolicyHolderDiscount', 
+  ReportsTab: '@ReportsTab_MD'
+}
+
+TestData_EmployeeDiscount_MD: {
+  ApplicantTab: '@ApplicantTab_EmployeeDiscount', 
+  ReportsTab: '@ReportsTab_MD'
+}
+
+# ------------ NV
+TestData_NoPolicyHolderDiscount_NV: {
+  ApplicantTab: '@ApplicantTab_NoPolicyHolderDiscount_NV', 
+  ReportsTab: '@ReportsTab'
+}
+
+ApplicantTab_NoPolicyHolderDiscount_NV: {
+  NamedInsured: '@NamedInsured_NoPolicyHolderDiscount_NV',
+}
+
+NamedInsured_NoPolicyHolderDiscount_NV: {
+  Date of birth: '/today-49y:MM/dd/yyyy'
+}
+
+

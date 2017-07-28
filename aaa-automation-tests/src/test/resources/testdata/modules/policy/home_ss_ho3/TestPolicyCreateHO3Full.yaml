@@ -1853,7 +1853,7 @@ EndorsementTab_MD: {
   HS 04 92: {
     Action: 'Add', 
     Description of Structure: Description of Structure, 
-    Zip code: '21217',
+    Zip code: '84003',
     Street address 1: '267 CHIPMAN AVE', 
     Limit of liability: '1100', 
     "Is the structure used as a dwelling or capable of being used as a dwelling?": 'No', 
