@@ -13,6 +13,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeCaMetaData;
+import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.StaticElement;
@@ -27,51 +28,30 @@ import toolkit.webdriver.controls.waiters.Waiters;
  * 
  * @category Generated
  */
-public class PremiumsAndCoveragesQuoteTab extends Tab {
+public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 	public PremiumsAndCoveragesQuoteTab() {
 		super(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class);
-	}
-
-	// public Button btnCalculatePremium = new
-	// Button(By.id("policyDataGatherForm:premiumRecalcCov"), Waiters.AJAX);
-	public Button btnContinue = new Button(By.id("policyDataGatherForm:next_footer"), Waiters.AJAX);
-
-	@Override
-	public Tab fillTab(TestData td) {
-		super.fillTab(convertValue(td));
-		if (!td.getTestData(getMetaKey()).containsKey(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM_BUTTON.getLabel()))
-			calculatePremium();
-		return this;
 	}
 
 	public Button btnCalculatePremium() {
 		return getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM_BUTTON.getLabel(), Button.class);
 	}
 
+	@Override
 	public void calculatePremium() {
 		btnCalculatePremium().click();
 	}
 
-	private TestData convertValue(TestData td) {
+	@Override
+	protected TestData convertValue(TestData td) {
 		TestData tdCoverages = td.getTestData(getAssetList().getName());
 		for (String key : tdCoverages.getKeys()) {
 			String value = tdCoverages.getValue(key);
-			if (value!=null && value.contains("|")) {
-				Pattern p = Pattern.compile("^([^\\|]+)\\|([^$]+)");
-				Matcher m = p.matcher(value);
-				m.find();
-				Double percent = Double.parseDouble(m.group(1));
-				Dollar coverage = new Dollar(getAssetList().getAsset((m.group(2)), StaticElement.class).getValue());
-				value = coverage.getPercentage(percent).toPlaingString();
+			if (value != null && value.contains("|")) {
+				value = getPercentForValue(value);
 				td.adjust(TestData.makeKeyPath(getAssetList().getName(), key), value);
 			}
 		}
 		return td;
-	}
-
-	@Override
-	public Tab submitTab() {
-		btnContinue.click();
-		return this;
 	}
 }

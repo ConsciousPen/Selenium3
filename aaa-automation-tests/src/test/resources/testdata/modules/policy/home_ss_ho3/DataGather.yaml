@@ -48,10 +48,10 @@ ReportsTab: {
 
 PropertyInfoTab: {
   DwellingAddress: '@DwellingAddress_PropertyInfoTab',
-   AdditionalAddress: [{}],
-   PublicProtectionClass: {},
-   FireReport: {},
-   PropertyValue: '@PropertyValue',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
   Construction: '@Construction',
   AdditionalQuestions: {},
   Interior: '@Interior',
@@ -72,7 +72,7 @@ PremiumsAndCoveragesQuoteTab: {
   Payment plan: Pay in Full,
   Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
   Coverage E - Personal Liability Each Occurrence: '$300,000'
-  }
+}
  
 MortgageesTab: {}
  
@@ -163,12 +163,12 @@ HomeRenovation: {
 }
 
 Construction: {
-    Year built: 2009,
-    Square footage: 1,
-    Roof type: Laminate / Architectural,
-    Roof shape: 'index=1',
-    Construction type: 'index=1'
-  }
+  Year built: 2009,
+  Square footage: 1,
+  Roof type: Laminate / Architectural,
+  Roof shape: 'index=1',
+  Construction type: 'index=1'
+}
 
 Interior: {
   Number of residents: 3,

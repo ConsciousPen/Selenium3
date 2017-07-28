@@ -1,16 +1,15 @@
 TestData: {
-  #TODO Update data, but use links to default where possible
   GeneralTab: '@GeneralTab',
-  ApplicantTab: '@home_ca@DataGather@ApplicantTab',
-  ReportsTab: '@home_ca@DataGather@ReportsTab',
-  PropertyInfoTab: '@home_ca@DataGather@PropertyInfoTab',
-  EndorsementTab: '@home_ca@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@home_ca@DataGather@PremiumsAndCoveragesQuoteTab',
-  MortgageesTab: '@home_ca@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@home_ca@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@home_ca@DataGather@DocumentsTab',
-  BindTab: '@home_ca@DataGather@BindTab',
-  PurchaseTab: '@home_ca@DataGather@PurchaseTab'
+  ApplicantTab: '@home_ca_ho3@DataGather@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@home_ca_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: '@home_ca_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@home_ca_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ca_ho3@DataGather@PurchaseTab'
 }
 
 GeneralTab: {
@@ -25,6 +24,56 @@ GeneralTab: {
     Continuous years with HO insurance: '5',
     Base date with AAA: '/today:MM/dd/yyyy',
     }
+}
+
+ReportsTab: {
+    Sales Agent Agreement: 'I Agree',
+    AAAMembershipReport: [{Report: 'Order report'}],
+    PublicProtectionClass: [{Report: 'Order Report'}],
+    CLUEreport: [{Report: 'Order report'}],
+}
+
+PropertyInfoTab: {
+  DwellingAddress: {
+    Number of family units: 'index=1'
+  },
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: {},
+  Construction: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Construction type: index=1,
+  },
+  AdditionalQuestions: {},
+  Interior: {
+    Dwelling usage: Primary,
+    Number of residents: 3,
+    "Number of stories, including basement": '1'
+  },
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: {},
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+}
+
+UnderwritingAndApprovalTab: {
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?": "No",
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?":  "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is there a business on premises?": "No",
+}
+
+DocumentsTab: {
+  DocumentsToIssue: {
+    Signed policy application: Physically Signed,
+  }
 }
 
 TestData_Full: {
@@ -79,14 +128,7 @@ TestData_Full: {
     },
     OtherActiveAAAPolicies: {},
   },
-
-  ReportsTab: {
-    Sales Agent Agreement: 'I Agree',
-    AAAMembershipReport: [{Report: 'Order report'}],
-    PublicProtectionClass: [{Report: 'Order Report'}],
-    CLUEreport: [{Report: 'Order report'}],
-  },
-
+  ReportsTab: '@ReportsTab',
   PropertyInfoTab: {
     DwellingAddress: {
       Number of family units: '1-Single Family',
@@ -148,14 +190,7 @@ TestData_Full: {
     "Is there an additional interest?": 'No',
     "Is there any third party designee?": 'No',
   },
-
-  UnderwritingAndApprovalTab: {
-    "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?": "No",
-    "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?":  "No",
-    "Do employees of any resident or applicant reside in the dwelling?": "No",
-    "Is there a business on premises?": "No",
-  },
-
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
   DocumentsTab: {
     Required to bind: {
       Proof of central fire alarm: "Yes",

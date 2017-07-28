@@ -135,8 +135,8 @@ UnderwritingAndApprovalTab: {
 DocumentsTab: {
   DocumentsToIssue: {
   #CEA Offer Declination: Physically Signed,
-  California Residential Property Insurance Disclosure: Physically Signed,
-  Signed policy application: Physically Signed,
+    California Residential Property Insurance Disclosure: Physically Signed,
+    Signed policy application: Physically Signed,
   }
 }
 BindTab: {}

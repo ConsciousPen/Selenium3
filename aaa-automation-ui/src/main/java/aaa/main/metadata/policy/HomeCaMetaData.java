@@ -652,7 +652,9 @@ public final class HomeCaMetaData {
         public static final class RentalInformation extends MetaData {
             public static final AssetDescriptor<TextBox> NUMBER_OF_CONSECUTIVE_YEARS_INSURED_HAS_OWNED_ANY_RENTAL_PROPERTIES = declare(
                     "Number of consecutive years insured has owned any rental properties", TextBox.class, Waiters.AJAX);
+            public static final AssetDescriptor<TextBox> YEAR_FIRST_RENTED = declare("Year first rented", TextBox.class, Waiters.AJAX);
             public static final AssetDescriptor<ComboBox> PROPERTY_MANAGER = declare("Property manager", ComboBox.class, Waiters.AJAX);
+            public static final AssetDescriptor<RadioGroup> ARE_THERE_ANY_ADDITIONAL_RENTAL_DWELLINGS = declare("Are there any additional rental dwellings ?", RadioGroup.class, Waiters.AJAX);
             public static final AssetDescriptor<RadioGroup> DOES_THE_TENANT_HAVE_AN_UNDERLYING_HO4_POLICY = declare("Does the tenant have an underlying HO4 policy?", RadioGroup.class, Waiters.AJAX);
         }
 

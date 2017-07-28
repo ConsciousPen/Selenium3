@@ -32,6 +32,7 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.EntitiesHolder;
 import aaa.helpers.TestDataManager;
 import aaa.helpers.TimePoints;
+import aaa.helpers.config.CustomTestProperties;
 import aaa.main.modules.customer.Customer;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.PolicyType;
@@ -60,9 +61,10 @@ public class BaseTest {
 	protected TestDataManager testDataManager;
 	private String quoteNumber;
 	private String key;
-	private static ThreadLocal<String> state = new ThreadLocal<String>();
+	private static ThreadLocal<String> state = new ThreadLocal<>();
 	private static String usState = PropertyProvider.getProperty("test.usstate");
-	private static Map<String, Integer> policyCount = new HashMap<String, Integer>();
+	private static Map<String, Integer> policyCount = new HashMap<>();
+	private boolean isCImodeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.isCImode, "true"));
 
 	static {
 		CustomAssert.initDriver(CustomAssert.AssertDriverType.TESTNG);
@@ -132,18 +134,16 @@ public class BaseTest {
 
 	@AfterMethod(alwaysRun = true)
 	public void logout() {
-		if (Boolean.parseBoolean(PropertyProvider.getProperty("isCiMode", "true"))) {
-			mainApp().close();
-			adminApp().close();
-			opReportApp().close();
+		if (isCImodeEnabled) {
+			closeAllApps();
 		}
 	}
 
 	@AfterSuite(alwaysRun = true)
 	public void afterSuite() {
-		mainApp().close();
-		adminApp().close();
-		opReportApp().close();
+		if (isCImodeEnabled) {
+			closeAllApps();
+		}
 	}
 
 	@AfterClass(alwaysRun = true)
@@ -336,5 +336,11 @@ public class BaseTest {
 		} catch (TestDataException tde) {
 			log.debug(String.format("Specified TestData for test is absent: %s", tde.getMessage()));
 		}
+	}
+
+	private void closeAllApps() {
+		mainApp().close();
+		adminApp().close();
+		opReportApp().close();
 	}
 }

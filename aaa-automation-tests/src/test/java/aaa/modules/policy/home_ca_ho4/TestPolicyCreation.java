@@ -26,7 +26,6 @@ public class TestPolicyCreation extends HomeCaHO4BaseTest {
         mainApp().open();
         createCustomerIndividual();
         policy.createPolicy(tdPolicy.getTestData("DataGather", "TestData"));
-
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 }

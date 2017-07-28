@@ -27,7 +27,7 @@ public abstract class Tab {
 	public static Button buttonCancel = new Button(By.xpath("//*[((@value = 'Cancel') or (text() = 'Cancel')) and (contains(@id, '_footer') or @id='errorsForm:back') " + "and not(@class = 'hidden') and not(contains(@style, 'none')) "
 			+ "and not(contains(@id, 'Dialog')) and not(contains(@id, 'serviceCallButtonCancel')) and not(ancestor::*[@class='popupButtonsPanel'])]|//button[contains(., 'Cancel') " + "and not(@class = 'hidden') and not(contains(@style, 'none'))]"));
 	public static Button buttonFinish = new Button(By.xpath("//input[@value = 'Finish' and not(@class = 'hidden') and not(contains(@style,'none')) and contains(@id,'_footer')]"));
-	public static Button buttonNext = new Button(By.xpath("//input[@id='policyDataGatherForm:next_footer' or @id='crmForm:nextBtn_footer' or @id='policyDataGatherForm:next']"));
+	public static Button buttonNext = new Button(By.xpath("//input[@id='policyDataGatherForm:next_footer' or @id='crmForm:nextBtn_footer' or @id='policyDataGatherForm:next' or @id='policyDataGatherForm:nextButton_footer']"));
 	public static Button buttonSave = new Button(By.xpath("//input[@value = 'Save' and not(@class = 'hidden') and not(contains(@style,'none'))]"));
 	public static Button buttonBack = new Button(By.xpath("//input[(@value = 'Back' or @value = 'BACK') and not(@class = 'hidden') and not(contains(@style,'none'))]"));
 	public static Button buttonTopSave = new Button(By.id("topSaveLink"));

@@ -26,7 +26,9 @@ public class ProductOfferingTab extends Tab {
 
     @Override
     public Tab submitTab() {
-        addEndorsement.click();
+        if (addEndorsement.isPresent() && addEndorsement.isVisible()) {
+            addEndorsement.click();
+        }
         return this;
     }
 }
