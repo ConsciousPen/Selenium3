@@ -172,6 +172,11 @@ public class PupPolicy implements IPolicy {
 	public PolicyActions.DeletePendedTransaction deletePendedTransaction() {
 		return new PupPolicyActions.DeletePendingTransaction();
 	}
+	
+	@Override
+	public PolicyActions.DeletePendingRenwals deletePendingRenwals() {
+		return new PupPolicyActions.DeletePendingRenwals();
+	}
 
 	@Override
 	public PolicyActions.DoNotRenew doNotRenew() {

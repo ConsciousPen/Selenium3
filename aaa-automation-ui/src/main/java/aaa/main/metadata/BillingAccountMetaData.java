@@ -243,4 +243,10 @@ public final class BillingAccountMetaData {
         public static final AssetDescriptor<TextBox> MIDDLE_NAME = declare("Middle Name", TextBox.class);
         public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last Name", TextBox.class);
     }
+
+    public static final class AdvancedAllocationsActionTab extends MetaData {
+        public static final AssetDescriptor<TextBox> TOTAL_AMOUNT = declare("Total Amount", TextBox.class);
+        public static final AssetDescriptor<TextBox> PRODUCT_SUB_TOTAL = declare("Total Amount", TextBox.class);
+        public static final AssetDescriptor<TextBox> OTHER = declare("Other", TextBox.class);
+    }
 }

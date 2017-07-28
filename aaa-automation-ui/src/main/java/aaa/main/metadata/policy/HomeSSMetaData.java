@@ -543,7 +543,7 @@ public final class HomeSSMetaData {
 		public static final class TheftProtectiveTPDD extends MetaData {
 			public static final AssetDescriptor<CheckBox> LOCAL_THEFT_ALARM = declare("Local theft alarm", CheckBox.class);
 			public static final AssetDescriptor<CheckBox> CENTRAL_THEFT_ALARM = declare("Central theft alarm", CheckBox.class);
-			public static final AssetDescriptor<CheckBox> GATED_COMMUNITY = declare("Gated community", CheckBox.class);
+			public static final AssetDescriptor<CheckBox> GATED_COMMUNITY = declare("Gated community", CheckBox.class, By.xpath("//input[@id='policyDataGatherForm:sedit_AAAHOAntiTheftDevicesInfoProxy_gatedCommInd']"));
 		}
 
 		public static final class HomeRenovation extends MetaData {

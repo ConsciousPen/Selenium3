@@ -12,7 +12,7 @@ import toolkit.verification.CustomAssert;
 
 /**
  * @author Jelena Dembovska
- * @name Test Auto policy creation with 1 NI/2Drivers/2Vehicles
+ * @name Test Auto policy creation with 2 NI/2Drivers/2Vehicles
  * @scenario
  * @details
  */

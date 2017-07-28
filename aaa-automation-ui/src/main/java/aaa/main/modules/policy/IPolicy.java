@@ -94,7 +94,9 @@ public interface IPolicy {
     PolicyActions.DeleteCancelNotice deleteCancelNotice();
 
     PolicyActions.DeletePendedTransaction deletePendedTransaction();
-
+    
+    PolicyActions.DeletePendingRenwals deletePendingRenwals();
+    
     PolicyActions.DoNotRenew doNotRenew();
 
     PolicyActions.ManualRenew manualRenew();
