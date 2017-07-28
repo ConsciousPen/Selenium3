@@ -90,7 +90,7 @@ TestData_Full: {
   PropertyInfoTab: {
     DwellingAddress: {
       Number of family units: '1-Single Family',
-      Section II territory: '/first',
+      Section II territory: 'index=1',
     },
     AdditionalAddress: [{}],
     PublicProtectionClass: {},
@@ -100,7 +100,7 @@ TestData_Full: {
       Year built: 2009,
       Square footage: 1,
       Roof type: Laminate / Architectural,
-      Construction type: /first
+      Construction type: index=1
     },
     AdditionalQuestions: {},
     Interior: {
@@ -122,9 +122,9 @@ TestData_Full: {
       "Are any insured-owned pets or animals kept on the property?": 'Yes',
     },
     RecreationalEquipment: {
-      Swimming pool: '/first',
-      Spa/hot tub: '/first',
-      Trampoline: '/first',
+      Swimming pool: 'index=1',
+      Spa/hot tub: 'index=1',
+      Trampoline: 'index=1',
     },
   },
 
@@ -136,8 +136,8 @@ TestData_Full: {
     Recurring Payment: true,
     Bill to at renewal: Insured,
     Coverage D - Loss of Use limit: 3500,
-    Coverage E - Personal Liability Each Occurrence: '/first',
-    Deductible: '/first',
+    Coverage E - Personal Liability Each Occurrence: 'index=1',
+    Deductible: 'index=1',
     Calculate Premium: true,
     Accept CEA offer: 'No',
   },

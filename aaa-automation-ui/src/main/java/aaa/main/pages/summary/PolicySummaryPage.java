@@ -2,12 +2,14 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.pages.summary;
 
+import java.time.LocalDateTime;
+
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.main.enums.PolicyConstants;
-import toolkit.utils.datetime.DateTime;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
@@ -92,23 +94,23 @@ public class PolicySummaryPage extends SummaryPage {
         return renewalPremium;
     }
 
-    public static DateTime getExpirationDate() {
-        return new DateTime(tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.EXPIRATION_DATE).getValue(), DateTime.MM_DD_YYYY);
+    public static LocalDateTime getExpirationDate() {
+        return LocalDateTime.parse(tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.EXPIRATION_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
     }
 
-    public static DateTime getEffectiveDate() {
-        DateTime dateEffective;
+    public static LocalDateTime getEffectiveDate() {
+    	LocalDateTime dateEffective;
 	    if (!tableGeneralInformation.isPresent() || tableGeneralInformation.isPresent() && !tableGeneralInformation.getHeader().getValue().contains("Effective Date")) {
-		    dateEffective = new DateTime(labelPolicyEffectiveDate.getValue(), DateTime.MM_DD_YYYY);
+		    dateEffective = LocalDateTime.parse(labelPolicyEffectiveDate.getValue(), DateTimeUtils.MM_DD_YYYY);
         } else {
-            dateEffective = new DateTime(tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.EFFECTIVE_DATE).getValue(), DateTime.MM_DD_YYYY);
+            dateEffective = LocalDateTime.parse(tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.EFFECTIVE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
         }
 
         return dateEffective;
     }
 
     public static class TransactionHistory {
-	    public static DateTime getEffectiveDate() {
+	    public static LocalDateTime getEffectiveDate() {
 		    return getEffectiveDate(1);
 	    }
 
@@ -141,18 +143,18 @@ public class PolicySummaryPage extends SummaryPage {
                     "/td[1]/span[contains(@class, 'ui-treetable-toggler')]"));
         }
 
-        public static DateTime readEffectiveDate(int row) {
-            return new DateTime(tableTransactionHistory.getRow(row).getCell(PolicyConstants.PolicyTransactionHistoryTable.EFFECTIVE_DATE).getValue(), DateTime.MM_DD_YYYY);
+        public static LocalDateTime readEffectiveDate(int row) {
+            return LocalDateTime.parse(tableTransactionHistory.getRow(row).getCell(PolicyConstants.PolicyTransactionHistoryTable.EFFECTIVE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
         }
 
-        public static DateTime readEffectiveDate(String nameType) {
-            return new DateTime(tableTransactionHistory.getRow(PolicyConstants.PolicyTransactionHistoryTable.TYPE, nameType).getCell(PolicyConstants.PolicyTransactionHistoryTable.EFFECTIVE_DATE)
-                    .getValue(), DateTime.MM_DD_YYYY);
+        public static LocalDateTime readEffectiveDate(String nameType) {
+            return LocalDateTime.parse(tableTransactionHistory.getRow(PolicyConstants.PolicyTransactionHistoryTable.TYPE, nameType).getCell(PolicyConstants.PolicyTransactionHistoryTable.EFFECTIVE_DATE)
+                    .getValue(), DateTimeUtils.MM_DD_YYYY);
         }
 
-        public static DateTime readTransactionDate(String nameType) {
-            return new DateTime(tableTransactionHistory.getRow(PolicyConstants.PolicyTransactionHistoryTable.TYPE, nameType).getCell(PolicyConstants.PolicyTransactionHistoryTable.TRANSACTION_DATE)
-                    .getValue(), DateTime.MM_DD_YYYY);
+        public static LocalDateTime readTransactionDate(String nameType) {
+            return LocalDateTime.parse(tableTransactionHistory.getRow(PolicyConstants.PolicyTransactionHistoryTable.TYPE, nameType).getCell(PolicyConstants.PolicyTransactionHistoryTable.TRANSACTION_DATE)
+                    .getValue(), DateTimeUtils.MM_DD_YYYY);
         }
 
         public static Dollar readEndingPremium(int rowNumber) {
@@ -171,17 +173,17 @@ public class PolicySummaryPage extends SummaryPage {
             return tableTransactionHistory.getRow(rowNumber).getCell(PolicyConstants.PolicyTransactionHistoryTable.TYPE).getValue();
         }
 
-        public static DateTime getTransactionDate(String nameType) {
+        public static LocalDateTime getTransactionDate(String nameType) {
             open();
-            DateTime date = readTransactionDate(nameType);
+            LocalDateTime date = readTransactionDate(nameType);
             close();
 
             return date;
         }
 
-        public static DateTime getEffectiveDate(int row) {
+        public static LocalDateTime getEffectiveDate(int row) {
             open();
-            DateTime date = readEffectiveDate(row);
+            LocalDateTime date = readEffectiveDate(row);
             close();
 
             return date;

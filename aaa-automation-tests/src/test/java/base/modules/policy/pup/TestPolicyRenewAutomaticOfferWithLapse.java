@@ -2,6 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package base.modules.policy.pup;
 
+import java.time.LocalDateTime;
+
 import org.testng.annotations.Test;
 
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -22,7 +24,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.utils.datetime.DateTime;
 
 /**
  * @author Andrey Shashenka
@@ -64,11 +65,11 @@ public class TestPolicyRenewAutomaticOfferWithLapse extends PersonalUmbrellaBase
                 .adjust(tdPolicy.getTestData("Issue", "TestData").resolveLinks()));
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-        DateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
         log.info("TEST: Automatic Issue Renew for Policy #" + policyNumber);
 
-        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.subtractDays(BillingHelper.DAYS_RENEW_STRATEGY));
+        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(BillingHelper.DAYS_RENEW_STRATEGY));
 
         adminApp().reopen();
         NavigationPage.toViewLeftMenu(AdminAppLeftMenu.GENERAL_SCHEDULER.get());
@@ -79,7 +80,7 @@ public class TestPolicyRenewAutomaticOfferWithLapse extends PersonalUmbrellaBase
         PolicySummaryPage.buttonRenewals.click();
         new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.DATA_GATHERING).verify(1);
 
-        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.subtractDays(BillingHelper.DAYS_RENEW_STRATEGY - 1));
+        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(BillingHelper.DAYS_RENEW_STRATEGY - 1));
 
         adminApp().reopen();
         NavigationPage.toViewLeftMenu(AdminAppLeftMenu.GENERAL_SCHEDULER.get());
@@ -90,7 +91,7 @@ public class TestPolicyRenewAutomaticOfferWithLapse extends PersonalUmbrellaBase
         PolicySummaryPage.buttonRenewals.click();
         new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 
-        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.subtractDays(BillingHelper.DAYS_RENEW_STRATEGY - 2));
+        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(BillingHelper.DAYS_RENEW_STRATEGY - 2));
 
         adminApp().reopen();
         NavigationPage.toViewLeftMenu(AdminAppLeftMenu.GENERAL_SCHEDULER.get());
@@ -103,7 +104,7 @@ public class TestPolicyRenewAutomaticOfferWithLapse extends PersonalUmbrellaBase
         PolicySummaryPage.buttonRenewals.click();
         new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
-        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.addDays(BillingHelper.DAYS_RENEW_WITH_LAPSE));
+        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(BillingHelper.DAYS_RENEW_WITH_LAPSE));
         mainApp().reopen();
 
         MainPage.QuickSearch.search(policyNumber);

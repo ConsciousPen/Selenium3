@@ -1,7 +1,7 @@
 TestData: {
   CancellationActionTab: {
     Cancel Date: /today,
-    Cancellation Reason: /index=1,
+    Cancellation Reason: index=1,
     Authorized By: QA
   }
 }

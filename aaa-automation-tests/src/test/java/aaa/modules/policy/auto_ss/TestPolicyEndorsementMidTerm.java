@@ -10,7 +10,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.utils.datetime.DateTime;
+import toolkit.utils.datetime.DateTimeUtils;
 
 /**
  * @author Jelena Dembovska
@@ -42,7 +42,7 @@ public class TestPolicyEndorsementMidTerm extends AutoSSBaseTest {
 		
 
 		
-        String message = String.format("Bind Endorsement effective %1$s for Policy %2$s", new DateTime(DateTime.MM_DD_YYYY), policyNumber);
+        String message = String.format("Bind Endorsement effective %1$s for Policy %2$s", DateTimeUtils.getCurrentDateTime().format(DateTimeUtils.MM_DD_YYYY), policyNumber);
         NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.description(1, message);
         
 	}

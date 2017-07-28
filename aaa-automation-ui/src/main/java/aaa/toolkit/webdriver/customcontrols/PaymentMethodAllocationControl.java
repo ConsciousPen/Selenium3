@@ -56,10 +56,10 @@ public class PaymentMethodAllocationControl extends AbstractContainer<TestData, 
 	            input = new TextBox(this, By.xpath(String.format(".//tr[td/input[contains(@value,'%s')]]/td[2]/input", key)), Waiters.AJAX);
             }
             String value = data.getValue(key);
-            if (value.equals("rest")) {
+            if (value.equals("/rest")) {
                 value = due.subtract(enteredSum).toString();
             } else if (value.endsWith("%")) {
-                value = due.getPercentage(Double.valueOf(value.replace("%", ""))).toString();
+                value = due.getPercentage(Double.valueOf(value.replace("%", "").replace("/", ""))).toString();
             }
             input.setValue(value);
             enteredSum = enteredSum.add(new Dollar(value));

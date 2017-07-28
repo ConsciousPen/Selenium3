@@ -45,7 +45,7 @@ public class PremiumsAndCoveragesQuoteTab extends Tab {
 	}
 
 	public Button btnCalculatePremium() {
-		return getAssetList().getControl(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM_BUTTON.getLabel(), Button.class);
+		return getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM_BUTTON.getLabel(), Button.class);
 	}
 
 	public void calculatePremium() {
@@ -61,7 +61,7 @@ public class PremiumsAndCoveragesQuoteTab extends Tab {
 				Matcher m = p.matcher(value);
 				m.find();
 				Double percent = Double.parseDouble(m.group(1));
-				Dollar coverage = new Dollar(getAssetList().getControl((m.group(2)), StaticElement.class).getValue());
+				Dollar coverage = new Dollar(getAssetList().getAsset((m.group(2)), StaticElement.class).getValue());
 				value = coverage.getPercentage(percent).toPlaingString();
 				td.adjust(TestData.makeKeyPath(getAssetList().getName(), key), value);
 			}

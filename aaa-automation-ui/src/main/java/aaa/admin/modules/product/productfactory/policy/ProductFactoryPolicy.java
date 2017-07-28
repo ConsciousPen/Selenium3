@@ -66,7 +66,7 @@ public class ProductFactoryPolicy implements IProductFactory {
         getDefaultView().fill(td);
 
         CommonProductFactoryPage.activateNavigation();
-        PFButton buttonActivate = getDefaultView().getTab(HomeTab.class).getAssetList().getControl(
+        PFButton buttonActivate = getDefaultView().getTab(HomeTab.class).getAssetList().getAsset(
                 ProductMetaData.HomeTab.BUTTON_ACTIVATE.getLabel(), PFButton.class);
         linkNavigateHome.click(new ElementWaiter(buttonActivate));
         buttonActivate.click(Waiters.DEFAULT.then(Waiters.SLEEP(2000)));

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.WebApplicationException;
@@ -12,7 +13,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.Provider;
 
-import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 
 import com.google.gson.Gson;
@@ -36,7 +36,7 @@ public class ModelWrapperMessageBodyReader implements MessageBodyReader<Abstract
         Annotation annotation = aClass.getAnnotation(ModelWrapper.class);
         if (annotation != null) {
             Gson gson = new GsonBuilder().registerTypeAdapter(aClass, new ModelWrapperAdapter()).create();
-            result = gson.fromJson(IOUtils.toString(inputStream, Charsets.UTF_8), aClass);
+            result = gson.fromJson(IOUtils.toString(inputStream, StandardCharsets.UTF_8), aClass);
         } else {
             throw new IstfException(String.format("Class [%1$s] does not have supported annotation [@ModelWrapper]", aClass.getName()));
         }

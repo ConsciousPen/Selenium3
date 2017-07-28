@@ -60,7 +60,7 @@ NamedInsured: {
   Relationship to primary named insured:  Spouse,
   Date of birth: '09/05/1979',
   Social security number: '123456789',
-  Occupation: '/first',
+  Occupation: 'index=1',
 }
 
 MailingAddress: {

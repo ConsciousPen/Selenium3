@@ -31,15 +31,15 @@ public class UnderlyingRisksAutoTab extends Tab {
     }
     
     public AssetList getDriversAssetList() {
-    	return getAssetList().getControl(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.DRIVERS.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.DRIVERS.getLabel(), AssetList.class);
 	}
     public AssetList getAutomobilesAssetList() {
-    	return getAssetList().getControl(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.AUTOMOBILES.getLabel(), AssetList.class);
 	}
     public AssetList getMotorcyclesAssetList() {
-    	return getAssetList().getControl(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.MOTORCYCLES.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.MOTORCYCLES.getLabel(), AssetList.class);
 	}
     public AssetList getMotorHomesAssetList() {
-    	return getAssetList().getControl(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.MOTOR_HOMES.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.MOTOR_HOMES.getLabel(), AssetList.class);
 	}
 }
