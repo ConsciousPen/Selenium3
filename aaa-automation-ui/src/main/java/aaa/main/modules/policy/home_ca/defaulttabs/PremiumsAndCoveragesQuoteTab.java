@@ -4,20 +4,10 @@
  */
 package aaa.main.modules.policy.home_ca.defaulttabs;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.openqa.selenium.By;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
-
-import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
