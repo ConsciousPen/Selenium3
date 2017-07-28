@@ -26,7 +26,7 @@ public class TestPolicyCreation extends HomeSSHO3BaseTest {
     public void testPolicyCreation() {
         mainApp().open();
         createCustomerIndividual();
-        policy.createPolicy(getStateTestData(tdPolicy, "DataGather", "TestData"));
+        createPolicy();
         
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }

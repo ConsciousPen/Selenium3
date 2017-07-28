@@ -92,4 +92,14 @@ public class PersonalUmbrellaBaseTest extends PolicyBaseTest {
 		EntitiesHolder.addNewEntity(EntitiesHolder.makePolicyKey(getPolicyType(), getState()), policyNumber);
 		return policyNumber;
 	}
+	
+	@Override
+	protected void createQuote(TestData td) {
+		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
+		td = adjustWithRealPolicies(td, getPrimaryPolicies());
+		log.info("Quote Creation Started...");
+		getPolicyType().get().createQuote(td);
+		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		EntitiesHolder.addNewEntity(EntitiesHolder.makePolicyKey(getPolicyType(), getState()), quoteNumber);
+	}
 }

@@ -40,7 +40,7 @@ public class ReportsTab extends Tab {
 	}
 
 	public void reorderReports() {
-		RadioGroup agentAgreement = getAssetList().getControl(HomeCaMetaData.ReportsTab.SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class);
+		RadioGroup agentAgreement = getAssetList().getAsset(HomeCaMetaData.ReportsTab.SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class);
 		if (agentAgreement.isPresent()) {
 			agentAgreement.setValue("I Agree");
 		}

@@ -1,14 +1,15 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Auto UT Smoke tests" verbose="1" parallel="tests" thread-count="1024">
-
- <!--    <listeners>
+<suite name="Auto UT Smoke tests" verbose="1" >
+ <!--    parallel="tests" thread-count="1024">
+ 
+ <listeners>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/> -->
 	
 	
    
-	<test name="UT Auto Smoke Tests">
+	<test name="UT Auto Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="UT"/>
     	<classes>
    			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
@@ -25,16 +26,16 @@
    		</classes>
     </test>
 	
-	<test name="UT HSS Functional Tests">
+	<test name="UT HSS Functional Tests" preserve-order="true">
 	    <parameter name="state" value="UT"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.home_ss.TestPolicyEndorsement"/>
-			<class name="aaa.modules.policy.home_ss.TestPolicyPayments"/>
-			<class name="aaa.modules.policy.home_ss.TestPolicyBilling"/>
-			<class name="aaa.modules.policy.home_ss.TestPolicyReinstatement"/>
-			<class name="aaa.modules.policy.home_ss.TestPolicyCreateHO3Full"/>
-			<class name="aaa.modules.policy.home_ss.TestQuoteCreateAndCopy"/>
+   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments"/>
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement"/>
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full"/>
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy"/>
    		</classes>
     </test>
    

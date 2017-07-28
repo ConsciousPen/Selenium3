@@ -47,10 +47,10 @@ public class TestQuotePropose extends AutoSSBaseTest {
 
         log.info("TEST: Propose Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
         policy.propose().start();
-        policy.propose().getView().getTab(ProposeActionTab.class).getAssetList().getControl(AutoSSMetaData.ProposeActionTab.NOTES.getLabel()).verify.enabled();
+        policy.propose().getView().getTab(ProposeActionTab.class).getAssetList().getAsset(AutoSSMetaData.ProposeActionTab.NOTES.getLabel()).verify.enabled();
         new StaticElement(By.id("policyDataGatherForm:note")).verify.value("Please note that once you click \"OK\" the documents will be queued for generation " +
                 "and will be available for viewing within the folder structure as soon as they have been successfully processed. This usually takes 3 to 5 minutes.");
-        policy.propose().getView().getTab(ProposeActionTab.class).getAssetList().getControl(AutoSSMetaData.ProposeActionTab.NOTES.getLabel(), TextBox.class).setValue("Comment");
+        policy.propose().getView().getTab(ProposeActionTab.class).getAssetList().getAsset(AutoSSMetaData.ProposeActionTab.NOTES.getLabel(), TextBox.class).setValue("Comment");
         policy.propose().submit();
         Efolder.isDocumentExist("Applications and Proposals", "New Business");
 

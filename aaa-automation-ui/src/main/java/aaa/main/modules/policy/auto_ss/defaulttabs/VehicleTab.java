@@ -4,11 +4,12 @@
  */
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
-import org.openqa.selenium.By;
 import aaa.common.Tab;
+import org.openqa.selenium.By;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
+import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.table.Table;
@@ -26,8 +27,9 @@ import toolkit.webdriver.controls.waiters.Waiters;
 public class VehicleTab extends Tab {
 	
 	public static Table tblVehicleList = new Table(By.xpath("//div[@id='policyDataGatherForm:componentList_Vehicle_body']//table"));
-	
-	public VehicleTab() {
+    public static Button buttonAddVehicle = new Button(By.xpath("//input[@id='policyDataGatherForm:addVehicle']"));
+
+    public VehicleTab() {
 		super(AutoSSMetaData.VehicleTab.class);
 
 		assetList = new MultiInstanceAfterAssetList(By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER), metaDataClass) {
@@ -40,11 +42,11 @@ public class VehicleTab extends Tab {
 	}
 
 	public AssetList getOwnershipAssetList() {
-		return getAssetList().getControl(AutoSSMetaData.VehicleTab.OWNERSHIP.getLabel(), AssetList.class);
+		return getAssetList().getAsset(AutoSSMetaData.VehicleTab.OWNERSHIP.getLabel(), AssetList.class);
 	}
 
 	public AssetList getAdditionalInterestInfoAssetList() {
-		return getAssetList().getControl(AutoSSMetaData.VehicleTab.ADDITIONAL_INTEREST_INFORMATION.getLabel(), AssetList.class);
+		return getAssetList().getAsset(AutoSSMetaData.VehicleTab.ADDITIONAL_INTEREST_INFORMATION.getLabel(), AssetList.class);
 	}
 
 	@Override
@@ -64,5 +66,10 @@ public class VehicleTab extends Tab {
 		if (tblVehicleList.isPresent() && tblVehicleList.getRow(index).isPresent()) {
 			tblVehicleList.getRow(index).getCell(5).controls.links.get("View/Edit").click(Waiters.AJAX);
 		}
+	}
+
+	public void addVehicle(TestData vehicleTestData) {
+		buttonAddVehicle.click();
+		this.fillTab(vehicleTestData);
 	}
 }

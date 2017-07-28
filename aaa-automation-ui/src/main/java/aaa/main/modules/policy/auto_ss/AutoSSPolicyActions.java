@@ -67,7 +67,7 @@ public final class AutoSSPolicyActions {
     }
 
     public static class Renew extends PolicyActions.Renew {
-	    // private TextBox textBoxRenewalDate = getView().getTab(RenewActionTab.class).getAssetList().getControl(
+	    // private TextBox textBoxRenewalDate = getView().getTab(RenewActionTab.class).getAssetList().getAsset(
 	    //         AutoSSMetaData.RenewActionTab.RENEWAL_DATE.getLabel(), TextBox.class);
 
         @Override
@@ -173,6 +173,13 @@ public final class AutoSSPolicyActions {
     }
 
     public static class DeletePendedTransaction extends PolicyActions.DeletePendedTransaction {
+        @Override
+        public Workspace getView() {
+            return new DeletePendedTransactionView();
+        }
+    }
+    
+    public static class DeletePendingRenwals extends PolicyActions.DeletePendingRenwals {
         @Override
         public Workspace getView() {
             return new DeletePendedTransactionView();

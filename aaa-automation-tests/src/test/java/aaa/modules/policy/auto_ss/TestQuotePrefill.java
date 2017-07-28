@@ -68,22 +68,22 @@ public class TestQuotePrefill extends AutoSSBaseTest {
 		aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab generalTab = new aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab();
 
 		MultiAssetList namedInsuredInfo = generalTab.getNamedInsuredInfoAssetList();
-		generalTab.verifyFieldHasValue(namedInsuredInfo, NamedInsuredInformation.FIRST_NAME, expectedFN);
-		generalTab.verifyFieldHasValue(namedInsuredInfo, NamedInsuredInformation.LAST_NAME, expectedLN);
-		generalTab.verifyFieldHasValue(namedInsuredInfo, NamedInsuredInformation.ZIP_CODE, expectedZip);
-		generalTab.verifyFieldHasValue(namedInsuredInfo, NamedInsuredInformation.ADDRESS_LINE_1, expectedAddress);
-		generalTab.verifyFieldHasValue(AutoSSMetaData.GeneralTab.FIRST_NAMED_INSURED, expectedNI);
+		generalTab.verifyFieldHasValue(namedInsuredInfo, NamedInsuredInformation.FIRST_NAME.getLabel(), expectedFN);
+		generalTab.verifyFieldHasValue(namedInsuredInfo, NamedInsuredInformation.LAST_NAME.getLabel(), expectedLN);
+		generalTab.verifyFieldHasValue(namedInsuredInfo, NamedInsuredInformation.ZIP_CODE.getLabel(), expectedZip);
+		generalTab.verifyFieldHasValue(namedInsuredInfo, NamedInsuredInformation.ADDRESS_LINE_1.getLabel(), expectedAddress);
+		generalTab.verifyFieldHasValue(AutoSSMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), expectedNI);
 
 		//check Driver tab
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
 		aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab driverTab = new aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab();
 
-		driverTab.verifyFieldHasValue(DriverTab.NAMED_INSURED, expectedNI);
-		driverTab.verifyFieldHasValue(DriverTab.FIRST_NAME, expectedFN);
-		driverTab.verifyFieldHasValue(DriverTab.LAST_NAME, expectedLN);
-		driverTab.verifyFieldHasValue(DriverTab.DATE_OF_BIRTH, expectedBirthDay);
-		driverTab.verifyFieldHasValue(DriverTab.LICENSE_NUMBER, expectedLicense);
+		driverTab.verifyFieldHasValue(DriverTab.NAMED_INSURED.getLabel(), expectedNI);
+		driverTab.verifyFieldHasValue(DriverTab.FIRST_NAME.getLabel(), expectedFN);
+		driverTab.verifyFieldHasValue(DriverTab.LAST_NAME.getLabel(), expectedLN);
+		driverTab.verifyFieldHasValue(DriverTab.DATE_OF_BIRTH.getLabel(), expectedBirthDay);
+		driverTab.verifyFieldHasValue(DriverTab.LICENSE_NUMBER.getLabel(), expectedLicense);
 
 		Tab.buttonSaveAndExit.click();
 
@@ -140,7 +140,7 @@ public class TestQuotePrefill extends AutoSSBaseTest {
 		//check GeneralTab
 		aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab generalTab = new aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab();
 
-		generalTab.verifyFieldHasValue(AutoSSMetaData.GeneralTab.FIRST_NAMED_INSURED, expectedNI_1);
+		generalTab.verifyFieldHasValue(AutoSSMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(), expectedNI_1);
 
 		CustomAssert.assertEquals(aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab.tblInsuredList.getRowsCount(), 2);
 
@@ -149,19 +149,19 @@ public class TestQuotePrefill extends AutoSSBaseTest {
 
 		aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab driverTab = new aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab();
 
-		driverTab.verifyFieldHasValue(DriverTab.NAMED_INSURED, expectedNI_1);
+		driverTab.verifyFieldHasValue(DriverTab.NAMED_INSURED.getLabel(), expectedNI_1);
 
 		driverTab.viewDriver(2);
-		driverTab.verifyFieldHasValue(DriverTab.NAMED_INSURED, expectedNI_2);
+		driverTab.verifyFieldHasValue(DriverTab.NAMED_INSURED.getLabel(), expectedNI_2);
 
 		//check Vehicle tab
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
 		aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab vehicleTab = new aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab();
-		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN, VIN_1);
+		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN.getLabel(), VIN_1);
 
 		vehicleTab.viewVehicle(2);
-		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN, VIN_2);
+		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN.getLabel(), VIN_2);
 
 		Tab.buttonSaveAndExit.click();
 

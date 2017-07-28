@@ -28,24 +28,24 @@ public class GeneralTab extends Tab {
     }
 
 	public MultiAssetList getNamedInsuredInfoAssetList() {
-		return getAssetList().getControl(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), MultiAssetList.class);
+		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), MultiAssetList.class);
 	}
 
 	public AssetList getValidateAddressDialogAssetList() {
-    	return getAssetList().getControl(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class)
-    			.getControl(AutoSSMetaData.GeneralTab.NamedInsuredInformation.VALIDATE_ADDRESS_DIALOG.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class)
+    			.getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.VALIDATE_ADDRESS_DIALOG.getLabel(), AssetList.class);
 	}
 
 	public AssetList getAAAProductOwnedAssetList() {
-    	return getAssetList().getControl(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AssetList.class);
 	}
 
 	public AssetList getCurrentCarrierInfoAssetList() {
-    	return getAssetList().getControl(AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), AssetList.class);
 	}
 
     public AssetList getPolicyInfoAssetList() {
-    	return getAssetList().getControl(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AssetList.class);
 	}
 
 	@Override

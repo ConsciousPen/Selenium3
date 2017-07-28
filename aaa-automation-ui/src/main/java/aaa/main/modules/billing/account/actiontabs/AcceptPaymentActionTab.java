@@ -3,12 +3,11 @@
 package aaa.main.modules.billing.account.actiontabs;
 
 import org.openqa.selenium.By;
-
+import toolkit.datax.TestData;
+import toolkit.webdriver.controls.TextBox;
 import aaa.common.ActionTab;
 import aaa.common.Tab;
 import aaa.main.metadata.BillingAccountMetaData;
-import toolkit.datax.TestData;
-import toolkit.webdriver.controls.TextBox;
 
 public class AcceptPaymentActionTab extends ActionTab {
 
@@ -37,6 +36,11 @@ public class AcceptPaymentActionTab extends ActionTab {
             super.fillTab(td);
         }
 
+        return this;
+    }
+
+    @Override
+    public Tab submitTab() {
         return this;
     }
 }

@@ -34,6 +34,7 @@ import aaa.main.modules.policy.auto_ca.views.RollBackEndorsementView;
 import aaa.main.modules.policy.auto_ca.views.SpinView;
 import aaa.main.modules.policy.auto_ca.views.SplitView;
 import aaa.main.modules.policy.auto_ca.views.SuspendQuoteView;
+import aaa.main.modules.policy.auto_ca.views.UpdateRulesOverrideView;
 import toolkit.datax.TestData;
 
 /**
@@ -61,7 +62,7 @@ public final class AutoCaPolicyActions {
     }
 
     public static class Renew extends PolicyActions.Renew {
-	    //private TextBox textBoxRenewalDate = getView().getTab(RenewActionTab.class).getAssetList().getControl(HomeCaMetaData.RenewActionTab.RENEWAL_DATE.getLabel(), TextBox.class);
+	    //private TextBox textBoxRenewalDate = getView().getTab(RenewActionTab.class).getAssetList().getAsset(HomeCaMetaData.RenewActionTab.RENEWAL_DATE.getLabel(), TextBox.class);
 
         @Override
         public Workspace getView() {
@@ -159,6 +160,13 @@ public final class AutoCaPolicyActions {
     }
 
     public static class DeletePendedTransaction extends PolicyActions.DeletePendedTransaction {
+        @Override
+        public Workspace getView() {
+            return new DeletePendedTransactionView();
+        }
+    }
+    
+    public static class DeletePendingRenwals extends PolicyActions.DeletePendingRenwals {
         @Override
         public Workspace getView() {
             return new DeletePendedTransactionView();
@@ -297,4 +305,11 @@ public final class AutoCaPolicyActions {
             return new RescindCancellationView();
         }
     }
+    
+    public static class UpdateRulesOverride extends PolicyActions.UpdateRulesOverride {
+		@Override
+		public Workspace getView() {
+			return new UpdateRulesOverrideView();
+		}
+	}
 }

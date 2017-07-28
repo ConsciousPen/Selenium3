@@ -56,8 +56,7 @@ public class TestPolicyCancelNoticeWithCancellation extends AutoSSBaseTest {
 
         log.info("TEST: Cancellation Policy #" + policyNumber);
 
-        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().addDays(
-                daysOfNotice).addDays(BillingHelper.DAYS_CANCELLATION));
+        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(daysOfNotice).plusDays(BillingHelper.DAYS_CANCELLATION));
 
         adminApp().reopen();
         NavigationPage.toViewLeftMenu(AdminAppLeftMenu.GENERAL_SCHEDULER.get());

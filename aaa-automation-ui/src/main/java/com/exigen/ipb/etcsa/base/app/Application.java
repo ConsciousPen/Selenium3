@@ -121,7 +121,7 @@ public abstract class Application {
     }
 
     private void closeSession() {
-        BrowserController.get().quit();
+        BrowserController.get().driver().quit();
     }
 
     private void setApplicationOpened(boolean status) {

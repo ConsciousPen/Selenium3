@@ -2,6 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package base.modules.policy.home_ss;
 
+import java.time.format.DateTimeFormatter;
+
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
@@ -52,7 +54,6 @@ public class TestQuoteDocGen extends HomeSSHO3BaseTest {
         new Button(By.id("manualDocGenForm:btnGenerate")).click();
         Page.dialogConfirmation.confirm();
 
-        Efolder.isDocumentExist(filepath + "/" + TimeSetterUtil.getInstance().getCurrentTime().toString(
-                "yyyy-MM-dd"));
+        Efolder.isDocumentExist(filepath + "/" + TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
     }
 }

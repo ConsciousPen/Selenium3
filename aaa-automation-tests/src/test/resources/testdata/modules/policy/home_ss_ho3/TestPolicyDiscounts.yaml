@@ -37,8 +37,8 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual:  {
   Auto policy state: UT, 
   Policy number: '345345345',
   Effective date: '/today:MM/dd/yyyy',
-  Policy tier: '/first',
-  Auto policy BI limit: '/first',
+  Policy tier: 'index=1',
+  Auto policy BI limit: 'index=1',
   Auto Insurance Persistency: '21'
 }
 

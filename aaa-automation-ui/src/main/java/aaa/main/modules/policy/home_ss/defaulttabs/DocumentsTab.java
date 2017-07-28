@@ -21,7 +21,7 @@ public class DocumentsTab extends Tab {
 	public DocumentsTab() {
 		super(HomeSSMetaData.DocumentsTab.class);
 		for (String list : assetList.getAssetNames()) {
-			assetList.getControl(list, AssetList.class).config.applyConfiguration("UnderwritingTab");
+			assetList.getAsset(list, AssetList.class).config.applyConfiguration("UnderwritingTab");
 		}
 	}
 
@@ -32,6 +32,6 @@ public class DocumentsTab extends Tab {
 	}
 	
 	public AssetList getDocumentsToBindAssetList() {
-    	return getAssetList().getControl(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(), AssetList.class);
 	}
 }

@@ -26,18 +26,18 @@ public class MortgageesTab extends Tab {
     }
     
     public AssetList getMortgageeInfoAssetList() {
-    	return getAssetList().getControl(HomeSSMetaData.MortgageesTab.MORTGAGEE_INFORMATION.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeSSMetaData.MortgageesTab.MORTGAGEE_INFORMATION.getLabel(), AssetList.class);
 	}
     public AssetList getLegalPropetyAddressAssetList() {
-    	return getAssetList().getControl(HomeSSMetaData.MortgageesTab.LEGAL_PROPERTY_ADDRESS.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeSSMetaData.MortgageesTab.LEGAL_PROPERTY_ADDRESS.getLabel(), AssetList.class);
 	}
     public AssetList getAdditionalInsuredAssetList() {
-    	return getAssetList().getControl(HomeSSMetaData.MortgageesTab.ADDITIONAL_INSURED.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeSSMetaData.MortgageesTab.ADDITIONAL_INSURED.getLabel(), AssetList.class);
 	}
     public AssetList getAdditionalInterestAssetList() {
-    	return getAssetList().getControl(HomeSSMetaData.MortgageesTab.ADDITIONAL_INTEREST.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeSSMetaData.MortgageesTab.ADDITIONAL_INTEREST.getLabel(), AssetList.class);
 	}
     public AssetList getThirdPartyDesigneeAssetList() {
-    	return getAssetList().getControl(HomeSSMetaData.MortgageesTab.THIRD_PARTY_DESIGNEE.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeSSMetaData.MortgageesTab.THIRD_PARTY_DESIGNEE.getLabel(), AssetList.class);
 	}
 }
