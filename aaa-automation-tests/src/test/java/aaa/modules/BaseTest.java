@@ -297,20 +297,26 @@ public class BaseTest {
 	protected OperationalReportApplication opReportApp() {
 		return ApplicationFactory.get().opReportApp(new LoginPage(initiateLoginTD()));
 	}
-
+	
 	protected TestData getStateTestData(TestData td, String fileName, String tdName) {
-		TestData returnTD = td.getTestData(fileName);
-		if (returnTD.containsKey(getStateTestDataName(tdName))) {
-			returnTD = returnTD.getTestData(getStateTestDataName(tdName));
-			log.info(String.format("==== %s Test Data is used: %s:%s ====", getState(), fileName, getStateTestDataName(tdName)));
-		} else {
-			returnTD = returnTD.getTestData(tdName);
-			log.info(String.format("==== Default state UT Test Data is used. Requested Test Data %s:%s is missing ====", fileName, getStateTestDataName(tdName)));
+		if (!td.containsKey(fileName)) {
+			throw new TestDataException("Can't get test data file " + fileName);
 		}
-		return returnTD;
+		return getStateTestData(td.getTestData(fileName), tdName);
 	}
 
-	protected String getStateTestDataName(String tdName) {
+	protected TestData getStateTestData(TestData td, String tdName) {
+		if (td.containsKey(getStateTestDataName(tdName))) {
+			td = td.getTestData(getStateTestDataName(tdName));
+			log.info(String.format("==== %s Test Data is used: %s ====", getState(), getStateTestDataName(tdName)));
+		} else {
+			td = td.getTestData(tdName);
+			log.info(String.format("==== Default state UT Test Data is used. Requested Test Data: %s is missing ====", getStateTestDataName(tdName)));
+		}
+		return td;
+	}
+
+	private String getStateTestDataName(String tdName) {
 		String state = getState();
 		// if (!state.equals(States.UT) && !state.equals(States.CA))
 		tdName = tdName + "_" + state;

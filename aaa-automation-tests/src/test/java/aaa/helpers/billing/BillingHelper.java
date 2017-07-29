@@ -3,19 +3,23 @@
 package aaa.helpers.billing;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
 
+import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
 import aaa.main.enums.BillingConstants.BillingInstallmentScheduleTable;
+import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
+import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
 import aaa.main.pages.summary.BillingSummaryPage;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.composite.table.Row;
 
 public final class BillingHelper {
 
-	//TODO remove after "base" test adaptation
+	//TODO remove after "base" tests adaptation
 	public static final String ZERO = new Dollar(0).toString();
 	public static final Dollar DZERO = new Dollar(0);
 	public static final Dollar INSTALLMENT_FEE = new Dollar(5);
@@ -40,13 +44,64 @@ public final class BillingHelper {
 	public static final int DAYS_RENEW_WITH_LAPSE = 25;
 	public static final int DAYS_OFF_CYCLE = 6;
 
-	public static final DateTimeFormatter MM_DD_YYYY = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+	// ------- Installments table-------
 	
 	public static List<LocalDateTime> getInstallmentDueDates() {
 		ArrayList<LocalDateTime> dates = new ArrayList<LocalDateTime>();
 		for (Row row : BillingSummaryPage.tableInstallmentSchedule.getRows()) {
-			dates.add(LocalDateTime.parse(row.getCell(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).getValue(), MM_DD_YYYY));
+			dates.add(LocalDateTime.parse(row.getCell(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
 		}
 		return dates;
+	}
+	
+	public static Dollar getInstallmentDueByDueDate(LocalDateTime date) {
+		String value = BillingSummaryPage.tableInstallmentSchedule.getRow(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE,
+				date.format(DateTimeUtils.MM_DD_YYYY)).getCell(BillingInstallmentScheduleTable.INSTALLMENT_DUE).getValue();
+		return new Dollar(value);
+	}
+	
+	// ------- Bills and Statements table-------
+	
+	public static Row getBillRowByDate(LocalDateTime date) {
+		return BillingSummaryPage.tableBillsStatements.getRow(BillingBillsAndStatmentsTable.DUE_DATE, date.format(DateTimeUtils.MM_DD_YYYY));
+	}
+	
+	public static String getBillCellValue(LocalDateTime date, String columnName) {
+		return getBillRowByDate(date).getCell(columnName).getValue();
+	}
+	
+	public static void verifyBillGenerated(LocalDateTime installmentDate, LocalDateTime feesTransacionDate) {
+		Dollar billAmount = getInstallmentDueByDueDate(installmentDate);
+		billAmount = billAmount.add(getFeesValue(feesTransacionDate));
+		Row row = getBillRowByDate(installmentDate);
+		row.getCell(BillingBillsAndStatmentsTable.DUE_DATE).verify.value(installmentDate.format(DateTimeUtils.MM_DD_YYYY));
+		row.getCell(BillingBillsAndStatmentsTable.TYPE).verify.value("Bill");
+		row.getCell(BillingBillsAndStatmentsTable.MINIMUM_DUE).verify.value(billAmount.toString());
+		row.getCell(BillingBillsAndStatmentsTable.PAST_DUE).verify.value(new Dollar(0).toString());
+	}
+	
+	// ------- Payments & Other Transactions table -------
+	
+	/**
+	 * Search for all Fee transactions in specified date
+	 */
+	public static Dollar getFeesValue(LocalDateTime date) {
+		Dollar amount = new Dollar(0);
+		HashMap<String, String> values = new HashMap<String, String>();
+		values.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.FEE);
+		values.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, date.format(DateTimeUtils.MM_DD_YYYY));
+		List<Row> feeRows = BillingSummaryPage.tablePaymentsOtherTransactions.getRows(values);
+		
+		for (Row row : feeRows) {
+			amount.add(new Dollar(row.getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT)));
+		}
+		return amount;
+	}
+	
+	public static void verifyFeeTransactionGenerated(LocalDateTime installmentDate) {
+		HashMap<String, String> values = new HashMap<String, String>();
+		values.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, installmentDate.format(DateTimeUtils.MM_DD_YYYY));
+		values.put(BillingPaymentsAndOtherTransactionsTable.TYPE, "Fee");
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(values).verify.present();
 	}
 }

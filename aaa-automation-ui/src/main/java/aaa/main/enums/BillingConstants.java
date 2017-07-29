@@ -129,21 +129,26 @@ public final class BillingConstants {
     }
     
     public static final class BillingBillsAndStatmentsTable {
-        public static final String DUE_DATE = "Due Date";
-        public static final String BILING_PERIOD = "Billing Period";
-        public static final String TOTAL_DUE = "Total Due";
-        public static final String INVOICE = "Invoice #";
-        public static final String ACTIONS = "Actions";
-        public static final String STATUS = "Status";
+    	public static final String DUE_DATE = "Due Date";
+    	public static final String TYPE = "Type";
+    	public static final String STATEMENT_NUM = "Statement #";
+    	public static final String MINIMUM_DUE = "Minimum Due";
+    	public static final String PAST_DUE = "Past Due";
+    	public static final String TOTAL_DUE = "Total Due";
+    	public static final String ACTIONS = "Actions";
     }
 
     public static final class BillingPaymentsAndOtherTransactionsTable {
-        public static final String TYPE = "Type";
-        public static final String ACTION = "Action";
-        public static final String AMOUNT = "Amount";
-        public static final String SUBTYPE_REASON = "Subtype/Reason";
-        public static final String POLICY = "Policy #";
-        public static final String STATUS = "Status";
+    	public static final String TRANSACTION_DATE = "Transaction Date";
+    	public static final String EFF_DATE = "Effective Date";
+    	public static final String POLICY_NUM = "Policy #";
+    	public static final String TYPE = "Type";
+    	public static final String SUBTYPE_REASON = "Subtype/Reason";
+    	public static final String REASON = "Reason";
+    	public static final String AMOUNT = "Amount";
+    	public static final String STATUS = "Status";
+    	public static final String ACTION = "Action";
+    	public static final String AGENCY_RE_SWEEP = "Agency Re-Sweep";
     }
 
     public static final class BillingInstallmentScheduleTable {
