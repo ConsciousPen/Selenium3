@@ -7,7 +7,6 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.home_ss.HomeSSPolicyActions;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
@@ -41,7 +40,7 @@ import toolkit.verification.CustomAssert;
 public class TestPolicyEndorsement extends HomeSSHO3BaseTest {
 
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.HomeSS")
 	public void testPolicyEndorsement(){
 		mainApp().open();
 
@@ -55,7 +54,7 @@ public class TestPolicyEndorsement extends HomeSSHO3BaseTest {
 		
 		TestData td = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData").adjust(tdPolicy.getTestData("Endorsement", "TestData"));
 		
-		new HomeSSPolicyActions.Endorse().perform(td);
+		policy.endorse().perform(td);
 		
 		policy.getDefaultView().fillUpTo(td, ApplicantTab.class, true);
 

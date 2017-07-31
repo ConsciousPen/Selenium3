@@ -3,7 +3,6 @@ package aaa.modules.policy.home_ss_ho3;
 import org.testng.annotations.Test;
 
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.home_ss.HomeSSPolicyActions;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
@@ -37,12 +36,12 @@ public class TestQuoteCreateAndCopy extends HomeSSHO3BaseTest {
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
         log.info("TEST: Created Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
         
-        new HomeSSPolicyActions.CopyQuote().perform(tdPolicy.getTestData("CopyFromQuote", "TestData"));
+        policy.copyQuote().perform(tdPolicy.getTestData("CopyFromQuote", "TestData"));
+        
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.DATA_GATHERING);
         log.info("TEST: Copied Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
         
-        new HomeSSPolicyActions.DataGather().start();
-        
+        policy.dataGather().start();
         policy.getDefaultView().fill(getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData"));
         
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
