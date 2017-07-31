@@ -370,7 +370,7 @@ public final class PolicyActions {
 		    return this;
 	    }
 
-        public AbstractAction perform(boolean isAutomatic, boolean setOldValues) {
+ /*       public AbstractAction perform(boolean isAutomatic, boolean setOldValues) {
             start();
 
             Table tableOosEndorsements = new Table(By.id("affectedEndoresmentForm:historyTable"));
@@ -406,6 +406,48 @@ public final class PolicyActions {
                 }
             }
             return submit();
+        }
+    }
+    */
+    public AbstractAction perform(boolean isAutomatic, boolean setCurrentValues) {
+            start();
+
+            Table tableOosEndorsements = new Table(By.id("affectedEndoresmentForm:historyTable"));
+            int rowsCount = tableOosEndorsements.getRowsCount();
+            int columnsCount = tableOosEndorsements.getColumnsCount();
+
+            for (int i = 1; i <= rowsCount; i++) {
+                tableOosEndorsements.getRow(i).getCell(columnsCount).controls.links.get(
+                        isAutomatic ? 1 : 2).click();
+            }
+
+            if (!isAutomatic) {
+                Table tableDifferences = new Table(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']/table"));
+                rowsCount = tableDifferences.getRowsCount();
+                columnsCount = tableDifferences.getColumnsCount();
+
+                //expand rows
+                for (int i = 0; i < rowsCount; i++) {
+                	Link linkTriangle = new Link(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + i
+                            + "']/td[1]/span[contains(@class, 'ui-treetable-toggler')]"));
+                  if (linkTriangle.isPresent() && linkTriangle.isVisible()) {
+                	  linkTriangle.click();
+                  }
+                }
+
+                //apply values
+                Link linkSetValue;
+                rowsCount = tableDifferences.getRowsCount();
+                for (int i = 1; i <= rowsCount; i++) {
+                    linkSetValue = tableDifferences.getRow(i).getCell(columnsCount).controls.links.get(
+                    		setCurrentValues ? 1 : 2);
+
+                    if (linkSetValue.isPresent() && linkSetValue.isVisible()) {
+                        linkSetValue.click();
+                    }
+                }   submit();
+            }
+            return this; //submit();
         }
     }
     

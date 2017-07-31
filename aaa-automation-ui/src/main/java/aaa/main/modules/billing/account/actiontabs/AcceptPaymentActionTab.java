@@ -41,6 +41,7 @@ public class AcceptPaymentActionTab extends ActionTab {
 
     @Override
     public Tab submitTab() {
+        buttonOk.click();
         return this;
     }
 }

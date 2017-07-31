@@ -1,0 +1,117 @@
+# ---------- Data for first Endorsement ------------
+
+TestData_E1: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: {},
+  MembershipTab: {}, #'@MembershipTab',
+  VehicleTab: '@VehicleTab',
+  AssignmentTab: '@AssignmentTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+GeneralTab: {
+  NamedInsuredInformation: [{}],
+  AAAProductOwned: {},
+  PolicyInformation: '@PolicyInformation'
+}
+
+PolicyInformation: {
+  Authorized by: QA
+}
+
+MembershipTab: {
+  #Customer Agreement: Customer Agrees,
+  #Sales Agent Agreement: I Agree,
+  Order Report: click
+}
+
+VehicleTab: {
+  Add Vehicle: Click,
+  VIN: WDCYC7BB0B6729451,
+  Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Odometer Reading: 3000
+}
+
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [{
+    Vehicle: '2011, MERCEDES-BENZ, G55AMG',
+    Primary Driver: index=1,
+    #Manually Rated Driver: 'Tom Harris'
+  }]
+}
+
+DriverActivityReportsTab: {
+  Sales Agent Agreement: I Agree,
+  Validate Driving History: click
+}
+
+# ---------- Data for second Endorsement ------------
+
+TestData_E2: {
+  GeneralTab: '@GeneralTab2',
+  DriverTab: '@DriverTab2',
+  MembershipTab: '@MembershipTab2',
+  VehicleTab: {}, #'@VehicleTab',
+  AssignmentTab: {}, #'@AssignmentTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab2',
+  DocumentsAndBindTab: {}
+}
+
+GeneralTab2: {
+  NamedInsuredInformation: ['@NamedInsuredInformation2'],
+  AAAProductOwned: {},
+  PolicyInformation: '@PolicyInformation2'
+}
+
+NamedInsuredInformation2: {
+  Add: Click,
+  InsuredSearchDialog: {},
+  First Name: Violeta,
+  Last Name: Minolta,
+  "Home Phone #": 5554567001, 
+}
+
+PolicyInformation2: {
+  Authorized by: QA
+}
+
+DriverTab2: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Named Insured: 'Violeta Minolta',
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
+  Date of Birth: '07/28/1976',
+  Occupation: Accountant,
+  Gender: Female,
+  Marital Status: Single,
+  Age First Licensed: 18,
+  Permit Before License: 'No',
+  License State: CA,
+  "License #": C1234565
+}
+
+MembershipTab2: {
+  #Customer Agreement: Customer Agrees,
+  #Sales Agent Agreement: I Agree,
+  Order Report: click
+}
+
+DriverActivityReportsTab2: {
+  Sales Agent Agreement: I Agree,
+  Validate Driving History: click
+}
+
+# ---------- Data for compare data quantity on RollOn Changes tab ------------
+
+Differences: {
+  LineCount: 15
+}
+
