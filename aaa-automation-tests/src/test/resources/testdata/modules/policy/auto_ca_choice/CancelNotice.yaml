@@ -1,8 +1,8 @@
 TestData: {
   CancelNoticeActionTab: {
-    Cancellation Reason: index=1,
+    Cancellation Reason: index=2,
     Supporting Data: Supporting Data,
-    Days Of Notice: 21,
+#    Days Of Notice: 21,
     Print Notice: 'No'    
   }
 }
