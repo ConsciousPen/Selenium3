@@ -29,8 +29,8 @@ CustomerType: {
 }
 
 CustomerGeneralTab: {
-  First Name: '/Mike######',
-  Last Name: '/Tyson######',
+  First Name: '/rx:Mike\d{6}',
+  Last Name: '/rx:Tyson\d{6}',
   Date of Birth: 06/30/1966,
   Gender: Male,
   Marital Status: Married,

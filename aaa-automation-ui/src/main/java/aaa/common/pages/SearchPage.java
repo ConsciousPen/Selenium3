@@ -56,8 +56,8 @@ public class SearchPage extends MainPage {
 	}
 
 	public static void search(SearchEnum.SearchFor searchFor, SearchEnum.SearchBy searchBy, String searchString) {
-		TestData searchTd = DataProviderFactory.emptyData().adjust(SearchMetaData.Search.SEARCH_FOR.getLabel(), searchFor.get()).adjust(searchBy.get(), searchString);
-		search(DataProviderFactory.emptyData().adjust(assetListSearch.getName(), searchTd));
+		TestData searchTd = DataProviderFactory.dataOf(SearchMetaData.Search.SEARCH_FOR.getLabel(), searchFor.get()).adjust(searchBy.get(), searchString);
+		search(DataProviderFactory.dataOf(assetListSearch.getName(), searchTd));
 	}
 
 	public static void search(TestData tdSearch) {

@@ -192,10 +192,10 @@ public class BaseTest {
 	/**
 	 * Create quote using default TestData
 	 */
-	protected void createQuote() {
+	protected String createQuote() {
 		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
 		TestData tdPolicy = testDataManager.policy.get(getPolicyType());
-		createQuote(getStateTestData(tdPolicy, "DataGather", "TestData"));
+		return createQuote(getStateTestData(tdPolicy, "DataGather", "TestData"));
 	}
 
 	/**
@@ -206,11 +206,11 @@ public class BaseTest {
 	 *            - test data for quote filling
 	 * @return
 	 */
-	protected void createQuote(TestData td) {
+	protected String createQuote(TestData td) {
 		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
 		log.info("Quote Creation Started...");
 		getPolicyType().get().createQuote(td);
-		// return PolicySummaryPage.labelPolicyNumber.getValue();
+		return PolicySummaryPage.labelPolicyNumber.getValue();
 	}
 
 	/**
@@ -268,7 +268,7 @@ public class BaseTest {
 
 	private String openDefaultPolicy(PolicyType policyType, String state) {
 		Assert.assertNotNull(policyType, "PolicyType is not set");
-		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState());
+		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), state);
 		String policyNumber = "";
 		synchronized (key) {
 			Integer count = policyCount.get(key);
