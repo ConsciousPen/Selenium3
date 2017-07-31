@@ -1,0 +1,97 @@
+# -- Default test data for UT state ---
+
+# ---------- Data for first Endorsement ------------
+
+TestData_E1: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: {}, #'@DriverTab',
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+GeneralTab: {
+  NamedInsuredInformation: [{}],
+  AAAProductOwned: {},
+  PolicyInformation: '@PolicyInformation'
+}
+
+PolicyInformation: {
+  Authorized by: QA
+}
+
+VehicleTab: {
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: WDCYC7BB0B6729451,
+}
+
+DriverActivityReportsTab: {
+  Validate Driving History: click
+}
+
+
+# ---------- Data for second Endorsement ------------
+
+TestData_E2: {
+  GeneralTab: '@GeneralTab2',
+  DriverTab: '@DriverTab2',
+  RatingDetailReportsTab: {}, 
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab2',
+  DocumentsAndBindTab: {}
+}
+
+GeneralTab2: {
+  NamedInsuredInformation: ['@NamedInsuredInformation2'],
+  AAAProductOwned: {},
+  ContactInformation: '@ContactInformation2',
+  PolicyInformation: '@PolicyInformation2'
+}
+
+NamedInsuredInformation2: {
+  Add: Click,
+  InsuredSearchDialog: {},
+  First Name: Violeta,
+  Last Name: Minolta,
+  Social Security Number: 223456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+ContactInformation2: {
+   Home Phone Number: 5554567002
+}
+
+PolicyInformation2: {
+  Authorized by: QA
+}
+
+DriverTab2: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  Named Insured: 'Violeta Minolta',
+  'Rel. to First Named Insured': Other,
+  Date of Birth: '07/28/1976',
+  Occupation: Self-Employed,
+  Gender: Female,
+  Marital Status: Single,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 400064770
+}
+
+DriverActivityReportsTab2: {
+  Validate Driving History: click
+}
+
+# ---------- Data for compare data quantity on RollOn Changes tab ------------
+
+Differences: {
+  LineCount: 9
+}

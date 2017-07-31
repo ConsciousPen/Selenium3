@@ -769,4 +769,7 @@ public final class AutoCaMetaData {
 		}
 	}
 	
+	public static final class RollOnChangesActionTab extends MetaData {
+	}
+	
 }

@@ -25,3 +25,17 @@ TestData_Minus1Day: {
     Endorsement Reason: index=1,
   }
 }
+
+TestData_Plus10Day: {
+  EndorsementActionTab: {
+    Endorsement Date: /today+10d,
+    Endorsement Reason: index=1,
+  }
+}
+
+TestData_Plus5Day: {
+  EndorsementActionTab: {
+    Endorsement Date: /today+5d,
+    Endorsement Reason: index=1,
+  }
+}

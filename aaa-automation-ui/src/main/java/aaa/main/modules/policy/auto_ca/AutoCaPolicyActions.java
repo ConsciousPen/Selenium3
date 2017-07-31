@@ -35,6 +35,7 @@ import aaa.main.modules.policy.auto_ca.views.SpinView;
 import aaa.main.modules.policy.auto_ca.views.SplitView;
 import aaa.main.modules.policy.auto_ca.views.SuspendQuoteView;
 import aaa.main.modules.policy.auto_ca.views.UpdateRulesOverrideView;
+import aaa.main.modules.policy.auto_ca.views.RollOnChangesView;
 import toolkit.datax.TestData;
 
 /**
@@ -312,4 +313,11 @@ public final class AutoCaPolicyActions {
 			return new UpdateRulesOverrideView();
 		}
 	}
+    
+    public static class RollOn extends PolicyActions.RollOn {
+        @Override
+        public Workspace getView() {
+            return new RollOnChangesView();
+        }
+    }
 }
