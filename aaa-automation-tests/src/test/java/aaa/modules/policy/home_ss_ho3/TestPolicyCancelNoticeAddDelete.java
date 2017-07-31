@@ -3,9 +3,9 @@
 package aaa.modules.policy.home_ss_ho3;
 
 import org.testng.annotations.Test;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSHO3BaseTest;
-import toolkit.datax.impl.SimpleDataProvider;
+
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.policy.templates.PolicyCancelNoticeAddDelete;
 import toolkit.utils.TestInfo;
 
 /**
@@ -20,24 +20,18 @@ import toolkit.utils.TestInfo;
  * 6. Verify 'Cancel Notice' flag is not displayed in the policy overview header
  * @details
  */
-public class TestPolicyCancelNoticeAddDelete extends HomeSSHO3BaseTest {
+public class TestPolicyCancelNoticeAddDelete extends PolicyCancelNoticeAddDelete {
 
-	@Test
-	@TestInfo(component = "Policy.PersonalLines")
-	public void testPolicyCancelNoticeAddDelete() {
-		mainApp().open();
+    @Override
+    protected PolicyType getPolicyType() {
+        return PolicyType.HOME_SS_HO3;
+    }
+    
+    @Override
+    @Test
+    @TestInfo(component = "Policy.HomeSS")
+    public void testPolicyCancelNoticeAddDelete() {
 
-		createCustomerIndividual();
-		createPolicy();
-
-		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-
-		log.info("TEST: Cancel Notice for Policy #" + policyNumber);
-		policy.cancelNotice().perform(tdPolicy.getTestData("CancelNotice", "TestData"));
-		PolicySummaryPage.labelCancelNotice.verify.present();
-
-		log.info("TEST: Delete Cancel Notice for Policy #" + policyNumber);
-		policy.deleteCancelNotice().perform(new SimpleDataProvider());
-		PolicySummaryPage.labelCancelNotice.verify.present(false);
-	}
+        super.testPolicyCancelNoticeAddDelete();
+    }
 }

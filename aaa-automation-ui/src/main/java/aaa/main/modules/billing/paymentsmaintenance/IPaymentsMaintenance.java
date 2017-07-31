@@ -9,8 +9,6 @@ public interface IPaymentsMaintenance {
 
     PaymentsMaintenanceActions.ClearSuspense clearSuspense();
 
-    PaymentsMaintenanceActions.ClearSuspenseGB clearSuspenseGB();
-
     PaymentsMaintenanceActions.AddPaymentBatch addPaymentBatch();
 
 }

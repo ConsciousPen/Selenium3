@@ -1,0 +1,32 @@
+TestData: {
+  PropertyInfoTab: '@PropertyInfoTab',
+  DocumentsTab: '@DocumentsTab'
+}
+
+#----------- PropertyInfo Tab --------------
+PropertyInfoTab: {
+  FireProtectiveDD: '@FireProtectiveDD',
+  TheftProtectiveTPDD: '@TheftProtectiveTPDD'
+}
+
+FireProtectiveDD: {
+  Central fire alarm: true, 
+  Full residential sprinklers: true
+}
+
+TheftProtectiveTPDD: {
+  Central theft alarm: true, 
+  Gated community: true
+}
+
+#------------ Documents Tab ---------------
+DocumentsTab: {
+  DocumentsToBind: {
+    Proof of central fire alarm: 'Yes', 
+    Proof of central theft alarm: 'Yes'
+  }, 
+  DocumentsToIssue: {
+    Signed policy application: Physically Signed
+  }  
+}
+

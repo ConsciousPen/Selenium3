@@ -34,7 +34,7 @@ public class AssignTaskToActionTab extends ActionTab {
             String keyStayInQueue = MyWorkMetaData.AssignTaskToActionTab.STAY_IN_ORIGINAL_QUEUE.getLabel();
             if (tdTemp.containsKey(keyQueue)) {
 
-                getAssetList().getControl(keyStayInQueue, CheckBox.class).setValue(false);
+                getAssetList().getAsset(keyStayInQueue, CheckBox.class).setValue(false);
                 Link select = new Link(By.xpath("//div[@id='taskAssignForm:availableQueues']/div[contains(@class, 'ui-selectonemenu-trigger')]/span"));
                 select.click();
 

@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.e2e.templates.Scenario1;
+import toolkit.datax.TestData;
 
 public class TestScenario1 extends Scenario1 {
 
@@ -13,8 +14,12 @@ public class TestScenario1 extends Scenario1 {
 	}
 	
 	@Test
-	@Override
-	public void step1() {
-		super.step1();
+	public void TC01_createPolicy() {
+		tdPolicy = testDataManager.policy.get(getPolicyType());
+		
+		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData")
+				.adjust(getStateTestData(tdPolicy, "TestScenario1", "TestData").resolveLinks());
+		
+		super.TC01_createPolicy(policyCreationTD);
 	}
 }

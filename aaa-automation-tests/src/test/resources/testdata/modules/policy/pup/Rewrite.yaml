@@ -1,7 +1,8 @@
 TestDataSameNumber: {
   RewriteActionTab: {
     Effective Date:  /today,
-    'Use Original Policy Number?': 'Yes'
+    Rewrite reason: 'Rewrite- System Issue'
+    #'Use Original Policy Number?': 'Yes'
   }
 }
 

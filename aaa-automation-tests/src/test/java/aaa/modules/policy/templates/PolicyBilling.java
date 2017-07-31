@@ -48,9 +48,9 @@ public abstract class PolicyBilling extends PolicyBaseTest {
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
         
-        CustomAssert.enableSoftMode();
-        
         BillingSummaryPage.open();
+        
+        CustomAssert.enableSoftMode();
         
         //cash payment
         new BillingAccount().acceptPayment().perform(cash_payment, "200");      

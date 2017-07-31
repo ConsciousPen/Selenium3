@@ -51,7 +51,7 @@ public class ProductFactoryActions {
         public AbstractAction submit() {
             CommonProductFactoryPage.activateNavigation();
             new PFLink(By.xpath("//a[contains(@id,'nav:routes') and .='Home']")).click();
-            getView().getTab(HomeTab.class).getAssetList().getControl(ProductMetaData.HomeTab.BUTTON_ACTIVATE.getLabel(), PFButton.class).click();
+            getView().getTab(HomeTab.class).getAssetList().getAsset(ProductMetaData.HomeTab.BUTTON_ACTIVATE.getLabel(), PFButton.class).click();
             PFButton buttonActivateAnyWay = new PFButton(By.id("lookupErrorForm:deploy-anyway"));
             if (buttonActivateAnyWay.isPresent() && buttonActivateAnyWay.isVisible()) {
                 buttonActivateAnyWay.click();
@@ -76,7 +76,7 @@ public class ProductFactoryActions {
                     .getCell(ProductConstants.ProductTable.PRODUCT_NAME).controls.links.getFirst().click();
             new DialogAssetList(DialogAssetList.POPUP_PARENT_LOCATOR, ProductProductFactoryCopy.class).fill(td);
             //activateNavigation();
-            PFButton buttonDeactivate = getView().getTab(HomeTab.class).getAssetList().getControl(ProductMetaData.HomeTab.BUTTON_DEACTIVATE.getLabel(), PFButton.class);
+            PFButton buttonDeactivate = getView().getTab(HomeTab.class).getAssetList().getAsset(ProductMetaData.HomeTab.BUTTON_DEACTIVATE.getLabel(), PFButton.class);
             if (buttonDeactivate.isPresent()) {
                 buttonDeactivate.click();
             }
@@ -96,7 +96,7 @@ public class ProductFactoryActions {
             CommonProductFactoryPage.activateNavigation();
 
             new PFLink(By.xpath("//a[contains(@id,'nav:routes') and .='Home']")).click();
-            getView().getTab(HomeTab.class).getAssetList().getControl(ProductMetaData.HomeTab.BUTTON_ACTIVATE.getLabel(), PFButton.class).click();
+            getView().getTab(HomeTab.class).getAssetList().getAsset(ProductMetaData.HomeTab.BUTTON_ACTIVATE.getLabel(), PFButton.class).click();
             PFButton buttonActivateAnyWay = new PFButton(By.id("lookupErrorForm:deploy-anyway"));
             if (buttonActivateAnyWay.isPresent() && buttonActivateAnyWay.isVisible()) {
                 buttonActivateAnyWay.click();

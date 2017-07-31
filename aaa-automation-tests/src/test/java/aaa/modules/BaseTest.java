@@ -21,10 +21,10 @@ import org.testng.annotations.Parameters;
 import com.exigen.ipb.etcsa.base.app.ApplicationFactory;
 import com.exigen.ipb.etcsa.base.app.MainApplication;
 import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
-import com.exigen.ipb.etcsa.utils.listener.ETCSAListener;
 
 import aaa.EntityLogger;
 import aaa.common.Constants;
+import aaa.common.Constants.States;
 import aaa.common.enums.SearchEnum;
 import aaa.common.metadata.LoginPageMeta;
 import aaa.common.pages.LoginPage;
@@ -32,6 +32,7 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.EntitiesHolder;
 import aaa.helpers.TestDataManager;
 import aaa.helpers.TimePoints;
+import aaa.helpers.config.CustomTestProperties;
 import aaa.main.modules.customer.Customer;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.PolicyType;
@@ -43,9 +44,10 @@ import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.utils.teststoragex.listeners.TestngTestListener2;
 import toolkit.verification.CustomAssert;
 
-@Listeners({ ETCSAListener.class })
+@Listeners({ TestngTestListener2.class })
 public class BaseTest {
 
 	protected static Logger log = LoggerFactory.getLogger(BaseTest.class);
@@ -59,9 +61,10 @@ public class BaseTest {
 	protected TestDataManager testDataManager;
 	private String quoteNumber;
 	private String key;
-	private String state;
-	private String usState = PropertyProvider.getProperty("test.usstate");
-	private static Map<String, Integer> policyCount = new HashMap<String, Integer>();
+	private static ThreadLocal<String> state = new ThreadLocal<>();
+	private static String usState = PropertyProvider.getProperty("test.usstate");
+	private static Map<String, Integer> policyCount = new HashMap<>();
+	private boolean isCImodeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.isCImode, "true"));
 
 	static {
 		CustomAssert.initDriver(CustomAssert.AssertDriverType.TESTNG);
@@ -70,11 +73,6 @@ public class BaseTest {
 	}
 
 	public BaseTest() {
-		if (StringUtils.isNotBlank(usState)) {
-			setState(usState);
-		} else {
-			setState(Constants.States.UT.get());
-		}
 		testDataManager = new TestDataManager();
 		initTestDataForTest();
 	}
@@ -93,12 +91,13 @@ public class BaseTest {
 		return getPolicyType().getPolicyRest().createInstance(customerNumber, quoteNumber);
 	}
 
-	protected String getState() {
-		return state;
+	public static String getState() {
+		return state.get();
 	}
 
-	protected void setState(String newState) {
-		this.state = newState;
+	private void setState(String newState) {
+		state.set(newState);
+		log.info(getState());
 	}
 
 	protected TimePoints getTimePoints() {
@@ -106,16 +105,19 @@ public class BaseTest {
 	}
 
 	@Parameters({ "state" })
-	@BeforeClass
-	public void beforeClassConfiguration(@Optional("UT") String state) {
+	@BeforeClass(alwaysRun=true)
+	public void beforeMethodStateConfiguration(@Optional("") String state) {
 		if (isStateCA()) {
 			setState(Constants.States.CA.get());
-		} else if (StringUtils.isNotBlank(usState) && state.equals(Constants.States.UT.get())) {
+		} else if (StringUtils.isNotBlank(usState) && StringUtils.isBlank(state)) {
 			setState(usState);
-		} else
+		} else if (StringUtils.isNotBlank(state)) {
 			setState(state);
+		} else {
+			setState(States.UT.get());
+		}
 	}
-
+	
 	/**
 	 * Login to the application
 	 */
@@ -132,14 +134,16 @@ public class BaseTest {
 
 	@AfterMethod(alwaysRun = true)
 	public void logout() {
-		if (Boolean.parseBoolean(PropertyProvider.getProperty("isCiMode", "true"))) {
-			mainApp().close();
-			opReportApp().close();
+		if (isCImodeEnabled) {
+			closeAllApps();
 		}
 	}
 
 	@AfterSuite(alwaysRun = true)
 	public void afterSuite() {
+		if (isCImodeEnabled) {
+			closeAllApps();
+		}
 	}
 
 	@AfterClass(alwaysRun = true)
@@ -161,21 +165,13 @@ public class BaseTest {
 	 * Create individual customer using provided TestData
 	 */
 	protected String createCustomerIndividual(TestData td) {
-		String key = EntitiesHolder.makeCustomerKey(CustomerType.INDIVIDUAL, getState());
-		// EntitiesHolder.addNewEntiry(key, "700032098");
-		if (!EntitiesHolder.isEntityPresent(key)) {
-			customer.create(td);
-			customerNumber = CustomerSummaryPage.labelCustomerNumber.getValue();
-			EntitiesHolder.addNewEntity(key, customerNumber);
-			return customerNumber;
-		} else {
-			customerNumber = EntitiesHolder.getEntity(key);
-			SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, customerNumber);
-			log.info("Use existing " + EntityLogger.getEntityHeader(EntityLogger.EntityType.CUSTOMER));
-		}
+		customer.create(td);
+		customerNumber = CustomerSummaryPage.labelCustomerNumber.getValue();
+		EntitiesHolder.addNewEntity(key, customerNumber);
 
 		return customerNumber;
 	}
+	
 
 	/**
 	 * Create NonIndividual customer using default TestData
@@ -188,18 +184,9 @@ public class BaseTest {
 	 * Create individual customer using provided TestData
 	 */
 	protected String createCustomerNonIndividual(TestData td) {
-		key = EntitiesHolder.makeCustomerKey(CustomerType.NON_INDIVIDUAL, getState());
-		if (!EntitiesHolder.isEntityPresent(key)) {
-			customer.create(td);
-			customerNumber = CustomerSummaryPage.labelCustomerNumber.getValue();
-			EntitiesHolder.addNewEntity(key, customerNumber);
-			return customerNumber;
-		} else {
-			customerNumber = EntitiesHolder.getEntity(key);
-			SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, customerNumber);
-			log.info("Use existing " + EntityLogger.getEntityHeader(EntityLogger.EntityType.CUSTOMER));
-		}
-
+		customer.create(td);
+		customerNumber = CustomerSummaryPage.labelCustomerNumber.getValue();
+		EntitiesHolder.addNewEntity(key, customerNumber);
 		return customerNumber;
 	}
 
@@ -218,14 +205,14 @@ public class BaseTest {
 	 *
 	 * @param td
 	 *            - test data for quote filling
-	 * @return 
+	 * @return
 	 */
 	protected void createQuote(TestData td) {
-	  Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
-	  log.info("Quote Creation Started...");
-	  getPolicyType().get().createQuote(td);
-	  // return PolicySummaryPage.labelPolicyNumber.getValue();
-	 }
+		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
+		log.info("Quote Creation Started...");
+		getPolicyType().get().createQuote(td);
+		// return PolicySummaryPage.labelPolicyNumber.getValue();
+	}
 
 	/**
 	 * Gets default quote number and makes quote copy. If default quote doesn't
@@ -279,14 +266,15 @@ public class BaseTest {
 		getPolicyType().get().copyPolicy(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData"));
 		return PolicySummaryPage.labelPolicyNumber.getValue();
 	}
-	
+
 	private String openDefaultPolicy(PolicyType policyType, String state) {
 		Assert.assertNotNull(policyType, "PolicyType is not set");
 		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState());
 		String policyNumber = "";
 		synchronized (key) {
 			Integer count = policyCount.get(key);
-			if (count == null) count = 1;
+			if (count == null)
+				count = 1;
 			if (EntitiesHolder.isEntityPresent(key) && count < 10) {
 				count++;
 				policyNumber = EntitiesHolder.getEntity(key);
@@ -309,20 +297,26 @@ public class BaseTest {
 	protected OperationalReportApplication opReportApp() {
 		return ApplicationFactory.get().opReportApp(new LoginPage(initiateLoginTD()));
 	}
-
+	
 	protected TestData getStateTestData(TestData td, String fileName, String tdName) {
-		TestData returnTD = td.getTestData(fileName);
-		if (returnTD.containsKey(getStateTestDataName(tdName))) {
-			returnTD = returnTD.getTestData(getStateTestDataName(tdName));
-			log.info(String.format("==== %s Test Data is used: %s:%s ====", getState(), fileName, getStateTestDataName(tdName)));
-		} else {
-			returnTD = returnTD.getTestData(tdName);
-			log.info(String.format("==== Default state UT Test Data is used. Requested Test Data %s:%s is missing ====", fileName, getStateTestDataName(tdName)));
+		if (!td.containsKey(fileName)) {
+			throw new TestDataException("Can't get test data file " + fileName);
 		}
-		return returnTD;
+		return getStateTestData(td.getTestData(fileName), tdName);
 	}
 
-	protected String getStateTestDataName(String tdName) {
+	protected TestData getStateTestData(TestData td, String tdName) {
+		if (td.containsKey(getStateTestDataName(tdName))) {
+			td = td.getTestData(getStateTestDataName(tdName));
+			log.info(String.format("==== %s Test Data is used: %s ====", getState(), getStateTestDataName(tdName)));
+		} else {
+			td = td.getTestData(tdName);
+			log.info(String.format("==== Default state UT Test Data is used. Requested Test Data: %s is missing ====", getStateTestDataName(tdName)));
+		}
+		return td;
+	}
+
+	private String getStateTestDataName(String tdName) {
 		String state = getState();
 		// if (!state.equals(States.UT) && !state.equals(States.CA))
 		tdName = tdName + "_" + state;
@@ -338,8 +332,8 @@ public class BaseTest {
 	}
 
 	protected Boolean isStateCA() {
-		return getPolicyType().equals(PolicyType.HOME_CA_HO3) || getPolicyType().equals(PolicyType.AUTO_CA_SELECT) || getPolicyType().equals(PolicyType.CEA) || getPolicyType().equals(PolicyType.HOME_CA_DP3) || getPolicyType().equals(PolicyType.HOME_CA_HO4)
-				|| getPolicyType().equals(PolicyType.HOME_CA_HO6) || getPolicyType().equals(PolicyType.AUTO_CA_CHOICE);
+		return getPolicyType() != null && (getPolicyType().equals(PolicyType.HOME_CA_HO3) || getPolicyType().equals(PolicyType.AUTO_CA_SELECT) || getPolicyType().equals(PolicyType.CEA) || getPolicyType().equals(PolicyType.HOME_CA_DP3) || getPolicyType().equals(PolicyType.HOME_CA_HO4)
+				|| getPolicyType().equals(PolicyType.HOME_CA_HO6) || getPolicyType().equals(PolicyType.AUTO_CA_CHOICE));
 	}
 
 	private void initTestDataForTest() {
@@ -348,5 +342,11 @@ public class BaseTest {
 		} catch (TestDataException tde) {
 			log.debug(String.format("Specified TestData for test is absent: %s", tde.getMessage()));
 		}
+	}
+
+	private void closeAllApps() {
+		mainApp().close();
+		adminApp().close();
+		opReportApp().close();
 	}
 }

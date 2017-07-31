@@ -44,7 +44,7 @@ public class TestQuotePropose extends HomeCaHO3BaseTest {
 		log.info("TEST: Propose Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
 		policy.propose().start();
 		policy.propose().getView().getTab(GenerateProposalActionTab.class).getAssetList()
-				.getControl(HomeSSMetaData.ProposeActionTab.NOTES.getLabel()).verify.enabled();
+				.getAsset(HomeSSMetaData.ProposeActionTab.NOTES.getLabel()).verify.enabled();
 		GenerateProposalActionTab.message.verify.value("Please note that once you click \"OK\" the documents will be queued for generation " +
 				"and will be available for viewing within the folder structure as soon as they have been successfully processed. This usually takes 3 to 5 minutes.");
 		policy.propose().submit();

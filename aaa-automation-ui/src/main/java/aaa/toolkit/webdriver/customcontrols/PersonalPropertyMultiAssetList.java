@@ -44,7 +44,7 @@ public class PersonalPropertyMultiAssetList extends MultiAssetList {
 	@Override
 	public BaseElement<?, ?> getControl(String assetName) {
 		expandSection();
-		return super.getControl(assetName);
+		return super.getAsset(assetName);
 	}
 
 	@Override

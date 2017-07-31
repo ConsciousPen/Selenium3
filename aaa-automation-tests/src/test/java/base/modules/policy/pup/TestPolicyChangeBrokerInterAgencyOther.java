@@ -56,7 +56,7 @@ public class TestPolicyChangeBrokerInterAgencyOther extends PersonalUmbrellaBase
 
         CustomAssert.assertFalse(String.format("Broker name was changed from %s to %s", newBrokerName, initialBrokerName), initialBrokerName.equals(newBrokerName));
 
-        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().addDays(1));
+        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
 
         adminApp().reopen();
         NavigationPage.toViewLeftMenu(AdminAppLeftMenu.GENERAL_SCHEDULER.get());

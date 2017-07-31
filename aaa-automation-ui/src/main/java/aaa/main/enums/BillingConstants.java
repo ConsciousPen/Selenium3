@@ -25,12 +25,6 @@ public final class BillingConstants {
         public static final String OFFER = "Offer";
     }
 
-    public static final class BillsAndStatementsStatusGB {
-        public static final String DISCARDED = "Discarded";
-        public static final String ISSUED = "Issued";
-        public static final String PAID_IN_FULL = "Paid in Full";
-    }
-
     public static final class PaymentsAndOtherTransactionType {
         public static final String PAYMENT = "Payment";
         public static final String PREMIUM = "Premium";
@@ -41,15 +35,6 @@ public final class BillingConstants {
 
     public static final class BillingPendingTransactionsType {
         public static final String REFUND = "Refund";
-    }
-
-    public static final class PaymentsAndOtherTransactionTypeGB {
-        public static final String INVOICE = "Invoice";
-        public static final String DISCARD_INVOICE = "Discard Invoice";
-        public static final String DECLINE_PAYMENT = "Decline Payment";
-        public static final String ACCOUNT_SUSPENSE = "Account Suspense";
-        public static final String PAYMENT_ALLOCATION_ADJUSTMENT = "Payment Allocation Adjustment";
-        public static final String PAYMENT_UNALLOCATION = "Payment Un-allocation";
     }
 
     public static final class PaymentsAndOtherTransactionSubtypeReason {
@@ -123,10 +108,6 @@ public final class BillingConstants {
         public static final String CHECK = "Check";
     }
 
-    public static final class TransferReason {
-        public static final String DATA_ENTRY_ERROR = "Data Entry Error";
-    }
-
     public static final class ModalPremiumTransactionType {
         public static final String ADD_PREMIUM_WAIVER = "Add Premium Waiver";
         public static final String ENDORSEMENT = "Endorsement (Premium Bearing / TBD Endorsement Reason 1)";
@@ -142,23 +123,8 @@ public final class BillingConstants {
         public static final String APPROVE = "Approve";
     }
 
-    public static final class BillingStatementsTable {
-        public static final String MINIMUM_DUE = "Minimum Due";
-    }
-
-    public static final class BillingBillsAndStatmentsTable {
-        public static final String DUE_DATE = "Due Date";
-        public static final String BILING_PERIOD = "Billing Period";
-        public static final String TOTAL_DUE = "Total Due";
-        public static final String INVOICE = "Invoice #";
-        public static final String ACTIONS = "Actions";
-        public static final String STATUS = "Status";
-    }
-
-    public static final class BillingGBBillsAndStatmentsTable {
-        public static final String ACTION = "Action";
-    }
-
+    //----TABLES----
+    
     public static final class BillingGeneralInformationTable {
         public static final String ID = "ID";
         public static final String BILLING_ADDRESS = "Billing Address";
@@ -170,23 +136,15 @@ public final class BillingConstants {
         public static final String TOTAL_PAID = "Total Paid";
         public static final String BILLABLE_AMOUNT = "Billable Amount";
     }
-
-    public static final class BillingSuspensePaymentsTable {
-        public static final String BILLING_ACCOUNTS = "Billing Accounts";
-        public static final String STATUS = "Status";
-    }
-
-    public static final class BillingRenewalsTable {
-        public static final String PREMIUM = "Premium";
-    }
-
-    public static final class BillingSuspenseForDeclineTable {
-        public static final String REFERENCE_NUMBER = "Reference Number";
-        public static final String ACTION = "Action";
-    }
-
-    public static final class BillingSuspenseSearchResultsTable {
-        public static final String ACTION = "Action";
+    
+    public static final class BillingBillsAndStatmentsTable {
+    	public static final String DUE_DATE = "Due Date";
+    	public static final String TYPE = "Type";
+    	public static final String STATEMENT_NUM = "Statement #";
+    	public static final String MINIMUM_DUE = "Minimum Due";
+    	public static final String PAST_DUE = "Past Due";
+    	public static final String TOTAL_DUE = "Total Due";
+    	public static final String ACTIONS = "Actions";
     }
 
     public static final class BillingPaymentsAndOtherTransactionsTable {
@@ -197,6 +155,9 @@ public final class BillingConstants {
         public static final String REASON = "Reason";
         public static final String POLICY = "Policy #";
         public static final String STATUS = "Status";
+    	public static final String TRANSACTION_DATE = "Transaction Date";
+    	public static final String EFF_DATE = "Effective Date";
+    	public static final String AGENCY_RE_SWEEP = "Agency Re-Sweep";
     }
 
     public static final class BillingInstallmentScheduleTable {
@@ -220,13 +181,6 @@ public final class BillingConstants {
         public static final String ACTION = "Action";
     }
 
-    public static final class BillingModalPremiumTable {
-        public static final String MODAL_PREMIUM_EFFECTIVE_DATE = "Modal Premium Effective Date";
-        public static final String AMOUNT = "Amount";
-        public static final String TRANSACTION_TYPE_SUBTYPE_REASON = "Transaction Type (Subtype / Reason)";
-        public static final String COVERAGE = "Coverage";
-    }
-
     public static final class BillingAccountPoliciesTable {
         public static final String POLICY_NUM = "Policy #";
         public static final String TYPE = "Type";
@@ -243,30 +197,39 @@ public final class BillingConstants {
         public static final String BILLABLE_AMOUNT = "Billable Amount";
         public static final String PAID_THROUGH = "Paid Through";
     }
-
-    public static final class BillingAccountsTable {
-        public static final String BILLING_ACCOUNT = "Billing Account #";
-    }
-
-    public static final class BillingAccountsSearchResultTable {
-        public static final String BILLING_ACCOUNT = "Billing Account #";
-    }
-
-    public static final class BillingAllocationsTable {
-        public static final String INVOICE = "Invoice";
-    }
-
-    public static final class BillingAllocationsIntoGroupsTable {
-        public static final String BILLING_GROUP = "Billing Group";
-    }
-
+    
     public static final class BillingPaymentAllocationTable {
         public static final String COVERAGE = "Coverage";
         public static final String REMAINING_DUE = "Remaining Due";
         public static final String AMOUNT_PAID = "Amount Paid";
     }
+    
+    public static final class BillingModalPremiumTable {
+        public static final String MODAL_PREMIUM_EFFECTIVE_DATE = "Modal Premium Effective Date";
+        public static final String AMOUNT = "Amount";
+        public static final String TRANSACTION_TYPE_SUBTYPE_REASON = "Transaction Type (Subtype / Reason)";
+        public static final String COVERAGE = "Coverage";
+    }
+
+    public static final class BillingAccountsTable {
+        public static final String BILLING_ACCOUNT = "Billing Account #";
+    }
 
     public static final class BillingBenefitAccountsTable {
         public static final String BILLING_ACCOUNT = "Billing Account #";
+    }
+    
+    public static final class BillingSuspensePaymentsTable {
+        public static final String BILLING_ACCOUNTS = "Billing Accounts";
+        public static final String STATUS = "Status";
+    }
+    
+    public static final class BillingSuspenseForDeclineTable {
+        public static final String REFERENCE_NUMBER = "Reference Number";
+        public static final String ACTION = "Action";
+    }
+
+    public static final class BillingSuspenseSearchResultsTable {
+        public static final String ACTION = "Action";
     }
 }

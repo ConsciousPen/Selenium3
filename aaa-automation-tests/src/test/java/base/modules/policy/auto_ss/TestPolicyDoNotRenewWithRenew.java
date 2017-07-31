@@ -52,8 +52,7 @@ public class TestPolicyDoNotRenewWithRenew extends AutoSSBaseTest {
 
         log.info("TEST: Policy cannot bew renewed #" + policyNumber);
 
-        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().subtractDays(
-                BillingHelper.DAYS_RENEW_STRATEGY));
+        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(BillingHelper.DAYS_RENEW_STRATEGY));
 
         adminApp().reopen();
         NavigationPage.toViewLeftMenu(AdminAppLeftMenu.GENERAL_SCHEDULER.get());

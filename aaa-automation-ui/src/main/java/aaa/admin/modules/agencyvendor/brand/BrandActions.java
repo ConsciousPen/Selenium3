@@ -40,7 +40,7 @@ public final class BrandActions {
 
         @Override
         public AbstractAction submit() {
-            BrandPage.assetListAddBrand.getControl(BrandMetaData.BrandTab.AddBrandDialog.BUTTON_UPDATE.getLabel()).getWebElement().click();
+            BrandPage.assetListAddBrand.getAsset(BrandMetaData.BrandTab.AddBrandDialog.BUTTON_UPDATE.getLabel()).getWebElement().click();
             return this;
         }
 

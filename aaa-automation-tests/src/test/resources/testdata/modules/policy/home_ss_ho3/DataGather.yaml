@@ -48,10 +48,10 @@ ReportsTab: {
 
 PropertyInfoTab: {
   DwellingAddress: '@DwellingAddress_PropertyInfoTab',
-   AdditionalAddress: [{}],
-   PublicProtectionClass: {},
-   FireReport: {},
-   PropertyValue: '@PropertyValue',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
   Construction: '@Construction',
   AdditionalQuestions: {},
   Interior: '@Interior',
@@ -72,12 +72,12 @@ PremiumsAndCoveragesQuoteTab: {
   Payment plan: Pay in Full,
   Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
   Coverage E - Personal Liability Each Occurrence: '$300,000'
-  }
+}
  
 MortgageesTab: {}
  
 UnderwritingAndApprovalTab: {
-  #Underwriter-selected inspection type: '/first',
+  #Underwriter-selected inspection type: 'index=1',
   "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": "No",
   "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
   "Has the property been in foreclosure proceedings within the past 18 months?": "No",
@@ -150,12 +150,12 @@ AgentInfo: {
 PropertyValue: {
   Coverage A - Dwelling limit: 150000,
   ISO replacement cost: 145000,
-  Reason replacement cost differs from the tool value: '/first',
+  Reason replacement cost differs from the tool value: 'index=1',
   Purchase date of home: '/today-1y:MM/dd/yyyy'
 }
 
 DwellingAddress_PropertyInfoTab: {
-  Number of family units: '/first'
+  Number of family units: 'index=1'
 }
 
 HomeRenovation: {
@@ -163,16 +163,16 @@ HomeRenovation: {
 }
 
 Construction: {
-    Year built: 2009,
-    Square footage: 1,
-    Roof type: Laminate / Architectural,
-    Roof shape: '/first',
-    Construction type: '/first'
-  }
+  Year built: 2009,
+  Square footage: 1,
+  Roof type: Laminate / Architectural,
+  Roof shape: 'index=1',
+  Construction type: 'index=1'
+}
 
 Interior: {
   Number of residents: 3,
-  Number of stories: '/first'
+  Number of stories: 'index=1'
 }
 
 # --------- TestData AZ -----------
@@ -281,8 +281,8 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_CO:  {
   Auto policy state: CO, 
   Policy number: '345345345',
   Effective date: '/today:MM/dd/yyyy',
-  Policy tier: '/first',
-  Auto policy BI limit: '/first',
+  Policy tier: 'index=1',
+  Auto policy BI limit: 'index=1',
   Auto Insurance Persistency: '21'
 }
 
@@ -310,9 +310,9 @@ Construction_CO: {
     Year built: 2009,
     Square footage: 1,
     Roof type: Laminate / Architectural,
-    Roof shape: '/first',
-    Construction type: '/first',
-    Hail-resistance rating: '/first'
+    Roof shape: 'index=1',
+    Construction type: 'index=1',
+    Hail-resistance rating: 'index=1'
   }
 
 # --------- TestData CT ------------
@@ -602,8 +602,8 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_IN:  {
   Auto policy state: IN, 
   Policy number: '345345345',
   Effective date: '/today:MM/dd/yyyy',
-  Policy tier: '/first',
-  Auto policy BI limit: '/first',
+  Policy tier: 'index=1',
+  Auto policy BI limit: 'index=1',
   Auto Insurance Persistency: '21'
 }
 
@@ -640,9 +640,9 @@ Construction_IN: {
     Year built: 2009,
     Square footage: 1,
     Roof type: Laminate / Architectural,
-    Roof shape: '/first',
-    Construction type: '/first',
-    Hail-resistance rating: '/first'
+    Roof shape: 'index=1',
+    Construction type: 'index=1',
+    Hail-resistance rating: 'index=1'
 }
   
 # --------- TestData KS ------------
@@ -705,8 +705,8 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_KS:  {
   Auto policy state: KS, 
   Policy number: '345345345',
   Effective date: '/today:MM/dd/yyyy',
-  Policy tier: '/first',
-  Auto policy BI limit: '/first',
+  Policy tier: 'index=1',
+  Auto policy BI limit: 'index=1',
   Auto Insurance Persistency: '21'
 }
 
@@ -742,9 +742,9 @@ Construction_KS: {
     Year built: 2009,
     Square footage: 1,
     Roof type: Laminate / Architectural,
-    Roof shape: '/first',
-    Construction type: '/first',
-    Hail-resistance rating: '/first'
+    Roof shape: 'index=1',
+    Construction type: 'index=1',
+    Hail-resistance rating: 'index=1'
 }
 
 # --------- TestData KY ------------
@@ -807,8 +807,8 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_KY:  {
   Auto policy state: KY, 
   Policy number: '345345345',
   Effective date: '/today:MM/dd/yyyy',
-  Policy tier: '/first',
-  Auto policy BI limit: '/first',
+  Policy tier: 'index=1',
+  Auto policy BI limit: 'index=1',
   Auto Insurance Persistency: '21'
 }
 
@@ -844,9 +844,9 @@ Construction_KY: {
     Year built: 2009,
     Square footage: 1,
     Roof type: Laminate / Architectural,
-    Roof shape: '/first',
-    Construction type: '/first',
-    Hail-resistance rating: '/first'
+    Roof shape: 'index=1',
+    Construction type: 'index=1',
+    Hail-resistance rating: 'index=1'
 }
 
 UnderwritingAndApprovalTab_KY: {
@@ -1205,8 +1205,8 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_OH:  {
   Auto policy state: OH, 
   Policy number: '345345345',
   Effective date: '/today:MM/dd/yyyy',
-  Policy tier: '/first',
-  Auto policy BI limit: '/first',
+  Policy tier: 'index=1',
+  Auto policy BI limit: 'index=1',
   Auto Insurance Persistency: '21'
 }
 
@@ -1242,9 +1242,9 @@ Construction_OH: {
     Year built: 2009,
     Square footage: 1,
     Roof type: Laminate / Architectural,
-    Roof shape: '/first',
-    Construction type: '/first',
-    Hail-resistance rating: '/first'
+    Roof shape: 'index=1',
+    Construction type: 'index=1',
+    Hail-resistance rating: 'index=1'
 }
 
 # --------- TestData OK ------------
@@ -1307,8 +1307,8 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_OK:  {
   Auto policy state: OK, 
   Policy number: '345345345',
   Effective date: '/today:MM/dd/yyyy',
-  Policy tier: '/first',
-  Auto policy BI limit: '/first',
+  Policy tier: 'index=1',
+  Auto policy BI limit: 'index=1',
   Auto Insurance Persistency: '21'
 }
 
@@ -1344,9 +1344,9 @@ Construction_OK: {
     Year built: 2009,
     Square footage: 1,
     Roof type: Laminate / Architectural,
-    Roof shape: '/first',
-    Construction type: '/first',
-    Hail-resistance rating: '/first'
+    Roof shape: 'index=1',
+    Construction type: 'index=1',
+    Hail-resistance rating: 'index=1'
 }
 
 # --------- TestData OR ------------
@@ -1539,9 +1539,9 @@ Construction_SD: {
     Year built: 2009,
     Square footage: 1,
     Roof type: Laminate / Architectural,
-    Roof shape: '/first',
-    Construction type: '/first',
-    Hail-resistance rating: '/first'
+    Roof shape: 'index=1',
+    Construction type: 'index=1',
+    Hail-resistance rating: 'index=1'
 }
 
 # --------- TestData VA ------------
@@ -1680,9 +1680,9 @@ Construction_WV: {
     Year built: 2009,
     Square footage: 1,
     Roof type: Laminate / Architectural,
-    Roof shape: '/first',
-    Construction type: '/first',
-    Hail-resistance rating: '/first'
+    Roof shape: 'index=1',
+    Construction type: 'index=1',
+    Hail-resistance rating: 'index=1'
 }
 
 # --------- TestData WY ------------

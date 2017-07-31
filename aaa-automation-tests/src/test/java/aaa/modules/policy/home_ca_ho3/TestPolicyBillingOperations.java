@@ -281,10 +281,10 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
 
         // 11. Check that System defaults 'Total Amount' with the value entered by user in 'Amount' field on 'Other Transactions' tab
         OtherTransactionsActionTab.linkAdvancedAllocation.click();
-        advancedAllocationsActionTab.getAssetList().getControl(BillingAccountMetaData.AdvancedAllocationsActionTab.TOTAL_AMOUNT.getLabel()).verify.present(writeoffAmount.toString());
+        advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.TOTAL_AMOUNT.getLabel()).verify.present(writeoffAmount.toString());
 
         // 12. Check that System defaults 'Product Sub total' with the value entered by user in 'Amount' field on 'Other Transactions' tab
-        advancedAllocationsActionTab.getAssetList().getControl(BillingAccountMetaData.AdvancedAllocationsActionTab.PRODUCT_SUB_TOTAL.getLabel()).verify.present(writeoffAmount.toString());
+        advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.PRODUCT_SUB_TOTAL.getLabel()).verify.present(writeoffAmount.toString());
         advancedAllocationsActionTab.submitTab();
 
         // 13. Check positive adjustment transaction appears in "Payments and other transactions" section on billing tab

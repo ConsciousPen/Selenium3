@@ -2,6 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package base.modules.policy.pup;
 
+import java.time.LocalDateTime;
+
 import org.testng.annotations.Test;
 
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -17,7 +19,6 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import toolkit.utils.TestInfo;
-import toolkit.utils.datetime.DateTime;
 
 /**
  * @author Andrey Shashenka
@@ -49,11 +50,11 @@ public class TestPolicyRenewAutomaticIssue extends PersonalUmbrellaBaseTest {
         createPolicy();
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-        DateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
         log.info("TEST: Automatic Issue Renew for Policy #" + policyNumber);
 
-        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.subtractDays(BillingHelper.DAYS_RENEW_STRATEGY));
+        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(BillingHelper.DAYS_RENEW_STRATEGY));
 
         adminApp().reopen();
         NavigationPage.toViewLeftMenu(AdminAppLeftMenu.GENERAL_SCHEDULER.get());
@@ -64,7 +65,7 @@ public class TestPolicyRenewAutomaticIssue extends PersonalUmbrellaBaseTest {
         PolicySummaryPage.buttonRenewals.click();
         new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.DATA_GATHERING).verify(1);
 
-        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.subtractDays(BillingHelper.DAYS_RENEW_STRATEGY - 1));
+        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(BillingHelper.DAYS_RENEW_STRATEGY - 1));
 
         adminApp().reopen();
         NavigationPage.toViewLeftMenu(AdminAppLeftMenu.GENERAL_SCHEDULER.get());
@@ -75,7 +76,7 @@ public class TestPolicyRenewAutomaticIssue extends PersonalUmbrellaBaseTest {
         PolicySummaryPage.buttonRenewals.click();
         new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 
-        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.subtractDays(BillingHelper.DAYS_RENEW_STRATEGY - 2));
+        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(BillingHelper.DAYS_RENEW_STRATEGY - 2));
 
         adminApp().reopen();
         NavigationPage.toViewLeftMenu(AdminAppLeftMenu.GENERAL_SCHEDULER.get());

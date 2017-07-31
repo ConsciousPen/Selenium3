@@ -64,8 +64,8 @@ public class TestPolicySpin extends AutoSSBaseTest {
 
 		//2. open activities section, check spin has been executed, store spun quote number 
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		String description = NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(1).getCell("Description").getValue();
-		CustomAssert.assertTrue("Checking spin action in activities", description.contains("has been spun to a new quote"));
+		String description = NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "has been spun to a new quote").getCell("Description").getValue();
+		CustomAssert.assertTrue("Spin action is missing in Activities and User Notes", description.contains("has been spun to a new quote"));
 		String quoteNumber = description.substring(description.indexOf("Q" + getState() + "SS"));
 
 		//A. Steps for checking pended endorsement for current policy

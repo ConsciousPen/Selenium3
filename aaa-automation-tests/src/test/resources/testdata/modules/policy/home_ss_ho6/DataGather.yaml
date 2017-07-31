@@ -1,17 +1,16 @@
 TestData: {
-  #TODO Update data, but use links to default where possible
   GeneralTab: '@GeneralTab',
-  ApplicantTab: '@home_ss@DataGather@ApplicantTab',
-  ReportsTab: '@home_ss@DataGather@ReportsTab',
-  PropertyInfoTab: '@home_ss@DataGather@PropertyInfoTab',
-  ProductOfferingTab: '@home_ss@DataGather@ProductOfferingTab',
-  EndorsementTab: '@home_ss@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@home_ss@DataGather@PremiumsAndCoveragesQuoteTab',
-  MortgageesTab: '@home_ss@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@home_ss@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@home_ss@DataGather@DocumentsTab',
-  BindTab: '@home_ss@DataGather@BindTab',
-  PurchaseTab: '@home_ss@DataGather@PurchaseTab'
+  ApplicantTab: '@home_ss_ho3@DataGather@ApplicantTab',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab',
+  PropertyInfoTab: '@home_ss_ho3@DataGather@PropertyInfoTab',
+  #ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@home_ss_ho3@DataGather@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@home_ss_ho3@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab'
 }
 
 GeneralTab: {

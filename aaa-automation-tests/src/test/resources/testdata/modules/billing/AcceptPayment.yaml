@@ -39,6 +39,6 @@ PaymentMethods_Visa: {
 
 PaymentMethods_EFT: {
   Payment Method: 'Checking/Savings (ACH)',
-  'Transit #': "/011104209",
-  'Account #': 1234567890
+  'Transit #': '011104209',
+  'Account #': '1234567890'
 }

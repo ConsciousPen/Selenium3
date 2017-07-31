@@ -3,7 +3,6 @@
 package aaa.modules.policy;
 
 import org.testng.Assert;
-import aaa.common.Constants;
 import aaa.helpers.EntitiesHolder;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.cea.CeaPolicy;
@@ -12,10 +11,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.TestData;
 
 public class CaliforniaEarthquakeBaseTest extends PolicyBaseTest {
-
-	public CaliforniaEarthquakeBaseTest() {
-		setState(Constants.States.CA.get());
-	}
 
 	@Override
 	protected PolicyType getPolicyType() {

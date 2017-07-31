@@ -39,7 +39,7 @@ public class DriverTab extends Tab {
 	}
 
 	public AssetList getActivityInformationAssetList() {
-		return getAssetList().getControl(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), AssetList.class);
+		return getAssetList().getAsset(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), AssetList.class);
 	}
    
 	@Override

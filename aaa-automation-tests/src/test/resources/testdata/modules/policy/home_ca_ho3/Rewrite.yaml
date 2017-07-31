@@ -1,14 +1,14 @@
 TestDataSameDate: {
   RewriteActionTab: {
     Effective Date:  /today,
-    Rewrite reason: /index=1
+    Rewrite reason: index=1
   }
 }
 
 TestDataFutureDate: {
   RewriteActionTab: {
     Effective Date:  /today+3d,
-    Rewrite reason: /index=1
+    Rewrite reason: index=1
   }
 }
 

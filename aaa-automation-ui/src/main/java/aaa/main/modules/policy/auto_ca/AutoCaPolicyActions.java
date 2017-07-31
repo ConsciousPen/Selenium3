@@ -62,7 +62,7 @@ public final class AutoCaPolicyActions {
     }
 
     public static class Renew extends PolicyActions.Renew {
-	    //private TextBox textBoxRenewalDate = getView().getTab(RenewActionTab.class).getAssetList().getControl(HomeCaMetaData.RenewActionTab.RENEWAL_DATE.getLabel(), TextBox.class);
+	    //private TextBox textBoxRenewalDate = getView().getTab(RenewActionTab.class).getAssetList().getAsset(HomeCaMetaData.RenewActionTab.RENEWAL_DATE.getLabel(), TextBox.class);
 
         @Override
         public Workspace getView() {

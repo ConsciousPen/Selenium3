@@ -41,6 +41,6 @@ public class DriverTab extends Tab {
 	}
 	
 	public AssetList getActivityInformationAssetList() {
-    	return getAssetList().getControl(AutoCaMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(AutoCaMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), AssetList.class);
 	}
 }

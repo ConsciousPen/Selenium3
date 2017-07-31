@@ -14,14 +14,12 @@ import aaa.main.modules.billing.paymentsmaintenance.actiontabs.AddBulkPaymentAct
 import aaa.main.modules.billing.paymentsmaintenance.actiontabs.AddPaymentBatchActionTab;
 import aaa.main.modules.billing.paymentsmaintenance.actiontabs.AddSuspenseActionTab;
 import aaa.main.modules.billing.paymentsmaintenance.actiontabs.ClearSuspenseActionTab;
-import aaa.main.modules.billing.paymentsmaintenance.actiontabs.SearchSuspenseActionTab;
 import aaa.main.modules.billing.paymentsmaintenance.views.AddBulkPaymentView;
 import aaa.main.modules.billing.paymentsmaintenance.views.AddPaymentBatchView;
 import aaa.main.modules.billing.paymentsmaintenance.views.AddSuspenseView;
 import aaa.main.modules.billing.paymentsmaintenance.views.ClearSuspenseView;
-import aaa.main.modules.billing.paymentsmaintenance.views.ClearSuspenseViewGB;
-import aaa.main.pages.summary.BillingSummaryGBPage;
 import aaa.main.pages.summary.BillingSummaryPage;
+import aaa.main.pages.summary.billing.PaymentsAndBillingMaintenancePage;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
@@ -47,7 +45,7 @@ public final class PaymentsMaintenanceActions {
 	        @Override
 	        public AbstractAction start() {
 	            BillingSummaryPage.buttonPaymentsBillingMaintenance.click();
-	            BillingSummaryPage.buttonAddBulkPayment.click();
+	            PaymentsAndBillingMaintenancePage.buttonAddBulkPayment.click();
 	            return this;
 	        }
 
@@ -96,7 +94,7 @@ public final class PaymentsMaintenanceActions {
 	        @Override
 	        public AbstractAction start() {
 	            BillingSummaryPage.buttonPaymentsBillingMaintenance.click();
-	            BillingSummaryPage.buttonAddSuspense.click();
+	            PaymentsAndBillingMaintenancePage.buttonAddSuspense.click();
 	            return this;
 	        }
 
@@ -170,8 +168,8 @@ public final class PaymentsMaintenanceActions {
 
 	        @Override
 	        public AbstractAction start() {
-	            BillingSummaryGBPage.buttonPaymentsBillingMaintenance.click();
-	            BillingSummaryGBPage.buttonAddPaymentBatch.click();
+	            BillingSummaryPage.buttonPaymentsBillingMaintenance.click();
+	            PaymentsAndBillingMaintenancePage.buttonAddPaymentBatch.click();
 	            return this;
 	        }
 
@@ -248,7 +246,7 @@ public final class PaymentsMaintenanceActions {
 
 	        @Override
 	        public AbstractAction start() {
-	            BillingSummaryPage.buttonClearSuspense.click();
+	        	PaymentsAndBillingMaintenancePage.buttonClearSuspense.click();
 	            return this;
 	        }
 
@@ -268,66 +266,6 @@ public final class PaymentsMaintenanceActions {
 	            start();
 	            getView().fill(td);
 	            return submit();
-	        }
-
-	        @Override
-	        public AbstractAction perform(TestData td) {
-	            throw new UnsupportedOperationException("perform(TestData td) method with testData is not supported for this action. Use perform(int rowNumber) instead.");
-	        }
-	    }
-
-	    public static class ClearSuspenseGB extends AbstractAction {
-	        @Override
-	        public String getName() {
-	            return "Clear Suspense";
-	        }
-
-	        @Override
-	        public Workspace getView() {
-	            return new ClearSuspenseViewGB();
-	        }
-
-	        @Override
-	        public AbstractAction start() {
-	            BillingSummaryPage.buttonClearSuspense.click();
-	            return this;
-	        }
-
-	        @Override
-	        public AbstractAction submit() {
-	            SearchSuspenseActionTab.buttonOk.click();
-	            return this;
-	        }
-
-	        public void perform(TestData td, String suspenseReference, List<String> paymentAmount, String billingAccountNumber) {
-	            td.adjust(
-	                    TestData.makeKeyPath(PaymentsMaintenanceMetaData.SearchSuspenseActionTab.class.getSimpleName(), PaymentsMaintenanceMetaData.SearchSuspenseActionTab.SUSPENSE_REFERENCE.getLabel()),
-	                    suspenseReference)
-	                    .adjust(TestData.makeKeyPath(PaymentsMaintenanceMetaData.SearchSuspenseActionTab.class.getSimpleName(),
-	                            PaymentsMaintenanceMetaData.SearchSuspenseActionTab.BILLING_ACCOUNT.getLabel()), billingAccountNumber);
-
-	            start();
-	            getView().fill(td);
-
-	            Table tableAssociatedAmount = new Table(By.xpath("//div[@id='suspenseForm:accountAssociationResults']/div/table"));
-	            if (tableAssociatedAmount.isPresent()) {
-	                int i = 0;
-	                for (String value : paymentAmount) {
-	                    new TextBox(By.id(String.format("suspenseForm:accountAssociationResults:%d:amountInput", i))).setValue(value);
-	                    i++;
-	                }
-	                submit();
-	            }
-	        }
-
-	        public void perform(TestData td, String suspenseReference, String billingAccountNumber) {
-	            td.adjust(
-	                    TestData.makeKeyPath(PaymentsMaintenanceMetaData.SearchSuspenseActionTab.class.getSimpleName(), PaymentsMaintenanceMetaData.SearchSuspenseActionTab.SUSPENSE_REFERENCE.getLabel()),
-	                    suspenseReference)
-	                    .adjust(TestData.makeKeyPath(PaymentsMaintenanceMetaData.SearchSuspenseActionTab.class.getSimpleName(),
-	                            PaymentsMaintenanceMetaData.SearchSuspenseActionTab.BILLING_ACCOUNT.getLabel()), billingAccountNumber);
-	            start();
-	            getView().fill(td);
 	        }
 
 	        @Override
