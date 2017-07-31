@@ -13,12 +13,14 @@ import aaa.main.enums.ActionConstants;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.MyWorkConstants;
 import aaa.main.metadata.BillingAccountMetaData;
+import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.AdvancedAllocationsActionTab;
 import aaa.main.modules.billing.account.actiontabs.OtherTransactionsActionTab;
 import aaa.main.modules.billing.account.actiontabs.RefundActionTab;
 import aaa.main.modules.mywork.MyWork;
+import aaa.main.modules.policy.home_ca.actiontabs.DeclineActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.MyWorkSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -28,6 +30,8 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
 
     OtherTransactionsActionTab otherTransactionsActionTab = new OtherTransactionsActionTab();
+    AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
+    DeclineActionTab declineActionTab = new DeclineActionTab();
 
     /**
      * @author Jurij Kuznecov
@@ -277,10 +281,10 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
 
         // 11. Check that System defaults 'Total Amount' with the value entered by user in 'Amount' field on 'Other Transactions' tab
         OtherTransactionsActionTab.linkAdvancedAllocation.click();
-        advancedAllocationsActionTab.getAssetList().getControl(BillingAccountMetaData.AdvancedAllocationsActionTab.TOTAL_AMOUNT.getLabel()).verify.present(writeoffAmount.toString());
+        advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.TOTAL_AMOUNT.getLabel()).verify.present(writeoffAmount.toString());
 
         // 12. Check that System defaults 'Product Sub total' with the value entered by user in 'Amount' field on 'Other Transactions' tab
-        advancedAllocationsActionTab.getAssetList().getControl(BillingAccountMetaData.AdvancedAllocationsActionTab.PRODUCT_SUB_TOTAL.getLabel()).verify.present(writeoffAmount.toString());
+        advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.PRODUCT_SUB_TOTAL.getLabel()).verify.present(writeoffAmount.toString());
         advancedAllocationsActionTab.submitTab();
 
         // 13. Check positive adjustment transaction appears in "Payments and other transactions" section on billing tab
@@ -310,4 +314,172 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
         // 19. Check Minimum Due Amount doesn't change
         BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingConstants.BillingGeneralInformationTable.MINIMUM_DUE).verify.contains(initialMinimumDue.toString());
     }
+
+    /**
+     * @author Jurij Kuznecov
+     * @name Test CAH Policy Manual Returned Payments
+     * @scenario
+     * 1.  Create a policy
+     * 2.  Add 4 payment methods(Cash, Check, Credit Card, EFT)
+     * 3.  Make 5 different payments(Cash, Check, Credit Card, EFT)
+     * 4.  Decline Credit Card payment, with reason "NSF fee - with restriction"
+     * 5.  Check Payment Decline Transaction appears in Payment and Other Transaction section
+     * 6.  Check Fee Transaction appears in Payment and Other Transaction section
+     * 7.  Check status of the payment transaction changes to "Decline"
+     * 8.  Check Total Due is increased
+     * 9.  Decline EFT payment, with reason "NSF fee - without restriction"
+     * 10. Check Payment Decline Transaction appears in Payment and Other Transaction section
+     * 11. Check Fee Transaction appears in Payment and Other Transaction section
+     * 12. Check status of the payment transaction changes to "Decline"
+     * 13. Check Total Due is increased
+     * 14. Decline Check payment, with reason "No Fee + No Restriction"
+     * 15. Check Payment Decline Transaction appears in Payment and Other Transaction section
+     * 16. Check status of the payment transaction changes to "Decline"
+     * 17. Check Total Due is increased
+     * 18. Decline Check payment, with reason "No Fee + No Restriction + No Letter"
+     * 19. Check Payment Decline Transaction appears in Payment and Other Transaction section
+     * 20. Check status of the payment transaction changes to "Decline"
+     * 21. Check Total Due is increased
+     * 22. Decline Cash payment.
+     * 23. Check Payment Decline Transaction appears in Payment and Other Transaction section.
+     * 24. Check status of the payment transaction changes to "Decline"
+     * 25. Check Total Due is increased.
+     * 26. Make a payment = Deposit amount + 2 * Fee Amount 
+     *     (We add Fee Amount to compensate Fees due that was generated before)
+     * 27. Decline Deposit payment.
+     * 28. Check original installments dues stays the same(As it was on step 25)
+     * 29. Check that Prepaid is decreased.
+     */
+    Dollar expectedTotalDue;
+    Dollar feeAmountTotal = new Dollar(0);
+
+    @Test
+    @TestInfo(component = "Policy.HomeCA")
+    public void testManualReturnedPayments() {
+
+        mainApp().open();
+        getCopiedPolicy();
+
+        NavigationPage.toMainTab(AppMainTabs.BILLING.get());
+        Dollar initialTotalDue = new Dollar(BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingConstants.BillingGeneralInformationTable.TOTAL_DUE).getValue());
+        expectedTotalDue = new Dollar(0);
+        expectedTotalDue.add(initialTotalDue);
+
+        // 2.  Add 4 payment methods(Cash, Check, Credit Card, EFT)
+        BillingSummaryPage.linkAcceptPayment.click();
+        acceptPaymentActionTab.fillTab(tdSpecific.getTestData("TestData_AddPaymentMethods"));
+        OtherTransactionsActionTab.buttonCancel.click();
+
+        // 3.  Make 5 different payments(Cash, Check, Credit Card, EFT)
+        Dollar checkAmount1 = payment("Payment_Check");
+        expectedTotalDue = expectedTotalDue.add(checkAmount1);
+
+        Dollar cardAmount = payment("Payment_CreditCard");
+        expectedTotalDue = expectedTotalDue.add(cardAmount);
+
+        Dollar eftAmount = payment("Payment_EFT");
+        expectedTotalDue = expectedTotalDue.add(eftAmount);
+
+        Dollar checkAmount2 = payment("Payment_Check");
+        expectedTotalDue = expectedTotalDue.add(checkAmount2);
+
+        Dollar cashAmount = payment("Payment_Cash");
+        expectedTotalDue = expectedTotalDue.add(cashAmount);
+
+        // 4.  Decline Credit Card payment, with reason "NSF fee - with restriction" and verify
+        declinePaymentAndVerify(cardAmount, BillingConstants.PaymentsAndOtherTransactionReason.FEE_PLUS_RESTRICTION);
+
+        // 9.  Decline EFT payment, with reason "NSF fee - without restriction"
+        declinePaymentAndVerify(eftAmount, BillingConstants.PaymentsAndOtherTransactionReason.FEE_PLUS_RESTRICTION);
+
+        // 14. Decline Check payment, with reason "No Fee + No Restriction"
+        declinePaymentAndVerify(checkAmount1, BillingConstants.PaymentsAndOtherTransactionReason.NO_FEE_NO_RESTRICTION);
+
+        // 18. Decline Check payment, with reason "No Fee + No Restriction + No Letter"
+        declinePaymentAndVerify(checkAmount2, BillingConstants.PaymentsAndOtherTransactionReason.NO_FEE_NO_RESTRICTION_NO_LETTER);
+
+        // 22. Decline Cash payment
+        declinePaymentAndVerify(cashAmount, "");
+
+        // 26. Make a payment = Deposit amount + 2 * Fee Amount 
+        //    (We add Fee Amount to compensate Fees due that was generated before)
+        Dollar depositPayment =
+                new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions
+                        .getRowContains(Table.buildQuery(String.format("%s->%s|%s->%s", BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE,
+                                BillingConstants.PaymentsAndOtherTransactionType.PAYMENT, BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
+                                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.DEPOSIT_PAYMENT))).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue())
+                        .negate();
+        BillingSummaryPage.linkAcceptPayment.click();
+        acceptPaymentActionTab.fillTab((tdSpecific.getTestData("Payment_Cash")).adjust(
+                TestData.makeKeyPath(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName(), BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()),
+                depositPayment.add(feeAmountTotal).toString()).resolveLinks());
+        acceptPaymentActionTab.submitTab();
+
+        // 27. Decline Deposit payment
+        BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(
+                Table.buildQuery(String.format("%s->%s|%s->%s|%s->%s", BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE,
+                        BillingConstants.PaymentsAndOtherTransactionType.PAYMENT, BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION,
+                        BillingConstants.PaymentsAndOtherTransactionAction.DECLINE, BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT, depositPayment.add(feeAmountTotal).negate()
+                                .toString())))
+                .getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(BillingConstants.PaymentsAndOtherTransactionAction.DECLINE).click();
+
+        // 28. Check original installments dues stays the same(As it was on step 26)
+        BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingConstants.BillingGeneralInformationTable.TOTAL_DUE).verify.contains(expectedTotalDue.negate().toString());
+
+        // 29. Check that Prepaid is decreased.
+        BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PREPAID).verify.contains(new Dollar(0).toString());
+    }
+
+    /*
+     * Execute payment and return payed value
+     */
+
+    private Dollar payment(String paymentMethod) {
+        BillingSummaryPage.linkAcceptPayment.click();
+        acceptPaymentActionTab.fillTab((tdSpecific.getTestData(paymentMethod)));
+        acceptPaymentActionTab.submitTab();
+        return new Dollar(tdSpecific.getTestData(paymentMethod).getTestData(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName())
+                .getValue(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()));
+    }
+
+    private void declinePaymentAndVerify(Dollar amount, String reason) {
+        Dollar feeAmount = new Dollar(0);
+
+        BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(
+                Table.buildQuery(String.format("%s->%s|%s->%s|%s->%s", BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE,
+                        BillingConstants.PaymentsAndOtherTransactionType.PAYMENT, BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION,
+                        BillingConstants.PaymentsAndOtherTransactionAction.DECLINE, BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT, amount.negate().toString())))
+                .getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(BillingConstants.PaymentsAndOtherTransactionAction.DECLINE).click();
+
+        if (!reason.isEmpty()) {
+            declineActionTab.fillTab(new SimpleDataProvider().adjust(HomeCaMetaData.DeclineActionTab.class.getSimpleName(),
+                    new SimpleDataProvider().adjust(HomeCaMetaData.DeclineActionTab.DECLINE_REASON.getLabel(), reason)));
+            declineActionTab.submitTab();
+
+            if (reason.equals(BillingConstants.PaymentsAndOtherTransactionReason.FEE_PLUS_RESTRICTION)) {
+                BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE).verify
+                        .contains(BillingConstants.PaymentsAndOtherTransactionType.FEE);
+
+                Dollar fee = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
+                feeAmount = feeAmount.add(fee);
+                feeAmountTotal = feeAmountTotal.add(fee);
+            }
+        }
+
+        BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(Table.buildQuery(String.format("%s->%s|%s->%s|%s->%s|%s->%s",
+                BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT,
+                BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PAYMENT_DECLINED,
+                BillingConstants.BillingPaymentsAndOtherTransactionsTable.REASON, reason,
+                BillingConstants.BillingPendingTransactionsTable.AMOUNT, amount.toString()))).verify.present();
+
+        BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(Table.buildQuery(String.format("%s->%s|%s->%s|%s->%s|%s->%s",
+                BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.PAYMENT,
+                BillingConstants.BillingPaymentsAndOtherTransactionsTable.REASON, reason,
+                BillingConstants.BillingPendingTransactionsTable.AMOUNT, amount.negate().toString(),
+                BillingConstants.BillingPendingTransactionsTable.STATUS, BillingConstants.PaymentsAndOtherTransactionStatus.DECLINED))).verify.present();
+
+        expectedTotalDue = expectedTotalDue.subtract(amount.add(feeAmount));
+        BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingConstants.BillingGeneralInformationTable.TOTAL_DUE).verify.contains(expectedTotalDue.negate().toString());
+    }
+
 }

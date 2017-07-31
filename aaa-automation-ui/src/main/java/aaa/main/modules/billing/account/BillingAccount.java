@@ -14,7 +14,6 @@ import aaa.main.modules.billing.account.BillingAccountActions.Refund;
 import aaa.main.modules.billing.account.BillingAccountActions.RegenerateBill;
 import aaa.main.modules.billing.account.BillingAccountActions.RemoveHold;
 import aaa.main.modules.billing.account.BillingAccountActions.TransferPayment;
-import aaa.main.modules.billing.account.BillingAccountActions.TransferPaymentBenefits;
 import aaa.main.modules.billing.account.BillingAccountActions.UnallocatePayment;
 import aaa.main.modules.billing.account.BillingAccountActions.Update;
 import aaa.main.modules.billing.account.BillingAccountActions.ViewModalPremium;
@@ -53,11 +52,6 @@ public class BillingAccount implements IBillingAccount {
     @Override
     public TransferPayment transferPayment() {
         return new BillingAccountActions.TransferPayment();
-    }
-
-    @Override
-    public TransferPaymentBenefits transferPaymentBenefits() {
-        return new BillingAccountActions.TransferPaymentBenefits();
     }
 
     @Override

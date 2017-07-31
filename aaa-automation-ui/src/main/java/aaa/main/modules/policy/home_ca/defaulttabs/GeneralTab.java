@@ -32,9 +32,9 @@ public class GeneralTab extends Tab {
     }
     
     public AssetList getPolicyInfoAssetList() {
-    	return getAssetList().getControl(HomeCaMetaData.GeneralTab.POLICY_INFO.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeCaMetaData.GeneralTab.POLICY_INFO.getLabel(), AssetList.class);
 	}
     public AssetList getCurrentCarrierAssetList() {
-    	return getAssetList().getControl(HomeCaMetaData.GeneralTab.CURRENT_CARRIER.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(HomeCaMetaData.GeneralTab.CURRENT_CARRIER.getLabel(), AssetList.class);
 	}
 }

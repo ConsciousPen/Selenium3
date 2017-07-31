@@ -16,8 +16,6 @@ public interface IBillingAccount {
 
     BillingAccountActions.TransferPayment transferPayment();
 
-    BillingAccountActions.TransferPaymentBenefits transferPaymentBenefits();
-
     BillingAccountActions.OtherTransactions otherTransactions();
 
     BillingAccountActions.DiscardBill discardBill();

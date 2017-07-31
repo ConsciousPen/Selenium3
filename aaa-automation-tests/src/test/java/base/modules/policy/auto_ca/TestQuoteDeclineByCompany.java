@@ -15,7 +15,7 @@ import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.utils.TestInfo;
-import toolkit.utils.datetime.DateTime;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 
 /**
@@ -53,7 +53,7 @@ public class TestQuoteDeclineByCompany extends AutoCaSelectBaseTest {
 
         NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.description(1, String.format(
                 "Company Decline Quote %s effective %s (%s)", policyNumber,
-                TimeSetterUtil.getInstance().getCurrentTime().toString(DateTime.MM_DD_YYYY),
+                TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY),
                 tdPolicy.getTestData("DeclineByCompany", "TestData").getValue(
                         AutoCaMetaData.DeclineActionTab.class.getSimpleName(),
                         AutoCaMetaData.DeclineActionTab.DECLINE_REASON.getLabel())));
@@ -109,7 +109,7 @@ public class TestQuoteDeclineByCompany extends AutoCaSelectBaseTest {
 
         NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.description(1, String.format(
                 "Company Decline Quote %s effective %s", policyNumber,
-                TimeSetterUtil.getInstance().getCurrentTime().toString(DateTime.MM_DD_YYYY)));
+                TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY)));
         NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.status(1, "Canceled");
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.DATA_GATHERING);

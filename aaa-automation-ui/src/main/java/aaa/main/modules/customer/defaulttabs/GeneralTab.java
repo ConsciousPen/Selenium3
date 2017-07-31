@@ -47,9 +47,9 @@ public class GeneralTab extends DefaultTab {
             if (testData.containsKey(CustomerMetaData.GeneralTab.ADDITIONAL_NAME_DETAILS_IND_SECTION.getLabel())) {
                 for (TestData tdAdditionalName : testData.getTestDataList(CustomerMetaData.GeneralTab.ADDITIONAL_NAME_DETAILS_IND_SECTION.getLabel())) {
                     buttonAddAdditionalName.click();
-                    assetList.getControl(CustomerMetaData.GeneralTab.ADDITIONAL_NAME_DETAILS_IND_SECTION.getLabel(), AssetList.class).setValue(tdAdditionalName);
-                    assetList.getControl(CustomerMetaData.GeneralTab.ADDITIONAL_NAME_DETAILS_IND_SECTION.getLabel(), AssetList.class)
-                            .getControl(BUTTON_ADD_ALL.getLabel(), Button.class).click();
+                    assetList.getAsset(CustomerMetaData.GeneralTab.ADDITIONAL_NAME_DETAILS_IND_SECTION.getLabel(), AssetList.class).setValue(tdAdditionalName);
+                    assetList.getAsset(CustomerMetaData.GeneralTab.ADDITIONAL_NAME_DETAILS_IND_SECTION.getLabel(), AssetList.class)
+                            .getAsset(BUTTON_ADD_ALL.getLabel(), Button.class).click();
                 }
                 testData.mask(CustomerMetaData.GeneralTab.ADDITIONAL_NAME_DETAILS_IND_SECTION.getLabel());
             }

@@ -4,8 +4,10 @@ package aaa.rest.platform;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -15,8 +17,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
-
-import toolkit.utils.datetime.DateTime;
 
 /**
  * Class for XML dataset processing
@@ -60,7 +60,7 @@ public class BaseDataSetLoader {
             throw new IllegalArgumentException("Dataset " + resourceName
                     + " not found in test classpath!");
         }
-        String xmlString = IOUtils.toString(input);
+        String xmlString = IOUtils.toString(input, Charset.defaultCharset());
         return xmlString;
     }
 
@@ -95,7 +95,7 @@ public class BaseDataSetLoader {
                 String number = dateHolder.replaceAll("[^-,0-9]", "");
                 int days = number.isEmpty() ? 0 : Integer.parseInt(number);
                 String date = XML_DATE_FORMAT
-                        .format(new DateTime().addDays(days + offset).convertToJavaDate());
+                        .format(LocalDateTime.now().plusDays(days + offset));
                 xmlString = xmlString.replace(dateHolder, date);
             }
         }

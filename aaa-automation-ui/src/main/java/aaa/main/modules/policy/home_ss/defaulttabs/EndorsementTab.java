@@ -36,7 +36,7 @@ public class EndorsementTab extends PropertyEndorsementsTab {
 
 	@Override
     public Tab submitTab() {
-        addEndorsement.click();
+    	buttonNext.click();
         return this;
     }
 }

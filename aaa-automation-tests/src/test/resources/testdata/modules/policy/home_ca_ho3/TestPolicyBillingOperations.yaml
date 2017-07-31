@@ -28,3 +28,50 @@ TestData_WriteOff: {
     Amount: -100
   }
 }
+
+TestData_AddPaymentMethods: {
+  AcceptPaymentActionTab: {
+    PaymentMethods: ['@Add_CreditCard','@Add_EFT']
+  }
+}
+
+Add_CreditCard: {
+  Payment Method: Credit/Debit Card,
+  Type: 'Visa',
+  Number: '4111111111111111'
+}
+
+Add_EFT: {
+  Payment Method: 'Checking/Savings (ACH)',
+  "Transit #": '011104209',
+  "Account #": '1234567890'
+}
+
+Payment_Cash: {
+  AcceptPaymentActionTab: {
+    Payment Method: 'Cash',
+    Amount: 50,
+  }
+}
+
+Payment_Check: {
+  AcceptPaymentActionTab: {
+    Payment Method: 'Check',
+    Check Number: /######7890,
+    Amount: 60,
+  }
+}
+
+Payment_CreditCard: {
+  AcceptPaymentActionTab: {
+    Payment Method: 'contains=Visa',
+    Amount: 70
+  }
+}
+
+Payment_EFT: {
+  AcceptPaymentActionTab: {
+    Payment Method: 'contains=Checking',
+    Amount: 80
+  }
+}

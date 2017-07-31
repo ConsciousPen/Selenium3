@@ -42,11 +42,11 @@ public class VehicleTab extends Tab {
 	}
 
 	public AssetList getOwnershipAssetList() {
-		return getAssetList().getControl(AutoSSMetaData.VehicleTab.OWNERSHIP.getLabel(), AssetList.class);
+		return getAssetList().getAsset(AutoSSMetaData.VehicleTab.OWNERSHIP.getLabel(), AssetList.class);
 	}
 
 	public AssetList getAdditionalInterestInfoAssetList() {
-		return getAssetList().getControl(AutoSSMetaData.VehicleTab.ADDITIONAL_INTEREST_INFORMATION.getLabel(), AssetList.class);
+		return getAssetList().getAsset(AutoSSMetaData.VehicleTab.ADDITIONAL_INTEREST_INFORMATION.getLabel(), AssetList.class);
 	}
 
 	@Override

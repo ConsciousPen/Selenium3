@@ -19,7 +19,7 @@ public class DocumentsTab extends Tab {
 	public DocumentsTab() {
 		super(PersonalUmbrellaMetaData.DocumentsTab.class);
 		for (String list : assetList.getAssetNames()) {
-			assetList.getControl(list, AssetList.class).config.applyConfiguration("UnderwritingTab");
+			assetList.getAsset(list, AssetList.class).config.applyConfiguration("UnderwritingTab");
 		}
 	}
 
@@ -30,12 +30,12 @@ public class DocumentsTab extends Tab {
 	}
 	
 	public AssetList getDocumentsForPrintingAssetList() {
-    	return getAssetList().getControl(PersonalUmbrellaMetaData.DocumentsTab.DOCUMENTS_FOR_PRINTING.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(PersonalUmbrellaMetaData.DocumentsTab.DOCUMENTS_FOR_PRINTING.getLabel(), AssetList.class);
 	}
 	public AssetList getRequiredToBindAssetList() {
-    	return getAssetList().getControl(PersonalUmbrellaMetaData.DocumentsTab.REQUIRED_TO_BIND.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(PersonalUmbrellaMetaData.DocumentsTab.REQUIRED_TO_BIND.getLabel(), AssetList.class);
 	}
 	public AssetList getRequiredToIssueAssetList() {
-    	return getAssetList().getControl(PersonalUmbrellaMetaData.DocumentsTab.REQUIRED_TO_ISSUE.getLabel(), AssetList.class);
+    	return getAssetList().getAsset(PersonalUmbrellaMetaData.DocumentsTab.REQUIRED_TO_ISSUE.getLabel(), AssetList.class);
 	}
 }

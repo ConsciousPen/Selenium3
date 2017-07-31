@@ -52,7 +52,7 @@ public class RelationshipTab extends DefaultTab {
 						buttonAddRelationship.click();
 					}
 
-					super.getAssetList().getControl(keyType, RadioGroup.class).setValue(testData.getValue(keyType));
+					super.getAssetList().getAsset(keyType, RadioGroup.class).setValue(testData.getValue(keyType));
 					if (Page.dialogConfirmation.isPresent()) {
 						Page.dialogConfirmation.confirm();
 					}
