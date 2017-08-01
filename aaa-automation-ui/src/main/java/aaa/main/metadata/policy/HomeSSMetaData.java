@@ -11,6 +11,7 @@ import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.FillableTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.PersonalPropertyMultiAssetList;
+import aaa.toolkit.webdriver.customcontrols.ProductOfferingVariationControl;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
@@ -695,7 +696,8 @@ public final class HomeSSMetaData {
 	}
 
 	public static final class ProductOfferingTab extends MetaData {
-		public static final AssetDescriptor<TextBox> SEQUENCE = declare("Sequence #", TextBox.class);
+		//TODO-dchubkov: didn't find such controls, should we remove them?
+		/*public static final AssetDescriptor<TextBox> SEQUENCE = declare("Sequence #", TextBox.class);
 		public static final AssetDescriptor<ComboBox> INCIDENT_SOURCE = declare("Incident Source", ComboBox.class);
 		public static final AssetDescriptor<RadioGroup> INCLUDE_IN_RATING = declare("Include in Rating", RadioGroup.class);
 		public static final AssetDescriptor<ComboBox> REASON = declare("Reason", ComboBox.class);
@@ -704,7 +706,10 @@ public final class HomeSSMetaData {
 		public static final AssetDescriptor<ComboBox> CLAIM_TYPE = declare("Claim Type", ComboBox.class);
 		public static final AssetDescriptor<TextBox> DATE_OF_LOSS = declare("Date of Loss", TextBox.class);
 		public static final AssetDescriptor<TextBox> CLAIM_AMOUNT = declare("Claim Amount", TextBox.class);
-		public static final AssetDescriptor<TextBox> DESCRIPTION_OF_LOSS = declare("Description of Loss", TextBox.class);
+		public static final AssetDescriptor<TextBox> DESCRIPTION_OF_LOSS = declare("Description of Loss", TextBox.class);*/
+		public static final AssetDescriptor<ProductOfferingVariationControl> HERITAGE = declare("Heritage", ProductOfferingVariationControl.class);
+		public static final AssetDescriptor<ProductOfferingVariationControl> LEGACY = declare("Legacy", ProductOfferingVariationControl.class);
+		public static final AssetDescriptor<ProductOfferingVariationControl> PRESTIGE = declare("Prestige", ProductOfferingVariationControl.class);
 	}
 
 	public static final class EndorsementTab extends MetaData {
