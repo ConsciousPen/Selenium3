@@ -5,6 +5,7 @@ package aaa.modules.policy.auto_ss;
 import org.testng.annotations.Test;
 
 import aaa.main.modules.policy.PolicyType;
+import aaa.modules.policy.templates.PolicyOose;
 import toolkit.utils.TestInfo;
 
 
