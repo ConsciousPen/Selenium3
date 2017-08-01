@@ -1,19 +1,26 @@
 package aaa.modules.policy.home_ca_ho3;
 
 import java.util.HashMap;
-
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.composite.table.Table;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.main.enums.ActionConstants;
-import aaa.main.enums.BillingConstants;
-import aaa.main.enums.BillingConstants.*;
+import aaa.main.enums.BillingConstants.BillingAccountPoliciesTable;
+import aaa.main.enums.BillingConstants.BillingGeneralInformationTable;
+import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
+import aaa.main.enums.BillingConstants.BillingPendingTransactionsActions;
+import aaa.main.enums.BillingConstants.BillingPendingTransactionsTable;
+import aaa.main.enums.BillingConstants.BillingPendingTransactionsType;
+import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionAction;
+import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionReason;
+import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionStatus;
+import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
+import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
 import aaa.main.enums.MyWorkConstants;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.HomeCaMetaData;
@@ -62,8 +69,8 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
 
         NavigationPage.toMainTab(AppMainTabs.BILLING.get());
 
-        Dollar initialMinimumDue = new Dollar(BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.MINIMUM_DUE).getValue());
-        Dollar initialTotalDue = new Dollar(BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_DUE).getValue());
+        Dollar initialMinimumDue = BillingSummaryPage.getMinimumDue();
+        Dollar initialTotalDue = BillingSummaryPage.getTotalDue();
         Dollar feeAmount = new Dollar(tdSpecific.getTestData("TestData_Fee")
                 .getTestData(BillingAccountMetaData.OtherTransactionsActionTab.class.getSimpleName()).getValue(BillingAccountMetaData.OtherTransactionsActionTab.AMOUNT.getLabel()));
 
@@ -77,10 +84,10 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
                 .contains(PaymentsAndOtherTransactionType.FEE);
 
         // 5.  Check total amount due is increased on fee amount
-        BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_DUE).verify.contains(initialTotalDue.add(feeAmount).toString());
+        BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue.add(feeAmount));
 
         // 6.  Check minimum due doesn't change
-        BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.MINIMUM_DUE).verify.contains(initialMinimumDue.toString());
+        BillingSummaryPage.getMinimumDue().verify.equals(initialMinimumDue);
 
         // 7.  Waive the fee transaction
         BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(
@@ -92,18 +99,18 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
                 .contains(ActionConstants.BillingPaymentsAndOtherTransactionAction.WAIVE + "d");
 
         // 9.  Check waive link isn't present in the fee transaction row
-        CustomAssert.assertFalse(
-                "Waive link is presented in the fee transaction row: ",
-                BillingSummaryPage.tablePaymentsOtherTransactions.getRow(Table.buildQuery(String.format("%s->%s|%s->%s", BillingPaymentsAndOtherTransactionsTable.TYPE,
-                        PaymentsAndOtherTransactionType.FEE,
-                        BillingPaymentsAndOtherTransactionsTable.AMOUNT, feeAmount.toString()))).getCell(BillingPaymentsAndOtherTransactionsTable.ACTION).getValue()
+        HashMap<String, String> query = new HashMap<>();
+        query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.FEE);
+        query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, feeAmount.toString());
+        CustomAssert.assertFalse("Waive link is presented in the fee transaction row: ",
+                BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).getCell(BillingPaymentsAndOtherTransactionsTable.ACTION).getValue()
                         .equals(ActionConstants.BillingPaymentsAndOtherTransactionAction.WAIVE));
 
         // 10. Check total amount due is decreased by fee amount
-        BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_DUE).verify.contains(initialTotalDue.toString());
+        BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue);
 
         // 11. Check minimum due doesn't change
-        BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.MINIMUM_DUE).verify.contains(initialMinimumDue.toString());
+        BillingSummaryPage.getMinimumDue().verify.equals(initialMinimumDue);
     }
 
     /**
@@ -131,6 +138,7 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
         Dollar paymentAmount = new Dollar(tdSpecific.getTestData("TestData_Payment_1000").getTestData(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName())
                 .getValue(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()));
         String keyPathRefund = TestData.makeKeyPath(BillingAccountMetaData.RefundActionTab.class.getSimpleName(), BillingAccountMetaData.RefundActionTab.AMOUNT.getLabel());
+        HashMap<String, String> query;
 
         mainApp().open();
         getCopiedPolicy();
@@ -167,9 +175,10 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
         refundActionTab.submitTab();
 
         // 8. Check presence of the refund transaction in Pending transactions on billing tab
-        BillingSummaryPage.tablePendingTransactions.getRow(Table.buildQuery(String.format("%s->%s|%s->%s", BillingPendingTransactionsTable.TYPE,
-                BillingPendingTransactionsType.REFUND,
-                BillingPendingTransactionsTable.AMOUNT, paymentAmount.toString()))).verify.present();
+        query = new HashMap<>();
+        query.put(BillingPendingTransactionsTable.TYPE, BillingPendingTransactionsType.REFUND);
+        query.put(BillingPendingTransactionsTable.AMOUNT, paymentAmount.toString());
+        BillingSummaryPage.tablePendingTransactions.getRow(query).verify.present();
 
         // 9. Check that System creates an Approval task for the Refund transaction
         String referenceID = BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.ID).getValue();
@@ -180,15 +189,18 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
         MyWorkSummaryPage.tableTasks.getRow(1).getCell(MyWorkConstants.MyWorkTasksTable.REFERENCE_ID).controls.links.getFirst().click();
 
         // 10. Approve the refund transaction
-        BillingSummaryPage.tablePendingTransactions.getRowContains(Table.buildQuery(String.format("%s->%s|%s->%s", BillingPendingTransactionsTable.TYPE,
-                BillingPendingTransactionsType.REFUND, BillingPendingTransactionsTable.AMOUNT, paymentAmount.toString())))
-                .getCell(BillingPendingTransactionsTable.ACTION).controls.links.get(BillingPendingTransactionsActions.APPROVE).click();
+        query = new HashMap<>();
+        query.put(BillingPendingTransactionsTable.TYPE, BillingPendingTransactionsType.REFUND);
+        query.put(BillingPendingTransactionsTable.AMOUNT, paymentAmount.toString());
+        BillingSummaryPage.tablePendingTransactions.getRow(query).getCell(BillingPendingTransactionsTable.ACTION).controls.links.get(BillingPendingTransactionsActions.APPROVE).click();
         Page.dialogConfirmation.confirm();
 
         // 11. Check presence of the refund transaction in Payments & Other Transactions on billing tab
-        BillingSummaryPage.tablePaymentsOtherTransactions.getRow(Table.buildQuery(String.format("%s->%s|%s->%s|%s->%s", BillingPaymentsAndOtherTransactionsTable.TYPE,
-                PaymentsAndOtherTransactionType.REFUND, BillingPaymentsAndOtherTransactionsTable.AMOUNT, paymentAmount.toString(),
-                BillingPaymentsAndOtherTransactionsTable.STATUS, PaymentsAndOtherTransactionStatus.APPROVED))).verify.present();
+        query = new HashMap<>();
+        query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.REFUND);
+        query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, paymentAmount.toString());
+        query.put(BillingPaymentsAndOtherTransactionsTable.STATUS, PaymentsAndOtherTransactionStatus.APPROVED);
+        BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
 
         // 12. Check Total Paid Amount value after refunding
         BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_PAID).verify.contains(initiateTotalPaid.toString());
@@ -228,6 +240,7 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
                 .getValue(BillingAccountMetaData.OtherTransactionsActionTab.AMOUNT.getLabel()));
         String keyPathAmount = TestData.makeKeyPath(BillingAccountMetaData.OtherTransactionsActionTab.class.getSimpleName(), BillingAccountMetaData.OtherTransactionsActionTab.AMOUNT.getLabel());
         String allocationError = "Allocation amounts for %s do not match product subtotal";
+        HashMap<String, String> query;
 
         mainApp().open();
         getCopiedPolicy();
@@ -245,7 +258,7 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
         OtherTransactionsActionTab.btnContinue.click();
 
         // 4.  Check write-off transaction appears in "Payments and other transactions" section on billing tab
-        HashMap<String, String> query = new HashMap<String, String>();
+        query = new HashMap<>();
         query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.ADJUSTMENT);
         query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, writeoffAmount.toString());
         query.put(BillingPaymentsAndOtherTransactionsTable.STATUS, PaymentsAndOtherTransactionStatus.APPLIED);
@@ -258,9 +271,11 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
         otherTransactionsActionTab.submitTab();
 
         // 6.  Check reversal write-off transaction appears in "Payments and other transactions" section on billing tab
-        BillingSummaryPage.tablePaymentsOtherTransactions.getRow(Table.buildQuery(String.format("%s->%s|%s->%s|%s->%s", BillingPaymentsAndOtherTransactionsTable.TYPE,
-                PaymentsAndOtherTransactionType.ADJUSTMENT, BillingPaymentsAndOtherTransactionsTable.AMOUNT, writeoffAmount.toString(),
-                BillingPaymentsAndOtherTransactionsTable.STATUS, PaymentsAndOtherTransactionStatus.APPLIED))).verify.present();
+        query = new HashMap<>();
+        query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.ADJUSTMENT);
+        query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, writeoffAmount.toString());
+        query.put(BillingPaymentsAndOtherTransactionsTable.STATUS, PaymentsAndOtherTransactionStatus.APPLIED);
+        BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
 
         // 7.  Check Total Due value after write-off/reversal write-off
         BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue);
@@ -293,14 +308,16 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
         advancedAllocationsActionTab.submitTab();
 
         // 13. Check positive adjustment transaction appears in "Payments and other transactions" section on billing tab
-        BillingSummaryPage.tablePaymentsOtherTransactions.getRow(Table.buildQuery(String.format("%s->%s|%s->%s", BillingPaymentsAndOtherTransactionsTable.TYPE,
-                PaymentsAndOtherTransactionType.ADJUSTMENT, BillingPaymentsAndOtherTransactionsTable.AMOUNT, writeoffAmount.toString()))).verify.present();
+        query = new HashMap<>();
+        query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.ADJUSTMENT);
+        query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, writeoffAmount.toString());
+        BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
 
         //14. Check Total Due value is increased
-        BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_DUE).verify.contains(initialTotalDue.add(writeoffAmount).toString());
+        BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue.add(writeoffAmount));
 
         // 15. Check Minimum Due Amount doesn't change
-        BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.MINIMUM_DUE).verify.contains(initialMinimumDue.toString());
+        BillingSummaryPage.getMinimumDue().verify.equals(initialMinimumDue);
 
         // 16. Make a negative adjustment using advanced allocation dialog
         BillingSummaryPage.linkOtherTransactions.click();
@@ -310,14 +327,16 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
         advancedAllocationsActionTab.submitTab();
 
         // 17. Check negative adjustment transaction appears in "Payments and other transactions" section on billing tab
-        BillingSummaryPage.tablePaymentsOtherTransactions.getRow(Table.buildQuery(String.format("%s->%s|%s->%s", BillingPaymentsAndOtherTransactionsTable.TYPE,
-                PaymentsAndOtherTransactionType.ADJUSTMENT, BillingPaymentsAndOtherTransactionsTable.AMOUNT, writeoffAmount.toString()))).verify.present();
+        query = new HashMap<>();
+        query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.ADJUSTMENT);
+        query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, writeoffAmount.toString());
+        BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
 
         // 18. Check Total Due value is decreased
-        BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_DUE).verify.contains(initialTotalDue.toString());
+        BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue);
 
         // 19. Check Minimum Due Amount doesn't change
-        BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.MINIMUM_DUE).verify.contains(initialMinimumDue.toString());
+        BillingSummaryPage.getMinimumDue().verify.equals(initialMinimumDue);
     }
 
     /**
@@ -362,11 +381,13 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
     @TestInfo(component = "Policy.HomeCA")
     public void testManualReturnedPayments() {
 
+        HashMap<String, String> query;
+
         mainApp().open();
         getCopiedPolicy();
 
         NavigationPage.toMainTab(AppMainTabs.BILLING.get());
-        Dollar initialTotalDue = new Dollar(BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_DUE).getValue());
+        Dollar initialTotalDue = BillingSummaryPage.getTotalDue();
         expectedTotalDue = new Dollar(0);
         expectedTotalDue.add(initialTotalDue);
 
@@ -408,12 +429,10 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
 
         // 26. Make a payment = Deposit amount + 2 * Fee Amount 
         //    (We add Fee Amount to compensate Fees due that was generated before)
-        Dollar depositPayment =
-                new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions
-                        .getRowContains(Table.buildQuery(String.format("%s->%s|%s->%s", BillingPaymentsAndOtherTransactionsTable.TYPE,
-                                PaymentsAndOtherTransactionType.PAYMENT, BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
-                                PaymentsAndOtherTransactionSubtypeReason.DEPOSIT_PAYMENT))).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue())
-                        .negate();
+        query = new HashMap<>();
+        query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PAYMENT);
+        query.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.DEPOSIT_PAYMENT);
+        Dollar depositPayment = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()).negate();
         BillingSummaryPage.linkAcceptPayment.click();
         acceptPaymentActionTab.fillTab((tdSpecific.getTestData("Payment_Cash")).adjust(
                 TestData.makeKeyPath(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName(), BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()),
@@ -421,12 +440,11 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
         acceptPaymentActionTab.submitTab();
 
         // 27. Decline Deposit payment
-        BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(
-                Table.buildQuery(String.format("%s->%s|%s->%s|%s->%s", BillingPaymentsAndOtherTransactionsTable.TYPE,
-                        PaymentsAndOtherTransactionType.PAYMENT, BillingPaymentsAndOtherTransactionsTable.ACTION,
-                        PaymentsAndOtherTransactionAction.DECLINE, BillingPaymentsAndOtherTransactionsTable.AMOUNT, depositPayment.add(feeAmountTotal).negate()
-                                .toString())))
-                .getCell(BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(PaymentsAndOtherTransactionAction.DECLINE).click();
+        query = new HashMap<>();
+        query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PAYMENT);
+        query.put(BillingPaymentsAndOtherTransactionsTable.ACTION, PaymentsAndOtherTransactionAction.DECLINE);
+        query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, depositPayment.add(feeAmountTotal).negate().toString());
+        BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).getCell(BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(PaymentsAndOtherTransactionAction.DECLINE).click();
 
         // 28. Check original installments dues stays the same(As it was on step 26)
         BillingSummaryPage.getTotalDue().verify.equals(expectedTotalDue.negate());
@@ -448,14 +466,15 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
     }
 
     private void declinePaymentAndVerify(Dollar amount, String reason) {
+        HashMap<String, String> query;
         Dollar feeAmount = new Dollar(0);
 
-        BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(
-                Table.buildQuery(String.format("%s->%s|%s->%s|%s->%s", BillingPaymentsAndOtherTransactionsTable.TYPE,
-                        PaymentsAndOtherTransactionType.PAYMENT, BillingPaymentsAndOtherTransactionsTable.ACTION,
-                        PaymentsAndOtherTransactionAction.DECLINE, BillingPaymentsAndOtherTransactionsTable.AMOUNT, amount.negate().toString())))
-                .getCell(BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(PaymentsAndOtherTransactionAction.DECLINE).click();
-
+        query = new HashMap<>();
+        query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PAYMENT);
+        query.put(BillingPaymentsAndOtherTransactionsTable.ACTION, PaymentsAndOtherTransactionAction.DECLINE);
+        query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, amount.negate().toString());
+        BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getCell(BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(PaymentsAndOtherTransactionAction.DECLINE)
+                .click();
         if (!reason.isEmpty()) {
             declineActionTab.fillTab(new SimpleDataProvider().adjust(HomeCaMetaData.DeclineActionTab.class.getSimpleName(),
                     new SimpleDataProvider().adjust(HomeCaMetaData.DeclineActionTab.DECLINE_REASON.getLabel(), reason)));
@@ -471,17 +490,19 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
             }
         }
 
-        BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(Table.buildQuery(String.format("%s->%s|%s->%s|%s->%s|%s->%s",
-                BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.ADJUSTMENT,
-                BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.PAYMENT_DECLINED,
-                BillingPaymentsAndOtherTransactionsTable.REASON, reason,
-                BillingPendingTransactionsTable.AMOUNT, amount.toString()))).verify.present();
+        query = new HashMap<>();
+        query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.ADJUSTMENT);
+        query.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.PAYMENT_DECLINED);
+        query.put(BillingPaymentsAndOtherTransactionsTable.REASON, reason);
+        query.put(BillingPendingTransactionsTable.AMOUNT, amount.toString());
+        BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
 
-        BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(Table.buildQuery(String.format("%s->%s|%s->%s|%s->%s|%s->%s",
-                BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PAYMENT,
-                BillingPaymentsAndOtherTransactionsTable.REASON, reason,
-                BillingPendingTransactionsTable.AMOUNT, amount.negate().toString(),
-                BillingPendingTransactionsTable.STATUS, PaymentsAndOtherTransactionStatus.DECLINED))).verify.present();
+        query = new HashMap<>();
+        query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PAYMENT);
+        query.put(BillingPaymentsAndOtherTransactionsTable.REASON, reason);
+        query.put(BillingPendingTransactionsTable.AMOUNT, amount.negate().toString());
+        query.put(BillingPendingTransactionsTable.STATUS, PaymentsAndOtherTransactionStatus.DECLINED);
+        BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
 
         expectedTotalDue = expectedTotalDue.subtract(amount.add(feeAmount));
         BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_DUE).verify.contains(expectedTotalDue.negate().toString());
