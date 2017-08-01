@@ -293,7 +293,8 @@ public class AutoCaPolicy implements IPolicy {
 
 	@Override
 	public PolicyActions.RollOn rollOn() {
-		return null;
+		//return null;
+		return new AutoCaPolicyActions.RollOn();
 	}
 
 }

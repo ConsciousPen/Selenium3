@@ -3,9 +3,11 @@
 package aaa.modules.policy.home_ss_ho3;
 
 import org.testng.annotations.Test;
-import aaa.main.enums.ProductConstants;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSHO3BaseTest;
+
+
+
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.policy.templates.PolicyReinstatementWithLapse;
 import toolkit.utils.TestInfo;
 
 /**
@@ -21,25 +23,18 @@ import toolkit.utils.TestInfo;
  * 7. Verify 'Term includes lapse period' flag is displayed in the policy consolidated view header
  * @details
  */
-public class TestPolicyReinstatementWithLapse extends HomeSSHO3BaseTest {
+public class TestPolicyReinstatementWithLapse extends PolicyReinstatementWithLapse {
 
-	@Test
-	@TestInfo(component = "Policy.PersonalLines")
-	public void testPolicyReinstatementWithLapse() {
-		mainApp().open();
+        @Override
+        protected PolicyType getPolicyType() {
+        return PolicyType.HOME_SS_HO3;
+        }
+	    @Override
+	    @Test
+	    @TestInfo(component = "Policy.HOMESS")
+	    public void testPolicyReinstatementWithLapse() {
 
-		createCustomerIndividual();
-		createPolicy();
+	        super.testPolicyReinstatementWithLapse();
+	    }
 
-		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-
-		log.info("Cancelling Policy #" + policyNumber);
-		policy.cancel().perform(tdPolicy.getTestData("Cancellation", "TestData"));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-
-		log.info("TEST: Reinstate Policy With Lapse #" + policyNumber);
-		policy.reinstate().perform(tdPolicy.getTestData("Reinstatement", "TestData_Plus14Days"));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present();
-	}
 }

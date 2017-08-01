@@ -48,10 +48,18 @@ public final class BillingHelper {
 	
 	public static List<LocalDateTime> getInstallmentDueDates() {
 		ArrayList<LocalDateTime> dates = new ArrayList<LocalDateTime>();
-		for (Row row : BillingSummaryPage.tableInstallmentSchedule.getRows()) {
-			dates.add(LocalDateTime.parse(row.getCell(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
+		for (String value : BillingSummaryPage.tableInstallmentSchedule.getColumn(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).getValue()) {
+			dates.add(LocalDateTime.parse(value, DateTimeUtils.MM_DD_YYYY));
 		}
 		return dates;
+	}
+	
+	public static List<Dollar> getInstallmentDues() {
+		ArrayList<Dollar> dues = new ArrayList<Dollar>();
+		for (String value : BillingSummaryPage.tableInstallmentSchedule.getColumn(BillingInstallmentScheduleTable.INSTALLMENT_DUE).getValue()) {
+			dues.add(new Dollar(value));
+		}
+		return dues;
 	}
 	
 	public static Dollar getInstallmentDueByDueDate(LocalDateTime date) {

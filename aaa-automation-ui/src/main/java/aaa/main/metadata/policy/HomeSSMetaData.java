@@ -1386,16 +1386,21 @@ public final class HomeSSMetaData {
 		public static final AssetDescriptor<CheckBox> EXTERIOR_INSPECTION = declare("Exterior inspection", CheckBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<CheckBox> HIGH_VALUE_INTERIOR_INSPECTION = declare("High Value Interior inspection", CheckBox.class, Waiters.AJAX);
 
-		public static final AssetDescriptor<RadioGroup> HAVE_ANY_OF_THE_APPLICANT_S_CURRENT_PETS_INJURED_ANOTHER_PERSON = declare("Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?", RadioGroup.class,
-				Waiters.AJAX);
 		public static final AssetDescriptor<RadioGroup> HAVE_ANY_APPLICANTS_HAD_A_PRIOR_INSURANCE_POLICY_CANCELLED_IN_THE_PAST_3_YEARS = declare("Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?", RadioGroup.class,
 				Waiters.AJAX);
+		
+		public static final AssetDescriptor<RadioGroup> HAVE_ANY_OF_THE_APPLICANT_S_CURRENT_PETS_INJURED_ANOTHER_PERSON = declare("Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?", RadioGroup.class, Waiters.AJAX);
+		//public static final AssetDescriptor<RadioGroup> HAVE_ANY_OF_THE_APPLICANT_S_CURRENT_PETS_INJURED_ANOTHER_PERSON = declare("Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?", RadioGroup.class, Waiters.AJAX);
+		
+		
+		//public static final AssetDescriptor<RadioGroup> HAVE_ANY_APPLICANTS_HAD_A_PRIOR_INSURANCE_POLICY_CANCELLED_IN_THE_PAST_3_YEARS = declare("Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?", RadioGroup.class,Waiters.AJAX);
 		public static final AssetDescriptor<RadioGroup> HAS_THE_PROPERTY_BEEN_IN_FORECLOSURE_PROCEEDINGS_WITHIN_THE_PAST_18_MONTHS = declare("Has the property been in foreclosure proceedings within the past 18 months?", RadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<RadioGroup> DO_EMPLOYEES_OF_ANY_RESIDENT_RESIDE = declare("Do employees of any resident or applicant reside in the dwelling?", RadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> TOTAL_NUMBER_OF_RESIDENT_EMPLOYEES = declare("Total number of part time and full time resident employees", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<RadioGroup> IS_ANY_BUSINESS_HOME_DAY_CARE_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES = declare("Is any business, home day care or farming activity conducted on the premises?", RadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<RadioGroup> IS_ANY_BUSINESS_CONDUCTED_ON_THE_PREMISES_FOR_WHICH_AN_ENDORSEMENT_IS_NOT_ATTACHED_TO_THE_POLICY = declare(
-				"Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?", RadioGroup.class, Waiters.AJAX);
+				"Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?", RadioGroup.class, Waiters.AJAX, 
+				By.xpath("//table[@id='policyDataGatherForm:sedit_AAAUnderwritingQuestionaireComponent_aaaPremisesEndrosInd']"));
 		public static final AssetDescriptor<RadioGroup> HAVE_ANY_APPLICANTS_HAD_A_FLAT_ROOF_RELATED_CLAIM = declare("Have any applicants had a flat roof related claim in the past 3 years?", RadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<RadioGroup> APPLICANTS_WHO_HAVE_BEEN_CANCELLED_REFUSED_INSURANCE_OR_NONRENEWED = declare(
 				"Applicant(s), who have been cancelled, refused insurance or non-renewed in the past 3 years are ineligible if based on any of the following reasons: Fraud or Material Misrepresentation, Substantial Increase in Hazard, or Claims.", RadioGroup.class,
