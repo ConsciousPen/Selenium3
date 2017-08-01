@@ -525,12 +525,13 @@ public final class HomeSSMetaData {
 
 		public static final class DetachedStructures extends MetaData {
 			public static final AssetDescriptor<RadioGroup> ARE_THERE_ANY_DETACHED_STRUCTURES_ON_THE_PROPERTY = declare("Are there any detached structures on the property?", RadioGroup.class, Waiters.AJAX);
-			public static final AssetDescriptor<AssetListConfirmationDialog> REMOVE_CONFIRMATION = declare("Remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmOptionalNoSelected_AAAHODetachedStructuresInfoComponent_Dialog_container"));
-			public static final AssetDescriptor<RadioGroup> RENTED_TO_OTHERS = declare("Rented to others", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<AssetListConfirmationDialog> REMOVE_CONFIRMATION = declare("Remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmOptionalNoSelected_AAAHODetachedStructuresInfoComponent_Dialog_container")); 
+			public static final AssetDescriptor<Button> BTN_ADD_STRUCTURE = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addAAAHODetachedStructuresInfoComponent"));
+			public static final AssetDescriptor<RadioGroup> RENTED_TO_OTHERS = declare("Rented to others", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:sedit_AAAHODetachedStructuresInfoComponent_aaaRentedToOther']"));
 			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> NUMBER_OF_FAMILY_UNITS = declare("Number of family units", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> NUMBER_OF_OCCUPANTS = declare("Number of occupants", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> NUMBER_OF_FAMILY_UNITS = declare("Number of family units", ComboBox.class, Waiters.AJAX, By.xpath("//select[@id='policyDataGatherForm:sedit_AAAHODetachedStructuresInfoComponent_aaaNumberOfFamilyunits']"));
+			public static final AssetDescriptor<ComboBox> NUMBER_OF_OCCUPANTS = declare("Number of occupants", ComboBox.class, Waiters.AJAX, By.xpath("//select[@id='policyDataGatherForm:sedit_AAAHODetachedStructuresInfoComponent_aaaNumberOfOccupants']"));
 		}
 
 		public static final class FireProtectiveDD extends MetaData {
