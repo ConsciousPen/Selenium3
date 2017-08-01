@@ -4,6 +4,13 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/-->
+
+	<test name="Common Functional Tests">
+		<classes>
+			<class name="aaa.modules.common.TestSearchPageFillingAndWarnings"/>
+			<class name="aaa.modules.common.TestSearchForAllCriteria"/>
+		</classes>
+	</test>
    
 	<test name="UT HSS Functional Tests">
 	    <parameter name="state" value="UT"/>

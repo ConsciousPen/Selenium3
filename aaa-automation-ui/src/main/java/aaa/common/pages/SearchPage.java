@@ -13,9 +13,7 @@ import aaa.toolkit.webdriver.customcontrols.TableWithPages;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
@@ -30,21 +28,6 @@ public class SearchPage extends MainPage {
 	public static Table tableSearchResults = new TableWithPages(By.id("searchTable1Form:body_searchTable1"), By.id("searchTable1Form:body_searchTable1:dataScrollersearchTable1"));
 	public static StaticElement labelNameParty = new StaticElement(By.xpath("//span[@id='partyPopup:name']"));
 	public static Table tableRoleInfo = new Table(By.xpath("//table[@id='partyPopup:body_rolesTable']"));
-
-	private static ByT linkSearchedResultTemplate = ByT.xpath("(//table[@id='searchTable1Form:body_searchTable1']/tbody)/tr[%s]/td[1]//span[text()]");
-
-	//public static RadioGroup rbtnSearchFor = new RadioGroup(By.xpath("//table[@id='searchForm:entityTypeSelect']"), Waiters.AJAX);
-
-	/*public static void search(SearchEnum.SearchFor searchFor, TestData tdSearch) {
-
-		if (!buttonSearch.isPresent()) {
-			MainPage.QuickSearch.buttonSearchPlus.click();
-		}
-
-		assetListSearch.getControl(SearchMetaData.Search.SEARCH_FOR.getLabel(), RadioGroup.class).setValue(searchFor.get());
-		assetListSearch.fill(tdSearch);
-		buttonSearch.click();
-	}*/
 
 	public static List<String> getBottomWarningsList() {
 		StaticElement messages = new StaticElement(By.xpath("//ul[@id='messages']"));
@@ -71,8 +54,11 @@ public class SearchPage extends MainPage {
 	}
 
 	public static void openFirstResult() {
-		//TODO-dchubkov: reuse selectSearchedResult(1) ?
-		tableSearchResults.getRow(1).getCell(1).controls.links.getFirst().click();
+		selectSearchedResult(1);
+	}
+
+	public static void selectSearchedResult(int index) {
+		tableSearchResults.getRow(index).getCell(1).controls.links.getFirst().click();
 	}
 
 	public static void openPolicy(String policyNum) {
@@ -81,11 +67,6 @@ public class SearchPage extends MainPage {
 
 	public static void openQuote(String quoteNum) {
 		search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNum);
-	}
-
-	public static void selectSearchedResult(int index) {
-		//TODO-dchubkov: test this method
-		new Link(linkSearchedResultTemplate.format(index)).click();
 	}
 
 	public static void clear() {
