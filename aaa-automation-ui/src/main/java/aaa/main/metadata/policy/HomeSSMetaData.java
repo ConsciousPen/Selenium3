@@ -707,9 +707,10 @@ public final class HomeSSMetaData {
 		public static final AssetDescriptor<TextBox> DATE_OF_LOSS = declare("Date of Loss", TextBox.class);
 		public static final AssetDescriptor<TextBox> CLAIM_AMOUNT = declare("Claim Amount", TextBox.class);
 		public static final AssetDescriptor<TextBox> DESCRIPTION_OF_LOSS = declare("Description of Loss", TextBox.class);*/
-		public static final AssetDescriptor<ProductOfferingVariationControl> HERITAGE = declare("Heritage", ProductOfferingVariationControl.class);
+
+		/*public static final AssetDescriptor<ProductOfferingVariationControl> HERITAGE = declare("Heritage", ProductOfferingVariationControl.class);
 		public static final AssetDescriptor<ProductOfferingVariationControl> LEGACY = declare("Legacy", ProductOfferingVariationControl.class);
-		public static final AssetDescriptor<ProductOfferingVariationControl> PRESTIGE = declare("Prestige", ProductOfferingVariationControl.class);
+		public static final AssetDescriptor<ProductOfferingVariationControl> PRESTIGE = declare("Prestige", ProductOfferingVariationControl.class);*/
 	}
 
 	public static final class EndorsementTab extends MetaData {
