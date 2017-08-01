@@ -4,9 +4,9 @@
  */
 package aaa.main.modules.policy.auto_ss;
 
+import java.util.Random;
 import org.openqa.selenium.By;
 
-import scala.util.Random;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.StaticElement;
@@ -90,7 +90,7 @@ public final class AutoSSPolicyActions {
 		    if (staticElement.isPresent() && staticElement.isVisible()) {
 		    	Button buttonYes = new Button(By.xpath("//input[@id='policyDataGatherForm:yes']"));
 		    	TextBox newbusinessnote= new TextBox(By.xpath("//textarea[@id='policyDataGatherForm:newbusinessnotes']"));
-		    	Random random = new Random();  
+		    	Random random = new Random();
 		    	newbusinessnote.setValue(String.valueOf(random.nextInt(10)));
 		    	buttonYes.click();
 		    }
