@@ -123,8 +123,18 @@ public final class BillingConstants {
         public static final String APPROVE = "Approve";
     }
 
+    public static final class PoliciesResultsBillingStatus {
+        public static final String ON_HOLD = "On Hold";
+        public static final String ACTIVE = "Active";
+    }
+
+    public static final class HoldsAndMoratoriumsActions {
+        public static final String EDIT = "Edit";
+        public static final String REMOVE = "Remove";
+    }
+
     //----TABLES----
-    
+
     public static final class BillingGeneralInformationTable {
         public static final String ID = "ID";
         public static final String BILLING_ADDRESS = "Billing Address";
@@ -136,15 +146,15 @@ public final class BillingConstants {
         public static final String TOTAL_PAID = "Total Paid";
         public static final String BILLABLE_AMOUNT = "Billable Amount";
     }
-    
+
     public static final class BillingBillsAndStatmentsTable {
-    	public static final String DUE_DATE = "Due Date";
-    	public static final String TYPE = "Type";
-    	public static final String STATEMENT_NUM = "Statement #";
-    	public static final String MINIMUM_DUE = "Minimum Due";
-    	public static final String PAST_DUE = "Past Due";
-    	public static final String TOTAL_DUE = "Total Due";
-    	public static final String ACTIONS = "Actions";
+        public static final String DUE_DATE = "Due Date";
+        public static final String TYPE = "Type";
+        public static final String STATEMENT_NUM = "Statement #";
+        public static final String MINIMUM_DUE = "Minimum Due";
+        public static final String PAST_DUE = "Past Due";
+        public static final String TOTAL_DUE = "Total Due";
+        public static final String ACTIONS = "Actions";
     }
 
     public static final class BillingPaymentsAndOtherTransactionsTable {
@@ -155,9 +165,9 @@ public final class BillingConstants {
         public static final String REASON = "Reason";
         public static final String POLICY = "Policy #";
         public static final String STATUS = "Status";
-    	public static final String TRANSACTION_DATE = "Transaction Date";
-    	public static final String EFF_DATE = "Effective Date";
-    	public static final String AGENCY_RE_SWEEP = "Agency Re-Sweep";
+        public static final String TRANSACTION_DATE = "Transaction Date";
+        public static final String EFF_DATE = "Effective Date";
+        public static final String AGENCY_RE_SWEEP = "Agency Re-Sweep";
     }
 
     public static final class BillingInstallmentScheduleTable {
@@ -197,13 +207,13 @@ public final class BillingConstants {
         public static final String BILLABLE_AMOUNT = "Billable Amount";
         public static final String PAID_THROUGH = "Paid Through";
     }
-    
+
     public static final class BillingPaymentAllocationTable {
         public static final String COVERAGE = "Coverage";
         public static final String REMAINING_DUE = "Remaining Due";
         public static final String AMOUNT_PAID = "Amount Paid";
     }
-    
+
     public static final class BillingModalPremiumTable {
         public static final String MODAL_PREMIUM_EFFECTIVE_DATE = "Modal Premium Effective Date";
         public static final String AMOUNT = "Amount";
@@ -218,12 +228,12 @@ public final class BillingConstants {
     public static final class BillingBenefitAccountsTable {
         public static final String BILLING_ACCOUNT = "Billing Account #";
     }
-    
+
     public static final class BillingSuspensePaymentsTable {
         public static final String BILLING_ACCOUNTS = "Billing Accounts";
         public static final String STATUS = "Status";
     }
-    
+
     public static final class BillingSuspenseForDeclineTable {
         public static final String REFERENCE_NUMBER = "Reference Number";
         public static final String ACTION = "Action";
@@ -231,5 +241,13 @@ public final class BillingConstants {
 
     public static final class BillingSuspenseSearchResultsTable {
         public static final String ACTION = "Action";
+    }
+
+    public static final class BillingPoliciesResultsTable {
+        public static final String BILLING_STATUS = "Billing Status";
+    }
+
+    public static final class BillingHoldsAndMoratoriumsTable {
+        public static final String ACTIONS = "Actions";
     }
 }
