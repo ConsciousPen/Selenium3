@@ -15,6 +15,7 @@ import aaa.main.modules.policy.home_ss.views.ChangePendedEndEffDateView;
 import aaa.main.modules.policy.home_ss.views.ChangeReinstateLapseView;
 import aaa.main.modules.policy.home_ss.views.CopyFromPolicyView;
 import aaa.main.modules.policy.home_ss.views.CopyFromQuoteView;
+import aaa.main.modules.policy.home_ss.views.DataGatheringEndorsementView;
 import aaa.main.modules.policy.home_ss.views.DeclineByCompanyView;
 import aaa.main.modules.policy.home_ss.views.DeclineByCustomerView;
 import aaa.main.modules.policy.home_ss.views.DefaultView;
@@ -53,7 +54,7 @@ public final class HomeSSPolicyActions {
             start();
             getView().fill(td);
             submit();
-            new DataGather().getView().fill(td);
+            new DataGatheringEndorsementView().fill(td);
             return this;
         }
         

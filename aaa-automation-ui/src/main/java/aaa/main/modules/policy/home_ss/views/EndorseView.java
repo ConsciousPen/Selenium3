@@ -5,7 +5,6 @@
 package aaa.main.modules.policy.home_ss.views;
 
 import aaa.common.Workspace;
-import aaa.main.modules.policy.home_ss.actiontabs.AuthorityActionTab;
 import aaa.main.modules.policy.home_ss.actiontabs.EndorsementActionTab;
 
 /**
@@ -15,7 +14,6 @@ import aaa.main.modules.policy.home_ss.actiontabs.EndorsementActionTab;
 public class EndorseView extends Workspace {
     public EndorseView() {
         super();
-        registerTab(AuthorityActionTab.class);
         registerTab(EndorsementActionTab.class);
     }
 }
