@@ -4,6 +4,13 @@
  */
 package aaa.main.modules.policy.auto_ss;
 
+import org.openqa.selenium.By;
+
+import scala.util.Random;
+import toolkit.datax.TestData;
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.TextBox;
 import aaa.common.AbstractAction;
 import aaa.common.Tab;
 import aaa.common.Workspace;
@@ -40,7 +47,6 @@ import aaa.main.modules.policy.auto_ss.views.SpinView;
 import aaa.main.modules.policy.auto_ss.views.SplitView;
 import aaa.main.modules.policy.auto_ss.views.SuspendQuoteView;
 import aaa.main.modules.policy.auto_ss.views.UpdateRulesOverrideView;
-import toolkit.datax.TestData;
 
 /**
  * Set of concrete actions for a specific entity type.
@@ -64,6 +70,32 @@ public final class AutoSSPolicyActions {
             new DataGather().getView().fill(td);
             return this;
         }
+        
+        @Override
+        public AbstractAction performAndExit(TestData td) {
+            start();
+            getView().fill(td);
+            submit();
+            Tab.buttonSaveAndExit.click();
+            submitEndorConfirm();
+            return this;
+        }
+        
+        /**
+         * Confirm Dialog AutoSS endorsement SaveAndExit
+         * @return AbstractAction
+         */
+	    private AbstractAction submitEndorConfirm() {
+	    	StaticElement staticElement = new StaticElement(By.xpath("//div[@id='policyDataGatherForm:ConfirmEndorsementSave_container']"));
+		    if (staticElement.isPresent() && staticElement.isVisible()) {
+		    	Button buttonYes = new Button(By.xpath("//input[@id='policyDataGatherForm:yes']"));
+		    	TextBox newbusinessnote= new TextBox(By.xpath("//textarea[@id='policyDataGatherForm:newbusinessnotes']"));
+		    	Random random = new Random();  
+		    	newbusinessnote.setValue(String.valueOf(random.nextInt(10)));
+		    	buttonYes.click();
+		    }
+		    return this;
+	    }
     }
 
     public static class Renew extends PolicyActions.Renew {
