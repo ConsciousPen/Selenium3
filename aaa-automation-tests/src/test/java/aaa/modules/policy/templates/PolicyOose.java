@@ -3,7 +3,6 @@
 package aaa.modules.policy.templates;
 
 import org.openqa.selenium.By;
-import org.testng.annotations.Test;
 
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;

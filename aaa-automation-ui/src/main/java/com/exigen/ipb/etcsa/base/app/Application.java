@@ -48,7 +48,6 @@ public abstract class Application {
             openSession();
             getLogin().login();
         }
-        setApplicationOpened(true);
         switchPanel();
     }
 
@@ -57,7 +56,6 @@ public abstract class Application {
             openSession();
             getLogin().login(username, password);
         }
-        setApplicationOpened(true);
         switchPanel();
     }
     
@@ -66,7 +64,6 @@ public abstract class Application {
             openSession();
             getLogin().login(td);
         }
-        setApplicationOpened(true);
         switchPanel();
     }
 
@@ -111,13 +108,14 @@ public abstract class Application {
             if (TimeShiftTestUtil.getContext().getPhaseUrls().length == 0) {
                 TimeShiftTestUtil.getContext().setPhaseStartUrls(url);
             }
-            BrowserController.initBrowser(TimeShiftTestUtil.getContext().getBrowser(0).getSelenium().getWebDriver());
+            BrowserController.initBrowser(TimeShiftTestUtil.getContext().getBrowser(0).getWebDriver());
         } else {
             BrowserController.initBrowser();
         }
 
         BrowserController.get().open(url);
         BrowserController.get().maximize();
+        setApplicationOpened(true);
     }
 
     private void closeSession() {

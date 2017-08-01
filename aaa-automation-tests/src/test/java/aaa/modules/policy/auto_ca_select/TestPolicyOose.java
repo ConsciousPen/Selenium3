@@ -2,19 +2,11 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.policy.auto_ca_select;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
-import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaSelectBaseTest;
 import aaa.modules.policy.templates.PolicyOose;
-import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.composite.table.Table;
 
 /**
  * @author N. Belakova

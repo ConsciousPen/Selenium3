@@ -2,19 +2,11 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.policy.auto_ss;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.Test;
-import aaa.modules.policy.templates.PolicyOose;
 
-import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoSSBaseTest;
-import toolkit.datax.TestData;
+import aaa.modules.policy.templates.PolicyOose;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.composite.table.Table;
 
 /**
  * @author N. Belakova

@@ -10,10 +10,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -105,7 +104,7 @@ public class BaseTest {
 	}
 
 	@Parameters({ "state" })
-	@BeforeClass(alwaysRun=true)
+	@BeforeMethod(alwaysRun=true)
 	public void beforeMethodStateConfiguration(@Optional("") String state) {
 		if (isStateCA()) {
 			setState(Constants.States.CA.get());
@@ -146,13 +145,6 @@ public class BaseTest {
 		}
 	}
 
-	@AfterClass(alwaysRun = true)
-	protected void closeBrowser() {
-		/*
-		 * if (Boolean.parseBoolean(PropertyProvider.getProperty("isCiMode",
-		 * "true"))) { mainApp().close(); opReportApp().close(); }
-		 */
-	}
 
 	/**
 	 * Create individual customer using default TestData
