@@ -9,6 +9,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.components.Dialog;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.pages.NavigationPage;
+import aaa.main.enums.BillingConstants.BillingGeneralInformationTable;
 import aaa.toolkit.webdriver.customcontrols.TableWithPages;
 import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
@@ -52,12 +53,20 @@ public class BillingSummaryPage extends SummaryPage {
     public static void open() {
         NavigationPage.toMainTab(AppMainTabs.BILLING.get());
     }
-
-    public static Dollar getInstallmentAmount(int intallmentIndex) {
-        return new Dollar(tableInstallmentSchedule.getRow(intallmentIndex).getCell(2).getValue());
+    
+    public static void openPolicy(int rowNumber) {
+    	tableBillingAccountPolicies.getRow(rowNumber).getCell(1).controls.links.get(2).click();
     }
-
-    public static void openAccountPolicy(int rowNumber) {
-        BillingSummaryPage.tableBillingAccountPolicies.getRow(rowNumber).getCell(1).controls.links.get(2).click();
+    
+    public static Dollar getInstallmentAmount(int intallmentIndex) { 
+        return new Dollar(tableInstallmentSchedule.getRow(intallmentIndex).getCell(2).getValue()); 
+    }
+    
+    public static Dollar getTotalDue() {
+    	return new Dollar(tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_DUE).getValue());
+    }
+    
+    public static Dollar getMinimumDue() {
+    	return new Dollar(tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.MINIMUM_DUE).getValue());
     }
 }

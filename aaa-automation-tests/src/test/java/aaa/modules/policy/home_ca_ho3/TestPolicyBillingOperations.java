@@ -1,5 +1,7 @@
 package aaa.modules.policy.home_ca_ho3;
 
+import java.util.HashMap;
+
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
@@ -10,17 +12,8 @@ import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.main.enums.ActionConstants;
-import aaa.main.enums.BillingConstants.BillingAccountPoliciesTable;
-import aaa.main.enums.BillingConstants.BillingGeneralInformationTable;
-import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
-import aaa.main.enums.BillingConstants.BillingPendingTransactionsActions;
-import aaa.main.enums.BillingConstants.BillingPendingTransactionsTable;
-import aaa.main.enums.BillingConstants.BillingPendingTransactionsType;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionAction;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionReason;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionStatus;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
+import aaa.main.enums.BillingConstants;
+import aaa.main.enums.BillingConstants.*;
 import aaa.main.enums.MyWorkConstants;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.HomeCaMetaData;
@@ -242,8 +235,8 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         NavigationPage.toMainTab(AppMainTabs.BILLING.get());
 
-        Dollar initialTotalDue = new Dollar(BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_DUE).getValue());
-        Dollar initialMinimumDue = new Dollar(BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.MINIMUM_DUE).getValue());
+        Dollar initialTotalDue = BillingSummaryPage.getTotalDue();
+        Dollar initialMinimumDue = BillingSummaryPage.getMinimumDue();
 
         // 3.  Write Off 100$
         BillingSummaryPage.linkOtherTransactions.click();
@@ -252,9 +245,11 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
         OtherTransactionsActionTab.btnContinue.click();
 
         // 4.  Check write-off transaction appears in "Payments and other transactions" section on billing tab
-        BillingSummaryPage.tablePaymentsOtherTransactions.getRow(Table.buildQuery(String.format("%s->%s|%s->%s|%s->%s", BillingPaymentsAndOtherTransactionsTable.TYPE,
-                PaymentsAndOtherTransactionType.ADJUSTMENT, BillingPaymentsAndOtherTransactionsTable.AMOUNT, writeoffAmount.toString(),
-                BillingPaymentsAndOtherTransactionsTable.STATUS, PaymentsAndOtherTransactionStatus.APPLIED))).verify.present();
+        HashMap<String, String> query = new HashMap<String, String>();
+        query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.ADJUSTMENT);
+        query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, writeoffAmount.toString());
+        query.put(BillingPaymentsAndOtherTransactionsTable.STATUS, PaymentsAndOtherTransactionStatus.APPLIED);
+        BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
 
         // 5.  Reversal Write Off 100$
         BillingSummaryPage.linkOtherTransactions.click();
@@ -268,7 +263,7 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
                 BillingPaymentsAndOtherTransactionsTable.STATUS, PaymentsAndOtherTransactionStatus.APPLIED))).verify.present();
 
         // 7.  Check Total Due value after write-off/reversal write-off
-        BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_DUE).verify.contains(initialTotalDue.toString());
+        BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue);
 
         // 8.  Enter payments amounts > Sub Total in advanced allocation dialog
         BillingSummaryPage.linkOtherTransactions.click();
@@ -291,10 +286,10 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
 
         // 11. Check that System defaults 'Total Amount' with the value entered by user in 'Amount' field on 'Other Transactions' tab
         OtherTransactionsActionTab.linkAdvancedAllocation.click();
-        advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.TOTAL_AMOUNT.getLabel()).verify.present(writeoffAmount.toString());
+        advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.TOTAL_AMOUNT).verify.present(writeoffAmount.toString());
 
         // 12. Check that System defaults 'Product Sub total' with the value entered by user in 'Amount' field on 'Other Transactions' tab
-        advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.PRODUCT_SUB_TOTAL.getLabel()).verify.present(writeoffAmount.toString());
+        advancedAllocationsActionTab.getAssetList().getAsset(BillingAccountMetaData.AdvancedAllocationsActionTab.PRODUCT_SUB_TOTAL).verify.present(writeoffAmount.toString());
         advancedAllocationsActionTab.submitTab();
 
         // 13. Check positive adjustment transaction appears in "Payments and other transactions" section on billing tab
@@ -434,7 +429,7 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
                 .getCell(BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(PaymentsAndOtherTransactionAction.DECLINE).click();
 
         // 28. Check original installments dues stays the same(As it was on step 26)
-        BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_DUE).verify.contains(expectedTotalDue.negate().toString());
+        BillingSummaryPage.getTotalDue().verify.equals(expectedTotalDue.negate());
 
         // 29. Check that Prepaid is decreased.
         BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingAccountPoliciesTable.PREPAID).verify.contains(new Dollar(0).toString());

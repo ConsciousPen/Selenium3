@@ -1,12 +1,24 @@
 TestData: {
-  PolicyTab: {},
-  InsuredTab: {},
+  GeneralTab: '@GeneralTab',
   DriverTab: {},
+  RatingDetailReportsTab: {},
   VehicleTab: {},
-  MVRClaimsTab: {},
-  FormsAddlInfoTab: {},
-  AssignmentTab: {},
-  PremiumCoveragesTab: {
-    Medical Payments: '$2,000'
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+  Property Damage Liability: 'contains=$300,000'
   },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+# ------------- Tabs ----------
+GeneralTab: {
+  NamedInsuredInformation: {},
+  AAAProductOwned: {},
+  ContactInformation: {},
+  PolicyInformation: '@PolicyInformation'
+}
+
+PolicyInformation: {
+  Authorized by: QA
 }
