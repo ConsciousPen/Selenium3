@@ -33,7 +33,7 @@ public class CaliforniaEarthquakeBaseTest extends PolicyBaseTest {
 		 * (EntitiesHolder.isEntityPresent(key)) { //
 		 * SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, //
 		 * EntitiesHolder.getEntity(key)); //
-		 * type.get().copyPolicy(tdPolicy.getTestData("CopyFromPolicy", //
+		 * type.get().copyPolicy(getPolicyTD("CopyFromPolicy", //
 		 * "TestData")); returnValue = EntitiesHolder.getEntity(key);
 		 * 
 		 * } else {
@@ -85,7 +85,7 @@ public class CaliforniaEarthquakeBaseTest extends PolicyBaseTest {
 		PolicyType type = PolicyType.HOME_CA_HO3;
 		TestData tdPolicy = testDataManager.policy.get(type);
 		type.get().initiate();
-		type.get().getDefaultView().fill(tdPolicy.getTestData("DataGather", "TestData").adjust(tdPolicy.getTestData("DataGather", "Adjustment_CEA")));
+		type.get().getDefaultView().fill(getPolicyTD("DataGather", "TestData").adjust(getPolicyTD("DataGather", "Adjustment_CEA")));
 		// CEA policy creation
 		((CeaPolicy) getPolicyType().get()).createPolicyFromCa(td);
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
@@ -102,6 +102,6 @@ public class CaliforniaEarthquakeBaseTest extends PolicyBaseTest {
 	 */
 	protected String createPolicyFromCa() {
 		TestData tdPolicy = testDataManager.policy.get(getPolicyType());
-		return createPolicyFromCa(tdPolicy.getTestData("DataGather", "TestData").adjust(tdPolicy.getTestData("DataGather", "Adjustment_From_CA")));
+		return createPolicyFromCa(getPolicyTD("DataGather", "TestData").adjust(getPolicyTD("DataGather", "Adjustment_From_CA")));
 	}
 }

@@ -27,12 +27,12 @@ public class TestPolicyCancellationMidTerm extends HomeSSHO3BaseTest {
 
 		createCustomerIndividual();
 
-		createPolicy(getStateTestData(tdPolicy, "DataGather", "TestData")
+		createPolicy(getPolicyTD("DataGather", "TestData")
 				.adjust("GeneralTab|Effective date", "/today-2d:MM/dd/yyyy")
 				.adjust("GeneralTab|Property insurance base date with CSAA IG", "/today-2d:MM/dd/yyyy"));
 
 		log.info("TEST: MidTerm Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-		policy.cancel().perform(getStateTestData(tdPolicy, "Cancellation", "TestData"));
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 	}

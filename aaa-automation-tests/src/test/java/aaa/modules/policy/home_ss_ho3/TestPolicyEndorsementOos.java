@@ -37,14 +37,14 @@ public class TestPolicyEndorsementOos extends HomeSSHO3BaseTest {
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
 		log.info("MidTerm Endorsement for Policy #" + policyNumber);
-		policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData_Plus3Days")
-				.adjust(tdSpecific.getTestData("TestData").resolveLinks()));
+		policy.createEndorsement(getPolicyTD("Endorsement", "TestData_Plus3Days")
+				.adjust(getTestSpecificTD("TestData").resolveLinks()));
 
 		Dollar policyPremium2 = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
 		log.info("OOS Endorsement for Policy #" + policyNumber);
-		policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData")
-				.adjust(tdSpecific.getTestData("TestData2").resolveLinks()));
+		policy.createEndorsement(getPolicyTD("Endorsement", "TestData")
+				.adjust(getTestSpecificTD("TestData2").resolveLinks()));
 
 		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);

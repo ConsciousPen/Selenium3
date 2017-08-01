@@ -42,8 +42,8 @@ public class TestPolicyEndorsementRollBack extends PersonalUmbrellaBaseTest {
 
         log.info("TEST: Flat Endorsement for PUP Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
 	     
-	     TestData endorsement_td = getStateTestData(tdPolicy, "TestPolicyEndorsement", "TestData");
-	     policy.createEndorsement(endorsement_td.adjust(tdPolicy.getTestData("Endorsement", "TestData_Plus1Month")));
+	     TestData endorsement_td = getPolicyTD("TestPolicyEndorsement", "TestData");
+	     policy.createEndorsement(endorsement_td.adjust(getPolicyTD("Endorsement", "TestData_Plus1Month")));
 	     
 	     CustomAssert.enableSoftMode();
 	     
@@ -52,7 +52,7 @@ public class TestPolicyEndorsementRollBack extends PersonalUmbrellaBaseTest {
         CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
 
         log.info("TEST: Roll Back Endorsement for Policy #" + policyNumber);
-        policy.rollBackEndorsement().perform(tdPolicy.getTestData("EndorsementRollBack", "TestData"));
+        policy.rollBackEndorsement().perform(getPolicyTD("EndorsementRollBack", "TestData"));
         CustomAssert.assertTrue(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
     }
 }

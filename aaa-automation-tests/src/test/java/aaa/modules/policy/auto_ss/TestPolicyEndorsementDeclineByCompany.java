@@ -34,13 +34,13 @@ public class TestPolicyEndorsementDeclineByCompany extends AutoSSBaseTest {
 
         log.info("TEST: Decline By Company Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
         
-        TestData endorsement_td = getStateTestData(tdPolicy, "TestPolicyEndorsementAdd", "TestData");
-	     policy.endorse().performAndExit(endorsement_td.adjust(tdPolicy.getTestData("Endorsement", "TestData")));
+        TestData endorsement_td = getPolicyTD("TestPolicyEndorsementAdd", "TestData");
+	     policy.endorse().performAndExit(endorsement_td.adjust(getPolicyTD("Endorsement", "TestData")));
         
-//        policy.endorse().perform(tdPolicy.getTestData("Endorsement", "TestData"));
+//        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         PolicySummaryPage.buttonPendedEndorsement.click();
 
-        policy.declineByCompanyQuote().perform(tdPolicy.getTestData("DeclineByCompany", "TestData"));
+        policy.declineByCompanyQuote().perform(getPolicyTD("DeclineByCompany", "TestData"));
         PolicySummaryPage.buttonPendedEndorsement.click();
 
         PolicySummaryPage.tableEndorsements.getRow(1).getCell(3).verify.value(ProductConstants.PolicyStatus.COMPANY_DECLINED);

@@ -33,11 +33,11 @@ public class TestPolicyCancellationMidTerm extends PersonalUmbrellaBaseTest {
     public void testPolicyCancellationMidTerm() {
         mainApp().open();
         
-        createPolicy(getStateTestData(tdPolicy, "DataGather", "TestData")
+        createPolicy(getPolicyTD("DataGather", "TestData")
         		.adjust("GeneralTab|PolicyInfo|Effective date", "/today-2d:MM/dd/yyyy"));
 
         log.info("TEST: MidTerm Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.cancel().perform(tdPolicy.getTestData("Cancellation", "TestData"));
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
     }

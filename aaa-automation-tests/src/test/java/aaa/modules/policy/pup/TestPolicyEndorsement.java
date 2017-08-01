@@ -20,15 +20,15 @@ public class TestPolicyEndorsement extends PersonalUmbrellaBaseTest {
 
 	     createCustomerIndividual();
 	       
-	     TestData td = adjustWithRealPolicies(getStateTestData(tdPolicy, "DataGather", "TestData"), getPrimaryPolicies());
+	     TestData td = adjustWithRealPolicies(getPolicyTD("DataGather", "TestData"), getPrimaryPolicies());
 	     policy.createPolicy(td);
 
 	     Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 			
 	     log.info("TEST: Flat Endorsement for PUP Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
 	     
-	     TestData endorsement_td = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData");
-	     policy.createEndorsement(endorsement_td.adjust(tdPolicy.getTestData("Endorsement", "TestData")));
+	     TestData endorsement_td = getTestSpecificTD("TestData");
+	     policy.createEndorsement(endorsement_td.adjust(getPolicyTD("Endorsement", "TestData")));
 	     
 	     CustomAssert.enableSoftMode();
 	        

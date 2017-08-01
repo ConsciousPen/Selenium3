@@ -27,7 +27,7 @@ public class TestPolicyNano extends AutoSSBaseTest {
 
 		log.info("Nano Policy Creation Started...");
 
-		TestData td = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData");
+		TestData td = getTestSpecificTD("TestData");
 		getPolicyType().get().createPolicy(td);
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

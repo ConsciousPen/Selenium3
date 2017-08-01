@@ -28,7 +28,7 @@ public class TestQuoteCreation extends PersonalUmbrellaBaseTest {
 
         createCustomerIndividual();
         
-        TestData td = getStateTestData(tdPolicy, "DataGather", "TestData");
+        TestData td = getPolicyTD("DataGather", "TestData");
         
         createQuote(td);
 

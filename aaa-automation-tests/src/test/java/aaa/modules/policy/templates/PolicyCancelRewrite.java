@@ -32,10 +32,10 @@ public class PolicyCancelRewrite extends PolicyBaseTest {
         
         CustomAssert.enableSoftMode();
 
-		policy.cancel().perform(tdPolicy.getTestData("Cancellation", "TestData"));
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
-		policy.rewrite().perform(tdPolicy.getTestData("Rewrite", "TestDataSameDate"));
+		policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.DATA_GATHERING);
 		
 		
@@ -43,7 +43,7 @@ public class PolicyCancelRewrite extends PolicyBaseTest {
 		log.info("TEST: Rewriting Policy #" + rewritePolicyNumber);
 		
 		policy.dataGather().start();
-		policy.getDefaultView().fill(tdPolicy.getTestData("Rewrite", "TestDataForBindRewrittenPolicy"));
+		policy.getDefaultView().fill(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy"));
 				
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

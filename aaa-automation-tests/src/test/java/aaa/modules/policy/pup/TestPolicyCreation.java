@@ -28,8 +28,8 @@ public class TestPolicyCreation extends PersonalUmbrellaBaseTest {
 
         //createCustomerIndividual();
        
-        //TestData td = adjustWithRealPolicies(getStateTestData(tdPolicy, "DataGather", "TestData"), getPrimaryPolicies());
-        TestData td = getStateTestData(tdPolicy, "DataGather", "TestData");
+        //TestData td = adjustWithRealPolicies(getPolicyTD("DataGather", "TestData"), getPrimaryPolicies());
+        TestData td = getPolicyTD("DataGather", "TestData");
         createPolicy(td);
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

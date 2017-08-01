@@ -33,9 +33,9 @@ public class TestPolicyChangeBrokerIntraAgencyOther extends PersonalUmbrellaBase
         createPolicy();
 
         log.info("TEST: Change Broker Inter Agency for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.changeBrokerRequest().perform(tdPolicy.getTestData("ChangeBroker", "TestData"));
+        policy.changeBrokerRequest().perform(getPolicyTD("ChangeBroker", "TestData"));
 
-        String newBrokerName = tdPolicy.getTestData("ChangeBroker", "TestData").getValue(
+        String newBrokerName = getPolicyTD("ChangeBroker", "TestData").getValue(
                 ChangeBrokerActionTab.class.getSimpleName(),
                 ChangeBrokerActionTab.NEW_BROKER.getLabel(),
                 ChangeBrokerActionTab.ChangeLocationMetaData.AGENCY_NAME.getLabel());

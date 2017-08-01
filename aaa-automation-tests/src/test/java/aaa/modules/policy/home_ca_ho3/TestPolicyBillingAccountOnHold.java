@@ -46,12 +46,12 @@ public class TestPolicyBillingAccountOnHold extends HomeCaHO3BaseTest {
 
         NavigationPage.toMainTab(AppMainTabs.BILLING.get());
         // 4-6
-        new BillingAccount().addHold().perform(tdSpecific.getTestData("AddHold"));
+        new BillingAccount().addHold().perform(getTestSpecificTD("AddHold"));
         addHoldActoinTab.getAssetList().getWarning(BillingAccountMetaData.AddHoldActionTab.HOLD_EFFECTIVE_DATE.getLabel()).verify.contains("Cannot be earlier than today");
         addHoldActoinTab.getAssetList().getWarning(BillingAccountMetaData.AddHoldActionTab.HOLD_EXPIRATION_DATE.getLabel()).verify.contains("Date must be after effective date");
 
         // 7. Change 'Effective Date' = current date, 'Expiration Date' = current date + 2 days, 'Reason' to 'Other' and verify error
-        addHoldActoinTab.fillTab(new SimpleDataProvider().adjust(tdSpecific.getTestData("AddHold_Adjustment")));
+        addHoldActoinTab.fillTab(new SimpleDataProvider().adjust(getTestSpecificTD("AddHold_Adjustment")));
         addHoldActoinTab.submitTab();
         addHoldActoinTab.getAssetList().getWarning(BillingAccountMetaData.AddHoldActionTab.ADDITIONAL_INFO.getLabel()).verify.contains("Value is required");
 

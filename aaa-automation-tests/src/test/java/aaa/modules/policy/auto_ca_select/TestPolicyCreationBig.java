@@ -34,7 +34,7 @@ public class TestPolicyCreationBig extends AutoCaSelectBaseTest {
 
 		log.info("Policy Creation Started...");
 		
-        TestData tdPolicyBig = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData");
+        TestData tdPolicyBig = getTestSpecificTD("TestData");
 		getPolicyType().get().createPolicy(tdPolicyBig);
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

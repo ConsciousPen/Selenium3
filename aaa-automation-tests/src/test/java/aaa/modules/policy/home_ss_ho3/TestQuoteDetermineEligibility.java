@@ -16,8 +16,8 @@ import toolkit.verification.CustomAssert;
 
 public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 	
-	private TestData td_3DetachedStructures = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_3_Detached_Structures"); 
-	private TestData td_4DetachedStructures = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_4_Detached_Structures"); 
+	private TestData td_3DetachedStructures = getTestSpecificTD("TestData_3_Detached_Structures"); 
+	private TestData td_4DetachedStructures = getTestSpecificTD("TestData_4_Detached_Structures"); 
 	private String ER0679 = "Dwellings with more than 2 detached building structures rented to others on";
 	private String WM0561 = "Dwellings with more than 3 detached building structures on the residence";
 	private String ER0680 = "Coverage B cannot exceed Coverage A";

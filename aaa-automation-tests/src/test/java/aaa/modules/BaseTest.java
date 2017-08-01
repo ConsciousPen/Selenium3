@@ -57,7 +57,7 @@ public class BaseTest {
 	private static Map<String, String> entities;
 	public String customerNumber;
 	protected Customer customer = new Customer();
-	protected TestData tdSpecific;
+	private TestData tdSpecific;
 	protected TestDataManager testDataManager;
 	private String quoteNumber;
 	private String key;
@@ -296,7 +296,11 @@ public class BaseTest {
 	protected OperationalReportApplication opReportApp() {
 		return ApplicationFactory.get().opReportApp(new LoginPage(initiateLoginTD()));
 	}
-
+	
+	protected TestData getTestSpecificTD(String tdName) {
+		return getStateTestData(tdSpecific, tdName);
+	}
+	
 	protected TestData getStateTestData(TestData td, String fileName, String tdName) {
 		if (!td.containsKey(fileName)) {
 			throw new TestDataException("Can't get test data file " + fileName);

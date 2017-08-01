@@ -32,13 +32,13 @@ public class TestPolicyRenew extends PersonalUmbrellaBaseTest {
         createCustomerIndividual();
 
         TestData tdPolicy = testDataManager.policy.get(getPolicyType());
-        createPolicy(tdPolicy.getTestData("DataGather", "TestData")
-                .adjust(tdPolicy.getTestData("CopyFromQuote", "TestData"))
-                .adjust(tdSpecific.getTestData("TestData"))
-                .adjust(tdPolicy.getTestData("Issue", "TestData").resolveLinks()));
+        createPolicy(getPolicyTD("DataGather", "TestData")
+                .adjust(getPolicyTD("CopyFromQuote", "TestData"))
+                .adjust(getTestSpecificTD("TestData"))
+                .adjust(getPolicyTD("Issue", "TestData").resolveLinks()));
 
         log.info("TEST: Manual Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.createRenewal(tdPolicy.getTestData("Issue", "TestData_ExistentBillingAccount"));
+        policy.createRenewal(getPolicyTD("Issue", "TestData_ExistentBillingAccount"));
 
         PolicySummaryPage.linkPolicy.click();
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

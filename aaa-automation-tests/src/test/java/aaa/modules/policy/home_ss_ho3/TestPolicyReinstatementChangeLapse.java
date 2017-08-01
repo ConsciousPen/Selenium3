@@ -37,22 +37,22 @@ public class TestPolicyReinstatementChangeLapse extends HomeSSHO3BaseTest {
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
 		log.info("Cancelling Policy #" + policyNumber);
-		policy.cancel().perform(tdPolicy.getTestData("Cancellation", "TestData"));
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
 		log.info("Reinstate Policy #" + policyNumber);
-		policy.reinstate().perform(tdPolicy.getTestData("Reinstatement", "TestData"));
+		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
 		PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present(false);
 
 		log.info("TEST: Add Lapse Period for Policy #" + policyNumber);
-		policy.changeReinstatementLapse().perform(tdPolicy.getTestData("ReinstatementChangeLapse", "TestData_Plus10Days"));
+		policy.changeReinstatementLapse().perform(getPolicyTD("ReinstatementChangeLapse", "TestData_Plus10Days"));
 		PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present();
 
 		log.info("TEST: Change Lapse Period for Policy #" + policyNumber);
-		policy.changeReinstatementLapse().perform(tdPolicy.getTestData("ReinstatementChangeLapse", "TestData_Plus5Days"));
+		policy.changeReinstatementLapse().perform(getPolicyTD("ReinstatementChangeLapse", "TestData_Plus5Days"));
 		PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present();
 
 		log.info("TEST: Remove Lapse Period for Policy #" + policyNumber);
-		policy.changeReinstatementLapse().perform(tdPolicy.getTestData("ReinstatementChangeLapse", "TestData"));
+		policy.changeReinstatementLapse().perform(getPolicyTD("ReinstatementChangeLapse", "TestData"));
 		PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present(false);
 	}
 }

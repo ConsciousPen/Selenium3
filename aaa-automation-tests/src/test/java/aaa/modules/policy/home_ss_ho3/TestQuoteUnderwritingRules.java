@@ -58,11 +58,11 @@ import toolkit.verification.CustomAssert;
  */
 public class TestQuoteUnderwritingRules extends HomeSSHO3BaseTest {
 
-	private TestData td = getStateTestData(tdPolicy, "DataGather", "TestData");
-	private TestData td_uw1 = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_UW1");
-	private TestData td_uw2 = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_UW2");
-	private TestData td_uw3 = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_UW3");
-	private TestData td_uw4 = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_UW4");
+	private TestData td = getPolicyTD("DataGather", "TestData");
+	private TestData td_uw1 = getTestSpecificTD("TestData_UW1");
+	private TestData td_uw2 = getTestSpecificTD("TestData_UW2");
+	private TestData td_uw3 = getTestSpecificTD("TestData_UW3");
+	private TestData td_uw4 = getTestSpecificTD("TestData_UW4");
 	
 	@Test
     @TestInfo(component = "Quote.HomeSS")

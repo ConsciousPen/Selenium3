@@ -41,10 +41,10 @@ public class TestPolicyPayments extends HomeSSHO3BaseTest {
 		TestData tdPolicy = testDataManager.policy.get(getPolicyType());
 
 		policy.initiate();
-		policy.getDefaultView().fillUpTo(getStateTestData(tdPolicy, "DataGather", "TestData"), BindTab.class, true);
+		policy.getDefaultView().fillUpTo(getPolicyTD("DataGather", "TestData"), BindTab.class, true);
 		new BindTab().submitTab();
 
-		new PurchaseTab().fillTab(tdPolicy.getTestData(this.getClass().getSimpleName(), "TestData")).submitTab();
+		new PurchaseTab().fillTab(getPolicyTD(this.getClass().getSimpleName(), "TestData")).submitTab();
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 

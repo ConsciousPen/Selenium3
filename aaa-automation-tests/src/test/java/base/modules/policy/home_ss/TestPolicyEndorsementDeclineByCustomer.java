@@ -29,10 +29,10 @@ public class TestPolicyEndorsementDeclineByCustomer extends HomeSSHO3BaseTest {
         createPolicy();
 
         log.info("TEST: Decline By Customer Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-	    policy.endorse().performAndExit(tdPolicy.getTestData("Endorsement", "TestData"));
+	    policy.endorse().performAndExit(getPolicyTD("Endorsement", "TestData"));
 	    PolicySummaryPage.buttonPendedEndorsement.click();
 
-        policy.declineByCustomerQuote().perform(tdPolicy.getTestData("DeclineByCustomer", "TestData"));
+        policy.declineByCustomerQuote().perform(getPolicyTD("DeclineByCustomer", "TestData"));
         PolicySummaryPage.buttonPendedEndorsement.click();
 
         PolicySummaryPage.tableEndorsements.getRow(1).getCell(3).verify.value(ProductConstants.PolicyStatus.CUSTOMER_DECLINED);

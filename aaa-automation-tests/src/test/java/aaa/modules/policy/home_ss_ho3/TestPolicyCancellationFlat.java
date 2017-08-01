@@ -29,7 +29,7 @@ public class TestPolicyCancellationFlat extends HomeSSHO3BaseTest {
 		createPolicy();
 
 		log.info("TEST: Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-		policy.cancel().perform(getStateTestData(tdPolicy, "Cancellation", "TestData"));
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 	}

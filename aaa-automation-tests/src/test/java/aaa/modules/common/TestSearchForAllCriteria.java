@@ -242,14 +242,14 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 
 		if (!EntitiesHolder.isEntityPresent(customerKey) || !EntitiesHolder.isEntityPresent(policyKey)) {
 			mainApp().open();
-			String customerNumber = createCustomerIndividual(tdSpecific.getTestData("CustomerCreation"));
+			String customerNumber = createCustomerIndividual(getTestSpecificTD("CustomerCreation"));
 			EntitiesHolder.addNewEntity(customerKey, customerNumber);
 			String policyNumber = searchFor.equals(SearchEnum.SearchFor.QUOTE) ? createQuote() : createPolicy();
 			EntitiesHolder.addNewEntity(policyKey, policyNumber);
 		}
 
 		if (!fullSearchData.containsKey(policyKey)) {
-			TestData customerGeneralTabData = tdSpecific.getTestData("CustomerCreation").getTestData(customer.getDefaultView().getTab(GeneralTab.class).getClass().getSimpleName());
+			TestData customerGeneralTabData = getTestSpecificTD("CustomerCreation").getTestData(customer.getDefaultView().getTab(GeneralTab.class).getClass().getSimpleName());
 			TestData agencyData0 = customerGeneralTabData.getTestDataList(CustomerMetaData.GeneralTab.AGENCY_ASSIGNMENT.getLabel()).get(0);
 
 			TestData searchData = DataProviderFactory.dataOf(

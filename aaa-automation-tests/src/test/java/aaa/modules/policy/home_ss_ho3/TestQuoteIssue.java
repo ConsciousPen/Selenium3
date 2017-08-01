@@ -30,7 +30,7 @@ public class TestQuoteIssue extends HomeSSHO3BaseTest {
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
 		log.info("TEST: Issue Quote #" + policyNumber);
-		policy.purchase(tdPolicy.getTestData("DataGather", "TestData"));
+		policy.purchase(getPolicyTD("DataGather", "TestData"));
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}

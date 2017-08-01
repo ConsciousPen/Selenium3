@@ -47,9 +47,9 @@ public class TestPolicyChangeBrokerInterAgencyOther extends HomeSSHO3BaseTest {
                 "Brokerage").getValue();
 
         log.info("TEST: Change Broker Inter Agency for Policy #" + policyNumber);
-        policy.changeBrokerRequest().perform(tdPolicy.getTestData("ChangeBroker", "TestDataInter_Other_Plus1Day"));
+        policy.changeBrokerRequest().perform(getPolicyTD("ChangeBroker", "TestDataInter_Other_Plus1Day"));
 
-        String newBrokerName = tdPolicy.getTestData("ChangeBroker", "TestDataInter_Other_Plus1Day").getValue(
+        String newBrokerName = getPolicyTD("ChangeBroker", "TestDataInter_Other_Plus1Day").getValue(
                 ChangeBrokerActionTab.class.getSimpleName(),
                 ChangeBrokerActionTab.LOCATION_NAME.getLabel(),
                 ChangeBrokerActionTab.ChangeLocationMetaData.AGENCY_NAME.getLabel());

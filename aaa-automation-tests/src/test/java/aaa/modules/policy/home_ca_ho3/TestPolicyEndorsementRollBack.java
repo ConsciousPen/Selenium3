@@ -38,15 +38,15 @@ public class TestPolicyEndorsementRollBack extends HomeCaHO3BaseTest {
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
 		log.info("MidTerm Endorsement for Policy #" + policyNumber);
-		policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData_Plus3Days")
-				.adjust(tdSpecific.getTestData("TestData").resolveLinks()));
+		policy.createEndorsement(getPolicyTD("Endorsement", "TestData_Plus3Days")
+				.adjust(getTestSpecificTD("TestData").resolveLinks()));
 
 		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
 
 		log.info("TEST: Roll Back Endorsement for Policy #" + policyNumber);
-		policy.rollBackEndorsement().perform(tdPolicy.getTestData("EndorsementRollBack", "TestData"));
+		policy.rollBackEndorsement().perform(getPolicyTD("EndorsementRollBack", "TestData"));
 		CustomAssert.assertTrue(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
 	}
 }

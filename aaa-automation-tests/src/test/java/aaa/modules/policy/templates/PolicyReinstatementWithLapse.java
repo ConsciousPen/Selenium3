@@ -38,11 +38,11 @@ public abstract class PolicyReinstatementWithLapse extends PolicyBaseTest {
         CustomAssert.enableSoftMode();
         
         log.info("Cancelling Policy #" + policyNumber);
-        policy.cancel().perform(tdPolicy.getTestData("Cancellation", "TestData"));
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
         log.info("TEST: Reinstate Policy With Lapse #" + policyNumber);
-        policy.reinstate().perform(tdPolicy.getTestData("Reinstatement", "TestData_Plus14Days"));
+        policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData_Plus14Days"));
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present();
         

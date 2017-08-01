@@ -34,7 +34,7 @@ public class TestPolicyRenewFlatCancellation extends PersonalUmbrellaBaseTest {
     @TestInfo(component = "Policy.PersonalLines")
     public void testPolicyRenewFlatCancellation() {
         mainApp().open();
-        createPolicy(getStateTestData(tdPolicy, "DataGather", "TestData")
+        createPolicy(getPolicyTD("DataGather", "TestData")
         		.adjust("GeneralTab|PolicyInfo|Effective date", "/today-3d:MM/dd/yyyy"));
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
@@ -43,7 +43,7 @@ public class TestPolicyRenewFlatCancellation extends PersonalUmbrellaBaseTest {
         policy.renew().performAndExit(new SimpleDataProvider());
 
         log.info("TEST: Cancellation Policy Renewal #" + policyNumber);
-        policy.cancel().perform(tdPolicy.getTestData("Cancellation", "TestData_Plus3Days"));
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus3Days"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
         PolicySummaryPage.buttonTransactionHistory.click();

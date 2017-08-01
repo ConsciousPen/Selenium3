@@ -41,16 +41,16 @@ public class TestPolicyEndorsementRollBack extends AutoSSBaseTest {
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
         log.info("MidTerm Endorsement for Policy #" + policyNumber);
-        policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData_Plus1Month")
-                .adjust(tdSpecific.getTestData("TestData").resolveLinks())
-                .adjust(tdPolicy.getTestData("Issue", "TestData_ExistentBillingAccount").resolveLinks()));
+        policy.createEndorsement(getPolicyTD("Endorsement", "TestData_Plus1Month")
+                .adjust(getTestSpecificTD("TestData").resolveLinks())
+                .adjust(getPolicyTD("Issue", "TestData_ExistentBillingAccount").resolveLinks()));
 
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
 
         log.info("TEST: Roll Back Endorsement for Policy #" + policyNumber);
-        policy.rollBackEndorsement().perform(tdPolicy.getTestData("EndorsementRollBack", "TestData"));
+        policy.rollBackEndorsement().perform(getPolicyTD("EndorsementRollBack", "TestData"));
         CustomAssert.assertTrue(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
     }
 }

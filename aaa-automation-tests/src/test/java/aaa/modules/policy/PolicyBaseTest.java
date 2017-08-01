@@ -10,7 +10,7 @@ import toolkit.datax.TestData;
 public abstract class PolicyBaseTest extends BaseTest {
 
     protected IPolicy policy;
-    protected TestData tdPolicy;
+    private TestData tdPolicy;
     
     public PolicyBaseTest() {
         PolicyType type = (PolicyType) getPolicyType();
@@ -18,6 +18,10 @@ public abstract class PolicyBaseTest extends BaseTest {
         	policy = type.get();
         }
         tdPolicy = testDataManager.policy.get(type);
+    }
+    
+    protected TestData getPolicyTD(String fileName, String tdName) {
+    	return getPolicyTD(fileName, tdName);
     }
 
 }

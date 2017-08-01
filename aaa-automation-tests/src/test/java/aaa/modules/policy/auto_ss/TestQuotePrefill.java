@@ -36,7 +36,7 @@ public class TestQuotePrefill extends AutoSSBaseTest {
 
 		policy.initiate();
 
-		TestData td = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData1");
+		TestData td = getTestSpecificTD("TestData1");
 
 		//get expected values from test data
 		String expectedNI = td.getTestData("VerificationData").getValue(AutoSSMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel());
@@ -103,7 +103,7 @@ public class TestQuotePrefill extends AutoSSBaseTest {
 
 		policy.initiate();
 
-		TestData td = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData2");
+		TestData td = getTestSpecificTD("TestData2");
 
 		//get expected values from test data
 		String expectedNI_1 = td.getTestDataList("VerificationData").get(0).getValue(AutoSSMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel());

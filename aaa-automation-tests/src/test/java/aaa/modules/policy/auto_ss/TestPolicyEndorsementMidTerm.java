@@ -35,10 +35,10 @@ public class TestPolicyEndorsementMidTerm extends AutoSSBaseTest {
 		
 		//make an endorsement using test data from TestPolicyEndorsementAdd test
 		//adjust reports tab - no need to check "Customer Agreement" for midterm endorsement
-    	TestData endorsement_td = getStateTestData(tdPolicy, TestPolicyEndorsementAdd.class.getSimpleName(), "TestData");
+    	TestData endorsement_td = getPolicyTD(TestPolicyEndorsementAdd.class.getSimpleName(), "TestData");
         policy.createEndorsement(endorsement_td
                 .mask(TestData.makeKeyPath(RatingDetailReportsTab.class.getSimpleName(), "Customer Agreement"))
-        		.adjust(tdPolicy.getTestData("Endorsement", "TestData")));
+        		.adjust(getPolicyTD("Endorsement", "TestData")));
 		
 
 		

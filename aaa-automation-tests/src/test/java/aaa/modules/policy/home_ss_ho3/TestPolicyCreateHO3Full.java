@@ -33,8 +33,8 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyCreateHO3Full extends HomeSSHO3BaseTest {
 
-	private TestData td = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData");
-	private TestData td_orderPPC = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_OrderPPC");
+	private TestData td = getTestSpecificTD("TestData");
+	private TestData td_orderPPC = getTestSpecificTD("TestData_OrderPPC");
 	
     @Test
     @TestInfo(component = "Policy.HomeSS")

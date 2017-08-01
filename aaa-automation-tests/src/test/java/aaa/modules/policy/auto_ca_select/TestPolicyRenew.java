@@ -27,7 +27,7 @@ public class TestPolicyRenew extends AutoCaSelectBaseTest {
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		policy.createRenewal(tdPolicy.getTestData(this.getClass().getSimpleName(), "TestData"));
+		policy.createRenewal(getPolicyTD(this.getClass().getSimpleName(), "TestData"));
 
 		PolicySummaryPage.buttonRenewals.verify.enabled();
 

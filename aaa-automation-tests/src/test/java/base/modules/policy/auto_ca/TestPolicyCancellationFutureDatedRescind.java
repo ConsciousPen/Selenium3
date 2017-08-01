@@ -40,7 +40,7 @@ public class TestPolicyCancellationFutureDatedRescind extends AutoCaSelectBaseTe
 
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
-		policy.cancel().perform(tdPolicy.getTestData("Cancellation", "TestData_Plus3Days"));
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus3Days"));
 
 		log.info("Cancellation Pending for Policy #" + policyNumber);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.CANCELLATION_PENDING);

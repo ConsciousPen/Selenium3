@@ -34,7 +34,7 @@ public class TestPolicyEndorsement extends HomeCaHO3BaseTest {
 
 		log.info("TEST: Endorsement for CAH Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
 
-		TestData td = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData").adjust(tdPolicy.getTestData("Endorsement", "TestData"));
+		TestData td = getTestSpecificTD("TestData").adjust(getPolicyTD("Endorsement", "TestData"));
 		policy.endorse().performAndFill(td);
 
 		CustomAssert.enableSoftMode();

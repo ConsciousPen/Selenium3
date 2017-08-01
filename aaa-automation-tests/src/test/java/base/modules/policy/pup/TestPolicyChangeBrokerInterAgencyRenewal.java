@@ -38,9 +38,9 @@ public class TestPolicyChangeBrokerInterAgencyRenewal extends PersonalUmbrellaBa
         String initialBroker = PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.BROKERAGE).getValue();
 
         log.info("TEST: Change Broker Inter Agency for Policy #" + policyNumber);
-        policy.changeBrokerRequest().perform(tdPolicy.getTestData("ChangeBroker", "TestData"));
+        policy.changeBrokerRequest().perform(getPolicyTD("ChangeBroker", "TestData"));
 
-        String newBrokerName = tdPolicy.getTestData("ChangeBroker", "TestData").getValue(
+        String newBrokerName = getPolicyTD("ChangeBroker", "TestData").getValue(
                 ChangeBrokerActionTab.class.getSimpleName(),
                 ChangeBrokerActionTab.NEW_BROKER.getLabel(),
                 ChangeBrokerActionTab.ChangeLocationMetaData.AGENCY_NAME.getLabel());
@@ -48,7 +48,7 @@ public class TestPolicyChangeBrokerInterAgencyRenewal extends PersonalUmbrellaBa
         CustomAssert.assertFalse(String.format("Broker name was changed from %s to %s", newBrokerName, initialBroker), initialBroker.equals(newBrokerName));
 
         log.info("Manual Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.createRenewal(tdPolicy.getTestData("Issue", "TestData_ExistentBillingAccount"));
+        policy.createRenewal(getPolicyTD("Issue", "TestData_ExistentBillingAccount"));
 
         PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.BROKERAGE).verify.value(newBrokerName);
 
