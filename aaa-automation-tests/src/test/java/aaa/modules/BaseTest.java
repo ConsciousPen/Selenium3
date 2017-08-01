@@ -25,8 +25,12 @@ import aaa.EntityLogger;
 import aaa.common.Constants;
 import aaa.common.Constants.States;
 import aaa.common.enums.SearchEnum;
+import aaa.common.enums.SearchEnum.SearchBy;
+import aaa.common.enums.SearchEnum.SearchFor;
+import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.metadata.LoginPageMeta;
 import aaa.common.pages.LoginPage;
+import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.EntitiesHolder;
 import aaa.helpers.TestDataManager;
@@ -195,11 +199,11 @@ public class BaseTest {
 	}
 
 	/**
-	 * Create quote using provided TestData Note: Suitable only for quote type
-	 * that is returned by test's getPolicyType()
+	 * Create quote using provided TestData</br>
+	 * Note: Suitable only for quote type that is returned by test's getPolicyType()</br>
+	 * PUP policy test data should be adjusted with Home policy number.
 	 *
-	 * @param td
-	 *            - test data for quote filling
+	 * @param td - test data for quote filling
 	 * @return
 	 */
 	protected String createQuote(TestData td) {
@@ -237,11 +241,11 @@ public class BaseTest {
 	}
 
 	/**
-	 * Create quote using provided TestData Note: Suitable only for policy type
-	 * that is returned by test's getPolicyType()
+	 * Create quote using provided TestData</br>
+	 * Note: Suitable only for policy type that is returned by test's getPolicyType()</br>
+	 * PUP policy test data should be adjusted with Home policy number.
 	 *
-	 * @param td
-	 *            - test data for policy filling and purchase
+	 * @param td - test data for policy filling and purchase
 	 * @return policy number
 	 */
 	protected String createPolicy(TestData td) {
@@ -293,11 +297,15 @@ public class BaseTest {
 	 * Should be used for PUP policy creation. If you need to create PUP
 	 * product, it is suggested to login, create/open customer first, then use
 	 * this method to get policy num.
-	 * 
 	 */
 	protected Map<String, String> getPrimaryPoliciesForPup() {
-		// EntitiesHolder.addNewEntiry(EntitiesHolder.makeDefaultHo3PolicyKey(PersonalLinesType.HOME_SS,
-		// getState()), "AZH3927277286");
+		//EntitiesHolder.addNewEntity(EntitiesHolder.makeDefaultPolicyKey(PolicyType.HOME_SS_HO3,
+		//getState()), "COH3927438929");
+		if (!NavigationPage.isMainTabSelected(AppMainTabs.CUSTOMER.get())) {
+			NavigationPage.toMainTab(AppMainTabs.CUSTOMER.get());
+		}
+		//remember customer that was created in test
+		String customerNum = CustomerSummaryPage.labelCustomerNumber.getValue();
 		Map<String, String> returnValue = new LinkedHashMap<String, String>();
 		String state = getState().intern();
 		synchronized (state) {
@@ -328,6 +336,10 @@ public class BaseTest {
 					EntitiesHolder.addNewEntity(keyAuto, PolicySummaryPage.labelPolicyNumber.getValue());
 					returnValue.put("Primary_Auto", EntitiesHolder.getEntity(keyAuto));
 				}
+			}
+			//open Customer that was created in test
+			if (!NavigationPage.isMainTabSelected(AppMainTabs.CUSTOMER.get())) {
+				SearchPage.search(SearchFor.CUSTOMER, SearchBy.CUSTOMER, customerNum);
 			}
 			return returnValue;
 		}
