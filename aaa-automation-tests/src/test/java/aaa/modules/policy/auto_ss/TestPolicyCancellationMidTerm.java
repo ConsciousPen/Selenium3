@@ -27,7 +27,7 @@ public class TestPolicyCancellationMidTerm extends AutoSSBaseTest {
 		
 		new TestPolicyBackdated().testPolicyBackdated();
 		
-		policy.cancel().perform(tdPolicy.getTestData("Cancellation", "TestData"));
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		
 		

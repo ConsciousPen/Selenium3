@@ -24,13 +24,13 @@ public class TestCreateAndCopyQuote extends HomeCaHO3BaseTest {
         mainApp().open();
         createCustomerIndividual();
 
-        policy.createQuote(tdPolicy.getTestData("DataGather", "TestData"));
+        policy.createQuote(getPolicyTD("DataGather", "TestData"));
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         log.info("Initial Quote policyNumber " + policyNumber);
 
-        policy.copyQuote().perform(tdPolicy.getTestData("CopyFromQuote", "TestData"));
+        policy.copyQuote().perform(getPolicyTD("CopyFromQuote", "TestData"));
         String policyNumberCopied = PolicySummaryPage.labelPolicyNumber.getValue();
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.DATA_GATHERING);
         log.info("Copied Quote policyNumber " + policyNumberCopied);

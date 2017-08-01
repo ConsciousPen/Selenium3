@@ -57,7 +57,7 @@ public abstract class ExampleQuoteActionAbstract extends PolicyBaseTest {
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
 		log.info("TEST: Issue Quote #" + policyNumber);
-		policy.purchase(tdPolicy.getTestData("DataGather", "TestData"));
+		policy.purchase(getPolicyTD("DataGather", "TestData"));
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
@@ -71,13 +71,13 @@ public abstract class ExampleQuoteActionAbstract extends PolicyBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
 		log.info("TEST: Created Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
 
-		policy.copyQuote().perform(tdPolicy.getTestData("CopyFromQuote", "TestData"));
+		policy.copyQuote().perform(getPolicyTD("CopyFromQuote", "TestData"));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.DATA_GATHERING);
 		log.info("TEST: Copied Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
 
 		policy.dataGather().start();
 
-		policy.getDefaultView().fill(getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData"));
+		policy.getDefaultView().fill(getTestSpecificTD("TestData"));
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info("TEST: Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());

@@ -60,9 +60,9 @@ public class TestPolicyRenewAutomaticOfferWithLapse extends PersonalUmbrellaBase
 
         createCustomerIndividual();
 
-        policy.createPolicy(tdPolicy.getTestData("DataGather", "TestData")
-                .adjust(tdPolicy.getTestData("DataGather", "Adjustment_NJ").resolveLinks())
-                .adjust(tdPolicy.getTestData("Issue", "TestData").resolveLinks()));
+        policy.createPolicy(getPolicyTD("DataGather", "TestData")
+                .adjust(getPolicyTD("DataGather", "Adjustment_NJ").resolveLinks())
+                .adjust(getPolicyTD("Issue", "TestData").resolveLinks()));
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();

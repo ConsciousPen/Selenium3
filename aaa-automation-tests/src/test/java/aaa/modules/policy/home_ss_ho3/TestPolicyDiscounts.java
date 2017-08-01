@@ -40,7 +40,7 @@ public class TestPolicyDiscounts extends HomeSSHO3BaseTest {
         
         createCustomerIndividual();
         
-        createPolicy(getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData"));    
+        createPolicy(getTestSpecificTD("TestData"));    
         
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
@@ -56,10 +56,10 @@ public class TestPolicyDiscounts extends HomeSSHO3BaseTest {
 		PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(multiPolicyDiscount_auto).verify.present();
 		PremiumsAndCoveragesQuoteTab.buttonCancel.click();
 		
-		new HomeSSPolicyActions.Endorse().perform(tdPolicy.getTestData("Endorsement", "TestData"));
+		new HomeSSPolicyActions.Endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
 		
-		TestData td_endorsement = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_Endorsement");
+		TestData td_endorsement = getTestSpecificTD("TestData_Endorsement");
 		
 		ApplicantTab applicantTab = new ApplicantTab();
 		applicantTab.fillTab(td_endorsement);

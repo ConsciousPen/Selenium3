@@ -38,9 +38,9 @@ public class TestPolicyChangeBrokerIntraAgencyRenewal extends PersonalUmbrellaBa
         createPolicy();
 
         log.info("TEST: Change Broker Inter Agency for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.changeBrokerRequest().perform(tdPolicy.getTestData("ChangeBroker", "TestData"));
+        policy.changeBrokerRequest().perform(getPolicyTD("ChangeBroker", "TestData"));
 
-        String newBrokerName = tdPolicy.getTestData("ChangeBroker", "TestData").getValue(
+        String newBrokerName = getPolicyTD("ChangeBroker", "TestData").getValue(
                 ChangeBrokerActionTab.class.getSimpleName(),
                 ChangeBrokerActionTab.NEW_BROKER.getLabel(),
                 ChangeBrokerActionTab.ChangeLocationMetaData.AGENCY_NAME.getLabel());
@@ -50,7 +50,7 @@ public class TestPolicyChangeBrokerIntraAgencyRenewal extends PersonalUmbrellaBa
         Tab.buttonTopCancel.click();
 
         log.info("Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.createRenewal(tdPolicy.getTestData("Issue", "TestData_ExistentBillingAccount"));
+        policy.createRenewal(getPolicyTD("Issue", "TestData_ExistentBillingAccount"));
 
         policy.policyInquiry().start();
         labelAgent.verify.value(newBrokerName);

@@ -44,7 +44,7 @@ public class TestQuoteSuspenseAddRemove extends PersonalUmbrellaBaseTest {
         log.info("Initiated Quote #" + policyNumber);
 
         log.info("TEST: Suspend Quote #" + policyNumber);
-        policy.suspendQuote().perform(tdPolicy.getTestData("SuspendQuote", "TestData"));
+        policy.suspendQuote().perform(getPolicyTD("SuspendQuote", "TestData"));
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.SUSPENDED);
 
         NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.description(1, String.format("Suspend Quote %s", policyNumber));
@@ -73,7 +73,7 @@ public class TestQuoteSuspenseAddRemove extends PersonalUmbrellaBaseTest {
         log.info("Initiated Quote #" + policyNumber);
 
         log.info("TEST: Suspend and reject confirmation for Quote #" + policyNumber);
-        policy.suspendQuote().start().getView().fill(tdPolicy.getTestData("SuspendQuote", "TestData"));
+        policy.suspendQuote().start().getView().fill(getPolicyTD("SuspendQuote", "TestData"));
         SuspendQuoteActionTab.buttonOk.click();
         Page.dialogConfirmation.reject();
 
@@ -88,7 +88,7 @@ public class TestQuoteSuspenseAddRemove extends PersonalUmbrellaBaseTest {
         NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.status(1, "Canceled");
 
         log.info("TEST: Suspend Quote #" + policyNumber);
-        policy.suspendQuote().perform(tdPolicy.getTestData("SuspendQuote", "TestData"));
+        policy.suspendQuote().perform(getPolicyTD("SuspendQuote", "TestData"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.SUSPENDED);
 

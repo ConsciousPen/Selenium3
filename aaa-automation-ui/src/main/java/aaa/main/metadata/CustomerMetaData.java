@@ -9,6 +9,7 @@ import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import com.exigen.ipb.etcsa.controls.productfactory.DatePicker;
 
+import aaa.toolkit.webdriver.customcontrols.AgencyAssignmentMultiAssetList;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.ComboBox;
@@ -32,7 +33,7 @@ public final class CustomerMetaData {
 		public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last Name", TextBox.class);
 		public static final AssetDescriptor<ComboBox> SUFFIX = declare("Suffix", ComboBox.class);
 		public static final AssetDescriptor<TextBox> NICKNAME = declare("Nickname", TextBox.class);
-		public static final AssetDescriptor<ComboBox> LEAD_STATUS = declare("Lead Status", ComboBox.class);
+		 public static final AssetDescriptor<ComboBox> LEAD_STATUS = declare("Lead Status", ComboBox.class);
 		public static final AssetDescriptor<TextBox> DATE_OF_BIRTH = declare("Date of Birth", TextBox.class);
 		public static final AssetDescriptor<ComboBox> GENDER = declare("Gender", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> MARITAL_STATUS = declare("Marital Status", ComboBox.class);
@@ -61,7 +62,7 @@ public final class CustomerMetaData {
         public static final AssetDescriptor<TextBox> ADDRESS_LINE_3 = declare("Address Line 3", TextBox.class);
         public static final AssetDescriptor<ComboBox> NON_INDIVIDUAL_TYPE = declare("Non-Individual Type", ComboBox.class);
         public static final AssetDescriptor<TextBox> NAME_LEGAL = declare("Name - Legal", TextBox.class);
-        public static final AssetDescriptor<DialogSingleSelector> AGENCY_PRODUCER = declare("Agency/Producer", DialogSingleSelector.class, AddAgencyMetaData.class);
+        public static final AssetDescriptor<AgencyAssignmentMultiAssetList> AGENCY_ASSIGNMENT = declare("Agency Assignment", AgencyAssignmentMultiAssetList.class, AddAgencyMetaData.class);
         public static final AssetDescriptor<TextBox> EIN = declare("EIN", TextBox.class);
         public static final AssetDescriptor<TextBox> DATE_BUSINESS_STARTED = declare("Date business started", TextBox.class);
         public static final AssetDescriptor<ComboBox> DIVISION = declare("Division", ComboBox.class);
@@ -123,15 +124,12 @@ public final class CustomerMetaData {
         }
 
         public static final class AddAgencyMetaData extends MetaData {
-            public static final AssetDescriptor<ComboBox> CHANNEL = declare("Channel", ComboBox.class);
-            public static final AssetDescriptor<TextBox> AGENCY_NAME = declare("Agency Name", TextBox.class);
-            public static final AssetDescriptor<TextBox> AGENCY_CODE = declare("Agency Code", TextBox.class);
-            public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip Code", TextBox.class);
-            public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class);
-            public static final AssetDescriptor<TextBox> STATE = declare("State", TextBox.class);
-
-            public static final AssetDescriptor<Button> BUTTON_OPEN_POPUP = declare(AbstractDialog.DEFAULT_POPUP_OPENER_NAME, Button.class, Waiters.DEFAULT, false,
-                    By.id("crmForm:changeCustomerProducerCdBtn_0"));
+	        public static final AssetDescriptor<ComboBox> AGENCY_CHANNEL = declare("Channel", ComboBox.class, Waiters.NONE, false, By.id("brokerSearchFromcrmCustomerBrokerCd:brokerSearchCriteria_channelCd"));
+	        public static final AssetDescriptor<TextBox> AGENCY_NAME = declare("Agency Name", TextBox.class, Waiters.NONE, false);
+	        public static final AssetDescriptor<TextBox> AGENCY_CODE = declare("Agency Code", TextBox.class, Waiters.NONE, false);
+	        public static final AssetDescriptor<TextBox> AGENCY_ZIP_CODE = declare("Zip Code", TextBox.class, Waiters.NONE, false, By.id("brokerSearchFromcrmCustomerBrokerCd:brokerSearchCriteria_postalCode"));
+	        public static final AssetDescriptor<TextBox> AGENCY_CITY = declare("City", TextBox.class, Waiters.NONE, false, By.id("brokerSearchFromcrmCustomerBrokerCd:brokerSearchCriteria_city"));
+	        public static final AssetDescriptor<TextBox> AGENCY_STATE = declare("State", TextBox.class, Waiters.NONE, false);
         }
     }
 

@@ -45,7 +45,7 @@ public class TestQuoteDeclineByCompany extends AutoCaSelectBaseTest {
         log.info("Initiated Quote #" + policyNumber);
 
         log.info("TEST: Decline by Company Quote #" + policyNumber);
-        policy.declineByCompanyQuote().perform(tdPolicy.getTestData("DeclineByCompany", "TestData"));
+        policy.declineByCompanyQuote().perform(getPolicyTD("DeclineByCompany", "TestData"));
 
         CustomAssert.enableSoftMode();
 
@@ -54,7 +54,7 @@ public class TestQuoteDeclineByCompany extends AutoCaSelectBaseTest {
         NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.description(1, String.format(
                 "Company Decline Quote %s effective %s (%s)", policyNumber,
                 TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY),
-                tdPolicy.getTestData("DeclineByCompany", "TestData").getValue(
+                getPolicyTD("DeclineByCompany", "TestData").getValue(
                         AutoCaMetaData.DeclineActionTab.class.getSimpleName(),
                         AutoCaMetaData.DeclineActionTab.DECLINE_REASON.getLabel())));
         NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.status(1, "Finished");
@@ -80,7 +80,7 @@ public class TestQuoteDeclineByCompany extends AutoCaSelectBaseTest {
         log.info("TEST: Decline by Company with invalid data for Quote #" + policyNumber);
 
         policy.declineByCompanyQuote().start().getView().fill(
-                tdPolicy.getTestData("DeclineByCompany", "TestData")
+                getPolicyTD("DeclineByCompany", "TestData")
                         .mask(AutoCaMetaData.DeclineActionTab.class.getSimpleName(),
                                 AutoCaMetaData.DeclineActionTab.DECLINE_REASON.getLabel()));
 
@@ -93,7 +93,7 @@ public class TestQuoteDeclineByCompany extends AutoCaSelectBaseTest {
 
         log.info("TEST: Decline by Company and reject confirmation for Quote #" + policyNumber);
 
-        policy.declineByCompanyQuote().getView().fill(tdPolicy.getTestData("DeclineByCompany", "TestData"));
+        policy.declineByCompanyQuote().getView().fill(getPolicyTD("DeclineByCompany", "TestData"));
 
         DeclineActionTab.buttonOk.click();
         Page.dialogConfirmation.reject();

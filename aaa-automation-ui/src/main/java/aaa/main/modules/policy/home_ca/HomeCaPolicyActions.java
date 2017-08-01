@@ -13,6 +13,7 @@ import aaa.main.modules.policy.home_ca.views.ChangeBrokerView;
 import aaa.main.modules.policy.home_ca.views.ChangeReinstatementLapsePeriodView;
 import aaa.main.modules.policy.home_ca.views.CopyPolicyView;
 import aaa.main.modules.policy.home_ca.views.CopyQuoteView;
+import aaa.main.modules.policy.home_ca.views.DataGatheringEndorsementView;
 import aaa.main.modules.policy.home_ca.views.DeclineByCompanyView;
 import aaa.main.modules.policy.home_ca.views.DeclineByCustomerView;
 import aaa.main.modules.policy.home_ca.views.DefaultView;
@@ -54,7 +55,7 @@ public final class HomeCaPolicyActions {
             start();
             getView().fill(td);
             submit();
-            new DataGather().getView().fill(td);
+            new DataGatheringEndorsementView().fill(td);
             return this;
         }
     }

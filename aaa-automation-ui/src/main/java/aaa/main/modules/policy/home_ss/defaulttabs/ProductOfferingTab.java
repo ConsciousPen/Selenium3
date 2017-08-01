@@ -23,6 +23,7 @@ public class ProductOfferingTab extends Tab {
     }
     public Button addEndorsement = new Button(By.id("policyDataGatherForm:addEndorsements_footer"), Waiters.AJAX);
     public Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalcCov_footer"));
+    public Button btnAddAdditionalVariation = new Button(By.id("policyDataGatherForm:addAdditionalVariation"));
 
     @Override
     public Tab submitTab() {

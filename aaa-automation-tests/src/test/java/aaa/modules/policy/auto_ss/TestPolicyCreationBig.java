@@ -28,7 +28,7 @@ public class TestPolicyCreationBig extends AutoSSBaseTest {
         
 		log.info("Policy Creation Started...");
 		
-        TestData bigPolicy_td = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData");
+        TestData bigPolicy_td = getTestSpecificTD("TestData");
 		getPolicyType().get().createPolicy(bigPolicy_td);
 
         CustomAssert.enableSoftMode();

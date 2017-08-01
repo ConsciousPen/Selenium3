@@ -30,11 +30,11 @@ public class TestPolicyBackdated extends AutoCaSelectBaseTest {
         createCustomerIndividual();
 
 
-        TestData backdated_td = getStateTestData(tdPolicy, "DataGather", "TestData")
+        TestData backdated_td = getPolicyTD("DataGather", "TestData")
                 .adjust(TestData.makeKeyPath("GeneralTab","PolicyInformation","Effective Date"), "/today-10d:MM/dd/yyyy");
 
 		createPolicy(backdated_td);
-		//policy.createPolicy(tdPolicy.getTestData("DataGather", "TestData"));
+		//policy.createPolicy(getPolicyTD("DataGather", "TestData"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 

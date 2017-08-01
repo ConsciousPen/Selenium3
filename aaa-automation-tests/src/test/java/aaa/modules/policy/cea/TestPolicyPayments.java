@@ -36,14 +36,14 @@ public class TestPolicyPayments extends CaliforniaEarthquakeBaseTest {
 		
 		createCustomerIndividual();
 		
-		TestData td = tdPolicy.getTestData("DataGather", "TestData");
+		TestData td = getPolicyTD("DataGather", "TestData");
 		td = adjustHO3PrimaryPolicy(td, getPrimaryHO3Policy());
 		
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(td, BindTab.class, true);
 		new BindTab().submitTab();
 		
-		new PurchaseTab().fillTab(tdPolicy.getTestData(this.getClass().getSimpleName(), "TestData")).submitTab();
+		new PurchaseTab().fillTab(getPolicyTD(this.getClass().getSimpleName(), "TestData")).submitTab();
 		
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.BOUND);	
 		

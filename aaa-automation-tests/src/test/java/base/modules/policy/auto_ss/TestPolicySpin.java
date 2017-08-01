@@ -45,17 +45,17 @@ public class TestPolicySpin extends AutoSSBaseTest {
         String customerName = CustomerSummaryPage.labelCustomerName.getValue();
 
         //TODO(ushvets): remove list adjustment form test
-        TestData t = tdSpecific.getTestData("TestData").getTestDataList("DriverTab").get(1).adjust("Last Name", "FirstDriverLName" + customerID);
-        List<TestData> list = tdSpecific.getTestData("TestData").getTestDataList("DriverTab");
+        TestData t = getTestSpecificTD("TestData").getTestDataList("DriverTab").get(1).adjust("Last Name", "FirstDriverLName" + customerID);
+        List<TestData> list = getTestSpecificTD("TestData").getTestDataList("DriverTab");
         list.set(1, t);
 
-        policy.createPolicy(tdSpecific.getTestData("TestData").adjust("DriverTab", list)
-                .adjust(tdPolicy.getTestData("Issue", "TestData").resolveLinks()));
+        policy.createPolicy(getTestSpecificTD("TestData").adjust("DriverTab", list)
+                .adjust(getPolicyTD("Issue", "TestData").resolveLinks()));
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
         log.info("TEST: Spin Policy #" + policyNumber);
-        policy.policySpin().perform(tdSpecific.getTestData("TestData").resolveLinks());
+        policy.policySpin().perform(getTestSpecificTD("TestData").resolveLinks());
 
         SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.LAST_NAME, "FirstDriverLName" + customerID);
         String newPolicyNumber = CustomerSummaryPage.tableQuotes.getRow(1).getCell(CustomerConstants.CustomerQuotesTable.QUOTE).getValue();
@@ -69,17 +69,17 @@ public class TestPolicySpin extends AutoSSBaseTest {
         PolicySummaryPage.tablePolicyVehicles.getRow(PolicyConstants.PolicyVehiclesTable.MAKE, "AUDI").verify.present(false);
         PolicySummaryPage.tablePolicyVehicles.getRow(PolicyConstants.PolicyVehiclesTable.MAKE, "FORD").verify.present(false);
 
-        policy.dataGather().perform(tdSpecific.getTestData("DataGather"));
-//        policy.issue().perform(tdPolicy.getTestData("Issue", "TestData"));
-        policy.purchase(tdPolicy.getTestData("DataGather", "TestData"));
+        policy.dataGather().perform(getTestSpecificTD("DataGather"));
+//        policy.issue().perform(getPolicyTD("Issue", "TestData"));
+        policy.purchase(getPolicyTD("DataGather", "TestData"));
 
         MainPage.QuickSearch.search(policyNumber);
 
         PolicySummaryPage.buttonPendedEndorsement.click();
 //        policy.calculatePremium(td);
 //        PolicySummaryPage.buttonPendedEndorsement.click();
-//        policy.issue().perform(tdPolicy.getTestData("Issue", "TestDataWOPaymentPlan"));
-        policy.calculatePremiumAndPurchase(tdPolicy.getTestData("DataGather", "TestDataWOPaymentPlan"));
+//        policy.issue().perform(getPolicyTD("Issue", "TestDataWOPaymentPlan"));
+        policy.calculatePremiumAndPurchase(getPolicyTD("DataGather", "TestDataWOPaymentPlan"));
 
         PolicySummaryPage.tablePolicyDrivers.getRow(PolicyConstants.PolicyDriversTable.NAME, "FirstDriverFName FirstDriverLName" + customerID).verify.present(false);
         PolicySummaryPage.tablePolicyDrivers.getRow(PolicyConstants.PolicyDriversTable.NAME, "SecondDriverFName SecondDriverLName").verify.present();

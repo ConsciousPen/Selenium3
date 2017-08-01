@@ -34,7 +34,7 @@ public class TestPolicyEndorsementDeletePending extends PersonalUmbrellaBaseTest
         log.info("TEST: Delete Pending Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
        
 
-        policy.endorse().performAndExit(tdPolicy.getTestData("Endorsement", "TestData"));
+        policy.endorse().performAndExit(getPolicyTD("Endorsement", "TestData"));
         PolicySummaryPage.buttonPendedEndorsement.click();
 
         policy.deletePendedTransaction().perform(new SimpleDataProvider());

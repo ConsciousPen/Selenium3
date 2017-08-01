@@ -28,7 +28,7 @@ public class TestQuoteIssue extends HomeCaHO3BaseTest {
         createQuote();
 
         log.info("TEST: Issue Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.purchase(tdPolicy.getTestData("DataGather", "TestData"));
+        policy.purchase(getPolicyTD("DataGather", "TestData"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }

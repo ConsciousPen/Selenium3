@@ -48,9 +48,9 @@ public class TestPolicyEndorsementAutomatic extends PersonalUmbrellaBaseTest {
 
         createCustomerIndividual();
 
-        policy.createPolicy(tdPolicy.getTestData("DataGather", "TestData")
-                .adjust(tdPolicy.getTestData("DataGather", "Adjustment_NY").resolveLinks())
-                .adjust(tdPolicy.getTestData("Issue", "TestData").resolveLinks()));
+        policy.createPolicy(getPolicyTD("DataGather", "TestData")
+                .adjust(getPolicyTD("DataGather", "Adjustment_NY").resolveLinks())
+                .adjust(getPolicyTD("Issue", "TestData").resolveLinks()));
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();

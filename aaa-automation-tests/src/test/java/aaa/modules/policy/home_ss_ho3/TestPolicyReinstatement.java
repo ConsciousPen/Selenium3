@@ -33,13 +33,13 @@ public class TestPolicyReinstatement extends HomeSSHO3BaseTest {
 
 		String tdName = this.getClass().getSimpleName();
 
-		new HomeSSPolicyActions.Cancel().perform(tdPolicy.getTestData(tdName, "TestData_Cancellation"));
+		new HomeSSPolicyActions.Cancel().perform(getPolicyTD(tdName, "TestData_Cancellation"));
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
 		log.info("TEST: HSS Policy #" + policyNumber + "is cancelled");
 
-		new HomeSSPolicyActions.Reinstate().perform(tdPolicy.getTestData(tdName, "TestData_Reinstatement"));
+		new HomeSSPolicyActions.Reinstate().perform(getPolicyTD(tdName, "TestData_Reinstatement"));
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 

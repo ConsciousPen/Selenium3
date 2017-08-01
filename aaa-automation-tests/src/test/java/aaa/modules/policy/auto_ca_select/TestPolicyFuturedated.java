@@ -31,7 +31,7 @@ public class TestPolicyFuturedated extends AutoCaSelectBaseTest {
 		log.info("Policy Creation Started...");
 
 		//adjust default policy data with effective date = today plus 10 days
-		TestData td = getStateTestData(tdPolicy, "DataGather", "TestData")
+		TestData td = getPolicyTD("DataGather", "TestData")
 				.adjust(TestData.makeKeyPath("GeneralTab",
 						AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
 						AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()),

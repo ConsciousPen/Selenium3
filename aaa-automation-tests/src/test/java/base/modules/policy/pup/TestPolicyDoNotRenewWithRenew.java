@@ -45,7 +45,7 @@ public class TestPolicyDoNotRenewWithRenew extends PersonalUmbrellaBaseTest {
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
         log.info("TEST: Do Not Renew for Policy #" + policyNumber);
-        policy.doNotRenew().perform(tdPolicy.getTestData("DoNotRenew", "TestData"));
+        policy.doNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         PolicySummaryPage.labelDoNotRenew.verify.present();

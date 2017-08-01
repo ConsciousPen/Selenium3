@@ -525,12 +525,13 @@ public final class HomeSSMetaData {
 
 		public static final class DetachedStructures extends MetaData {
 			public static final AssetDescriptor<RadioGroup> ARE_THERE_ANY_DETACHED_STRUCTURES_ON_THE_PROPERTY = declare("Are there any detached structures on the property?", RadioGroup.class, Waiters.AJAX);
-			public static final AssetDescriptor<AssetListConfirmationDialog> REMOVE_CONFIRMATION = declare("Remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmOptionalNoSelected_AAAHODetachedStructuresInfoComponent_Dialog_container"));
-			public static final AssetDescriptor<RadioGroup> RENTED_TO_OTHERS = declare("Rented to others", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<AssetListConfirmationDialog> REMOVE_CONFIRMATION = declare("Remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmOptionalNoSelected_AAAHODetachedStructuresInfoComponent_Dialog_container")); 
+			public static final AssetDescriptor<Button> BTN_ADD_STRUCTURE = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addAAAHODetachedStructuresInfoComponent"));
+			public static final AssetDescriptor<RadioGroup> RENTED_TO_OTHERS = declare("Rented to others", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:sedit_AAAHODetachedStructuresInfoComponent_aaaRentedToOther']"));
 			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> NUMBER_OF_FAMILY_UNITS = declare("Number of family units", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> NUMBER_OF_OCCUPANTS = declare("Number of occupants", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> NUMBER_OF_FAMILY_UNITS = declare("Number of family units", ComboBox.class, Waiters.AJAX, By.xpath("//select[@id='policyDataGatherForm:sedit_AAAHODetachedStructuresInfoComponent_aaaNumberOfFamilyunits']"));
+			public static final AssetDescriptor<ComboBox> NUMBER_OF_OCCUPANTS = declare("Number of occupants", ComboBox.class, Waiters.AJAX, By.xpath("//select[@id='policyDataGatherForm:sedit_AAAHODetachedStructuresInfoComponent_aaaNumberOfOccupants']"));
 		}
 
 		public static final class FireProtectiveDD extends MetaData {
@@ -694,7 +695,8 @@ public final class HomeSSMetaData {
 	}
 
 	public static final class ProductOfferingTab extends MetaData {
-		public static final AssetDescriptor<TextBox> SEQUENCE = declare("Sequence #", TextBox.class);
+		//TODO-dchubkov: didn't find such controls, should we remove them?
+		/*public static final AssetDescriptor<TextBox> SEQUENCE = declare("Sequence #", TextBox.class);
 		public static final AssetDescriptor<ComboBox> INCIDENT_SOURCE = declare("Incident Source", ComboBox.class);
 		public static final AssetDescriptor<RadioGroup> INCLUDE_IN_RATING = declare("Include in Rating", RadioGroup.class);
 		public static final AssetDescriptor<ComboBox> REASON = declare("Reason", ComboBox.class);
@@ -703,7 +705,11 @@ public final class HomeSSMetaData {
 		public static final AssetDescriptor<ComboBox> CLAIM_TYPE = declare("Claim Type", ComboBox.class);
 		public static final AssetDescriptor<TextBox> DATE_OF_LOSS = declare("Date of Loss", TextBox.class);
 		public static final AssetDescriptor<TextBox> CLAIM_AMOUNT = declare("Claim Amount", TextBox.class);
-		public static final AssetDescriptor<TextBox> DESCRIPTION_OF_LOSS = declare("Description of Loss", TextBox.class);
+		public static final AssetDescriptor<TextBox> DESCRIPTION_OF_LOSS = declare("Description of Loss", TextBox.class);*/
+
+		/*public static final AssetDescriptor<ProductOfferingVariationControl> HERITAGE = declare("Heritage", ProductOfferingVariationControl.class);
+		public static final AssetDescriptor<ProductOfferingVariationControl> LEGACY = declare("Legacy", ProductOfferingVariationControl.class);
+		public static final AssetDescriptor<ProductOfferingVariationControl> PRESTIGE = declare("Prestige", ProductOfferingVariationControl.class);*/
 	}
 
 	public static final class EndorsementTab extends MetaData {

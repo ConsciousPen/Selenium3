@@ -47,7 +47,7 @@ public class TestPolicySpin extends AutoSSBaseTest {
 
 		log.info("Policy Creation Started...");
 
-		TestData bigPolicy_td = getStateTestData(tdPolicy, "TestPolicyCreationBig", "TestData");
+		TestData bigPolicy_td = getPolicyTD("TestPolicyCreationBig", "TestData");
 		getPolicyType().get().createPolicy(bigPolicy_td);
 
 		//Read and store zip code from UI, will need it to fill values for spun quote
@@ -56,7 +56,7 @@ public class TestPolicySpin extends AutoSSBaseTest {
 		CustomAssert.enableSoftMode();
 
 		//1. initiate spin action
-		policy.policySpin().perform(getStateTestData(tdPolicy, this.getClass().getSimpleName(), "SpinTestData"));
+		policy.policySpin().perform(getTestSpecificTD("SpinTestData"));
 
 		//as a result on Spin action two items are created: 
 		//A) pended endorsement for current policy
@@ -73,7 +73,7 @@ public class TestPolicySpin extends AutoSSBaseTest {
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		PolicySummaryPage.tableEndorsements.getRow(1).getCell(8).controls.buttons.getFirst().click();
 
-		policy.dataGather().getView().fill(getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_endorsement"));
+		policy.dataGather().getView().fill(getTestSpecificTD("TestData_endorsement"));
 
 		//4. Check policy is bind and now has 1NI/1Driver/1Vehicle
 		PolicySummaryPage.tablePolicyDrivers.verify.rowsCount(1);
@@ -86,7 +86,7 @@ public class TestPolicySpin extends AutoSSBaseTest {
 		//SearchPage.search(SearchFor.QUOTE, SearchBy.POLICY_QUOTE, "QUTSS927278692");
 
 		//modify zip code corresponding to state
-		TestData quoteTestData = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData");
+		TestData quoteTestData = getTestSpecificTD("TestData");
 
 		TestData namedInsured = quoteTestData.getTestData("GeneralTab").getTestDataList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel()).get(0)
 				.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ZIP_CODE.getLabel()), zip_code);

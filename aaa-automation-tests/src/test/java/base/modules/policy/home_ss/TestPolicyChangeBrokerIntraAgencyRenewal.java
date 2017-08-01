@@ -42,17 +42,17 @@ public class TestPolicyChangeBrokerIntraAgencyRenewal extends HomeSSHO3BaseTest 
         GeneralTab.buttonTopCancel.click();
 
         log.info("TEST: Change Broker Inter Agency for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.changeBrokerRequest().perform(tdPolicy.getTestData("ChangeBroker", "TestDataIntra_Renewal"));
+        policy.changeBrokerRequest().perform(getPolicyTD("ChangeBroker", "TestDataIntra_Renewal"));
 
         policy.policyInquiry().start();
         labelAgent.verify.value(initialAgent);
         GeneralTab.buttonTopCancel.click();
 
         log.info("Manual Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.createRenewal(tdPolicy.getTestData("Issue", "TestData_ExistentBillingAccount"));
+        policy.createRenewal(getPolicyTD("Issue", "TestData_ExistentBillingAccount"));
 
         policy.policyInquiry().start();
-        labelAgent.verify.value(tdPolicy.getTestData("ChangeBroker", "TestDataIntra_Renewal").getValue(
+        labelAgent.verify.value(getPolicyTD("ChangeBroker", "TestDataIntra_Renewal").getValue(
                 ChangeBrokerActionTab.class.getSimpleName(),
                 ChangeBrokerActionTab.INSURANCE_AGENT.getLabel()));
         GeneralTab.buttonTopCancel.click();

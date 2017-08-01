@@ -47,10 +47,10 @@ public class TestPolicyCancelNoticeWithCancellation extends PersonalUmbrellaBase
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
         log.info("Cancel Notice for Policy #" + policyNumber);
-        policy.cancelNotice().perform(tdPolicy.getTestData("CancelNotice", "TestData"));
+        policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData"));
         PolicySummaryPage.labelCancelNotice.verify.present();
 
-        int daysOfNotice = Integer.parseInt(tdPolicy.getTestData("CancelNotice", "TestData").getValue(
+        int daysOfNotice = Integer.parseInt(getPolicyTD("CancelNotice", "TestData").getValue(
                 CancelNoticeActionTab.class.getSimpleName(),
                 HomeSSMetaData.CancelNoticeActionTab.DAYS_OF_NOTICE.getLabel()));
 

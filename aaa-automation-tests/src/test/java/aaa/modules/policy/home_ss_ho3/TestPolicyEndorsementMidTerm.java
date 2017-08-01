@@ -30,7 +30,7 @@ public class TestPolicyEndorsementMidTerm extends HomeSSHO3BaseTest {
 		mainApp().open();
 		
 		createCustomerIndividual();
-		createPolicy(getStateTestData(tdPolicy, "DataGather", "TestData")
+		createPolicy(getPolicyTD("DataGather", "TestData")
 				.adjust("GeneralTab|Effective date", "/today-2d:MM/dd/yyyy")
 				.adjust("GeneralTab|Property insurance base date with CSAA IG", "/today-2d:MM/dd/yyyy"));
 
@@ -38,8 +38,8 @@ public class TestPolicyEndorsementMidTerm extends HomeSSHO3BaseTest {
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
 		log.info("TEST: MidTerm Endorsement for Policy #" + policyNumber);
-		policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData")
-				.adjust(tdSpecific.getTestData("TestData").resolveLinks()));
+		policy.createEndorsement(getPolicyTD("Endorsement", "TestData")
+				.adjust(getTestSpecificTD("TestData").resolveLinks()));
 
 		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

@@ -32,9 +32,9 @@ public class TestPolicyUpdateInsuredInterestInfo extends AutoSSBaseTest {
         createPolicy();
 
         log.info("TEST: Update Insured / Interest Info Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.nonPremiumBearingEndorsement().perform(tdPolicy.getTestData("NonPremiumBearingEndorsement", "TestData"));
+        policy.nonPremiumBearingEndorsement().perform(getPolicyTD("NonPremiumBearingEndorsement", "TestData"));
 
-        TestData testData = tdPolicy.getTestData("NonPremiumBearingEndorsement", "TestData").getTestData(
+        TestData testData = getPolicyTD("NonPremiumBearingEndorsement", "TestData").getTestData(
                 NonPremiumBearingEndorsementActionTab.class.getSimpleName());
 
         PolicySummaryPage.tableInsuredInformation.getRow(1).getCell(1).verify.value(

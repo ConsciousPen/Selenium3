@@ -40,7 +40,7 @@ public class TestQuoteCopy extends HomeCaHO3BaseTest {
         log.info("Initiated Quote #" + policyNumber);
 
         log.info("TEST: Copy From Quote #" + policyNumber);
-        policy.copyQuote().perform(tdPolicy.getTestData("CopyFromQuote", "TestData"));
+        policy.copyQuote().perform(getPolicyTD("CopyFromQuote", "TestData"));
 
         String policyNumberCopied = PolicySummaryPage.labelPolicyNumber.getValue();
         log.info("Copied Quote #" + policyNumberCopied);
@@ -65,7 +65,7 @@ public class TestQuoteCopy extends HomeCaHO3BaseTest {
         log.info("Initiated Quote #" + policyNumber);
 
         log.info("TEST: Copy and reject confirmation for Quote #" + policyNumber);
-        policy.copyQuote().start().getView().fill(tdPolicy.getTestData("CopyFromQuote", "TestData"));
+        policy.copyQuote().start().getView().fill(getPolicyTD("CopyFromQuote", "TestData"));
 
         Tab.buttonOk.click();
         Page.dialogConfirmation.reject();

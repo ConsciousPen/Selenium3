@@ -38,22 +38,22 @@ public class TestPolicySplit extends AutoSSBaseTest {
         createCustomerIndividual();
         String customerName = CustomerSummaryPage.labelCustomerName.getValue();
 
-        policy.createPolicy(tdSpecific.getTestData("TestData")
-                .adjust(tdPolicy.getTestData("Issue", "TestData").resolveLinks()));
+        policy.createPolicy(getTestSpecificTD("TestData")
+                .adjust(getPolicyTD("Issue", "TestData").resolveLinks()));
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
         log.info("TEST: Spin Policy #" + policyNumber);
 
-        policy.policySplit().perform(tdSpecific.getTestData("TestData").resolveLinks());
+        policy.policySplit().perform(getTestSpecificTD("TestData").resolveLinks());
 
         PolicySummaryPage.buttonPendedEndorsement.click();
-        policy.dataGather().perform(tdSpecific.getTestData("DataGather_AfterSplitForOneInsured"));
+        policy.dataGather().perform(getTestSpecificTD("DataGather_AfterSplitForOneInsured"));
         PolicySummaryPage.buttonPendedEndorsement.click();
 //        policy.calculatePremium(td);
 //        PolicySummaryPage.buttonPendedEndorsement.click();
-//        policy.issue().perform(tdPolicy.getTestData("Issue", "TestDataWOPaymentPlan"));
-        policy.calculatePremiumAndPurchase(tdPolicy.getTestData("DataGather", "TestDataWOPaymentPlan"));
+//        policy.issue().perform(getPolicyTD("Issue", "TestDataWOPaymentPlan"));
+        policy.calculatePremiumAndPurchase(getPolicyTD("DataGather", "TestDataWOPaymentPlan"));
 
         PolicySummaryPage.tablePolicyDrivers.getRow(PolicyConstants.PolicyDriversTable.NAME, "FirstDriverFName FirstDriverLName").verify.present();
         PolicySummaryPage.tablePolicyDrivers.getRow(PolicyConstants.PolicyDriversTable.NAME, "SecondDriverFName SecondDriverLName").verify.present();
@@ -64,14 +64,14 @@ public class TestPolicySplit extends AutoSSBaseTest {
         PolicySummaryPage.tablePolicyVehicles.getRow(PolicyConstants.PolicyVehiclesTable.MAKE, "FORD").verify.present();
 
         SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.FIRST_NAME, customerName.split(" ")[0]);
-        SearchPage.linkSecondSearchedResult.click();
+        SearchPage.selectSearchedResult(2);
 
         String newPolicyNumber = CustomerSummaryPage.tableQuotes.getRow(1).getCell(CustomerConstants.CustomerQuotesTable.QUOTE).getValue();
         MainPage.QuickSearch.search(newPolicyNumber);
 
-        policy.dataGather().perform(tdSpecific.getTestData("DataGather"));
-//        policy.issue().perform(tdPolicy.getTestData("Issue", "TestData"));
-        policy.purchase(tdPolicy.getTestData("DataGather", "TestData"));
+        policy.dataGather().perform(getTestSpecificTD("DataGather"));
+//        policy.issue().perform(getPolicyTD("Issue", "TestData"));
+        policy.purchase(getPolicyTD("DataGather", "TestData"));
 
         PolicySummaryPage.tablePolicyDrivers.getRow(PolicyConstants.PolicyDriversTable.NAME, "FirstDriverFName FirstDriverLName").verify.present(false);
         PolicySummaryPage.tablePolicyDrivers.getRow(PolicyConstants.PolicyDriversTable.NAME, "SecondDriverFName SecondDriverLName").verify.present(false);

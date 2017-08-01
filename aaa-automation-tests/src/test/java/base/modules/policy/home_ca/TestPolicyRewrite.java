@@ -48,11 +48,11 @@ public class TestPolicyRewrite extends HomeCaHO3BaseTest {
         createPolicy();
 
         policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-        effectiveDate = tdPolicy.getTestData("Rewrite", "TestDataNewNumber").getValue(
+        effectiveDate = getPolicyTD("Rewrite", "TestDataNewNumber").getValue(
                 HomeCaMetaData.RewriteActionTab.class.getSimpleName(),
                 HomeCaMetaData.RewriteActionTab.EFFECTIVE_DATE.getLabel());
 
-        policy.cancel().perform(tdPolicy.getTestData("Cancellation", "TestData"));
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
         log.info("Cancelled Policy #" + policyNumber);
     }
@@ -61,7 +61,7 @@ public class TestPolicyRewrite extends HomeCaHO3BaseTest {
     @TestInfo(component = "Policy.PersonalLines")
     public void testPolicyRewriteToNewNumber() {
         log.info("TEST: Rewrite Policy #" + policyNumber);
-        policy.rewrite().perform(tdPolicy.getTestData("Rewrite", "TestDataNewNumber"));
+        policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataNewNumber"));
 
         String rewrittenPolicyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
@@ -73,7 +73,7 @@ public class TestPolicyRewrite extends HomeCaHO3BaseTest {
 
         log.info("TEST: Issue Rewritten Policy #" + rewrittenPolicyNumber);
 
-        policy.calculatePremiumAndPurchase(tdPolicy.getTestData("DataGather", "TestData"));
+        policy.calculatePremiumAndPurchase(getPolicyTD("DataGather", "TestData"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
@@ -92,7 +92,7 @@ public class TestPolicyRewrite extends HomeCaHO3BaseTest {
     public void testPolicyRewriteCancellations() {
         log.info("TEST: Fill Rewrite form and reject confirmation for Policy #" + policyNumber);
 
-        policy.rewrite().start().getView().fill(tdPolicy.getTestData("Rewrite", "TestDataNewNumber"));
+        policy.rewrite().start().getView().fill(getPolicyTD("Rewrite", "TestDataNewNumber"));
         RewriteActionTab.buttonOk.click();
         Page.dialogConfirmation.reject();
 
@@ -116,7 +116,7 @@ public class TestPolicyRewrite extends HomeCaHO3BaseTest {
 
         log.info("TEST: Rewrite and check that Quote Data Gather mode is opened for Policy #" + policyNumber);
         policy.rewrite().start();
-        policy.rewrite().getView().fill(tdPolicy.getTestData("Rewrite", "TestDataNewNumber"));
+        policy.rewrite().getView().fill(getPolicyTD("Rewrite", "TestDataNewNumber"));
 
         RewriteActionTab.buttonOk.click();
         Page.dialogConfirmation.confirm();
@@ -131,7 +131,7 @@ public class TestPolicyRewrite extends HomeCaHO3BaseTest {
     @TestInfo(component = "Policy.PersonalLines")
     public void testPolicyRewriteToSameNumber() {
         log.info("TEST: Rewrite Policy #" + policyNumber);
-        policy.rewrite().perform(tdPolicy.getTestData("Rewrite", "TestDataSameNumber"));
+        policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameNumber"));
 
         String rewrittenPolicyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
@@ -154,13 +154,13 @@ public class TestPolicyRewrite extends HomeCaHO3BaseTest {
 
         SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, policyNumber);
 
-        SearchPage.labelSearchError.verify.value("Policy not found");
+        SearchPage.verifyWarningsExist("Policy not found");
 
         log.info("TEST: Issue Rewritten Policy #" + rewrittenPolicyNumber);
 
         SearchPage.search(SearchFor.QUOTE, SearchBy.POLICY_QUOTE, policyNumber);
 
-        policy.calculatePremiumAndPurchase(tdPolicy.getTestData("DataGather", "TestData"));
+        policy.calculatePremiumAndPurchase(getPolicyTD("DataGather", "TestData"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }

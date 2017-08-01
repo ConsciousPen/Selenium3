@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
-import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 /**
@@ -26,11 +25,10 @@ public class TestPolicyCreation extends PersonalUmbrellaBaseTest {
     	
     	mainApp().open();
 
-        //createCustomerIndividual();
+        createCustomerIndividual();
        
-        //TestData td = adjustWithRealPolicies(getStateTestData(tdPolicy, "DataGather", "TestData"), getPrimaryPolicies());
-        TestData td = getStateTestData(tdPolicy, "DataGather", "TestData");
-        createPolicy(td);
+        //TestData td = adjustWithRealPolicies(getPolicyTD("DataGather", "TestData"), getPrimaryPolicies());
+        createPolicy();
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }

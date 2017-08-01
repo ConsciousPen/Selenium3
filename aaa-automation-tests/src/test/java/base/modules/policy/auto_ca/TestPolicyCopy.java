@@ -33,8 +33,8 @@ public class TestPolicyCopy extends AutoCaSelectBaseTest {
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
         log.info("TEST: Copy Policy #" + policyNumber);
-        policy.policyCopy().perform(tdPolicy.getTestData("CopyFromPolicy", "TestData"));
-        policy.calculatePremiumAndPurchase(tdPolicy.getTestData("DataGather", "TestData"));
+        policy.policyCopy().perform(getPolicyTD("CopyFromPolicy", "TestData"));
+        policy.calculatePremiumAndPurchase(getPolicyTD("DataGather", "TestData"));
 
         String policyNumberCopied = PolicySummaryPage.labelPolicyNumber.getValue();
 

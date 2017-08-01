@@ -31,7 +31,7 @@ public class TestPolicyFuturedated extends AutoSSBaseTest {
          
          createCustomerIndividual();
               
-         TestData td = getStateTestData(tdPolicy, "DataGather", "TestData")
+         TestData td = getPolicyTD("DataGather", "TestData")
         		  .adjust(TestData.makeKeyPath("GeneralTab",
         					AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
         					AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()),

@@ -30,7 +30,7 @@ public class MyWorkSummaryPage extends SummaryPage {
     public static void selectTaskById(String taskId) {
         tableTasks.getRow(MyWorkTasksTable.TASK_ID, taskId).getCell(1).controls.checkBoxes.getFirst().setValue(true);
     }
-    
+
     public static void selectTaskByName(String taskName) {
         tableTasks.getRow(MyWorkTasksTable.TASK_NAME, taskName).getCell(1).controls.checkBoxes.getFirst().setValue(true);
     }
@@ -38,11 +38,11 @@ public class MyWorkSummaryPage extends SummaryPage {
     public static void openTaskDetailsByName(String taskName) {
         tableTasks.getRow(MyWorkTasksTable.TASK_NAME, taskName).getCell(MyWorkTasksTable.TASK_ID).controls.links.getFirst().click();
     }
-    
+
     public static void openTaskDetailsById(String taskId) {
         tableTasks.getRow(MyWorkTasksTable.TASK_ID, taskId).getCell(MyWorkTasksTable.TASK_ID).controls.links.getFirst().click();
     }
-    
+
     public static String getTaskIdNyName(String taskName) {
     	return tableTasks.getRow(MyWorkTasksTable.TASK_NAME, taskName).getCell(MyWorkTasksTable.TASK_ID).getValue();
     }
