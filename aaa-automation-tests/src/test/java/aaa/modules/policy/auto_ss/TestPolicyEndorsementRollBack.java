@@ -9,15 +9,16 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
 /**
- * @author Viachaslau Markouski
+ * @author Lina Li
  * @name Test Roll Back Endorsement for Auto Policy
  * @scenario
  * 1. Create Customer
- * 2. Create Auto (Preconfigured) Policy
+ * 2. Create AutoSS Policy
  * 3. Create Midterm Endorsement
  * 4. Verify 'Pended Endorsement' button is disabled
  * 5. Verify Policy status is 'Policy Active'
@@ -29,7 +30,7 @@ import toolkit.verification.CustomAssert;
 public class TestPolicyEndorsementRollBack extends AutoSSBaseTest {
 
     @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @TestInfo(component = "Policy.AutoSS")
     public void testPolicyEndorsementRollBack() {
         mainApp().open();
 
@@ -41,9 +42,9 @@ public class TestPolicyEndorsementRollBack extends AutoSSBaseTest {
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
         log.info("MidTerm Endorsement for Policy #" + policyNumber);
-        policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData_Plus1Month")
-                .adjust(tdSpecific.getTestData("TestData").resolveLinks())
-                .adjust(tdPolicy.getTestData("Issue", "TestData_ExistentBillingAccount").resolveLinks()));
+        
+        TestData endorsement_td = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData");
+        policy.createEndorsement(endorsement_td.adjust(tdPolicy.getTestData("Endorsement", "TestData_Plus1Month")));
 
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
