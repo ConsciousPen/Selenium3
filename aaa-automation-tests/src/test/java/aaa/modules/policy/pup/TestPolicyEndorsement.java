@@ -20,8 +20,7 @@ public class TestPolicyEndorsement extends PersonalUmbrellaBaseTest {
 
 	     createCustomerIndividual();
 	       
-	     TestData td = adjustWithRealPolicies(getPolicyTD("DataGather", "TestData"), getPrimaryPolicies());
-	     policy.createPolicy(td);
+	     createPolicy();
 
 	     Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 			

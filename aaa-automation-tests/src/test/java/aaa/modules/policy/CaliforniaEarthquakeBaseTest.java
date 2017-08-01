@@ -83,7 +83,6 @@ public class CaliforniaEarthquakeBaseTest extends PolicyBaseTest {
 		log.info("Policy Creation Started...");
 		// CA policy creation
 		PolicyType type = PolicyType.HOME_CA_HO3;
-		TestData tdPolicy = testDataManager.policy.get(type);
 		type.get().initiate();
 		type.get().getDefaultView().fill(getPolicyTD("DataGather", "TestData").adjust(getPolicyTD("DataGather", "Adjustment_CEA")));
 		// CEA policy creation
@@ -101,7 +100,6 @@ public class CaliforniaEarthquakeBaseTest extends PolicyBaseTest {
 	 *            - appropriate TestData to the policy creation
 	 */
 	protected String createPolicyFromCa() {
-		TestData tdPolicy = testDataManager.policy.get(getPolicyType());
 		return createPolicyFromCa(getPolicyTD("DataGather", "TestData").adjust(getPolicyTD("DataGather", "Adjustment_From_CA")));
 	}
 }

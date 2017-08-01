@@ -36,6 +36,7 @@ import aaa.helpers.config.CustomTestProperties;
 import aaa.main.modules.customer.Customer;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.rest.policy.PolicyRestImpl;
@@ -52,8 +53,8 @@ public class BaseTest {
 
 	protected static Logger log = LoggerFactory.getLogger(BaseTest.class);
 
-	protected static TestData tdCustomerIndividual;
-	protected static TestData tdCustomerNonIndividual;
+	private static TestData tdCustomerIndividual;
+	private static TestData tdCustomerNonIndividual;
 	private static Map<String, String> entities;
 	public String customerNumber;
 	protected Customer customer = new Customer();
@@ -194,8 +195,11 @@ public class BaseTest {
 	 */
 	protected String createQuote() {
 		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
-		TestData tdPolicy = testDataManager.policy.get(getPolicyType());
-		return createQuote(getStateTestData(tdPolicy, "DataGather", "TestData"));
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
+		}
+		return createQuote(td);
 	}
 
 	/**
@@ -233,8 +237,11 @@ public class BaseTest {
 	 */
 	protected String createPolicy() {
 		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
-		TestData tdPolicy = testDataManager.policy.get(getPolicyType());
-		return createPolicy(getStateTestData(tdPolicy, "DataGather", "TestData"));
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
+		}
+		return createPolicy(td);
 	}
 
 	/**
@@ -289,12 +296,64 @@ public class BaseTest {
 		}
 		return policyNumber;
 	}
+	
+	/**
+	 * Should be used for PUP policy creation. If you need to create PUP
+	 * product, it is suggested to login, create/open customer first, then use
+	 * this method to get policy num.
+	 * 
+	 */
+	protected Map<String, String> getPrimaryPoliciesForPup() {
+		// EntitiesHolder.addNewEntiry(EntitiesHolder.makeDefaultHo3PolicyKey(PersonalLinesType.HOME_SS,
+		// getState()), "AZH3927277286");
+		Map<String, String> returnValue = new LinkedHashMap<String, String>();
+		String state = getState().intern();
+		synchronized (state) {
+			PolicyType type;
+			PolicyType typeAuto = null;
+			if (state.equals(States.CA.get())) {
+				type = PolicyType.HOME_CA_HO3;
+				typeAuto = PolicyType.AUTO_CA_SELECT;
+			} else
+				type = PolicyType.HOME_SS_HO3;
+			String key = EntitiesHolder.makeDefaultPolicyKey(type, state);
+			if (EntitiesHolder.isEntityPresent(key))
+				returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
+			else {
+				createCustomerIndividual();
+				type.get().createPolicy(getStateTestData(testDataManager.policy.get(type), "DataGather", "TestData"));
+				EntitiesHolder.addNewEntity(key, PolicySummaryPage.labelPolicyNumber.getValue());
+				returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
+			}
+
+			if (typeAuto != null) {
+				String keyAuto = EntitiesHolder.makeDefaultPolicyKey(typeAuto, state);
+				if (EntitiesHolder.isEntityPresent(keyAuto))
+					returnValue.put("Primary_Auto", EntitiesHolder.getEntity(keyAuto));
+				else {
+					createCustomerIndividual();
+					typeAuto.get().createPolicy(getStateTestData(testDataManager.policy.get(typeAuto), "DataGather", "TestData"));
+					EntitiesHolder.addNewEntity(keyAuto, PolicySummaryPage.labelPolicyNumber.getValue());
+					returnValue.put("Primary_Auto", EntitiesHolder.getEntity(keyAuto));
+				}
+			}
+			return returnValue;
+		}
+	}
 
 	/**
 	 * Login to the application and open reports app
 	 */
 	protected OperationalReportApplication opReportApp() {
 		return ApplicationFactory.get().opReportApp(new LoginPage(initiateLoginTD()));
+	}
+	
+	protected TestData getCustomerIndividualTD(String fileName, String tdName) {
+		return getStateTestData(tdCustomerIndividual, fileName, tdName);
+	}
+	
+	protected TestData getCustomerNonIndividualTD(String fileName, String tdName) {
+		return getStateTestData(tdCustomerNonIndividual, fileName, tdName);
 	}
 	
 	protected TestData getTestSpecificTD(String tdName) {

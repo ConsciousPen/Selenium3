@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
-import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 /**
@@ -31,7 +30,6 @@ public class TestPolicyRenew extends PersonalUmbrellaBaseTest {
 
         createCustomerIndividual();
 
-        TestData tdPolicy = testDataManager.policy.get(getPolicyType());
         createPolicy(getPolicyTD("DataGather", "TestData")
                 .adjust(getPolicyTD("CopyFromQuote", "TestData"))
                 .adjust(getTestSpecificTD("TestData"))

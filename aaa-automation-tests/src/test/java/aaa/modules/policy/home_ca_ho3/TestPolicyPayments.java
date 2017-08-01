@@ -10,7 +10,6 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
-import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 /**
@@ -36,8 +35,6 @@ public class TestPolicyPayments extends HomeCaHO3BaseTest {
 		mainApp().open();
 
 		createCustomerIndividual();
-
-		TestData tdPolicy = testDataManager.policy.get(getPolicyType());
 
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(getPolicyTD("DataGather", "TestData"), BindTab.class, true);

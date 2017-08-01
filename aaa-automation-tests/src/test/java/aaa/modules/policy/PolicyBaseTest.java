@@ -21,7 +21,7 @@ public abstract class PolicyBaseTest extends BaseTest {
     }
     
     protected TestData getPolicyTD(String fileName, String tdName) {
-    	return getPolicyTD(fileName, tdName);
+    	return getStateTestData(tdPolicy, fileName, tdName);
     }
 
 }
