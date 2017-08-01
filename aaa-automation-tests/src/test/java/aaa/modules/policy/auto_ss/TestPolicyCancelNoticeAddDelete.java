@@ -36,17 +36,5 @@ public class TestPolicyCancelNoticeAddDelete extends PolicyCancelNoticeAddDelete
 
         super.testPolicyCancelNoticeAddDelete();
     }
-
-    /**
-     Due to there is issue when copy policy for AutoSS, so override the copy policy as create new policy
-      
-     */
-	@Override
-	protected String getCopiedPolicy() {
-		createCustomerIndividual();
-		return super.createPolicy();
-	}
-    
-    
     
 }

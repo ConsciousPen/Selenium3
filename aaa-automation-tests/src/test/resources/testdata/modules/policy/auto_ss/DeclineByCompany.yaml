@@ -1,7 +1,7 @@
 TestData: {
   DeclineByCompanyActionTab: {
     Decline Date: /today,
-    Decline Reason: 'Account not target market'
+    Decline Reason: index=1
   }
 }
 

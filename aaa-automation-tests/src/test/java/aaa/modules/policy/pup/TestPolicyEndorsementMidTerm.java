@@ -37,8 +37,6 @@ public class TestPolicyEndorsementMidTerm extends PersonalUmbrellaBaseTest {
     @TestInfo(component = "Policy.PUP.EndorsementMidTerm")
     public void testPolicyEndorsementMidTerm() {
         mainApp().open();
-
-        createCustomerIndividual();
         
         createPolicy(getStateTestData(tdPolicy, "DataGather", "TestData")
         		.adjust("GeneralTab|PolicyInfo|Effective date", "/today-2d:MM/dd/yyyy"));
@@ -50,7 +48,7 @@ public class TestPolicyEndorsementMidTerm extends PersonalUmbrellaBaseTest {
         
         
         TestData endorsement_td = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData");
-	    policy.createEndorsement(endorsement_td.adjust(tdPolicy.getTestData("Endorsement", "TestData").adjust("EndorsementActionTab|Endorsement Date", "/today+2d:MM/dd/yyyy")));
+	    policy.createEndorsement(endorsement_td.adjust(tdPolicy.getTestData("Endorsement", "TestData")));
 	     
 
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
