@@ -1,8 +1,19 @@
+TestData_RoofRenovationAndStoves: {
+  PropertyInfoTab: '@PropertyInfoTab_RoofRenovationAndStoves'
+}
+
+PropertyInfoTab_RoofRenovationAndStoves: {
+  HomeRenovation: '@HomeRenovation1',
+  Stoves: '@Stoves1',
+}
+
 TestData_3_Detached_Structures: {
   PropertyInfoTab: '@PropertyInfoTab_3_Detached_Structures'
 }
 
 PropertyInfoTab_3_Detached_Structures: {
+  HomeRenovation: '@HomeRenovation2',
+  Stoves: '@Stoves2',
   PropertyValue: '@PropertyValue',
   DetachedStructures: ['@DetachedStructures1', '@DetachedStructures2', '@DetachedStructures3']
 }
@@ -15,7 +26,54 @@ PropertyInfoTab_4_Detached_Structures: {
   DetachedStructures: ['@DetachedStructures4']
 }
 
-# --------- PropertyInfo Tab -----------
+
+# ------ SC2 -------
+TestData_SC2_1: {
+  PropertyInfoTab: '@PropertyInfoTab_SC2_1'
+}
+
+PropertyInfoTab_SC2_1: {
+  Construction: '@Construction_1',
+  Interior: '@Interior_1', 
+  PetsOrAnimals: '@PetsOrAnimals_1'
+}
+
+TestData_SC2_2: {
+  PropertyInfoTab: '@PropertyInfoTab_SC2_2'
+}
+
+PropertyInfoTab_SC2_2: {
+  Construction: '@Construction_2',
+  Interior: '@Interior_2', 
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals_2'
+}
+
+
+# ============ PropertyInfo Tab ==============
+# -------- SC1 ---------- 
+HomeRenovation1: { 
+  Roof renovation: '3+ layers', 
+  "Roof % complete": '100', 
+  "Roof Month of completion": 6, 
+  "Roof Year of completion": '2012' 
+}
+
+HomeRenovation2: { 
+  Roof renovation: '' 
+}
+
+Stoves1: {
+  "Does the property have a wood-burning stove?": 'Yes', 
+  "Is the stove the sole source of heat?": 'Yes', 
+  "Was the stove installed by a licensed contractor?": 'No', 
+  "Does the dwelling have at least one smoke detector per story?": 'No'
+}
+
+Stoves2: {
+  "Does the property have a wood-burning stove?": 'No' 
+}
+
 PropertyValue: {
   Coverage A - Dwelling limit: '100000',
   ISO replacement cost: '100000'
@@ -53,4 +111,52 @@ DetachedStructures4: {
    Rented to others: 'No', 
    Description: 'Detached structure 4',
    Limit of liability: '40000' 
+}
+
+# -------- SC2 ----------
+Construction_1: {
+  Year built: '1988'
+}
+
+Construction_2: {
+  Year built: '1939'
+}
+
+Interior_1: {
+  Dwelling usage: 'Secondary'
+}
+
+Interior_2: {
+  Dwelling usage: 'Seasonal'
+}
+
+PetsOrAnimals_1: {
+  "Are any insured-owned pets or animals kept on the property?": 'Yes', 
+  Animal type: 'Livestock - Horse', 
+  Animal count: '4'
+}
+
+PetsOrAnimals_2: {
+  #"Are any insured-owned pets or animals kept on the property?": 'Yes', 
+  Animal type: 'Livestock - Cow', 
+  Animal count: '5'
+}
+
+HomeRenovation: {
+  Plumbing renovation: 'Other', 
+  "Plumbing % complete": '80', 
+  "Plumbing Month of completion": 3, 
+  "Plumbing Year of completion": '2008', 
+  Electrical renovation: 'Other',
+  "Electrical % complete": '90', 
+  "Electrical Month of completion": 1, 
+  "Electrical Year of completion": '2010', 
+  Roof renovation: 'Partial Replace', 
+  "Roof % complete": '90', 
+  "Roof Month of completion": 2, 
+  "Roof Year of completion": '1995', 
+  "Heating/cooling renovation": 'Space Heater', 
+  "Heating/cooling % complete": '88', 
+  "Heating/cooling Month of completion": 10,
+  "Heating/cooling Year of completion": '2009' 
 }

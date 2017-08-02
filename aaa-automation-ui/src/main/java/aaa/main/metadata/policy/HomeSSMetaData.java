@@ -561,7 +561,7 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<TextBox> ELECTRICAL_YEAR_OF_COMPLECTION = declare("Electrical Year of completion", TextBox.class, Waiters.AJAX, false,
 					By.xpath("//input[@id='policyDataGatherForm:sedit_AAAHOBuildingImprovementsInfo_electricalRenovationYear']"));
 
-			public static final AssetDescriptor<ComboBox> ROOF_RENOVATION = declare("Roof renovation", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> ROOF_RENOVATION = declare("Roof renovation", ComboBox.class, Waiters.AJAX, false, By.xpath("//select[@id='policyDataGatherForm:sedit_AAAHOBuildingImprovementsInfo_roofRenovationType']"));
 			public static final AssetDescriptor<TextBox> ROOF_PERCENT_COMPLETE = declare("Roof % complete", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:sedit_AAAHOBuildingImprovementsInfo_roofPercentComplete']"));
 			public static final AssetDescriptor<ComboBox> ROOFG_MONTH_OF_COMPLECTION = declare("Roof Month of completion", ComboBox.class, Waiters.AJAX, false, By.xpath("//select[@id='policyDataGatherForm:sedit_AAAHOBuildingImprovementsInfo_roofRenovationMonth']"));
 			public static final AssetDescriptor<TextBox> ROOF_YEAR_OF_COMPLECTION = declare("Roof Year of completion", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:sedit_AAAHOBuildingImprovementsInfo_roofRenovationYear']"));
