@@ -399,12 +399,12 @@
 	<test name="CA Auto Functional Tests">
 	    <parameter name="state" value="CA"/>
     	<classes>
-   			<class name="aaa.modules.policy.auto_ca.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.auto_ca.TestPolicyCreationBig"/>
-			<class name="aaa.modules.policy.auto_ca.TestPolicyEndorsementAdd"/>
-			<class name="aaa.modules.policy.auto_ca.TestPolicyFuturedated"/>
-			<class name="aaa.modules.policy.auto_ca.TestPolicyBilling"/>
-			<class name="aaa.modules.policy.auto_ca.TestPolicyRenew"/>
+   			<class name="aaa.modules.policy.auto_ca_select.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ca_select.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ca_select.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ca_select.TestPolicyFuturedated"/>
+			<class name="aaa.modules.policy.auto_ca_select.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ca_select.TestPolicyRenew"/>
    		</classes>
     </test>
 
