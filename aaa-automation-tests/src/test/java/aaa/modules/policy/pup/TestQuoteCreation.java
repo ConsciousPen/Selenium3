@@ -26,7 +26,7 @@ public class TestQuoteCreation extends PersonalUmbrellaBaseTest {
     public void testQuoteCreation() {
         mainApp().open();
 
-        createCustomerIndividual();
+//        createCustomerIndividual();
         
         TestData td = getStateTestData(tdPolicy, "DataGather", "TestData");
         
