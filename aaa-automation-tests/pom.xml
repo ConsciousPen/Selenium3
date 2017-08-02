@@ -68,7 +68,7 @@
 	</dependencies>
 	<profiles>
 		<profile>
-			<id>groups</id>
+			<id>package</id>
 			<build>
 				<testResources>
 					<testResource>
@@ -79,7 +79,7 @@
 				</testResources>
 			</build>
 			<properties>
-				<suiteFile>testsuites/groups.xml</suiteFile>
+				<suiteFile>testsuites/package.xml</suiteFile>
 				<suitePath>${project.build.testOutputDirectory}</suitePath>
 			</properties>
 		</profile>
