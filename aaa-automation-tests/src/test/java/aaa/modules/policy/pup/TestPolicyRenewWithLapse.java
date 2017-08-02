@@ -32,7 +32,7 @@ public class TestPolicyRenewWithLapse extends PersonalUmbrellaBaseTest {
         createPolicy();
 
         log.info("TEST: Manual Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.renew().performAndExit(tdPolicy.getTestData("Renew", "TestData_Plus370Days"));
+        policy.renew().performAndExit(getPolicyTD("Renew", "TestData_Plus370Days"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present(false);

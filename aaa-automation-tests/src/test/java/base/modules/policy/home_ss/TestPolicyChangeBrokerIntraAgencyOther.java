@@ -33,11 +33,11 @@ public class TestPolicyChangeBrokerIntraAgencyOther extends HomeSSHO3BaseTest {
         createPolicy();
 
         log.info("TEST: Change Broker Inter Agency for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.changeBrokerRequest().perform(tdPolicy.getTestData("ChangeBroker", "TestDataIntra_Other"));
+        policy.changeBrokerRequest().perform(getPolicyTD("ChangeBroker", "TestDataIntra_Other"));
 
         policy.policyInquiry().start();
         new StaticElement(By.id("policyDataGatherForm:sedit_ProducerInfo_policy_subProducerCd")).verify.value(
-                tdPolicy.getTestData("ChangeBroker", "TestDataIntra_Other").getValue(
+                getPolicyTD("ChangeBroker", "TestDataIntra_Other").getValue(
                         ChangeBrokerActionTab.class.getSimpleName(),
                         ChangeBrokerActionTab.INSURANCE_AGENT.getLabel()));
     }

@@ -40,16 +40,16 @@ public class TestPolicyEndorsementOos extends AutoCaSelectBaseTest {
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
         log.info("MidTerm Endorsement for Policy #" + policyNumber);
-        policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData_Plus1Month")
-                .adjust(tdSpecific.getTestData("TestData").resolveLinks())
-                .adjust(tdPolicy.getTestData("Issue", "TestData_ExistentBillingAccount").resolveLinks()));
+        policy.createEndorsement(getPolicyTD("Endorsement", "TestData_Plus1Month")
+                .adjust(getTestSpecificTD("TestData").resolveLinks())
+                .adjust(getPolicyTD("Issue", "TestData_ExistentBillingAccount").resolveLinks()));
 
         Dollar policyPremium2 = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
         log.info("OOS Endorsement for Policy #" + policyNumber);
-        policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData")
-                .adjust(tdSpecific.getTestData("TestData2").resolveLinks())
-                .adjust(tdPolicy.getTestData("Issue", "TestData_ExistentBillingAccount").resolveLinks()));
+        policy.createEndorsement(getPolicyTD("Endorsement", "TestData")
+                .adjust(getTestSpecificTD("TestData2").resolveLinks())
+                .adjust(getPolicyTD("Issue", "TestData_ExistentBillingAccount").resolveLinks()));
 
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);

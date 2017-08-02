@@ -43,15 +43,15 @@ public class TestPolicyEndorsementRollBack extends AutoSSBaseTest {
 
         log.info("MidTerm Endorsement for Policy #" + policyNumber);
         
-        TestData endorsement_td = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData");
-        policy.createEndorsement(endorsement_td.adjust(tdPolicy.getTestData("Endorsement", "TestData_Plus1Month")));
+        TestData endorsement_td = getTestSpecificTD("TestData");
+        policy.createEndorsement(endorsement_td.adjust(getPolicyTD("Endorsement", "TestData_Plus1Month")));
 
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
 
         log.info("TEST: Roll Back Endorsement for Policy #" + policyNumber);
-        policy.rollBackEndorsement().perform(tdPolicy.getTestData("EndorsementRollBack", "TestData"));
+        policy.rollBackEndorsement().perform(getPolicyTD("EndorsementRollBack", "TestData"));
         CustomAssert.assertTrue(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
     }
 }

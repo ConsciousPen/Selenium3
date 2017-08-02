@@ -1,0 +1,56 @@
+TestData_3_Detached_Structures: {
+  PropertyInfoTab: '@PropertyInfoTab_3_Detached_Structures'
+}
+
+PropertyInfoTab_3_Detached_Structures: {
+  PropertyValue: '@PropertyValue',
+  DetachedStructures: ['@DetachedStructures1', '@DetachedStructures2', '@DetachedStructures3']
+}
+
+TestData_4_Detached_Structures: {
+  PropertyInfoTab: '@PropertyInfoTab_4_Detached_Structures'
+}
+
+PropertyInfoTab_4_Detached_Structures: {
+  DetachedStructures: ['@DetachedStructures4']
+}
+
+# --------- PropertyInfo Tab -----------
+PropertyValue: {
+  Coverage A - Dwelling limit: '100000',
+  ISO replacement cost: '100000'
+}
+
+DetachedStructures1: {
+   "Are there any detached structures on the property?": 'Yes', 
+   Rented to others: 'Yes', 
+   Description: 'Detached structure 1',
+   Limit of liability: '1000', 
+   Number of family units: '1', 
+   Number of occupants: '1'
+}
+
+DetachedStructures2: {
+   #Add: 'click', 
+   Rented to others: 'Yes', 
+   Description: 'Detached structure 2',
+   Limit of liability: '30000', 
+   Number of family units: '1', 
+   Number of occupants: '1'
+}
+
+DetachedStructures3: {
+   #Add: 'click', 
+   Rented to others: 'Yes', 
+   Description: 'Detached structure 3',
+   Limit of liability: '20000', 
+   Number of family units: '1', 
+   Number of occupants: '1'
+}
+
+DetachedStructures4: {
+   Add: 'click', 
+   Rented to others: 'No', 
+   Description: 'Detached structure 4',
+   Limit of liability: '40000' 
+}

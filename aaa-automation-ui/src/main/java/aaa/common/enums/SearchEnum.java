@@ -6,23 +6,32 @@ public class SearchEnum {
 
     public enum SearchBy {
         POLICY_QUOTE("Policy/Quote #"),
-        CLAIM("Claim #"),
-        DATE_OF_LOSS("Date of Loss"),
+        PRODUCT_ID("Product ID"),
+        AGENT_OF_RECORD("Agent of Record"),
+        AGENT("Agent #"),
+        /*CLAIM("Claim #"),
+        DATE_OF_LOSS("Date of Loss"),*/
+        ACCOUNT("Account #"),
+        BILLING_ACCOUNT("Billing Account #"),
         FIRST_NAME("First Name"),
         LAST_NAME("Last Name"),
-        ADDRESS_LINE_1("Address Line 1"),
-        ADDRESS_LINE_2("Address Line 2"),
-        ZIP_CODE("Zip Code"),
+        /*ADDRESS_LINE_1("Address Line 1"),
+        ADDRESS_LINE_2("Address Line 2"),*/
         CITY("City"),
-        STATE_PROVINCE("State/Province"),
-        ACCOUNT("Account #"),
+        STATE("State"),
+        //STATE_PROVINCE("State/Province"),
+        ZIP_CODE("Zip Code"),
+        PHONE("Phone #"),
         CUSTOMER("Customer #"),
-        POLICY_TITLE("Policy Title"),
-        BILLING_ACCOUNT("Billing Account #"),
+        AGENCY_NAME("Agency Name"),
+        AGENCY("Agency #"),
+        UNDERWRITING_COMPANY("Underwriting Company #"),
+        SSN("SSN");
+        /*POLICY_TITLE("Policy Title"),
         BROKER_NAME("Broker Name"),
-        BROKER("Broker #");
+        BROKER("Broker #");*/
 
-        String id;
+        final String id;
 
         SearchBy(String id) {
             this.id = id;
@@ -36,14 +45,14 @@ public class SearchEnum {
     public enum SearchFor {
         ACCOUNT("Account"),
         CUSTOMER("Customer"),
-        QUOTE("Quote"),
-        POLICY("Policy"),
         BILLING("Billing"),
-        CLAIM("Claim"),
+        POLICY("Policy"),
+        QUOTE("Quote");
+        /*CLAIM("Claim"),
         NEW_CLAIM("NewClaim"),
-        PARTY("Party");
+        PARTY("Party");*/
 
-        String id;
+        final String id;
 
         SearchFor(String id) {
             this.id = id;

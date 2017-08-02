@@ -36,7 +36,7 @@ public class TestPolicyRenewDeclineByCustomer extends AutoSSBaseTest {
         policy.renew().perform(new SimpleDataProvider());
         PolicySummaryPage.buttonRenewals.click();
 
-        policy.declineByCustomerQuote().perform(tdPolicy.getTestData("DeclineByCustomer", "TestData_Plus1Year"));
+        policy.declineByCustomerQuote().perform(getPolicyTD("DeclineByCustomer", "TestData_Plus1Year"));
         PolicySummaryPage.buttonRenewals.click();
 
         PolicySummaryPage.tableRenewals.getRow(1).getCell(4).verify.value(ProductConstants.PolicyStatus.CUSTOMER_DECLINED);

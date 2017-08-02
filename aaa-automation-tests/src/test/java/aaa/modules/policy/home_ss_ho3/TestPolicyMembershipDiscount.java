@@ -56,12 +56,12 @@ import toolkit.verification.CustomAssert;
  */
 public class TestPolicyMembershipDiscount extends HomeSSHO3BaseTest {
 	
-	private TestData td_MembershipPending = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_MembershipPending"); 
-	private TestData td_CopyPolicy = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_CopyPolicy"); 
-	private TestData td_MembershipYes = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_MembershipYes");
-	private TestData td_MembershipNo = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_MembershipNo");
-	private TestData td_endorsement_today = tdPolicy.getTestData("Endorsement", "TestData");
-	private TestData td_endorsement_todayPlus1Day = tdPolicy.getTestData("Endorsement", "TestData_Plus1Day");
+	private TestData td_MembershipPending = getTestSpecificTD("TestData_MembershipPending"); 
+	private TestData td_CopyPolicy = getTestSpecificTD("TestData_CopyPolicy"); 
+	private TestData td_MembershipYes = getTestSpecificTD("TestData_MembershipYes");
+	private TestData td_MembershipNo = getTestSpecificTD("TestData_MembershipNo");
+	private TestData td_endorsement_today = getPolicyTD("Endorsement", "TestData");
+	private TestData td_endorsement_todayPlus1Day = getPolicyTD("Endorsement", "TestData_Plus1Day");
 	private String policyNumber1; 
 	private String policyNumber2; 
 	private String policyNumber3; 

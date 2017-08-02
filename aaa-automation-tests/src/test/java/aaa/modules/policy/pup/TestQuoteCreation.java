@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
-import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 /**
@@ -28,9 +27,7 @@ public class TestQuoteCreation extends PersonalUmbrellaBaseTest {
 
 //        createCustomerIndividual();
         
-        TestData td = getStateTestData(tdPolicy, "DataGather", "TestData");
-        
-        createQuote(td);
+        createQuote();
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
     }

@@ -4,7 +4,6 @@ package aaa.modules.policy.home_ca_ho3;
 
 import org.testng.annotations.Test;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -13,7 +12,7 @@ import aaa.modules.policy.HomeCaHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
- * @author Marina Buryak
+ * @author Ryan Yu
  * @name Test Initiate Home Quote
  * @scenario
  * 1. Create Customer
@@ -23,18 +22,18 @@ import toolkit.utils.TestInfo;
  */
 public class TestQuoteInitiate extends HomeCaHO3BaseTest {
 
-	@Test(groups = "7.2_AUTOP,HOME_UC_InitiateHomeOrAutoQuoteAndSelectProduct")
-	@TestInfo(component = "Policy.PersonalLines")
+	@Test
+	@TestInfo(component = "Policy.HomeCA")
 	public void testQuoteInitiate() {
 		mainApp().open();
 
 		createCustomerIndividual();
 
 		CustomerSummaryPage.buttonAddQuote.click();
-		QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.HOME_CA_HO3.getName());
+		QuoteSummaryPage.comboBoxProduct.setValue(getPolicyType().getName());
 		QuoteSummaryPage.buttonAddNewQuote.verify.enabled();
 		QuoteSummaryPage.buttonAddNewQuote.click();
-		new GeneralTab().getAssetList().verify.enabled();
+		policy.getDefaultView().getTab(GeneralTab.class).getAssetList().verify.enabled();
 		GeneralTab.buttonSaveAndExit.click();
 		PolicySummaryPage.labelPolicyNumber.verify.present();
 

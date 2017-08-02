@@ -1,0 +1,79 @@
+TestData: {
+  CustomerCreation: '@CustomerCreation',
+  PolicyCreation: '@PolicyCreation',
+}
+
+CustomerCreation: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@CustomerGeneralTab',
+  RelationshipTab: {}
+}
+
+PolicyCreation: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@policy@home_ss_ho3@DataGather@ReportsTab',
+  PropertyInfoTab: '@policy@home_ss_ho3@DataGather@PropertyInfoTab',
+  ProductOfferingTab: '@policy@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@policy@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@policy@home_ss_ho3@DataGather@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@policy@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@policy@home_ss_ho3@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@policy@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@policy@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@policy@home_ss_ho3@DataGather@PurchaseTab'
+}
+
+CustomerType: {
+  Customer Type: Individual
+}
+
+CustomerGeneralTab: {
+  First Name: '/rx:Mike\d{6}',
+  Last Name: '/rx:Tyson\d{6}',
+  Date of Birth: 06/30/1966,
+  Gender: Male,
+  Marital Status: Married,
+  SSN: 123456789,
+  Zip Code: '85003',
+  City: 'Phoenix',
+  State: 'AZ',
+  Address Line 1: 269 CHIPMAN AVE,
+  Contact Details Type: Phone,
+  Phone Type: Home,
+  Phone Number: '(111) 222-3456',
+  Agency Assignment: [
+    {Agency Name: Broker1Name, Agency Code: Broker1Code},
+    {Agency Name: Broker2Name, Agency Code: Broker2Code},
+    {Agency Name: Broker3Name, Agency Code: Broker3Code}
+  ]
+}
+
+GeneralTab: {
+  State: 'UT',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab: {
+  NamedInsured: '@policy@home_ss_ho3@DataGather@NamedInsured',
+  AAAMembership: '@policy@home_ss_ho3@DataGather@AAAMembership',
+  DwellingAddress: '@policy@home_ss_ho3@DataGather@DwellingAddress',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@policy@home_ss_ho3@DataGather@NamedInsuredInformation',
+  AgentInfo: '@AgentInfo',
+  OtherActiveAAAPolicies: {},
+}
+
+AgentInfo: {
+  Channel Type: Independent Agent,
+  Agency: SMTestIA - 400001650,
+  #Agency of Record: 12345
+}

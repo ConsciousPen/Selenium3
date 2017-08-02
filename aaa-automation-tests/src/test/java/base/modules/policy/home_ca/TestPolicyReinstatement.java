@@ -48,7 +48,7 @@ public class TestPolicyReinstatement extends HomeCaHO3BaseTest {
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
         log.info("Cancelling Policy #" + policyNumber);
-        policy.cancel().perform(tdPolicy.getTestData("Cancellation", "TestData"));
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
         log.info("TEST: Cancel reinstatement Policy #" + policyNumber);
@@ -57,7 +57,7 @@ public class TestPolicyReinstatement extends HomeCaHO3BaseTest {
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
         log.info("TEST: Reinstate Policy #" + policyNumber);
-        policy.reinstate().perform(tdPolicy.getTestData("Reinstatement", "TestData"));
+        policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
         NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionContains(1, "Process Reinstatement effective");
@@ -68,11 +68,11 @@ public class TestPolicyReinstatement extends HomeCaHO3BaseTest {
         ReinstatementActionTab.buttonTopCancel.click();
 
         log.info("Cancelling Policy #" + policyNumber);
-        policy.cancel().perform(tdPolicy.getTestData("Cancellation", "TestData"));
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
         log.info("TEST: Reinstate Policy With Lapse #" + policyNumber);
-        policy.reinstate().perform(tdPolicy.getTestData("Reinstatement", "TestData_Plus14Days"));
+        policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData_Plus14Days"));
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present();
 

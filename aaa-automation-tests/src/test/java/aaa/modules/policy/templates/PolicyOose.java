@@ -3,7 +3,6 @@
 package aaa.modules.policy.templates;
 
 import org.openqa.selenium.By;
-import org.testng.annotations.Test;
 
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -39,18 +38,18 @@ public abstract class PolicyOose extends PolicyBaseTest {
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
         
-        TestData tdEndorsement = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_E1");
+        TestData tdEndorsement = getTestSpecificTD("TestData_E1");
 
         //Create Endorsement Policy effective date + 10 days: Add second Vehicle
-        getPolicyType().get().createEndorsement(tdEndorsement.adjust(tdPolicy.getTestData("Endorsement", "TestData_Plus10Day")));
+        getPolicyType().get().createEndorsement(tdEndorsement.adjust(getPolicyTD("Endorsement", "TestData_Plus10Day")));
         
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
         
-        TestData tdEndorsement2 = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_E2");
+        TestData tdEndorsement2 = getTestSpecificTD("TestData_E2");
 
         //Create OOSE Policy effective date + 5 days: Add second NI/Driver
-        getPolicyType().get().createEndorsement(tdEndorsement2.adjust(tdPolicy.getTestData("Endorsement", "TestData_Plus5Day")));
+        getPolicyType().get().createEndorsement(tdEndorsement2.adjust(getPolicyTD("Endorsement", "TestData_Plus5Day")));
         
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
         
@@ -91,7 +90,7 @@ public abstract class PolicyOose extends PolicyBaseTest {
 
         //check data quantity
         Integer rowsCountExpanded = tableDifferences.getRowsCount(); 
-        CustomAssert.assertTrue(rowsCountExpanded.toString().equals(getStateTestData(tdPolicy, this.getClass().getSimpleName(), "Differences").getValue("LineCount")));
+        CustomAssert.assertTrue(rowsCountExpanded.toString().equals(getTestSpecificTD("Differences").getValue("LineCount")));
         
         //apply values
         for (int i = 1; i <= rowsCountExpanded; i++) {

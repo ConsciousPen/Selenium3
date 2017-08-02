@@ -31,7 +31,7 @@ public class TestPolicyCreation extends AutoCaSelectBaseTest {
 
 		createCustomerIndividual();
 		createPolicy();
-		//policy.createPolicy(tdPolicy.getTestData("DataGather", "TestData"));
+		//policy.createPolicy(getPolicyTD("DataGather", "TestData"));
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		

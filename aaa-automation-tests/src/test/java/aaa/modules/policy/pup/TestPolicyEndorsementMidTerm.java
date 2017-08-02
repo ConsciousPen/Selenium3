@@ -12,7 +12,10 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Constants.States;
 import aaa.helpers.EntitiesHolder;
 import aaa.main.enums.ProductConstants;
+import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
+import aaa.main.metadata.policy.PersonalUmbrellaMetaData.GeneralTab.PolicyInfo;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.pup.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import toolkit.datax.TestData;
@@ -38,17 +41,19 @@ public class TestPolicyEndorsementMidTerm extends PersonalUmbrellaBaseTest {
     public void testPolicyEndorsementMidTerm() {
         mainApp().open();
         
-        createPolicy(getStateTestData(tdPolicy, "DataGather", "TestData")
-        		.adjust("GeneralTab|PolicyInfo|Effective date", "/today-2d:MM/dd/yyyy"));
-
+        String effDateKey = TestData.makeKeyPath(new GeneralTab().getMetaKey(), 
+        		PersonalUmbrellaMetaData.GeneralTab.POLICY_INFO.getLabel(), PolicyInfo.EFFECTIVE_DATE.getLabel());
+        TestData tdPolicyCreation = getPolicyTD("DataGather", "TestData").adjust(effDateKey, "/today-2d:MM/dd/yyyy");
+        tdPolicyCreation = adjustWithRealPolicies(tdPolicyCreation, getPrimaryPoliciesForPup());
+        createPolicy(tdPolicyCreation);
         
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
         log.info("TEST: MidTerm Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
         
         
-        TestData endorsement_td = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData");
-	    policy.createEndorsement(endorsement_td.adjust(tdPolicy.getTestData("Endorsement", "TestData")));
+        TestData endorsement_td = getTestSpecificTD("TestData");
+	    policy.createEndorsement(endorsement_td.adjust(getPolicyTD("Endorsement", "TestData")));
 	     
 
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
@@ -63,7 +68,7 @@ public class TestPolicyEndorsementMidTerm extends PersonalUmbrellaBaseTest {
 	 * 
 	 */
     @Override
-	protected Map<String, String> getPrimaryPolicies() {
+	protected Map<String, String> getPrimaryPoliciesForPup() {
 		Map<String, String> returnValue = new LinkedHashMap<String, String>();
 		String state = getState().intern();
 		synchronized (state) {

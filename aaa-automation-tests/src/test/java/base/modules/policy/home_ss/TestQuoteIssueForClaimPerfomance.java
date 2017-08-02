@@ -28,10 +28,10 @@ public class TestQuoteIssueForClaimPerfomance extends HomeSSHO3BaseTest {
 
         createCustomerIndividual();
 
-        policy.createQuote(tdSpecific.getTestData("TestData"));
+        policy.createQuote(getTestSpecificTD("TestData"));
 
         log.info("TEST: Issue Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.purchase(tdPolicy.getTestData("DataGather", "TestData"));
+        policy.purchase(getPolicyTD("DataGather", "TestData"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }

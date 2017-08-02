@@ -30,15 +30,15 @@ public class TestPolicyEndorsementMidTerm extends HomeCaHO3BaseTest {
         mainApp().open();
 
         createCustomerIndividual();
-	    createPolicy(getStateTestData(tdPolicy, "DataGather", "TestData")
+	    createPolicy(getPolicyTD("DataGather", "TestData")
 			    .adjust("GeneralTab|PolicyInfo|Effective date", "/today-2d:MM/dd/yyyy")
 			    .adjust("GeneralTab|CurrentCarrier|Base date with AAA", "/today-2d:MM/dd/yyyy"));
 
 	    Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
         log.info("TEST: MidTerm Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData")
-		        .adjust(tdSpecific.getTestData("TestData").resolveLinks()));
+        policy.createEndorsement(getPolicyTD("Endorsement", "TestData")
+		        .adjust(getTestSpecificTD("TestData").resolveLinks()));
 
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

@@ -1,0 +1,19 @@
+AddHold: {
+  AddHoldActionTab: {
+    Check Policy: 'true',
+    Hold Name: Test Hold,
+    Hold Description: Test Description,
+    Reason: 'index=1',
+    Hold Type: Invoice,
+    Effective Date: '/today-2d',
+    Expiration Date: '/today-3d'
+  }
+}
+
+AddHold_Adjustment: {
+  AddHoldActionTab: {
+    Reason: Other,
+    Effective Date: '/today',
+    Expiration Date: '/today+2d'
+  }
+}

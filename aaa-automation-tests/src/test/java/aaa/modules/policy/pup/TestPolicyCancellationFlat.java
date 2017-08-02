@@ -3,9 +3,8 @@
 package aaa.modules.policy.pup;
 
 import org.testng.annotations.Test;
-import aaa.main.enums.ProductConstants;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.policy.templates.PolicyCancellationFlat;
 import toolkit.utils.TestInfo;
 
 /**
@@ -18,17 +17,16 @@ import toolkit.utils.TestInfo;
  * 4. Verify Policy status is 'Policy Cancelled'
  * @details
  */
-public class TestPolicyCancellationFlat extends PersonalUmbrellaBaseTest {
+public class TestPolicyCancellationFlat extends PolicyCancellationFlat {
 
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.PUP;
+	}
+	
 	@Test
 	@TestInfo(component = "Policy.PUP.Cancellation")
 	public void testPolicyCancellationFlat() {
-		mainApp().open();
-
-		createPolicy();
-		log.info("TEST: Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-		policy.cancel().perform(getStateTestData(tdPolicy, "Cancellation", "TestData"));
-
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		super.testPolicyCancellationFlat();
 	}
 }

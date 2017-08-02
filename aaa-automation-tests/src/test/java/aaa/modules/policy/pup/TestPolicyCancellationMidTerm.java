@@ -10,7 +10,10 @@ import org.testng.annotations.Test;
 import aaa.common.Constants.States;
 import aaa.helpers.EntitiesHolder;
 import aaa.main.enums.ProductConstants;
+import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
+import aaa.main.metadata.policy.PersonalUmbrellaMetaData.GeneralTab.PolicyInfo;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.pup.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import toolkit.datax.TestData;
@@ -32,12 +35,14 @@ public class TestPolicyCancellationMidTerm extends PersonalUmbrellaBaseTest {
     @TestInfo(component = "Policy.PUP.Cancellation")
     public void testPolicyCancellationMidTerm() {
         mainApp().open();
-        
-        createPolicy(getStateTestData(tdPolicy, "DataGather", "TestData")
-        		.adjust("GeneralTab|PolicyInfo|Effective date", "/today-2d:MM/dd/yyyy"));
+        String effDateKey = TestData.makeKeyPath(new GeneralTab().getMetaKey(), 
+        		PersonalUmbrellaMetaData.GeneralTab.POLICY_INFO.getLabel(), PolicyInfo.EFFECTIVE_DATE.getLabel());
+        TestData tdPolicyCreation = getPolicyTD("DataGather", "TestData").adjust(effDateKey, "/today-2d:MM/dd/yyyy");
+        tdPolicyCreation = adjustWithRealPolicies(tdPolicyCreation, getPrimaryPoliciesForPup());
+        createPolicy(tdPolicyCreation);
 
         log.info("TEST: MidTerm Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.cancel().perform(tdPolicy.getTestData("Cancellation", "TestData"));
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
     }
@@ -49,7 +54,7 @@ public class TestPolicyCancellationMidTerm extends PersonalUmbrellaBaseTest {
 	 * 
 	 */
     @Override
-	protected Map<String, String> getPrimaryPolicies() {
+	protected Map<String, String> getPrimaryPoliciesForPup() {
 		Map<String, String> returnValue = new LinkedHashMap<String, String>();
 		String state = getState().intern();
 		synchronized (state) {

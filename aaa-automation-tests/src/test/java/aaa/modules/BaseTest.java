@@ -10,10 +10,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -26,8 +25,12 @@ import aaa.EntityLogger;
 import aaa.common.Constants;
 import aaa.common.Constants.States;
 import aaa.common.enums.SearchEnum;
+import aaa.common.enums.SearchEnum.SearchBy;
+import aaa.common.enums.SearchEnum.SearchFor;
+import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.metadata.LoginPageMeta;
 import aaa.common.pages.LoginPage;
+import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.EntitiesHolder;
 import aaa.helpers.TestDataManager;
@@ -36,6 +39,7 @@ import aaa.helpers.config.CustomTestProperties;
 import aaa.main.modules.customer.Customer;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.rest.policy.PolicyRestImpl;
@@ -52,12 +56,12 @@ public class BaseTest {
 
 	protected static Logger log = LoggerFactory.getLogger(BaseTest.class);
 
-	protected static TestData tdCustomerIndividual;
-	protected static TestData tdCustomerNonIndividual;
+	private static TestData tdCustomerIndividual;
+	private static TestData tdCustomerNonIndividual;
 	private static Map<String, String> entities;
 	public String customerNumber;
 	protected Customer customer = new Customer();
-	protected TestData tdSpecific;
+	private TestData tdSpecific;
 	protected TestDataManager testDataManager;
 	private String quoteNumber;
 	private String key;
@@ -79,8 +83,7 @@ public class BaseTest {
 
 	protected static synchronized Map<String, String> getEntities() {
 		entities = EntitiesHolder.getEntities();
-		Map<String, String> returnValue = entities;
-		return returnValue;
+		return entities;
 	}
 
 	protected PolicyType getPolicyType() {
@@ -105,7 +108,7 @@ public class BaseTest {
 	}
 
 	@Parameters({ "state" })
-	@BeforeClass(alwaysRun=true)
+	@BeforeMethod(alwaysRun=true)
 	public void beforeMethodStateConfiguration(@Optional("") String state) {
 		if (isStateCA()) {
 			setState(Constants.States.CA.get());
@@ -117,7 +120,7 @@ public class BaseTest {
 			setState(States.UT.get());
 		}
 	}
-	
+
 	/**
 	 * Login to the application
 	 */
@@ -146,13 +149,6 @@ public class BaseTest {
 		}
 	}
 
-	@AfterClass(alwaysRun = true)
-	protected void closeBrowser() {
-		/*
-		 * if (Boolean.parseBoolean(PropertyProvider.getProperty("isCiMode",
-		 * "true"))) { mainApp().close(); opReportApp().close(); }
-		 */
-	}
 
 	/**
 	 * Create individual customer using default TestData
@@ -171,7 +167,7 @@ public class BaseTest {
 
 		return customerNumber;
 	}
-	
+
 
 	/**
 	 * Create NonIndividual customer using default TestData
@@ -193,25 +189,28 @@ public class BaseTest {
 	/**
 	 * Create quote using default TestData
 	 */
-	protected void createQuote() {
+	protected String createQuote() {
 		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
-		TestData tdPolicy = testDataManager.policy.get(getPolicyType());
-		createQuote(getStateTestData(tdPolicy, "DataGather", "TestData"));
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
+		}
+		return createQuote(td);
 	}
 
 	/**
-	 * Create quote using provided TestData Note: Suitable only for quote type
-	 * that is returned by test's getPolicyType()
+	 * Create quote using provided TestData</br>
+	 * Note: Suitable only for quote type that is returned by test's getPolicyType()</br>
+	 * PUP policy test data should be adjusted with Home policy number.
 	 *
-	 * @param td
-	 *            - test data for quote filling
+	 * @param td - test data for quote filling
 	 * @return
 	 */
-	protected void createQuote(TestData td) {
+	protected String createQuote(TestData td) {
 		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
 		log.info("Quote Creation Started...");
 		getPolicyType().get().createQuote(td);
-		// return PolicySummaryPage.labelPolicyNumber.getValue();
+		return PolicySummaryPage.labelPolicyNumber.getValue();
 	}
 
 	/**
@@ -234,16 +233,19 @@ public class BaseTest {
 	 */
 	protected String createPolicy() {
 		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
-		TestData tdPolicy = testDataManager.policy.get(getPolicyType());
-		return createPolicy(getStateTestData(tdPolicy, "DataGather", "TestData"));
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
+		}
+		return createPolicy(td);
 	}
 
 	/**
-	 * Create quote using provided TestData Note: Suitable only for policy type
-	 * that is returned by test's getPolicyType()
+	 * Create quote using provided TestData</br>
+	 * Note: Suitable only for policy type that is returned by test's getPolicyType()</br>
+	 * PUP policy test data should be adjusted with Home policy number.
 	 *
-	 * @param td
-	 *            - test data for policy filling and purchase
+	 * @param td - test data for policy filling and purchase
 	 * @return policy number
 	 */
 	protected String createPolicy(TestData td) {
@@ -269,7 +271,7 @@ public class BaseTest {
 
 	private String openDefaultPolicy(PolicyType policyType, String state) {
 		Assert.assertNotNull(policyType, "PolicyType is not set");
-		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState());
+		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), state);
 		String policyNumber = "";
 		synchronized (key) {
 			Integer count = policyCount.get(key);
@@ -290,12 +292,76 @@ public class BaseTest {
 		}
 		return policyNumber;
 	}
+	
+	/**
+	 * Should be used for PUP policy creation. If you need to create PUP
+	 * product, it is suggested to login, create/open customer first, then use
+	 * this method to get policy num.
+	 */
+	protected Map<String, String> getPrimaryPoliciesForPup() {
+		//EntitiesHolder.addNewEntity(EntitiesHolder.makeDefaultPolicyKey(PolicyType.HOME_SS_HO3,
+		//getState()), "COH3927438929");
+		if (!NavigationPage.isMainTabSelected(AppMainTabs.CUSTOMER.get())) {
+			NavigationPage.toMainTab(AppMainTabs.CUSTOMER.get());
+		}
+		//remember customer that was created in test
+		String customerNum = CustomerSummaryPage.labelCustomerNumber.getValue();
+		Map<String, String> returnValue = new LinkedHashMap<String, String>();
+		String state = getState().intern();
+		synchronized (state) {
+			PolicyType type;
+			PolicyType typeAuto = null;
+			if (state.equals(States.CA.get())) {
+				type = PolicyType.HOME_CA_HO3;
+				typeAuto = PolicyType.AUTO_CA_SELECT;
+			} else
+				type = PolicyType.HOME_SS_HO3;
+			String key = EntitiesHolder.makeDefaultPolicyKey(type, state);
+			if (EntitiesHolder.isEntityPresent(key))
+				returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
+			else {
+				createCustomerIndividual();
+				type.get().createPolicy(getStateTestData(testDataManager.policy.get(type), "DataGather", "TestData"));
+				EntitiesHolder.addNewEntity(key, PolicySummaryPage.labelPolicyNumber.getValue());
+				returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
+			}
+
+			if (typeAuto != null) {
+				String keyAuto = EntitiesHolder.makeDefaultPolicyKey(typeAuto, state);
+				if (EntitiesHolder.isEntityPresent(keyAuto))
+					returnValue.put("Primary_Auto", EntitiesHolder.getEntity(keyAuto));
+				else {
+					createCustomerIndividual();
+					typeAuto.get().createPolicy(getStateTestData(testDataManager.policy.get(typeAuto), "DataGather", "TestData"));
+					EntitiesHolder.addNewEntity(keyAuto, PolicySummaryPage.labelPolicyNumber.getValue());
+					returnValue.put("Primary_Auto", EntitiesHolder.getEntity(keyAuto));
+				}
+			}
+			//open Customer that was created in test
+			if (!NavigationPage.isMainTabSelected(AppMainTabs.CUSTOMER.get())) {
+				SearchPage.search(SearchFor.CUSTOMER, SearchBy.CUSTOMER, customerNum);
+			}
+			return returnValue;
+		}
+	}
 
 	/**
 	 * Login to the application and open reports app
 	 */
 	protected OperationalReportApplication opReportApp() {
 		return ApplicationFactory.get().opReportApp(new LoginPage(initiateLoginTD()));
+	}
+	
+	protected TestData getCustomerIndividualTD(String fileName, String tdName) {
+		return getStateTestData(tdCustomerIndividual, fileName, tdName);
+	}
+	
+	protected TestData getCustomerNonIndividualTD(String fileName, String tdName) {
+		return getStateTestData(tdCustomerNonIndividual, fileName, tdName);
+	}
+	
+	protected TestData getTestSpecificTD(String tdName) {
+		return getStateTestData(tdSpecific, tdName);
 	}
 	
 	protected TestData getStateTestData(TestData td, String fileName, String tdName) {
@@ -324,7 +390,7 @@ public class BaseTest {
 	}
 
 	protected TestData initiateLoginTD() {
-		Map<String, Object> td = new LinkedHashMap<String, Object>();
+		Map<String, Object> td = new LinkedHashMap<>();
 		td.put(LoginPageMeta.USER.getLabel(), PropertyProvider.getProperty(TestProperties.EU_USER));
 		td.put(LoginPageMeta.PASSWORD.getLabel(), PropertyProvider.getProperty(TestProperties.EU_PASSWORD));
 		td.put(LoginPageMeta.STATES.getLabel(), getState());

@@ -31,8 +31,8 @@ public class TestPolicyCancellationFlat extends PersonalUmbrellaBaseTest {
         createPolicy();
 
         log.info("TEST: Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-//        policy.cancel().perform(tdPolicy.getTestData("Cancellation", "TestData"));
-        policy.cancel().perform(getStateTestData(tdPolicy, "Cancellation", "TestData"));
+//        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
     }

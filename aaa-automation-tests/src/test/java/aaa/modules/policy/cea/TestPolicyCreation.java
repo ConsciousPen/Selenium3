@@ -27,7 +27,7 @@ public class TestPolicyCreation extends CaliforniaEarthquakeBaseTest {
 	public void testPolicyCreation() {
 		mainApp().open();
 
-		TestData td = tdPolicy.getTestData("DataGather", "TestData");
+		TestData td = getPolicyTD("DataGather", "TestData");
 		createPolicy(td);
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.BOUND);

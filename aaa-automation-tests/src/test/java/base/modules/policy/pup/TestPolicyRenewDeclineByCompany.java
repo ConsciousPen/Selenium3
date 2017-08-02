@@ -36,7 +36,7 @@ public class TestPolicyRenewDeclineByCompany extends PersonalUmbrellaBaseTest {
         policy.renew().perform(new SimpleDataProvider());
         PolicySummaryPage.buttonRenewals.click();
 
-        policy.declineByCompanyQuote().perform(tdPolicy.getTestData("DeclineByCompany", "TestData_Plus1Year"));
+        policy.declineByCompanyQuote().perform(getPolicyTD("DeclineByCompany", "TestData_Plus1Year"));
         PolicySummaryPage.buttonRenewals.click();
 
         PolicySummaryPage.tableRenewals.getRow(1).getCell(4).verify.value(ProductConstants.PolicyStatus.COMPANY_DECLINED);

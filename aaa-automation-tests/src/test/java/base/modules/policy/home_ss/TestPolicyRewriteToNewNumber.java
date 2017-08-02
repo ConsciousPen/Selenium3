@@ -35,13 +35,13 @@ public class TestPolicyRewriteToNewNumber extends HomeSSHO3BaseTest {
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
-        policy.cancel().perform(tdPolicy.getTestData("Cancellation", "TestData"));
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
         log.info("Cancelled Policy #" + policyNumber);
 
         log.info("TEST: Rewrite Policy #" + policyNumber);
-        policy.rewrite().perform(tdPolicy.getTestData("Rewrite", "TestDataNewNumber"));
-        policy.calculatePremiumAndPurchase(tdPolicy.getTestData("DataGather", "TestData"));
+        policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataNewNumber"));
+        policy.calculatePremiumAndPurchase(getPolicyTD("DataGather", "TestData"));
 
         String rewrittenPolicyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 

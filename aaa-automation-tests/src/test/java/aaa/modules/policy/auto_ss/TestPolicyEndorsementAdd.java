@@ -34,8 +34,8 @@ public class TestPolicyEndorsementAdd extends AutoSSBaseTest {
 
         log.info("TEST: Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
         
-        TestData endorsement_td = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData");
-        policy.createEndorsement(endorsement_td.adjust(tdPolicy.getTestData("Endorsement", "TestData")));
+        TestData endorsement_td = getTestSpecificTD("TestData");
+        policy.createEndorsement(endorsement_td.adjust(getPolicyTD("Endorsement", "TestData")));
 
 
         CustomAssert.enableSoftMode();

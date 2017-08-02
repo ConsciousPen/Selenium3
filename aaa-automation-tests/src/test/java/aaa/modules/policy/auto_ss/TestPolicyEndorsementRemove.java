@@ -24,7 +24,7 @@ import toolkit.verification.CustomAssert;
  */
 public class TestPolicyEndorsementRemove extends AutoSSBaseTest {
 
-	private TestData class_td = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData"); 
+	private TestData class_td = getTestSpecificTD("TestData"); 
 	
     @Test
     @TestInfo(component = "Policy.AutoSS")
@@ -36,13 +36,13 @@ public class TestPolicyEndorsementRemove extends AutoSSBaseTest {
         
 		log.info("Policy Creation Started...");
 		
-        TestData bigPolicy_td = getStateTestData(tdPolicy, "TestPolicyCreationBig", "TestData");
+        TestData bigPolicy_td = getPolicyTD("TestPolicyCreationBig", "TestData");
 		getPolicyType().get().createPolicy(bigPolicy_td);
 		
         CustomAssert.enableSoftMode();
         
 		//1. initiate endorsement
-		policy.endorse().perform(tdPolicy.getTestData("Endorsement", "TestData"));
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		
 		//2. remove second named insured
 		new GeneralTab().removeInsured(2);

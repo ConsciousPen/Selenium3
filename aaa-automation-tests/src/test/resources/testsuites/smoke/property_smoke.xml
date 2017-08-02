@@ -1,9 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="HSS Smoke Tests" verbose="1"> <!-- parallel="tests" thread-count="10">
+<suite name="HSS Smoke Tests" verbose="1" parallel="methods" thread-count="10">
      <listeners>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/-->
+    <parameter name="timeshift-scenario-mode" value="method"/>
    
 	<test name="UT HSS Smoke Tests">
 	    <parameter name="state" value="UT"/>

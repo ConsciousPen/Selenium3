@@ -1,6 +1,6 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>aaa-automation-tests</artifactId>
 	<packaging>jar</packaging>
@@ -13,14 +13,16 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <suiteFile>default.xml</suiteFile>
-		<time.service.file>src/test/resources/config/timeservice.properties</time.service.file>
+		<!-- <time.service.file>src/test/resources/config/timeservice.properties</time.service.file> -->
 		<browser.pool.config>src/test/resources/config/BrowserPool.xml</browser.pool.config>
 		<timeshift.report.dir>target/test-output/timeshift-report</timeshift.report.dir>
-		<browser.controller.class>com.exigen.istf.exec.browser.BrowserControllerImpl</browser.controller.class>
-		<dependency.locations.enabled>false</dependency.locations.enabled>
-		<dependency.details.enabled>false</dependency.details.enabled>
-        <package>*</package>
+		<!-- <browser.controller.class>com.exigen.istf.exec.browser.BrowserControllerImpl</browser.controller.class> -->
+		<dependency.locations.enabled>true</dependency.locations.enabled>
+		<dependency.details.enabled>true</dependency.details.enabled>
+		<storage.rest.enabled>true</storage.rest.enabled>
+		<suiteFile>default.xml</suiteFile>
+		<package>*</package>
+		<suitePath>src/test/resources/testsuites</suitePath>
 	</properties>
 	<build>
 		<plugins>
@@ -34,70 +36,52 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-        </plugins>
-    </build>
-    <dependencies>
-        <dependency>
-            <groupId>com.exigen.etcs</groupId>
-            <artifactId>aaa-automation-ui</artifactId>
-            <version>1.2-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
-    <profiles>
-        <profile>
-            <id>groups</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.19.1</version>
-                        <configuration>
-                            <groups>${groups}</groups>
-                            <excludedGroups>${excludedgroups}</excludedGroups>
-                            <includes>
-                                <include>%regex[aaa.modules.${package}]</include>
-                            </includes>
-                            <systemPropertyVariables>
-                                <time.service.file>${time.service.file}</time.service.file>
-                                <browser.pool.config>${browser.pool.config}</browser.pool.config>
-                                <timeshift.report.dir>${timeshift.report.dir}</timeshift.report.dir>
-                                <browser.controller.class>${browser.controller.class}</browser.controller.class>
-                            </systemPropertyVariables>
-                            <reportsDirectory>${project.build.directory}/target/test-output</reportsDirectory>
-                            <argLine>-Xmx1024m</argLine>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>suite</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.19.1</version>
-                        <configuration>
-                            <suiteXmlFiles>
-                                <suiteXmlFile>src/test/resources/testsuites/${suiteFile}</suiteXmlFile>
-                            </suiteXmlFiles>
-                            <systemPropertyVariables>
-                                <time.service.file>${time.service.file}</time.service.file>
-                                <browser.pool.config>${browser.pool.config}</browser.pool.config>
-                                <timeshift.report.dir>${timeshift.report.dir}</timeshift.report.dir>
-                                <browser.controller.class>${browser.controller.class}</browser.controller.class>
-                            </systemPropertyVariables>
-                            <reportsDirectory>${project.build.directory}/target/test-output</reportsDirectory>
-                            <argLine>-Xmx1024m</argLine>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19.1</version>
+				<configuration>
+					<suiteXmlFiles>
+						<suiteXmlFile>${suitePath}/${suiteFile}</suiteXmlFile>
+					</suiteXmlFiles>
+					<groups>${groups}</groups>
+					<excludedGroups>${excludedgroups}</excludedGroups>
+					<!-- <includes> <include>%regex[aaa.modules.${package}]</include> </includes> -->
+					<systemPropertyVariables>
+						<time.service.file>${time.service.file}</time.service.file>
+						<browser.pool.config>${browser.pool.config}</browser.pool.config>
+						<timeshift.report.dir>${timeshift.report.dir}</timeshift.report.dir>
+						<browser.controller.class>${browser.controller.class}</browser.controller.class>
+					</systemPropertyVariables>
+					<!-- <reportsDirectory>${project.build.directory}/target/test-output</reportsDirectory> -->
+					<argLine>-Xmx1024m</argLine>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>com.exigen.etcs</groupId>
+			<artifactId>aaa-automation-ui</artifactId>
+			<version>1.2-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+	<profiles>
+		<profile>
+			<id>package</id>
+			<build>
+				<testResources>
+					<testResource>
+						<!-- <targetPath>${project.basedir}/src/test/resources/testsuites</targetPath> -->
+						<directory>src/test/resources</directory>
+						<filtering>true</filtering>
+					</testResource>
+				</testResources>
+			</build>
+			<properties>
+				<suiteFile>testsuites/package.xml</suiteFile>
+				<suitePath>${project.build.testOutputDirectory}</suitePath>
+			</properties>
 		</profile>
 	</profiles>
 </project>

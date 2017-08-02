@@ -38,7 +38,7 @@ public class TestPolicyEndorsementFlat extends HomeSSHO3BaseTest {
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
         log.info("TEST: Flat Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.createEndorsement(tdSpecific.getTestData("TestData").adjust(tdPolicy.getTestData("Endorsement", "TestData")));
+        policy.createEndorsement(getTestSpecificTD("TestData").adjust(getPolicyTD("Endorsement", "TestData")));
 
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

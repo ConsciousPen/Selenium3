@@ -45,7 +45,7 @@ import toolkit.utils.TestInfo;
  **/
 public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
 	
-	private TestData td = getStateTestData(tdPolicy, "DataGather", "TestData");
+	private TestData td = getPolicyTD("DataGather", "TestData");
 		
 	@Test
     @TestInfo(component = "Quote.HomeSS")
@@ -54,8 +54,8 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         
         createCustomerIndividual();
 
-        TestData effective_date_today_plus_10_days = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_TodayPlus10Days");
-        TestData effective_date_today_plus_91_days = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_TodayPlus91Days");
+        TestData effective_date_today_plus_10_days = getTestSpecificTD("TestData_TodayPlus10Days");
+        TestData effective_date_today_plus_91_days = getTestSpecificTD("TestData_TodayPlus91Days");
         		
         policy.initiate();
        
@@ -82,8 +82,8 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         
         createCustomerIndividual();
         
-        TestData effective_date_today_minus_10_days = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_TodayMinus10Days");
-        TestData effective_date_today_minus_3_days = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_TodayMinus3Days");
+        TestData effective_date_today_minus_10_days = getTestSpecificTD("TestData_TodayMinus10Days");
+        TestData effective_date_today_minus_3_days = getTestSpecificTD("TestData_TodayMinus3Days");
         
         policy.initiate();
         GeneralTab generalTab = new GeneralTab();

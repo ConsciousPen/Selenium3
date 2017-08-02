@@ -290,143 +290,6 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<RadioGroup> SUBSCRIPTION_TO_FIRE_DEPARTMENT_STATION = declare("Subscription to fire department/station", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<StaticElement> SYSTEM_PUBLIC_PROTECTION_CLASS = declare("System public protection class", StaticElement.class, Waiters.NONE);
 		}
-
-		public enum AAAMembershipReportsTblHeaders {
-
-			LAST_NAME("Last Name"), MEMBERSHIP_NO("Membership No."), MEMBERSHIP_SINCE_DATE("Member Since Date"), ORDER_DATE("Order Date"), RECEIPT_DATE("Receipt Date"), STATUS("Status"), REPORT("Report");
-
-			private String value;
-
-			AAAMembershipReportsTblHeaders(String value) {
-				this.value = value;
-			}
-
-			public String get() {
-				return value;
-			}
-		}
-
-		public enum InsuranceScoreReportTblHeaders {
-
-			NAMED_INSURED("Named Insured"), ORDER_INSURANCE_SCORE("Order Insurance Score"), REORDER_AT_RENEWAL("Reorder at renewal"), SSN_ENTERED("SSN Entered"), ORDER_DATE("Order Date"), EXPIRATION_DATE("Expiration Date"), STATUS("Status"), REPORT("Report");
-
-			private String value;
-
-			InsuranceScoreReportTblHeaders(String value) {
-				this.value = value;
-			}
-
-			public String get() {
-				return value;
-			}
-		}
-
-		public enum InsuranceScoreTblHeaders {
-
-			NAMED_INSURED("Named Insured"), INSURANCE_SCORE("Insurance Score"), OVERRIDE_DATE("Override Date"), REASON_FOR_OVERRIDE("Reason for Override"), OVERRIDEN_BY("Overriden by"), ACTION("Action");
-
-			private String value;
-
-			InsuranceScoreTblHeaders(String value) {
-				this.value = value;
-			}
-
-			public String get() {
-				return value;
-			}
-
-		}
-
-		public enum FirelineReportTblHeaders {
-
-			DWELLING_ADDRESS("Dwelling Address"), WILDFIRE_SCORE("Wildfire Score"), ORDER_DATE("Order Date"), EXPIRATION_DATE("Expiration Date"), STATUS("Status"), REPORT("Report");
-
-			private String value;
-
-			FirelineReportTblHeaders(String value) {
-				this.value = value;
-			}
-
-			public String get() {
-				return value;
-			}
-
-		}
-
-		public enum RiskMeterReportTblHeaders {
-
-			DWELLING_ADDRESS("Dwelling Address"), DISTANCE_TO_COAST("Distance To Coast"), ELEVATION("Elevation"), ORDER_DATE("Order Date"), STATUS("Status"), REPORT("Report");
-
-			private String value;
-
-			RiskMeterReportTblHeaders(String value) {
-				this.value = value;
-			}
-
-			public String get() {
-				return value;
-			}
-		}
-
-		public enum PublicProtectionClassTblHeaders {
-
-			NAME("Name"), DWELLING_ADDRESS("Dwelling Address"), PPC_VALUE("PPC Value"), ORDER_DATE("Order Date"), EXPIRATION_DATE("Expiration Date"), STATUS("Status"), REPORT("Report");
-
-			private String value;
-
-			PublicProtectionClassTblHeaders(String value) {
-				this.value = value;
-			}
-
-			public String get() {
-				return value;
-			}
-		}
-
-		public enum CLUEReportTblHeaders {
-
-			DWELLING_ADDRESS("Dwelling Address"), NO_OF_CLAIMS("No. of Claims"), ORDER_DATE("Order Date"), EXPIRATION_DATE("Expiration Date"), STATUS("Status"), REPORT("Report");
-
-			private String value;
-
-			CLUEReportTblHeaders(String value) {
-				this.value = value;
-			}
-
-			public String get() {
-				return value;
-			}
-		}
-
-		public enum ISO360reportTblHeaders {
-
-			DWELLING_ADDRESS("Dwelling Address"), REPLACEMENT_COST("Replacement Cost"), ORDER_DATE("Order Date"), EXPIRATION_DATE("Expiration Date"), STATUS("Status"), REPORT("Report");
-
-			private String value;
-
-			ISO360reportTblHeaders(String value) {
-				this.value = value;
-			}
-
-			public String get() {
-				return value;
-			}
-		}
-
-		public enum RistmeterTblHeaders {
-
-			DWELLING_ADDRESS("Dwelling Address"), DISTANCE_TO_COST("Distance to Cose"), ELEVATION("Elevation"), ORDER_DATE("Order Date"), STATUS("Status"), REPORT("Report");
-
-			private String value;
-
-			RistmeterTblHeaders(String value) {
-				this.value = value;
-			}
-
-			public String get() {
-				return value;
-			}
-		}
 	}
 
 	public static final class PropertyInfoTab extends MetaData {
@@ -525,12 +388,13 @@ public final class HomeSSMetaData {
 
 		public static final class DetachedStructures extends MetaData {
 			public static final AssetDescriptor<RadioGroup> ARE_THERE_ANY_DETACHED_STRUCTURES_ON_THE_PROPERTY = declare("Are there any detached structures on the property?", RadioGroup.class, Waiters.AJAX);
-			public static final AssetDescriptor<AssetListConfirmationDialog> REMOVE_CONFIRMATION = declare("Remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmOptionalNoSelected_AAAHODetachedStructuresInfoComponent_Dialog_container"));
-			public static final AssetDescriptor<RadioGroup> RENTED_TO_OTHERS = declare("Rented to others", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<AssetListConfirmationDialog> REMOVE_CONFIRMATION = declare("Remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmOptionalNoSelected_AAAHODetachedStructuresInfoComponent_Dialog_container")); 
+			public static final AssetDescriptor<Button> BTN_ADD_STRUCTURE = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addAAAHODetachedStructuresInfoComponent"));
+			public static final AssetDescriptor<RadioGroup> RENTED_TO_OTHERS = declare("Rented to others", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:sedit_AAAHODetachedStructuresInfoComponent_aaaRentedToOther']"));
 			public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY = declare("Limit of liability", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> NUMBER_OF_FAMILY_UNITS = declare("Number of family units", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> NUMBER_OF_OCCUPANTS = declare("Number of occupants", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> NUMBER_OF_FAMILY_UNITS = declare("Number of family units", ComboBox.class, Waiters.AJAX, By.xpath("//select[@id='policyDataGatherForm:sedit_AAAHODetachedStructuresInfoComponent_aaaNumberOfFamilyunits']"));
+			public static final AssetDescriptor<ComboBox> NUMBER_OF_OCCUPANTS = declare("Number of occupants", ComboBox.class, Waiters.AJAX, By.xpath("//select[@id='policyDataGatherForm:sedit_AAAHODetachedStructuresInfoComponent_aaaNumberOfOccupants']"));
 		}
 
 		public static final class FireProtectiveDD extends MetaData {
@@ -631,70 +495,11 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<RadioGroup> ADD_FUEL_SYSTEM_STORAGE_TANK_COVERAGE = declare("Add fuel system storage tank coverage?", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> AGE_OF_OIL_OR_PROPANE_FUEL_STORAGE_TANK = declare("Age of oil or propane fuel storage tank", TextBox.class, Waiters.NONE);
 		}
-
-		public enum AdditionalAddressTblHeaders {
-
-			STREET_ADDRESS1("Street address 1"), STREET_ADDRESS2("Street address 2"), CITY("City"), STATE("State"), ZIP_CODE("Zip Code");
-
-			private String value;
-
-			AdditionalAddressTblHeaders(String value) {
-				this.value = value;
-			}
-
-			public String get() {
-				return value;
-			}
-		}
-
-		public enum DetachedStructuresTblHeaders {
-
-			RENTED("Rented"), DECRIPTION("Description"), LIMIT_OF_LIABILITY("Limit Of Liability"), FAMILY_UNITS("Family Units"), OCCUPANTS("Occupants");
-
-			private String value;
-
-			DetachedStructuresTblHeaders(String value) {
-				this.value = value;
-			}
-
-			public String get() {
-				return value;
-			}
-		}
-
-		public enum PetsOrAnimalsTblHeaders {
-
-			ANIMAL_TYPE("Animal Type"), OTHER_SPECIFY("Other - Specify"), Count("Count");
-
-			private String value;
-
-			PetsOrAnimalsTblHeaders(String value) {
-				this.value = value;
-			}
-
-			public String get() {
-				return value;
-			}
-		}
-
-		public enum ClaimsTblHeaders {
-
-			DATE_OF_LOSS("Date of loss"), CAUSE_OF_LOSS("Cause of loss"), AMOUNT_OF_LOSS("Amount of loss"), CLAIM_STATUS("Claim Status"), CHARGEABLE("Chargeable"), SOURCE("Source");
-
-			private String value;
-
-			ClaimsTblHeaders(String value) {
-				this.value = value;
-			}
-
-			public String get() {
-				return value;
-			}
-		}
 	}
 
 	public static final class ProductOfferingTab extends MetaData {
-		public static final AssetDescriptor<TextBox> SEQUENCE = declare("Sequence #", TextBox.class);
+		//TODO-dchubkov: didn't find such controls, should we remove them?
+		/*public static final AssetDescriptor<TextBox> SEQUENCE = declare("Sequence #", TextBox.class);
 		public static final AssetDescriptor<ComboBox> INCIDENT_SOURCE = declare("Incident Source", ComboBox.class);
 		public static final AssetDescriptor<RadioGroup> INCLUDE_IN_RATING = declare("Include in Rating", RadioGroup.class);
 		public static final AssetDescriptor<ComboBox> REASON = declare("Reason", ComboBox.class);
@@ -703,7 +508,11 @@ public final class HomeSSMetaData {
 		public static final AssetDescriptor<ComboBox> CLAIM_TYPE = declare("Claim Type", ComboBox.class);
 		public static final AssetDescriptor<TextBox> DATE_OF_LOSS = declare("Date of Loss", TextBox.class);
 		public static final AssetDescriptor<TextBox> CLAIM_AMOUNT = declare("Claim Amount", TextBox.class);
-		public static final AssetDescriptor<TextBox> DESCRIPTION_OF_LOSS = declare("Description of Loss", TextBox.class);
+		public static final AssetDescriptor<TextBox> DESCRIPTION_OF_LOSS = declare("Description of Loss", TextBox.class);*/
+
+		/*public static final AssetDescriptor<ProductOfferingVariationControl> HERITAGE = declare("Heritage", ProductOfferingVariationControl.class);
+		public static final AssetDescriptor<ProductOfferingVariationControl> LEGACY = declare("Legacy", ProductOfferingVariationControl.class);
+		public static final AssetDescriptor<ProductOfferingVariationControl> PRESTIGE = declare("Prestige", ProductOfferingVariationControl.class);*/
 	}
 
 	public static final class EndorsementTab extends MetaData {
