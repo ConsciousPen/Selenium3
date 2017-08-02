@@ -79,17 +79,17 @@ public class TestQuoteUnderwritingRules extends HomeSSHO3BaseTest {
         underwritingTab.submitTab();
         
         CustomAssert.enableSoftMode();   
-        //underwritingTab.verifyFieldHasMessage(HomeSSMetaData.UnderwritingAndApprovalTab.HAVE_ANY_OF_THE_APPLICANT_S_CURRENT_PETS_INJURED_ANOTHER_PERSON.getLabel(), 
-        //		"Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting history are unacceptable. Underwriting review will occur post bind.");  
+        underwritingTab.verifyFieldHasMessage(HomeSSMetaData.UnderwritingAndApprovalTab.HAVE_ANY_OF_THE_APPLICANT_S_CURRENT_PETS_INJURED_ANOTHER_PERSON.getLabel(), 
+        		"Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting history are unacceptable. Underwriting review will occur post bind.");  
         
         underwritingTab.verifyFieldHasMessage(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS_CONDUCTED_ON_THE_PREMISES_FOR_WHICH_AN_ENDORSEMENT_IS_NOT_ATTACHED_TO_THE_POLICY.getLabel(), 
         		"Risk must be endorsed with the appropriate business or farming endorsement when an eligible business or incidental farming exposure is present. Applicants that perform a home day care, including child, adult or pet day care, are unacceptable.");             
         
         underwritingTab.fillTab(td_uw2);
         underwritingTab.submitTab();       
-        //underwritingTab.verifyFieldHasMessage("Remark Prior Insurance", "'Remarks' is required");
-        //underwritingTab.verifyFieldHasMessage("Remark Foreclosure", "'Remarks' is required"); 
-        //underwritingTab.verifyFieldHasMessage("Remark Resident Employees", "'Remarks' is required");
+        underwritingTab.verifyFieldHasMessage("Remark Prior Insurance", "'Remarks' is required");
+        underwritingTab.verifyFieldHasMessage("Remark Foreclosure", "'Remarks' is required"); 
+        underwritingTab.verifyFieldHasMessage("Remark Resident Employees", "'Remarks' is required");
         
         underwritingTab.fillTab(td_uw3);
         underwritingTab.submitTab();
