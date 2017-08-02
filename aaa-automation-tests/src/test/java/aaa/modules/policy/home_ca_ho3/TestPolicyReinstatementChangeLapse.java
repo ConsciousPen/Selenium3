@@ -8,7 +8,7 @@ import aaa.modules.policy.HomeCaHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
- * @author Andrey Shashenka
+ * @author Ryan Yu
  * @name Test Reinstatement Change Lapse option for Home Policy
  * @scenario
  * 1. Create Customer
@@ -27,12 +27,11 @@ import toolkit.utils.TestInfo;
 public class TestPolicyReinstatementChangeLapse extends HomeCaHO3BaseTest {
 
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.HomeCA")
 	public void testPolicyReinstatementChangeLapse() {
 		mainApp().open();
 
-		createCustomerIndividual();
-		createPolicy();
+		getCopiedPolicy();
 
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
