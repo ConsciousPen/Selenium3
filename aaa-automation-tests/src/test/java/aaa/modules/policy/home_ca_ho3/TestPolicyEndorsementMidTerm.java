@@ -3,11 +3,17 @@
 package aaa.modules.policy.home_ca_ho3;
 
 import org.testng.annotations.Test;
+
 import com.exigen.ipb.etcsa.utils.Dollar;
+
 import aaa.main.enums.ProductConstants;
+import aaa.main.metadata.policy.HomeCaMetaData;
+import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 
 /**
@@ -30,9 +36,11 @@ public class TestPolicyEndorsementMidTerm extends HomeCaHO3BaseTest {
 		mainApp().open();
 
 		createCustomerIndividual();
-		createPolicy(getPolicyTD("DataGather", "TestData")
-				.adjust("GeneralTab|PolicyInfo|Effective date", "/today-2d:MM/dd/yyyy")
-				.adjust("GeneralTab|CurrentCarrier|Base date with AAA", "/today-2d:MM/dd/yyyy"));
+		String effDateKey = TestData.makeKeyPath(new GeneralTab().getMetaKey(), HomeCaMetaData.GeneralTab.POLICY_INFO.getLabel(), HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE.getLabel());
+		String baseDateKey = TestData.makeKeyPath(new GeneralTab().getMetaKey(), HomeCaMetaData.GeneralTab.CURRENT_CARRIER.getLabel(), HomeCaMetaData.GeneralTab.CurrentCarrier.BASE_DATE_WITH_AAA.getLabel());
+		String date = DateTimeUtils.getCurrentDateTime().minusDays(2).format(DateTimeUtils.MM_DD_YYYY);
+		TestData tdPolicyCreation = getPolicyTD("DataGather", "TestData").adjust(effDateKey, date).adjust(baseDateKey, date);
+		createPolicy(tdPolicyCreation);
 
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
