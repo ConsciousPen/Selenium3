@@ -35,12 +35,12 @@ public class TestPolicyBackdated extends AutoSSBaseTest {
 		//adjust default policy data with
 		//1. effective date = today minus 10 days
 		//2. error tab: "Requested Effective Date not Available" error should be overridden 
-		TestData td = getStateTestData(tdPolicy, "DataGather", "TestData")
+		TestData td = getPolicyTD("DataGather", "TestData")
 				.adjust(TestData.makeKeyPath("GeneralTab",
 						AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
 						AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()),
 						"/today-10d:MM/dd/yyyy")
-				.adjust(tdPolicy.getTestData(this.getClass().getSimpleName(), "TestData").resolveLinks());
+				.adjust(getPolicyTD(this.getClass().getSimpleName(), "TestData").resolveLinks());
 
 		getPolicyType().get().createPolicy(td);
 

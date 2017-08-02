@@ -71,12 +71,12 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
 
         Dollar initialMinimumDue = BillingSummaryPage.getMinimumDue();
         Dollar initialTotalDue = BillingSummaryPage.getTotalDue();
-        Dollar feeAmount = new Dollar(tdSpecific.getTestData("TestData_Fee")
+        Dollar feeAmount = new Dollar(getTestSpecificTD("TestData_Fee")
                 .getTestData(BillingAccountMetaData.OtherTransactionsActionTab.class.getSimpleName()).getValue(BillingAccountMetaData.OtherTransactionsActionTab.AMOUNT.getLabel()));
 
         // 3.  Make a positive fee
         BillingSummaryPage.linkOtherTransactions.click();
-        otherTransactionsActionTab.fillTab(tdSpecific.getTestData("TestData_Fee"));
+        otherTransactionsActionTab.fillTab(getTestSpecificTD("TestData_Fee"));
         otherTransactionsActionTab.submitTab();
 
         // 4.  Check fee transaction appears in "Payments&Other Transactions"
@@ -135,7 +135,7 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
     @TestInfo(component = "Policy.HomeCA")
     public void testManualRefund() {
 
-        Dollar paymentAmount = new Dollar(tdSpecific.getTestData("TestData_Payment_1000").getTestData(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName())
+        Dollar paymentAmount = new Dollar(getTestSpecificTD("TestData_Payment_1000").getTestData(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName())
                 .getValue(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()));
         String keyPathRefund = TestData.makeKeyPath(BillingAccountMetaData.RefundActionTab.class.getSimpleName(), BillingAccountMetaData.RefundActionTab.AMOUNT.getLabel());
         HashMap<String, String> query;
@@ -149,29 +149,29 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
         // 3.  Make a payment 1000$
         BillingSummaryPage.linkAcceptPayment.click();
         AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
-        acceptPaymentActionTab.fillTab(tdSpecific.getTestData("TestData_Payment_1000"));
+        acceptPaymentActionTab.fillTab(getTestSpecificTD("TestData_Payment_1000"));
         acceptPaymentActionTab.submitTab();
         Dollar totalPaid = new Dollar(BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_PAID).getValue());
 
         // 4. Check for an error message if Refund Amount is empty
         new BillingAccount().refund().start();
         RefundActionTab refundActionTab = new RefundActionTab();
-        refundActionTab.fillTab(tdSpecific.getTestData("TestData_Refund_1000").mask(keyPathRefund));
+        refundActionTab.fillTab(getTestSpecificTD("TestData_Refund_1000").mask(keyPathRefund));
         refundActionTab.submitTab();
         refundActionTab.getAssetList().getWarning(BillingAccountMetaData.RefundActionTab.AMOUNT.getLabel()).verify.contains("Amount is required");
 
         // 5. Check for an error message if Refund Amount > Total Paid Amount
-        refundActionTab.fillTab(tdSpecific.getTestData("TestData_Refund_1000").adjust(keyPathRefund, totalPaid.add(1).toString()));
+        refundActionTab.fillTab(getTestSpecificTD("TestData_Refund_1000").adjust(keyPathRefund, totalPaid.add(1).toString()));
         refundActionTab.submitTab();
         refundActionTab.getAssetList().getWarning(BillingAccountMetaData.RefundActionTab.TOTAL_AMOUNT.getLabel()).verify.contains("Sum of subtotal amounts do not match total amount");
 
         // 6. Check for an error message if Refund Amount is "0"
-        refundActionTab.fillTab(tdSpecific.getTestData("TestData_Refund_1000").adjust(keyPathRefund, "0"));
+        refundActionTab.fillTab(getTestSpecificTD("TestData_Refund_1000").adjust(keyPathRefund, "0"));
         refundActionTab.submitTab();
         refundActionTab.getAssetList().getWarning(BillingAccountMetaData.RefundActionTab.AMOUNT.getLabel()).verify.contains("Amount is required");
 
         // 7. Make a refund of 1000$
-        refundActionTab.fillTab(tdSpecific.getTestData("TestData_Refund_1000"));
+        refundActionTab.fillTab(getTestSpecificTD("TestData_Refund_1000"));
         refundActionTab.submitTab();
 
         // 8. Check presence of the refund transaction in Pending transactions on billing tab
@@ -236,7 +236,7 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
     @TestInfo(component = "Policy.HomeCA")
     public void testManualWriteOff() {
 
-        Dollar writeoffAmount = new Dollar(tdSpecific.getTestData("TestData_WriteOff").getTestData(BillingAccountMetaData.OtherTransactionsActionTab.class.getSimpleName())
+        Dollar writeoffAmount = new Dollar(getTestSpecificTD("TestData_WriteOff").getTestData(BillingAccountMetaData.OtherTransactionsActionTab.class.getSimpleName())
                 .getValue(BillingAccountMetaData.OtherTransactionsActionTab.AMOUNT.getLabel()));
         String keyPathAmount = TestData.makeKeyPath(BillingAccountMetaData.OtherTransactionsActionTab.class.getSimpleName(), BillingAccountMetaData.OtherTransactionsActionTab.AMOUNT.getLabel());
         String allocationError = "Allocation amounts for %s do not match product subtotal";
@@ -253,7 +253,7 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
 
         // 3.  Write Off 100$
         BillingSummaryPage.linkOtherTransactions.click();
-        otherTransactionsActionTab.fillTab(tdSpecific.getTestData("TestData_WriteOff"));
+        otherTransactionsActionTab.fillTab(getTestSpecificTD("TestData_WriteOff"));
         otherTransactionsActionTab.submitTab();
         OtherTransactionsActionTab.btnContinue.click();
 
@@ -267,7 +267,7 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
         // 5.  Reversal Write Off 100$
         BillingSummaryPage.linkOtherTransactions.click();
         writeoffAmount = writeoffAmount.negate();
-        otherTransactionsActionTab.fillTab(tdSpecific.getTestData("TestData_WriteOff").adjust(keyPathAmount, writeoffAmount.toString()));
+        otherTransactionsActionTab.fillTab(getTestSpecificTD("TestData_WriteOff").adjust(keyPathAmount, writeoffAmount.toString()));
         otherTransactionsActionTab.submitTab();
 
         // 6.  Check reversal write-off transaction appears in "Payments and other transactions" section on billing tab
@@ -283,7 +283,7 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
         // 8.  Enter payments amounts > Sub Total in advanced allocation dialog
         BillingSummaryPage.linkOtherTransactions.click();
         writeoffAmount = writeoffAmount.multiply(2);
-        otherTransactionsActionTab.fillTab(tdSpecific.getTestData("TestData_WriteOff").adjust(keyPathAmount, writeoffAmount.toString()));
+        otherTransactionsActionTab.fillTab(getTestSpecificTD("TestData_WriteOff").adjust(keyPathAmount, writeoffAmount.toString()));
         OtherTransactionsActionTab.linkAdvancedAllocation.click();
         AdvancedAllocationsActionTab advancedAllocationsActionTab = new AdvancedAllocationsActionTab();
         advancedAllocationsActionTab.fillTab(new SimpleDataProvider().adjust(BillingAccountMetaData.AdvancedAllocationsActionTab.class.getSimpleName(),
@@ -297,7 +297,7 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
 
         // 10. Make a positive adjustment using advanced allocation dialog
         BillingSummaryPage.linkOtherTransactions.click();
-        otherTransactionsActionTab.fillTab(tdSpecific.getTestData("TestData_WriteOff").adjust(keyPathAmount, writeoffAmount.toString()));
+        otherTransactionsActionTab.fillTab(getTestSpecificTD("TestData_WriteOff").adjust(keyPathAmount, writeoffAmount.toString()));
 
         // 11. Check that System defaults 'Total Amount' with the value entered by user in 'Amount' field on 'Other Transactions' tab
         OtherTransactionsActionTab.linkAdvancedAllocation.click();
@@ -322,7 +322,7 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
         // 16. Make a negative adjustment using advanced allocation dialog
         BillingSummaryPage.linkOtherTransactions.click();
         writeoffAmount = writeoffAmount.negate();
-        otherTransactionsActionTab.fillTab(tdSpecific.getTestData("TestData_WriteOff").adjust(keyPathAmount, writeoffAmount.toString()));
+        otherTransactionsActionTab.fillTab(getTestSpecificTD("TestData_WriteOff").adjust(keyPathAmount, writeoffAmount.toString()));
         OtherTransactionsActionTab.linkAdvancedAllocation.click();
         advancedAllocationsActionTab.submitTab();
 
@@ -393,7 +393,7 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
 
         // 2.  Add 4 payment methods(Cash, Check, Credit Card, EFT)
         BillingSummaryPage.linkAcceptPayment.click();
-        acceptPaymentActionTab.fillTab(tdSpecific.getTestData("TestData_AddPaymentMethods"));
+        acceptPaymentActionTab.fillTab(getTestSpecificTD("TestData_AddPaymentMethods"));
         OtherTransactionsActionTab.buttonCancel.click();
 
         // 3.  Make 5 different payments(Cash, Check, Credit Card, EFT)
@@ -434,7 +434,7 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
         query.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.DEPOSIT_PAYMENT);
         Dollar depositPayment = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()).negate();
         BillingSummaryPage.linkAcceptPayment.click();
-        acceptPaymentActionTab.fillTab((tdSpecific.getTestData("Payment_Cash")).adjust(
+        acceptPaymentActionTab.fillTab((getTestSpecificTD("Payment_Cash")).adjust(
                 TestData.makeKeyPath(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName(), BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()),
                 depositPayment.add(feeAmountTotal).toString()).resolveLinks());
         acceptPaymentActionTab.submitTab();
@@ -459,9 +459,9 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
 
     private Dollar payment(String paymentMethod) {
         BillingSummaryPage.linkAcceptPayment.click();
-        acceptPaymentActionTab.fillTab((tdSpecific.getTestData(paymentMethod)));
+        acceptPaymentActionTab.fillTab((getTestSpecificTD(paymentMethod)));
         acceptPaymentActionTab.submitTab();
-        return new Dollar(tdSpecific.getTestData(paymentMethod).getTestData(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName())
+        return new Dollar(getTestSpecificTD(paymentMethod).getTestData(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName())
                 .getValue(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()));
     }
 

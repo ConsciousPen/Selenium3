@@ -40,8 +40,8 @@ import toolkit.verification.CustomAssert;
 
 public class TestPolicySafeDiscount extends HomeSSHO3BaseTest {
 	
-	private TestData td = getStateTestData(tdPolicy, "DataGather", "TestData"); 
-	private TestData td_safeHome = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData"); 
+	private TestData td = getPolicyTD("DataGather", "TestData"); 
+	private TestData td_safeHome = getTestSpecificTD("TestData"); 
 	private Dollar premiumWithoutDiscount;
 	private Dollar premiumWithDiscount;
 	

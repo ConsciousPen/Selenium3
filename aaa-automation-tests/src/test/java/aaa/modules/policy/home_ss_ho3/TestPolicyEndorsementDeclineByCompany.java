@@ -22,7 +22,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyEndorsementDeclineByCompany extends HomeSSHO3BaseTest {
 
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.HomeSS")
 	public void testPolicyEndorsementDeclineByCompany() {
 		mainApp().open();
 
@@ -30,10 +30,10 @@ public class TestPolicyEndorsementDeclineByCompany extends HomeSSHO3BaseTest {
 		createPolicy();
 
 		log.info("TEST: Decline By Company Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-		policy.endorse().performAndExit(tdPolicy.getTestData("Endorsement", "TestData"));
+		policy.endorse().performAndExit(getPolicyTD("Endorsement", "TestData"));
 		PolicySummaryPage.buttonPendedEndorsement.click();
 
-		policy.declineByCompanyQuote().perform(tdPolicy.getTestData("DeclineByCompany", "TestData"));
+		policy.declineByCompanyQuote().perform(getPolicyTD("DeclineByCompany", "TestData"));
 		PolicySummaryPage.buttonPendedEndorsement.click();
 
 		PolicySummaryPage.tableEndorsements.getRow(1).getCell(3).verify.value(ProductConstants.PolicyStatus.COMPANY_DECLINED);

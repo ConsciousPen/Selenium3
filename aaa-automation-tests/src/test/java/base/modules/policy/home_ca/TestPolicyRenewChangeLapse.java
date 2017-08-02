@@ -37,18 +37,18 @@ public class TestPolicyRenewChangeLapse extends HomeCaHO3BaseTest {
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
         log.info("Manual Renew for Policy #" + policyNumber);
-        policy.createRenewal(tdPolicy.getTestData("Issue", "TestData_ExistentBillingAccount"));
+        policy.createRenewal(getPolicyTD("Issue", "TestData_ExistentBillingAccount"));
 
         log.info("TEST: Add Lapse Period for Policy Renew #" + policyNumber);
-        policy.policyChangeRenewalLapse().perform(tdPolicy.getTestData("RenewChangeLapse", "TestData_Plus370Days"));
+        policy.policyChangeRenewalLapse().perform(getPolicyTD("RenewChangeLapse", "TestData_Plus370Days"));
         PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present();
 
         log.info("TEST: Change Lapse Period for Policy Renew #" + policyNumber);
-        policy.policyChangeRenewalLapse().perform(tdPolicy.getTestData("RenewChangeLapse", "TestData_Plus368Days"));
+        policy.policyChangeRenewalLapse().perform(getPolicyTD("RenewChangeLapse", "TestData_Plus368Days"));
         PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present();
 
         log.info("TEST: Remove Lapse Period for Policy Renew #" + policyNumber);
-        policy.policyChangeRenewalLapse().perform(tdPolicy.getTestData("RenewChangeLapse", "TestData"));
+        policy.policyChangeRenewalLapse().perform(getPolicyTD("RenewChangeLapse", "TestData"));
         PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present(false);
     }
 }

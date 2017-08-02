@@ -11,7 +11,7 @@ import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
 /**
- * @author Ivan Kisly
+ * @author Ryan Yu
  * @name Test OOS Endorsement for Home Policy
  * @scenario
  * 1. Create Customer
@@ -26,25 +26,24 @@ import toolkit.verification.CustomAssert;
 public class TestPolicyEndorsementOos extends HomeCaHO3BaseTest {
 
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.HomeCA.Endorsement")
 	public void testPolicyEndorsementOos() {
 		mainApp().open();
 
-		createCustomerIndividual();
-		createPolicy();
+		getCopiedPolicy();
 
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
 		log.info("MidTerm Endorsement for Policy #" + policyNumber);
-		policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData_Plus3Days")
-				.adjust(tdSpecific.getTestData("TestData").resolveLinks()));
+		policy.createEndorsement(getPolicyTD("Endorsement", "TestData_Plus3Days")
+				.adjust(getTestSpecificTD("TestData").resolveLinks()));
 
 		Dollar policyPremium2 = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
 		log.info("OOS Endorsement for Policy #" + policyNumber);
-		policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData")
-				.adjust(tdSpecific.getTestData("TestData2").resolveLinks()));
+		policy.createEndorsement(getPolicyTD("Endorsement", "TestData")
+				.adjust(getTestSpecificTD("TestData2").resolveLinks()));
 
 		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);

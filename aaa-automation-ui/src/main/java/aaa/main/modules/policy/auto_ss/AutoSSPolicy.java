@@ -18,7 +18,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.main.modules.policy.auto_ss.views.DefaultView;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.pages.summary.QuoteSummaryPage;
 import toolkit.datax.TestData;
 
@@ -47,7 +46,7 @@ public class AutoSSPolicy implements IPolicy {
     @Override
 	public void createQuote(TestData td) {
 		initiate();
-		getDefaultView().fillUpTo(td, BindTab.class, false);
+		getDefaultView().fillUpTo(td, DocumentsAndBindTab.class, false);
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 
 	    log.info("QUOTE CREATED: " + EntityLogger.getEntityHeader(EntityLogger.EntityType.QUOTE));
@@ -72,8 +71,9 @@ public class AutoSSPolicy implements IPolicy {
 
     @Override
     public void purchase(TestData td) {
+    	dataGather().start();
 	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-	    new DocumentsAndBindTab().submitTab();
+	    new DocumentsAndBindTab().fillTab(td).submitTab();
 	    new PurchaseTab().fillTab(td).submitTab();
 	    log.info("Purchased Quote " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
     }

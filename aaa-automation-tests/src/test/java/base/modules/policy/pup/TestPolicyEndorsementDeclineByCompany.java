@@ -32,10 +32,10 @@ public class TestPolicyEndorsementDeclineByCompany extends PersonalUmbrellaBaseT
         createPolicy();
 
         log.info("TEST: Decline By Company Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.endorse().perform(tdPolicy.getTestData("Endorsement", "TestData"));
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         PolicySummaryPage.buttonPendedEndorsement.click();
 
-        policy.declineByCompanyQuote().perform(tdPolicy.getTestData("DeclineByCompany", "TestData"));
+        policy.declineByCompanyQuote().perform(getPolicyTD("DeclineByCompany", "TestData"));
         PolicySummaryPage.buttonPendedEndorsement.click();
 
         PolicySummaryPage.tableEndorsements.getRow(1).getCell(3).verify.value(ProductConstants.PolicyStatus.COMPANY_DECLINED);

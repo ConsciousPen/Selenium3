@@ -63,7 +63,6 @@ public class CustomerSummaryPage extends SummaryPage {
     public static Table tableActivePolicies = new Table(By.id("act-policies:body_act-policyList"));
     public static Table tableAffinityGroups = new Table(By.id("associationForm:body_associationTbl"));
     public static Table tableAgencies = new Table(By.id("assignments:body_assignmentsTbl"));
-    public static Table tableBilling = new Table(By.id("customerBilling:customerBillingAccountTbl"));
     public static Table tableBundles = new Table(By.id("policyBundles:body_policyBundlesTable"));
     public static Table tableBusinessEntities = new Table(By.id("body_businessEntityList"));
     public static Table tableClaims = new Table(By.id("claims:customerClaimTbl"));
@@ -89,6 +88,21 @@ public class CustomerSummaryPage extends SummaryPage {
         Link collapsedRelatedCommunications = new Link(By.xpath("//div[text()='Related Communications' and contains(@class, 'colps')]"));
         if (collapsedRelatedCommunications.isVisible()) {
             collapsedRelatedCommunications.click();
+        }
+    }
+
+    public static class BillingSection {
+        private static Table tableBilling = new Table(By.id("customerBilling:customerBillingAccountTbl"));
+
+        public static void open() {
+            if (!tableBilling.isPresent()) {
+                new Link(By.id("customerBilling:billingTogglePanel")).click();
+            }
+        }
+
+        public static Table getTable() {
+            open();
+            return tableBilling;
         }
     }
 }

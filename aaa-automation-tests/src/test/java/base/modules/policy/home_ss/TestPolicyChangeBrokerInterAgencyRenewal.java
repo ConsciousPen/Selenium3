@@ -38,9 +38,9 @@ public class TestPolicyChangeBrokerInterAgencyRenewal extends HomeSSHO3BaseTest 
         String initialBroker = PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.BROKERAGE).getValue();
 
         log.info("TEST: Change Broker Inter Agency for Policy #" + policyNumber);
-        policy.changeBrokerRequest().perform(tdPolicy.getTestData("ChangeBroker", "TestDataInter_Renewal"));
+        policy.changeBrokerRequest().perform(getPolicyTD("ChangeBroker", "TestDataInter_Renewal"));
 
-        String newBrokerName = tdPolicy.getTestData("ChangeBroker", "TestDataInter_Renewal").getValue(
+        String newBrokerName = getPolicyTD("ChangeBroker", "TestDataInter_Renewal").getValue(
                 ChangeBrokerActionTab.class.getSimpleName(),
                 ChangeBrokerActionTab.LOCATION_NAME.getLabel(),
                 ChangeBrokerActionTab.ChangeLocationMetaData.AGENCY_NAME.getLabel());
@@ -48,7 +48,7 @@ public class TestPolicyChangeBrokerInterAgencyRenewal extends HomeSSHO3BaseTest 
         CustomAssert.assertFalse(String.format("Broker name was changed from %s to %s", newBrokerName, initialBroker), initialBroker.equals(newBrokerName));
 
         log.info("Manual Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.createRenewal(tdPolicy.getTestData("Issue", "TestData_ExistentBillingAccount"));
+        policy.createRenewal(getPolicyTD("Issue", "TestData_ExistentBillingAccount"));
 
         PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.BROKERAGE).verify.value(newBrokerName);
 

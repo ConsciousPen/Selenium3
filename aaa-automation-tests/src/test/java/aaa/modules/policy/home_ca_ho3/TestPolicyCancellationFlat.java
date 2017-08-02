@@ -3,9 +3,8 @@
 package aaa.modules.policy.home_ca_ho3;
 
 import org.testng.annotations.Test;
-import aaa.main.enums.ProductConstants;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.policy.templates.PolicyCancellationFlat;
 import toolkit.utils.TestInfo;
 
 /**
@@ -13,24 +12,21 @@ import toolkit.utils.TestInfo;
  * @name Test Cancellation flat Home Policy
  * @scenario
  * 1. Create Customer
- * 2. Create Home Policy
+ * 2. Create Home CA Policy
  * 3. Cancel policy
  * 4. Verify Policy status is 'Policy Cancelled'
  * @details
  */
-public class TestPolicyCancellationFlat extends HomeCaHO3BaseTest {
+public class TestPolicyCancellationFlat extends PolicyCancellationFlat {
 
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_CA_HO3;
+	}
+	
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.HomeCA.Cancellation")
 	public void testPolicyCancellationFlat() {
-		mainApp().open();
-
-		createCustomerIndividual();
-		createPolicy();
-
-		log.info("TEST: Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-		policy.cancel().perform(getStateTestData(tdPolicy, "Cancellation", "TestData"));
-
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		super.testPolicyCancellationFlat();
 	}
 }

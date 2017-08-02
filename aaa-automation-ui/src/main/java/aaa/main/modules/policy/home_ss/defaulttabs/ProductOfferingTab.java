@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
@@ -23,6 +24,8 @@ public class ProductOfferingTab extends Tab {
     }
     public Button addEndorsement = new Button(By.id("policyDataGatherForm:addEndorsements_footer"), Waiters.AJAX);
     public Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalcCov_footer"));
+    public Button btnAddAdditionalVariation = new Button(By.id("policyDataGatherForm:addAdditionalVariation"));
+    public Table tableEndorsement = new Table(By.id("policyDataGatherForm:panel"));
 
     @Override
     public Tab submitTab() {

@@ -41,7 +41,7 @@ public class TestQuoteDeclineByCustomer extends HomeSSHO3BaseTest {
         log.info("Initiated Quote #" + policyNumber);
 
         log.info("TEST: Decline by Customer Quote #" + policyNumber);
-        policy.declineByCustomerQuote().perform(tdPolicy.getTestData("DeclineByCustomer", "TestData"));
+        policy.declineByCustomerQuote().perform(getPolicyTD("DeclineByCustomer", "TestData"));
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.CUSTOMER_DECLINED);
     }
 
@@ -62,7 +62,7 @@ public class TestQuoteDeclineByCustomer extends HomeSSHO3BaseTest {
         log.info("TEST: Decline by Customer with invalid data for Quote #" + policyNumber);
 
         policy.declineByCustomerQuote().start().getView().fill(
-                tdPolicy.getTestData("DeclineByCustomer", "TestData")
+                getPolicyTD("DeclineByCustomer", "TestData")
                         .mask(HomeSSMetaData.DeclineByCustomerActionTab.class.getSimpleName(),
                                 HomeSSMetaData.DeclineByCustomerActionTab.DECLINE_REASON.getLabel()));
 
@@ -75,7 +75,7 @@ public class TestQuoteDeclineByCustomer extends HomeSSHO3BaseTest {
 
         log.info("TEST: Decline by Customer and reject confirmation for Quote #" + policyNumber);
 
-        policy.declineByCustomerQuote().getView().fill(tdPolicy.getTestData("DeclineByCustomer", "TestData"));
+        policy.declineByCustomerQuote().getView().fill(getPolicyTD("DeclineByCustomer", "TestData"));
 
         DeclineByCompanyActionTab.buttonOk.click();
         Page.dialogConfirmation.reject();

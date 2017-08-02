@@ -31,11 +31,11 @@ public class TestPolicyCancelReinstate extends AutoSSBaseTest {
 
         log.info("TEST: Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
         
-        policy.cancel().perform(tdPolicy.getTestData("Cancellation", "TestData"));
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
-        policy.reinstate().perform(getStateTestData(tdPolicy, "Reinstatement", "TestData"));
+        policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         

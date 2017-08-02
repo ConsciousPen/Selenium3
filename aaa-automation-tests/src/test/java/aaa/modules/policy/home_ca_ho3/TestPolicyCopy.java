@@ -26,8 +26,8 @@ public class TestPolicyCopy extends HomeCaHO3BaseTest {
 		createCustomerIndividual();
 		createPolicy();
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		policy.policyCopy().perform(tdPolicy.getTestData("CopyFromPolicy", "TestData"));
-		policy.calculatePremiumAndPurchase(tdPolicy.getTestData("DataGather", "TestData").mask("ReportsTab"));
+		policy.policyCopy().perform(getPolicyTD("CopyFromPolicy", "TestData"));
+		policy.calculatePremiumAndPurchase(getPolicyTD("DataGather", "TestData").mask("ReportsTab"));
 		CustomAssert.assertFalse("Copied policy number is the same as initial policy number " + policyNumber,
 				policyNumber.equals(PolicySummaryPage.labelPolicyNumber.getValue()));
 	}

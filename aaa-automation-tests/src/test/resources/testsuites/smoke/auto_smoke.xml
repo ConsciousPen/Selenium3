@@ -1,10 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Auto Smoke tests" verbose="1">
-	<!-- <listeners> <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/> 
-		</listeners> -->
-	<!-- <parameter name="timeshift-scenario-mode" value="test"/> -->
-
-
+<suite name="Auto Smoke tests" verbose="1" parallel="methods" thread-count="1024">
+	<listeners>
+		<listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
+	</listeners>
+	<parameter name="timeshift-scenario-mode" value="method" />
 
 	<test name="UT Auto Smoke Tests">
 		<parameter name="state" value="UT" />
@@ -173,9 +172,9 @@
 	<test name="CA Auto Smoke Tests">
 		<parameter name="state" value="CA" />
 		<classes>
-			<class name="aaa.modules.policy.auto_ca.TestPolicyCreation" />
-			<class name="aaa.modules.policy.auto_ca.TestPolicyCreationBig" />
-			<class name="aaa.modules.policy.auto_ca.TestPolicyEndorsementAdd" />
+			<class name="aaa.modules.policy.auto_ca_select.TestPolicyCreation" />
+			<class name="aaa.modules.policy.auto_ca_select.TestPolicyCreationBig" />
+			<class name="aaa.modules.policy.auto_ca_select.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
 

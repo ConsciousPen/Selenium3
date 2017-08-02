@@ -11,7 +11,7 @@ import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
 /**
- * @author Ivan Kisly
+ * @author Ryan Yu
  * @name Test Roll Back Endorsement for Home Policy
  * @scenario
  * 1. Create Customer
@@ -27,26 +27,25 @@ import toolkit.verification.CustomAssert;
 public class TestPolicyEndorsementRollBack extends HomeCaHO3BaseTest {
 
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.HomeCA.Endorsement")
 	public void testPolicyEndorsementRollBack() {
 		mainApp().open();
 
-		createCustomerIndividual();
-		createPolicy();
+		getCopiedPolicy();
 
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
 		log.info("MidTerm Endorsement for Policy #" + policyNumber);
-		policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData_Plus3Days")
-				.adjust(tdSpecific.getTestData("TestData").resolveLinks()));
+		policy.createEndorsement(getPolicyTD("Endorsement", "TestData_Plus3Days")
+				.adjust(getTestSpecificTD("TestData").resolveLinks()));
 
 		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
 
 		log.info("TEST: Roll Back Endorsement for Policy #" + policyNumber);
-		policy.rollBackEndorsement().perform(tdPolicy.getTestData("EndorsementRollBack", "TestData"));
+		policy.rollBackEndorsement().perform(getPolicyTD("EndorsementRollBack", "TestData"));
 		CustomAssert.assertTrue(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
 	}
 }

@@ -33,8 +33,8 @@ public class TestPolicyEndorsementAdd extends AutoCaChoiceBaseTest {
 
         log.info("TEST: Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
         
-        TestData tdEndorsement = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData");
-        getPolicyType().get().createEndorsement(tdEndorsement.adjust(tdPolicy.getTestData("Endorsement", "TestData")));
+        TestData tdEndorsement = getTestSpecificTD("TestData");
+        getPolicyType().get().createEndorsement(tdEndorsement.adjust(getPolicyTD("Endorsement", "TestData")));
 
         CustomAssert.enableSoftMode();
         

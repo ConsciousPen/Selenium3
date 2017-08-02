@@ -34,10 +34,10 @@ public class TestPolicyRenewFlatCancellation extends AutoSSBaseTest {
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
         log.info("Manual Renew for Policy #" + policyNumber);
-        policy.createRenewal(tdPolicy.getTestData("Issue", "TestData_ExistentBillingAccount"));
+        policy.createRenewal(getPolicyTD("Issue", "TestData_ExistentBillingAccount"));
 
         log.info("TEST: Cancellation Policy Renewal #" + policyNumber);
-        policy.cancel().perform(tdPolicy.getTestData("Cancellation", "TestData_Plus1Year"));
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus1Year"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
         PolicySummaryPage.linkPolicy.click();

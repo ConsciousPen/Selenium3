@@ -33,16 +33,16 @@ public class TestPolicyEndorsementMidTerm extends AutoCaSelectBaseTest {
 
         createCustomerIndividual();
 
-        createPolicy(tdPolicy.getTestData("DataGather", "TestData")
-                .adjust(tdPolicy.getTestData("Issue", "TestData").resolveLinks())
-                .adjust(tdPolicy.getTestData("CopyFromQuote", "TestData_BackDated").resolveLinks()));
+        createPolicy(getPolicyTD("DataGather", "TestData")
+                .adjust(getPolicyTD("Issue", "TestData").resolveLinks())
+                .adjust(getPolicyTD("CopyFromQuote", "TestData_BackDated").resolveLinks()));
 
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
         log.info("TEST: MidTerm Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.createEndorsement(tdPolicy.getTestData("Endorsement", "TestData")
-                .adjust(tdSpecific.getTestData("TestData").resolveLinks())
-                .adjust(tdPolicy.getTestData("Issue", "TestData_ExistentBillingAccount").resolveLinks()));
+        policy.createEndorsement(getPolicyTD("Endorsement", "TestData")
+                .adjust(getTestSpecificTD("TestData").resolveLinks())
+                .adjust(getPolicyTD("Issue", "TestData_ExistentBillingAccount").resolveLinks()));
 
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

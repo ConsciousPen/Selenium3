@@ -3,8 +3,7 @@
 package aaa.admin.pages.workflow;
 
 import org.openqa.selenium.By;
-
-import aaa.admin.pages.workflow.ProcessManagementPage;
+import org.openqa.selenium.support.pagefactory.ByChained;
 
 import aaa.admin.metadata.workflow.WorkFlowMetadata;
 import aaa.admin.pages.AdminPage;
@@ -25,7 +24,7 @@ public class ProcessManagementPage extends AdminPage {
 	public static Button buttonSearch = new Button(By.id("manualTaskDefinitionsFilterForm:filterSearchBtn"));
 	public static Table tableSearchResults = new Table(By.xpath("//div[@id='processDefinitionsForm:deployedProcDef']//table"));
 	public static Dialog dialogDeployProcess = new Dialog("//div[@id='deployProcessDialog']");
-	public static StaticElement uploadStatusMsg = new StaticElement(By.xpath(ProcessManagementPage.dialogDeployProcess.getLocator() + "//span[@class='ui-messages-info-summary']"));
+	public static StaticElement uploadStatusMsg = new StaticElement(new ByChained(dialogDeployProcess.getLocator(), By.xpath(".//span[@class='ui-messages-info-summary']")));
 
 	public static void search(TestData td) {
 		assetListSearchForm.fill(td);

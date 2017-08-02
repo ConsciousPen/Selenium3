@@ -31,7 +31,7 @@ public class TestQuoteBind extends HomeSSHO3BaseTest {
         createQuote();
 
         log.info("TEST: Bind Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.bind().perform(tdPolicy.getTestData("Bind", "TestData"));
+        policy.bind().perform(getPolicyTD("Bind", "TestData"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.BOUND);
     }

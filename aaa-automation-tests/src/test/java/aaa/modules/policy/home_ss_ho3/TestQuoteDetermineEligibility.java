@@ -17,9 +17,9 @@ import toolkit.verification.CustomAssert;
 
 public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 	
-	private TestData td_RoofRenovationAndStoves = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_RoofRenovationAndStoves"); 
-	private TestData td_3DetachedStructures = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_3_Detached_Structures"); 
-	private TestData td_4DetachedStructures = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_4_Detached_Structures");
+	private TestData td_RoofRenovationAndStoves = getTestSpecificTD("TestData_RoofRenovationAndStoves"); 
+	private TestData td_3DetachedStructures = getTestSpecificTD("TestData_3_Detached_Structures"); 
+	private TestData td_4DetachedStructures = getTestSpecificTD("TestData_4_Detached_Structures");
 	private String ER0906 = "Dwellings with more than 2 roof layers are ineligible.";
 	private String ER0908 = "Wood burning stoves as the sole source of heat are ineligible.";
 	private String ER0909 = "Wood burning stoves are ineligible unless professionally installed by a licensed contractor.";
@@ -29,8 +29,8 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 	private String ER0680 = "Coverage B cannot exceed Coverage A";
 	private String WM0566 = "Coverage B must be less than 50% of Coverage A to bind";
 	
-	private TestData td_sc2_1 = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_SC2_1"); 
-	private TestData td_sc2_2 = getStateTestData(tdPolicy, this.getClass().getSimpleName(), "TestData_SC2_2"); 
+	private TestData td_sc2_1 = getTestSpecificTD("TestData_SC2_1"); 
+	private TestData td_sc2_2 = getTestSpecificTD("TestData_SC2_2"); 
 	private String WM0548 = "Dwellings built prior to 1900 are ineligible."; 
 	private String WM0549 = "Dwellings built prior to 1940 must have all four major systems fully renovated.";
 	private String WM0550 = "Risks with more than 3 horses or 4 livestock are unacceptable.";

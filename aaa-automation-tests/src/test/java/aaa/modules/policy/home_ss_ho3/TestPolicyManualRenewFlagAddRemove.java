@@ -23,7 +23,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyManualRenewFlagAddRemove extends HomeSSHO3BaseTest {
 
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.HomeSS")
 	public void testPolicyManualRenewFlagAddRemove() {
 		mainApp().open();
 
@@ -33,7 +33,7 @@ public class TestPolicyManualRenewFlagAddRemove extends HomeSSHO3BaseTest {
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
 		log.info("TEST: Add Manual Renew for Policy #" + policyNumber);
-		policy.manualRenew().perform(tdPolicy.getTestData("ManualRenew", "TestData"));
+		policy.manualRenew().perform(getPolicyTD("ManualRenew", "TestData"));
 		PolicySummaryPage.labelManualRenew.verify.present();
 
 		log.info("TEST: Remove Manual Renew for Policy #" + policyNumber);

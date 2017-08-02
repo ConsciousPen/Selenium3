@@ -31,7 +31,7 @@ public class TestPolicyCancellationFlat extends AutoSSBaseTest {
         createPolicy();
 
         log.info("TEST: Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.cancel().perform(tdPolicy.getTestData("Cancellation", "TestData"));
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
     }

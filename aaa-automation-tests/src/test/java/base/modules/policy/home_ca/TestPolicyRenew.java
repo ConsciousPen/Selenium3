@@ -33,7 +33,7 @@ public class TestPolicyRenew extends HomeCaHO3BaseTest {
         createPolicy();
 
         log.info("TEST: Manual Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.createRenewal(tdPolicy.getTestData("Issue", "TestData_ExistentBillingAccount"));
+        policy.createRenewal(getPolicyTD("Issue", "TestData_ExistentBillingAccount"));
 
         PolicySummaryPage.linkPolicy.click();
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

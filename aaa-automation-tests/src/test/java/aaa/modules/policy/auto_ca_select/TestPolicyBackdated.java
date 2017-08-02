@@ -5,13 +5,14 @@ package aaa.modules.policy.auto_ca_select;
 import org.testng.annotations.Test;
 
 import aaa.main.enums.ProductConstants;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 /**
- * @author amitjukovs
+ * @author Xiaolan Ge
  * @name Test Backdated Auto CA Select policy creation
  * @scenario
  * 1. Create Customer
@@ -27,18 +28,26 @@ public class TestPolicyBackdated extends AutoCaSelectBaseTest {
 	public void testPolicyBackdated() {
 		mainApp().open();
 
-        createCustomerIndividual();
+		createCustomerIndividual();
 
+		log.info("Policy Creation Started...");
 
-        TestData backdated_td = getStateTestData(tdPolicy, "DataGather", "TestData")
-                .adjust(TestData.makeKeyPath("GeneralTab","PolicyInformation","Effective Date"), "/today-10d:MM/dd/yyyy");
+		//adjust default policy data with
+		//1. effective date = today minus 10 days
+		//2. error tab: "Policy cannot be backdated" error should be overridden 
+		TestData td = getPolicyTD("DataGather", "TestData")
+				.adjust(TestData.makeKeyPath("GeneralTab",
+						AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
+						AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()),
+						"/today-10d:MM/dd/yyyy")
+				.adjust(getPolicyTD(this.getClass().getSimpleName(), "TestData").resolveLinks());
 
-		createPolicy(backdated_td);
-		//policy.createPolicy(tdPolicy.getTestData("DataGather", "TestData"));
+		getPolicyType().get().createPolicy(td);
 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-//        PolicySummaryPage.labelPolicyEffectiveDate.verify.value();
-		
+		PolicySummaryPage.labelPolicyEffectiveDate.verify
+				.contains(td.getTestData("GeneralTab", AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel()).getValue(AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()));
+
 	}
 }

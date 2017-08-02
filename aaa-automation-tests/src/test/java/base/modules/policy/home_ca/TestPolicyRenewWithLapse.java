@@ -35,8 +35,8 @@ public class TestPolicyRenewWithLapse extends HomeCaHO3BaseTest {
         createPolicy();
 
         log.info("TEST: Manual Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.createRenewal(tdPolicy.getTestData("Renew", "TestData_Plus370Days")
-                .adjust(tdPolicy.getTestData("Issue", "TestData_ExistentBillingAccount").resolveLinks()));
+        policy.createRenewal(getPolicyTD("Renew", "TestData_Plus370Days")
+                .adjust(getPolicyTD("Issue", "TestData_ExistentBillingAccount").resolveLinks()));
 
         PolicySummaryPage.linkPolicy.click();
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

@@ -35,7 +35,7 @@ public class TestPolicyCancelNoticeAddDelete extends PersonalUmbrellaBaseTest {
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
         log.info("TEST: Cancel Notice for Policy #" + policyNumber);
-        policy.cancelNotice().perform(tdPolicy.getTestData("CancelNotice", "TestData"));
+        policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData"));
         PolicySummaryPage.labelCancelNotice.verify.present();
 
         log.info("TEST: Delete Cancel Notice for Policy #" + policyNumber);

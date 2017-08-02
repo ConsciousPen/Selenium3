@@ -26,7 +26,7 @@ public class TestPolicyCreateHo4Full extends HomeCaHO4BaseTest {
 		CustomAssert.assertTrue("NOT COMPLETED TEST: add missed test data from \"AZ_HSS_Smoke.xls\" e.g. QuoteEndorsementHS0614 form", false);
 		mainApp().open();
 		createCustomerIndividual();
-		createPolicy(tdPolicy.getTestData("DataGather", "TestData_Full"));
+		createPolicy(getPolicyTD("DataGather", "TestData_Full"));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 }

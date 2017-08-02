@@ -27,7 +27,7 @@ public class TestQuoteCreation extends AutoCaSelectBaseTest {
 
         createCustomerIndividual();
 
-        policy.createQuote(tdPolicy.getTestData("DataGather", "TestData"));
+        policy.createQuote(getPolicyTD("DataGather", "TestData"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
     }

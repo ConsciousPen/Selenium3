@@ -39,13 +39,13 @@ public class TestPolicyCancelReinstate extends AutoCaSelectBaseTest {
 		
 		
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		policy.cancel().perform(tdPolicy.getTestData("Cancellation", "TestData"));
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		
 		
 		log.info("TEST: Reinstate Policy With Lapse #" + policyNumber);	 
 		 
-        policy.reinstate().perform(tdPolicy.getTestData("Reinstatement", "TestData"));
+        policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		
 	
