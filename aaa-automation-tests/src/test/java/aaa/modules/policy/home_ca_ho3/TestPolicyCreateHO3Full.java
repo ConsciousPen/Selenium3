@@ -22,7 +22,7 @@ public class TestPolicyCreateHO3Full extends HomeCaHO3BaseTest {
      */
 
     @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @TestInfo(component = "Policy.HomeCA")
     public void testPolicyCreation() {
 
         mainApp().open();
