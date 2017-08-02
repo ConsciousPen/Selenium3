@@ -26,7 +26,7 @@ import toolkit.utils.datetime.DateTimeUtils;
 public class TestPolicyCancellationMidTerm extends HomeSSHO3BaseTest {
 
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.HomeSS.Cancellation")
 	public void testPolicyCancellationMidTerm() {
 		mainApp().open();
 

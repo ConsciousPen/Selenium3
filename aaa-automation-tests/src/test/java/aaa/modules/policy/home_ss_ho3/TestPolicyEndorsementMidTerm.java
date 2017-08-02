@@ -25,7 +25,7 @@ import toolkit.verification.CustomAssert;
 public class TestPolicyEndorsementMidTerm extends HomeSSHO3BaseTest {
 
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.HomeSS")
 	public void testPolicyEndorsementMidTerm() {
 		mainApp().open();
 		
