@@ -3,10 +3,15 @@
 package aaa.modules.policy.home_ss_ho3;
 
 import org.testng.annotations.Test;
+
 import aaa.main.enums.ProductConstants;
+import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.utils.datetime.DateTimeUtils;
 
 /**
  * @author Viachaslau Markouski
@@ -27,9 +32,11 @@ public class TestPolicyCancellationMidTerm extends HomeSSHO3BaseTest {
 
 		createCustomerIndividual();
 
-		createPolicy(getPolicyTD("DataGather", "TestData")
-				.adjust("GeneralTab|Effective date", "/today-2d:MM/dd/yyyy")
-				.adjust("GeneralTab|Property insurance base date with CSAA IG", "/today-2d:MM/dd/yyyy"));
+		String effDateKey = TestData.makeKeyPath(new GeneralTab().getMetaKey(), HomeSSMetaData.GeneralTab.EFFECTIVE_DATE.getLabel());
+		String propertyDateKey = TestData.makeKeyPath(new GeneralTab().getMetaKey(), HomeSSMetaData.GeneralTab.PROPERTY_INSURANCE_BASE_DATE_WITH_CSAA_IG.getLabel());
+		String date = DateTimeUtils.getCurrentDateTime().minusDays(2).format(DateTimeUtils.MM_DD_YYYY);
+		TestData tdPolicyCreation = getPolicyTD("DataGather", "TestData").adjust(effDateKey, date).adjust(propertyDateKey, date);
+		createPolicy(tdPolicyCreation);
 
 		log.info("TEST: MidTerm Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
