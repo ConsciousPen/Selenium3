@@ -20,7 +20,6 @@ import toolkit.utils.TestInfo;
  * @details
  */
 public class TestQuoteIssue extends AutoSSBaseTest {
-    String policyNumber;
 
     @Test
     @TestInfo(component = "Policy.AutoSS")
@@ -30,10 +29,11 @@ public class TestQuoteIssue extends AutoSSBaseTest {
         createCustomerIndividual();
 
         createQuote();
-        policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+        String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
         log.info("TEST: Issue Quote #" + policyNumber);
-        policy.purchase(tdPolicy.getTestData("DataGather", "TestData"));
+        
+        policy.purchase(getPolicyTD("DataGather", "TestData"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
