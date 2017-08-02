@@ -11,7 +11,7 @@ import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
 /**
- * @author Ivan Kisly
+ * @author Ryan Yu
  * @name Test Roll Back Endorsement for Home Policy
  * @scenario
  * 1. Create Customer
@@ -27,7 +27,7 @@ import toolkit.verification.CustomAssert;
 public class TestPolicyEndorsementRollBack extends HomeCaHO3BaseTest {
 
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.HomeCA.Endorsement")
 	public void testPolicyEndorsementRollBack() {
 		mainApp().open();
 

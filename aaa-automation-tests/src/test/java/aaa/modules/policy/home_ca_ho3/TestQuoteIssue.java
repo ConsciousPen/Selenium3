@@ -9,7 +9,7 @@ import aaa.modules.policy.HomeCaHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
- * @author Ivan Kisly
+ * @author Ryan Yu
  * @name Test Issue Home Quote
  * @scenario
  * 1. Create Customer
@@ -21,7 +21,7 @@ import toolkit.utils.TestInfo;
 public class TestQuoteIssue extends HomeCaHO3BaseTest {
 
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.HomeCA")
 	public void testQuoteIssue() {
 		mainApp().open();
 

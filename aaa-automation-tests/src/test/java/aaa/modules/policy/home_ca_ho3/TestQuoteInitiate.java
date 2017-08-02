@@ -13,7 +13,7 @@ import aaa.modules.policy.HomeCaHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
- * @author Marina Buryak
+ * @author Ryan Yu
  * @name Test Initiate Home Quote
  * @scenario
  * 1. Create Customer
@@ -23,8 +23,8 @@ import toolkit.utils.TestInfo;
  */
 public class TestQuoteInitiate extends HomeCaHO3BaseTest {
 
-	@Test(groups = "7.2_AUTOP,HOME_UC_InitiateHomeOrAutoQuoteAndSelectProduct")
-	@TestInfo(component = "Policy.PersonalLines")
+	@Test
+	@TestInfo(component = "Policy.HomeCA")
 	public void testQuoteInitiate() {
 		mainApp().open();
 

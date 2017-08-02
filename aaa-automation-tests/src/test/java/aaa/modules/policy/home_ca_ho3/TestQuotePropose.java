@@ -14,7 +14,7 @@ import toolkit.utils.TestInfo;
 //import aaa.common.components.Efolder;
 
 /**
- * @author Marina Buryak
+ * @author Ryan Yu
  * @name Test Propose Home Quote
  * @scenario
  * 1. Create Customer
@@ -28,8 +28,8 @@ import toolkit.utils.TestInfo;
  */
 public class TestQuotePropose extends HomeCaHO3BaseTest {
 
-	@Test(groups = "7.2_DISABILITY,LIFE,AUTO,CGL,PROPC,AUTOP,HOME,UMBRP,ACHE,GROUP,INMRC_UC_ProposeQuote")
-	@TestInfo(component = "Policy.PersonalLines")
+	@Test
+	@TestInfo(component = "Policy.HomeCA")
 	public void testQuotePropose() {
 		mainApp().open();
 

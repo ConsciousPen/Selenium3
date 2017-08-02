@@ -11,7 +11,7 @@ import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
 /**
- * @author Ivan Kisly
+ * @author Ryan Yu
  * @name Test OOS Endorsement for Home Policy
  * @scenario
  * 1. Create Customer
@@ -26,7 +26,7 @@ import toolkit.verification.CustomAssert;
 public class TestPolicyEndorsementOos extends HomeCaHO3BaseTest {
 
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.HomeCA.Endorsement")
 	public void testPolicyEndorsementOos() {
 		mainApp().open();
 
