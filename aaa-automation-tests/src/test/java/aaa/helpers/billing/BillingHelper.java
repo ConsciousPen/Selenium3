@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
 import aaa.main.enums.BillingConstants.BillingInstallmentScheduleTable;
@@ -49,7 +50,7 @@ public final class BillingHelper {
 	public static List<LocalDateTime> getInstallmentDueDates() {
 		ArrayList<LocalDateTime> dates = new ArrayList<LocalDateTime>();
 		for (String value : BillingSummaryPage.tableInstallmentSchedule.getColumn(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).getValue()) {
-			dates.add(LocalDateTime.parse(value, DateTimeUtils.MM_DD_YYYY));
+			dates.add(TimeSetterUtil.getInstance().parse(value, DateTimeUtils.MM_DD_YYYY));
 		}
 		return dates;
 	}
