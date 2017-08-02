@@ -26,7 +26,7 @@ import toolkit.verification.CustomAssert;
 public class TestPolicyEndorsementOos extends HomeSSHO3BaseTest {
 
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.HomeSS")
 	public void testPolicyEndorsementOos() {
 		mainApp().open();
 

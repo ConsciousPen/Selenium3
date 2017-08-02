@@ -21,7 +21,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyCancellationMidTerm extends HomeCaHO3BaseTest {
 
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.HomeCA.Cancellation")
 	public void testPolicyCancellationMidTerm() {
 		mainApp().open();
 

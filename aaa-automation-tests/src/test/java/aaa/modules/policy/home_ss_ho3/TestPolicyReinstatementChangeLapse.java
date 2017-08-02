@@ -27,7 +27,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyReinstatementChangeLapse extends HomeSSHO3BaseTest {
 
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.HomeSS")
 	public void testPolicyReinstatementChangeLapse() {
 		mainApp().open();
 

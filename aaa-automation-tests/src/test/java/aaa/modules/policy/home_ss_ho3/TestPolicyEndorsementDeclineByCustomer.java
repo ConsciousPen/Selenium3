@@ -22,7 +22,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyEndorsementDeclineByCustomer extends HomeSSHO3BaseTest {
 
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.HomeSS")
 	public void testPolicyEndorsementDeclineByCustomer() {
 		mainApp().open();
 
