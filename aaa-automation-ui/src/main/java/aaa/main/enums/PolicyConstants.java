@@ -175,4 +175,13 @@ public final class PolicyConstants {
         public static final String AP_RP = "AP/RP";
         public static final String TAXES = "Taxes";
     }
+
+    public static final class PolicyIncludedAndSelectedEndorsementsTable {
+        public static final String FORM_ID = "Form ID";
+        public static final String NAME = "Name";
+    }
+
+    public static final class PolicyEndorsementFormsTable {
+        public static final String DESCRIPTION = "Description";
+    }
 }
