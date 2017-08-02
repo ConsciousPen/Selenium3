@@ -79,6 +79,7 @@ public class TestQuoteUnderwritingRules extends HomeSSHO3BaseTest {
         underwritingTab.submitTab();
         
         CustomAssert.enableSoftMode();   
+        
         underwritingTab.verifyFieldHasMessage(HomeSSMetaData.UnderwritingAndApprovalTab.HAVE_ANY_OF_THE_APPLICANT_S_CURRENT_PETS_INJURED_ANOTHER_PERSON.getLabel(), 
         		"Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting history are unacceptable. Underwriting review will occur post bind.");  
         

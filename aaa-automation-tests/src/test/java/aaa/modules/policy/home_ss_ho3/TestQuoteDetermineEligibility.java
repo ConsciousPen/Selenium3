@@ -17,9 +17,26 @@ import toolkit.verification.CustomAssert;
 
 public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 	
-	private TestData td_RoofRenovationAndStoves = getTestSpecificTD("TestData_RoofRenovationAndStoves"); 
-	private TestData td_3DetachedStructures = getTestSpecificTD("TestData_3_Detached_Structures"); 
-	private TestData td_4DetachedStructures = getTestSpecificTD("TestData_4_Detached_Structures");
+	/* TestData_SC1_1: 
+		Home Renovation: set Roof renovation = '3+ layers' 
+		Stoves: set incorrect values, 
+		Pets or animals: set Animal type = 'Dog - Wolf'	
+	*/
+	private TestData td_sc1_1 = getTestSpecificTD("TestData_SC1_1"); 
+	
+	/* TestData_SC1_2: 
+		Home Renovation: remove incorrect value,  
+		Stoves: set to No, 
+		Pets or animals: set correct Animal type = 'Dog - Other breed', 
+		Add 3 Detached Structures with Rented to others = Yes
+	*/
+	private TestData td_sc1_2 = getTestSpecificTD("TestData_SC1_2"); 
+	
+	/* TestData_SC1_3: 
+		Add 4th Detached Structures with Rented to others = No
+	*/
+	private TestData td_sc1_3 = getTestSpecificTD("TestData_SC1_3");
+	
 	private String ER0906 = "Dwellings with more than 2 roof layers are ineligible.";
 	private String ER0908 = "Wood burning stoves as the sole source of heat are ineligible.";
 	private String ER0909 = "Wood burning stoves are ineligible unless professionally installed by a licensed contractor.";
@@ -28,6 +45,7 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 	private String WM0561 = "Dwellings with more than 3 detached building structures on the residence";
 	private String ER0680 = "Coverage B cannot exceed Coverage A";
 	private String WM0566 = "Coverage B must be less than 50% of Coverage A to bind";
+	private String ER0903 = "Applicants/Insureds with vicious dogs or exotic animals are ineligible.";
 	
 	private TestData td_sc2_1 = getTestSpecificTD("TestData_SC2_1"); 
 	private TestData td_sc2_2 = getTestSpecificTD("TestData_SC2_2"); 
@@ -49,7 +67,7 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
-		propertyInfoTab.fillTab(td_RoofRenovationAndStoves);
+		propertyInfoTab.fillTab(td_sc1_1);
 		propertyInfoTab.submitTab();
 		
 		CustomAssert.enableSoftMode(); 
@@ -57,9 +75,10 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 		propertyInfoTab.verifyFieldHasMessage(HomeSSMetaData.PropertyInfoTab.HomeRenovation.ROOF_RENOVATION.getLabel(), ER0906);		
 		propertyInfoTab.verifyFieldHasMessage(HomeSSMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT.getLabel(), ER0908);
 		propertyInfoTab.verifyFieldHasMessage(HomeSSMetaData.PropertyInfoTab.Stoves.WAS_THE_STOVE_INSTALLED_BY_A_LICENSED_CONTRACTOR.getLabel(), ER0909);
-		propertyInfoTab.verifyFieldHasMessage(HomeSSMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY.getLabel(), ER0522);
+		propertyInfoTab.verifyFieldHasMessage(HomeSSMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY.getLabel(), ER0522); 
+		propertyInfoTab.verifyFieldHasMessage(HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_TYPE.getLabel(), ER0903);
 		
-		propertyInfoTab.fillTab(td_3DetachedStructures);
+		propertyInfoTab.fillTab(td_sc1_2);
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -77,7 +96,7 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
     	errorTab.cancel();
     	
     	NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-    	propertyInfoTab.fillTab(td_4DetachedStructures);
+    	propertyInfoTab.fillTab(td_sc1_3);
     	
     	NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
