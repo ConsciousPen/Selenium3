@@ -27,7 +27,7 @@ import toolkit.verification.CustomAssert;
 public class TestPolicyEndorsementRollBack extends HomeSSHO3BaseTest {
 
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.HomeSS")
 	public void testPolicyEndorsementRollBack() {
 		mainApp().open();
 
