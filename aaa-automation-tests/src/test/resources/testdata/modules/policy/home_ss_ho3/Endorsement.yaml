@@ -1,34 +1,34 @@
 TestData: {
   EndorsementActionTab: {
     Endorsement Date: /today,
-    Endorsement Reason: index=1,
+    Endorsement Reason: 'Other Interest(s)/Mortgagees'
   }
 }
 
 TestData_Plus3Days: {
   EndorsementActionTab: {
     Endorsement Date: /today+3d,
-    Endorsement Reason: index=1,
+    Endorsement Reason: 'Other Interest(s)/Mortgagees'
   }
 }
 
 TestData_Plus1Month: {
   EndorsementActionTab: {
     Endorsement Date: /today+1m,
-    Endorsement Reason: index=1,
+    Endorsement Reason: 'Other Interest(s)/Mortgagees'
   }
 }
 
 TestData_Minus1Week: {
   EndorsementActionTab: {
     Endorsement Date: /today-7d,
-    Endorsement Reason: index=1,
+    Endorsement Reason: 'Other Interest(s)/Mortgagees'
   }
 }
 
 TestData_Minus1Day: {
   EndorsementActionTab: {
     Endorsement Date: /today-1d,
-    Endorsement Reason: index=1,
+    Endorsement Reason: 'Other Interest(s)/Mortgagees'
   }
 }
