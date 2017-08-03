@@ -727,3 +727,26 @@ DriverTab_WY: {
   License Type: 'Licensed (US)',
   License Number: 4000647712
 }
+
+TestData_TwoVehicles: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab_1', '@VehicleTab_2'],
+  AssignmentTab: '@AssignmentTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+VehicleTab_1: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273
+}
+VehicleTab_2: {
+  Usage: Pleasure,
+  VIN: WDCYC7BB0B6729451
+}
