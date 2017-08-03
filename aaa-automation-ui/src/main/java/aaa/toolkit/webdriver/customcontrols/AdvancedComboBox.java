@@ -21,6 +21,7 @@ public class AdvancedComboBox extends ComboBox {
 	public static final String RANDOM_MARK = "/random";
 	public static final String SELECTED_MARK = "/selected";
 	public static final String RANDOM_EXCEPT_MARK = RANDOM_MARK + "_except";
+	private Random random = new Random();
 
 	public AdvancedComboBox(By locator) {
 		super(locator);
@@ -40,7 +41,6 @@ public class AdvancedComboBox extends ComboBox {
 
 	@Override
 	protected void setRawValue(String value) {
-		//if (parsedValue.length == 2 && "random".equals(parsedValue[1])) {
 		if (value.startsWith(RANDOM_EXCEPT_MARK)) {
 			String[] parsedValue = value.split("=");
 			CustomAssert.assertEquals(String.format("'%s' should be followed with '=' and list of options separated with '|' to be excluded from random selection.", RANDOM_MARK), parsedValue.length, 2);
@@ -62,10 +62,19 @@ public class AdvancedComboBox extends ComboBox {
 		}
 	}
 
+	/**
+	 * Set random option from list of existing options excluding selected one
+	 *
+	 */
 	public void setRandomValue() {
 		setRandomValueExcept(true);
 	}
 
+	/**
+	 * Set random option from list of existing options including selected one but excluding options from 'exceptValues' array
+	 *
+	 * @param exceptValues  array of values to be excluded from random selection. If this array is empty then nothing will be excluded
+	 */
 	public void setRandomValueExcept(String... exceptValues) {
 		setRandomValueExcept(false, exceptValues);
 	}
@@ -94,7 +103,7 @@ public class AdvancedComboBox extends ComboBox {
 			List<String> optionsList = new ArrayList<>(optionsArray);
 			optionsList.removeAll(Arrays.asList(excludedValues));
 			CustomAssert.assertFalse("Can't get random option - all available options were excluded.", optionsList.isEmpty());
-			String randomValue = optionsList.get(new Random().nextInt(optionsList.size()));
+			String randomValue = optionsList.get(random.nextInt(optionsList.size()));
 			setValue(randomValue);
 		}
 	}
