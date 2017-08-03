@@ -139,4 +139,10 @@ public class TimeSetterUtil {
 	public static toolkit.utils.datetime.DateTime javaDateToIstf(LocalDateTime date) {
 		return new toolkit.utils.datetime.DateTime(date.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")), "yyyyMMddHHmmssSSS");
 	}
+	
+	public LocalDateTime parse(CharSequence text, DateTimeFormatter formatter) { 
+		LocalDate date = LocalDate.parse(text, formatter); 
+		LocalTime time = getStartTime().toLocalTime(); 
+		return LocalDateTime.of(date, time); 
+	} 
 }

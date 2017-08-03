@@ -58,16 +58,16 @@ import toolkit.verification.CustomAssert;
  */
 public class TestQuoteUnderwritingRules extends HomeSSHO3BaseTest {
 
-	private TestData td = getPolicyTD("DataGather", "TestData");
-	private TestData td_uw1 = getTestSpecificTD("TestData_UW1");
-	private TestData td_uw2 = getTestSpecificTD("TestData_UW2");
-	private TestData td_uw3 = getTestSpecificTD("TestData_UW3");
-	private TestData td_uw4 = getTestSpecificTD("TestData_UW4");
-	
 	@Test
     @TestInfo(component = "Quote.HomeSS")
 	public void testQuoteUnderwritingRules() {
 		mainApp().open();
+		
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData td_uw1 = getTestSpecificTD("TestData_UW1");
+		TestData td_uw2 = getTestSpecificTD("TestData_UW2");
+		TestData td_uw3 = getTestSpecificTD("TestData_UW3");
+		TestData td_uw4 = getTestSpecificTD("TestData_UW4");
         
         createCustomerIndividual();
 
@@ -79,17 +79,46 @@ public class TestQuoteUnderwritingRules extends HomeSSHO3BaseTest {
         underwritingTab.submitTab();
         
         CustomAssert.enableSoftMode();   
+        
         underwritingTab.verifyFieldHasMessage(HomeSSMetaData.UnderwritingAndApprovalTab.HAVE_ANY_OF_THE_APPLICANT_S_CURRENT_PETS_INJURED_ANOTHER_PERSON.getLabel(), 
         		"Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting history are unacceptable. Underwriting review will occur post bind.");  
         
-        underwritingTab.verifyFieldHasMessage(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS_CONDUCTED_ON_THE_PREMISES_FOR_WHICH_AN_ENDORSEMENT_IS_NOT_ATTACHED_TO_THE_POLICY.getLabel(), 
+        if (getState().equals("KY")) {
+        	underwritingTab.verifyFieldHasMessage("Is any business or farming activity conducted on the premises for which an endorsement is not already attached to the policy?", 
+            	"Risk must be endorsed with the appropriate business or farming endorsement when an eligible business or incidental farming exposure is present.");             
+        }
+        else if (getState().equals("MD")) {
+        	underwritingTab.verifyFieldHasMessage(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES.getLabel(), 
+        		"Business or farming activity is ineligible");
+        }
+        else if (getState().equals("OR")) {
+        	underwritingTab.verifyFieldHasMessage(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS__ADULT_DAY_CARE_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES.getLabel(), 
+        		"Risk must be endorsed with the appropriate business or farming endorsement when a business or incidental farming exposure is present and deemed eligible for coverage. Applicants that perform adult day care, or pet day care, are unacceptable");
+        }
+        else {
+        	underwritingTab.verifyFieldHasMessage(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS_CONDUCTED_ON_THE_PREMISES_FOR_WHICH_AN_ENDORSEMENT_IS_NOT_ATTACHED_TO_THE_POLICY.getLabel(), 
         		"Risk must be endorsed with the appropriate business or farming endorsement when an eligible business or incidental farming exposure is present. Applicants that perform a home day care, including child, adult or pet day care, are unacceptable.");             
+        }
         
         underwritingTab.fillTab(td_uw2);
-        underwritingTab.submitTab();       
-        underwritingTab.verifyFieldHasMessage("Remark Prior Insurance", "'Remarks' is required");
-        underwritingTab.verifyFieldHasMessage("Remark Foreclosure", "'Remarks' is required"); 
-        underwritingTab.verifyFieldHasMessage("Remark Resident Employees", "'Remarks' is required");
+        underwritingTab.submitTab(); 
+        if (getState().equals("CT")) {
+        	underwritingTab.verifyFieldHasMessage("Remark Resident Employees", "'Remarks' is required");
+        }
+        else if (getState().equals("KY")) {
+        	underwritingTab.verifyFieldHasMessage("Remark Foreclosure", "'Remarks' is required"); 
+        	underwritingTab.verifyFieldHasMessage("Remark Resident Employees", "'Remarks' is required");
+        }
+        else if (getState().equals("MD")) {
+        	underwritingTab.verifyFieldHasMessage("Remark Prior Insurance MD", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Foreclosure", "'Remarks' is required"); 
+        	underwritingTab.verifyFieldHasMessage("Remark Resident Employees", "'Remarks' is required");
+        }
+        else {
+        	underwritingTab.verifyFieldHasMessage("Remark Prior Insurance", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Foreclosure", "'Remarks' is required"); 
+        	underwritingTab.verifyFieldHasMessage("Remark Resident Employees", "'Remarks' is required");
+        }
         
         underwritingTab.fillTab(td_uw3);
         underwritingTab.submitTab();
@@ -112,9 +141,18 @@ public class TestQuoteUnderwritingRules extends HomeSSHO3BaseTest {
         
         ErrorTab errorTab = new ErrorTab();
         
-        errorTab.tblErrorsList.getRowContains(err1_dataRow).verify.present();
-        errorTab.tblErrorsList.getRowContains(err2_dataRow).verify.present();
-        errorTab.tblErrorsList.getRowContains(err3_dataRow).verify.present();
+        if (getState().equals("CT")) {
+        	errorTab.tblErrorsList.getRowContains(err1_dataRow).verify.present();
+        }
+        else if (getState().equals("KY")) {
+        	errorTab.tblErrorsList.getRowContains(err1_dataRow).verify.present();
+        	errorTab.tblErrorsList.getRowContains(err3_dataRow).verify.present();
+        }
+        else {
+        	errorTab.tblErrorsList.getRowContains(err1_dataRow).verify.present();
+        	errorTab.tblErrorsList.getRowContains(err2_dataRow).verify.present();
+        	errorTab.tblErrorsList.getRowContains(err3_dataRow).verify.present();
+        }
         errorTab.cancel();
         
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.UNDERWRITING_AND_APPROVAL.get());

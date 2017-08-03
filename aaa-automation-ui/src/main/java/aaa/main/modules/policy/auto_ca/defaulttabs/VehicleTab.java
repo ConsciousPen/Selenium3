@@ -49,9 +49,4 @@ public class VehicleTab extends Tab {
     public AssetList getAdditionalInterestInfoAssetList() {
     	return getAssetList().getAsset(AutoCaMetaData.VehicleTab.ADDITIONAL_INTEREST_INFORMATION.getLabel(), AssetList.class);
 	}
-
-	public void addVehicle(TestData vehicleTestData) {
-		buttonAddVehicle.click();
-		this.fillTab(vehicleTestData);
-	}
 }

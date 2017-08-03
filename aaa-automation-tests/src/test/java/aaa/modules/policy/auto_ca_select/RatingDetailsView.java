@@ -4,14 +4,13 @@ import aaa.main.modules.policy.PolicyType;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
-public class TestQuoteViewRatingDetailsCompCollSymbolsPresence extends aaa.modules.policy.templates.RatingDetailsCompCollSymbolsPresence {
-
+public class RatingDetailsView extends aaa.modules.policy.templates.RatingDetailsCompCollSymbolsPresence {
     /**
      * PAS-535
+     *
      * @author Viktor Petrenko
      * @name View Rating details UI update.
-     * @scenario
-     * 0. Create customer and auto SS policy with 2 Vehicles
+     * @scenario 0. Create customer and auto SS policy with 2 Vehicles
      * 1. Initiate quote creation
      * 2. Go to the vehicle tab
      * 3. Add second vehicle

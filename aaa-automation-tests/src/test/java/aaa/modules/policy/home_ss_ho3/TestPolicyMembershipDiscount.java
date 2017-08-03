@@ -56,12 +56,6 @@ import toolkit.verification.CustomAssert;
  */
 public class TestPolicyMembershipDiscount extends HomeSSHO3BaseTest {
 	
-	private TestData td_MembershipPending = getTestSpecificTD("TestData_MembershipPending"); 
-	private TestData td_CopyPolicy = getTestSpecificTD("TestData_CopyPolicy"); 
-	private TestData td_MembershipYes = getTestSpecificTD("TestData_MembershipYes");
-	private TestData td_MembershipNo = getTestSpecificTD("TestData_MembershipNo");
-	private TestData td_endorsement_today = getPolicyTD("Endorsement", "TestData");
-	private TestData td_endorsement_todayPlus1Day = getPolicyTD("Endorsement", "TestData_Plus1Day");
 	private String policyNumber1; 
 	private String policyNumber2; 
 	private String policyNumber3; 
@@ -72,7 +66,14 @@ public class TestPolicyMembershipDiscount extends HomeSSHO3BaseTest {
     @TestInfo(component = "Policy.HomeSS")
     public void testPolicyDiscounts() {
         mainApp().open();
-     
+        
+        TestData td_MembershipPending = getTestSpecificTD("TestData_MembershipPending"); 
+        TestData td_CopyPolicy = getTestSpecificTD("TestData_CopyPolicy"); 
+    	TestData td_MembershipYes = getTestSpecificTD("TestData_MembershipYes");
+    	TestData td_MembershipNo = getTestSpecificTD("TestData_MembershipNo");
+    	TestData td_endorsement_today = getPolicyTD("Endorsement", "TestData");
+    	TestData td_endorsement_todayPlus1Day = getPolicyTD("Endorsement", "TestData_Plus1Day");
+        
         createCustomerIndividual();
         
         //Policy#1 creation

@@ -46,3 +46,250 @@ UnderwritingAndApprovalTab_UW4: {
   "Do employees of any resident or applicant reside in the dwelling?": 'No',
   "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No'
 }
+
+# ----------- TestData for custom states ------------
+
+# ------------------- TestData: CT ------------------
+TestData_UW1_CT: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1_CT'
+}
+
+UnderwritingAndApprovalTab_UW1_CT: {
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'Yes',
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes',
+  "Total number of part time and full time resident employees": '2', 
+  "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'Yes'
+}
+
+TestData_UW2_CT: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2_CT'
+}
+
+UnderwritingAndApprovalTab_UW2_CT: {
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'No', 
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes', 
+  "Total number of part time and full time resident employees": '3', 
+  "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No' 
+}
+
+TestData_UW3_CT: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW3_CT'
+}
+
+UnderwritingAndApprovalTab_UW3_CT: {
+  Remark Resident Employees: test
+}
+
+TestData_UW4_CT: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW4_CT'
+}
+
+UnderwritingAndApprovalTab_UW4_CT: {
+  Underwriter-selected inspection type: 'index=1',
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'No',
+  "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No'
+}
+
+# ------------------- TestData: KY ------------------
+TestData_UW1_KY: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1_KY'
+}
+
+UnderwritingAndApprovalTab_UW1_KY: {
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'Yes',
+  "Has the property been in foreclosure proceedings within the past 18 months?": 'No', 
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes', 
+  "Total number of part time and full time resident employees": '2',
+  "Is any business or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'Yes'
+}
+
+TestData_UW2_KY: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2_KY'
+}
+
+UnderwritingAndApprovalTab_UW2_KY: {
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'No', 
+  "Has the property been in foreclosure proceedings within the past 18 months?": 'Yes', 
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes', 
+  "Total number of part time and full time resident employees": '3', 
+  "Is any business or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No' 
+}
+
+TestData_UW3_KY: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW3_KY'
+}
+
+UnderwritingAndApprovalTab_UW3_KY: {
+  #Remark Prior Insurance:  test,  
+  Remark Foreclosure: test, 
+  Remark Resident Employees: test
+}
+
+TestData_UW4_KY: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW4_KY'
+}
+
+UnderwritingAndApprovalTab_UW4_KY: {
+  Underwriter-selected inspection type: 'index=1',
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Has the property been in foreclosure proceedings within the past 18 months?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'No',
+  "Is any business or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No'
+}
+
+# ------------------- TestData: MD ------------------
+TestData_UW1_MD: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1_MD'
+}
+
+UnderwritingAndApprovalTab_UW1_MD: {
+  "Applicant(s), who have been cancelled, refused insurance or non-renewed in the past 3 years are ineligible if based on any of the following reasons: Fraud or Material Misrepresentation, Substantial Increase in Hazard, or Claims.": 'No',
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'Yes', 
+  "Has the property been in foreclosure proceedings within the past 18 months?": 'No', 
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes', 
+  "Total number of part time and full time resident employees": '2', 
+  "Is any business or farming activity conducted on the premises?": 'Yes'
+}
+
+TestData_UW2_MD: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2_MD'
+}
+
+UnderwritingAndApprovalTab_UW2_MD: {
+  "Applicant(s), who have been cancelled, refused insurance or non-renewed in the past 3 years are ineligible if based on any of the following reasons: Fraud or Material Misrepresentation, Substantial Increase in Hazard, or Claims.": 'Yes',
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'No', 
+  "Has the property been in foreclosure proceedings within the past 18 months?": 'Yes', 
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes', 
+  "Total number of part time and full time resident employees": '3', 
+  "Is any business or farming activity conducted on the premises?": 'No'
+}
+
+TestData_UW3_MD: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW3_MD'
+}
+
+UnderwritingAndApprovalTab_UW3_MD: {
+  Remark Prior Insurance MD:  test,  
+  Remark Foreclosure: test, 
+  Remark Resident Employees: test
+}
+
+TestData_UW4_MD: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW4_MD'
+}
+
+UnderwritingAndApprovalTab_UW4_MD: {
+  Underwriter-selected inspection type: 'index=1',
+  "Applicant(s), who have been cancelled, refused insurance or non-renewed in the past 3 years are ineligible if based on any of the following reasons: Fraud or Material Misrepresentation, Substantial Increase in Hazard, or Claims.": 'No',
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'No', 
+  "Has the property been in foreclosure proceedings within the past 18 months?": 'No', 
+  "Do employees of any resident or applicant reside in the dwelling?": 'No', 
+  "Is any business or farming activity conducted on the premises?": 'No'
+}
+
+# ------------------- TestData: NV ------------------
+TestData_UW1_NV: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1_NV'
+}
+
+UnderwritingAndApprovalTab_UW1_NV: {
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  'No', 
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'Yes',
+  "Has the property been in foreclosure proceedings within the past 18 months?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes', 
+  "Total number of part time and full time resident employees": '2', 
+  "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'Yes', 
+  "Are all water heaters (except tankless and electric heaters) strapped to the wall with at least one strap and if located in the garage, raised at least 18 inches from the floor?": 'No'
+}
+
+TestData_UW2_NV: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2_NV'
+}
+
+UnderwritingAndApprovalTab_UW2_NV: {
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  'Yes', 
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Has the property been in foreclosure proceedings within the past 18 months?": 'Yes',
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes', 
+  "Total number of part time and full time resident employees": '3', 
+  "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No', 
+  "Are all water heaters (except tankless and electric heaters) strapped to the wall with at least one strap and if located in the garage, raised at least 18 inches from the floor?": 'Yes'
+}
+
+TestData_UW3_NV: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW3_NV'
+}
+
+UnderwritingAndApprovalTab_UW3_NV: {
+  Remark Prior Insurance:  test,  
+  Remark Foreclosure: test, 
+  Remark Resident Employees: test
+}
+
+TestData_UW4_NV: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW4_NV'
+}
+
+UnderwritingAndApprovalTab_UW4_NV: {
+  Underwriter-selected inspection type: 'index=1',
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  'No', 
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Has the property been in foreclosure proceedings within the past 18 months?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'No',  
+  "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No', 
+  "Are all water heaters (except tankless and electric heaters) strapped to the wall with at least one strap and if located in the garage, raised at least 18 inches from the floor?": 'No'
+}
+
+# ------------------- TestData: OR ------------------
+TestData_UW1_OR: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1_OR'
+}
+
+UnderwritingAndApprovalTab_UW1_OR: {
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  'No', 
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'Yes',
+  "Has the property been in foreclosure proceedings within the past 18 months?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes', 
+  "Total number of part time and full time resident employees": '2', 
+  "Is any business, adult day care, pet day care or farming activity conducted on the premises?": 'Yes'
+}
+
+TestData_UW2_OR: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2_OR'
+}
+
+UnderwritingAndApprovalTab_UW2_OR: {
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  'Yes', 
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Has the property been in foreclosure proceedings within the past 18 months?": 'Yes',
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes', 
+  "Total number of part time and full time resident employees": '3', 
+  "Is any business, adult day care, pet day care or farming activity conducted on the premises?": 'No'
+}
+
+TestData_UW3_OR: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW3_OR'
+}
+
+UnderwritingAndApprovalTab_UW3_OR: {
+  Remark Prior Insurance:  test,  
+  Remark Foreclosure: test, 
+  Remark Resident Employees: test
+}
+
+TestData_UW4_OR: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW4_OR'
+}
+
+UnderwritingAndApprovalTab_UW4_OR: {
+  Underwriter-selected inspection type: 'index=1', 
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  'No', 
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Has the property been in foreclosure proceedings within the past 18 months?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'No', 
+  "Is any business, adult day care, pet day care or farming activity conducted on the premises?": 'No'
+}
+
+
+

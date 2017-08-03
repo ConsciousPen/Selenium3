@@ -68,7 +68,7 @@ public class BaseTest {
 	private static ThreadLocal<String> state = new ThreadLocal<>();
 	private static String usState = PropertyProvider.getProperty("test.usstate");
 	private static Map<String, Integer> policyCount = new HashMap<>();
-	private boolean isCImodeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.isCImode, "true"));
+	private boolean isCiModeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.isCiMode, "true"));
 
 	static {
 		CustomAssert.initDriver(CustomAssert.AssertDriverType.TESTNG);
@@ -137,14 +137,14 @@ public class BaseTest {
 
 	@AfterMethod(alwaysRun = true)
 	public void logout() {
-		if (isCImodeEnabled) {
+		if (isCiModeEnabled) {
 			closeAllApps();
 		}
 	}
 
 	@AfterSuite(alwaysRun = true)
 	public void afterSuite() {
-		if (isCImodeEnabled) {
+		if (isCiModeEnabled) {
 			closeAllApps();
 		}
 	}

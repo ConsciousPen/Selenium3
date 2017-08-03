@@ -14,6 +14,7 @@ import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.main.enums.PolicyConstants;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 public class PolicySummaryPage extends SummaryPage {
 
@@ -45,8 +46,6 @@ public class PolicySummaryPage extends SummaryPage {
     public static Button buttonProceed = new Button(By.xpath("//button[.//span[@class='ui-button-text ui-c' and text()='Proceed'] or @value='Proceed']"));
 
     public static Link linkPolicy = new Link(By.id("productContextInfoForm:policyDetail_policyNumLnk"));
-    public static Link linkMasterPolicy = new Link(By.id("productContextInfoForm:policyDetail_masterPolicyNumLnk"));
-    public static Link linkGroupCoverageNext = new Link(By.id("productConsolidatedViewForm:body_scolumn_GroupCoverageSplitComponent:dataScrollerscolumn_GroupCoverageSplitComponent_ds_next"));
 
     public static ComboBox comboboxPolicyTerm = new ComboBox(By.id("historyForm:transactionsFilter"));
 
@@ -95,15 +94,16 @@ public class PolicySummaryPage extends SummaryPage {
     }
 
     public static LocalDateTime getExpirationDate() {
-        return LocalDateTime.parse(tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.EXPIRATION_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
+        return TimeSetterUtil.getInstance().parse(tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.EXPIRATION_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
     }
 
     public static LocalDateTime getEffectiveDate() {
         LocalDateTime dateEffective;
         if (!tableGeneralInformation.isPresent() || tableGeneralInformation.isPresent() && !tableGeneralInformation.getHeader().getValue().contains("Effective Date")) {
-            dateEffective = LocalDateTime.parse(labelPolicyEffectiveDate.getValue(), DateTimeUtils.MM_DD_YYYY);
+            dateEffective = TimeSetterUtil.getInstance().parse(labelPolicyEffectiveDate.getValue(), DateTimeUtils.MM_DD_YYYY);
         } else {
-            dateEffective = LocalDateTime.parse(tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.EFFECTIVE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
+            dateEffective =
+                    TimeSetterUtil.getInstance().parse(tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.EFFECTIVE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
         }
 
         return dateEffective;
@@ -144,17 +144,17 @@ public class PolicySummaryPage extends SummaryPage {
         }
 
         public static LocalDateTime readEffectiveDate(int row) {
-            return LocalDateTime.parse(tableTransactionHistory.getRow(row).getCell(PolicyConstants.PolicyTransactionHistoryTable.EFFECTIVE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
+            return TimeSetterUtil.getInstance().parse(tableTransactionHistory.getRow(row).getCell(PolicyConstants.PolicyTransactionHistoryTable.EFFECTIVE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
         }
 
         public static LocalDateTime readEffectiveDate(String nameType) {
-            return LocalDateTime.parse(
+            return TimeSetterUtil.getInstance().parse(
                     tableTransactionHistory.getRow(PolicyConstants.PolicyTransactionHistoryTable.TYPE, nameType).getCell(PolicyConstants.PolicyTransactionHistoryTable.EFFECTIVE_DATE)
                             .getValue(), DateTimeUtils.MM_DD_YYYY);
         }
 
         public static LocalDateTime readTransactionDate(String nameType) {
-            return LocalDateTime.parse(
+            return TimeSetterUtil.getInstance().parse(
                     tableTransactionHistory.getRow(PolicyConstants.PolicyTransactionHistoryTable.TYPE, nameType).getCell(PolicyConstants.PolicyTransactionHistoryTable.TRANSACTION_DATE)
                             .getValue(), DateTimeUtils.MM_DD_YYYY);
         }
