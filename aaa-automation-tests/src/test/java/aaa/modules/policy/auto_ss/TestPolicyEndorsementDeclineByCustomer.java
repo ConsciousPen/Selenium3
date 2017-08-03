@@ -12,37 +12,34 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Yonggang Sun
- * @name Test endorsement decline by company for Auto Policy
+ * @name Test Endorsement decline by customer for Auto Policy
  * @scenario
  * 1. Create Customer
  * 2. Create Auto (AAA) Policy
  * 3. Create endorsement
- * 4. Decline by company
- * 5. Verify Policy status is 'Company Declined' in endorsement
+ * 4. Decline by customer
+ * 5. Verify Policy status is 'Customer Declined' in endorsement
  * @details
  */
-public class TestPolicyEndorsementDeclineByCompany extends AutoSSBaseTest {
+public class TestPolicyEndorsementDeclineByCustomer extends AutoSSBaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")
-    public void testPolicyEndorsementDeclineByCompany() {
+    public void testPolicyEndorsementDeclineByCustomer() {
         mainApp().open();
 
         createCustomerIndividual();
 
         createPolicy();
 
-        log.info("TEST: Decline By Company Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        
+        log.info("TEST: Decline By Customer Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
         TestData endorsement_td = getPolicyTD("TestPolicyEndorsementAdd", "TestData");
-	     policy.endorse().performAndExit(endorsement_td.adjust(getPolicyTD("Endorsement", "TestData")));
-        
-//        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        policy.endorse().performAndExit(endorsement_td.adjust(getPolicyTD("Endorsement", "TestData")));
         PolicySummaryPage.buttonPendedEndorsement.click();
 
-        policy.declineByCompanyQuote().perform(getPolicyTD("DeclineByCompany", "TestData"));
+        policy.declineByCustomerQuote().perform(getPolicyTD("DeclineByCustomer", "TestData"));
         PolicySummaryPage.buttonPendedEndorsement.click();
 
-        PolicySummaryPage.tableEndorsements.getRow(1).getCell(3).verify.value(ProductConstants.PolicyStatus.COMPANY_DECLINED);
+        PolicySummaryPage.tableEndorsements.getRow(1).getCell(3).verify.value(ProductConstants.PolicyStatus.CUSTOMER_DECLINED);
     }
 }
