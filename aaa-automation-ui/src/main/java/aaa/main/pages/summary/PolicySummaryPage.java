@@ -3,22 +3,21 @@
 package aaa.main.pages.summary;
 
 import java.time.LocalDateTime;
-
 import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import aaa.common.Tab;
-import aaa.common.components.Dialog;
-import aaa.main.enums.PolicyConstants;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
+import aaa.common.Tab;
+import aaa.common.components.Dialog;
+import aaa.main.enums.PolicyConstants;
+import com.exigen.ipb.etcsa.utils.Dollar;
 
 public class PolicySummaryPage extends SummaryPage {
 
-	public static StaticElement labelPolicyNumber = new StaticElement(By.id("productContextInfoForm:policyDetail_policyNumTxt"));
+    public static StaticElement labelPolicyNumber = new StaticElement(By.id("productContextInfoForm:policyDetail_policyNumTxt"));
     public static StaticElement labelPolicyStatus = new StaticElement(By.id("productContextInfoForm:policyDetail_policyStatusCdText"));
     public static StaticElement labelPolicyEffectiveDate = new StaticElement(By.id("productContextInfoForm:policyDetail_policyStatusCdText_txEffectiveDate"));
     public static StaticElement labelPolicyBillingAccount = new StaticElement(By.id("productContextInfoForm:policyDetail_policyBilling"));
@@ -70,22 +69,23 @@ public class PolicySummaryPage extends SummaryPage {
             + "or @id='productConsolidatedViewForm:scolumn_InsuredInformation' "
             + "or @id='productConsolidatedViewForm:scolumn_CLPolicyInsuredConsolidatedView'"
             + "or @id='scolumn_AAAHONamedInsured'"
-		    + "or @id='scolumn_AAAHONamedInsuredInformation'"
-		    + "or @id='scolumn_InsuredInformationMVO']//table"));
+            + "or @id='scolumn_AAAHONamedInsuredInformation'"
+            + "or @id='scolumn_InsuredInformationMVO']//table"));
     public static Table tableCoveragePremiumSummary = new Table(By.id("policyDataGatherForm:policySummary_ListCLGLPremOpsProdCoveragePremiumSummary"));
     public static Table tableCompare = new Table(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']/table[@role='treegrid']"));
     public static Table tableOtherUnderlyingRisks = new Table(By.xpath("//div[@id='productConsolidatedViewForm:pupUnderlyingRiskPanel_body'//table"));
     public static Table tableTotalPremiumSummary = new Table(By.id("productConsolidatedViewForm:totalSummaryTable"));
+    public static Table tablePupPropertyInformation = new Table(By.id("productConsolidatedViewForm:body_scolumn_PupConsolidatedPropertyInfo"));
     //cea
     public static Table tablePaymentSummary = new Table(By.xpath("//table[@id='productConsolidatedViewForm:billing_transactions_active']"));
     public static Table tableTransactionSummary = new Table(By.xpath("//table[@id='productConsolidatedViewForm:billing_transactions_active2']"));
-    
+
     public static Dialog dialogRemoveSuspense = new Dialog("//div[@id='validateActionPopup_container']");
 
     public static Dollar getTotalPremiumSummary() {
-    	return new Dollar(tableTotalPremiumSummary.getRow(1).getCell(2).getValue());
+        return new Dollar(tableTotalPremiumSummary.getRow(1).getCell(2).getValue());
     }
-    
+
     public static Dollar getProposedRenewalPremium() {
         buttonRenewals.click();
         Dollar renewalPremium = new Dollar(tableRenewals.getRow(1).getCell(PolicyConstants.PolicyRenewalsTable.PREMIUM).getValue());
@@ -99,9 +99,9 @@ public class PolicySummaryPage extends SummaryPage {
     }
 
     public static LocalDateTime getEffectiveDate() {
-    	LocalDateTime dateEffective;
-	    if (!tableGeneralInformation.isPresent() || tableGeneralInformation.isPresent() && !tableGeneralInformation.getHeader().getValue().contains("Effective Date")) {
-		    dateEffective = LocalDateTime.parse(labelPolicyEffectiveDate.getValue(), DateTimeUtils.MM_DD_YYYY);
+        LocalDateTime dateEffective;
+        if (!tableGeneralInformation.isPresent() || tableGeneralInformation.isPresent() && !tableGeneralInformation.getHeader().getValue().contains("Effective Date")) {
+            dateEffective = LocalDateTime.parse(labelPolicyEffectiveDate.getValue(), DateTimeUtils.MM_DD_YYYY);
         } else {
             dateEffective = LocalDateTime.parse(tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.EFFECTIVE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
         }
@@ -110,25 +110,25 @@ public class PolicySummaryPage extends SummaryPage {
     }
 
     public static class TransactionHistory {
-	    public static LocalDateTime getEffectiveDate() {
-		    return getEffectiveDate(1);
-	    }
+        public static LocalDateTime getEffectiveDate() {
+            return getEffectiveDate(1);
+        }
 
-	    public static Dollar getTranPremium() {
-		    return getTranPremium(1);
-	    }
+        public static Dollar getTranPremium() {
+            return getTranPremium(1);
+        }
 
-	    public static Dollar getEndingPremium() {
-		    return getEndingPremium(1);
-	    }
+        public static Dollar getEndingPremium() {
+            return getEndingPremium(1);
+        }
 
-	    public static String getReason() {
-		    return getReason(1);
-	    }
+        public static String getReason() {
+            return getReason(1);
+        }
 
-	    public static String getType() {
-		    return getType(1);
-	    }
+        public static String getType() {
+            return getType(1);
+        }
 
         public static void open() {
             buttonTransactionHistory.click();
@@ -148,13 +148,15 @@ public class PolicySummaryPage extends SummaryPage {
         }
 
         public static LocalDateTime readEffectiveDate(String nameType) {
-            return LocalDateTime.parse(tableTransactionHistory.getRow(PolicyConstants.PolicyTransactionHistoryTable.TYPE, nameType).getCell(PolicyConstants.PolicyTransactionHistoryTable.EFFECTIVE_DATE)
-                    .getValue(), DateTimeUtils.MM_DD_YYYY);
+            return LocalDateTime.parse(
+                    tableTransactionHistory.getRow(PolicyConstants.PolicyTransactionHistoryTable.TYPE, nameType).getCell(PolicyConstants.PolicyTransactionHistoryTable.EFFECTIVE_DATE)
+                            .getValue(), DateTimeUtils.MM_DD_YYYY);
         }
 
         public static LocalDateTime readTransactionDate(String nameType) {
-            return LocalDateTime.parse(tableTransactionHistory.getRow(PolicyConstants.PolicyTransactionHistoryTable.TYPE, nameType).getCell(PolicyConstants.PolicyTransactionHistoryTable.TRANSACTION_DATE)
-                    .getValue(), DateTimeUtils.MM_DD_YYYY);
+            return LocalDateTime.parse(
+                    tableTransactionHistory.getRow(PolicyConstants.PolicyTransactionHistoryTable.TYPE, nameType).getCell(PolicyConstants.PolicyTransactionHistoryTable.TRANSACTION_DATE)
+                            .getValue(), DateTimeUtils.MM_DD_YYYY);
         }
 
         public static Dollar readEndingPremium(int rowNumber) {

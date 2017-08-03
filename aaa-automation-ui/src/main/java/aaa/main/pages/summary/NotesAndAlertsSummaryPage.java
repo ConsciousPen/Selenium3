@@ -3,25 +3,26 @@
 package aaa.main.pages.summary;
 
 import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.controls.ActivitiesAndUserNotes;
-import aaa.common.Tab;
-import aaa.common.components.Dialog;
-import aaa.common.metadata.NotesAndAlertsMetaData;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.table.Table;
+import aaa.common.Tab;
+import aaa.common.components.Dialog;
+import aaa.common.metadata.NotesAndAlertsMetaData;
+import com.exigen.ipb.etcsa.controls.ActivitiesAndUserNotes;
 
 public class NotesAndAlertsSummaryPage extends SummaryPage {
 
     public static ActivitiesAndUserNotes activitiesAndUserNotes = new ActivitiesAndUserNotes(By.xpath("//div[@id='activityCommandsForm:activityTable']//table"));
-	public static StaticElement alert = new StaticElement(By.id("alertArchiveForm:alerts:0:arhiveAlert_id"));
+    public static StaticElement alert = new StaticElement(By.id("alertArchiveForm:alerts:0:arhiveAlert_id"));
+    public static StaticElement alertConfirmPolicyCancellation = new StaticElement(By.id("confirmDialog_msg"));
 
-	public static AssetList assetListAddNoteOrAlert = new AssetList(By.xpath("//form[@id='createNote_form']"), NotesAndAlertsMetaData.NotesAndAlertsTab.class);
-	public static AssetList assetListUpdateNote = new AssetList(By.xpath("//form[@id='updateNote_form']"), NotesAndAlertsMetaData.NotesAndAlertsTab.class);
-	public static AssetList assetListUpdateAlert = new AssetList(By.xpath("//form[@id='updateAlert_form']"), NotesAndAlertsMetaData.NotesAndAlertsTab.class);
+    public static AssetList assetListAddNoteOrAlert = new AssetList(By.xpath("//form[@id='createNote_form']"), NotesAndAlertsMetaData.NotesAndAlertsTab.class);
+    public static AssetList assetListUpdateNote = new AssetList(By.xpath("//form[@id='updateNote_form']"), NotesAndAlertsMetaData.NotesAndAlertsTab.class);
+    public static AssetList assetListUpdateAlert = new AssetList(By.xpath("//form[@id='updateAlert_form']"), NotesAndAlertsMetaData.NotesAndAlertsTab.class);
     public static Table tableFilterNoteOrAlert = new Table(By.id("activityCommandsForm:activityFilterTableForm"));
     public static Table tableFilterResults = new Table(By.id("activityCommandsForm:body_userActivitiesFilterTable"));
     public static Link linkCloseAddNoteOrAlert = new Link(By.xpath("//div[@id='createNote_form:createNote_togglePanel:header']//div[@class='rf-cp-lbl-exp']"));

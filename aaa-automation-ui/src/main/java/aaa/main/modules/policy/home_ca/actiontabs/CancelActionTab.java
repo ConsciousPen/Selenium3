@@ -5,6 +5,7 @@
 package aaa.main.modules.policy.home_ca.actiontabs;
 
 import aaa.common.ActionTab;
+import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeCaMetaData;
 
 /**
@@ -16,5 +17,11 @@ import aaa.main.metadata.policy.HomeCaMetaData;
 public class CancelActionTab extends ActionTab {
     public CancelActionTab() {
         super(HomeCaMetaData.CancelActionTab.class);
+    }
+
+    @Override
+    public Tab submitTab() {
+        buttonOk.click();
+        return this;
     }
 }
