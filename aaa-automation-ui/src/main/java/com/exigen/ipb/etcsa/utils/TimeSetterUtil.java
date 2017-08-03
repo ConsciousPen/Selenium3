@@ -117,7 +117,7 @@ public class TimeSetterUtil {
 	}
 
 	public static LocalDateTime jodaDateToJava(DateTime date) {
-		return LocalDateTime.parse(date.toString("yyyyMMddHHmmssSSS"), DateTimeUtils.TIME_STAMP_WITH_MS);
+		return LocalDateTime.parse(date.toString("yyyyMMddHHmmss"), DateTimeUtils.TIME_STAMP);
 	}
 
 	public static DateTime javaDateToYoda(LocalDateTime date) {
@@ -137,7 +137,7 @@ public class TimeSetterUtil {
 	
 	@SuppressWarnings("deprecation")
 	public static toolkit.utils.datetime.DateTime javaDateToIstf(LocalDateTime date) {
-		return new toolkit.utils.datetime.DateTime(date.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")), "yyyyMMddHHmmssSSS");
+		return new toolkit.utils.datetime.DateTime(date.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")), "yyyyMMddHHmmss");
 	}
 	
 	public LocalDateTime parse(CharSequence text, DateTimeFormatter formatter) { 
