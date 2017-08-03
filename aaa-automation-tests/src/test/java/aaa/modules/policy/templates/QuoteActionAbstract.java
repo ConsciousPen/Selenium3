@@ -50,10 +50,11 @@ public abstract class QuoteActionAbstract extends PolicyBaseTest {
 			GenerateProposalActionTab.message.verify.value("Please note that once you click \"OK\" the documents will be queued for generation " + "and will be available for viewing within the folder structure as soon as they have been successfully processed. This usually takes 3 to 5 minutes.");
 		}
 
-		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
+		if (getPolicyType().equals(PolicyType.HOME_SS_HO3) || getPolicyType().equals(PolicyType.AUTO_SS)) {
 			policy.propose().getView().getTab(ProposeActionTab.class).getAssetList().getAsset(HomeSSMetaData.ProposeActionTab.NOTES.getLabel()).verify.enabled();
 			ProposeActionTab.message.verify.value("Please note that once you click \"OK\" the documents will be queued for generation " + "and will be available for viewing within the folder structure as soon as they have been successfully processed. This usually takes 3 to 5 minutes.");
 		}
+		
 		policy.propose().submit();
 		// Efolder.isDocumentExist("Applications and Proposals",
 		// "New Business");
