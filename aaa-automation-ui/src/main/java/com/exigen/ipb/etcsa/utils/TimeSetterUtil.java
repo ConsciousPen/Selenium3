@@ -6,6 +6,8 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
+import aaa.common.pages.LoginPage;
+import com.exigen.ipb.etcsa.base.app.ApplicationFactory;
 import org.joda.time.DateTime;
 
 import com.exigen.istf.exec.core.TimedTestContext;
@@ -14,6 +16,7 @@ import com.exigen.istf.timesetter.client.TimeSetter;
 import com.exigen.istf.timesetter.client.TimeSetterClient;
 
 import toolkit.config.PropertyProvider;
+import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
@@ -102,6 +105,7 @@ public class TimeSetterUtil {
 				throw new IstfException(String.format("Shift the time in the past is not possible. Current time: %s; Desired time: %s.", currentTime, time));
 			}
 		}
+		closeAllApps();
 		if (isPEF) {
 			getContext().nextPhase(javaDateToYoda(adjDate));
 		} else
@@ -144,5 +148,11 @@ public class TimeSetterUtil {
 		LocalDate date = LocalDate.parse(text, formatter); 
 		LocalTime time = getStartTime().toLocalTime(); 
 		return LocalDateTime.of(date, time); 
-	} 
+	}
+
+	private void closeAllApps() {
+		ApplicationFactory.get().mainApp(new LoginPage(new SimpleDataProvider())).close();
+		ApplicationFactory.get().adminApp(new LoginPage(new SimpleDataProvider())).close();
+		ApplicationFactory.get().opReportApp(new LoginPage(new SimpleDataProvider())).close();
+	}
 }
