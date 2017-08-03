@@ -16,13 +16,11 @@ import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
 public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
-	
 	/* TestData_SC1_1: 
 		Home Renovation: set Roof renovation = '3+ layers' 
 		Stoves: set incorrect values, 
 		Pets or animals: set Animal type = 'Dog - Wolf'	
 	*/
-	private TestData td_sc1_1 = getTestSpecificTD("TestData_SC1_1"); 
 	
 	/* TestData_SC1_2: 
 		Home Renovation: remove incorrect value,  
@@ -30,13 +28,10 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 		Pets or animals: set correct Animal type = 'Dog - Other breed', 
 		Add 3 Detached Structures with Rented to others = Yes
 	*/
-	private TestData td_sc1_2 = getTestSpecificTD("TestData_SC1_2"); 
 	
 	/* TestData_SC1_3: 
 		Add 4th Detached Structures with Rented to others = No
-	*/
-	private TestData td_sc1_3 = getTestSpecificTD("TestData_SC1_3");
-	
+	*/	
 	private String ER0906 = "Dwellings with more than 2 roof layers are ineligible.";
 	private String ER0908 = "Wood burning stoves as the sole source of heat are ineligible.";
 	private String ER0909 = "Wood burning stoves are ineligible unless professionally installed by a licensed contractor.";
@@ -47,8 +42,6 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 	private String WM0566 = "Coverage B must be less than 50% of Coverage A to bind";
 	private String ER0903 = "Applicants/Insureds with vicious dogs or exotic animals are ineligible.";
 	
-	private TestData td_sc2_1 = getTestSpecificTD("TestData_SC2_1"); 
-	private TestData td_sc2_2 = getTestSpecificTD("TestData_SC2_2"); 
 	private String WM0548 = "Dwellings built prior to 1900 are ineligible."; 
 	private String WM0549 = "Dwellings built prior to 1940 must have all four major systems fully renovated.";
 	private String WM0550 = "Risks with more than 3 horses or 4 livestock are unacceptable.";
@@ -59,6 +52,10 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 	public void testDetermineEligibility_SC1() {
 		mainApp().open();
 
+		TestData td_sc1_1 = getTestSpecificTD("TestData_SC1_1"); 
+		TestData td_sc1_2 = getTestSpecificTD("TestData_SC1_2"); 
+		TestData td_sc1_3 = getTestSpecificTD("TestData_SC1_3");
+		
 		//getCopiedQuote();
 		createCustomerIndividual();
 		createQuote();
@@ -120,6 +117,9 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 	public void testDetermineEligibility_SC2() {
 		mainApp().open();
 
+		TestData td_sc2_1 = getTestSpecificTD("TestData_SC2_1"); 
+		TestData td_sc2_2 = getTestSpecificTD("TestData_SC2_2");
+		
 		//getCopiedQuote();
 		createCustomerIndividual();
 		createQuote();

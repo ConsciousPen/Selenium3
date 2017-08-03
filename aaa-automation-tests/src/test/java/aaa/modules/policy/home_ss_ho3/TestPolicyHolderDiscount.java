@@ -47,19 +47,19 @@ import toolkit.verification.CustomAssert;
  * 
  * @details
  */
-public class TestPolicyHolderDiscount extends HomeSSHO3BaseTest {
-
-	private TestData td_YoungHomeOwner = getTestSpecificTD("TestData_YoungHomeOwner"); 
-	private TestData td_NoPolicyHolderDiscount = getTestSpecificTD("TestData_NoPolicyHolderDiscount"); 
-	private TestData td_MatureHomeowner = getTestSpecificTD("TestData_MatureHomeowner"); 
-	private TestData td_EmployeeDiscount = getTestSpecificTD("TestData_EmployeeDiscount"); 	
+public class TestPolicyHolderDiscount extends HomeSSHO3BaseTest {	
 	
 	@Test
     @TestInfo(component = "Policy.HomeSS")
 	public void testPolicyHolderDiscount() {
 		mainApp().open();
 
-        //getCopiedQuote(); 
+		TestData td_YoungHomeOwner = getTestSpecificTD("TestData_YoungHomeOwner"); 
+		TestData td_NoPolicyHolderDiscount = getTestSpecificTD("TestData_NoPolicyHolderDiscount"); 
+		TestData td_MatureHomeowner = getTestSpecificTD("TestData_MatureHomeowner"); 
+		TestData td_EmployeeDiscount = getTestSpecificTD("TestData_EmployeeDiscount"); 
+        
+		//getCopiedQuote(); 
 		createCustomerIndividual();
 		
 		createQuote();

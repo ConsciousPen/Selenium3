@@ -1238,6 +1238,7 @@ public final class HomeSSMetaData {
 				"Are all water heaters (except tankless and electric heaters) strapped to the wall with at least one strap and if located in the garage, raised at least 18 inches from the floor?", RadioGroup.class, Waiters.AJAX);
 
 		public static final AssetDescriptor<TextBox> REMARK_PRIOR_INSURANCE = declare("Remark Prior Insurance", TextBox.class, Waiters.AJAX, false, By.id("policyDataGatherForm:sedit_AAAUnderwritingQuestionaireComponent_aaaPriorPolicyStatusRemark"));
+		public static final AssetDescriptor<TextBox> REMARK_PRIOR_INSURANCE_MD = declare("Remark Prior Insurance MD", TextBox.class, Waiters.AJAX, false, By.id("policyDataGatherForm:sedit_AAAUnderwritingQuestionaireComponent_aaaPriorPolicyStatusWithReasonsRemark"));
 		public static final AssetDescriptor<TextBox> REMARK_FIRE_HAZARD = declare("Remark Fire Hazard", TextBox.class, Waiters.AJAX, false, By.id("policyDataGatherForm:sedit_AAAUnderwritingQuestionaireComponent_aaaFireSafeDistRemark"));
 		public static final AssetDescriptor<TextBox> REMARK_DWELL_SLOPE = declare("Remark Dwell Slope", TextBox.class, Waiters.AJAX, false, By.id("policyDataGatherForm:sedit_AAAUnderwritingQuestionaireComponent_aaaDwellSlopeRemark"));
 		public static final AssetDescriptor<TextBox> REMARK_FORECLOSURE = declare("Remark Foreclosure", TextBox.class, Waiters.AJAX, false, By.id("policyDataGatherForm:sedit_AAAUnderwritingQuestionaireComponent_aaaForeClosureProceedingRemark"));
