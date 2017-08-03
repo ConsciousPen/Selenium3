@@ -17,7 +17,7 @@ import toolkit.utils.logging.CustomLogger;
 
 public class HttpQueryBuilder {
 
-	private static final String PARAMS_FILE_DIR = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "http" + File.separator;
+	private static final String PARAMS_FILE_DIR = "src" + File.separator + "test" + File.separator + "resources" + File.separator + "http" + File.separator;
 	private static final String QUERY_STRING_DELIMITER = "&";
 	private static final String LINE_DELIMITER = "---";
 

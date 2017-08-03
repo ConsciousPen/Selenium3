@@ -15,6 +15,11 @@ public final class BillingConstants {
         public static final String BILLED = "Billed";
         public static final String UNBILLED = "Unbilled";
     }
+    
+    public static final class InstallmentDescription {
+        public static final String DEPOSIT = "Deposit";
+        public static final String INSTALLMENT = "Installment";
+    }
 
     public static final class BillsAndStatementsType {
         public static final String BILL = "Bill";
