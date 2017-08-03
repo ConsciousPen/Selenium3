@@ -26,7 +26,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyDoNotRenewAddRemove extends HomeSSHO3BaseTest {
 
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.HomeSS")
 	public void testPolicyDoNotRenewAddRemove() {
 		mainApp().open();
 

@@ -4,10 +4,12 @@
  */
 package aaa.main.modules.policy.home_ca.defaulttabs;
 
-import aaa.main.metadata.policy.HomeCaMetaData;
-import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
+import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.table.Table;
+import aaa.main.metadata.policy.HomeCaMetaData;
+import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -19,29 +21,32 @@ import toolkit.webdriver.controls.Button;
  * @category Generated
  */
 public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
-	public PremiumsAndCoveragesQuoteTab() {
-		super(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class);
-	}
 
-	public Button btnCalculatePremium() {
-		return getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM_BUTTON.getLabel(), Button.class);
-	}
+    public static Table tableEndorsementForms = new Table(By.id("policyDataGatherForm:formSummaryTable"));
 
-	@Override
-	public void calculatePremium() {
-		btnCalculatePremium().click();
-	}
+    public PremiumsAndCoveragesQuoteTab() {
+        super(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class);
+    }
 
-	@Override
-	protected TestData convertValue(TestData td) {
-		TestData tdCoverages = td.getTestData(getAssetList().getName());
-		for (String key : tdCoverages.getKeys()) {
-			String value = tdCoverages.getValue(key);
-			if (value != null && value.contains("|")) {
-				value = getPercentForValue(value);
-				td.adjust(TestData.makeKeyPath(getAssetList().getName(), key), value);
-			}
-		}
-		return td;
-	}
+    public Button btnCalculatePremium() {
+        return getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM_BUTTON.getLabel(), Button.class);
+    }
+
+    @Override
+    public void calculatePremium() {
+        btnCalculatePremium().click();
+    }
+
+    @Override
+    protected TestData convertValue(TestData td) {
+        TestData tdCoverages = td.getTestData(getAssetList().getName());
+        for (String key : tdCoverages.getKeys()) {
+            String value = tdCoverages.getValue(key);
+            if (value != null && value.contains("|")) {
+                value = getPercentForValue(value);
+                td.adjust(TestData.makeKeyPath(getAssetList().getName(), key), value);
+            }
+        }
+        return td;
+    }
 }

@@ -23,7 +23,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyManualRenewFlagAddRemove extends HomeSSHO3BaseTest {
 
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.HomeSS")
 	public void testPolicyManualRenewFlagAddRemove() {
 		mainApp().open();
 

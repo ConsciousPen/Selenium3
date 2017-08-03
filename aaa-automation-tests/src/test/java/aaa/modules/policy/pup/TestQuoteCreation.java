@@ -25,7 +25,7 @@ public class TestQuoteCreation extends PersonalUmbrellaBaseTest {
     public void testQuoteCreation() {
         mainApp().open();
 
-        createCustomerIndividual();
+//        createCustomerIndividual();
         
         createQuote();
 

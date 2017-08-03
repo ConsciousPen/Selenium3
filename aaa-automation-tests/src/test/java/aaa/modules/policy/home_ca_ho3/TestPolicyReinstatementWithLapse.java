@@ -11,7 +11,7 @@ import aaa.modules.policy.templates.PolicyReinstatementWithLapse;
 import toolkit.utils.TestInfo;
 
 /**
- * @author Viachaslau Markouski
+ * @author Ryan Yu
  * @name Test Reinstatement Home Policy with Lapse
  * @scenario
  * 1. Create Customer
@@ -31,7 +31,7 @@ public class TestPolicyReinstatementWithLapse extends PolicyReinstatementWithLap
         }
 	    @Override
 	    @Test
-	    @TestInfo(component = "Policy.HOMECA")
+	    @TestInfo(component = "Policy.HomeCA")
 	    public void testPolicyReinstatementWithLapse() {
 
 	        super.testPolicyReinstatementWithLapse();

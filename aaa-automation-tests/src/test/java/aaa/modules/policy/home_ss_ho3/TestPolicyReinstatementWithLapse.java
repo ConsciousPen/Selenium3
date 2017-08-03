@@ -31,7 +31,7 @@ public class TestPolicyReinstatementWithLapse extends PolicyReinstatementWithLap
         }
 	    @Override
 	    @Test
-	    @TestInfo(component = "Policy.HOMESS")
+	    @TestInfo(component = "Policy.HomeSS")
 	    public void testPolicyReinstatementWithLapse() {
 
 	        super.testPolicyReinstatementWithLapse();

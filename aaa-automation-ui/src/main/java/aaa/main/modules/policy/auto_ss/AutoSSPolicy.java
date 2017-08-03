@@ -71,8 +71,9 @@ public class AutoSSPolicy implements IPolicy {
 
     @Override
     public void purchase(TestData td) {
+    	dataGather().start();
 	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-	    new DocumentsAndBindTab().submitTab();
+	    new DocumentsAndBindTab().fillTab(td).submitTab();
 	    new PurchaseTab().fillTab(td).submitTab();
 	    log.info("Purchased Quote " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
     }

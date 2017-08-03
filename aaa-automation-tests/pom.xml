@@ -13,13 +13,14 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<suiteFile>default.xml</suiteFile>
-		<time.service.file>src/test/resources/config/timeservice.properties</time.service.file>
+		<!-- <time.service.file>src/test/resources/config/timeservice.properties</time.service.file> -->
 		<browser.pool.config>src/test/resources/config/BrowserPool.xml</browser.pool.config>
 		<timeshift.report.dir>target/test-output/timeshift-report</timeshift.report.dir>
-		<browser.controller.class>com.exigen.istf.exec.browser.BrowserControllerImpl</browser.controller.class>
-		<dependency.locations.enabled>false</dependency.locations.enabled>
-		<dependency.details.enabled>false</dependency.details.enabled>
+		<!-- <browser.controller.class>com.exigen.istf.exec.browser.BrowserControllerImpl</browser.controller.class> -->
+		<dependency.locations.enabled>true</dependency.locations.enabled>
+		<dependency.details.enabled>true</dependency.details.enabled>
+		<storage.rest.enabled>true</storage.rest.enabled>
+		<suiteFile>default.xml</suiteFile>
 		<package>*</package>
 		<suitePath>src/test/resources/testsuites</suitePath>
 	</properties>
@@ -67,7 +68,7 @@
 	</dependencies>
 	<profiles>
 		<profile>
-			<id>groups</id>
+			<id>package</id>
 			<build>
 				<testResources>
 					<testResource>
@@ -78,7 +79,7 @@
 				</testResources>
 			</build>
 			<properties>
-				<suiteFile>testsuites/groups.xml</suiteFile>
+				<suiteFile>testsuites/package.xml</suiteFile>
 				<suitePath>${project.build.testOutputDirectory}</suitePath>
 			</properties>
 		</profile>

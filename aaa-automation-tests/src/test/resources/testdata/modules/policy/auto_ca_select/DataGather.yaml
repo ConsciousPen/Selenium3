@@ -121,3 +121,35 @@ PurchaseTab: {
     Cash: /rest
   }
 }
+
+TestData_TwoVehicles: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab',
+  MembershipTab: '@MembershipTab',
+  VehicleTab: ['@VehicleTab_1', '@VehicleTab_2'],
+  AssignmentTab: '@AssignmentTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+VehicleTab_1: {
+  VIN: 1GNWGPFG8B6548273,
+   Primary Use: Pleasure (recreational driving only),
+   Existing Damage: None,
+   "Salvaged?": 'No',
+   Miles One-way to Work or School: 10,
+   Odometer Reading: 3000
+}
+
+VehicleTab_2: {
+  VIN: WDCYC7BB0B6729451,
+  Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 10,
+  Odometer Reading: 3000
+}

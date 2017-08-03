@@ -8,10 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableMap;
 
 import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
 import aaa.main.enums.BillingConstants.BillingInstallmentScheduleTable;
 import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
+import aaa.main.enums.BillingConstants.InstallmentDescription;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -48,16 +51,16 @@ public final class BillingHelper {
 	
 	public static List<LocalDateTime> getInstallmentDueDates() {
 		ArrayList<LocalDateTime> dates = new ArrayList<LocalDateTime>();
-		for (String value : BillingSummaryPage.tableInstallmentSchedule.getColumn(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).getValue()) {
-			dates.add(LocalDateTime.parse(value, DateTimeUtils.MM_DD_YYYY));
+		for (Row row : BillingSummaryPage.tableInstallmentSchedule.getRows(ImmutableMap.of(BillingInstallmentScheduleTable.DESCRIPTION, InstallmentDescription.INSTALLMENT))) {
+			dates.add(TimeSetterUtil.getInstance().parse(row.getCell(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
 		}
 		return dates;
 	}
 	
 	public static List<Dollar> getInstallmentDues() {
 		ArrayList<Dollar> dues = new ArrayList<Dollar>();
-		for (String value : BillingSummaryPage.tableInstallmentSchedule.getColumn(BillingInstallmentScheduleTable.INSTALLMENT_DUE).getValue()) {
-			dues.add(new Dollar(value));
+		for (Row row : BillingSummaryPage.tableInstallmentSchedule.getRows(ImmutableMap.of(BillingInstallmentScheduleTable.DESCRIPTION, InstallmentDescription.INSTALLMENT))) {
+			dues.add(new Dollar(row.getCell(BillingInstallmentScheduleTable.INSTALLMENT_DUE).getValue()));
 		}
 		return dues;
 	}
@@ -101,7 +104,7 @@ public final class BillingHelper {
 		List<Row> feeRows = BillingSummaryPage.tablePaymentsOtherTransactions.getRows(values);
 		
 		for (Row row : feeRows) {
-			amount.add(new Dollar(row.getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT)));
+			amount = amount.add(new Dollar(row.getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()));
 		}
 		return amount;
 	}
