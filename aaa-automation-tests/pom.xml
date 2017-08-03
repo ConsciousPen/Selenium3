@@ -48,10 +48,10 @@
 					<excludedGroups>${excludedgroups}</excludedGroups>
 					<!-- <includes> <include>%regex[aaa.modules.${package}]</include> </includes> -->
 					<systemPropertyVariables>
-						<time.service.file>${time.service.file}</time.service.file>
+						<!-- <time.service.file>${time.service.file}</time.service.file> -->
 						<browser.pool.config>${browser.pool.config}</browser.pool.config>
 						<timeshift.report.dir>${timeshift.report.dir}</timeshift.report.dir>
-						<browser.controller.class>${browser.controller.class}</browser.controller.class>
+						<!-- <browser.controller.class>${browser.controller.class}</browser.controller.class> -->
 					</systemPropertyVariables>
 					<!-- <reportsDirectory>${project.build.directory}/target/test-output</reportsDirectory> -->
 					<argLine>-Xmx1024m</argLine>
