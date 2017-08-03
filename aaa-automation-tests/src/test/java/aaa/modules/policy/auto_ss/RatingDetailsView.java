@@ -13,9 +13,10 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
-public class TestQuoteViewRatingDetailsCompCollSymbolsPresence extends AutoSSBaseTest{
-        /**
+public class RatingDetailsView extends AutoSSBaseTest {
+    /**
      * PAS-535
+     *
      * @author Viktor Petrenko
      * @name View Rating details UI update.
      * @scenario
@@ -28,11 +29,6 @@ public class TestQuoteViewRatingDetailsCompCollSymbolsPresence extends AutoSSBas
      * @details
      */
 
-    @Override
-    protected PolicyType getPolicyType() {
-        return PolicyType.AUTO_SS;
-    }
-
     @Test
     @TestInfo(component = "Policy.AutoSS")
     public void testQuoteRatingViewDetailsCompCollSymbolsArePresentAndNotEmpty() {
@@ -40,23 +36,22 @@ public class TestQuoteViewRatingDetailsCompCollSymbolsPresence extends AutoSSBas
         createCustomerIndividual();
 
         policy.initiate();
-        policy.getDefaultView().fillUpTo(getPolicyTD("DataGather", "TestData"), VehicleTab.class, true);
+        policy.getDefaultView().fillUpTo(getPolicyTD("DataGather", "TestData_TwoVehicles"), VehicleTab.class, true);
 
-        new VehicleTab().addVehicle(getPolicyTD("DataGather", "TestData"));
         NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         PremiumAndCoveragesTab.buttonCalculatePremium.click();
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
         CustomAssert.enableSoftMode();
 
-        CustomAssert.assertTrue("Comp Symbol is not present", PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Comp Symbol").isPresent());
-        CustomAssert.assertTrue("Coll Symbol is not present",PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Coll Symbol").isPresent());
+        CustomAssert.assertTrue("Comp Symbol is not present", PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").isPresent());
+        CustomAssert.assertTrue("Coll Symbol is not present", PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").isPresent());
 
-        CustomAssert.assertFalse("First vehicle Comp Symbol is empty", PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Comp Symbol").getCell(2).getValue().isEmpty());
-        CustomAssert.assertFalse("First vehicle Coll Symbol is empty", PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Coll Symbol").getCell(2).getValue().isEmpty());
+        CustomAssert.assertFalse("First vehicle Comp Symbol is empty", PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue().isEmpty());
+        CustomAssert.assertFalse("First vehicle Coll Symbol is empty", PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue().isEmpty());
 
-        CustomAssert.assertFalse("Second vehicle Comp Symbol is empty", PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Comp Symbol").getCell(3).getValue().isEmpty());
-        CustomAssert.assertFalse("Second vehicle Coll Symbol is empty", PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Coll Symbol").getCell(3).getValue().isEmpty());
+        CustomAssert.assertFalse("Second vehicle Comp Symbol is empty", PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(3).getValue().isEmpty());
+        CustomAssert.assertFalse("Second vehicle Coll Symbol is empty", PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(3).getValue().isEmpty());
 
         CustomAssert.disableSoftMode();
 
