@@ -24,7 +24,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyRenewFlatCancellation extends AutoSSBaseTest {
 
     @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @TestInfo(component = "Policy.AutoSS")
     public void testPolicyRenewFlatCancellation() {
     	new TestPolicyBackdated().testPolicyBackdated();
 

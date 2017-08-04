@@ -23,7 +23,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyRenewDeletePending extends AutoSSBaseTest {
 
     @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @TestInfo(component = "Policy.AutoSS")
     public void testPolicyRenewDeletePending() {
         mainApp().open();
 

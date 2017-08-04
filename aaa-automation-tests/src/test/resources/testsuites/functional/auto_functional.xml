@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Auto Smoke tests" verbose="1" parallel="methods" thread-count="10">
+<suite name="Auto Functional tests" verbose="1" parallel="methods" thread-count="10">
      <listeners>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>

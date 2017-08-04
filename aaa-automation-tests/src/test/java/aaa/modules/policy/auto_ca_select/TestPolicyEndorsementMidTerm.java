@@ -27,7 +27,7 @@ import toolkit.utils.datetime.DateTimeUtils;
 public class TestPolicyEndorsementMidTerm extends AutoCaSelectBaseTest {
 
     @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @TestInfo(component = "Policy.AutoCA")
     public void testPolicyEndorsementMidTerm() {
     new TestPolicyBackdated().testPolicyBackdated();
 		
