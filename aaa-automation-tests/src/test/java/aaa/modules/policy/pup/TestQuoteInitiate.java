@@ -23,7 +23,7 @@ import toolkit.utils.TestInfo;
 public class TestQuoteInitiate extends PersonalUmbrellaBaseTest {
 
     @Test()
-    @TestInfo(component = "Policy.PersonalLines")
+    @TestInfo(component = "Policy.PUP")
     public void testQuoteInitiate() {
         mainApp().open();
 

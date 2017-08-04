@@ -25,7 +25,7 @@ public class TestPolicyCancellationFlat extends PolicyCancellationFlat {
 	}
 	
 	@Test
-	@TestInfo(component = "Policy.PUP.Cancellation")
+	@TestInfo(component = "Policy.PUP")
 	public void testPolicyCancellationFlat() {
 		super.testPolicyCancellationFlat();
 	}

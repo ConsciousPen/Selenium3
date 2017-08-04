@@ -24,13 +24,13 @@ import toolkit.utils.TestInfo;
 public class TestPolicyRenewDeclineByCompany extends PersonalUmbrellaBaseTest {
 
     @Test
-    @TestInfo(component = "Policy.PUP.RenewDeclineByCompany")
+    @TestInfo(component = "Policy.PUP")
     public void testPolicyRenewDeclineByCompany() {
         mainApp().open();
 
         createCustomerIndividual();
 
-        createPolicy();
+        getCopiedPolicy();
 
         log.info("TEST: Decline By Company Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
         

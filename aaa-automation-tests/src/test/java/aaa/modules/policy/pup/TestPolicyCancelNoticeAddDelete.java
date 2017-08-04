@@ -24,13 +24,13 @@ import toolkit.utils.TestInfo;
 public class TestPolicyCancelNoticeAddDelete extends PersonalUmbrellaBaseTest {
 
     @Test
-    @TestInfo(component = "Policy.PUP.CancelNotice")
+    @TestInfo(component = "Policy.PUP")
     public void testPolicyCancelNoticeAddDelete() {
         mainApp().open();
 
         createCustomerIndividual();
 
-        createPolicy();
+        getCopiedPolicy();
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
