@@ -1,0 +1,21 @@
+TestData_AddForm_HARI: {
+  EndorsementTab: {
+    'HARI': [{
+      Action: 'Add',
+      Instance Number: 1,
+      Number of family units: 'index=1',
+      Zip code: '90201',
+      Street address 1: 267 CHIPMAN AVE,
+      Section II territory: 'index=1'
+    }]
+  }
+} 
+
+TestData_RemoveForm_HARI: {
+  EndorsementTab: {
+    'HARI': [{
+      Action: 'Remove',
+      Instance Number: 1
+    }]
+  }
+} 
