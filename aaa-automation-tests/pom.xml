@@ -24,6 +24,7 @@
 		<package>*</package>
 		<suitePath>src/test/resources/testsuites</suitePath>
 	</properties>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -70,6 +71,15 @@
 		<profile>
 			<id>package</id>
 			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-resources-plugin</artifactId>
+							<version>3.0.2</version>
+						</plugin>
+					</plugins>
+				</pluginManagement>
 				<testResources>
 					<testResource>
 						<!-- <targetPath>${project.basedir}/src/test/resources/testsuites</targetPath> -->
