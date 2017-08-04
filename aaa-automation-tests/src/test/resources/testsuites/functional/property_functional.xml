@@ -1,10 +1,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Property Functional Tests" verbose="1" parallel="methods"
-	thread-count="10">
+<suite name="Property Functional Tests" verbose="1" parallel="tests"
+	thread-count="1024">
 	<listeners>
 		<listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
 	</listeners>
-	<parameter name="timeshift-scenario-mode" value="method" />
+	<parameter name="timeshift-scenario-mode" value="test" />
 
 	<test name="Common Functional Tests">
 		<parameter name="state" value="UT" />
