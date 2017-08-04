@@ -10,7 +10,7 @@ import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.utils.TestInfo;
 
 /**
- * @author Viachaslau Markouski
+ * @author Lei Dai
  * @name Test Midterm Cancellation Auto Policy
  * @scenario
  * 1. Create Customer
@@ -22,7 +22,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyCancellationMidTerm extends AutoCaSelectBaseTest {
 
     @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @TestInfo(component = "Policy.AutoCA")
     public void testPolicyCancellationMidTerm() {
        
     	new TestPolicyBackdated().testPolicyBackdated();

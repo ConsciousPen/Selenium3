@@ -22,13 +22,13 @@ import toolkit.utils.TestInfo;
 public class TestPolicyCancellationFutureDatedRescind extends PersonalUmbrellaBaseTest {
 
     @Test
-    @TestInfo(component = "Policy.PUP.Cancellation")
+    @TestInfo(component = "Policy.PUP")
     public void testPolicyCancellationFutureDatedRescind() {
         mainApp().open();
 
         createCustomerIndividual();
 
-        createPolicy();
+        getCopiedPolicy();
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 

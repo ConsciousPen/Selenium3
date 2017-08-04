@@ -234,7 +234,12 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<ComboBox> DESCRIPTION = declare("Description", ComboBox.class);
 			public static final AssetDescriptor<TextBox> SVC_DESCRIPTION = declare("SVC Description", TextBox.class);
 			public static final AssetDescriptor<TextBox> CLAIM_NUMBER = declare("Claim Number", TextBox.class);
-			public static final AssetDescriptor<TextBox> OCCURENCE_DATE = declare("Occurrence Date", TextBox.class);
+			public static final AssetDescriptor<TextBox> OCCURENCE_DATE = declare("Occurrence Date", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> CONVICTION_DATE = declare("Conviction Date", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> LOSS_PAYMENT_AMOUNT = declare("Loss Payment Amount", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> CLAIM_POINTS = declare("Claim Points", TextBox.class);
+			public static final AssetDescriptor<RadioGroup> INCLUDE_IN_POINTS_AND_OR_TIER = declare("Include in Points and/or Tier?", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<RadioGroup> NOT_INCLUDED_IN_POINTS_AND_OR_TIER_REASON_CODES = declare("Not Included in Points and/or Tier - Reason Codes", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> INCLUDE_IN_RATING = declare("Include in Rating?", RadioGroup.class);
 			public static final AssetDescriptor<ComboBox> NOT_INCLUDED_IN_RATING_REASON = declare("Not Included in Rating Reasons", ComboBox.class);
 			public static final AssetDescriptor<AssetListConfirmationDialog> ACTIVITY_REMOVE_CONFIRMATION = declare("Activity remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmEliminateInstance_Dialog_container"));

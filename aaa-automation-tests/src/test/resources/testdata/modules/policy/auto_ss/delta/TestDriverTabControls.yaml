@@ -1,5 +1,13 @@
-TestData_CO: {
+TestData_CO_TC02: {
+  PrefillTab: '@auto_ss@DataGather@PrefillTab',
+  GeneralTab: '@auto_ss@DataGather@GeneralTab',
   DriverTab: ['@DriverTab_Driver_01','@DriverTab_Driver_02']
+}
+
+TestData_CO_TC03: {
+  PrefillTab: '@auto_ss@DataGather@PrefillTab',
+  GeneralTab: '@auto_ss@DataGather@GeneralTab',
+  DriverTab: '@DriverTab_Driver_01'
 }
 
 DriverTab_Driver_01: {

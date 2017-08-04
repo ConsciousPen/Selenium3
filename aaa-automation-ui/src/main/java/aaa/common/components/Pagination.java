@@ -25,7 +25,6 @@ public class Pagination {
 	private Link previousPage;
 	private Link nextPage;
 	private ComboBox pageOptionsSelector;
-	//private String pageNumberLocator;
 	private ByT pageNumberLocator;
 
 	public Pagination(By locator) {
@@ -71,18 +70,19 @@ public class Pagination {
 	}
 
 	public List<String> getPageOptionsList() {
-		verify.hasPageOptionsSelector();
-		return this.pageOptionsSelector.getAllValues();
+		return hasPageOptionsSelector() ? this.pageOptionsSelector.getAllValues() : null;
 	}
 
 	public int getSelectedRowsPerPage() {
-		verify.hasPageOptionsSelector();
-		return Integer.valueOf(pageOptionsSelector.getValue());
+		return hasPageOptionsSelector() ? Integer.valueOf(pageOptionsSelector.getValue()) : null;
 	}
 
-	public void setRowsPerPage(int value) {
-		verify.hasPageOptionsSelector();
-		pageOptionsSelector.setValue(String.valueOf(value));
+	public boolean setRowsPerPage(int value) {
+		if (hasPageOptionsSelector() && getSelectedRowsPerPage() != value) {
+			pageOptionsSelector.setValue(String.valueOf(value));
+			return true;
+		}
+		return false;
 	}
 
 	public boolean hasPageOptionsSelector() {
@@ -99,46 +99,69 @@ public class Pagination {
 		return new Link(new ByChained(locator, navigationPage)).isPresent();
 	}
 
-	public void goToPage(int pageNumber) {
-		try {
-			By navigationPage = pageNumberLocator.format(pageNumber);
-			new Link(new ByChained(locator, navigationPage)).click();
-		} catch (IstfException e) {
-			throw new IstfException("Can't navigate to page \"%s\". It does not exist!\n", e);
+	public boolean goToPage(int pageNumber) {
+		if (getSelectedPage() != pageNumber && pageExists(pageNumber)) {
+			try {
+				By navigationPage = pageNumberLocator.format(pageNumber);
+				new Link(new ByChained(locator, navigationPage)).click();
+				return true;
+			} catch (IstfException e) {
+				throw new IstfException("Can't navigate to page \"%s\". It does not exist!\n", e);
+			}
 		}
+		return false;
 	}
 
-	public void goToNextPage() {
+	public boolean pageExists(int pageNumber) {
+		return getPagesCount() >= pageNumber;
+	}
+
+	public boolean goToNextPage() {
 		if (this.nextPage.isPresent() && hasNextPage()) {
 			this.nextPage.click();
+			return true;
 		}
+		return false;
 	}
 
-	public void goToPreviousPage() {
+	public boolean goToPreviousPage() {
 		if (this.previousPage.isPresent() && hasPreviousPage()) {
 			this.previousPage.click();
+			return true;
 		}
+		return false;
 	}
 
-	public void goToLastPage() {
-		if (this.lastPage.isPresent()) {
+	public boolean goToLastPage() {
+		if (this.lastPage.isPresent() && this.getSelectedPage() != getPagesCount()) {
 			this.lastPage.click();
+			return true;
 		}
+		return false;
 	}
 
-	public void goToFirstPage() {
-		if (this.firstPage.isPresent()) {
+	public boolean goToFirstPage() {
+		if (this.firstPage.isPresent() && this.getSelectedPage() != 1) {
 			this.firstPage.click();
+			return true;
 		}
+		return false;
 	}
 
-	public void setMinRowsPerPage() {
-		verify.hasPageOptionsSelector();
-		pageOptionsSelector.setValueByIndex(0);
+	public boolean setMinRowsPerPage() {
+		if (hasPageOptionsSelector()) {
+			pageOptionsSelector.setValueByIndex(0);
+			return true;
+		}
+		return false;
 	}
 
-	public void setMaxRowsPerPage() {
-		pageOptionsSelector.setValueByIndex(getPageOptionsList().size() - 1);
+	public boolean setMaxRowsPerPage() {
+		if (hasPageOptionsSelector()) {
+			pageOptionsSelector.setValueByIndex(getPageOptionsList().size() - 1);
+			return true;
+		}
+		return false;
 	}
 
 	protected class Verify {

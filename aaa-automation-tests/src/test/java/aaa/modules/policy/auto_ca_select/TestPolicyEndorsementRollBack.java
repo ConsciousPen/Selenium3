@@ -5,6 +5,7 @@ package aaa.modules.policy.auto_ca_select;
 import org.testng.annotations.Test;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
+
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
@@ -28,14 +29,14 @@ import toolkit.verification.CustomAssert;
  */
 public class TestPolicyEndorsementRollBack extends AutoCaSelectBaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.PersonalLines")
+	@Test
+    @TestInfo(component = "Policy.AutoCA")
     public void testPolicyEndorsementRollBack() {
     	mainApp().open();
 
-        createCustomerIndividual();
-
-        createPolicy();
+        //createCustomerIndividual();
+        getCopiedPolicy();
+        //createPolicy();
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 

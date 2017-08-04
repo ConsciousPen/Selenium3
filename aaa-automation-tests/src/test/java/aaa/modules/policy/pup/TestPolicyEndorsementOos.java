@@ -27,11 +27,11 @@ import toolkit.verification.CustomAssert;
 public class TestPolicyEndorsementOos extends PersonalUmbrellaBaseTest {
 	
     @Test
-    @TestInfo(component = "Policy.PUP.EndorsementOos")
+    @TestInfo(component = "Policy.PUP")
     public void testPolicyEndorsementOos() {
         mainApp().open();
         createCustomerIndividual();
-        createPolicy();
+        getCopiedPolicy();
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 

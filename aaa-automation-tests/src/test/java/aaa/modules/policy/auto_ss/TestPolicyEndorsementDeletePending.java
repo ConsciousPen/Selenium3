@@ -23,13 +23,13 @@ import toolkit.utils.TestInfo;
 public class TestPolicyEndorsementDeletePending extends AutoSSBaseTest {
 
     @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @TestInfo(component = "Policy.AutoSS")
     public void testPolicyEndorsementDeletePending() {
         mainApp().open();
 
         createCustomerIndividual();
 
-        createPolicy();
+        getCopiedPolicy();
 
         log.info("TEST: Delete Pending Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
         policy.endorse().performAndExit(getPolicyTD("Endorsement", "TestData"));

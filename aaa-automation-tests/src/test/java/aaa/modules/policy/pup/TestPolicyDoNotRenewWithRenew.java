@@ -34,13 +34,13 @@ import toolkit.utils.TestInfo;
 public class TestPolicyDoNotRenewWithRenew extends PersonalUmbrellaBaseTest {
 
     @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @TestInfo(component = "Policy.PUP")
     public void testPolicyDoNotRenewWithRenew() {
         mainApp().open();
 
         createCustomerIndividual();
 
-        createPolicy();
+        getCopiedPolicy();
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
