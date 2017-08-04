@@ -24,13 +24,13 @@ import toolkit.utils.TestInfo;
 public class TestPolicyEndorsementDeclineByCustomer extends AutoSSBaseTest {
 
     @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @TestInfo(component = "Policy.AutoSS")
     public void testPolicyEndorsementDeclineByCustomer() {
         mainApp().open();
 
         createCustomerIndividual();
 
-        createPolicy();
+        getCopiedPolicy();
 
         log.info("TEST: Decline By Customer Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
         TestData endorsement_td = getPolicyTD("TestPolicyEndorsementAdd", "TestData");
