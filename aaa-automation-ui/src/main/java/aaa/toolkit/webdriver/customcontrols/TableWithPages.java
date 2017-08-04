@@ -25,8 +25,8 @@ public class TableWithPages extends Table {
 		this(null, new ByChained(tableWithPaginationLocator, TABLE_LOCATOR), new ByChained(tableWithPaginationLocator, PAGINATION_LOCATOR));
 	}
 
-	public TableWithPages(By tableWithPaginationLocator, By paginationLocator) {
-		this(null, tableWithPaginationLocator, paginationLocator);
+	public TableWithPages(By tableLocator, By paginationLocator) {
+		this(null, tableLocator, paginationLocator);
 	}
 
 	public TableWithPages(BaseElement<?, ?> parent, By tableWithPaginationLocator) {
@@ -44,7 +44,15 @@ public class TableWithPages extends Table {
 
 	@Override
 	protected List<TestData> getRawValue() {
-		return getRawValue(false);
+		List<TestData> data = new ArrayList<>();
+		pagination.setMaxRowsPerPage();
+		pagination.goToFirstPage();
+
+		data.addAll(super.getRawValue());
+		while (pagination.goToNextPage()) {
+			data.addAll(super.getRawValue());
+		}
+		return data;
 	}
 
 	@Override
@@ -55,7 +63,13 @@ public class TableWithPages extends Table {
 
 	@Override
 	public int getRowsCount() {
-		return getRowsCount(false);
+		pagination.setMaxRowsPerPage();
+		pagination.goToFirstPage();
+		int rowsCount = super.getRowsCount();
+		while (pagination.goToNextPage()) {
+			rowsCount += super.getRowsCount();
+		}
+		return rowsCount;
 	}
 
 	@Override
@@ -98,31 +112,6 @@ public class TableWithPages extends Table {
 		return getRowWithNavigation(() -> super.getRow(query));
 	}
 
-	public int getRowsCount(final boolean returnToInitialState) {
-		getPagination().goToFirstPage();
-		int rowsCount = super.getRowsCount();
-		while (pagination.hasNextPage()) {
-			pagination.goToNextPage();
-			rowsCount += super.getRowsCount();
-		}
-		return rowsCount;
-	}
-
-	public List<TestData> getValue(boolean returnToInitialState) {
-		return getRawValue(returnToInitialState);
-	}
-
-	protected List<TestData> getRawValue(final boolean returnToInitialState) {
-		List<TestData> data = new ArrayList<>();
-		getPagination().goToFirstPage();
-		data.addAll(super.getRawValue());
-		while (pagination.hasNextPage()) {
-			pagination.goToNextPage();
-			data.addAll(super.getRawValue());
-		}
-		return data;
-	}
-
 	/**
 	 * Navigates to the page with needed row number and return new index of this row on selected page
 	 *
@@ -130,45 +119,38 @@ public class TableWithPages extends Table {
 	 * @return index of needed row on selected page
 	 */
 	protected int goToPageWithRow(int rowIndex) {
-		if (pagination.hasPageOptionsSelector()) {
-			pagination.setMaxRowsPerPage();
-		}
+		pagination.setMaxRowsPerPage();
 		int rowsPerPage = getRowsPerPage();
 		int navigationPageNumber = rowIndex / rowsPerPage + (rowIndex % rowsPerPage == 0 ? 0 : 1);
-		if (pagination.getSelectedPage() != navigationPageNumber) {
-			pagination.goToPage(navigationPageNumber);
-		}
+
+		pagination.goToPage(navigationPageNumber);
+
 		return rowIndex - (navigationPageNumber - 1) * rowsPerPage;
 	}
 
 	protected int getRowsPerPage() {
 		if (pagination.hasPageOptionsSelector()) {
 			return pagination.getSelectedRowsPerPage();
-		} else if (pagination.getPagesCount() > 1) {
-			pagination.goToFirstPage();
 		}
+
+		pagination.goToFirstPage();
 		return super.getRowsCount();
 	}
 
 	protected Row getRowWithNavigation(Supplier<Row> getRowSupplier) {
-		if (pagination.hasPageOptionsSelector()) {
-			pagination.setMaxRowsPerPage();
-		}
+		pagination.setMaxRowsPerPage();
 		Row row = getRowSupplier.get();
-		while (row instanceof NoRow && pagination.hasNextPage()) {
-			pagination.goToNextPage();
+		while (row instanceof NoRow && pagination.goToNextPage()) {
 			row = getRowSupplier.get();
 		}
 		return row;
 	}
 
 	protected List<Row> getRowsWithNavigation(Supplier<List<Row>> getRowSupplier) {
-		if (pagination.hasPageOptionsSelector()) {
-			pagination.setMaxRowsPerPage();
-		}
+		pagination.setMaxRowsPerPage();
+
 		List<Row> rows = new ArrayList<>(getRowSupplier.get());
-		while (pagination.hasNextPage()) {
-			pagination.goToNextPage();
+		while (pagination.goToNextPage()) {
 			rows.addAll(getRowSupplier.get());
 		}
 		return rows;

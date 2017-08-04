@@ -9,6 +9,7 @@ import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
+import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.table.Table;
@@ -38,8 +39,8 @@ public class DriverTab extends Tab {
 		};
 	}
 
-	public AssetList getActivityInformationAssetList() {
-		return getAssetList().getAsset(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), AssetList.class);
+	public MultiInstanceBeforeAssetList getActivityInformationAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION);
 	}
    
 	@Override
