@@ -1,0 +1,422 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Auto Functional tests" verbose="1" parallel="tests" thread-count="1024">
+     <listeners>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+   
+	<test name="UT Auto Functional Tests">
+	    <parameter name="state" value="UT"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>				
+   		</classes>
+    </test>
+	
+    <test name="AZ Auto Functional Tests">
+	    <parameter name="state" value="AZ"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>		
+   		</classes>
+    </test>
+
+	<test name="CO Auto Functional Tests">
+	    <parameter name="state" value="CO"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>		
+   		</classes>
+    </test>
+		
+	<test name="CT Auto Functional Tests">
+	    <parameter name="state" value="CT"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>	
+   		</classes>
+    </test>
+	
+	<test name="DC Auto Functional Tests">
+	    <parameter name="state" value="DC"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>	
+   		</classes>
+    </test>
+
+	<test name="DE Auto Functional Tests">
+	    <parameter name="state" value="DE"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>	
+   		</classes>
+    </test>
+	
+	<test name="ID Auto Functional Tests">
+	    <parameter name="state" value="ID"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>		
+   		</classes>
+    </test>
+	
+	<test name="IN Auto Functional Tests">
+	    <parameter name="state" value="IN"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>		
+   		</classes>
+    </test>
+	
+	<test name="KS Auto Functional Tests">
+	    <parameter name="state" value="KS"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>	
+   		</classes>
+    </test>
+	
+	<test name="KY Auto Functional Tests">
+	    <parameter name="state" value="KY"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>		
+   		</classes>
+    </test>
+	
+	<test name="MD Auto Functional Tests">
+	    <parameter name="state" value="MD"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>		
+   		</classes>
+    </test>
+	
+   <test name="MT Auto Functional Tests">
+	    <parameter name="state" value="MT"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>	
+   		</classes>
+    </test>
+	
+	<test name="NJ Auto Functional Tests">
+	    <parameter name="state" value="NJ"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>	
+   		</classes>
+    </test>
+	
+	<test name="NV Auto Functional Tests">
+	    <parameter name="state" value="NV"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>		
+   		</classes>
+    </test>
+	
+	<test name="NY Auto Functional Tests">
+	    <parameter name="state" value="NY"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>		
+   		</classes>
+    </test>
+	
+	<test name="OH Auto Functional Tests">
+	    <parameter name="state" value="OH"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>		
+   		</classes>
+    </test>
+	
+	<test name="OK Auto Functional Tests">
+	    <parameter name="state" value="OK"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>	
+   		</classes>
+    </test>
+	
+	<test name="OR Auto Functional Tests">
+	    <parameter name="state" value="OR"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>		
+   		</classes>
+    </test>
+	
+	<test name="PA Auto Functional Tests">
+	    <parameter name="state" value="PA"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>			
+   		</classes>
+    </test>
+	
+	<test name="SD Auto Functional Tests">
+	    <parameter name="state" value="SD"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>		
+   		</classes>
+    </test>
+	
+	<test name="VA Auto Functional Tests">
+	    <parameter name="state" value="VA"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>			
+   		</classes>
+    </test>
+	
+	<test name="WV Auto Functional Tests">
+	    <parameter name="state" value="WV"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>			
+   		</classes>
+    </test>
+	
+	<test name="WY Auto Functional Tests">
+	    <parameter name="state" value="WY"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ss.TestPolicyNano"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>		
+   		</classes>
+    </test>
+	
+	<test name="CA Auto Functional Tests">
+	    <parameter name="state" value="CA"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ca_select.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ca_select.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ca_select.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ca_select.TestPolicyFuturedated"/>
+			<class name="aaa.modules.policy.auto_ca_select.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ca_select.TestPolicyRenew"/>
+   		</classes>
+    </test>
+
+	<test name="CA Choice Auto Functional Tests">
+	    <parameter name="state" value="CA"/>
+    	<classes>
+   			<class name="aaa.modules.policy.auto_ca_choice.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.auto_ca_choice.TestPolicyCreationBig"/>
+			<class name="aaa.modules.policy.auto_ca_choice.TestPolicyEndorsementAdd"/>
+			<class name="aaa.modules.policy.auto_ca_choice.TestPolicyBilling"/>
+			<class name="aaa.modules.policy.auto_ca_choice.TestPolicyCancelReinstate"/>
+   		</classes>
+    </test>
+	
+</suite>
