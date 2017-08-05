@@ -1,0 +1,17 @@
+/* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
+ * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
+package aaa.main.modules.billing.paymentsmaintenance.actiontabs;
+
+import org.openqa.selenium.By;
+
+import aaa.common.ActionTab;
+import aaa.main.metadata.PaymentsMaintenanceMetaData;
+import toolkit.webdriver.controls.Button;
+
+public class AddPaymentBatchActionTab extends ActionTab {
+	public static Button buttonStartAllocations = new Button(By.id("paymentBatchForm:startAllocationsBtn_footer"));
+
+	public AddPaymentBatchActionTab() {
+		super(PaymentsMaintenanceMetaData.AddPaymentBatchActionTab.class);
+	}
+}

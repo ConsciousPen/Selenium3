@@ -25,7 +25,7 @@ public class Pagination {
 	private Link previousPage;
 	private Link nextPage;
 	private ComboBox pageOptionsSelector;
-	private ByT pageNumberLocator;
+	//private ByT pageNumberLocator;
 
 	public Pagination(By locator) {
 		this.locator = locator;
