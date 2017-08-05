@@ -24,7 +24,7 @@ public class TestPolicyCreation extends HomeCaHO6BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")
-    public void testQuoteCreation() throws InterruptedException {
+    public void testPolicyCreation() {
         mainApp().open();
 
         createCustomerIndividual();

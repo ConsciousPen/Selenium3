@@ -18,7 +18,6 @@ import aaa.main.modules.billing.account.actiontabs.AddHoldActionTab;
 import aaa.main.modules.billing.account.actiontabs.DeclinePaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.MovePoliciesActionTab;
 import aaa.main.modules.billing.account.actiontabs.OtherTransactionsActionTab;
-import aaa.main.modules.billing.account.actiontabs.RefundActionTab;
 import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
 import aaa.main.modules.billing.account.views.AcceptPaymentView;
 import aaa.main.modules.billing.account.views.AddHoldView;
@@ -125,17 +124,9 @@ public final class BillingAccountActions {
 	            }
 	        }*/
 
-	        @Override
-	        public AbstractAction perform(TestData td) {
-	            start();
-	            getView().fill(td);
-	            return this;
-	        }
-
-	        @Override
+	       @Override
 	        public AbstractAction submit() {
-	            AcceptPaymentActionTab.buttonOk.click();
-	            return this;
+	        	return this;
 	        }
 	    }
 
@@ -484,7 +475,6 @@ public final class BillingAccountActions {
 
 	        @Override
 	        public AbstractAction submit() {
-	            RefundActionTab.buttonOk.click();
 	            return this;
 	        }
 	    }

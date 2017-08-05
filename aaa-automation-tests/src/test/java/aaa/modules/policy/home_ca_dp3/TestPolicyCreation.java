@@ -22,7 +22,7 @@ public class TestPolicyCreation extends HomeCaDP3BaseTest {
 
     @Test
     @TestInfo(component = "Policy.PersonalLines")
-    public void testQuoteCreation() {
+    public void testPolicyCreation() {
         mainApp().open();
 
         createCustomerIndividual();

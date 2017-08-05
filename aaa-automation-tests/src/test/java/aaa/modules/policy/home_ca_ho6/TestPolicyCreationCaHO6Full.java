@@ -25,7 +25,7 @@ public class TestPolicyCreationCaHO6Full extends HomeCaHO6BaseTest {
 
 	@Test
 	@TestInfo(component = "Policy.PersonalLines")
-	public void testPolicyCreation() throws InterruptedException {
+	public void testPolicyCreation() {
 		CustomAssert.assertTrue("NOT COMPLETED TEST: add missed test data from \"CA_HSS_Smoke.xls\" e.g. QuoteEndorsementHO210 form, etc.", false);
 		mainApp().open();
 		createCustomerIndividual();

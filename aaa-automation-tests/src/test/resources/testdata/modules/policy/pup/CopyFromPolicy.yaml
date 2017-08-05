@@ -1,13 +1,99 @@
 TestData: {
-  CopyFromPolicyActionTab: {
-    Quote Effective Date: /today
-  },
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
   UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab',
   PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+CopyFromPolicyActionTab: {
+  Quote Effective Date: /today
 }
 
 TestData_BackDated: {
   CopyFromPolicyActionTab: {
     Quote Effective Date: /today-1m,
   }
+}
+
+TestData_CA: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_CA',
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+TestData_CT: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_CT',
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+TestData_DC: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_DC',
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+TestData_KY: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_KY',
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+TestData_MD: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_MD',
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+TestData_MT: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_MT',
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+TestData_OH: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_OH',
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+TestData_OK: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_OK',
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+TestData_OR: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_OR',
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+TestData_SD: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_SD',
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+TestData_VA: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_VA',
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+TestData_WV: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_WV',
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+TestData_WY: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_WY',
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+TestData_NV: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_NV',
+  PurchaseTab: '@DataGather@PurchaseTab'
 }

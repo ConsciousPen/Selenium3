@@ -7,6 +7,7 @@ import java.util.Map;
 
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.billing.account.IBillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -51,25 +52,26 @@ public abstract class PolicyBilling extends PolicyBaseTest {
         BillingSummaryPage.open();
         
         CustomAssert.enableSoftMode();
+        IBillingAccount billing = new BillingAccount();
         
         //cash payment
-        new BillingAccount().acceptPayment().perform(cash_payment, "200");      
+        billing.acceptPayment().perform(cash_payment, "200");      
         checkPaymentIsGenerated("200.00");
 			
         //check payment
-        new BillingAccount().acceptPayment().perform(check_payment, "250");        
+        billing.acceptPayment().perform(check_payment, "250");        
         checkPaymentIsGenerated("250.00");
 			
 		//credit card payment
-		new BillingAccount().acceptPayment().perform(cc_payment, "300"); 		
+        billing.acceptPayment().perform(cc_payment, "300"); 		
 		checkPaymentIsGenerated("300.00");
 		 
 		//EFT payment
-        new BillingAccount().acceptPayment().perform(eft_payment, "350"); 
+		billing.acceptPayment().perform(eft_payment, "350"); 
         checkPaymentIsGenerated("350.00");
         
         //Refund
-        new BillingAccount().refund().perform(refund, "150"); 
+        billing.refund().perform(refund, "150"); 
         
 		Map<String, String> query = new HashMap<>();
 		query.put("Type", "Refund");

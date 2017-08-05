@@ -42,7 +42,7 @@ DriverTab: {
   Add Driver: Click,
   DriverSearchDialog: {},
   Named Insured: index=0,
-  'Rel. to First Named Insured': index=1,
+  'Rel. to First Named Insured': Spouse,
   Date of Birth: '01/01/1980',
   Gender: Female,
   Marital Status: Married,

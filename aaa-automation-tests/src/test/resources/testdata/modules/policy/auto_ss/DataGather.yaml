@@ -1,6 +1,6 @@
 # -- Default test data for UT state ---
 
-TestData: {
+TestData_UT: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@GeneralTab',
   DriverTab: '@DriverTab',
