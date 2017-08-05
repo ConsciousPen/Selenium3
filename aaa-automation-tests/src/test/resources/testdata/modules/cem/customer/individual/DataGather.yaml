@@ -1,4 +1,4 @@
-TestData: {
+TestData_UT: {
   CustomerType: '@CustomerType',
   GeneralTab: '@GeneralTab',
   RelationshipTab: {}

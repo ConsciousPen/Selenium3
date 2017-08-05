@@ -26,7 +26,7 @@ public class TestPolicyCreation extends AutoCaChoiceBaseTest {
 
 	@Test
 	@TestInfo(component = "Policy.AutoCA")
-	public void testQuoteCreation() {
+	public void testPolicyCreation() {
 		mainApp().open();
 
 		createCustomerIndividual();

@@ -21,14 +21,13 @@ public class TestPolicyCreation extends PersonalUmbrellaBaseTest {
 
     @Test
     @TestInfo(component = "Policy.PUP")
-    public void testQuoteCreation() {
+    public void testPolicyCreation() {
     	
     	mainApp().open();
 
         createCustomerIndividual();
        
-        //TestData td = adjustWithRealPolicies(getPolicyTD("DataGather", "TestData"), getPrimaryPolicies());
-        getCopiedPolicy();
+        createPolicy();
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
