@@ -164,6 +164,7 @@ TestData_AZ: {
 DriverTab_AZ: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: A12345678
 }
 
@@ -186,6 +187,7 @@ TestData_CO: {
 DriverTab_CO: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: A552183
 }
 
@@ -208,6 +210,7 @@ TestData_CT: {
 DriverTab_CT: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 156773434
 }
 
@@ -246,6 +249,7 @@ PrefillTab_DC: {
 DriverTab_DC: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 9992617
 }
 
@@ -276,6 +280,7 @@ TestData_DE: {
 DriverTab_DE: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 7135439
 }
 
@@ -308,6 +313,7 @@ TestData_ID: {
 DriverTab_ID: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: AA223456A
 }
 
@@ -330,6 +336,7 @@ TestData_IN: {
 DriverTab_IN: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 154673421
 }
 
@@ -352,6 +359,7 @@ TestData_KS: {
 DriverTab_KS: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: B54673421
 }
 
@@ -404,6 +412,7 @@ TestData_MD: {
 DriverTab_MD: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: S123456789999
 }
 
@@ -444,6 +453,7 @@ TestData_MT: {
 DriverTab_MT: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 212790136
 }
 
@@ -466,6 +476,7 @@ TestData_NJ: {
 DriverTab_NJ: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: A12345678987657
 }
 
@@ -501,6 +512,7 @@ TestData_NV: {
 DriverTab_NV: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 2127901365
 }
 
@@ -563,6 +575,7 @@ TestData_OH: {
 DriverTab_OH: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: AB546734
 }
 
@@ -585,6 +598,7 @@ TestData_OK: {
 DriverTab_OK: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 123123121
 }
 
@@ -639,6 +653,7 @@ TestData_PA: {
 DriverTab_PA: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 83127880
 }
 
@@ -674,6 +689,7 @@ TestData_SD: {
 DriverTab_SD: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 112345678
 }
 
@@ -727,6 +743,7 @@ TestData_WV: {
 DriverTab_WV: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: S123456
 }
 
@@ -757,5 +774,6 @@ TestData_WY: {
 DriverTab_WY: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 4000647712
 }
