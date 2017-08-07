@@ -27,6 +27,7 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -46,11 +47,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -70,11 +74,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -94,11 +101,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -118,11 +128,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -142,11 +155,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -166,11 +182,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -190,11 +209,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -214,11 +236,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -238,11 +263,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -262,11 +290,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -286,11 +317,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -310,11 +344,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -334,11 +371,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -358,11 +398,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -382,11 +425,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -406,11 +452,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -430,11 +479,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -454,11 +506,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -478,11 +533,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -502,11 +560,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -526,11 +587,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
@@ -550,11 +614,14 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
