@@ -58,13 +58,11 @@ public class BaseTest {
 
 	private static TestData tdCustomerIndividual;
 	private static TestData tdCustomerNonIndividual;
-	private static Map<String, String> entities;
 	public String customerNumber;
 	protected Customer customer = new Customer();
 	private TestData tdSpecific;
 	protected TestDataManager testDataManager;
 	private String quoteNumber;
-	private String key;
 	private static ThreadLocal<String> state = new ThreadLocal<>();
 	private static String usState = PropertyProvider.getProperty("test.usstate");
 	private static Map<String, Integer> policyCount = new HashMap<>();
@@ -79,11 +77,6 @@ public class BaseTest {
 	public BaseTest() {
 		testDataManager = new TestDataManager();
 		initTestDataForTest();
-	}
-
-	protected static synchronized Map<String, String> getEntities() {
-		entities = EntitiesHolder.getEntities();
-		return entities;
 	}
 
 	protected PolicyType getPolicyType() {
@@ -162,8 +155,6 @@ public class BaseTest {
 	protected String createCustomerIndividual(TestData td) {
 		customer.create(td);
 		customerNumber = CustomerSummaryPage.labelCustomerNumber.getValue();
-		EntitiesHolder.addNewEntity(key, customerNumber);
-
 		return customerNumber;
 	}
 
@@ -181,7 +172,6 @@ public class BaseTest {
 	protected String createCustomerNonIndividual(TestData td) {
 		customer.create(td);
 		customerNumber = CustomerSummaryPage.labelCustomerNumber.getValue();
-		EntitiesHolder.addNewEntity(key, customerNumber);
 		return customerNumber;
 	}
 
@@ -342,6 +332,33 @@ public class BaseTest {
 			}
 			return returnValue;
 		}
+	}
+
+	/**
+	 * Should be used for creation of custom policies to use them durring PUP policy creation.\
+	 * @param tdHomeAdjustment - TestData adjustment for creation of Home HO3 policy (use state specific test data for HOME_CA product)
+	 * @param tdAutoAdjustment - TestData adjustment for creation of AUTO_CA policy
+	 */
+	protected Map<String, String> getPrimaryPoliciesForPup(TestData tdHomeAdjustment, TestData tdAutoAdjustment) {
+		Map<String, String> policies = new LinkedHashMap<>();
+		String state = getState().intern();
+		if (state.equals(States.CA.get())) {
+			TestData tdHome = testDataManager.policy.get(PolicyType.HOME_CA_HO3);
+			TestData tdHomeData = getStateTestData(tdHome, "DataGather", "TestData").adjust(tdHomeAdjustment);
+			PolicyType.HOME_CA_HO3.get().createPolicy(tdHomeData);
+			policies.put("Primary_HO3", PolicySummaryPage.labelPolicyNumber.getValue());
+
+			TestData tdAuto = testDataManager.policy.get(PolicyType.AUTO_CA_SELECT);
+			TestData tdAutoData = getStateTestData(tdAuto, "DataGather", "TestData").adjust(tdAutoAdjustment);
+			PolicyType.AUTO_CA_SELECT.get().createPolicy(tdAutoData);
+			policies.put("Primary_Auto", PolicySummaryPage.labelPolicyNumber.getValue());
+		} else {
+			TestData tdHome = testDataManager.policy.get(PolicyType.HOME_SS_HO3);
+			TestData tdHomeData = getStateTestData(tdHome, "DataGather", "TestData").adjust(tdHomeAdjustment);
+			PolicyType.HOME_SS_HO3.get().createPolicy(tdHomeData);
+			policies.put("Primary_HO3", PolicySummaryPage.labelPolicyNumber.getValue());
+		}
+		return policies;
 	}
 
 	/**
