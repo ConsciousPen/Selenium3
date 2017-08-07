@@ -24,13 +24,11 @@ import toolkit.utils.TestInfo;
 public class TestPolicyRenewDeclineByCustomer extends AutoSSBaseTest {
 
     @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @TestInfo(component = "Policy.AutoSS")
     public void testPolicyRenewDeclineByCustomer() {
         mainApp().open();
 
-        createCustomerIndividual();
-
-        createPolicy();
+        getCopiedPolicy();
 
         log.info("TEST: Decline By Customer Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
         policy.renew().perform(new SimpleDataProvider());

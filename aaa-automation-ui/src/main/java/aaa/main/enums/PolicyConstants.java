@@ -184,4 +184,8 @@ public final class PolicyConstants {
     public static final class PolicyEndorsementFormsTable {
         public static final String DESCRIPTION = "Description";
     }
+
+    public static final class PolicyPupPropertyInformationTable {
+        public static final String POLICY_NO = "Policy No";
+    }
 }

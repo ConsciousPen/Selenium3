@@ -24,8 +24,8 @@ import toolkit.utils.TestInfo;
  */
 public class TestQuoteInitiate extends AutoCaSelectBaseTest {
 
-    @Test(groups = "7.2_AUTOP,HOME_UC_InitiateHomeOrAutoQuoteAndSelectProduct")
-    @TestInfo(component = "Policy.PersonalLines")
+    @Test()
+    @TestInfo(component = "Policy.AutoCA")
     public void testQuoteInitiate() {
         mainApp().open();
 

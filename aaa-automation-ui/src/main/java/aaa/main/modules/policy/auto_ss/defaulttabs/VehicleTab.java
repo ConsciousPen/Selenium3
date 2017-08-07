@@ -4,12 +4,12 @@
  */
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
-import aaa.common.Tab;
 import org.openqa.selenium.By;
+
+import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
-import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.table.Table;

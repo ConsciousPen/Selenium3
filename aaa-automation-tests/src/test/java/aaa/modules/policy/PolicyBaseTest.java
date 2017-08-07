@@ -19,6 +19,10 @@ public abstract class PolicyBaseTest extends BaseTest {
         }
         tdPolicy = testDataManager.policy.get(type);
     }
+
+    protected TestData getPolicyTD() {
+        return getPolicyTD("DataGather", "TestData");
+    }
     
     protected TestData getPolicyTD(String fileName, String tdName) {
     	return getStateTestData(tdPolicy, fileName, tdName);

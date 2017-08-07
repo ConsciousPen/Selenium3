@@ -25,13 +25,11 @@ import toolkit.utils.TestInfo;
 
 public class TestPolicyDoNotRenewAddRemove extends PersonalUmbrellaBaseTest{
 	  @Test
-	  @TestInfo(component = "Policy.PUP.DoNotRenew")
+	  @TestInfo(component = "Policy.PUP")
 	  public void testPolicyDoNotRenewAddRemove() {
 		    mainApp().open();
 
-	        createCustomerIndividual();
-
-	        createPolicy();	        
+	        getCopiedPolicy();	        
 	        		    		    
 		    String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 	        log.info("TEST: Do Not Renew for Policy #" + policyNumber);

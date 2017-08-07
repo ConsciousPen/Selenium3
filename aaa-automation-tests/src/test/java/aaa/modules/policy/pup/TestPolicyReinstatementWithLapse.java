@@ -25,13 +25,11 @@ import toolkit.utils.TestInfo;
 public class TestPolicyReinstatementWithLapse extends PersonalUmbrellaBaseTest {
 
     @Test
-    @TestInfo(component = "Policy.PUP.Reinstatement with Lapse")
+    @TestInfo(component = "Policy.PUP")
     public void testPolicyReinstatementWithLapse() {
         mainApp().open();
 
-        createCustomerIndividual();
-
-        createPolicy();
+        getCopiedPolicy();
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 

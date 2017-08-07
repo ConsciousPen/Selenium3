@@ -23,13 +23,11 @@ import toolkit.utils.TestInfo;
 public class TestPolicyRenewWithLapse extends PersonalUmbrellaBaseTest {
 
     @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @TestInfo(component = "Policy.PUP")
     public void testPolicyRenewWithLapse() {
         mainApp().open();
 
-        createCustomerIndividual();
-
-        createPolicy();
+        getCopiedPolicy();
 
         log.info("TEST: Manual Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
         policy.renew().performAndExit(getPolicyTD("Renew", "TestData_Plus370Days"));

@@ -1,4 +1,4 @@
-TestData: {
+TestData_CA: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@GeneralTab',
   DriverTab: '@DriverTab',

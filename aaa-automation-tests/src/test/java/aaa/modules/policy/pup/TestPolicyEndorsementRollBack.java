@@ -30,13 +30,11 @@ import toolkit.verification.CustomAssert;
 public class TestPolicyEndorsementRollBack extends PersonalUmbrellaBaseTest {
 
     @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @TestInfo(component = "Policy.PUP")
     public void testPolicyEndorsementRollBack() {
         mainApp().open();
 
-        createCustomerIndividual();
-
-        createPolicy();
+        getCopiedPolicy();
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 

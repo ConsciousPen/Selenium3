@@ -100,7 +100,6 @@ public class BaseTest {
 
 	private void setState(String newState) {
 		state.set(newState);
-		log.info(getState());
 	}
 
 	protected TimePoints getTimePoints() {

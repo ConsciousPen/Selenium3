@@ -34,9 +34,7 @@ public class TestPolicyEndorsementRollBack extends AutoSSBaseTest {
     public void testPolicyEndorsementRollBack() {
         mainApp().open();
 
-        createCustomerIndividual();
-
-        createPolicy();
+        getCopiedPolicy();
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();

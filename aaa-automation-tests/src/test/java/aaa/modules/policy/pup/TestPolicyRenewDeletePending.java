@@ -23,13 +23,11 @@ import toolkit.utils.TestInfo;
 public class TestPolicyRenewDeletePending extends PersonalUmbrellaBaseTest {
 
     @Test
-    @TestInfo(component = "Policy.PUP.RenewDeletePending")
+    @TestInfo(component = "Policy.PUP")
     public void testPolicyRenewDeletePending() {
         mainApp().open();
 
-        createCustomerIndividual();
-
-        createPolicy();
+        getCopiedPolicy();
 
         log.info("TEST: Delete Pending Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
         policy.renew().performAndExit(new SimpleDataProvider());

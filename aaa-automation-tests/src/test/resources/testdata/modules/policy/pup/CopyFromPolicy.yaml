@@ -1,13 +1,45 @@
 TestData: {
-  CopyFromPolicyActionTab: {
-    Quote Effective Date: /today
-  },
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
   UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab',
   PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+CopyFromPolicyActionTab: {
+  Quote Effective Date: /today
 }
 
 TestData_BackDated: {
   CopyFromPolicyActionTab: {
     Quote Effective Date: /today-1m,
   }
+}
+
+TestData_CA: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_CA',
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+TestData_CT: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_CT',
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+TestData_KY: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_KY',
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+TestData_MD: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_MD',
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+TestData_OR: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_OR',
+  PurchaseTab: '@DataGather@PurchaseTab'
 }

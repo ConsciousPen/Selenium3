@@ -23,6 +23,7 @@
     "aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog": "/.",
     #"aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList": "/.",
     "aaa.toolkit.webdriver.customcontrols.PaymentMethodAllocationControl": "/.",
-    "toolkit.webdriver.controls.DoubleTextBox": "/."
+    "toolkit.webdriver.controls.DoubleTextBox": "/.",
+    "aaa.toolkit.webdriver.customcontrols.AdvancedComboBox": "//select"
   }
 }

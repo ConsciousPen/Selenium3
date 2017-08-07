@@ -1,4 +1,4 @@
-TestData: {
+TestData_UT: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab',
   ReportsTab: '@ReportsTab',

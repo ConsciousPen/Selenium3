@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Precondition" verbose="1">
+	<test name="Test Preconditions" preserve-order="true">
+	<classes>
+   			<class name="aaa.modules.preconditions.SetTodayDate"/>
+			<class name="aaa.modules.preconditions.CleanAsyncTasks"/>
+			<class name="aaa.modules.preconditions.CleanCache"/>
+   		</classes>
+	</test>
+</suite>

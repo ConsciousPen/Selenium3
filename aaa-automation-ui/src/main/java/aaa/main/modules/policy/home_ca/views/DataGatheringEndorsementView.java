@@ -5,7 +5,7 @@
 package aaa.main.modules.policy.home_ca.views;
 
 import aaa.common.Workspace;
-import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantEndorsementTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.DocumentsTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
@@ -28,7 +28,7 @@ public class DataGatheringEndorsementView extends Workspace {
     public DataGatheringEndorsementView() {
         super();
         registerTab(GeneralTab.class);
-		registerTab(ApplicantTab.class);
+		registerTab(ApplicantEndorsementTab.class);
 		registerTab(ReportsTab.class);
 		registerTab(PropertyInfoTab.class);
 		registerTab(EndorsementTab.class);

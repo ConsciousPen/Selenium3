@@ -14,13 +14,11 @@ import toolkit.verification.CustomAssert;
 public class TestPolicyEndorsement extends PersonalUmbrellaBaseTest {
 	
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.PUP")
 	public void testPolicyEndorsement() {
 		 mainApp().open();
 
-	     createCustomerIndividual();
-	       
-	     createPolicy();
+	     getCopiedPolicy();
 
 	     Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 			

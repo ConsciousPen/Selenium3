@@ -1,9 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Auto Smoke tests" verbose="1"> <!-- parallel="tests" thread-count="10">
+<suite name="Auto Functional tests" verbose="1" parallel="tests" thread-count="1024">
      <listeners>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/-->
+    <parameter name="timeshift-scenario-mode" value="test"/>
    
 	<test name="UT Auto Functional Tests">
 	    <parameter name="state" value="UT"/>

@@ -23,13 +23,11 @@ import toolkit.utils.TestInfo;
 public class TestPolicyEndorsementDeletePending extends PersonalUmbrellaBaseTest {
 
     @Test
-    @TestInfo(component = "Policy.PUP.EndorsementDeletePending")
+    @TestInfo(component = "Policy.PUP")
     public void testPolicyEndorsementDeletePending() {
         mainApp().open();
 
-        createCustomerIndividual();
-
-        createPolicy();
+        getCopiedPolicy();
 
         log.info("TEST: Delete Pending Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
        

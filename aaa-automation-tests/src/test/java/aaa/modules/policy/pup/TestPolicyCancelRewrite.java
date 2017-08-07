@@ -26,7 +26,7 @@ import toolkit.verification.CustomAssert;
 public class TestPolicyCancelRewrite extends PersonalUmbrellaBaseTest {
 
 	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@TestInfo(component = "Policy.PUP")
 	public void testPolicyCancelRewrite(){
 		mainApp().open();
 

@@ -28,9 +28,7 @@ public class TestPolicyRenewDeclineByCompany extends AutoSSBaseTest {
     public void testPolicyRenewDeclineByCompany() {
         mainApp().open();
 
-        createCustomerIndividual();
-
-        createPolicy();
+        getCopiedPolicy();
 
         log.info("TEST: Decline By Company Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
         policy.renew().perform(new SimpleDataProvider());

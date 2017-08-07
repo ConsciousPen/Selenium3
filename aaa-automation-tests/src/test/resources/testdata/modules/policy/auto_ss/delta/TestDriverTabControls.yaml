@@ -1,0 +1,35 @@
+TestData_CO_TC02: {
+  PrefillTab: '@auto_ss@DataGather@PrefillTab',
+  GeneralTab: '@auto_ss@DataGather@GeneralTab',
+  DriverTab: ['@DriverTab_Driver_01','@DriverTab_Driver_02']
+}
+
+TestData_CO_TC03: {
+  PrefillTab: '@auto_ss@DataGather@PrefillTab',
+  GeneralTab: '@auto_ss@DataGather@GeneralTab',
+  DriverTab: '@DriverTab_Driver_01'
+}
+
+DriverTab_Driver_01: {
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 215487451
+}
+
+DriverTab_Driver_02: {
+  DriverSearchDialog: {},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
+  First Name: Jack,
+  Last Name: Book,
+  Date of Birth: '01/01/1980',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 235689875
+}

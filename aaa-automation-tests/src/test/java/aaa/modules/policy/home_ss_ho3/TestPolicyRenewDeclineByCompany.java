@@ -28,8 +28,6 @@ public class TestPolicyRenewDeclineByCompany extends HomeSSHO3BaseTest {
     public void testPolicyRenewDeclineByCompany() {
         mainApp().open();
 
-        createCustomerIndividual();
-
         getCopiedPolicy();
 
         log.info("TEST: Decline By Company Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
