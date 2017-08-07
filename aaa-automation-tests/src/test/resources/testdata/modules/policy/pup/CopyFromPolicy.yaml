@@ -26,12 +26,6 @@ TestData_CT: {
   PurchaseTab: '@DataGather@PurchaseTab'
 }
 
-TestData_DC: {
-  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
-  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_DC',
-  PurchaseTab: '@DataGather@PurchaseTab'
-}
-
 TestData_KY: {
   CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
   UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_KY',
@@ -44,56 +38,8 @@ TestData_MD: {
   PurchaseTab: '@DataGather@PurchaseTab'
 }
 
-TestData_MT: {
-  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
-  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_MT',
-  PurchaseTab: '@DataGather@PurchaseTab'
-}
-
-TestData_OH: {
-  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
-  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_OH',
-  PurchaseTab: '@DataGather@PurchaseTab'
-}
-
-TestData_OK: {
-  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
-  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_OK',
-  PurchaseTab: '@DataGather@PurchaseTab'
-}
-
 TestData_OR: {
   CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
   UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_OR',
-  PurchaseTab: '@DataGather@PurchaseTab'
-}
-
-TestData_SD: {
-  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
-  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_SD',
-  PurchaseTab: '@DataGather@PurchaseTab'
-}
-
-TestData_VA: {
-  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
-  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_VA',
-  PurchaseTab: '@DataGather@PurchaseTab'
-}
-
-TestData_WV: {
-  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
-  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_WV',
-  PurchaseTab: '@DataGather@PurchaseTab'
-}
-
-TestData_WY: {
-  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
-  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_WY',
-  PurchaseTab: '@DataGather@PurchaseTab'
-}
-
-TestData_NV: {
-  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
-  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab_NV',
   PurchaseTab: '@DataGather@PurchaseTab'
 }
