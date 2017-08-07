@@ -1,5 +1,6 @@
 package aaa.modules.policy.home_ca_ho3;
 
+import java.util.HashMap;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -7,16 +8,16 @@ import aaa.common.enums.SearchEnum.SearchBy;
 import aaa.common.enums.SearchEnum.SearchFor;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
-import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ca.HomeCaPolicyActions;
 import aaa.main.modules.policy.home_ca.actiontabs.CancelActionTab;
+import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import aaa.modules.policy.HomeCaHO3BaseTest;
 
-public class TestPolicyCancelWithActivePUP extends PersonalUmbrellaBaseTest {
+public class TestPolicyCancelWithActivePUP extends HomeCaHO3BaseTest {
 
     /**
      * @author Jurij Kuznecov
@@ -38,15 +39,24 @@ public class TestPolicyCancelWithActivePUP extends PersonalUmbrellaBaseTest {
         mainApp().open();
 
         createCustomerIndividual();
-        createPolicy();
 
-        String cahPolicyNumber = PolicySummaryPage.tablePupPropertyInformation.getRow(1).getCell(PolicyConstants.PolicyPupPropertyInformationTable.POLICY_NO).getValue();
-        SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, cahPolicyNumber);
+        String caHomePolicyNumber = createPolicy();
+        TestData tdAuto = testDataManager.policy.get(PolicyType.AUTO_CA_SELECT);
+        PolicyType.AUTO_CA_SELECT.get().createPolicy(getStateTestData(tdAuto, "DataGather", "TestData"));
+        String caAutoPolicyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+        HashMap<String, String> policies = new HashMap<>();
+        policies.put("Primary_HO3", caHomePolicyNumber);
+        policies.put("Primary_Auto", caAutoPolicyNumber);
+        TestData tdPup = testDataManager.policy.get(PolicyType.PUP);
+        TestData tdPupData = getStateTestData(tdPup, "DataGather", "TestData");
+        tdPupData = new PrefillTab().adjustWithRealPolicies(tdPupData, policies);
+        PolicyType.PUP.get().createPolicy(tdPupData);
 
-        TestData tdHome = testDataManager.policy.get(PolicyType.HOME_CA_HO3);
+        SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, caHomePolicyNumber);
+
         new HomeCaPolicyActions.Cancel().start();
         CancelActionTab cancelActionTab = new CancelActionTab();
-        cancelActionTab.fillTab(getStateTestData(tdHome, "Cancellation", "TestData"));
+        cancelActionTab.fillTab(getPolicyTD("Cancellation", "TestData"));
         cancelActionTab.submitTab();
 
         NotesAndAlertsSummaryPage.alertConfirmPolicyCancellation.verify.contains(alert);
