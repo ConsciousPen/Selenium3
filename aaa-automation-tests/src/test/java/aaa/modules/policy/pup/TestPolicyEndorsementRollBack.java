@@ -34,8 +34,6 @@ public class TestPolicyEndorsementRollBack extends PersonalUmbrellaBaseTest {
     public void testPolicyEndorsementRollBack() {
         mainApp().open();
 
-        createCustomerIndividual();
-
         getCopiedPolicy();
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();

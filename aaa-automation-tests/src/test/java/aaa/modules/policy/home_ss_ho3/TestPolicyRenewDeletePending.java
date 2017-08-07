@@ -27,8 +27,6 @@ public class TestPolicyRenewDeletePending extends HomeSSHO3BaseTest {
     public void testPolicyRenewDeletePending() {
         mainApp().open();
 
-        createCustomerIndividual();
-
         getCopiedPolicy();
 
         log.info("TEST: Delete Pending Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());

@@ -28,8 +28,6 @@ public class TestPolicyEndorsementDeclineByCustomer extends AutoSSBaseTest {
     public void testPolicyEndorsementDeclineByCustomer() {
         mainApp().open();
 
-        createCustomerIndividual();
-
         getCopiedPolicy();
 
         log.info("TEST: Decline By Customer Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());

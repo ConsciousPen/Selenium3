@@ -38,8 +38,6 @@ public class TestPolicyDoNotRenewWithRenew extends PersonalUmbrellaBaseTest {
     public void testPolicyDoNotRenewWithRenew() {
         mainApp().open();
 
-        createCustomerIndividual();
-
         getCopiedPolicy();
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();

@@ -27,8 +27,6 @@ public class TestPolicyEndorsementDeletePending extends PersonalUmbrellaBaseTest
     public void testPolicyEndorsementDeletePending() {
         mainApp().open();
 
-        createCustomerIndividual();
-
         getCopiedPolicy();
 
         log.info("TEST: Delete Pending Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());

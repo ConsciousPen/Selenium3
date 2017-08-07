@@ -29,8 +29,6 @@ public class TestPolicyReinstatementWithLapse extends PersonalUmbrellaBaseTest {
     public void testPolicyReinstatementWithLapse() {
         mainApp().open();
 
-        createCustomerIndividual();
-
         getCopiedPolicy();
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();

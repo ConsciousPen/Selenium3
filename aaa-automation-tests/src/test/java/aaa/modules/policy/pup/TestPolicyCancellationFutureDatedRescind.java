@@ -26,8 +26,6 @@ public class TestPolicyCancellationFutureDatedRescind extends PersonalUmbrellaBa
     public void testPolicyCancellationFutureDatedRescind() {
         mainApp().open();
 
-        createCustomerIndividual();
-
         getCopiedPolicy();
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
