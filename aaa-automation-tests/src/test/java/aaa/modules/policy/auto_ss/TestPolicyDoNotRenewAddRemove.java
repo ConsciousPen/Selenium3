@@ -31,8 +31,6 @@ public class TestPolicyDoNotRenewAddRemove extends AutoSSBaseTest {
     public void testPolicyDoNotRenewAddRemove() {
         mainApp().open();
 
-        createCustomerIndividual();
-
         getCopiedPolicy();
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
