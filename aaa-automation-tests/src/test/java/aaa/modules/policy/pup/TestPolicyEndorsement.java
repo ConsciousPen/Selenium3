@@ -18,8 +18,6 @@ public class TestPolicyEndorsement extends PersonalUmbrellaBaseTest {
 	public void testPolicyEndorsement() {
 		 mainApp().open();
 
-	     createCustomerIndividual();
-	       
 	     getCopiedPolicy();
 
 	     Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
