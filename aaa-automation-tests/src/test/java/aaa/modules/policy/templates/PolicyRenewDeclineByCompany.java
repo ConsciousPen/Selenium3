@@ -13,7 +13,7 @@ import aaa.modules.policy.PolicyBaseTest;
  * @name Test renew decline by customer
  * @scenario
  * 1. Create Customer
- * 2. Create Personal Umbrella Policy 
+ * 2. Create a Policy 
  * 3. Renew Policy
  * 4. Decline by customer
  * 5. Verify Policy status is 'Customer Declined'
@@ -31,18 +31,9 @@ public class PolicyRenewDeclineByCompany extends PolicyBaseTest{
 	     CustomAssert.enableSoftMode();
 	     log.info("TEST: Decline By Company Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
 	     
-	     if (getPolicyType().equals(PolicyType.AUTO_SS)){
+	     if (getPolicyType().equals(PolicyType.AUTO_SS) || getPolicyType().equals(PolicyType.AUTO_CA_SELECT) || getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)){
 	    	 policy.renew().perform(new SimpleDataProvider());
-	     }
-	     
-	     else if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)){
-	    	 policy.renew().perform(new SimpleDataProvider());
-	     }
-	     
-	     else if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)){
-	    	 policy.renew().perform(new SimpleDataProvider());
-	     }
-	     
+	     }	     
 	     else {
 	    	  policy.renew().performAndExit(new SimpleDataProvider());
 	     }   
