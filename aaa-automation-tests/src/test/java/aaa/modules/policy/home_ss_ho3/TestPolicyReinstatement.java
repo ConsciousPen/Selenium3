@@ -2,9 +2,9 @@ package aaa.modules.policy.home_ss_ho3;
 
 import org.testng.annotations.Test;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.home_ss.HomeSSPolicyActions;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 /**
@@ -28,19 +28,21 @@ public class TestPolicyReinstatement extends HomeSSHO3BaseTest {
 		mainApp().open();
 
 		getCopiedPolicy();
+		
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
-		String tdName = this.getClass().getSimpleName();
-
-		new HomeSSPolicyActions.Cancel().perform(getPolicyTD(tdName, "TestData_Cancellation"));
+		TestData td_cancellation = getTestSpecificTD("TestData_Cancellation");
+		TestData td_reinstate = getTestSpecificTD("TestData_Reinstatement");
+		
+		policy.cancel().perform(td_cancellation);
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
 		log.info("TEST: HSS Policy #" + policyNumber + "is cancelled");
 
-		new HomeSSPolicyActions.Reinstate().perform(getPolicyTD(tdName, "TestData_Reinstatement"));
-
+		policy.reinstate().perform(td_reinstate);
+		
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		log.info("TEST: HSS Policy #" + policyNumber + "is reinstated");

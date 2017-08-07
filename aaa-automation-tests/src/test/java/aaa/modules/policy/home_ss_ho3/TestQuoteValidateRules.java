@@ -45,8 +45,6 @@ import toolkit.utils.TestInfo;
  **/
 public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
 	
-	private TestData td = getPolicyTD("DataGather", "TestData");
-		
 	@Test
     @TestInfo(component = "Quote.HomeSS")
     public void testPolicyFuturedated() {
@@ -54,6 +52,7 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         
         createCustomerIndividual();
 
+        TestData td = getPolicyTD("DataGather", "TestData");
         TestData effective_date_today_plus_10_days = getTestSpecificTD("TestData_TodayPlus10Days");
         TestData effective_date_today_plus_91_days = getTestSpecificTD("TestData_TodayPlus91Days");
         		
@@ -82,6 +81,7 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         
         createCustomerIndividual();
         
+        TestData td = getPolicyTD("DataGather", "TestData");
         TestData effective_date_today_minus_10_days = getTestSpecificTD("TestData_TodayMinus10Days");
         TestData effective_date_today_minus_3_days = getTestSpecificTD("TestData_TodayMinus3Days");
         

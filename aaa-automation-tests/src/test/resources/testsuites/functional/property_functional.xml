@@ -17,25 +17,23 @@
 	<test name="UT HSS Functional Tests">
 		<parameter name="state" value="UT" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
-			<class
-				name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="UT PUP Functional Tests">
 		<parameter name="state" value="UT" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -43,22 +41,26 @@
 	<test name="AZ HSS Functional Tests">
 		<parameter name="state" value="AZ" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="AZ PUP Functional Tests">
 		<parameter name="state" value="AZ" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -66,22 +68,26 @@
 	<test name="CO HSS Functional Tests">
 		<parameter name="state" value="CO" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="CO PUP Functional Tests">
 		<parameter name="state" value="CO" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -89,22 +95,26 @@
 	<test name="CT HSS Functional Tests">
 		<parameter name="state" value="CT" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="CT PUP Functional Tests">
 		<parameter name="state" value="CT" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -112,22 +122,26 @@
 	<test name="DC HSS Functional Tests">
 		<parameter name="state" value="DC" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="DC PUP Functional Tests">
 		<parameter name="state" value="DC" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -135,22 +149,26 @@
 	<test name="DE HSS Functional Tests">
 		<parameter name="state" value="DE" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="DE PUP Functional Tests">
 		<parameter name="state" value="DE" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -158,22 +176,26 @@
 	<test name="ID HSS Functional Tests">
 		<parameter name="state" value="ID" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="ID PUP Functional Tests">
 		<parameter name="state" value="ID" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -181,22 +203,26 @@
 	<test name="IN HSS Functional Tests">
 		<parameter name="state" value="IN" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="IN PUP Functional Tests">
 		<parameter name="state" value="IN" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -204,22 +230,26 @@
 	<test name="KS HSS Functional Tests">
 		<parameter name="state" value="KS" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="KS PUP Functional Tests">
 		<parameter name="state" value="KS" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -227,22 +257,26 @@
 	<test name="KY HSS Functional Tests">
 		<parameter name="state" value="KY" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="KY PUP Functional Tests">
 		<parameter name="state" value="KY" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -250,22 +284,26 @@
 	<test name="MD HSS Functional Tests">
 		<parameter name="state" value="MD" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="MD PUP Functional Tests">
 		<parameter name="state" value="MD" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -273,22 +311,26 @@
 	<test name="MT HSS Functional Tests">
 		<parameter name="state" value="MT" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="MT PUP Functional Tests">
 		<parameter name="state" value="MT" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -296,22 +338,26 @@
 	<test name="NJ HSS Functional Tests">
 		<parameter name="state" value="NJ" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="NJ PUP Functional Tests">
 		<parameter name="state" value="NJ" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -319,22 +365,26 @@
 	<test name="NV HSS Functional Tests">
 		<parameter name="state" value="NV" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="NV PUP Functional Tests">
 		<parameter name="state" value="NV" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -342,22 +392,26 @@
 	<test name="NY HSS Functional Tests">
 		<parameter name="state" value="NY" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="NY PUP Functional Tests">
 		<parameter name="state" value="NY" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -365,22 +419,26 @@
 	<test name="OH HSS Functional Tests">
 		<parameter name="state" value="OH" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="OH PUP Functional Tests">
 		<parameter name="state" value="OH" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -388,22 +446,26 @@
 	<test name="OK HSS Functional Tests">
 		<parameter name="state" value="OK" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="OK PUP Functional Tests">
 		<parameter name="state" value="OK" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -411,22 +473,26 @@
 	<test name="OR HSS Functional Tests">
 		<parameter name="state" value="OR" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="OR PUP Functional Tests">
 		<parameter name="state" value="OR" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -434,22 +500,26 @@
 	<test name="PA HSS Functional Tests">
 		<parameter name="state" value="PA" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="PA PUP Functional Tests">
 		<parameter name="state" value="PA" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -457,22 +527,26 @@
 	<test name="SD HSS Functional Tests">
 		<parameter name="state" value="SD" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="SD PUP Functional Tests">
 		<parameter name="state" value="SD" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -480,22 +554,26 @@
 	<test name="VA HSS Functional Tests">
 		<parameter name="state" value="VA" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="VA PUP Functional Tests">
 		<parameter name="state" value="VA" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -503,22 +581,26 @@
 	<test name="WV HSS Functional Tests">
 		<parameter name="state" value="WV" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="WV PUP Functional Tests">
 		<parameter name="state" value="WV" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -526,22 +608,26 @@
 	<test name="WY HSS Functional Tests">
 		<parameter name="state" value="WY" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteValidateRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyMembershipDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyHolderDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
+			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
 		</classes>
 	</test>
 
 	<test name="WY PUP Functional Tests">
 		<parameter name="state" value="WY" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
@@ -550,8 +636,6 @@
 	<test name="CA HSS Functional Tests">
 		<parameter name="state" value="CA" />
 		<classes>
-			<class name="aaa.modules.policy.home_ca_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ca_ho3.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.home_ca_ho4.TestPolicyCreateHo4Full" />
 			<class name="aaa.modules.policy.home_ca_ho6.TestPolicyCreationCaHO6Full" />
 		</classes>
@@ -560,8 +644,6 @@
 	<test name="CA PUP Functional Tests">
 		<parameter name="state" value="CA" />
 		<classes>
-			<class name="aaa.modules.policy.pup.TestPolicyCreation" />
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement" />
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
