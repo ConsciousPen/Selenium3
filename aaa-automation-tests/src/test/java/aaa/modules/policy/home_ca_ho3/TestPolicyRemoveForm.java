@@ -31,7 +31,7 @@ public class TestPolicyRemoveForm extends HomeCaHO3BaseTest {
       */
 
     @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @TestInfo(component = "Policy.HomeCA")
     public void testPolicyRemoveForm() {
 
         mainApp().open();
