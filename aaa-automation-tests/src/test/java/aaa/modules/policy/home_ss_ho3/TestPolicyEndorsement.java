@@ -4,7 +4,13 @@ package aaa.modules.policy.home_ss_ho3;
 
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
+
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.main.enums.ProductConstants;
+import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.TestData;
@@ -48,7 +54,14 @@ public class TestPolicyEndorsement extends HomeSSHO3BaseTest {
 		log.info("TEST: Endorsement for HSS Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
 		
 		TestData td = getTestSpecificTD("TestData").adjust(getPolicyTD("Endorsement", "TestData"));
-		policy.endorse().performAndFill(td);
+		policy.endorse().perform(td);
+		
+		policy.getDefaultView().fillUpTo(td, ApplicantTab.class, true);
+
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
+		
+		policy.getDefaultView().fillFromTo(td, ReportsTab.class, BindTab.class);
+		new BindTab().submitTab();
 		
         CustomAssert.enableSoftMode();
         

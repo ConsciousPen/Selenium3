@@ -16,7 +16,7 @@ TestData_UT: {
 GeneralTab: {
   State: 'UT',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '/today:MM/dd/yyyy', 
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
