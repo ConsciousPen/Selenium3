@@ -30,7 +30,6 @@ public class TestPolicyEndorsementOos extends PersonalUmbrellaBaseTest {
     @TestInfo(component = "Policy.PUP")
     public void testPolicyEndorsementOos() {
         mainApp().open();
-        createCustomerIndividual();
         getCopiedPolicy();
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();

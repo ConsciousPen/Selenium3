@@ -29,8 +29,6 @@ public class TestPolicyDoNotRenewAddRemove extends PersonalUmbrellaBaseTest{
 	  public void testPolicyDoNotRenewAddRemove() {
 		    mainApp().open();
 
-	        createCustomerIndividual();
-
 	        getCopiedPolicy();	        
 	        		    		    
 		    String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();

@@ -28,8 +28,6 @@ public class TestPolicyEndorsementDeclineByCompany extends AutoSSBaseTest {
     public void testPolicyEndorsementDeclineByCompany() {
         mainApp().open();
 
-        createCustomerIndividual();
-
         getCopiedPolicy();
 
         log.info("TEST: Decline By Company Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());

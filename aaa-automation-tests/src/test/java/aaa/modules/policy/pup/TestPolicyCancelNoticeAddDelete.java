@@ -28,8 +28,6 @@ public class TestPolicyCancelNoticeAddDelete extends PersonalUmbrellaBaseTest {
     public void testPolicyCancelNoticeAddDelete() {
         mainApp().open();
 
-        createCustomerIndividual();
-
         getCopiedPolicy();
 
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();

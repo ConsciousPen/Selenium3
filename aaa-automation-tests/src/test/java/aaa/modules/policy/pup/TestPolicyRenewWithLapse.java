@@ -27,8 +27,6 @@ public class TestPolicyRenewWithLapse extends PersonalUmbrellaBaseTest {
     public void testPolicyRenewWithLapse() {
         mainApp().open();
 
-        createCustomerIndividual();
-
         getCopiedPolicy();
 
         log.info("TEST: Manual Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
