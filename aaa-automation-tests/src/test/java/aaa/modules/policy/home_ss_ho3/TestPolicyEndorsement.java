@@ -39,7 +39,7 @@ public class TestPolicyEndorsement extends HomeSSHO3BaseTest {
 	public void testPolicyEndorsement(){
 		mainApp().open();
 
-		//getCopiedPolicy();
+		//getCopiedPolicy(); // fails by timeout
 		createCustomerIndividual();
 		createPolicy();
 		

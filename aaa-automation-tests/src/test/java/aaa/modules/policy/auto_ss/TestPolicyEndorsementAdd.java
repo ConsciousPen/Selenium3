@@ -34,21 +34,19 @@ public class TestPolicyEndorsementAdd extends AutoSSBaseTest {
 
         log.info("TEST: Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
         
-        TestData endorsement_td = getTestSpecificTD("TestData");
-        policy.createEndorsement(endorsement_td.adjust(getPolicyTD("Endorsement", "TestData")));
-
+        TestData endorsementTd = getTestSpecificTD("TestData");
+        policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
 
         CustomAssert.enableSoftMode();
-        
+
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        
         PolicySummaryPage.tablePolicyDrivers.verify.rowsCount(2);
         PolicySummaryPage.tablePolicyVehicles.verify.rowsCount(2);
         PolicySummaryPage.tableInsuredInformation.verify.rowsCount(2);
-        
         CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
-        
+
+        CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
     

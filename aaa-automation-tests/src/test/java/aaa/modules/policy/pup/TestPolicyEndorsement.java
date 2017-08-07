@@ -1,9 +1,7 @@
 package aaa.modules.policy.pup;
 
 import org.testng.annotations.Test;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
-
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
@@ -12,32 +10,30 @@ import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
 public class TestPolicyEndorsement extends PersonalUmbrellaBaseTest {
-	
+
 	@Test
 	@TestInfo(component = "Policy.PUP")
 	public void testPolicyEndorsement() {
-		 mainApp().open();
+		mainApp().open();
 
-	     getCopiedPolicy();
+		getCopiedPolicy();
 
-	     Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
-			
-	     log.info("TEST: Flat Endorsement for PUP Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-	     
-	     TestData endorsement_td = getTestSpecificTD("TestData");
-	     policy.createEndorsement(endorsement_td.adjust(getPolicyTD("Endorsement", "TestData")));
-	     
-	     CustomAssert.enableSoftMode();
-	        
-	     PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-	     PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-	        
-	     //PolicySummaryPage.tableOtherUnderlyingRisks.verify.rowsCount(2);
-	        
-	     CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
-	        
-	     CustomAssert.assertAll();
-   
+		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
+
+		log.info("TEST: Flat Endorsement for PUP Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
+
+		TestData endorsementTd = getTestSpecificTD("TestData");
+		policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
+
+		CustomAssert.enableSoftMode();
+
+		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		//PolicySummaryPage.tableOtherUnderlyingRisks.verify.rowsCount(2);
+
+		CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
-
 }
