@@ -29,14 +29,9 @@ import toolkit.verification.CustomAssert;
  */
 public abstract class PolicyEndorsementRollBack extends PolicyBaseTest {
 
-	@Test
-    @TestInfo(component = "Policy.AutoCA")
     public void testPolicyEndorsementRollBack() {
     	mainApp().open();
-
-        //createCustomerIndividual();
         getCopiedPolicy();
-        //createPolicy();
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
