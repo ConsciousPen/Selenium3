@@ -203,11 +203,13 @@ public final class HomeSSMetaData {
 
 		public static final AssetDescriptor<FillableTable> AAA_MEMBERSHIP_REPORT = declare("AAAMembershipReport", FillableTable.class, AaaMembershipReportRow.class, By.xpath("//table[@id='policyDataGatherForm:membershipReports']"));
 		public static final AssetDescriptor<FillableTable> INSURANCE_SCORE_REPORT = declare("InsuranceScoreReport", FillableTable.class, InsuranceScoreReportRow.class, By.xpath("//table[@id='policyDataGatherForm:creditReports']"));
+		public static final AssetDescriptor<FillableTable> INSURANCE_SCORE_OVERRIDE = declare("InsuranceScoreOverride", FillableTable.class, InsuranceScoreOverrideRow.class, By.xpath("//table[@id='policyDataGatherForm:creditScoreOverride']"));
 		public static final AssetDescriptor<FillableTable> FIRELINE_REPORT = declare("FirelineReport", FillableTable.class, FirelineReportRow.class, By.xpath("//table[@id='policyDataGatherForm:firelineReportTable']"));
 		public static final AssetDescriptor<FillableTable> RISK_METER_REPORT = declare("RiskMeterReport", FillableTable.class, RiskMeterReportRow.class, By.xpath("//table[@id='policyDataGatherForm:riskMeterReportTable']"));
 		public static final AssetDescriptor<FillableTable> PUBLIC_PROTECTION_CLASS = declare("PublicProtectionClass", FillableTable.class, PublicProtectionClassRow.class, By.xpath("//table[@id='policyDataGatherForm:ppcReportTable']"));
 		public static final AssetDescriptor<FillableTable> CLUE_REPORT = declare("CLUEreport", FillableTable.class, CLUEreportRow.class, By.xpath("//table[@id='policyDataGatherForm:orderClueReports']"));
 		public static final AssetDescriptor<FillableTable> ISO360_REPORT = declare("ISO360Report", FillableTable.class, ISO360ReportRow.class, By.xpath("//table[@id='policyDataGatherForm:iso360ReportTable']"));
+		//public static final AssetDescriptor<StaticElement> ADVERSELY_IMPACTED_APPLIED_MESSAGE = declare("Adversely Impacted was applied to the policy effective", StaticElement.class, By.xpath("//span[@id='policyDataGatherForm:warningMessage']")); 
 
 		public static final class RiskMeterReportRow extends MetaData {
 			public static final AssetDescriptor<StaticElement> DWELLING_ADDRESS = declare("Dwelling Address", StaticElement.class);
@@ -239,6 +241,16 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<StaticElement> BAND_NUMBER = declare("Band Number", StaticElement.class);
 			public static final AssetDescriptor<RadioGroup> CUSTOMER_AGREEMENT = declare("Customer Agreement", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:customerRadio']"));
 			public static final AssetDescriptor<Link> REPORT = declare("Report", Link.class);
+		}
+		
+		public static final class InsuranceScoreOverrideRow extends MetaData {
+			public static final AssetDescriptor<StaticElement> NAMED_INSURED = declare("Named Insured", StaticElement.class); 
+			public static final AssetDescriptor<StaticElement> INSURANCE_SCORE = declare("Insurance Score", StaticElement.class); 
+			public static final AssetDescriptor<StaticElement> OVERRIDE_DATE = declare("Override Date", StaticElement.class); 
+			public static final AssetDescriptor<StaticElement> REASON_FOR_OVERRIDE = declare("Reason for Override", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> OVERRIDDEN_BY = declare("Overridden by", StaticElement.class); 
+			public static final AssetDescriptor<Link> ACTION = declare("Action", Link.class); 
+			public static final AssetDescriptor<AssetList> EDIT_INSURANCE_SCORE = declare("EditInsuranceScoreDialog", AssetList.class, EditInsuranceScoreDialog.class);
 		}
 
 		public static final class FirelineReportRow extends MetaData {
@@ -278,9 +290,10 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<Link> REPORT = declare("Report", Link.class);
 		}
 
-		public static final class HssOverrideInsuranceScore extends MetaData {
-			public static final AssetDescriptor<TextBox> SCORE_AFTER_OVERRIDE = declare("Score after override", TextBox.class);
-			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class);
+		public static final class EditInsuranceScoreDialog extends MetaData {
+			public static final AssetDescriptor<TextBox> SCORE_AFTER_OVERRIDE = declare("Score after override", TextBox.class, By.xpath("//input[@id='editInsuranceScoreFrom:newScore']"));
+			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class, By.xpath("//select[@id='editInsuranceScoreFrom:billingType_billing']"));
+			public static final AssetDescriptor<Button> BTN_SAVE = declare("Save", Button.class, By.xpath("//input[@id='editInsuranceScoreFrom:saveButton']"));
 		}
 
 		public static final class HssPPCDialog extends MetaData {

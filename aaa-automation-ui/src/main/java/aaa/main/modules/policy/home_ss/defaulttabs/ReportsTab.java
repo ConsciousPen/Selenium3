@@ -7,6 +7,7 @@ package aaa.main.modules.policy.home_ss.defaulttabs;
 import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
 
 /**
@@ -27,6 +28,7 @@ public class ReportsTab extends Tab {
 	public Table tblClueReport = new Table(By.xpath("//table[@id='policyDataGatherForm:orderClueReports']"));
 	public Table tblISO360Report = new Table(By.xpath("//table[@id='policyDataGatherForm:iso360ReportTable']"));
 	public Table tblRiskMeterReport = new Table(By.xpath("//table[@id='policyDataGatherForm:riskMeterReportTable']"));
+	public StaticElement lblAdversalyImpactedMessage = new StaticElement(By.xpath("//span[@id='policyDataGatherForm:warningMessage']"));
 
 	public ReportsTab() {
 		super(HomeSSMetaData.ReportsTab.class);
