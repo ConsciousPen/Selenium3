@@ -9,11 +9,10 @@ import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.toolkit.webdriver.customcontrols.AdvancedTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.composite.table.Table;
-import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -26,7 +25,8 @@ import toolkit.webdriver.controls.waiters.Waiters;
  */
 public class DriverTab extends Tab {
 	
-	public static Table tblDriverList = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_Driver_body']//table"));
+	public static AdvancedTable tableDriverList = new AdvancedTable(By.id("policyDataGatherForm:dataGatherView_ListDriver"));
+	public static AdvancedTable tableActivityInformationList = new AdvancedTable(By.id("policyDataGatherForm:dataGatherView_ListDrivingRecord"));
 	   
 	public DriverTab() {
 		super(AutoSSMetaData.DriverTab.class);
@@ -47,18 +47,5 @@ public class DriverTab extends Tab {
 	public Tab submitTab() {
 		buttonNext.click();
 		return this;
-	}
-
-	public void removeDriver(int index) {
-		if (tblDriverList.isPresent() && tblDriverList.getRow(index).isPresent()) {
-			tblDriverList.getRow(index).getCell(5).controls.links.get("Remove").click(Waiters.AJAX);
-			Page.dialogConfirmation.confirm();
-		}
-	}
-
-	public void viewDriver(int index) {
-		if (tblDriverList.isPresent() && tblDriverList.getRow(index).isPresent()) {
-			tblDriverList.getRow(index).getCell(5).controls.links.get("View/Edit").click(Waiters.AJAX);
-		}
 	}
 }

@@ -151,7 +151,7 @@ public class TestQuotePrefill extends AutoSSBaseTest {
 
 		driverTab.verifyFieldHasValue(DriverTab.NAMED_INSURED.getLabel(), expectedNI_1);
 
-		driverTab.viewDriver(2);
+		aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab.tableDriverList.selectRow(2);
 		driverTab.verifyFieldHasValue(DriverTab.NAMED_INSURED.getLabel(), expectedNI_2);
 
 		//check Vehicle tab

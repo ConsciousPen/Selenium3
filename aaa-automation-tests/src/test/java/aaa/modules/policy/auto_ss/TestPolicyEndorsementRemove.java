@@ -48,7 +48,7 @@ public class TestPolicyEndorsementRemove extends AutoSSBaseTest {
 		new GeneralTab().removeInsured(2);
 
 		//3. driver tab is opened, driver which is related to removed insured is removed automatically
-		DriverTab.tblDriverList.verify.rowsCount(1);
+		DriverTab.tableDriverList.verify.rowsCount(1);
 		
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		

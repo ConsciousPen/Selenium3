@@ -5,7 +5,6 @@ import org.openqa.selenium.support.pagefactory.ByChained;
 import aaa.common.pages.Page;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
@@ -13,7 +12,6 @@ import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
-import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -42,19 +40,10 @@ public class PersonalPropertyMultiAssetList extends MultiAssetList {
 	}
 
 	@Override
-	public BaseElement<?, ?> getControl(String assetName) {
-		expandSection();
-		return super.getAsset(assetName);
-	}
-
-	@Override
 	protected void selectSection(int index) {
 		index++;
 		expandSection();
-		Row row = tableItemsList.getRow(index);
-		if (row.isPresent() && !isRowSelected(index)) {
-			row.getCell("Modify").controls.links.get("View/Edit").click();
-		}
+		tableItemsList.selectRow(index);
 	}
 
 	@Override
@@ -85,15 +74,16 @@ public class PersonalPropertyMultiAssetList extends MultiAssetList {
 	}
 
 	public void removeSection(int index) {
+		index++;
 		expandSection();
 		if (index == 0) {
 			CustomAssert.assertTrue(buttonRemove.isPresent() && buttonRemove.isVisible());
 			buttonRemove.click();
+			Page.dialogConfirmation.confirm();
 		} else {
 			CustomAssert.assertTrue(isTableVisible(tableItemsList) && tableItemsList.isVisible());
-			tableItemsList.getRow(++index).getCell("Modify").controls.links.get("Remove").click();
+			tableItemsList.removeRow(index);
 		}
-		Page.dialogConfirmation.confirm();
 	}
 
 	public void removeAll() {
@@ -111,11 +101,6 @@ public class PersonalPropertyMultiAssetList extends MultiAssetList {
 		if (isSectionExpanded()) {
 			linkExpandOrCollapseSection.click();
 		}
-	}
-
-	private boolean isRowSelected(int index) {
-		StaticElement st = new StaticElement(new ByChained(tableItemsList.getLocator(), ByT.xpath(".//td[text()='%s']").format(index), By.xpath(".//following-sibling::td[1]/span")));
-		return st.isPresent() && "textBold".equals(st.getAttribute("class"));
 	}
 
 	private boolean isTableVisible(Table table) {
