@@ -4,9 +4,13 @@ package aaa.modules.policy;
 
 import java.util.Map;
 
+import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
+import aaa.main.metadata.policy.PersonalUmbrellaMetaData.GeneralTab.PolicyInfo;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.pup.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import toolkit.datax.TestData;
+import toolkit.utils.datetime.DateTimeUtils;
 
 public class PersonalUmbrellaBaseTest extends PolicyBaseTest {
 
@@ -21,5 +25,14 @@ public class PersonalUmbrellaBaseTest extends PolicyBaseTest {
 	protected TestData adjustWithRealPolicies(TestData td, Map<String, String> policies) {
 		PrefillTab prefillTab = new PrefillTab();
 		return prefillTab.adjustWithRealPolicies(td, policies);
+	}
+	
+	protected TestData getBackDatedPolicyTD() {
+		return getBackDatedPolicyTD(DateTimeUtils.getCurrentDateTime().minusDays(2).format(DateTimeUtils.MM_DD_YYYY));
+	}
+
+	protected TestData getBackDatedPolicyTD(String date) {
+		String effDateKey = TestData.makeKeyPath(new GeneralTab().getMetaKey(), PersonalUmbrellaMetaData.GeneralTab.POLICY_INFO.getLabel(), PolicyInfo.EFFECTIVE_DATE.getLabel());
+		return getPolicyTD().adjust(effDateKey, date);
 	}
 }
