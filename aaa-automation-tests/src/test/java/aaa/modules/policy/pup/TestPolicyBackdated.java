@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import aaa.common.Constants.States;
+import aaa.common.enums.Constants.States;
 import aaa.helpers.EntitiesHolder;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
@@ -66,7 +66,7 @@ public class TestPolicyBackdated extends PersonalUmbrellaBaseTest {
 		synchronized (state) {
 			PolicyType type;
 			PolicyType typeAuto = null;
-			if (state.equals(States.CA.get())) {
+			if (state.equals(States.CA)) {
 				type = PolicyType.HOME_CA_HO3;
 				typeAuto = PolicyType.AUTO_CA_SELECT;
 			} else

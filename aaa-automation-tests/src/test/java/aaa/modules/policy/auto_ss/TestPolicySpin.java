@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import aaa.common.enums.SearchEnum;
+import aaa.main.enums.SearchEnum;
 import aaa.common.pages.SearchPage;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;

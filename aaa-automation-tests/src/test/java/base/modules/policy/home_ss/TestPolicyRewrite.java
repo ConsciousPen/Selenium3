@@ -5,8 +5,8 @@ package base.modules.policy.home_ss;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import aaa.common.enums.SearchEnum.SearchBy;
-import aaa.common.enums.SearchEnum.SearchFor;
+import aaa.main.enums.SearchEnum.SearchBy;
+import aaa.main.enums.SearchEnum.SearchFor;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;

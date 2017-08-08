@@ -7,7 +7,7 @@ import org.openqa.selenium.By;
 import aaa.admin.metadata.security.ProfileMetaData;
 import aaa.admin.pages.AdminPage;
 import aaa.main.enums.ActionConstants;
-import aaa.main.enums.AdminConstants;
+import aaa.admin.constants.AdminConstants;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.Button;
