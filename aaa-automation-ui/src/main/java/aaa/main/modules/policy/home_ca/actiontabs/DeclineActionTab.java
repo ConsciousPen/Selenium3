@@ -5,7 +5,6 @@
 package aaa.main.modules.policy.home_ca.actiontabs;
 
 import aaa.common.ActionTab;
-import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeCaMetaData;
 
 /**
@@ -19,9 +18,9 @@ public class DeclineActionTab extends ActionTab {
         super(HomeCaMetaData.DeclineActionTab.class);
     }
 
-    @Override
-    public Tab submitTab() {
-        buttonOk.click();
-        return this;
-    }
+//    @Override
+//    public Tab submitTab() {
+//        buttonOk.click();
+//        return this;
+//    }
 }

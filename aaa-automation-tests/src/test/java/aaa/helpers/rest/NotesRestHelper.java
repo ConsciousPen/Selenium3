@@ -6,7 +6,7 @@ import static aaa.helpers.rest.RestServiceHelper.RESPONSES_TD_KEY;
 import java.util.List;
 
 import aaa.common.Tab;
-import aaa.main.enums.AdminConstants;
+import aaa.admin.constants.AdminConstants;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.rest.IModel;
 import aaa.rest.RESTServiceType;

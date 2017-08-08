@@ -1,8 +1,8 @@
 package aaa.modules.policy.templates;
 
 import aaa.common.enums.NavigationEnum;
-import aaa.common.enums.SearchEnum.SearchBy;
-import aaa.common.enums.SearchEnum.SearchFor;
+import aaa.main.enums.SearchEnum.SearchBy;
+import aaa.main.enums.SearchEnum.SearchFor;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.MyWorkConstants.MyWorkTasksTable;

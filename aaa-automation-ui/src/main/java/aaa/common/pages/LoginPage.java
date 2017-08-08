@@ -51,6 +51,7 @@ public class LoginPage extends Page implements ILogin {
 	public static Link lnkLogout = new Link(By.xpath("//*[@id='logoutForm:logout_link']"), Waiters.AJAX);
 	public static Dialog logoutDialog = new Dialog("//div[@id='logoutConfirmDialogDialog']");
 	public static Link startPage = new Link(By.xpath("//form[@id='loginForm']//a[contains(.,'Start Page.')]"), Waiters.AJAX);
+	public static Link timeOutStartPage = new Link(By.xpath("//input[contains(.,'Start Page.')]"), Waiters.AJAX);
 	public static Link lnkSwitchToAdmin = new Link(By.xpath("//*[@id='logoutForm:switchToAdmin']"), Waiters.AJAX);
 	public static AssetList login = new AssetList(By.tagName("body"), LoginPageMeta.class);
 
@@ -99,8 +100,12 @@ public class LoginPage extends Page implements ILogin {
 			lnkLogout.click();
 			logoutDialog.confirm();
 		}
-		if (closeSession.isPresent())
+		if(timeOutStartPage.isPresent()) {
+			timeOutStartPage.click();
+		}
+		if (closeSession.isPresent()) {
 			closeSession.click();
+		}
 	}
 
 	private void startLogin() {

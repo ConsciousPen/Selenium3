@@ -8,7 +8,7 @@ import aaa.admin.metadata.security.RoleMetaData;
 import aaa.admin.pages.AdminPage;
 import aaa.common.components.Dialog;
 import aaa.main.enums.ActionConstants;
-import aaa.main.enums.AdminConstants;
+import aaa.admin.constants.AdminConstants;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.StaticElement;

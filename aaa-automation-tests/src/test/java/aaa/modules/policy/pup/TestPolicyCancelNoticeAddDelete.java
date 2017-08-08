@@ -4,9 +4,8 @@ package aaa.modules.policy.pup;
 
 import org.testng.annotations.Test;
 
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.PersonalUmbrellaBaseTest;
-import toolkit.datax.impl.SimpleDataProvider;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.policy.templates.PolicyCancelNoticeAddDelete;
 import toolkit.utils.TestInfo;
 
 /**
@@ -21,23 +20,18 @@ import toolkit.utils.TestInfo;
  * 6. Verify 'Cancel Notice' flag is not displayed in the policy overview header
  * @details
  */
-public class TestPolicyCancelNoticeAddDelete extends PersonalUmbrellaBaseTest {
+public class TestPolicyCancelNoticeAddDelete extends PolicyCancelNoticeAddDelete {
 
+    @Override
+    protected PolicyType getPolicyType() {
+        return PolicyType.PUP;
+    }
+    
+    @Override
     @Test
     @TestInfo(component = "Policy.PUP")
     public void testPolicyCancelNoticeAddDelete() {
-        mainApp().open();
 
-        getCopiedPolicy();
-
-        String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-
-        log.info("TEST: Cancel Notice for Policy #" + policyNumber);
-        policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData"));
-        PolicySummaryPage.labelCancelNotice.verify.present();
-
-        log.info("TEST: Delete Cancel Notice for Policy #" + policyNumber);
-        policy.deleteCancelNotice().perform(new SimpleDataProvider());
-        PolicySummaryPage.labelCancelNotice.verify.present(false);
+        super.testPolicyCancelNoticeAddDelete();
     }
 }

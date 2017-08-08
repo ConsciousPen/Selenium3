@@ -69,4 +69,10 @@ public class BillingSummaryPage extends SummaryPage {
     public static Dollar getMinimumDue() {
     	return new Dollar(tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.MINIMUM_DUE).getValue());
     }
+
+    public static void showPriorTerms() {
+        if (buttonShowPriorTerms.isPresent() && buttonShowPriorTerms.isVisible() && buttonShowPriorTerms.isEnabled()) {
+            buttonShowPriorTerms.click();
+        }
+    }
 }

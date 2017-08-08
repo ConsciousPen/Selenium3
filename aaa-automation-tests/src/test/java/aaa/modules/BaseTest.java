@@ -10,23 +10,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.*;
 
 import com.exigen.ipb.etcsa.base.app.ApplicationFactory;
 import com.exigen.ipb.etcsa.base.app.MainApplication;
 import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
 
 import aaa.EntityLogger;
-import aaa.common.Constants;
-import aaa.common.Constants.States;
-import aaa.common.enums.SearchEnum;
-import aaa.common.enums.SearchEnum.SearchBy;
-import aaa.common.enums.SearchEnum.SearchFor;
+import aaa.common.enums.Constants;
+import aaa.common.enums.Constants.States;
+import aaa.main.enums.SearchEnum;
+import aaa.main.enums.SearchEnum.SearchBy;
+import aaa.main.enums.SearchEnum.SearchFor;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.metadata.LoginPageMeta;
 import aaa.common.pages.LoginPage;
@@ -103,13 +98,13 @@ public class BaseTest {
 	@BeforeMethod(alwaysRun=true)
 	public void beforeMethodStateConfiguration(@Optional("") String state) {
 		if (isStateCA()) {
-			setState(Constants.States.CA.get());
+			setState(Constants.States.CA);
 		} else if (StringUtils.isNotBlank(usState) && StringUtils.isBlank(state)) {
 			setState(usState);
 		} else if (StringUtils.isNotBlank(state)) {
 			setState(state);
 		} else {
-			setState(States.UT.get());
+			setState(States.UT);
 		}
 	}
 
@@ -128,14 +123,20 @@ public class BaseTest {
 	}
 
 	@AfterMethod(alwaysRun = true)
-	public void logout() {
+	private void logout() {
 		if (isCiModeEnabled) {
 			closeAllApps();
 		}
 	}
 
+	@AfterClass(alwaysRun = true)
+	private void closeBrowser() {
+		mainApp().close();
+		opReportApp().close();
+	}
+
 	@AfterSuite(alwaysRun = true)
-	public void afterSuite() {
+	private void afterSuite() {
 		if (isCiModeEnabled) {
 			closeAllApps();
 		}
@@ -261,7 +262,7 @@ public class BaseTest {
 	private String openDefaultPolicy(PolicyType policyType, String state) {
 		Assert.assertNotNull(policyType, "PolicyType is not set");
 		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), state);
-		String policyNumber = "";
+		String policyNumber;
 		synchronized (key) {
 			Integer count = policyCount.get(key);
 			if (count == null)
@@ -300,7 +301,7 @@ public class BaseTest {
 		synchronized (state) {
 			PolicyType type;
 			PolicyType typeAuto = null;
-			if (state.equals(States.CA.get())) {
+			if (state.equals(States.CA)) {
 				type = PolicyType.HOME_CA_HO3;
 				typeAuto = PolicyType.AUTO_CA_SELECT;
 			} else
@@ -342,7 +343,7 @@ public class BaseTest {
 	protected Map<String, String> getPrimaryPoliciesForPup(TestData tdHomeAdjustment, TestData tdAutoAdjustment) {
 		Map<String, String> policies = new LinkedHashMap<>();
 		String state = getState().intern();
-		if (state.equals(States.CA.get())) {
+		if (state.equals(States.CA)) {
 			TestData tdHome = testDataManager.policy.get(PolicyType.HOME_CA_HO3);
 			TestData tdHomeData = getStateTestData(tdHome, "DataGather", "TestData").adjust(tdHomeAdjustment);
 			PolicyType.HOME_CA_HO3.get().createPolicy(tdHomeData);
@@ -413,7 +414,7 @@ public class BaseTest {
 		return new SimpleDataProvider(td);
 	}
 
-	protected Boolean isStateCA() {
+	protected boolean isStateCA() {
 		return getPolicyType() != null && (getPolicyType().equals(PolicyType.HOME_CA_HO3) || getPolicyType().equals(PolicyType.AUTO_CA_SELECT) || getPolicyType().equals(PolicyType.CEA) || getPolicyType().equals(PolicyType.HOME_CA_DP3) || getPolicyType().equals(PolicyType.HOME_CA_HO4)
 				|| getPolicyType().equals(PolicyType.HOME_CA_HO6) || getPolicyType().equals(PolicyType.AUTO_CA_CHOICE));
 	}

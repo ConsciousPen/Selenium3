@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
-import aaa.common.enums.SearchEnum;
+import aaa.main.enums.SearchEnum;
 import aaa.common.metadata.SearchMetaData;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;

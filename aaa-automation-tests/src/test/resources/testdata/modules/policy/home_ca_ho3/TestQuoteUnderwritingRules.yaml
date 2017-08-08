@@ -1,0 +1,26 @@
+TestData_Wrong: {
+  UnderwritingAndApprovalTab: {
+    "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?": "No",
+    "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?":  "Yes",
+    "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+    "Is any gas water heater located in a garage?": "Yes",
+    "Are all water heaters strapped to the wall, or, if located in the garage, raised at least 18 inches from the floor?": "No",
+    "Do employees of any resident or applicant reside in the dwelling?": "Yes",
+    "Total number of part time and full time resident employees": 2,
+    "Is there a business on premises?": "Yes",
+    "Day Care?": "Yes",
+    "Is the dwelling located within 500 feet of bay or coastal waters?": "Yes",
+    "Do you have a license?": "No",
+    "Farming/Ranching?": "Yes",
+    "Is it a for-profit business?": "Yes",
+    "Incidental Business Occupancy?": "Yes",
+    "Others?": "Yes"
+  }
+}
+
+TestData_TotalNumber3: {
+  UnderwritingAndApprovalTab: {
+    "Total number of part time and full time resident employees": 3,
+    "Remarks": 'Remarks'
+  }
+}

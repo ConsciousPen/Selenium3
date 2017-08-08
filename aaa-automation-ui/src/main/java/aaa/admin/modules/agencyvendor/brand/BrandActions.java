@@ -9,7 +9,7 @@ import aaa.admin.modules.agencyvendor.brand.views.DefaultView;
 import aaa.admin.pages.agencyvendor.BrandPage;
 import aaa.common.AbstractAction;
 import aaa.common.Workspace;
-import aaa.main.enums.AdminConstants;
+import aaa.admin.constants.AdminConstants;
 import toolkit.datax.TestData;
 
 public final class BrandActions {

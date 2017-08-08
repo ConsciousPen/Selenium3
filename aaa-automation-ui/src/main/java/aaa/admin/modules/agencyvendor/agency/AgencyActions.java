@@ -8,7 +8,7 @@ import aaa.admin.modules.agencyvendor.agency.views.DefaultView;
 import aaa.admin.pages.agencyvendor.AgencyVendorPage;
 import aaa.common.AbstractAction;
 import aaa.common.Workspace;
-import aaa.main.enums.AdminConstants;
+import aaa.admin.constants.AdminConstants;
 import toolkit.datax.TestData;
 
 public final class AgencyActions {

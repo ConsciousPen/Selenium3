@@ -3,17 +3,11 @@
 package aaa.modules.policy.home_ss_ho3;
 
 import org.testng.annotations.Test;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
-
 import aaa.main.enums.ProductConstants;
-import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
-import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 
 /**
@@ -36,11 +30,7 @@ public class TestPolicyEndorsementMidTerm extends HomeSSHO3BaseTest {
 		mainApp().open();
 		
 		createCustomerIndividual();
-		String effDateKey = TestData.makeKeyPath(new GeneralTab().getMetaKey(), HomeSSMetaData.GeneralTab.EFFECTIVE_DATE.getLabel());
-		String propertyDateKey = TestData.makeKeyPath(new GeneralTab().getMetaKey(), HomeSSMetaData.GeneralTab.PROPERTY_INSURANCE_BASE_DATE_WITH_CSAA_IG.getLabel());
-		String date = DateTimeUtils.getCurrentDateTime().minusDays(2).format(DateTimeUtils.MM_DD_YYYY);
-		TestData tdPolicyCreation = getPolicyTD("DataGather", "TestData").adjust(effDateKey, date).adjust(propertyDateKey, date);
-		createPolicy(tdPolicyCreation);
+		createPolicy(getBackDatedPolicyTD());
 
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
