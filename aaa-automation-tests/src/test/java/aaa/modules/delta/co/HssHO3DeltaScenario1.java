@@ -1,4 +1,4 @@
-package aaa.modules.policy.delta_co;
+package aaa.modules.delta.co;
 
 import org.testng.annotations.Test;
 
