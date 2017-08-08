@@ -26,6 +26,13 @@ TestData_Minus1Week: {
   }
 }
 
+TestData_Plus1Day: {
+  EndorsementActionTab: {
+    Endorsement Date: /today+1d,
+    Endorsement Reason: 'Other Interest(s)/Mortgagees'
+  }
+}
+
 TestData_Minus1Day: {
   EndorsementActionTab: {
     Endorsement Date: /today-1d,

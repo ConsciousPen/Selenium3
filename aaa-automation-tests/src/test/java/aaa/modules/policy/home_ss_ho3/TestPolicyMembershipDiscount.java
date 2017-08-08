@@ -64,7 +64,7 @@ public class TestPolicyMembershipDiscount extends HomeSSHO3BaseTest {
 	
 	@Test
     @TestInfo(component = "Policy.HomeSS")
-    public void testPolicyDiscounts() {
+    public void testPolicyMembershipDiscount() {
         mainApp().open();
         
         TestData td_MembershipPending = getTestSpecificTD("TestData_MembershipPending"); 
