@@ -5,11 +5,11 @@ package aaa.modules.policy.auto_ca_select;
 import org.testng.annotations.Test;
 
 import aaa.main.enums.ProductConstants;
-import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.utils.datetime.DateTimeUtils;
 
 /**
  * @author Xiaolan Ge
@@ -35,19 +35,13 @@ public class TestPolicyBackdated extends AutoCaSelectBaseTest {
 		//adjust default policy data with
 		//1. effective date = today minus 10 days
 		//2. error tab: "Policy cannot be backdated" error should be overridden 
-		TestData td = getPolicyTD("DataGather", "TestData")
-				.adjust(TestData.makeKeyPath("GeneralTab",
-						AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
-						AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()),
-						"/today-10d:MM/dd/yyyy")
-				.adjust(getPolicyTD(this.getClass().getSimpleName(), "TestData").resolveLinks());
-
+		String date = DateTimeUtils.getCurrentDateTime().minusDays(10).format(DateTimeUtils.MM_DD_YYYY);
+		TestData td = getBackDatedPolicyTD(date);
 		getPolicyType().get().createPolicy(td);
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		PolicySummaryPage.labelPolicyEffectiveDate.verify
-				.contains(td.getTestData("GeneralTab", AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel()).getValue(AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()));
+		PolicySummaryPage.labelPolicyEffectiveDate.verify.contains(date);
 
 	}
 }

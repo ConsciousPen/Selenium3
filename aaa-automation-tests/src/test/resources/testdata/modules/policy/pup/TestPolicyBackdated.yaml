@@ -1,0 +1,460 @@
+TestData_Auto: {
+  GeneralTab: {
+    NamedInsuredInformation: [{"Home Phone #": 1234567890}],
+    AAAProductOwned: {
+      Current AAA Member: 'Yes',
+      Membership Number: 4290023667710001,
+      Member Last Name: Test
+    },
+    PolicyInformation: {
+      Policy Type: Standard,
+      Effective Date: '/today-2d:MM/dd/yyyy',
+      Channel Type: Phone (Direct Sales Unit),
+      Agency: SMTestCC - 400000092,
+      Sales Channel: Online,
+      Authorized by: QA,
+      TollFree Number: 1
+    }
+  },
+  ErrorTab: {
+    ErrorsOverride: [
+      {
+        Message: "contains=Policy cannot be backdated",
+        Override: 'true',
+        Approval: 'true',
+        Duration: Life,
+        Reason for override: index=1
+      }
+    ]
+  },
+}
+
+TestData_Home_CA: {
+  GeneralTab: '@GeneralTab_CA'
+}
+
+GeneralTab_CA: {
+  PolicyInfo: {
+    Policy type: 'HO3',
+    Effective date: '/today-2d:MM/dd/yyyy',
+    Lead source: 'AAA Magazines',
+    },
+  CurrentCarrier: {
+    Carrier name: 'AAA - NCNU',
+    Policy type: 'HO3',
+    Continuous years with HO insurance: '5',
+    Base date with AAA: '/today-2d:MM/dd/yyyy',
+  }
+}
+  
+TestData_Home: {
+  GeneralTab: '@GeneralTab'
+}
+
+GeneralTab: {
+    State: 'UT',
+    Policy type: 'HO3',
+    Effective date: '/today-2d:MM/dd/yyyy', 
+    Lead source: 'Book Roll',
+    CalVet: null,
+    Extraordinary Life Circumstance: null,
+    Immediate prior carrier: 'index=2',
+    Continuous years with immediate prior carrier: '5',
+    Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+  }
+
+# --------- TestData AZ ------------
+
+TestData_Home_AZ: {
+  GeneralTab: '@GeneralTab_AZ'
+}
+
+GeneralTab_AZ: {
+  State: 'AZ',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
+
+# --------- TestData CO ------------
+
+TestData_Home_CO: {
+  GeneralTab: '@GeneralTab_CO'
+}
+
+GeneralTab_CO: {
+  State: 'CO',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
+
+# --------- TestData CT ------------
+
+TestData_Home_CT: {
+  GeneralTab: '@GeneralTab_CT'
+}
+
+GeneralTab_CT: {
+  State: 'CT',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
+
+# --------- TestData DC ------------
+
+TestData_Home_DC: {
+  GeneralTab: '@GeneralTab_DC'
+}
+
+GeneralTab_DC: {
+  State: 'DC',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
+
+# --------- TestData DE ------------
+
+TestData_Home_DE: {
+  GeneralTab: '@GeneralTab_DE'
+}
+
+GeneralTab_DE: {
+  State: 'DE',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
+
+# --------- TestData ID ------------
+
+TestData_Home_ID: {
+  GeneralTab: '@GeneralTab_ID'
+}
+
+GeneralTab_ID: {
+  State: 'ID',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
+
+# --------- TestData IN ------------
+
+TestData_Home_IN: {
+  GeneralTab: '@GeneralTab_IN'
+}
+
+GeneralTab_IN: {
+  State: 'IN',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
+
+# --------- TestData KS ------------
+
+TestData_Home_KS: {
+  GeneralTab: '@GeneralTab_KS'
+}
+
+GeneralTab_KS: {
+  State: 'KS',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
+
+# --------- TestData KY ------------
+
+TestData_Home_KY: {
+  GeneralTab: '@GeneralTab_KY'
+}
+
+GeneralTab_KY: {
+  State: 'KY',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
+
+# --------- TestData MD ------------
+
+TestData_Home_MD: {
+  GeneralTab: '@GeneralTab_MD'
+}
+
+GeneralTab_MD: {
+  State: 'MD',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
+
+# --------- TestData MT ------------
+
+TestData_Home_MT: {
+  GeneralTab: '@GeneralTab_MT'
+}
+
+GeneralTab_MT: {
+  State: 'MT',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
+
+# --------- TestData NJ ------------
+
+TestData_Home_NJ: {
+  GeneralTab: '@GeneralTab_NJ'
+}
+
+GeneralTab_NJ: {
+  State: 'NJ',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
+
+# --------- TestData NV ------------
+
+TestData_Home_NV: {
+  GeneralTab: '@GeneralTab_NV'
+}
+
+GeneralTab_NV: {
+  State: 'NV',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
+
+# --------- TestData NY ------------
+
+TestData_Home_NY: {
+  GeneralTab: '@GeneralTab_NY'
+}
+
+GeneralTab_NY: {
+  State: 'NY',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
+
+# --------- TestData OH ------------
+
+TestData_Home_OH: {
+  GeneralTab: '@GeneralTab_OH'
+}
+
+GeneralTab_OH: {
+  State: 'OH',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
+
+# --------- TestData OK ------------
+
+TestData_Home_OK: {
+  GeneralTab: '@GeneralTab_OK'
+}
+
+GeneralTab_OK: {
+  State: 'OK',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
+
+# --------- TestData OR ------------
+
+TestData_Home_OR: {
+  GeneralTab: '@GeneralTab_OR'
+}
+
+GeneralTab_OR: {
+  State: 'OR',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
+
+# --------- TestData PA ------------
+
+TestData_Home_PA: {
+  GeneralTab: '@GeneralTab_PA'
+}
+
+GeneralTab_PA: {
+  State: 'PA',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
+
+# --------- TestData SD ------------
+
+TestData_Home_SD: {
+  GeneralTab: '@GeneralTab_SD'
+}
+
+GeneralTab_SD: {
+  State: 'SD',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
+
+# --------- TestData VA ------------
+
+TestData_Home_VA: {
+  GeneralTab: '@GeneralTab_VA'
+}
+
+GeneralTab_VA: {
+  State: 'VA',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
+
+# --------- TestData WV ------------
+
+TestData_Home_WV: {
+  GeneralTab: '@GeneralTab_WV'
+}
+
+GeneralTab_WV: {
+  State: 'WV',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
+
+# --------- TestData WY ------------
+
+TestData_Home_WY: {
+  GeneralTab: '@GeneralTab_WY'
+}
+
+GeneralTab_WY: {
+  State: 'WY',
+  Policy type: 'HO3',
+  Effective date: '/today-2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today-2d:MM/dd/yyyy',
+}
