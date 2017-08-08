@@ -4,10 +4,9 @@ package aaa.modules.policy.auto_ss;
 
 import org.testng.annotations.Test;
 
-import aaa.main.enums.ProductConstants;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoSSBaseTest;
-import toolkit.datax.impl.SimpleDataProvider;
+
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.policy.templates.PolicyRenewDeclineByCompany;
 import toolkit.utils.TestInfo;
 
 /**
@@ -21,22 +20,18 @@ import toolkit.utils.TestInfo;
  * 5. Verify Policy status is 'Company Declined'
  * @details
  */
-public class TestPolicyRenewDeclineByCompany extends AutoSSBaseTest {
+public class TestPolicyRenewDeclineByCompany extends PolicyRenewDeclineByCompany {
 
-    @Test
-    @TestInfo(component = "Policy.AutoSS")
-    public void testPolicyRenewDeclineByCompany() {
-        mainApp().open();
+	 @Override
+	    protected PolicyType getPolicyType() {
+	        return PolicyType.AUTO_SS;
+	    }
+	    
+	    @Override
+	    @Test
+	    @TestInfo(component = "Policy.AutoSS")
+	    public void testPolicyRenewDeclineByCompany() {
 
-        getCopiedPolicy();
-
-        log.info("TEST: Decline By Company Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.renew().perform(new SimpleDataProvider());
-        PolicySummaryPage.buttonRenewals.click();
-
-        policy.declineByCompanyQuote().perform(getPolicyTD("DeclineByCompany", "TestData_Plus1Year"));
-        PolicySummaryPage.buttonRenewals.click();
-
-        PolicySummaryPage.tableRenewals.getRow(1).getCell(4).verify.value(ProductConstants.PolicyStatus.COMPANY_DECLINED);
-    }
+	        super.testPolicyRenewDeclineByCompany();
+	    }
 }
