@@ -44,12 +44,12 @@ public class TestPolicySplit extends AutoSSBaseTest {
 
 		log.info("Policy Creation Started...");
 
-		TestData bigPolicy_td = getPolicyTD("TestPolicyCreationBig", "TestData");
-		getPolicyType().get().createPolicy(bigPolicy_td);
+		TestData bigPolicyTd = getPolicyTD("TestPolicyCreationBig", "TestData");
+		getPolicyType().get().createPolicy(bigPolicyTd);
 
 		//SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, "UTSS927278826");
 		//Read and store zip code from UI, will need it to fill values for spun quote
-		String zip_code = PolicySummaryPage.tablePolicyVehicles.getRow(1).getCell("Garaging Zip").getValue();
+		String zipCode = PolicySummaryPage.tablePolicyVehicles.getRow(1).getCell("Garaging Zip").getValue();
 
 		CustomAssert.enableSoftMode();
 
@@ -87,7 +87,7 @@ public class TestPolicySplit extends AutoSSBaseTest {
 		TestData quoteTestData = getTestSpecificTD("TestData");
 
 		TestData namedInsured = quoteTestData.getTestData("GeneralTab").getTestDataList("NamedInsuredInformation").get(0)
-				.adjust(TestData.makeKeyPath("Zip Code"), zip_code);
+				.adjust(TestData.makeKeyPath("Zip Code"), zipCode);
 
 		List<TestData> namedInsuredList = new ArrayList<>();
 		namedInsuredList.add(namedInsured);
