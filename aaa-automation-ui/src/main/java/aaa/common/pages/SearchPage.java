@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
 import org.openqa.selenium.By;
-import aaa.common.enums.SearchEnum;
+import aaa.main.enums.SearchEnum;
 import aaa.common.metadata.SearchMetaData;
 import aaa.toolkit.webdriver.customcontrols.TableWithPages;
 import toolkit.datax.DataProviderFactory;

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Random;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.Test;
-import aaa.common.enums.SearchEnum;
+import aaa.main.enums.SearchEnum;
 import aaa.common.metadata.SearchMetaData;
 import aaa.common.pages.SearchPage;
 import aaa.modules.BaseTest;

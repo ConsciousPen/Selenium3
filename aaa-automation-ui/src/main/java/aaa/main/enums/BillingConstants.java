@@ -6,6 +6,18 @@ public final class BillingConstants {
 
     private BillingConstants() {}
 
+    public static final class PaymentPlan {
+        public static final String PAY_IN_FULL = "Pay in Full";
+        public static final String SEMI_ANNUAL = "Semi-Annual";
+        public static final String QUARTERLY = "Quarterly";
+        public static final String MONTHLY_STANDARD = "Monthly Standard";
+        public static final String MONTHLY_LOW_DOWN = "Monthly Low Down";
+        public static final String MONTHLY_ZERO_DOWN = "Monthly Zero Down";
+        public static final String MORTGAGEE_BILL = "Mortgagee Bill";
+        public static final String ELEVEN_PAY = "Eleven Pay Standard";
+        public static final String ANNUAL = "Annual";
+    }
+
     public static final class BillingAccountPoliciesBillingStatus {
         public static final String ACTIVE = "Active";
         public static final String HOLD = "On Hold";
@@ -81,6 +93,7 @@ public final class BillingConstants {
         public static final String SUSPENSE = "Suspense";
         public static final String NSF_FEE__WITH_RESTRICTION = "NSF fee - with restriction";
         public static final String DEPOSIT_PAYMENT = "Deposit Payment";
+        public static final String RECURRING_PAYMENT = "Recurring Payment";
     }
 
     public static final class PaymentsAndOtherTransactionReason {
@@ -177,7 +190,7 @@ public final class BillingConstants {
 
     public static final class BillingInstallmentScheduleTable {
         public static final String DESCRIPTION = "Description";
-        public static final String INSTALLMENT_DUE = "Schedule Due Amount";
+        public static final String SCHEDULE_DUE_AMOUNT = "Schedule Due Amount";
         public static final String INSTALLMENT_DUE_DATE = "Schedule Due Date";
         public static final String BILLED_STATUS = "Billed Status";
         public static final String BILL_GENERATION_DATE = "Bill Generation Date";

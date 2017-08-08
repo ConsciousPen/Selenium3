@@ -14,7 +14,7 @@ import aaa.common.enums.NavigationEnum.AdminAppLeftMenu;
 import aaa.common.enums.NavigationEnum.AdminAppMainTabs;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.ActionConstants;
-import aaa.main.enums.AdminConstants;
+import aaa.admin.constants.AdminConstants;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.composite.table.Row;
 

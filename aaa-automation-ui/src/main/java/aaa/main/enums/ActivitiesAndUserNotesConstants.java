@@ -2,11 +2,12 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.enums;
 
-public final class ErrorConstants {
+public final class ActivitiesAndUserNotesConstants {
 
-    private ErrorConstants() {}
+    private ActivitiesAndUserNotesConstants() {}
 
-    public static final class ErrorTable {
+    public static final class ActivitiesAndUserNotesTable {
+        public static final String STATUS = "Status";
         public static final String DESCRIPTION = "Description";
     }
 }

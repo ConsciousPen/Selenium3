@@ -22,11 +22,11 @@ import com.exigen.ipb.etcsa.base.app.MainApplication;
 import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
 
 import aaa.EntityLogger;
-import aaa.common.Constants;
-import aaa.common.Constants.States;
-import aaa.common.enums.SearchEnum;
-import aaa.common.enums.SearchEnum.SearchBy;
-import aaa.common.enums.SearchEnum.SearchFor;
+import aaa.common.enums.Constants;
+import aaa.common.enums.Constants.States;
+import aaa.main.enums.SearchEnum;
+import aaa.main.enums.SearchEnum.SearchBy;
+import aaa.main.enums.SearchEnum.SearchFor;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.metadata.LoginPageMeta;
 import aaa.common.pages.LoginPage;
@@ -103,13 +103,13 @@ public class BaseTest {
 	@BeforeMethod(alwaysRun=true)
 	public void beforeMethodStateConfiguration(@Optional("") String state) {
 		if (isStateCA()) {
-			setState(Constants.States.CA.get());
+			setState(Constants.States.CA);
 		} else if (StringUtils.isNotBlank(usState) && StringUtils.isBlank(state)) {
 			setState(usState);
 		} else if (StringUtils.isNotBlank(state)) {
 			setState(state);
 		} else {
-			setState(States.UT.get());
+			setState(States.UT);
 		}
 	}
 
@@ -261,7 +261,7 @@ public class BaseTest {
 	private String openDefaultPolicy(PolicyType policyType, String state) {
 		Assert.assertNotNull(policyType, "PolicyType is not set");
 		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), state);
-		String policyNumber = "";
+		String policyNumber;
 		synchronized (key) {
 			Integer count = policyCount.get(key);
 			if (count == null)
@@ -300,7 +300,7 @@ public class BaseTest {
 		synchronized (state) {
 			PolicyType type;
 			PolicyType typeAuto = null;
-			if (state.equals(States.CA.get())) {
+			if (state.equals(States.CA)) {
 				type = PolicyType.HOME_CA_HO3;
 				typeAuto = PolicyType.AUTO_CA_SELECT;
 			} else
@@ -342,7 +342,7 @@ public class BaseTest {
 	protected Map<String, String> getPrimaryPoliciesForPup(TestData tdHomeAdjustment, TestData tdAutoAdjustment) {
 		Map<String, String> policies = new LinkedHashMap<>();
 		String state = getState().intern();
-		if (state.equals(States.CA.get())) {
+		if (state.equals(States.CA)) {
 			TestData tdHome = testDataManager.policy.get(PolicyType.HOME_CA_HO3);
 			TestData tdHomeData = getStateTestData(tdHome, "DataGather", "TestData").adjust(tdHomeAdjustment);
 			PolicyType.HOME_CA_HO3.get().createPolicy(tdHomeData);
