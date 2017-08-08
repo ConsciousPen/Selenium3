@@ -28,5 +28,6 @@ public class TestPolicyCreation extends HomeSSHO6BaseTest {
         policy.createPolicy(getPolicyTD("DataGather", "TestData"));
         
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        log.info("TEST: HSS06 Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
     }
 }

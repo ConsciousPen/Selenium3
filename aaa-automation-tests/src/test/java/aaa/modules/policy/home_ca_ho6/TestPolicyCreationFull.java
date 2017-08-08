@@ -1,15 +1,16 @@
 package aaa.modules.policy.home_ca_ho6;
 
+import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import org.testng.annotations.Test;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO6BaseTest;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 
 /**
  * @author Kazarnovskiy Lev
- * @name Test Add Billing Account on Hold
+ * @name TestPolicyCreation CaHO6 Full
  * @scenario:
  * 1. Create new or open existent Customer;
  * 2. Initiate CAH quote creation, set effective date to today, set Policy Form=HO6;
@@ -21,16 +22,27 @@ import toolkit.verification.CustomAssert;
  *
  * @details
  */
-public class TestPolicyCreationCaHO6Full extends HomeCaHO6BaseTest {
+public class TestPolicyCreationFull extends HomeCaHO6BaseTest {
 
 	@Test
 	@TestInfo(component = "Policy.PersonalLines")
-	public void testPolicyCreation() {
-		CustomAssert.assertTrue("NOT COMPLETED TEST: add missed test data from \"CA_HSS_Smoke.xls\" e.g. QuoteEndorsementHO210 form, etc.", false);
+	public void testPolicyCreation() throws InterruptedException {
+
+		TestData td =getPolicyTD("DataGather", "TestDataFull");
+
 		mainApp().open();
+
 		createCustomerIndividual();
-		createPolicy(getPolicyTD("DataGather", "TestDataFull"));
+
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(td, BindTab.class, true);
+		new BindTab().btnPurchase.click();
+		new ErrorTab().fillTab(td).submitTab();
+		new PurchaseTab().fillTab(td).submitTab();
+
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		log.info("TEST: CaHO6 Full Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
 	}
+
 }
 

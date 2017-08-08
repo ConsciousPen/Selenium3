@@ -28,6 +28,8 @@
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicySafeDiscount" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteManualTask" />
+			<class name="aaa.modules.policy.home_ss_ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.policy.home_ss_ho6.TestPolicyCreationFull"/>
 		</classes>
 	</test>
 
@@ -645,7 +647,9 @@
 			<class name="aaa.modules.policy.home_ca_ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.policy.home_ca_ho3.TestQuoteViewSelectedEndorsements" />
 			<class name="aaa.modules.policy.home_ca_ho4.TestPolicyCreateHo4Full" />
-			<class name="aaa.modules.policy.home_ca_ho6.TestPolicyCreationCaHO6Full" />
+			<class name="aaa.modules.policy.home_ca_ho6.TestPolicyCreationFull" />
+			<class name="aaa.modules.policy.home_ca_dp3.TestPolicyCreation" />
+			<class name="aaa.modules.policy.home_ca_dp3.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
