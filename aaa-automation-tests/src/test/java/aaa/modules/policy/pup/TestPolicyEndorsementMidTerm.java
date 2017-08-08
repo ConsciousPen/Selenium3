@@ -37,8 +37,8 @@ public class TestPolicyEndorsementMidTerm extends PersonalUmbrellaBaseTest {
         log.info("TEST: MidTerm Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
         
         
-        TestData endorsement_td = getTestSpecificTD("TestData");
-	    policy.createEndorsement(endorsement_td.adjust(getPolicyTD("Endorsement", "TestData")));
+        TestData endorsementTd = getTestSpecificTD("TestData");
+	    policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
 	     
 
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);

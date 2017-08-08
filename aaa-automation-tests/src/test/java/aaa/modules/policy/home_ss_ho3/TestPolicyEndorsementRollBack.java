@@ -3,12 +3,9 @@
 package aaa.modules.policy.home_ss_ho3;
 
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import aaa.main.enums.ProductConstants;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.policy.templates.PolicyEndorsementRollBack;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 
 /**
  * @author Viachaslau Markouski
@@ -24,29 +21,18 @@ import toolkit.verification.CustomAssert;
  * 8. Verify Ending Premium was roll back
  * @details
  */
-public class TestPolicyEndorsementRollBack extends HomeSSHO3BaseTest {
+public class TestPolicyEndorsementRollBack extends PolicyEndorsementRollBack {
+
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_HO3;
+	}
 
 	@Test
 	@TestInfo(component = "Policy.HomeSS")
-	public void testPolicyEndorsementRollBack() {
-		mainApp().open();
+	public void testPolicyEndormentRollBack() {
 
-		createCustomerIndividual();
-		createPolicy();
+		super.testPolicyEndorsementRollBack();
 
-		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
-
-		log.info("MidTerm Endorsement for Policy #" + policyNumber);
-		policy.createEndorsement(getPolicyTD("Endorsement", "TestData_Plus3Days")
-				.adjust(getTestSpecificTD("TestData").resolveLinks()));
-
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
-
-		log.info("TEST: Roll Back Endorsement for Policy #" + policyNumber);
-		policy.rollBackEndorsement().perform(getPolicyTD("EndorsementRollBack", "TestData"));
-		CustomAssert.assertTrue(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
 	}
 }

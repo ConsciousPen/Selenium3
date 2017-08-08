@@ -92,7 +92,7 @@ public class AutoSSPolicy implements IPolicy {
 	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
 	    new DriverActivityReportsTab().fillTab(td);
 	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-	    new DocumentsAndBindTab().submitTab();
+	    new DocumentsAndBindTab().fillTab(td).submitTab();
 	    new PurchaseTab().fillTab(td).submitTab();
     }
 

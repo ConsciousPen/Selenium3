@@ -65,7 +65,7 @@ PropertyInfoTab: {
 
 UnderwritingAndApprovalTab: {
   "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?": "No",
-  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?":  "No",
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?":  "No",
   "Do employees of any resident or applicant reside in the dwelling?": "No",
   "Is there a business on premises?": "No",
 }
@@ -162,6 +162,8 @@ TestData_Full: {
     },
     PetsOrAnimals: {
       "Are any insured-owned pets or animals kept on the property?": 'Yes',
+      "Animal type": 'Livestock - Cow',
+      "Animal count": 1,
     },
     RecreationalEquipment: {
       Swimming pool: 'index=1',
@@ -181,7 +183,6 @@ TestData_Full: {
     Coverage E - Personal Liability Each Occurrence: 'index=1',
     Deductible: 'index=1',
     Calculate Premium: true,
-    Accept CEA offer: 'No',
   },
   MortgageesTab: {
     Use legal named insured: 'Yes',
@@ -197,7 +198,6 @@ TestData_Full: {
     },
     DocumentsToIssue: {
       AutoPay Authorization Form: Physically Signed,
-      CEA Offer Declination: Physically Signed,
       Signed policy application: Physically Signed,
     },
   },
@@ -208,3 +208,14 @@ TestData_Full: {
     }
   }
 }
+
+TestData_AddForm_HO210: {
+EndorsementTab: {
+    'HO-210': [{
+      Action: 'Add',
+      Instance Number: 1,
+      Coverage Limit: 'index=1'
+    }]
+  }
+}
+

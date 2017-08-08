@@ -39,3 +39,10 @@ TestData_Minus1Day: {
     Endorsement Reason: 'Other Interest(s)/Mortgagees'
   }
 }
+
+TestData_Plus10Day: {
+  EndorsementActionTab: {
+    Endorsement Date: /today+10d,
+    Endorsement Reason: index=1,
+  }
+}
