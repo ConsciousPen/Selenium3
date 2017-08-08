@@ -20,7 +20,7 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
-public class HssHO3DeltaScenario1 extends HomeSSHO3BaseTest{
+public class HssDeltaScenario1 extends HomeSSHO3BaseTest{
 	
 	private String quoteNumber;
 	private String policyNumber;
