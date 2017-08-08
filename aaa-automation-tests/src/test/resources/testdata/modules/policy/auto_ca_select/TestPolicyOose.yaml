@@ -3,7 +3,7 @@
 TestData_E1: {
   GeneralTab: '@GeneralTab',
   DriverTab: {},
-  MembershipTab: {}, #'@MembershipTab',
+  MembershipTab: {}, 
   VehicleTab: '@VehicleTab',
   AssignmentTab: '@AssignmentTab',
   FormsTab: {},
@@ -20,12 +20,6 @@ GeneralTab: {
 
 PolicyInformation: {
   Authorized by: QA
-}
-
-MembershipTab: {
-  #Customer Agreement: Customer Agrees,
-  #Sales Agent Agreement: I Agree,
-  Order Report: click
 }
 
 VehicleTab: {
@@ -56,8 +50,8 @@ TestData_E2: {
   GeneralTab: '@GeneralTab2',
   DriverTab: '@DriverTab2',
   MembershipTab: '@MembershipTab2',
-  VehicleTab: {}, #'@VehicleTab',
-  AssignmentTab: {}, #'@AssignmentTab',
+  VehicleTab: {}, 
+  AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: '@DriverActivityReportsTab2',

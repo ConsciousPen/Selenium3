@@ -64,7 +64,7 @@ TestData: {
 
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAProductOwned: {}, #'@AAAProductOwned',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@PolicyInformation'
 }
@@ -77,10 +77,10 @@ NamedInsuredInformation: {
   Validate Address Dialog: {}
 }
 
-AAAProductOwned: {
-  Membership Number: 4290020029946000,
-  Last name: Test,
-}
+#AAAProductOwned: {
+#  Membership Number: 4290020029946000,
+#  Last name: Test,
+#}
 
 ContactInformation: {
    Home Phone Number: 1234567890

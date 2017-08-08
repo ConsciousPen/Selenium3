@@ -1,16 +1,15 @@
-# -- Default test data for UT state ---
-
 # ---------- Data for first Endorsement ------------
 
 TestData_E1: {
   GeneralTab: '@GeneralTab',
   DriverTab: {},
-  RatingDetailReportsTab: {},
+  MembershipTab: {},
   VehicleTab: '@VehicleTab',
+  AssignmentTab: '@AssignmentTab',
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: {}
+  DocumentsAndBindTab: '@DocumentsAndBindTab'
 }
 
 GeneralTab: {
@@ -25,22 +24,41 @@ PolicyInformation: {
 
 VehicleTab: {
   Add Vehicle: Click,
-  Usage: Pleasure,
-  VIN: WDCYC7BB0B6729451,
+  VIN: 4S3BC6534NDDEJ76X,
+  Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Odometer Reading: 7000
+}
+
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [{
+    Vehicle: '1992, SUBARU, LEGACY',
+    Primary Driver: 'Sansa Stark'
+  }]
 }
 
 DriverActivityReportsTab: {
+  Sales Agent Agreement: I Agree,
   Validate Driving History: click
 }
 
+DocumentsAndBindTab: {
+  VehicleInformation: ['@Vehicle1'],
+}
+
+Vehicle1: {
+  "Are there any additional interest(s)?": 'No'
+}
 
 # ---------- Data for second Endorsement ------------
 
 TestData_E2: {
   GeneralTab: '@GeneralTab2',
   DriverTab: '@DriverTab2',
-  RatingDetailReportsTab: {}, 
+  MembershipTab: '@MembershipTab2',
   VehicleTab: {},
+  AssignmentTab: {}, #'@AssignmentTab',
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: '@DriverActivityReportsTab2',
@@ -50,7 +68,6 @@ TestData_E2: {
 GeneralTab2: {
   NamedInsuredInformation: ['@NamedInsuredInformation2'],
   AAAProductOwned: {},
-  ContactInformation: '@ContactInformation2',
   PolicyInformation: '@PolicyInformation2'
 }
 
@@ -59,13 +76,7 @@ NamedInsuredInformation2: {
   InsuredSearchDialog: {},
   First Name: Violeta,
   Last Name: Minolta,
-  Social Security Number: 223456789,
-  "Has lived here for less than three years?": 'No',
-  Residence: Own Home,
-}
-
-ContactInformation2: {
-   Home Phone Number: 5554567002
+  "Home Phone #": 5554567001, 
 }
 
 PolicyInformation2: {
@@ -76,33 +87,32 @@ DriverTab2: {
   Add Driver: Click,
   DriverSearchDialog:{},
   Named Insured: 'Violeta Minolta',
+  Driver Type: Available for Rating,
   'Rel. to First Named Insured': Other,
-  Date of Birth: '07/28/1976',
-  Occupation: Self-Employed,
+  Date of Birth: '/today-37y:MM/dd/yyyy',
+  Occupation: Self Employed,
   Gender: Female,
   Marital Status: Single,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: 400064770
+  Age First Licensed: 36,
+  Permit Before License: 'No',
+  License State: CA,
+  "License #": C1234500
+}
+
+MembershipTab2: {
+  #Customer Agreement: Customer Agrees,
+  #Sales Agent Agreement: I Agree,
+  Order Report: click
 }
 
 DriverActivityReportsTab2: {
+  Sales Agent Agreement: I Agree,
   Validate Driving History: click
 }
 
-# ------- Data for compare data quantity on RollOn Changes tab ------------
+# ---------- Data for compare data quantity on RollOn Changes tab ------------
 
 Differences: {
-  LineCount: 9
+  LineCount: 14
 }
-
-
-
-# ------- Test Data for custom states ------
-
-
-# ------- AZ ------
-# ------- no special data
-
-
 
