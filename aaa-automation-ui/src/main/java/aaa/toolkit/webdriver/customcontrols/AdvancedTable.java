@@ -19,6 +19,7 @@ import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.table.Cell;
 import toolkit.webdriver.controls.composite.table.Row;
+import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
@@ -195,8 +196,11 @@ public class AdvancedTable extends TableWithPages {
 			getRow(index).getCell(getColumnsCount()).controls.links.get("View/Edit").click();
 		}
 	}
-
 	//TODO-dchubkov: implement isRowSelected(...),  removeRow(...) and selectRow(...) by other arguments like in getRaw(...) methods
+
+	public boolean isEmpty() {
+		return "No records found.".equals(getRow(1).getCell(1).getValue());
+	}
 
 	private void filterBy(TextBox filterTextBox, String value) {
 		CustomAssert.assertTrue(String.format("Can't find filter textbox by \"%s\" locator.", filterTextBox.getLocator()), filterTextBox.isPresent() && filterTextBox.isVisible());
@@ -236,8 +240,6 @@ public class AdvancedTable extends TableWithPages {
 	private TextBox getFilterTextBoxByHeadersCell(Cell cell) {
 		return new TextBox(new ByChained(getLocator(), cell.getLocator(), By.xpath(".//input")), Waiters.AJAX);
 	}
-
-	//TODO-dchubkov: add new Verify methods
 
 	public class TableState {
 		private Integer selectedRowsPerPage;
@@ -291,4 +293,25 @@ public class AdvancedTable extends TableWithPages {
 			this.filters = filters;
 		}
 	}
+
+
+	public final AdvancedTable.Verify verify = this.new Verify();
+	/**
+	 * Extended tables verifier class for AdvancedTable
+	 */
+	public class Verify extends Table.Verify {
+		public void empty() {
+			empty(true);
+		}
+
+		public void empty(boolean expectedValue) {
+			String assertMessage = String.format("Table with locator [%1$s] is%2$s empty.", getLocator(), expectedValue? " not" : "");
+			if (expectedValue) {
+				CustomAssert.assertTrue(assertMessage, isEmpty());
+			} else {
+				CustomAssert.assertFalse(assertMessage, isEmpty());
+			}
+		}
+	}
+
 }

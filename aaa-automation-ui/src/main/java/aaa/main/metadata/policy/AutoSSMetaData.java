@@ -236,6 +236,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<TextBox> CLAIM_NUMBER = declare("Claim Number", TextBox.class);
 			public static final AssetDescriptor<TextBox> OCCURENCE_DATE = declare("Occurrence Date", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> CONVICTION_DATE = declare("Conviction Date", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> VIOLATION_POINTS = declare("Violation points", TextBox.class, Waiters.NONE);
 			public static final AssetDescriptor<TextBox> LOSS_PAYMENT_AMOUNT = declare("Loss Payment Amount", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> CLAIM_POINTS = declare("Claim Points", TextBox.class);
 			public static final AssetDescriptor<RadioGroup> INCLUDE_IN_POINTS_AND_OR_TIER = declare("Include in Points and/or Tier?", RadioGroup.class, Waiters.AJAX);
