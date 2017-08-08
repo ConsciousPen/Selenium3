@@ -32,8 +32,54 @@ TestDataForBindRewrittenPolicy: {
   },
   DocumentsAndBindTab: {
      RequiredToBind: {
+       Auto Insurance Application: 'Physically Signed'
+      },
+      Authorized By: QA
+   },
+  PurchaseTab: {
+  PaymentAllocation: {
+    Cash: /rest
+  }
+ }
+}
+
+TestDataNewNumber: {
+  RewriteActionTab: {
+    Effective Date:  /today,
+    'Use Original Policy Number?': 'No'
+  }
+}
+
+TestDataNewNumber_UT: {
+  RewriteActionTab: {
+    Effective Date:  /today,
+    'Use Original Policy Number?': 'No'
+  }
+}
+
+TestDataForBindRewrittenPolicy_UT: {
+  PrefillTab: {},
+  GeneralTab: {
+     PolicyInformation: { Authorized by: QA}
+   },
+  DriverTab: {},
+  RatingDetailReportsTab: {
+     Customer Agreement: Customer Agrees,
+     Order Report: click
+  },
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+     "Has the customer expressed interest in purchasing the quote?": 'Yes',
+      Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+     RequiredToBind: {
        Auto Insurance Application: Physically Signed
-      }
+      },
+      Authorized By: QA
    },
   PurchaseTab: {
   PaymentAllocation: {
