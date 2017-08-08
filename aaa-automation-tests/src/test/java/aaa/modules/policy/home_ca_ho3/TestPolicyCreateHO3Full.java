@@ -28,8 +28,6 @@ public class TestPolicyCreateHO3Full extends HomeCaHO3BaseTest {
         mainApp().open();
         createCustomerIndividual();
         createPolicy(getTestSpecificTD("TestData").adjust(getTestSpecificTD("TestData_AddForm_HO75")).resolveLinks());
-
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        mainApp().close();
     }
 }

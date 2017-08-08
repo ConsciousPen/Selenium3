@@ -632,10 +632,18 @@
 		</classes>
 	</test>
 
-	<!-- CA HSS Smoke Tests -->
 	<test name="CA HSS Functional Tests">
 		<parameter name="state" value="CA" />
 		<classes>
+			<class name="aaa.modules.policy.home_ca_ho3.TestPolicyBillingAccountOnHold" />
+			<class name="aaa.modules.policy.home_ca_ho3.TestPolicyBillingOperations" />
+			<class name="aaa.modules.policy.home_ca_ho3.TestPolicyCancelWithActivePUP" />
+			<class name="aaa.modules.policy.home_ca_ho3.TestPolicyCopy" />
+			<class name="aaa.modules.policy.home_ca_ho3.TestPolicyCreateHO3Full" />
+			<class name="aaa.modules.policy.home_ca_ho3.TestPolicyManualRenew" />
+			<class name="aaa.modules.policy.home_ca_ho3.TestPolicyRemoveForm" />
+			<class name="aaa.modules.policy.home_ca_ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.policy.home_ca_ho3.TestQuoteViewSelectedEndorsements" />
 			<class name="aaa.modules.policy.home_ca_ho4.TestPolicyCreateHo4Full" />
 			<class name="aaa.modules.policy.home_ca_ho6.TestPolicyCreationCaHO6Full" />
 		</classes>
