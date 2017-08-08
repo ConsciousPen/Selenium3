@@ -30,7 +30,6 @@ public class DataGenerator extends BaseTest {
 		products.put(PolicyType.HOME_SS_HO3.getName(), new ArrayList<String>());
 	}
 
-	@Override
 	@AfterSuite
 	public void afterSuite() {
 		StringBuilder sb = new StringBuilder();
