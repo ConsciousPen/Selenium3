@@ -12,11 +12,11 @@ import aaa.modules.policy.templates.PolicyRenewDeclineByCustomer;
 import toolkit.utils.TestInfo;
 
 /**
- * @author Viachaslau Markouski
+ * @author Lina Li
  * @name Test renew decline by customer for Home Policy
  * @scenario
  * 1. Create Customer
- * 2. Create Home (Preconfigured) Policy
+ * 2. Create Home CA Policy
  * 3. Renew Policy
  * 4. Decline by customer
  * 5. Verify Policy status is 'Customer Declined'
@@ -26,12 +26,12 @@ public class TestPolicyRenewDeclineByCustomer extends PolicyRenewDeclineByCustom
 
 	 @Override
 	    protected PolicyType getPolicyType() {
-	        return PolicyType.HOME_SS_HO3;
+	        return PolicyType.HOME_CA_HO3;
 	    }
 	    
 	    @Override
 	    @Test
-	    @TestInfo(component = "Policy.HomeSS")
+	    @TestInfo(component = "Policy.HomeCA")
 	    public void testPolicyRenewDeclineByCustomer() {
 
 	        super.testPolicyRenewDeclineByCustomer();
