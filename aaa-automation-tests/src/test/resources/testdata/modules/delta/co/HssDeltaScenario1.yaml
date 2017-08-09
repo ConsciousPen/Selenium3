@@ -4,13 +4,17 @@ TestData: {
   ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: {},
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
   DocumentsTab: '@DocumentsTab',
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
+}
+
+TestData_add_Forms: {
+  EndorsementTab: '@EndorsementTab',
 }
 
 GeneralTab: {

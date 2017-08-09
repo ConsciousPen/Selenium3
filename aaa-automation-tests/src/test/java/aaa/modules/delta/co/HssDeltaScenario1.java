@@ -1,11 +1,16 @@
 package aaa.modules.delta.co;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.testng.annotations.Test;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.ProductConstants;
+import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
@@ -19,44 +24,64 @@ import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.ComboBox;
 
 public class HssDeltaScenario1 extends HomeSSHO3BaseTest{
 	
-	private String quoteNumber;
+	private String quoteNumber; 
 	private String policyNumber;
 	private String effectiveDate; 
-	TestData td_sc1; 
+	private TestData td_sc1; 
+	
+	public String getQuoteNumber() {
+		if (quoteNumber == null) {
+			quoteNumber = testSC1_TC01();
+		}
+		return quoteNumber;		
+	}
 	
 	@Test
     @TestInfo(component = "Policy.HomeSS")
-	public void testSC1_TC01() {
+	public String testSC1_TC01() {
 		mainApp().open();
 		
-		td_sc1 = getTestSpecificTD("TestData");
+		td_sc1 = getTestSpecificTD("TestData"); 
 		
         createCustomerIndividual();
         
         policy.initiate();
-        policy.getDefaultView().fillUpTo(td_sc1, PropertyInfoTab.class, true);
+        policy.getDefaultView().fillUpTo(td_sc1, BindTab.class, true);
         
         //PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
-        //propertyInfoTab.verifyFieldHasValue(HomeSSMetaData.PropertyInfoTab.Construction.T_LOCK_SHINGLES.getLabel(), "No");       
+        //propertyInfoTab.verifyFieldHasValue(HomeSSMetaData.PropertyInfoTab.Construction.T_LOCK_SHINGLES.getLabel(), "No");               
+        //policy.getDefaultView().fillFromTo(td_sc1, PropertyInfoTab.class, BindTab.class);
         
-        policy.getDefaultView().fillFromTo(td_sc1, PropertyInfoTab.class, BindTab.class, true);
         BindTab.buttonSaveAndExit.click();
         
         quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-        log.info("DELTA CO SC1: HO3 Quote created with #" + quoteNumber);
+        log.info("DELTA CO SC1: HO3-Heritage Quote created with #" + quoteNumber);
         
-        effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue();
-        		
+        effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue(); 
+        
+        return quoteNumber;
 	}
-	
+
 	@Test
 	@TestInfo(component = "Policy.HomeSS")
 	public void testSC1_TC02() {
 		mainApp().open();
-		SearchPage.openQuote(quoteNumber);	
+		
+		TestData td_sc1_add_Forms = getTestSpecificTD("TestData_add_Forms"); 
+		
+		Map<String, String> endorsement_HS0312 = new HashMap<>();
+		endorsement_HS0312.put("Form ID", "HS 03 12");
+		endorsement_HS0312.put("Name", "Windstorm Or Hail Deductible - Percentage"); 
+				
+		Map<String, String> endorsement_HS0493 = new HashMap<>(); 
+		endorsement_HS0493.put("Form ID", "HS 04 93"); 
+		endorsement_HS0493.put("Name", "Actual Cash Value - Windstorm Or Hail Losses"); 
+				
+		SearchPage.openQuote(getQuoteNumber());	
 		
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
@@ -65,24 +90,16 @@ public class HssDeltaScenario1 extends HomeSSHO3BaseTest{
 		EndorsementTab endorsementTab = new EndorsementTab(); 
 
 		CustomAssert.enableSoftMode();
-		endorsementTab.tblIncludedEndorsements.getRow("Form ID", "438B FUNS").verify.present();
-		endorsementTab.tblIncludedEndorsements.getRow("Form ID", "HS 03 12").verify.present();
-		endorsementTab.tblIncludedEndorsements.getRow("Form ID", "HS 04 10").verify.present();
-		endorsementTab.tblIncludedEndorsements.getRow("Form ID", "HS 04 20").verify.present();
-		endorsementTab.tblIncludedEndorsements.getRow("Form ID", "HS 04 40").verify.present();
-		endorsementTab.tblIncludedEndorsements.getRow("Form ID", "HS 04 41").verify.present();
-		endorsementTab.tblIncludedEndorsements.getRow("Form ID", "HS 04 54").verify.present();
-		endorsementTab.tblIncludedEndorsements.getRow("Form ID", "HS 04 90").verify.present();
-		endorsementTab.tblIncludedEndorsements.getRow("Form ID", "HS 24 73").verify.present();
+		endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312).verify.present();	
+		endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present();
 		
-		CustomAssert.assertTrue(endorsementTab.verifyLinkEditIsPresent("HS 03 12"));
-		CustomAssert.assertTrue(endorsementTab.verifyLinkEditIsPresent("HS 04 54"));
-		//CustomAssert.assertTrue(endorsementTab.verifyLinkEditIsPresent("HS 04 90"));
-		CustomAssert.assertTrue(endorsementTab.verifyLinkEditIsPresent("HS 24 73"));
+		endorsementTab.fillTab(td_sc1_add_Forms);
+		
+		endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312).verify.present();			
+		CustomAssert.assertTrue(endorsementTab.verifyLinkEditIsPresent("HS 03 12")); 
 		CustomAssert.assertTrue(endorsementTab.verifyLinkRemoveIsPresent("HS 03 12"));
-		CustomAssert.assertTrue(endorsementTab.verifyLinkRemoveIsPresent("HS 04 54"));
-		CustomAssert.assertTrue(endorsementTab.verifyLinkRemoveIsPresent("HS 04 90"));
-		CustomAssert.assertTrue(endorsementTab.verifyLinkRemoveIsPresent("HS 24 73"));
+		
+		//endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present();
 		
 		EndorsementTab.buttonSaveAndExit.click();	
 		CustomAssert.assertAll();
@@ -92,7 +109,7 @@ public class HssDeltaScenario1 extends HomeSSHO3BaseTest{
 	@TestInfo(component = "Policy.HomeSS")
 	public void testSC1_TC03() {
 		mainApp().open();
-		SearchPage.openQuote(quoteNumber);	
+		SearchPage.openQuote(getQuoteNumber());	
 		//Generate On-Demand documents for quote
 	}
 
@@ -107,12 +124,14 @@ public class HssDeltaScenario1 extends HomeSSHO3BaseTest{
 		TestData td_IdentityTheft_with_Score999 = getTestSpecificTD("TestData_IdentityTheft_with_Score999");
 		TestData td_AdverselyImpacted_None = getTestSpecificTD("TestData_AdverselyImpacted_None");
 		
-		SearchPage.openQuote(quoteNumber);	
+		SearchPage.openQuote(getQuoteNumber());	
 		policy.dataGather().start();
 		
 		CustomAssert.enableSoftMode();		
 		GeneralTab generalTab = new GeneralTab();
 		generalTab.verifyFieldHasValue("Adversely Impacted", "None"); 
+		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.ADVERSELY_IMPACTED.getLabel(), ComboBox.class).verify.options(
+				Arrays.asList("None", "Declined", "Dissolution of marriage or Credit information of a former spouse", "Identity Theft"));
 		
 		verifyAdverselyImpactedNotApplied(td_Declined_with_Score700, "700");
 		
@@ -145,7 +164,7 @@ public class HssDeltaScenario1 extends HomeSSHO3BaseTest{
 		TestData td_construction2 = getTestSpecificTD("TestData_Construction2");
 		TestData td_construction3 = getTestSpecificTD("TestData_Construction3");
 		
-		SearchPage.openQuote(quoteNumber);	
+		SearchPage.openQuote(getQuoteNumber());	
 		policy.dataGather().start();
 		
 		CustomAssert.enableSoftMode();		
@@ -164,9 +183,7 @@ public class HssDeltaScenario1 extends HomeSSHO3BaseTest{
 	public void testSC1_TC06() {
 		mainApp().open(); 
 		
-		//TestData td_sc1 = getTestSpecificTD("TestData");
-		
-		SearchPage.openQuote(quoteNumber);
+		SearchPage.openQuote(getQuoteNumber());
 		
 		policy.dataGather().start(); 
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
@@ -183,7 +200,8 @@ public class HssDeltaScenario1 extends HomeSSHO3BaseTest{
         
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-        log.info("DELTA CO SC1: HO3 Policy created with #" + policyNumber);
+        
+        log.info("DELTA CO SC1: HO3-Heritage Policy created with #" + policyNumber);
 		
 	}
 	
@@ -195,8 +213,8 @@ public class HssDeltaScenario1 extends HomeSSHO3BaseTest{
 		SearchPage.openPolicy(policyNumber);
 		//Generate On-Demand documents for policy
 	}
-
 	
+
 	private void verifyAdverselyImpactedNotApplied(TestData td, String scoreInRatingDetails) {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get()); 
 		new GeneralTab().fillTab(td);
