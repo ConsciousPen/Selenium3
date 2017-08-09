@@ -1,6 +1,6 @@
 /* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
-package aaa.modules.regression.service.auto_ss;
+package aaa.modules.policy.pup;
 
 import org.testng.annotations.Test;
 
@@ -10,10 +10,10 @@ import aaa.modules.policy.templates.PolicyRewriteToNewNumber;
 
 /**
  * @author Yonggang Sun
- * @name Test Rewrite to new number for Auto Policy
+ * @name Test Rewrite to new number for Umbrella Policy
  * @scenario
  * 1. Create Customer
- * 2. Create Auto (AAA) Policy
+ * 2. Create Home (AAA) Policy
  * 3. Cancel Policy
  * 4. Rewrite Policy
  * 5. Verify Policy status is 'Policy Active'
@@ -24,14 +24,12 @@ public class TestPolicyRewriteToNewNumber extends PolicyRewriteToNewNumber {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_SS;
+		return PolicyType.PUP;
 	}
 	
     @Test
-    @TestInfo(component = "Policy.AutoSS")
+    @TestInfo(component = "Policy.PUP")
     public void testPolicyRewriteToNewNumber() {
-    	super.setFileName("Rewrite");
-    	super.setTdName("TestDataForBindRewrittenPolicy");
         super.testPolicyRewriteToNewNumber();
     }
 }

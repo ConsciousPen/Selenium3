@@ -86,7 +86,7 @@ public class AutoCaPolicy implements IPolicy {
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
 		new DriverActivityReportsTab().fillTab(td);
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
-		new DocumentsAndBindTab().submitTab();
+		new DocumentsAndBindTab().fillTab(td).submitTab();
 		new PurchaseTab().fillTab(td).submitTab();
     }
 

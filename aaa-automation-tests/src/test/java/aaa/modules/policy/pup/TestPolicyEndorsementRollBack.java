@@ -3,15 +3,9 @@
 package aaa.modules.policy.pup;
 
 import org.testng.annotations.Test;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
-
-import aaa.main.enums.ProductConstants;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.PersonalUmbrellaBaseTest;
-import toolkit.datax.TestData;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.policy.templates.PolicyEndorsementRollBack;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 
 /**
  * @author Andrey Shashenka
@@ -27,30 +21,18 @@ import toolkit.verification.CustomAssert;
  * 8. Verify Ending Premium was roll back
  * @details
  */
-public class TestPolicyEndorsementRollBack extends PersonalUmbrellaBaseTest {
+public class TestPolicyEndorsementRollBack extends PolicyEndorsementRollBack {
 
-    @Test
-    @TestInfo(component = "Policy.PUP")
-    public void testPolicyEndorsementRollBack() {
-        mainApp().open();
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.PUP;
+	}
 
-        getCopiedPolicy();
-        String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-        Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
+	@Test
+	@TestInfo(component = "Policy.PUP")
+	public void testPolicyEndormentRollBack() {
 
-        log.info("TEST: Flat Endorsement for PUP Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-	     
-	     TestData endorsement_td = getPolicyTD("TestPolicyEndorsement", "TestData");
-	     policy.createEndorsement(endorsement_td.adjust(getPolicyTD("Endorsement", "TestData_Plus1Month")));
-	     
-	     CustomAssert.enableSoftMode();
-	     
-        PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
+		super.testPolicyEndorsementRollBack();
 
-        log.info("TEST: Roll Back Endorsement for Policy #" + policyNumber);
-        policy.rollBackEndorsement().perform(getPolicyTD("EndorsementRollBack", "TestData"));
-        CustomAssert.assertTrue(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
-    }
+	}
 }

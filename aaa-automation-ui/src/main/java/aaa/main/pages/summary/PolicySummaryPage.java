@@ -62,7 +62,8 @@ public class PolicySummaryPage extends SummaryPage {
     public static Table tablePolicyList = new Table(By.id("policyForm:body_policy_list_table_holder"));
     public static Table tableCertificatePolicies = new Table(By.id("productConsolidatedViewForm:rootInstancesTable_certificate"));
     public static Table tableGeneralInformation = new Table(By.xpath("//div[@id='productConsolidatedViewForm:scolumn_PolicyCLInfoConsolidatedView' "
-            + "or @id='productConsolidatedViewForm:consolidatedInfoPanelPolicy']//table"));
+            + "or @id='productConsolidatedViewForm:consolidatedInfoPanelPolicy' "
+            + "or @id='productConsolidatedViewForm:consolidatedInfoPanelGeneralInfo']//table"));
     public static Table tableDifferences = new Table(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']/table"));
     public static Table tableInsuredInformation = new Table(By.xpath("//div[@id='productConsolidatedViewForm:consolidatedInfoPanelPreconfigInsured_body' "
             + "or @id='productConsolidatedViewForm:scolumn_InsuredInformation' "
