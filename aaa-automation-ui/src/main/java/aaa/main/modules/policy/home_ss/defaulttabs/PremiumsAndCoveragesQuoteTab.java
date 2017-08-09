@@ -5,6 +5,8 @@
 package aaa.main.modules.policy.home_ss.defaulttabs;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
+import org.openqa.selenium.By;
+import toolkit.webdriver.controls.composite.table.Table;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -20,6 +22,7 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 	public PremiumsAndCoveragesQuoteTab() {
 		super(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class);
 	}
+	public static Table tableEndorsementForms = new Table(By.id("policyDataGatherForm:formSummaryTable"));
 
 	@Override
 	public void calculatePremium() {

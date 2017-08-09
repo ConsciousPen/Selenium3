@@ -196,7 +196,7 @@ public final class HomeCaMetaData {
             public static final class OtherActiveAAAPoliciesSearch extends MetaData {
                 public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy Type", ComboBox.class, Waiters.NONE);
                 public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class, Waiters.NONE);
-                public static final AssetDescriptor<Button> CANCEL_BTN = declare("Cancel", Button.class, Waiters.NONE);
+                public static final AssetDescriptor<Button> CANCEL_BTN = declare("Cancel", Button.class, Waiters.NONE, By.id("policySearchForm_AAAHOOtherOrPriorActivePolicySearch:cancelSearch_AAAHOOtherOrPriorActivePolicySearch"));
             }
 
             public static final class OtherActiveAAAPoliciesManual extends MetaData {
