@@ -32,7 +32,6 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
       * 6. Bind a policy
       * 7. Verify policy status is Policy Pending  
       */
-
     @Test
     @TestInfo(component = "Policy.HomeCA")
     public void testQuoteFuturedated() {
@@ -45,7 +44,8 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
         generalTab.fillTab(getPolicyTD());
         generalTab.getAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.class.getSimpleName(), AssetList.class).getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE)
                 .setValue(DateTimeUtils.getCurrentDateTime().plusDays(91).format(DateTimeUtils.MM_DD_YYYY));
-        //        generalTab.verifyFieldHasMessage(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE.getLabel(), "Policy effective date cannot be more than 90 days from today's date.");
+        generalTab.getAssetList().getAsset(HomeCaMetaData.GeneralTab.POLICY_INFO).getWarning(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE)
+                .verify.value("Policy effective date cannot be more than 90 days from today's date.");
         generalTab.getAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.class.getSimpleName(), AssetList.class).getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE)
                 .setValue(DateTimeUtils.getCurrentDateTime().plusDays(10).format(DateTimeUtils.MM_DD_YYYY));
         generalTab.submitTab();
