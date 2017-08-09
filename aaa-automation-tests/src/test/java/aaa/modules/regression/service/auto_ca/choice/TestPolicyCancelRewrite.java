@@ -3,7 +3,7 @@ package aaa.modules.regression.service.auto_ca.choice;
 import org.testng.annotations.Test;
 
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.policy.templates.PolicyCancelRewrite;
+import aaa.modules.regression.service.template.PolicyCancelRewrite;
 import toolkit.utils.TestInfo;
 
 /**

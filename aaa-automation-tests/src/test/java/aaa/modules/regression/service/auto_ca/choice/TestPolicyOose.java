@@ -5,7 +5,7 @@ package aaa.modules.regression.service.auto_ca.choice;
 import org.testng.annotations.Test;
 
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.policy.templates.PolicyOose;
+import aaa.modules.regression.service.template.PolicyOose;
 import toolkit.utils.TestInfo;
 
 public class TestPolicyOose extends PolicyOose {

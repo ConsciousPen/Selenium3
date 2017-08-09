@@ -5,7 +5,7 @@ package aaa.modules.regression.billing_and_payments.auto_ca.select;
 import org.testng.annotations.Test;
 
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.policy.templates.PolicyBilling;
+import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import toolkit.utils.TestInfo;
 
 /**

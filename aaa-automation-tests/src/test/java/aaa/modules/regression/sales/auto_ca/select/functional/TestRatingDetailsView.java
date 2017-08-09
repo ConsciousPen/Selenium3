@@ -1,7 +1,7 @@
-package aaa.modules.policy.auto_ca_select;
+package aaa.modules.regression.sales.auto_ca.select.functional;
 
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.policy.templates.RatingDetailsCompCollSymbolsPresence;
+import aaa.modules.regression.sales.template.functional.RatingDetailsCompCollSymbolsPresence;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 

@@ -3,7 +3,7 @@ package aaa.modules.regression.sales.auto_ca.select;
 import org.testng.annotations.Test;
 
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.policy.templates.QuoteManualTask;
+import aaa.modules.regression.sales.template.QuoteManualTask;
 
 public class TestQuoteManualTask extends QuoteManualTask {
 

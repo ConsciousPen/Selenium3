@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.billing_and_payments.auto_ca.choice;
 
+import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import org.testng.annotations.Test;
 
 import aaa.main.modules.policy.PolicyType;
@@ -21,7 +22,7 @@ import toolkit.utils.TestInfo;
  * @details
  */
 
-public class TestPolicyBilling extends aaa.modules.policy.templates.PolicyBilling {
+public class TestPolicyBilling extends PolicyBilling {
 
 	
     @Override

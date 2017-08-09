@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import toolkit.utils.TestInfo;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.policy.templates.PolicyRewriteToNewNumber;
+import aaa.modules.regression.service.template.PolicyRewriteToNewNumber;
 
 /**
  * @author Yonggang Sun

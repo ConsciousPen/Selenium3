@@ -4,7 +4,7 @@ package aaa.modules.regression.sales.auto_ca.select;
 
 import org.testng.annotations.Test;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.policy.templates.QuoteActionAbstract;
+import aaa.modules.regression.sales.template.QuoteActionAbstract;
 import toolkit.utils.TestInfo;
 
 public class TestQuoteAction extends QuoteActionAbstract {

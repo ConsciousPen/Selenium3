@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 
 
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.policy.templates.PolicyReinstatementWithLapse;
+import aaa.modules.regression.service.template.PolicyReinstatementWithLapse;
 import toolkit.utils.TestInfo;
 
 /**

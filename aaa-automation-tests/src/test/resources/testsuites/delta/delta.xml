@@ -7,7 +7,7 @@
     <test name="CO AutoSS Delta Tests">
         <parameter name="state" value="CO"/>
         <classes>
-            <class name="aaa.modules.delta.co.AssDeltaScenario1"/>
+            <class name="aaa.modules.delta.co.auto.AssDeltaScenario1"/>
         </classes>
     </test>
 </suite>

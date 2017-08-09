@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.policy.templates.PolicyRenewDeclineByCompany;
+import aaa.modules.regression.service.template.PolicyRenewDeclineByCompany;
 import toolkit.utils.TestInfo;
 
 /**

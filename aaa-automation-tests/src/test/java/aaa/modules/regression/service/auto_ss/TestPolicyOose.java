@@ -5,7 +5,7 @@ package aaa.modules.regression.service.auto_ss;
 import org.testng.annotations.Test;
 
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.policy.templates.PolicyOose;
+import aaa.modules.regression.service.template.PolicyOose;
 import toolkit.utils.TestInfo;
 
 

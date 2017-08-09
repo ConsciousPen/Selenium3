@@ -1,10 +1,11 @@
-package aaa.modules.policy.auto_ca_choice;
+package aaa.modules.regression.sales.auto_ca.choice.functional;
 
 import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.sales.template.functional.RatingDetailsCompCollSymbolsPresence;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
-public class TestRatingDetailsView extends aaa.modules.policy.templates.RatingDetailsCompCollSymbolsPresence {
+public class TestRatingDetailsView extends RatingDetailsCompCollSymbolsPresence {
 
     /**
      * PAS-535

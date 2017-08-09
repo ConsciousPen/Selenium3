@@ -5,7 +5,7 @@ package aaa.modules.regression.service.auto_ca.select;
 import org.testng.annotations.Test;
 
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.policy.templates.PolicyEndorsementRollBack;
+import aaa.modules.regression.service.template.PolicyEndorsementRollBack;
 import toolkit.utils.TestInfo;
 
 /**
