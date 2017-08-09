@@ -1,0 +1,20 @@
+TestData: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab',
+  UnderlyingRisksOtherVehiclesTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {Personal Umbrella: '$1,000,000'},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+UnderlyingRisksAutoTab: {
+  Automobiles: [{
+    Add: Click,
+    VIN: WDCYC7BB0B6729451
+  }]
+}
