@@ -4,10 +4,9 @@
  */
 package aaa.main.modules.policy.auto_ca.defaulttabs;
 
-import org.openqa.selenium.By;
+import aaa.main.modules.policy.abstract_tabs.Error;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import toolkit.webdriver.controls.Button;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -15,8 +14,7 @@ import toolkit.webdriver.controls.Button;
  * Modify this class if tab filling procedure has to be customized, extra asset list to be added, custom testdata key to be defined, etc.
  * @category Generated
  */
-public class ErrorTab extends Tab {
-	public Button btnOverride = new Button(By.id("errorsForm:overrideRules"));
+public class ErrorTab extends Error {
 
 	public ErrorTab() {
 		super(AutoCaMetaData.ErrorTab.class);

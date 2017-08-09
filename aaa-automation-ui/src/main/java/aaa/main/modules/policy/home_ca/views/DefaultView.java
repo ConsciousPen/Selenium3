@@ -5,18 +5,7 @@
 package aaa.main.modules.policy.home_ca.views;
 
 import aaa.common.Workspace;
-import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.DocumentsTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.MortgageesTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PersonalPropertyTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.UnderwritingAndApprovalTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.*;
 
 /**
  * Concrete workspace implementation.
@@ -38,6 +27,7 @@ public class DefaultView extends Workspace {
 		registerTab(UnderwritingAndApprovalTab.class);
 		registerTab(DocumentsTab.class);
 		registerTab(BindTab.class);
+		registerTab(ErrorTab.class);
 		registerTab(PurchaseTab.class);
     }
 }

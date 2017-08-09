@@ -79,7 +79,8 @@ TestDataFull: {
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
   DocumentsTab: '@DocumentsTab',
   BindTab: '@BindTab',
-  PurchaseTab: '@@home_ca_ho3@DataGather@PurchaseTab'
+  PurchaseTab: '@home_ca_ho3@DataGather@PurchaseTab',
+  ErrorTab: '@ErrorTab'
 }
 
 GeneralTabFull: {
@@ -208,7 +209,15 @@ PropertyInfoTabFull: {
   ClaimHistory: {},
 }
 
-EndorsementTab: {}
+EndorsementTab: {
+  HO-71: [{
+    Name of business: 'Test',
+    Description of Business: 'Just a test business',
+    Classification/occupation: 'index=1',
+    Co-applicant Classification/occupation: 'index=1',
+    'Is the insured self-employed, a partner in the business, or maintain any financial control in this business?': 'No',
+     }]
+}
 
 PremiumsAndCoveragesQuoteTab: {
   Payment plan: Annual,
@@ -220,7 +229,7 @@ PremiumsAndCoveragesQuoteTab: {
   Coverage E - Personal Liability Each Occurrence: 'index=1',
   Deductible: 'index=1',
   Calculate Premium: true,
-  Accept CEA offer: 'No',
+  Apply CEA Discount: 'No',
 }
 
 MortgageesTab: {
@@ -291,7 +300,6 @@ DocumentsTab: {
   },
   DocumentsToIssue: {
     AutoPay Authorization Form: Physically Signed,
-    CEA Offer Declination: Physically Signed,
     California Residential Property Insurance Disclosure: Physically Signed,
     Signed policy application: Physically Signed,
   },
@@ -299,11 +307,19 @@ DocumentsTab: {
 
 BindTab: {}
 
-PurchaseTab: {
-  PaymentAllocation: {
-    Cash: /rest
+ErrorTab: {
+  ErrorsOverride: {
+  Override: 'true',
+  'Reason for override': 'index=1',
+  Duration: 'Term',
   }
 }
+
+#PurchaseTab: {
+#  PaymentAllocation: {
+#    Cash: /rest
+#  }
+
 
 
 

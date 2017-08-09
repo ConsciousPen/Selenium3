@@ -10,17 +10,20 @@ import java.util.function.Supplier;
 import org.apache.commons.lang3.NotImplementedException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
+import aaa.common.pages.Page;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.BaseElement;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.table.Cell;
 import toolkit.webdriver.controls.composite.table.Row;
+import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
- * Custom control for table with filters/sorting and pagination
+ * Custom control for table with filters/sorting/selecting/removing and pagination
  */
 public class AdvancedTable extends TableWithPages {
 	public AdvancedTable(By tableWithPaginationLocator) {
@@ -88,9 +91,8 @@ public class AdvancedTable extends TableWithPages {
 	public List<Row> getRows(Map<String, String> query) {
 		if (isFilterAvailable(query)) {
 			filterBy(query);
-			return super.getRows(query);
 		}
-		return getRowsWithNavigation(() -> super.getRows(query));
+		return super.getRows(query);
 	}
 
 	@Override
@@ -154,7 +156,7 @@ public class AdvancedTable extends TableWithPages {
 		return isFilterAvailable(tb);
 	}
 
-	private boolean isFilterAvailable(Map<String, String> query) {
+	public boolean isFilterAvailable(Map<String, String> query) {
 		return query.entrySet().stream().allMatch(entry -> isFilterAvailable(entry.getKey()));
 	}
 
@@ -176,6 +178,28 @@ public class AdvancedTable extends TableWithPages {
 	public void sortBy(Integer index) {
 		//TODO-dchubkov: implement this method
 		throw new NotImplementedException("sortBy(Integer index) is not implemented yet.");
+	}
+
+	public void removeRow(int index) {
+		getRow(index).getCell(getColumnsCount()).controls.links.get("Remove").click();
+		if (Page.dialogConfirmation.isPresent()) {
+			Page.dialogConfirmation.confirm();
+		}
+	}
+
+	public boolean isRowSelected(int index) {
+		return new StaticElement(new ByChained(getLocator(), getRow(index).getLocator(), By.xpath(".//td[position()=1 or position()=2]/span[@class='textBold']"))).isPresent();
+	}
+
+	public void selectRow(int index) {
+		if (!isRowSelected(index)) {
+			getRow(index).getCell(getColumnsCount()).controls.links.get("View/Edit").click();
+		}
+	}
+	//TODO-dchubkov: implement isRowSelected(...),  removeRow(...) and selectRow(...) by other arguments like in getRaw(...) methods
+
+	public boolean isEmpty() {
+		return "No records found.".equals(getRow(1).getCell(1).getValue());
 	}
 
 	private void filterBy(TextBox filterTextBox, String value) {
@@ -216,8 +240,6 @@ public class AdvancedTable extends TableWithPages {
 	private TextBox getFilterTextBoxByHeadersCell(Cell cell) {
 		return new TextBox(new ByChained(getLocator(), cell.getLocator(), By.xpath(".//input")), Waiters.AJAX);
 	}
-
-	//TODO-dchubkov: add new Verify methods
 
 	public class TableState {
 		private Integer selectedRowsPerPage;
@@ -271,4 +293,25 @@ public class AdvancedTable extends TableWithPages {
 			this.filters = filters;
 		}
 	}
+
+
+	public final AdvancedTable.Verify verify = this.new Verify();
+	/**
+	 * Extended tables verifier class for AdvancedTable
+	 */
+	public class Verify extends Table.Verify {
+		public void empty() {
+			empty(true);
+		}
+
+		public void empty(boolean expectedValue) {
+			String assertMessage = String.format("Table with locator [%1$s] is%2$s empty.", getLocator(), expectedValue? " not" : "");
+			if (expectedValue) {
+				CustomAssert.assertTrue(assertMessage, isEmpty());
+			} else {
+				CustomAssert.assertFalse(assertMessage, isEmpty());
+			}
+		}
+	}
+
 }

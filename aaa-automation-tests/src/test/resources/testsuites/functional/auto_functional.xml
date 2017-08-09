@@ -18,6 +18,7 @@
 			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
 			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
 			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyOose"/>
 			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>				
    		</classes>
     </test>
@@ -35,6 +36,7 @@
 			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride"/>	
 			<class name="aaa.modules.policy.auto_ss.TestPolicySpin"/>	
 			<class name="aaa.modules.policy.auto_ss.TestPolicySplit"/>	
+			<class name="aaa.modules.policy.auto_ss.TestPolicyOose"/>
 			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill"/>		
    		</classes>
     </test>
@@ -405,6 +407,7 @@
 			<class name="aaa.modules.policy.auto_ca_select.TestPolicyFuturedated"/>
 			<class name="aaa.modules.policy.auto_ca_select.TestPolicyBilling"/>
 			<class name="aaa.modules.policy.auto_ca_select.TestPolicyRenew"/>
+			<class name="aaa.modules.policy.auto_ca_select.TestPolicyOose"/>
    		</classes>
     </test>
 
@@ -416,6 +419,7 @@
 			<class name="aaa.modules.policy.auto_ca_choice.TestPolicyEndorsementAdd"/>
 			<class name="aaa.modules.policy.auto_ca_choice.TestPolicyBilling"/>
 			<class name="aaa.modules.policy.auto_ca_choice.TestPolicyCancelReinstate"/>
+			<class name="aaa.modules.policy.auto_ca_choice.TestPolicyOose"/>
    		</classes>
     </test>
 	

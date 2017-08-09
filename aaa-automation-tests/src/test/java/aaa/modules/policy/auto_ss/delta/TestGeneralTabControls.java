@@ -41,8 +41,6 @@ public class TestGeneralTabControls extends AutoSSBaseTest {
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(getPolicyTD(), GeneralTab.class, true);
 
-
-
 		CustomAssert.enableSoftMode();
 		//Verify Dropdown Values on General tab
 		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel(), ComboBox.class).verify.options(

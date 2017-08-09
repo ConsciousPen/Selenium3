@@ -320,3 +320,33 @@ EISDEV-XXXXX2:
   failures:
     - tests: [aaa.modules.common.TestSearchPageFillingAndWarnings.testSearchWarnings]
       messages: ["Cannot get value of StaticElement {<unnamed>: By.xpath: //ul[@id='messages']}"]
+EISDEV-XXXXX3:
+  summary: "[TO_BE_CREATED] Internal rating engine error during Premium Calculation for DP3 product"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.policy.home_ca_dp3.TestPolicyCreation]
+      messages: ['Unable to locate element: {"method":"id","selector":"policyDataGatherForm:premiumRecalcCov"']
+    - tests: [aaa.modules.policy.home_ca_dp3.TestPolicyCreationFull]
+      messages: ['Unable to locate element: {"method":"id","selector":"policyDataGatherForm:premiumRecalcCov"']
+QC-44225:
+  summary: "Regression: Auto: NPE on rate Pended Endorsement after Spin/Split"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.policy.auto_ss.TestPolicySplit.testPolicySplit]
+      messages: ['Unable to locate element: {"method":"id","selector":"policyDataGatherForm:premiumRecalc"}', 'Errors: Time out. No session available.']
+    - tests: [aaa.modules.policy.auto_ss.TestPolicySpin.testPolicySpin]
+      messages: ['Unable to locate element: {"method":"id","selector":"policyDataGatherForm:premiumRecalc"}', 'Errors: Time out. No session available.']
+QC-44023:
+  summary: "Error code AAA_CLUE_order_validation appears while trying to bind a split quote"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.policy.auto_ss.TestPolicySpin.testPolicySpin]
+      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: purchaseForm:downpaymentComponent_remainingBalanceValue}', 'Errors: AAA_CLUE_order_validation; Error; CLUE reports should be reordered, because answer has no info or order data ha...']
+    - tests: [aaa.modules.policy.auto_ss.TestPolicySplit.testPolicySplit]
+      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: purchaseForm:downpaymentComponent_remainingBalanceValue}', 'Errors: AAA_CLUE_order_validation; Error; CLUE reports should be reordered, because answer has no info or order data ha...']
+QC-44194:
+  summary: "Error code AAA_CLUE_order_validation appears while trying to bind a split quote"
+  reason: PROD
+  failures:
+    - tests: [com.exigen.automation.testcase.smokeTests.SmokeTestsAssData.AssPolicyOose.PolicyOose]
+      messages: ["ERROR: Element productContextInfoForm:policyDetail_policyStatusCdText not found"]

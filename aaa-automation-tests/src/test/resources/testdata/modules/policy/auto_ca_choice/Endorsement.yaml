@@ -32,3 +32,10 @@ TestData_Plus10Day: {
     Endorsement Reason: index=1,
   }
 }
+
+TestData_Plus5Day: {
+  EndorsementActionTab: {
+    Endorsement Date: /today+5d,
+    Endorsement Reason: index=1,
+  }
+}

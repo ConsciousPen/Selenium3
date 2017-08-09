@@ -1,13 +1,52 @@
-TestData_CO_TC02: {
-  PrefillTab: '@auto_ss@DataGather@PrefillTab',
-  GeneralTab: '@auto_ss@DataGather@GeneralTab',
+#todo: figure out how to create path to @auto_ss@DataGather collection
+TestData_TC02_CO: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
   DriverTab: ['@DriverTab_Driver_01','@DriverTab_Driver_02']
 }
 
-TestData_CO_TC03: {
-  PrefillTab: '@auto_ss@DataGather@PrefillTab',
-  GeneralTab: '@auto_ss@DataGather@GeneralTab',
+TestData_TC03_CO: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
   DriverTab: '@DriverTab_Driver_01'
+}
+
+PrefillTab: {
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+GeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation'
+}
+
+NamedInsuredInformation: {
+  Social Security Number: 123456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+AAAProductOwned: {
+  Membership Number: 4290023667710001,
+  Last name: Test,
+}
+
+ContactInformation: {
+   Home Phone Number: 1234567890
+}
+
+PolicyInformation: {
+  Policy Type: Standard,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: Independent Agent,
+  Agency: SMTestIA - 400001650,
+  Authorized by: QA,
+  Lead Source: AAA Magazines
 }
 
 DriverTab_Driver_01: {

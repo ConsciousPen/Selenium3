@@ -196,6 +196,7 @@ public final class HomeCaMetaData {
             public static final class OtherActiveAAAPoliciesSearch extends MetaData {
                 public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy Type", ComboBox.class, Waiters.NONE);
                 public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class, Waiters.NONE);
+                public static final AssetDescriptor<Button> CANCEL_BTN = declare("Cancel", Button.class, Waiters.NONE);
             }
 
             public static final class OtherActiveAAAPoliciesManual extends MetaData {
@@ -1362,6 +1363,7 @@ public final class HomeCaMetaData {
         public static final AssetDescriptor<RadioGroup> OPTIONAL_COVERAGE_BREAKAGE_OF_PERSONAL_PROPERTY = declare("Optional coverage - Breakage of personal property", RadioGroup.class, Waiters.AJAX);
         public static final AssetDescriptor<Button> CALCULATE_PREMIUM_BUTTON = declare("Calculate Premium", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:premiumRecalcCov"));
         public static final AssetDescriptor<RadioGroup> ACCEPT_CEA_OFFER = declare("Accept CEA offer", RadioGroup.class, Waiters.AJAX);
+        public static final AssetDescriptor<RadioGroup> APPLY_CEA_DISCOUNT = declare("Apply CEA Discount", RadioGroup.class, Waiters.AJAX);
         public static final AssetDescriptor<ComboBox> CEA_PRODUCT = declare("CEA Product", ComboBox.class, Waiters.AJAX);
 
         public static final class CeaCoverages extends MetaData {
@@ -1603,7 +1605,6 @@ public final class HomeCaMetaData {
         }
 
         public static final class DocumentsToIssue extends MetaData {
-            public static final AssetDescriptor<RadioGroup> CEA_OFFER_DECLINATION = declare("CEA Offer Declination", RadioGroup.class, Waiters.AJAX);
             public static final AssetDescriptor<RadioGroup> CALIFORNIA_RESIDENTIAL_PROPERTY_INSURANCE_DISCLOSURE = declare("California Residential Property Insurance Disclosure", RadioGroup.class,
                     Waiters.AJAX);
             public static final AssetDescriptor<RadioGroup> SIGNED_POLICY_APPLICATION = declare("Signed policy application", RadioGroup.class, Waiters.NONE);
@@ -1612,6 +1613,20 @@ public final class HomeCaMetaData {
     }
 
     public static final class BindTab extends MetaData {}
+
+    public static final class ErrorTab extends MetaData {
+        public static final AssetDescriptor<FillableTable> ERROR_OVERRIDE = declare("ErrorsOverride", FillableTable.class, RuleRow.class, By.id("errorsForm:msgList"));
+
+        public static final class RuleRow extends MetaData {
+            public static final AssetDescriptor<CheckBox> OVERRIDE = declare("Override", CheckBox.class);
+            public static final AssetDescriptor<CheckBox> APPROVAL = declare("Approval", CheckBox.class);
+            public static final AssetDescriptor<Link> CODE = declare("Code", Link.class);
+            public static final AssetDescriptor<StaticElement> SEVERITY = declare("Severity", StaticElement.class);
+            public static final AssetDescriptor<StaticElement> MESSAGE = declare("Message", StaticElement.class);
+            public static final AssetDescriptor<RadioGroup> DURATION = declare("Duration", RadioGroup.class);
+            public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class);
+        }
+    }
 
     // policy Actions
     public static final class ExtensionRenewalActionTab extends MetaData {}

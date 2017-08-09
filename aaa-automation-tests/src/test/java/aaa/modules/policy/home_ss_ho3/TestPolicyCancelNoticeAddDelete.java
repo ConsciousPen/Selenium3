@@ -9,7 +9,7 @@ import aaa.modules.policy.templates.PolicyCancelNoticeAddDelete;
 import toolkit.utils.TestInfo;
 
 /**
- * @author Viachaslau Markouski
+ * @author Ryan Yu
  * @name Test Cancel and Delete Notice for Home Policy
  * @scenario
  * 1. Create Customer
