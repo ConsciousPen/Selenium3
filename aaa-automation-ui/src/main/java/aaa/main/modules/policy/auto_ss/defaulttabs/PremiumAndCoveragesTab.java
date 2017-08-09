@@ -9,6 +9,7 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -20,8 +21,10 @@ import toolkit.webdriver.controls.waiters.Waiters;
  */
 public class PremiumAndCoveragesTab extends Tab {
     public static Button buttonCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalc"));
-    public static Table tableRatingDetailsVehicles = new Table(By.id("ratingDetailsPopupForm:vehicle_summary"));
     public static Button buttonViewRatingDetails = new Button(By.id("policyDataGatherForm:viewRatingDetails_Link_1"));
+    public static Table tableRatingDetailsVehicles = new Table(By.id("ratingDetailsPopupForm:vehicle_summary"));
+    public static StaticElement totalTermPremium = new StaticElement(By.xpath("//span[@class='TOTAL_TERM_PREMIUM']"));
+
     //-- old controls
     public static Table tablePremiumSummary = new Table(By.id("policyDataGatherForm:riskItemPremiumInfoTable"));
     public static Button buttonCommissionOverride = new Button(By.id("policyDataGatherForm:commissionOverrideButton"));

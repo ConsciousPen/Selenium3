@@ -7,8 +7,7 @@
     <test name="CO AutoSS Delta Tests">
         <parameter name="state" value="CO"/>
         <classes>
-            <class name="aaa.modules.policy.auto_ss.delta.TestGeneralTabControls"/>
-            <class name="aaa.modules.policy.auto_ss.delta.TestDriverTabControls"/>
+            <class name="aaa.modules.delta.co.AssDeltaScenario1"/>
         </classes>
     </test>
 </suite>
