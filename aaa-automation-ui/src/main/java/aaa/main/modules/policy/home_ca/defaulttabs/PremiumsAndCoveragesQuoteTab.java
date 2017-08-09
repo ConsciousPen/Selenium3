@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.table.Table;
+import toolkit.webdriver.controls.waiters.Waiters;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 
@@ -23,6 +24,7 @@ import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 
     public static Table tableEndorsementForms = new Table(By.id("policyDataGatherForm:formSummaryTable"));
+    public static Button btnContinue = new Button(By.id("policyDataGatherForm:next_footer"), Waiters.AJAX);
 
     public PremiumsAndCoveragesQuoteTab() {
         super(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class);
