@@ -27,8 +27,7 @@ public class TestPolicyEndorsementAdd extends AutoSSBaseTest {
     public void testPolicyEndorsementAdd() {
         mainApp().open();
         
-        createCustomerIndividual();
-        createPolicy();
+        getCopiedPolicy();
 
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 

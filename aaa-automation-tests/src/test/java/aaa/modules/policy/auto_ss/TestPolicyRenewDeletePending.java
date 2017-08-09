@@ -27,9 +27,7 @@ public class TestPolicyRenewDeletePending extends AutoSSBaseTest {
     public void testPolicyRenewDeletePending() {
         mainApp().open();
 
-        createCustomerIndividual();
-
-        createPolicy();
+        getCopiedPolicy();
 
         log.info("TEST: Delete Pending Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
         policy.renew().perform(new SimpleDataProvider());

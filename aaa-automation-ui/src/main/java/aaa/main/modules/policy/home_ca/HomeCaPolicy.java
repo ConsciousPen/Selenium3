@@ -14,6 +14,7 @@ import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyActions;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.DocumentsTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
@@ -94,6 +95,8 @@ public class HomeCaPolicy implements IPolicy {
         calculatePremium(td);
 	    NavigationPage.toViewTab(NavigationEnum.HomeCaTab.UNDERWRITING_AND_APPROVAL.get());
 	    new UnderwritingAndApprovalTab().fillTab(td);
+	    NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
+	    new DocumentsTab().fillTab(td);
 	    NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 	    new BindTab().submitTab();
 	    new PurchaseTab().fillTab(td).submitTab();

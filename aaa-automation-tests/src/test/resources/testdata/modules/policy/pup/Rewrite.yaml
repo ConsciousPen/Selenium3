@@ -9,6 +9,6 @@ TestDataSameNumber: {
 TestDataNewNumber: {
   RewriteActionTab: {
     Effective Date:  /today,
-    'Use Original Policy Number?': 'No'
+    Rewrite reason: index=1
   }
 }
