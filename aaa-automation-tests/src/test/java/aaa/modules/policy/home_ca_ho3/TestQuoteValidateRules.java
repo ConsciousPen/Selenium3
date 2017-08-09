@@ -37,6 +37,7 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
     @TestInfo(component = "Policy.HomeCA")
     public void testQuoteFuturedated() {
         GeneralTab generalTab = new GeneralTab();
+        String expectedWarning = "Policy effective date cannot be more than 90 days from today's date.";
 
         mainApp().open();
         createCustomerIndividual();
@@ -45,7 +46,7 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
         generalTab.fillTab(getPolicyTD());
         generalTab.getAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.class.getSimpleName(), AssetList.class).getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE)
                 .setValue(DateTimeUtils.getCurrentDateTime().plusDays(91).format(DateTimeUtils.MM_DD_YYYY));
-        //        generalTab.verifyFieldHasMessage(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE.getLabel(), "Policy effective date cannot be more than 90 days from today's date.");
+        generalTab.getAssetList().getAsset(HomeCaMetaData.GeneralTab.POLICY_INFO).getWarning(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE.getLabel()).verify.contains(expectedWarning);
         generalTab.getAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.class.getSimpleName(), AssetList.class).getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE)
                 .setValue(DateTimeUtils.getCurrentDateTime().plusDays(10).format(DateTimeUtils.MM_DD_YYYY));
         generalTab.submitTab();
@@ -73,6 +74,7 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
     @TestInfo(component = "Policy.HomeCA")
     public void testQuoteBackdated() {
         GeneralTab generalTab = new GeneralTab();
+        String expectedWarning = "Policy effective date cannot be backdated more than three days from today's d...";
 
         mainApp().open();
         createCustomerIndividual();
@@ -82,7 +84,7 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
         generalTab.getAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.class.getSimpleName(), AssetList.class).getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE)
                 .setValue(DateTimeUtils.getCurrentDateTime().minusDays(10).format(DateTimeUtils.MM_DD_YYYY));
         //TODO Change if bug will be fixed
-        //generalTab.verifyFieldHasMessage(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE.getLabel(), "Policy effective date cannot be backdated more than three days from today's");
+        //generalTab.getAssetList().getAsset(HomeCaMetaData.GeneralTab.POLICY_INFO).getWarning(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE.getLabel()).verify.contains(expectedWarning);
         //generalTab.getAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.class.getSimpleName(), AssetList.class).getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE)
         //.setValue(DateTimeUtils.getCurrentDateTime().minusDays(3).format(DateTimeUtils.MM_DD_YYYY));
         //generalTab.submitTab();
@@ -93,7 +95,7 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
         policy.getDefaultView().fillFromTo(getPolicyTD(), ApplicantTab.class, BindTab.class);
         new BindTab().btnPurchase.click();
 
-        ErrorPage.tableError.getRow(1).getCell(ErrorPageEnum.ErrorsColumn.MESSAGE.get()).verify.contains("Policy effective date cannot be backdated more than three days from today's d...");
+        ErrorPage.tableError.getRow(1).getCell(ErrorPageEnum.ErrorsColumn.MESSAGE.get()).verify.contains(expectedWarning);
         ErrorPage.buttonCancel.click();
 
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.GENERAL.get());
