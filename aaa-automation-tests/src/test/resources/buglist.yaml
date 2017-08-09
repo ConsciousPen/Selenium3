@@ -355,6 +355,6 @@ QC-44220:
   reason: PROD
   failures:
     - tests: [aaa.modules.policy.auto_ss.TestPolicyBilling.testBilling]
-      messages: ['Unable to locate element: {"method":"xpath","selector":"//div[@id='policyDataGatherForm:tabTree']/div/div[@title='Driver Activity Reports']|//div[@title='Driver Activity Reports']/span[2]/span[2]"}', 'Errors: Error; Failed to rate policy']
+      messages: ['Unable to locate element: {"method":"xpath","selector":"//div[@id=''policyDataGatherForm:tabTree'']/div/div[@title=''Driver Activity Reports'']|//div[@title=''Driver Activity Reports'']/span[2]/span[2]"}']
     - tests: [aaa.modules.policy.auto_ss.TestPolicyOose]
-      messages: ['Unable to locate element: {"method":"xpath","selector":"//div[@id='policyDataGatherForm:tabTree']/div/div[@title='Driver Activity Reports']|//div[@title='Driver Activity Reports']/span[2]/span[2]"}', 'Errors: Error; Failed to rate policy']        
+      messages: ['Unable to locate element: {"method":"xpath","selector":"//div[@id=''policyDataGatherForm:tabTree'']/div/div[@title=''Driver Activity Reports'']|//div[@title=''Driver Activity Reports'']/span[2]/span[2]"}']
