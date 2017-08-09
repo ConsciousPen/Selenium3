@@ -5,7 +5,7 @@
 		<listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
 	</listeners>
 	<parameter name="timeshift-scenario-mode" value="test" />
-
+ 
 	<test name="Common Functional Tests">
 		<parameter name="state" value="UT" />
 		<classes>
@@ -282,7 +282,7 @@
 			<class name="aaa.modules.policy.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
-
+ 
 	<test name="MD HSS Functional Tests">
 		<parameter name="state" value="MD" />
 		<classes>
