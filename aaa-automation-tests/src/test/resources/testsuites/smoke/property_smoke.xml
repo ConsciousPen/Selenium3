@@ -379,8 +379,8 @@
 	<test name="CA HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="CA"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ca_ho3.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.home_ca_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 

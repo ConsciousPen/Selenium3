@@ -8,7 +8,7 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoCaMetaData.GeneralTab.PolicyInformation;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
-import aaa.modules.policy.auto_ca_select.TestPolicyBackdated;
+import aaa.modules.regression.sales.auto_ca.select.TestPolicyBackdated;
 
 public class AutoCaSelectBaseTest extends PolicyBaseTest {
 

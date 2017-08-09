@@ -639,17 +639,17 @@
 		<classes>
 			<class name="aaa.modules.policy.home_ca_ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.policy.home_ca_ho3.TestPolicyBillingOperations" />
-			<class name="aaa.modules.policy.home_ca_ho3.TestPolicyCancelWithActivePUP" />
-			<class name="aaa.modules.policy.home_ca_ho3.TestPolicyCopy" />
-			<class name="aaa.modules.policy.home_ca_ho3.TestPolicyCreateHO3Full" />
-			<class name="aaa.modules.policy.home_ca_ho3.TestPolicyManualRenew" />
-			<class name="aaa.modules.policy.home_ca_ho3.TestPolicyRemoveForm" />
-			<class name="aaa.modules.policy.home_ca_ho3.TestQuoteUnderwritingRules" />
-			<class name="aaa.modules.policy.home_ca_ho3.TestQuoteViewSelectedEndorsements" />
+			<class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancelWithActivePUP" />
+			<class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCopy" />
+			<class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyCreateHO3Full" />
+			<class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyManualRenew" />
+			<class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyRemoveForm" />
+			<class name="aaa.modules.regression.sales.home_ca.ho3.TestQuoteUnderwritingRules" />
+			<class name="aaa.modules.regression.sales.home_ca.ho3.TestQuoteViewSelectedEndorsements" />
 			<class name="aaa.modules.policy.home_ca_ho4.TestPolicyCreateHo4Full" />
 			<class name="aaa.modules.policy.home_ca_ho6.TestPolicyCreationFull" />
-			<class name="aaa.modules.policy.home_ca_dp3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ca_dp3.TestPolicyCreationFull" />
+			<class name="aaa.modules.regression.sales.home_ca.dp3.TestPolicyCreation" />
+			<class name="aaa.modules.regression.sales.home_ca.dp3.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
