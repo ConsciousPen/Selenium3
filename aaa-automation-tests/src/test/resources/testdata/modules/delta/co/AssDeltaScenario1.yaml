@@ -1,20 +1,7 @@
-#todo: figure out how to create path to @auto_ss@DataGather collection
-TestData_CO: {
+TestData: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@GeneralTab',
-  DriverTab: ['@DriverTab_Driver_01']
-}
-
-TestData_TC02_CO: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: ['@DriverTab_Driver_01','@DriverTab_Driver_02']
-}
-
-TestData_TC04_CO: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: ['@DriverTab_Driver_03'],
+  DriverTab: ['@DriverTab_Driver_01','@DriverTab_Driver_02'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@VehicleTab'
 }
@@ -94,7 +81,7 @@ DriverTab_Driver_02: {
   License Number: 235689875
 }
 
-DriverTab_Driver_03: {
+DriverTab_TC04: {
   Gender: Male,
   Marital Status: Single,
   Occupation: Employed,

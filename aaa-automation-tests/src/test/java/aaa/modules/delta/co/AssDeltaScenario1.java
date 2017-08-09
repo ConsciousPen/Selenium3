@@ -2,31 +2,36 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.delta.co;
 
-import java.util.Arrays;
-
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.MainPage;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
+import aaa.common.pages.SearchPage;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.annotations.Test;
+import toolkit.datax.DataProviderFactory;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 
+import java.util.Arrays;
+
 /**
  * @author Dmitry Chubkov
  * @name General tab controls check for AutoSS product, CO state [TC01]
- * @scenario
- * 1. Create customer
+ * @scenario 1. Create customer
  * 2. Initiate AutoSS quote creation
  * 3. Go to General Tab
  * 4. Verify Dropdown Values on General tab
@@ -36,26 +41,24 @@ import toolkit.webdriver.controls.ComboBox;
  * 8. Verify field TollFree Number visible
  * 9. Select any option other than "None" for 'Adversely Impacted' field.
  * 10. Verify dropdown visible
- *
  * @details
  */
 public class AssDeltaScenario1 extends AutoSSBaseTest {
+	private String quoteNumber;
+	private DriverTab driverTab = new DriverTab();
+	private MultiInstanceBeforeAssetList aiAssetList = driverTab.getActivityInformationAssetList();
 
 	@Test
 	@TestInfo(component = "Policy.AutoSS")
 	public void testSC1_TC01() {
 		GeneralTab gTab = new GeneralTab();
 
-		mainApp().open();
-
-		createCustomerIndividual();
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(getPolicyTD(), GeneralTab.class, true);
+		preconditions(NavigationEnum.AutoSSTab.GENERAL);
 
 		CustomAssert.enableSoftMode();
 		//Verify Dropdown Values on General tab
 		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel(), ComboBox.class).verify.options(
-				Arrays.asList("Own Home", "Own Condo", "Own Mobile Home", "Rents Multi-Family Dwelling", "Rents Single-Family Dwelling", "Lives with Parent", "Other", ""));
+				Arrays.asList("Own Home", "Own Condo", "Own Mobile Home", "Rents Multi-Family Dwelling", "Rents Single-Family Dwelling", "Lives with Parent", "Other"));
 
 		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), ComboBox.class).verify.options(
 				Arrays.asList("Yes", "No", "Membership Pending"));
@@ -86,59 +89,59 @@ public class AssDeltaScenario1 extends AutoSSBaseTest {
 
 		//Verify dropdown visible
 		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.ADVERSELY_IMPACTED).verify.present();
-
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
+
+		Tab.buttonSaveAndExit.click();
+
+		/*Tab.buttonSaveAndExit.click();
+		quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		log.info("DELTA CO SC1: ASS Quote created with #" + quoteNumber);*/
 	}
 
 	/**
 	 * @author Dmitry Chubkov
 	 * @name Driver tab controls check for AutoSS product, CO state [TC02]
-	 * @scenario
-	 * 1. Create customer
+	 * @scenario 1. Create customer
 	 * 2. Initiate AutoSS quote creation
 	 * 3. Move to Driver tab
 	 * 4. Add second drive
 	 * 5. Verify following Marital Statuses available for CO: "Registered Domestic Partner/Civil Union", "Common Law"
 	 * 6. Verify Dropdown Values in Driver tab
-	 *
 	 * @details
 	 */
 	@Test
 	@TestInfo(component = "Policy.AutoSS")
 	public void testSC1_TC02() {
-		DriverTab dTab = new DriverTab();
+		preconditions(NavigationEnum.AutoSSTab.DRIVER);
 
-		mainApp().open();
-
-		createCustomerIndividual();
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData_TC02"), DriverTab.class, true);
+		driverTab.fillTab(getTestSpecificTD("TestData"));
 
 		CustomAssert.enableSoftMode();
-		dTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DRIVER_TYPE.getLabel(), ComboBox.class).verify.options(
+		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DRIVER_TYPE.getLabel(), ComboBox.class).verify.options(
 				Arrays.asList("Available for Rating", "Not Available for Rating", "Excluded"));
 
-		dTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).verify.options(
+		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).verify.options(
 				Arrays.asList("First Named Insured", "Spouse", "Child", "Parent", "Sibling", "Other Resident Relative", "Employee", "Other", "Registered Domestic Partner/Civil Union"));
 
-		dTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.GENDER.getLabel(), ComboBox.class).verify.options(Arrays.asList("Male", "Female"));
+		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.GENDER.getLabel(), ComboBox.class).verify.options(Arrays.asList("Male", "Female"));
 
-		dTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), ComboBox.class).verify.options(
+		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), ComboBox.class).verify.options(
 				Arrays.asList("Married", "Single", "Divorced", "Widowed", "Separated", "Registered Domestic Partner/Civil Union", "Common Law"));
 
-		dTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.LICENSE_TYPE.getLabel(), ComboBox.class).verify.options(
+		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.LICENSE_TYPE.getLabel(), ComboBox.class).verify.options(
 				Arrays.asList("Licensed (US)", "Licensed (Canadian)", "Foreign", "Not Licensed", "Learner's Permit"));
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
+
+		Tab.buttonSaveAndExit.click();
 	}
 
 	/**
 	 * @author Dmitry Chubkov
 	 * @name Driver tab controls check for AutoSS product, CO state [TC03]
-	 * @scenario
-	 * 1. Create customer
+	 * @scenario 1. Create customer
 	 * 2. Initiate AutoSS quote creation
 	 * 3. Move to Driver tab
 	 * 4. Click on the 'Add Activity', select Type: 'Principally At-Fault Accident', Description: 'Principally At-Fault Accident (Property Damage Only)'
@@ -151,19 +154,12 @@ public class AssDeltaScenario1 extends AutoSSBaseTest {
 	 * 11. Enter a 'Conviction Date' that is later than the current date and click Continue button
 	 * 12. Verify that error message appears: 'Conviction Date later than current date' is displayed. User should stay in Driver tab
 	 * 13. Remove activity information, verify that 'List of Activity Information' table gets empty
-	 *
 	 * @details
 	 */
 	@Test
 	@TestInfo(component = "Policy.AutoSS")
 	public void testSC1_TC03() {
-		MultiInstanceBeforeAssetList aiAssetList = new DriverTab().getActivityInformationAssetList();
-
-		mainApp().open();
-
-		createCustomerIndividual();
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData"), DriverTab.class, true);
+		preconditions(NavigationEnum.AutoSSTab.DRIVER);
 
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY).click();
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.TYPE).setValue("Principally At-Fault Accident");
@@ -193,6 +189,8 @@ public class AssDeltaScenario1 extends AutoSSBaseTest {
 
 		DriverTab.tableActivityInformationList.removeRow(1);
 		DriverTab.tableActivityInformationList.verify.empty();
+
+		Tab.buttonSaveAndExit.click();
 	}
 
 	/**
@@ -204,11 +202,10 @@ public class AssDeltaScenario1 extends AutoSSBaseTest {
 	public void testSC1_TC04() {
 		VehicleTab vTab = new VehicleTab();
 
-		mainApp().open();
+		preconditions(NavigationEnum.AutoSSTab.DRIVER);
+		TestData adjustedDriverData = DataProviderFactory.dataOf(driverTab.getMetaKey(), getTestSpecificTD("DriverTab_TC04"));
+		policy.getDefaultView().fillFromTo(getTestSpecificTD("TestData").adjust(driverTab.getMetaKey(), adjustedDriverData), DriverTab.class, VehicleTab.class, true);
 
-		createCustomerIndividual();
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData_TC04"), VehicleTab.class, true);
 		vTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.TYPE).verify.options(Arrays.asList("Private Passenger Auto", "Limited Production/Antique", "Trailer", "Motor Home", "Conversion Van", "Trailer"));
 		vTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.USAGE).verify.options(Arrays.asList("Pleasure", "Commute", "Business", "Artisan", "Farm"));
 		vTab.submitTab();
@@ -217,5 +214,57 @@ public class AssDeltaScenario1 extends AutoSSBaseTest {
 		PremiumAndCoveragesTab.buttonCalculatePremium.click();
 		//in old test this verification was skipped with comment 'PAS12:AS per RSG, commenting premium rating verifications'
 		PremiumAndCoveragesTab.totalTermPremium.verify.value(new Dollar("5,983.00").toString());
+
+		Tab.buttonSaveAndExit.click();
+	}
+
+	/**
+	 * @author Dmitry Chubkov
+	 * @name CO_SC1_TC05
+	 */
+	@Test
+	@TestInfo(component = "Policy.AutoSS")
+	public void testSC1_TC05() {
+		PremiumAndCoveragesTab pacTab = new PremiumAndCoveragesTab();
+
+		preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
+		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY).verify.value("$100,000/$300,000 (+$0.00)");
+		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY).verify.value("$50,000  (+$0.00)");
+		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY).verify.value("$100,000/$300,000 (+$0.00)");
+		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS).verify.value("$5,000  (+$0.00)");
+
+		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE).verify.value("$250  (+$0.00)");
+		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE).verify.value("$500  (+$0.00)");
+		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.SPECIAL_EQUIPMENT_COVERAGE).verify.value("$1,500.00");
+		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.FULL_SAFETY_GLASS).verify.value("No Coverage");
+		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.RENTAL_REIMBURSEMENT).verify.value("No Coverage (+$0.00)");
+		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE).verify.value("No Coverage (+$0.00)");
+		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.NEW_CAR_ADDED_PROTECTION).verify.value("No Coverage");
+		Tab.buttonSaveAndExit.click();
+	}
+
+	private void preconditions(NavigationEnum.AutoSSTab navigateTo) {
+		mainApp().open();
+		String quote = getQuoteNumber();
+		MainPage.QuickSearch.buttonSearchPlus.click();
+		if (Page.dialogConfirmation.isPresent()) { //happens if previous test in queue was failed
+			Page.dialogConfirmation.confirm();
+		}
+		SearchPage.openQuote(quote);
+		policy.dataGather().start();
+		NavigationPage.toViewTab(navigateTo.get());
+	}
+
+	private String getQuoteNumber() {
+		if (quoteNumber == null) {
+			mainApp().open();
+			createCustomerIndividual();
+			policy.initiate();
+			policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData"), GeneralTab.class, true);
+			Tab.buttonSaveAndExit.click();
+			quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+			log.info("DELTA CO SC1: ASS Quote created with #" + quoteNumber);
+		}
+		return quoteNumber;
 	}
 }
