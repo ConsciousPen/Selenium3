@@ -1,8 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Auto Functional tests" verbose="1" parallel="tests" thread-count="1024">
-<!--     <listeners>
+     <listeners>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
-    </listeners>  -->
+    </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
    
 	<test name="UT Auto Functional Tests">
