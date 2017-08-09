@@ -4,6 +4,7 @@
  */
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
+import aaa.toolkit.webdriver.customcontrols.AdvancedTable;
 import org.openqa.selenium.By;
 
 import aaa.common.Tab;
@@ -12,8 +13,6 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.AssetList;
-import toolkit.webdriver.controls.composite.table.Table;
-import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -26,7 +25,8 @@ import toolkit.webdriver.controls.waiters.Waiters;
  */
 public class VehicleTab extends Tab {
 	
-	public static Table tblVehicleList = new Table(By.xpath("//div[@id='policyDataGatherForm:componentList_Vehicle_body']//table"));
+	public static AdvancedTable tableVehicleList = new AdvancedTable(By.id("policyDataGatherForm:dataGatherView_ListVehicle"));
+	public static AdvancedTable tableAdditionalInterestList = new AdvancedTable(By.id("policyDataGatherForm:dataGatherView_ListAAAAdditionalInterest"));
     public static Button buttonAddVehicle = new Button(By.xpath("//input[@id='policyDataGatherForm:addVehicle']"));
 
     public VehicleTab() {
@@ -54,18 +54,4 @@ public class VehicleTab extends Tab {
 		buttonNext.click();
 		return this;
 	}
-
-	public void removeVehicle(int index){
-   	 if (tblVehicleList.isPresent() && tblVehicleList.getRow(index).isPresent()){
-   		tblVehicleList.getRow(index).getCell(5).controls.links.get("Remove").click(Waiters.AJAX);
-   		 Page.dialogConfirmation.confirm();
-   	 }
-	}
-
-	public void viewVehicle(int index) {
-		if (tblVehicleList.isPresent() && tblVehicleList.getRow(index).isPresent()) {
-			tblVehicleList.getRow(index).getCell(5).controls.links.get("View/Edit").click(Waiters.AJAX);
-		}
-	}
-
 }

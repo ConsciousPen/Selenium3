@@ -59,8 +59,8 @@ public class TestPolicyEndorsementRemove extends AutoSSBaseTest {
 		//4. go to Vehicle tab, remove second vehicle
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		
-		new VehicleTab().removeVehicle(2);
-		VehicleTab.tblVehicleList.verify.rowsCount(1);
+		VehicleTab.tableVehicleList.removeRow(2);
+		VehicleTab.tableVehicleList.verify.rowsCount(1);
 				
 		//5. fill all mandatory fields required to bind
         policy.getDefaultView().fillFromTo(class_td, VehicleTab.class, DocumentsAndBindTab.class, true);

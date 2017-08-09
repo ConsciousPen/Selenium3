@@ -4,11 +4,11 @@ import java.util.HashMap;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import aaa.main.enums.SearchEnum.SearchBy;
-import aaa.main.enums.SearchEnum.SearchFor;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.ProductConstants;
+import aaa.main.enums.SearchEnum.SearchBy;
+import aaa.main.enums.SearchEnum.SearchFor;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ca.HomeCaPolicyActions;
 import aaa.main.modules.policy.home_ca.actiontabs.CancelActionTab;
@@ -57,7 +57,7 @@ public class TestPolicyCancelWithActivePUP extends HomeCaHO3BaseTest {
         new HomeCaPolicyActions.Cancel().start();
         CancelActionTab cancelActionTab = new CancelActionTab();
         cancelActionTab.fillTab(getPolicyTD("Cancellation", "TestData"));
-        cancelActionTab.submitTab();
+        CancelActionTab.buttonOk.click();
 
         NotesAndAlertsSummaryPage.alertConfirmPolicyCancellation.verify.contains(alert);
 

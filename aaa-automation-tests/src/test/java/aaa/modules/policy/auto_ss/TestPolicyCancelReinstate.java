@@ -25,9 +25,7 @@ public class TestPolicyCancelReinstate extends AutoSSBaseTest {
     @TestInfo(component = "Policy.AutoSS")
     public void testPolicyCancelReinstate() {
         mainApp().open();
-
-        createCustomerIndividual();
-        createPolicy();
+        getCopiedPolicy();
 
         log.info("TEST: Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
         

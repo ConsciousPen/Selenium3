@@ -94,8 +94,8 @@ public class TestQuoteUnderwritingRules extends HomeCaHO3BaseTest {
 
         //  9.  Fill the rest tabs and issue policy
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
-        policy.getDefaultView().fillFromTo(getPolicyTD(), BindTab.class, PurchaseTab.class);
-        policy.getDefaultView().fill(getPolicyTD().ksam(PurchaseTab.class.getSimpleName()));
+        policy.getDefaultView().fillFromTo(getPolicyTD(), BindTab.class, PurchaseTab.class, true);
+        new PurchaseTab().submitTab();
 
         // 10. Check Policy status is Active
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

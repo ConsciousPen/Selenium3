@@ -1,14 +1,22 @@
 #todo: figure out how to create path to @auto_ss@DataGather collection
+TestData_CO: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab_Driver_01']
+}
+
 TestData_TC02_CO: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@GeneralTab',
   DriverTab: ['@DriverTab_Driver_01','@DriverTab_Driver_02']
 }
 
-TestData_TC03_CO: {
+TestData_TC04_CO: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_Driver_01'
+  DriverTab: ['@DriverTab_Driver_03'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab'
 }
 
 PrefillTab: {
@@ -22,6 +30,19 @@ GeneralTab: {
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@PolicyInformation'
+}
+
+RatingDetailReportsTab: {
+  Customer Agreement: Customer Agrees,
+  Sales Agent Agreement: I Agree,
+  Order Report: click,
+  AAAMembershipReport: [{}],
+  OrderInsuranceScoreReport: [{}]
+}
+
+VehicleTab: {
+  Usage: Pleasure,
+  VIN: 3FAKP4CK4C7836246,
 }
 
 NamedInsuredInformation: {
@@ -71,4 +92,33 @@ DriverTab_Driver_02: {
   Age First Licensed: 16,
   License Type: 'Licensed (US)',
   License Number: 235689875
+}
+
+DriverTab_Driver_03: {
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 215487451,
+  ActivityInformation: [
+    {
+      Type: 'Minor Violation',
+      Description: 'Improper Passing',
+      Occurrence Date: '01/10/2012',
+      Conviction Date: '/today-30d:MM/dd/yyyy'
+    },
+    {
+      Type: 'Minor Violation',
+      Description: 'Improper Signal',
+      Occurrence Date: '01/12/2012',
+      Conviction Date: '/today-250d:MM/dd/yyyy'
+    },
+    {
+      Type: 'Minor Violation',
+      Description: 'Illegal Riding',
+      Occurrence Date: '01/02/2013',
+      Conviction Date: '/today-20d:MM/dd/yyyy'
+    }
+  ]
 }
