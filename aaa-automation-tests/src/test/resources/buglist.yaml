@@ -348,5 +348,13 @@ QC-44194:
   summary: "Error code AAA_CLUE_order_validation appears while trying to bind a split quote"
   reason: PROD
   failures:
-    - tests: [com.exigen.automation.testcase.smokeTests.SmokeTestsAssData.AssPolicyOose.PolicyOose]
+    - tests: [aaa.modules.policy.auto_ss.TestPolicyOose]
       messages: ["ERROR: Element productContextInfoForm:policyDetail_policyStatusCdText not found"]
+QC-44220:
+  summary: "Failed to rate policy QAZSS953305611,1528211031,quote"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.policy.auto_ss.TestPolicyBilling.testBilling]
+      messages: ['Unable to locate element: {"method":"xpath","selector":"//div[@id='policyDataGatherForm:tabTree']/div/div[@title='Driver Activity Reports']|//div[@title='Driver Activity Reports']/span[2]/span[2]"}', 'Errors: Error; Failed to rate policy']
+    - tests: [aaa.modules.policy.auto_ss.TestPolicyOose]
+      messages: ['Unable to locate element: {"method":"xpath","selector":"//div[@id='policyDataGatherForm:tabTree']/div/div[@title='Driver Activity Reports']|//div[@title='Driver Activity Reports']/span[2]/span[2]"}', 'Errors: Error; Failed to rate policy']        

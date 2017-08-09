@@ -32,7 +32,6 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
       * 6. Bind a policy
       * 7. Verify policy status is Policy Pending  
       */
-
     @Test
     @TestInfo(component = "Policy.HomeCA")
     public void testQuoteFuturedated() {
