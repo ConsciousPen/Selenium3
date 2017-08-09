@@ -4,7 +4,6 @@ package aaa.main.modules.policy;
 
 import aaa.main.modules.policy.auto_ca.AutoCaPolicy;
 import aaa.main.modules.policy.auto_ss.AutoSSPolicy;
-import aaa.main.modules.policy.cea.CeaPolicy;
 import aaa.main.modules.policy.home_ca.HomeCaPolicy;
 import aaa.main.modules.policy.home_ss.HomeSSPolicy;
 import aaa.main.modules.policy.pup.PupPolicy;
@@ -30,7 +29,6 @@ public class PolicyType {
 	public static final PolicyType HOME_CA_HO6 = new PolicyType("HOME_CA_HO6", "California Homeowners", new HomeCaPolicy());
 	public static final PolicyType HOME_CA_DP3 = new PolicyType("HOME_CA_DP3", "California Homeowners", new HomeCaPolicy());
 	public static final PolicyType PUP = new PolicyType("PUP", "Personal Umbrella Policy", new PupPolicy());
-	public static final PolicyType CEA = new PolicyType("CEA", "California Earthquake", new CeaPolicy());
 	protected IPolicy policy;
 	protected String shortName;
 	protected String fullName;

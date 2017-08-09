@@ -6,30 +6,30 @@
 	<test name="UT Auto Smoke Tests" preserve-order="true">
 		<parameter name="state" value="UT" />
 		<classes>
-			<class name="aaa.modules.policy.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementAdd" />
-			<class name="aaa.modules.policy.auto_ss.TestPolicyCreationBig" />
-			<class name="aaa.modules.policy.auto_ss.TestPolicyEndorsementRemove" />
-			<class name="aaa.modules.policy.auto_ss.TestPolicyBilling" />
-			<class name="aaa.modules.policy.auto_ss.TestPolicyNano" />
-			<class name="aaa.modules.policy.auto_ss.TestPolicyBackdated" />
-			<class name="aaa.modules.policy.auto_ss.TestPolicyRulesOverride" />
-			<class name="aaa.modules.policy.auto_ss.TestPolicySpin" />
-			<class name="aaa.modules.policy.auto_ss.TestPolicySplit" />
-			<class name="aaa.modules.policy.auto_ss.TestQuotePrefill" />
+			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
+			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove" />
+			<class name="aaa.modules.regression.billing_and_payments.auto_ss.TestPolicyBilling" />
+			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano" />
+			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated" />
+			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride" />
+			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin" />
+			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit" />
+			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill" />
 		</classes>
 	</test>
 
 	<test name="UT HSS Functional Tests" preserve-order="true">
 		<parameter name="state" value="UT" />
 		<classes>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreateHO3Full" />
-			<class name="aaa.modules.policy.home_ss_ho3.TestQuoteCreateAndCopy" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement" />
+			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
+			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyReinstatement" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreateHO3Full" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 		</classes>
 	</test>
 

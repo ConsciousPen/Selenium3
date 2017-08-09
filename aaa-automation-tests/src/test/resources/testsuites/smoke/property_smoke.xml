@@ -8,387 +8,387 @@
 	<test name="UT HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="UT"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyPayments"/>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyBilling"/>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyReinstatement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments"/>
+			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling"/>
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyReinstatement"/>
    		</classes>
     </test>
 
 	<test name="UT PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="UT"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
      	
     <test name="AZ HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="AZ"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
     
     <test name="AZ PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="AZ"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="CO HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="CO"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="CO PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="CO"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     		
 	<test name="CT HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="CT"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+   			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="CT PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="CT"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     	
 	<test name="DC HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="DC"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+   			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="DC PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="DC"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     
 	<test name="DE HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="DE"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+   			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="DE PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="DE"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     	
 	<test name="ID HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="ID"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+   			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="ID PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="ID"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     	
 	<test name="IN HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="IN"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+   			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
     
 	<test name="IN PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="IN"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     	
 	<test name="KS HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="KS"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+   			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="KS PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="KS"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     	
 	<test name="KY HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="KY"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+   			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="KY PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="KY"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     	
 	<test name="MD HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="MD"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+   			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="MD PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="MD"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     	
    <test name="MT HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="MT"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+   			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="MT PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="MT"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     	
 	<test name="NJ HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="NJ"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+   			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="NJ PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="NJ"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     	
 	<test name="NV HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="NV"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+   			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="NV PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="NV"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     	
 	<test name="NY HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="NY"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+   			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="NY PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="NY"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     	
 	<test name="OH HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="OH"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+   			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="OH PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="OH"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     	
 	<test name="OK HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="OK"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+   			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="OK PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="OK"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     	
 	<test name="OR HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="OR"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+   			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="OR PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="OR"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     	
 	<test name="PA HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="PA"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+   			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="PA PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="PA"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     	
 	<test name="SD HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="SD"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+   			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="SD PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="SD"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     	
 	<test name="VA HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="VA"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+   			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="VA PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="VA"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     	
 	<test name="WV HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="WV"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+   			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="WV PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="WV"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     	
 	<test name="WY HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="WY"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyCreation"/>
-   			<class name="aaa.modules.policy.home_ss_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+   			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="WY PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="WY"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     	
 	<test name="CA HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="CA"/>
     	<classes>
-   			<class name="aaa.modules.policy.home_ca_ho3.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.home_ca_ho3.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
 
 	<test name="CA PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="CA"/>
     	<classes>
-   			<class name="aaa.modules.policy.pup.TestPolicyCreation"/>
-			<class name="aaa.modules.policy.pup.TestPolicyEndorsement"/>
+   			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
 

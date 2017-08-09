@@ -90,7 +90,6 @@ public final class TestDataManager {
 		policy.put(PolicyType.HOME_SS_HO6, dataProvider.get("modules/policy/home_ss_ho6"));
 		policy.put(PolicyType.HOME_SS_DP3, dataProvider.get("modules/policy/home_ss_dp3"));
 		policy.put(PolicyType.PUP, dataProvider.get("modules/policy/pup"));
-		policy.put(PolicyType.CEA, dataProvider.get("modules/policy/cea"));
 
 		timepoint.put(PolicyType.AUTO_SS, dataProvider.get("modules/timepoints").getTestData("auto_ss"));
 		timepoint.put(PolicyType.AUTO_CA_SELECT, dataProvider.get("modules/timepoints").getTestData("auto_ca"));
@@ -105,7 +104,6 @@ public final class TestDataManager {
 		timepoint.put(PolicyType.HOME_SS_HO6, dataProvider.get("modules/timepoints").getTestData("home_ss"));
 		timepoint.put(PolicyType.HOME_SS_DP3, dataProvider.get("modules/timepoints").getTestData("home_ss"));
 		timepoint.put(PolicyType.PUP, dataProvider.get("modules/timepoints").getTestData("pup"));
-		timepoint.put(PolicyType.CEA, dataProvider.get("modules/timepoints").getTestData("cea"));
 
 		customer.put(CustomerType.INDIVIDUAL, dataProvider.get("modules/cem/customer/individual"));
 		customer.put(CustomerType.NON_INDIVIDUAL, dataProvider.get("modules/cem/customer/nonindividual"));
