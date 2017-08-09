@@ -9,7 +9,7 @@ import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
- * @author Viachaslau Markouski
+ * @author Ryan Yu
  * @name Test Midterm Cancellation Home Policy
  * @scenario
  * 1. Create Customer
