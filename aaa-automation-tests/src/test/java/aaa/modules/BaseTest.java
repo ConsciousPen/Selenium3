@@ -421,7 +421,7 @@ public class BaseTest {
 
 	private void initTestDataForTest() {
 		try {
-			tdSpecific = testDataManager.getDefault(this.getClass());
+			tdSpecific = testDataManager.policy.get(getPolicyType());
 		} catch (TestDataException tde) {
 			log.debug(String.format("Specified TestData for test is absent: %s", tde.getMessage()));
 		}
