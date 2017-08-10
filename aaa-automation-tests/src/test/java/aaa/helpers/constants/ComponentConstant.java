@@ -2,8 +2,6 @@ package aaa.helpers.constants;
 
 public class ComponentConstant {
 
-	public static final String BILLING_AND_PAYMENTS_PUP = "BillingAndPayments.PUP";
-
 	public final class AgencyManagement {
 		public static final String AUTO_SS = "Agency Management.Auto SS";
 		public static final String AUTO_CA_SELECT = "Agency Management.Auto CA.Select";
