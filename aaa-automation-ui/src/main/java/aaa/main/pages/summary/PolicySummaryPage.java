@@ -61,13 +61,12 @@ public class PolicySummaryPage extends SummaryPage {
     public static Table tableCoverageSummary = new Table(By.id("productConsolidatedViewForm:body_scolumn_GroupCoverageSplitComponent"));
     public static Table tablePolicyList = new Table(By.id("policyForm:body_policy_list_table_holder"));
     public static Table tableCertificatePolicies = new Table(By.id("productConsolidatedViewForm:rootInstancesTable_certificate"));
-    public static Table tableGeneralInformation = new Table(By.xpath("//div[@id='productConsolidatedViewForm:scolumn_PolicyCLInfoConsolidatedView' "
+    public static Table tableGeneralInformation = new Table(By.xpath("//div[@id='scolumn_GeneralInformation' "
             + "or @id='productConsolidatedViewForm:consolidatedInfoPanelPolicy' "
             + "or @id='productConsolidatedViewForm:consolidatedInfoPanelGeneralInfo']//table"));
     public static Table tableDifferences = new Table(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']/table"));
     public static Table tableInsuredInformation = new Table(By.xpath("//div[@id='productConsolidatedViewForm:consolidatedInfoPanelPreconfigInsured_body' "
             + "or @id='productConsolidatedViewForm:scolumn_InsuredInformation' "
-            + "or @id='productConsolidatedViewForm:scolumn_CLPolicyInsuredConsolidatedView'"
             + "or @id='scolumn_AAAHONamedInsured'"
             + "or @id='scolumn_AAAHONamedInsuredInformation'"
             + "or @id='scolumn_InsuredInformationMVO']//table"));

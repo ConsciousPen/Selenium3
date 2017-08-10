@@ -45,7 +45,9 @@ public class TableWithPages extends Table {
 	@Override
 	protected List<TestData> getRawValue() {
 		List<TestData> data = new ArrayList<>();
-		pagination.setMaxRowsPerPage();
+		if (pagination.getPagesCount() > 1) {
+			pagination.setMaxRowsPerPage();
+		}
 		pagination.goToFirstPage();
 
 		data.addAll(super.getRawValue());
@@ -63,7 +65,9 @@ public class TableWithPages extends Table {
 
 	@Override
 	public int getRowsCount() {
-		pagination.setMaxRowsPerPage();
+		if (pagination.getPagesCount() > 1) {
+			pagination.setMaxRowsPerPage();
+		}
 		pagination.goToFirstPage();
 		int rowsCount = super.getRowsCount();
 		while (pagination.goToNextPage()) {
@@ -119,7 +123,9 @@ public class TableWithPages extends Table {
 	 * @return index of needed row on selected page
 	 */
 	protected int goToPageWithRow(int rowIndex) {
-		pagination.setMaxRowsPerPage();
+		if (pagination.getPagesCount() > 1) {
+			pagination.setMaxRowsPerPage();
+		}
 		int rowsPerPage = getRowsPerPage();
 		int navigationPageNumber = rowIndex / rowsPerPage + (rowIndex % rowsPerPage == 0 ? 0 : 1);
 
@@ -138,7 +144,9 @@ public class TableWithPages extends Table {
 	}
 
 	protected Row getRowWithNavigation(Supplier<Row> getRowSupplier) {
-		pagination.setMaxRowsPerPage();
+		if (pagination.getPagesCount() > 1) {
+			pagination.setMaxRowsPerPage();
+		}
 		Row row = getRowSupplier.get();
 		while (row instanceof NoRow && pagination.goToNextPage()) {
 			row = getRowSupplier.get();
@@ -147,7 +155,9 @@ public class TableWithPages extends Table {
 	}
 
 	protected List<Row> getRowsWithNavigation(Supplier<List<Row>> getRowSupplier) {
-		pagination.setMaxRowsPerPage();
+		if (pagination.getPagesCount() > 1) {
+			pagination.setMaxRowsPerPage();
+		}
 
 		List<Row> rows = new ArrayList<>(getRowSupplier.get());
 		while (pagination.goToNextPage()) {
