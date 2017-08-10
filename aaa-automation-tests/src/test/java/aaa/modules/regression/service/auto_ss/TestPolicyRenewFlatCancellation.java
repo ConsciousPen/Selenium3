@@ -28,7 +28,7 @@ import toolkit.utils.TestInfo;
 public class TestPolicyRenewFlatCancellation extends AutoSSBaseTest {
 
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
     public void testPolicyRenewFlatCancellation() {
     	new TestPolicyBackdated().testPolicyBackdated();
 

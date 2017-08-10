@@ -30,7 +30,7 @@ public class TestPolicyRewriteToNewNumber extends PolicyRewriteToNewNumber {
 	}
 	
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
     public void testPolicyRewriteToNewNumber() {
     	super.setFileName("Rewrite");
     	super.setTdName("TestDataForBindRewrittenPolicy");

@@ -31,14 +31,14 @@ public class TestPolicyCancelNoticeWithCancellation extends PolicyCancelNoticeWi
 	}
 	
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	public void TC01_CreatePolicyAndCancelNotice() {
 		super.TC01_CreatePolicyAndCancelNotice();
 	}
 	
 	@Test(dependsOnMethods = "TC01_CreatePolicyAndCancelNotice",
 		  groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	public void TC02_CancellationPolicy() {
 		super.TC02_CancellationPolicy();
 	}

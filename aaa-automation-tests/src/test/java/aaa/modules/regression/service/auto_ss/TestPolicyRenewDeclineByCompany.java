@@ -33,7 +33,7 @@ public class TestPolicyRenewDeclineByCompany extends PolicyRenewDeclineByCompany
 	    
 	    @Override
 	    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-		@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+	    @TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	    public void testPolicyRenewDeclineByCompany() {
 
 	        super.testPolicyRenewDeclineByCompany();

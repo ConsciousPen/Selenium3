@@ -29,7 +29,7 @@ public class TestPolicyDoNotRenewWithRenew extends PolicyDoNotRenewWithRenew{
     }
     
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
     public void TC01_CreatePolicyAddDoNotRenew() {
 
         super.TC01_CreatePolicyAddDoNotRenew();
@@ -37,7 +37,7 @@ public class TestPolicyDoNotRenewWithRenew extends PolicyDoNotRenewWithRenew{
     
 	@Test(dependsOnMethods = "TC01_CreatePolicyAddDoNotRenew",
 			groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	public void TC02_RenewPolicy() {
 		super.TC02_RenewPolicy();
 	}
