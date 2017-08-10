@@ -3,6 +3,9 @@
 package aaa.modules.regression.sales.pup;
 
 import org.testng.annotations.Test;
+
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.QuoteActionAbstract;
 import toolkit.utils.TestInfo;
@@ -22,8 +25,8 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 * 3. Verify quote status is 'Premium Calculated'
 	 * @details
 	 */
-    @Test
-    @TestInfo(component = "Policy.PUP")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.PUP )
     public void testQuoteCreation() {
         super.testQuoteCreation();
     }
@@ -38,8 +41,8 @@ public class TestQuoteAction extends QuoteActionAbstract {
      * 4. Verify policy status is 'Policy Active'
      * @details
      */
-    @Test
-    @TestInfo(component = "Policy.PUP")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.PUP )
     public void testQuoteIssue() {
     	super.testQuoteIssue();
     }

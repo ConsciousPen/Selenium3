@@ -4,6 +4,8 @@ package aaa.modules.regression.service.pup;
 
 import org.testng.annotations.Test;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
@@ -21,8 +23,8 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyCancellationFutureDatedRescind extends PersonalUmbrellaBaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.PUP")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.PUP )
     public void testPolicyCancellationFutureDatedRescind() {
         mainApp().open();
 

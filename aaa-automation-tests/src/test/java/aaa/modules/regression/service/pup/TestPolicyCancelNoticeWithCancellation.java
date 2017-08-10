@@ -5,6 +5,8 @@ package aaa.modules.regression.service.pup;
 import org.testng.annotations.Test;
 
 import toolkit.utils.TestInfo;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.template.PolicyCancelNoticeWithCancellation;
 
@@ -28,14 +30,14 @@ public class TestPolicyCancelNoticeWithCancellation extends PolicyCancelNoticeWi
 		return PolicyType.PUP;
 	}
 	
-	@Test
-	@TestInfo(component = "Policy.PUP")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.PUP )
 	public void TC01_CreatePolicyAndCancelNotice() {
 		super.TC01_CreatePolicyAndCancelNotice();
 	}
 	
-	@Test(dependsOnMethods = "TC01_CreatePolicyAndCancelNotice")
-	@TestInfo(component = "Policy.PUP")
+	@Test(dependsOnMethods = "TC01_CreatePolicyAndCancelNotice",groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.PUP )
 	public void TC02_CancellationPolicy() {
 		super.TC02_CancellationPolicy();
 	}
