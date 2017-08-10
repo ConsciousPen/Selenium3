@@ -14,7 +14,7 @@ TestData: {
 }
 
 ProductOfferingTab: {
-  Legacy: {
+  Prestige: {
     Select variation: 'true'
   }
 }
