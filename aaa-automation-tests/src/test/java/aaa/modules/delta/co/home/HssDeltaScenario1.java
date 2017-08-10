@@ -33,16 +33,17 @@ public class HssDeltaScenario1 extends HomeSSHO3BaseTest{
 	private String effectiveDate; 
 	private TestData td_sc1; 
 	
+	/*
 	public String getQuoteNumber() {
 		if (quoteNumber == null) {
 			quoteNumber = testSC1_TC01();
 		}
 		return quoteNumber;		
 	}
-	
+	*/
 	@Test
     @TestInfo(component = "Policy.HomeSS")
-	public String testSC1_TC01() {
+	public void testSC1_TC01() {
 		mainApp().open();
 		
 		td_sc1 = getTestSpecificTD("TestData"); 
@@ -63,7 +64,7 @@ public class HssDeltaScenario1 extends HomeSSHO3BaseTest{
         
         effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue(); 
         
-        return quoteNumber;
+        //return quoteNumber;
 	}
 
 	@Test
@@ -81,7 +82,7 @@ public class HssDeltaScenario1 extends HomeSSHO3BaseTest{
 		endorsement_HS0493.put("Form ID", "HS 04 93"); 
 		endorsement_HS0493.put("Name", "Actual Cash Value - Windstorm Or Hail Losses"); 
 				
-		SearchPage.openQuote(getQuoteNumber());	
+		SearchPage.openQuote(quoteNumber);	
 		
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
@@ -109,7 +110,7 @@ public class HssDeltaScenario1 extends HomeSSHO3BaseTest{
 	@TestInfo(component = "Policy.HomeSS")
 	public void testSC1_TC03() {
 		mainApp().open();
-		SearchPage.openQuote(getQuoteNumber());	
+		SearchPage.openQuote(quoteNumber);	
 		//Generate On-Demand documents for quote
 	}
 
@@ -124,7 +125,7 @@ public class HssDeltaScenario1 extends HomeSSHO3BaseTest{
 		TestData td_IdentityTheft_with_Score999 = getTestSpecificTD("TestData_IdentityTheft_with_Score999");
 		TestData td_AdverselyImpacted_None = getTestSpecificTD("TestData_AdverselyImpacted_None");
 		
-		SearchPage.openQuote(getQuoteNumber());	
+		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
 		CustomAssert.enableSoftMode();		
@@ -164,7 +165,7 @@ public class HssDeltaScenario1 extends HomeSSHO3BaseTest{
 		TestData td_construction2 = getTestSpecificTD("TestData_Construction2");
 		TestData td_construction3 = getTestSpecificTD("TestData_Construction3");
 		
-		SearchPage.openQuote(getQuoteNumber());	
+		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
 		CustomAssert.enableSoftMode();		
@@ -183,7 +184,7 @@ public class HssDeltaScenario1 extends HomeSSHO3BaseTest{
 	public void testSC1_TC06() {
 		mainApp().open(); 
 		
-		SearchPage.openQuote(getQuoteNumber());
+		SearchPage.openQuote(quoteNumber);
 		
 		policy.dataGather().start(); 
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());

@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
+
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
@@ -30,8 +33,8 @@ import toolkit.utils.TestInfo;
 
 public class TestPolicyPayments extends HomeSSHO3BaseTest {
 
-	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3) 
 	public void testPolicyPayments() {
 		mainApp().open();
 
