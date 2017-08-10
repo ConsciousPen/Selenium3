@@ -27,5 +27,12 @@ public abstract class PolicyBaseTest extends BaseTest {
     protected TestData getPolicyTD(String fileName, String tdName) {
     	return getStateTestData(tdPolicy, fileName, tdName);
     }
+    
+    protected TestData getBackDatedPolicyTD() {
+		return null;
+	}
 
+	protected TestData getBackDatedPolicyTD(String date) {
+		return null;
+	}
 }

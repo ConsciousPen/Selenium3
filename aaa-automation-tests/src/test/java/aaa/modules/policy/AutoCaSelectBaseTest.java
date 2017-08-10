@@ -17,11 +17,13 @@ public class AutoCaSelectBaseTest extends PolicyBaseTest {
 		return PolicyType.AUTO_CA_SELECT;
 	}
 
-	protected TestData getBackDatedPolicyTD() {
+	@Override
+	public TestData getBackDatedPolicyTD() {
 		return getBackDatedPolicyTD(DateTimeUtils.getCurrentDateTime().minusDays(10).format(DateTimeUtils.MM_DD_YYYY));
 	}
 
-	protected TestData getBackDatedPolicyTD(String date) {
+	@Override
+	public TestData getBackDatedPolicyTD(String date) {
 		String effDateKey = TestData.makeKeyPath(new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), PolicyInformation.EFFECTIVE_DATE.getLabel());
 		return getPolicyTD().adjust(effDateKey, date).adjust(getPolicyTD(TestPolicyBackdated.class.getSimpleName(), "TestData").resolveLinks());
 	}
