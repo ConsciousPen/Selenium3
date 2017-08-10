@@ -1,0 +1,40 @@
+TestData: {
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+PremiumsAndCoveragesQuoteTab: {
+  Payment plan: Quarterly,
+  Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+  Coverage E - Personal Liability Each Occurrence: '$300,000'
+}
+
+PurchaseTab: {
+  PaymentMethods: ['@billing@PaymentMethods@CC_Visa'],
+  Activate Autopay: true, 
+  Autopay Selection: 'index=1',
+  PaymentAllocation: {
+    Visa: /rest
+  }
+}
+
+# ----- Endorsement -----
+TestData_Endorsement: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+      Coverage A - Dwelling limit: 174000
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+}

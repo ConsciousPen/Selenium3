@@ -1,0 +1,20 @@
+TestData_CA: {
+  Renew generate image: [-83, NONE],
+  Renew check uw rules: [-57, NONE],
+  Renew generate preview: [-45, NONE],
+  Renew generate offer: [-48, PREVIOUS],
+  Bill generation: [-20, PREVIOUS],
+  Offcycle bill generation: [-20, NEXT],
+  Bill payment: [0, NEXT],
+  Update policy status: [1, NEXT],
+  Refund: [10, NONE],
+  Cancellation notice: [30, PREVIOUS],
+  Cancellation: [13, NEXT],
+  Renew customer decline: [15, NEXT],
+  Pay Lapsed Renew short: [2, NEXT],
+  Pay Lapsed Renew long: [16, NEXT],
+  Earned premium bill first: [15, NONE],
+  Earned premium bill second: [30, NONE],
+  Earned premium bill third: [45, NONE],
+  Earned premium write off: [60, NEXT]
+}

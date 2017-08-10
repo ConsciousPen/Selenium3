@@ -1,18 +1,17 @@
-package aaa.modules.e2e.home_ss_ho3;
-
-import org.testng.annotations.Test;
+package aaa.modules.e2e.home_ss.ho6;
 
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.actiontabs.EndorsementActionTab;
 import aaa.modules.e2e.templates.Scenario1;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 
 public class TestScenario1 extends Scenario1 {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO3;
+		return PolicyType.HOME_SS_HO6;
 	}
 	
 	@Test

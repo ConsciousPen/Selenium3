@@ -69,6 +69,10 @@ public class SearchPage extends MainPage {
 		search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNum);
 	}
 
+	public static void openBilling(String policyNum) {
+		search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
+	}
+
 	public static void clear() {
 		buttonClear.click();
 	}
