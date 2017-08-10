@@ -503,6 +503,7 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<TextBox> MOBILE_PHONE_NUM = declare("Mobile Phone #", TextBox.class);
 
 		public static final AssetDescriptor<TextBox> CASE_NUMBER = declare("Case Number", TextBox.class);
+		public static final AssetDescriptor<TextBox> Authorized_By = declare("Authorized By", TextBox.class);
 
 		public static final class DocumentsForPrinting extends MetaData {
 

@@ -10,6 +10,20 @@ TestDataFutureDate: {
   }
 }
 
+TestDataNewNumber: {
+  RewriteActionTab: {
+    Effective Date:  /today,
+    'Use Original Policy Number?': 'No'
+  }
+}
+
+TestDataNewNumber_UT: {
+  RewriteActionTab: {
+    Effective Date:  /today,
+    'Use Original Policy Number?': 'No'
+  }
+}
+
 # ---- TestData required for bind rewritten policy ---
 
 TestDataForBindRewrittenPolicy: {
@@ -35,7 +49,8 @@ TestDataForBindRewrittenPolicy: {
   RequiredToIssue: {
     Policy Application: 'Yes',
     Auto Billing Plan Explanation: 'Yes'
-  }
+  },
+  Authorized By: QA
  },
   PurchaseTab: {
   PaymentAllocation: {
