@@ -7,6 +7,7 @@ public final class ActivitiesAndUserNotesConstants {
     private ActivitiesAndUserNotesConstants() {}
 
     public static final class ActivitiesAndUserNotesTable {
+        public static final String DATE_TIME = "Date/Time";
         public static final String STATUS = "Status";
         public static final String DESCRIPTION = "Description";
     }

@@ -10,7 +10,7 @@ public class PolicyHelper {
 
     //TODO: Refactor verifyPresent methods, use constants instead of string literals
     public static void verifyEndorsementIsCreated() {
-        NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionContains(1, "Bind Endorsement effective");
+        NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionContains(DateTimeUtils.getCurrentDateTime(), "Bind Endorsement effective");
     }
 
     public static void verifyAutomatedRenewalGenerated(LocalDateTime date) {
