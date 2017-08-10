@@ -3,13 +3,16 @@
 package aaa.modules.regression.service.home_ss.ho3;
 
 import org.testng.annotations.Test;
+
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import toolkit.utils.TestInfo;
 
 /**
- * @author Viachaslau Markouski
+ * @author Ryan Yu
  * @name Test Endorsement decline by customer for Home Policy
  * @scenario
  * 1. Create Customer
@@ -21,8 +24,8 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyEndorsementDeclineByCustomer extends HomeSSHO3BaseTest {
 
-	@Test
-	@TestInfo(component = "Policy.HomeSS")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
 	public void testPolicyEndorsementDeclineByCustomer() {
 		mainApp().open();
 

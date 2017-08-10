@@ -5,6 +5,8 @@ package aaa.modules.regression.service.home_ss.ho3;
 import org.testng.annotations.Test;
 
 import toolkit.utils.TestInfo;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.template.PolicyRewriteToNewNumber;
 
@@ -26,12 +28,12 @@ public class TestPolicyRewriteToNewNumber extends PolicyRewriteToNewNumber {
 	protected PolicyType getPolicyType() {
 		return PolicyType.HOME_SS_HO3;
 	}
-	
-    @Test
-    @TestInfo(component = "Policy.HomeSS")
-    public void testPolicyRewriteToNewNumber() {
-    	super.setFileName("Rewrite");
-    	super.setTdName("TestDataForBindRewrittenPolicy");
-        super.testPolicyRewriteToNewNumber();
-    }
+
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
+	public void testPolicyRewriteToNewNumber() {
+		super.setFileName("Rewrite");
+		super.setTdName("TestDataForBindRewrittenPolicy");
+		super.testPolicyRewriteToNewNumber();
+	}
 }

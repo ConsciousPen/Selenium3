@@ -4,6 +4,8 @@ package aaa.modules.regression.service.home_ca.ho3;
 
 import org.testng.annotations.Test;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
@@ -21,13 +23,13 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyCancellationMidTerm extends HomeCaHO3BaseTest {
 
-	@Test
-	@TestInfo(component = "Policy.HomeCA.Cancellation")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
 	public void testPolicyCancellationMidTerm() {
 		mainApp().open();
 
 		createCustomerIndividual();
-		
+
 		createPolicy(getBackDatedPolicyTD());
 
 		log.info("TEST: MidTerm Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
