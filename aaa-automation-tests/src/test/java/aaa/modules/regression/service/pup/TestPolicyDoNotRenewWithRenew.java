@@ -41,7 +41,7 @@ public class TestPolicyDoNotRenewWithRenew extends PolicyDoNotRenewWithRenew {
     
 	@Test(dependsOnMethods = "TC01_CreatePolicyAddDoNotRenew",
 			groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.PUP)
+	@TestInfo(component = ComponentConstant.Service.PUP)
 	public void TC02_RenewPolicy() {
 		super.TC02_RenewPolicy();
 	}
