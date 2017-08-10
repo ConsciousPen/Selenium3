@@ -5,6 +5,8 @@ package aaa.modules.regression.sales.auto_ca.select;
 import org.testng.annotations.Test;
 
 import aaa.common.Tab;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.CustomerSummaryPage;
@@ -24,8 +26,8 @@ import toolkit.utils.TestInfo;
  */
 public class TestQuoteInitiate extends AutoCaSelectBaseTest {
 
-    @Test()
-    @TestInfo(component = "Policy.AutoCA")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT )
     public void testQuoteInitiate() {
         mainApp().open();
 

@@ -2,8 +2,12 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ca.select;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.modules.regression.sales.auto_ca.select.TestPolicyBackdated;
+
 import org.testng.annotations.Test;
+
 import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -26,8 +30,8 @@ import toolkit.utils.datetime.DateTimeUtils;
  */
 public class TestPolicyEndorsementMidTerm extends AutoCaSelectBaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.AutoCA")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT )
     public void testPolicyEndorsementMidTerm() {
     new TestPolicyBackdated().testPolicyBackdated();
 		
