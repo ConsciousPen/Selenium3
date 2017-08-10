@@ -1,8 +1,11 @@
 /* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
-package aaa.modules.regression.service.pup;
+package aaa.modules.regression.service.auto_ca.select;
 
 import org.testng.annotations.Test;
+
+
+
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -12,10 +15,10 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Lina Li
- * @name Test Reinstatement Umbrella Policy with Lapse
+ * @name Test Policy Reinstate with lapse
  * @scenario
- * 1. Create Customer
- * 2. Create  Personal Umbrella Policy Policy
+ * 1. Find customer or create new if customer does not exist;
+ * 2. Create new Policy;
  * 3. Cancel the Policy
  * 4. Verify Policy status is 'Policy Cancelled'
  * 5. Reinstate Policy with Lapse
@@ -23,17 +26,19 @@ import toolkit.utils.TestInfo;
  * 7. Verify 'Term includes lapse period' flag is displayed in the policy consolidated view header
  * @details
  */
+
 public class TestPolicyReinstatementWithLapse extends PolicyReinstatementWithLapse {
+   
+    @Override
+    protected PolicyType getPolicyType() {
+        return PolicyType.AUTO_CA_SELECT;
+    }
+    
+    @Override
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT )
+    public void testPolicyReinstatementWithLapse() {
 
-	@Override
-	protected PolicyType getPolicyType() {
-		return PolicyType.PUP;
-	}
-
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
-	@TestInfo(component = ComponentConstant.Service.PUP)
-	public void testPolicyReinstatementWithLapse() {
-
-		super.testPolicyReinstatementWithLapse();
-	}
+        super.testPolicyReinstatementWithLapse();
+    }
 }
