@@ -4,6 +4,8 @@ package aaa.modules.regression.service.auto_ss;
 
 import org.testng.annotations.Test;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.impl.SimpleDataProvider;
@@ -22,8 +24,8 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyEndorsementDeletePending extends AutoSSBaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.AutoSS")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
     public void testPolicyEndorsementDeletePending() {
         mainApp().open();
 
