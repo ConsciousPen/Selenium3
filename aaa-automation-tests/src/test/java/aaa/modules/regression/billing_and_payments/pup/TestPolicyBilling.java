@@ -3,6 +3,7 @@
 package aaa.modules.regression.billing_and_payments.pup;
 
 import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import org.testng.annotations.Test;
@@ -30,7 +31,7 @@ public class TestPolicyBilling extends PolicyBilling {
 	}
 
 	@Override
-	@Test
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP )
 	public void testBilling() {
 
