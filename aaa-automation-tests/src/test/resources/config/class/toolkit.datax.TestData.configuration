@@ -1,3 +1,20 @@
 {
-    "parser": "toolkit.datax.DefaultMarkupParser"
+  "parser": "toolkit.datax.DefaultMarkupParser",
+  "testDataAliases": {
+    "auto_ca_choice": "modules/policy/auto_ca_choice",
+    "auto_ca_select": "modules/policy/auto_ca_select",
+    "auto_ss": "modules/policy/auto_ss",
+    "home_ca_ho3": "modules/policy/home_ca_ho3",
+    "home_ca_ho4": "modules/policy/home_ca_ho4",
+    "home_ca_ho6": "modules/policy/home_ca_ho6",
+    "home_ca_dp3": "modules/policy/home_ca_dp3",
+    "home_ss_ho3": "modules/policy/home_ss_ho3",
+    "home_ss_ho4": "modules/policy/home_ss_ho4",
+    "home_ss_ho6": "modules/policy/home_ss_ho6",
+    "home_ss_dp3": "modules/policy/home_ss_dp3",
+    "pup": "modules/policy/pup",
+
+    "billing": "modules/billing",
+    "mywork": "modules/mywork"
+  }
 }
