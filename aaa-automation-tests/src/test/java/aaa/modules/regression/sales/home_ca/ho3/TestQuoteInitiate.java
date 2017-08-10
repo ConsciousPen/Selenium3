@@ -3,6 +3,9 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
 import org.testng.annotations.Test;
+
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
@@ -22,8 +25,8 @@ import toolkit.utils.TestInfo;
  */
 public class TestQuoteInitiate extends HomeCaHO3BaseTest {
 
-	@Test
-	@TestInfo(component = "Policy.HomeCA")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
 	public void testQuoteInitiate() {
 		mainApp().open();
 
