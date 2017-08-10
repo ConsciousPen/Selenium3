@@ -24,5 +24,4 @@ public abstract class Error extends Tab {
         btnCancel.click();
         return this;
     }
-
 }

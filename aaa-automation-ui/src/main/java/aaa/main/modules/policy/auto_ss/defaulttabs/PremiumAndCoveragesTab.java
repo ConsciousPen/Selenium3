@@ -8,10 +8,16 @@ import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import org.openqa.selenium.By;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.verification.CustomAssert;
+import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
+
+import java.util.*;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -20,17 +26,20 @@ import toolkit.webdriver.controls.waiters.Waiters;
  * @category Generated
  */
 public class PremiumAndCoveragesTab extends Tab {
+    public static Table tableRatingDetailsQuoteInfo = new Table(By.id("ratingDetailsPopupForm:policy_summary"));
+    public static Table tableRatingDetailsUnderwriting = new Table(By.id("ratingDetailsPopupForm:underwriting_summary"));
+    public static Table tableRatingDetailsDrivers = new Table(By.id("ratingDetailsPopupForm:driver_summary"));
+    public static Table tableRatingDetailsVehicles = new Table(By.id("ratingDetailsPopupForm:vehicle_summary"));
+    public static Table tableRatingDetailsActivities = new Table(By.id("ratingDetailsPopupForm:incident_summary"));
+
     public static Button buttonCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalc"));
     public static Button buttonViewRatingDetails = new Button(By.id("policyDataGatherForm:viewRatingDetails_Link_1"));
-    public static Table tableRatingDetailsVehicles = new Table(By.id("ratingDetailsPopupForm:vehicle_summary"));
+    public static Button buttonContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
+    public static Button buttonRatingDetailsOk = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"));
+
     public static StaticElement totalTermPremium = new StaticElement(By.xpath("//span[@class='TOTAL_TERM_PREMIUM']"));
 
-    //-- old controls
-    public static Table tablePremiumSummary = new Table(By.id("policyDataGatherForm:riskItemPremiumInfoTable"));
-    public static Button buttonCommissionOverride = new Button(By.id("policyDataGatherForm:commissionOverrideButton"));
-    public Button btnContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
 
-    //--
     public PremiumAndCoveragesTab() {
         super(AutoSSMetaData.PremiumAndCoveragesTab.class);
     }
@@ -44,9 +53,79 @@ public class PremiumAndCoveragesTab extends Tab {
     
     @Override
     public Tab submitTab() {
-    	btnContinue.click();
+        if (buttonRatingDetailsOk.isPresent() && buttonRatingDetailsOk.isVisible()) {
+            buttonRatingDetailsOk.click();
+        }
+        buttonContinue.click();
         return this;
     }
+
+    public TestData getRatingDetailsQuoteInfoData() {
+        if (!tableRatingDetailsQuoteInfo.isPresent()) {
+            buttonViewRatingDetails.click();
+        }
+
+        Map<String, Object> map = new LinkedHashMap<>();
+        List<String> keys = tableRatingDetailsQuoteInfo.getColumn(1).getValue();
+        List<String> values = tableRatingDetailsQuoteInfo.getColumn(2).getValue();
+        CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
+
+        for (int i = 0; i < keys.size(); i++) {
+            map.put(keys.get(i), values.get(i));
+        }
+
+        keys = tableRatingDetailsQuoteInfo.getColumn(3).getValue();
+        values = tableRatingDetailsQuoteInfo.getColumn(4).getValue();
+        CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
+        for (int i = 0; i < keys.size(); i++) {
+            map.put(keys.get(i), values.get(i));
+        }
+
+        return new SimpleDataProvider(map);
+    }
+
+    public List<TestData> getRatingDetailsDriversData() {
+        final ByT pagePattern = ByT.xpath("//div[@id='ratingDetailsPopupForm:driverPanel_body']//center//td[@class='pageText']//*[text()='%s']");
+        return getTestDataFromTable(tableRatingDetailsVehicles, pagePattern);
+    }
+
+    public List<TestData> getRatingDetailsVehiclesData() {
+        final ByT pagePattern = ByT.xpath("//div[@id='ratingDetailsPopupForm:vehiclePanel']//center//td[@class='pageText']//*[text()='%s']");
+        return getTestDataFromTable(tableRatingDetailsVehicles, pagePattern);
+    }
+
+    private List<TestData> getTestDataFromTable(Table table, ByT pagePattern) {
+        List<TestData> testDataList = new ArrayList<>();
+
+        if (!table.isPresent()) {
+            buttonViewRatingDetails.click();
+        }
+
+        Map<String, Object> map = new LinkedHashMap<>();
+        List<String> keys = table.getColumn(1).getValue();
+
+        int pageNumber = 1;
+        while (new Link(pagePattern.format(pageNumber)).isPresent()) {
+            new Link(pagePattern.format(pageNumber)).click();
+
+            for (int column = 2; column <= table.getColumnsCount(); column++) {
+                List<String> values = table.getColumn(column).getValue();
+                if (values.stream().allMatch(String::isEmpty)) {
+                    continue; // empty column means absent vehicle
+                }
+
+                CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
+
+                for (int i = 0; i < keys.size(); i++) {
+                    map.put(keys.get(i), values.get(i));
+                }
+
+                testDataList.add(new SimpleDataProvider(map));
+                map.replaceAll((k, v) -> null);
+            }
+            pageNumber++;
+        }
+
+        return testDataList;
+    }
 }
-
-

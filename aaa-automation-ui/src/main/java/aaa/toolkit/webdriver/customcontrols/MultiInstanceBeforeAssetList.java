@@ -2,6 +2,7 @@ package aaa.toolkit.webdriver.customcontrols;
 
 import org.openqa.selenium.By;
 
+import toolkit.datax.TestData;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
@@ -26,6 +27,12 @@ public class MultiInstanceBeforeAssetList extends MultiAssetList {
 	@Override
 	protected void selectSection(int index) {
 
+	}
+
+	@Override
+	protected void setSectionValue(int index, TestData value) {
+		selectSection(index);
+		super.setSectionValue(index, value);
 	}
 
 }

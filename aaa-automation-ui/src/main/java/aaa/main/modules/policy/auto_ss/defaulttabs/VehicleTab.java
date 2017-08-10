@@ -35,8 +35,17 @@ public class VehicleTab extends Tab {
 		assetList = new MultiInstanceAfterAssetList(By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER), metaDataClass) {
 			@Override
 			protected void addSection(int index, int size) {
-				if (index > 0)
-					((Button) getAssetCollection().get("Add Vehicle")).click();
+				((Button) getAssetCollection().get(AutoSSMetaData.VehicleTab.ADD_VEHICLE.getLabel())).click();
+			}
+
+			@Override
+			protected boolean sectionExists(int index) {
+				return tableVehicleList.getRow(index + 1).isPresent();
+			}
+
+			@Override
+			protected void selectSection(int index) {
+				tableVehicleList.selectRow(index + 1);
 			}
 		};
 	}
