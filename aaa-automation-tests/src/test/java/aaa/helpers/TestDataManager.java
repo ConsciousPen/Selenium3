@@ -92,8 +92,8 @@ public final class TestDataManager {
 		policy.put(PolicyType.PUP, dataProvider.get("modules/policy/pup"));
 
 		timepoint.put(PolicyType.AUTO_SS, dataProvider.get("modules/timepoints").getTestData("auto_ss"));
-		timepoint.put(PolicyType.AUTO_CA_SELECT, dataProvider.get("modules/timepoints").getTestData("auto_ca"));
-		timepoint.put(PolicyType.AUTO_CA_CHOICE, dataProvider.get("modules/timepoints").getTestData("auto_ca"));
+		timepoint.put(PolicyType.AUTO_CA_SELECT, dataProvider.get("modules/timepoints").getTestData("auto_ca_select"));
+		timepoint.put(PolicyType.AUTO_CA_CHOICE, dataProvider.get("modules/timepoints").getTestData("auto_ca_choice"));
 		timepoint.put(PolicyType.HOME_CA_HO3, dataProvider.get("modules/timepoints").getTestData("home_ca"));
 		timepoint.put(PolicyType.HOME_CA_DP3, dataProvider.get("modules/timepoints").getTestData("home_ca"));
 		timepoint.put(PolicyType.HOME_CA_HO3, dataProvider.get("modules/timepoints").getTestData("home_ca"));

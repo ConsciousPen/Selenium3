@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.pages.summary;
 
+import com.exigen.ipb.etcsa.controls.ActivitiesAndUserNotes;
 import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
@@ -12,7 +13,6 @@ import toolkit.webdriver.controls.composite.table.Table;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.common.metadata.NotesAndAlertsMetaData;
-import com.exigen.ipb.etcsa.controls.ActivitiesAndUserNotes;
 
 public class NotesAndAlertsSummaryPage extends SummaryPage {
 
