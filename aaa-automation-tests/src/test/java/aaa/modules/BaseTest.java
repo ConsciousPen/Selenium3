@@ -378,7 +378,7 @@ public class BaseTest {
 	}
 	
 	protected TestData getTestSpecificTD(String tdName) {
-		return getStateTestData(tdSpecific, tdName);
+		return getStateTestData(tdSpecific.getTestData(this.getClass().getSimpleName()), tdName);
 	}
 	
 	protected TestData getStateTestData(TestData td, String fileName, String tdName) {
