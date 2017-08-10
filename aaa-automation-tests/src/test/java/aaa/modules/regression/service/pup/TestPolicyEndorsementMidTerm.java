@@ -2,7 +2,10 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.pup;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.modules.regression.sales.pup.TestPolicyBackdated;
+
 import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
@@ -28,8 +31,8 @@ import com.exigen.ipb.etcsa.utils.Dollar;
  */
 public class TestPolicyEndorsementMidTerm extends PersonalUmbrellaBaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.PUP")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.PUP )
     public void testPolicyEndorsementMidTerm() {
     	new TestPolicyBackdated().testPolicyBackdated();
         

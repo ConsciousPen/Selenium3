@@ -5,6 +5,8 @@ package aaa.modules.regression.service.home_ss.ho3;
 import org.testng.annotations.Test;
 
 import toolkit.utils.TestInfo;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.template.PolicyCancelNoticeWithCancellation;
 
@@ -28,14 +30,14 @@ public class TestPolicyCancelNoticeWithCancellation extends PolicyCancelNoticeWi
 		return PolicyType.HOME_SS_HO3;
 	}
 	
-	@Test
-	@TestInfo(component = "Policy.HomeSS")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
 	public void TC01_CreatePolicyAndCancelNotice() {
 		super.TC01_CreatePolicyAndCancelNotice();
 	}
 	
-	@Test(dependsOnMethods = "TC01_CreatePolicyAndCancelNotice")
-	@TestInfo(component = "Policy.HomeSS")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicyAndCancelNotice")
+	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
 	public void TC02_CancellationPolicy() {
 		super.TC02_CancellationPolicy();
 	}

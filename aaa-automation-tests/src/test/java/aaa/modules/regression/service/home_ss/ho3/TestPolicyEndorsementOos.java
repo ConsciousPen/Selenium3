@@ -3,7 +3,11 @@
 package aaa.modules.regression.service.home_ss.ho3;
 
 import org.testng.annotations.Test;
+
 import com.exigen.ipb.etcsa.utils.Dollar;
+
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
@@ -11,7 +15,7 @@ import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
 /**
- * @author Viachaslau Markouski
+ * @author Ryan Yu
  * @name Test OOS Endorsement for Home Policy
  * @scenario
  * 1. Create Customer
@@ -25,8 +29,8 @@ import toolkit.verification.CustomAssert;
  */
 public class TestPolicyEndorsementOos extends HomeSSHO3BaseTest {
 
-	@Test
-	@TestInfo(component = "Policy.HomeSS")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
 	public void testPolicyEndorsementOos() {
 		mainApp().open();
 

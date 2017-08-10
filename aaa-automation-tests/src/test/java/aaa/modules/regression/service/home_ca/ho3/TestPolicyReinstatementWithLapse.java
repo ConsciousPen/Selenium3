@@ -6,6 +6,9 @@ import org.testng.annotations.Test;
 
 
 
+
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.template.PolicyReinstatementWithLapse;
 import toolkit.utils.TestInfo;
@@ -25,16 +28,15 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyReinstatementWithLapse extends PolicyReinstatementWithLapse {
 
-        @Override
-        protected PolicyType getPolicyType() {
-        return PolicyType.HOME_CA_HO3;
-        }
-	    @Override
-	    @Test
-	    @TestInfo(component = "Policy.HomeCA")
-	    public void testPolicyReinstatementWithLapse() {
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_CA_HO3;
+	}
 
-	        super.testPolicyReinstatementWithLapse();
-	    }
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
+	public void testPolicyReinstatementWithLapse() {
+		super.testPolicyReinstatementWithLapse();
+	}
 
 }

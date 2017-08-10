@@ -5,8 +5,8 @@ TestData: {
 
 PremiumsAndCoveragesQuoteTab: {
   Payment plan: Quarterly,
-  Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
-  Coverage E - Personal Liability Each Occurrence: '$300,000'
+  Coverage C - Personal Property limit: '75|Coverage A - Dwelling limit',
+  Coverage D - Loss of Use limit: '45|Coverage A - Dwelling limit'
 }
 
 PurchaseTab: {
@@ -31,7 +31,7 @@ TestData_Endorsement: {
   ProductOfferingTab: {},
   EndorsementTab: {},
   PremiumsAndCoveragesQuoteTab: {
-    Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+    Coverage C - Personal Property limit: '75|Coverage A - Dwelling limit',
   },
   MortgageesTab: {},
   UnderwritingAndApprovalTab: {},

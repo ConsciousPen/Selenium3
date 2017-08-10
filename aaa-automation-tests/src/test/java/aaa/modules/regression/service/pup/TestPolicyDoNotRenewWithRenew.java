@@ -4,17 +4,11 @@ package aaa.modules.regression.service.pup;
 
 import org.testng.annotations.Test;
 
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
-import aaa.JobRunner;
-import aaa.admin.pages.general.GeneralSchedulerPage.Job;
-import aaa.common.enums.NavigationEnum.AdminAppLeftMenu;
-import aaa.common.pages.NavigationPage;
-import aaa.common.pages.SearchPage;
-import aaa.helpers.billing.BillingHelper;
-import aaa.main.enums.ProductConstants;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.service.template.PolicyDoNotRenewWithRenew;
 import toolkit.utils.TestInfo;
 
 /**
@@ -31,34 +25,24 @@ import toolkit.utils.TestInfo;
  * 8. Verify 'Renewals' button is not displayed in the policy overview header
  * @details
  */
-public class TestPolicyDoNotRenewWithRenew extends PersonalUmbrellaBaseTest {
+public class TestPolicyDoNotRenewWithRenew extends PolicyDoNotRenewWithRenew {
 
-    @Test
-    @TestInfo(component = "Policy.PUP")
-    public void testPolicyDoNotRenewWithRenew() {
-        mainApp().open();
-
-        getCopiedPolicy();
-
-        String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-
-        log.info("TEST: Do Not Renew for Policy #" + policyNumber);
-        policy.doNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
-
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        PolicySummaryPage.labelDoNotRenew.verify.present();
-
-        log.info("TEST: Policy cannot bew renewed #" + policyNumber);
-
-        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(
-                BillingHelper.DAYS_RENEW_STRATEGY));
-
-        adminApp().reopen();
-        NavigationPage.toViewLeftMenu(AdminAppLeftMenu.GENERAL_SCHEDULER.get());
-        JobRunner.executeJob(Job.POLICY_AUTOMATED_RENEWAL_ASYNC_TASK_GENERATION_JOB);
-        adminApp().close();
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
-        PolicySummaryPage.buttonRenewals.verify.enabled(false);
+	@Override
+    protected PolicyType getPolicyType() {
+        return PolicyType.PUP;
     }
+    
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.PUP)
+    public void TC01_CreatePolicyAddDoNotRenew() {
+
+        super.TC01_CreatePolicyAddDoNotRenew();
+    }
+    
+	@Test(dependsOnMethods = "TC01_CreatePolicyAddDoNotRenew",
+			groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.PUP)
+	public void TC02_RenewPolicy() {
+		super.TC02_RenewPolicy();
+	}
 }

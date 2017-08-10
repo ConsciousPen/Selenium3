@@ -2,7 +2,10 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ss;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.modules.regression.sales.auto_ss.TestPolicyBackdated;
+
 import org.testng.annotations.Test;
 
 import aaa.main.enums.ProductConstants;
@@ -24,8 +27,8 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyRenewFlatCancellation extends AutoSSBaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.AutoSS")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
     public void testPolicyRenewFlatCancellation() {
     	new TestPolicyBackdated().testPolicyBackdated();
 

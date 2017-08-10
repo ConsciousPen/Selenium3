@@ -6,6 +6,8 @@ import org.testng.annotations.Test;
 
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
@@ -24,8 +26,8 @@ import aaa.modules.regression.sales.auto_ss.TestPolicyBackdated;
  */
 public class TestPolicyRenewFlatCancellation extends PersonalUmbrellaBaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.PUP")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.PUP )
     public void testPolicyRenewFlatCancellation() {
     	new TestPolicyBackdated().testPolicyBackdated();
 
