@@ -4,11 +4,11 @@ package aaa.modules.regression.service.auto_ss;
 
 import org.testng.annotations.Test;
 
-import aaa.main.enums.ProductConstants;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoSSBaseTest;
-import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.service.template.PolicyEndorsementDeclineByCompany;
 
 /**
  * @author Yonggang Sun
@@ -21,26 +21,16 @@ import toolkit.utils.TestInfo;
  * 5. Verify Policy status is 'Company Declined' in endorsement
  * @details
  */
-public class TestPolicyEndorsementDeclineByCompany extends AutoSSBaseTest {
+public class TestPolicyEndorsementDeclineByCompany extends PolicyEndorsementDeclineByCompany {
 
-    @Test
-    @TestInfo(component = "Policy.AutoSS")
+	@Override
+    protected PolicyType getPolicyType() {
+        return PolicyType.AUTO_SS;
+    }
+	
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
     public void testPolicyEndorsementDeclineByCompany() {
-        mainApp().open();
-
-        getCopiedPolicy();
-
-        log.info("TEST: Decline By Company Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        
-        TestData endorsement_td = getPolicyTD("TestPolicyEndorsementAdd", "TestData");
-	     policy.endorse().performAndExit(endorsement_td.adjust(getPolicyTD("Endorsement", "TestData")));
-        
-//        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        PolicySummaryPage.buttonPendedEndorsement.click();
-
-        policy.declineByCompanyQuote().perform(getPolicyTD("DeclineByCompany", "TestData"));
-        PolicySummaryPage.buttonPendedEndorsement.click();
-
-        PolicySummaryPage.tableEndorsements.getRow(1).getCell(3).verify.value(ProductConstants.PolicyStatus.COMPANY_DECLINED);
+		super.testPolicyEndorsementDeclineByCompany();
     }
 }

@@ -6,6 +6,8 @@ import org.testng.annotations.Test;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
@@ -26,8 +28,8 @@ import toolkit.verification.CustomAssert;
  */
 public class TestPolicyEndorsementMidTerm extends HomeCaHO3BaseTest {
 
-	@Test
-	@TestInfo(component = "Policy.HomeCA.Endorsement")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
 	public void testPolicyEndorsementMidTerm() {
 		mainApp().open();
 
@@ -37,8 +39,7 @@ public class TestPolicyEndorsementMidTerm extends HomeCaHO3BaseTest {
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
 		log.info("TEST: MidTerm Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-		policy.createEndorsement(getPolicyTD("Endorsement", "TestData")
-				.adjust(getTestSpecificTD("TestData").resolveLinks()));
+		policy.createEndorsement(getPolicyTD("Endorsement", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks()));
 
 		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

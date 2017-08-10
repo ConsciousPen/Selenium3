@@ -2,8 +2,11 @@ package aaa.modules.regression.service.auto_ca.choice;
 
 import org.testng.annotations.Test;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.policy.AutoCaChoiceBaseTest;
 import toolkit.utils.TestInfo;
 
 /**
@@ -18,9 +21,10 @@ import toolkit.utils.TestInfo;
  * @details
  */
 
-public class TestPolicyCancelReinstate extends aaa.modules.policy.AutoCaChoiceBaseTest {
-	 @Test
-	 @TestInfo(component = "Policy.AutoCA")
+public class TestPolicyCancelReinstate extends AutoCaChoiceBaseTest {
+	
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE )
 	public void testPolicyCancelReinstate() {
 		mainApp().open();
 		

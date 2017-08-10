@@ -3,6 +3,9 @@
 package aaa.modules.regression.billing_and_payments.home_ss.ho3;
 
 import org.testng.annotations.Test;
+
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import toolkit.utils.TestInfo;
@@ -29,8 +32,8 @@ public class TestPolicyBilling extends PolicyBilling {
 	}
 
 	@Override
-	@Test
-	@TestInfo(component = "Policy.Billing")
+	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3) 
 	public void testBilling() {
 
 		super.testBilling();

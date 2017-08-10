@@ -3,30 +3,36 @@
 package aaa.modules.regression.service.home_ca.ho3;
 
 import org.testng.annotations.Test;
+
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.regression.service.template.PolicyCancellationFlat;
+import aaa.modules.regression.service.template.PolicyRenewDeletePending;
 import toolkit.utils.TestInfo;
 
 /**
  * @author Ryan Yu
- * @name Test Cancellation flat Home Policy
+ * @name Test renew delete pended transaction for Home Policy
  * @scenario
  * 1. Create Customer
- * 2. Create Home CA Policy
- * 3. Cancel policy
- * 4. Verify Policy status is 'Policy Cancelled'
+ * 2. Create Home_CA_HO3 Policy
+ * 3. Renew Policy
+ * 4. Delete Pended Transaction
+ * 5. Verify 'Renewals' button is disabled
  * @details
  */
-public class TestPolicyCancellationFlat extends PolicyCancellationFlat {
+public class TestPolicyRenewDeletePending extends PolicyRenewDeletePending {
 
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.HOME_CA_HO3;
 	}
-	
-	@Test
-	@TestInfo(component = "Policy.HomeCA.Cancellation")
-	public void testPolicyCancellationFlat() {
-		super.testPolicyCancellationFlat();
+
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
+	public void testPolicyRenewDeletePending() {
+
+		super.testPolicyRenewDeletePending();
+
 	}
 }

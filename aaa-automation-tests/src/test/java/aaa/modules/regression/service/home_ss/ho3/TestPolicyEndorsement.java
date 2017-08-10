@@ -7,6 +7,8 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
@@ -40,8 +42,8 @@ import toolkit.verification.CustomAssert;
 
 public class TestPolicyEndorsement extends HomeSSHO3BaseTest {
 
-	@Test
-	@TestInfo(component = "Policy.HomeSS")
+	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.CRITICAL })
+    @TestInfo(component = ComponentConstant.Service.HOME_SS_HO3) 
 	public void testPolicyEndorsement(){
 		mainApp().open();
 

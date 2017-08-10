@@ -5,6 +5,10 @@ package aaa.modules.regression.service.auto_ca.choice;
 import org.testng.annotations.Test;
 
 
+
+
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.template.PolicyReinstatementWithLapse;
 import toolkit.utils.TestInfo;
@@ -31,8 +35,8 @@ public class TestPolicyReinstatementWithLapse extends PolicyReinstatementWithLap
     }
     
     @Override
-    @Test
-    @TestInfo(component = "Policy.AutoCA")
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE )
     public void testPolicyReinstatementWithLapse() {
 
         super.testPolicyReinstatementWithLapse();

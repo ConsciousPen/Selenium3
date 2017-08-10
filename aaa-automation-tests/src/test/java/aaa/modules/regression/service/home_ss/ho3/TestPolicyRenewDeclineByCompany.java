@@ -5,12 +5,15 @@ package aaa.modules.regression.service.home_ss.ho3;
 import org.testng.annotations.Test;
 
 
+
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.template.PolicyRenewDeclineByCompany;
 import toolkit.utils.TestInfo;
 
 /**
- * @author Viachaslau Markouski
+ * @author Ryan Yu
  * @name Test renew decline by company for Home Policy
  * @scenario
  * 1. Create Customer
@@ -22,16 +25,15 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyRenewDeclineByCompany extends PolicyRenewDeclineByCompany {
 
-	 @Override
-	    protected PolicyType getPolicyType() {
-	        return PolicyType.HOME_SS_HO3;
-	    }
-	    
-	    @Override
-	    @Test
-	    @TestInfo(component = "Policy.HomeSS")
-	    public void testPolicyRenewDeclineByCompany() {
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_HO3;
+	}
 
-	        super.testPolicyRenewDeclineByCompany();
-	    }
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
+	public void testPolicyRenewDeclineByCompany() {
+
+		super.testPolicyRenewDeclineByCompany();
+	}
 }

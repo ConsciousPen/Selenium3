@@ -1,6 +1,7 @@
 package aaa.toolkit.webdriver.customcontrols.dialog;
 
 import java.util.Map;
+
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialogSingleSearch;
 import toolkit.datax.TestData;
@@ -60,7 +61,9 @@ public class SingleSelectSearchDialog extends AbstractDialogSingleSearch {
 	}
 
 	public void cancel() {
-		buttonCancel.click();
+		if (buttonCancel.isPresent()) {
+			buttonCancel.click();
+		}
 	}
 
 	private AbstractClickableStringElement getSelectControl() {

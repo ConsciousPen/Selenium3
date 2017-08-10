@@ -205,8 +205,8 @@ public class TestSearchPageFillingAndWarnings extends BaseTest {
 		SearchPage.verifyWarningsExist(false, zipFormatWarning, phoneFormatWarning, ssnLengthWarning,
 				String.format(maxLengthWarningTemplate, SearchMetaData.Search.CUSTOMER.getLabel()),
 				String.format(maxLengthWarningTemplate, SearchMetaData.Search.AGENCY_NAME.getLabel()),
-				String.format(maxLengthWarningTemplate, SearchMetaData.Search.AGENCY.getLabel()),
-				String.format(maxLengthWarningTemplate, SearchMetaData.Search.UNDERWRITING_COMPANY.getLabel()));
+				String.format(maxLengthWarningTemplate, SearchMetaData.Search.AGENCY.getLabel()));
+				//String.format(maxLengthWarningTemplate, SearchMetaData.Search.UNDERWRITING_COMPANY.getLabel()));
 
 		// Check wrong value format warning messages
 		SearchPage.clear();

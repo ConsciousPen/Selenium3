@@ -9,6 +9,8 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
@@ -62,8 +64,8 @@ public class TestPolicyMembershipDiscount extends HomeSSHO3BaseTest {
 	private String policyNumber4; 
 	private Dollar origPolicyTermPremium;
 	
-	@Test
-    @TestInfo(component = "Policy.HomeSS")
+	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
     public void testPolicyMembershipDiscount() {
         mainApp().open();
         

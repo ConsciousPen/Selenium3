@@ -4,36 +4,35 @@ package aaa.modules.regression.service.auto_ss;
 
 import org.testng.annotations.Test;
 
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoSSBaseTest;
-import toolkit.datax.impl.SimpleDataProvider;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.service.template.PolicyRenewDeletePending;
 import toolkit.utils.TestInfo;
 
 /**
- * @author Viachaslau Markouski
+ * @author Lina Li
  * @name Test renew delete pended transaction for Auto Policy
  * @scenario
  * 1. Create Customer
- * 2. Create Auto (Preconfigured) Policy
+ * 2. Create AutoSS Policy
  * 3. Renew Policy
  * 4. Delete Pended Transaction
  * 5. Verify 'Renewals' button is disabled
  * @details
  */
-public class TestPolicyRenewDeletePending extends AutoSSBaseTest {
+public class TestPolicyRenewDeletePending extends PolicyRenewDeletePending {
 
-    @Test
-    @TestInfo(component = "Policy.AutoSS")
-    public void testPolicyRenewDeletePending() {
-        mainApp().open();
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_SS;
+	}
 
-        getCopiedPolicy();
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
+	public void testPolicyRenewDeletePending() {
 
-        log.info("TEST: Delete Pending Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.renew().perform(new SimpleDataProvider());
-        PolicySummaryPage.buttonRenewals.click();
+		super.testPolicyRenewDeletePending();
 
-        policy.deletePendingRenwals().perform(new SimpleDataProvider());
-        PolicySummaryPage.buttonRenewals.verify.enabled(false);
-    }
+	}
 }

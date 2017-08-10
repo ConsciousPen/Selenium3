@@ -40,7 +40,6 @@ public class Scenario1 extends BaseTest {
 	protected LocalDateTime policyExpirationDate;
 	protected Dollar policyPremium;
 	
-	protected String billingAccNum;
 	protected Dollar totalDue;
 	protected List<LocalDateTime> installmentDueDates;
 	protected Dollar installmentAmount;
@@ -54,15 +53,14 @@ public class Scenario1 extends BaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		policyNumber = createPolicy(policyCreationTD);
-//		policyNumber = "UTH3954211946";
-//		SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, "UTH3954211946");
+//		policyNumber = "UTH3950536086";
+//		SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, policyNumber);
 		
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		policyPremium = PolicySummaryPage.getTotalPremiumSummary();
 		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		billingAccNum = BillingSummaryPage.labelBillingAccountNumber.getValue();
 		totalDue = BillingSummaryPage.getTotalDue();
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
 		installmentAmount = BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(0));
@@ -92,8 +90,7 @@ public class Scenario1 extends BaseTest {
 		Dollar bill = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(0), BillingBillsAndStatmentsTable.MINIMUM_DUE));
 		List<Dollar> installmentDues = BillingHelper.getInstallmentDues();
 
-		// The installment schedule is recalculated starting with the
-		// Installment which doesn't yet have a bill
+		// The installment schedule is recalculated starting with the Installment which doesn't yet have a bill
 		bill.verify.equals(firstBillAmount);
 		installmentAmount.verify.equals(installmentDues.get(0));
 		installmentDues.get(1).verify.moreThan(installmentAmount);
@@ -129,6 +126,7 @@ public class Scenario1 extends BaseTest {
 
 	public void TC09_Renewal_R_74() {
 		LocalDateTime renewDate74 = getTimePoints().getRenewImageGenerationDate(policyExpirationDate).minusDays(1);
+		//TODO
 		if ((getState().equals(Constants.States.MD) || getState().equals(Constants.States.NY))
 				&& renewDate74.isBefore(DateTimeUtils.getCurrentDateTime())) {
 			log.info(String.format("Skipping Test. State is %s and Timepoint is before the current date", getState()));
@@ -189,7 +187,7 @@ public class Scenario1 extends BaseTest {
 		TimeSetterUtil.getInstance().nextPhase(billDate);
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 		mainApp().open();
-		SearchPage.search(SearchFor.BILLING, SearchBy.BILLING_ACCOUNT, billingAccNum);
+		SearchPage.openBilling(policyNumber);
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
@@ -214,7 +212,7 @@ public class Scenario1 extends BaseTest {
 		TimeSetterUtil.getInstance().nextPhase(renewDatePlus1);
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		mainApp().open();
-		SearchPage.search(SearchFor.BILLING, SearchBy.POLICY_QUOTE, policyNumber);
+		SearchPage.openBilling(policyNumber);
 		// TODO Renew premium verification was excluded, due to unexpected installment calculations
 //		if (!getState().equals(Constants.States.KY) && !getState().equals(Constants.States.WV)) {
 			Dollar renewalAmount = BillingHelper.getPolicyRenewalProposalSum(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
@@ -236,7 +234,7 @@ public class Scenario1 extends BaseTest {
 		TimeSetterUtil.getInstance().nextPhase(billDate);
 		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
 		mainApp().open();
-		SearchPage.search(SearchFor.BILLING, SearchBy.BILLING_ACCOUNT, billingAccNum);
+		SearchPage.openBilling(policyNumber);
 		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDate, getTimePoints().getBillGenerationDate(installmentDate));
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate)
 				.setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();

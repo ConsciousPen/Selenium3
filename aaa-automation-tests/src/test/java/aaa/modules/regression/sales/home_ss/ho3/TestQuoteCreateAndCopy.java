@@ -2,6 +2,8 @@ package aaa.modules.regression.sales.home_ss.ho3;
 
 import org.testng.annotations.Test;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
@@ -25,8 +27,8 @@ import toolkit.utils.TestInfo;
  */
 public class TestQuoteCreateAndCopy extends HomeSSHO3BaseTest {
 	
-	@Test
-    @TestInfo(component = "Quote.HomeSS")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
     public void testPolicyCreation() {
         mainApp().open();
 

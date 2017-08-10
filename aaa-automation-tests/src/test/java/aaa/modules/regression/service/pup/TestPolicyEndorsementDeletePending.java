@@ -4,9 +4,10 @@ package aaa.modules.regression.service.pup;
 
 import org.testng.annotations.Test;
 
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.PersonalUmbrellaBaseTest;
-import toolkit.datax.impl.SimpleDataProvider;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.service.template.PolicyEndorsementDeletePending;
 import toolkit.utils.TestInfo;
 
 /**
@@ -20,22 +21,18 @@ import toolkit.utils.TestInfo;
  * 5. Verify 'Pended Endorsement' button is disabled
  * @details
  */
-public class TestPolicyEndorsementDeletePending extends PersonalUmbrellaBaseTest {
+public class TestPolicyEndorsementDeletePending extends PolicyEndorsementDeletePending {
 
-    @Test
-    @TestInfo(component = "Policy.PUP")
-    public void testPolicyEndorsementDeletePending() {
-        mainApp().open();
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.PUP;
+	}
 
-        getCopiedPolicy();
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@TestInfo(component = ComponentConstant.Service.PUP)
+	public void testPolicyEndorsementDeletePending() {
 
-        log.info("TEST: Delete Pending Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-       
+		super.testPolicyEndorsementDeletePending();
 
-        policy.endorse().performAndExit(getPolicyTD("Endorsement", "TestData"));
-        PolicySummaryPage.buttonPendedEndorsement.click();
-
-        policy.deletePendedTransaction().perform(new SimpleDataProvider());
-        PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-    }
+	}
 }

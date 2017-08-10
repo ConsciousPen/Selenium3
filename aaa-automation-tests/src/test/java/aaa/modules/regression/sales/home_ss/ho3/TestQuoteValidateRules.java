@@ -4,6 +4,8 @@ import org.testng.annotations.Test;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
@@ -45,8 +47,8 @@ import toolkit.utils.TestInfo;
  **/
 public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
 	
-	@Test
-    @TestInfo(component = "Quote.HomeSS")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
     public void testPolicyFuturedated() {
         mainApp().open();
         
@@ -74,8 +76,8 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         
 	}
 
-	@Test
-	@TestInfo(component = "Quote.HomeSS")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
 	public void testBackdatedPolicy() {
 		mainApp().open();
         

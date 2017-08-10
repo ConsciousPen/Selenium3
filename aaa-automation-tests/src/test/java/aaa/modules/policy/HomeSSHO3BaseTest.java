@@ -15,11 +15,13 @@ public class HomeSSHO3BaseTest extends PolicyBaseTest {
         return PolicyType.HOME_SS_HO3;
     }
 
-	protected TestData getBackDatedPolicyTD() {
+    @Override
+	public TestData getBackDatedPolicyTD() {
 		return getBackDatedPolicyTD(DateTimeUtils.getCurrentDateTime().minusDays(2).format(DateTimeUtils.MM_DD_YYYY));
 	}
 
-	protected TestData getBackDatedPolicyTD(String date) {
+    @Override
+    public TestData getBackDatedPolicyTD(String date) {
 		String effDateKey = TestData.makeKeyPath(new GeneralTab().getMetaKey(), HomeSSMetaData.GeneralTab.EFFECTIVE_DATE.getLabel());
 		String propertyDateKey = TestData.makeKeyPath(new GeneralTab().getMetaKey(), HomeSSMetaData.GeneralTab.PROPERTY_INSURANCE_BASE_DATE_WITH_CSAA_IG.getLabel());
 		return getPolicyTD().adjust(effDateKey, date).adjust(propertyDateKey, date);

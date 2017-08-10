@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="AZ E2E Tests" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+
+    <test name="AZ HSS Scenario 1 E2E with HO3" parallel="none" preserve-order="true">
+        <parameter name="state" value="AZ" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario1" />
+        </classes>
+    </test>
+
+    <test name="AZ HSS Scenario 1 E2E with DP3" parallel="none" preserve-order="true">
+        <parameter name="state" value="AZ" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.dp3.TestScenario1" />
+        </classes>
+    </test>
+
+    <test name="AZ HSS Scenario 1 E2E with HO4" parallel="none" preserve-order="true">
+        <parameter name="state" value="AZ" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho4.TestScenario1" />
+        </classes>
+    </test>
+
+    <test name="AZ HSS Scenario 1 E2E with HO6" parallel="none" preserve-order="true">
+        <parameter name="state" value="AZ" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho6.TestScenario1" />
+        </classes>
+    </test>
+
+</suite>

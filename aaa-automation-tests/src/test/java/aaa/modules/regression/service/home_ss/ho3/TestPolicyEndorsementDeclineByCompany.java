@@ -3,39 +3,34 @@
 package aaa.modules.regression.service.home_ss.ho3;
 
 import org.testng.annotations.Test;
-import aaa.main.enums.ProductConstants;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSHO3BaseTest;
+
 import toolkit.utils.TestInfo;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.service.template.PolicyEndorsementDeclineByCompany;
 
 /**
- * @author Viachaslau Markouski
+ * @author Yonggang Sun
  * @name Test Endorsement decline by company for home Policy
  * @scenario
  * 1. Create Customer
- * 2. Create Home (Preconfigured) Policy
+ * 2. Create Home SS(AAA) Policy
  * 3. Create endorsement
  * 4. Decline by company
  * 5. Verify Policy status is 'Company Declined'
  * @details
  */
-public class TestPolicyEndorsementDeclineByCompany extends HomeSSHO3BaseTest {
+public class TestPolicyEndorsementDeclineByCompany extends PolicyEndorsementDeclineByCompany {
+	
+	@Override
+    protected PolicyType getPolicyType() {
+        return PolicyType.HOME_SS_HO3;
+    }
 
-	@Test
-	@TestInfo(component = "Policy.HomeSS")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
 	public void testPolicyEndorsementDeclineByCompany() {
-		mainApp().open();
-
-		createCustomerIndividual();
-		createPolicy();
-
-		log.info("TEST: Decline By Company Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-		policy.endorse().performAndExit(getPolicyTD("Endorsement", "TestData"));
-		PolicySummaryPage.buttonPendedEndorsement.click();
-
-		policy.declineByCompanyQuote().perform(getPolicyTD("DeclineByCompany", "TestData"));
-		PolicySummaryPage.buttonPendedEndorsement.click();
-
-		PolicySummaryPage.tableEndorsements.getRow(1).getCell(3).verify.value(ProductConstants.PolicyStatus.COMPANY_DECLINED);
+		super.testPolicyEndorsementDeclineByCompany();
 	}
 }

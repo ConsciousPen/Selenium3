@@ -3,13 +3,15 @@
 package aaa.modules.regression.service.home_ss.ho3;
 
 import org.testng.annotations.Test;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSHO3BaseTest;
-import toolkit.datax.impl.SimpleDataProvider;
+
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.service.template.PolicyEndorsementDeletePending;
 import toolkit.utils.TestInfo;
 
 /**
- * @author Viachaslau Markouski
+ * @author Ryan Yu
  * @name Test Delete Pending Endorsement for Home Policy
  * @scenario
  * 1. Create Customer
@@ -19,21 +21,18 @@ import toolkit.utils.TestInfo;
  * 5. Verify 'Pended Endorsement' button is disabled
  * @details
  */
-public class TestPolicyEndorsementDeletePending extends HomeSSHO3BaseTest {
+public class TestPolicyEndorsementDeletePending extends PolicyEndorsementDeletePending {
 
-	@Test
-	@TestInfo(component = "Policy.HomeSS")
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_HO3;
+	}
+
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
 	public void testPolicyEndorsementDeletePending() {
-		mainApp().open();
 
-		createCustomerIndividual();
-		createPolicy();
+		super.testPolicyEndorsementDeletePending();
 
-		log.info("TEST: Delete Pending Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-		policy.endorse().performAndExit(getPolicyTD("Endorsement", "TestData"));
-		PolicySummaryPage.buttonPendedEndorsement.click();
-
-		policy.deletePendedTransaction().perform(new SimpleDataProvider());
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
 	}
 }

@@ -2,6 +2,8 @@ package aaa.modules.regression.sales.pup;
 
 import org.testng.annotations.Test;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
@@ -22,8 +24,8 @@ import toolkit.utils.TestInfo;
  */
 public class TestQuoteInitiate extends PersonalUmbrellaBaseTest {
 
-    @Test()
-    @TestInfo(component = "Policy.PUP")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.PUP )
     public void testQuoteInitiate() {
         mainApp().open();
 

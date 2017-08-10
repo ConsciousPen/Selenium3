@@ -4,9 +4,10 @@ package aaa.modules.regression.service.pup;
 
 import org.testng.annotations.Test;
 
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.PersonalUmbrellaBaseTest;
-import toolkit.datax.impl.SimpleDataProvider;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.service.template.PolicyRenewDeletePending;
 import toolkit.utils.TestInfo;
 
 /**
@@ -20,21 +21,18 @@ import toolkit.utils.TestInfo;
  * 5. Verify 'Renewals' button is disabled
  * @details
  */
-public class TestPolicyRenewDeletePending extends PersonalUmbrellaBaseTest {
+public class TestPolicyRenewDeletePending extends PolicyRenewDeletePending {
 
-    @Test
-    @TestInfo(component = "Policy.PUP")
-    public void testPolicyRenewDeletePending() {
-        mainApp().open();
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.PUP;
+	}
 
-        getCopiedPolicy();
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@TestInfo(component = ComponentConstant.Service.PUP)
+	public void testPolicyRenewDeletePending() {
 
-        log.info("TEST: Delete Pending Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.renew().performAndExit(new SimpleDataProvider());
-        
-        PolicySummaryPage.buttonRenewals.click();
+		super.testPolicyRenewDeletePending();
 
-        policy.deletePendingRenwals().perform(new SimpleDataProvider());
-        PolicySummaryPage.buttonRenewals.verify.enabled(false);
-    }
+	}
 }

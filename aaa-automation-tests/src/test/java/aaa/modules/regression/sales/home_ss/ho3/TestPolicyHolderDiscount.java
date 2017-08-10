@@ -7,6 +7,8 @@ import org.testng.annotations.Test;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
@@ -49,8 +51,8 @@ import toolkit.verification.CustomAssert;
  */
 public class TestPolicyHolderDiscount extends HomeSSHO3BaseTest {	
 	
-	@Test
-    @TestInfo(component = "Policy.HomeSS")
+	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testPolicyHolderDiscount() {
 		mainApp().open();
 

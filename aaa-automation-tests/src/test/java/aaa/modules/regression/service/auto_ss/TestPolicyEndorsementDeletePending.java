@@ -4,9 +4,10 @@ package aaa.modules.regression.service.auto_ss;
 
 import org.testng.annotations.Test;
 
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoSSBaseTest;
-import toolkit.datax.impl.SimpleDataProvider;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.service.template.PolicyEndorsementDeletePending;
 import toolkit.utils.TestInfo;
 
 /**
@@ -14,26 +15,24 @@ import toolkit.utils.TestInfo;
  * @name Test Delete Pending Endorsement for Auto Policy
  * @scenario
  * 1. Create Customer
- * 2. Create Auto (AAA) Policy
+ * 2. Create Auto_SS Policy
  * 3. Create endorsement
  * 4. Delete Pended Transaction for Policy
  * 5. Verify 'Pended Endorsement' button is disabled
  * @details
  */
-public class TestPolicyEndorsementDeletePending extends AutoSSBaseTest {
+public class TestPolicyEndorsementDeletePending extends PolicyEndorsementDeletePending {
 
-    @Test
-    @TestInfo(component = "Policy.AutoSS")
-    public void testPolicyEndorsementDeletePending() {
-        mainApp().open();
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_SS;
+	}
 
-        getCopiedPolicy();
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
+	public void testPolicyEndorsementDeletePending() {
 
-        log.info("TEST: Delete Pending Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.endorse().performAndExit(getPolicyTD("Endorsement", "TestData"));
-        PolicySummaryPage.buttonPendedEndorsement.click();
+		super.testPolicyEndorsementDeletePending();
 
-        policy.deletePendedTransaction().perform(new SimpleDataProvider());
-        PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-    }
+	}
 }

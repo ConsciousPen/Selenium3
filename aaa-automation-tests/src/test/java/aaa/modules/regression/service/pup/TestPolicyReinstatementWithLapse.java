@@ -4,9 +4,10 @@ package aaa.modules.regression.service.pup;
 
 import org.testng.annotations.Test;
 
-import aaa.main.enums.ProductConstants;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.service.template.PolicyReinstatementWithLapse;
 import toolkit.utils.TestInfo;
 
 /**
@@ -22,24 +23,17 @@ import toolkit.utils.TestInfo;
  * 7. Verify 'Term includes lapse period' flag is displayed in the policy consolidated view header
  * @details
  */
-public class TestPolicyReinstatementWithLapse extends PersonalUmbrellaBaseTest {
+public class TestPolicyReinstatementWithLapse extends PolicyReinstatementWithLapse {
 
-    @Test
-    @TestInfo(component = "Policy.PUP")
-    public void testPolicyReinstatementWithLapse() {
-        mainApp().open();
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.PUP;
+	}
 
-        getCopiedPolicy();
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@TestInfo(component = ComponentConstant.Service.PUP)
+	public void testPolicyReinstatementWithLapse() {
 
-        String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-
-        log.info("Cancelling Policy #" + policyNumber);
-        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-
-        log.info("TEST: Reinstate Policy With Lapse #" + policyNumber);
-        policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData_Plus14Days"));
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present();
-    }
+		super.testPolicyReinstatementWithLapse();
+	}
 }
