@@ -6,10 +6,11 @@ import org.testng.annotations.Test;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.ProductConstants;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSHO3BaseTest;
-import toolkit.datax.impl.SimpleDataProvider;
+
+import aaa.main.modules.policy.PolicyType;
+
+import aaa.modules.regression.service.template.PolicyDoNotRenewAddRemove;
+
 import toolkit.utils.TestInfo;
 
 /**
@@ -26,28 +27,18 @@ import toolkit.utils.TestInfo;
  * 8. Verify 'Do Not Renew' flag isn't displayed in the policy overview header
  * @details
  */
-public class TestPolicyDoNotRenewAddRemove extends HomeSSHO3BaseTest {
+public class TestPolicyDoNotRenewAddRemove extends PolicyDoNotRenewAddRemove {
 
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
-	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
-	public void testPolicyDoNotRenewAddRemove() {
-		mainApp().open();
+    @Override
+    protected PolicyType getPolicyType() {
+        return PolicyType.HOME_SS_HO3;
+    }
+    
+    @Override
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3 )
+    public void testPolicyDoNotRenewAddRemove() {
 
-		createCustomerIndividual();
-		createPolicy();
-
-		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-
-		log.info("TEST: Do Not Renew for Policy #" + policyNumber);
-		policy.doNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
-
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.labelDoNotRenew.verify.present();
-
-		log.info("TEST: Remove Do Not Renew for Policy #" + policyNumber);
-		policy.removeDoNotRenew().perform(new SimpleDataProvider());
-
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.labelDoNotRenew.verify.present(false);
-	}
+        super.testPolicyDoNotRenewAddRemove();
+    } 
 }

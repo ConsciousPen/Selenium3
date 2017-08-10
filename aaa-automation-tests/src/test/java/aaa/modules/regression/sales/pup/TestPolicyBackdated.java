@@ -38,7 +38,7 @@ public class TestPolicyBackdated extends PersonalUmbrellaBaseTest {
 		//1. effective date = today minus 2 days
 		//2. error tab: "Requested Effective Date not Available" error should be overridden 
         TestData tdPolicyCreation = getBackDatedPolicyTD();
-        tdPolicyCreation = adjustWithRealPolicies(tdPolicyCreation, getPrimaryPoliciesForPup(getTestSpecificTD("TestData_Home").resolveLinks(), getTestSpecificTD("TestData_Auto")));
+        tdPolicyCreation = adjustWithRealPolicies(tdPolicyCreation, getPrimaryPoliciesForPup(getPolicyTD("TestPolicyBackdated", "TestData_Home").resolveLinks(), getPolicyTD("TestPolicyBackdated", "TestData_Auto")));
         createPolicy(tdPolicyCreation);
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

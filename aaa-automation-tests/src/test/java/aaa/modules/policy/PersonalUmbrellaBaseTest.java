@@ -27,11 +27,13 @@ public class PersonalUmbrellaBaseTest extends PolicyBaseTest {
 		return prefillTab.adjustWithRealPolicies(td, policies);
 	}
 	
-	protected TestData getBackDatedPolicyTD() {
+	@Override
+	public TestData getBackDatedPolicyTD() {
 		return getBackDatedPolicyTD(DateTimeUtils.getCurrentDateTime().minusDays(2).format(DateTimeUtils.MM_DD_YYYY));
 	}
 
-	protected TestData getBackDatedPolicyTD(String date) {
+	@Override
+	public TestData getBackDatedPolicyTD(String date) {
 		String effDateKey = TestData.makeKeyPath(new GeneralTab().getMetaKey(), PersonalUmbrellaMetaData.GeneralTab.POLICY_INFO.getLabel(), PolicyInfo.EFFECTIVE_DATE.getLabel());
 		return getPolicyTD().adjust(effDateKey, date);
 	}
