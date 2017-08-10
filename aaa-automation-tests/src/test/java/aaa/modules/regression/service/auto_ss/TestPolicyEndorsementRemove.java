@@ -24,8 +24,7 @@ import toolkit.verification.CustomAssert;
  */
 public class TestPolicyEndorsementRemove extends AutoSSBaseTest {
 
-	private TestData class_td = getTestSpecificTD("TestData"); 
-	
+
     @Test
     @TestInfo(component = "Policy.AutoSS")
     public void testPolicyEndorsementRemove() {
@@ -51,6 +50,8 @@ public class TestPolicyEndorsementRemove extends AutoSSBaseTest {
 		DriverTab.tableDriverList.verify.rowsCount(1);
 		
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		
+		TestData class_td = getTestSpecificTD("TestData"); 
 		
 		//fill 'authorized by = qa' required on Bind
 		new GeneralTab().fillTab(class_td);
