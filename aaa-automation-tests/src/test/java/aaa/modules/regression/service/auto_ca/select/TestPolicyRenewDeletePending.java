@@ -1,6 +1,6 @@
 /* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
-package aaa.modules.regression.service.auto_ss;
+package aaa.modules.regression.service.auto_ca.select;
 
 import org.testng.annotations.Test;
 
@@ -11,11 +11,11 @@ import aaa.modules.regression.service.template.PolicyRenewDeletePending;
 import toolkit.utils.TestInfo;
 
 /**
- * @author Lina Li
- * @name Test renew delete pended transaction for Auto Policy
+ * @author Xiaolan Ge
+ * @name Test renew delete pended transaction for Home Policy
  * @scenario
  * 1. Create Customer
- * 2. Create AutoSS Policy
+ * 2. Create Auto_CA_Select Policy
  * 3. Renew Policy
  * 4. Delete Pended Transaction
  * 5. Verify 'Renewals' button is disabled
@@ -25,11 +25,11 @@ public class TestPolicyRenewDeletePending extends PolicyRenewDeletePending {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_SS;
+		return PolicyType.AUTO_CA_SELECT;
 	}
 
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT)
 	public void testPolicyRenewDeletePending() {
 
 		super.testPolicyRenewDeletePending();

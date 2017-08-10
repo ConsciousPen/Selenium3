@@ -6,9 +6,8 @@ import org.testng.annotations.Test;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSHO3BaseTest;
-import toolkit.datax.impl.SimpleDataProvider;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.service.template.PolicyRenewDeletePending;
 import toolkit.utils.TestInfo;
 
 /**
@@ -16,26 +15,24 @@ import toolkit.utils.TestInfo;
  * @name Test renew delete pended transaction for Home Policy
  * @scenario
  * 1. Create Customer
- * 2. Create Home (Preconfigured) Policy
+ * 2. Create Home_SS_HO3 Policy
  * 3. Renew Policy
  * 4. Delete Pended Transaction
  * 5. Verify 'Renewals' button is disabled
  * @details
  */
-public class TestPolicyRenewDeletePending extends HomeSSHO3BaseTest {
+public class TestPolicyRenewDeletePending extends PolicyRenewDeletePending {
+
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_HO3;
+	}
 
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
 	public void testPolicyRenewDeletePending() {
-		mainApp().open();
 
-		getCopiedPolicy();
+		super.testPolicyRenewDeletePending();
 
-		log.info("TEST: Delete Pending Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-		policy.renew().performAndExit(new SimpleDataProvider());
-		PolicySummaryPage.buttonRenewals.click();
-
-		policy.deletePendingRenwals().perform(new SimpleDataProvider());
-		PolicySummaryPage.buttonRenewals.verify.enabled(false);
 	}
 }
