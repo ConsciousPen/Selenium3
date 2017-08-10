@@ -1,0 +1,19 @@
+TestData_Approval: {
+  ErrorTab: {
+    ErrorsOverride: {
+    Approval: 'true',
+    Duration: 'Life',
+    'Reason for override': 'index=1'
+    }
+  }
+}
+
+TestData_Override: {
+  ErrorTab: {
+    ErrorsOverride: {
+    Override: 'true',
+    Duration: 'Life',
+    'Reason for override': 'index=1'
+    }
+  }
+}
