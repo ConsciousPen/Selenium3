@@ -4,10 +4,8 @@ import org.testng.annotations.Test;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.ProductConstants;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.PersonalUmbrellaBaseTest;
-import toolkit.datax.impl.SimpleDataProvider;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.service.template.PolicyDoNotRenewAddRemove;
 import toolkit.utils.TestInfo;
 
 /**
@@ -25,27 +23,18 @@ import toolkit.utils.TestInfo;
  * @details
  */
 
-public class TestPolicyDoNotRenewAddRemove extends PersonalUmbrellaBaseTest{
-	
+public class TestPolicyDoNotRenewAddRemove extends PolicyDoNotRenewAddRemove{
+
+    @Override
+    protected PolicyType getPolicyType() {
+        return PolicyType.PUP;
+    }
+    
+    @Override
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.PUP )
-	  public void testPolicyDoNotRenewAddRemove() {
-		    mainApp().open();
+    public void testPolicyDoNotRenewAddRemove() {
 
-	        getCopiedPolicy();	        
-	        		    		    
-		    String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-	        log.info("TEST: Do Not Renew for Policy #" + policyNumber);
-
-	        policy.doNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
-	        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-	        PolicySummaryPage.labelDoNotRenew.verify.present();
-
-	        log.info("TEST: Remove Do Not Renew for Policy #" + policyNumber);
-	        policy.removeDoNotRenew().perform(new SimpleDataProvider());
-
-	        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-	        PolicySummaryPage.labelDoNotRenew.verify.present(false);
-	  }
-
+        super.testPolicyDoNotRenewAddRemove();
+    }
 }

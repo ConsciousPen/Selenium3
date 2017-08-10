@@ -6,10 +6,11 @@ import org.testng.annotations.Test;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.ProductConstants;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoSSBaseTest;
-import toolkit.datax.impl.SimpleDataProvider;
+
+import aaa.main.modules.policy.PolicyType;
+
+import aaa.modules.regression.service.template.PolicyDoNotRenewAddRemove;
+
 import toolkit.utils.TestInfo;
 
 /**
@@ -26,27 +27,18 @@ import toolkit.utils.TestInfo;
  * 8. Verify 'Do Not Renew' flag isn't displayed in the policy overview header
  * @details
  */
-public class TestPolicyDoNotRenewAddRemove extends AutoSSBaseTest {
+public class TestPolicyDoNotRenewAddRemove extends PolicyDoNotRenewAddRemove {
 
+    @Override
+    protected PolicyType getPolicyType() {
+        return PolicyType.AUTO_SS;
+    }
+    
+    @Override
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS )
     public void testPolicyDoNotRenewAddRemove() {
-        mainApp().open();
 
-        getCopiedPolicy();
-
-        String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-
-        log.info("TEST: Do Not Renew for Policy #" + policyNumber);
-        policy.doNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
-
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        PolicySummaryPage.labelDoNotRenew.verify.present();
-
-        log.info("TEST: Remove Do Not Renew for Policy #" + policyNumber);
-        policy.removeDoNotRenew().perform(new SimpleDataProvider());
-
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        PolicySummaryPage.labelDoNotRenew.verify.present(false);
+        super.testPolicyDoNotRenewAddRemove();
     }
 }
