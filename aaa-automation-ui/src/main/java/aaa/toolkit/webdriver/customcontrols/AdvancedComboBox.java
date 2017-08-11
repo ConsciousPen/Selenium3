@@ -47,14 +47,14 @@ public class AdvancedComboBox extends ComboBox {
 			String[] excludedValues = parsedValue[1].split("\\|");
 			if (Arrays.asList(excludedValues).contains(SELECTED_MARK)) {
 				excludedValues = ArrayUtils.removeElement(excludedValues, SELECTED_MARK);
-				setRandomValueExcept(true, excludedValues);
+				setAnyValueExcept(true, excludedValues);
 			} else {
-				setRandomValueExcept(false, excludedValues);
+				setAnyValueExcept(false, excludedValues);
 			}
 			WaitMeters.capture(WaitMeters.PAGE_LOAD);
 			waitForPageUpdate();
 		} else if (value.startsWith(RANDOM_MARK)) {
-			setRandomValue();
+			setAnyValue();
 			WaitMeters.capture(WaitMeters.PAGE_LOAD);
 			waitForPageUpdate();
 		} else {
@@ -66,8 +66,8 @@ public class AdvancedComboBox extends ComboBox {
 	 * Set random option from list of existing options excluding selected one
 	 *
 	 */
-	public void setRandomValue() {
-		setRandomValueExcept(true);
+	public void setAnyValue() {
+		setAnyValueExcept(true);
 	}
 
 	/**
@@ -75,8 +75,8 @@ public class AdvancedComboBox extends ComboBox {
 	 *
 	 * @param exceptValues  array of values to be excluded from random selection. If this array is empty then nothing will be excluded
 	 */
-	public void setRandomValueExcept(String... exceptValues) {
-		setRandomValueExcept(false, exceptValues);
+	public void setAnyValueExcept(String... exceptValues) {
+		setAnyValueExcept(false, exceptValues);
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class AdvancedComboBox extends ComboBox {
 	 * @param exceptValues  array of values to be excluded from random selection (including existing value if exceptCurrentValue = true).
 	 *                      If this array is empty then nothing will be excluded (except current value if ceptCurrentValue = true)
 	 */
-	public void setRandomValueExcept(boolean exceptCurrentValue, String... exceptValues) {
+	public void setAnyValueExcept(boolean exceptCurrentValue, String... exceptValues) {
 		String[] excludedValues;
 
 		if (exceptCurrentValue) {
