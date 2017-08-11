@@ -19,3 +19,6 @@ ProductOfferingTab: {
   }
 }
 
+TestData_add_Forms: {
+  EndorsementTab: '@HssDeltaScenario1@EndorsementTab',
+}
