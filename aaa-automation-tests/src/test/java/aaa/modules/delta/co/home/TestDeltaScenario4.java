@@ -124,7 +124,8 @@ public class TestDeltaScenario4 extends HomeSSHO4BaseTest{
 		new BindTab().btnPurchase.click();
 		
 		ErrorTab errorTab = new ErrorTab();
-		errorTab.tblErrorsList.getRow("Message", "Underwriter approval is required when Adversely Impacted is selected.").verify.present();
+		//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+		errorTab.errorsList.getTable().getRow("Message", "Underwriter approval is required when Adversely Impacted is selected.").verify.present();
 		errorTab.cancel();
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get()); 
@@ -157,8 +158,9 @@ public class TestDeltaScenario4 extends HomeSSHO4BaseTest{
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
 		new BindTab().btnPurchase.click();
 		
-		ErrorTab errorTab = new ErrorTab(); 
-		errorTab.tblErrorsList.getRowContains("Message", "Dwellings with a wood shake/shingle roof are unacceptable.").verify.present();
+		ErrorTab errorTab = new ErrorTab();
+		//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+		errorTab.errorsList.getTable().getRowContains("Message", "Dwellings with a wood shake/shingle roof are unacceptable.").verify.present();
 		errorTab.cancel();
 		
 		BindTab.buttonSaveAndExit.click();
