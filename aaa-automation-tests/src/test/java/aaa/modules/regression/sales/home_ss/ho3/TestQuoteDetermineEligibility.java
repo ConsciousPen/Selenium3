@@ -87,9 +87,10 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
         bindTab.btnPurchase.click(); 
         
         ErrorTab errorTab = new ErrorTab();
-         
-    	errorTab.tblErrorsList.getRowContains("Message", ER0679).verify.present();
-    	errorTab.tblErrorsList.getRowContains("Message", WM0566).verify.present();    	
+
+		//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+    	errorTab.errorsList.getTable().getRowContains("Message", ER0679).verify.present();
+    	errorTab.errorsList.getTable().getRowContains("Message", WM0566).verify.present();
     	errorTab.cancel();
     	
     	NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
@@ -101,9 +102,10 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
         
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.btnPurchase.click();
-    	
-        errorTab.tblErrorsList.getRowContains("Message", WM0561).verify.present();
-        errorTab.tblErrorsList.getRowContains("Message", ER0680).verify.present();
+
+		//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+        errorTab.errorsList.getTable().getRowContains("Message", WM0561).verify.present();
+        errorTab.errorsList.getTable().getRowContains("Message", ER0680).verify.present();
         errorTab.cancel();
         
         BindTab.buttonSaveAndExit.click();
@@ -141,10 +143,11 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
         
         ErrorTab errorTab = new ErrorTab();
          
-        CustomAssert.enableSoftMode(); 
-    	errorTab.tblErrorsList.getRowContains("Message", WM0548).verify.present();
-    	errorTab.tblErrorsList.getRowContains("Message", WM0550).verify.present();  
-    	errorTab.tblErrorsList.getRowContains("Message", ER0913).verify.present();  
+        CustomAssert.enableSoftMode();
+		//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+    	errorTab.errorsList.getTable().getRowContains("Message", WM0548).verify.present();
+    	errorTab.errorsList.getTable().getRowContains("Message", WM0550).verify.present();
+    	errorTab.errorsList.getTable().getRowContains("Message", ER0913).verify.present();
     	errorTab.cancel();
     	
     	NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
@@ -154,11 +157,12 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         premiumsTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-        bindTab.btnPurchase.click(); 
-        
-        errorTab.tblErrorsList.getRowContains("Message", WM0549).verify.present();
-    	errorTab.tblErrorsList.getRowContains("Message", WM0550).verify.present();  
-    	errorTab.tblErrorsList.getRowContains("Message", ER0913).verify.present();  
+        bindTab.btnPurchase.click();
+
+		//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+        errorTab.errorsList.getTable().getRowContains("Message", WM0549).verify.present();
+    	errorTab.errorsList.getTable().getRowContains("Message", WM0550).verify.present();
+    	errorTab.errorsList.getTable().getRowContains("Message", ER0913).verify.present();
     	errorTab.cancel();
         
     	BindTab.buttonSaveAndExit.click();

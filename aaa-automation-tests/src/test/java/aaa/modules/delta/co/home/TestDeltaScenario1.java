@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import aaa.main.enums.ErrorEnum;
 import org.testng.annotations.Test;
 
 import aaa.common.enums.NavigationEnum;
@@ -137,7 +138,8 @@ public class TestDeltaScenario1 extends HomeSSHO3BaseTest{
 		new BindTab().btnPurchase.click();
 		
 		ErrorTab errorTab = new ErrorTab();
-		errorTab.tblErrorsList.getRow("Message", "Underwriter approval is required when Adversely Impacted is selected.").verify.present();
+		//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+		errorTab.errorsList.getTable().getRow("Message", "Underwriter approval is required when Adversely Impacted is selected.").verify.present();
 		errorTab.cancel();
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get()); 
@@ -262,8 +264,9 @@ public class TestDeltaScenario1 extends HomeSSHO3BaseTest{
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
 		new BindTab().btnPurchase.click();
 		
-		ErrorTab errorTab = new ErrorTab(); 
-		errorTab.tblErrorsList.getRowContains("Message", message).verify.present();
+		ErrorTab errorTab = new ErrorTab();
+		//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+		errorTab.errorsList.getTable().getRowContains("Message", message).verify.present();
 		errorTab.cancel();
 	}
 	

@@ -144,16 +144,19 @@ public class TestQuoteUnderwritingRules extends HomeSSHO3BaseTest {
         ErrorTab errorTab = new ErrorTab();
         
         if (getState().equals("CT")) {
-        	errorTab.tblErrorsList.getRowContains(err1_dataRow).verify.present();
+			//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+        	errorTab.errorsList.getTable().getRowContains(err1_dataRow).verify.present();
         }
         else if (getState().equals("KY")) {
-        	errorTab.tblErrorsList.getRowContains(err1_dataRow).verify.present();
-        	errorTab.tblErrorsList.getRowContains(err3_dataRow).verify.present();
+			//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+        	errorTab.errorsList.getTable().getRowContains(err1_dataRow).verify.present();
+        	errorTab.errorsList.getTable().getRowContains(err3_dataRow).verify.present();
         }
         else {
-        	errorTab.tblErrorsList.getRowContains(err1_dataRow).verify.present();
-        	errorTab.tblErrorsList.getRowContains(err2_dataRow).verify.present();
-        	errorTab.tblErrorsList.getRowContains(err3_dataRow).verify.present();
+			//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+        	errorTab.errorsList.getTable().getRowContains(err1_dataRow).verify.present();
+        	errorTab.errorsList.getTable().getRowContains(err2_dataRow).verify.present();
+        	errorTab.errorsList.getTable().getRowContains(err3_dataRow).verify.present();
         }
         errorTab.cancel();
         
