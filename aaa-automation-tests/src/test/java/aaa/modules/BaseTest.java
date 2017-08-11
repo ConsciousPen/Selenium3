@@ -46,7 +46,7 @@ import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.teststoragex.listeners.TestngTestListener2;
 import toolkit.verification.CustomAssert;
 
-@Listeners({ TestngTestListener2.class })
+@Listeners({TestngTestListener2.class})
 public class BaseTest {
 
 	protected static Logger log = LoggerFactory.getLogger(BaseTest.class);
@@ -94,8 +94,8 @@ public class BaseTest {
 		return new TimePoints(testDataManager.timepoint.get(getPolicyType()).getTestData(getStateTestDataName("TestData")));
 	}
 
-	@Parameters({ "state" })
-	@BeforeMethod(alwaysRun=true)
+	@Parameters({"state"})
+	@BeforeMethod(alwaysRun = true)
 	public void beforeMethodStateConfiguration(@Optional("") String state) {
 		if (isStateCA()) {
 			setState(Constants.States.CA);
@@ -123,20 +123,21 @@ public class BaseTest {
 	}
 
 	@AfterMethod(alwaysRun = true)
-	private void logout() {
+	public void logout() {
 		if (isCiModeEnabled) {
 			closeAllApps();
 		}
 	}
 
 	@AfterClass(alwaysRun = true)
-	private void closeBrowser() {
-		mainApp().close();
-		opReportApp().close();
+	public void closeBrowser() {
+		if (isCiModeEnabled) {
+			closeAllApps();
+		}
 	}
 
 	@AfterSuite(alwaysRun = true)
-	private void afterSuite() {
+	public void afterSuite() {
 		if (isCiModeEnabled) {
 			closeAllApps();
 		}
@@ -206,7 +207,7 @@ public class BaseTest {
 	/**
 	 * Gets default quote number and makes quote copy. If default quote doesn't
 	 * exist - created it first
-	 * 
+	 *
 	 * @return Copied quote number
 	 */
 	protected String getCopiedQuote() {
@@ -282,7 +283,7 @@ public class BaseTest {
 		}
 		return policyNumber;
 	}
-	
+
 	/**
 	 * Should be used for PUP policy creation. If you need to create PUP
 	 * product, it is suggested to login, create/open customer first, then use
@@ -337,6 +338,7 @@ public class BaseTest {
 
 	/**
 	 * Should be used for creation of custom policies to use them durring PUP policy creation.\
+	 *
 	 * @param tdHomeAdjustment - TestData adjustment for creation of Home HO3 policy (use state specific test data for HOME_CA product)
 	 * @param tdAutoAdjustment - TestData adjustment for creation of AUTO_CA policy
 	 */
@@ -368,19 +370,19 @@ public class BaseTest {
 	protected OperationalReportApplication opReportApp() {
 		return ApplicationFactory.get().opReportApp(new LoginPage(initiateLoginTD()));
 	}
-	
+
 	protected TestData getCustomerIndividualTD(String fileName, String tdName) {
 		return getStateTestData(tdCustomerIndividual, fileName, tdName);
 	}
-	
+
 	protected TestData getCustomerNonIndividualTD(String fileName, String tdName) {
 		return getStateTestData(tdCustomerNonIndividual, fileName, tdName);
 	}
-	
+
 	protected TestData getTestSpecificTD(String tdName) {
 		return getStateTestData(tdSpecific, this.getClass().getSimpleName(), tdName);
 	}
-	
+
 	protected TestData getStateTestData(TestData td, String fileName, String tdName) {
 		if (!td.containsKey(fileName)) {
 			throw new TestDataException("Can't get test data file " + fileName);

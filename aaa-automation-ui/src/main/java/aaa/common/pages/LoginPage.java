@@ -100,10 +100,10 @@ public class LoginPage extends Page implements ILogin {
 			lnkLogout.click();
 			logoutDialog.confirm();
 		}
-		if(timeOutStartPage.isPresent()) {
+		if(timeOutStartPage.isPresent() && timeOutStartPage.isVisible()) {
 			timeOutStartPage.click();
 		}
-		if (closeSession.isPresent()) {
+		if (closeSession.isPresent() && closeSession.isVisible()) {
 			closeSession.click();
 		}
 	}
@@ -125,7 +125,8 @@ public class LoginPage extends Page implements ILogin {
 			// Session time-out screen
 			if (startPage.isPresent())
 				startPage.click();
-			fillLogin(username, password);
+			if(isPageDisplayed())
+				fillLogin(username, password);
 		}
 		setApplicationLogFileName();
 	}
@@ -156,15 +157,16 @@ public class LoginPage extends Page implements ILogin {
 
 	@Override
 	public void login(TestData td, Boolean loginViaURL) {
-		String serverUrl = Application.formatURL(ApplicationFactory.get().getAppType());
-		BrowserController.get().open(serverUrl);
+/*		String serverUrl = Application.formatURL(ApplicationFactory.get().getAppType());
+		BrowserController.get().open(serverUrl);*/
 		fillLogin(td);
 		// TODO Workaround: Sometimes system throws out with timeout
 		if (!(lnkLogout.isPresent() && lnkLogout.isVisible())) {
 			// Session time-out screen
 			if (startPage.isPresent())
 				startPage.click();
-			fillLogin(td);
+			if(isPageDisplayed())
+				fillLogin(td);
 		}
 		setApplicationLogFileName();
 	}

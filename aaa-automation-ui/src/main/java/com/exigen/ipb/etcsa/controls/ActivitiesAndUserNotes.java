@@ -142,15 +142,15 @@ public class ActivitiesAndUserNotes extends Table {
         }
 
         public void descriptionExist(String expectedDescription) {
-            CustomAssert.assertTrue("Description doesn't contains record " + expectedDescription, ((List)ActivitiesAndUserNotes.this.getColumn("Description").getValue()).contains(expectedDescription));
+            CustomAssert.assertTrue("Description doesn't contains record " + expectedDescription, ((List<String>)ActivitiesAndUserNotes.this.getColumn("Description").getValue()).contains(expectedDescription));
         }
 
         public void descriptionNotExist(String expectedDescription) {
-            CustomAssert.assertFalse("Description contains record " + expectedDescription, ((List)ActivitiesAndUserNotes.this.getColumn("Description").getValue()).contains(expectedDescription));
+            CustomAssert.assertFalse("Description contains record " + expectedDescription, ((List<String>)ActivitiesAndUserNotes.this.getColumn("Description").getValue()).contains(expectedDescription));
         }
 
         public void descriptionExist(String expectedDescription, int expectedCount) {
-            CustomAssert.assertEquals((long)expectedCount, (long)Collections.frequency((Collection)ActivitiesAndUserNotes.this.getColumn("Description").getValue(), expectedDescription));
+            CustomAssert.assertEquals((long)expectedCount, (long)Collections.frequency((Collection<String>)ActivitiesAndUserNotes.this.getColumn("Description").getValue(), expectedDescription));
         }
     }
 }
