@@ -58,7 +58,7 @@ public class TestQuoteTaskManager extends HomeCaHO3BaseTest {
         //  4.  Purchase policy with refer for approval and override
         bindTab.btnPurchase.click();
         errorTab.fillTab(getTestSpecificTD("TestData_Approval"));
-        errorTab.btnApproval.click();
+        errorTab.buttonApproval.click();
         bindTab.btnPurchase.click();
         errorTab.fillTab(getTestSpecificTD("TestData_Override")).submitTab();
         new PurchaseTab().fillTab(getPolicyTD()).submitTab();

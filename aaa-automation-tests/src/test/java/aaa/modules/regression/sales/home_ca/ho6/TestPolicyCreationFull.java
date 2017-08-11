@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.home_ca.ho6;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import org.testng.annotations.Test;
 import aaa.main.enums.ProductConstants;
@@ -24,11 +26,11 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyCreationFull extends HomeCaHO6BaseTest {
 
-	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@Test(groups= {Groups.REGRESSION, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6)
 	public void testPolicyCreation() throws InterruptedException {
 
-		TestData td =getPolicyTD("DataGather", "TestDataFull");
+		TestData td =getTestSpecificTD("TestDataFull");
 
 		mainApp().open();
 

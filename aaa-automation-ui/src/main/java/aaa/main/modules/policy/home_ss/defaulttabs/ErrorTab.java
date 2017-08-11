@@ -1,10 +1,10 @@
 package aaa.main.modules.policy.home_ss.defaulttabs;
 
-import aaa.main.modules.policy.abstract_tabs.Error;
+import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
 
-public class ErrorTab extends Error{
+public class ErrorTab extends CommonErrorTab {
 	
 	public ErrorTab() {
 		super(HomeSSMetaData.ErrorTab.class);
@@ -12,7 +12,7 @@ public class ErrorTab extends Error{
 
 	@Override
 	public Tab submitTab() {
-		btnOverride.click();
+		buttonOverride.click();
 		new BindTab().submitTab();
 		return this;
 	}

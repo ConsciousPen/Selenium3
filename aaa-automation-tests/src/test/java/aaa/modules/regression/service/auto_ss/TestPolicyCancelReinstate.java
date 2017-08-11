@@ -1,6 +1,8 @@
 package aaa.modules.regression.service.auto_ss;
 
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -21,8 +23,8 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyCancelReinstate extends AutoSSBaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.AutoSS")
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS)
     public void testPolicyCancelReinstate() {
         mainApp().open();
         getCopiedPolicy();

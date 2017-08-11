@@ -1,5 +1,7 @@
 package aaa.modules.regression.billing_and_payments.home_ss.ho3;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import org.testng.annotations.Test;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -38,8 +40,8 @@ public class TestPolicyBillingAccountOnHold extends TestPolicyBilling {
 
 	private TestData tdBilling = testDataManager.billingAccount;
 
-	@Test
-	@TestInfo(component = "Billing.PersonalLines")
+	@Test(groups= {Groups.REGRESSION, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
 	public void hssPolicyBillingAccountOnHold() {
 		BillingAccount ba = new BillingAccount();
 		AddHoldActionTab ahaTab = new AddHoldActionTab();

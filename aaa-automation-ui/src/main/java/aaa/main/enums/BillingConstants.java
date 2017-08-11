@@ -27,7 +27,7 @@ public final class BillingConstants {
         public static final String BILLED = "Billed";
         public static final String UNBILLED = "Unbilled";
     }
-    
+
     public static final class InstallmentDescription {
         public static final String DEPOSIT = "Deposit";
         public static final String INSTALLMENT = "Installment";
@@ -83,6 +83,7 @@ public final class BillingConstants {
         public static final String REALLOCATED_PAYMENT = "Reallocated Payment";
         public static final String REALLOCATE_PAYMENT = "Reallocate Payment";
         public static final String RENEWAL_POLICY_RENEWAL_PROPOSAL = "Renewal - Policy Renewal Proposal";
+        public static final String REINSTATEMENT = "Reinstatement";
         public static final String REINSTATEMENT_FEE = "Reinstatement Fee";
         public static final String REINSTATEMENT_FEE_WITH_LAPSE = "Reinstatement with Lapse";
         public static final String REINSTATEMENT_WITHOUT_LAPSE = "Reinstatement - Without Lapse: payment received within grace period";

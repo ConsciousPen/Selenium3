@@ -4,29 +4,27 @@ package aaa.modules.delta.co.auto;
 
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.MainPage;
-import aaa.common.pages.NavigationPage;
-import aaa.common.pages.Page;
-import aaa.common.pages.SearchPage;
+import aaa.common.pages.*;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.StaticElement;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Dmitry Chubkov
@@ -44,16 +42,15 @@ import java.util.Map;
  * @details
  */
 public class TestDeltaScenario1 extends AutoSSBaseTest {
-	private String quoteNumber;// = "QCOSS933656185"; ///// <--- DEBUG
+	private String quoteNumber;
 	private DriverTab driverTab = new DriverTab();
 	private PremiumAndCoveragesTab pacTab = new PremiumAndCoveragesTab();
+	GeneralTab gTab = new GeneralTab();
 	private MultiInstanceBeforeAssetList aiAssetList = driverTab.getActivityInformationAssetList();
 
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	public void testSC1_TC01() {
-		GeneralTab gTab = new GeneralTab();
-
 		preconditions(NavigationEnum.AutoSSTab.GENERAL);
 
 		CustomAssert.enableSoftMode();
@@ -86,7 +83,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.TOLLFREE_NUMBER).verify.present();
 
 		//Select any option other than "None" for 'Adversely Impacted' field.
-		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.ADVERSELY_IMPACTED).setRandomValueExcept("None");
+		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.ADVERSELY_IMPACTED).setAnyValueExcept("None");
 
 		//Verify dropdown visible
 		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.ADVERSELY_IMPACTED).verify.present();
@@ -247,34 +244,45 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	public void testSC1_TC06() {
 		ErrorTab errorTab = new ErrorTab();
-		Map<String, String> errorRowQuery = new HashMap<>(2);
-		errorRowQuery.put("Code", "200103");
-		errorRowQuery.put("Message", "Driver with 3 or more Minor or Speeding violations are unacceptable");
 
 		preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
-
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		//CO DELTA - No full safety glass
 		//Update: 080-006CO_VA_V3.0 is updated to add Full safety glass coverage
 		CustomAssert.assertTrue(pacTab.getRatingDetailsVehiclesData().stream().allMatch(td -> td.containsKey("Full Safety Glass")));
 		CustomAssert.assertEquals(pacTab.getRatingDetailsQuoteInfoData().getValue("Adversely Impacted Applied"), "Yes");
 		pacTab.submitTab();
-
-		errorTab.getAssetList().getAsset(AutoSSMetaData.ErrorTab.ERROR_OVERRIDE).getTable().getRow(errorRowQuery).verify.present();
-
-		//PAS11 CR fix
-		//verifyElementPresent(OverrideTabUiIds.MESSAGE_CODE_200103);
-		//verifyTextPresent("Driver with 3 or more Minor or Speeding violations are unacceptable");
-		//Changing as per user story
 		//PAS 11 fix application change #35
-		//verifyTextPresent( ConstantErrorMessages.ERROR_MESSAGE_200103);
+		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_200103);
+		//PAS11 CR fix
+		errorTab.overrideError(ErrorEnum.Errors.ERROR_200103, ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.TEMPORARY_ISSUE);
 
-		//to be continued...
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
+		StaticElement warningMessage = new StaticElement(By.id("policyDataGaАtherForm:warningMessage"));
+		warningMessage.verify.value(String.format("Adversely Impacted was applied to the policy effective %s.", QuoteDataGatherPage.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY)));
 
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.ADVERSELY_IMPACTED).setValue("None");
+		gTab.submitTab();
+
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		PremiumAndCoveragesTab.buttonCalculatePremium.click();
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		CustomAssert.assertEquals(pacTab.getRatingDetailsQuoteInfoData().getValue("Adversely Impacted Applied"), "No");
+		gTab.submitTab();
+
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
+		warningMessage.verify.present(false);
+
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.ADVERSELY_IMPACTED).setAnyValueExcept("None");
+		gTab.submitTab();
+
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		PremiumAndCoveragesTab.buttonCalculatePremium.click();
 
 		Tab.buttonSaveAndExit.click();
 	}
-
 
 
 	private void preconditions(NavigationEnum.AutoSSTab navigateTo) {
