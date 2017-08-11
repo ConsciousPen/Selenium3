@@ -4,41 +4,26 @@ package aaa.modules.regression.service.pup;
 
 import org.testng.annotations.Test;
 
+import toolkit.utils.TestInfo;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.ProductConstants;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.PersonalUmbrellaBaseTest;
-import toolkit.utils.TestInfo;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.service.template.PolicyRenewWithLapse;
 
 /**
+ * {@inheritDoc}
  * @author Yonggang Sun
- * @name Test Renew Umbrella Policy with Lapse
- * @scenario
- * 1. Create Customer
- * 2. Create Umbrella (AAA) Policy
- * 3. Manual Renew Policy
- * 4. Verify Policy status is 'Policy Active'
- * 5. Verify 'Term includes lapse period' is not displayed in the header.
- * @details
  */
-public class TestPolicyRenewWithLapse extends PersonalUmbrellaBaseTest {
+public class TestPolicyRenewWithLapse extends PolicyRenewWithLapse {
+	
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.PUP;
+	}
 
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.PUP )
     public void testPolicyRenewWithLapse() {
-        mainApp().open();
-
-        getCopiedPolicy();
-
-        log.info("TEST: Manual Renew for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        policy.renew().performAndExit(getPolicyTD("Renew", "TestData_Plus370Days"));
-
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present(false);
-
-//        PolicySummaryPage.buttonRenewals.click();
-//        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);
-//        PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present();
+        super.testPolicyRenewWithLapse();
     }
 }
