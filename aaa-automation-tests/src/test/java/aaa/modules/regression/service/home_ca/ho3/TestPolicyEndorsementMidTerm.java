@@ -4,15 +4,15 @@ package aaa.modules.regression.service.home_ca.ho3;
 
 import org.testng.annotations.Test;
 
-import com.exigen.ipb.etcsa.utils.Dollar;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.ProductConstants;
-import aaa.main.pages.summary.PolicySummaryPage;
+
+import aaa.main.modules.policy.PolicyType;
 import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.modules.regression.service.template.PolicyEndorsementMidTerm;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 
 /**
  * @author Ryan Yu
@@ -26,23 +26,21 @@ import toolkit.verification.CustomAssert;
  * 6. Verify Ending Premium is changed
  * @details
  */
-public class TestPolicyEndorsementMidTerm extends HomeCaHO3BaseTest {
+public class TestPolicyEndorsementMidTerm extends PolicyEndorsementMidTerm {
 
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_CA_HO3;
+	}
+	
+	@Override
+	protected TestData getBackDatedPolicyTD() {
+		return new HomeCaHO3BaseTest().getBackDatedPolicyTD();
+	}
+	
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
 	public void testPolicyEndorsementMidTerm() {
-		mainApp().open();
-
-		createCustomerIndividual();
-		createPolicy(getBackDatedPolicyTD());
-
-		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
-
-		log.info("TEST: MidTerm Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-		policy.createEndorsement(getPolicyTD("Endorsement", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks()));
-
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
+		super.testPolicyEndorsementMidTerm();
 	}
 }
