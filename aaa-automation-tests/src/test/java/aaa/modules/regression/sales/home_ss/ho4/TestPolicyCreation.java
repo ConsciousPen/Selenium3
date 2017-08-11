@@ -24,8 +24,9 @@ public class TestPolicyCreation extends HomeSSHO4BaseTest {
     @TestInfo(component = "Policy.PersonalLines")
     public void testPolicyCreation() {
         mainApp().open();
+        
         createCustomerIndividual();
-        policy.createPolicy(getPolicyTD("DataGather", "TestData"));
+        createPolicy();
         
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
