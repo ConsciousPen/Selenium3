@@ -1,8 +1,0 @@
-TestData: {
-    AgencyProducer1 : '@AgencyProducer1'
-}
-
-AgencyProducer1 : {
-    Channel : 'Corporate',
-    Agency Name : 'TaskRestAgency1'
-}

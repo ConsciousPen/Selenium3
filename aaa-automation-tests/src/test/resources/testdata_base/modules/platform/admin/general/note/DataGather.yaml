@@ -1,8 +1,0 @@
-TestData: {
-  AddNoteCategory: {
-    Type: Account,
-    Status: Active,
-    New Category: /AT_NEW_CATEGORY_####,
-    Title: AT New Category
-  }
-}
