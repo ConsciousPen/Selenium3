@@ -6,6 +6,8 @@ import org.testng.annotations.Test;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
@@ -21,8 +23,8 @@ import toolkit.verification.CustomAssert;
  */
 public class TestPolicyEndorsementAdd extends AutoCaChoiceBaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.AutoCA")
+    @Test(groups = { Groups.SMOKE, Groups.CRITICAL })
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE)
     public void testPolicyEndorsementAdd() {
         mainApp().open();
         

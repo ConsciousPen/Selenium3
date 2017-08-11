@@ -6,6 +6,8 @@ import org.testng.annotations.Test;
 
 import aaa.common.enums.NavigationEnum.AutoCaTab;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -24,8 +26,8 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyCreation extends AutoCaChoiceBaseTest {
 
-	@Test
-	@TestInfo(component = "Policy.AutoCA")
+	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE)
 	public void testPolicyCreation() {
 		mainApp().open();
 

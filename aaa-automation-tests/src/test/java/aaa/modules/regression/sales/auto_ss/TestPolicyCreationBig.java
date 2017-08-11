@@ -3,6 +3,9 @@
 package aaa.modules.regression.sales.auto_ss;
 
 import org.testng.annotations.Test;
+
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -18,8 +21,8 @@ import toolkit.verification.CustomAssert;
  */
 public class TestPolicyCreationBig extends AutoSSBaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.AutoSS")
+    @Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
     public void testPolicyCreationBig() {
     	
         mainApp().open();
