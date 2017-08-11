@@ -1,0 +1,146 @@
+TestData: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@TestDeltaScenario1@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@TestDeltaScenario1@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@TestDeltaScenario1@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@TestDeltaScenario1@DocumentsTab',
+  BindTab: '@TestDeltaScenario1@BindTab',
+  PurchaseTab: '@TestDeltaScenario1@PurchaseTab'
+}
+
+GeneralTab: {
+  State: 'CO',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab: {
+  NamedInsured: '@TestDeltaScenario1@NamedInsured',
+  AAAMembership: '@TestDeltaScenario1@AAAMembership',
+  DwellingAddress: '@TestDeltaScenario1@DwellingAddress',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@TestDeltaScenario1@NamedInsuredInformation',
+  OtherActiveAAAPolicies: ['@TestDeltaScenario1@OtherActiveAAAPolicies', '@OtherActiveAAAPolicies_2'], 
+  AgentInfo: '@TestDeltaScenario1@AgentInfo'
+}
+
+PropertyInfoTab: {
+  DwellingAddress: '@TestDeltaScenario1@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@TestDeltaScenario1@PropertyValue',
+  Construction: '@TestDeltaScenario1@Construction',
+  Interior: '@TestDeltaScenario1@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: {},
+  PetsOrAnimals: '@TestDeltaScenario1@PetsOrAnimals',
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: '@RentalInformation'
+}
+
+EndorsementTab: {
+  DS 04 69: '@Endorsement_DS0469' 
+}
+
+UnderwritingAndApprovalTab: {
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is any business, home day care or farming activity conducted on the premises?": "No"
+}
+
+# ----- Applicant Tab -----
+
+OtherActiveAAAPolicies_2: {
+  #Other active AAA policies: "Yes",
+  #Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_2' 
+}
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_2:  {
+  Policy type: HO3,
+  Policy number: '345345345',
+  Coverage E: '1000',
+  Deductible: '1000',
+  Dwelling usage: Primary,
+  Occupancy type: Owner occupied
+}
+
+
+# ----- PropertyInfo Tab -----
+DetachedStructures: {
+   "Are there any detached structures on the property?": 'Yes', 
+   Rented to others: 'No', 
+   Description: 'Detached structure 1',
+   Limit of liability: '1000' 
+}  
+
+RentalInformation: {
+  Number of consecutive years insured has owned any rental properties: '5',
+  Property manager: 'index=1',
+  "Does the tenant have an underlying HO4 policy?": "No"
+}
+
+# ----- Endorsements Tab -----
+Endorsement_DS0469: {
+  Action: 'Add', 
+  Deductible: '5%', 
+  "Include coverage for earthquake loss to exterior masonry veneer?": 'No'
+}
+
+# ========= TC04 Adversely Impacted verification =========
+TestData_Declined_with_Score700: {
+  GeneralTab: '@TestDeltaScenario1@GeneralTab_AdverselyImpacted_Declined', 
+  ReportsTab: '@TestDeltaScenario1@ReportsTab_Score700'
+}
+
+TestData_Dissolution_with Score700: {
+  GeneralTab: '@TestDeltaScenario1@GeneralTab_AdverselyImpacted_Dissolution', 
+  ReportsTab: '@TestDeltaScenario1@ReportsTab_Score700'
+}
+
+TestData_IdentityTheft_with_Score800: {
+  GeneralTab: '@TestDeltaScenario1@GeneralTab_AdverselyImpacted_IdentityTheft', 
+  ReportsTab: '@TestDeltaScenario1@ReportsTab_Score800'
+}
+
+TestData_IdentityTheft_with_Score999: {
+  GeneralTab: '@TestDeltaScenario1@GeneralTab_AdverselyImpacted_IdentityTheft', 
+  ReportsTab: '@TestDeltaScenario1@ReportsTab_Score999'
+}
+
+TestData_AdverselyImpacted_None: {
+  GeneralTab: '@TestDeltaScenario1@GeneralTab_AdverselyImpacted_None'
+}
+
+# ========= TC05 Override errors verification ========== 
+TestData_Construction1: {
+  PropertyInfoTab: '@TestDeltaScenario1@PropertyInfoTab_Construction1'
+}
+
+TestData_Construction2: {
+  PropertyInfoTab: '@TestDeltaScenario1@PropertyInfoTab_Construction2'
+}
+
+TestData_Construction3: {
+  PropertyInfoTab: '@TestDeltaScenario1@PropertyInfoTab_Construction3'
+}
+
+
+
