@@ -28,6 +28,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreationFull"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
 		</classes>
@@ -57,6 +58,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 
@@ -84,6 +87,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 
@@ -111,6 +116,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 
@@ -138,6 +145,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 
@@ -165,6 +174,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 
@@ -192,6 +203,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 
@@ -219,6 +232,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 
@@ -246,6 +261,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 
@@ -273,6 +290,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 
@@ -300,6 +319,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 
@@ -327,6 +348,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 
@@ -354,6 +377,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 
@@ -381,6 +406,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 
@@ -408,6 +435,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 
@@ -435,6 +464,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 
@@ -462,6 +493,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 
@@ -489,6 +522,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 
@@ -516,6 +551,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 
@@ -543,6 +580,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 
@@ -570,6 +609,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 
@@ -597,6 +638,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 
@@ -624,6 +667,8 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
 

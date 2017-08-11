@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.home_ss.ho6;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO6BaseTest;
@@ -20,12 +22,12 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyCreationFull extends HomeSSHO6BaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @Test(groups= {Groups.REGRESSION, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6)
     public void testQuoteCreation() {
         mainApp().open();
         createCustomerIndividual();
-        policy.createPolicy(getPolicyTD("DataGather", "TestDataFull"));
+        policy.createPolicy(getTestSpecificTD("TestDataFull"));
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         log.info("TEST: HSS06 Full Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
