@@ -9,6 +9,8 @@ import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
@@ -33,16 +35,8 @@ public class TestDeltaScenario1 extends HomeSSHO3BaseTest{
 	private String effectiveDate; 
 	private TestData td_sc1; 
 	
-	/*
-	public String getQuoteNumber() {
-		if (quoteNumber == null) {
-			quoteNumber = testSC1_TC01();
-		}
-		return quoteNumber;		
-	}
-	*/
-	@Test
-    @TestInfo(component = "Policy.HomeSS")
+	@Test(groups = { Groups.DELTA, Groups.HIGH })
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
 	public void testSC1_TC01() {
 		mainApp().open();
 		
@@ -63,12 +57,11 @@ public class TestDeltaScenario1 extends HomeSSHO3BaseTest{
         log.info("DELTA CO SC1: HO3-Heritage Quote created with #" + quoteNumber);
         
         effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue(); 
-        
-        //return quoteNumber;
+
 	}
 
-	@Test
-	@TestInfo(component = "Policy.HomeSS")
+	@Test(groups = { Groups.DELTA, Groups.HIGH })
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testSC1_TC02() {
 		mainApp().open();
 		
@@ -100,22 +93,20 @@ public class TestDeltaScenario1 extends HomeSSHO3BaseTest{
 		CustomAssert.assertTrue(endorsementTab.verifyLinkEditIsPresent("HS 03 12")); 
 		CustomAssert.assertTrue(endorsementTab.verifyLinkRemoveIsPresent("HS 03 12"));
 		
-		//endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present();
-		
 		EndorsementTab.buttonSaveAndExit.click();	
 		CustomAssert.assertAll();
 	}
 	
-	@Test
-	@TestInfo(component = "Policy.HomeSS")
+	@Test(groups = { Groups.DELTA, Groups.HIGH })
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testSC1_TC03() {
 		mainApp().open();
 		SearchPage.openQuote(quoteNumber);	
 		//Generate On-Demand documents for quote
 	}
 
-	@Test
-	@TestInfo(component = "Policy.HomeSS")
+	@Test(groups = { Groups.DELTA, Groups.HIGH })
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testSC1_TC04() {
 		mainApp().open();
 	
@@ -131,8 +122,8 @@ public class TestDeltaScenario1 extends HomeSSHO3BaseTest{
 		CustomAssert.enableSoftMode();		
 		GeneralTab generalTab = new GeneralTab();
 		generalTab.verifyFieldHasValue("Adversely Impacted", "None"); 
-		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.ADVERSELY_IMPACTED.getLabel(), ComboBox.class).verify.options(
-				Arrays.asList("None", "Declined", "Dissolution of marriage or Credit information of a former spouse", "Identity Theft"));
+		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.ADVERSELY_IMPACTED.getLabel(), ComboBox.class).verify.optionsContain(
+				Arrays.asList("None", "Dissolution of marriage or Credit information of a former spouse", "Identity Theft", "Declined"));
 		
 		verifyAdverselyImpactedNotApplied(td_Declined_with_Score700, "700");
 		
@@ -156,8 +147,8 @@ public class TestDeltaScenario1 extends HomeSSHO3BaseTest{
 		CustomAssert.assertAll();		
 	}
 	
-	@Test
-	@TestInfo(component = "Policy.HomeSS")
+	@Test(groups = { Groups.DELTA, Groups.HIGH })
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testSC1_TC05() {
 		mainApp().open(); 
 		
@@ -179,8 +170,8 @@ public class TestDeltaScenario1 extends HomeSSHO3BaseTest{
 		CustomAssert.assertAll();	
 	}
 	
-	@Test
-	@TestInfo(component = "Policy.HomeSS")
+	@Test(groups = { Groups.DELTA, Groups.HIGH })
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testSC1_TC06() {
 		mainApp().open(); 
 		
@@ -206,8 +197,8 @@ public class TestDeltaScenario1 extends HomeSSHO3BaseTest{
 		
 	}
 	
-	@Test
-	@TestInfo(component = "Policy.HomeSS")
+	@Test(groups = { Groups.DELTA, Groups.HIGH })
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testSC1_TC07() {
 		mainApp().open(); 
 		

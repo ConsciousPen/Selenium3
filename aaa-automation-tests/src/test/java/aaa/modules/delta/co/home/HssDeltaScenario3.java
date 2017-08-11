@@ -21,40 +21,40 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
-public class TestDeltaScenario2 extends HomeSSHO3BaseTest {
+public class HssDeltaScenario3 extends HomeSSHO3BaseTest {
 	
 	private String quoteNumber;
 	private String policyNumber;
-	private TestData td_sc2; 
+	TestData td_sc3; 
 	
 	@Test(groups = { Groups.DELTA, Groups.HIGH })
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
-	public void testSC2_TC01() {
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
+	public void testSC3_TC01() {
 		mainApp().open();
 		
-		td_sc2 = getTestSpecificTD("TestData");
+		td_sc3 = getTestSpecificTD("TestData");
 		
         createCustomerIndividual();     
         
         policy.initiate();
-        policy.getDefaultView().fillUpTo(td_sc2, BindTab.class, true);
+        policy.getDefaultView().fillUpTo(td_sc3, BindTab.class, true);
         
         BindTab.buttonSaveAndExit.click();
         
         quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-        log.info("DELTA CO SC2: HO3-Legasy Quote created with #" + quoteNumber);
+        log.info("DELTA CO SC3: HO3-Prestige Quote created with #" + quoteNumber);
 
-        CustomAssert.assertAll();             
+        CustomAssert.assertAll();              
 	}
 	
 	@Test(groups = { Groups.DELTA, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testSC2_TC02() {
+	public void testSC3_TC02() {
 		mainApp().open();
 		
 		SearchPage.openQuote(quoteNumber);	
 
-		TestData td_sc2_add_Forms = getTestSpecificTD("TestData_add_Forms"); 
+		TestData td_sc3_add_Forms = getTestSpecificTD("TestData_add_Forms"); 
 		
 		Map<String, String> endorsement_HS0312 = new HashMap<>();
 		endorsement_HS0312.put("Form ID", "HS 03 12");
@@ -76,27 +76,27 @@ public class TestDeltaScenario2 extends HomeSSHO3BaseTest {
 		endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312).verify.present();	
 		endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present();
 		
-		endorsementTab.fillTab(td_sc2_add_Forms);
+		endorsementTab.fillTab(td_sc3_add_Forms);
 		
 		endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312).verify.present();			
 		CustomAssert.assertTrue(endorsementTab.verifyLinkEditIsPresent("HS 03 12")); 
 		CustomAssert.assertTrue(endorsementTab.verifyLinkRemoveIsPresent("HS 03 12"));
 		
 		EndorsementTab.buttonSaveAndExit.click();	
-		CustomAssert.assertAll();		
+		CustomAssert.assertAll();
 	}
 
 	@Test(groups = { Groups.DELTA, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testSC2_TC03() {
+	public void testSC3_TC03() {
 		mainApp().open();
 		SearchPage.openQuote(quoteNumber);	
 		//Generate On-Demand documents for quote
 	}
-	
+
 	@Test(groups = { Groups.DELTA, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testSC2_TC04() {
+	public void testSC3_TC04() {
 		mainApp().open();
 		
 		SearchPage.openQuote(quoteNumber);	
@@ -107,18 +107,18 @@ public class TestDeltaScenario2 extends HomeSSHO3BaseTest {
 		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-		policy.getDefaultView().fillFromTo(td_sc2, BindTab.class, PurchaseTab.class, true);
+		policy.getDefaultView().fillFromTo(td_sc3, BindTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         
-        log.info("DELTA CO SC2: HO3-Legasy Policy created with #" + policyNumber);
+        log.info("DELTA CO SC3: HO3-Prestige Policy created with #" + policyNumber);
 	}
 	
 	@Test(groups = { Groups.DELTA, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testSC2_TC05() {
+	public void testSC3_TC05() {
 		mainApp().open(); 
 		
 		SearchPage.openPolicy(policyNumber);

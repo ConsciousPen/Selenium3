@@ -4,17 +4,14 @@ package aaa.modules.regression.service.auto_ca.select;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.modules.regression.sales.auto_ca.select.TestPolicyBackdated;
+import aaa.modules.regression.service.template.PolicyEndorsementMidTerm;
 
 import org.testng.annotations.Test;
 
-import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
-import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
-import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.main.modules.policy.PolicyType;
 import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.utils.datetime.DateTimeUtils;
 
 
 
@@ -28,27 +25,21 @@ import toolkit.utils.datetime.DateTimeUtils;
  * 3. Endorse policy with current date
  * @details
  */
-public class TestPolicyEndorsementMidTerm extends AutoCaSelectBaseTest {
+public class TestPolicyEndorsementMidTerm extends PolicyEndorsementMidTerm {
 
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_CA_SELECT;
+	}
+	
+	@Override
+	protected TestData getBackDatedPolicyTD() {
+		return new AutoCaSelectBaseTest().getBackDatedPolicyTD();
+	}
+	
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT )
-    public void testPolicyEndorsementMidTerm() {
-    new TestPolicyBackdated().testPolicyBackdated();
-		
-		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		//make an endorsement using test data from TestPolicyEndorsementAdd test
-		//adjust reports tab - no need to check "Customer Agreement" for midterm endorsement
-    	
-        log.info("TEST: MidTerm Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        
-        
-        TestData endorsement_td = getPolicyTD(TestPolicyEndorsementAdd.class.getSimpleName(), "TestData");
-        policy.createEndorsement(endorsement_td
-                .mask(TestData.makeKeyPath(MembershipTab.class.getSimpleName(), "Customer Agreement"))
-        		.adjust(getPolicyTD("Endorsement", "TestData")));
-	     
-
-        String message = String.format("Bind Endorsement effective %1$s for Policy %2$s", DateTimeUtils.getCurrentDateTime().format(DateTimeUtils.MM_DD_YYYY), policyNumber);
-        NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.description(1, message);
-    }
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT)
+	public void testPolicyEndorsementMidTerm() {
+		super.testPolicyEndorsementMidTerm();
+	}
 }

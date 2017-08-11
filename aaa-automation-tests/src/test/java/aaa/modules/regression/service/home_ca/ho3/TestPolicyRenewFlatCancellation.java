@@ -4,43 +4,39 @@ package aaa.modules.regression.service.home_ca.ho3;
 
 import org.testng.annotations.Test;
 
-
-import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
-
-import aaa.main.modules.policy.PolicyType;
-import aaa.modules.policy.HomeCaHO3BaseTest;
-import aaa.modules.regression.service.template.PolicyEndorsementMidTerm;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.modules.regression.service.template.PolicyRenewFlatCancellation;
 
 /**
- * @author Ryan Yu
- * @name Test Midterm Endorsement for Home Policy
+ * @author Xiaolan Ge
+ * @name Test renew flat cancellation for Umbrella Policy
  * @scenario
  * 1. Create Customer
- * 2. Create Home Policy
- * 3. Create endorsement
- * 4. Verify 'Pended Endorsement' button is disabled
- * 5. Verify Policy status is 'Policy Active'
- * 6. Verify Ending Premium is changed
+ * 2. Create Umbrella (AAA) Policy
+ * 3. Manual Renew for Policy
+ * 4. Cancellation Policy Renewal
+ * 5. Verify Policy status is 'Cancellation Pending'
  * @details
  */
-public class TestPolicyEndorsementMidTerm extends PolicyEndorsementMidTerm {
+public class TestPolicyRenewFlatCancellation extends PolicyRenewFlatCancellation {
 
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.HOME_CA_HO3;
 	}
-	
 	@Override
 	protected TestData getBackDatedPolicyTD() {
 		return new HomeCaHO3BaseTest().getBackDatedPolicyTD();
 	}
 	
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
-	public void testPolicyEndorsementMidTerm() {
-		super.testPolicyEndorsementMidTerm();
-	}
+	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3 )
+    public void testPolicyRenewFlatCancellation() {
+        super.testPolicyRenewFlatCancellation();
+    }
 }
