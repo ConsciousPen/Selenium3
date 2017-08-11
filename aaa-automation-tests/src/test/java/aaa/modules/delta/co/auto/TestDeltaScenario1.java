@@ -42,7 +42,7 @@ import java.util.Collections;
  * @details
  */
 public class TestDeltaScenario1 extends AutoSSBaseTest {
-	private String quoteNumber = "QCOSS950537470"; ///// <--- DEBUG
+	private String quoteNumber;
 	private DriverTab driverTab = new DriverTab();
 	private PremiumAndCoveragesTab pacTab = new PremiumAndCoveragesTab();
 	GeneralTab gTab = new GeneralTab();
