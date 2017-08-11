@@ -1,16 +1,19 @@
 /* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
-package aaa.modules.regression.service.pup;
+package aaa.modules.regression.service.home_ca.ho3;
 
 import org.testng.annotations.Test;
+
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
+import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.modules.regression.service.template.PolicyRenewFlatCancellation;
 
 /**
- * @author Yonggang Sun
+ * @author Xiaolan Ge
  * @name Test renew flat cancellation for Umbrella Policy
  * @scenario
  * 1. Create Customer
@@ -24,11 +27,15 @@ public class TestPolicyRenewFlatCancellation extends PolicyRenewFlatCancellation
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.PUP;
+		return PolicyType.HOME_CA_HO3;
+	}
+	@Override
+	protected TestData getBackDatedPolicyTD() {
+		return new HomeCaHO3BaseTest().getBackDatedPolicyTD();
 	}
 	
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.PUP )
+	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3 )
     public void testPolicyRenewFlatCancellation() {
         super.testPolicyRenewFlatCancellation();
     }

@@ -17,7 +17,7 @@ public class AutoSSBaseTest extends PolicyBaseTest {
 
     @Override
 	public TestData getBackDatedPolicyTD() {
-		return getBackDatedPolicyTD(DateTimeUtils.getCurrentDateTime().minusDays(10).format(DateTimeUtils.MM_DD_YYYY));
+		return getBackDatedPolicyTD(DateTimeUtils.getCurrentDateTime().minusDays(2).format(DateTimeUtils.MM_DD_YYYY));
 	}
 
     @Override
