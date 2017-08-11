@@ -4,6 +4,9 @@ package aaa.modules.regression.service.auto_ss;
 
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
+
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -22,8 +25,8 @@ import toolkit.verification.CustomAssert;
  */
 public class TestPolicyEndorsementAdd extends AutoSSBaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.AutoSS")
+    @Test(groups = { Groups.SMOKE, Groups.CRITICAL })
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS)
     public void testPolicyEndorsementAdd() {
         mainApp().open();
         
