@@ -58,7 +58,7 @@ public class TestPolicyRulesOverride extends AutoCaSelectBaseTest {
 		policy.updateRulesOverride().start();
 		checkRuleIsPresent("Life", "Other");
 
-		policy.updateRulesOverride().perform(getPolicyTD(this.getClass().getSimpleName(), "UpdateRulesTestData_1"));
+		policy.updateRulesOverride().perform(getTestSpecificTD("UpdateRulesTestData_1"));
 
 		policy.updateRulesOverride().start();
 		checkRuleIsPresent("Term", "Justified through supporting documentation");
@@ -74,7 +74,7 @@ public class TestPolicyRulesOverride extends AutoCaSelectBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		//override rule for policy
-		policy.updateRulesOverride().perform(getPolicyTD(this.getClass().getSimpleName(), "UpdateRulesTestData_2"));
+		policy.updateRulesOverride().perform(getTestSpecificTD("UpdateRulesTestData_2"));
 
 		policy.updateRulesOverride().start();
 		checkRuleIsPresent("Life", "Temporary Issue");

@@ -132,7 +132,7 @@ public class LoginPage extends Page implements ILogin {
 
 	@Override
 	public void login() {
-		Map<String, Object> td = new LinkedHashMap<String, Object>();
+		Map<String, Object> td = new LinkedHashMap<>();
 		td.put(LoginPageMeta.USER.getLabel(), user);
 		td.put(LoginPageMeta.PASSWORD.getLabel(), password);
 		td.put(LoginPageMeta.STATES.getLabel(), state);

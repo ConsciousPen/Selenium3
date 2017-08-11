@@ -40,7 +40,7 @@ public class TestPolicyBackdated extends AutoSSBaseTest {
 						AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
 						AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()),
 						"/today-10d:MM/dd/yyyy")
-				.adjust(getPolicyTD(this.getClass().getSimpleName(), "TestData").resolveLinks());
+				.adjust(getTestSpecificTD("TestData").resolveLinks());
 
 		getPolicyType().get().createPolicy(td);
 

@@ -1,0 +1,21 @@
+TestData: {
+  GeneralTab: '@TestDeltaScenario1@GeneralTab',
+  ApplicantTab: '@TestDeltaScenario1@ApplicantTab',
+  ReportsTab: '@TestDeltaScenario1@ReportsTab',
+  PropertyInfoTab: '@TestDeltaScenario1@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@TestDeltaScenario1@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@TestDeltaScenario1@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@TestDeltaScenario1@MortgageesTab',
+  UnderwritingAndApprovalTab: '@TestDeltaScenario1@UnderwritingAndApprovalTab',
+  DocumentsTab: '@TestDeltaScenario1@DocumentsTab',
+  BindTab: '@TestDeltaScenario1@BindTab',
+  PurchaseTab: '@TestDeltaScenario1@PurchaseTab'
+}
+
+ProductOfferingTab: {
+  Legacy: {
+    Select variation: 'true'
+  }
+}
+

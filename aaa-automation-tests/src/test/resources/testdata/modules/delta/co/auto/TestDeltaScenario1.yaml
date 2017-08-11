@@ -1,0 +1,60 @@
+TestData: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: ['@DriverTab_Driver_01','@DriverTab_Driver_02'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab'
+}
+
+DriverTab_Driver_01: {
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 215487451
+}
+
+DriverTab_Driver_02: {
+  DriverSearchDialog: {},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
+  First Name: Jack,
+  Last Name: Book,
+  Date of Birth: '01/01/1980',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 235689875
+}
+
+DriverTab_TC04: {
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 215487451,
+  ActivityInformation: [
+    {
+      Type: 'Minor Violation',
+      Description: 'Improper Passing',
+      Occurrence Date: '01/10/2012',
+      Conviction Date: '/today-30d:MM/dd/yyyy'
+    },
+    {
+      Type: 'Minor Violation',
+      Description: 'Improper Signal',
+      Occurrence Date: '01/12/2012',
+      Conviction Date: '/today-250d:MM/dd/yyyy'
+    },
+    {
+      Type: 'Minor Violation',
+      Description: 'Illegal Riding',
+      Occurrence Date: '01/02/2013',
+      Conviction Date: '/today-20d:MM/dd/yyyy'
+    }
+  ]
+}

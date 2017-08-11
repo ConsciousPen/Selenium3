@@ -26,8 +26,8 @@ public class Ssh {
 	private JSch jsch = new JSch();
 	private ChannelSftp sftpChannel;
 	private ChannelExec execChannel;
-	private static ArrayList<Session> sessionPool = new ArrayList<Session>();
-	private static ArrayList<ChannelSftp> sftpChannelPool = new ArrayList<ChannelSftp>();
+	private static ArrayList<Session> sessionPool = new ArrayList<>();
+	private static ArrayList<ChannelSftp> sftpChannelPool = new ArrayList<>();
 	private String host;
 	private String user;
 	private String password;

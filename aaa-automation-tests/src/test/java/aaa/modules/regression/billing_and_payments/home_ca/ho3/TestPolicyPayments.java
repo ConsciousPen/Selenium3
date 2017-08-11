@@ -40,7 +40,7 @@ public class TestPolicyPayments extends HomeCaHO3BaseTest {
 		policy.getDefaultView().fillUpTo(getPolicyTD("DataGather", "TestData"), BindTab.class, true);
 		new BindTab().submitTab();
 
-		new PurchaseTab().fillTab(getPolicyTD(this.getClass().getSimpleName(), "TestData")).submitTab();
+		new PurchaseTab().fillTab(getTestSpecificTD("TestData")).submitTab();
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
