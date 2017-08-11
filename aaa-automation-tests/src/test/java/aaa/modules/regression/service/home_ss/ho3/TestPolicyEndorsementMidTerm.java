@@ -4,15 +4,16 @@ package aaa.modules.regression.service.home_ss.ho3;
 
 import org.testng.annotations.Test;
 
-import com.exigen.ipb.etcsa.utils.Dollar;
+
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.ProductConstants;
-import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.main.modules.policy.PolicyType;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.modules.regression.service.template.PolicyEndorsementMidTerm;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+
 
 /**
  * @author Ryan Yu
@@ -26,25 +27,22 @@ import toolkit.verification.CustomAssert;
  * 6. Verify Ending Premium is changed
  * @details
  */
-public class TestPolicyEndorsementMidTerm extends HomeSSHO3BaseTest {
-
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
-	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
+public class TestPolicyEndorsementMidTerm extends PolicyEndorsementMidTerm {
+	
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_HO3;
+	}
+	
+	@Override
+	protected TestData getBackDatedPolicyTD() {
+		return new HomeSSHO3BaseTest().getBackDatedPolicyTD();
+	}
+	
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3 )
 	public void testPolicyEndorsementMidTerm() {
-		mainApp().open();
-		
-		createCustomerIndividual();
-		createPolicy(getBackDatedPolicyTD());
-
-		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
-
-		log.info("TEST: MidTerm Endorsement for Policy #" + policyNumber);
-		policy.createEndorsement(getPolicyTD("Endorsement", "TestData")
-				.adjust(getTestSpecificTD("TestData").resolveLinks()));
-
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
+		super.testPolicyEndorsementMidTerm();
 	}
 }
+

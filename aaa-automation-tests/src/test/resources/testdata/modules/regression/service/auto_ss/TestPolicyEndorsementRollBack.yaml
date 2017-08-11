@@ -1,0 +1,14 @@
+TestData: {
+   GeneralTab: {
+  PolicyInformation: {Authorized by: QA}
+  },
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+  Property Damage Liability: 'contains=$300,000'
+  },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}

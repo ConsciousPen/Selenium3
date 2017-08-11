@@ -47,9 +47,9 @@ public class TestPolicyEndorsement extends HomeSSHO3BaseTest {
 	public void testPolicyEndorsement(){
 		mainApp().open();
 
-		//getCopiedPolicy(); // fails by timeout
-		createCustomerIndividual();
-		createPolicy();
+		getCopiedPolicy(); // fails by timeout
+		//createCustomerIndividual();
+		//createPolicy();
 		
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 

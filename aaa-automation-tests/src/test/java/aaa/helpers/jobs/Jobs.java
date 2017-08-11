@@ -82,7 +82,7 @@ public class Jobs {
 	
 	public enum JobState {
 		TRUE, FALSE, FAILED
-	};
+	}
 
 	public static void setJobState(String jobName, JobState state) {
 		jobsState.put(jobName, state);

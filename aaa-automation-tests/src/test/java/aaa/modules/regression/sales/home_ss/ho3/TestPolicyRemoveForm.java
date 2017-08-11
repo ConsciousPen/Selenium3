@@ -2,6 +2,8 @@ package aaa.modules.regression.sales.home_ss.ho3;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
@@ -33,13 +35,13 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyRemoveForm extends HomeSSHO3BaseTest {
 
-	@Test
-	@TestInfo(component = "Policy.HomeSS")
+	@Test(groups = {Groups.REGRESSION, Groups.LOW})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void hssPolicyRemoveForm() {
 
 		TestData td = getPolicyTD();
-		TestData tdEndorsement = getPolicyTD("TestPolicyRemoveForm", "TestData");
-		TestData tdEndorsementDelete = getPolicyTD("TestPolicyRemoveForm", "TestData_Delete");
+		TestData tdEndorsement = getTestSpecificTD("TestData");
+		TestData tdEndorsementDelete = getTestSpecificTD("TestData_Delete");
 
 		String expectedEndorsementName = String.format("HS 09 88 01 12 Additional Insured - Special Event; Effective %1$s - %2$s",
 				tdEndorsement.getTestData("EndorsementTab").getTestData("HS 09 88").getValue("Effective date"),

@@ -1,0 +1,80 @@
+TestData_CA: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@home_ca_ho3@DataGather@ApplicantTab',
+  ReportsTab: '@home_ca_ho3@DataGather@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@home_ca_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@home_ca_ho3@DataGather@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ca_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@home_ca_ho3@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ca_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ca_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ca_ho3@DataGather@PurchaseTab'
+}
+
+GeneralTab: {
+  PolicyInfo: {
+    Policy type: 'HO6',
+    Effective date: '/today:MM/dd/yyyy',
+    Lead source: 'AAA Magazines',
+    },
+  CurrentCarrier: {
+    Carrier name: 'AAA - NCNU',
+    Policy type: 'HO3',
+    Continuous years with HO insurance: '5',
+    Base date with AAA: '/today:MM/dd/yyyy',
+    }
+}
+PropertyInfoTab: {
+  DwellingAddress: {
+    Number of family units: 'index=1'
+    },
+   AdditionalAddress: [{}],
+   PublicProtectionClass: {},
+   FireReport: {},
+   PropertyValue: {
+    Coverage A - Dwelling limit: 75000,
+    ISO replacement cost: 70000,
+    Reason replacement cost differs from the tool value: 'index=1',
+   },
+   Construction: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: index=1,
+    Construction type: index=1
+    },
+  AdditionalQuestions: {},
+  Interior: {
+    Dwelling usage: Primary,
+    Number of residents: 3,
+    "Number of stories, including basement": '1'
+    },
+  DetachedStructures: [{}],
+#  CeaInformation: {
+#    Foundation type: Slab,
+#    "Is the dwelling anchored to foundation using approved anchor bolts in accordance with California building code?": 'No',
+#    "Is the water heater secured to the building frame in accordance with guidelines for earthquake bracing of residential water heaters?": 'No',
+#    "Does the dwelling have cripple walls?": 'No',
+#    "Does dwelling have post-and-pier or post-and-beam foundation?": 'No',
+#    },
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: {},
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+}
+
+#PurchaseTab: {
+#  PaymentAllocation: {
+#    Cash: /rest
+#  }
+
+#DocumentsTab: {
+#    DocumentsToIssue: {
+#      California Residential Property Insurance Disclosure: Physically Signed,
+#      Signed policy application: Physically Signed,
+#    }
+#}

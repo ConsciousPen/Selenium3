@@ -40,17 +40,13 @@ import toolkit.datax.impl.SimpleDataProvider;
 
 public final class TestDataManager {
 
-	public Map<PolicyType, TestData> policy = new HashMap<PolicyType, TestData>();
+	public Map<PolicyType, TestData> policy = new HashMap<>();
 	public EnumMap<CustomerType, TestData> customer = new EnumMap<>(CustomerType.class);
 	public EnumMap<AccountType, TestData> account = new EnumMap<>(AccountType.class);
 	public TestData billingAccount = new SimpleDataProvider();
 	public EnumMap<PaymentsMaintenanceType, TestData> paymentMaintenance = new EnumMap<>(PaymentsMaintenanceType.class);
 	public TestData myWork = new SimpleDataProvider();
 	public EnumMap<AgencyVendorType, TestData> agency = new EnumMap<>(AgencyVendorType.class);
-	public EnumMap<CommissionBonusType, TestData> commissionBonus = new EnumMap<>(CommissionBonusType.class);
-	public EnumMap<CommissionReferralType, TestData> commissionReferral = new EnumMap<>(CommissionReferralType.class);
-	public EnumMap<CommissionGroupType, TestData> commissionGroup = new EnumMap<>(CommissionGroupType.class);
-	public EnumMap<CommissionStrategyType, TestData> commissionStrategy = new EnumMap<>(CommissionStrategyType.class);
 	public EnumMap<BulkAdjustmentType, TestData> bulkAdjustment = new EnumMap<>(BulkAdjustmentType.class);
 	public EnumMap<NumberRangeType, TestData> numberRange = new EnumMap<>(NumberRangeType.class);
 	public EnumMap<NoteType, TestData> note = new EnumMap<>(NoteType.class);
@@ -70,92 +66,86 @@ public final class TestDataManager {
 	public EnumMap<TaxStrategyType, TestData> taxStrategy = new EnumMap<>(TaxStrategyType.class);
 	public EnumMap<FeeGroupType, TestData> feeGroup = new EnumMap<>(FeeGroupType.class);
 	public EnumMap<RESTServiceType, TestData> rest = new EnumMap<>(RESTServiceType.class);
-	public Map<PolicyType, TestData> timepoint = new HashMap<PolicyType, TestData>();
+	public Map<PolicyType, TestData> timepoint = new HashMap<>();
 	protected DataProviderFactory dataProvider = new DataProviderFactory().applyConfiguration(DataFormat.YAML.name());
 
 	public TestDataManager() {
-		policy.put(PolicyType.AUTO_SS, dataProvider.get("modules/policy/auto_ss"));
-		policy.put(PolicyType.AUTO_CA_SELECT, dataProvider.get("modules/policy/auto_ca_select"));
-		policy.put(PolicyType.AUTO_CA_CHOICE, dataProvider.get("modules/policy/auto_ca_choice"));
-		policy.put(PolicyType.HOME_CA_HO3, dataProvider.get("modules/policy/home_ca_ho3"));
-		policy.put(PolicyType.HOME_CA_HO4, dataProvider.get("modules/policy/home_ca_ho4"));
-		policy.put(PolicyType.HOME_CA_HO6, dataProvider.get("modules/policy/home_ca_ho6"));
-		policy.put(PolicyType.HOME_CA_DP3, dataProvider.get("modules/policy/home_ca_dp3"));
-		policy.put(PolicyType.HOME_SS_HO3, dataProvider.get("modules/policy/home_ss_ho3"));
-		policy.put(PolicyType.HOME_SS_HO4, dataProvider.get("modules/policy/home_ss_ho4"));
-		policy.put(PolicyType.HOME_SS_HO6, dataProvider.get("modules/policy/home_ss_ho6"));
-		policy.put(PolicyType.HOME_SS_DP3, dataProvider.get("modules/policy/home_ss_dp3"));
-		policy.put(PolicyType.PUP, dataProvider.get("modules/policy/pup"));
+		policy.put(PolicyType.AUTO_SS, dataProvider.get("default/policy/auto_ss"));
+		policy.put(PolicyType.AUTO_CA_SELECT, dataProvider.get("default/policy/auto_ca_select"));
+		policy.put(PolicyType.AUTO_CA_CHOICE, dataProvider.get("default/policy/auto_ca_choice"));
+		policy.put(PolicyType.HOME_CA_HO3, dataProvider.get("default/policy/home_ca_ho3"));
+		policy.put(PolicyType.HOME_CA_HO4, dataProvider.get("default/policy/home_ca_ho4"));
+		policy.put(PolicyType.HOME_CA_HO6, dataProvider.get("default/policy/home_ca_ho6"));
+		policy.put(PolicyType.HOME_CA_DP3, dataProvider.get("default/policy/home_ca_dp3"));
+		policy.put(PolicyType.HOME_SS_HO3, dataProvider.get("default/policy/home_ss_ho3"));
+		policy.put(PolicyType.HOME_SS_HO4, dataProvider.get("default/policy/home_ss_ho4"));
+		policy.put(PolicyType.HOME_SS_HO6, dataProvider.get("default/policy/home_ss_ho6"));
+		policy.put(PolicyType.HOME_SS_DP3, dataProvider.get("default/policy/home_ss_dp3"));
+		policy.put(PolicyType.PUP, dataProvider.get("default/policy/pup"));
 
-		timepoint.put(PolicyType.AUTO_SS, dataProvider.get("modules/timepoints").getTestData("auto_ss"));
-		timepoint.put(PolicyType.AUTO_CA_SELECT, dataProvider.get("modules/timepoints").getTestData("auto_ca_select"));
-		timepoint.put(PolicyType.AUTO_CA_CHOICE, dataProvider.get("modules/timepoints").getTestData("auto_ca_choice"));
-		timepoint.put(PolicyType.HOME_CA_HO3, dataProvider.get("modules/timepoints").getTestData("home_ca"));
-		timepoint.put(PolicyType.HOME_CA_DP3, dataProvider.get("modules/timepoints").getTestData("home_ca"));
-		timepoint.put(PolicyType.HOME_CA_HO3, dataProvider.get("modules/timepoints").getTestData("home_ca"));
-		timepoint.put(PolicyType.HOME_CA_HO4, dataProvider.get("modules/timepoints").getTestData("home_ca"));
-		timepoint.put(PolicyType.HOME_CA_HO6, dataProvider.get("modules/timepoints").getTestData("home_ca"));
-		timepoint.put(PolicyType.HOME_SS_HO3, dataProvider.get("modules/timepoints").getTestData("home_ss"));
-		timepoint.put(PolicyType.HOME_SS_HO4, dataProvider.get("modules/timepoints").getTestData("home_ss"));
-		timepoint.put(PolicyType.HOME_SS_HO6, dataProvider.get("modules/timepoints").getTestData("home_ss"));
-		timepoint.put(PolicyType.HOME_SS_DP3, dataProvider.get("modules/timepoints").getTestData("home_ss"));
-		timepoint.put(PolicyType.PUP, dataProvider.get("modules/timepoints").getTestData("pup"));
+		timepoint.put(PolicyType.AUTO_SS, dataProvider.get("default/timepoints").getTestData("auto_ss"));
+		timepoint.put(PolicyType.AUTO_CA_SELECT, dataProvider.get("default/timepoints").getTestData("auto_ca_select"));
+		timepoint.put(PolicyType.AUTO_CA_CHOICE, dataProvider.get("default/timepoints").getTestData("auto_ca_choice"));
+		timepoint.put(PolicyType.HOME_CA_HO3, dataProvider.get("default/timepoints").getTestData("home_ca"));
+		timepoint.put(PolicyType.HOME_CA_DP3, dataProvider.get("default/timepoints").getTestData("home_ca"));
+		timepoint.put(PolicyType.HOME_CA_HO3, dataProvider.get("default/timepoints").getTestData("home_ca"));
+		timepoint.put(PolicyType.HOME_CA_HO4, dataProvider.get("default/timepoints").getTestData("home_ca"));
+		timepoint.put(PolicyType.HOME_CA_HO6, dataProvider.get("default/timepoints").getTestData("home_ca"));
+		timepoint.put(PolicyType.HOME_SS_HO3, dataProvider.get("default/timepoints").getTestData("home_ss"));
+		timepoint.put(PolicyType.HOME_SS_HO4, dataProvider.get("default/timepoints").getTestData("home_ss"));
+		timepoint.put(PolicyType.HOME_SS_HO6, dataProvider.get("default/timepoints").getTestData("home_ss"));
+		timepoint.put(PolicyType.HOME_SS_DP3, dataProvider.get("default/timepoints").getTestData("home_ss"));
+		timepoint.put(PolicyType.PUP, dataProvider.get("default/timepoints").getTestData("pup"));
 
-		customer.put(CustomerType.INDIVIDUAL, dataProvider.get("modules/cem/customer/individual"));
-		customer.put(CustomerType.NON_INDIVIDUAL, dataProvider.get("modules/cem/customer/nonindividual"));
+		customer.put(CustomerType.INDIVIDUAL, dataProvider.get("default/cem/customer/individual"));
+		customer.put(CustomerType.NON_INDIVIDUAL, dataProvider.get("default/cem/customer/nonindividual"));
 
-		account.put(AccountType.INDIVIDUAL, dataProvider.get("modules/cem/account/individual"));
-		account.put(AccountType.NON_INDIVIDUAL, dataProvider.get("modules/cem/account/nonindividual"));
+		account.put(AccountType.INDIVIDUAL, dataProvider.get("default/cem/account/individual"));
+		account.put(AccountType.NON_INDIVIDUAL, dataProvider.get("default/cem/account/nonindividual"));
 
-		billingAccount = dataProvider.get("modules/billing");
-		paymentMaintenance.put(PaymentsMaintenanceType.PAYMENTS_MAINTENANCE, dataProvider.get("modules/billing/billingaccount/paymentsmaintenance"));
-		myWork = dataProvider.get("modules/mywork");
+		billingAccount = dataProvider.get("default/billing");
+		paymentMaintenance.put(PaymentsMaintenanceType.PAYMENTS_MAINTENANCE, dataProvider.get("default/billing/billingaccount/paymentsmaintenance"));
+		myWork = dataProvider.get("default/mywork");
 
-		agency.put(AgencyVendorType.AGENCY, dataProvider.get("modules/platform/admin/agencyvendor/agency"));
-		agency.put(AgencyVendorType.VENDOR, dataProvider.get("modules/platform/admin/agencyvendor/vendor"));
-		agency.put(AgencyVendorType.BRAND, dataProvider.get("modules/platform/admin/agencyvendor/brand"));
+		agency.put(AgencyVendorType.AGENCY, dataProvider.get("default/platform/admin/agencyvendor/agency"));
+		agency.put(AgencyVendorType.VENDOR, dataProvider.get("default/platform/admin/agencyvendor/vendor"));
+		agency.put(AgencyVendorType.BRAND, dataProvider.get("default/platform/admin/agencyvendor/brand"));
 
-		rest.put(RESTServiceType.NOTES, dataProvider.get("modules/platform/notes"));
-		rest.put(RESTServiceType.BPM, dataProvider.get("modules/mywork"));
-		rest.put(RESTServiceType.PARTY_SEARCH, dataProvider.get("modules/party/partysearch"));
-		rest.put(RESTServiceType.CUSTOMERS, dataProvider.get("modules/cem/customer"));
-		rest.put(RESTServiceType.BILLING, dataProvider.get("modules/billing"));
+		rest.put(RESTServiceType.NOTES, dataProvider.get("default/platform/notes"));
+		rest.put(RESTServiceType.BPM, dataProvider.get("default/mywork"));
+		rest.put(RESTServiceType.PARTY_SEARCH, dataProvider.get("default/party/partysearch"));
+		rest.put(RESTServiceType.CUSTOMERS, dataProvider.get("default/cem/customer"));
+		rest.put(RESTServiceType.BILLING, dataProvider.get("default/billing"));
 
-		commissionGroup.put(CommissionGroupType.COMMISSION_GROUP, dataProvider.get("modules/commission/commissiongroup"));
-		commissionBonus.put(CommissionBonusType.COMMISSION_BONUS, dataProvider.get("modules/commission/commissionbonus"));
-		commissionReferral.put(CommissionReferralType.COMMISSION_REFERRAL, dataProvider.get("modules/commission/commissionreferral"));
-		bulkAdjustment.put(BulkAdjustmentType.BULK_ADJUSTMENT, dataProvider.get("modules/commission/bulkadjustment"));
+		bulkAdjustment.put(BulkAdjustmentType.BULK_ADJUSTMENT, dataProvider.get("default/commission/bulkadjustment"));
 
-		commissionStrategy.put(CommissionStrategyType.PC_COMMISSION_STRATEGY_PREC_HO, dataProvider.get("modules/commission/commissionstrategy/commissionstrategy_pc/prec_ho"));
-		commissionStrategy.put(CommissionStrategyType.PC_COMMISSION_STRATEGY_PREC_AU, dataProvider.get("modules/commission/commissionstrategy/commissionstrategy_pc/prec_au"));
+		productFactory.put(ProductFactoryType.POLICY, dataProvider.get("default/productfactory/policy"));
 
-		productFactory.put(ProductFactoryType.POLICY, dataProvider.get("modules/productfactory/policy"));
+		numberRange.put(NumberRangeType.NUMBER_RANGE, dataProvider.get("default/platform/admin/general/numberrange"));
 
-		numberRange.put(NumberRangeType.NUMBER_RANGE, dataProvider.get("modules/platform/admin/general/numberrange"));
+		note.put(NoteType.NOTE, dataProvider.get("default/platform/admin/general/note"));
 
-		note.put(NoteType.NOTE, dataProvider.get("modules/platform/admin/general/note"));
+		profiles.put(ProfileType.AGENCY, dataProvider.get("default/platform/admin/security/profile/agency"));
+		profiles.put(ProfileType.CORPORATE, dataProvider.get("default/platform/admin/security/profile/corporate"));
+		profiles.put(ProfileType.VENDOR, dataProvider.get("default/platform/admin/security/profile/vendor"));
 
-		profiles.put(ProfileType.AGENCY, dataProvider.get("modules/platform/admin/security/profile/agency"));
-		profiles.put(ProfileType.CORPORATE, dataProvider.get("modules/platform/admin/security/profile/corporate"));
-		profiles.put(ProfileType.VENDOR, dataProvider.get("modules/platform/admin/security/profile/vendor"));
+		securityRole.put(RoleType.CORPORATE, dataProvider.get("default/platform/admin/security/role/corporate"));
+		par.put(PARType.PRODUCT_ACCESS_ROLE, dataProvider.get("default/platform/admin/security/par"));
 
-		securityRole.put(RoleType.CORPORATE, dataProvider.get("modules/platform/admin/security/role/corporate"));
-		par.put(PARType.PRODUCT_ACCESS_ROLE, dataProvider.get("modules/platform/admin/security/par"));
+		campaign.put(CampaignType.CAMPAIGNS, dataProvider.get("default/cem/cem/campaigns"));
+		majorLargeAccount.put(MajorLargeAccountType.MAJOR_LARGE_ACCOUNT, dataProvider.get("default/cem/cem/majorlargeaccount"));
+		groupsInformation.put(GroupInformationType.GROUPS_INFORMATION, dataProvider.get("default/cem/cem/groupsinformation"));
 
-		campaign.put(CampaignType.CAMPAIGNS, dataProvider.get("modules/cem/cem/campaigns"));
-		majorLargeAccount.put(MajorLargeAccountType.MAJOR_LARGE_ACCOUNT, dataProvider.get("modules/cem/cem/majorlargeaccount"));
-		groupsInformation.put(GroupInformationType.GROUPS_INFORMATION, dataProvider.get("modules/cem/cem/groupsinformation"));
+		task.put(TaskType.PROCESS_MANAGEMENT, dataProvider.get("default/platform/admin/workflow/processmanagement"));
 
-		task.put(TaskType.PROCESS_MANAGEMENT, dataProvider.get("modules/platform/admin/workflow/processmanagement"));
+		taxRegistry.put(TaxRegistryType.TAX, dataProvider.get("default/taxesfees/registry/tax"));
+		feeRegistry.put(FeeRegistryType.FEE, dataProvider.get("default/taxesfees/registry/fee"));
+		taxStrategy.put(TaxStrategyType.TAX, dataProvider.get("default/taxesfees/strategy/tax"));
+		feeStrategy.put(FeeStrategyType.FEE, dataProvider.get("default/taxesfees/strategy/fee"));
+		feeGroup.put(FeeGroupType.FEE_GROUP, dataProvider.get("default/taxesfees/feegroup"));
 
-		taxRegistry.put(TaxRegistryType.TAX, dataProvider.get("modules/taxesfees/registry/tax"));
-		feeRegistry.put(FeeRegistryType.FEE, dataProvider.get("modules/taxesfees/registry/fee"));
-		taxStrategy.put(TaxStrategyType.TAX, dataProvider.get("modules/taxesfees/strategy/tax"));
-		feeStrategy.put(FeeStrategyType.FEE, dataProvider.get("modules/taxesfees/strategy/fee"));
-		feeGroup.put(FeeGroupType.FEE_GROUP, dataProvider.get("modules/taxesfees/feegroup"));
-
-		operationalReports.put(OperationalReportType.OPERATIONAL_REPORT, dataProvider.get("modules/platform/admin/reports/operationalreports"));
-		templates.put(TemplateType.TEMPLATE, dataProvider.get("modules/platform/admin/reports/templates"));
+		operationalReports.put(OperationalReportType.OPERATIONAL_REPORT, dataProvider.get("default/platform/admin/reports/operationalreports"));
+		templates.put(TemplateType.TEMPLATE, dataProvider.get("default/platform/admin/reports/templates"));
 	}
 
 	public TestData getCompatibilityTestData() {

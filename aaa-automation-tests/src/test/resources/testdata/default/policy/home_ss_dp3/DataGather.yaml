@@ -1,0 +1,966 @@
+TestData_UT: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  #ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab'
+}
+
+GeneralTab: {
+  State: 'UT',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab: {
+  NamedInsured: '@home_ss_ho3@DataGather@NamedInsured',
+  AAAMembership: '@home_ss_ho3@DataGather@AAAMembership',
+  DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@home_ss_ho3@DataGather@NamedInsuredInformation',
+  AgentInfo: '@home_ss_ho3@DataGather@AgentInfo',
+  OtherActiveAAAPolicies: '@home_ss_ho3@DataGather@OtherActiveAAAPolicies',
+}
+
+PropertyInfoTab: {
+  DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@home_ss_ho3@DataGather@PropertyValue',
+  Construction: '@home_ss_ho3@DataGather@Construction',
+  AdditionalQuestions: {},
+  Interior: '@home_ss_ho3@DataGather@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@home_ss_ho3@DataGather@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: '@RentalInformation'
+}
+
+RentalInformation: {
+  Number of consecutive years insured has owned any rental properties: 5,
+  Property manager: 'index=1',
+  "Does the tenant have an underlying HO4 policy?": "No"
+}
+
+UnderwritingAndApprovalTab: {
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is any business, home day care or farming activity conducted on the premises?": "No"
+}
+
+PremiumsAndCoveragesQuoteTab: {
+  Payment plan: Pay in Full,
+  Coverage C - Personal Property limit: '50|Coverage A - Dwelling limit',
+  Coverage E - Personal Liability Each Occurrence: '$300,000'
+}
+
+# --------- TestData AZ -----------
+TestData_AZ: {
+  GeneralTab: '@GeneralTab_AZ',
+  ApplicantTab: '@home_ss_ho3@DataGather@ApplicantTab_AZ',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab'
+}
+
+GeneralTab_AZ: {
+  State: 'AZ',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+# --------- TestData CO ------------
+
+TestData_CO: {
+  GeneralTab: '@GeneralTab_CO',
+  ApplicantTab: '@ApplicantTab_CO',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab_CO',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab'
+}
+
+GeneralTab_CO: {
+  State: 'CO',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_CO: {
+  NamedInsured: '@home_ss_ho3@DataGather@NamedInsured',
+  AAAMembership: '@home_ss_ho3@DataGather@AAAMembership',
+  DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress_CO',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@home_ss_ho3@DataGather@NamedInsuredInformation',
+  OtherActiveAAAPolicies: ['@home_ss_ho3@DataGather@OtherActiveAAAPolicies_CO','@OtherActiveAAAPolicies'],
+  AgentInfo: '@home_ss_ho3@DataGather@AgentInfo'
+}
+
+OtherActiveAAAPolicies: {
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@home_ss_ho3@DataGather@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual'
+}
+
+PropertyInfoTab_CO: {
+  DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@home_ss_ho3@DataGather@PropertyValue',
+  Construction: '@home_ss_ho3@DataGather@Construction_CO',
+  AdditionalQuestions: {},
+  Interior: '@home_ss_ho3@DataGather@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@home_ss_ho3@DataGather@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: '@RentalInformation'
+}
+
+# --------- TestData CT ------------
+
+TestData_CT: {
+  GeneralTab: '@GeneralTab_CT',
+  ApplicantTab: '@home_ss_ho3@DataGather@ApplicantTab_CT',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab_CT',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_CT',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
+}
+
+GeneralTab_CT: {
+  State: 'CT',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+UnderwritingAndApprovalTab_CT: {
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'No',
+  "Is any business, home day care or farming activity conducted on the premises?": 'No'
+}
+
+# --------- TestData DC ------------
+
+TestData_DC: {
+  GeneralTab: '@GeneralTab_DC',
+  ApplicantTab: '@home_ss_ho3@DataGather@ApplicantTab_DC',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab_DC',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
+}
+
+GeneralTab_DC: {
+  State: 'DC',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+# --------- TestData DE ------------
+
+TestData_DE: {
+  GeneralTab: '@GeneralTab_DE',
+  ApplicantTab: '@home_ss_ho3@DataGather@ApplicantTab_DE',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab_DE',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
+}
+
+GeneralTab_DE: {
+  State: 'DE',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+# --------- TestData ID ------------
+
+TestData_ID: {
+  GeneralTab: '@GeneralTab_ID',
+  ApplicantTab: '@home_ss_ho3@DataGather@ApplicantTab_ID',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
+}
+
+GeneralTab_ID: {
+  State: 'ID',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+# --------- TestData IN ------------
+
+TestData_IN: {
+  GeneralTab: '@GeneralTab_IN',
+  ApplicantTab: '@ApplicantTab_IN',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab_IN',
+  PropertyInfoTab: '@PropertyInfoTab_IN',
+  ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
+}
+
+GeneralTab_IN: {
+  State: 'IN',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_IN: {
+  NamedInsured: '@home_ss_ho3@DataGather@NamedInsured',
+  AAAMembership: '@home_ss_ho3@DataGather@AAAMembership',
+  DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress_IN',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@home_ss_ho3@DataGather@NamedInsuredInformation',
+  OtherActiveAAAPolicies: ['@home_ss_ho3@DataGather@OtherActiveAAAPolicies_IN','@OtherActiveAAAPolicies'],
+  AgentInfo: '@home_ss_ho3@DataGather@AgentInfo'
+}
+
+PropertyInfoTab_IN: {
+  DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@home_ss_ho3@DataGather@PropertyValue',
+  Construction: '@home_ss_ho3@DataGather@Construction_IN',
+  Interior: '@home_ss_ho3@DataGather@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@home_ss_ho3@DataGather@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: '@RentalInformation'
+}
+
+# --------- TestData KS ------------
+
+TestData_KS: {
+  GeneralTab: '@GeneralTab_KS',
+  ApplicantTab: '@ApplicantTab_KS',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab_KS',
+  PropertyInfoTab: '@PropertyInfoTab_KS',
+  ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
+}
+
+GeneralTab_KS: {
+  State: 'KS',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_KS: {
+  NamedInsured: '@home_ss_ho3@DataGather@NamedInsured',
+  AAAMembership: '@home_ss_ho3@DataGather@AAAMembership',
+  DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress_KS',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@home_ss_ho3@DataGather@NamedInsuredInformation',
+  OtherActiveAAAPolicies: ['@home_ss_ho3@DataGather@OtherActiveAAAPolicies_KS','@OtherActiveAAAPolicies'],
+  AgentInfo: '@home_ss_ho3@DataGather@AgentInfo'
+}
+
+PropertyInfoTab_KS: {
+  DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@home_ss_ho3@DataGather@PropertyValue',
+  Construction: '@home_ss_ho3@DataGather@Construction_KS',
+  Interior: '@home_ss_ho3@DataGather@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@home_ss_ho3@DataGather@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: '@RentalInformation'
+}
+
+# --------- TestData KY ------------
+
+TestData_KY: {
+  GeneralTab: '@GeneralTab_KY',
+  ApplicantTab: '@ApplicantTab_KY',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab_KY',
+  PropertyInfoTab: '@PropertyInfoTab_KY',
+  ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_KY',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
+}
+
+GeneralTab_KY: {
+  State: 'KY',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_KY: {
+  NamedInsured: '@home_ss_ho3@DataGather@NamedInsured',
+  AAAMembership: '@home_ss_ho3@DataGather@AAAMembership',
+  DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress_KY',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@home_ss_ho3@DataGather@NamedInsuredInformation',
+  OtherActiveAAAPolicies: ['@home_ss_ho3@DataGather@OtherActiveAAAPolicies_KY','@OtherActiveAAAPolicies'],
+  AgentInfo: '@home_ss_ho3@DataGather@AgentInfo'
+}
+
+PropertyInfoTab_KY: {
+  DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@home_ss_ho3@DataGather@PropertyValue',
+  Construction: '@home_ss_ho3@DataGather@Construction_KY',
+  Interior: '@home_ss_ho3@DataGather@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@home_ss_ho3@DataGather@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: '@RentalInformation'
+}
+
+UnderwritingAndApprovalTab_KY: {
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No", 
+  "Do employees of any resident or applicant reside in the dwelling?": "No", 
+  "Is any business or farming activity conducted on the premises?": "No"
+}
+
+# --------- TestData MD ------------
+
+TestData_MD: {
+  GeneralTab: '@GeneralTab_MD',
+  ApplicantTab: '@home_ss_ho3@DataGather@ApplicantTab_MD',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab_MD',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@home_ss_ho3@DataGather@UnderwritingAndApprovalTab_MD',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
+}
+
+GeneralTab_MD: {
+  State: 'MD',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+# --------- TestData MT ------------
+
+TestData_MT: {
+  GeneralTab: '@GeneralTab_MT',
+  ApplicantTab: '@home_ss_ho3@DataGather@ApplicantTab_MT',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab_MT',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
+}
+
+GeneralTab_MT: {
+  State: 'MT',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+# --------- TestData NJ ------------
+
+TestData_NJ: {
+  GeneralTab: '@GeneralTab_NJ',
+  ApplicantTab: '@home_ss_ho3@DataGather@ApplicantTab_NJ',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab_NJ',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
+}
+
+GeneralTab_NJ: {
+  State: 'NJ',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+# --------- TestData NV ------------
+
+TestData_NV: {
+  GeneralTab: '@GeneralTab_NV',
+  ApplicantTab: '@home_ss_ho3@DataGather@ApplicantTab_NV',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_NV',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
+}
+
+GeneralTab_NV: {
+  State: 'NV',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+UnderwritingAndApprovalTab_NV: {
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is any business, home day care or farming activity conducted on the premises?": "No", 
+  "Are all water heaters (except tankless and electric heaters) strapped to the wall with at least one strap and if located in the garage, raised at least 18 inches from the floor?": "No"
+}
+
+# --------- TestData NY ------------
+
+TestData_NY: {
+  GeneralTab: '@GeneralTab_NY',
+  ApplicantTab: '@home_ss_ho3@DataGather@ApplicantTab_NY',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab_NY',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
+}
+
+GeneralTab_NY: {
+  State: 'NY',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+# --------- TestData OH ------------
+
+TestData_OH: {
+  GeneralTab: '@GeneralTab_OH',
+  ApplicantTab: '@ApplicantTab_OH',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab_OH',
+  PropertyInfoTab: '@PropertyInfoTab_OH',
+  ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
+}
+
+GeneralTab_OH: {
+  State: 'OH',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_OH: {
+  NamedInsured: '@home_ss_ho3@DataGather@NamedInsured',
+  AAAMembership: '@home_ss_ho3@DataGather@AAAMembership',
+  DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress_OH',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@home_ss_ho3@DataGather@NamedInsuredInformation',
+  OtherActiveAAAPolicies: ['@home_ss_ho3@DataGather@OtherActiveAAAPolicies_OH','@OtherActiveAAAPolicies'],
+  AgentInfo: '@home_ss_ho3@DataGather@AgentInfo'
+}
+
+PropertyInfoTab_OH: {
+  DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@home_ss_ho3@DataGather@PropertyValue',
+  Construction: '@home_ss_ho3@DataGather@Construction_OH',
+  Interior: '@home_ss_ho3@DataGather@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@home_ss_ho3@DataGather@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: '@RentalInformation'
+}
+
+# --------- TestData OK ------------
+
+TestData_OK: {
+  GeneralTab: '@GeneralTab_OK',
+  ApplicantTab: '@ApplicantTab_OK',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab_OK',
+  PropertyInfoTab: '@PropertyInfoTab_OK',
+  ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
+}
+
+GeneralTab_OK: {
+  State: 'OK',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_OK: {
+  NamedInsured: '@home_ss_ho3@DataGather@NamedInsured',
+  AAAMembership: '@home_ss_ho3@DataGather@AAAMembership',
+  DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress_OK',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@home_ss_ho3@DataGather@NamedInsuredInformation',
+  OtherActiveAAAPolicies: ['@home_ss_ho3@DataGather@OtherActiveAAAPolicies_OK','@OtherActiveAAAPolicies'],
+  AgentInfo: '@home_ss_ho3@DataGather@AgentInfo'
+}
+
+PropertyInfoTab_OK: {
+  DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@home_ss_ho3@DataGather@PropertyValue',
+  Construction: '@home_ss_ho3@DataGather@Construction_OK',
+  Interior: '@home_ss_ho3@DataGather@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@home_ss_ho3@DataGather@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: '@RentalInformation'
+}
+
+# --------- TestData OR ------------
+
+TestData_OR: {
+  GeneralTab: '@GeneralTab_OR',
+  ApplicantTab: '@home_ss_ho3@DataGather@ApplicantTab_OR',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_OR',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
+}
+
+GeneralTab_OR: {
+  State: 'OR',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+UnderwritingAndApprovalTab_OR: {
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is any business, adult day care, pet day care or farming activity conducted on the premises?": "No"
+}
+
+# --------- TestData PA ------------
+
+TestData_PA: {
+  GeneralTab: '@GeneralTab_PA',
+  ApplicantTab: '@home_ss_ho3@DataGather@ApplicantTab_PA',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab_PA',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
+}
+
+GeneralTab_PA: {
+  State: 'PA',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+# --------- TestData SD ------------
+
+TestData_SD: {
+  GeneralTab: '@GeneralTab_SD',
+  ApplicantTab: '@home_ss_ho3@DataGather@ApplicantTab_SD',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab_SD',
+  PropertyInfoTab: '@PropertyInfoTab_SD',
+  ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
+}
+
+GeneralTab_SD: {
+  State: 'SD',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+PropertyInfoTab_SD: {
+  DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@home_ss_ho3@DataGather@PropertyValue',
+  Construction: '@home_ss_ho3@DataGather@Construction_SD',
+  Interior: '@home_ss_ho3@DataGather@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@home_ss_ho3@DataGather@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: '@RentalInformation'
+}
+
+# --------- TestData VA ------------
+
+TestData_VA: {
+  GeneralTab: '@GeneralTab_VA',
+  ApplicantTab: '@home_ss_ho3@DataGather@ApplicantTab_VA',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab_VA',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
+}
+
+GeneralTab_VA: {
+  State: 'VA',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+# --------- TestData WV ------------
+
+TestData_WV: {
+  GeneralTab: '@GeneralTab_WV',
+  ApplicantTab: '@home_ss_ho3@DataGather@ApplicantTab_WV',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab_WV',
+  PropertyInfoTab: '@PropertyInfoTab_WV',
+  ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
+}
+
+GeneralTab_WV: {
+  State: 'WV',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+PropertyInfoTab_WV: {
+  DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@home_ss_ho3@DataGather@PropertyValue',
+  Construction: '@home_ss_ho3@DataGather@Construction_WV',
+  Interior: '@home_ss_ho3@DataGather@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@home_ss_ho3@DataGather@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: '@RentalInformation'
+}
+
+# --------- TestData WY ------------
+
+TestData_WY: {
+  GeneralTab: '@GeneralTab_WY',
+  ApplicantTab: '@home_ss_ho3@DataGather@ApplicantTab_WY',
+  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab_WY',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@home_ss_ho3@DataGather@ProductOfferingTab',
+  EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: '@home_ss_ho3@DataGather@BindTab',
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
+}
+
+GeneralTab_WY: {
+  State: 'WY',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}

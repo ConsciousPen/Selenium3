@@ -13,9 +13,9 @@ import aaa.admin.constants.AdminConstants;
 import toolkit.datax.TestData;
 
 public final class BrandActions {
-    private BrandActions() {};
+    private BrandActions() {}
 
-    public static class BrandUpdate extends AgencyVendorActions.Update {
+	public static class BrandUpdate extends AgencyVendorActions.Update {
 
         @Override
         public Workspace getView() {

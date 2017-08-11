@@ -1,0 +1,252 @@
+# --------- TEST DATA FOR FULL TEST -----------
+TestDataFull: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@EndorsementTabFull',
+  PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+}
+
+GeneralTab: {
+  State: 'UT',
+  Policy type: 'HO6',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress',
+  PreviousDwellingAddress: '@PreviousDwellingAddress',
+  MailingAddress: '@MailingAddress',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AgentInfo: '@AgentInfo',
+  OtherActiveAAAPolicies: {},
+}
+
+PropertyInfoTab: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction',
+  AdditionalQuestions: {},
+  Interior: '@Interior',
+  DetachedStructures: '@DetachedStructures',
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+  ClaimHistory: {},
+  RentalInformation: {}
+}
+
+ProductOfferingTab: {}
+
+EndorsementTabFull: {
+'HS 24 71': [{
+    Name of business: 'Test',
+    Description of Business: 'Just a test business',
+    Classification/occupation: 'index=1',
+    Co-applicant Classification/occupation: 'index=1',
+    'Is the insured self-employed, a partner in the business, or maintain any financial control in this business?': 'No',
+     }]
+}
+
+MortgageesTab: {
+  Mortgagee: 'Yes',
+  Use legal named insured: 'Yes',
+  Use legal property address: 'Yes',
+  "Is there an additional insured?": 'Yes',
+  "Is there an additional interest?": 'Yes',
+
+  LegalPropetyAddress: {
+    Validate Address: true,
+    Validate Address Dialog: {
+            #Street number: 265,
+            #Street name: CHIPMAN AVE,
+            #Select Address: "/default"
+            }
+  },
+  MortgageeInformation: {
+    Name: 'Chuck Norris',
+    Zip code: '84003',
+    Street address 1: '265 CHIPMAN AVE',
+    Street address 2: '2',
+    Validate Address: true,
+    Validate Address Dialog: {
+          },
+    Loan number: '1',
+  },
+  AdditionalInsured: {
+    Interest: 'index=1',
+    Name: 'Chuck Norris'
+    },
+  AdditionalInterest: {
+    Name: 'Chuck Norris',
+    Zip code: '84003',
+    Street address 1: 'Power Str',
+    Street address 2: '2',
+    Description of interest: 'He is a very cool guy',
+    Effective Date: '/today',
+    },
+}
+
+# ApplicantTab
+NamedInsured: {
+  Relationship to primary named insured:  Primary Insured,
+  Suffix: 'index=1',
+  Prefix: 'index=1',
+  Middle name: 'Middle name',
+  Social security number: 1234567890,
+  Employer: '1234567890',
+}
+
+AAAMembership: {
+  Membership number: '4290023667710001',
+  Last name: Test,
+}
+
+DwellingAddress: {
+ Zip code: '84003',
+ Street address 1: 265 CHIPMAN AVE,
+ Validate Address: true,
+ Validate Address Dialog: {
+ }
+
+}
+
+PreviousDwellingAddress: {
+    'Has there been another dwelling address within the last 3 consecutive years?': 'Yes',
+    Zip code: '84003',
+    Street address 1: 265 CHIPMAN AVE,
+    Validate Address: true,
+    Validate Address Dialog: {}
+}
+
+MailingAddress: {
+    'Is the mailing address different from the dwelling address?': 'Yes',
+    Zip code: '84003',
+    Street address 1: 265 CHIPMAN AVE,
+    Validate Address: true,
+    Validate Address Dialog: {}
+}
+
+NamedInsuredInformation: {
+  Home Phone Number: '1234567890',
+  Work Phone Number: '1234567890',
+  Mobile Phone Number: '1234567890',
+  'Preferred Phone #': 'index=1',
+  Email: 'qwqwq@qw.qw',
+}
+
+OtherActiveAAAPolicies: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual'
+}
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual:  {
+ Policy type: HO3,
+ Policy number: '345345345',
+ Coverage E: '1000',
+ Deductible: '1000',
+ Dwelling usage: Primary,
+ Occupancy type: Owner occupied
+}
+
+AgentInfo: {
+  Channel Type: Independent Agent,
+  Agency: SMTestIA - 400001650
+}
+
+#PropertyInfoTab
+PropertyValue: {
+  Coverage A - Dwelling limit: 150000,
+  ISO replacement cost: 145000,
+  Reason replacement cost differs from the tool value: 'index=1',
+  Purchase date of home: '/today-1y:MM/dd/yyyy'
+}
+
+DwellingAddress_PropertyInfoTab: {
+  Number of family units: 'index=1'
+}
+
+HomeRenovation: {
+    Green Home discount: "No",
+    Plumbing renovation: 'index=1',
+        'Plumbing % complete': '50',
+        'Plumbing Month of completion': '3',
+        'Plumbing Year of completion': '2009',
+
+    Electrical renovation: 'index=1',
+        'Electrical % complete': '90',
+        'Electrical Month of completion': '10',
+        'Electrical Year of completion': '2010',
+
+    Roof renovation: 'index=1',
+        'Roof % complete': '60',
+        'Roof Month of completion': '6',
+        'Roof Year of completion': '2012',
+
+    'Heating/cooling renovation': 'index=1',
+        'Heating/cooling % complete': '55',
+        'Heating/cooling Month of completion': '5',
+        'Heating/cooling Year of completion': '2011',
+}
+
+Construction: {
+  Year built: 2009,
+  Square footage: 1,
+  Roof type: Laminate / Architectural,
+  Roof shape: 'index=1',
+  Construction type: 'index=1'
+}
+
+Interior: {
+  Dwelling usage: 'Primary',
+  Occupancy type: 'Owner occupied',
+  Number of residents: 3,
+  Number of stories: 'index=1',
+}
+
+DetachedStructures: {
+      'Are there any detached structures on the property?': 'Yes',
+      Rented to others: 'No',
+      Description: 'Description',
+      Limit of liability: '100',
+}
+
+PetsOrAnimals: {
+  'Are any insured-owned pets or animals kept on the property?': 'Yes',
+  Animal type: 'Livestock - Cow',
+  Animal count: '2',
+      }
+
+Stoves: {
+  'Does the property have a wood-burning stove?': 'Yes',
+  'Is the stove the sole source of heat?': 'No',
+  'Was the stove installed by a licensed contractor?': 'Yes',
+  'Does the dwelling have at least one smoke detector per story?': 'Yes',
+}
+
+RecreationalEquipment: {
+  Swimming pool: 'index=1',
+  'Spa/hot tub': 'index=1',
+  Trampoline: 'index=1',
+}

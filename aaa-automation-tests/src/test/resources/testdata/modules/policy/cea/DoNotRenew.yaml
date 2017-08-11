@@ -1,6 +1,0 @@
-TestData: {
-  DoNotRenewActionTab: {
-    Reason: index=1,
-    Do Not Renew Status: index=1,
-  }
-}

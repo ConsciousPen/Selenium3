@@ -26,7 +26,7 @@ import toolkit.utils.datetime.DateTimeUtils;
 public class TestPolicyBackdated extends AutoCaSelectBaseTest {
 
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT )
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
 	public void testPolicyBackdated() {
 		mainApp().open();
 

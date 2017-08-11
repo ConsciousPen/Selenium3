@@ -1,0 +1,15 @@
+TestData: {
+  GeneralTab: {
+  PolicyInformation: {Authorized by: QA}
+  },
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+  Personal Injury Protection: 'contains=5,000'
+  },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+  
+}

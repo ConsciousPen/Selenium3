@@ -7,6 +7,8 @@ import java.util.List;
 import org.testng.annotations.Test;
 import aaa.main.enums.SearchEnum;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -32,8 +34,8 @@ import toolkit.verification.CustomAssert;
  */
 public class TestPolicySplit extends AutoSSBaseTest {
 
-	@Test
-	@TestInfo(component = "Policy.AutoSS")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testPolicySplit() {
 
 		mainApp().open();

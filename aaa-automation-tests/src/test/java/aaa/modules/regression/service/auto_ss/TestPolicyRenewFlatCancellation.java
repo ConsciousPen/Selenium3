@@ -4,14 +4,13 @@ package aaa.modules.regression.service.auto_ss;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.modules.regression.sales.auto_ss.TestPolicyBackdated;
+import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.regression.service.template.PolicyRenewFlatCancellation;
 
 import org.testng.annotations.Test;
 
-import aaa.main.enums.ProductConstants;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoSSBaseTest;
-import toolkit.datax.impl.SimpleDataProvider;
+import aaa.main.modules.policy.PolicyType;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 /**
@@ -25,24 +24,19 @@ import toolkit.utils.TestInfo;
  * 5. Verify Policy status is 'Cancellation Pending'
  * @details
  */
-public class TestPolicyRenewFlatCancellation extends AutoSSBaseTest {
+public class TestPolicyRenewFlatCancellation extends PolicyRenewFlatCancellation {
 
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_SS;
+	}
+	@Override
+	protected TestData getBackDatedPolicyTD() {
+		return new AutoSSBaseTest().getBackDatedPolicyTD();
+	}
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS )
     public void testPolicyRenewFlatCancellation() {
-    	new TestPolicyBackdated().testPolicyBackdated();
-
-        String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-
-        log.info("Manual Renew for Policy #" + policyNumber);
-        policy.renew().perform(new SimpleDataProvider());
-
-        log.info("TEST: Cancellation Policy Renewal #" + policyNumber);
-        policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus3Days"));
-
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
-        PolicySummaryPage.buttonTransactionHistory.click();
-        PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(2).verify.value(ProductConstants.TransactionHistoryType.CANCELLATION);
-        PolicySummaryPage.tableTransactionHistory.getRow(2).getCell(2).verify.value(ProductConstants.TransactionHistoryType.ISSUE);
+        super.testPolicyRenewFlatCancellation();
     }
 }

@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.home_ca.dp3;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaDP3BaseTest;
@@ -20,17 +22,15 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyCreationFull extends HomeCaDP3BaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @Test(groups= {Groups.REGRESSION, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
     public void testQuoteCreation() {
         mainApp().open();
 
         createCustomerIndividual();
-        createPolicy(getPolicyTD("DataGather", "TestDataFull"));
+        createPolicy(getTestSpecificTD("TestDataFull"));
 
-//       TODO Add values in YAML for FULL test for tabs after Rating (Mortgagee, Underwriting&Approval, Documents, Bind)
-
-//        CustomAssert.assertTrue("NOT COMPLETED TEST: Add values in YAML for FULL test for tabs after Rating (Mortgagee, Underwriting&Approval, Documents, Bind)", false);
+        //TODO Add values in YAML for FULL test for tabs after Rating (Mortgagee, Underwriting&Approval, Documents, Bind)
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }

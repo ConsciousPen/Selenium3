@@ -3,6 +3,9 @@
 package aaa.modules.regression.sales.auto_ss;
 
 import org.testng.annotations.Test;
+
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -22,8 +25,8 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyBackdated extends AutoSSBaseTest {
 
-	@Test
-	@TestInfo(component = "Policy.AutoSS")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testPolicyBackdated() {
 
 		mainApp().open();
@@ -40,7 +43,7 @@ public class TestPolicyBackdated extends AutoSSBaseTest {
 						AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
 						AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()),
 						"/today-10d:MM/dd/yyyy")
-				.adjust(getPolicyTD(this.getClass().getSimpleName(), "TestData").resolveLinks());
+				.adjust(getTestSpecificTD("TestData").resolveLinks());
 
 		getPolicyType().get().createPolicy(td);
 

@@ -380,7 +380,7 @@ public class BaseTest {
 	}
 
 	protected TestData getTestSpecificTD(String tdName) {
-		return getStateTestData(tdSpecific, this.getClass().getSimpleName(), tdName);
+		return getStateTestData(tdSpecific, tdName);
 	}
 
 	protected TestData getStateTestData(TestData td, String fileName, String tdName) {
@@ -423,7 +423,7 @@ public class BaseTest {
 
 	private void initTestDataForTest() {
 		try {
-			tdSpecific = testDataManager.policy.get(getPolicyType());
+			tdSpecific = testDataManager.getDefault(this.getClass());
 		} catch (TestDataException tde) {
 			log.debug(String.format("Specified TestData for test is absent: %s", tde.getMessage()));
 		}

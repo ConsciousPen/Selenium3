@@ -19,7 +19,7 @@ public class AssetListConfirmationDialog extends AbstractEditableStringElement{
 
     @Override
     protected void setRawValue(String value) {
-        new Button(this, By.xpath(String.format(".//input[@value='%s']", value))).click();;
+        new Button(this, By.xpath(String.format(".//input[@value='%s']", value))).click();
     }
 
     @Override
