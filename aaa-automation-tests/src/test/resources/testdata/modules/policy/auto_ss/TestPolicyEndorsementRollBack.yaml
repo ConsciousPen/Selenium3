@@ -1,5 +1,7 @@
 TestData: {
-  GeneralTab: '@GeneralTab',
+   GeneralTab: {
+  PolicyInformation: {Authorized by: QA}
+  },
   DriverTab: {},
   RatingDetailReportsTab: {},
   VehicleTab: {},
@@ -9,16 +11,4 @@ TestData: {
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {}
-}
-
-# ------------- Tabs ----------
-GeneralTab: {
-  NamedInsuredInformation: {},
-  AAAProductOwned: {},
-  ContactInformation: {},
-  PolicyInformation: '@PolicyInformation'
-}
-
-PolicyInformation: {
-  Authorized by: QA
 }

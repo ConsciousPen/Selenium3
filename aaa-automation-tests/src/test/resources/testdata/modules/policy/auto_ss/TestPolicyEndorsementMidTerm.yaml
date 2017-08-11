@@ -1,12 +1,15 @@
 TestData: {
-  PolicyTab: {},
-  InsuredTab: {},
-  DriverTab: {},
-  VehicleTab: {},
-  MVRClaimsTab: {},
-  FormsAddlInfoTab: {},
-  AssignmentTab: {},
-  PremiumCoveragesTab: {
-    Medical Payments: '$2,000'
+  GeneralTab: {
+  PolicyInformation: {Authorized by: QA}
   },
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+  Personal Injury Protection: 'contains=5,000'
+  },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+  
 }
