@@ -40,8 +40,8 @@ public class TestPolicyRemoveForm extends HomeSSHO3BaseTest {
 	public void hssPolicyRemoveForm() {
 
 		TestData td = getPolicyTD();
-		TestData tdEndorsement = getPolicyTD("TestPolicyRemoveForm", "TestData");
-		TestData tdEndorsementDelete = getPolicyTD("TestPolicyRemoveForm", "TestData_Delete");
+		TestData tdEndorsement = getTestSpecificTD("TestData");
+		TestData tdEndorsementDelete = getTestSpecificTD("TestData_Delete");
 
 		String expectedEndorsementName = String.format("HS 09 88 01 12 Additional Insured - Special Event; Effective %1$s - %2$s",
 				tdEndorsement.getTestData("EndorsementTab").getTestData("HS 09 88").getValue("Effective date"),
