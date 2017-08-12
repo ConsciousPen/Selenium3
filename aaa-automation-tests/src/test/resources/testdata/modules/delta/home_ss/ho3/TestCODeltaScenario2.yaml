@@ -4,7 +4,7 @@ TestData: {
   ReportsTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@ReportsTab',
   PropertyInfoTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@PropertyInfoTab',
   ProductOfferingTab: '@ProductOfferingTab',
-  EndorsementTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@EndorsementTab',
+  EndorsementTab: {},
   PremiumsAndCoveragesQuoteTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@MortgageesTab',
   UnderwritingAndApprovalTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@UnderwritingAndApprovalTab',
