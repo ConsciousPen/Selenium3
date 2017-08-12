@@ -3,7 +3,13 @@ package aaa.main.enums;
 public class ErrorEnum {
 
 	public enum Errors {
-		ERROR_200103("200103", "Driver with 3 or more Minor or Speeding violations are unacceptable");
+		ERROR_200103("200103", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
+		//Property errors
+		ERROR_AAA_HO_SS10060735("AAA_HO_SS10060735", "Underwriter approval is required when Adversely Impacted is selected."), 
+		ERROR_AAA_HO_SS624530_CO("AAA_HO_SS624530_CO", "Dwellings that have not had the roof replaced within the past 25 years if com..."), 
+		ERROR_AAA_HO_SS10030560("AAA_HO_SS10030560", "Dwellings with a wood shake/shingle roof are unacceptable."),
+		ERROR_AAA_HO_SS10030001("AAA_HO_SS10030001", "Dwellings with a T-Lock shingle roof are unacceptable.");
+				
 		//TODO: add other rules there...
 
 		private String code;

@@ -1,18 +1,17 @@
-package aaa.modules.delta.co.home;
+package aaa.modules.delta.templates;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.testng.annotations.Test;
-
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.IPolicy;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
@@ -22,50 +21,37 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
-import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 
-public class TestDeltaScenario1 extends HomeSSHO3BaseTest{
+public class CODeltaScenario1 extends BaseTest {
 	
-	private String quoteNumber; 
-	private String policyNumber;
-	private String effectiveDate; 
-	private TestData td_sc1; 
+	protected IPolicy policy;
+	protected String quoteNumber;
+	protected String policyNumber;
+	protected String effectiveDate;
 	
-	@Test(groups = { Groups.DELTA, Groups.HIGH })
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
-	public void testSC1_TC01() {
+	public void TC01_createQuote(TestData td, String scenarioPolicyType) {
+		policy = getPolicyType().get();
+		
 		mainApp().open();
 		
-		td_sc1 = getTestSpecificTD("TestData"); 
-		
         createCustomerIndividual();
-        
         policy.initiate();
-        policy.getDefaultView().fillUpTo(td_sc1, BindTab.class, true);
-        
-        //PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
-        //propertyInfoTab.verifyFieldHasValue(HomeSSMetaData.PropertyInfoTab.Construction.T_LOCK_SHINGLES.getLabel(), "No");               
-        //policy.getDefaultView().fillFromTo(td_sc1, PropertyInfoTab.class, BindTab.class);
-        
+        policy.getDefaultView().fillUpTo(td, BindTab.class, true); 
         BindTab.buttonSaveAndExit.click();
         
         quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-        log.info("DELTA CO SC1: HO3-Heritage Quote created with #" + quoteNumber);
+        log.info("DELTA CO SC1: "+scenarioPolicyType+" Quote created with #" + quoteNumber);
         
         effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue(); 
-
-	}
-
-	@Test(groups = { Groups.DELTA, Groups.HIGH })
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testSC1_TC02() {
-		mainApp().open();
 		
-		TestData td_sc1_add_Forms = getTestSpecificTD("TestData_add_Forms"); 
+	}
+	
+	public void TC02_verifyEndorsements(TestData td_forms) {
+		mainApp().open();
 		
 		Map<String, String> endorsement_HS0312 = new HashMap<>();
 		endorsement_HS0312.put("Form ID", "HS 03 12");
@@ -78,8 +64,7 @@ public class TestDeltaScenario1 extends HomeSSHO3BaseTest{
 		SearchPage.openQuote(quoteNumber);	
 		
 		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
 		EndorsementTab endorsementTab = new EndorsementTab(); 
 
@@ -87,7 +72,7 @@ public class TestDeltaScenario1 extends HomeSSHO3BaseTest{
 		endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312).verify.present();	
 		endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present();
 		
-		endorsementTab.fillTab(td_sc1_add_Forms);
+		endorsementTab.fillTab(td_forms);
 		
 		endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312).verify.present();			
 		CustomAssert.assertTrue(endorsementTab.verifyLinkEditIsPresent("HS 03 12")); 
@@ -97,19 +82,15 @@ public class TestDeltaScenario1 extends HomeSSHO3BaseTest{
 		CustomAssert.assertAll();
 	}
 	
-	@Test(groups = { Groups.DELTA, Groups.HIGH })
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testSC1_TC03() {
+	public void TC03_verifyQuoteODD() {
 		mainApp().open();
 		SearchPage.openQuote(quoteNumber);	
 		//Generate On-Demand documents for quote
 	}
-
-	@Test(groups = { Groups.DELTA, Groups.HIGH })
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testSC1_TC04() {
-		mainApp().open();
 	
+	public void TC04_verifyAdverselyImpacted() {
+		mainApp().open();
+		
 		TestData td_Declined_with_Score700 = getTestSpecificTD("TestData_Declined_with_Score700");
 		TestData td_Dissolution_with_Score700 = getTestSpecificTD("TestData_Dissolution_with Score700");
 		TestData td_IdentityTheft_with_Score800 = getTestSpecificTD("TestData_IdentityTheft_with_Score800");
@@ -137,76 +118,80 @@ public class TestDeltaScenario1 extends HomeSSHO3BaseTest{
 		new BindTab().btnPurchase.click();
 		
 		ErrorTab errorTab = new ErrorTab();
-		//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
-		errorTab.errorsList.getTable().getRow("Message", "Underwriter approval is required when Adversely Impacted is selected.").verify.present();
+		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS10060735);
 		errorTab.cancel();
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get()); 
 		generalTab.fillTab(td_AdverselyImpacted_None);
 		
 		GeneralTab.buttonSaveAndExit.click();		
-		CustomAssert.assertAll();		
+		CustomAssert.assertAll();
 	}
 	
-	@Test(groups = { Groups.DELTA, Groups.HIGH })
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testSC1_TC05() {
+	public void TC05_verifyRoofTypeUneligible(TestData td) {
 		mainApp().open(); 
-		
-		TestData td_construction1 = getTestSpecificTD("TestData_Construction1");
-		TestData td_construction2 = getTestSpecificTD("TestData_Construction2");
-		TestData td_construction3 = getTestSpecificTD("TestData_Construction3");
 		
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
-		CustomAssert.enableSoftMode();		
-		verifyErrorMessageOnBind(td_construction1, "Dwellings that have not had the roof replaced within the past 25 years if " );
+		CustomAssert.enableSoftMode();
 		
-		verifyErrorMessageOnBind(td_construction2, "Dwellings with a wood shake/shingle roof are unacceptable.");
+		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)||getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+			TestData td_construction1 = getTestSpecificTD("TestData_Construction1");
+			TestData td_construction2 = getTestSpecificTD("TestData_Construction2");
+			TestData td_construction3 = getTestSpecificTD("TestData_Construction3");
+			log.info("DELTA CO SC1: Roof Type: Asphalt/Fiberglass verification");
+			verifyErrorMessageOnBind(td_construction1, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO);
+			log.info("DELTA CO SC1: Roof Type: Wood shingle/shake verification");
+			verifyErrorMessageOnBind(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
+			log.info("DELTA CO SC1: Roof Type: Builtup Tar & Gravel verification");
+			verifyErrorMessageOnBind(td_construction3, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO);
+		}
+		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
+			TestData td_construction2 = getTestSpecificTD("TestData_Construction2");
+			log.info("DELTA CO SC1: Roof Type: Wood shingle/shake verification");
+			verifyErrorMessageOnBind(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
+		}
 		
-		verifyErrorMessageOnBind(td_construction3, "Dwellings that have not had the roof replaced within the past 25 years if ");
-		BindTab.buttonSaveAndExit.click();
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
+		propertyInfoTab.fillTab(td);
+		PropertyInfoTab.buttonSaveAndExit.click();
 		
 		CustomAssert.assertAll();	
 	}
 	
-	@Test(groups = { Groups.DELTA, Groups.HIGH })
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testSC1_TC06() {
+	public void TC06_purchasePolicy(TestData td, String scenarioPolicyType) {
 		mainApp().open(); 
 		
 		SearchPage.openQuote(quoteNumber);
 		
 		policy.dataGather().start(); 
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
-		propertyInfoTab.fillTab(td_sc1);
+		//NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+		//PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
+		//propertyInfoTab.fillTab(td);
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-		policy.getDefaultView().fillFromTo(td_sc1, BindTab.class, PurchaseTab.class, true);
+		policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
         
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         
-        log.info("DELTA CO SC1: HO3-Heritage Policy created with #" + policyNumber);
+        log.info("DELTA CO SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);
 		
 	}
 	
-	@Test(groups = { Groups.DELTA, Groups.HIGH })
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testSC1_TC07() {
+	public void TC07_verifyPolicyODD() {
 		mainApp().open(); 
 		
 		SearchPage.openPolicy(policyNumber);
 		//Generate On-Demand documents for policy
 	}
-	
 
 	private void verifyAdverselyImpactedNotApplied(TestData td, String scoreInRatingDetails) {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get()); 
@@ -250,11 +235,10 @@ public class TestDeltaScenario1 extends HomeSSHO3BaseTest{
 		CustomAssert.assertTrue("Adversely Impacted is not applied on Reports Tab",
 				reportsTab.lblAdversalyImpactedMessage.getValue().equals("Adversely Impacted was applied to the policy effective "+effectiveDate));		
 	}
-	
-	private void verifyErrorMessageOnBind(TestData td, String message) {
+
+	private void verifyErrorMessageOnBind(TestData td, ErrorEnum.Errors errorCode) {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
-		propertyInfoTab.fillTab(td);
+		new PropertyInfoTab().fillTab(td);
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -263,9 +247,8 @@ public class TestDeltaScenario1 extends HomeSSHO3BaseTest{
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
 		new BindTab().btnPurchase.click();
 		
-		ErrorTab errorTab = new ErrorTab();
-		//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
-		errorTab.errorsList.getTable().getRowContains("Message", message).verify.present();
+		ErrorTab errorTab = new ErrorTab(); 
+		errorTab.verify.errorPresent(errorCode);
 		errorTab.cancel();
 	}
 	

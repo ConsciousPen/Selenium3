@@ -1,0 +1,109 @@
+TestData: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@ApplicantTab',
+  ReportsTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@MortgageesTab',
+  UnderwritingAndApprovalTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@DocumentsTab',
+  BindTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@BindTab',
+  PurchaseTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@PurchaseTab'
+}
+
+GeneralTab: {
+  State: 'CO',
+  Policy type: 'HO6',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+PropertyInfoTab: {
+  DwellingAddress: '@<delta_home_ss_ho3>@TestCODeltaScenario1@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@<delta_home_ss_ho3>@TestCODeltaScenario1@PropertyValue',
+  Construction: '@Construction',
+  Interior: '@<delta_home_ss_ho3>@TestCODeltaScenario1@Interior',
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: {},
+  PetsOrAnimals: '@<delta_home_ss_ho3>@TestCODeltaScenario1@PetsOrAnimals',
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+}
+
+EndorsementTab: {
+  HS 04 54: '@Endorsement_HS0454',
+  HS 24 72: '@Endorsement_HS2472'
+}
+ 
+# ----- PropertyInfo Tab -----
+Construction: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: Gable, 
+    Construction type: 'Masonry', 
+    Condominium Coverage A Dwelling requested for: Interior
+  }
+  
+# ----- Endorsements Tab -----
+Endorsement_HS0454: {
+  Action: 'Add', 
+  Deductible: '5%', 
+  "Include coverage for earthquake loss to exterior masonry veneer?": 'No'
+}
+
+Endorsement_HS2472: {
+  Action: 'Add', 
+  Description of the nature of the farming: 'Test', 
+  "Is the farming located at the residence premises?": 'Yes', 
+  "Is the income derived from the farming a primary source of income?": 'No', 
+  "Is the farming location used for racing purposes?": 'No'  
+}
+
+# ========= TC04 Adversely Impacted verification =========
+TestData_Declined_with_Score700: {
+  GeneralTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@GeneralTab_AdverselyImpacted_Declined', 
+  ReportsTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@ReportsTab_Score700'
+}
+
+TestData_Dissolution_with Score700: {
+  GeneralTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@GeneralTab_AdverselyImpacted_Dissolution', 
+  ReportsTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@ReportsTab_Score700'
+}
+
+TestData_IdentityTheft_with_Score800: {
+  GeneralTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@GeneralTab_AdverselyImpacted_IdentityTheft', 
+  ReportsTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@ReportsTab_Score800'
+}
+
+TestData_IdentityTheft_with_Score999: {
+  GeneralTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@GeneralTab_AdverselyImpacted_IdentityTheft', 
+  ReportsTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@ReportsTab_Score999'
+}
+
+TestData_AdverselyImpacted_None: {
+  GeneralTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@GeneralTab_AdverselyImpacted_None'
+}
+
+# ========= TC05 Override errors verification ========== 
+TestData_Construction1: {
+  PropertyInfoTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@PropertyInfoTab_Construction1'
+}
+
+TestData_Construction2: {
+  PropertyInfoTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@PropertyInfoTab_Construction2'
+}
+
+TestData_Construction3: {
+  PropertyInfoTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@PropertyInfoTab_Construction3'
+}
+
