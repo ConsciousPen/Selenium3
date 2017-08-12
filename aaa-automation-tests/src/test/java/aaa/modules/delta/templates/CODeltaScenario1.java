@@ -69,14 +69,22 @@ public class CODeltaScenario1 extends BaseTest {
 		EndorsementTab endorsementTab = new EndorsementTab(); 
 
 		CustomAssert.enableSoftMode();
-		endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312).verify.present();	
-		endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present();
 		
-		endorsementTab.fillTab(td_forms);
-		
-		endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312).verify.present();			
-		CustomAssert.assertTrue(endorsementTab.verifyLinkEditIsPresent("HS 03 12")); 
-		CustomAssert.assertTrue(endorsementTab.verifyLinkRemoveIsPresent("HS 03 12"));
+		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
+			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312).verify.present();	
+			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present();
+			
+			endorsementTab.fillTab(td_forms);
+			
+			endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312).verify.present();			
+			CustomAssert.assertTrue(endorsementTab.verifyLinkEditIsPresent("HS 03 12")); 
+			CustomAssert.assertTrue(endorsementTab.verifyLinkRemoveIsPresent("HS 03 12"));
+		}
+		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
+			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312).verify.present(false);	
+			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present(false);		
+			endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312).verify.present(false);
+		}
 		
 		EndorsementTab.buttonSaveAndExit.click();	
 		CustomAssert.assertAll();
