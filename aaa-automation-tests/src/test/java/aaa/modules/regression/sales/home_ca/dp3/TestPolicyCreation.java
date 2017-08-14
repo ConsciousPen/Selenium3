@@ -2,6 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.home_ca.dp3;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import org.testng.annotations.Test;
 
 import aaa.main.enums.ProductConstants;
@@ -20,8 +22,8 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyCreation extends HomeCaDP3BaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
     public void testPolicyCreation() {
         mainApp().open();
 
