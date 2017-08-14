@@ -161,7 +161,7 @@ TestData_CT: {
   EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_CT',
   DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
   BindTab: '@home_ss_ho3@DataGather@BindTab',
   PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
@@ -177,6 +177,12 @@ GeneralTab_CT: {
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
   Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+UnderwritingAndApprovalTab_CT: {
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No"
 }
 
 # --------- TestData DC ------------
@@ -364,7 +370,7 @@ TestData_MD: {
   EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@home_ss_ho3@DataGather@UnderwritingAndApprovalTab_MD',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_MD',
   DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
   BindTab: '@home_ss_ho3@DataGather@BindTab',
   PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
@@ -380,6 +386,12 @@ GeneralTab_MD: {
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
   Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+UnderwritingAndApprovalTab_MD: {
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Applicant(s), who have been cancelled, refused insurance or non-renewed in the past 3 years are ineligible if based on any of the following reasons: Fraud or Material Misrepresentation, Substantial Increase in Hazard, or Claims.": "No",
 }
 
 # --------- TestData MT ------------
@@ -451,7 +463,7 @@ TestData_NV: {
   EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@home_ss_ho3@DataGather@UnderwritingAndApprovalTab_NV',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
   DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
   BindTab: '@home_ss_ho3@DataGather@BindTab',
   PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
