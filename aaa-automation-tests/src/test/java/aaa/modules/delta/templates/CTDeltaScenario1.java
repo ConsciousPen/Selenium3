@@ -43,10 +43,10 @@ public class CTDeltaScenario1 extends BaseTest {
         effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue(); 		
 	}
 	
-	public void TC02_verifyEndorsements() {}
+	//public void TC02_verifyEndorsements() {}
 	
 	
-	public void TC03_verifyWindstormMitigationDiscount() {
+	public void TC02_verifyWindstormMitigationDiscount() {
 		mainApp().open(); 
 		
 		TestData td_WindstormMitigationYes = getTestSpecificTD("TestData_WindstormMitigationYes"); 
@@ -76,9 +76,9 @@ public class CTDeltaScenario1 extends BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 		PropertyInfoTab propertyInfoTab = new PropertyInfoTab(); 
 		
-		String distanceToCoast = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.Riskmeter.DISTANCE_TO_COAST_MILES.getLabel()).getValue().toString();
+		String distanceToCoast = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RISKMETER).getAsset(HomeSSMetaData.PropertyInfoTab.Riskmeter.DISTANCE_TO_COAST_MILES.getLabel()).getValue().toString();
 		log.info("Distance to coast value is "+distanceToCoast);
-		String elevation = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.Riskmeter.ELEVATION_FEET.getLabel()).getValue().toString(); 
+		String elevation = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.RISKMETER).getAsset(HomeSSMetaData.PropertyInfoTab.Riskmeter.ELEVATION_FEET.getLabel()).getValue().toString(); 
 		log.info("Elevation value is "+elevation);
 		
 		propertyInfoTab.fillTab(td_WindstormMitigationYes);
@@ -92,18 +92,19 @@ public class CTDeltaScenario1 extends BaseTest {
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
 		CustomAssert.assertFalse("Windstorm Mitigation Discount: wrong value in Rating Details", 
 				PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Windstorm Mitigation Discount").equals("0.00")); 
-		
-		CustomAssert.assertFalse("Distance to shore: wrong value in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Distance to shore").equals(distanceToCoast));
-		CustomAssert.assertFalse("Elevation: wrong value in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Elevation").equals(elevation)); 
+		if (getPolicyType().equals("HO3")||getPolicyType().equals("DP3")) {
+			CustomAssert.assertTrue("Distance to shore: wrong value in Rating Details", 
+					PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Distance to shore").equals(distanceToCoast));
+			CustomAssert.assertTrue("Elevation: wrong value in Rating Details", 
+					PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Elevation").equals(elevation)); 
+		} 
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 		
 		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();	
 		CustomAssert.assertAll();		
 	}
 	
-	public void TC04_verifyELC() {
+	public void TC03_verifyELC() {
 		mainApp().open(); 
 		
 		TestData td_None_with_Score599 = getTestSpecificTD("TestData_None_with_Score599"); 
@@ -131,7 +132,7 @@ public class CTDeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();		
 	}
 	
-	public void TC05_purchasePolicy(TestData td, String scenarioPolicyType) {
+	public void TC04_purchasePolicy(TestData td, String scenarioPolicyType) {
 		mainApp().open(); 
 		
 		SearchPage.openQuote(quoteNumber);
@@ -152,9 +153,10 @@ public class CTDeltaScenario1 extends BaseTest {
         log.info("DELTA CT SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);
 	}
 	
-	public void TC06_verifyODDPolicy() {} 
+	public void TC05_verifyODDPolicy() {} 
 	
-	public void TC07_verifyCancelNoticeAction() {}
+	
+	public void TC06_verifyCancelNoticeAction() {}
 	
 
 	private void verifyELCNotApplied(TestData td, String scoreInRatingDetails) {
