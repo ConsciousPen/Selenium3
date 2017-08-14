@@ -1,7 +1,0 @@
-TestData: {
-  AddNumberRange: {
-    Range Type: Policy Summary,
-    'Start #': '/1###',
-    'End #': '/9###'
-  }
-}

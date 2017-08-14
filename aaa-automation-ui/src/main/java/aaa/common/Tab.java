@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common;
 
+import aaa.common.components.Dialog;
 import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
@@ -46,6 +47,8 @@ public abstract class Tab {
 
     public static Link linkAdminApp = new Link(By.id("logoutForm:switchToAdmin"));
     public static Link linkMainApp = new Link(By.id("logoutForm:switchToApp"));
+
+    public static Dialog dialogCancelAction = new Dialog(By.id("cancelConfirmDialogDialog_container"));
 
     public static StaticElement labelLoggedUser = new StaticElement(By.id("logoutForm:userDetails"));
 

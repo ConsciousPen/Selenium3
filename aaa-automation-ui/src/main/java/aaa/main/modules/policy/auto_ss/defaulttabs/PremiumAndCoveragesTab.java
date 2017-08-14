@@ -86,7 +86,7 @@ public class PremiumAndCoveragesTab extends Tab {
 
     public List<TestData> getRatingDetailsDriversData() {
         final ByT pagePattern = ByT.xpath("//div[@id='ratingDetailsPopupForm:driverPanel_body']//center//td[@class='pageText']//*[text()='%s']");
-        return getTestDataFromTable(tableRatingDetailsVehicles, pagePattern);
+        return getTestDataFromTable(tableRatingDetailsDrivers, pagePattern);
     }
 
     public List<TestData> getRatingDetailsVehiclesData() {

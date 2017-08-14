@@ -4,8 +4,12 @@
  */
 package aaa.main.modules.policy.home_ss.actiontabs;
 
+import org.openqa.selenium.By;
+
 import aaa.common.ActionTab;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.table.Table;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -14,7 +18,19 @@ import aaa.main.metadata.policy.HomeSSMetaData;
  * @category Generated
  */
 public class GenerateOnDemandDocumentActionTab extends ActionTab {
+	
+	public Table tableOnDemandDocuments = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body']/div[1]//table")); 
+	public static Button btnGenerateDocuments = new Button(By.id("policyDataGatherForm:generateDocLink"));
+	public static Button btnCancel = new Button(By.id("policyDataGatherForm:adhocCancel"));
+	public static Button btnPreviewDocuments = new Button(By.id("policyDataGatherForm:previewDocLink"));
+	
     public GenerateOnDemandDocumentActionTab() {
         super(HomeSSMetaData.GenerateOnDemandDocumentActionTab.class);
     }
+    
+    public void generateDocuments(){
+    	btnGenerateDocuments.click();
+    }
+    
+    
 }

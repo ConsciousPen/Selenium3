@@ -2,6 +2,7 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.metadata.policy;
 
+import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
 import org.openqa.selenium.By;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
@@ -1616,7 +1617,7 @@ public final class HomeCaMetaData {
     public static final class BindTab extends MetaData {}
 
     public static final class ErrorTab extends MetaData {
-        public static final AssetDescriptor<FillableTable> ERROR_OVERRIDE = declare("ErrorsOverride", FillableTable.class, RuleRow.class, By.id("errorsForm:msgList"));
+        public static final AssetDescriptor<FillableErrorTable> ERROR_OVERRIDE = declare("ErrorsOverride", FillableErrorTable.class, RuleRow.class, By.id("errorsForm:msgList"));
 
         public static final class RuleRow extends MetaData {
             public static final AssetDescriptor<CheckBox> OVERRIDE = declare("Override", CheckBox.class);

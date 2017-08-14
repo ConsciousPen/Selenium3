@@ -18,6 +18,8 @@
     "mywork": "default/mywork",
 
     "customer_individual": "default/cem/customer/individual",
-    "customer_non_individual": "default/cem/customer/nonindividual"
+    "customer_non_individual": "default/cem/customer/nonindividual", 
+    
+    "delta_home_ss_ho3": "modules/delta/home_ss/ho3"
   }
 }

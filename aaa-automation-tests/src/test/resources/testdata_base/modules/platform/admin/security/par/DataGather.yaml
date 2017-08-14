@@ -1,8 +1,0 @@
-TestData: {
-  GeneralPARTab: {
-    Role Code: /RoleCode#####,
-    Role Name: /RoleName#####,
-    Products: 'Home (Preconfigured), PREC-HO, Homeowners',
-    Privileges: Policy Split
-  }
-}

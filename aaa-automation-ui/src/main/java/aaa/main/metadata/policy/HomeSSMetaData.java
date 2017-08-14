@@ -2,16 +2,13 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.metadata.policy;
 
+import aaa.toolkit.webdriver.customcontrols.*;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.controls.PartySearchTextBox;
 import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import aaa.common.pages.Page;
 import aaa.main.metadata.DialogsMetaData;
-import aaa.toolkit.webdriver.customcontrols.FillableTable;
-import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
-import aaa.toolkit.webdriver.customcontrols.PersonalPropertyMultiAssetList;
-import aaa.toolkit.webdriver.customcontrols.ProductOfferingVariationControl;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
@@ -1306,7 +1303,7 @@ public final class HomeSSMetaData {
 	}
 
 	public static final class ErrorTab extends MetaData {
-		public static final AssetDescriptor<FillableTable> ERROR_OVERRIDE = declare("ErrorsOverride", FillableTable.class, RuleRow.class, By.id("errorsForm:msgList"));
+		public static final AssetDescriptor<FillableErrorTable> ERROR_OVERRIDE = declare("ErrorsOverride", FillableErrorTable.class, RuleRow.class, By.id("errorsForm:msgList"));
 
 		public static final class RuleRow extends MetaData {
 			public static final AssetDescriptor<CheckBox> OVERRIDE = declare("Override", CheckBox.class);
@@ -1490,6 +1487,13 @@ public final class HomeSSMetaData {
 	}
 
 	public static final class GenerateOnDemandDocumentActionTab extends MetaData {
+		public static final AssetDescriptor<FillableTable> ON_DEMAND_DOCUMENTS = declare("OnDemandDocuments", FillableTable.class, DocumentRow.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body']")); 
+		
+		public static final class DocumentRow extends MetaData {
+			public static final AssetDescriptor<CheckBox> SELECT = declare("Select", CheckBox.class);
+			public static final AssetDescriptor<StaticElement> DOCUMENT_NUMBER = declare("Document #", StaticElement.class); 
+			public static final AssetDescriptor<StaticElement> DOCUMENT_NAME = declare("Document Name", StaticElement.class);
+		}
 	}
 
 	//TODO Delete next meta if these actions not used in AAA
