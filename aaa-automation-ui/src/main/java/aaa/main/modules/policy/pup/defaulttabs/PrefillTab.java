@@ -9,7 +9,9 @@ import org.openqa.selenium.By;
 
 import aaa.common.Tab;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
+import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import toolkit.datax.TestData;
+import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Row;
@@ -33,7 +35,10 @@ public class PrefillTab extends Tab {
 	public StaticElement lblAdditionalPolicyWarningMessage = new StaticElement(By.xpath("//span[@id='policyDataGatherForm:prerateWarningMessage']"));
 	public Table tblInsuredsList = new Table(By.xpath("//div[@id='policyDataGatherForm:dataGatherView_ListAAAInsured']//table"));
 	public Table tblActivePoliciesList = new Table(By.xpath("//table[@id='policyDataGatherForm:pupPolicyPrefillTable']"));
-
+	public Button buttonAddPolicy = new Button(By.id("policyDataGatherForm:addPupPrefill"));
+	public Button buttonRemovePolicy = new Button(By.id("policyDataGatherForm:removeManualPrefill"));
+	public SingleSelectSearchDialog searchDialog = new SingleSelectSearchDialog(By.xpath(".//div[@id='pupPolicySearchPopup_container']"), PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesSearch.class);
+	
 	@Override
 	public Tab submitTab() {
 		buttonNext.click();

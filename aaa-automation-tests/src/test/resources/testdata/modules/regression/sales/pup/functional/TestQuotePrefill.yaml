@@ -1,0 +1,10 @@
+TestData_WrongSearchCriteria: {
+  Policy Type: HO3,
+  Policy Number: '345345345'
+}
+
+TestData_PolicySearch: {
+  Search: {
+    Search For: Policy
+  }
+}
