@@ -64,6 +64,7 @@ public class CTDeltaScenario1 extends BaseTest {
 		PremiumsAndCoveragesQuoteTab premiumsTab = new PremiumsAndCoveragesQuoteTab(); 
 		premiumsTab.calculatePremium(); 
 		
+		CustomAssert.enableSoftMode();		
 		PremiumsAndCoveragesQuoteTab.tableDiscounts.getRowContains(windstormMitigationDiscount_row).verify.present(false);
 		
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
@@ -76,7 +77,9 @@ public class CTDeltaScenario1 extends BaseTest {
 		PropertyInfoTab propertyInfoTab = new PropertyInfoTab(); 
 		
 		String distanceToCoast = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.Riskmeter.DISTANCE_TO_COAST_MILES.getLabel()).getValue().toString();
+		log.info("Distance to coast value is "+distanceToCoast);
 		String elevation = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.Riskmeter.ELEVATION_FEET.getLabel()).getValue().toString(); 
+		log.info("Elevation value is "+elevation);
 		
 		propertyInfoTab.fillTab(td_WindstormMitigationYes);
 		
@@ -96,8 +99,8 @@ public class CTDeltaScenario1 extends BaseTest {
 				PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Elevation").equals(elevation)); 
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 		
-		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();		
-		
+		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();	
+		CustomAssert.assertAll();		
 	}
 	
 	public void TC04_verifyELC() {
@@ -125,8 +128,7 @@ public class CTDeltaScenario1 extends BaseTest {
 		verifyELCNotApplied(td_None_with_Score599, "599");
 		
 		ReportsTab.buttonSaveAndExit.click();		
-		CustomAssert.assertAll();
-		
+		CustomAssert.assertAll();		
 	}
 	
 	public void TC05_purchasePolicy(TestData td, String scenarioPolicyType) {
@@ -173,7 +175,7 @@ public class CTDeltaScenario1 extends BaseTest {
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get()); 
-		reportsTab.lblAdversalyImpactedMessage.verify.present(false);
+		reportsTab.lblELCMessage.verify.present(false);
 	}
 
 	private void verifyELCApplied(TestData td, String scoreInRatingDetails) {
@@ -195,7 +197,7 @@ public class CTDeltaScenario1 extends BaseTest {
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get()); 
 		CustomAssert.assertTrue("Extraordinary life circumstance is not applied on Reports Tab",
-				reportsTab.lblAdversalyImpactedMessage.getValue().equals("Extraordinary life circumstance was applied to the policy effective "+effectiveDate));		
+				reportsTab.lblELCMessage.getValue().equals("Extraordinary life circumstance was applied to the policy effective "+effectiveDate));		
 	}
 	
 }
