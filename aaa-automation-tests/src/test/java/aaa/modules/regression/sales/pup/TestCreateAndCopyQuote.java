@@ -22,7 +22,7 @@ import aaa.modules.policy.PersonalUmbrellaBaseTest;
 public class TestCreateAndCopyQuote extends PersonalUmbrellaBaseTest {
 
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.PUP)
+	@TestInfo(component = ComponentConstant.Sales.PUP)
 	public void testCreateAndCopyQuote() {
 		mainApp().open();
 		createCustomerIndividual();
