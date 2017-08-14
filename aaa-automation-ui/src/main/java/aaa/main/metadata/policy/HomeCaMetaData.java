@@ -196,12 +196,13 @@ public final class HomeCaMetaData {
             public static final class OtherActiveAAAPoliciesSearch extends MetaData {
                 public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy Type", ComboBox.class, Waiters.NONE);
                 public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class, Waiters.NONE);
-                public static final AssetDescriptor<Button> CANCEL_BTN = declare("Cancel", Button.class, Waiters.NONE, By.id("policySearchForm_AAAHOOtherOrPriorActivePolicySearch:cancelSearch_AAAHOOtherOrPriorActivePolicySearch"));
+                public static final AssetDescriptor<Button> CANCEL_BTN = declare("Cancel", Button.class, Waiters.NONE,
+                        By.id("policySearchForm_AAAHOOtherOrPriorActivePolicySearch:cancelSearch_AAAHOOtherOrPriorActivePolicySearch"));
             }
 
             public static final class OtherActiveAAAPoliciesManual extends MetaData {
                 public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy type", ComboBox.class, Waiters.AJAX);
-                public static final AssetDescriptor<RadioGroup> COMPANION_AUTO_PENDING_WITH_DISCOUNT = declare("Companion Auto Pending with Discount?", RadioGroup.class, Waiters.AJAX);
+                public static final AssetDescriptor<RadioGroup> COMPANION_AUTO_PENDING_WITH_DISCOUNT = declare("Companion Auto pending with discount?", RadioGroup.class, Waiters.AJAX);
                 public static final AssetDescriptor<RadioGroup> COMPANION_PUP_DP3_PENDING_WITH_DISCOUNT = declare("Companion PUP/DP3 Pending with Discount?", RadioGroup.class, Waiters.AJAX);
                 public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy number", TextBox.class, Waiters.AJAX);
                 public static final AssetDescriptor<TextBox> EFFECTIVE_DATE = declare("Effective date", TextBox.class, Waiters.AJAX);
