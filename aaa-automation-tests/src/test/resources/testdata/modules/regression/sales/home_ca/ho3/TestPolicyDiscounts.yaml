@@ -1,0 +1,31 @@
+TestData_AddAuto: {
+  ApplicantTab: {
+    OtherActiveAAAPolicies: { 
+      Other active AAA policies: "Yes",
+      Add: 'click',
+      ActiveUnderlyingPoliciesSearch: {},
+      ActiveUnderlyingPoliciesManual: {
+        Policy type: Auto,
+        "Companion Auto pending with discount?": 'No',
+        Policy number: '123456789',
+        Effective date: '/today:MM/dd/yyyy',
+        Auto policy BI limit: 'index=1'
+      }
+    }
+  }
+}
+
+TestData_AddPUP: {
+  ApplicantTab: {
+    OtherActiveAAAPolicies: { 
+      Other active AAA policies: "Yes",
+      Add: 'click',
+      ActiveUnderlyingPoliciesSearch: {},
+      ActiveUnderlyingPoliciesManual: {
+        Policy type: PUP,
+        Policy number: '987654321',
+        Effective date: '/today+2d:MM/dd/yyyy'
+      }
+    }
+  }
+}

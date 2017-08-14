@@ -685,6 +685,7 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingOperations" />
 			<class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyCreateHO3Full" />
+			<class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyRemoveForm" />
 			<class name="aaa.modules.regression.sales.home_ca.ho3.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.home_ca.ho3.TestQuoteTaskManager" />
