@@ -311,6 +311,7 @@ public final class HomeSSMetaData {
 		// ,By.xpath(".//table[@id='policyDataGatherForm:formGrid_AAAPpcDetailsMVO']"));
 		public static final AssetDescriptor<AssetList> FIRE_REPORT = declare("FireReport", AssetList.class, FireReport.class);
 		// ,By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAFirelineDetailsMVO']"));
+		public static final AssetDescriptor<AssetList> RISKMETER = declare("Riskmeter", AssetList.class, Riskmeter.class);
 		public static final AssetDescriptor<AssetList> PROPERTY_VALUE = declare("PropertyValue", AssetList.class, PropertyValue.class);
 		public static final AssetDescriptor<AssetList> CONSTRUCTION = declare("Construction", AssetList.class, Construction.class);
 		public static final AssetDescriptor<AssetList> ADDITIONAL_QUESTIONS = declare("AdditionalQuestions", AssetList.class, AdditionalQuestions.class);

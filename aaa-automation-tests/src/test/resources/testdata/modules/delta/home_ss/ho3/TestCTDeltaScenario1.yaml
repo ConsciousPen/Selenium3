@@ -243,7 +243,7 @@ AdditionalInterest: {
   Effective date: '/today:MM/dd/yyyy'
 }
 
-# =========== TC03 Windstorm Mitigation discount ===========
+# =========== TC02 Windstorm Mitigation discount ===========
 TestData_WindstormMitigationYes: {
   PropertyInfoTab: '@PropertyInfoTab_WindstormMitigationYes',
 }
@@ -256,7 +256,7 @@ HomeRenovation_WindstormMitigationYes: {
   Windstorm Mitigation discount: 'Yes'
 }
 
-# ======= TC04 ELC verification ======== 
+# ======= TC03 ELC verification ======== 
 TestData_None_with_Score599: {
   GeneralTab: '@GeneralTab_ELC_None', 
   ReportsTab: '@ReportsTab_Score599'

@@ -1,4 +1,4 @@
-package aaa.modules.delta.home_ss.ho3;
+package aaa.modules.delta.home_ss.ho4;
 
 import org.testng.annotations.Test;
 
@@ -8,11 +8,11 @@ import toolkit.datax.TestData;
 
 public class TestCTDeltaScenario1 extends CTDeltaScenario1 {
 	
-	public String scenarioPolicyType = "HO3-Heritage";
+	public String scenarioPolicyType = "HO4";
 	
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO3;
+		return PolicyType.HOME_SS_HO4;
 	}
 	
 	@Test
@@ -42,5 +42,5 @@ public class TestCTDeltaScenario1 extends CTDeltaScenario1 {
 	
 	@Test
 	public void TC06_verifyCancelNoticeAction() {}
-	
+
 }
