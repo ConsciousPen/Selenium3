@@ -544,5 +544,6 @@ public final class PolicyActions {
     
     public abstract static class ChangeRenewalQuoteLapse extends AbstractAction {}
     public abstract static class PendedEndorsementChange extends AbstractAction {}
-    public abstract static class PolicyChangeRenewalLapse extends AbstractAction {}
+    public abstract static class PolicyChangeRenewalLapse extends AbstractAction {} 
+    
 }

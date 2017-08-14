@@ -12,6 +12,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
@@ -86,14 +87,26 @@ public class CODeltaScenario1 extends BaseTest {
 			endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312).verify.present(false);
 		}
 		
-		EndorsementTab.buttonSaveAndExit.click();	
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
+		
+		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();	
 		CustomAssert.assertAll();
 	}
 	
 	public void TC03_verifyQuoteODD() {
 		mainApp().open();
 		SearchPage.openQuote(quoteNumber);	
-		//Generate On-Demand documents for quote
+
+		policy.quoteDocGen().start();		
+		CustomAssert.enableSoftMode();	
+		/*
+		GenerateOnDemandDocumentActionTab goddTab = new GenerateOnDemandDocumentActionTab();
+		goddTab.tableOnDemandDocuments.getRow("Document #", "HS11CO").verify.present();
+		goddTab.tableOnDemandDocuments.getRow("Document #", "HSIQXX").verify.present();
+		*/
+		GenerateOnDemandDocumentActionTab.buttonSaveAndExit.click();
+		CustomAssert.assertAll();
 	}
 	
 	public void TC04_verifyAdverselyImpacted() {
@@ -175,9 +188,6 @@ public class CODeltaScenario1 extends BaseTest {
 		SearchPage.openQuote(quoteNumber);
 		
 		policy.dataGather().start(); 
-		//NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		//PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
-		//propertyInfoTab.fillTab(td);
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -198,7 +208,12 @@ public class CODeltaScenario1 extends BaseTest {
 		mainApp().open(); 
 		
 		SearchPage.openPolicy(policyNumber);
-		//Generate On-Demand documents for policy
+		
+		//TestData td_godd = getTestSpecificTD("TestData_GODD");
+		
+		policy.policyDocGen().start();
+		//policy.policyDocGen().perform(td_godd);
+		
 	}
 
 	private void verifyAdverselyImpactedNotApplied(TestData td, String scoreInRatingDetails) {

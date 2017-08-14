@@ -391,3 +391,14 @@ Construction_3: {
   Roof type: 'Builtup Tar & Gravel',
 }
 
+# ========= GODD Tab ========== 
+TestData_GODD: {
+  OnDemandDocuments: '@OnDemandDocumentsRow'
+}
+
+OnDemandDocumentsRow: {
+  Select: true, 
+  "Document #": 'HS11CO'
+}
+
+

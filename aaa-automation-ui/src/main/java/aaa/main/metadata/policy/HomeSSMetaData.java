@@ -1487,6 +1487,13 @@ public final class HomeSSMetaData {
 	}
 
 	public static final class GenerateOnDemandDocumentActionTab extends MetaData {
+		public static final AssetDescriptor<FillableTable> ON_DEMAND_DOCUMENTS = declare("OnDemandDocuments", FillableTable.class, DocumentRow.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body']")); 
+		
+		public static final class DocumentRow extends MetaData {
+			public static final AssetDescriptor<CheckBox> SELECT = declare("Select", CheckBox.class);
+			public static final AssetDescriptor<StaticElement> DOCUMENT_NUMBER = declare("Document #", StaticElement.class); 
+			public static final AssetDescriptor<StaticElement> DOCUMENT_NAME = declare("Document Name", StaticElement.class);
+		}
 	}
 
 	//TODO Delete next meta if these actions not used in AAA
