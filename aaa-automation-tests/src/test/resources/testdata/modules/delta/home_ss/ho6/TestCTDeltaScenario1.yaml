@@ -104,3 +104,12 @@ TestData_OtherEvents_with_Score999: {
   ReportsTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@ReportsTab_Score999'
 }
 
+# ======== TC06 Cancel Notice Tab ========
+TestData_Plus33Days: {
+  CancelNoticeActionTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@CancelNoticeActionTab_Plus33Days'
+}
+
+TestData_Plus34Days: {
+  CancelNoticeActionTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@CancelNoticeActionTab_Plus34Days'
+}
+

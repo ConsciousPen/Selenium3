@@ -343,5 +343,22 @@ InsuranceScoreOverride_OverrideTo999: {
   }
 }
 
+TestData_Plus33Days: {
+  CancelNoticeActionTab: '@CancelNoticeActionTab_Plus33Days'
+}
+
+CancelNoticeActionTab_Plus33Days: {
+    Cancellation effective date: '/today+33d', 
+}
+
+TestData_Plus34Days: {
+  CancelNoticeActionTab: '@CancelNoticeActionTab_Plus34Days'
+}
+
+CancelNoticeActionTab_Plus34Days: {
+    Cancellation effective date: '/today+34d', 
+    Cancellation reason: 'Material Misrepresentation', 
+    Description: test test
+  }
 
 
