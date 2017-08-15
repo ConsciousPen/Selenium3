@@ -27,3 +27,4 @@ aaa-automation-tests/src/test/resources/testsuites/retry.xml
 /*.iml
 /aaa-automation-tests/*.iml
 /aaa-automation-ui/*.iml
+/.recommenders/index/http___download_eclipse_org_recommenders_models_mars_

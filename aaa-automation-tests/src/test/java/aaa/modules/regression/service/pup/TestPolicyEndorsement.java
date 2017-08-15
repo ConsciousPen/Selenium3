@@ -2,6 +2,9 @@ package aaa.modules.regression.service.pup;
 
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
+
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
@@ -11,8 +14,8 @@ import toolkit.verification.CustomAssert;
 
 public class TestPolicyEndorsement extends PersonalUmbrellaBaseTest {
 
-	@Test
-	@TestInfo(component = "Policy.PUP")
+	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
+	@TestInfo(component = ComponentConstant.Service.PUP )
 	public void testPolicyEndorsement() {
 		mainApp().open();
 

@@ -4,6 +4,8 @@ package aaa.modules.regression.sales.home_ca.ho6;
 
 import org.testng.annotations.Test;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO6BaseTest;
@@ -22,8 +24,8 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyCreation extends HomeCaHO6BaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.PersonalLines")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6) 
     public void testPolicyCreation() {
         mainApp().open();
 

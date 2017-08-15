@@ -4,6 +4,8 @@ package aaa.modules.regression.sales.home_ss.dp3;
 
 import org.testng.annotations.Test;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSDP3BaseTest;
@@ -20,8 +22,8 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyCreation extends HomeSSDP3BaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.PersonalLines")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3)    
     public void testPolicyCreation() {
         mainApp().open();
         createCustomerIndividual();

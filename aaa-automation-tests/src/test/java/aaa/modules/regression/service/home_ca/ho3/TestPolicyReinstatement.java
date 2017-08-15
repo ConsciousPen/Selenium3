@@ -1,6 +1,9 @@
 package aaa.modules.regression.service.home_ca.ho3;
 
 import org.testng.annotations.Test;
+
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.home_ca.HomeCaPolicyActions;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -22,8 +25,8 @@ import toolkit.utils.TestInfo;
 
 public class TestPolicyReinstatement extends HomeCaHO3BaseTest {
 
-	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
 	public void testPolicyReinstatement() {
 		mainApp().open();
 

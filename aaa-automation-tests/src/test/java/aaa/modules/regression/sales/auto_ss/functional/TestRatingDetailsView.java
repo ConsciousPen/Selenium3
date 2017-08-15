@@ -7,6 +7,8 @@ import org.testng.annotations.Test;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -29,8 +31,8 @@ public class TestRatingDetailsView extends AutoSSBaseTest {
      * @details
      */
 
-    @Test
-    @TestInfo(component = "Policy.AutoSS")
+	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
     public void testQuoteRatingViewDetailsCompCollSymbolsArePresentAndNotEmpty() {
         mainApp().open();
         createCustomerIndividual();
