@@ -9,6 +9,7 @@ import aaa.common.pages.SearchPage;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
+import aaa.main.modules.policy.home_ss.actiontabs.CancelNoticeActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
@@ -156,7 +157,28 @@ public class CTDeltaScenario1 extends BaseTest {
 	public void TC05_verifyODDPolicy() {} 
 	
 	
-	public void TC06_verifyCancelNoticeAction() {}
+	public void TC06_verifyCancelNoticeTab(TestData td1, TestData td2) {
+		String er9931 = "Cancellation effective date must be at least 34 days from today when the policy is within the new business discovery period.";
+		
+		mainApp().open(); 
+		
+		SearchPage.openPolicy(policyNumber);
+		
+		policy.cancelNotice().start(); 
+		CancelNoticeActionTab cancelNoticeTab = new CancelNoticeActionTab();
+		CustomAssert.enableSoftMode();	
+		CustomAssert.assertTrue(cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.DAYS_OF_NOTICE.getLabel()).getValue().toString().equals("34"));
+		
+		cancelNoticeTab.fillTab(td1);
+		cancelNoticeTab.verifyFieldHasMessage(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel(), er9931); 
+		
+		cancelNoticeTab.fillTab(td2);
+		cancelNoticeTab.submitTab();
+		
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		PolicySummaryPage.labelCancelNotice.verify.present();
+		CustomAssert.assertAll();
+	}
 	
 
 	private void verifyELCNotApplied(TestData td, String scoreInRatingDetails) {
