@@ -27,6 +27,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomAssert;
 
 public class Scenario1 extends BaseTest {
 	
@@ -61,6 +62,7 @@ public class Scenario1 extends BaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		totalDue = BillingSummaryPage.getTotalDue();
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
+		CustomAssert.assertEquals("Billing Installments count for Quaterly payment plan", installmentDueDates.size(), 4);
 		installmentAmount = BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(3));
 	}
 	

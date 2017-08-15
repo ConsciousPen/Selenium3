@@ -23,6 +23,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomAssert;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -51,6 +52,7 @@ public class Scenario2 extends BaseTest {
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
+		CustomAssert.assertEquals("Billing Installments count for Eleven Pay payment plan", installmentDueDates.size(), 11);
 	}
 
 	public void TC02_Generate_First_Bill() {
@@ -78,7 +80,7 @@ public class Scenario2 extends BaseTest {
 		SearchPage.openBilling(policyNum);
 		// Verify Bill is not generated
 		new BillingBillsAndStatementsVerifier().setDueDate(secondBillGenDate).setType(BillsAndStatementsType.BILL).verifyPresent(false);
-		billingAccount.addHold().perform(tdBilling.getTestData("RemoveHold", "TestData"));
+		billingAccount.removeHold().perform(tdBilling.getTestData("RemoveHold", "TestData"));
 		new BillingAccountPoliciesVerifier().setBillingStatus(BillingStatus.ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 	}
 

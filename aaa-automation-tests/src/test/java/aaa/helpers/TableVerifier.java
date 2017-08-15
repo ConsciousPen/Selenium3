@@ -23,7 +23,8 @@ public abstract class TableVerifier {
     }
 
     public TableVerifier verifyPresent(boolean expectedValue) {
-        getTable().getRow(values).verify.present(expectedValue);
+        String message = String.format("Row with values %s in table '%s' is present", values, getTableName());
+        getTable().getRow(values).verify.present(message, expectedValue);
         return this;
     }
 

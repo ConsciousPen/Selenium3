@@ -122,6 +122,15 @@ PurchaseTab: {
   }
 }
 
+PurchaseTab_WithAutopay: {
+  PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa'],
+  Activate Autopay: true,
+  Autopay Selection: 'index=1',
+  PaymentAllocation: {
+    Visa: /rest
+  }
+}
+
 TestData_TwoVehicles: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@GeneralTab',
