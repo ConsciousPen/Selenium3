@@ -7,6 +7,8 @@ import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.composite.table.Table;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.PolicyConstants.PolicyEndorsementFormsTable;
 import aaa.main.enums.PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable;
 import aaa.main.metadata.policy.HomeCaMetaData;
@@ -35,8 +37,8 @@ public class TestQuoteViewSelectedEndorsements extends HomeCaHO3BaseTest {
      * 6.  Navigate to Quote tab and verify the same 
      */
 
-    @Test
-    @TestInfo(component = "Policy.HomeCA")
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
     public void testQuoteViewSelectedEndorsements() {
 
         List<String> selectedEndorsements = initEndorsements();

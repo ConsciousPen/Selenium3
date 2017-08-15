@@ -31,7 +31,7 @@ public class TestPolicyBilling extends PolicyBilling {
 	}
 
 	@Override
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP )
 	public void testBilling() {
 

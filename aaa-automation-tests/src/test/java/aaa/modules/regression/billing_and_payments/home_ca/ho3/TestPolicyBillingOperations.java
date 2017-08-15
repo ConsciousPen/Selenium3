@@ -9,6 +9,8 @@ import toolkit.verification.CustomAssert;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ActionConstants;
 import aaa.main.enums.BillingConstants.BillingAccountPoliciesTable;
 import aaa.main.enums.BillingConstants.BillingGeneralInformationTable;
@@ -60,8 +62,8 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
      * 11. Check minimum due doesn't change
      */
 
-    @Test
-    @TestInfo(component = "Policy.HomeCA")
+	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3) 
     public void testManualFeeAdjustment() {
 
         mainApp().open();
