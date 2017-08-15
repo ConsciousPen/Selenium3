@@ -6,6 +6,8 @@ import aaa.common.enums.ErrorPageEnum;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.ErrorPage;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
@@ -35,8 +37,8 @@ public class TestQuoteUnderwritingRules extends HomeCaHO3BaseTest {
       * 10. Check Policy status is Active
       */
 
-    @Test
-    @TestInfo(component = "Policy.HomeCA")
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
     public void testQuoteUnderwritingRules() {
         UnderwritingAndApprovalTab underwritingAndApprovalTab = new UnderwritingAndApprovalTab();
 

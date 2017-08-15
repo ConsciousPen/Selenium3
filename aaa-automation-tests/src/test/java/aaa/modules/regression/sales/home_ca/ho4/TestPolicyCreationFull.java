@@ -2,6 +2,8 @@ package aaa.modules.regression.sales.home_ca.ho4;
 
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO4BaseTest;
@@ -18,10 +20,10 @@ import aaa.modules.policy.HomeCaHO4BaseTest;
  * 6. Issue policy;
  * 7. Check Policy status is Active.
  */
-public class TestPolicyCreateHo4Full extends HomeCaHO4BaseTest {
+public class TestPolicyCreationFull extends HomeCaHO4BaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.HomeCA")
+	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4) 
     public void testPolicyCreateHo4Full() {
         mainApp().open();
         createCustomerIndividual();
