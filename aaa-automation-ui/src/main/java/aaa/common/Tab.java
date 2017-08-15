@@ -43,7 +43,6 @@ public abstract class Tab {
     public static Button buttonSaveAndExit = new Button(By.id("topSaveAndExitLink"));
     public static Button buttonYes = new Button(By.xpath("//input[(@value = 'Yes' or @value = 'YES') and not(@class = 'hidden') and not(contains(@style,'none'))]"));
     public static Button buttonGo = new Button(By.xpath("//input[(@value = 'Go' or @value = 'GO') and not(@class = 'hidden') and not(contains(@style,'none'))]"));
-    public static Button buttonAddUpdate = new Button(By.xpath("//input[(@value = 'Add/Update') and not(@class = 'hidden') and not(contains(@style,'none'))]"));
 
     public static Link linkAdminApp = new Link(By.id("logoutForm:switchToAdmin"));
     public static Link linkMainApp = new Link(By.id("logoutForm:switchToApp"));

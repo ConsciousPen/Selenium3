@@ -1,6 +1,8 @@
 AddHold: {
   AddHoldActionTab: {
-    Check Policy: 'true',
+    Policies List: [{
+      column=1: 'true'
+    }],
     Hold Name: Test Hold,
     Hold Description: Test Description,
     Reason: 'index=1',

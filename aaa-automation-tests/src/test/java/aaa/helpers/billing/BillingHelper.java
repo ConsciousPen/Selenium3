@@ -59,19 +59,27 @@ public final class BillingHelper {
 	}
 
 	// ------- Installments table-------
-	
+
+	/**
+	 * Get all Due Dates from Installments table
+	 * @return - list of dates including Deposit payments, so index of first Installment is usualy 1
+	 */
 	public static List<LocalDateTime> getInstallmentDueDates() {
 		ArrayList<LocalDateTime> dates = new ArrayList<>();
-		for (Row row : BillingSummaryPage.tableInstallmentSchedule.getRows(ImmutableMap.of(BillingInstallmentScheduleTable.DESCRIPTION, InstallmentDescription.INSTALLMENT))) {
-			dates.add(TimeSetterUtil.getInstance().parse(row.getCell(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
+		for (String value : BillingSummaryPage.tableInstallmentSchedule.getColumn(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).getValue()) {
+			dates.add(TimeSetterUtil.getInstance().parse(value, DateTimeUtils.MM_DD_YYYY));
 		}
 		return dates;
 	}
-	
+
+	/**
+	 * Get all Dues from Installments table
+	 * @return - list of Dollar including Deposit payments, so index of first Installment is usualy 1
+	 */
 	public static List<Dollar> getInstallmentDues() {
 		ArrayList<Dollar> dues = new ArrayList<>();
-		for (Row row : BillingSummaryPage.tableInstallmentSchedule.getRows(ImmutableMap.of(BillingInstallmentScheduleTable.DESCRIPTION, InstallmentDescription.INSTALLMENT))) {
-			dues.add(new Dollar(row.getCell(BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT).getValue()));
+		for (String value : BillingSummaryPage.tableInstallmentSchedule.getColumn(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).getValue()) {
+			dues.add(new Dollar(value));
 		}
 		return dues;
 	}
@@ -93,6 +101,7 @@ public final class BillingHelper {
 	}
 
 	public static void verifyRenewOfferGenerated(LocalDateTime date, List<LocalDateTime> installmentDates) {
+		installmentDates.remove(0); //Do not include Deposit bill
 		BillingSummaryPage.showPriorTerms();
 
 		CustomAssert.enableSoftMode();

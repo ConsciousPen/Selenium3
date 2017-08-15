@@ -3,11 +3,9 @@
 package aaa.main.modules.billing.account.views;
 
 import aaa.common.Workspace;
-import aaa.main.modules.billing.account.defaulttabs.BillingAccountTab;
 
 public class DefaultView extends Workspace {
     public DefaultView() {
         super();
-        registerTab(BillingAccountTab.class);
     }
 }

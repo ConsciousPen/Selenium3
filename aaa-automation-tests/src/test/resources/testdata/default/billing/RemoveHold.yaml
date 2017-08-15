@@ -1,0 +1,8 @@
+TestData: {
+  AddHoldActionTab: {
+    Billing Holds and Moratoriums: [{
+      Actions: 'Remove',
+      Confirm remove hold: 'click'
+    }],
+  }
+}

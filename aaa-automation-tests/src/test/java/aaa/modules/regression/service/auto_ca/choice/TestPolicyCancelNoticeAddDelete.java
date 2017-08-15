@@ -25,7 +25,6 @@ import toolkit.utils.TestInfo;
 
 public class TestPolicyCancelNoticeAddDelete extends PolicyCancelNoticeAddDelete {
 
-	
     @Override
     protected PolicyType getPolicyType() {
         return PolicyType.AUTO_CA_CHOICE;
@@ -33,7 +32,7 @@ public class TestPolicyCancelNoticeAddDelete extends PolicyCancelNoticeAddDelete
     
     @Override
     @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE )
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE )
     public void testPolicyCancelNoticeAddDelete() {
 
         super.testPolicyCancelNoticeAddDelete();

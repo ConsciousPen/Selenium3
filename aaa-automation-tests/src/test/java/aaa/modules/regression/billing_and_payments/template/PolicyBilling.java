@@ -11,6 +11,7 @@ import aaa.main.modules.billing.account.IBillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 
@@ -54,19 +55,19 @@ public abstract class PolicyBilling extends PolicyBaseTest {
         IBillingAccount billing = new BillingAccount();
         
         //cash payment
-        billing.acceptPayment().perform(cash_payment, "200");      
+        billing.acceptPayment().perform(cash_payment, new Dollar(200));
         checkPaymentIsGenerated("200.00");
 			
         //check payment
-        billing.acceptPayment().perform(check_payment, "250");        
+        billing.acceptPayment().perform(check_payment, new Dollar(250));
         checkPaymentIsGenerated("250.00");
 			
 		//credit card payment
-        billing.acceptPayment().perform(cc_payment, "300"); 		
+        billing.acceptPayment().perform(cc_payment, new Dollar(300));
 		checkPaymentIsGenerated("300.00");
 		 
 		//EFT payment
-		billing.acceptPayment().perform(eft_payment, "350"); 
+		billing.acceptPayment().perform(eft_payment, new Dollar(350));
         checkPaymentIsGenerated("350.00");
         
         //Refund
