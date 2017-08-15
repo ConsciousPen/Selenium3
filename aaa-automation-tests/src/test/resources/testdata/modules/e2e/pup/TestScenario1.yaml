@@ -1,29 +1,67 @@
 TestData: {
-  PremiumsAndCoveragesQuoteTab: {
-    Payment plan: Quarterly,
-    Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
-    Coverage E - Personal Liability Each Occurrence: '$300,000'
+  PremiumAndCoveragesQuoteTab: {
+    Payment Plan: Quarterly,
+    Recurring Payment: true,
+    Personal Umbrella: '$1,000,000'
   },
   PurchaseTab: '@<pup>@DataGather@PurchaseTab_WithAutopay'
 }
 
 # ----- Endorsement -----
 TestData_Endorsement: {
+  PrefillTab: {},
   GeneralTab: {},
-  ApplicantTab: {},
-  ReportsTab: {},
-  PropertyInfoTab: {
-    PropertyValue: {
-      Coverage A - Dwelling limit: 174000
-    }
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {
+    Automobiles: [{
+      Add: 'click',
+      Car Type: Private Passenger Auto,
+      VIN: '91N1K36Y991234567',
+      Year: 2008,
+      Make: 'RIX TRUCK Nr2',
+      Model: 'index=1',
+      Current Carrier: 'index=2',
+      "Policy #": 123456,
+      Usage: Pleasure,
+      Excluded: 'No'
+    }]
   },
-  ProductOfferingTab: {},
-  EndorsementTab: {},
-  PremiumsAndCoveragesQuoteTab: {
-    Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
-  },
-  MortgageesTab: {},
+  UnderlyingRisksOtherVehiclesTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {},
   UnderwritingAndApprovalTab: {},
   DocumentsTab: {},
-  BindTab: {},
+  BindTab: {}
+}
+
+TestData_Endorsement_CA: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {
+    Automobiles: [{
+      Add: 'click',
+      Car Type: Private Passenger Auto,
+      VIN: '91N1K36Y991234567',
+      Year: 2008,
+      Make: 'RIX TRUCK Nr3',
+      Model: 'index=1',
+      Current Carrier: 'index=2',
+      "Policy #": 123456,
+      State: CA,
+      Coverage Type: Split,
+      "BI Limits": [500000, 500000],
+      PD Limits: 100000,
+      Usage: Pleasure,
+      Excluded:  'No'
+    }]
+  },
+  UnderlyingRisksOtherVehiclesTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
 }
