@@ -41,7 +41,7 @@ public class TestQuotePrefill extends PersonalUmbrellaBaseTest {
 	private String lastName;
 	private String zipCode;
 
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
 	@TestInfo(component = ComponentConstant.Sales.PUP)
 	public void testQuotePrefill() {
 		mainApp().open();

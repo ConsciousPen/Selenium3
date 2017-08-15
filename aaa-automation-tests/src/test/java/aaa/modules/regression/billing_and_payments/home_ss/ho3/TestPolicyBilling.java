@@ -32,7 +32,7 @@ public class TestPolicyBilling extends PolicyBilling {
 	}
 
 	@Override
-	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
+	@Test(groups = { Groups.REGRESSION, Groups.BLOCKER })
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3) 
 	public void testBilling() {
 

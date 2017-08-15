@@ -6,6 +6,8 @@ import toolkit.utils.TestInfo;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.BillingConstants.BillingHoldsAndMoratoriumsTable;
 import aaa.main.enums.BillingConstants.BillingAddOnHoldPoliciesTable;
 import aaa.main.enums.BillingConstants.HoldsAndMoratoriumsActions;
@@ -34,8 +36,8 @@ public class TestPolicyBillingAccountOnHold extends HomeCaHO3BaseTest {
      * 11. Verify billing account status is "Active"
      */
 
-    @Test
-    @TestInfo(component = "Policy.HomeCA")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3) 
     public void testPolicyBillingAccountOnHold() {
 
         AddHoldActionTab addHoldActoinTab = new AddHoldActionTab();
@@ -47,19 +49,19 @@ public class TestPolicyBillingAccountOnHold extends HomeCaHO3BaseTest {
         // 4-6
         new BillingAccount().addHold().start();
         addHoldActoinTab.fillTab(getTestSpecificTD("AddHold"));
-        addHoldActoinTab.buttonAddUpdate.click();
+        AddHoldActionTab.buttonAddUpdate.click();
         addHoldActoinTab.getAssetList().getWarning(BillingAccountMetaData.AddHoldActionTab.HOLD_EFFECTIVE_DATE.getLabel()).verify.value("Cannot be earlier than today");
         addHoldActoinTab.getAssetList().getWarning(BillingAccountMetaData.AddHoldActionTab.HOLD_EXPIRATION_DATE.getLabel()).verify.value("Date must be after effective date");
 
         // 7. Change 'Effective Date' = current date, 'Expiration Date' = current date + 2 days, 'Reason' to 'Other' and verify error
         addHoldActoinTab.fillTab(new SimpleDataProvider().adjust(getTestSpecificTD("AddHold_Adjustment")));
-        addHoldActoinTab.buttonAddUpdate.click();
+        AddHoldActionTab.buttonAddUpdate.click();
         addHoldActoinTab.getAssetList().getWarning(BillingAccountMetaData.AddHoldActionTab.ADDITIONAL_INFO.getLabel()).verify.value("Value is required");
 
         // 8.  Fill 'Additional information' field
         addHoldActoinTab.fillTab(new SimpleDataProvider().adjust(BillingAccountMetaData.AddHoldActionTab.class.getSimpleName(),
                 new SimpleDataProvider().adjust(BillingAccountMetaData.AddHoldActionTab.ADDITIONAL_INFO.getLabel(), "Additional Text")));
-        addHoldActoinTab.buttonAddUpdate.click();
+        AddHoldActionTab.buttonAddUpdate.click();
 
         // 9.  Verify billing account status is "On hold"
         AddHoldActionTab.tablePolicies.getRow(1).getCell(BillingAddOnHoldPoliciesTable.BILLING_STATUS).verify.value(BillingStatus.ON_HOLD);

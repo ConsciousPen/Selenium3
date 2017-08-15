@@ -3,6 +3,8 @@ package aaa.modules.regression.service.home_ca.ho3;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 
@@ -18,8 +20,8 @@ public class TestPolicyCopy extends HomeCaHO3BaseTest {
      * 5. Verify that new policy number is not the same as initial policy number;
      * */
 
-    @Test
-    @TestInfo(component = "Policy.HomeCA")
+	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
+	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
     public void testPolicyCopy() {
 
         mainApp().open();

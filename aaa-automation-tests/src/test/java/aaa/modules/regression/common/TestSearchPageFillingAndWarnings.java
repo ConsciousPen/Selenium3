@@ -9,6 +9,8 @@ import org.testng.annotations.Test;
 import aaa.main.enums.SearchEnum;
 import aaa.common.metadata.SearchMetaData;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.modules.BaseTest;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -42,8 +44,8 @@ public class TestSearchPageFillingAndWarnings extends BaseTest {
 	 * 5. Verify that all search by criteria fields have empty values except "Search For" which resets to default "Policy" value
 	 * @details
 	 */
-	@Test
-	@TestInfo(component = "Common.Search")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Common.SEARCH )
 	public void testFillAndClearAllSearchCriteria() {
 		final SearchEnum.SearchFor defaultSearchForCriteria = SearchEnum.SearchFor.POLICY;
 
@@ -98,8 +100,8 @@ public class TestSearchPageFillingAndWarnings extends BaseTest {
 	 * 15. Check that warning message about not entered criteria appears
 	 * @details
 	 */
-	@Test
-	@TestInfo(component = "Common.Search")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Common.SEARCH )
 	public void testSearchWarnings() {
 		final String accNumberLengthWarning = String.format("Account number invalid - Should enter %d or more numeric digits or leave as blank", MIN_ACC_NUMBER_LENGTH);
 		final String cityLengthWarning = String.format("City searches require less or equal %d characters", CITY_LENGTH);
