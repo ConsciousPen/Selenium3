@@ -36,6 +36,11 @@ public class BillingAccountPoliciesVerifier extends TableVerifier {
         return this;
     }
 
+    public BillingAccountPoliciesVerifier setBillingStatus(String billingStatus) {
+        setValue(BillingAccountPoliciesTable.BILLING_STATUS, billingStatus);
+        return this;
+    }
+
     public BillingAccountPoliciesVerifier setMinDue(Dollar value) {
         setValue(BillingAccountPoliciesTable.MIN_DUE, value.toString());
         return this;

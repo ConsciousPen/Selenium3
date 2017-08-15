@@ -3,11 +3,13 @@
 package aaa.main.modules.billing.account.views;
 
 import aaa.common.Workspace;
+import aaa.main.modules.billing.account.actiontabs.AddHoldActionTab;
 
 public class RemoveHoldView extends Workspace {
 
     public RemoveHoldView() {
         super();
+        registerTab(AddHoldActionTab.class);
     }
 
 }
