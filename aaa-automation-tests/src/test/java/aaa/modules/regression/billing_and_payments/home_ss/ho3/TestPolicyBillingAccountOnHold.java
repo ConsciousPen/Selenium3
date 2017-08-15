@@ -1,12 +1,14 @@
 package aaa.modules.regression.billing_and_payments.home_ss.ho3;
 
+import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.BillingConstants;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import org.testng.annotations.Test;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AddHoldActionTab;
-import aaa.main.modules.billing.account.defaulttabs.BillingAccountTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -36,22 +38,20 @@ import toolkit.utils.TestInfo;
  *
  * @details
  */
-public class TestPolicyBillingAccountOnHold extends TestPolicyBilling {
+public class TestPolicyBillingAccountOnHold extends HomeSSHO3BaseTest {
 
 	private TestData tdBilling = testDataManager.billingAccount;
 
 	@Test(groups= {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
 	public void hssPolicyBillingAccountOnHold() {
-		BillingAccount ba = new BillingAccount();
+		BillingAccount billingAccount = new BillingAccount();
 		AddHoldActionTab ahaTab = new AddHoldActionTab();
-		BillingAccountTab baTab = new BillingAccountTab();
 
 		mainApp().open();
-		createCustomerIndividual();
-		createPolicy();
+		getCopiedPolicy();
 		BillingSummaryPage.open();
-		ba.addHold().start();
+		billingAccount.addHold().start();
 
 		ahaTab.fillTab(tdBilling.getTestData("AddHold", "TestData_1"));
 		AddHoldActionTab.buttonAddUpdate.click();
@@ -67,13 +67,11 @@ public class TestPolicyBillingAccountOnHold extends TestPolicyBilling {
 
 		//Step #10
 		ahaTab.fillTab(tdBilling.getTestData("AddHold", "TestData_2"));
-		AddHoldActionTab.buttonAddUpdate.click();
-		AddHoldActionTab.buttonCancel.click();
+		billingAccount.addHold().submit();
 
-		baTab.verifyFieldHasValue(BillingAccountMetaData.BillingAccountTab.BILLING_ACCOUNT_POLICIES_STATUS.getLabel(), "On Hold");
+		new BillingAccountPoliciesVerifier().setBillingStatus(BillingConstants.BillingStatus.ON_HOLD).verify(1);
 
-		ba.removeHold().start().submit();
-		AddHoldActionTab.buttonCancel.click();
-		baTab.verifyFieldHasValue(BillingAccountMetaData.BillingAccountTab.BILLING_ACCOUNT_POLICIES_STATUS.getLabel(), "Active");
+		billingAccount.removeHold().perform(tdBilling.getTestData("RemoveHold", "TestData"));
+		new BillingAccountPoliciesVerifier().setBillingStatus(BillingConstants.BillingStatus.ACTIVE).verify(1);
 	}
 }

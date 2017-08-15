@@ -22,7 +22,7 @@ public class TestScenario1 extends Scenario1 {
 				HomeSSMetaData.EndorsementActionTab.ENDORSEMENT_REASON.getLabel()};
 		
 		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData")
-				.adjust(getStateTestData(tdPolicy, "TestScenario1", "TestData").resolveLinks());
+				.adjust(getTestSpecificTD("TestData").resolveLinks());
 		
 		super.createTestPolicy(policyCreationTD);
 	}

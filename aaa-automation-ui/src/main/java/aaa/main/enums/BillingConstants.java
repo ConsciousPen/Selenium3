@@ -142,7 +142,7 @@ public final class BillingConstants {
         public static final String APPROVE = "Approve";
     }
 
-    public static final class PoliciesResultsBillingStatus {
+    public static final class BillingStatus {
         public static final String ON_HOLD = "On Hold";
         public static final String ACTIVE = "Active";
     }
@@ -262,8 +262,15 @@ public final class BillingConstants {
         public static final String ACTION = "Action";
     }
 
-    public static final class BillingPoliciesResultsTable {
+    public static final class BillingAddOnHoldPoliciesTable {
+        public static final String POLICY_NUM = "Policy #";
+        public static final String TYPE = "Type";
+        public static final String EFF_DATE = "Eff. Date";
+        public static final String PAYMENT_PLAN = "Payment Plan";
+        public static final String POLICY_STATUS = "Policy Status";
         public static final String BILLING_STATUS = "Billing Status";
+        public static final String TOTAL_DUE = "Total Due";
+        public static final String TOTAL_PAID = "Total Paid";
     }
 
     public static final class BillingHoldsAndMoratoriumsTable {
