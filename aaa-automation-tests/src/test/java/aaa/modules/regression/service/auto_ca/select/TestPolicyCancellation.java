@@ -14,8 +14,7 @@ import toolkit.utils.TestInfo;
 /**
  * @author Lei Dai
  * @name Test Midterm Cancellation Auto Policy
- * @scenario
- * 1. Create Customer
+ * @scenario 1. Create Customer
  * 2. Create Auto Policy
  * 3. Midterm Cancellation Policy
  * 4. Verify Policy status is "Policy Cancelled"
@@ -26,15 +25,15 @@ public class TestPolicyCancellation extends PolicyCancellation {
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_CA_SELECT;
 	}
-	
+
 	@Override
 	protected TestData getBackDatedPolicyTD() {
 		return new AutoCaSelectBaseTest().getBackDatedPolicyTD();
 	}
-	
+
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT )
-    public void testPolicyCancellationMidTerm() {
-       super.testPolicyCancellationMidTerm();
-    }
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT)
+	public void testPolicyCancellationMidTerm() {
+		super.testPolicyCancellationMidTerm();
+	}
 }

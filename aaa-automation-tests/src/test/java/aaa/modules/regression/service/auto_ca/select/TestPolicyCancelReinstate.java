@@ -13,16 +13,17 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Tanya Dabolina
- * @name Test Create CA Policy Cancel and Reinstate
- * @scenario 
- * 1. Create Customer 
+ * Name:
+ * Test Create CA Policy Cancel and Reinstate
+ * Scenario:
+ * 1. Create Customer
  * 2. Create CA Select Auto Policy
  * 3. Verify Policy status is '	 Policy Active'
- * 4. Make Cancellation action (with reason 'Insured Non-Payment Of Premium'). 
- * 5. Verify policy status is Cancelled. 
- * 6. Make Reinstatement action.  
+ * 4. Make Cancellation action (with reason 'Insured Non-Payment Of Premium').
+ * 5. Verify policy status is Cancelled.
+ * 6. Make Reinstatement action.
  * 7. Verify policy status is Active.
- * @details
+ *
  */
 public class TestPolicyCancelReinstate extends AutoCaSelectBaseTest {
 
@@ -37,22 +38,19 @@ public class TestPolicyCancelReinstate extends AutoCaSelectBaseTest {
 		createPolicy();
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		
-		
-		
+
+
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-		
-		
-		log.info("TEST: Reinstate Policy With Lapse #" + policyNumber);	 
-		 
-        policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		
-	
 
-		
+
+		log.info("TEST: Reinstate Policy With Lapse #" + policyNumber);
+
+		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+
 	}
 }
 
