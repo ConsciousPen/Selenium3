@@ -33,7 +33,7 @@ import toolkit.utils.TestInfo;
 
 public class TestPolicyPayments extends HomeSSHO3BaseTest {
 
-	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3) 
 	public void testPolicyPayments() {
 		mainApp().open();

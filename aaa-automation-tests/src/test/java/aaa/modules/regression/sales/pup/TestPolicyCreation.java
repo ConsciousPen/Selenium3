@@ -4,6 +4,8 @@ package aaa.modules.regression.sales.pup;
 
 import org.testng.annotations.Test;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
@@ -19,8 +21,8 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyCreation extends PersonalUmbrellaBaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.PUP")
+	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
+	@TestInfo(component = ComponentConstant.Sales.PUP )
     public void testPolicyCreation() {
     	
     	mainApp().open();

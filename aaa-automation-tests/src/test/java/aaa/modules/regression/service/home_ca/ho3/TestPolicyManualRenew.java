@@ -3,6 +3,8 @@ package aaa.modules.regression.service.home_ca.ho3;
 import org.testng.annotations.Test;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.HomeCaPolicyActions;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -23,8 +25,8 @@ public class TestPolicyManualRenew extends HomeCaHO3BaseTest {
      * 7. Check Manual Renew flag
      */
 
-    @Test
-    @TestInfo(component = "Policy.HomeCA")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
     public void testPolicyManualRenew() {
 
         mainApp().open();

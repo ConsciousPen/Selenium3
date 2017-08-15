@@ -6,6 +6,8 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum.SearchBy;
 import aaa.main.enums.SearchEnum.SearchFor;
@@ -31,8 +33,8 @@ public class TestPolicyCancelWithActivePUP extends HomeCaHO3BaseTest {
      * 6.  Confirm cancellation and verify Policy Status 'Policy Cancelled'
      */
 
-    @Test
-    @TestInfo(component = "Policy.HomeCA")
+	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
+	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
     public void testPolicyCancelWithActivePUP() {
         String alert = "Are you sure you want to cancel the underlying home policy? The companion PUP will need review.";
 
