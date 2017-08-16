@@ -594,6 +594,7 @@ TestData_VA: {
   DriverTab: '@DriverTab_VA',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@VehicleTab',
+  AssignmentTab: '@AssignmentTab_VA',
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: '@DriverActivityReportsTab',
@@ -612,6 +613,15 @@ DriverTab_VA: {
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
   License Number: 831278807
+}
+
+AssignmentTab_VA: {
+  DriverVehicleRelationshipTable: ['@AssignedDriver2']
+}
+
+AssignedDriver2: {
+    Driver: 'contains=Jenny',
+    Select Vehicle: 'index=2'
 }
 
 # ------- WV ------

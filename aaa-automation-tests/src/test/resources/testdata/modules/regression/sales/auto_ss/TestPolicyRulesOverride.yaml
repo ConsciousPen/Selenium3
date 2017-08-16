@@ -713,6 +713,7 @@ TestData_VA: {
 DriverTab_VA: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 831278809
 }
 

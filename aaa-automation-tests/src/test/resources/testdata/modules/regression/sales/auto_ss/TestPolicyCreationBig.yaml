@@ -781,6 +781,7 @@ TestData_OK: {
 DriverTab1_OK: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 123123121
 }
 
