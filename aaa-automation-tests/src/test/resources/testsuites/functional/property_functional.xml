@@ -697,7 +697,7 @@
 			<class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCopy" />
 			<class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyManualRenew" />
-			<class name="aaa.modules.regression.sales.home_ca.ho4.TestPolicyCreateHo4Full" />
+			<class name="aaa.modules.regression.sales.home_ca.ho4.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.home_ca.ho6.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.home_ca.dp3.TestPolicyCreation" />
 			<class name="aaa.modules.regression.sales.home_ca.dp3.TestPolicyCreationFull" />
