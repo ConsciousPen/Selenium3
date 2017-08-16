@@ -26,4 +26,34 @@ public class TestINDeltaScenario1 extends INDeltaScenario1 {
 		super.TC02_verifyEndorsements(td_add_Forms);
 	}
 	
+	@Test
+	public void TC03_verifyHS2383() {
+		TestData td_hs2383 = getTestSpecificTD("TestData_addHS2383"); 
+		super.TC03_verifyHS2383(td_hs2383);
+	}
+	
+	@Test
+	public void TC04_verifyQuoteODD() {}
+	
+	
+	@Test
+	public void TC05_verifyHailResistiveRating() {
+		super.TC05_verifyHailResistiveRating();
+	}
+	
+	@Test
+	public void TC06_verifyRoofTypeUneligible() {
+		TestData td_sc1 = getTestSpecificTD("TestData");	
+		super.TC06_verifyRoofTypeUneligible(td_sc1);
+	}	
+	
+	@Test
+	public void TC07_purchasePolicy() {
+		TestData td_sc1 = getTestSpecificTD("TestData");	
+		super.TC07_purchasePolicy(td_sc1, scenarioPolicyType);		
+	}
+	
+	@Test
+	public void TC08_verifyPolicyODD() {}
+	
 }

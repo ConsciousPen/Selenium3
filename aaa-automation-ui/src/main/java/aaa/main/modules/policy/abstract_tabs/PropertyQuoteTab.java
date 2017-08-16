@@ -77,7 +77,8 @@ public abstract class PropertyQuoteTab extends Tab {
 		return coverage.getPercentage(percent).toPlaingString();
 	}
 
-	public static class RatingDetailsView {
+	public static class RatingDetailsView { 
+		public static RatingDetailsTable propertyInformation = new RatingDetailsTable("//table[@id='horatingDetailsPopupForm_1:ratingDetailsTable']");
 		public static RatingDetailsTable discounts = new RatingDetailsTable("//table[@id='horatingDetailsPopupForm_6:ratingDetailsTable']");
 		public static RatingDetailsTable values = new RatingDetailsTable("//table[@id='horatingDetailsPopupForm_5:ratingDetailsTable']");
 		public static Button btn_Ok = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"), Waiters.AJAX);

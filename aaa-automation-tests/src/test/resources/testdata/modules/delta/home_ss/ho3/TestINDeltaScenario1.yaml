@@ -271,52 +271,36 @@ ReportsTab_addHS2383: {
 }
 
 EndorsementTab_addHS2383: {
-  Endorsement_HS2383: '@Endorsement_HS2383'
+  HS 23 83: '@Endorsement_HS2383'
 }
 
 Endorsement_HS2383: {
+  Action: 'Add', 
+  Limit of liability - Other Structures: '1000'
 }
 
 
 # ========= TC05 Override errors verification =========
-TestData_Construction1: {
-  PropertyInfoTab: '@PropertyInfoTab_Construction1'
+TestData_hailResistanceRating: {
+  PropertyInfoTab: '@PropertyInfoTab_hailResistanceRating'
 }
 
-TestData_Construction2: {
-  PropertyInfoTab: '@PropertyInfoTab_Construction2'
+TestData_RoofTypeUneligible: {
+  PropertyInfoTab: '@PropertyInfoTab_RoofTypeUneligible'
 }
 
-TestData_Construction3: {
-  PropertyInfoTab: '@PropertyInfoTab_Construction3'
-}
-
-PropertyInfoTab_Construction1: {
-  Construction: '@Construction_1',
-  HomeRenovation: '@HomeRenovation_1'
-}
-
-PropertyInfoTab_Construction2: {
+PropertyInfoTab_RoofTypeUneligible: {
   Construction: '@Construction_2',
-  HomeRenovation: '@HomeRenovation_2'
+  #HomeRenovation: '@HomeRenovation_2'
 }
 
-PropertyInfoTab_Construction3: {
-  Construction: '@Construction_3',
-  HomeRenovation: '@HomeRenovation_1'
+PropertyInfoTab_RoofTypeUneligible: {
+  Construction: '@Construction_1'
 }
 
 Construction_1: {
-  Year built: '1989',
-  Roof type: 'Asphalt / Fiberglass',
+  Hail-resistance rating: '3',
 }
-
-HomeRenovation_1: { 
-  Roof renovation: 'Partial replace', 
-  "Roof % complete": '50', 
-  "Roof Month of completion": 6, 
-  "Roof Year of completion": '2013' 
-}  
 
 Construction_2: {
   Year built: '2009',
@@ -329,10 +313,5 @@ HomeRenovation_2: {
   "Roof Month of completion": 6, 
   "Roof Year of completion": '2012' 
 }  
-
-Construction_3: {
-  Year built: '2004',
-  Roof type: 'Builtup Tar & Gravel',
-}
 
 
