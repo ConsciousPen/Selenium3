@@ -1,1 +1,8 @@
-TestData: '@ho3@TestScenario2@TestData'
+TestData: {
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Eleven Pay Standard,
+    Coverage C - Personal Property limit: '50|Coverage A - Dwelling limit',
+    Coverage E - Personal Liability Each Occurrence: '$300,000'
+  },
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab_WithAutopay'
+}

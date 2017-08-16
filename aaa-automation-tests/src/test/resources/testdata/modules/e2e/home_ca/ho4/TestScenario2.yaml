@@ -1,1 +1,6 @@
-TestData: '@ho3@TestScenario1@TestData'
+TestData: {
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Eleven Pay Standard,
+  },
+  PurchaseTab: '@<home_ca_ho3>@DataGather@PurchaseTab_WithAutopay'
+}
