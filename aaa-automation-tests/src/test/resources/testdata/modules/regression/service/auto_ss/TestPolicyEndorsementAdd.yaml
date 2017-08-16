@@ -53,6 +53,7 @@ DriverTab: {
 }
 
 RatingDetailReportsTab: {
+  Customer Agreement: Customer Agrees,
   Order Report: click
 }
 

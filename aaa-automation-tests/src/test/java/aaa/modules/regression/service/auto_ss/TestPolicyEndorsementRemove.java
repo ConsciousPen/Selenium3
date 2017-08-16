@@ -14,6 +14,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -31,14 +32,7 @@ public class TestPolicyEndorsementRemove extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
     public void testPolicyEndorsementRemove() {
     	
-        mainApp().open();
-        
-        createCustomerIndividual();
-        
-		log.info("Policy Creation Started...");
-		
-        TestData bigPolicy_td = getPolicyTD("TestPolicyCreationBig", "TestData");
-		getPolicyType().get().createPolicy(bigPolicy_td);
+    	new TestPolicyCreationBig().testPolicyCreationBig();
 		
         CustomAssert.enableSoftMode();
         
