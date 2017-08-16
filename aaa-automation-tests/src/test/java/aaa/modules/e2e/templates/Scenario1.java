@@ -11,6 +11,8 @@ import aaa.helpers.http.HttpStub;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.ProductConstants.*;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
@@ -27,6 +29,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomAssert;
 
 public class Scenario1 extends BaseTest {
 	
@@ -50,10 +53,12 @@ public class Scenario1 extends BaseTest {
 		
 		mainApp().open();
 		createCustomerIndividual();
+
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
+		}
 		policyNumber = createPolicy(policyCreationTD);
-//		policyNumber = "UTH3950536086";
-//		SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, policyNumber);
-		
+
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		policyPremium = PolicySummaryPage.getTotalPremiumSummary();
@@ -61,12 +66,13 @@ public class Scenario1 extends BaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		totalDue = BillingSummaryPage.getTotalDue();
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		installmentAmount = BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(3));
+		CustomAssert.assertEquals("Billing Installments count for Quaterly payment plan", installmentDueDates.size(), 4);
+		installmentAmount = BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(1));
 	}
 	
 	public void TC02_Generate_First_Bill() {
-		generateAndCheckBill(installmentDueDates.get(3));
-		firstBillAmount = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(3), BillingBillsAndStatmentsTable.MINIMUM_DUE));
+		generateAndCheckBill(installmentDueDates.get(1));
+		firstBillAmount = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(1), BillingBillsAndStatmentsTable.MINIMUM_DUE));
 	}
 	
 	public void TC03_Endorse_Policy() {
@@ -85,7 +91,7 @@ public class Scenario1 extends BaseTest {
 			.setSubtypeReason(reason).verifyPresent();
 
 		// AP endorsement didn't increase Bill Amount (bill generated at TC2)
-		Dollar bill = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(3), BillingBillsAndStatmentsTable.MINIMUM_DUE));
+		Dollar bill = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(1), BillingBillsAndStatmentsTable.MINIMUM_DUE));
 		List<Dollar> installmentDues = BillingHelper.getInstallmentDues();
 
 		// The installment schedule is recalculated starting with the Installment which doesn't yet have a bill
@@ -95,7 +101,7 @@ public class Scenario1 extends BaseTest {
 		installmentDues.get(3).verify.moreThan(installmentAmount);
 
 		Dollar totalDue1 = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingAccountPoliciesTable.TOTAL_DUE).getValue());
-		Dollar totalDue2 = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(3), BillingBillsAndStatmentsTable.TOTAL_DUE));
+		Dollar totalDue2 = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(1), BillingBillsAndStatmentsTable.TOTAL_DUE));
 
 		// "Total Due" field is updated to reflect AP amount 
 		totalDue1.verify.moreThan(totalDue);
@@ -103,15 +109,15 @@ public class Scenario1 extends BaseTest {
 	}
 
 	public void TC04_Pay_First_Bill() {
-		payAndCheckBill(installmentDueDates.get(3));
+		payAndCheckBill(installmentDueDates.get(1));
 	}
 
 	public void TC05_Generate_Second_Bill() {
-		generateAndCheckBill(installmentDueDates.get(3));
+		generateAndCheckBill(installmentDueDates.get(2));
 	}
 
 	public void TC06_Pay_Second_Bill() {
-		payAndCheckBill(installmentDueDates.get(3));
+		payAndCheckBill(installmentDueDates.get(2));
 	}
 
 	public void TC07_Generate_Third_Bill() {
@@ -217,8 +223,8 @@ public class Scenario1 extends BaseTest {
 			Dollar firstInstallment = BillingHelper.calculateFirstInstallmentAmount(renewalAmount, 4);
 			Dollar lastInstallment = BillingHelper.calculateLastInstallmentAmount(renewalAmount, 4);
 			BillingHelper.getInstallmentDueByDueDate(policyExpirationDate).verify.equals(firstInstallment);
-			BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(3).plusYears(1)).verify.equals(lastInstallment);
-			BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(3).plusYears(1)).verify.equals(lastInstallment);
+			BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(1).plusYears(1)).verify.equals(lastInstallment);
+			BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(2).plusYears(1)).verify.equals(lastInstallment);
 			BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(3).plusYears(1)).verify.equals(lastInstallment);
 //		}
 		BillingSummaryPage.showPriorTerms();

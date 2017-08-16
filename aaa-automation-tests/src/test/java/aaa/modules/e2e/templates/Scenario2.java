@@ -16,6 +16,8 @@ import aaa.main.enums.BillingConstants.*;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.IPolicy;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
@@ -23,6 +25,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomAssert;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -43,6 +46,10 @@ public class Scenario2 extends BaseTest {
 	public void createTestPolicy(TestData policyCreationTD) {
 		mainApp().open();
 		createCustomerIndividual();
+
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
+		}
 		policyNum = createPolicy(policyCreationTD);
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
@@ -51,6 +58,7 @@ public class Scenario2 extends BaseTest {
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
+		CustomAssert.assertEquals("Billing Installments count for Eleven Pay payment plan", installmentDueDates.size(), 11);
 	}
 
 	public void TC02_Generate_First_Bill() {
@@ -78,7 +86,7 @@ public class Scenario2 extends BaseTest {
 		SearchPage.openBilling(policyNum);
 		// Verify Bill is not generated
 		new BillingBillsAndStatementsVerifier().setDueDate(secondBillGenDate).setType(BillsAndStatementsType.BILL).verifyPresent(false);
-		billingAccount.addHold().perform(tdBilling.getTestData("RemoveHold", "TestData"));
+		billingAccount.removeHold().perform(tdBilling.getTestData("RemoveHold", "TestData"));
 		new BillingAccountPoliciesVerifier().setBillingStatus(BillingStatus.ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 	}
 

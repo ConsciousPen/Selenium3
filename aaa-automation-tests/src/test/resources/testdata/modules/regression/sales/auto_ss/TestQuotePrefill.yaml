@@ -667,8 +667,8 @@ TestData1_MD: {
 
 PrefillTab1_MD: {
   First Name: Michael,
-  Last Name: 20707,
-  Zip Code: 40008,
+  Last Name: Trevor,
+  Zip Code: 20707,
   Address Line 1: 300 Cherry Ln,
   City: Laurel, 
   State: MD,
@@ -798,7 +798,7 @@ TestData1_NJ: {
 PrefillTab1_NJ: {
   First Name: Michael,
   Last Name: Trevor,
-  Zip Code: 07017,
+  Zip Code: '/rx:07017',
   Address Line 1: 414 Gleenwood Ave,
   City: East Orange, 
   State: NJ,
@@ -812,7 +812,7 @@ VerificationData_NJ: {
  First Named Insured: 'Michael Trevor',
  First Name: Michael,
  Last Name: Trevor,
- Zip Code: 07017,
+ Zip Code: '07017',
  Address Line 1: '414 Gleenwood Ave',
  Date of Birth: '05/05/1982',
  License Number: 'A11111222221234'
@@ -830,7 +830,7 @@ TestData2_NJ: {
 PrefillTab2_NJ: {
   First Name: Anna,
   Last Name: Tennant,
-  Zip Code: 07027,
+  Zip Code: '/rx:07027',
   Address Line 1: 200 South Ave,
   City: Garwood, 
   State: NJ,

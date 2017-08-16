@@ -38,16 +38,7 @@ public class TestPolicySplit extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testPolicySplit() {
 
-		mainApp().open();
-
-		//0. Create customer and auto SS policy with 2NI/2Drivers/2Vehicles
-
-		createCustomerIndividual();
-
-		log.info("Policy Creation Started...");
-
-		TestData bigPolicyTd = getPolicyTD("TestPolicyCreationBig", "TestData");
-		getPolicyType().get().createPolicy(bigPolicyTd);
+		new TestPolicyCreationBig().testPolicyCreationBig();
 
 		//SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, "UTSS927278826");
 		//Read and store zip code from UI, will need it to fill values for spun quote

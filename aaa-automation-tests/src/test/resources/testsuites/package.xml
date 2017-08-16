@@ -1,12 +1,16 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Selective execution suite" verbose="1" parallel="methods" thread-count="1024">
+<suite name="Selective execution suite" verbose="1"> <!--parallel="methods" thread-count="1024">
 	<listeners>
 		<listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
 	</listeners>
-	<parameter name="timeshift-scenario-mode" value="method" />
+	<parameter name="timeshift-scenario-mode" value="method" />-->
 	<test name="Package: ${package}; Groups: ${groups}; Excluded Groups: ${excludedgroups}" preserve-order="true">
 		<packages>
-			<package name="aaa.modules.${package}" />
+			<package name="aaa.modules.${package}">
+				<include name="adasd">
+					<
+				</include>
+			</package>
 		</packages>
 	</test>
 </suite>
