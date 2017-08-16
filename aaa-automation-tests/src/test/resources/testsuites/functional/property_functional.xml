@@ -31,6 +31,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreationFull"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 		</classes>
 	</test>
 
