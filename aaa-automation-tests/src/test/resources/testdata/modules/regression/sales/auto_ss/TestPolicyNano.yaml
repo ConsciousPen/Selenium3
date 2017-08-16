@@ -30,7 +30,8 @@ GeneralTab: {
 
 NamedInsuredInformation: {
   Social Security Number: 123456789,
-  "Has lived here for less than three years?": 'No',
+  "Has lived here for less than three years?": 'No', 
+  License Type: 'Licensed (US)',
   Residence: Own Home,
 }
 
@@ -612,6 +613,7 @@ TestData_VA: {
 DriverTab_VA: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: 831278809
 }
 
