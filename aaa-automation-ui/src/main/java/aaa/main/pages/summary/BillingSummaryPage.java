@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.pages.summary;
 
+import aaa.main.enums.BillingConstants;
 import org.openqa.selenium.By;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -74,5 +75,9 @@ public class BillingSummaryPage extends SummaryPage {
         if (buttonShowPriorTerms.isPresent() && buttonShowPriorTerms.isVisible() && buttonShowPriorTerms.isEnabled()) {
             buttonShowPriorTerms.click();
         }
+    }
+
+    public static Dollar getBillableAmount() {
+        return new Dollar(tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.BILLABLE_AMOUNT).getValue());
     }
 }

@@ -130,14 +130,14 @@ public class TestPolicyMembershipDiscount extends HomeSSHO3BaseTest {
         policyNumber1 = PolicySummaryPage.labelPolicyNumber.getValue();
         log.info("TEST: HSS Policy1 created with #" + policyNumber1);
         
-        CustomAssert.assertTrue("Policy#1 creation: Term Premium is wrong on Cons view", origPolicyTermPremium.equals(PolicySummaryPage.getTotalPremiumSummary()));
+        CustomAssert.assertTrue("Policy#1 creation: Term Premium is wrong on Cons view", origPolicyTermPremium.equals(PolicySummaryPage.getTotalPremiumSummaryForProperty()));
 
         
         policy.copyPolicy(td_CopyPolicy);
         policyNumber2 = PolicySummaryPage.labelPolicyNumber.getValue();
         
         policy.copyPolicy(td_CopyPolicy);
-        policyNumber3 = PolicySummaryPage.labelPolicyNumber.getValue();
+        policyNumber3 = PolicySummaryPage.labelPolicyNumber.getValue();;
         
         policy.copyPolicy(td_CopyPolicy);
         policyNumber4 = PolicySummaryPage.labelPolicyNumber.getValue();
@@ -168,7 +168,7 @@ public class TestPolicyMembershipDiscount extends HomeSSHO3BaseTest {
         
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
-        CustomAssert.assertTrue("Policy#1 endorsement: Term Premium is wrong on Cons view", origPolicyTermPremium.equals(PolicySummaryPage.getTotalPremiumSummary()));
+        CustomAssert.assertTrue("Policy#1 endorsement: Term Premium is wrong on Cons view", origPolicyTermPremium.equals(PolicySummaryPage.getTotalPremiumSummaryForProperty()));
         
         //=================================Policy#2=================================
         //Policy#2 endorsement with effective date is Today + 1 day, set Membership to 'Yes'
@@ -194,7 +194,7 @@ public class TestPolicyMembershipDiscount extends HomeSSHO3BaseTest {
         new BindTab().submitTab();
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
-        CustomAssert.assertTrue("Policy#2 endorsement: Term Premium is wrong on Cons view", origPolicyTermPremium.equals(PolicySummaryPage.getTotalPremiumSummary()));
+        CustomAssert.assertTrue("Policy#2 endorsement: Term Premium is wrong on Cons view", origPolicyTermPremium.equals(PolicySummaryPage.getTotalPremiumSummaryForProperty()));
         
         //===============================Policy#3===================================
         //Policy#3 endorsement with effective date is Today, set Membership to 'No'
@@ -232,7 +232,7 @@ public class TestPolicyMembershipDiscount extends HomeSSHO3BaseTest {
         new BindTab().submitTab();
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
-        CustomAssert.assertTrue("Policy#3 endorsement: Term Premium is wrong on Cons view", origPolicyTermPremium.equals(PolicySummaryPage.getTotalPremiumSummary()));
+        CustomAssert.assertTrue("Policy#3 endorsement: Term Premium is wrong on Cons view", origPolicyTermPremium.equals(PolicySummaryPage.getTotalPremiumSummaryForProperty()));
         
         //===============================Policy#4==================================
         //Policy#4 endorsement with effective date is Today + 1 day, set Membership to 'No'
@@ -270,7 +270,7 @@ public class TestPolicyMembershipDiscount extends HomeSSHO3BaseTest {
         new BindTab().submitTab();
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
-        CustomAssert.assertTrue("Policy#4 endorsement: Term Premium is wrong on Cons view", origPolicyTermPremium.equals(PolicySummaryPage.getTotalPremiumSummary()));
+        CustomAssert.assertTrue("Policy#4 endorsement: Term Premium is wrong on Cons view", origPolicyTermPremium.equals(PolicySummaryPage.getTotalPremiumSummaryForProperty()));
         
         CustomAssert.assertAll();
         

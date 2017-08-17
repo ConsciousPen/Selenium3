@@ -71,6 +71,6 @@ public class TestQuoteAdvancedRater extends HomeCaHO3BaseTest {
         policy.getDefaultView().fillFromTo(getPolicyTD(), MortgageesTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
 
-        PolicySummaryPage.getTotalPremiumSummary().verify.equals(newCoverageEPremiumValue);
+        PolicySummaryPage.getTotalPremiumSummaryForProperty().verify.equals(newCoverageEPremiumValue);
     }
 }
