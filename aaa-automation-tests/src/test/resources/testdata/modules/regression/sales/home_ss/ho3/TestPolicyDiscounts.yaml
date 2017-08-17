@@ -1,26 +1,26 @@
 TestData: {
-  GeneralTab: '@DataGather@GeneralTab',
+  GeneralTab: '@<home_ss_ho3>@DataGather@GeneralTab',
   ApplicantTab: '@ApplicantTab',
-  ReportsTab: '@DataGather@ReportsTab',
-  PropertyInfoTab: '@DataGather@PropertyInfoTab',
-  ProductOfferingTab: '@DataGather@ProductOfferingTab',
-  EndorsementTab: '@DataGather@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@DataGather@PremiumsAndCoveragesQuoteTab',
-  MortgageesTab: '@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@DataGather@DocumentsTab',
-  BindTab: '@DataGather@BindTab',
-  PurchaseTab: '@DataGather@PurchaseTab'
+  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab',
+  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+  ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
+  EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
 }
 
 ApplicantTab: {
-  NamedInsured: '@DataGather@NamedInsured',
-  AAAMembership: '@DataGather@AAAMembership',
-  DwellingAddress: '@DataGather@DwellingAddress',
+  NamedInsured: '@<home_ss_ho3>@DataGather@NamedInsured',
+  AAAMembership: '@<home_ss_ho3>@DataGather@AAAMembership',
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress',
   PreviousDwellingAddress: {},
   MailingAddress: {},
-  NamedInsuredInformation: '@DataGather@NamedInsuredInformation',
-  AgentInfo: '@DataGather@AgentInfo',
+  NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
 }
 
