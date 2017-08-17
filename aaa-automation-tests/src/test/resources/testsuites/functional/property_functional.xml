@@ -294,14 +294,14 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 		</classes>
 	</test>
-
+<!--
 	<test name="KY PUP Functional Tests">
 		<parameter name="state" value="KY" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 		</classes>
 	</test>
- 
+ -->
 	<test name="MD HSS Functional Tests">
 		<parameter name="state" value="MD" />
 		<classes>

@@ -159,7 +159,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
    		</classes>
     </test>
-	<!--
+
 	<test name="KY Auto Functional Tests">
 	    <parameter name="state" value="KY"/>
     	<classes>
@@ -176,7 +176,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
    		</classes>
     </test>
-	-->
+
 	<test name="MD Auto Functional Tests">
 	    <parameter name="state" value="MD"/>
     	<classes>
