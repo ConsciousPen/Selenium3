@@ -1,41 +1,48 @@
 TestData: {
   EndorsementActionTab: {
     Endorsement Date: /today,
-    Endorsement Reason: Maintain Vehicle(s)
+    Endorsement Reason: index=1,
+  }
+}
+
+TestData_Plus1Day: {
+  EndorsementActionTab: {
+    Endorsement Date: '/today+1d:MM/dd/yyyy',
+    Endorsement Reason: 'index=1'
+  }
+}
+
+TestData_Plus3Days: {
+  EndorsementActionTab: {
+    Endorsement Date: /today+3d,
+    Endorsement Reason: index=1,
   }
 }
 
 TestData_Plus1Month: {
   EndorsementActionTab: {
     Endorsement Date: /today+1m,
-    Endorsement Reason: Maintain Vehicle(s)
+    Endorsement Reason: index=1,
   }
 }
 
 TestData_Minus1Week: {
   EndorsementActionTab: {
     Endorsement Date: /today-7d,
-    Endorsement Reason: Maintain Vehicle(s)
+    Endorsement Reason: index=1,
   }
 }
 
 TestData_Minus1Day: {
   EndorsementActionTab: {
     Endorsement Date: /today-1d,
-    Endorsement Reason: Maintain Vehicle(s)
+    Endorsement Reason: index=1,
   }
 }
-
+  
 TestData_Plus10Day: {
   EndorsementActionTab: {
     Endorsement Date: /today+10d,
-    Endorsement Reason: Maintain Vehicle(s)
-  }
-}
-
-TestData_Plus5Day: {
-  EndorsementActionTab: {
-    Endorsement Date: /today+5d,
-    Endorsement Reason: Maintain Vehicle(s)
+    Endorsement Reason: index=1,
   }
 }
