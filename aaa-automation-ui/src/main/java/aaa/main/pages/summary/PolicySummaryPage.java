@@ -73,7 +73,8 @@ public class PolicySummaryPage extends SummaryPage {
     public static Table tableCoveragePremiumSummary = new Table(By.id("policyDataGatherForm:policySummary_ListCLGLPremOpsProdCoveragePremiumSummary"));
     public static Table tableCompare = new Table(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']/table[@role='treegrid']"));
     public static Table tableOtherUnderlyingRisks = new Table(By.xpath("//div[@id='productConsolidatedViewForm:pupUnderlyingRiskPanel_body'//table"));
-    public static Table tableTotalPremiumSummary = new Table(By.id("productConsolidatedViewForm:totalSummaryTable"));
+    public static Table tableTotalPremiumSummary = new Table(By.xpath("//table[@id='productConsolidatedViewForm:totalSummaryTable'"
+    		+ "or @id='productConsolidatedViewForm:pupTableTotalPremium']"));
     public static Table tablePupPropertyInformation = new Table(By.id("productConsolidatedViewForm:body_scolumn_PupConsolidatedPropertyInfo"));
     //cea
     public static Table tablePaymentSummary = new Table(By.xpath("//table[@id='productConsolidatedViewForm:billing_transactions_active']"));

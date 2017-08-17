@@ -3,11 +3,14 @@
 package aaa.main.metadata.policy;
 
 import org.openqa.selenium.By;
+
 import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
+
 import aaa.common.pages.Page;
 import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdditionalPoliciesMultiAssetList;
+import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
@@ -17,6 +20,7 @@ import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.DoubleTextBox;
+import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
@@ -669,6 +673,19 @@ public final class PersonalUmbrellaMetaData {
 		
 	}
 
+	public static final class ErrorTab extends MetaData {
+        public static final AssetDescriptor<FillableErrorTable> ERROR_OVERRIDE = declare("ErrorsOverride", FillableErrorTable.class, RuleRow.class, By.id("errorsForm:msgList"));
+
+        public static final class RuleRow extends MetaData {
+            public static final AssetDescriptor<CheckBox> OVERRIDE = declare("Override", CheckBox.class);
+            public static final AssetDescriptor<CheckBox> APPROVAL = declare("Approval", CheckBox.class);
+            public static final AssetDescriptor<Link> CODE = declare("Code", Link.class);
+            public static final AssetDescriptor<StaticElement> SEVERITY = declare("Severity", StaticElement.class);
+            public static final AssetDescriptor<StaticElement> MESSAGE = declare("Message", StaticElement.class);
+            public static final AssetDescriptor<RadioGroup> DURATION = declare("Duration", RadioGroup.class);
+            public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class);
+        }
+    }
 	///
 	
 

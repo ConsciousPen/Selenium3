@@ -4,10 +4,13 @@ package aaa.main.modules.policy.pup.defaulttabs;
 
 import org.openqa.selenium.By;
 
+import com.exigen.ipb.etcsa.utils.Dollar;
+
 import aaa.common.Tab;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
@@ -23,6 +26,7 @@ public class PremiumAndCoveragesQuoteTab extends Tab {
     
     public static Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:calculatePremiumPup"), Waiters.AJAX);
 	public static Button btnContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
+	public static Table tableTotalPremium = new Table(By.id("policyDataGatherForm:pupTableTotalPremium"));
 
 	@Override
 	public Tab fillTab(TestData td) {
@@ -39,5 +43,9 @@ public class PremiumAndCoveragesQuoteTab extends Tab {
     public Tab submitTab() {
     	btnContinue.click();
         return this;
+    }
+    
+    public static Dollar getPolicyTermPremium() {
+		return new Dollar(tableTotalPremium.getRow(1).getCell(2).getValue());
     }
 }

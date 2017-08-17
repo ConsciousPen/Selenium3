@@ -21,6 +21,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
      	
@@ -37,6 +38,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
 
@@ -53,6 +55,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
     		
@@ -69,6 +72,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
     	
@@ -85,6 +89,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
     
@@ -101,6 +106,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
     	
@@ -117,6 +123,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
     	
@@ -133,6 +140,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
     	
@@ -149,6 +157,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
     	
@@ -165,6 +174,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
     	
@@ -181,6 +191,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
     	
@@ -197,6 +208,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
     	
@@ -213,6 +225,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
     	
@@ -229,6 +242,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
     	
@@ -245,6 +259,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
     	
@@ -261,6 +276,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
     	
@@ -277,6 +293,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
     	
@@ -293,6 +310,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
     	
@@ -309,6 +327,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
     	
@@ -325,6 +344,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
     	
@@ -341,6 +361,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
     	
@@ -357,6 +378,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
     	
@@ -373,6 +395,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
     	
@@ -389,6 +412,7 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
+			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater"/>
    		</classes>
     </test>
 
