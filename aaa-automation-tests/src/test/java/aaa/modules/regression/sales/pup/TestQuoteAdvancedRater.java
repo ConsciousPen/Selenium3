@@ -43,7 +43,6 @@ public class TestQuoteAdvancedRater extends PersonalUmbrellaBaseTest {
 		PremiumAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumAndCoveragesQuoteTab();
         String expectedPersonalUmbrellaValue = "$1,000,000";
         mainApp().open();
-        //SearchPage.search(SearchFor.QUOTE, SearchBy.POLICY_QUOTE, "QUTPU927440171");
         createCustomerIndividual();
         createQuote();
         policy.dataGather().start();
