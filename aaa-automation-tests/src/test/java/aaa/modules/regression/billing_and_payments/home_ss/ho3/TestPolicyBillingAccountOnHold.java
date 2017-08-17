@@ -53,7 +53,7 @@ public class TestPolicyBillingAccountOnHold extends HomeSSHO3BaseTest {
 		BillingSummaryPage.open();
 		billingAccount.addHold().start();
 
-		ahaTab.fillTab(tdBilling.getTestData("AddHold", "TestData_1"));
+		ahaTab.fillTab(getTestSpecificTD("TestData_1"));
 		AddHoldActionTab.buttonAddUpdate.click();
 		ahaTab.verifyFieldHasMessage(BillingAccountMetaData.AddHoldActionTab.HOLD_NAME.getLabel(), "Value is required");
 		ahaTab.verifyFieldHasMessage(BillingAccountMetaData.AddHoldActionTab.HOLD_DESCRIPTION.getLabel(), "Value is required");
@@ -61,17 +61,17 @@ public class TestPolicyBillingAccountOnHold extends HomeSSHO3BaseTest {
 		ahaTab.verifyFieldHasMessage(BillingAccountMetaData.AddHoldActionTab.HOLD_EFFECTIVE_DATE.getLabel(), "Cannot be earlier than today");
 		ahaTab.verifyFieldHasMessage(BillingAccountMetaData.AddHoldActionTab.HOLD_EXPIRATION_DATE.getLabel(), "Date must be after effective date");
 
-		ahaTab.fillTab(tdBilling.getTestData("AddHold", "TestData_1").adjust(TestData.makeKeyPath("AddHoldActionTab", "Reason"), "Other"));
+		ahaTab.fillTab(getTestSpecificTD("TestData_1").adjust(TestData.makeKeyPath("AddHoldActionTab", "Reason"), "Other"));
 		AddHoldActionTab.buttonAddUpdate.click();
 		ahaTab.verifyFieldHasMessage(BillingAccountMetaData.AddHoldActionTab.ADDITIONAL_INFO.getLabel(), "Value is required");
 
 		//Step #10
-		ahaTab.fillTab(tdBilling.getTestData("AddHold", "TestData_2"));
+		ahaTab.fillTab(getTestSpecificTD("TestData_2"));
 		billingAccount.addHold().submit();
 
 		new BillingAccountPoliciesVerifier().setBillingStatus(BillingConstants.BillingStatus.ON_HOLD).verify(1);
 
-		billingAccount.removeHold().perform(tdBilling.getTestData("RemoveHold", "TestData"));
+		billingAccount.removeHold().perform(getTestSpecificTD("RemoveHold"));
 		new BillingAccountPoliciesVerifier().setBillingStatus(BillingConstants.BillingStatus.ACTIVE).verify(1);
 	}
 }

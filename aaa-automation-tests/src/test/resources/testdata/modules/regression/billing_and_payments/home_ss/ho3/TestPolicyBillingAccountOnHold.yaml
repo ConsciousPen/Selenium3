@@ -21,3 +21,12 @@ TestData_2: {
     Expiration Date: '/today+1d',
   }
 }
+
+RemoveHold: {
+  AddHoldActionTab: {
+    Billing Holds and Moratoriums: [{
+      Actions: 'Remove',
+      Confirm remove hold: 'click'
+    }],
+  }
+}
