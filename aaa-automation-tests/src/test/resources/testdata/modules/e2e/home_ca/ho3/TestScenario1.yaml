@@ -1,6 +1,6 @@
 TestData: {
   PremiumsAndCoveragesQuoteTab: {
-    Payment plan: Quarterly,
+    Payment Plan: Quarterly,
     Coverage C - Personal Property limit: '75|Coverage A - Dwelling limit',
     Coverage D - Loss of Use limit: '45|Coverage A - Dwelling limit'
   },
@@ -14,7 +14,7 @@ TestData_Endorsement: {
   ReportsTab: {},
   PropertyInfoTab: {
     PropertyValue: {
-      Coverage A - Dwelling limit: 174000
+      Coverage A - Dwelling limit: 83000
     }
   },
   ProductOfferingTab: {},

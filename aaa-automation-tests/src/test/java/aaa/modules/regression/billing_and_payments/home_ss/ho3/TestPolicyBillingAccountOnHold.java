@@ -71,7 +71,7 @@ public class TestPolicyBillingAccountOnHold extends HomeSSHO3BaseTest {
 
 		new BillingAccountPoliciesVerifier().setBillingStatus(BillingConstants.BillingStatus.ON_HOLD).verify(1);
 
-		billingAccount.removeHold().perform(getTestSpecificTD("RemoveHold"));
+		billingAccount.removeHold().perform(tdBilling.getTestData("RemoveHold", "TestData"));
 		new BillingAccountPoliciesVerifier().setBillingStatus(BillingConstants.BillingStatus.ACTIVE).verify(1);
 	}
 }
