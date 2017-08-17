@@ -49,8 +49,7 @@ public class TestPolicyBillingAccountOnHold extends HomeSSHO3BaseTest {
 		AddHoldActionTab ahaTab = new AddHoldActionTab();
 
 		mainApp().open();
-		createCustomerIndividual();
-		createPolicy();
+		getCopiedPolicy();
 		BillingSummaryPage.open();
 		billingAccount.addHold().start();
 
