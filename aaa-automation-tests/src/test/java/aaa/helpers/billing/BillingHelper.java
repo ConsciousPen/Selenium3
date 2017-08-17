@@ -160,10 +160,9 @@ public final class BillingHelper {
 		HashMap<String, String> values = new HashMap<>();
 		values.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.FEE);
 		values.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, date.format(DateTimeUtils.MM_DD_YYYY));
-		List<Row> feeRows = BillingSummaryPage.tablePaymentsOtherTransactions.getRows(values);
-		
-		for (Row row : feeRows) {
-			amount = amount.add(new Dollar(row.getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()));
+		List<String> feeValues = BillingSummaryPage.tablePaymentsOtherTransactions.getValuesFromRows(values, BillingPaymentsAndOtherTransactionsTable.AMOUNT);
+		for (String fee : feeValues) {
+			amount = amount.add(new Dollar(fee));
 		}
 		return amount;
 	}

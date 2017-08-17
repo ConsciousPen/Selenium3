@@ -607,6 +607,7 @@ public final class PersonalUmbrellaMetaData {
 		public static final AssetDescriptor<TextBox> REMARKS = declare("Remarks", TextBox.class, Waiters.AJAX);
 		
 		public static final AssetDescriptor<TextBox> REMARK_CANCELLED_POLICY = declare("Remark Cancelled Policy", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:underwritingQuestion_UWQuestionPolicyCancelled_remarks']"));
+		public static final AssetDescriptor<TextBox> REMARK_CANCELLED_POLICY_EXTN = declare("Remark Cancelled Policy Extn", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:underwritingQuestion_UWQuestionPolicyCancelledExtn_remarks']"));
 		public static final AssetDescriptor<TextBox> REMARK_PROPERTY_OUTSUDE_US = declare("Remark Property Outside US", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:underwritingQuestion_UWQuestionForeignProperty_remarks']"));
 		public static final AssetDescriptor<TextBox> REMARK_NOT_PLEASURE_VEHICLE = declare("Remark Vehicles not for personal/pleasure use", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:underwritingQuestion_UWQuestionVehicleForUnauthorizedUse_remarks']"));
 		public static final AssetDescriptor<TextBox> REMARK_COMMERCIAL_VEHICLE = declare("Remark Commercial Vehicle", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:underwritingQuestion_UWQuestionCommercialVehicle_remarks']"));
@@ -672,20 +673,21 @@ public final class PersonalUmbrellaMetaData {
 	public static final class BindTab extends MetaData {
 		
 	}
-
+	
 	public static final class ErrorTab extends MetaData {
-        public static final AssetDescriptor<FillableErrorTable> ERROR_OVERRIDE = declare("ErrorsOverride", FillableErrorTable.class, RuleRow.class, By.id("errorsForm:msgList"));
+		public static final AssetDescriptor<FillableErrorTable> ERROR_OVERRIDE = declare("ErrorsOverride", FillableErrorTable.class, RuleRow.class, By.id("errorsForm:msgList"));
 
-        public static final class RuleRow extends MetaData {
-            public static final AssetDescriptor<CheckBox> OVERRIDE = declare("Override", CheckBox.class);
-            public static final AssetDescriptor<CheckBox> APPROVAL = declare("Approval", CheckBox.class);
-            public static final AssetDescriptor<Link> CODE = declare("Code", Link.class);
-            public static final AssetDescriptor<StaticElement> SEVERITY = declare("Severity", StaticElement.class);
-            public static final AssetDescriptor<StaticElement> MESSAGE = declare("Message", StaticElement.class);
-            public static final AssetDescriptor<RadioGroup> DURATION = declare("Duration", RadioGroup.class);
-            public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class);
-        }
-    }
+		public static final class RuleRow extends MetaData {
+			public static final AssetDescriptor<CheckBox> OVERRIDE = declare("Override", CheckBox.class);
+			public static final AssetDescriptor<CheckBox> APPROVAL = declare("Approval", CheckBox.class);
+			public static final AssetDescriptor<Link> CODE = declare("Code", Link.class);
+			public static final AssetDescriptor<StaticElement> SEVERITY = declare("Severity", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> MESSAGE = declare("Message", StaticElement.class);
+			public static final AssetDescriptor<RadioGroup> DURATION = declare("Duration", RadioGroup.class);
+			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class);
+		}
+	}
+
 	///
 	
 

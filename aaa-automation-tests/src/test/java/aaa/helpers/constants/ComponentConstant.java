@@ -138,5 +138,6 @@ public class ComponentConstant {
 	}
 
 	public final class Common {
+		public static final String SEARCH = "Common.Search";
 	}
 }

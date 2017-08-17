@@ -78,7 +78,7 @@ public class LoginPage extends Page implements ILogin {
 		btnLogin.click();
 	}
 
-	public void fillLogin(TestData td) {
+	public TestData fillLogin(TestData td) {
 		startLogin();
 		if (td.containsKey(LoginPageMeta.STATES.getLabel()))
 			login.getAsset(LoginPageMeta.STATES.getLabel(), ListBox.class).unsetAllValues();
@@ -86,6 +86,7 @@ public class LoginPage extends Page implements ILogin {
 			login.getAsset(LoginPageMeta.GROUPS.getLabel(), ListBox.class).unsetAllValues();
 		login.setValue(td);
 		btnLogin.click();
+		return td;
 	}
 
 	public void switchToAdmin() {
@@ -128,7 +129,7 @@ public class LoginPage extends Page implements ILogin {
 			if(isPageDisplayed())
 				fillLogin(username, password);
 		}
-		setApplicationLogFileName();
+		//setApplicationLogFileName();
 	}
 
 	@Override
@@ -168,7 +169,7 @@ public class LoginPage extends Page implements ILogin {
 			if(isPageDisplayed())
 				fillLogin(td);
 		}
-		setApplicationLogFileName();
+		setApplicationLogFileName(td.getValue(LoginPageMeta.STATES.getLabel()));
 	}
 
 	private String getTestClassName() {
@@ -180,9 +181,9 @@ public class LoginPage extends Page implements ILogin {
 			return result.getClassName();
 	}
 
-	private void setApplicationLogFileName() {
+	private void setApplicationLogFileName(String state) {
 		String className = getTestClassName();
-		BrowserController.get().open(BrowserController.get().driver().getCurrentUrl().replace("#noback", "") + "&scenarioName=" + className);
+		BrowserController.get().open(BrowserController.get().driver().getCurrentUrl().replace("#noback", "") + "&scenarioName=" + className+"_"+ state);
 	}
 
 }

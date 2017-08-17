@@ -113,7 +113,7 @@ public class TestPolicySafeDiscount extends HomeSSHO3BaseTest {
         log.info("TEST: HSS Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
         
         CustomAssert.assertTrue("Incorrect premium value on Consolidated page", 
-        		premiumWithDiscount.equals(PolicySummaryPage.getTotalPremiumSummary()));
+        		premiumWithDiscount.equals(PolicySummaryPage.getTotalPremiumSummaryForProperty()));
         CustomAssert.assertAll();
         
 	}

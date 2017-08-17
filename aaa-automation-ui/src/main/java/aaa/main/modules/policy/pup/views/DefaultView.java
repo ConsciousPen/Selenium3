@@ -3,7 +3,6 @@
 package aaa.main.modules.policy.pup.views;
 
 import aaa.common.Workspace;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.ClaimsTab;
 import aaa.main.modules.policy.pup.defaulttabs.DocumentsTab;
@@ -40,7 +39,6 @@ public class DefaultView extends Workspace {
         registerTab(UnderwritingAndApprovalTab.class);
         registerTab(DocumentsTab.class);
         registerTab(BindTab.class);
-        registerTab(ErrorTab.class);
         registerTab(PurchaseTab.class);
     }
 }

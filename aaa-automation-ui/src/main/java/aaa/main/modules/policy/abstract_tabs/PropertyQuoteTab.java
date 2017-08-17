@@ -4,6 +4,7 @@
  */
 package aaa.main.modules.policy.abstract_tabs;
 
+import aaa.common.components.Dialog;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
@@ -12,9 +13,12 @@ import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
+
+import java.text.DecimalFormat;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -27,11 +31,21 @@ import toolkit.webdriver.controls.waiters.Waiters;
  */
 public abstract class PropertyQuoteTab extends Tab {
 
+	public static Table tableEndorsementForms = new Table(By.id("policyDataGatherForm:formSummaryTable"));
+	public static Button btnOverridePremium = new Button(By.id("policyDataGatherForm:overridePremiumLinkHo"));
 	public static Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalcCov"), Waiters.AJAX);
 	public static Table tablePremiumSummary = new Table(By.id("policyDataGatherForm:riskItemPremiumInfoTable"));
 	public static Table tableTotalPremiumSummary = new Table(By.id("policyDataGatherForm:totalSummaryTable"));
+	public static Table tableTotalDwellingSummary = new Table(By.id("policyDataGatherForm:dwellingSummaryTable"));
 	public static Table tableDiscounts = new Table(By.id("policyDataGatherForm:discountInfoTable"));
 	public static Link linkViewRatingDetails = new Link(By.id("policyDataGatherForm:ratingHODetailsPopup"), Waiters.AJAX);
+	//	public static Table tableOverrideValues = new Table(By.xpath("//div[@id='coverage_information']/table[class='width100']"));
+	public static TextBox textBoxOverrideFlatAmount =  new TextBox(By.id("premiumOverrideInfoFormAAAHOPremiumOverride:deltaPremiumAmt"), Waiters.AJAX);
+	public static TextBox textBoxOverridePercentageAmount =  new TextBox(By.id("premiumOverrideInfoFormAAAHOPremiumOverride:percentageAmt"), Waiters.AJAX);
+	public static Dialog dialogOverridePremium= new Dialog(By.xpath("//form[@id='premiumOverrideInfoFormAAAHOPremiumOverride']"));
+	public static Dialog dialogOverrideConfirmation= new Dialog(By.id("overrideModalConfirmationDialog_container"));
+	public static StaticElement lblOverridenPremium = new StaticElement(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHOPreCovInfoMsg_body']/div[@class='buttonsBlockInline width100 noSurround neutral_background buttons alignLeft']"));
+	public static StaticElement lblErrorMessage = new StaticElement(By.xpath("//span[@class='error_message']"));
 	public Button btnContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
 	protected PropertyQuoteTab(Class<? extends MetaData> mdClass) {
 		super(mdClass);
@@ -42,14 +56,45 @@ public abstract class PropertyQuoteTab extends Tab {
 		//return new Dollar(tblTotalPremiumSummary.getRow(1).getCell(tblTotalPremiumSummary.getColumnsCount()-2).getValue());
 	}
 
+	public static Dollar getPolicyDwellingPremium() {
+		return new Dollar(tableTotalDwellingSummary.getRow(1).getCell(tableTotalPremiumSummary.getColumnsCount()).getValue());
+			}
+
 	public static Dollar getEndorsedPolicyTermPremium() {
 		return new Dollar(tableTotalPremiumSummary.getRow(1).getCell(tableTotalPremiumSummary.getColumnsCount() - 2).getValue());
 	}
+
+	public static Dollar getOverridenPremiumFlatAmount() {
+		return new Dollar(textBoxOverrideFlatAmount.getValue());
+	}
+
+	public static Double getOverridenPremiumPercentageAmount() {
+		DecimalFormat df = new DecimalFormat("#.##");
+		return new Double (df.format(new Double(textBoxOverridePercentageAmount.getValue())));
+	}
+
+	public static Dollar calculatedOverrideFlatAmount(){
+		return new Dollar (getPolicyDwellingPremium().getPercentage(getOverridenPremiumPercentageAmount()));
+	}
+
+	public static Double calculatedOverridePercentageAmount(){
+		DecimalFormat df = new DecimalFormat("#.##");
+		return new Double(df.format((new Double(getOverridenPremiumFlatAmount().toPlaingString())/
+				(new Double(getPolicyDwellingPremium().toPlaingString()))*100)));
+	}
+
 
 	@Override
 	public Tab fillTab(TestData td) {
 		super.fillTab(convertValue(td));
 		calculatePremium();
+		return this;
+	}
+
+	public Tab fillTab(TestData td, boolean calculatePremium) {
+		super.fillTab(convertValue(td));
+		if (calculatePremium)
+			calculatePremium();
 		return this;
 	}
 
@@ -77,7 +122,8 @@ public abstract class PropertyQuoteTab extends Tab {
 		return coverage.getPercentage(percent).toPlaingString();
 	}
 
-	public static class RatingDetailsView {
+	public static class RatingDetailsView { 
+		public static RatingDetailsTable propertyInformation = new RatingDetailsTable("//table[@id='horatingDetailsPopupForm_1:ratingDetailsTable']");
 		public static RatingDetailsTable discounts = new RatingDetailsTable("//table[@id='horatingDetailsPopupForm_6:ratingDetailsTable']");
 		public static RatingDetailsTable values = new RatingDetailsTable("//table[@id='horatingDetailsPopupForm_5:ratingDetailsTable']");
 		public static Button btn_Ok = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"), Waiters.AJAX);

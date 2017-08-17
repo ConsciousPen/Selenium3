@@ -31,6 +31,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreationFull"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 		</classes>
 	</test>
 
@@ -38,6 +39,7 @@
 		<parameter name="state" value="UT" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -67,6 +69,7 @@
 		<parameter name="state" value="AZ" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -96,6 +99,7 @@
 		<parameter name="state" value="CO" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -125,6 +129,7 @@
 		<parameter name="state" value="CT" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -154,6 +159,7 @@
 		<parameter name="state" value="DC" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -183,6 +189,7 @@
 		<parameter name="state" value="DE" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -212,6 +219,7 @@
 		<parameter name="state" value="ID" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -241,6 +249,7 @@
 		<parameter name="state" value="IN" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -270,6 +279,7 @@
 		<parameter name="state" value="KS" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -299,6 +309,7 @@
 		<parameter name="state" value="KY" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
  
@@ -328,6 +339,7 @@
 		<parameter name="state" value="MD" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -357,6 +369,7 @@
 		<parameter name="state" value="MT" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -386,6 +399,7 @@
 		<parameter name="state" value="NJ" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -415,6 +429,7 @@
 		<parameter name="state" value="NV" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -444,6 +459,7 @@
 		<parameter name="state" value="NY" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -473,6 +489,7 @@
 		<parameter name="state" value="OH" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -502,6 +519,7 @@
 		<parameter name="state" value="OK" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -531,6 +549,7 @@
 		<parameter name="state" value="OR" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -560,6 +579,7 @@
 		<parameter name="state" value="PA" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -589,6 +609,7 @@
 		<parameter name="state" value="SD" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -618,6 +639,7 @@
 		<parameter name="state" value="VA" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -647,6 +669,7 @@
 		<parameter name="state" value="WV" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -676,6 +699,7 @@
 		<parameter name="state" value="WY" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 
@@ -696,7 +720,7 @@
 			<class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCopy" />
 			<class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyManualRenew" />
-			<class name="aaa.modules.regression.sales.home_ca.ho4.TestPolicyCreateHo4Full" />
+			<class name="aaa.modules.regression.sales.home_ca.ho4.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.home_ca.ho6.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.home_ca.dp3.TestPolicyCreation" />
 			<class name="aaa.modules.regression.sales.home_ca.dp3.TestPolicyCreationFull" />
@@ -707,6 +731,7 @@
 		<parameter name="state" value="CA" />
 		<classes>
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 		</classes>
 	</test>
 

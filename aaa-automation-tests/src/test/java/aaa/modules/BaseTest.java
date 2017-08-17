@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import aaa.helpers.AaaTestListener;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +47,7 @@ import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.teststoragex.listeners.TestngTestListener2;
 import toolkit.verification.CustomAssert;
 
-@Listeners({TestngTestListener2.class})
+@Listeners({AaaTestListener.class})
 public class BaseTest {
 
 	protected static Logger log = LoggerFactory.getLogger(BaseTest.class);

@@ -1,0 +1,420 @@
+TestData_UW1: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1'
+}
+
+UnderwritingAndApprovalTab_UW1: {
+  "Have any applicants had a prior insurance policy cancelled, refused or non-renewed in the past 3 years?":  'No',  
+  "Has the applicant been sued for libel or slander?": 'Yes',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'No',
+  "Is any business, home day care or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'Yes',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'Yes',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'No',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'Yes',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?": 'Yes',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes',
+  "Total number of part time and full time resident employees": '2',
+  Remark Resident Employees: 'Remarks',
+  "Are any applicants or insureds a celebrity or a public figure?": 'No'
+}
+
+TestData_UW2: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2'
+}
+
+UnderwritingAndApprovalTab_UW2: {
+  "Have any applicants had a prior insurance policy cancelled, refused or non-renewed in the past 3 years?":  'Yes',  
+  "Has the applicant been sued for libel or slander?": 'No',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'Yes',
+  "Is any business, home day care or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'Yes',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'No',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?": 'No',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'Yes',
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes',
+  "Total number of part time and full time resident employees": '3',
+   Remark Resident Employees: 'Remarks',
+  "Are any applicants or insureds a celebrity or a public figure?": 'Yes' 
+}
+
+TestData_UW3: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW3'
+}
+
+UnderwritingAndApprovalTab_UW3: {
+  Remark Cancelled Policy: test, 
+  Remark Property Outside US:  test,  
+  "Remark Vehicles not for personal/pleasure use": test, 
+  Remark Commercial Vehicle: test,
+  Remark Celebrity: test
+}
+
+TestData_UW4: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW4'
+}
+
+UnderwritingAndApprovalTab_UW4: {
+ "Have any applicants had a prior insurance policy cancelled, refused or non-renewed in the past 3 years?":  'No',  
+  "Has the applicant been sued for libel or slander?": 'No',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'No',
+  "Is any business, home day care or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'No',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'No',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?": 'No',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'No',
+  "Are any applicants or insureds a celebrity or a public figure?": 'No'
+}
+
+# ----------- TestData for custom states ------------
+
+# ------------------- TestData: CT ------------------
+TestData_UW1_CT: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1_CT'
+}
+UnderwritingAndApprovalTab_UW1_CT: {
+  "Has the applicant been sued for libel or slander?": 'Yes',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'No',
+  "Is any business, home day care or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'Yes',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'Yes',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'No',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'Yes',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?": 'Yes',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes',
+  "Total number of part time and full time resident employees": '2',
+  Remark Resident Employees: 'Remarks',
+  "Are any applicants or insureds a celebrity or a public figure?": 'No'
+}
+
+TestData_UW2_CT: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2_CT'
+}
+
+UnderwritingAndApprovalTab_UW2_CT: {
+  "Has the applicant been sued for libel or slander?": 'No',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'Yes',
+  "Is any business, home day care or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'Yes',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'No',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?": 'No',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'Yes',
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes',
+  "Total number of part time and full time resident employees": '3',
+  Remark Resident Employees: 'Remarks',
+  "Are any applicants or insureds a celebrity or a public figure?": 'Yes'
+}
+TestData_UW3_CT: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW3_CT'
+}
+
+UnderwritingAndApprovalTab_UW3_CT: {
+  Remark Property Outside US:  test,  
+  "Remark Vehicles not for personal/pleasure use": test, 
+  Remark Commercial Vehicle: test,
+  Remark Celebrity: test
+}
+
+TestData_UW4_CT: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW4_CT'
+}
+
+UnderwritingAndApprovalTab_UW4_CT: {
+  "Has the applicant been sued for libel or slander?": 'No',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'No',
+  "Is any business, home day care or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'No',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'No',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?": 'No',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'No',
+  "Are any applicants or insureds a celebrity or a public figure?": 'No'
+}
+
+# ------------------- TestData: KY ------------------
+TestData_UW1_KY: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1_KY'
+}
+UnderwritingAndApprovalTab_UW1_KY: {
+  "Has the applicant been sued for libel or slander?": 'Yes',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'No',
+  "Is any business, home day care or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'Yes',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'Yes',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'No',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'Yes',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?": 'Yes',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes',
+  "Total number of part time and full time resident employees": '2',
+  Remark Resident Employees: 'Remarks',
+  "Are any applicants or insureds a celebrity or a public figure?": 'No'
+}
+
+TestData_UW2_KY: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2_KY'
+}
+
+UnderwritingAndApprovalTab_UW2_KY: {
+  "Has the applicant been sued for libel or slander?": 'No',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'Yes',
+  "Is any business, home day care or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'Yes',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'No',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?": 'No',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'Yes',
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes',
+  "Total number of part time and full time resident employees": '3',
+  Remark Resident Employees: 'Remarks',
+  "Are any applicants or insureds a celebrity or a public figure?": 'Yes'
+}
+TestData_UW3_KY: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW3_KY'
+}
+
+UnderwritingAndApprovalTab_UW3_KY: {
+  Remark Property Outside US:  test,  
+  "Remark Vehicles not for personal/pleasure use": test, 
+  Remark Commercial Vehicle: test,
+  Remark Celebrity: test
+}
+
+TestData_UW4_KY: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW4_KY'
+}
+
+UnderwritingAndApprovalTab_UW4_KY: {
+  "Has the applicant been sued for libel or slander?": 'No',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'No',
+  "Is any business, home day care or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'No',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'No',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?": 'No',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'No',
+  "Are any applicants or insureds a celebrity or a public figure?": 'No'
+}
+
+# ------------------- TestData: MD ------------------
+TestData_UW1_MD: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1_MD'
+}
+
+UnderwritingAndApprovalTab_UW1_MD: {
+  "Applicant(s), who have been cancelled, refused insurance or non-renewed in the past 3 years are ineligible if based on any of the following reasons: Fraud or Material Misrepresentation, Substantial Increase in Hazard, or Claims.":  'No',  
+  "Has the applicant been sued for libel or slander?": 'Yes',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'No',
+  "Is any business or farming activity conducted on the premises?": 'Yes',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'Yes',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'No',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'Yes',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?": 'Yes',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes',
+  "Total number of part time and full time resident employees": '2',
+  Remark Resident Employees: 'Remarks',
+  "Are any applicants or insureds a celebrity or a public figure?": 'No'
+}
+
+TestData_UW2_MD: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2_MD'
+}
+
+UnderwritingAndApprovalTab_UW2_MD: {
+  "Applicant(s), who have been cancelled, refused insurance or non-renewed in the past 3 years are ineligible if based on any of the following reasons: Fraud or Material Misrepresentation, Substantial Increase in Hazard, or Claims.":  'Yes',  
+  "Has the applicant been sued for libel or slander?": 'No',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'Yes',
+  "Is any business or farming activity conducted on the premises?": 'No',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'Yes',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'No',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?": 'No',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'Yes',
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes',
+  "Total number of part time and full time resident employees": '3',
+   Remark Resident Employees: 'Remarks',
+  "Are any applicants or insureds a celebrity or a public figure?": 'Yes' 
+}
+
+TestData_UW3_MD: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW3_MD'
+}
+
+UnderwritingAndApprovalTab_UW3_MD: {
+  Remark Cancelled Policy Extn: test, 
+  Remark Property Outside US:  test,  
+  "Remark Vehicles not for personal/pleasure use": test, 
+  Remark Commercial Vehicle: test,
+  Remark Celebrity: test
+}
+
+TestData_UW4_MD: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW4_MD'
+}
+
+UnderwritingAndApprovalTab_UW4_MD: {
+ "Applicant(s), who have been cancelled, refused insurance or non-renewed in the past 3 years are ineligible if based on any of the following reasons: Fraud or Material Misrepresentation, Substantial Increase in Hazard, or Claims.":  'No',  
+  "Has the applicant been sued for libel or slander?": 'No',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'No',
+  "Is any business or farming activity conducted on the premises?": 'No',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'No',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'No',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?": 'No',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'No',
+  "Are any applicants or insureds a celebrity or a public figure?": 'No'
+}
+
+# ------------------- TestData: OR ------------------
+TestData_UW1_OR: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1_OR'
+}
+
+UnderwritingAndApprovalTab_UW1_OR: {
+  "Have any applicants had a prior insurance policy cancelled, refused or non-renewed in the past 3 years?":  'No',  
+  "Has the applicant been sued for libel or slander?": 'Yes',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'No',
+  "Is any business, adult day care, pet day care or farming activity conducted on the premises?": 'Yes',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'Yes',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'No',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'Yes',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?": 'Yes',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes',
+  "Total number of part time and full time resident employees": '2',
+  Remark Resident Employees: 'Remarks',
+  "Are any applicants or insureds a celebrity or a public figure?": 'No'
+}
+
+TestData_UW2_OR: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2_OR'
+}
+
+UnderwritingAndApprovalTab_UW2_OR: {
+  "Have any applicants had a prior insurance policy cancelled, refused or non-renewed in the past 3 years?":  'Yes',  
+  "Has the applicant been sued for libel or slander?": 'No',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'Yes',
+  "Is any business, adult day care, pet day care or farming activity conducted on the premises?": 'No',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'Yes',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'No',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?": 'No',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'Yes',
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes',
+  "Total number of part time and full time resident employees": '3',
+   Remark Resident Employees: 'Remarks',
+  "Are any applicants or insureds a celebrity or a public figure?": 'Yes' 
+}
+
+TestData_UW3_OR: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW3_OR'
+}
+
+UnderwritingAndApprovalTab_UW3_OR: {
+  Remark Cancelled Policy: test, 
+  Remark Property Outside US:  test,  
+  "Remark Vehicles not for personal/pleasure use": test, 
+  Remark Commercial Vehicle: test,
+  Remark Celebrity: test
+}
+
+TestData_UW4_OR: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW4_OR'
+}
+
+UnderwritingAndApprovalTab_UW4_OR: {
+ "Have any applicants had a prior insurance policy cancelled, refused or non-renewed in the past 3 years?":  'No',  
+  "Has the applicant been sued for libel or slander?": 'No',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'No',
+  "Is any business, adult day care, pet day care or farming activity conducted on the premises?": 'No',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'No',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'No',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?": 'No',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'No',
+  "Are any applicants or insureds a celebrity or a public figure?": 'No'
+}
+
+
+
+# ------------------- TestData: CA ------------------
+TestData_UW1_CA: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1_CA'
+}
+
+UnderwritingAndApprovalTab_UW1_CA: {
+  "Have any applicants had a prior insurance policy cancelled, refused or non-renewed in the past 3 years?":  'No',  
+  "Has the applicant been sued for libel or slander?": 'Yes',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'No',
+  "Is there a business on premises?": 'Yes',
+  "Day Care?": 'Yes',
+  "Do you have a license?": 'No',
+  "Farming/Ranching": 'Yes',
+  "Is it a for-profit business?": 'Yes',
+  "Others": 'Yes',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'Yes',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'No',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'Yes',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?": 'Yes',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes',
+  "Total number of part time and full time resident employees": '2',
+  Remark Resident Employees: 'Remarks',
+  "Any resident self-employed, public lecturer, broadcaster, telecaster, newspaper reporter, editor, publisher, professional actor or entertainer, author, professional athlete or similar, or holder of any elected or appointed public offices?": 'No'
+}
+
+TestData_UW2_CA: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2_CA'
+}
+
+UnderwritingAndApprovalTab_UW2_CA: {
+  "Have any applicants had a prior insurance policy cancelled, refused or non-renewed in the past 3 years?":  'Yes',  
+  "Has the applicant been sued for libel or slander?": 'No',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'Yes',
+  "Is there a business on premises?": 'No',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'Yes',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'No',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?": 'No',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'Yes',
+  "Do employees of any resident or applicant reside in the dwelling?": 'Yes',
+  "Total number of part time and full time resident employees": '3',
+   Remark Resident Employees: 'Remarks',
+  "Any resident self-employed, public lecturer, broadcaster, telecaster, newspaper reporter, editor, publisher, professional actor or entertainer, author, professional athlete or similar, or holder of any elected or appointed public offices?": 'Yes' 
+}
+
+TestData_UW3_CA: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW3_CA'
+}
+
+UnderwritingAndApprovalTab_UW3_CA: {
+  Remark Cancelled Policy: test, 
+  Remark Property Outside US:  test,  
+  "Remark Vehicles not for personal/pleasure use": test, 
+  Remark Commercial Vehicle: test
+}
+
+TestData_UW4_CA: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW4_CA'
+}
+
+UnderwritingAndApprovalTab_UW4_CA: {
+ "Have any applicants had a prior insurance policy cancelled, refused or non-renewed in the past 3 years?":  'No',  
+  "Has the applicant been sued for libel or slander?": 'No',
+  "Does applicant own any property outside of the U.S. or reside outside of the U.S. for more than 180 days per year (excluding Canada)?": 'No',
+  "Is there a business on premises?": 'No',
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Are there any owned, leased or rented watercraft, personal watercraft, recreational vehicles, motorcycles or automobiles used for anything other than personal/pleasure use?": 'No',
+  "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": 'No',
+  "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?": 'No',
+  "Do any applicants or drivers operate a commercial vehicle or a vehicle furnished by an employer?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'No',
+  "Any resident self-employed, public lecturer, broadcaster, telecaster, newspaper reporter, editor, publisher, professional actor or entertainer, author, professional athlete or similar, or holder of any elected or appointed public offices?": 'No'
+}

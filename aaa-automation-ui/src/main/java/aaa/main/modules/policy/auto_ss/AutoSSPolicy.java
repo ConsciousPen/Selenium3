@@ -81,6 +81,9 @@ public class AutoSSPolicy implements IPolicy {
     @Override
     public void calculatePremium(TestData td) {
         dataGather().start();
+        //TODO workaround for QC 44220 Failed to rate policy QAZSS953305611,1528211031,quote
+        //no error if general tab is opened before premium calculation
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
 	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
 	    new RatingDetailReportsTab().fillTab(td);
 	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());

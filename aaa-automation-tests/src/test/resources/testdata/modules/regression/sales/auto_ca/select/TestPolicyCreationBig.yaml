@@ -41,6 +41,7 @@ NamedInsuredInformation2: {
   InsuredSearchDialog: {},
   First Name: Tom,
   Last Name: Harris,
+  Base Date: '/today:MM/dd/yyyy',
   "Home Phone #": 5554567890, 
 }
 

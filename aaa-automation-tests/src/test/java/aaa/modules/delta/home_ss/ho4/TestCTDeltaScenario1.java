@@ -41,6 +41,10 @@ public class TestCTDeltaScenario1 extends CTDeltaScenario1 {
 	public void TC05_verifyODDPolicy() {} 
 	
 	@Test
-	public void TC06_verifyCancelNoticeAction() {}
+	public void TC06_verifyCancelNoticeTab() {
+		TestData td_plus33days = getTestSpecificTD("TestData_Plus33Days");
+		TestData td_plus34days = getTestSpecificTD("TestData_Plus34Days");
+		super.TC06_verifyCancelNoticeTab(td_plus33days, td_plus34days);
+	}
 
 }

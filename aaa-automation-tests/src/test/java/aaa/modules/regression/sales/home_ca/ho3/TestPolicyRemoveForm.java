@@ -4,6 +4,8 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.PolicyConstants.PolicyEndorsementFormsTable;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
@@ -30,8 +32,8 @@ public class TestPolicyRemoveForm extends HomeCaHO3BaseTest {
       * 9.  Verify policy status is 'Active'
       */
 
-    @Test
-    @TestInfo(component = "Policy.HomeCA")
+	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)  
     public void testPolicyRemoveForm() {
 
         mainApp().open();
