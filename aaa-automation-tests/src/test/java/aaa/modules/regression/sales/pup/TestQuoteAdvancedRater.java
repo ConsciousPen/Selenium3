@@ -11,7 +11,6 @@ import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderwritingAndApprovalTab;
-import aaa.main.modules.policy.pup.PupPolicyActions;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -44,9 +43,10 @@ public class TestQuoteAdvancedRater extends PersonalUmbrellaBaseTest {
 		PremiumAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumAndCoveragesQuoteTab();
         String expectedPersonalUmbrellaValue = "$1,000,000";
         mainApp().open();
+        //SearchPage.search(SearchFor.QUOTE, SearchBy.POLICY_QUOTE, "QUTPU927440171");
         createCustomerIndividual();
         createQuote();
-        new PupPolicyActions.DataGather().start();
+        policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
         Dollar oldTotalPremiumSummary = PremiumAndCoveragesQuoteTab.getPolicyTermPremium();
@@ -62,6 +62,6 @@ public class TestQuoteAdvancedRater extends PersonalUmbrellaBaseTest {
 
         PremiumAndCoveragesQuoteTab.btnContinue.click();
         policy.getDefaultView().fillFromTo(getPolicyTD().adjust(getPolicyTD("ErrorOverride", "TestData").resolveLinks()), UnderwritingAndApprovalTab.class, PurchaseTab.class, true);
-        new PurchaseTab().submitTab();
+        policy.getDefaultView().getTab(PurchaseTab.class).submitTab();
     }
 }
