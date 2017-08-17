@@ -1,6 +1,6 @@
 /* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
-package aaa.modules.regression.service.auto_ss;
+package aaa.modules.regression.service.auto_ca.choice;
 
 import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
@@ -8,13 +8,13 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoSSBaseTest;
-import aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig;
+import aaa.modules.policy.AutoCaSelectBaseTest;
+import aaa.modules.regression.sales.auto_ca.select.TestPolicyCreationBig;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -31,7 +31,7 @@ import toolkit.verification.CustomAssert;
  * 6. check drivers and vehicles are removed
  * @details
  */
-public class TestPolicyEndorsementRemove extends AutoSSBaseTest {
+public class TestPolicyEndorsementRemove extends AutoCaSelectBaseTest {
 
 
     @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
@@ -46,12 +46,12 @@ public class TestPolicyEndorsementRemove extends AutoSSBaseTest {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		
 		//2. remove second named insured
-		new GeneralTab().removeInsured(2);
+		GeneralTab.tableInsuredList.removeRow(2);
 
 		//3. driver tab is opened, driver which is related to removed insured is removed automatically
 		DriverTab.tableDriverList.verify.rowsCount(1);
 		
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get());
 		
 		TestData class_td = getTestSpecificTD("TestData"); 
 		

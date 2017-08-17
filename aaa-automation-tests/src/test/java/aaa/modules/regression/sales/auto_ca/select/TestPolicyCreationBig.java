@@ -4,6 +4,7 @@ package aaa.modules.regression.sales.auto_ca.select;
 
 import org.testng.annotations.Test;
 
+import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.AutoCaTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -29,7 +30,7 @@ public class TestPolicyCreationBig extends AutoCaSelectBaseTest {
 
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
-	public void testQuoteCreation() {
+	public void testPolicyCreationBig() {
 		mainApp().open();
 
 		createCustomerIndividual();
@@ -46,5 +47,6 @@ public class TestPolicyCreationBig extends AutoCaSelectBaseTest {
 		NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.labelProductInquiry.verify.contains("CA Select");
 		
+		Tab.buttonCancel.click();
 	}
 }

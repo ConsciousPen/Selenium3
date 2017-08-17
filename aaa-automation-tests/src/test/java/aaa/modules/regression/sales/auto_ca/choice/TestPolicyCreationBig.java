@@ -4,6 +4,7 @@ package aaa.modules.regression.sales.auto_ca.choice;
 
 import org.testng.annotations.Test;
 
+import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.AutoCaTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -45,6 +46,8 @@ public class TestPolicyCreationBig extends AutoCaChoiceBaseTest {
 		policy.policyInquiry().start();
 		NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.labelProductInquiry.verify.contains("CA Choice");
+		
+		Tab.buttonCancel.click();
 		
 	}
 }
