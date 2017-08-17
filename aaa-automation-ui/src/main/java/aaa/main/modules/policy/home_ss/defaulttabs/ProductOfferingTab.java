@@ -4,13 +4,20 @@
  */
 package aaa.main.modules.policy.home_ss.defaulttabs;
 
+import aaa.toolkit.webdriver.customcontrols.ProductOfferingVariationControl;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import org.openqa.selenium.By;
 
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
+
+import static aaa.toolkit.webdriver.customcontrols.ProductOfferingVariationControl.BASE_PREMIUM;
+import static aaa.toolkit.webdriver.customcontrols.ProductOfferingVariationControl.SUBTOTAL;
+import static aaa.toolkit.webdriver.customcontrols.ProductOfferingVariationControl.TOTAL_PREMIUM;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -26,6 +33,10 @@ public class ProductOfferingTab extends Tab {
     public Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalcCov_footer"));
     public Button btnAddAdditionalVariation = new Button(By.id("policyDataGatherForm:addAdditionalVariation"));
     public Table tableEndorsement = new Table(By.id("policyDataGatherForm:panel"));
+    public Table tableHeritage = new Table(By.id("QuoteVariation_sections"));
+    public Table tableLegacy = new Table(By.id("QuoteVariation2_sections"));
+    public Table tablePrestige = new Table(By.id("QuoteVariation3_sections"));
+
 
     @Override
     public Tab submitTab() {
@@ -33,5 +44,26 @@ public class ProductOfferingTab extends Tab {
             addEndorsement.click();
         }
         return this;
+    }
+
+    public void calculatePremiums(){
+        btnCalculatePremium.click();
+    }
+
+    public static Dollar getTotalPremium(AssetDescriptor<ProductOfferingVariationControl> sectionAssetDescriptor){
+        return new Dollar (new ProductOfferingTab().getAssetList().getAsset(sectionAssetDescriptor).getAsset(TOTAL_PREMIUM).getValue());
+    }
+
+    public static Dollar getBasePremium(AssetDescriptor<ProductOfferingVariationControl> sectionAssetDescriptor){
+        return new Dollar (new ProductOfferingTab().getAssetList().getAsset(sectionAssetDescriptor).getAsset(BASE_PREMIUM).getValue());
+    }
+
+    public static Dollar getSubTotalPremium(AssetDescriptor<ProductOfferingVariationControl> sectionAssetDescriptor){
+        return new Dollar (new ProductOfferingTab().getAssetList().getAsset(sectionAssetDescriptor).getAsset(SUBTOTAL).getValue());
+    }
+
+    public static Boolean isTotalPremiumCalculatedProperly(AssetDescriptor<ProductOfferingVariationControl> sectionAssetDescriptor){
+        return new Boolean(getBasePremium(sectionAssetDescriptor).add(getSubTotalPremium(sectionAssetDescriptor))
+                .equals(getTotalPremium(sectionAssetDescriptor)));
     }
 }
