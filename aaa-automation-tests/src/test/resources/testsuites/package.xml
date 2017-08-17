@@ -6,11 +6,7 @@
 	<parameter name="timeshift-scenario-mode" value="method" />-->
 	<test name="Package: ${package}; Groups: ${groups}; Excluded Groups: ${excludedgroups}" preserve-order="true">
 		<packages>
-			<package name="aaa.modules.${package}">
-				<include name="adasd">
-					<
-				</include>
-			</package>
+			<package name="aaa.modules.${package}"/>
 		</packages>
 	</test>
 </suite>

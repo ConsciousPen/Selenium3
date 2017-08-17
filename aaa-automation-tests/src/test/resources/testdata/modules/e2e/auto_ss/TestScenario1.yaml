@@ -1,0 +1,26 @@
+TestData: {
+  PremiumAndCoveragesTab: {
+    Payment Plan: Quarterly,
+    Recurring Payment: true,
+    Personal Umbrella: '$1,000,000'
+  },
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab_WithAutopay'
+}
+
+# ----- Endorsement -----
+TestData_Endorsement: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+VehicleTab: {
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: WDCYC7BB0B6729451
+}

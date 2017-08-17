@@ -63,7 +63,7 @@ public class TestPolicyDiscounts extends HomeCaHO3BaseTest {
         policy.getDefaultView().fillFromTo(getPolicyTD(), MortgageesTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
         PolicySummaryPage.labelPolicyStatus.verify.contains(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        PolicySummaryPage.getTotalPremiumSummary().verify.equals(premiumAutoMultiPolice);
+        PolicySummaryPage.getTotalPremiumSummaryForProperty().verify.equals(premiumAutoMultiPolice);
 
         new HomeCaPolicyActions.Endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
@@ -83,6 +83,6 @@ public class TestPolicyDiscounts extends HomeCaHO3BaseTest {
         new BindTab().submitTab();
 
         PolicySummaryPage.labelPolicyStatus.verify.contains(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        PolicySummaryPage.getTotalPremiumSummary().verify.equals(premiumPUPMultiPolice);
+        PolicySummaryPage.getTotalPremiumSummaryForProperty().verify.equals(premiumPUPMultiPolice);
     }
 }

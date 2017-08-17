@@ -72,7 +72,7 @@ public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
         String policyNumber = getCopiedPolicy();
 
         String policyEffectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue();
-        Dollar premium = new Dollar(PolicySummaryPage.getTotalPremiumSummary());
+        Dollar premium = new Dollar(PolicySummaryPage.getTotalPremiumSummaryForProperty());
 
         //  3.  Start policy cancellation process
         new HomeCaPolicyActions.Cancel().start();
