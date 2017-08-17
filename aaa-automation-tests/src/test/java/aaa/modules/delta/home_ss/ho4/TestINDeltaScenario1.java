@@ -36,12 +36,6 @@ public String scenarioPolicyType = "HO4";
 	}
 	
 	@Test
-	public void TC06_verifyRoofTypeUneligible() {
-		TestData td_sc1 = getTestSpecificTD("TestData");	
-		super.TC06_verifyRoofTypeUneligible(td_sc1);
-	}	
-	
-	@Test
 	public void TC07_purchasePolicy() {
 		TestData td_sc1 = getTestSpecificTD("TestData");	
 		super.TC07_purchasePolicy(td_sc1, scenarioPolicyType);		

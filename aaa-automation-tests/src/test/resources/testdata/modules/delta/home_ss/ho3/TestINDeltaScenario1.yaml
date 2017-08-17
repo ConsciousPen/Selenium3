@@ -285,17 +285,16 @@ TestData_hailResistanceRating: {
   PropertyInfoTab: '@PropertyInfoTab_hailResistanceRating'
 }
 
+PropertyInfoTab_hailResistanceRating: {
+  Construction: '@Construction_1',
+}
+
 TestData_RoofTypeUneligible: {
   PropertyInfoTab: '@PropertyInfoTab_RoofTypeUneligible'
 }
 
 PropertyInfoTab_RoofTypeUneligible: {
   Construction: '@Construction_2',
-  #HomeRenovation: '@HomeRenovation_2'
-}
-
-PropertyInfoTab_RoofTypeUneligible: {
-  Construction: '@Construction_1'
 }
 
 Construction_1: {
@@ -306,6 +305,7 @@ Construction_2: {
   Year built: '2009',
   Roof type: 'Wood shingle/Wood shake',
 }
+
 
 HomeRenovation_2: { 
   Roof renovation: '100% Replace', 

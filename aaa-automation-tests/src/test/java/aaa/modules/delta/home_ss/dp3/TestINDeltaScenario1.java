@@ -1,4 +1,4 @@
-package aaa.modules.delta.home_ss.ho3;
+package aaa.modules.delta.home_ss.dp3;
 
 import org.testng.annotations.Test;
 
@@ -6,12 +6,12 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.modules.delta.templates.INDeltaScenario1;
 import toolkit.datax.TestData;
 
-public class TestINDeltaScenario1 extends INDeltaScenario1 {
-	public String scenarioPolicyType = "HO3-Heritage";
+public class TestINDeltaScenario1 extends INDeltaScenario1{ 
+public String scenarioPolicyType = "DP3";
 	
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO3;
+		return PolicyType.HOME_SS_DP3;
 	}
 	
 	@Test
@@ -25,15 +25,17 @@ public class TestINDeltaScenario1 extends INDeltaScenario1 {
 		TestData td_add_Forms = getTestSpecificTD("TestData_add_Forms");
 		super.TC02_verifyEndorsements(td_add_Forms);
 	}
-	
+
+	/*
 	@Test
 	public void TC03_verifyHS2383() {
 		TestData td_hs2383 = getTestSpecificTD("TestData_addHS2383"); 
 		super.TC03_verifyHS2383(td_hs2383);
 	}
-	
+	*/
 	@Test
 	public void TC04_verifyQuoteODD() {}
+	
 	
 	@Test
 	public void TC05_verifyHailResistiveRating() {
