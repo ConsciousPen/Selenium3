@@ -1,7 +1,7 @@
 TestData: {
   DeclineActionTab: {
     Decline Date: /today,
-    Decline Reason: 'Price too high'
+    Decline Reason: index=1
   }
 }
 

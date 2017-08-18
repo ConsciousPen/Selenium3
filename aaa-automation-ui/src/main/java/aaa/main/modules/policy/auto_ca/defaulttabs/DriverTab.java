@@ -12,6 +12,7 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.AssetList;
+import aaa.toolkit.webdriver.customcontrols.AdvancedTable;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -23,6 +24,9 @@ import toolkit.webdriver.controls.composite.assets.AssetList;
  * @category Generated
  */
 public class DriverTab extends Tab {
+	
+	 public static AdvancedTable tableDriverList = new AdvancedTable(By.id("policyDataGatherForm:dataGatherView_ListDriver"));
+	 
 	public DriverTab() {
 		super(AutoCaMetaData.DriverTab.class);
 		assetList = new MultiInstanceAfterAssetList(By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER), metaDataClass) {

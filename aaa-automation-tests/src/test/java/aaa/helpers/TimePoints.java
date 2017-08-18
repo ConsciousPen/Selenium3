@@ -30,7 +30,7 @@ public class TimePoints {
 			throw new IllegalArgumentException("Wrong timepoint entry, please check testdata");
 		}
 		returnDate = returnDate.plusDays(Integer.parseInt(timepoint.get(0)));
-		if (applyShift && (returnDate.getDayOfWeek() == DayOfWeek.SATURDAY || returnDate.getDayOfWeek() == DayOfWeek.SATURDAY)) {
+		if (applyShift && (returnDate.getDayOfWeek() == DayOfWeek.SATURDAY || returnDate.getDayOfWeek() == DayOfWeek.SUNDAY)) {
 			switch (timepoint.get(1).toUpperCase()) {
 				case "PREVIOUS":
 					returnDate = returnDate.with(DateTimeUtils.previousWorkingDay);

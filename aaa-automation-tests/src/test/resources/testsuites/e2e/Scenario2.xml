@@ -1,0 +1,156 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="E2E Scenario 2" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+
+    <!-- UT -->
+    <test name="UT HSS Scenario 2" parallel="none" preserve-order="true">
+        <parameter name="state" value="UT" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario2" />
+        </classes>
+    </test>
+
+    <test name="UT PUP Scenario 2" parallel="none" preserve-order="true">
+        <parameter name="state" value="UT" />
+        <classes>
+            <class name="aaa.modules.e2e.pup.TestScenario2" />
+        </classes>
+    </test>
+
+    <!-- CA -->
+    <test name="CA HSS Scenario 2" parallel="none" preserve-order="true">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario2" />
+        </classes>
+    </test>
+
+    <test name="CA PUP Scenario 2" parallel="none" preserve-order="true">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.e2e.pup.TestScenario2" />
+        </classes>
+    </test>
+
+    <!-- AZ -->
+    <test name="AZ HSS Scenario 2" parallel="none" preserve-order="true">
+        <parameter name="state" value="AZ" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario2" />
+        </classes>
+    </test>
+
+    <test name="AZ PUP Scenario 2" parallel="none" preserve-order="true">
+        <parameter name="state" value="AZ" />
+        <classes>
+            <class name="aaa.modules.e2e.pup.TestScenario2" />
+        </classes>
+    </test>
+
+    <!-- CO -->
+    <test name="CO HSS Scenario 2" parallel="none" preserve-order="true">
+        <parameter name="state" value="CO" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario2" />
+        </classes>
+    </test>
+
+    <!-- IN -->
+    <test name="IN HSS Scenario 2" parallel="none" preserve-order="true">
+        <parameter name="state" value="IN" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario2" />
+        </classes>
+    </test>
+
+    <!-- KS -->
+    <test name="KS HSS Scenario 2" parallel="none" preserve-order="true">
+        <parameter name="state" value="KS" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario2" />
+        </classes>
+    </test>
+
+    <!-- KY -->
+    <test name="KY HSS Scenario 2" parallel="none" preserve-order="true">
+        <parameter name="state" value="KY" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario2" />
+        </classes>
+    </test>
+
+    <!-- MT -->
+    <test name="MT HSS Scenario 2" parallel="none" preserve-order="true">
+        <parameter name="state" value="MT" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario2" />
+        </classes>
+    </test>
+
+    <!-- NJ -->
+    <test name="NJ PUP Scenario 2" parallel="none" preserve-order="true">
+        <parameter name="state" value="NJ" />
+        <classes>
+            <class name="aaa.modules.e2e.pup.TestScenario2" />
+        </classes>
+    </test>
+
+    <!-- NY -->
+    <test name="NY HSS Scenario 2" parallel="none" preserve-order="true">
+        <parameter name="state" value="NY" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario2" />
+        </classes>
+    </test>
+
+    <!-- OK -->
+    <test name="OK HSS Scenario 2" parallel="none" preserve-order="true">
+        <parameter name="state" value="OK" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario2" />
+        </classes>
+    </test>
+
+    <test name="OK PUP Scenario 2" parallel="none" preserve-order="true">
+        <parameter name="state" value="OK" />
+        <classes>
+            <class name="aaa.modules.e2e.pup.TestScenario2" />
+        </classes>
+    </test>
+
+    <!-- OR -->
+    <test name="OR HSS Scenario 2" parallel="none" preserve-order="true">
+        <parameter name="state" value="OR" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario2" />
+        </classes>
+    </test>
+
+    <!-- PA -->
+    <test name="PA HSS Scenario 2" parallel="none" preserve-order="true">
+        <parameter name="state" value="PA" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario2" />
+        </classes>
+    </test>
+
+    <!-- SD -->
+    <test name="SD HSS Scenario 2" parallel="none" preserve-order="true">
+        <parameter name="state" value="SD" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario2" />
+        </classes>
+    </test>
+
+    <!-- VA -->
+    <test name="VA HSS Scenario 2" parallel="none" preserve-order="true">
+        <parameter name="state" value="VA" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario2" />
+        </classes>
+    </test>
+
+</suite>

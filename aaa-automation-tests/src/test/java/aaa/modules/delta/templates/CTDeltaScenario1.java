@@ -168,6 +168,7 @@ public class CTDeltaScenario1 extends BaseTest {
 		policy.cancelNotice().start(); 
 		CancelNoticeActionTab cancelNoticeTab = new CancelNoticeActionTab();
 		CustomAssert.enableSoftMode();	
+
 		CustomAssert.assertTrue("'Days of Notice' has wrong value on Cancel Notice tab", 
 				cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.DAYS_OF_NOTICE.getLabel()).getValue().toString().equals("34"));
 		

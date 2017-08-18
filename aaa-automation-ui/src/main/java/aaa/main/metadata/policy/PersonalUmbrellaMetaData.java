@@ -3,11 +3,14 @@
 package aaa.main.metadata.policy;
 
 import org.openqa.selenium.By;
+
 import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
+
 import aaa.common.pages.Page;
 import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdditionalPoliciesMultiAssetList;
+import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
@@ -17,6 +20,7 @@ import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.DoubleTextBox;
+import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
@@ -603,6 +607,7 @@ public final class PersonalUmbrellaMetaData {
 		public static final AssetDescriptor<TextBox> REMARKS = declare("Remarks", TextBox.class, Waiters.AJAX);
 		
 		public static final AssetDescriptor<TextBox> REMARK_CANCELLED_POLICY = declare("Remark Cancelled Policy", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:underwritingQuestion_UWQuestionPolicyCancelled_remarks']"));
+		public static final AssetDescriptor<TextBox> REMARK_CANCELLED_POLICY_EXTN = declare("Remark Cancelled Policy Extn", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:underwritingQuestion_UWQuestionPolicyCancelledExtn_remarks']"));
 		public static final AssetDescriptor<TextBox> REMARK_PROPERTY_OUTSUDE_US = declare("Remark Property Outside US", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:underwritingQuestion_UWQuestionForeignProperty_remarks']"));
 		public static final AssetDescriptor<TextBox> REMARK_NOT_PLEASURE_VEHICLE = declare("Remark Vehicles not for personal/pleasure use", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:underwritingQuestion_UWQuestionVehicleForUnauthorizedUse_remarks']"));
 		public static final AssetDescriptor<TextBox> REMARK_COMMERCIAL_VEHICLE = declare("Remark Commercial Vehicle", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:underwritingQuestion_UWQuestionCommercialVehicle_remarks']"));
@@ -645,6 +650,7 @@ public final class PersonalUmbrellaMetaData {
 		}
 		
 		public static final class RequiredToBind extends MetaData {
+			public static final AssetDescriptor<RadioGroup> AAA_PROOF_OF_UNDERLYING_INSURANCE = declare("Proof of underlying insurance for each vehicle/watercraft not insured with AAA/AMIG", RadioGroup.class, Waiters.NONE);
 			
 		}
 
@@ -667,6 +673,20 @@ public final class PersonalUmbrellaMetaData {
 	
 	public static final class BindTab extends MetaData {
 		
+	}
+	
+	public static final class ErrorTab extends MetaData {
+		public static final AssetDescriptor<FillableErrorTable> ERROR_OVERRIDE = declare("ErrorsOverride", FillableErrorTable.class, RuleRow.class, By.id("errorsForm:msgList"));
+
+		public static final class RuleRow extends MetaData {
+			public static final AssetDescriptor<CheckBox> OVERRIDE = declare("Override", CheckBox.class);
+			public static final AssetDescriptor<CheckBox> APPROVAL = declare("Approval", CheckBox.class);
+			public static final AssetDescriptor<Link> CODE = declare("Code", Link.class);
+			public static final AssetDescriptor<StaticElement> SEVERITY = declare("Severity", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> MESSAGE = declare("Message", StaticElement.class);
+			public static final AssetDescriptor<RadioGroup> DURATION = declare("Duration", RadioGroup.class);
+			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class);
+		}
 	}
 
 	///

@@ -53,7 +53,7 @@ MembershipTab: {
 
 VehicleTab: {
   Add Vehicle: Click,
-  VIN: 4S3BC6534NDDEJ76X,
+  VIN: WAUKJAFM8C6314628,
   Primary Use: Pleasure (recreational driving only),
   Existing Damage: None,
   "Salvaged?": 'No',
@@ -62,7 +62,7 @@ VehicleTab: {
 
 AssignmentTab: {
   DriverVehicleRelationshipTable: [{
-    Vehicle: '1992, SUBARU, LEGACY',
+    Vehicle: '2012, AUDI, A3',
     Primary Driver: 'Tom Harris'
   }]
 }
