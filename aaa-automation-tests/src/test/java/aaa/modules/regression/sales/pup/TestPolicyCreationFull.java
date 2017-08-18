@@ -3,6 +3,8 @@ package aaa.modules.regression.sales.pup;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -34,8 +36,8 @@ import aaa.modules.policy.PersonalUmbrellaBaseTest;
  */
 public class TestPolicyCreationFull extends PersonalUmbrellaBaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.PUP")
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.PUP)
     public void testPolicyCreation() {
 
         mainApp().open();
