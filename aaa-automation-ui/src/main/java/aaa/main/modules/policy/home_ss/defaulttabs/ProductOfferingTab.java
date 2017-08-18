@@ -15,6 +15,11 @@ import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static aaa.admin.modules.IAdmin.log;
+import static aaa.main.metadata.policy.HomeSSMetaData.ProductOfferingTab.*;
 import static aaa.toolkit.webdriver.customcontrols.ProductOfferingVariationControl.BASE_PREMIUM;
 import static aaa.toolkit.webdriver.customcontrols.ProductOfferingVariationControl.SUBTOTAL;
 import static aaa.toolkit.webdriver.customcontrols.ProductOfferingVariationControl.TOTAL_PREMIUM;
@@ -65,5 +70,25 @@ public class ProductOfferingTab extends Tab {
     public static Boolean isTotalPremiumCalculatedProperly(AssetDescriptor<ProductOfferingVariationControl> sectionAssetDescriptor){
         return new Boolean(getBasePremium(sectionAssetDescriptor).add(getSubTotalPremium(sectionAssetDescriptor))
                 .equals(getTotalPremium(sectionAssetDescriptor)));
+    }
+
+
+
+    public static List getIncludedEndorsementList(AssetDescriptor<ProductOfferingVariationControl> bundleName){
+        List<String> formIdList = new ArrayList <>();
+        int columnID = 0;
+        if (bundleName == HERITAGE)
+            columnID=2;
+        else if (bundleName == LEGACY)
+            columnID=3;
+        else if (bundleName == PRESTIGE)
+            columnID=4;
+        else
+            log.info("bundleName is selected Incorrectly");
+        for (int i=2;i<new ProductOfferingTab().tableEndorsement.getRowsCount()-1;i++) {
+            if(new ProductOfferingTab().tableEndorsement.getRow(i).getCell(columnID).getValue().equals("Included"))
+            formIdList.add(new ProductOfferingTab().tableEndorsement.getRow(i).getCell(1).getValue().split(" - ")[0]);
+        }
+        return formIdList;
     }
 }

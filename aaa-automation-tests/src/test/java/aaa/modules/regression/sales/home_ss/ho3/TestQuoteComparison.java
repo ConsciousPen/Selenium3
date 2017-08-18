@@ -17,6 +17,8 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
+import java.util.List;
+
 import static aaa.main.metadata.policy.HomeSSMetaData.ProductOfferingTab.*;
 import static aaa.main.metadata.policy.HomeSSMetaData.ProductOfferingTab.VariationControls.*;
 
@@ -122,6 +124,7 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 
 		TestData td= getPolicyTD();
 		ProductOfferingTab productOfferingTab = new ProductOfferingTab();
+		List includedEndorsements;
 		Dollar defaultTotalPremium;
 		Dollar modifiedTotalPremium;
 
@@ -156,10 +159,12 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 		productOfferingTab.calculatePremiums();
 
 		modifiedTotalPremium = ProductOfferingTab.getTotalPremium(HERITAGE);
+		includedEndorsements = ProductOfferingTab.getIncludedEndorsementList(HERITAGE);
 
 		productOfferingTab.submitTab();
 		new EndorsementTab().fillTab(td);
 //TODO 7. Verification of the List of all endorsements which are included to Heritage bundle on Endorsement tab.
+		new EndorsementTab().includedEndorsementIsAded(includedEndorsements);
 		new EndorsementTab().submitTab();
 		CustomAssert.assertTrue(modifiedTotalPremium.equals(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium()));
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_PRODUCT_OFFERING.get());
