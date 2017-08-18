@@ -7,7 +7,7 @@ import aaa.modules.delta.templates.KSDeltaScenario1;
 import toolkit.datax.TestData;
 
 public class TestKSDeltaScenario1 extends KSDeltaScenario1 { 
-public String scenarioPolicyType = "HO3-Heritage";
+	public String scenarioPolicyType = "HO3-Heritage";
 	
 	@Override
 	protected PolicyType getPolicyType() {
@@ -37,8 +37,8 @@ public String scenarioPolicyType = "HO3-Heritage";
 	}
 	
 	@Test
-	public void TC05_verifyHailResistiveRating() {
-		super.TC05_verifyHailResistiveRating();
+	public void TC05_verifyHailResistanceRating() {
+		super.TC05_verifyHailResistanceRating();
 	}
 
 	@Test

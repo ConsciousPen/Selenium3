@@ -143,7 +143,7 @@ public class KSDeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();	
 	}
 	
-	public void TC05_verifyHailResistiveRating() {
+	public void TC05_verifyHailResistanceRating() {
 		mainApp().open();
 		SearchPage.openQuote(quoteNumber);	
 		

@@ -76,7 +76,8 @@ PropertyValue: {
 Construction: {
     Year built: 2009,
     Square footage: 1,
-    Roof type: Laminate / Architectural,
+    #Roof type: Laminate / Architectural, 
+    Roof type: 'Wood shingle/Wood shake',
     Construction type: 'Masonry', 
   }
   
