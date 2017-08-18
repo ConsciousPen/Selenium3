@@ -13,8 +13,10 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<!-- <time.service.file>src/test/resources/config/timeservice.properties</time.service.file> -->
 		<browser.pool.config>src/test/resources/config/BrowserPool.xml</browser.pool.config>
 		<timeshift.report.dir>target/test-output/timeshift-report</timeshift.report.dir>
+		<!-- <browser.controller.class>com.exigen.istf.exec.browser.BrowserControllerImpl</browser.controller.class> -->
 		<dependency.locations.enabled>true</dependency.locations.enabled>
 		<dependency.details.enabled>true</dependency.details.enabled>
 		<storage.rest.enabled>true</storage.rest.enabled>
@@ -47,9 +49,12 @@
 					<excludedGroups>${excludedgroups}</excludedGroups>
 					<!-- <includes> <include>%regex[aaa.modules.${package}]</include> </includes> -->
 					<systemPropertyVariables>
+						<!-- <time.service.file>${time.service.file}</time.service.file> -->
 						<browser.pool.config>${browser.pool.config}</browser.pool.config>
 						<timeshift.report.dir>${timeshift.report.dir}</timeshift.report.dir>
+						<!-- <browser.controller.class>${browser.controller.class}</browser.controller.class> -->
 					</systemPropertyVariables>
+					<!-- <reportsDirectory>${project.build.directory}/target/test-output</reportsDirectory> -->
 					<argLine>-Xmx1024m</argLine>
 				</configuration>
 			</plugin>

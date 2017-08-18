@@ -35,7 +35,6 @@ public class TestINDeltaScenario1 extends INDeltaScenario1 {
 	@Test
 	public void TC04_verifyQuoteODD() {}
 	
-	
 	@Test
 	public void TC05_verifyHailResistiveRating() {
 		super.TC05_verifyHailResistiveRating();

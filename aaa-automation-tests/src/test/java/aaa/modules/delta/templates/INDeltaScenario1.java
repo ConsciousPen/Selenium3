@@ -162,7 +162,7 @@ public class INDeltaScenario1 extends BaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 		
-		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
+		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)||getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
 			propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING.getLabel()).verify.present(); 
 			
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
@@ -178,9 +178,9 @@ public class INDeltaScenario1 extends BaseTest {
 			PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 			
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-			//propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING).setAnyValueExcept("No");
 			TestData td_hailResistanceRating = getTestSpecificTD("TestData_hailResistanceRating");
 			propertyInfoTab.fillTab(td_hailResistanceRating);
+			propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING).setValue("3");
 			String hailResistanceRating = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING.getLabel()).getValue().toString(); 
 			
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
@@ -194,7 +194,7 @@ public class INDeltaScenario1 extends BaseTest {
 					PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Hail zone flag").equals("Yes"));
 			PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 		}
-		else {
+		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
 			propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING.getLabel()).verify.present(false); 
 			
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
@@ -203,13 +203,13 @@ public class INDeltaScenario1 extends BaseTest {
 			
 			PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
 			CustomAssert.enableSoftMode();
-			CustomAssert.assertTrue("Hail Resistive Rating is present in Rating Details", 
-					PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Hail Resistive Rating").equals("No"));
-			CustomAssert.assertTrue("Hail zone flag is present in Rating Details", 
-					PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Hail zone flag").equals("No"));
+			CustomAssert.assertFalse("Hail Resistive Rating is present in Rating Details", 
+					PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getLabel("Hail Resistive Rating").isPresent());
+			CustomAssert.assertFalse("Hail zone flag is present in Rating Details", 
+					PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getLabel("Hail zone flag").isPresent());
 			PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();		
 		}
-		
+		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
 		CustomAssert.assertAll();			
 	}
 	
@@ -223,7 +223,9 @@ public class INDeltaScenario1 extends BaseTest {
 		
 		CustomAssert.enableSoftMode();		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		new PropertyInfoTab().fillTab(td_RoofTypeUneligible);
+		PropertyInfoTab propertyInfoTab = new PropertyInfoTab(); 
+		propertyInfoTab.fillTab(td_RoofTypeUneligible);
+		propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.ROOF_TYPE).setValue("Wood shingle/Wood shake");
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -237,7 +239,6 @@ public class INDeltaScenario1 extends BaseTest {
 		errorTab.cancel();
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
 		propertyInfoTab.fillTab(td);
 		PropertyInfoTab.buttonSaveAndExit.click();
 		

@@ -6,4 +6,21 @@ TestData: {
   PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab_WithAutopay'
 }
 
-TestData_Endorsement: '@ho3@TestScenario1@TestData_Endorsement'
+TestData_Endorsement: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+      'Personal property value': '$25,000.00'
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+}
+

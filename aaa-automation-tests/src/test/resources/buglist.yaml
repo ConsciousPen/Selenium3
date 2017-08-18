@@ -52,5 +52,11 @@ QC-44326:
   summary: "Regression: IN AutoSS: The UW rule is appears wrongly for UMPD coverage of NANO policy"
   reason: PROD
   failures:
-    - tests: [aaa.modules.policy.auto_ss.TestPolicyNano.testPolicyNano]
+    - tests: [aaa.modules.regression.sales.auto_ss.TestPolicyNano.testPolicyNano]
       messages: ['Cannot set value of AssetList', 'Errors: 090-83-4IN; Error']
+QC-44331:
+  summary: "Policy isn't cancelled after run 'aaaCancellationConfirmationAsyncJob' job"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.pup.TestPolicyCancelRewrite.testPolicyCancelRewrite]
+      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}', 'Errors: Time out. No session available.']

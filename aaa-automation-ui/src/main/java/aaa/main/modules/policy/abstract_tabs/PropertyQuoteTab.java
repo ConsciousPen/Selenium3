@@ -141,7 +141,7 @@ public abstract class PropertyQuoteTab extends Tab {
 	public static class RatingDetailsTable {
 		private final String LOCATOR_TEMPLATE = "//td[.='%s']/following-sibling::td[1]";
 		private String locator;
-		//private final String LABEL_LOCATOR_TEMPLATE = "//td[.='%s']";
+		private final String LABEL_LOCATOR_TEMPLATE = "//td[.='%s']";
 
 		public RatingDetailsTable(String tableLocator) {
 			this.locator = tableLocator;
@@ -150,6 +150,10 @@ public abstract class PropertyQuoteTab extends Tab {
 		public String getValueByKey(String key) {
 			String label = this.locator + String.format(LOCATOR_TEMPLATE, key);
 			return new StaticElement(By.xpath(label)).getValue();
+		}
+		
+		public StaticElement getLabel(String key){
+			return new StaticElement(By.xpath(this.locator + String.format(LABEL_LOCATOR_TEMPLATE, key)));
 		}
 	}
 
