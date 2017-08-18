@@ -827,7 +827,7 @@ DriverTab1_OR: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
-  License Number: /001234567
+  License Number: '/rx:001234567'
 }
 
 DriverTab2_OR: {
@@ -840,7 +840,7 @@ DriverTab2_OR: {
   Occupation: Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
-  License Number: /001234568
+  License Number: '/rx:001234568'
 }
 
 # ------- PA ------

@@ -349,7 +349,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
-
+<!--
 	<test name="KY HSS Functional Tests">
 		<parameter name="state" value="KY" />
 		<classes>
@@ -381,7 +381,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
- 
+ -->
 	<test name="MD HSS Functional Tests">
 		<parameter name="state" value="MD" />
 		<classes>
