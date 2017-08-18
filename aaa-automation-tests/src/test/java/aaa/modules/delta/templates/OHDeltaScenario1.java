@@ -3,6 +3,7 @@ package aaa.modules.delta.templates;
 import aaa.common.pages.SearchPage;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
@@ -30,6 +31,8 @@ public class OHDeltaScenario1 extends BaseTest {
 		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
+		
+		GeneralTab generalTab = new GeneralTab();
 		
 	}
 	

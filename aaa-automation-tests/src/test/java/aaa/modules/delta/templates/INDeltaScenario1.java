@@ -1,5 +1,6 @@
 package aaa.modules.delta.templates;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
@@ -24,6 +26,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.ComboBox;
 
 public class INDeltaScenario1 extends BaseTest { 
 	
@@ -42,12 +45,26 @@ public class INDeltaScenario1 extends BaseTest {
         BindTab.buttonSaveAndExit.click();
         
         quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-        log.info("DELTA IN SC1: "+scenarioPolicyType+" Quote created with #" + quoteNumber);
-        
-        //effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue(); 		
+        log.info("DELTA IN SC1: "+scenarioPolicyType+" Quote created with #" + quoteNumber); 		
 	}
 	
-	public void TC02_verifyEndorsements(TestData td_forms) {		
+	public void TC02_verifyLOVsOfImmediatePriorCarrier() {
+		mainApp().open(); 
+		SearchPage.openQuote(quoteNumber);	
+		policy.dataGather().start();
+		
+		GeneralTab generalTab = new GeneralTab();
+		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER.getLabel(), ComboBox.class).verify.options(
+				Arrays.asList("AAA-Michigan (ACG)", "AAA-NoCal (CSAA IG) Rewrite", "AAA-NoCal (CSAA IG) Sold/Bought", "AAA-SoCal (ACSC)", "Allied", 
+						"Allstate", "Amco Ins Co", "American Family", "American Modern", "American National", "Auto Owners", "Chartis", "Cincinnati", 
+						"Farmers", "Foremost", "Hartford", "Homesite", "IDS", "Kemper", "Liberty Mutual", "Metropolitan", "Nationwide", "No Prior", 
+						"Other Carrier", "Owners Insurance", "Pacific Indemnity", "SafeCo", "Sentinel Insurance", "Standard Guaranty", 
+						"State Farm", "Travelers", "USAA", "None")); 
+		
+		GeneralTab.buttonSaveAndExit.click();
+	}
+	
+	public void TC03_verifyEndorsements(TestData td_forms) {		
 		Map<String, String> endorsement_HS0312 = new HashMap<>();
 		endorsement_HS0312.put("Form ID", "HS 03 12");
 		endorsement_HS0312.put("Name", "Windstorm Or Hail Deductible - Percentage"); 
@@ -87,7 +104,7 @@ public class INDeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();
 	}
 	
-	public void TC03_verifyHS2383(TestData td_hs2383) {		
+	public void TC04_verifyHS2383(TestData td_hs2383) {		
 		Map<String, String> endorsement_HS2383 = new HashMap<>(); 
 		endorsement_HS2383.put("Form ID", "HS 23 83"); 
 		endorsement_HS2383.put("Name", "Mine Subsidence Endorsement"); 
@@ -126,7 +143,7 @@ public class INDeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();		
 	}
 
-	public void TC04_verifyQuoteODD() {
+	public void TC05_verifyQuoteODD() {
 		mainApp().open();
 		SearchPage.openQuote(quoteNumber);	
 
@@ -141,7 +158,7 @@ public class INDeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();
 	}
 	
-	public void TC05_verifyHailResistiveRating() {
+	public void TC06_verifyHailResistanceRating() {
 		mainApp().open();
 		SearchPage.openQuote(quoteNumber);	
 		
@@ -160,7 +177,7 @@ public class INDeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();			
 	}
 	
-	public void TC06_verifyRoofTypeUneligible(TestData td) {
+	public void TC07_verifyRoofTypeUneligible(TestData td) {
 		mainApp().open(); 
 		
 		TestData td_RoofTypeUneligible = getTestSpecificTD("TestData_RoofTypeUneligible");
@@ -192,7 +209,7 @@ public class INDeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();
 	}
 	
-	public void TC07_purchasePolicy(TestData td, String scenarioPolicyType) {
+	public void TC08_purchasePolicy(TestData td, String scenarioPolicyType) {
 		mainApp().open(); 
 		
 		SearchPage.openQuote(quoteNumber);	
@@ -212,7 +229,7 @@ public class INDeltaScenario1 extends BaseTest {
         log.info("DELTA IN SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);
 	}
 
-	public void TC08_verifyPolicyODD() {
+	public void TC09_verifyPolicyODD() {
 		mainApp().open(); 
 		
 		SearchPage.openPolicy(policyNumber);

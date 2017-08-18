@@ -1,5 +1,6 @@
 package aaa.modules.delta.templates;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +24,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.ComboBox;
 
 public class KSDeltaScenario1 extends BaseTest {
 	protected IPolicy policy;
@@ -46,7 +48,24 @@ public class KSDeltaScenario1 extends BaseTest {
         effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue(); 		
 	}
 	
-	public void TC02_verifyEndorsements(TestData td_forms) {
+	public void TC02_verifyLOVsOfImmediatePriorCarrier() {
+		mainApp().open(); 
+		SearchPage.openQuote(quoteNumber);	
+		policy.dataGather().start();
+		
+		GeneralTab generalTab = new GeneralTab();
+		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER.getLabel(), ComboBox.class).verify.options(
+				Arrays.asList("AAA-Michigan (ACG)", "AAA-NoCal (CSAA IG) Rewrite", "AAA-NoCal (CSAA IG) Sold/Bought", "AAA-SoCal (ACSC)",
+						"Allied", "Allstate", "Amco Ins Co", "American Family", "American National", "Auto Owners", "Chartis",
+						"Cincinnati", "CSAA IG", "CSE Safeguard", "Farm Bureau", "Farmers", "Fire Insurance", "First Time Homebuyer",
+						"Foremost", "Hartford", "Homesite", "Liberty Mutual", "Metropolitan", "Nationwide", "No Prior",
+						"Other Carrier", "Owners Insurance", "Pacific Indemnity", "Safeco", "Shelter Mutual",
+						"State Farm", "Travelers", "Unigard", "USAA")); 
+		
+		GeneralTab.buttonSaveAndExit.click();
+	}
+	
+	public void TC03_verifyEndorsements(TestData td_forms) {
 		mainApp().open();
 		
 		Map<String, String> endorsement_HS0312 = new HashMap<>();
@@ -88,7 +107,7 @@ public class KSDeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();
 	}
 	
-	public void TC03_verifyELC() {
+	public void TC04_verifyELC() {
 		mainApp().open(); 
 		
 		TestData td_None_with_Score740 = getTestSpecificTD("TestData_None_with_Score740"); 
@@ -124,7 +143,7 @@ public class KSDeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();	
 	}
 	
-	public void TC04_verifyHailResistiveRating() {
+	public void TC05_verifyHailResistiveRating() {
 		mainApp().open();
 		SearchPage.openQuote(quoteNumber);	
 		
@@ -143,7 +162,7 @@ public class KSDeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();	
 	}
 	
-	public void TC05_purchasePolicy(TestData td, String scenarioPolicyType) {
+	public void TC06_purchasePolicy(TestData td, String scenarioPolicyType) {
 		mainApp().open(); 
 		
 		SearchPage.openQuote(quoteNumber);	
@@ -163,7 +182,7 @@ public class KSDeltaScenario1 extends BaseTest {
         log.info("DELTA KS SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);
 	}
 	
-	public void TC06_verifyODDPolicy() {}
+	public void TC07_verifyODDPolicy() {}
 
 	
 	private void verifyELCNotApplied(TestData td, String scoreInRatingDetails) {
