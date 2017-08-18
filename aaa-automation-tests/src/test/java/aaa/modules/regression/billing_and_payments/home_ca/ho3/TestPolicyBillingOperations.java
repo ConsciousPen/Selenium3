@@ -133,8 +133,8 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
      * 12. Check Total Paid Amount value after refunding
      */
 
-    @Test
-    @TestInfo(component = "Policy.HomeCA")
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3)
     public void testManualRefund() {
 
         Dollar paymentAmount = new Dollar(getTestSpecificTD("TestData_Payment_1000").getTestData(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName())
@@ -234,8 +234,8 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
      * 19. Check Minimum Due Amount doesn't change
      */
 
-    @Test
-    @TestInfo(component = "Policy.HomeCA")
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3)
     public void testManualWriteOff() {
 
         Dollar writeoffAmount = new Dollar(getTestSpecificTD("TestData_WriteOff").getTestData(BillingAccountMetaData.OtherTransactionsActionTab.class.getSimpleName())
@@ -379,8 +379,8 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
     Dollar expectedTotalDue;
     Dollar feeAmountTotal = new Dollar(0);
 
-    @Test
-    @TestInfo(component = "Policy.HomeCA")
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3)
     public void testManualReturnedPayments() {
 
         HashMap<String, String> query;

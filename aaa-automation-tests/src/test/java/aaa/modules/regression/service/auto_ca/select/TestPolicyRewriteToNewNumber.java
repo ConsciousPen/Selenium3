@@ -2,6 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ca.select;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import org.testng.annotations.Test;
 
 import toolkit.utils.TestInfo;
@@ -11,8 +13,7 @@ import aaa.modules.regression.service.template.PolicyRewriteToNewNumber;
 /**
  * @author Yonggang Sun
  * @name Test Rewrite to new number for Auto CA Policy
- * @scenario
- * 1. Create Customer
+ * @scenario 1. Create Customer
  * 2. Create Home (AAA) Policy
  * 3. Cancel Policy
  * 4. Rewrite Policy
@@ -26,12 +27,12 @@ public class TestPolicyRewriteToNewNumber extends PolicyRewriteToNewNumber {
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_CA_SELECT;
 	}
-	
-    @Test
-    @TestInfo(component = "Policy.HomeCA")
-    public void testPolicyRewriteToNewNumber() {
-    	super.setFileName("Rewrite");
-    	super.setTdName("TestDataForBindRewrittenPolicy");
-        super.testPolicyRewriteToNewNumber();
-    }
+
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT)
+	public void testPolicyRewriteToNewNumber() {
+		super.setFileName("Rewrite");
+		super.setTdName("TestDataForBindRewrittenPolicy");
+		super.testPolicyRewriteToNewNumber();
+	}
 }
