@@ -56,7 +56,7 @@ import toolkit.verification.CustomAssert;
  * 		7d. Verify policy status is Active and term premium on Consolidated view equals to term premium calculated during endorsement.
  * @details
  */
-public class TestPolicyMembershipDiscount extends HomeSSHO3BaseTest {
+public class TestPolicyDiscountMembership extends HomeSSHO3BaseTest {
 	
 	private String policyNumber1; 
 	private String policyNumber2; 

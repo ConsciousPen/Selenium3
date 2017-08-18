@@ -32,7 +32,7 @@ import aaa.modules.policy.PersonalUmbrellaBaseTest;
  * 3. Issue policy;
  * 4. Check Policy status is Active.
  */
-public class TestPupCreatePolicyFull extends PersonalUmbrellaBaseTest {
+public class TestPolicyCreationFull extends PersonalUmbrellaBaseTest {
 
     @Test
     @TestInfo(component = "Policy.PUP")
