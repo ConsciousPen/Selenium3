@@ -797,6 +797,10 @@ public final class AutoSSMetaData {
 	
 	public static final class RollOnChangesActionTab extends MetaData {
 	}
+	
+	public static final class RollOnChangesErrorTab extends MetaData {
+		public static final AssetDescriptor<Button> PROCEED = declare("Proceed", Button.class, Waiters.AJAX, false, By.id("errorsForm:proceed"));
+	}
 
 	public static final class CopyFromPolicyActionTab extends MetaData {
 		public static final AssetDescriptor<TextBox> QUOTE_EFFECTIVE_DATE = declare("Quote Effective Date", TextBox.class);
