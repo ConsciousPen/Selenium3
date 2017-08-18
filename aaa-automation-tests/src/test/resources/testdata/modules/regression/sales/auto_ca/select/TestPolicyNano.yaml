@@ -1,0 +1,44 @@
+TestData_Adjustment: {
+  GeneralTab: '@GeneralTab',
+  VehicleTab: '@VehicleTab',
+  AssignmentTab: '@AssignmentTab',
+}
+
+
+GeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  PolicyInformation: '@PolicyInformation'
+}
+
+NamedInsuredInformation: {
+  "Home Phone #": 1234567890 
+}
+
+AAAProductOwned: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001,
+  Member Last Name: Test,
+}
+
+PolicyInformation: {
+  Policy Type: 'Named Non Owner',
+  Effective Date: '/today:MM/dd/yyyy',
+  Channel Type: Phone (Direct Sales Unit),
+  Agency: SMTestCC - 400000092,
+  Sales Channel: Online,
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+VehicleTab: {
+  Vehicle Use: Occasional Use
+}
+
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [{
+    Vehicle: '2000, NANO',
+    Primary Driver: index=1,
+    Manually Rated Driver: index=1
+  }]
+}

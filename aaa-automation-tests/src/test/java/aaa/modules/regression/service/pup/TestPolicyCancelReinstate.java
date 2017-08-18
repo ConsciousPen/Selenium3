@@ -1,4 +1,4 @@
-package aaa.modules.regression.service.auto_ss;
+package aaa.modules.regression.service.pup;
 
 
 import aaa.helpers.constants.ComponentConstant;
@@ -10,8 +10,8 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 /**
- * @author amitjukovs
- * @name Test Cancellation flat and Reinstate Auto SS Policy
+ * @author Jelena Dembovska
+ * @name Test Cancel and reinstate home ho3 policy
  * @scenario
  * see parent class
  * @details
@@ -20,11 +20,11 @@ public class TestPolicyCancelReinstate extends PolicyCancelReinstate {
 
     @Override
     protected PolicyType getPolicyType() {
-        return PolicyType.AUTO_SS;
+        return PolicyType.PUP;
     }
     
     @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS)
+    @TestInfo(component = ComponentConstant.Service.PUP)
     public void testPolicyCancelReinstate() {
         
     	super.testPolicyCancelReinstate();
