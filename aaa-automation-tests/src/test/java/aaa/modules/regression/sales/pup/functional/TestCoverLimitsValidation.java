@@ -166,11 +166,12 @@ public class TestCoverLimitsValidation  extends PersonalUmbrellaBaseTest {
 	private PrefillTab prefillTab = policy.getDefaultView().getTab(PrefillTab.class);
 	private UnderlyingRisksAutoTab autoTab = policy.getDefaultView().getTab(UnderlyingRisksAutoTab.class);
 	private UnderlyingRisksOtherVehiclesTab otherVehiclesTab = policy.getDefaultView().getTab(UnderlyingRisksOtherVehiclesTab.class);
-	private TestData tdSpecific = getTestSpecificTD("TestData");
-	
+	private TestData tdSpecific;
+
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Sales.PUP)
 	public void testCoverLimitsValidation() {
+		tdSpecific = getTestSpecificTD("TestData");
 		mainApp().open();
 
 		// 1 ~ 4
