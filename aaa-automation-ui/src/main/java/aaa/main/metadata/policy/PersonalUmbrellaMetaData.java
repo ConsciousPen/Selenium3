@@ -650,6 +650,7 @@ public final class PersonalUmbrellaMetaData {
 		}
 		
 		public static final class RequiredToBind extends MetaData {
+			public static final AssetDescriptor<RadioGroup> AAA_PROOF_OF_UNDERLYING_INSURANCE = declare("Proof of underlying insurance for each vehicle/watercraft not insured with AAA/AMIG", RadioGroup.class, Waiters.NONE);
 			
 		}
 
