@@ -40,7 +40,7 @@ import toolkit.verification.CustomAssert;
  * @details
  */
 
-public class TestPolicySafeDiscount extends HomeSSHO3BaseTest {
+public class TestPolicyDiscountSafe extends HomeSSHO3BaseTest {
 	
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)

@@ -46,4 +46,20 @@ public class TestQuoteAction extends QuoteActionAbstract {
     public void testQuoteIssue() {
     	super.testQuoteIssue();
     }
+	
+	/**
+	 * @author Jelena Dembovska
+	 * @name Test quote copy action
+	 * @scenario
+	 * 1. Create Customer
+	 * 2. Create Quote for corresponding product
+	 * 3. Select action "Copy from quote"
+	 * 4. Verify new quote status is 'Data Gathering'
+	 * @details
+	 */	
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.PUP)
+	public void testQuoteCopy() {
+		super.testQuoteCopy();
+	}
 }
