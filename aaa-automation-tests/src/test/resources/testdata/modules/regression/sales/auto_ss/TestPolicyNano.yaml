@@ -534,7 +534,8 @@ TestData_OR: {
 DriverTab_OR: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
-  License Number: 001234567
+  License Type: 'Licensed (US)',
+  License Number: '/rx:001234567'
 }
 
 # ------- PA ------
