@@ -23,7 +23,6 @@ TestDataForBindRewrittenPolicy: {
      Order Report: click
   },
   VehicleTab: {},
-  AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {
@@ -34,7 +33,6 @@ TestDataForBindRewrittenPolicy: {
      RequiredToBind: {
        Auto Insurance Application: 'Physically Signed'
       },
-      Authorized By: QA
    },
   PurchaseTab: {
   PaymentAllocation: {
@@ -57,7 +55,9 @@ TestDataNewNumber_UT: {
   }
 }
 
-TestDataForBindRewrittenPolicy_UT: {
+#------ Custom states
+
+TestDataForBindRewrittenPolicy_NY: {
   PrefillTab: {},
   GeneralTab: {
      PolicyInformation: { Authorized by: QA}
@@ -77,9 +77,9 @@ TestDataForBindRewrittenPolicy_UT: {
   },
   DocumentsAndBindTab: {
      RequiredToBind: {
-       Auto Insurance Application: Physically Signed
+       Acknowledgement of Requirement for Photo Inspection: Physically Signed,
+       New York Auto Insurance Application: Physically Signed,
       },
-      Authorized By: QA
    },
   PurchaseTab: {
   PaymentAllocation: {
