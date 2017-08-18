@@ -35,7 +35,7 @@ public class TestPolicyEndorsementRemove extends AutoCaSelectBaseTest {
 
 
     @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS)
+    @TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE)
     public void testPolicyEndorsementRemove() {
     	
     	new TestPolicyCreationBig().testPolicyCreationBig();

@@ -32,3 +32,17 @@ TestData_VA: {
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {}
 }
+
+# ---------- NY ------------
+
+TestData_NY: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}

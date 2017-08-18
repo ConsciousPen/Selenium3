@@ -8,6 +8,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 
 import aaa.common.Tab;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
+import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.table.Table;
@@ -19,7 +20,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
  * Modify this class if tab filling procedure has to be customized, extra asset list to be added, custom testdata key to be defined, etc.
  * @category Generated
  */
-public class PremiumAndCoveragesQuoteTab extends Tab {
+public class PremiumAndCoveragesQuoteTab extends PropertyQuoteTab {
     public PremiumAndCoveragesQuoteTab() {
         super(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class);
     }
@@ -38,6 +39,7 @@ public class PremiumAndCoveragesQuoteTab extends Tab {
 		btnCalculatePremium.click();
 	}
 	
+
     @Override
     public Tab submitTab() {
     	btnContinue.click();

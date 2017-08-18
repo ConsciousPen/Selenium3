@@ -33,7 +33,7 @@ import toolkit.utils.TestInfo;
  * 5. Verify policy status is Active on Consolidated policy view.
  * @details
  */
-public class TestPolicyDiscounts extends HomeSSHO3BaseTest {
+public class TestPolicyDiscountMultiPolicy extends HomeSSHO3BaseTest {
 
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)

@@ -1,6 +1,5 @@
 package aaa.modules.delta.templates;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,8 +11,6 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
@@ -21,20 +18,17 @@ import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.ComboBox;
 
-public class INDeltaScenario1 extends BaseTest { 
-	
+public class OHDeltaScenario1 extends BaseTest {
 	protected IPolicy policy;
 	protected String quoteNumber;
 	protected String policyNumber;
 	
-	public void TC01_createQuote(TestData td, String scenarioPolicyType) {
+	public void TC_createQuote(TestData td, String scenarioPolicyType) {
 		policy = getPolicyType().get();
 		
 		mainApp().open();
@@ -45,26 +39,34 @@ public class INDeltaScenario1 extends BaseTest {
         BindTab.buttonSaveAndExit.click();
         
         quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-        log.info("DELTA IN SC1: "+scenarioPolicyType+" Quote created with #" + quoteNumber); 		
+        log.info("DELTA OH SC1: "+scenarioPolicyType+" Quote created with #" + quoteNumber); 		
 	}
 	
-	public void TC02_verifyLOVsOfImmediatePriorCarrier() {
+	public void TC_verifyImmediatePriorCarrier() {
 		mainApp().open(); 
+
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
-		GeneralTab generalTab = new GeneralTab();
-		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER.getLabel(), ComboBox.class).verify.options(
-				Arrays.asList("AAA-Michigan (ACG)", "AAA-NoCal (CSAA IG) Rewrite", "AAA-NoCal (CSAA IG) Sold/Bought", "AAA-SoCal (ACSC)", "Allied", 
-						"Allstate", "Amco Ins Co", "American Family", "American Modern", "American National", "Auto Owners", "Chartis", "Cincinnati", 
-						"Farmers", "Foremost", "Hartford", "Homesite", "IDS", "Kemper", "Liberty Mutual", "Metropolitan", "Nationwide", "No Prior", 
-						"Other Carrier", "Owners Insurance", "Pacific Indemnity", "SafeCo", "Sentinel Insurance", "Standard Guaranty", 
-						"State Farm", "Travelers", "USAA", "None")); 
+		CustomAssert.enableSoftMode();			
+		GeneralTab generalTab = new GeneralTab();		
+		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER).setValue("First Time Homebuyer"); 
+		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.CONTINUOUS_YEARS_WITH_IMMEDIATE_PRIOR_CARRIER.getLabel()).verify.present(false); 
+		
+		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER).setValue("No Prior"); 
+		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.CONTINUOUS_YEARS_WITH_IMMEDIATE_PRIOR_CARRIER.getLabel()).verify.present(false); 
+		
+		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER).setValue("Allstate"); 
+		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.CONTINUOUS_YEARS_WITH_IMMEDIATE_PRIOR_CARRIER.getLabel()).verify.present(); 
+		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.CONTINUOUS_YEARS_WITH_IMMEDIATE_PRIOR_CARRIER).setValue("5");
 		
 		GeneralTab.buttonSaveAndExit.click();
+		CustomAssert.assertAll();
 	}
 	
-	public void TC03_verifyEndorsements(TestData td_forms) {		
+	public void TC_verifyEndorsements(TestData td_forms) {
+		mainApp().open();
+		
 		Map<String, String> endorsement_HS0312 = new HashMap<>();
 		endorsement_HS0312.put("Form ID", "HS 03 12");
 		endorsement_HS0312.put("Name", "Windstorm Or Hail Deductible - Percentage"); 
@@ -72,8 +74,7 @@ public class INDeltaScenario1 extends BaseTest {
 		Map<String, String> endorsement_HS0493 = new HashMap<>(); 
 		endorsement_HS0493.put("Form ID", "HS 04 93"); 
 		endorsement_HS0493.put("Name", "Actual Cash Value - Windstorm Or Hail Losses"); 
-			
-		mainApp().open();
+		
 		SearchPage.openQuote(quoteNumber);	
 		
 		policy.dataGather().start();
@@ -81,10 +82,11 @@ public class INDeltaScenario1 extends BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
 		EndorsementTab endorsementTab = new EndorsementTab(); 
 
-		CustomAssert.enableSoftMode();		
+		CustomAssert.enableSoftMode();
+		
 		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
 			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312).verify.present();	
-			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present();	
+			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present();
 			
 			endorsementTab.fillTab(td_forms);
 			
@@ -94,7 +96,7 @@ public class INDeltaScenario1 extends BaseTest {
 		}
 		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
 			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312).verify.present(false);	
-			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present(false);
+			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present(false);		
 			endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312).verify.present(false);
 		}
 		
@@ -104,61 +106,7 @@ public class INDeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();
 	}
 	
-	public void TC04_verifyHS2383(TestData td_hs2383) {		
-		Map<String, String> endorsement_HS2383 = new HashMap<>(); 
-		endorsement_HS2383.put("Form ID", "HS 23 83"); 
-		endorsement_HS2383.put("Name", "Mine Subsidence Endorsement"); 
-		
-		mainApp().open();
-		SearchPage.openQuote(quoteNumber);	
-		
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
-		EndorsementTab endorsementTab = new EndorsementTab(); 
-		
-		CustomAssert.enableSoftMode();
-		endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS2383).verify.present(false);		
-		endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS2383).verify.present(false);
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
-		new ApplicantTab().fillTab(td_hs2383); 
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-		new ReportsTab().fillTab(td_hs2383); 
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
-		
-		endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS2383).verify.present();	
-		
-		endorsementTab.fillTab(td_hs2383);
-		
-		endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS2383).verify.present();
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
-		
-		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();	
-		CustomAssert.assertAll();		
-	}
-
-	public void TC05_verifyQuoteODD() {
-		mainApp().open();
-		SearchPage.openQuote(quoteNumber);	
-
-		policy.quoteDocGen().start();		
-		CustomAssert.enableSoftMode();	
-		/*
-		GenerateOnDemandDocumentActionTab goddTab = new GenerateOnDemandDocumentActionTab();
-		goddTab.tableOnDemandDocuments.getRow("Document #", "HS11CO").verify.present();
-		goddTab.tableOnDemandDocuments.getRow("Document #", "HSIQXX").verify.present();
-		*/
-		GenerateOnDemandDocumentActionTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();
-	}
-	
-	public void TC06_verifyHailResistanceRating() {
+	public void TC_verifyHailResistanceRating() {
 		mainApp().open();
 		SearchPage.openQuote(quoteNumber);	
 		
@@ -174,10 +122,10 @@ public class INDeltaScenario1 extends BaseTest {
 		} 
 		
 		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();			
+		CustomAssert.assertAll();
 	}
 	
-	public void TC07_verifyRoofTypeUneligible(TestData td) {
+	public void TC_verifyRoofTypeUneligible(TestData td) {
 		mainApp().open(); 
 		
 		TestData td_RoofTypeUneligible = getTestSpecificTD("TestData_RoofTypeUneligible");
@@ -209,7 +157,7 @@ public class INDeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();
 	}
 	
-	public void TC08_purchasePolicy(TestData td, String scenarioPolicyType) {
+	public void TC_purchasePolicy(TestData td, String scenarioPolicyType) {
 		mainApp().open(); 
 		
 		SearchPage.openQuote(quoteNumber);	
@@ -226,19 +174,10 @@ public class INDeltaScenario1 extends BaseTest {
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         
-        log.info("DELTA IN SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);
+        log.info("DELTA OH SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);
 	}
-
-	public void TC09_verifyPolicyODD() {
-		mainApp().open(); 
-		
-		SearchPage.openPolicy(policyNumber);
-		//TestData td_godd = getTestSpecificTD("TestData_GODD");
-		
-		policy.policyDocGen().start();
-		//policy.policyDocGen().perform(td_godd);
-		
-	}
+	
+	public void TC_verifyODDPolicy() {}
 	
 	private void verifyHailResistanceRating_NotApplied() {
 		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
@@ -301,5 +240,4 @@ public class INDeltaScenario1 extends BaseTest {
 				PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getLabel("Hail zone flag").isPresent());
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();	
 	}
-	
 }

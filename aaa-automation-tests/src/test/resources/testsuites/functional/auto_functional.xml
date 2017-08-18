@@ -78,6 +78,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
    		</classes>
     </test>
@@ -96,6 +97,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
 	
@@ -113,6 +115,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
 
@@ -130,6 +133,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
 	
@@ -147,6 +151,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
 	
@@ -164,6 +169,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
 	
@@ -181,9 +187,10 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
-	<!--
+
 	<test name="KY Auto Functional Tests">
 	    <parameter name="state" value="KY"/>
     	<classes>
@@ -198,9 +205,10 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
-	-->
+
 	<test name="MD Auto Functional Tests">
 	    <parameter name="state" value="MD"/>
     	<classes>
@@ -215,6 +223,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
 	
@@ -232,6 +241,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
 	
@@ -249,6 +259,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
 	
@@ -266,6 +277,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
 	
@@ -277,12 +289,12 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig"/>
 			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
 			<class name="aaa.modules.regression.billing_and_payments.auto_ss.TestPolicyBilling"/>
-			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
 	
@@ -300,6 +312,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
 	
@@ -317,6 +330,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
 	
@@ -334,6 +348,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
 	
@@ -351,6 +366,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
 	
@@ -368,6 +384,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
 	
@@ -385,6 +402,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
 	
@@ -402,6 +420,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
 	
@@ -419,6 +438,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySpin"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicySplit"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
 	
