@@ -11,11 +11,10 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
@@ -25,11 +24,11 @@ import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 
-public class INDeltaScenario1 extends BaseTest { 
-	
+public class KSDeltaScenario1 extends BaseTest {
 	protected IPolicy policy;
 	protected String quoteNumber;
 	protected String policyNumber;
+	protected String effectiveDate;
 	
 	public void TC01_createQuote(TestData td, String scenarioPolicyType) {
 		policy = getPolicyType().get();
@@ -42,12 +41,14 @@ public class INDeltaScenario1 extends BaseTest {
         BindTab.buttonSaveAndExit.click();
         
         quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-        log.info("DELTA IN SC1: "+scenarioPolicyType+" Quote created with #" + quoteNumber);
+        log.info("DELTA KS SC1: "+scenarioPolicyType+" Quote created with #" + quoteNumber);
         
-        //effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue(); 		
+        effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue(); 		
 	}
 	
-	public void TC02_verifyEndorsements(TestData td_forms) {		
+	public void TC02_verifyEndorsements(TestData td_forms) {
+		mainApp().open();
+		
 		Map<String, String> endorsement_HS0312 = new HashMap<>();
 		endorsement_HS0312.put("Form ID", "HS 03 12");
 		endorsement_HS0312.put("Name", "Windstorm Or Hail Deductible - Percentage"); 
@@ -55,8 +56,7 @@ public class INDeltaScenario1 extends BaseTest {
 		Map<String, String> endorsement_HS0493 = new HashMap<>(); 
 		endorsement_HS0493.put("Form ID", "HS 04 93"); 
 		endorsement_HS0493.put("Name", "Actual Cash Value - Windstorm Or Hail Losses"); 
-			
-		mainApp().open();
+		
 		SearchPage.openQuote(quoteNumber);	
 		
 		policy.dataGather().start();
@@ -64,10 +64,11 @@ public class INDeltaScenario1 extends BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
 		EndorsementTab endorsementTab = new EndorsementTab(); 
 
-		CustomAssert.enableSoftMode();		
+		CustomAssert.enableSoftMode();
+		
 		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
 			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312).verify.present();	
-			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present();	
+			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present();
 			
 			endorsementTab.fillTab(td_forms);
 			
@@ -77,7 +78,7 @@ public class INDeltaScenario1 extends BaseTest {
 		}
 		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
 			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312).verify.present(false);	
-			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present(false);
+			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present(false);		
 			endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312).verify.present(false);
 		}
 		
@@ -87,61 +88,43 @@ public class INDeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();
 	}
 	
-	public void TC03_verifyHS2383(TestData td_hs2383) {		
-		Map<String, String> endorsement_HS2383 = new HashMap<>(); 
-		endorsement_HS2383.put("Form ID", "HS 23 83"); 
-		endorsement_HS2383.put("Name", "Mine Subsidence Endorsement"); 
+	public void TC03_verifyELC() {
+		mainApp().open(); 
 		
-		mainApp().open();
+		TestData td_None_with_Score740 = getTestSpecificTD("TestData_None_with_Score740"); 
+		TestData td_Declined_with_Score999 = getTestSpecificTD("TestData_Declined_with_Score999"); 
+		TestData td_IdentityTheft_with_Score750 = getTestSpecificTD("TestData_IdentityTheft_with_Score750"); 
+		TestData td_MilitaryDeployment_with_Score740 = getTestSpecificTD("TestData_MilitaryDeployment_with_Score740"); 
+		TestData td_OtherEvents_with_Score999 = getTestSpecificTD("TestData_OtherEvents_with_Score999"); 
+		
 		SearchPage.openQuote(quoteNumber);	
-		
 		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
-		EndorsementTab endorsementTab = new EndorsementTab(); 
 		
-		CustomAssert.enableSoftMode();
-		endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS2383).verify.present(false);		
-		endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS2383).verify.present(false);
+		CustomAssert.enableSoftMode();		
+		GeneralTab generalTab = new GeneralTab();
+		generalTab.verifyFieldHasValue("Extraordinary Life Circumstance", "None"); 
 		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
-		new ApplicantTab().fillTab(td_hs2383); 
+		verifyELCNotApplied(td_Declined_with_Score999, "999");
+		verifyELCNotApplied(td_IdentityTheft_with_Score750, "750");
 		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-		new ReportsTab().fillTab(td_hs2383); 
+		verifyELCApplied(td_MilitaryDeployment_with_Score740, "745");
+		verifyELCApplied(td_OtherEvents_with_Score999, "745");
 		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
+		//verify AAA_HO_SS7230342 - "Underwriting approval is required for the option you have selected"
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+		new BindTab().btnPurchase.click();
 		
-		endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS2383).verify.present();	
+		ErrorTab errorTab = new ErrorTab(); 
+		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS7230342);
+		errorTab.cancel();
 		
-		endorsementTab.fillTab(td_hs2383);
+		verifyELCNotApplied(td_None_with_Score740, "740");
 		
-		endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS2383).verify.present();
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
-		
-		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();	
-		CustomAssert.assertAll();		
-	}
-
-	public void TC04_verifyQuoteODD() {
-		mainApp().open();
-		SearchPage.openQuote(quoteNumber);	
-
-		policy.quoteDocGen().start();		
-		CustomAssert.enableSoftMode();	
-		/*
-		GenerateOnDemandDocumentActionTab goddTab = new GenerateOnDemandDocumentActionTab();
-		goddTab.tableOnDemandDocuments.getRow("Document #", "HS11CO").verify.present();
-		goddTab.tableOnDemandDocuments.getRow("Document #", "HSIQXX").verify.present();
-		*/
-		GenerateOnDemandDocumentActionTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();
+		ReportsTab.buttonSaveAndExit.click();		
+		CustomAssert.assertAll();	
 	}
 	
-	public void TC05_verifyHailResistiveRating() {
+	public void TC04_verifyHailResistiveRating() {
 		mainApp().open();
 		SearchPage.openQuote(quoteNumber);	
 		
@@ -157,42 +140,10 @@ public class INDeltaScenario1 extends BaseTest {
 		} 
 		
 		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();			
+		CustomAssert.assertAll();	
 	}
 	
-	public void TC06_verifyRoofTypeUneligible(TestData td) {
-		mainApp().open(); 
-		
-		TestData td_RoofTypeUneligible = getTestSpecificTD("TestData_RoofTypeUneligible");
-		
-		SearchPage.openQuote(quoteNumber);	
-		policy.dataGather().start();
-		
-		CustomAssert.enableSoftMode();		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		PropertyInfoTab propertyInfoTab = new PropertyInfoTab(); 
-		propertyInfoTab.fillTab(td_RoofTypeUneligible);
-		propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.ROOF_TYPE).setValue("Wood shingle/Wood shake");
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-		new BindTab().btnPurchase.click();
-		
-		ErrorTab errorTab = new ErrorTab(); 
-		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
-		errorTab.cancel();
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		propertyInfoTab.fillTab(td);
-		PropertyInfoTab.buttonSaveAndExit.click();
-		
-		CustomAssert.assertAll();
-	}
-	
-	public void TC07_purchasePolicy(TestData td, String scenarioPolicyType) {
+	public void TC05_purchasePolicy(TestData td, String scenarioPolicyType) {
 		mainApp().open(); 
 		
 		SearchPage.openQuote(quoteNumber);	
@@ -209,20 +160,55 @@ public class INDeltaScenario1 extends BaseTest {
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         
-        log.info("DELTA IN SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);
-	}
-
-	public void TC08_verifyPolicyODD() {
-		mainApp().open(); 
-		
-		SearchPage.openPolicy(policyNumber);
-		//TestData td_godd = getTestSpecificTD("TestData_GODD");
-		
-		policy.policyDocGen().start();
-		//policy.policyDocGen().perform(td_godd);
-		
+        log.info("DELTA KS SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);
 	}
 	
+	public void TC06_verifyODDPolicy() {}
+
+	
+	private void verifyELCNotApplied(TestData td, String scoreInRatingDetails) {
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get()); 
+		new GeneralTab().fillTab(td);
+		
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get()); 
+		ReportsTab reportsTab = new ReportsTab(); 
+		reportsTab.fillTab(td);
+		
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
+		
+		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
+		CustomAssert.assertTrue("FR Score value is wrong in Rating Details", 
+				PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("FR Score").equals(scoreInRatingDetails));
+		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
+		
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get()); 
+		reportsTab.lblELCMessage.verify.present(false);
+	}
+
+	private void verifyELCApplied(TestData td, String scoreInRatingDetails) {
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get()); 
+		new GeneralTab().fillTab(td);
+		
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get()); 
+		ReportsTab reportsTab = new ReportsTab(); 
+		reportsTab.fillTab(td);
+		
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
+		
+		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
+		CustomAssert.assertTrue("FR Score value is wrong in Rating Details", 
+				PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("FR Score").equals(scoreInRatingDetails));
+		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
+		
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get()); 
+		CustomAssert.assertTrue("Extraordinary life circumstance is not applied on Reports Tab",
+				reportsTab.lblELCMessage.getValue().equals("Extraordinary life circumstance was applied to the policy effective "+effectiveDate));		
+	}	
+
 	private void verifyHailResistanceRating_NotApplied() {
 		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
 		PremiumsAndCoveragesQuoteTab premiumsTab = new PremiumsAndCoveragesQuoteTab();
@@ -284,5 +270,4 @@ public class INDeltaScenario1 extends BaseTest {
 				PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getLabel("Hail zone flag").isPresent());
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();	
 	}
-	
 }
