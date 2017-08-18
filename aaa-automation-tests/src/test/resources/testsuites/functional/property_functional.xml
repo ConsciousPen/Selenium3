@@ -41,7 +41,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
@@ -73,7 +73,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
@@ -105,7 +105,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
@@ -137,7 +137,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
@@ -169,7 +169,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
@@ -201,7 +201,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
@@ -233,7 +233,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
@@ -265,7 +265,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
@@ -297,7 +297,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
@@ -329,7 +329,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
  
@@ -361,7 +361,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
@@ -393,7 +393,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
@@ -425,7 +425,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
@@ -457,7 +457,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
@@ -489,7 +489,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
@@ -521,7 +521,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
@@ -553,7 +553,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
@@ -585,7 +585,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
@@ -617,7 +617,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
@@ -649,7 +649,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
@@ -681,7 +681,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
@@ -713,7 +713,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
@@ -745,7 +745,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
-			<class name="aaa.modules.regression.sales.pup.TestPupCreatePolicyFull" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 		</classes>
 	</test>
 
