@@ -42,11 +42,11 @@ public class EndorsementTab extends PropertyEndorsementsTab {
 
 	public void includedEndorsementIsAded(List includedEndorsementList){
 		List<String> addedEndorsements = new ArrayList<>();
-		for (int i = 1; i == tblIncludedEndorsements.getRowsCount(); i++){
+		for (int i = 1; i == tblIncludedEndorsements.getRowsCount(); i++)
     		addedEndorsements.add(tblIncludedEndorsements.getRow(i).getCell(1).getValue());
 
-    	for (i = 0; i < includedEndorsementList.size(); i++)
-			CustomAssert.assertTrue(addedEndorsements.contains(includedEndorsementList.get(i)));}
+    	for (int i = 0; i < includedEndorsementList.size(); i++)
+			CustomAssert.assertTrue(addedEndorsements.toString().contains(includedEndorsementList.get(i).toString()));
 	}
 
 	@Override
