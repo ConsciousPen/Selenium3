@@ -40,7 +40,6 @@ public class TestQuoteAdvancedRater extends PersonalUmbrellaBaseTest {
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.PUP )
     public void testQuoteAdvancedRater() {
-		PremiumAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumAndCoveragesQuoteTab();
         String expectedPersonalUmbrellaValue = "$1,000,000";
         mainApp().open();
         createCustomerIndividual();
@@ -49,18 +48,18 @@ public class TestQuoteAdvancedRater extends PersonalUmbrellaBaseTest {
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
         Dollar oldTotalPremiumSummary = PremiumAndCoveragesQuoteTab.getPolicyTermPremium();
-        premiumsAndCoveragesQuoteTab.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA).verify.value(expectedPersonalUmbrellaValue);
+        policy.getDefaultView().getTab(PremiumAndCoveragesQuoteTab.class).getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA).verify.value(expectedPersonalUmbrellaValue);
 
-        String newPersonalUmbrellaValue = premiumsAndCoveragesQuoteTab.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA).getAllValues().get(1);
-        premiumsAndCoveragesQuoteTab.getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA).setValue(newPersonalUmbrellaValue);
+        String newPersonalUmbrellaValue = policy.getDefaultView().getTab(PremiumAndCoveragesQuoteTab.class).getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA).getAllValues().get(1);
+        policy.getDefaultView().getTab(PremiumAndCoveragesQuoteTab.class).getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA).setValue(newPersonalUmbrellaValue);
 
         PremiumAndCoveragesQuoteTab.getPolicyTermPremium().verify.equals(new Dollar(0));
-        premiumsAndCoveragesQuoteTab.calculatePremium();
+        policy.getDefaultView().getTab(PremiumAndCoveragesQuoteTab.class).calculatePremium();
         PremiumAndCoveragesQuoteTab.getPolicyTermPremium().verify.notEquals(oldTotalPremiumSummary);
 
 
         PremiumAndCoveragesQuoteTab.btnContinue.click();
-        policy.getDefaultView().fillFromTo(getPolicyTD().adjust(getPolicyTD("ErrorOverride", "TestData").resolveLinks()), UnderwritingAndApprovalTab.class, PurchaseTab.class, true);
+        policy.getDefaultView().fillFromTo(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()), UnderwritingAndApprovalTab.class, PurchaseTab.class, true);
         policy.getDefaultView().getTab(PurchaseTab.class).submitTab();
     }
 }
