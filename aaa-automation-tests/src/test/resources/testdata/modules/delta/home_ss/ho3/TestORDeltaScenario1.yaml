@@ -264,3 +264,70 @@ UnderwritingAndApprovalTab_UW2: {
   "Is any business, adult day care, pet day care or farming activity conducted on the premises?": 'No' 
 }
 
+# ============ TC_verifyClaims ===============
+TestData_Claims1: {
+  PropertyInfoTab: '@PropertyInfoTab_Claims1' 
+}
+
+PropertyInfoTab_Claims1: {
+  ClaimHistory: ['@ClaimHistory1', '@ClaimHistory2', '@ClaimHistory3', '@ClaimHistory4', '@ClaimHistory5', '@ClaimHistory6']
+}
+
+ClaimHistory1: {
+  Add a claim: 'Yes', 
+  Date of loss: '12/02/2014', 
+  Cause of loss: 'Fire', 
+  Amount of loss: '500', 
+  Claim status: 'Withdrawn'
+}
+
+ClaimHistory2: {
+  Date of loss: '01/01/2015', 
+  Cause of loss: 'Fire', 
+  Amount of loss: '500', 
+  Claim status: 'Closed'
+}
+
+ClaimHistory3: {
+  Date of loss: '01/02/2015', 
+  Cause of loss: 'Liability', 
+  Amount of loss: '2500', 
+  Claim status: 'Closed'
+}
+
+ClaimHistory4: {
+  Date of loss: '01/03/2015', 
+  Cause of loss: 'Water', 
+  Amount of loss: '500', 
+  Claim status: 'Closed'
+}
+
+ClaimHistory5: {
+  Date of loss: '01/03/2015', 
+  Cause of loss: 'Wind', 
+  Amount of loss: '26000', 
+  Claim status: 'Closed'
+}
+
+ClaimHistory6: {
+  Date of loss: '02/01/2015', 
+  Cause of loss: 'Hail', 
+  Amount of loss: '300', 
+  Claim status: 'Closed'
+}
+
+
+TestData_Claims2: {
+  PropertyInfoTab: '@PropertyInfoTab_Claims2' 
+}
+
+PropertyInfoTab_Claims2: {
+  ClaimHistory: '@ClaimHistory_No'
+}
+
+ClaimHistory_No: {
+  Add a claim: 'No' 
+}
+
+
+
