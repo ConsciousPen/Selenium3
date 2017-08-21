@@ -84,7 +84,7 @@
         </profile>
 
         <profile>
-            <id>select</id>
+            <id>select_pef</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -114,6 +114,29 @@
                             <systemPropertyVariables>
                                 <timeshift-scenario-mode>method</timeshift-scenario-mode>
                             </systemPropertyVariables>
+                            <groups>${groups}</groups>
+                            <excludedGroups>${excludedgroups}</excludedGroups>
+                            <includes>
+                                <include>%regex[${packagePath}.${testType}]</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>select_single</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.19.1</version>
+                        <configuration>
                             <groups>${groups}</groups>
                             <excludedGroups>${excludedgroups}</excludedGroups>
                             <includes>
