@@ -3,15 +3,14 @@
 package aaa.helpers.billing;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import aaa.common.enums.Constants;
 import aaa.modules.BaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableMap;
 
 import aaa.main.enums.BillingConstants.*;
 import aaa.main.pages.summary.BillingSummaryPage;
@@ -65,11 +64,8 @@ public final class BillingHelper {
 	 * @return - list of dates including Deposit payments, so index of first Installment is usualy 1
 	 */
 	public static List<LocalDateTime> getInstallmentDueDates() {
-		ArrayList<LocalDateTime> dates = new ArrayList<>();
-		for (String value : BillingSummaryPage.tableInstallmentSchedule.getColumn(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).getValue()) {
-			dates.add(TimeSetterUtil.getInstance().parse(value, DateTimeUtils.MM_DD_YYYY));
-		}
-		return dates;
+		return BillingSummaryPage.tableInstallmentSchedule.getValuesFromRows(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE)
+				.stream().map(value -> TimeSetterUtil.getInstance().parse(value, DateTimeUtils.MM_DD_YYYY)).collect(Collectors.toList());
 	}
 
 	/**
@@ -77,11 +73,8 @@ public final class BillingHelper {
 	 * @return - list of Dollar including Deposit payments, so index of first Installment is usualy 1
 	 */
 	public static List<Dollar> getInstallmentDues() {
-		ArrayList<Dollar> dues = new ArrayList<>();
-		for (String value : BillingSummaryPage.tableInstallmentSchedule.getColumn(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).getValue()) {
-			dues.add(new Dollar(value));
-		}
-		return dues;
+		return BillingSummaryPage.tableInstallmentSchedule.getValuesFromRows(BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT)
+				.stream().map(Dollar::new).collect(Collectors.toList());
 	}
 	
 	public static Dollar getInstallmentDueByDueDate(LocalDateTime date) {
@@ -101,13 +94,12 @@ public final class BillingHelper {
 	}
 
 	public static void verifyRenewOfferGenerated(LocalDateTime date, List<LocalDateTime> installmentDates) {
-		installmentDates.remove(0); //Do not include Deposit bill
 		BillingSummaryPage.showPriorTerms();
 
 		CustomAssert.enableSoftMode();
-		for (LocalDateTime installmentDate : installmentDates) {
+		for (int i = 1; i < installmentDates.size(); i++) { //Do not include Deposit bill
 			new BillingInstallmentsScheduleVerifier().setDescription(InstallmentDescription.INSTALLMENT)
-					.setInstallmentDueDate(installmentDate.plusYears(1)).verifyPresent();
+					.setInstallmentDueDate(installmentDates.get(i).plusYears(1)).verifyPresent();
 		}
 		new BillingBillsAndStatementsVerifier().setType(BillsAndStatementsType.OFFER).verifyPresent(false);
 		CustomAssert.disableSoftMode();

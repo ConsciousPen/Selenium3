@@ -53,6 +53,7 @@ DriverTab: {
 }
 
 RatingDetailReportsTab: {
+  Customer Agreement: Customer Agrees,
   Order Report: click
 }
 
@@ -427,11 +428,12 @@ TestData_NY: {
   GeneralTab: '@GeneralTab',
   DriverTab: '@DriverTab_NY',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
+  VehicleTab: '@VehicleTab2_NY',
+  AssignmentTab: '@AssignmentTab_NY',
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: {}
+  DocumentsAndBindTab: '@DocumentsAndBindTab_NY'
 }
 
 DriverTab_NY: {
@@ -448,6 +450,27 @@ DriverTab_NY: {
   License Number: A5467342112658243
 }
 
+VehicleTab2_NY: {
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: WDCYC7BB0B6729451,
+  "Less Than 3,000 Miles": 'No',
+  'Is this a Replacement Vehicle?': 'No'
+}
+
+AssignmentTab_NY: {
+  DriverVehicleRelationshipTable: [
+   {
+     Driver: 'contains=Jenny',
+     Select Vehicle: 'index=2'
+   }]
+}
+
+DocumentsAndBindTab_NY: {
+  RequiredToIssue: {
+    Separate Vehicle 2: 'Yes'
+  }
+}
 
 # ------- OH ------
 
@@ -527,7 +550,7 @@ DriverTab_OR: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
-  License Number: /001234568
+  License Number: '/rx:001234568'
 }
 
 # ------- PA ------
@@ -593,6 +616,7 @@ TestData_VA: {
   DriverTab: '@DriverTab_VA',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@VehicleTab',
+  AssignmentTab: '@AssignmentTab_VA',
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: '@DriverActivityReportsTab',
@@ -611,6 +635,15 @@ DriverTab_VA: {
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
   License Number: 831278807
+}
+
+AssignmentTab_VA: {
+  DriverVehicleRelationshipTable: ['@AssignedDriver2']
+}
+
+AssignedDriver2: {
+    Driver: 'contains=Jenny',
+    Select Vehicle: 'index=2'
 }
 
 # ------- WV ------

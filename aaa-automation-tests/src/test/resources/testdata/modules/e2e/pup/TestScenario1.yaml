@@ -58,6 +58,7 @@ TestData_Endorsement_CA: {
     }]
   },
   UnderlyingRisksOtherVehiclesTab: {},
+  UnderlyingRisksAllResidentsTab: {},
   ClaimsTab: {},
   EndorsementsTab: {},
   PremiumAndCoveragesQuoteTab: {},

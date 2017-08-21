@@ -5,6 +5,7 @@ public class Groups {
 	public static final String SMOKE = "Smoke";
 	public static final String REGRESSION = "Regression";
 	public static final String DELTA = "Delta";
+	public static final String PRECONDITION = "Precondition";
 
 	public static final String BLOCKER = "Blocker";
 	public static final String CRITICAL = "Critical";

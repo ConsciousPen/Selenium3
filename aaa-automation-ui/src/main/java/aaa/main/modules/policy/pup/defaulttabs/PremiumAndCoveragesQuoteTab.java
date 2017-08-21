@@ -4,10 +4,14 @@ package aaa.main.modules.policy.pup.defaulttabs;
 
 import org.openqa.selenium.By;
 
+import com.exigen.ipb.etcsa.utils.Dollar;
+
 import aaa.common.Tab;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
+import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
@@ -16,14 +20,14 @@ import toolkit.webdriver.controls.waiters.Waiters;
  * Modify this class if tab filling procedure has to be customized, extra asset list to be added, custom testdata key to be defined, etc.
  * @category Generated
  */
-public class PremiumAndCoveragesQuoteTab extends Tab {
+public class PremiumAndCoveragesQuoteTab extends PropertyQuoteTab {
     public PremiumAndCoveragesQuoteTab() {
         super(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class);
     }
     
     public static Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:calculatePremiumPup"), Waiters.AJAX);
 	public static Button btnContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
-
+	public static Table tableTotalPremium = new Table(By.id("policyDataGatherForm:pupTableTotalPremium"));
 	@Override
 	public Tab fillTab(TestData td) {
 		super.fillTab(td);
@@ -35,9 +39,14 @@ public class PremiumAndCoveragesQuoteTab extends Tab {
 		btnCalculatePremium.click();
 	}
 	
+
     @Override
     public Tab submitTab() {
     	btnContinue.click();
         return this;
     }
+
+    public static Dollar getPolicyTermPremium() {
+  		return new Dollar(tableTotalPremium.getRow(1).getCell(2).getValue());
+      }
 }

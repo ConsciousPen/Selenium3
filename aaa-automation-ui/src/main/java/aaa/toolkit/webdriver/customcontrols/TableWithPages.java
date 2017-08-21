@@ -84,6 +84,10 @@ public class TableWithPages extends Table {
 		return getRowsWithNavigation(() -> super.getRows(query));
 	}
 
+	public List<String> getValuesFromRows(String columnName) {
+		return getValuesWithNavigation(super::getRows, columnName);
+	}
+
 	public List<String> getValuesFromRows(Map<String, String> query, String columnName) {
 		return getValuesWithNavigation(() -> super.getRows(query), columnName);
 	}

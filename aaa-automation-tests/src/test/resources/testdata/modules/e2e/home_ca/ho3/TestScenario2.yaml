@@ -1,6 +1,6 @@
 TestData: {
   PremiumsAndCoveragesQuoteTab: {
-    Payment plan: Eleven Pay Standard,
+    Payment Plan: Eleven Pay Standard,
     Coverage C - Personal Property limit: '75|Coverage A - Dwelling limit',
     Coverage D - Loss of Use limit: '45|Coverage A - Dwelling limit'
   },

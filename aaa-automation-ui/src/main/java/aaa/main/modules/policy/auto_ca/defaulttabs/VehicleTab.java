@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.toolkit.webdriver.customcontrols.AdvancedTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.AssetList;
@@ -23,7 +24,9 @@ import toolkit.webdriver.controls.composite.assets.AssetList;
  * @category Generated
  */
 public class VehicleTab extends Tab {
+	public static AdvancedTable tableVehicleList = new AdvancedTable(By.id("policyDataGatherForm:dataGatherView_ListVehicle"));
 	public static Button buttonAddVehicle = new Button(By.xpath("//input[@id='policyDataGatherForm:addVehicle']"));
+	
 	public VehicleTab() {
 		super(AutoCaMetaData.VehicleTab.class);
 

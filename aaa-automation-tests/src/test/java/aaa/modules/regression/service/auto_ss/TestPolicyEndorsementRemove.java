@@ -14,6 +14,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -22,6 +23,12 @@ import toolkit.verification.CustomAssert;
  * @author Jelena Dembovska
  * @name Test Endorsement for Auto Policy with removal
  * @scenario
+ * 1. initiate endorsement
+ * 2. remove second named insured
+ * 3. driver tab is opened, driver which is related to removed insured is removed automatically
+ * 4. go to Vehicle tab, remove second vehicle
+ * 5. fill all mandatory fields required to bind
+ * 6. check drivers and vehicles are removed
  * @details
  */
 public class TestPolicyEndorsementRemove extends AutoSSBaseTest {
@@ -31,14 +38,7 @@ public class TestPolicyEndorsementRemove extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
     public void testPolicyEndorsementRemove() {
     	
-        mainApp().open();
-        
-        createCustomerIndividual();
-        
-		log.info("Policy Creation Started...");
-		
-        TestData bigPolicy_td = getPolicyTD("TestPolicyCreationBig", "TestData");
-		getPolicyType().get().createPolicy(bigPolicy_td);
+    	new TestPolicyCreationBig().testPolicyCreationBig();
 		
         CustomAssert.enableSoftMode();
         

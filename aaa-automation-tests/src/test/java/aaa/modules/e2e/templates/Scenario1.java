@@ -39,8 +39,7 @@ public class Scenario1 extends BaseTest {
 	protected String policyNumber;
 	protected LocalDateTime policyEffectiveDate;
 	protected LocalDateTime policyExpirationDate;
-	protected Dollar policyPremium;
-	
+
 	protected Dollar totalDue;
 	protected List<LocalDateTime> installmentDueDates;
 	protected Dollar installmentAmount;
@@ -61,13 +60,15 @@ public class Scenario1 extends BaseTest {
 
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		policyPremium = PolicySummaryPage.getTotalPremiumSummary();
-		
+
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		totalDue = BillingSummaryPage.getTotalDue();
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		CustomAssert.assertEquals("Billing Installments count for Quaterly payment plan", installmentDueDates.size(), 4);
+		CustomAssert.assertEquals("Billing Installments count for Quaterly payment plan", 4, installmentDueDates.size());
 		installmentAmount = BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(1));
+
+		//TODO Check PLIGA fee for NJ Auto = Total Premium * PLIGA charge (currently 0.9% = 0.009) rounded to nearest dollar.
+		//TODO Check MVLE fee for NY Auto = $10.00
 	}
 	
 	public void TC02_Generate_First_Bill() {
@@ -106,6 +107,9 @@ public class Scenario1 extends BaseTest {
 		// "Total Due" field is updated to reflect AP amount 
 		totalDue1.verify.moreThan(totalDue);
 		totalDue2.verify.moreThan(totalDue);
+
+		//TODO Check PLIGA fee for NJ Auto is recalculated to added vehicle
+		//TODO Check MVLE fee for NY Auto is recalculated to added vehicle
 	}
 
 	public void TC04_Pay_First_Bill() {
@@ -130,7 +134,6 @@ public class Scenario1 extends BaseTest {
 
 	public void TC09_Renewal_R_74() {
 		LocalDateTime renewDate74 = getTimePoints().getRenewImageGenerationDate(policyExpirationDate).minusDays(1);
-		//TODO
 		if ((getState().equals(Constants.States.MD) || getState().equals(Constants.States.NY))
 				&& renewDate74.isBefore(DateTimeUtils.getCurrentDateTime())) {
 			log.info(String.format("Skipping Test. State is %s and Timepoint is before the current date", getState()));
@@ -184,6 +187,9 @@ public class Scenario1 extends BaseTest {
 		BillingHelper.verifyRenewOfferGenerated(policyExpirationDate, installmentDueDates);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewDate35)
 				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
+
+		//TODO Check PLIGA fee for NJ Auto is generated
+		//TODO Check MVLE fee for NY Auto is generated
 	}
 
 	public void TC13_Renewal_Premium_Notice() {
@@ -249,7 +255,7 @@ public class Scenario1 extends BaseTest {
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
 		JobUtils.executeJob(Jobs.recurringPaymentsJob);
 		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
+		SearchPage.openBilling(policyNumber);
 		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(installmentDueDate, BillingBillsAndStatmentsTable.MINIMUM_DUE));
 		new BillingPaymentsAndTransactionsVerifier().verifyAutoPaymentGenerated(DateTimeUtils.getCurrentDateTime(), minDue.negate());
 	}

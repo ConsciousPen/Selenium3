@@ -41,17 +41,9 @@ public class TestPolicySpin extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testPolicySpin() {
 
-		mainApp().open();
 
-		//0. Create customer and auto SS policy with 2NI/2Drivers/2Vehicles
-
-		createCustomerIndividual();
-
-		log.info("Policy Creation Started...");
-
-		TestData bigPolicy_td = getPolicyTD("TestPolicyCreationBig", "TestData");
-		getPolicyType().get().createPolicy(bigPolicy_td);
-
+    	new TestPolicyCreationBig().testPolicyCreationBig();
+    	
 		//Read and store zip code from UI, will need it to fill values for spun quote
 		String zip_code = PolicySummaryPage.tablePolicyVehicles.getRow(1).getCell("Garaging Zip").getValue();
 
