@@ -1,0 +1,17 @@
+TestData_Percentage: {
+  PremiumsAndCoveragesQuoteTab: {
+    'Override Premium': {
+      Remarks: 'Only Erich Maria Remarque',
+      Percentage: '-101'
+    }
+  }
+}
+
+TestData_Flat: {
+  PremiumsAndCoveragesQuoteTab: {
+    'Override Premium': {
+      Remarks: 'Only Erich Maria Remarque',
+      'Override Premium By Flat Amount': '401.01'
+    }
+  }
+}

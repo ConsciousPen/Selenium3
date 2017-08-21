@@ -4,6 +4,8 @@ import org.testng.annotations.Test;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
@@ -47,8 +49,8 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 	private String WM0550 = "Risks with more than 3 horses or 4 livestock are unacceptable.";
 	private String ER0913 = "Underwriting approval required. Primary home of the applicant is not insured";
 	
-	@Test
-    @TestInfo(component = "Quote.HomeSS")
+	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testDetermineEligibility_SC1() {
 		mainApp().open();
 
@@ -114,8 +116,8 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
         CustomAssert.assertAll();
 	}
 
-	@Test
-    @TestInfo(component = "Quote.HomeSS")
+	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testDetermineEligibility_SC2() {
 		mainApp().open();
 

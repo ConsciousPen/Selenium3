@@ -26,7 +26,8 @@ public class GeneralTab extends DefaultTab {
     public static final Button buttonAddMajorAccount = new Button(By.id("associateMajorAccount:addButton"));
     public static final Button buttonAddAllContacts = new Button(By.id("crmForm:contactActionsAddButton"));
     public static final Table table = new Table(By.id("crmForm:additionalNamesTable"));
-
+    public static final Table tableContactDetails = new Table(By.xpath("//table[@id='crmForm:customerContactsTable']"));
+    
     public GeneralTab() {
         super(CustomerMetaData.GeneralTab.class);
     }

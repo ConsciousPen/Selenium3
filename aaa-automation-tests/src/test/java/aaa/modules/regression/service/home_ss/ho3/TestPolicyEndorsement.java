@@ -42,7 +42,7 @@ import toolkit.verification.CustomAssert;
 
 public class TestPolicyEndorsement extends HomeSSHO3BaseTest {
 
-	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.CRITICAL })
+	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
     @TestInfo(component = ComponentConstant.Service.HOME_SS_HO3) 
 	public void testPolicyEndorsement(){
 		mainApp().open();

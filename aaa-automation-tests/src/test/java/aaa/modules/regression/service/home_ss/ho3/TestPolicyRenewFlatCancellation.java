@@ -14,7 +14,7 @@ import aaa.modules.regression.service.template.PolicyRenewFlatCancellation;
 
 /**
  * @author Xiaolan Ge
- * @name Test renew flat cancellation for Umbrella Policy
+ * @name Test renew flat cancellation for ho3 Policy
  * @scenario
  * 1. Create Customer
  * 2. Create Umbrella (AAA) Policy

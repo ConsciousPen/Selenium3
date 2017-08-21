@@ -233,7 +233,7 @@ public class HomeSSPolicy implements IPolicy {
 	public PolicyActions.PolicyDocGen policyDocGen() {
 		return new HomeSSPolicyActions.PolicyDocGenFlow();
 	}
-
+	
 	@Override
 	public PolicyActions.Propose propose() {
 		return new HomeSSPolicyActions.Propose();

@@ -1,7 +1,0 @@
-TestData: {
-  AddPaymentBatchActionTab: {
-    # of Payments: 1,
-    Total Amount: 25,
-    Batch Reference #: /BatchReference####,
-  }
-}

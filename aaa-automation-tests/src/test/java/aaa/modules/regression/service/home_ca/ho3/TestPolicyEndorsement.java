@@ -3,6 +3,9 @@
 package aaa.modules.regression.service.home_ca.ho3;
 
 import org.testng.annotations.Test;
+
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
@@ -25,8 +28,8 @@ import toolkit.verification.CustomAssert;
  */
 public class TestPolicyEndorsement extends HomeCaHO3BaseTest {
 
-	@Test
-	@TestInfo(component = "Policy.PersonalLines")
+	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
+	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
 	public void testPolicyEndorsement() {
 		mainApp().open();
 

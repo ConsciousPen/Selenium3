@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
 import aaa.common.components.Pagination;
@@ -47,8 +49,8 @@ public class TableWithPages extends Table {
 		List<TestData> data = new ArrayList<>();
 		if (pagination.getPagesCount() > 1) {
 			pagination.setMaxRowsPerPage();
+			pagination.goToFirstPage();
 		}
-		pagination.goToFirstPage();
 
 		data.addAll(super.getRawValue());
 		while (pagination.goToNextPage()) {
@@ -67,8 +69,9 @@ public class TableWithPages extends Table {
 	public int getRowsCount() {
 		if (pagination.getPagesCount() > 1) {
 			pagination.setMaxRowsPerPage();
+			pagination.goToFirstPage();
 		}
-		pagination.goToFirstPage();
+
 		int rowsCount = super.getRowsCount();
 		while (pagination.goToNextPage()) {
 			rowsCount += super.getRowsCount();
@@ -79,6 +82,14 @@ public class TableWithPages extends Table {
 	@Override
 	public List<Row> getRows(Map<String, String> query) {
 		return getRowsWithNavigation(() -> super.getRows(query));
+	}
+
+	public List<String> getValuesFromRows(String columnName) {
+		return getValuesWithNavigation(super::getRows, columnName);
+	}
+
+	public List<String> getValuesFromRows(Map<String, String> query, String columnName) {
+		return getValuesWithNavigation(() -> super.getRows(query), columnName);
 	}
 
 	@Override
@@ -146,6 +157,7 @@ public class TableWithPages extends Table {
 	protected Row getRowWithNavigation(Supplier<Row> getRowSupplier) {
 		if (pagination.getPagesCount() > 1) {
 			pagination.setMaxRowsPerPage();
+			pagination.goToFirstPage();
 		}
 		Row row = getRowSupplier.get();
 		while (row instanceof NoRow && pagination.goToNextPage()) {
@@ -154,15 +166,29 @@ public class TableWithPages extends Table {
 		return row;
 	}
 
-	protected List<Row> getRowsWithNavigation(Supplier<List<Row>> getRowSupplier) {
+	protected List<Row> getRowsWithNavigation(Supplier<List<Row>> getRowsSupplier) {
 		if (pagination.getPagesCount() > 1) {
 			pagination.setMaxRowsPerPage();
+			pagination.goToFirstPage();
 		}
 
-		List<Row> rows = new ArrayList<>(getRowSupplier.get());
+		List<Row> rows = new ArrayList<>(getRowsSupplier.get());
 		while (pagination.goToNextPage()) {
-			rows.addAll(getRowSupplier.get());
+			rows.addAll(getRowsSupplier.get());
 		}
 		return rows;
+	}
+
+	protected List<String> getValuesWithNavigation(Supplier<List<Row>> getRowsSupplier, String columnName) {
+		if (pagination.getPagesCount() > 1) {
+			pagination.setMaxRowsPerPage();
+			pagination.goToFirstPage();
+		}
+
+		List<String> result = new ArrayList<>();
+		do {
+			result.addAll(getRowsSupplier.get().stream().map(row -> row.getCell(columnName).getValue()).collect(Collectors.toList()));
+		} while (pagination.goToNextPage());
+		return result;
 	}
 }

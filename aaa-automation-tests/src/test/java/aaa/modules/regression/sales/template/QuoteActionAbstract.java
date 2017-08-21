@@ -66,4 +66,50 @@ public abstract class QuoteActionAbstract extends PolicyBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PROPOSED);
 	}
 
+	 public void testQuoteDeclineByCustomer() {
+	       mainApp().open();
+	       
+	       createCustomerIndividual();
+		   createQuote();
+
+	       log.info("TEST: Decline by Customer Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
+
+	       policy.declineByCustomerQuote().perform(getPolicyTD("DeclineByCustomer", "TestData"));
+	        
+	       PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.CUSTOMER_DECLINED);
+	  }
+	  
+
+	  public void testQuoteDeclineByCompany() {
+	       mainApp().open();
+	    	
+	       createCustomerIndividual();
+	       createQuote();
+
+	       log.info("TEST: Decline by Company Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
+	       policy.declineByCompanyQuote().perform(getPolicyTD("DeclineByCompany", "TestData"));
+
+
+	       PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.COMPANY_DECLINED);
+
+	   }
+	      
+	   
+	   public void testQuoteCopy() {
+	       mainApp().open();
+	    	
+	       createCustomerIndividual();
+	       createQuote();
+
+	       log.info("TEST: Copy quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
+	        
+	       PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
+
+		   policy.copyQuote().perform(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromQuote", "TestData"));
+
+	       PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.DATA_GATHERING);
+
+	   }
+
+
 }

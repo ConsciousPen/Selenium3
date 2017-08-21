@@ -2,16 +2,9 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.metadata;
 
+import aaa.toolkit.webdriver.customcontrols.FillableTable;
 import org.openqa.selenium.By;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.CheckBox;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.DoubleComboBox;
-import toolkit.webdriver.controls.ListBox;
-import toolkit.webdriver.controls.RadioButton;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.TextBox;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
@@ -41,87 +34,40 @@ public final class BillingAccountMetaData {
         public static final AssetDescriptor<RadioButton> UPDATE_LIVES_VOLUME_NO = declare("Update Lives/Volume? NO", RadioButton.class, By.id("paymentForm:updateLivesVolume_radio:1"));
     }
 
-    public static final class BillingAccountTab extends MetaData {
-        public static final AssetDescriptor<RadioGroup> SELECT_ACTION = declare("Select Action", RadioGroup.class);
-        public static final AssetDescriptor<CheckBox> CREATE_NEW_ACCOUNT = declare("Create New Account", CheckBox.class);
-        public static final AssetDescriptor<StaticElement> BILLING_ACCOUNT_POLICIES_STATUS = declare("Biling Account Policies status", StaticElement.class,
-                By.id("billingDetailedForm:billing_policies_info_table:0:column_status")); //billingDetailedForm:billing_policies_info_table:0:statusLink
-        public static final AssetDescriptor<TextBox> BILLING_ACCOUNT_NAME = declare("Billing Account Name", TextBox.class);
-        public static final AssetDescriptor<ComboBox> BILL_TYPE = declare("Bill Type", ComboBox.class);
+    public static final class UpdateBillingAccountActionTab extends MetaData {
+        public static final AssetDescriptor<StaticElement> AGENCY = declare("Agency", StaticElement.class);
+        public static final AssetDescriptor<TextBox> BILLING_ACCOUNT_NAME = declare("Billing Account Name", TextBox.class, Waiters.AJAX);
+        public static final AssetDescriptor<ComboBox> BILL_TYPE = declare("Bill Type", ComboBox.class, Waiters.AJAX);
         public static final AssetDescriptor<TextBox> BILLING_ACCOUNT_DUE_DAY = declare("Billing Account Due Day", TextBox.class);
-        public static final AssetDescriptor<ComboBox> BILLING_ACCOUNT_NAME_TYPE = declare("Billing Account Name Type", ComboBox.class);
+        public static final AssetDescriptor<StaticElement> CURRENCY = declare("Currency", StaticElement.class);
+        public static final AssetDescriptor<ComboBox> BILLING_ACCOUNT_NAME_TYPE = declare("Billing Account Name Type", ComboBox.class, Waiters.AJAX);
         public static final AssetDescriptor<ComboBox> BILLING_CONTACT_PREFIX = declare("Billing Contact Prefix", ComboBox.class);
         public static final AssetDescriptor<TextBox> BILLING_CONTACT_FIRST_NAME = declare("Billing Contact First Name", TextBox.class);
         public static final AssetDescriptor<TextBox> BILLING_CONTACT_MIDDLE_NAME = declare("Billing Contact Middle Name", TextBox.class);
         public static final AssetDescriptor<TextBox> BILLING_CONTACT_LAST_NAME = declare("Billing Contact Last Name", TextBox.class);
-        public static final AssetDescriptor<ComboBox> COUNTRY = declare("Country", ComboBox.class);
-        public static final AssetDescriptor<TextBox> ZIP_POSTAL_CODE = declare("Zip / Postal Code", TextBox.class);
-        public static final AssetDescriptor<TextBox> ADDRESS_LINE_1 = declare("Address Line 1", TextBox.class);
-        public static final AssetDescriptor<TextBox> ADDRESS_LINE_2 = declare("Address Line 2", TextBox.class);
-        public static final AssetDescriptor<TextBox> ADDRESS_LINE_3 = declare("Address Line 3", TextBox.class);
-        public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class);
-        public static final AssetDescriptor<ComboBox> STATE_PROVINCE = declare("State / Province", ComboBox.class);
-        public static final AssetDescriptor<TextBox> PHONE = declare("Phone #", TextBox.class);
-        public static final AssetDescriptor<ComboBox> PAYMENT_PLAN = declare("Payment Plan", ComboBox.class);
-        public static final AssetDescriptor<AssetList> ADD_INVOICING_CALENDAR = declare("Add Invoicing Calendar", AssetList.class, InvoicingCalendarTab.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-        public static final AssetDescriptor<AssetList> SELECT_INVOICING_CALENDAR = declare("Select Invoicing Calendar", AssetList.class, InvoicingCalendarComboBox.class,
-                By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
+        public static final AssetDescriptor<ComboBox> COUNTRY = declare("Country", ComboBox.class, Waiters.AJAX);
+        public static final AssetDescriptor<TextBox> ZIP_POSTAL_CODE = declare("Zip / Postal Code", TextBox.class, Waiters.NONE);
+        public static final AssetDescriptor<TextBox> ADDRESS_LINE_1 = declare("Address Line 1", TextBox.class, Waiters.NONE);
+        public static final AssetDescriptor<TextBox> ADDRESS_LINE_2 = declare("Address Line 2", TextBox.class, Waiters.NONE);
+        public static final AssetDescriptor<TextBox> ADDRESS_LINE_3 = declare("Address Line 3", TextBox.class, Waiters.NONE);
+        public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.NONE);
+        public static final AssetDescriptor<ComboBox> STATE_PROVINCE = declare("State / Province", ComboBox.class, Waiters.NONE);
+        public static final AssetDescriptor<TextBox> PHONE = declare("Phone #", TextBox.class, Waiters.AJAX);
 
-        public static final class InvoicingCalendarTab extends MetaData {
-            public static final AssetDescriptor<ComboBox> BILLING_CALENDAR = declare("Billing Calendar", ComboBox.class);
-            public static final AssetDescriptor<TextBox> CALENDAR_NAME = declare("Calendar Name", TextBox.class);
-            public static final AssetDescriptor<TextBox> EFFECTIVE_DATE = declare("Effective Date", TextBox.class);
-            public static final AssetDescriptor<TextBox> EXPIRATION_DATE = declare("Expiration Date", TextBox.class);
-            public static final AssetDescriptor<ComboBox> INVOICING_FREQUENCY = declare("Invoicing Frequency", ComboBox.class);
-            public static final AssetDescriptor<ComboBox> INVOICING_RULE = declare("Invoicing Rule", ComboBox.class);
-            public static final AssetDescriptor<ComboBox> BILLING_PERIOD_OFFSET = declare("Billing Period Offset", ComboBox.class);
-            public static final AssetDescriptor<ComboBox> INVOICE_DUE_DAY = declare("Invoice Due Day", ComboBox.class);
-            public static final AssetDescriptor<TextBox> GENERATION_DATE_RULE = declare("Generation Date Rule", TextBox.class);
-        }
-
-        public static final class InvoicingCalendarComboBox extends MetaData {
-            public static final AssetDescriptor<ComboBox> INVOICING_CALENDAR = declare("Invoicing Calendar", ComboBox.class);
-        }
+        public static final AssetDescriptor<CheckBox> ACTIVATE_AUTOPAY = declare("Activate Autopay", CheckBox.class);
+        public static final AssetDescriptor<ComboBox> AUTOPAY_SELECTION = declare("Autopay Selection", ComboBox.class);
     }
 
-    public static final class UpdateBillingAccountActionTab extends MetaData {
-        public static final AssetDescriptor<AddPaymentMethodsMultiAssetList> PAYMENT_METHODS = PurchaseMetaData.PurchaseTab.PAYMENT_METHODS;
-        public static final AssetDescriptor<TextBox> BILLING_ACCOUNT_NAME = declare("Billing Account Name", TextBox.class);
-        public static final AssetDescriptor<ComboBox> BILL_TYPE = declare("Bill Type", ComboBox.class);
-        public static final AssetDescriptor<TextBox> BILLING_ACCOUNT_DUE_DAY = declare("Billing Account Due Day", TextBox.class);
-        public static final AssetDescriptor<ComboBox> BILLING_ACCOUNT_NAME_TYPE = declare("Billing Account Name Type", ComboBox.class);
-        public static final AssetDescriptor<ComboBox> BILLING_CONTACT_PREFIX = declare("Billing Contact Prefix", ComboBox.class);
-        public static final AssetDescriptor<TextBox> BILLING_CONTACT_FIRST_NAME = declare("Billing Contact First Name", TextBox.class);
-        public static final AssetDescriptor<TextBox> BILLING_CONTACT_MIDDLE_NAME = declare("Billing Contact Middle Name", TextBox.class);
-        public static final AssetDescriptor<TextBox> BILLING_CONTACT_LAST_NAME = declare("Billing Contact Last Name", TextBox.class);
-        public static final AssetDescriptor<ComboBox> COUNTRY = declare("Country", ComboBox.class);
-        public static final AssetDescriptor<TextBox> ZIP_POSTAL_CODE = declare("Zip / Postal Code", TextBox.class);
-        public static final AssetDescriptor<TextBox> ADDRESS_LINE_1 = declare("Address Line 1", TextBox.class);
-        public static final AssetDescriptor<TextBox> ADDRESS_LINE_2 = declare("Address Line 2", TextBox.class);
-        public static final AssetDescriptor<TextBox> ADDRESS_LINE_3 = declare("Address Line 3", TextBox.class);
-        public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class);
-        public static final AssetDescriptor<ComboBox> STATE_PROVINCE = declare("State / Province", ComboBox.class);
-        public static final AssetDescriptor<TextBox> PHONE = declare("Phone #", TextBox.class);
-        public static final AssetDescriptor<ComboBox> PAYMENT_PLAN = declare("Payment Plan", ComboBox.class);
-        public static final AssetDescriptor<AssetList> ADD_INVOICING_CALENDAR = declare("Add Invoicing Calendar", AssetList.class, InvoicingCalendarTab.class, By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-        public static final AssetDescriptor<AssetList> SELECT_INVOICING_CALENDAR = declare("Select Invoicing Calendar", AssetList.class, InvoicingCalendarComboBox.class,
-                By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER));
-
-        public static final class InvoicingCalendarTab extends MetaData {
-            public static final AssetDescriptor<ComboBox> BILLING_CALENDAR = declare("Billing Calendar", ComboBox.class);
-            public static final AssetDescriptor<TextBox> CALENDAR_NAME = declare("Calendar Name", TextBox.class);
-            public static final AssetDescriptor<TextBox> EFFECTIVE_DATE = declare("Effective Date", TextBox.class);
-            public static final AssetDescriptor<TextBox> EXPIRATION_DATE = declare("Expiration Date", TextBox.class);
-            public static final AssetDescriptor<ComboBox> INVOICING_FREQUENCY = declare("Invoicing Frequency", ComboBox.class);
-            public static final AssetDescriptor<ComboBox> INVOICING_RULE = declare("Invoicing Rule", ComboBox.class);
-            public static final AssetDescriptor<ComboBox> BILLING_PERIOD_OFFSET = declare("Billing Period Offset", ComboBox.class);
-            public static final AssetDescriptor<ComboBox> INVOICE_DUE_DAY = declare("Invoice Due Day", ComboBox.class);
-            public static final AssetDescriptor<TextBox> GENERATION_DATE_RULE = declare("Generation Date Rule", TextBox.class);
-        }
-
-        public static final class InvoicingCalendarComboBox extends MetaData {
-            public static final AssetDescriptor<ComboBox> INVOICING_CALENDAR = declare("Invoicing Calendar", ComboBox.class);
-        }
+    public static final class InvoicingCalendarTab extends MetaData {
+        public static final AssetDescriptor<ComboBox> BILLING_CALENDAR = declare("Billing Calendar", ComboBox.class);
+        public static final AssetDescriptor<TextBox> CALENDAR_NAME = declare("Calendar Name", TextBox.class);
+        public static final AssetDescriptor<TextBox> EFFECTIVE_DATE = declare("Effective Date", TextBox.class);
+        public static final AssetDescriptor<TextBox> EXPIRATION_DATE = declare("Expiration Date", TextBox.class);
+        public static final AssetDescriptor<ComboBox> INVOICING_FREQUENCY = declare("Invoicing Frequency", ComboBox.class);
+        public static final AssetDescriptor<ComboBox> INVOICING_RULE = declare("Invoicing Rule", ComboBox.class);
+        public static final AssetDescriptor<ComboBox> BILLING_PERIOD_OFFSET = declare("Billing Period Offset", ComboBox.class);
+        public static final AssetDescriptor<ComboBox> INVOICE_DUE_DAY = declare("Invoice Due Day", ComboBox.class);
+        public static final AssetDescriptor<TextBox> GENERATION_DATE_RULE = declare("Generation Date Rule", TextBox.class);
     }
 
     public static final class DeclinePaymentActionTab extends MetaData {
@@ -211,7 +157,7 @@ public final class BillingAccountMetaData {
     }
 
     public static final class AddHoldActionTab extends MetaData {
-        public static final AssetDescriptor<CheckBox> CHECK_POLICY = declare("Check Policy", CheckBox.class, By.xpath("//input[@type='checkbox']"));
+        public static final AssetDescriptor<FillableTable> POLICIES_LIST = declare("Policies List", FillableTable.class, PoliciesListRow.class, By.id("holdPoliciesForm:policyResults"));
         public static final AssetDescriptor<TextBox> HOLD_NAME = declare("Hold Name", TextBox.class, Waiters.AJAX);
         public static final AssetDescriptor<TextBox> HOLD_DESCRIPTION = declare("Hold Description", TextBox.class, Waiters.AJAX);
         public static final AssetDescriptor<ComboBox> REASON = declare("Reason", ComboBox.class, Waiters.AJAX);
@@ -219,6 +165,31 @@ public final class BillingAccountMetaData {
         public static final AssetDescriptor<ListBox> HOLD_TYPE = declare("Hold Type", ListBox.class, Waiters.AJAX);
         public static final AssetDescriptor<TextBox> HOLD_EFFECTIVE_DATE = declare("Effective Date", TextBox.class, Waiters.AJAX);
         public static final AssetDescriptor<TextBox> HOLD_EXPIRATION_DATE = declare("Expiration Date", TextBox.class, Waiters.AJAX);
+        public static final AssetDescriptor<FillableTable> HOLDS_TABLE = declare("Billing Holds and Moratoriums", FillableTable.class, HoldsTableRow.class, By.id("holdPoliciesForm:holdsTable"));
+
+        public static final class PoliciesListRow extends MetaData {
+            public static final AssetDescriptor<CheckBox> COLUMN_1 = declare("column=1", CheckBox.class);
+            public static final AssetDescriptor<StaticElement> POLICY_NUM = declare("Policy #", StaticElement.class);
+            public static final AssetDescriptor<StaticElement> TYPE = declare("Type", StaticElement.class);
+            public static final AssetDescriptor<StaticElement> EFF_DATE = declare("Eff. Date", StaticElement.class);
+            public static final AssetDescriptor<StaticElement> PAYMENT_PLAN = declare("Payment Plan", StaticElement.class);
+            public static final AssetDescriptor<StaticElement> POLICY_STATUS = declare("Policy Status", StaticElement.class);
+            public static final AssetDescriptor<StaticElement> BILLING_STATUS = declare("Billing Status", StaticElement.class);
+            public static final AssetDescriptor<StaticElement> TOTAL_DUE = declare("Total Due", StaticElement.class);
+            public static final AssetDescriptor<StaticElement> TOTAL_PAID = declare("Total Paid", StaticElement.class);
+        }
+
+        public static final class HoldsTableRow extends MetaData {
+            public static final AssetDescriptor<StaticElement> HOLD_NAME = declare("Hold Name", StaticElement.class);
+            public static final AssetDescriptor<StaticElement> HOLD_DESCRIPTION = declare("Hold Description", StaticElement.class);
+            public static final AssetDescriptor<StaticElement> REASON = declare("Reason", StaticElement.class);
+            public static final AssetDescriptor<StaticElement> HOLD_TYPE = declare("Hold Type", StaticElement.class);
+            public static final AssetDescriptor<StaticElement> EFFECTIVE_DATE = declare("Effective Date", StaticElement.class);
+            public static final AssetDescriptor<StaticElement> EXPIRATION_DATE = declare("Expiration Date", StaticElement.class);
+            public static final AssetDescriptor<StaticElement> HOLD_CATEGORY = declare("Hold Category", StaticElement.class);
+            public static final AssetDescriptor<Link> ACTIONS = declare("Actions", Link.class);
+            public static final AssetDescriptor<Button> CONFIRM_REMOVE_HOLD = declare("Confirm remove hold", Button.class, Waiters.AJAX, false, By.id("confirmationForm:okBtn"));
+        }
     }
 
     public static final class AddPaymentMethodTab extends MetaData {

@@ -87,11 +87,9 @@ AssignmentTab: {
 }
 
 FormsTab: {}
-PremiumAndCoveragesTab: {
-  Payment Plan: Annual,
-}
 
 PremiumAndCoveragesTab: {
+  Payment Plan: Annual,
   Bodily Injury Liability: 'contains=$500,000/$500,000', 
   Property Damage Liability: 'contains=$100,000'
 }
@@ -119,6 +117,15 @@ DocumentsAndBindTab: {
 PurchaseTab: {
   PaymentAllocation: {
     Cash: /rest
+  }
+}
+
+PurchaseTab_WithAutopay: {
+  PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa'],
+  Activate Autopay: true,
+  Autopay Selection: 'index=1',
+  PaymentAllocation: {
+    Visa: /rest
   }
 }
 

@@ -1,0 +1,5 @@
+TestData_RemoveAutopay: {
+  UpdateBillingAccountActionTab: {
+    Activate Autopay: 'false'
+  }
+}

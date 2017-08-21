@@ -8,6 +8,8 @@ import aaa.common.enums.ErrorPageEnum;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.ErrorPage;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
@@ -32,8 +34,8 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
       * 6. Bind a policy
       * 7. Verify policy status is Policy Pending  
       */
-    @Test
-    @TestInfo(component = "Policy.HomeCA")
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
     public void testQuoteFuturedated() {
         GeneralTab generalTab = new GeneralTab();
         String expectedWarning = "Policy effective date cannot be more than 90 days from today's date.";
@@ -69,8 +71,8 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
     * 7. Recalculate premium and bind policy
     * 8. Verify policy status is Active
     */
-    @Test
-    @TestInfo(component = "Policy.HomeCA")
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
     public void testQuoteBackdated() {
         GeneralTab generalTab = new GeneralTab();
         String expectedWarning = "Policy effective date cannot be backdated more than three days from today's d...";

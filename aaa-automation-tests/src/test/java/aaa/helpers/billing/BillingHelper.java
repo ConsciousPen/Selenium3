@@ -3,15 +3,14 @@
 package aaa.helpers.billing;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import aaa.common.enums.Constants;
 import aaa.modules.BaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableMap;
 
 import aaa.main.enums.BillingConstants.*;
 import aaa.main.pages.summary.BillingSummaryPage;
@@ -59,21 +58,23 @@ public final class BillingHelper {
 	}
 
 	// ------- Installments table-------
-	
+
+	/**
+	 * Get all Due Dates from Installments table
+	 * @return - list of dates including Deposit payments, so index of first Installment is usualy 1
+	 */
 	public static List<LocalDateTime> getInstallmentDueDates() {
-		ArrayList<LocalDateTime> dates = new ArrayList<>();
-		for (Row row : BillingSummaryPage.tableInstallmentSchedule.getRows(ImmutableMap.of(BillingInstallmentScheduleTable.DESCRIPTION, InstallmentDescription.INSTALLMENT))) {
-			dates.add(TimeSetterUtil.getInstance().parse(row.getCell(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
-		}
-		return dates;
+		return BillingSummaryPage.tableInstallmentSchedule.getValuesFromRows(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE)
+				.stream().map(value -> TimeSetterUtil.getInstance().parse(value, DateTimeUtils.MM_DD_YYYY)).collect(Collectors.toList());
 	}
-	
+
+	/**
+	 * Get all Dues from Installments table
+	 * @return - list of Dollar including Deposit payments, so index of first Installment is usualy 1
+	 */
 	public static List<Dollar> getInstallmentDues() {
-		ArrayList<Dollar> dues = new ArrayList<>();
-		for (Row row : BillingSummaryPage.tableInstallmentSchedule.getRows(ImmutableMap.of(BillingInstallmentScheduleTable.DESCRIPTION, InstallmentDescription.INSTALLMENT))) {
-			dues.add(new Dollar(row.getCell(BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT).getValue()));
-		}
-		return dues;
+		return BillingSummaryPage.tableInstallmentSchedule.getValuesFromRows(BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT)
+				.stream().map(Dollar::new).collect(Collectors.toList());
 	}
 	
 	public static Dollar getInstallmentDueByDueDate(LocalDateTime date) {
@@ -96,9 +97,9 @@ public final class BillingHelper {
 		BillingSummaryPage.showPriorTerms();
 
 		CustomAssert.enableSoftMode();
-		for (LocalDateTime installmentDate : installmentDates) {
+		for (int i = 1; i < installmentDates.size(); i++) { //Do not include Deposit bill
 			new BillingInstallmentsScheduleVerifier().setDescription(InstallmentDescription.INSTALLMENT)
-					.setInstallmentDueDate(installmentDate.plusYears(1)).verifyPresent();
+					.setInstallmentDueDate(installmentDates.get(i).plusYears(1)).verifyPresent();
 		}
 		new BillingBillsAndStatementsVerifier().setType(BillsAndStatementsType.OFFER).verifyPresent(false);
 		CustomAssert.disableSoftMode();
@@ -151,10 +152,9 @@ public final class BillingHelper {
 		HashMap<String, String> values = new HashMap<>();
 		values.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.FEE);
 		values.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, date.format(DateTimeUtils.MM_DD_YYYY));
-		List<Row> feeRows = BillingSummaryPage.tablePaymentsOtherTransactions.getRows(values);
-		
-		for (Row row : feeRows) {
-			amount = amount.add(new Dollar(row.getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()));
+		List<String> feeValues = BillingSummaryPage.tablePaymentsOtherTransactions.getValuesFromRows(values, BillingPaymentsAndOtherTransactionsTable.AMOUNT);
+		for (String fee : feeValues) {
+			amount = amount.add(new Dollar(fee));
 		}
 		return amount;
 	}

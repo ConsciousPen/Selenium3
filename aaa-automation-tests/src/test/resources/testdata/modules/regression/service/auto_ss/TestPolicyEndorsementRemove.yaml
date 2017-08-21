@@ -18,3 +18,31 @@ GeneralTab: {
     Authorized by: QA
    }
 }
+
+# ---------- VA ------------
+
+TestData_VA: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+# ---------- NY ------------
+
+TestData_NY: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}

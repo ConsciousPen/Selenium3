@@ -1,21 +1,10 @@
 TestData: {
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-PremiumsAndCoveragesQuoteTab: {
-  Payment plan: Quarterly,
-  Coverage C - Personal Property limit: '75|Coverage A - Dwelling limit',
-  Coverage D - Loss of Use limit: '45|Coverage A - Dwelling limit'
-}
-
-PurchaseTab: {
-  PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa'],
-  Activate Autopay: true, 
-  Autopay Selection: 'index=1',
-  PaymentAllocation: {
-    Visa: /rest
-  }
+  PremiumsAndCoveragesQuoteTab: {
+    Payment Plan: Quarterly,
+    Coverage C - Personal Property limit: '75|Coverage A - Dwelling limit',
+    Coverage D - Loss of Use limit: '45|Coverage A - Dwelling limit'
+  },
+  PurchaseTab: '@<home_ca_ho3>@DataGather@PurchaseTab_WithAutopay'
 }
 
 # ----- Endorsement -----
@@ -25,7 +14,7 @@ TestData_Endorsement: {
   ReportsTab: {},
   PropertyInfoTab: {
     PropertyValue: {
-      Coverage A - Dwelling limit: 174000
+      Coverage A - Dwelling limit: 83000
     }
   },
   ProductOfferingTab: {},

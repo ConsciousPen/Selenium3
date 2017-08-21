@@ -9,6 +9,8 @@ import aaa.common.metadata.SearchMetaData;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.EntitiesHolder;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.customer.defaulttabs.GeneralTab;
@@ -43,8 +45,8 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	 * 6. Verify that search is successful: Account page opens for searched criteria
 	 * @details
 	 */
-	@Test
-	@TestInfo(component = "Account.AutoSS.Search")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Common.SEARCH )
 	public void testSearchForAccount() {
 		TestData td = getFullSearchData(SearchEnum.SearchFor.ACCOUNT);
 		//BUG: Search by valid "Agency Name" or "Agency #" fails with error "base00003 -  Operation has failed due to illegal arguments".
@@ -90,8 +92,8 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	 * 6. Verify that search is successful: Customer page opens for searched criteria
 	 * @details
 	 */
-	@Test
-	@TestInfo(component = "Customer.AutoSS.Search")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Common.SEARCH )
 	public void testSearchForCustomer() {
 		TestData td = getFullSearchData(SearchEnum.SearchFor.CUSTOMER);
 		//BUG: Search by valid "Phone #" fails with error "base00003 -  Operation has failed due to illegal arguments".
@@ -129,8 +131,8 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	 * 6. Verify that search is successful: Billing page opens for searched criteria
 	 * @details
 	 */
-	@Test
-	@TestInfo(component = "Billing.AutoSS.Search")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Common.SEARCH )
 	public void testSearchForBillingAccount() {
 		TestData td = getFullSearchData(SearchEnum.SearchFor.BILLING);
 		//BUG: Search result for Billing by valid "Agency Name" or "Agency #" is empty
@@ -168,8 +170,8 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	 * 6. Verify that search is successful: Policy page opens for searched criteria
 	 * @details
 	 */
-	@Test
-	@TestInfo(component = "Policy.AutoSS.Search")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Common.SEARCH )
 	public void testSearchForPolicy() {
 		TestData td = getFullSearchData(SearchEnum.SearchFor.POLICY);
 		//BUG: Search result for Policy by valid "Phone #" or "Agency Name" or "Agency #" is empty
@@ -208,8 +210,8 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	 * 6. Verify that search is successful: Quote page opens for searched criteria
 	 * @details
 	 */
-	@Test
-	@TestInfo(component = "Quote.AutoSS.Search")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Common.SEARCH )
 	public void testSearchForQuote() {
 		TestData td = getFullSearchData(SearchEnum.SearchFor.QUOTE);
 		//BUG: Search result for Quote by valid "Phone #" or "Agency Name" or "Agency #" is empty

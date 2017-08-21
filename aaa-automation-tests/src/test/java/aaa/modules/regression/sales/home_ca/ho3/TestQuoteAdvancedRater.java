@@ -2,6 +2,8 @@ package aaa.modules.regression.sales.home_ca.ho3;
 
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
@@ -32,8 +34,8 @@ public class TestQuoteAdvancedRater extends HomeCaHO3BaseTest {
      * 14. Issue quote. Check Total Premium Summary
      */
 
-    @Test
-    @TestInfo(component = "Policy.HomeCA")
+	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
     public void testQuoteAdvancedRater() {
         PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
         String expectedCoverageEValue = "$500,000 (+$0.00)";
@@ -69,6 +71,6 @@ public class TestQuoteAdvancedRater extends HomeCaHO3BaseTest {
         policy.getDefaultView().fillFromTo(getPolicyTD(), MortgageesTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
 
-        PolicySummaryPage.getTotalPremiumSummary().verify.equals(newCoverageEPremiumValue);
+        PolicySummaryPage.getTotalPremiumSummaryForProperty().verify.equals(newCoverageEPremiumValue);
     }
 }

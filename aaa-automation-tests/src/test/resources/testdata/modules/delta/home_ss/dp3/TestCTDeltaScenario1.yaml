@@ -1,0 +1,149 @@
+TestData: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@DocumentsTab',
+  BindTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@BindTab',
+  PurchaseTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@PurchaseTab'
+}
+
+GeneralTab: {
+  State: 'CT',
+  Policy type: 'DP3',
+  Effective date: '/today:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab: {
+  NamedInsured: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@NamedInsured',
+  AAAMembership: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@AAAMembership',
+  DwellingAddress: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@DwellingAddress',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@NamedInsuredInformation',
+  OtherActiveAAAPolicies: ['@<delta_home_ss_ho3>@TestCTDeltaScenario1@OtherActiveAAAPolicies', '@OtherActiveAAAPolicies_2'], 
+  AgentInfo: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@AgentInfo'
+}
+
+PropertyInfoTab: {
+  DwellingAddress: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@PropertyValue',
+  Construction: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@Construction',
+  Interior: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: {},
+  PetsOrAnimals: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@PetsOrAnimals',
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: '@RentalInformation'
+}
+
+EndorsementTab: {
+  DS 04 69: '@Endorsement_DS0469' 
+}
+
+UnderwritingAndApprovalTab: {
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'No',
+  "Is any business, home day care or farming activity conducted on the premises?": 'No'
+}
+
+# ----- Applicant Tab -----
+
+OtherActiveAAAPolicies_2: {
+  #Other active AAA policies: "Yes",
+  #Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_2' 
+}
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_2:  {
+  Policy type: HO3,
+  Policy number: '345345345',
+  Coverage E: '1000',
+  Deductible: '1000',
+  Dwelling usage: Primary,
+  Occupancy type: Owner occupied
+}
+
+
+# ----- PropertyInfo Tab -----
+DetachedStructures: {
+   "Are there any detached structures on the property?": 'Yes', 
+   Rented to others: 'No', 
+   Description: 'Detached structure 1',
+   Limit of liability: '1000' 
+}  
+
+RentalInformation: {
+  Number of consecutive years insured has owned any rental properties: '5',
+  Property manager: 'index=1',
+  "Does the tenant have an underlying HO4 policy?": "No"
+}
+
+# ----- Endorsements Tab -----
+Endorsement_DS0469: {
+  Action: 'Add', 
+  Deductible: '5%', 
+  "Include coverage for earthquake loss to exterior masonry veneer?": 'No'
+}
+
+# =========== TC02 Windstorm Mitigation discount ===========
+TestData_WindstormMitigationYes: {
+  PropertyInfoTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@PropertyInfoTab_WindstormMitigationYes',
+}
+
+PropertyInfoTab_WindstormMitigationYes: {
+  HomeRenovation: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@HomeRenovation_WindstormMitigationYes'
+}
+
+# ========= TC03 ELC verification =========
+TestData_None_with_Score599: {
+  GeneralTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@GeneralTab_ELC_None', 
+  ReportsTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@ReportsTab_Score599'
+}
+
+TestData_Declined_with_Score999: {
+  GeneralTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@GeneralTab_ELC_Declined', 
+  ReportsTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@ReportsTab_Score999'
+}
+
+TestData_IdentityTheft_with_Score750: {
+  GeneralTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@GeneralTab_ELC_IdentityTheft', 
+  ReportsTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@ReportsTab_Score750'
+}
+
+TestData_MilitaryDeployment_with_Score599: {
+  GeneralTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@GeneralTab_ELC_MilitaryDeployment', 
+  ReportsTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@ReportsTab_Score599'
+}
+
+TestData_OtherEvents_with_Score999: {
+  GeneralTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@GeneralTab_ELC_OtherEvents', 
+  ReportsTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@ReportsTab_Score999'
+}
+
+# ======== TC06 Cancel Notice Tab ========
+TestData_Plus33Days: {
+  CancelNoticeActionTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@CancelNoticeActionTab_Plus33Days'
+}
+
+TestData_Plus34Days: {
+  CancelNoticeActionTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@CancelNoticeActionTab_Plus34Days'
+}
+
+

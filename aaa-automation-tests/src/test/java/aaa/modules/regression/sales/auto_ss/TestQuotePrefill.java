@@ -27,7 +27,7 @@ import toolkit.webdriver.controls.composite.assets.MultiAssetList;
  */
 public class TestQuotePrefill extends AutoSSBaseTest {
 
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testPolicyPrefill1() {
 
@@ -94,8 +94,8 @@ public class TestQuotePrefill extends AutoSSBaseTest {
 
 	}
 
-	@Test
-	@TestInfo(component = "Policy.AutoSS")
+	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testPolicyPrefill2() {
 
 		mainApp().open();

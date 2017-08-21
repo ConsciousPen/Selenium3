@@ -1,0 +1,66 @@
+TestData: {
+  GeneralTab: '@<home_ss_ho3>@DataGather@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab',
+  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+  ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
+  EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+}
+
+ApplicantTab: {
+  NamedInsured: '@<home_ss_ho3>@DataGather@NamedInsured',
+  AAAMembership: '@<home_ss_ho3>@DataGather@AAAMembership',
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+}
+
+OtherActiveAAAPolicies: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual'
+}
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual:  {
+  Policy type: Auto,
+  "Companion Auto Pending with Discount?": 'No',
+  Auto policy state: UT, 
+  Policy number: '345345345',
+  Effective date: '/today:MM/dd/yyyy',
+  Policy tier: 'index=1',
+  Auto policy BI limit: 'index=1',
+  Auto Insurance Persistency: '21'
+}
+
+# --------- TestData for endorsement 
+TestData_Endorsement: {
+  ApplicantTab: '@ApplicantTab_Endorsement'
+}
+
+ApplicantTab_Endorsement: {
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_Endorsement'
+}
+
+OtherActiveAAAPolicies_Endorsement: {
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_Pup'
+}
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_Pup:  {
+  Policy type: PUP,
+  "Companion PUP/DP3 Pending with Discount?": 'No',
+  Policy number: '123456789',
+  Effective date: '/today+2d:MM/dd/yyyy',
+}
+

@@ -1,6 +1,0 @@
-TestData: {
-  AddHoldActionTab: {
-    'Invoice': true,    
-    Hold Effective Date: /today   
-  }
-}

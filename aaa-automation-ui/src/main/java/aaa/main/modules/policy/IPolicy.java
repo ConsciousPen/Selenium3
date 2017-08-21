@@ -145,4 +145,5 @@ public interface IPolicy {
 	PolicyActions.RemoveSuspendQuote removeSuspendQuote();
 
 	PolicyActions.ChangeRenewalQuoteLapse changeRenewalQuoteLapse();
+	
 }

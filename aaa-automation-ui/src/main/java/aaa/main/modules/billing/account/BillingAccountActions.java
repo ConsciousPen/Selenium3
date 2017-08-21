@@ -4,6 +4,7 @@ package aaa.main.modules.billing.account;
 
 import java.util.List;
 
+import com.exigen.ipb.etcsa.utils.Dollar;
 import org.openqa.selenium.By;
 
 import aaa.common.AbstractAction;
@@ -79,8 +80,8 @@ public final class BillingAccountActions {
 	            return this;
 	        }
 
-	        public AbstractAction perform(TestData td, String amount) {
-	            td.adjust(TestData.makeKeyPath(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName(), BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()), amount);
+	        public AbstractAction perform(TestData td, Dollar amount) {
+	            td.adjust(TestData.makeKeyPath(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName(), BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()), amount.toString());
 	            return super.perform(td);
 	        }
 
@@ -511,6 +512,7 @@ public final class BillingAccountActions {
 	        @Override
 	        public AbstractAction submit() {
 	            AddHoldActionTab.buttonAddUpdate.click();
+				AddHoldActionTab.buttonCancel.click();
 	            return this;
 	        }
 	    }
@@ -528,8 +530,7 @@ public final class BillingAccountActions {
 
 	        @Override
 	        public AbstractAction submit() {
-	            new Button(By.id("holdPoliciesForm:holdsTable:0:_remove_")).click();
-	            Page.dialogConfirmation.confirm();
+				AddHoldActionTab.buttonCancel.click();
 	            return this;
 	        }
 	    }

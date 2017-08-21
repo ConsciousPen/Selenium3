@@ -10,6 +10,7 @@
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
 			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
+			<class name="aaa.modules.regression.billing_and_payments.auto_ss.TestPolicyBilling"/>
 		</classes>
 	</test>
 
@@ -33,6 +34,7 @@
 		<parameter name="state" value="CT" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
 
@@ -40,6 +42,7 @@
 		<parameter name="state" value="DC" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
 
@@ -47,6 +50,7 @@
 		<parameter name="state" value="DE" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
 
@@ -54,6 +58,7 @@
 		<parameter name="state" value="ID" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
 
@@ -61,6 +66,7 @@
 		<parameter name="state" value="IN" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
 
@@ -68,20 +74,23 @@
 		<parameter name="state" value="KS" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
-
+<!--
 	<test name="KY Auto Smoke Tests" preserve-order="true">
 		<parameter name="state" value="KY" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
-
+-->
 	<test name="MD Auto Smoke Tests" preserve-order="true">
 		<parameter name="state" value="MD" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
 
@@ -89,6 +98,7 @@
 		<parameter name="state" value="MT" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
 
@@ -96,6 +106,7 @@
 		<parameter name="state" value="NJ" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
 
@@ -103,6 +114,7 @@
 		<parameter name="state" value="NV" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
 
@@ -110,6 +122,7 @@
 		<parameter name="state" value="NY" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
 
@@ -117,6 +130,7 @@
 		<parameter name="state" value="OH" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
 
@@ -124,6 +138,7 @@
 		<parameter name="state" value="OK" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
 
@@ -131,6 +146,7 @@
 		<parameter name="state" value="OR" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
 
@@ -138,6 +154,7 @@
 		<parameter name="state" value="PA" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
 
@@ -145,6 +162,7 @@
 		<parameter name="state" value="SD" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
 
@@ -152,6 +170,7 @@
 		<parameter name="state" value="VA" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
 
@@ -159,6 +178,7 @@
 		<parameter name="state" value="WV" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
 
@@ -166,6 +186,7 @@
 		<parameter name="state" value="WY" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
 

@@ -1,0 +1,18 @@
+TestData: {
+  Automobiles: {
+    Add automobile: 'Yes',
+    Coverage Type: Split
+  },
+  Motorcycles: {
+    Add motorcycle: 'Yes',
+    Coverage Type: Split
+  },
+  MotorHomes: {
+    Add motor home: 'Yes',
+    Coverage Type: Split
+  },
+  RecreationalVehicle: {
+    'Add recreational vehicle (off-road)': 'Yes',
+    Coverage Type: Split
+  }
+}

@@ -89,8 +89,9 @@ public abstract class PolicyOose extends PolicyBaseTest {
         }
 
         //check data quantity
-        Integer rowsCountExpanded = tableDifferences.getRowsCount(); 
-        CustomAssert.assertTrue(rowsCountExpanded.toString().equals(getTestSpecificTD("Differences").getValue("LineCount")));
+        Integer rowsCountExpanded = tableDifferences.getRowsCount();
+        String rowsCountExpected = getTestSpecificTD("Differences").getValue("LineCount");
+        CustomAssert.assertTrue("Found value: "+ rowsCountExpanded.toString()+". Expected value: "+rowsCountExpected+". ", rowsCountExpanded.toString().equals(rowsCountExpected));
         
         //apply values
         for (int i = 1; i <= rowsCountExpanded; i++) {
@@ -112,7 +113,11 @@ public abstract class PolicyOose extends PolicyBaseTest {
         }
         
         getPolicyType().get().rollOn().submit();
-
+        
+        //for VA and NY [Oose rull JIRA AAASS-23637]
+        getPolicyType().get().rollOn().getView().fill(getTestSpecificTD("ErrorProceed"));
+        getPolicyType().get().dataGather().getView().fill(getTestSpecificTD("DataGather_EP"));
+        
      }
 		
 

@@ -57,11 +57,11 @@ import toolkit.webdriver.controls.composite.table.Table;
  * If you additionally need to interact with any control outside the FillableTable then declare it in appropriate MetaData class with locator and hasParent=false argument.
  *<br>
  * E.g.: <pre>"public static final AssetDescriptor<RadioGroup> CUSTOMER_AGREEMENT = declare("Customer Agreement", RadioGroup.class, Waiters.AJAX, <b>false</b>, <b>By.xpath("//table[@id='policyDataGatherForm:customerRadio']")</b>);"</pre>
- *
+ *<br>
+ * In case when column has no header name with column number such as "column=1" should be used for control in metadata and testdata.
  */
 public class FillableTable extends AbstractContainer<List<TestData>, List<TestData>> {
 	private Table fillableTable = new Table(getLocator());
-	private int rowToFillIndex;
 
 	public FillableTable(BaseElement<?, ?> parent, By locator, Class<? extends MetaData> metaDataClass) {
 		super(parent, locator, metaDataClass);
@@ -82,7 +82,7 @@ public class FillableTable extends AbstractContainer<List<TestData>, List<TestDa
 
 	@Override
 	protected void setRawValue(List<TestData> testDataList) {
-		rowToFillIndex = 1;
+		int rowToFillIndex = 1;
 
 		for (TestData rowData : testDataList) {
 			if (rowData.equals(DataProviderFactory.emptyData())) {
@@ -135,7 +135,7 @@ public class FillableTable extends AbstractContainer<List<TestData>, List<TestDa
 	 * Interact with controls within found row
 	 *
 	 * @param row row with controls to be interacted
-	 * @param rowData test data to be used while filling/clicking controls ins
+	 * @param rowData test data to be used while filling/clicking controls inside the row
 	 */
 	protected void fillRow(Row row, TestData rowData) {
 		for (String assetName : rowData.getKeys()) {
@@ -148,7 +148,12 @@ public class FillableTable extends AbstractContainer<List<TestData>, List<TestDa
 				control.fill(rowData);
 			} else {
 				String value = rowData.getValue(assetName);
-				Controls innerControls = row.getCell(assetName).controls;
+				Controls innerControls;
+				if (assetName.startsWith("column=")) {
+					innerControls = row.getCell(Integer.valueOf(assetName.replace("column=", ""))).controls;
+				} else {
+					innerControls = row.getCell(assetName).controls;
+				}
 				if (control instanceof RadioGroup) {
 					innerControls.radioGroups.getFirst().setValue(value);
 				} else if (control instanceof TextBox) {

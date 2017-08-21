@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
@@ -18,8 +20,8 @@ import toolkit.utils.TestInfo;
  */
 public class TestCreateAndCopyQuote extends HomeCaHO3BaseTest {
 
-    @Test
-    @TestInfo(component = "Policy.PersonalLines")
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
     public void testCreateAndCopyQuote(){
         mainApp().open();
         createCustomerIndividual();

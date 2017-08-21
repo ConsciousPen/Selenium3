@@ -11,12 +11,12 @@ import aaa.helpers.http.HttpStub;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.ProductConstants.*;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 import aaa.common.enums.NavigationEnum;
-import aaa.main.enums.SearchEnum.SearchBy;
-import aaa.main.enums.SearchEnum.SearchFor;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingHelper;
@@ -29,6 +29,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomAssert;
 
 public class Scenario1 extends BaseTest {
 	
@@ -38,8 +39,7 @@ public class Scenario1 extends BaseTest {
 	protected String policyNumber;
 	protected LocalDateTime policyEffectiveDate;
 	protected LocalDateTime policyExpirationDate;
-	protected Dollar policyPremium;
-	
+
 	protected Dollar totalDue;
 	protected List<LocalDateTime> installmentDueDates;
 	protected Dollar installmentAmount;
@@ -52,30 +52,35 @@ public class Scenario1 extends BaseTest {
 		
 		mainApp().open();
 		createCustomerIndividual();
+
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
+		}
 		policyNumber = createPolicy(policyCreationTD);
-//		policyNumber = "UTH3950536086";
-//		SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, policyNumber);
-		
+
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		policyPremium = PolicySummaryPage.getTotalPremiumSummary();
-		
+
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		totalDue = BillingSummaryPage.getTotalDue();
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		installmentAmount = BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(0));
+		CustomAssert.assertEquals("Billing Installments count for Quaterly payment plan", 4, installmentDueDates.size());
+		installmentAmount = BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(1));
+
+		//TODO Check PLIGA fee for NJ Auto = Total Premium * PLIGA charge (currently 0.9% = 0.009) rounded to nearest dollar.
+		//TODO Check MVLE fee for NY Auto = $10.00
 	}
 	
 	public void TC02_Generate_First_Bill() {
-		generateAndCheckBill(installmentDueDates.get(0));
-		firstBillAmount = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(0), BillingBillsAndStatmentsTable.MINIMUM_DUE));
+		generateAndCheckBill(installmentDueDates.get(1));
+		firstBillAmount = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(1), BillingBillsAndStatmentsTable.MINIMUM_DUE));
 	}
 	
 	public void TC03_Endorse_Policy() {
 		mainApp().open();
-		SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, policyNumber);
+		SearchPage.openPolicy(policyNumber);
 		TestData endorsementTD = getStateTestData(tdPolicy, "Endorsement", "TestData");
-		policy.endorse().performAndFill(getStateTestData(tdPolicy, "TestScenario1", "TestData_Endorsement").adjust(endorsementTD));
+		policy.endorse().performAndFill(getTestSpecificTD("TestData_Endorsement").adjust(endorsementTD));
 		PolicyHelper.verifyEndorsementIsCreated();
 
 		// Endorsement transaction displayed on billing in Payments & Other transactions section
@@ -87,46 +92,48 @@ public class Scenario1 extends BaseTest {
 			.setSubtypeReason(reason).verifyPresent();
 
 		// AP endorsement didn't increase Bill Amount (bill generated at TC2)
-		Dollar bill = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(0), BillingBillsAndStatmentsTable.MINIMUM_DUE));
+		Dollar bill = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(1), BillingBillsAndStatmentsTable.MINIMUM_DUE));
 		List<Dollar> installmentDues = BillingHelper.getInstallmentDues();
 
 		// The installment schedule is recalculated starting with the Installment which doesn't yet have a bill
 		bill.verify.equals(firstBillAmount);
-		installmentAmount.verify.equals(installmentDues.get(0));
-		installmentDues.get(1).verify.moreThan(installmentAmount);
+		installmentAmount.verify.equals(installmentDues.get(1));
 		installmentDues.get(2).verify.moreThan(installmentAmount);
+		installmentDues.get(3).verify.moreThan(installmentAmount);
 
 		Dollar totalDue1 = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingAccountPoliciesTable.TOTAL_DUE).getValue());
-		Dollar totalDue2 = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(0), BillingBillsAndStatmentsTable.TOTAL_DUE));
+		Dollar totalDue2 = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(1), BillingBillsAndStatmentsTable.TOTAL_DUE));
 
 		// "Total Due" field is updated to reflect AP amount 
 		totalDue1.verify.moreThan(totalDue);
 		totalDue2.verify.moreThan(totalDue);
+
+		//TODO Check PLIGA fee for NJ Auto is recalculated to added vehicle
+		//TODO Check MVLE fee for NY Auto is recalculated to added vehicle
 	}
 
 	public void TC04_Pay_First_Bill() {
-		payAndCheckBill(installmentDueDates.get(0));
-	}
-
-	public void TC05_Generate_Second_Bill() {
-		generateAndCheckBill(installmentDueDates.get(1));
-	}
-
-	public void TC06_Pay_Second_Bill() {
 		payAndCheckBill(installmentDueDates.get(1));
 	}
 
-	public void TC07_Generate_Third_Bill() {
+	public void TC05_Generate_Second_Bill() {
 		generateAndCheckBill(installmentDueDates.get(2));
 	}
 
-	public void TC08_Pay_Third_Bill() {
+	public void TC06_Pay_Second_Bill() {
 		payAndCheckBill(installmentDueDates.get(2));
+	}
+
+	public void TC07_Generate_Third_Bill() {
+		generateAndCheckBill(installmentDueDates.get(3));
+	}
+
+	public void TC08_Pay_Third_Bill() {
+		payAndCheckBill(installmentDueDates.get(3));
 	}
 
 	public void TC09_Renewal_R_74() {
 		LocalDateTime renewDate74 = getTimePoints().getRenewImageGenerationDate(policyExpirationDate).minusDays(1);
-		//TODO
 		if ((getState().equals(Constants.States.MD) || getState().equals(Constants.States.NY))
 				&& renewDate74.isBefore(DateTimeUtils.getCurrentDateTime())) {
 			log.info(String.format("Skipping Test. State is %s and Timepoint is before the current date", getState()));
@@ -136,7 +143,7 @@ public class Scenario1 extends BaseTest {
 			HttpStub.executeAllBatches();
 			JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 			mainApp().open();
-			SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, policyNumber);
+			SearchPage.openPolicy(policyNumber);
 			PolicyHelper.verifyAutomatedRenewalNotGenerated(renewDate74);
 			PolicyHelper.verifyAutomatedRenewalNotGenerated(getTimePoints().getRenewImageGenerationDate(policyExpirationDate));
 		}
@@ -180,6 +187,9 @@ public class Scenario1 extends BaseTest {
 		BillingHelper.verifyRenewOfferGenerated(policyExpirationDate, installmentDueDates);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewDate35)
 				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
+
+		//TODO Check PLIGA fee for NJ Auto is generated
+		//TODO Check MVLE fee for NY Auto is generated
 	}
 
 	public void TC13_Renewal_Premium_Notice() {
@@ -194,7 +204,7 @@ public class Scenario1 extends BaseTest {
 		// TODO Renew premium verification was excluded, due to unexpected installment calculations
 //		if (!getState().equals(Constants.States.KY) && !getState().equals(Constants.States.WV)) {
 			BillingHelper.verifyRenewalOfferPaymentAmount(policyExpirationDate,
-					getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), getTimePoints().getBillGenerationDate(policyExpirationDate), 4);
+					getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, 4);
 //		}
 		BillingHelper.verifyRenewPremiumNotice(policyExpirationDate, getTimePoints().getBillGenerationDate(policyExpirationDate));
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate)
@@ -219,9 +229,9 @@ public class Scenario1 extends BaseTest {
 			Dollar firstInstallment = BillingHelper.calculateFirstInstallmentAmount(renewalAmount, 4);
 			Dollar lastInstallment = BillingHelper.calculateLastInstallmentAmount(renewalAmount, 4);
 			BillingHelper.getInstallmentDueByDueDate(policyExpirationDate).verify.equals(firstInstallment);
-			BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(0).plusYears(1)).verify.equals(lastInstallment);
 			BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(1).plusYears(1)).verify.equals(lastInstallment);
 			BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(2).plusYears(1)).verify.equals(lastInstallment);
+			BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(3).plusYears(1)).verify.equals(lastInstallment);
 //		}
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
@@ -235,7 +245,7 @@ public class Scenario1 extends BaseTest {
 		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
-		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDate, getTimePoints().getBillGenerationDate(installmentDate));
+		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDate, billDate);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate)
 				.setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
@@ -245,7 +255,7 @@ public class Scenario1 extends BaseTest {
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
 		JobUtils.executeJob(Jobs.recurringPaymentsJob);
 		mainApp().open();
-		SearchPage.search(SearchFor.BILLING, SearchBy.POLICY_QUOTE, policyNumber);
+		SearchPage.openBilling(policyNumber);
 		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(installmentDueDate, BillingBillsAndStatmentsTable.MINIMUM_DUE));
 		new BillingPaymentsAndTransactionsVerifier().verifyAutoPaymentGenerated(DateTimeUtils.getCurrentDateTime(), minDue.negate());
 	}

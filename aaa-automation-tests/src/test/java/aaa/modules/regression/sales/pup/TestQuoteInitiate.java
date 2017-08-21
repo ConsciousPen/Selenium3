@@ -24,7 +24,7 @@ import toolkit.utils.TestInfo;
  */
 public class TestQuoteInitiate extends PersonalUmbrellaBaseTest {
 
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.PUP )
     public void testQuoteInitiate() {
         mainApp().open();
