@@ -875,6 +875,7 @@
 			<class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyRemoveForm" />
 			<class name="aaa.modules.regression.sales.home_ca.ho3.TestQuoteAdvancedRater" />
+			<class name="aaa.modules.regression.sales.home_ca.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ca.ho3.TestQuoteTaskManager" />
 			<class name="aaa.modules.regression.sales.home_ca.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ca.ho3.TestQuoteValidateRules" />
