@@ -14,13 +14,13 @@ TestData: {
 }
 
 TestData_add_Forms: {
-  EndorsementTab: '@EndorsementTab'
+  EndorsementTab: '@EndorsementTab',
 }
 
 GeneralTab: {
-  State: 'KS',
+  State: 'OH',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy', 
+  Effective date: '/today:MM/dd/yyyy',
   Lead source: 'Book Roll',
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
@@ -34,8 +34,8 @@ ApplicantTab: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  AgentInfo: '@AgentInfo',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
 }
 
 ReportsTab: {
@@ -66,7 +66,7 @@ PropertyInfoTab: {
 
 ProductOfferingTab: {}
 
-EndorsementTab: { 
+EndorsementTab: {
   HS 03 12: '@Endorsement_HS0312',
   HS 04 54: '@Endorsement_HS0454',
   HS 24 73: '@Endorsement_HS2473'
@@ -122,13 +122,10 @@ AAAMembership: {
 }
 
 DwellingAddress: {
- Zip code: '66006',
+ Zip code: '43202',
  Street address 1: 265 CHIPMAN AVE,
  Validate Address: true,
- Validate Address Dialog: {
-    #Street number: '265', 
-    #Street Name: CHIPMAN AVE
- }
+ Validate Address Dialog: {}
 }
 
 NamedInsuredInformation: {
@@ -145,7 +142,7 @@ OtherActiveAAAPolicies: {
 OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual:  {
   Policy type: Auto,
   "Companion Auto Pending with Discount?": 'No',
-  Auto policy state: KS, 
+  Auto policy state: OH, 
   Policy number: '345345345',
   Effective date: '/today:MM/dd/yyyy',
   Policy tier: 'index=1',
@@ -173,11 +170,10 @@ PropertyValue: {
 Construction: {
     Year built: 2009,
     Square footage: 1,
-    #Roof type: Laminate / Architectural, 
-    Roof type: 'Wood shingle/Wood shake',
+    Roof type: Laminate / Architectural,
     Roof shape: 'Gable', 
     Construction type: 'Masonry', 
-    Hail-resistance rating: 'index=1'
+    Hail-resistance rating: 'No'
   }
   
 Interior: {
@@ -214,7 +210,7 @@ Endorsement_HS0454: {
 
 Endorsement_HS2473: {
   Action: 'Add', 
-  Zip code: '66006', 
+  Zip code: '43202', 
   Street Address 1: '265 Chipman Ave', 
   Street Address 2: '111 Test street', 
   Total acreage: '1000', 
@@ -230,7 +226,7 @@ Endorsement_HS2473: {
 # ----- Mortgagees Tab ----- 
 MortgageeInformation: {
   Name: Leopold Stotch, 
-  Zip code: '66006', 
+  Zip code: '43202', 
   Street address 1: '265 CHIPMAN AVE', 
   Validate Address: true, 
   Validate Address Dialog: {}, 
@@ -244,101 +240,13 @@ AdditionalInsured: {
 
 AdditionalInterest: {
   Name: Stas Ivanov, 
-  Zip code: '66006', 
+  Zip code: '43202', 
   Street address 1: '265 CHIPMAN AVE', 
   Description of interest: test,
   Effective date: '/today:MM/dd/yyyy'
 }
 
-
-# ======= TC02 ELC verification ======== 
-TestData_None_with_Score740: {
-  GeneralTab: '@GeneralTab_ELC_None', 
-  ReportsTab: '@ReportsTab_Score740'
-}
-
-TestData_Declined_with_Score999: {
-  GeneralTab: '@GeneralTab_ELC_Declined', 
-  ReportsTab: '@ReportsTab_Score999'
-}
-
-TestData_IdentityTheft_with_Score750: {
-  GeneralTab: '@GeneralTab_ELC_IdentityTheft', 
-  ReportsTab: '@ReportsTab_Score750'
-}
-
-TestData_MilitaryDeployment_with_Score740: {
-  GeneralTab: '@GeneralTab_ELC_MilitaryDeployment', 
-  ReportsTab: '@ReportsTab_Score740'
-}
-
-TestData_OtherEvents_with_Score999: {
-  GeneralTab: '@GeneralTab_ELC_OtherEvents', 
-  ReportsTab: '@ReportsTab_Score999'
-}
-
-# ----- General Tab
-GeneralTab_ELC_None: {
-  Extraordinary Life Circumstance: 'None'
-}
-
-GeneralTab_ELC_Declined: {
-  Extraordinary Life Circumstance: 'Declined'
-}
-
-GeneralTab_ELC_IdentityTheft: {
-  Extraordinary Life Circumstance: 'Identity theft'
-}
-
-GeneralTab_ELC_MilitaryDeployment: {
-  Extraordinary Life Circumstance: 'Military deployment overseas'
-}
-
-GeneralTab_ELC_OtherEvents: {
-  Extraordinary Life Circumstance: 'Other events, as determined by the insurer'
-}
-
-# ----- Reports Tab
-ReportsTab_Score740: {
-  InsuranceScoreOverride: ['@InsuranceScoreOverride_OverrideTo740']
-}
-
-InsuranceScoreOverride_OverrideTo740: {
-  Action: Override Score, 
-  EditInsuranceScoreDialog: {
-    Score after override: '740', 
-    Reason for override: 'Fair Credit Reporting Act Dispute', 
-    Save: 'click'
-  }
-}
-
-ReportsTab_Score750: {
-  InsuranceScoreOverride: ['@InsuranceScoreOverride_OverrideTo750']
-}
-
-InsuranceScoreOverride_OverrideTo750: {
-  Action: Override Score, 
-  EditInsuranceScoreDialog: {
-    Score after override: '750', 
-    Reason for override: 'Fair Credit Reporting Act Dispute', 
-    Save: 'click'
-  }
-}
-
-ReportsTab_Score999: {
-  InsuranceScoreOverride: ['@InsuranceScoreOverride_OverrideTo999']
-}
-
-InsuranceScoreOverride_OverrideTo999: {
-  Action: Override Score, 
-  EditInsuranceScoreDialog: {
-    Score after override: '999', 
-    Reason for override: 'Fair Credit Reporting Act Dispute', 
-    Save: 'click'
-  }
-}
-
-# ========== TC04 
+# ========= TC05 Override errors verification =========
 TestData_hailResistanceRating: {
   PropertyInfoTab: '@PropertyInfoTab_hailResistanceRating'
 }
@@ -347,7 +255,21 @@ PropertyInfoTab_hailResistanceRating: {
   Construction: '@Construction_1',
 }
 
+TestData_RoofTypeUneligible: {
+  PropertyInfoTab: '@PropertyInfoTab_RoofTypeUneligible'
+}
+
+PropertyInfoTab_RoofTypeUneligible: {
+  Construction: '@Construction_2',
+}
+
 Construction_1: {
   Hail-resistance rating: '3',
 }
+
+Construction_2: {
+  Year built: '2009',
+  Roof type: 'Wood shingle/Wood shake',
+}
+
 

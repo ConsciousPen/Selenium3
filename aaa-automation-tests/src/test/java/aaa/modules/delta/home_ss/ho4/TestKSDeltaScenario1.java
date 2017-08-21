@@ -37,8 +37,8 @@ public String scenarioPolicyType = "HO4";
 	}
 	
 	@Test
-	public void TC05_verifyHailResistiveRating() {
-		super.TC05_verifyHailResistiveRating();
+	public void TC05_verifyHailResistanceRating() {
+		super.TC05_verifyHailResistanceRating();
 	}
 
 	@Test

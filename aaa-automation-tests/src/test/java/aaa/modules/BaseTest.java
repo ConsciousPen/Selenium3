@@ -397,7 +397,10 @@ public class BaseTest {
 			log.info(String.format("==== %s Test Data is used: %s ====", getState(), getStateTestDataName(tdName)));
 		} else {
 			td = td.getTestData(tdName);
-			log.info(String.format("==== Default state UT Test Data is used. Requested Test Data: %s is missing ====", getStateTestDataName(tdName)));
+			if (getState().equals(States.CA))
+				log.info(String.format("==== CA Test Data is used: %s ====", getState(), getStateTestDataName(tdName)));
+			else
+				log.info(String.format("==== Default state UT Test Data is used. Requested Test Data: %s is missing ====", getStateTestDataName(tdName)));
 		}
 		return td;
 	}

@@ -1,19 +1,19 @@
 TestData: {
   GeneralTab: '@GeneralTab',
-  ApplicantTab: '@<delta_home_ss_ho3>@TestKSDeltaScenario1@ApplicantTab',
+  ApplicantTab: '@<delta_home_ss_ho3>@TestOHDeltaScenario1@ApplicantTab',
   ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab',
   EndorsementTab: '@EndorsementTab',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<delta_home_ss_ho3>@TestKSDeltaScenario1@DocumentsTab',
-  BindTab: '@<delta_home_ss_ho3>@TestKSDeltaScenario1@BindTab',
-  PurchaseTab: '@<delta_home_ss_ho3>@TestKSDeltaScenario1@PurchaseTab'
+  DocumentsTab: '@<delta_home_ss_ho3>@TestOHDeltaScenario1@DocumentsTab',
+  BindTab: '@<delta_home_ss_ho3>@TestOHDeltaScenario1@BindTab',
+  PurchaseTab: '@<delta_home_ss_ho3>@TestOHDeltaScenario1@PurchaseTab'
 }
 
 GeneralTab: {
-  State: 'KS',
+  State: 'OH',
   Policy type: 'HO4',
   Effective date: '/today:MM/dd/yyyy',
   Lead source: 'Book Roll',
@@ -31,17 +31,17 @@ ReportsTab: {
 }
 
 PropertyInfoTab: {
-  DwellingAddress: '@<delta_home_ss_ho3>@TestKSDeltaScenario1@DwellingAddress_PropertyInfoTab',
+  DwellingAddress: '@<delta_home_ss_ho3>@TestOHDeltaScenario1@DwellingAddress_PropertyInfoTab',
   AdditionalAddress: [{}],
   PublicProtectionClass: {},
   FireReport: {},
   PropertyValue: '@PropertyValue',
   Construction: '@Construction',
-  Interior: '@<delta_home_ss_ho3>@TestKSDeltaScenario1@Interior',
+  Interior: '@<delta_home_ss_ho3>@TestOHDeltaScenario1@Interior',
   FireProtectiveDD: {},
   TheftProtectiveTPDD: {},
   HomeRenovation: {},
-  PetsOrAnimals: '@<delta_home_ss_ho3>@TestKSDeltaScenario1@PetsOrAnimals',
+  PetsOrAnimals: '@<delta_home_ss_ho3>@TestOHDeltaScenario1@PetsOrAnimals',
   Stoves: {},
   RecreationalEquipment: {},
   ClaimHistory: {},
@@ -76,8 +76,7 @@ PropertyValue: {
 Construction: {
     Year built: 2009,
     Square footage: 1,
-    #Roof type: Laminate / Architectural, 
-    Roof type: 'Wood shingle/Wood shake',
+    Roof type: Laminate / Architectural,
     Construction type: 'Masonry', 
   }
   
@@ -102,29 +101,13 @@ AdditionalInsured: {
   Name: Pasha Ulybasha
 }
 
-# ======= TC03 ELC verification ======== 
-TestData_None_with_Score740: {
-  GeneralTab: '@<delta_home_ss_ho3>@TestKSDeltaScenario1@GeneralTab_ELC_None', 
-  ReportsTab: '@<delta_home_ss_ho3>@TestKSDeltaScenario1@ReportsTab_Score740'
+# ========= TC05 Override errors verification =========
+TestData_hailResistanceRating: {
+  PropertyInfoTab: '@<delta_home_ss_ho3>@TestOHDeltaScenario1@PropertyInfoTab_hailResistanceRating'
 }
 
-TestData_Declined_with_Score999: {
-  GeneralTab: '@<delta_home_ss_ho3>@TestKSDeltaScenario1@GeneralTab_ELC_Declined', 
-  ReportsTab: '@<delta_home_ss_ho3>@TestKSDeltaScenario1@ReportsTab_Score999'
-}
 
-TestData_IdentityTheft_with_Score750: {
-  GeneralTab: '@<delta_home_ss_ho3>@TestKSDeltaScenario1@GeneralTab_ELC_IdentityTheft', 
-  ReportsTab: '@<delta_home_ss_ho3>@TestKSDeltaScenario1@ReportsTab_Score750'
-}
-
-TestData_MilitaryDeployment_with_Score740: {
-  GeneralTab: '@<delta_home_ss_ho3>@TestKSDeltaScenario1@GeneralTab_ELC_MilitaryDeployment', 
-  ReportsTab: '@<delta_home_ss_ho3>@TestKSDeltaScenario1@ReportsTab_Score740'
-}
-
-TestData_OtherEvents_with_Score999: {
-  GeneralTab: '@<delta_home_ss_ho3>@TestKSDeltaScenario1@GeneralTab_ELC_OtherEvents', 
-  ReportsTab: '@<delta_home_ss_ho3>@TestKSDeltaScenario1@ReportsTab_Score999'
+TestData_RoofTypeUneligible: {
+  PropertyInfoTab: '@<delta_home_ss_ho3>@TestOHDeltaScenario1@PropertyInfoTab_RoofTypeUneligible'
 }
 
