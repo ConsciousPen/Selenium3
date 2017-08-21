@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.pup.functional;
+package aaa.modules.regression.sales.pup;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -207,6 +207,7 @@ public class TestCoverLimitsValidation  extends PersonalUmbrellaBaseTest {
 	}
 
 	private void verifySingleTypeCoverageLimit(VehicleType vehType) {
+		TestData tdSpecific = getTestSpecificTD("TestData");
 		String sLimitCorrect = "$500,000";
 		String sLimitIncorrect = "$490,000";
 		String sLimitErrorMsgExpected = "Combined Single Limit should not be less than $500,000.";
@@ -252,6 +253,7 @@ public class TestCoverLimitsValidation  extends PersonalUmbrellaBaseTest {
 	}
 	
 	private void verifySplitTypeCoverageLimits(VehicleType vehType) {
+		TestData tdSpecific = getTestSpecificTD("TestData");
 		String bILimitFirstCorrect = "$250,000";
 		String bILimitFirstCorrectCA = "$500,000";
 		String bILimitSecondCorrect = "$500,000";

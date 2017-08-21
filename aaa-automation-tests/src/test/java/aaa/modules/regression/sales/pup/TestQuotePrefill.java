@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.pup.functional;
+package aaa.modules.regression.sales.pup;
 
 import java.util.Map;
 import java.util.Map.Entry;
