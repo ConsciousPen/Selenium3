@@ -13,7 +13,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <browser.pool.config>src/test/resources/config/BrowserPool.xml</browser.pool.config>
+        <browser.pool.config>${browser.pool.path}/${browser.pool.name}</browser.pool.config>
+        <browser.pool.name>1ThBrowserPool.xml</browser.pool.name>
+        <browser.pool.path>src/test/resources/config/browserpools</browser.pool.path>
         <timeshift.report.dir>target/test-output/timeshift-report</timeshift.report.dir>
         <dependency.locations.enabled>true</dependency.locations.enabled>
         <dependency.details.enabled>true</dependency.details.enabled>
@@ -101,14 +103,6 @@
                                 <property>
                                     <name>listener</name>
                                     <value>com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener</value>
-                                </property>
-                                <property>
-                                    <name>parallel</name>
-                                    <value>methods</value>
-                                </property>
-                                <property>
-                                    <name>dataproviderthreadcount</name>
-                                    <value>1024</value>
                                 </property>
                             </properties>
                             <systemPropertyVariables>
