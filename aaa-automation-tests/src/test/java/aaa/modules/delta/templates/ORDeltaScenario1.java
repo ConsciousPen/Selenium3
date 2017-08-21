@@ -9,6 +9,7 @@ import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
@@ -71,14 +72,24 @@ public class ORDeltaScenario1 extends BaseTest {
         underwritingTab.submitTab();
         
         CustomAssert.enableSoftMode();   
-        underwritingTab.verifyFieldHasMessage(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS__ADULT_DAY_CARE_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES.getLabel(), 
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+        	underwritingTab.verifyFieldHasMessage(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS__ADULT_DAY_CARE_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES.getLabel(), 
+            	"Business or farming activity is ineligible. Dwellings or applicants that perform adult day care, or pet day care are unacceptable."); 
+        }
+        else {
+        	underwritingTab.verifyFieldHasMessage(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS__ADULT_DAY_CARE_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES.getLabel(), 
         		"Risk must be endorsed with the appropriate business or farming endorsement when a business or incidental farming exposure is present and deemed eligible for coverage. Applicants that perform adult day care, or pet day care, are unacceptable"); 
-        
+        }        
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         new BindTab().btnPurchase.click();
         
-        ErrorTab errorTab = new ErrorTab(); 	
-		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3150198);
+        ErrorTab errorTab = new ErrorTab(); 
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+        	errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3151364);
+        }
+        else {
+        	errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3150198);
+        }
 		errorTab.cancel(); 
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
@@ -109,7 +120,12 @@ public class ORDeltaScenario1 extends BaseTest {
 		CustomAssert.enableSoftMode();   
 		
         ErrorTab errorTab = new ErrorTab(); 	
-		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1020340_OR);
+        if (getPolicyType().equals(PolicyType.HOME_SS_HO4)) {
+        	errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1050670_OR);
+        }
+        else {
+        	errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1020340_OR);
+        }
 		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12023000);
 		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12200234);
 		errorTab.cancel(); 
