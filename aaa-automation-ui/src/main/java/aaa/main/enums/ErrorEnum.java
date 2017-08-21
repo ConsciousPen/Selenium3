@@ -2,103 +2,117 @@ package aaa.main.enums;
 
 public class ErrorEnum {
 
-	public enum Errors {
-		ERROR_200103("200103", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
-		//Property errors
-		ERROR_AAA_HO_SS10060735("AAA_HO_SS10060735", "Underwriter approval is required when Adversely Impacted is selected."), 
-		ERROR_AAA_HO_SS624530_CO("AAA_HO_SS624530_CO", "Dwellings that have not had the roof replaced within the past 25 years if com..."), 
-		ERROR_AAA_HO_SS10030560("AAA_HO_SS10030560", "Dwellings with a wood shake/shingle roof are unacceptable."),
-		ERROR_AAA_HO_SS10030001("AAA_HO_SS10030001", "Dwellings with a T-Lock shingle roof are unacceptable."),
-		ERROR_AAA_HO_SS7230342("AAA_HO_SS7230342", "Underwriting approval is required for the option you have selected."), 
-		ERROR_AAA_HO_SS4260842("AAA_HO_SS4260842", "Wind/hail endorsement is required when roof type is wood shingle/wood shake."), 
-		ERROR_AAA_HO_SS14061993("AAA_HO_SS14061993", "Dwellings with a Zip Code Level Match returned for Fireline require further u...");
-				
-		//TODO: add other rules there...
+    public enum Errors {
+        ERROR_200103("200103", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
+        //Property errors
 
-		private String code;
-		private String message;
+        ERROR_AAA_HO_CA_15011_1("AAA_HO_CA_15011_1", "Dwellings built prior to 1940 must have all four major systems fully renovated."),
+        ERROR_AAA_HO_CACovAReplacementCost("AAA_HO_CACovAReplacementCost", "Coverage A greater than 120% of replacement cost requires underwriting approval."),
+        ERROR_AAA_HO_CA12190315("AAA_HO_CA12190315", "Applicants with any paid claims over $25,000 in the last 3 years are ineligible."),
+        ERROR_AAA_HO_CA1219040y("AAA_HO_CA1219040y", "Applicants with any liability claims in the past 3 years are ineligible."),
+        ERROR_AAA_HO_CA12240000("AAA_HO_CA12240000", "Policy is ineligible as combined total amount of all the detached structures ..."),
+        ERROR_AAA_HO_CA12240080("AAA_HO_CA12240080", "A detached structure greater than 50% of Coverage A is ineligible."),
+        ERROR_AAA_HO_CA12260015("AAA_HO_CA12260015", "Dwellings with more than 2 detached building structures rented to others on t..."),
+        ERROR_AAA_HO_CA12261856("AAA_HO_CA12261856", "More than 2 additional Interests require Underwriting approval"),
+        ERORR_AAA_HO_CA7220104("AAA_HO_CA7220104", "Dwellings built prior to 1900 are ineligible."),
+        ERROR_AAA_HO_CA7220432("AAA_HO_CA7220432", "Dwellings with more than 2 roof layers are ineligible."),
+        ERROR_AAA_HO_CA7220704("AAA_HO_CA7220704", "Maximum total number of livestock is 100."),
+        ERROR_AAA_HO_CA7231530("AAA_HO_CA7231530", "More than 2 additional Insureds require Underwriting approval"),
+        ERROR_AAA_HO_CA9230000("AAA_HO_CA9230000", "Dwellings with more than 3 detached building structures on the residence prem..."),
 
-		Errors() {
-			setCode(this.name());
-			setMessage(""); // to prevent NPE on getErrorMessage() call for rules with not defined error messages
-		}
+        ERROR_AAA_HO_SS10060735("AAA_HO_SS10060735", "Underwriter approval is required when Adversely Impacted is selected."),
+        ERROR_AAA_HO_SS624530_CO("AAA_HO_SS624530_CO", "Dwellings that have not had the roof replaced within the past 25 years if com..."),
+        ERROR_AAA_HO_SS10030560("AAA_HO_SS10030560", "Dwellings with a wood shake/shingle roof are unacceptable."),
+        ERROR_AAA_HO_SS10030001("AAA_HO_SS10030001", "Dwellings with a T-Lock shingle roof are unacceptable."),
+        ERROR_AAA_HO_SS7230342("AAA_HO_SS7230342", "Underwriting approval is required for the option you have selected."),
+        ERROR_AAA_HO_SS4260842("AAA_HO_SS4260842", "Wind/hail endorsement is required when roof type is wood shingle/wood shake.");
 
-		Errors(String code) {
-			setCode(code);
-			setMessage("");
-		}
+        //TODO: add other rules there...
 
-		Errors(String code, String message) {
-			setCode(code);
-			setMessage(message);
-		}
+        private String code;
+        private String message;
 
-		public String getCode() {
-			return code;
-		}
+        Errors() {
+            setCode(this.name());
+            setMessage(""); // to prevent NPE on getErrorMessage() call for rules with not defined error messages
+        }
 
-		public void setCode(String code) {
-			this.code = code;
-		}
+        Errors(String code) {
+            setCode(code);
+            setMessage("");
+        }
 
-		public String getMessage() {
-			return message;
-		}
+        Errors(String code, String message) {
+            setCode(code);
+            setMessage(message);
+        }
 
-		public void setMessage(String message) {
-			this.message = message;
-		}
+        public String getCode() {
+            return code;
+        }
 
-		@Override
-		public String toString() {
-			return "Error{" +
-					"Code='" + code + '\'' +
-					", Message='" + message + '\'' +
-					'}';
-		}
-	}
+        public void setCode(String code) {
+            this.code = code;
+        }
 
-	public enum Duration {
-		TERM("Term"),
-		LIFE("Life");
+        public String getMessage() {
+            return message;
+        }
 
-		private String id;
+        public void setMessage(String message) {
+            this.message = message;
+        }
 
-		Duration(String id) {
-			set(id);
-		}
+        @Override
+        public String toString() {
+            return "Error{" +
+                    "Code='" + code + '\'' +
+                    ", Message='" + message + '\'' +
+                    '}';
+        }
+    }
 
-		public String get() {
-			return id;
-		}
+    public enum Duration {
+        TERM("Term"),
+        LIFE("Life");
 
-		public void set(String id) {
-			this.id = id;
-		}
-	}
+        private String id;
 
-	public enum ReasonForOverride {
-		JUSTIFIED_THROUGH_SUPPORTING_DOCUMENTATION("Justified through supporting documentation"),
-		AAA_ERROR("AAA Error"),
-		SYSTEM_ISSUE("System Issue"),
-		TEMPORARY_ISSUE("Temporary Issue"),
-		OTHER("Other"),
-		CONVERSION("Conversion"),
-		CONVERSION_HIGH_PREMIUM_VARIANCE("Conversion - High Premium Variance"),
-		EMPTY("");
+        Duration(String id) {
+            set(id);
+        }
 
-		private String id;
+        public String get() {
+            return id;
+        }
 
-		ReasonForOverride(String id) {
-			set(id);
-		}
+        public void set(String id) {
+            this.id = id;
+        }
+    }
 
-		public String get() {
-			return id;
-		}
+    public enum ReasonForOverride {
+        JUSTIFIED_THROUGH_SUPPORTING_DOCUMENTATION("Justified through supporting documentation"),
+        AAA_ERROR("AAA Error"),
+        SYSTEM_ISSUE("System Issue"),
+        TEMPORARY_ISSUE("Temporary Issue"),
+        OTHER("Other"),
+        CONVERSION("Conversion"),
+        CONVERSION_HIGH_PREMIUM_VARIANCE("Conversion - High Premium Variance"),
+        EMPTY("");
 
-		public void set(String id) {
-			this.id = id;
-		}
-	}
+        private String id;
+
+        ReasonForOverride(String id) {
+            set(id);
+        }
+
+        public String get() {
+            return id;
+        }
+
+        public void set(String id) {
+            this.id = id;
+        }
+    }
 }
