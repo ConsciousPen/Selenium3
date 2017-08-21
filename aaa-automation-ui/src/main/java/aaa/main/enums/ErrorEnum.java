@@ -11,7 +11,7 @@ public class ErrorEnum {
 		ERROR_AAA_HO_SS10030001("AAA_HO_SS10030001", "Dwellings with a T-Lock shingle roof are unacceptable."),
 		ERROR_AAA_HO_SS7230342("AAA_HO_SS7230342", "Underwriting approval is required for the option you have selected."), 
 		ERROR_AAA_HO_SS4260842("AAA_HO_SS4260842", "Wind/hail endorsement is required when roof type is wood shingle/wood shake."), 
-		ERROR_AAA_HO_SS4010000("AAA_HO_SS4010000", "Dwellings with a Zip Code Level Match returned for Fireline require underwrit");
+		ERROR_AAA_HO_SS14061993("AAA_HO_SS14061993", "Dwellings with a Zip Code Level Match returned for Fireline require further u...");
 				
 		//TODO: add other rules there...
 

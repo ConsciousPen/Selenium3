@@ -93,7 +93,7 @@ UnderwritingAndApprovalTab: {
   "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
   "Has the property been in foreclosure proceedings within the past 18 months?": "No",
   "Do employees of any resident or applicant reside in the dwelling?": "No",
-  "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No"
+  "Is any business, home day care or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No"
 }
 
 DocumentsTab: {
@@ -247,10 +247,12 @@ AdditionalInterest: {
 }
 
 
-# ========== TC02 Endorsement Tab verification ==========
+# ========== TC_verifyErrorForZipCode83213 ==========
+
 TestData_ZipCode83213: {
   ApplicantTab: '@ApplicantTab_ZipCode83213',
-  ReportsTab: '@ReportsTab_ZipCode83213'
+  ReportsTab: '@ReportsTab_ZipCode83213', 
+  PropertyInfoTab: '@PropertyInfotab_ZipCode83213'
 }
 
 ApplicantTab_ZipCode83213: {
@@ -267,9 +269,19 @@ ApplicantTab_ZipCode83213: {
 
 ReportsTab_ZipCode83213: {
   Sales Agent Agreement: 'I Agree',
-  InsuranceScoreReport: [{Report: 'Re-order report'}],
+  InsuranceScoreReport: [{Report: 'Re-order report'}], 
+  FirelineReport: [{Report: 'Re-order report'}],
   PublicProtectionClass: [{Report: 'Re-order report'}],
   CLUEreport: [{Report: 'Re-order report'}]
+}
+
+PropertyInfotab_ZipCode83213: {
+  PublicProtectionClass: {
+    Fire department type: 'T - Tax based', 
+    Public protection class: '5', 
+    Distance to fire hydrant: '<=1000ft', 
+    Fire protection area: '100' 
+  }
 }
 
 TestData_ZipCode83212: {
@@ -288,7 +300,8 @@ ApplicantTab_ZipCode83212: {
 
 ReportsTab_ZipCode83212: {
   Sales Agent Agreement: 'I Agree',
-  InsuranceScoreReport: [{Report: 'Re-order report'}],
+  InsuranceScoreReport: [{Report: 'Re-order report'}], 
+  FirelineReport: [{Report: 'Re-order report'}],
   PublicProtectionClass: [{Report: 'Re-order report'}],
   CLUEreport: [{Report: 'Re-order report'}]
 }

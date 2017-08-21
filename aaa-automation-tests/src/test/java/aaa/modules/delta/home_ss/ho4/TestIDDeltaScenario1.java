@@ -1,4 +1,4 @@
-package aaa.modules.delta.home_ss.ho3;
+package aaa.modules.delta.home_ss.ho4;
 
 import org.testng.annotations.Test;
 
@@ -8,11 +8,11 @@ import toolkit.datax.TestData;
 
 public class TestIDDeltaScenario1 extends IDDeltaScenario1 {
 	
-public String scenarioPolicyType = "HO3";
+public String scenarioPolicyType = "HO4";
 	
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO3;
+		return PolicyType.HOME_SS_HO4;
 	}
 	
 	@Test
@@ -27,12 +27,7 @@ public String scenarioPolicyType = "HO3";
 	}
 	
 	@Test
-	public void TC03_verifyErrorForZipCode83213() {
-		super.TC_verifyErrorForZipCode83213();
-	}
-	
-	@Test
-	public void TC04_purchasePolicy() {
+	public void TC03_purchasePolicy() {
 		TestData td_sc1 = getTestSpecificTD("TestData");	
 		super.TC_purchasePolicy(td_sc1, scenarioPolicyType);
 	}

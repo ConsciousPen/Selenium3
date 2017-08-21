@@ -14,11 +14,13 @@ import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
+import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 
 public class IDDeltaScenario1 extends BaseTest {
@@ -73,6 +75,9 @@ public class IDDeltaScenario1 extends BaseTest {
 		ReportsTab reportsTab = new ReportsTab();
 		reportsTab.fillTab(td_zip83213); 
 		
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+		new PropertyInfoTab().fillTab(td_zip83213);
+		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		PremiumsAndCoveragesQuoteTab premiumsTab = new PremiumsAndCoveragesQuoteTab(); 
@@ -82,7 +87,8 @@ public class IDDeltaScenario1 extends BaseTest {
 		new BindTab().btnPurchase.click();
 		
 		ErrorTab errorTab = new ErrorTab(); 
-		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS4010000);
+		CustomAssert.enableSoftMode();	
+		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS14061993);
 		errorTab.cancel(); 
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
@@ -95,6 +101,7 @@ public class IDDeltaScenario1 extends BaseTest {
 		premiumsTab.calculatePremium(); 
 		
 		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();		
+		CustomAssert.assertAll();
 	}
 	
 	public void TC_purchasePolicy(TestData td, String scenarioPolicyType) {
@@ -117,6 +124,8 @@ public class IDDeltaScenario1 extends BaseTest {
         log.info("DELTA ID SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);
 	}
 	
-	public void TC_verifyODDPolicy() {}
+	public void TC_verifyODDPolicy() {
+		//TODO verify AHAUXX - Consumer Information Notice is on On-Demand Documents tab, verify AHAUXX generation
+	}
 	
 }

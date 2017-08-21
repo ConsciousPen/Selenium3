@@ -1,4 +1,4 @@
-package aaa.modules.delta.home_ss.ho3;
+package aaa.modules.delta.home_ss.ho6;
 
 import org.testng.annotations.Test;
 
@@ -8,11 +8,11 @@ import toolkit.datax.TestData;
 
 public class TestIDDeltaScenario1 extends IDDeltaScenario1 {
 	
-public String scenarioPolicyType = "HO3";
+public String scenarioPolicyType = "HO6";
 	
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO3;
+		return PolicyType.HOME_SS_HO6;
 	}
 	
 	@Test
