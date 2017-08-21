@@ -147,32 +147,6 @@
                 </plugins>
             </build>
         </profile>
-
-        <profile>
-            <id>package</id>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-resources-plugin</artifactId>
-                            <version>3.0.2</version>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-                <testResources>
-                    <testResource>
-                        <!-- <targetPath>${project.basedir}/src/test/resources/testsuites</targetPath> -->
-                        <directory>src/test/resources</directory>
-                        <filtering>true</filtering>
-                    </testResource>
-                </testResources>
-            </build>
-            <properties>
-                <suiteFile>testsuites/package.xml</suiteFile>
-                <suitePath>${project.build.testOutputDirectory}</suitePath>
-            </properties>
-        </profile>
     </profiles>
 </project>
 
