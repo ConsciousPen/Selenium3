@@ -23,15 +23,14 @@ import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.db.DBService;
 import toolkit.rest.ResponseWrapper;
-import toolkit.utils.DBHelper;
 
 public class PolicyRestImpl {
 
 	protected static Logger log = LoggerFactory.getLogger(PolicyRestImpl.class);
     protected ProductFactoryRESTMethods productFactoryRest = new ProductFactoryRESTMethods();
     protected PolicyRESTMethods policyRest = new PolicyRESTMethods();
-    protected DBHelper dbHelper = DBManager.netInstance();
 
     private PolicyType policyType;
     private String quoteNumber;
@@ -74,7 +73,7 @@ public class PolicyRestImpl {
 
     public void calculatePremiumAPI() {
         log.debug("[REST] Start Calculate " + quoteNumber);
-        String instanceName = dbHelper.getValue(String.format("select p.instanceName from PolicySummary p where policyNumber = '%s'", quoteNumber));
+        String instanceName = DBService.get().getValue(String.format("select p.instanceName from PolicySummary p where policyNumber = '%s'", quoteNumber)).get();
 
         TestData td = productFactoryRest.transferDataForInit(policyType.getShortName(), "dataGather", customerNumber, instanceName);
 
@@ -99,7 +98,7 @@ public class PolicyRestImpl {
 
         //TODO(mburyak): Need to remove after investigate problem
         log.debug("[REST] Unlock " + quoteNumber);
-        dbHelper.executeUpdate(String.format("delete from ENTITY_LOCK where entityNumber = '%s'", quoteNumber));
+        DBService.get().executeUpdate(String.format("delete from ENTITY_LOCK where entityNumber = '%s'", quoteNumber));
         log.debug("[REST] End Calculate " + quoteNumber);
     }
 
@@ -124,7 +123,7 @@ public class PolicyRestImpl {
 
     public void propose() {
         log.debug("[REST] Start Propose " + quoteNumber);
-        String instanceName = dbHelper.getValue(String.format("select p.instanceName from PolicySummary p where policyNumber = '%s'", quoteNumber));
+        String instanceName = DBService.get().getValue(String.format("select p.instanceName from PolicySummary p where policyNumber = '%s'", quoteNumber)).get();
         TestData td = productFactoryRest.transferDataForInit(policyType.getShortName(), "propose", customerNumber, instanceName);
 
         ResponseWrapper response = productFactoryRest.postQuoteCommandLoad(td);
@@ -143,14 +142,14 @@ public class PolicyRestImpl {
 
         //TODO(mburyak): Need to remove after investigate problem
         log.debug("[REST] Unlock " + quoteNumber);
-        dbHelper.executeUpdate(String.format("delete from ENTITY_LOCK where entityNumber = '%s'", quoteNumber));
+        DBService.get().executeUpdate(String.format("delete from ENTITY_LOCK where entityNumber = '%s'", quoteNumber));
         log.debug("[REST] End Propose " + quoteNumber);
     }
 
     public String copyQuote(TestData tdQuote) {
         log.debug("[REST] Start copy " + quoteNumber);
         synchronized (policyType) {
-            String instanceName = dbHelper.getValue(String.format("select p.instanceName from PolicySummary p where policyNumber = '%s'", quoteNumber));
+            String instanceName = DBService.get().getValue(String.format("select p.instanceName from PolicySummary p where policyNumber = '%s'", quoteNumber)).get();
 
             TestData td = productFactoryRest.transferDataForInit(policyType.getShortName(), "copyQuote", customerNumber, instanceName);
 
@@ -172,7 +171,7 @@ public class PolicyRestImpl {
 
             //TODO(mburyak): Need to remove after investigate problem
             log.debug("[REST] Unlock " + quoteNumber);
-            dbHelper.executeUpdate(String.format("delete from ENTITY_LOCK where entityNumber = '%s'", quoteNumber));
+            DBService.get().executeUpdate(String.format("delete from ENTITY_LOCK where entityNumber = '%s'", quoteNumber));
         }
         log.info(String.format("Quote was copied via REST: %s", quoteNumber));
         return quoteNumber;
