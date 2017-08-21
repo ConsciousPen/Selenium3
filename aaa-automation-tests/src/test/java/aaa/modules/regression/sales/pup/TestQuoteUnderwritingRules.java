@@ -58,10 +58,11 @@ public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest{
 		
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(td, UnderwritingAndApprovalTab.class, false);
+		UnderwritingAndApprovalTab underwritingTab= policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class);
 		
-		UnderwritingAndApprovalTab underwritingTab = new UnderwritingAndApprovalTab();
-        underwritingTab.fillTab(td_uw1);
-        underwritingTab.submitTab();
+//		Enter td_uw1 and verify the wringing message
+		policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).fillTab(td_uw1);
+		policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).submitTab();
         
         if (getState().equals("MD")){
         	underwritingTab.verifyFieldHasMessage("Is any business or farming activity conducted on the premises?","Business or farming activity is ineligible");
@@ -96,42 +97,43 @@ public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest{
             ErrorPage.provideLabelErrorMessage("Applicants without underlying bodily injury and property damage liability coverage are ineligible.").verify.present();
             ErrorPage.provideLabelErrorMessage("Applicants who use their personal vehicles for wholesale or retail delivery are ineligible.").verify.present();
         }
-            
+           
+//		Enter td_uw2 and verify the mandatory fields for Remark
         underwritingTab.fillTab(td_uw2);
         underwritingTab.submitTab(); 
         
         if (getState().equals("CT")||getState().equals("KY")){
         	underwritingTab.verifyFieldHasMessage("Remark Property Outside US", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Vehicles not for personal/pleasure use", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Commercial Vehicle", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Celebrity", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Vehicles not for personal/pleasure use", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Commercial Vehicle", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Celebrity", "'Remarks' is required");
         }
         else if(getState().equals("MD")){
         	underwritingTab.verifyFieldHasMessage("Remark Cancelled Policy Extn", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Property Outside US", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Vehicles not for personal/pleasure use", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Commercial Vehicle", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Celebrity", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Property Outside US", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Vehicles not for personal/pleasure use", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Commercial Vehicle", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Celebrity", "'Remarks' is required");
         }
         else if(getState().equals("CA")){
         	underwritingTab.verifyFieldHasMessage("Remark Cancelled Policy", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Property Outside US", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Vehicles not for personal/pleasure use", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Commercial Vehicle", "'Remarks' is required");	
+        	underwritingTab.verifyFieldHasMessage("Remark Property Outside US", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Vehicles not for personal/pleasure use", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Commercial Vehicle", "'Remarks' is required");	
         }
         else{
         	underwritingTab.verifyFieldHasMessage("Remark Cancelled Policy", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Property Outside US", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Vehicles not for personal/pleasure use", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Commercial Vehicle", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Celebrity", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Property Outside US", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Vehicles not for personal/pleasure use", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Commercial Vehicle", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Celebrity", "'Remarks' is required");
         }
         
+//		Enter td_uw3 for Remark fields and verify override messages
         underwritingTab.fillTab(td_uw3);
         underwritingTab.submitTab();
         policy.getDefaultView().fillFromTo(td, DocumentsTab.class, BindTab.class, true);
-        BindTab bindTab = new BindTab();
-        bindTab.btnPurchase.click();
+        policy.getDefaultView().getTab(BindTab.class).btnPurchase.click();
         
         Map<String, String> err1_dataRow = new HashMap<>();
         err1_dataRow.put("Severity", "Error");
@@ -153,34 +155,34 @@ public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest{
         err5_dataRow.put("Severity", "Error");
         err5_dataRow.put("Message", "Residents holding one of the special occupations or holder of any elected or ...");
         
-        ErrorTab errorTab = new ErrorTab();
+        
         if(getState().equals("CT")||getState().equals("KY")){
-        	errorTab.errorsList.getTable().getRowContains(err1_dataRow).verify.present();
-        	errorTab.errorsList.getTable().getRowContains(err2_dataRow).verify.present();
-        	errorTab.errorsList.getTable().getRowContains(err3_dataRow).verify.present();
+        	policy.getDefaultView().getTab(ErrorTab.class).errorsList.getTable().getRowContains(err1_dataRow).verify.present();
+        	policy.getDefaultView().getTab(ErrorTab.class).errorsList.getTable().getRowContains(err2_dataRow).verify.present();
+        	policy.getDefaultView().getTab(ErrorTab.class).errorsList.getTable().getRowContains(err3_dataRow).verify.present();
         }
         else if (getState().equals("CA")){
-        	errorTab.errorsList.getTable().getRowContains(err5_dataRow).verify.present();
-         	errorTab.errorsList.getTable().getRowContains(err2_dataRow).verify.present();
-         	errorTab.errorsList.getTable().getRowContains(err3_dataRow).verify.present();
-         	errorTab.errorsList.getTable().getRowContains(err4_dataRow).verify.present();       	
+        	policy.getDefaultView().getTab(ErrorTab.class).errorsList.getTable().getRowContains(err5_dataRow).verify.present();
+        	policy.getDefaultView().getTab(ErrorTab.class).errorsList.getTable().getRowContains(err2_dataRow).verify.present();
+        	policy.getDefaultView().getTab(ErrorTab.class).errorsList.getTable().getRowContains(err3_dataRow).verify.present();
+        	policy.getDefaultView().getTab(ErrorTab.class).errorsList.getTable().getRowContains(err4_dataRow).verify.present();       	
         }
         else{
-        	errorTab.errorsList.getTable().getRowContains(err1_dataRow).verify.present();
-         	errorTab.errorsList.getTable().getRowContains(err2_dataRow).verify.present();
-         	errorTab.errorsList.getTable().getRowContains(err3_dataRow).verify.present();
-         	errorTab.errorsList.getTable().getRowContains(err4_dataRow).verify.present();
+        	policy.getDefaultView().getTab(ErrorTab.class).errorsList.getTable().getRowContains(err1_dataRow).verify.present();
+        	policy.getDefaultView().getTab(ErrorTab.class).errorsList.getTable().getRowContains(err2_dataRow).verify.present();
+        	policy.getDefaultView().getTab(ErrorTab.class).errorsList.getTable().getRowContains(err3_dataRow).verify.present();
+        	policy.getDefaultView().getTab(ErrorTab.class).errorsList.getTable().getRowContains(err4_dataRow).verify.present();
         }
 
-        errorTab.cancel();
-   
+        policy.getDefaultView().getTab(ErrorTab.class).cancel();
+//		Enter td_uw4 to change all UW questions as No
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERWRITING_AND_APPROVAL.get());
         underwritingTab.fillTab(td_uw4);
         underwritingTab.submitTab();
         
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
         policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);
-        new PurchaseTab().submitTab();
+        policy.getDefaultView().getTab(PurchaseTab.class).submitTab();
         
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);    
         log.info("TEST Underwriting rules: PUP Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
