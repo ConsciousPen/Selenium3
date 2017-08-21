@@ -58,14 +58,14 @@ public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest{
 		
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(td, UnderwritingAndApprovalTab.class, false);
-		
+		UnderwritingAndApprovalTab underwritingTab= policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class);
 		
 //		Enter td_uw1 and verify the wringing message
 		policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).fillTab(td_uw1);
 		policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).submitTab();
         
         if (getState().equals("MD")){
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Is any business or farming activity conducted on the premises?","Business or farming activity is ineligible");
+        	underwritingTab.verifyFieldHasMessage("Is any business or farming activity conducted on the premises?","Business or farming activity is ineligible");
         	ErrorPage.provideLabelErrorMessage("Applicants who have been sued for libel or slander are ineligible.").verify.present();
             ErrorPage.provideLabelErrorMessage("Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting history are unacceptable.").verify.present();
             ErrorPage.provideLabelErrorMessage("Applicants without underlying bodily injury and property damage liability coverage are ineligible.").verify.present();
@@ -74,7 +74,7 @@ public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest{
         	
         }
         else if(getState().equals("OR")){
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Is any business, adult day care, pet day care or farming activity conducted on the premises?","Adult day care, or pet day care are not eligible.");
+        	underwritingTab.verifyFieldHasMessage("Is any business, adult day care, pet day care or farming activity conducted on the premises?","Adult day care, or pet day care are not eligible.");
         	ErrorPage.provideLabelErrorMessage("Applicants who have been sued for libel or slander are ineligible.").verify.present();
             ErrorPage.provideLabelErrorMessage("Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting history are unacceptable.").verify.present();
             ErrorPage.provideLabelErrorMessage("Applicants without underlying bodily injury and property damage liability coverage are ineligible.").verify.present();
@@ -82,13 +82,13 @@ public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest{
             ErrorPage.provideLabelErrorMessage("Adult day care, or pet day care are not eligible.").verify.present();
         }
         else if (getState().equals("CA")){
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Has the applicant been sued for libel or slander?","Applicants who have been sued for libel or slander are ineligible.");
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Do you have a license?","Dwellings or applicants that perform a home day care, including child day care, adult day care, or pet day care, are unacceptable unless they are licensed and insured.");
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Is it a for-profit business?","Farming/Ranching on premises is unacceptable unless it is incidental and not for profit.");
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Others","Other business exposures on premises are unacceptable.");
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?","Animals with any prior bite history are not acceptable.");
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?","Applicants without underlying bodily injury and property damage liability coverage are ineligible.");
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?","Applicants who use their personal vehicles for wholesale or retail delivery are ineligible.");
+        	underwritingTab.verifyFieldHasMessage("Has the applicant been sued for libel or slander?","Applicants who have been sued for libel or slander are ineligible.");
+        	underwritingTab.verifyFieldHasMessage("Do you have a license?","Dwellings or applicants that perform a home day care, including child day care, adult day care, or pet day care, are unacceptable unless they are licensed and insured.");
+        	underwritingTab.verifyFieldHasMessage("Is it a for-profit business?","Farming/Ranching on premises is unacceptable unless it is incidental and not for profit.");
+        	underwritingTab.verifyFieldHasMessage("Others","Other business exposures on premises are unacceptable.");
+        	underwritingTab.verifyFieldHasMessage("Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?","Animals with any prior bite history are not acceptable.");
+        	underwritingTab.verifyFieldHasMessage("Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?","Applicants without underlying bodily injury and property damage liability coverage are ineligible.");
+        	underwritingTab.verifyFieldHasMessage("Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?","Applicants who use their personal vehicles for wholesale or retail delivery are ineligible.");
         }
         else{
         	ErrorPage.provideLabelErrorMessage("Applicants who have been sued for libel or slander are ineligible.").verify.present();
@@ -99,39 +99,39 @@ public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest{
         }
            
 //		Enter td_uw2 and verify the mandatory fields for Remark
-        policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).fillTab(td_uw2);
-        policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).submitTab(); 
+        underwritingTab.fillTab(td_uw2);
+        underwritingTab.submitTab(); 
         
         if (getState().equals("CT")||getState().equals("KY")){
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Remark Property Outside US", "'Remarks' is required");
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Remark Vehicles not for personal/pleasure use", "'Remarks' is required");
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Remark Commercial Vehicle", "'Remarks' is required");
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Remark Celebrity", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Property Outside US", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Vehicles not for personal/pleasure use", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Commercial Vehicle", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Celebrity", "'Remarks' is required");
         }
         else if(getState().equals("MD")){
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Remark Cancelled Policy Extn", "'Remarks' is required");
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Remark Property Outside US", "'Remarks' is required");
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Remark Vehicles not for personal/pleasure use", "'Remarks' is required");
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Remark Commercial Vehicle", "'Remarks' is required");
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Remark Celebrity", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Cancelled Policy Extn", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Property Outside US", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Vehicles not for personal/pleasure use", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Commercial Vehicle", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Celebrity", "'Remarks' is required");
         }
         else if(getState().equals("CA")){
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Remark Cancelled Policy", "'Remarks' is required");
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Remark Property Outside US", "'Remarks' is required");
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Remark Vehicles not for personal/pleasure use", "'Remarks' is required");
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Remark Commercial Vehicle", "'Remarks' is required");	
+        	underwritingTab.verifyFieldHasMessage("Remark Cancelled Policy", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Property Outside US", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Vehicles not for personal/pleasure use", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Commercial Vehicle", "'Remarks' is required");	
         }
         else{
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Remark Cancelled Policy", "'Remarks' is required");
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Remark Property Outside US", "'Remarks' is required");
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Remark Vehicles not for personal/pleasure use", "'Remarks' is required");
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Remark Commercial Vehicle", "'Remarks' is required");
-        	policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).verifyFieldHasMessage("Remark Celebrity", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Cancelled Policy", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Property Outside US", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Vehicles not for personal/pleasure use", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Commercial Vehicle", "'Remarks' is required");
+        	underwritingTab.verifyFieldHasMessage("Remark Celebrity", "'Remarks' is required");
         }
         
 //		Enter td_uw3 for Remark fields and verify override messages
-        policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).fillTab(td_uw3);
-        policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).submitTab();
+        underwritingTab.fillTab(td_uw3);
+        underwritingTab.submitTab();
         policy.getDefaultView().fillFromTo(td, DocumentsTab.class, BindTab.class, true);
         policy.getDefaultView().getTab(BindTab.class).btnPurchase.click();
         
@@ -177,8 +177,8 @@ public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest{
         policy.getDefaultView().getTab(ErrorTab.class).cancel();
 //		Enter td_uw4 to change all UW questions as No
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERWRITING_AND_APPROVAL.get());
-        policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).fillTab(td_uw4);
-        policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).submitTab();
+        underwritingTab.fillTab(td_uw4);
+        underwritingTab.submitTab();
         
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
         policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);
