@@ -1,6 +1,6 @@
 TestData: {
   PremiumAndCoveragesTab: {
-    Payment Plan: Eleven Pay Standard,
+    Payment Plan: Eleven Pay - Standard,
     Recurring Payment: true,
     Personal Umbrella: '$1,000,000'
   },

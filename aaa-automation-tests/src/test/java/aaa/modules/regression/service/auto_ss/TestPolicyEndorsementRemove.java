@@ -23,6 +23,12 @@ import toolkit.verification.CustomAssert;
  * @author Jelena Dembovska
  * @name Test Endorsement for Auto Policy with removal
  * @scenario
+ * 1. initiate endorsement
+ * 2. remove second named insured
+ * 3. driver tab is opened, driver which is related to removed insured is removed automatically
+ * 4. go to Vehicle tab, remove second vehicle
+ * 5. fill all mandatory fields required to bind
+ * 6. check drivers and vehicles are removed
  * @details
  */
 public class TestPolicyEndorsementRemove extends AutoSSBaseTest {

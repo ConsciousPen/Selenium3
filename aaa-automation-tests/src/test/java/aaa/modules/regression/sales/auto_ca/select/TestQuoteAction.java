@@ -26,7 +26,7 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 * 3. Verify quote status is 'Premium Calculated'
 	 * @details
 	 */
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT )
 	public void testQuoteCreation() {
 		super.testQuoteCreation();
@@ -42,9 +42,59 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 * 4. Verify policy status is 'Policy Active'
 	 * @details
 	 */
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT )
 	public void testQuoteIssue() {
 		super.testQuoteIssue();
+	}
+	
+	/**
+	 * @author Jelena Dembovska
+	 * @name Test Customer Decline action
+	 * @scenario
+	 * 1. Create Customer
+	 * 2. Create Quote for corresponding product
+	 * 3. Select action "Decline by customer"
+	 * 4. Verify quote status is '"Customer Declined"'
+	 * @details
+	 */
+	
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+	public void testQuoteDeclineByCustomer() {
+		super.testQuoteDeclineByCustomer();
+	}
+	
+	/**
+	 * @author Jelena Dembovska
+	 * @name Test Company Decline action
+	 * @scenario
+	 * 1. Create Customer
+	 * 2. Create Quote for corresponding product
+	 * 3. Select action "Decline by company"
+	 * 4. Verify quote status is 'Company Declined'
+	 * @details
+	 */
+	
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+	public void testQuoteDeclineByCompany() {
+		super.testQuoteDeclineByCompany();
+	}
+	
+	/**
+	 * @author Jelena Dembovska
+	 * @name Test quote copy action
+	 * @scenario
+	 * 1. Create Customer
+	 * 2. Create Quote for corresponding product
+	 * 3. Select action "Copy from quote"
+	 * 4. Verify new quote status is 'Data Gathering'
+	 * @details
+	 */	
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+	public void testQuoteCopy() {
+		super.testQuoteCopy();
 	}
 }

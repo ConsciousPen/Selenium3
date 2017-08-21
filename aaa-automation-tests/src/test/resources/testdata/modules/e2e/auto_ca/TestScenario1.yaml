@@ -13,11 +13,13 @@ TestData_Endorsement: {
   DriverTab: {},
   MembershipTab: {},
   VehicleTab: '@VehicleTab',
-  AssignmentTab: {},
+  AssignmentTab: '@AssignmentTab',
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {}
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
 }
 
 VehicleTab: {
@@ -27,4 +29,10 @@ VehicleTab: {
   Existing Damage: None,
   "Salvaged?": 'No',
   Odometer Reading: 3000
+}
+
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [{},{
+    Primary Driver: 'index=1',
+  }]
 }

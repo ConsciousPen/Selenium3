@@ -1,6 +1,6 @@
 TestData: {
   PremiumAndCoveragesTab: {
-    Payment Plan: Eleven Pay Standard,
+    Payment Plan: Standard Monthly,
     Bodily Injury Liability: 'contains=$500,000/$500,000',
     Property Damage Liability: 'contains=$100,000'
   },

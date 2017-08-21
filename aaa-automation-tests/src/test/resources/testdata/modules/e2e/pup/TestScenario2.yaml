@@ -6,3 +6,12 @@ TestData: {
   },
   PurchaseTab: '@<pup>@DataGather@PurchaseTab_WithAutopay'
 }
+
+TestData_CA: {
+  PremiumAndCoveragesQuoteTab: {
+    Payment Plan: Monthly Standard,
+    Recurring Payment: true,
+    Personal Umbrella: '$1,000,000'
+  },
+  PurchaseTab: '@<pup>@DataGather@PurchaseTab_WithAutopay'
+}

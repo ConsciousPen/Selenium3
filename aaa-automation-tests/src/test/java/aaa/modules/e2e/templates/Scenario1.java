@@ -64,7 +64,7 @@ public class Scenario1 extends BaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		totalDue = BillingSummaryPage.getTotalDue();
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		CustomAssert.assertEquals("Billing Installments count for Quaterly payment plan", installmentDueDates.size(), 4);
+		CustomAssert.assertEquals("Billing Installments count for Quaterly payment plan", 4, installmentDueDates.size());
 		installmentAmount = BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(1));
 
 		//TODO Check PLIGA fee for NJ Auto = Total Premium * PLIGA charge (currently 0.9% = 0.009) rounded to nearest dollar.
@@ -255,7 +255,7 @@ public class Scenario1 extends BaseTest {
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
 		JobUtils.executeJob(Jobs.recurringPaymentsJob);
 		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
+		SearchPage.openBilling(policyNumber);
 		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(installmentDueDate, BillingBillsAndStatmentsTable.MINIMUM_DUE));
 		new BillingPaymentsAndTransactionsVerifier().verifyAutoPaymentGenerated(DateTimeUtils.getCurrentDateTime(), minDue.negate());
 	}

@@ -21,7 +21,7 @@ public class BillingPaymentsAndTransactionsVerifier extends TableVerifier {
 
     @Override
     protected String getTableName() {
-        return "Payments Other Transactions";
+        return "Payments & Other Transactions";
     }
 
     public BillingPaymentsAndTransactionsVerifier setTransactionDate(LocalDateTime value) {

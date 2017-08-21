@@ -2,6 +2,7 @@ package aaa.modules.preconditions;
 
 import java.time.format.DateTimeFormatter;
 
+import aaa.helpers.constants.Groups;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -14,7 +15,7 @@ public class CleanAsyncTasks {
 	private static DBHelper dbHelper = new DBHelper();
 	private static Logger log = LoggerFactory.getLogger(CleanAsyncTasks.class);
 
-	@Test
+	@Test(groups = Groups.PRECONDITION)
 	public void cleanAsynkTasks() {
 		String date = DateTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ofPattern("dd-MMM-yy"));
 		try {
@@ -31,7 +32,7 @@ public class CleanAsyncTasks {
 		}
 	}
 
-	@Test
+	@Test(groups = Groups.PRECONDITION)
 	public void removeError() {
 		try {
 			dbHelper.connect();

@@ -6,6 +6,7 @@ package aaa.main.modules.policy.auto_ss.views;
 
 import aaa.common.Workspace;
 import aaa.main.modules.policy.auto_ss.actiontabs.RollOnChangesActionTab;
+import aaa.main.modules.policy.auto_ss.actiontabs.RollOnChangesErrorTab;
 
 /**
  * Concrete workspace implementation.
@@ -17,5 +18,6 @@ public class RollOnChangesView extends Workspace {
     public RollOnChangesView() {
         super();
         registerTab(RollOnChangesActionTab.class);
+        registerTab(RollOnChangesErrorTab.class);
     }
 }

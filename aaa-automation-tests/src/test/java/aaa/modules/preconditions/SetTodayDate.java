@@ -3,6 +3,7 @@ package aaa.modules.preconditions;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 
+import aaa.helpers.constants.Groups;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
@@ -15,7 +16,7 @@ import aaa.helpers.http.HttpJob;
 public class SetTodayDate{
 	private static Logger log = LoggerFactory.getLogger(SetTodayDate.class);
 
-	@Test
+	@Test(groups = Groups.PRECONDITION)
 	public void setTimeToToday(){
 		try {
 			HttpJob.stopAsyncManager();
