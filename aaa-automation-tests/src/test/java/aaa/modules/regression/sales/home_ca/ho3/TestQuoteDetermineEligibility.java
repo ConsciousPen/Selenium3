@@ -22,7 +22,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 
-@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 
     PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
