@@ -382,7 +382,7 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<ComboBox> CONSTRUCTION_TYPE = declare("Construction type", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> IS_THIS_A_LOG_HOME_ASSEMBLED_BY_A_LICENSED_BUILDING_CONTRACTOR = declare("Is this a log home assembled by a licensed building contractor?", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> MASONRY_VENEER = declare("Masonry Veneer", RadioGroup.class);
-			public static final AssetDescriptor<ComboBox> HAIL_RESISTANCE_RATING = declare("Hail-resistance rating", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<AdvancedComboBox> HAIL_RESISTANCE_RATING = declare("Hail-resistance rating", AdvancedComboBox.class, Waiters.AJAX);
 		}
 
 		public static final class AdditionalQuestions extends MetaData {

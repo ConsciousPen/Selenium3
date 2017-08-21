@@ -1,6 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Auto Functional tests" verbose="1" parallel="tests" thread-count="1024">
-    <listeners>
+     <listeners>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
@@ -190,7 +190,7 @@
 			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
-
+<!--
 	<test name="KY Auto Functional Tests">
 	    <parameter name="state" value="KY"/>
     	<classes>
@@ -208,7 +208,7 @@
 			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
-
+-->
 	<test name="MD Auto Functional Tests">
 	    <parameter name="state" value="MD"/>
     	<classes>
@@ -484,7 +484,6 @@
     	<classes>
    			<class name="aaa.modules.regression.sales.auto_ca.choice.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.sales.auto_ca.choice.TestPolicyCreationBig"/>
-			<class name="aaa.modules.regression.sales.auto_ca.choice.TestPolicyFuturedated"/>
 			<class name="aaa.modules.regression.service.auto_ca.choice.TestPolicyEndorsementAdd"/>
 			<class name="aaa.modules.regression.billing_and_payments.auto_ca.choice.TestPolicyBilling"/>
 			<class name="aaa.modules.regression.service.auto_ca.choice.TestPolicyCancelReinstate"/>
