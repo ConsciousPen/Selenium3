@@ -106,7 +106,7 @@ DriverActivityReportsTab2: {
 # ---------- Data for compare data quantity on RollOn Changes tab ------------
 
 Differences: {
-  LineCount: 12
+  LineCount: 16
 }
 
 ErrorProceed: { noFill:{}}
