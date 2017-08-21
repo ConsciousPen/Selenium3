@@ -26,6 +26,6 @@ public class QuoteDataGatherPage extends MainPage {
 	}
 
 	public static LocalDateTime getTransEffectiveDate() {
-		return TimeSetterUtil.getInstance().parse(labelEffectiveDate.getValue().replaceAll("Trans. Eff. Date:", "").trim(), DateTimeUtils.MM_DD_YYYY);
+		return TimeSetterUtil.getInstance().parse(labelTransEffectiveDate.getValue().replaceAll("Trans. Eff. Date:", "").trim(), DateTimeUtils.MM_DD_YYYY);
 	}
 }
