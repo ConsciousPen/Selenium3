@@ -155,7 +155,6 @@ public final class TestNGCoordinator implements IExecutionListener, IConfigurati
 				TestNG testNG = TestNG.getDefault();
 				testNG.setThreadCount(Integer.MAX_VALUE);
 				testNG.setSuiteThreadPoolSize(Integer.MAX_VALUE);
-				System.out.println("THREAD POOL SIZE IS!!!!!!!!! " + testNG.getSuiteThreadPoolSize());
 
 				Field suitesField = TestNG.class.getDeclaredField("m_suites");
 				suitesField.setAccessible(true);
@@ -888,10 +887,7 @@ public final class TestNGCoordinator implements IExecutionListener, IConfigurati
 				if (mode == null) {
 					return TimeShiftScenarioMode.NONE;
 				}
-			} else {
-				System.out.println("HOOOORA Mode is set!!!!! " + mode);
 			}
-
 			try {
 				return TimeShiftScenarioMode.valueOf(mode.trim().toUpperCase());
 			} catch (Exception e) {
