@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ca.select;
+package aaa.modules.regression.sales.auto_ca.choice;
 
 import org.testng.annotations.Test;
 
@@ -9,7 +9,7 @@ import toolkit.utils.TestInfo;
 import aaa.modules.regression.sales.template.PolicyFuturedated;
 
 /**
- * @author Lina Li
+ * @author N. Belakova
  * @name Test futuredated policy
  */
 
@@ -17,11 +17,11 @@ public class TestPolicyFuturedated extends PolicyFuturedated {
 	
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_CA_SELECT;
+		return PolicyType.AUTO_CA_CHOICE;
 	}
 	
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT )
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE )
 	public void testPolicyFuturedated() {
 
 		super.testPolicyFuturedated();
