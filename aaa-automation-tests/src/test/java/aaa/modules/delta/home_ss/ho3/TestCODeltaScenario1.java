@@ -4,7 +4,6 @@ import org.testng.annotations.Test;
 
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.delta.templates.CODeltaScenario1;
-import toolkit.datax.TestData;
 
 public class TestCODeltaScenario1 extends CODeltaScenario1 {
 	
@@ -16,42 +15,38 @@ public class TestCODeltaScenario1 extends CODeltaScenario1 {
 	}
 	
 	@Test
-	public void TC01_createQuote() {		
-		TestData td_sc1 = getTestSpecificTD("TestData");		
-		super.TC01_createQuote(td_sc1, scenarioPolicyType);
+	public void TC01_createQuote() {				
+		super.TC_createQuote(scenarioPolicyType);
 	}
 	
 	@Test
-	public void TC02_verifyEndorsements() {
-		TestData td_add_Forms = getTestSpecificTD("TestData_add_Forms");
-		super.TC02_verifyEndorsements(td_add_Forms);
+	public void TC02_verifyEndorsementsTab() {
+		super.TC_verifyEndorsementsTab();
 	}
 	
 	@Test
 	public void TC03_verifyQuoteODD() {
-		super.TC03_verifyQuoteODD();
+		super.TC_verifyQuoteODD();
 	}
 	
 	@Test
 	public void TC04_verifyAdverselyImpacted() {
-		super.TC04_verifyAdverselyImpacted();
+		super.TC_verifyAdverselyImpacted();
 	}
 	
 	@Test
-	public void TC05_verifyRoofTypeUneligible() {
-		TestData td_sc1 = getTestSpecificTD("TestData");
-		super.TC05_verifyRoofTypeUneligible(td_sc1);
+	public void TC05_verifyIneligibleRoofType() {
+		super.TC_verifyIneligibleRoofType();
 	}
 	
 	@Test
 	public void TC06_purchasePolicy() {
-		TestData td_sc1 = getTestSpecificTD("TestData");
-		super.TC06_purchasePolicy(td_sc1, scenarioPolicyType);
+		super.TC_purchasePolicy(scenarioPolicyType);
 	}
 	
 	@Test
 	public void TC07_verifyPolicyODD() {
-		super.TC07_verifyPolicyODD();
+		super.TC_verifyPolicyODD();
 	}
 
 }
