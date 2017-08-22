@@ -298,4 +298,10 @@ public class HomeCaPolicy implements IPolicy {
 	public PolicyActions.UpdateRulesOverride updateRulesOverride() {
 		throw new NotImplementedException();
 	}
+
+	@Override
+	public HomeCaPolicyActions.ManualRenewalWithOrWithoutLapse manualRenewalWithOrWithoutLapse() {
+		return new HomeCaPolicyActions.ManualRenewalWithOrWithoutLapse();
+	}
+
 }

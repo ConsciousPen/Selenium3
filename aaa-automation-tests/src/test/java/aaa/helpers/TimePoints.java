@@ -92,6 +92,10 @@ public class TimePoints {
 		return getTimepoint(getCancellationNoticeDate(date), TimepointsList.CANCELLATION, true);
 	}
 
+	public LocalDateTime getCancellationTransactionDate(LocalDateTime date) {
+		return getTimepoint(getCancellationNoticeDate(date), TimepointsList.CANCELLATION, false);
+	}
+
 	public LocalDateTime getCancellationNoticeDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.CANCELLATION_NOTICE, true);
 	}
