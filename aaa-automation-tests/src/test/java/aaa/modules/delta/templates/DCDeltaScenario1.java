@@ -22,8 +22,10 @@ public class DCDeltaScenario1 extends BaseTest {
 	protected String quoteNumber;
 	protected String policyNumber;
 	
-	public void TC_createQuote(TestData td, String scenarioPolicyType) {
-		policy = getPolicyType().get();		
+	public void TC_createQuote(String scenarioPolicyType) {
+		TestData td = getTestSpecificTD("TestData");
+		policy = getPolicyType().get();	
+		
 		mainApp().open();		
         createCustomerIndividual();
         
