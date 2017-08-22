@@ -24,6 +24,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountSafe" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
@@ -102,6 +103,7 @@
 		<classes>
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
@@ -138,6 +140,7 @@
 		<classes>
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
@@ -174,6 +177,7 @@
 		<classes>
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
@@ -210,6 +214,7 @@
 		<classes>
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
@@ -246,6 +251,7 @@
 		<classes>
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
@@ -282,6 +288,7 @@
 		<classes>
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
@@ -318,6 +325,7 @@
 		<classes>
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
@@ -355,6 +363,7 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
@@ -391,6 +400,7 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
@@ -427,6 +437,7 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
@@ -463,6 +474,7 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
@@ -499,6 +511,7 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
@@ -535,6 +548,7 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
@@ -571,6 +585,7 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
@@ -607,6 +622,7 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
@@ -643,6 +659,7 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
@@ -679,6 +696,7 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
@@ -715,6 +733,7 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
@@ -751,6 +770,7 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
@@ -787,6 +807,7 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
@@ -823,6 +844,7 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
@@ -859,6 +881,7 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
