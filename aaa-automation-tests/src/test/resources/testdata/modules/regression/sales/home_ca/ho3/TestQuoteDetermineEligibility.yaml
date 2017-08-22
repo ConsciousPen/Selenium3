@@ -1,0 +1,222 @@
+#--- Detached structures ---
+DetachedStructures_4_NotRented: {
+  PropertyInfoTab: {
+    DetachedStructures: ['@DS_NotRented1', '@DS_NotRented2', '@DS_NotRented3','@DS_NotRented4']
+  }
+}
+
+DetachedStructures_3_Rented: {
+  PropertyInfoTab: {
+    DetachedStructures: ['@DS_Rented1', '@DS_Rented2', '@DS_Rented3']
+  }
+}
+
+DetachedStructures_CovBGreaterCovA: {
+  PropertyInfoTab: {
+    DetachedStructures: ['@DS_Rented1', '@DS_NotRented5', '@DS_Rented4']
+  }
+}
+
+DetachedStructures_TotalGreaterHalfCovA: {
+  PropertyInfoTab: {
+    DetachedStructures: ['@DS_Rented1', '@DS_NotRented6']
+  }
+}
+
+
+DS_NotRented1: {
+  "Are there any detached structures on the property?": 'Yes', 
+  Rented to others: 'No', 
+  Description: 'Detached structure 1',
+  Limit of liability: 1000
+}
+
+DS_NotRented2: {
+  Rented to others: 'No', 
+  Description: 'Detached structure 2',
+  Limit of liability: 1000
+}
+
+DS_NotRented3: {
+  Rented to others: 'No', 
+  Description: 'Detached structure 3',
+  Limit of liability: 1000
+}
+
+DS_NotRented4: {
+  Rented to others: 'No',
+  Description: 'Detached structure 4',
+  Limit of liability: 1000
+}
+
+DS_NotRented5: {
+  Rented to others: 'No',
+  Description: 'Detached structure 5',
+  Limit of liability: 35000
+}
+
+DS_NotRented6: {
+  Rented to others: 'No',
+  Description: 'Detached structure 6',
+  Limit of liability: 40000
+}
+
+DS_Rented1: {
+  "Are there any detached structures on the property?": 'Yes', 
+  Rented to others: 'Yes', 
+  Description: 'Detached structure 1',
+  Limit of liability: '10000', 
+  Number of family units: '1', 
+  Number of occupants: '1'
+}
+
+DS_Rented2: {
+  Rented to others: 'Yes', 
+  Description: 'Detached structure 2',
+  Limit of liability: '20000', 
+  Number of family units: '1', 
+  Number of occupants: '1'
+}
+
+DS_Rented3: {
+  Rented to others: 'Yes', 
+  Description: 'Detached structure 3',
+  Limit of liability: '30000', 
+  Number of family units: '1', 
+  Number of occupants: '1'
+}
+
+DS_Rented4: {
+  Rented to others: 'Yes', 
+  Description: 'Detached structure 3',
+  Limit of liability: '35000', 
+  Number of family units: '1', 
+  Number of occupants: '1'
+}
+
+#--- Roof Type/Condition ---
+RoofRenovation_3_PlusLayers: {
+  PropertyInfoTab: {
+    HomeRenovation: {
+      Roof renovation: '3+ layers',
+      'Roof % complete': 100,
+      'Roof Month of completion': 1,
+      'Roof Year of completion': 2010
+    }
+  }
+}
+
+#--- Stoves ---
+Stove_SoleSourceOfHeat: {
+  PropertyInfoTab: {
+    Stoves: {
+      "Does the property have a wood-burning stove?": 'Yes', 
+      "Is the stove the sole source of heat?": 'Yes'
+    } 
+  }
+}
+
+Stove_NoFireAlarm: {
+PropertyInfoTab: {
+    Stoves: {
+      "Does the property have a wood-burning stove?": 'Yes', 
+      "Is the stove the sole source of heat?": 'No',
+      "Does the dwelling have at least one smoke detector per story?": 'No'
+    }
+  }    
+}
+
+Stove_NotInstalledProfessionally: {
+PropertyInfoTab: {
+    Stoves: {
+      "Does the property have a wood-burning stove?": 'Yes', 
+      "Is the stove the sole source of heat?": 'No',
+      "Does the dwelling have at least one smoke detector per story?": 'Yes',
+      "Was the stove installed by a licensed contractor?": 'No'
+    }
+  }
+}
+
+#--- Loss info ---
+ClaimHistory_LossClaim: {
+  PropertyInfoTab: {
+    ClaimHistory: {
+      "Add a claim": 'Yes',
+      "Date of loss": '01/01/2015',
+      "Cause of loss": 'Liability',
+      "Amount of loss": 100,
+      "Claim status": 'Closed' 
+    }
+  }
+}
+
+#--- Animal info ---
+AnimalCount_MoreThanHundred: {
+  PropertyInfoTab: {
+    PetsOrAnimals: {
+      "Are any insured-owned pets or animals kept on the property?": 'Yes',
+      "Animal type": 'Livestock - Cow',
+      "Animal count": 101
+    }
+  }
+}
+
+#--- Coverage - HO3 ---
+CovA_MoreThan20PercentsOfReplacementCosts: {
+  PropertyInfoTab: {
+    PropertyValue: {
+      "Coverage A - Dwelling limit": 130000,
+      "ISO replacement cost": 75000
+    }
+  }
+}
+
+#--- Additional Insured Count ---
+AdditionalInsured_CountMoreThan2: {
+  MortgageesTab: {
+    "Is there an additional insured?": 'Yes',
+    AdditionalInsured: ['@AdditionalInsured1', '@AdditionalInsured2', '@AdditionalInsured3'] 
+  }
+}
+
+AdditionalInsured1: {
+  Interest: 'Trust',
+  Name: 'NifNif'
+}
+
+AdditionalInsured2: {
+  Interest: 'Trust',
+  Name: 'NufNuf'
+}
+
+AdditionalInsured3: {
+  Interest: 'Trust',
+  Name: 'NafNaf'
+}
+
+#--- Home Renovation ---
+HomeRenovation_SetCorrectValues: {
+  PropertyInfoTab: {
+    Construction: {
+      "Year built": 1939
+    },
+    HomeRenovation: {
+      "Plumbing renovation": '100% Copper',
+      "Plumbing % complete": 100,
+      "Plumbing Month of completion": 12,
+      "Plumbing Year of completion": 2009,
+      "Electrical renovation": '100% Circuit/Romex',
+      "Electrical % complete": 100,
+      "Electrical Month of completion": 12,
+      "Electrical Year of completion": 2009,
+      "Roof renovation": '100% Replace',
+      "Roof % complete": 100,
+      "Roof Month of completion": 12,
+      "Roof Year of completion": 2009,
+      "Heating/cooling renovation": 'Forced Air',
+      "Heating/cooling % complete": 100,
+      "Heating/cooling Month of completion": 12,
+      "Heating/cooling Year of completion": 2009
+    }      
+  }
+}

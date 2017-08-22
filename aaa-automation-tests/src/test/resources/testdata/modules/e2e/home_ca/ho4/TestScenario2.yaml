@@ -1,6 +1,6 @@
 TestData: {
   PremiumsAndCoveragesQuoteTab: {
-    Payment Plan: Eleven Pay Standard,
+    Payment Plan: Monthly Standard,
   },
   PurchaseTab: '@<home_ca_ho3>@DataGather@PurchaseTab_WithAutopay'
 }

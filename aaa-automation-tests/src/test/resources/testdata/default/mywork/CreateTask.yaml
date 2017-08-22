@@ -2,7 +2,7 @@ TestData: {
   CreateTaskActionTab: {
     Type: Quote,
     Task Name: Request Proposal,
-    Warning Date/Time: '/today+1m:MM/dd/yyyy h:mm a',
-    Due Date/Time: '/today+2m:MM/dd/yyyy h:mm a'
+    Warning Date/Time: '/today+1M:MM/dd/yyyy h:mm a',
+    Due Date/Time: '/today+2M:MM/dd/yyyy h:mm a'
   }
 }
