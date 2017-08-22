@@ -2,8 +2,11 @@ package aaa.modules.delta.home_ss.ho3;
 
 import org.testng.annotations.Test;
 
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.delta.templates.CODeltaScenario1;
+import toolkit.utils.TestInfo;
 
 public class TestCODeltaScenario1 extends CODeltaScenario1 {
 	
@@ -14,7 +17,8 @@ public class TestCODeltaScenario1 extends CODeltaScenario1 {
 		return PolicyType.HOME_SS_HO3;
 	}
 	
-	@Test
+	@Test(groups = { Groups.DELTA, Groups.HIGH })
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
 	public void TC01_createQuote() {				
 		super.TC_createQuote(scenarioPolicyType);
 	}
