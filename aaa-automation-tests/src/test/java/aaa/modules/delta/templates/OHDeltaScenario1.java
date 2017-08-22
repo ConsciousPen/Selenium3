@@ -6,6 +6,7 @@ import java.util.Map;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.delta.QuoteDataGatherHelper;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -107,6 +108,8 @@ public class OHDeltaScenario1 extends BaseTest {
 	}
 	
 	public void TC_verifyHailResistanceRating() {
+		TestData td_hailResistanceRating = getTestSpecificTD("TestData_hailResistanceRating");
+		
 		mainApp().open();
 		SearchPage.openQuote(quoteNumber);	
 		
@@ -114,13 +117,12 @@ public class OHDeltaScenario1 extends BaseTest {
 		CustomAssert.enableSoftMode();
 
 		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)||getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
-			verifyHailResistanceRating_NotApplied();
-			verifyHailResistanceRating_Applied();
+			QuoteDataGatherHelper.verifyHailResistanceRatingNotApplied();
+			QuoteDataGatherHelper.verifyHailResistanceRatingApplied(td_hailResistanceRating);
 		}
 		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
-			verifyHailResistanceRating_NotDisplaying();
-		} 
-		
+			QuoteDataGatherHelper.verifyHailResistanceRatingNotDisplaying();
+		} 		
 		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
 		CustomAssert.assertAll();
 	}
@@ -177,8 +179,11 @@ public class OHDeltaScenario1 extends BaseTest {
         log.info("DELTA OH SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);
 	}
 	
-	public void TC_verifyODDPolicy() {}
-	
+	public void TC_verifyODDPolicy() {
+		//TODO add verification On-Demand Documents Tab
+	}
+
+	/*
 	private void verifyHailResistanceRating_NotApplied() {
 		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
 		PremiumsAndCoveragesQuoteTab premiumsTab = new PremiumsAndCoveragesQuoteTab();
@@ -240,4 +245,5 @@ public class OHDeltaScenario1 extends BaseTest {
 				PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getLabel("Hail zone flag").isPresent());
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();	
 	}
+	*/
 }
