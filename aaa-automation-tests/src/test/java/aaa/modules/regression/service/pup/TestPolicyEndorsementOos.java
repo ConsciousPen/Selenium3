@@ -39,12 +39,12 @@ public class TestPolicyEndorsementOos extends PersonalUmbrellaBaseTest {
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
         log.info("MidTerm Endorsement for Policy #" + policyNumber);
-        TestData endorsement_td = getPolicyTD("TestPolicyEndorsement", "TestData");
+        TestData endorsement_td = getStateTestData(testDataManager.getDefault(TestPolicyEndorsement.class), "TestData");
         policy.createEndorsement(endorsement_td.adjust(getPolicyTD("Endorsement", "TestData_Plus1Month")));
         Dollar policyPremium2 = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
         log.info("OOS Endorsement for Policy #" + policyNumber);
-        TestData endorsement_td1 = getPolicyTD("TestPolicyEndorsement", "TestData");
+        TestData endorsement_td1 = getStateTestData(testDataManager.getDefault(TestPolicyEndorsement.class), "TestData");
         policy.createEndorsement(endorsement_td1.adjust(getPolicyTD("Endorsement", "TestData")));
 
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);

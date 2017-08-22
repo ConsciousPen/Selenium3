@@ -3,9 +3,7 @@
 package aaa.modules.regression.service.template;
 
 
-import toolkit.datax.TestData;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 
@@ -28,20 +26,14 @@ public class PolicyEndorsementDeclineByCompany extends PolicyBaseTest {
         getCopiedPolicy();
 
         log.info("TEST: Decline By Company Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        
-        if(PolicyType.HOME_SS_HO3.equals(getPolicyType())){
-        	TestData endorsement_td = getPolicyTD("TestPolicyEndorsementAdd", "TestData");
-        	policy.endorse().performAndExit(endorsement_td.adjust(getPolicyTD("Endorsement", "TestData")));
-        }else{
-        	policy.endorse().performAndExit(getPolicyTD("Endorsement", "TestData"));
-        }
-        
-//        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+ 
+        policy.endorse().performAndExit(getPolicyTD("Endorsement", "TestData"));
+
         PolicySummaryPage.buttonPendedEndorsement.click();
 
         policy.declineByCompanyQuote().perform(getPolicyTD("DeclineByCompany", "TestData"));
         PolicySummaryPage.buttonPendedEndorsement.click();
 
-        PolicySummaryPage.tableEndorsements.getRow(1).getCell(3).verify.value(ProductConstants.PolicyStatus.COMPANY_DECLINED);
+        PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status").verify.value(ProductConstants.PolicyStatus.COMPANY_DECLINED);
 	}
 }
