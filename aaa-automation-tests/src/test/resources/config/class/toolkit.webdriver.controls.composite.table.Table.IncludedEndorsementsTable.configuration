@@ -1,0 +1,4 @@
+{
+"headerLocator": ".//tr[1]",
+"rowThatTemplate": "/tbody/tr[%s+1]"
+}
