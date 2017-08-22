@@ -3,6 +3,7 @@
 package aaa.main.metadata.policy;
 
 import aaa.toolkit.webdriver.customcontrols.*;
+import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.controls.PartySearchTextBox;
 import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
@@ -323,7 +324,7 @@ public final class HomeSSMetaData {
 		public static final AssetDescriptor<AssetList> PETS_OR_ANIMALS = declare("PetsOrAnimals", AssetList.class, PetsOrAnimals.class);
 		public static final AssetDescriptor<AssetList> STOVES = declare("Stoves", AssetList.class, Stoves.class);
 		public static final AssetDescriptor<AssetList> RECREATIONAL_EQUIPMENT = declare("RecreationalEquipment", AssetList.class, RecreationalEquipment.class);
-		public static final AssetDescriptor<AssetList> CLAIM_HISTORY = declare("ClaimHistory", AssetList.class, ClaimHistory.class);
+		public static final AssetDescriptor<MultiInstanceAfterAssetList> CLAIM_HISTORY = declare("ClaimHistory", MultiInstanceAfterAssetList.class, ClaimHistory.class);
 		public static final AssetDescriptor<AssetList> RENTAL_INFORMATION = declare("RentalInformation", AssetList.class, RentalInformation.class);
 
 		public static final class DwellingAddress extends MetaData {
@@ -381,7 +382,7 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<ComboBox> CONSTRUCTION_TYPE = declare("Construction type", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> IS_THIS_A_LOG_HOME_ASSEMBLED_BY_A_LICENSED_BUILDING_CONTRACTOR = declare("Is this a log home assembled by a licensed building contractor?", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> MASONRY_VENEER = declare("Masonry Veneer", RadioGroup.class);
-			public static final AssetDescriptor<ComboBox> HAIL_RESISTANCE_RATING = declare("Hail-resistance rating", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<AdvancedComboBox> HAIL_RESISTANCE_RATING = declare("Hail-resistance rating", AdvancedComboBox.class, Waiters.AJAX);
 		}
 
 		public static final class AdditionalQuestions extends MetaData {
@@ -478,6 +479,7 @@ public final class HomeSSMetaData {
 		public static final class ClaimHistory extends MetaData {
 			public static final AssetDescriptor<RadioGroup> ADD_A_CLAIM = declare("Add a claim", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<AssetListConfirmationDialog> REMOVE_CONFIRMATION = declare("Remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmOptionalNoSelected_AAAHOLossInfo_Dialog_container"));
+			public static final AssetDescriptor<Button> BTN_ADD = declare("Add", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:addAAAHOLossInfo"));
 			public static final AssetDescriptor<ComboBox> SOURCE = declare("Source", ComboBox.class);
 			public static final AssetDescriptor<TextBox> DATE_OF_LOSS = declare("Date of loss", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> CAUSE_OF_LOSS = declare("Cause of loss", ComboBox.class);
@@ -1097,6 +1099,9 @@ public final class HomeSSMetaData {
 		public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.AJAX);
 
+		public static final AssetDescriptor<DialogAssetList> OVERRRIDE_PREMIUM_DIALOG = declare("Override Premium", DialogAssetList.class, OverridePremiumDialog.class,
+				By.xpath("//form[@id='premiumOverrideInfoFormAAAHOPremiumOverride']"));
+
 		public static final AssetDescriptor<StaticElement> COVERAGE_A = declare(HomeSSCoverages.COVERAGE_A.get(), StaticElement.class, Waiters.AJAX, true,
 				By.xpath(String.format("//table[@id='policyDataGatherForm:coverageSummaryTable']//tr[td[.='%s']]//span", HomeSSCoverages.COVERAGE_A.get())));
 		public static final AssetDescriptor<ComboBox> COVERAGE_B = declare(HomeSSCoverages.COVERAGE_B.get(), ComboBox.class, Waiters.AJAX, true,
@@ -1115,6 +1120,13 @@ public final class HomeSSMetaData {
 				By.xpath(String.format("//table[@id='policyDataGatherForm:coverageSummaryTable']//tr[td[.='%s']]//select", HomeSSCoverages.HURRICANE_DEDUCTIBLE.get())));
 		public static final AssetDescriptor<ComboBox> COVERAGE_C_BUILDING = declare(HomeSSCoverages.COVERAGE_C_BUILDING.get(), ComboBox.class, Waiters.AJAX, true,
 				By.xpath(String.format("//table[@id='policyDataGatherForm:coverageSummaryTable']//tr[td[.='%s']]//select", HomeSSCoverages.COVERAGE_C_BUILDING.get())));
+
+		public static final class OverridePremiumDialog extends MetaData {
+			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> REMARKS = declare("Remarks", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> OVERRIDE_PREMIUM_BY_FLAT_AMOUNT = declare("Override Premium By Flat Amount", TextBox.class, Waiters.AJAX, By.id("premiumOverrideInfoFormAAAHOPremiumOverride:deltaPremiumAmt"));
+			public static final AssetDescriptor<TextBox> OVERRIDE_PERCENTAGE = declare("Percentage", TextBox.class, Waiters.AJAX, By.id("premiumOverrideInfoFormAAAHOPremiumOverride:percentageAmt"));
+		}
 
 		public enum HomeSSCoverages {
 			COVERAGE_A("Coverage A - Dwelling limit"), COVERAGE_B("Coverage B - Other Structures limit"), COVERAGE_C("Coverage C - Personal Property limit"), COVERAGE_C_BUILDING("Coverage C - Building Additions & Alterations"), COVERAGE_D(
@@ -1554,5 +1566,12 @@ public final class HomeSSMetaData {
 
 	public static final class AuthorityActionTab extends MetaData {
 		public static final AssetDescriptor<ComboBox> AUTHORIZED_PERSON_REQUESTING_CHANGE = declare("Authorized Person Requesting Change", ComboBox.class);
+	}
+
+	public static final class ManualRenewalWithOrWithoutLapseActionTab extends MetaData {
+		public static final AssetDescriptor<TextBox> EXPIRATION_DATE = declare("Expiration Date", TextBox.class);
+		public static final AssetDescriptor<TextBox> RENEWAL_LAPSE_DATE = declare("Renewal Lapse Date", TextBox.class);
+		public static final AssetDescriptor<TextBox> REVISED_RENEWAL_DATE = declare("Revised Renewal Date", TextBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<ComboBox> LAPSE_CHANGE_REASON = declare("Lapse Change Reason", ComboBox.class, Waiters.AJAX);
 	}
 }

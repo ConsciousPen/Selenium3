@@ -1,4 +1,4 @@
-TestData: {
+TestData_CA: {
   Renew generate image: [-83, NONE],
   Renew check uw rules: [-67, NONE],
   Renew generate preview: [-58, NONE],

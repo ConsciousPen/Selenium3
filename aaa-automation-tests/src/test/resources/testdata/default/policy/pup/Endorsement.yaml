@@ -1,34 +1,34 @@
 TestData: {
   EndorsementActionTab: {
     Endorsement Date: /today,
-    Endorsement Reason: index=1,
+    Endorsement Reason: Underlying Insurance
   }
 }
 
 TestData_Plus1Month: {
   EndorsementActionTab: {
     Endorsement Date: /today+1m,
-    Endorsement Reason: index=1,
+    Endorsement Reason: Underlying Insurance
   }
 }
 
 TestData_Minus1Week: {
   EndorsementActionTab: {
     Endorsement Date: /today-7d,
-    Endorsement Reason: index=1,
+    Endorsement Reason: Underlying Insurance
   }
 }
 
 TestData_Minus1Day: {
   EndorsementActionTab: {
     Endorsement Date: /today-1d,
-    Endorsement Reason: index=1,
+    Endorsement Reason: Underlying Insurance
   }
 }
 
 TestData_Plus10Day: {
   EndorsementActionTab: {
     Endorsement Date: /today+10d,
-    Endorsement Reason: index=1,
+    Endorsement Reason: Underlying Insurance
   }
 }

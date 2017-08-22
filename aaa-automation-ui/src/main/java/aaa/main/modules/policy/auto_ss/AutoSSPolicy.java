@@ -296,4 +296,8 @@ public class AutoSSPolicy implements IPolicy {
 		return new AutoSSPolicyActions.UpdateRulesOverride();
 	}
 
+    @Override
+    public PolicyActions.ManualRenewalWithOrWithoutLapse manualRenewalWithOrWithoutLapse() {
+        throw new UnsupportedOperationException("Action manualRenewalWithOrWithoutLapse is not defined for Auto Policy");
+    }
 }

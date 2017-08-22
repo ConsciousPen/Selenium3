@@ -1,0 +1,35 @@
+TestData: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+# ------------- Tabs ----------
+
+GeneralTab: {
+  NamedInsuredInformation: {},
+  AAAProductOwned: {},
+  PolicyInformation: {
+    Authorized by: QA
+   }
+}
+
+# ---------- VA ------------
+
+TestData_VA: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}

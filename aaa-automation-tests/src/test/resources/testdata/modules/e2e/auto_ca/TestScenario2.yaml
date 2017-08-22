@@ -1,0 +1,8 @@
+TestData: {
+  PremiumAndCoveragesTab: {
+    Payment Plan: Standard Monthly,
+    Bodily Injury Liability: 'contains=$500,000/$500,000',
+    Property Damage Liability: 'contains=$100,000'
+  },
+  PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab_WithAutopay'
+}

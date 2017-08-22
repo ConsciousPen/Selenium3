@@ -70,13 +70,19 @@
 			<groupId>com.exigen.eis</groupId>
 			<artifactId>etcs-automation-core</artifactId>
 			<version>8.9-M1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.exigen.istf</groupId>
+					<artifactId>istf-core</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- EIS BASE CORE END -->
 		<!-- ISTF Artifacts START -->
 		<dependency>
 			<groupId>com.exigen.istf</groupId>
 			<artifactId>istf-core</artifactId>
-			<version>3.4.1</version>
+			<version>3.4.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.exigen.istf</groupId>

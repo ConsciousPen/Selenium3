@@ -39,6 +39,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 
+@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
 
     OtherTransactionsActionTab otherTransactionsActionTab = new OtherTransactionsActionTab();
@@ -62,8 +63,8 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
      * 11. Check minimum due doesn't change
      */
 
-	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
-    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3) 
+    @Test(enabled = false)
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3)
     public void testManualFeeAdjustment() {
 
         mainApp().open();
@@ -133,8 +134,8 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
      * 12. Check Total Paid Amount value after refunding
      */
 
-    @Test
-    @TestInfo(component = "Policy.HomeCA")
+    @Test(enabled = false)
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3)
     public void testManualRefund() {
 
         Dollar paymentAmount = new Dollar(getTestSpecificTD("TestData_Payment_1000").getTestData(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName())
@@ -234,8 +235,8 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
      * 19. Check Minimum Due Amount doesn't change
      */
 
-    @Test
-    @TestInfo(component = "Policy.HomeCA")
+    @Test(enabled = false)
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3)
     public void testManualWriteOff() {
 
         Dollar writeoffAmount = new Dollar(getTestSpecificTD("TestData_WriteOff").getTestData(BillingAccountMetaData.OtherTransactionsActionTab.class.getSimpleName())
@@ -379,8 +380,8 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
     Dollar expectedTotalDue;
     Dollar feeAmountTotal = new Dollar(0);
 
-    @Test
-    @TestInfo(component = "Policy.HomeCA")
+    @Test(enabled = true)
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3)
     public void testManualReturnedPayments() {
 
         HashMap<String, String> query;
@@ -480,7 +481,7 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
         if (!reason.isEmpty()) {
             declineActionTab.fillTab(new SimpleDataProvider().adjust(HomeCaMetaData.DeclineActionTab.class.getSimpleName(),
                     new SimpleDataProvider().adjust(HomeCaMetaData.DeclineActionTab.DECLINE_REASON.getLabel(), reason)));
-            declineActionTab.submitTab();
+            DeclineActionTab.buttonOk.click();
 
             if (reason.equals(PaymentsAndOtherTransactionReason.FEE_PLUS_RESTRICTION)) {
                 BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingPaymentsAndOtherTransactionsTable.TYPE).verify
