@@ -4,7 +4,6 @@ import org.testng.annotations.Test;
 
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.delta.templates.IDDeltaScenario1;
-import toolkit.datax.TestData;
 
 public class TestIDDeltaScenario1 extends IDDeltaScenario1 {
 	
@@ -17,8 +16,7 @@ public String scenarioPolicyType = "DP3";
 	
 	@Test
 	public void TC01_createQuote() {		
-		TestData td_sc1 = getTestSpecificTD("TestData");		
-		super.TC_createQuote(td_sc1, scenarioPolicyType);
+		super.TC_createQuote(scenarioPolicyType);
 	}
 	
 	@Test
@@ -32,9 +30,8 @@ public String scenarioPolicyType = "DP3";
 	}
 	
 	@Test
-	public void TC04_purchasePolicy() {
-		TestData td_sc1 = getTestSpecificTD("TestData");	
-		super.TC_purchasePolicy(td_sc1, scenarioPolicyType);
+	public void TC04_purchasePolicy() {	
+		super.TC_purchasePolicy(scenarioPolicyType);
 	}
 
 }
