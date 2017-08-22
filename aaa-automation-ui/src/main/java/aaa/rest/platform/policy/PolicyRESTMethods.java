@@ -14,8 +14,8 @@ import com.sun.org.apache.xerces.internal.dom.DocumentImpl;
 
 import aaa.main.modules.policy.PolicyType;
 import aaa.rest.platform.PlatformRestServiceUtils;
-import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
+import toolkit.utils.DBHelper;
 
 /**
  * Methods for policy and related entities insertion
@@ -30,6 +30,7 @@ public class PolicyRESTMethods {
     }
 
     private PlatformRestServiceUtils restServiceUtils = new PlatformRestServiceUtils();
+    private DBHelper dbHelper = DBManager.netInstance();
 
     private String customerNumber;
 
@@ -85,11 +86,11 @@ public class PolicyRESTMethods {
 
         params.put("{CUSTOMER_NUMBER}", customerNumber);
         params.put("{CUSTOMER_FIRSTNAME}",
-                DBService.get().getValue(String.format("select ci.firstName from CustomerIndividual ci where ci.CUSTOMER_ID = (select c.id from Customer c where c.customerNumber = '%s')", customerNumber)).get());
+                dbHelper.getValue(String.format("select ci.firstName from CustomerIndividual ci where ci.CUSTOMER_ID = (select c.id from Customer c where c.customerNumber = '%s')", customerNumber)));
         params.put("{CUSTOMER_LASTNAME}",
-                DBService.get().getValue(String.format("select ci.lastName from CustomerIndividual ci where ci.CUSTOMER_ID = (select c.id from Customer c where c.customerNumber = '%s')", customerNumber)).get());
-        params.put("{CUSTOMER_ADDRESS}", DBService.get().getValue(String.format(
-                "select a.addressLine1 from AddressEntity a where a.COMMUNICATIONINFO_ID = (select c.CommunicationInfo_ID from Customer c where c.customerNumber = '%s')", customerNumber)).get());
+                dbHelper.getValue(String.format("select ci.lastName from CustomerIndividual ci where ci.CUSTOMER_ID = (select c.id from Customer c where c.customerNumber = '%s')", customerNumber)));
+        params.put("{CUSTOMER_ADDRESS}", dbHelper.getValue(String.format(
+                "select a.addressLine1 from AddressEntity a where a.COMMUNICATIONINFO_ID = (select c.CommunicationInfo_ID from Customer c where c.customerNumber = '%s')", customerNumber)));
         policyDoc = restServiceUtils.insertEntity(policyDoc, xpathParams, params);
 
         if (txType.equals(TxType.Policy)) {

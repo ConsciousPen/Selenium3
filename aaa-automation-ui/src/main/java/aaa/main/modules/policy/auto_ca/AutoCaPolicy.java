@@ -297,9 +297,4 @@ public class AutoCaPolicy implements IPolicy {
 		return new AutoCaPolicyActions.RollOn();
 	}
 
-	@Override
-	public PolicyActions.ManualRenewalWithOrWithoutLapse manualRenewalWithOrWithoutLapse() {
-		throw new UnsupportedOperationException("Action manualRenewalWithOrWithoutLapse is not defined for Auto Policy");
-	}
-
 }

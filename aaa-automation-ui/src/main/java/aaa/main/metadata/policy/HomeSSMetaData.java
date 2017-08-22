@@ -324,7 +324,7 @@ public final class HomeSSMetaData {
 		public static final AssetDescriptor<AssetList> PETS_OR_ANIMALS = declare("PetsOrAnimals", AssetList.class, PetsOrAnimals.class);
 		public static final AssetDescriptor<AssetList> STOVES = declare("Stoves", AssetList.class, Stoves.class);
 		public static final AssetDescriptor<AssetList> RECREATIONAL_EQUIPMENT = declare("RecreationalEquipment", AssetList.class, RecreationalEquipment.class);
-		public static final AssetDescriptor<MultiInstanceAfterAssetList> CLAIM_HISTORY = declare("ClaimHistory", MultiInstanceAfterAssetList.class, ClaimHistory.class);
+		public static final AssetDescriptor<AssetList> CLAIM_HISTORY = declare("ClaimHistory", AssetList.class, ClaimHistory.class);
 		public static final AssetDescriptor<AssetList> RENTAL_INFORMATION = declare("RentalInformation", AssetList.class, RentalInformation.class);
 
 		public static final class DwellingAddress extends MetaData {
@@ -382,7 +382,7 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<ComboBox> CONSTRUCTION_TYPE = declare("Construction type", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> IS_THIS_A_LOG_HOME_ASSEMBLED_BY_A_LICENSED_BUILDING_CONTRACTOR = declare("Is this a log home assembled by a licensed building contractor?", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> MASONRY_VENEER = declare("Masonry Veneer", RadioGroup.class);
-			public static final AssetDescriptor<AdvancedComboBox> HAIL_RESISTANCE_RATING = declare("Hail-resistance rating", AdvancedComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> HAIL_RESISTANCE_RATING = declare("Hail-resistance rating", ComboBox.class, Waiters.AJAX);
 		}
 
 		public static final class AdditionalQuestions extends MetaData {
@@ -479,7 +479,6 @@ public final class HomeSSMetaData {
 		public static final class ClaimHistory extends MetaData {
 			public static final AssetDescriptor<RadioGroup> ADD_A_CLAIM = declare("Add a claim", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<AssetListConfirmationDialog> REMOVE_CONFIRMATION = declare("Remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmOptionalNoSelected_AAAHOLossInfo_Dialog_container"));
-			public static final AssetDescriptor<Button> BTN_ADD = declare("Add", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:addAAAHOLossInfo"));
 			public static final AssetDescriptor<ComboBox> SOURCE = declare("Source", ComboBox.class);
 			public static final AssetDescriptor<TextBox> DATE_OF_LOSS = declare("Date of loss", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> CAUSE_OF_LOSS = declare("Cause of loss", ComboBox.class);
@@ -1566,12 +1565,5 @@ public final class HomeSSMetaData {
 
 	public static final class AuthorityActionTab extends MetaData {
 		public static final AssetDescriptor<ComboBox> AUTHORIZED_PERSON_REQUESTING_CHANGE = declare("Authorized Person Requesting Change", ComboBox.class);
-	}
-
-	public static final class ManualRenewalWithOrWithoutLapseActionTab extends MetaData {
-		public static final AssetDescriptor<TextBox> EXPIRATION_DATE = declare("Expiration Date", TextBox.class);
-		public static final AssetDescriptor<TextBox> RENEWAL_LAPSE_DATE = declare("Renewal Lapse Date", TextBox.class);
-		public static final AssetDescriptor<TextBox> REVISED_RENEWAL_DATE = declare("Revised Renewal Date", TextBox.class, Waiters.AJAX);
-		public static final AssetDescriptor<ComboBox> LAPSE_CHANGE_REASON = declare("Lapse Change Reason", ComboBox.class, Waiters.AJAX);
 	}
 }

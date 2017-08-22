@@ -7,29 +7,48 @@ import org.testng.annotations.Test;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.modules.policy.PolicyType;
+import aaa.main.enums.ProductConstants;
+import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.policy.AutoSSBaseTest;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import aaa.modules.regression.sales.template.PolicyFuturedated;
 
 /**
  * @author Tanya Dabolina
  * @name Test Create Auto SS in Future dated
+ * @scenario
+ * 1. Create Customer
+ * 2. Create Auto policy in Future dated
+ * 3. Verify policy status is Policy Pending
+ * @details
  */
-
-public class TestPolicyFuturedated extends PolicyFuturedated {
-	
-	@Override
-	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_SS;
-	}
+public class TestPolicyFuturedated extends AutoSSBaseTest {
 
     @Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void testPolicyFuturedated() {
+    public void TestPolicyFutureDated() {
     	
-    	super.testPolicyFuturedated();
+    	 mainApp().open();
+         
+         createCustomerIndividual();
+              
+         TestData td = getPolicyTD("DataGather", "TestData")
+        		  .adjust(TestData.makeKeyPath("GeneralTab",
+        					AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
+        					AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()),
+        					"/today+1m:MM/dd/yyyy");
+		
+         getPolicyType().get().createPolicy(td);
+
+         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);
         
     }
 }
+
+
+
+
+
 
 

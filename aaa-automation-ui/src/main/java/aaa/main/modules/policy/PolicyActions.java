@@ -522,14 +522,15 @@ public final class PolicyActions {
 			UpdateRulesOverrideActionTab.btnUpdateOverride.click();
 			return this;
 		}
-	}
 
-    public abstract static class ManualRenewalWithOrWithoutLapse extends AbstractAction {
+/*
         @Override
-        public String getName() {
-            return "Manual Renewal with or without Lapse";
-        }
-    }
+        public AbstractAction perform(TestData td) {
+              return super.perform(td);
+          }
+              */
+
+	}
 
 	//TODO Remove next actions if not used in AAA:
 	public abstract static class RemoveSuspendQuote extends AbstractAction {

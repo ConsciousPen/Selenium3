@@ -24,7 +24,7 @@ PolicyInformation: {
 
 VehicleTab: {
   Add Vehicle: Click,
-  VIN: WAUKJAFM8C6314628,
+  VIN: 4S3BC6534NDDEJ76X,
   Primary Use: Pleasure (recreational driving only),
   Existing Damage: None,
   "Salvaged?": 'No',
@@ -33,7 +33,7 @@ VehicleTab: {
 
 AssignmentTab: {
   DriverVehicleRelationshipTable: [{
-    Vehicle: '2012, AUDI, A3',
+    Vehicle: '1992, SUBARU, LEGACY',
     Primary Driver: 'Sansa Stark'
   }]
 }
@@ -113,7 +113,7 @@ DriverActivityReportsTab2: {
 # ---------- Data for compare data quantity on RollOn Changes tab ------------
 
 Differences: {
-  LineCount: 15
+  LineCount: 14
 }
 
 ErrorProceed: { noFill:{}}

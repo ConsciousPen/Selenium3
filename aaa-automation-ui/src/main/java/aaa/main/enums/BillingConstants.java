@@ -6,12 +6,6 @@ public final class BillingConstants {
 
     private BillingConstants() {}
 
-    public static final class PolicyFlag {
-        public static final String CANCEL_NOTICE = "Cancel Notice";
-        public static final String LAPSE_EXIST = "Term includes a lapse period";
-        public static final String DO_NOT_RENEW = "Do Not Renew";
-    }
-
     public static final class PaymentPlan {
         public static final String PAY_IN_FULL = "Pay in Full";
         public static final String SEMI_ANNUAL = "Semi-Annual";
@@ -101,7 +95,6 @@ public final class BillingConstants {
         public static final String NSF_FEE__WITH_RESTRICTION = "NSF fee - with restriction";
         public static final String DEPOSIT_PAYMENT = "Deposit Payment";
         public static final String RECURRING_PAYMENT = "Recurring Payment";
-        public static final String REGULUS_LOCKBOX = "Regulus LockBox";
     }
 
     public static final class PaymentsAndOtherTransactionReason {
@@ -157,12 +150,6 @@ public final class BillingConstants {
     public static final class HoldsAndMoratoriumsActions {
         public static final String EDIT = "Edit";
         public static final String REMOVE = "Remove";
-    }
-
-    public static final class ExternalPaymentSystem {
-        public static final String REGLKBX = "REGLKBX";
-        public static final String REGONLN = "REGONLN";
-        public static final String BLLMAT = "BLLMAT";
     }
 
     //----TABLES----
