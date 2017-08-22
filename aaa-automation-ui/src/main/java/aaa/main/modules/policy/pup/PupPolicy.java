@@ -292,4 +292,9 @@ public class PupPolicy implements IPolicy {
 	public PolicyActions.UpdateRulesOverride updateRulesOverride() {
 		throw new NotImplementedException();
 	}
+
+	@Override
+	public PolicyActions.ManualRenewalWithOrWithoutLapse manualRenewalWithOrWithoutLapse() {
+		return new PupPolicyActions.ManualRenewalWithOrWithoutLapse();
+	}
 }

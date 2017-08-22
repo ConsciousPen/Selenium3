@@ -24,6 +24,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountSafe" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
@@ -40,6 +41,7 @@
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelNoticeAddDelete" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyDoNotRenewAddRemove" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsementDeclineByCompany" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsementDeclineByCustomer" />
@@ -73,7 +75,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteInitiate" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+		<!--	<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 			
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancellation" />
 			<class name="aaa.modules.regression.service.pup.TestPolicyCancelNoticeAddDelete" />
@@ -101,11 +103,13 @@
 		<classes>
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -127,7 +131,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<!--<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 		</classes>
 	</test>
 
@@ -136,11 +140,13 @@
 		<classes>
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -162,7 +168,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+		<!--	<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 		</classes>
 	</test>
 
@@ -171,11 +177,13 @@
 		<classes>
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -197,7 +205,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<!--<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 		</classes>
 	</test>
 
@@ -206,11 +214,13 @@
 		<classes>
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -232,7 +242,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<!--<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 		</classes>
 	</test>
 
@@ -241,11 +251,13 @@
 		<classes>
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -267,7 +279,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<!--<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 		</classes>
 	</test>
 
@@ -276,11 +288,13 @@
 		<classes>
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -302,7 +316,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<!--<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 		</classes>
 	</test>
 
@@ -311,11 +325,13 @@
 		<classes>
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -337,7 +353,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<!--<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 		</classes>
 	</test>
 
@@ -347,10 +363,12 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -372,7 +390,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<!--<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 		</classes>
 	</test>
 <!--
@@ -382,10 +400,12 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -417,10 +437,12 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -442,7 +464,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<!--<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 		</classes>
 	</test>
 
@@ -452,10 +474,12 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -477,7 +501,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<!--<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 		</classes>
 	</test>
 
@@ -487,10 +511,12 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -512,7 +538,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+		<!--	<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 		</classes>
 	</test>
 
@@ -522,10 +548,12 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -547,7 +575,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<!--<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 		</classes>
 	</test>
 
@@ -557,10 +585,12 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -582,7 +612,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<!--<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 		</classes>
 	</test>
 
@@ -592,10 +622,12 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -617,7 +649,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<!--<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 		</classes>
 	</test>
 
@@ -627,10 +659,12 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -652,7 +686,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<!--<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 		</classes>
 	</test>
 
@@ -662,10 +696,12 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -687,7 +723,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<!--<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 		</classes>
 	</test>
 
@@ -697,10 +733,12 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -722,7 +760,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<!--<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 		</classes>
 	</test>
 
@@ -732,10 +770,12 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -757,7 +797,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<!--<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 		</classes>
 	</test>
 
@@ -767,10 +807,12 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -792,7 +834,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<!--<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 		</classes>
 	</test>
 
@@ -802,10 +844,12 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -827,7 +871,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<!--<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 		</classes>
 	</test>
 
@@ -837,10 +881,12 @@
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate" />
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold" />
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite" />
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelWithActivePUP" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountMembership" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder" />
@@ -862,7 +908,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<!--<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />-->
 		</classes>
 	</test>
 
@@ -875,6 +921,7 @@
 			<class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyDiscounts" />
 			<class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyRemoveForm" />
 			<class name="aaa.modules.regression.sales.home_ca.ho3.TestQuoteAdvancedRater" />
+			<class name="aaa.modules.regression.sales.home_ca.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ca.ho3.TestQuoteTaskManager" />
 			<class name="aaa.modules.regression.sales.home_ca.ho3.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.home_ca.ho3.TestQuoteValidateRules" />
@@ -898,7 +945,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
-			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />			
+			<!--<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />		-->
 		</classes>
 	</test>
 
