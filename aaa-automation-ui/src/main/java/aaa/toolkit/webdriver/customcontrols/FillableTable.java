@@ -135,7 +135,7 @@ public class FillableTable extends AbstractContainer<List<TestData>, List<TestDa
 	 * Interact with controls within found row
 	 *
 	 * @param row row with controls to be interacted
-	 * @param rowData test data to be used while filling/clicking controls inside the row
+	 * @param rowData test data to be used while filling/clicking controls ins
 	 */
 	protected void fillRow(Row row, TestData rowData) {
 		for (String assetName : rowData.getKeys()) {

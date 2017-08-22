@@ -7,7 +7,33 @@ package aaa.main.modules.policy.home_ca;
 import aaa.common.AbstractAction;
 import aaa.common.Workspace;
 import aaa.main.modules.policy.PolicyActions;
-import aaa.main.modules.policy.home_ca.views.*;
+import aaa.main.modules.policy.home_ca.views.CancelNoticeView;
+import aaa.main.modules.policy.home_ca.views.CancellationView;
+import aaa.main.modules.policy.home_ca.views.ChangeBrokerView;
+import aaa.main.modules.policy.home_ca.views.ChangeReinstatementLapsePeriodView;
+import aaa.main.modules.policy.home_ca.views.CopyPolicyView;
+import aaa.main.modules.policy.home_ca.views.CopyQuoteView;
+import aaa.main.modules.policy.home_ca.views.DataGatheringEndorsementView;
+import aaa.main.modules.policy.home_ca.views.DeclineByCompanyView;
+import aaa.main.modules.policy.home_ca.views.DeclineByCustomerView;
+import aaa.main.modules.policy.home_ca.views.DefaultView;
+import aaa.main.modules.policy.home_ca.views.DeleteCancelNoticeView;
+import aaa.main.modules.policy.home_ca.views.DeletePendedTransactionView;
+import aaa.main.modules.policy.home_ca.views.DoNotRenewView;
+import aaa.main.modules.policy.home_ca.views.EndorseView;
+import aaa.main.modules.policy.home_ca.views.ManualRenewFlagView;
+import aaa.main.modules.policy.home_ca.views.NonPremiumBearingEndorsementView;
+import aaa.main.modules.policy.home_ca.views.PolicyRenewalChangeLapseView;
+import aaa.main.modules.policy.home_ca.views.ProposeView;
+import aaa.main.modules.policy.home_ca.views.QuoteRenewalChangeLapseView;
+import aaa.main.modules.policy.home_ca.views.ReinstateView;
+import aaa.main.modules.policy.home_ca.views.RemoveDoNotRenewView;
+import aaa.main.modules.policy.home_ca.views.RemoveManualRenewView;
+import aaa.main.modules.policy.home_ca.views.RenewView;
+import aaa.main.modules.policy.home_ca.views.RescindCancellationView;
+import aaa.main.modules.policy.home_ca.views.RollBackEndorsementView;
+import aaa.main.modules.policy.home_ca.views.RewriteView;
+import aaa.main.modules.policy.home_ca.views.SuspendQuoteView;
 import toolkit.datax.TestData;
 
 /**
@@ -208,13 +234,6 @@ public final class HomeCaPolicyActions {
         @Override
         public Workspace getView() {
             return new CopyPolicyView();
-        }
-    }
-
-    public static class ManualRenewalWithOrWithoutLapse extends PolicyActions.ManualRenewalWithOrWithoutLapse {
-        @Override
-        public Workspace getView() {
-            return new ManualRenewalWithOrWithoutLapseView();
         }
     }
     

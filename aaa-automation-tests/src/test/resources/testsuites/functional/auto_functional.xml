@@ -190,7 +190,7 @@
 			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
-<!--
+
 	<test name="KY Auto Functional Tests">
 	    <parameter name="state" value="KY"/>
     	<classes>
@@ -208,7 +208,7 @@
 			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
--->
+
 	<test name="MD Auto Functional Tests">
 	    <parameter name="state" value="MD"/>
     	<classes>

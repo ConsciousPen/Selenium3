@@ -1,0 +1,7 @@
+TestData: {
+   PremiumsAndCoveragesQuoteTab: {
+       Payment plan: Pay in Full,
+       Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+       Coverage E - Personal Liability Each Occurrence: '$600,000'
+   }
+}

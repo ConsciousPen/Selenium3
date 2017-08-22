@@ -12,7 +12,7 @@
 			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments"/>
 			<class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling"/>
-			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate"/>
+			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyReinstatement"/>
    		</classes>
     </test>
 
@@ -151,7 +151,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
-   <!-- 	
+    	
 	<test name="KY HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="KY"/>
     	<classes>
@@ -159,7 +159,7 @@
    			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
--->
+
 	<test name="KY PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="KY"/>
     	<classes>

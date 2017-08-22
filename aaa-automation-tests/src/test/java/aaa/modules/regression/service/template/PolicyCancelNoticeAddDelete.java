@@ -27,8 +27,13 @@ public abstract class PolicyCancelNoticeAddDelete extends PolicyBaseTest {
     public void testPolicyCancelNoticeAddDelete() {
     	
         mainApp().open();
-          
-       getCopiedPolicy();       
+        
+      
+       getCopiedPolicy();
+        
+//        createCustomerIndividual();
+//        
+//        createPolicy();
         
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 

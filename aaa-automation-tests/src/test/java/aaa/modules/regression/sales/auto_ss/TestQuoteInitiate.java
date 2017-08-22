@@ -4,11 +4,11 @@ package aaa.modules.regression.sales.auto_ss;
 
 import org.testng.annotations.Test;
 
-import aaa.common.Tab;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.main.pages.summary.QuoteSummaryPage;
@@ -37,7 +37,8 @@ public class TestQuoteInitiate extends AutoSSBaseTest {
         QuoteSummaryPage.comboBoxProduct.setValue(PolicyType.AUTO_SS.getName());
         QuoteSummaryPage.buttonAddNewQuote.verify.enabled();
         QuoteSummaryPage.buttonAddNewQuote.click();
-        Tab.buttonSaveAndExit.click();
+        new GeneralTab().getAssetList().verify.enabled();
+        GeneralTab.buttonSaveAndExit.click();
         PolicySummaryPage.labelPolicyNumber.verify.present();
 
         log.info("Initiated Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());

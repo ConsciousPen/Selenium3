@@ -30,7 +30,6 @@ public class PolicySummaryPage extends SummaryPage {
     public static StaticElement labelTermIncludesLapsePeriod = new StaticElement(By.id("productContextInfoForm:lapseExistsFlag"));
     public static StaticElement labelManualRenew = new StaticElement(By.id("productContextInfoForm:manualRenewFlag"));
     public static StaticElement labelPremiumWaived = new StaticElement(By.id("productContextInfoForm:premiumWaivedFlag"));
-    public static StaticElement labelLapseExist = new StaticElement(By.id("productContextInfoForm:lapseExistsFlag"));
 
     public static Button buttonTransactionHistory = new Button(By.id("productContextInfoForm:lnkTransactionHistory"));
     public static Button buttonPendedEndorsement = new Button(By.id("productContextInfoForm:lnkPendedEndorsements"));
