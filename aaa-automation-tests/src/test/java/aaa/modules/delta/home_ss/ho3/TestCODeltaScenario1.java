@@ -23,12 +23,12 @@ public class TestCODeltaScenario1 extends CODeltaScenario1 {
 	public void TC02_verifyEndorsementsTab() {
 		super.TC_verifyEndorsementsTab();
 	}
-	
+/*	
 	@Test
 	public void TC03_verifyQuoteODD() {
 		super.TC_verifyQuoteODD();
 	}
-	
+*/	
 	@Test
 	public void TC04_verifyAdverselyImpacted() {
 		super.TC_verifyAdverselyImpacted();
@@ -43,11 +43,11 @@ public class TestCODeltaScenario1 extends CODeltaScenario1 {
 	public void TC06_purchasePolicy() {
 		super.TC_purchasePolicy(scenarioPolicyType);
 	}
-	
+/*	
 	@Test
 	public void TC07_verifyPolicyODD() {
 		super.TC_verifyPolicyODD();
 	}
-
+*/
 }
 
