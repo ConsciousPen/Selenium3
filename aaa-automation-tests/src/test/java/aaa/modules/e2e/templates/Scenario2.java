@@ -58,7 +58,7 @@ public class Scenario2 extends BaseTest {
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		CustomAssert.assertEquals("Billing Installments count for Eleven Pay payment plan", 11, installmentDueDates.size());
+		CustomAssert.assertEquals("Billing Installments count for Monthly (Eleven Pay) payment plan", 11, installmentDueDates.size());
 	}
 
 	public void TC02_Generate_First_Bill() {
