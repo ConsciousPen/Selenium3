@@ -63,7 +63,7 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
      * 11. Check minimum due doesn't change
      */
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3)
     public void testManualFeeAdjustment() {
 
@@ -134,7 +134,7 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
      * 12. Check Total Paid Amount value after refunding
      */
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3)
     public void testManualRefund() {
 
@@ -235,7 +235,7 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
      * 19. Check Minimum Due Amount doesn't change
      */
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3)
     public void testManualWriteOff() {
 
@@ -492,7 +492,6 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
                 feeAmountTotal = feeAmountTotal.add(fee);
             }
         }
-
         query = new HashMap<>();
         query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.ADJUSTMENT);
         query.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.PAYMENT_DECLINED);
@@ -510,5 +509,4 @@ public class TestPolicyBillingOperations extends HomeCaHO3BaseTest {
         expectedTotalDue = expectedTotalDue.subtract(amount.add(feeAmount));
         BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_DUE).verify.contains(expectedTotalDue.negate().toString());
     }
-
 }
