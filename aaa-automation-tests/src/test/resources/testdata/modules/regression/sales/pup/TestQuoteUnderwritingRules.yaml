@@ -1,5 +1,12 @@
 TestData_UW1: {
-  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1'
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1',
+  BottomError: [
+    "Applicants who have been sued for libel or slander are ineligible.",
+    "Risk must be endorsed with the appropriate business or farming endorsement when an eligible business or incidental farming exposure is present. Applicants that perform a home day care, including child, adult or pet day care, are unacceptable.",
+    "Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting history are unacceptable.",
+    "Applicants without underlying bodily injury and property damage liability coverage are ineligible.",
+    "Applicants who use their personal vehicles for wholesale or retail delivery are ineligible."
+  ]
 }
 
 UnderwritingAndApprovalTab_UW1: {
@@ -19,7 +26,14 @@ UnderwritingAndApprovalTab_UW1: {
 }
 
 TestData_UW2: {
-  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2'
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2',
+  FieldsError: {
+    "Remark Cancelled Policy": "'Remarks' is required",
+    "Remark Property Outside US": "'Remarks' is required",
+    "Remark Vehicles not for personal/pleasure use": "'Remarks' is required",
+    "Remark Commercial Vehicle": "'Remarks' is required",
+    "Remark Celebrity": "'Remarks' is required"
+  }
 }
 
 UnderwritingAndApprovalTab_UW2: {
@@ -72,7 +86,14 @@ UnderwritingAndApprovalTab_UW4: {
 
 # ------------------- TestData: CT ------------------
 TestData_UW1_CT: {
-  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1_CT'
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1_CT',
+  BottomError: [
+    "Applicants who have been sued for libel or slander are ineligible.",
+    "Risk must be endorsed with the appropriate business or farming endorsement when an eligible business or incidental farming exposure is present. Applicants that perform a home day care, including child, adult or pet day care, are unacceptable.",
+    "Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting history are unacceptable.",
+    "Applicants without underlying bodily injury and property damage liability coverage are ineligible.",
+    "Applicants who use their personal vehicles for wholesale or retail delivery are ineligible."
+  ]
 }
 UnderwritingAndApprovalTab_UW1_CT: {
   "Has the applicant been sued for libel or slander?": 'Yes',
@@ -90,7 +111,13 @@ UnderwritingAndApprovalTab_UW1_CT: {
 }
 
 TestData_UW2_CT: {
-  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2_CT'
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2_CT',
+  FieldsError: {
+    "Remark Property Outside US": "'Remarks' is required",
+    "Remark Vehicles not for personal/pleasure use": "'Remarks' is required",
+    "Remark Commercial Vehicle": "'Remarks' is required",
+    "Remark Celebrity": "'Remarks' is required"
+  }
 }
 
 UnderwritingAndApprovalTab_UW2_CT: {
@@ -137,7 +164,14 @@ UnderwritingAndApprovalTab_UW4_CT: {
 
 # ------------------- TestData: KY ------------------
 TestData_UW1_KY: {
-  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1_KY'
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1_KY',
+  BottomError: [
+    "Applicants who have been sued for libel or slander are ineligible.",
+    "Risk must be endorsed with the appropriate business or farming endorsement when an eligible business or incidental farming exposure is present. Applicants that perform a home day care, including child, adult or pet day care, are unacceptable.",
+    "Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting history are unacceptable.",
+    "Applicants without underlying bodily injury and property damage liability coverage are ineligible.",
+    "Applicants who use their personal vehicles for wholesale or retail delivery are ineligible."
+  ]
 }
 UnderwritingAndApprovalTab_UW1_KY: {
   "Has the applicant been sued for libel or slander?": 'Yes',
@@ -155,7 +189,13 @@ UnderwritingAndApprovalTab_UW1_KY: {
 }
 
 TestData_UW2_KY: {
-  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2_KY'
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2_KY',
+  FieldsError: {
+    "Remark Property Outside US": "'Remarks' is required",
+    "Remark Vehicles not for personal/pleasure use": "'Remarks' is required",
+    "Remark Commercial Vehicle": "'Remarks' is required",
+    "Remark Celebrity": "'Remarks' is required"
+  }
 }
 
 UnderwritingAndApprovalTab_UW2_KY: {
@@ -202,7 +242,17 @@ UnderwritingAndApprovalTab_UW4_KY: {
 
 # ------------------- TestData: MD ------------------
 TestData_UW1_MD: {
-  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1_MD'
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1_MD',
+  FieldsError: {
+    "Is any business or farming activity conducted on the premises?": "Business or farming activity is ineligible"
+  },
+  BottomError: [
+    "Applicants who have been sued for libel or slander are ineligible.",
+    "Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting history are unacceptable.",
+    "Applicants without underlying bodily injury and property damage liability coverage are ineligible.",
+    "Applicants who use their personal vehicles for wholesale or retail delivery are ineligible.",
+    "Business or farming activity is ineligible"
+  ]
 }
 
 UnderwritingAndApprovalTab_UW1_MD: {
@@ -222,7 +272,14 @@ UnderwritingAndApprovalTab_UW1_MD: {
 }
 
 TestData_UW2_MD: {
-  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2_MD'
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2_MD',
+  FieldsError: {
+    "Remark Cancelled Policy Extn": "'Remarks' is required",
+    "Remark Property Outside US": "'Remarks' is required",
+    "Remark Vehicles not for personal/pleasure use": "'Remarks' is required",
+    "Remark Commercial Vehicle": "'Remarks' is required",
+    "Remark Celebrity": "'Remarks' is required"
+  }
 }
 
 UnderwritingAndApprovalTab_UW2_MD: {
@@ -273,7 +330,17 @@ UnderwritingAndApprovalTab_UW4_MD: {
 
 # ------------------- TestData: OR ------------------
 TestData_UW1_OR: {
-  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1_OR'
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1_OR',
+  FieldsError: {
+    "Is any business, adult day care, pet day care or farming activity conducted on the premises?": "Adult day care, or pet day care are not eligible."
+  },
+  BottomError: [
+    "Applicants who have been sued for libel or slander are ineligible.",
+    "Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting history are unacceptable.",
+    "Applicants without underlying bodily injury and property damage liability coverage are ineligible.",
+    "Applicants who use their personal vehicles for wholesale or retail delivery are ineligible.",
+    "Adult day care, or pet day care are not eligible."
+  ]
 }
 
 UnderwritingAndApprovalTab_UW1_OR: {
@@ -293,7 +360,14 @@ UnderwritingAndApprovalTab_UW1_OR: {
 }
 
 TestData_UW2_OR: {
-  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2_OR'
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2_OR',
+  FieldsError: {
+    "Remark Cancelled Policy": "'Remarks' is required",
+    "Remark Property Outside US": "'Remarks' is required",
+    "Remark Vehicles not for personal/pleasure use": "'Remarks' is required",
+    "Remark Commercial Vehicle": "'Remarks' is required",
+    "Remark Celebrity": "'Remarks' is required"
+  }
 }
 
 UnderwritingAndApprovalTab_UW2_OR: {
@@ -346,7 +420,16 @@ UnderwritingAndApprovalTab_UW4_OR: {
 
 # ------------------- TestData: CA ------------------
 TestData_UW1_CA: {
-  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1_CA'
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1_CA',
+  FieldsError: {
+    "Has the applicant been sued for libel or slander?": "Applicants who have been sued for libel or slander are ineligible.",
+    "Do you have a license?": "Dwellings or applicants that perform a home day care, including child day care, adult day care, or pet day care, are unacceptable unless they are licensed and insured.",
+    "Is it a for-profit business?": "Farming/Ranching on premises is unacceptable unless it is incidental and not for profit.",
+    "Others": "Other business exposures on premises are unacceptable.",
+    "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": "Animals with any prior bite history are not acceptable.",
+    "Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?": "Applicants without underlying bodily injury and property damage liability coverage are ineligible.",
+    "Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?": "Applicants who use their personal vehicles for wholesale or retail delivery are ineligible."
+  }
 }
 
 UnderwritingAndApprovalTab_UW1_CA: {
@@ -371,7 +454,13 @@ UnderwritingAndApprovalTab_UW1_CA: {
 }
 
 TestData_UW2_CA: {
-  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2_CA'
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2_CA',
+  FieldsError: {
+    "Remark Cancelled Policy": "'Remarks' is required",
+    "Remark Property Outside US": "'Remarks' is required",
+    "Remark Vehicles not for personal/pleasure use": "'Remarks' is required",
+    "Remark Commercial Vehicle": "'Remarks' is required"
+  }
 }
 
 UnderwritingAndApprovalTab_UW2_CA: {

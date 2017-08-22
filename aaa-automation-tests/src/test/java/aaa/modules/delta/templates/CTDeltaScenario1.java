@@ -6,6 +6,7 @@ import java.util.Map;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.delta.HssQuoteDataGatherHelper;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
@@ -106,15 +107,14 @@ public class CTDeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();		
 	}
 	
-	public void TC03_verifyELC() {
-		mainApp().open(); 
-		
+	public void TC03_verifyELC() {		
 		TestData td_None_with_Score599 = getTestSpecificTD("TestData_None_with_Score599"); 
 		TestData td_Declined_with_Score999 = getTestSpecificTD("TestData_Declined_with_Score999"); 
 		TestData td_IdentityTheft_with_Score750 = getTestSpecificTD("TestData_IdentityTheft_with_Score750"); 
 		TestData td_MilitaryDeployment_with_Score599 = getTestSpecificTD("TestData_MilitaryDeployment_with_Score599"); 
 		TestData td_OtherEvents_with_Score999 = getTestSpecificTD("TestData_OtherEvents_with_Score999"); 
 		
+		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
@@ -122,13 +122,22 @@ public class CTDeltaScenario1 extends BaseTest {
 		GeneralTab generalTab = new GeneralTab();
 		generalTab.verifyFieldHasValue("Extraordinary Life Circumstance", "None"); 
 		
+		/*
 		verifyELCNotApplied(td_Declined_with_Score999, "999");
-		verifyELCNotApplied(td_IdentityTheft_with_Score750, "750");
-		
+		verifyELCNotApplied(td_IdentityTheft_with_Score750, "750");		
 		verifyELCApplied(td_MilitaryDeployment_with_Score599, "607");
-		verifyELCApplied(td_OtherEvents_with_Score999, "607");
-		
+		verifyELCApplied(td_OtherEvents_with_Score999, "607");		
 		verifyELCNotApplied(td_None_with_Score599, "599");
+		*/
+		String messageOnReportsTab = "Extraordinary life circumstance was applied to the policy effective "+effectiveDate;
+		
+		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_Declined_with_Score999, "999"); 
+		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_IdentityTheft_with_Score750, "750");
+		
+		HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_MilitaryDeployment_with_Score599, "607", messageOnReportsTab);
+		HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_OtherEvents_with_Score999, "607", messageOnReportsTab);
+		
+		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_None_with_Score599, "599");
 		
 		ReportsTab.buttonSaveAndExit.click();		
 		CustomAssert.assertAll();		
@@ -188,7 +197,7 @@ public class CTDeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();
 	}
 	
-
+/*
 	private void verifyELCNotApplied(TestData td, String scoreInRatingDetails) {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get()); 
 		new GeneralTab().fillTab(td);
@@ -231,5 +240,5 @@ public class CTDeltaScenario1 extends BaseTest {
 		CustomAssert.assertTrue("Extraordinary life circumstance is not applied on Reports Tab",
 				reportsTab.lblELCMessage.getValue().equals("Extraordinary life circumstance was applied to the policy effective "+effectiveDate));		
 	}
-	
+	*/
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.delta.HssQuoteDataGatherHelper;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -149,16 +150,14 @@ public class INDeltaScenario1 extends BaseTest {
 
 		policy.quoteDocGen().start();		
 		CustomAssert.enableSoftMode();	
-		/*
-		GenerateOnDemandDocumentActionTab goddTab = new GenerateOnDemandDocumentActionTab();
-		goddTab.tableOnDemandDocuments.getRow("Document #", "HS11CO").verify.present();
-		goddTab.tableOnDemandDocuments.getRow("Document #", "HSIQXX").verify.present();
-		*/
+		//TODO add verification On-Demand Documents tab
 		GenerateOnDemandDocumentActionTab.buttonSaveAndExit.click();
 		CustomAssert.assertAll();
 	}
 	
 	public void TC06_verifyHailResistanceRating() {
+		TestData td_hailResistanceRating = getTestSpecificTD("TestData_hailResistanceRating");
+		
 		mainApp().open();
 		SearchPage.openQuote(quoteNumber);	
 		
@@ -166,11 +165,11 @@ public class INDeltaScenario1 extends BaseTest {
 		CustomAssert.enableSoftMode();
 		
 		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)||getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
-			verifyHailResistanceRating_NotApplied();
-			verifyHailResistanceRating_Applied();
+			HssQuoteDataGatherHelper.verifyHailResistanceRatingNotApplied();
+			HssQuoteDataGatherHelper.verifyHailResistanceRatingApplied(td_hailResistanceRating);
 		}
 		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
-			verifyHailResistanceRating_NotDisplaying();
+			HssQuoteDataGatherHelper.verifyHailResistanceRatingNotDisplaying();
 		} 
 		
 		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
@@ -230,76 +229,9 @@ public class INDeltaScenario1 extends BaseTest {
 	}
 
 	public void TC09_verifyPolicyODD() {
-		mainApp().open(); 
-		
+		mainApp().open(); 		
 		SearchPage.openPolicy(policyNumber);
-		//TestData td_godd = getTestSpecificTD("TestData_GODD");
-		
-		policy.policyDocGen().start();
-		//policy.policyDocGen().perform(td_godd);
-		
+		//TODO verify On-Demand Documents generation
 	}
-	
-	private void verifyHailResistanceRating_NotApplied() {
-		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
-		PremiumsAndCoveragesQuoteTab premiumsTab = new PremiumsAndCoveragesQuoteTab();
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING).verify.present();
-		propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING).setValue("No");
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		premiumsTab.calculatePremium();
-		
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		CustomAssert.assertTrue("Hail Resistive Rating: wrong value in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Hail Resistive Rating").equals("No"));
-		CustomAssert.assertTrue("Hail zone flag: wrong value in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Hail zone flag").equals("No"));
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-	}
-	
-	private void verifyHailResistanceRating_Applied() {
-		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
-		PremiumsAndCoveragesQuoteTab premiumsTab = new PremiumsAndCoveragesQuoteTab();
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		TestData td_hailResistanceRating = getTestSpecificTD("TestData_hailResistanceRating");
-		propertyInfoTab.fillTab(td_hailResistanceRating);
-		propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING).setAnyValueExcept("No");
-		String hailResistanceRating = propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING.getLabel()).getValue().toString(); 
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		premiumsTab.calculatePremium();
-		
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		CustomAssert.assertTrue("Hail Resistive Rating: wrong value in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Hail Resistive Rating").equals(hailResistanceRating));
-		CustomAssert.assertTrue("Hail zone flag: wrong value in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("Hail zone flag").equals("Yes"));
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-	}
-	
-	private void verifyHailResistanceRating_NotDisplaying() {
-		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
-		PremiumsAndCoveragesQuoteTab premiumsTab = new PremiumsAndCoveragesQuoteTab();
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CONSTRUCTION).getAsset(HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING).verify.present(false);
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		premiumsTab.calculatePremium(); 
-		
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		CustomAssert.enableSoftMode();
-		CustomAssert.assertFalse("Hail Resistive Rating is present in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getLabel("Hail Resistive Rating").isPresent());
-		CustomAssert.assertFalse("Hail zone flag is present in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getLabel("Hail zone flag").isPresent());
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();	
-	}
-	
+
 }

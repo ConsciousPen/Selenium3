@@ -11,6 +11,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import aaa.modules.regression.sales.pup.TestPolicyBackdated;
 
 /**
  * @author YongGang Sun
@@ -38,7 +39,9 @@ public class TestPolicyBackdated extends PersonalUmbrellaBaseTest {
 		//1. effective date = today minus 2 days
 		//2. error tab: "Requested Effective Date not Available" error should be overridden 
         TestData tdPolicyCreation = getBackDatedPolicyTD();
-        tdPolicyCreation = adjustWithRealPolicies(tdPolicyCreation, getPrimaryPoliciesForPup(getPolicyTD("TestPolicyBackdated", "TestData_Home").resolveLinks(), getPolicyTD("TestPolicyBackdated", "TestData_Auto")));
+        tdPolicyCreation = adjustWithRealPolicies(tdPolicyCreation, 
+        		getPrimaryPoliciesForPup(getStateTestData(testDataManager.getDefault(TestPolicyBackdated.class), "TestData_Home").resolveLinks(), 
+        				                 getStateTestData(testDataManager.getDefault(TestPolicyBackdated.class), "TestData_Auto")));
         createPolicy(tdPolicyCreation);
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

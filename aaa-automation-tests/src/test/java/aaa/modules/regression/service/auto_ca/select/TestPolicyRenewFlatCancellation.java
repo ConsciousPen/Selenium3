@@ -4,7 +4,7 @@ package aaa.modules.regression.service.auto_ca.select;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.policy.AutoCaSelectBaseTest;
 import aaa.modules.regression.service.template.PolicyRenewFlatCancellation;
 
 import org.testng.annotations.Test;
@@ -32,7 +32,7 @@ public class TestPolicyRenewFlatCancellation extends PolicyRenewFlatCancellation
 	}
 	@Override
 	protected TestData getBackDatedPolicyTD() {
-		return new AutoSSBaseTest().getBackDatedPolicyTD();
+		return new AutoCaSelectBaseTest().getBackDatedPolicyTD();
 	}
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT )

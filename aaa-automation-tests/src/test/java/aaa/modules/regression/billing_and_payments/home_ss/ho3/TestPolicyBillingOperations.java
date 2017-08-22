@@ -1,4 +1,4 @@
-package aaa.modules.regression.billing_and_payments.home_ca.ho3;
+package aaa.modules.regression.billing_and_payments.home_ss.ho3;
 
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
@@ -12,12 +12,12 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
 
     @Override
     protected PolicyType getPolicyType() {
-        return PolicyType.HOME_CA_HO3;
+        return PolicyType.HOME_SS_HO3;
     }
 
     /**
      * @author Jurij Kuznecov
-     * @name Test CAH Policy Manual Fee Adjustment
+     * @name Test HSS Policy Manual Fee Adjustment
      * @scenario 
      * 1.  Create new or open existent Customer
      * 2.  Create a new HO3 policy
@@ -33,14 +33,14 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      */
 
     @Test(enabled = true)
-    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3)
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
     public void testManualFeeAdjustment() {
         super.testManualFeeAdjustment();
     }
 
     /**
      * @author Jurij Kuznecov
-     * @name Test CAH Policy Manual Refund
+     * @name Test HSS Policy Manual Refund
      * @scenario 
      * 1.  Create new or open existent Customer
      * 2.  Create a new HO3 policy
@@ -57,14 +57,14 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      */
 
     @Test(enabled = true)
-    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3)
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
     public void testManualRefund() {
         super.testManualRefund();
     }
 
     /**
      * @author Jurij Kuznecov
-     * @name Test CAH Policy Manual Write-Off
+     * @name Test HSS Policy Manual Write-Off
      * @scenario
      * 1.  Create new or open existent Customer
      * 2.  Create a new HO3 policy
@@ -89,14 +89,14 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      */
 
     @Test(enabled = true)
-    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3)
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
     public void testManualWriteOff() {
         super.testManualWriteOff();
     }
 
     /**
      * @author Jurij Kuznecov
-     * @name Test CAH Policy Manual Returned Payments
+     * @name Test HSS Policy Manual Returned Payments
      * @scenario
      * 1.  Create a policy
      * 2.  Add 4 payment methods(Cash, Check, Credit Card, EFT)
@@ -131,7 +131,7 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      */
 
     @Test(enabled = true)
-    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3)
+    @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
     public void testManualReturnedPayments() {
         super.testManualReturnedPayments();
     }
