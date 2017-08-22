@@ -7,6 +7,7 @@ import java.util.Map;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.delta.QuoteDataGatherHelper;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -107,15 +108,14 @@ public class KSDeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();
 	}
 	
-	public void TC04_verifyELC() {
-		mainApp().open(); 
-		
+	public void TC04_verifyELC() {		
 		TestData td_None_with_Score740 = getTestSpecificTD("TestData_None_with_Score740"); 
 		TestData td_Declined_with_Score999 = getTestSpecificTD("TestData_Declined_with_Score999"); 
 		TestData td_IdentityTheft_with_Score750 = getTestSpecificTD("TestData_IdentityTheft_with_Score750"); 
 		TestData td_MilitaryDeployment_with_Score740 = getTestSpecificTD("TestData_MilitaryDeployment_with_Score740"); 
 		TestData td_OtherEvents_with_Score999 = getTestSpecificTD("TestData_OtherEvents_with_Score999"); 
 		
+		mainApp().open(); 		
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
@@ -123,11 +123,19 @@ public class KSDeltaScenario1 extends BaseTest {
 		GeneralTab generalTab = new GeneralTab();
 		generalTab.verifyFieldHasValue("Extraordinary Life Circumstance", "None"); 
 		
+		/*
 		verifyELCNotApplied(td_Declined_with_Score999, "999");
-		verifyELCNotApplied(td_IdentityTheft_with_Score750, "750");
-		
+		verifyELCNotApplied(td_IdentityTheft_with_Score750, "750");		
 		verifyELCApplied(td_MilitaryDeployment_with_Score740, "745");
 		verifyELCApplied(td_OtherEvents_with_Score999, "745");
+		*/
+		String messageOnReportsTab = "Extraordinary life circumstance was applied to the policy effective "+effectiveDate;
+		
+		QuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_Declined_with_Score999, "999"); 
+		QuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_IdentityTheft_with_Score750, "750"); 
+		
+		QuoteDataGatherHelper.verifyBestFRScoreApplied(td_MilitaryDeployment_with_Score740, "745", messageOnReportsTab);
+		QuoteDataGatherHelper.verifyBestFRScoreApplied(td_OtherEvents_with_Score999, "745", messageOnReportsTab);
 		
 		//verify AAA_HO_SS7230342 - "Underwriting approval is required for the option you have selected"
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
@@ -137,7 +145,8 @@ public class KSDeltaScenario1 extends BaseTest {
 		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS7230342);
 		errorTab.cancel();
 		
-		verifyELCNotApplied(td_None_with_Score740, "740");
+		//verifyELCNotApplied(td_None_with_Score740, "740");
+		QuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_None_with_Score740, "740"); 
 		
 		ReportsTab.buttonSaveAndExit.click();		
 		CustomAssert.assertAll();	
@@ -184,7 +193,7 @@ public class KSDeltaScenario1 extends BaseTest {
 	
 	public void TC07_verifyODDPolicy() {}
 
-	
+	/*
 	private void verifyELCNotApplied(TestData td, String scoreInRatingDetails) {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get()); 
 		new GeneralTab().fillTab(td);
@@ -227,7 +236,7 @@ public class KSDeltaScenario1 extends BaseTest {
 		CustomAssert.assertTrue("Extraordinary life circumstance is not applied on Reports Tab",
 				reportsTab.lblELCMessage.getValue().equals("Extraordinary life circumstance was applied to the policy effective "+effectiveDate));		
 	}	
-
+*/
 	private void verifyHailResistanceRating_NotApplied() {
 		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
 		PremiumsAndCoveragesQuoteTab premiumsTab = new PremiumsAndCoveragesQuoteTab();

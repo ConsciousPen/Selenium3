@@ -1,0 +1,49 @@
+TestData: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {Property Damage Liability: 'contains=$100,000'},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+# ------------- Tabs ----------
+
+GeneralTab: {
+  NamedInsuredInformation: {},
+  AAAProductOwned: {},
+  PolicyInformation: {
+    Authorized by: QA
+   }
+}
+
+# ---------- VA ------------
+
+TestData_VA: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+# ---------- NY ------------
+
+TestData_NY: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}

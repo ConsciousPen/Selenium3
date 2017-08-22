@@ -4,9 +4,12 @@
  */
 package aaa.main.modules.policy.auto_ca;
 
+import org.openqa.selenium.By;
+
 import aaa.common.AbstractAction;
 import aaa.common.Tab;
 import aaa.common.Workspace;
+import aaa.common.pages.Page;
 import aaa.main.modules.policy.PolicyActions;
 import aaa.main.modules.policy.auto_ca.views.CancelNoticeView;
 import aaa.main.modules.policy.auto_ca.views.CancellationView;
@@ -37,6 +40,7 @@ import aaa.main.modules.policy.auto_ca.views.SuspendQuoteView;
 import aaa.main.modules.policy.auto_ca.views.UpdateRulesOverrideView;
 import aaa.main.modules.policy.auto_ca.views.RollOnChangesView;
 import toolkit.datax.TestData;
+import toolkit.webdriver.controls.TextBox;
 
 /**
  * Set of concrete actions for a specific entity type.
@@ -58,6 +62,21 @@ public final class AutoCaPolicyActions {
             getView().fill(td);
             submit();
             new DataGather().getView().fill(td);
+            return this;
+        }
+        
+        @Override
+        public AbstractAction performAndExit(TestData td) {
+            start();
+            getView().fill(td);
+            submit();
+            Tab.buttonSaveAndExit.click();
+            
+            if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
+            	new TextBox(By.xpath("//textarea[@id='policyDataGatherForm:newbusinessnotes']")).setValue("save as incomplete");
+            	Page.dialogConfirmation.confirm();
+            }
+            
             return this;
         }
     }

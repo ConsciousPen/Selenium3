@@ -152,7 +152,7 @@ ApplicantTab_AZ: {
 
 # ---------------- TestData: CO --------------------
 TestData_MembershipPending_CO: {
-  GeneralTab: '@<home_ss_ho3>@<home_ss_ho3>@DataGather@GeneralTab_CO',
+  GeneralTab: '@<home_ss_ho3>@DataGather@GeneralTab_CO',
   ApplicantTab: '@ApplicantTab_CO',
   ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@<home_ss_ho3>@<home_ss_ho3>@DataGather@PropertyInfoTab_CO',

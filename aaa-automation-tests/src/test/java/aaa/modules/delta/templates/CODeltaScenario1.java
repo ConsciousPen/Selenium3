@@ -7,6 +7,7 @@ import java.util.Map;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.delta.QuoteDataGatherHelper;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -20,7 +21,6 @@ import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
@@ -34,12 +34,13 @@ public class CODeltaScenario1 extends BaseTest {
 	protected String policyNumber;
 	protected String effectiveDate;
 	
-	public void TC01_createQuote(TestData td, String scenarioPolicyType) {
+	public void TC_createQuote(String scenarioPolicyType) {
+		TestData td = getTestSpecificTD("TestData");
 		policy = getPolicyType().get();
 		
-		mainApp().open();
-		
+		mainApp().open();		
         createCustomerIndividual();
+        
         policy.initiate();
         policy.getDefaultView().fillUpTo(td, BindTab.class, true); 
         BindTab.buttonSaveAndExit.click();
@@ -47,12 +48,11 @@ public class CODeltaScenario1 extends BaseTest {
         quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         log.info("DELTA CO SC1: "+scenarioPolicyType+" Quote created with #" + quoteNumber);
         
-        effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue(); 
-		
+        effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue(); 		
 	}
 	
-	public void TC02_verifyEndorsements(TestData td_forms) {
-		mainApp().open();
+	public void TC_verifyEndorsementsTab() {
+		TestData td_add_Forms = getTestSpecificTD("TestData_add_Forms");
 		
 		Map<String, String> endorsement_HS0312 = new HashMap<>();
 		endorsement_HS0312.put("Form ID", "HS 03 12");
@@ -61,7 +61,8 @@ public class CODeltaScenario1 extends BaseTest {
 		Map<String, String> endorsement_HS0493 = new HashMap<>(); 
 		endorsement_HS0493.put("Form ID", "HS 04 93"); 
 		endorsement_HS0493.put("Name", "Actual Cash Value - Windstorm Or Hail Losses"); 
-				
+			
+		mainApp().open();		
 		SearchPage.openQuote(quoteNumber);	
 		
 		policy.dataGather().start();
@@ -75,7 +76,7 @@ public class CODeltaScenario1 extends BaseTest {
 			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312).verify.present();	
 			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present();
 			
-			endorsementTab.fillTab(td_forms);
+			endorsementTab.fillTab(td_add_Forms);
 			
 			endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312).verify.present();			
 			CustomAssert.assertTrue(endorsementTab.verifyLinkEditIsPresent("HS 03 12")); 
@@ -88,36 +89,32 @@ public class CODeltaScenario1 extends BaseTest {
 		}
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
-		
+		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 		
 		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();	
 		CustomAssert.assertAll();
 	}
 	
-	public void TC03_verifyQuoteODD() {
+	public void TC_verifyQuoteODD() {
 		mainApp().open();
 		SearchPage.openQuote(quoteNumber);	
 
 		policy.quoteDocGen().start();		
 		CustomAssert.enableSoftMode();	
-		/*
-		GenerateOnDemandDocumentActionTab goddTab = new GenerateOnDemandDocumentActionTab();
-		goddTab.tableOnDemandDocuments.getRow("Document #", "HS11CO").verify.present();
-		goddTab.tableOnDemandDocuments.getRow("Document #", "HSIQXX").verify.present();
-		*/
+		
+		//TODO add verification of On-Demand Documents Tab
+		
 		GenerateOnDemandDocumentActionTab.buttonSaveAndExit.click();
 		CustomAssert.assertAll();
 	}
 	
-	public void TC04_verifyAdverselyImpacted() {
-		mainApp().open();
-		
+	public void TC_verifyAdverselyImpacted() {
 		TestData td_Declined_with_Score700 = getTestSpecificTD("TestData_Declined_with_Score700");
 		TestData td_Dissolution_with_Score700 = getTestSpecificTD("TestData_Dissolution_with Score700");
 		TestData td_IdentityTheft_with_Score800 = getTestSpecificTD("TestData_IdentityTheft_with_Score800");
 		TestData td_IdentityTheft_with_Score999 = getTestSpecificTD("TestData_IdentityTheft_with_Score999");
 		TestData td_AdverselyImpacted_None = getTestSpecificTD("TestData_AdverselyImpacted_None");
 		
+		mainApp().open();		
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
@@ -127,13 +124,16 @@ public class CODeltaScenario1 extends BaseTest {
 		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.ADVERSELY_IMPACTED.getLabel(), ComboBox.class).verify.optionsContain(
 				Arrays.asList("None", "Dissolution of marriage or Credit information of a former spouse", "Identity Theft", "Declined"));
 		
-		verifyAdverselyImpactedNotApplied(td_Declined_with_Score700, "700");
+		String messageAdverselyImpacted = "Adversely Impacted was applied to the policy effective "+effectiveDate;
 		
-		verifyAdverselyImpactedApplied(td_Dissolution_with_Score700, "751");
+		QuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_Declined_with_Score700, "700");
 		
-		verifyAdverselyImpactedNotApplied(td_IdentityTheft_with_Score800, "800");
+		QuoteDataGatherHelper.verifyBestFRScoreApplied(td_Dissolution_with_Score700, "751", messageAdverselyImpacted); 
 		
-		verifyAdverselyImpactedApplied(td_IdentityTheft_with_Score999, "751"); 
+		QuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_IdentityTheft_with_Score800, "800"); 
+		
+		QuoteDataGatherHelper.verifyBestFRScoreApplied(td_IdentityTheft_with_Score999, "751", messageAdverselyImpacted);
+
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
 		new BindTab().btnPurchase.click();
@@ -149,7 +149,12 @@ public class CODeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();
 	}
 	
-	public void TC05_verifyRoofTypeUneligible(TestData td) {
+	public void TC_verifyIneligibleRoofType() {
+		TestData td_eligibleData = getTestSpecificTD("TestData");
+		TestData td_construction1 = getTestSpecificTD("TestData_Construction1");
+		TestData td_construction2 = getTestSpecificTD("TestData_Construction2");
+		TestData td_construction3 = getTestSpecificTD("TestData_Construction3");
+		
 		mainApp().open(); 
 		
 		SearchPage.openQuote(quoteNumber);	
@@ -158,37 +163,33 @@ public class CODeltaScenario1 extends BaseTest {
 		CustomAssert.enableSoftMode();
 		
 		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)||getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
-			TestData td_construction1 = getTestSpecificTD("TestData_Construction1");
-			TestData td_construction2 = getTestSpecificTD("TestData_Construction2");
-			TestData td_construction3 = getTestSpecificTD("TestData_Construction3");
-			log.info("DELTA CO SC1: Roof Type: Asphalt/Fiberglass verification");
-			verifyErrorMessageOnBind(td_construction1, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO);
-			log.info("DELTA CO SC1: Roof Type: Wood shingle/shake verification");
-			verifyErrorMessageOnBind(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
-			log.info("DELTA CO SC1: Roof Type: Builtup Tar & Gravel verification");
-			verifyErrorMessageOnBind(td_construction3, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO);
+			log.info("DELTA CO SC1: Roof Type 'Asphalt/Fiberglass' verification");
+			QuoteDataGatherHelper.verifyErrorOnBindForPropertyInfoTab(td_construction1, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO);
+			
+			log.info("DELTA CO SC1: Roof Type 'Wood shingle/shake' verification");
+			QuoteDataGatherHelper.verifyErrorOnBindForPropertyInfoTab(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
+			
+			log.info("DELTA CO SC1: Roof Type 'Builtup Tar & Gravel' verification");
+			QuoteDataGatherHelper.verifyErrorOnBindForPropertyInfoTab(td_construction3, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO);
 		}
 		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
-			TestData td_construction2 = getTestSpecificTD("TestData_Construction2");
-			log.info("DELTA CO SC1: Roof Type: Wood shingle/shake verification");
-			verifyErrorMessageOnBind(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
+			log.info("DELTA CO SC1: Roof Type 'Wood shingle/shake' verification");
+			QuoteDataGatherHelper.verifyErrorOnBindForPropertyInfoTab(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
 		}
 		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
-		propertyInfoTab.fillTab(td);
-		PropertyInfoTab.buttonSaveAndExit.click();
+		QuoteDataGatherHelper.fillPropertyInfoTabWithCorrectData(td_eligibleData);
 		
+		PropertyInfoTab.buttonSaveAndExit.click();		
 		CustomAssert.assertAll();	
 	}
 	
-	public void TC06_purchasePolicy(TestData td, String scenarioPolicyType) {
-		mainApp().open(); 
+	public void TC_purchasePolicy(String scenarioPolicyType) {
+		TestData td = getTestSpecificTD("TestData");
 		
+		mainApp().open(); 		
 		SearchPage.openQuote(quoteNumber);
 		
-		policy.dataGather().start(); 
-		
+		policy.dataGather().start(); 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
@@ -200,79 +201,15 @@ public class CODeltaScenario1 extends BaseTest {
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         
-        log.info("DELTA CO SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);
-		
+        log.info("DELTA CO SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);		
 	}
 	
-	public void TC07_verifyPolicyODD() {
-		mainApp().open(); 
-		
+	public void TC_verifyPolicyODD() {
+		mainApp().open(); 		
 		SearchPage.openPolicy(policyNumber);
 		
-		//TestData td_godd = getTestSpecificTD("TestData_GODD");
+		//TODO add verification of On-Demand Documents Tab
 		
-		policy.policyDocGen().start();
-		//policy.policyDocGen().perform(td_godd);
-		
+		policy.policyDocGen().start();		
 	}
-
-	private void verifyAdverselyImpactedNotApplied(TestData td, String scoreInRatingDetails) {
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get()); 
-		new GeneralTab().fillTab(td);
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get()); 
-		ReportsTab reportsTab = new ReportsTab(); 
-		reportsTab.fillTab(td);
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
-		
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		CustomAssert.assertTrue("FR Score value is wrong in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("FR Score").equals(scoreInRatingDetails));
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get()); 
-		reportsTab.lblAdversalyImpactedMessage.verify.present(false);
-	}
-	
-	private void verifyAdverselyImpactedApplied(TestData td, String scoreInRatingDetails) {
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get()); 
-		new GeneralTab().fillTab(td);
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get()); 
-		ReportsTab reportsTab = new ReportsTab(); 
-		reportsTab.fillTab(td);
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
-		
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		CustomAssert.assertTrue("FR Score value is wrong in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("FR Score").equals(scoreInRatingDetails));
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get()); 
-		CustomAssert.assertTrue("Adversely Impacted is not applied on Reports Tab",
-				reportsTab.lblAdversalyImpactedMessage.getValue().equals("Adversely Impacted was applied to the policy effective "+effectiveDate));		
-	}
-
-	private void verifyErrorMessageOnBind(TestData td, ErrorEnum.Errors errorCode) {
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		new PropertyInfoTab().fillTab(td);
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-		new BindTab().btnPurchase.click();
-		
-		ErrorTab errorTab = new ErrorTab(); 
-		errorTab.verify.errorPresent(errorCode);
-		errorTab.cancel();
-	}
-	
 }
