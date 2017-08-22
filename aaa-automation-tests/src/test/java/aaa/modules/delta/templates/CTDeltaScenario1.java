@@ -6,7 +6,7 @@ import java.util.Map;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.delta.QuoteDataGatherHelper;
+import aaa.helpers.delta.HssQuoteDataGatherHelper;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
@@ -131,13 +131,13 @@ public class CTDeltaScenario1 extends BaseTest {
 		*/
 		String messageOnReportsTab = "Extraordinary life circumstance was applied to the policy effective "+effectiveDate;
 		
-		QuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_Declined_with_Score999, "999"); 
-		QuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_IdentityTheft_with_Score750, "750");
+		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_Declined_with_Score999, "999"); 
+		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_IdentityTheft_with_Score750, "750");
 		
-		QuoteDataGatherHelper.verifyBestFRScoreApplied(td_MilitaryDeployment_with_Score599, "607", messageOnReportsTab);
-		QuoteDataGatherHelper.verifyBestFRScoreApplied(td_OtherEvents_with_Score999, "607", messageOnReportsTab);
+		HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_MilitaryDeployment_with_Score599, "607", messageOnReportsTab);
+		HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_OtherEvents_with_Score999, "607", messageOnReportsTab);
 		
-		QuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_None_with_Score599, "599");
+		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_None_with_Score599, "599");
 		
 		ReportsTab.buttonSaveAndExit.click();		
 		CustomAssert.assertAll();		

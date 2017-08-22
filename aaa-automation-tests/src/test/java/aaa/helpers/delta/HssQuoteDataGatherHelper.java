@@ -14,7 +14,7 @@ import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 
-public class QuoteDataGatherHelper extends BaseTest {
+public class HssQuoteDataGatherHelper extends BaseTest {
 	
 	public static void verifyBestFRScoreNotApplied(TestData td, String scoreInRatingDetails) {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get()); 

@@ -7,7 +7,7 @@ import java.util.Map;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.delta.QuoteDataGatherHelper;
+import aaa.helpers.delta.HssQuoteDataGatherHelper;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -130,11 +130,11 @@ public class KSDeltaScenario1 extends BaseTest {
 		*/
 		String messageOnReportsTab = "Extraordinary life circumstance was applied to the policy effective "+effectiveDate;
 		
-		QuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_Declined_with_Score999, "999"); 
-		QuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_IdentityTheft_with_Score750, "750"); 
+		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_Declined_with_Score999, "999"); 
+		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_IdentityTheft_with_Score750, "750"); 
 		
-		QuoteDataGatherHelper.verifyBestFRScoreApplied(td_MilitaryDeployment_with_Score740, "745", messageOnReportsTab);
-		QuoteDataGatherHelper.verifyBestFRScoreApplied(td_OtherEvents_with_Score999, "745", messageOnReportsTab);
+		HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_MilitaryDeployment_with_Score740, "745", messageOnReportsTab);
+		HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_OtherEvents_with_Score999, "745", messageOnReportsTab);
 		
 		//verify AAA_HO_SS7230342 - "Underwriting approval is required for the option you have selected"
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
@@ -145,7 +145,7 @@ public class KSDeltaScenario1 extends BaseTest {
 		errorTab.cancel();
 		
 		//verifyELCNotApplied(td_None_with_Score740, "740");
-		QuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_None_with_Score740, "740"); 
+		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_None_with_Score740, "740"); 
 		
 		ReportsTab.buttonSaveAndExit.click();		
 		CustomAssert.assertAll();	
@@ -161,11 +161,11 @@ public class KSDeltaScenario1 extends BaseTest {
 		CustomAssert.enableSoftMode();
 		
 		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)||getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
-			QuoteDataGatherHelper.verifyHailResistanceRatingNotApplied();
-			QuoteDataGatherHelper.verifyHailResistanceRatingApplied(td_hailResistanceRating);
+			HssQuoteDataGatherHelper.verifyHailResistanceRatingNotApplied();
+			HssQuoteDataGatherHelper.verifyHailResistanceRatingApplied(td_hailResistanceRating);
 		}
 		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
-			QuoteDataGatherHelper.verifyHailResistanceRatingNotDisplaying();
+			HssQuoteDataGatherHelper.verifyHailResistanceRatingNotDisplaying();
 		} 		
 		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
 		CustomAssert.assertAll();	

@@ -6,7 +6,7 @@ import java.util.Map;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.delta.QuoteDataGatherHelper;
+import aaa.helpers.delta.HssQuoteDataGatherHelper;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -117,11 +117,11 @@ public class OHDeltaScenario1 extends BaseTest {
 		CustomAssert.enableSoftMode();
 
 		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)||getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
-			QuoteDataGatherHelper.verifyHailResistanceRatingNotApplied();
-			QuoteDataGatherHelper.verifyHailResistanceRatingApplied(td_hailResistanceRating);
+			HssQuoteDataGatherHelper.verifyHailResistanceRatingNotApplied();
+			HssQuoteDataGatherHelper.verifyHailResistanceRatingApplied(td_hailResistanceRating);
 		}
 		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
-			QuoteDataGatherHelper.verifyHailResistanceRatingNotDisplaying();
+			HssQuoteDataGatherHelper.verifyHailResistanceRatingNotDisplaying();
 		} 		
 		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
 		CustomAssert.assertAll();
