@@ -33,7 +33,7 @@ public abstract class PolicyEndorsementRollBack extends PolicyBaseTest {
 
         log.info("MidTerm Endorsement for Policy #" + policyNumber);
         
-        TestData endorsement_td = getPolicyTD("TestPolicyEndorsementAdd", "TestData");
+        TestData endorsement_td = getStateTestData(testDataManager.getDefault(this.getClass()), "TestData");
         policy.createEndorsement(endorsement_td.adjust(getPolicyTD("Endorsement", "TestData_Plus10Day")));
 
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);

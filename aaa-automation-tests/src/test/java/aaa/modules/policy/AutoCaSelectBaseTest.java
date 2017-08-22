@@ -19,12 +19,14 @@ public class AutoCaSelectBaseTest extends PolicyBaseTest {
 
 	@Override
 	public TestData getBackDatedPolicyTD() {
-		return getBackDatedPolicyTD(DateTimeUtils.getCurrentDateTime().minusDays(2).format(DateTimeUtils.MM_DD_YYYY));
+		return getBackDatedPolicyTD(DateTimeUtils.getCurrentDateTime().minusDays(10).format(DateTimeUtils.MM_DD_YYYY));
 	}
 
 	@Override
 	public TestData getBackDatedPolicyTD(String date) {
 		String effDateKey = TestData.makeKeyPath(new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), PolicyInformation.EFFECTIVE_DATE.getLabel());
-		return getPolicyTD().adjust(effDateKey, date).adjust(getPolicyTD(TestPolicyBackdated.class.getSimpleName(), "TestData").resolveLinks());
+		return getPolicyTD()
+				.adjust(effDateKey, date)
+				.adjust(getStateTestData(testDataManager.getDefault(TestPolicyBackdated.class), "TestData").resolveLinks());
 	}
 }

@@ -26,7 +26,7 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 * 3. Verify quote status is 'Premium Calculated'
 	 * @details
 	 */
-	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
+	//@Test(groups = { Groups.REGRESSION, Groups.HIGH })
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testQuoteCreation() {
 		super.testQuoteCreation();
@@ -42,7 +42,7 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 * 4. Verify policy status is 'Policy Active'
 	 * @details
 	 */
-	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
+	//@Test(groups = { Groups.REGRESSION, Groups.HIGH })
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testQuoteIssue() {
 		super.testQuoteIssue();
