@@ -123,12 +123,27 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		premiumsTab.calculatePremium(); 
 		
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		CustomAssert.enableSoftMode();
 		CustomAssert.assertFalse("Hail Resistive Rating is present in Rating Details", 
 				PremiumsAndCoveragesQuoteTab.RatingDetailsView.propertyInformation.getLabel("Hail Resistive Rating").isPresent());
 		CustomAssert.assertFalse("Hail zone flag is present in Rating Details", 
 				PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getLabel("Hail zone flag").isPresent());
 		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();	
+	}
+	
+	public static void verifyErrorForIneligibleRoofType(TestData td, ErrorEnum.Errors errorCode) {
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+		new PropertyInfoTab().fillTab(td);
+		
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
+		
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+		new BindTab().btnPurchase.click();
+		
+		ErrorTab errorTab = new ErrorTab(); 
+		errorTab.verify.errorPresent(errorCode);
+		errorTab.cancel();
 	}
 	
 	public static void verifyErrorOnBindForPropertyInfoTab(TestData td, ErrorEnum.Errors errorCode) {

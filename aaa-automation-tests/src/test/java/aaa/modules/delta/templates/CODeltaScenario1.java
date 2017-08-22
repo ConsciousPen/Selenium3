@@ -164,17 +164,17 @@ public class CODeltaScenario1 extends BaseTest {
 		
 		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)||getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
 			log.info("DELTA CO SC1: Roof Type 'Asphalt/Fiberglass' verification");
-			HssQuoteDataGatherHelper.verifyErrorOnBindForPropertyInfoTab(td_construction1, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO);
+			HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction1, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO);
 			
 			log.info("DELTA CO SC1: Roof Type 'Wood shingle/shake' verification");
-			HssQuoteDataGatherHelper.verifyErrorOnBindForPropertyInfoTab(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
+			HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
 			
 			log.info("DELTA CO SC1: Roof Type 'Builtup Tar & Gravel' verification");
-			HssQuoteDataGatherHelper.verifyErrorOnBindForPropertyInfoTab(td_construction3, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO);
+			HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction3, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO);
 		}
 		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
 			log.info("DELTA CO SC1: Roof Type 'Wood shingle/shake' verification");
-			HssQuoteDataGatherHelper.verifyErrorOnBindForPropertyInfoTab(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
+			HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
 		}
 		
 		HssQuoteDataGatherHelper.fillPropertyInfoTabWithCorrectData(td_eligibleData);
