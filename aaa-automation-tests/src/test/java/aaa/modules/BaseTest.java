@@ -130,12 +130,12 @@ public class BaseTest {
 		}
 	}
 
-	@AfterClass(alwaysRun = true)
+	/*@AfterClass(alwaysRun = true)
 	public void closeBrowser() {
 		if (isCiModeEnabled) {
 			closeAllApps();
 		}
-	}
+	}*/
 
 	@AfterSuite(alwaysRun = true)
 	public void afterSuite() {
