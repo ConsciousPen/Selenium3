@@ -133,7 +133,6 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
-			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
 			<class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
    		</classes>
     </test>
