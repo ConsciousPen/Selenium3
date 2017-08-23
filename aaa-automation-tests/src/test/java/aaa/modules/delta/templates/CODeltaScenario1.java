@@ -7,7 +7,7 @@ import java.util.Map;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.delta.QuoteDataGatherHelper;
+import aaa.helpers.delta.HssQuoteDataGatherHelper;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -126,13 +126,13 @@ public class CODeltaScenario1 extends BaseTest {
 		
 		String messageAdverselyImpacted = "Adversely Impacted was applied to the policy effective "+effectiveDate;
 		
-		QuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_Declined_with_Score700, "700");
+		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_Declined_with_Score700, "700");
 		
-		QuoteDataGatherHelper.verifyBestFRScoreApplied(td_Dissolution_with_Score700, "751", messageAdverselyImpacted); 
+		HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_Dissolution_with_Score700, "751", messageAdverselyImpacted); 
 		
-		QuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_IdentityTheft_with_Score800, "800"); 
+		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_IdentityTheft_with_Score800, "800"); 
 		
-		QuoteDataGatherHelper.verifyBestFRScoreApplied(td_IdentityTheft_with_Score999, "751", messageAdverselyImpacted);
+		HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_IdentityTheft_with_Score999, "751", messageAdverselyImpacted);
 
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
@@ -164,20 +164,20 @@ public class CODeltaScenario1 extends BaseTest {
 		
 		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)||getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
 			log.info("DELTA CO SC1: Roof Type 'Asphalt/Fiberglass' verification");
-			QuoteDataGatherHelper.verifyErrorOnBindForPropertyInfoTab(td_construction1, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO);
+			HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction1, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO);
 			
 			log.info("DELTA CO SC1: Roof Type 'Wood shingle/shake' verification");
-			QuoteDataGatherHelper.verifyErrorOnBindForPropertyInfoTab(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
+			HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
 			
 			log.info("DELTA CO SC1: Roof Type 'Builtup Tar & Gravel' verification");
-			QuoteDataGatherHelper.verifyErrorOnBindForPropertyInfoTab(td_construction3, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO);
+			HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction3, ErrorEnum.Errors.ERROR_AAA_HO_SS624530_CO);
 		}
 		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
 			log.info("DELTA CO SC1: Roof Type 'Wood shingle/shake' verification");
-			QuoteDataGatherHelper.verifyErrorOnBindForPropertyInfoTab(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
+			HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_construction2, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
 		}
 		
-		QuoteDataGatherHelper.fillPropertyInfoTabWithCorrectData(td_eligibleData);
+		HssQuoteDataGatherHelper.fillPropertyInfoTabWithCorrectData(td_eligibleData);
 		
 		PropertyInfoTab.buttonSaveAndExit.click();		
 		CustomAssert.assertAll();	

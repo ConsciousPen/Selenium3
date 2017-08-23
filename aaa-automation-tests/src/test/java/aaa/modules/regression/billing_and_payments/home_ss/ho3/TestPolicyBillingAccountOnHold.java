@@ -67,6 +67,7 @@ public class TestPolicyBillingAccountOnHold extends HomeSSHO3BaseTest {
 
 		//Step #10
 		ahaTab.fillTab(getTestSpecificTD("TestData_2"));
+		ahaTab.getAssetList().getAsset(BillingAccountMetaData.AddHoldActionTab.HOLD_TYPE).setValue("Cancellation"); //due to Ajax no ability to set multiple values for ListBox. So it is needed to set them manually
 		billingAccount.addHold().submit();
 
 		new BillingAccountPoliciesVerifier().setBillingStatus(BillingConstants.BillingStatus.ON_HOLD).verify(1);

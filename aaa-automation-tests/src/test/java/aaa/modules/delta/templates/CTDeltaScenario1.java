@@ -6,7 +6,7 @@ import java.util.Map;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.delta.QuoteDataGatherHelper;
+import aaa.helpers.delta.HssQuoteDataGatherHelper;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
@@ -30,12 +30,13 @@ public class CTDeltaScenario1 extends BaseTest {
 	protected String policyNumber;
 	protected String effectiveDate;
 	
-	public void TC01_createQuote(TestData td, String scenarioPolicyType) {
+	public void TC_createQuote(String scenarioPolicyType) {
+		TestData td = getTestSpecificTD("TestData");
 		policy = getPolicyType().get();
 		
-		mainApp().open();
-		
+		mainApp().open();		
         createCustomerIndividual();
+        
         policy.initiate();
         policy.getDefaultView().fillUpTo(td, BindTab.class, true); 
         BindTab.buttonSaveAndExit.click();
@@ -46,18 +47,17 @@ public class CTDeltaScenario1 extends BaseTest {
         effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue(); 		
 	}
 	
-	//public void TC02_verifyEndorsements() {}
+	//public void TC_verifyEndorsements() {}
 	
 	
-	public void TC02_verifyWindstormMitigationDiscount() {
-		mainApp().open(); 
-		
+	public void TC_verifyWindstormMitigationDiscount() {		
 		TestData td_WindstormMitigationYes = getTestSpecificTD("TestData_WindstormMitigationYes"); 
 		
 		Map<String, String> windstormMitigationDiscount_row = new HashMap<>();
 		windstormMitigationDiscount_row.put("Discount Category", "Safe Home");
 		windstormMitigationDiscount_row.put("Discounts Applied", "Windstorm Mitigation"); 
 		
+		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
 		
 		policy.dataGather().start();
@@ -107,7 +107,7 @@ public class CTDeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();		
 	}
 	
-	public void TC03_verifyELC() {		
+	public void TC_verifyELC() {		
 		TestData td_None_with_Score599 = getTestSpecificTD("TestData_None_with_Score599"); 
 		TestData td_Declined_with_Score999 = getTestSpecificTD("TestData_Declined_with_Score999"); 
 		TestData td_IdentityTheft_with_Score750 = getTestSpecificTD("TestData_IdentityTheft_with_Score750"); 
@@ -121,31 +121,25 @@ public class CTDeltaScenario1 extends BaseTest {
 		CustomAssert.enableSoftMode();		
 		GeneralTab generalTab = new GeneralTab();
 		generalTab.verifyFieldHasValue("Extraordinary Life Circumstance", "None"); 
-		
-		/*
-		verifyELCNotApplied(td_Declined_with_Score999, "999");
-		verifyELCNotApplied(td_IdentityTheft_with_Score750, "750");		
-		verifyELCApplied(td_MilitaryDeployment_with_Score599, "607");
-		verifyELCApplied(td_OtherEvents_with_Score999, "607");		
-		verifyELCNotApplied(td_None_with_Score599, "599");
-		*/
+
 		String messageOnReportsTab = "Extraordinary life circumstance was applied to the policy effective "+effectiveDate;
 		
-		QuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_Declined_with_Score999, "999"); 
-		QuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_IdentityTheft_with_Score750, "750");
+		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_Declined_with_Score999, "999"); 
+		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_IdentityTheft_with_Score750, "750");
 		
-		QuoteDataGatherHelper.verifyBestFRScoreApplied(td_MilitaryDeployment_with_Score599, "607", messageOnReportsTab);
-		QuoteDataGatherHelper.verifyBestFRScoreApplied(td_OtherEvents_with_Score999, "607", messageOnReportsTab);
+		HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_MilitaryDeployment_with_Score599, "607", messageOnReportsTab);
+		HssQuoteDataGatherHelper.verifyBestFRScoreApplied(td_OtherEvents_with_Score999, "607", messageOnReportsTab);
 		
-		QuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_None_with_Score599, "599");
+		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_None_with_Score599, "599");
 		
 		ReportsTab.buttonSaveAndExit.click();		
 		CustomAssert.assertAll();		
 	}
 	
-	public void TC04_purchasePolicy(TestData td, String scenarioPolicyType) {
-		mainApp().open(); 
+	public void TC_purchasePolicy(String scenarioPolicyType) {
+		TestData td = getTestSpecificTD("TestData");
 		
+		mainApp().open(); 		
 		SearchPage.openQuote(quoteNumber);
 		
 		policy.dataGather().start(); 
@@ -164,14 +158,17 @@ public class CTDeltaScenario1 extends BaseTest {
         log.info("DELTA CT SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);
 	}
 	
-	public void TC05_verifyODDPolicy() {} 
+	public void TC_verifyODDPolicy() {
+		//TODO add
+	} 
 	
-	
-	public void TC06_verifyCancelNoticeTab(TestData td_plus33days, TestData td_plus34days) {
+	public void TC_verifyCancelNoticeTab() {
+		TestData td_plus33days = getTestSpecificTD("TestData_Plus33Days");
+		TestData td_plus34days = getTestSpecificTD("TestData_Plus34Days");
+		
 		String er9931 = "Cancellation effective date must be at least 34 days from today when the policy is within the new business discovery period.";
 		
-		mainApp().open(); 
-		
+		mainApp().open(); 		
 		SearchPage.openPolicy(policyNumber);
 		
 		policy.cancelNotice().start(); 
@@ -196,49 +193,4 @@ public class CTDeltaScenario1 extends BaseTest {
 		PolicySummaryPage.labelCancelNotice.verify.present();
 		CustomAssert.assertAll();
 	}
-	
-/*
-	private void verifyELCNotApplied(TestData td, String scoreInRatingDetails) {
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get()); 
-		new GeneralTab().fillTab(td);
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get()); 
-		ReportsTab reportsTab = new ReportsTab(); 
-		reportsTab.fillTab(td);
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
-		
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		CustomAssert.assertTrue("FR Score value is wrong in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("FR Score").equals(scoreInRatingDetails));
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get()); 
-		reportsTab.lblELCMessage.verify.present(false);
-	}
-
-	private void verifyELCApplied(TestData td, String scoreInRatingDetails) {
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get()); 
-		new GeneralTab().fillTab(td);
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get()); 
-		ReportsTab reportsTab = new ReportsTab(); 
-		reportsTab.fillTab(td);
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
-		
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open(); 
-		CustomAssert.assertTrue("FR Score value is wrong in Rating Details", 
-				PremiumsAndCoveragesQuoteTab.RatingDetailsView.values.getValueByKey("FR Score").equals(scoreInRatingDetails));
-		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get()); 
-		CustomAssert.assertTrue("Extraordinary life circumstance is not applied on Reports Tab",
-				reportsTab.lblELCMessage.getValue().equals("Extraordinary life circumstance was applied to the policy effective "+effectiveDate));		
-	}
-	*/
 }

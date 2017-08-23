@@ -54,7 +54,6 @@ public abstract class PropertyQuoteTab extends Tab {
 
     public static Dollar getPolicyTermPremium() {
         return new Dollar(tableTotalPremiumSummary.getRow(1).getCell(tableTotalPremiumSummary.getColumnsCount()).getValue());
-        //return new Dollar(tblTotalPremiumSummary.getRow(1).getCell(tblTotalPremiumSummary.getColumnsCount()-2).getValue());
     }
 
     public static Dollar getPolicyDwellingPremium() {
@@ -151,7 +150,6 @@ public abstract class PropertyQuoteTab extends Tab {
             String label = this.locator + String.format(LOCATOR_TEMPLATE, key);
             return new StaticElement(By.xpath(label)).getValue();
         }
-
         public StaticElement getLabel(String key) {
             return new StaticElement(By.xpath(this.locator + String.format(LABEL_LOCATOR_TEMPLATE, key)));
         }

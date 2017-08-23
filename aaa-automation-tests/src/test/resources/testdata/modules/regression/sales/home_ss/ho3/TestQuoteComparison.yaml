@@ -1,0 +1,9 @@
+TestData: {
+    #'Select variation' : '',
+      'Coverage C': '150000',
+      'Coverage B Percent': '20%',
+      'Coverage D Percent': '40%',
+      'Coverage E': 'index=3',
+      'Coverage F': 'index=3',
+      'Deductible': '$2,000',
+}

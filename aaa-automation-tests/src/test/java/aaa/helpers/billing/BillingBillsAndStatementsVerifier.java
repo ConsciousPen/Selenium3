@@ -62,6 +62,8 @@ public class BillingBillsAndStatementsVerifier extends TableVerifier {
         return this;
     }
 
+    // ----- Verify methods -----
+
     public void verifyRowWithDueDate(LocalDateTime date) {
         Row row = getTable().getRow(BillingBillsAndStatmentsTable.DUE_DATE, date.format(DateTimeUtils.MM_DD_YYYY));
         for (Map.Entry<String, String> entry : values.entrySet()) {
@@ -69,8 +71,6 @@ public class BillingBillsAndStatementsVerifier extends TableVerifier {
             row.getCell(entry.getKey()).verify.value(message, entry.getValue());
         }
     }
-
-    // ----- Verify methods -----
 
     public void verifyBillGenerated(LocalDateTime installmentDate, LocalDateTime feesTransacionDate) {
         Dollar billAmount = BillingHelper.getInstallmentDueByDueDate(installmentDate);

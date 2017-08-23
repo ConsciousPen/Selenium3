@@ -20,7 +20,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.BaseTest;
+import aaa.modules.e2e.ScenarioBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
@@ -30,14 +30,13 @@ import toolkit.verification.CustomAssert;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class Scenario2 extends BaseTest {
+public class Scenario2 extends ScenarioBaseTest {
 
 	protected IPolicy policy;
 	protected TestData tdPolicy;
 	protected BillingAccount billingAccount = new BillingAccount();
 	protected TestData tdBilling = testDataManager.billingAccount;
 
-	protected String policyNum;
 	protected LocalDateTime policyEffectiveDate;
 	protected LocalDateTime policyExpirationDate;
 
@@ -289,26 +288,5 @@ public class Scenario2 extends BaseTest {
 		Dollar sum = BillingHelper.getPolicyRenewalProposalSum(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData"), sum);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
-	}
-
-	private void generateAndCheckBill(LocalDateTime installmentDate) {
-		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDate);
-		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
-		mainApp().open();
-		SearchPage.openBilling(policyNum);
-		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDate, billGenDate);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate)
-				.setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
-	}
-
-	private void payAndCheckBill(LocalDateTime installmentDueDate) {
-		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDate);
-		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		JobUtils.executeJob(Jobs.recurringPaymentsJob);
-		mainApp().open();
-		SearchPage.openBilling(policyNum);
-		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(installmentDueDate, BillingBillsAndStatmentsTable.MINIMUM_DUE));
-		new BillingPaymentsAndTransactionsVerifier().verifyAutoPaymentGenerated(DateTimeUtils.getCurrentDateTime(), minDue.negate());
 	}
 }

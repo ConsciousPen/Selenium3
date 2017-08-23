@@ -255,11 +255,11 @@ PropertyInfoTab_hailResistanceRating: {
   Construction: '@Construction_1',
 }
 
-TestData_RoofTypeUneligible: {
-  PropertyInfoTab: '@PropertyInfoTab_RoofTypeUneligible'
+TestData_IneligibleRoofType: {
+  PropertyInfoTab: '@PropertyInfoTab_IneligibleRoofType'
 }
 
-PropertyInfoTab_RoofTypeUneligible: {
+PropertyInfoTab_IneligibleRoofType: {
   Construction: '@Construction_2',
 }
 
