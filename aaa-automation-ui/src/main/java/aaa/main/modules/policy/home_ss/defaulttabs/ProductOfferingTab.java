@@ -12,6 +12,7 @@ import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -77,19 +78,11 @@ public class ProductOfferingTab extends Tab {
 	public static List<String> getIncludedEndorsementList(AssetDescriptor<ProductOfferingVariationControl> bundleName) {
 		ProductOfferingTab poTab = new ProductOfferingTab();
 		List<String> formIdList = new ArrayList<>();
-/*		int columnID = 0;
-		if (bundleName == HERITAGE)
-			columnID = 2;
-		else if (bundleName == LEGACY)
-			columnID = 3;
-		else if (bundleName == PRESTIGE)
-			columnID = 4;
-		else
-			log.info("bundleName is selected Incorrectly");*/
-		for (int i = 2; i < poTab.tableEndorsement.getRowsCount() - 1; i++) {
-			if (poTab.tableEndorsement.getRow(i).getCell("Plan: " + bundleName.getLabel()).getValue().equals("Included")
-					&& !(poTab.tableEndorsement.getRow(i).getCell("Endorsement").getValue().contains("only)")))
-				formIdList.add(poTab.tableEndorsement.getRow(i).getCell(1).getValue().split(" - ")[0]);
+		for (int i = 1; i <= poTab.tableEndorsement.getRowsCount(); i++) {
+			Row row = poTab.tableEndorsement.getRow(i);
+			if (row.getCell("Plan: " + bundleName.getLabel()).getValue().equals("Included") && !(row.getCell("Endorsement").getValue().contains("only)"))) {
+				formIdList.add(row.getCell(1).getValue().split(" - ")[0]);
+			}
 		}
 		return formIdList;
 	}
