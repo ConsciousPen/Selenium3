@@ -109,8 +109,8 @@ TestData_hailResistanceRating: {
   PropertyInfoTab: '@<delta_home_ss_ho3>@TestINDeltaScenario1@PropertyInfoTab_hailResistanceRating'
 }
 
-TestData_RoofTypeUneligible: {
-  PropertyInfoTab: '@<delta_home_ss_ho3>@TestINDeltaScenario1@PropertyInfoTab_RoofTypeUneligible'
+TestData_IneligibleRoofType: {
+  PropertyInfoTab: '@<delta_home_ss_ho3>@TestINDeltaScenario1@PropertyInfoTab_IneligibleRoofType'
 }
 
 

@@ -28,7 +28,8 @@ public class ORDeltaScenario1 extends BaseTest {
 	protected String quoteNumber;
 	protected String policyNumber;
 	
-	public void TC_createQuote(TestData td, String scenarioPolicyType) {
+	public void TC_createQuote(String scenarioPolicyType) {
+		TestData td = getTestSpecificTD("TestData");
 		policy = getPolicyType().get();
 		
 		mainApp().open();
@@ -136,7 +137,8 @@ public class ORDeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();
 	}
 	
-	public void TC_purchasePolicy(TestData td, String scenarioPolicyType) {
+	public void TC_purchasePolicy(String scenarioPolicyType) {
+		TestData td = getTestSpecificTD("TestData");
 		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();

@@ -4,7 +4,6 @@ import org.testng.annotations.Test;
 
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.delta.templates.ORDeltaScenario1;
-import toolkit.datax.TestData;
 
 public class TestORDeltaScenario1 extends ORDeltaScenario1 {
 
@@ -16,9 +15,8 @@ public class TestORDeltaScenario1 extends ORDeltaScenario1 {
 	}
 	
 	@Test
-	public void TC01_createQuote() {		
-		TestData td_sc1 = getTestSpecificTD("TestData");		
-		super.TC_createQuote(td_sc1, scenarioPolicyType);
+	public void TC01_createQuote() {				
+		super.TC_createQuote(scenarioPolicyType);
 	}
 	
 	@Test
@@ -37,9 +35,8 @@ public class TestORDeltaScenario1 extends ORDeltaScenario1 {
 	}
 	
 	@Test
-	public void TC05_purchasePolicy() {
-		TestData td_sc1 = getTestSpecificTD("TestData");	
-		super.TC_purchasePolicy(td_sc1, scenarioPolicyType);
+	public void TC05_purchasePolicy() {	
+		super.TC_purchasePolicy(scenarioPolicyType);
 	}
 
 }

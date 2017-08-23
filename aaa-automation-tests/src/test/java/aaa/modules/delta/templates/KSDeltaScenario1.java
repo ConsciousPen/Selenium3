@@ -32,11 +32,11 @@ public class KSDeltaScenario1 extends BaseTest {
 	protected String policyNumber;
 	protected String effectiveDate;
 	
-	public void TC01_createQuote(TestData td, String scenarioPolicyType) {
-		policy = getPolicyType().get();
+	public void TC_createQuote(String scenarioPolicyType) {
+		TestData td = getTestSpecificTD("TestData");
+		policy = getPolicyType().get();	
 		
-		mainApp().open();
-		
+		mainApp().open();		
         createCustomerIndividual();
         policy.initiate();
         policy.getDefaultView().fillUpTo(td, BindTab.class, true); 
@@ -48,7 +48,7 @@ public class KSDeltaScenario1 extends BaseTest {
         effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue(); 		
 	}
 	
-	public void TC02_verifyLOVsOfImmediatePriorCarrier() {
+	public void TC_verifyLOVsOfImmediatePriorCarrier() {
 		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
@@ -65,8 +65,8 @@ public class KSDeltaScenario1 extends BaseTest {
 		GeneralTab.buttonSaveAndExit.click();
 	}
 	
-	public void TC03_verifyEndorsements(TestData td_forms) {
-		mainApp().open();
+	public void TC_verifyEndorsementsTab() {
+		TestData td_add_Forms = getTestSpecificTD("TestData_add_Forms");
 		
 		Map<String, String> endorsement_HS0312 = new HashMap<>();
 		endorsement_HS0312.put("Form ID", "HS 03 12");
@@ -75,7 +75,8 @@ public class KSDeltaScenario1 extends BaseTest {
 		Map<String, String> endorsement_HS0493 = new HashMap<>(); 
 		endorsement_HS0493.put("Form ID", "HS 04 93"); 
 		endorsement_HS0493.put("Name", "Actual Cash Value - Windstorm Or Hail Losses"); 
-		
+
+		mainApp().open();
 		SearchPage.openQuote(quoteNumber);	
 		
 		policy.dataGather().start();
@@ -89,7 +90,7 @@ public class KSDeltaScenario1 extends BaseTest {
 			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312).verify.present();	
 			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present();
 			
-			endorsementTab.fillTab(td_forms);
+			endorsementTab.fillTab(td_add_Forms);
 			
 			endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312).verify.present();			
 			CustomAssert.assertTrue(endorsementTab.verifyLinkEditIsPresent("HS 03 12")); 
@@ -107,7 +108,7 @@ public class KSDeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();
 	}
 	
-	public void TC04_verifyELC() {		
+	public void TC_verifyELC() {		
 		TestData td_None_with_Score740 = getTestSpecificTD("TestData_None_with_Score740"); 
 		TestData td_Declined_with_Score999 = getTestSpecificTD("TestData_Declined_with_Score999"); 
 		TestData td_IdentityTheft_with_Score750 = getTestSpecificTD("TestData_IdentityTheft_with_Score750"); 
@@ -121,13 +122,7 @@ public class KSDeltaScenario1 extends BaseTest {
 		CustomAssert.enableSoftMode();		
 		GeneralTab generalTab = new GeneralTab();
 		generalTab.verifyFieldHasValue("Extraordinary Life Circumstance", "None"); 
-		
-		/*
-		verifyELCNotApplied(td_Declined_with_Score999, "999");
-		verifyELCNotApplied(td_IdentityTheft_with_Score750, "750");		
-		verifyELCApplied(td_MilitaryDeployment_with_Score740, "745");
-		verifyELCApplied(td_OtherEvents_with_Score999, "745");
-		*/
+
 		String messageOnReportsTab = "Extraordinary life circumstance was applied to the policy effective "+effectiveDate;
 		
 		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_Declined_with_Score999, "999"); 
@@ -144,14 +139,13 @@ public class KSDeltaScenario1 extends BaseTest {
 		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS7230342);
 		errorTab.cancel();
 		
-		//verifyELCNotApplied(td_None_with_Score740, "740");
 		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_None_with_Score740, "740"); 
 		
 		ReportsTab.buttonSaveAndExit.click();		
 		CustomAssert.assertAll();	
 	}
 	
-	public void TC05_verifyHailResistanceRating() {
+	public void TC_verifyHailResistanceRating() {
 		TestData td_hailResistanceRating = getTestSpecificTD("TestData_hailResistanceRating");
 		
 		mainApp().open();
@@ -171,12 +165,13 @@ public class KSDeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();	
 	}
 	
-	public void TC06_purchasePolicy(TestData td, String scenarioPolicyType) {
-		mainApp().open(); 
+	public void TC_purchasePolicy(String scenarioPolicyType) {
+		TestData td = getTestSpecificTD("TestData");
 		
-		SearchPage.openQuote(quoteNumber);	
-		policy.dataGather().start();
+		mainApp().open(); 		
+		SearchPage.openQuote(quoteNumber);
 		
+		policy.dataGather().start();		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
@@ -191,7 +186,7 @@ public class KSDeltaScenario1 extends BaseTest {
         log.info("DELTA KS SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);
 	}
 	
-	public void TC07_verifyODDPolicy() {
+	public void TC_verifyODDPolicy() {
 		//TODO add verification of On-Demand Documents tab and documents generation
 	}
 
