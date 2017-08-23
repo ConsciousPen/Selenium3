@@ -113,29 +113,21 @@ public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest {
 	}
 	
 	private void checkOverrideMsg() {
-		switch(getState()){
-		case "CT": 
-			errorTab.verify.errorPresent(Errors.ERROR_AAA_PUP_SS3171100);
-			errorTab.verify.errorPresent(Errors.ERROR_AAA_PUP_SS5310180);
-			errorTab.verify.errorPresent(Errors.ERROR_AAA_PUP_SS5310750);
-			break;
+		errorTab.verify.errorPresent(Errors.ERROR_AAA_PUP_SS5310180);
+		errorTab.verify.errorPresent(Errors.ERROR_AAA_PUP_SS5310750);
+
+		switch(getState()) {
+		case "CT":
 		case "KY":
 			errorTab.verify.errorPresent(Errors.ERROR_AAA_PUP_SS3171100);
-			errorTab.verify.errorPresent(Errors.ERROR_AAA_PUP_SS5310180);
-			errorTab.verify.errorPresent(Errors.ERROR_AAA_PUP_SS5310750);
 			break;
 		case "CA":
-			errorTab.verify.errorPresent(Errors.ERROR_AAA_PUP_SS5310180);
-			errorTab.verify.errorPresent(Errors.ERROR_AAA_PUP_SS5310750);
 			errorTab.verify.errorPresent(Errors.ERROR_AAA_PUP_SS5311428);
 			//TODO need to add "Residents holding one of the special occupations or holder of any elected or ..."
 			break;
 		default: 
 			errorTab.verify.errorPresent(Errors.ERROR_AAA_PUP_SS3171100);
-			errorTab.verify.errorPresent(Errors.ERROR_AAA_PUP_SS5310180);
-			errorTab.verify.errorPresent(Errors.ERROR_AAA_PUP_SS5310750);
 			errorTab.verify.errorPresent(Errors.ERROR_AAA_PUP_SS5311428);
 		}
-		
 	}
 }
