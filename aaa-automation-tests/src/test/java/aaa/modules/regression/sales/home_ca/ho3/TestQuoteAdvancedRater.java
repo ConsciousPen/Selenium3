@@ -69,7 +69,7 @@ public class TestQuoteAdvancedRater extends HomeCaHO3BaseTest {
 
     private void verifyPremiumChangeOf(AssetDescriptor<ComboBox> field) {
         String origValue = premiumsAndCoveragesQuoteTab.getAssetList().getAsset(field).getValue();
-        Dollar premiumChangeOf = new Dollar((origValue.substring(origValue.indexOf('+') + 1, origValue.indexOf(')'))).replace("$", ""));
+        Dollar premiumChangeOf = new Dollar((origValue.substring(origValue.indexOf('(') + 1, origValue.indexOf(')'))).replace("$", ""));
         premiumChangeOf.verify.equals(new Dollar(0));
     }
 
@@ -80,14 +80,14 @@ public class TestQuoteAdvancedRater extends HomeCaHO3BaseTest {
         else
             index--;
         String fieldValue = premiumsAndCoveragesQuoteTab.getAssetList().getAsset(field).getAllValues().get(index);
-        Dollar premiumChangeOf = new Dollar((fieldValue.substring(fieldValue.indexOf('+') + 1, fieldValue.indexOf(')'))).replace("$", ""));
+        Dollar premiumChangeOf = new Dollar((fieldValue.substring(fieldValue.indexOf('(') + 1, fieldValue.indexOf(')'))).replace("$", ""));
         premiumsAndCoveragesQuoteTab.getAssetList().getAsset(field).setValue(fieldValue);
 
         PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().verify.equals(new Dollar(0));
         premiumsAndCoveragesQuoteTab.calculatePremium();
 
         fieldValue = premiumsAndCoveragesQuoteTab.getAssetList().getAsset(field).getAllValues().get(index);
-        Dollar premiumNewChangeOf = new Dollar((fieldValue.substring(fieldValue.indexOf('+') + 1, fieldValue.indexOf(')'))).replace("$", ""));
+        Dollar premiumNewChangeOf = new Dollar((fieldValue.substring(fieldValue.indexOf('(') + 1, fieldValue.indexOf(')'))).replace("$", ""));
 
         return premiumChangeOf.subtract(premiumNewChangeOf);
     }
