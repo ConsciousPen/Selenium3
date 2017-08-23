@@ -1,0 +1,23 @@
+TestData_Percentage: {
+  PremiumAndCoveragesQuoteTab: {
+    OverridePremium: {
+      Remarks: 'Only Erich Maria Remarque',
+      Percentage: '-101'
+    }
+  }
+}
+
+TestData_Error: {
+  ErrorTab: '@ErrorTab',
+}
+
+ErrorTab: {
+   ErrorsOverride: [{
+    Message: "contains=Underwriting approval required for Liability Coverage limits greater than $1,000,000.",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   }]
+}
+

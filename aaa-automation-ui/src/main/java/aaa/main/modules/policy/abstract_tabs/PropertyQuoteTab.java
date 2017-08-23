@@ -31,7 +31,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 public abstract class PropertyQuoteTab extends Tab {
 
     public static Table tableEndorsementForms = new Table(By.id("policyDataGatherForm:formSummaryTable"));
-    public static Button btnOverridePremium = new Button(By.id("policyDataGatherForm:overridePremiumLinkHo"));
+    public static Button btnOverridePremium = new Button(By.xpath("//a[@id='policyDataGatherForm:overridePremiumLinkHo' or @id='policyDataGatherForm:overridePremiumLinkPup']"));
     public static Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalcCov"), Waiters.AJAX);
     public static Table tablePremiumSummary = new Table(By.id("policyDataGatherForm:riskItemPremiumInfoTable"));
     public static Table tableTotalPremiumSummary = new Table(By.id("policyDataGatherForm:totalSummaryTable"));
@@ -39,14 +39,15 @@ public abstract class PropertyQuoteTab extends Tab {
     public static Table tableDiscounts = new Table(By.id("policyDataGatherForm:discountInfoTable"));
     public static Link linkViewRatingDetails = new Link(By.id("policyDataGatherForm:ratingHODetailsPopup"), Waiters.AJAX);
     //	public static Table tableOverrideValues = new Table(By.xpath("//div[@id='coverage_information']/table[class='width100']"));
-    public static TextBox textBoxOverrideFlatAmount = new TextBox(By.id("premiumOverrideInfoFormAAAHOPremiumOverride:deltaPremiumAmt"), Waiters.AJAX);
-    public static TextBox textBoxOverridePercentageAmount = new TextBox(By.id("premiumOverrideInfoFormAAAHOPremiumOverride:percentageAmt"), Waiters.AJAX);
-    public static Dialog dialogOverridePremium = new Dialog(By.xpath("//form[@id='premiumOverrideInfoFormAAAHOPremiumOverride']"));
+    public static TextBox textBoxOverrideFlatAmount =  new TextBox(By.xpath("//input[@id='premiumOverrideInfoFormAAAHOPremiumOverride:deltaPremiumAmt' or @id='premiumOverrideInfoFormAAAPUPPremiumOverride:deltaPremiumAmt']"), Waiters.AJAX);
+	public static TextBox textBoxOverridePercentageAmount =  new TextBox(By.xpath("//input[@id='premiumOverrideInfoFormAAAHOPremiumOverride:percentageAmt' or @id='premiumOverrideInfoFormAAAPUPPremiumOverride:percentageAmt']"), Waiters.AJAX);
+	public static Dialog dialogOverridePremium= new Dialog(By.xpath("//form[@id='premiumOverrideInfoFormAAAHOPremiumOverride' or @id='premiumOverrideInfoFormAAAPUPPremiumOverride']"));
     public static Dialog dialogOverrideConfirmation = new Dialog(By.id("overrideModalConfirmationDialog_container"));
     public static StaticElement lblOverridenPremium = new StaticElement(
-            By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHOPreCovInfoMsg_body']/div[@class='buttonsBlockInline width100 noSurround neutral_background buttons alignLeft']"));
+            By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHOPreCovInfoMsg_body' or @id='policyDataGatherForm:componentView_AAAPUPPreCovInfoMsg_body']/div[@class='buttonsBlockInline width100 noSurround neutral_background buttons alignLeft']"));				
     public static StaticElement lblErrorMessage = new StaticElement(By.xpath("//span[@class='error_message']"));
     public static Button btnContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
+    public static Table tablePremiumOverrideadjustment = new Table(By.id("premiumOverrideInfoFormAAAPUPPremiumOverride:adjustment_info"));
 
     protected PropertyQuoteTab(Class<? extends MetaData> mdClass) {
         super(mdClass);
@@ -83,6 +84,9 @@ public abstract class PropertyQuoteTab extends Tab {
         return new Double(df.format((new Double(getOverridenPremiumFlatAmount().toPlaingString()) /
                 (new Double(getPolicyDwellingPremium().toPlaingString())) * 100)));
     }
+    public static Dollar getFinalTermPremium() {
+    	return new Dollar(tablePremiumOverrideadjustment.getRow(3).getCell(2).getValue());
+	}
 
     @Override
     public Tab fillTab(TestData td) {
@@ -114,7 +118,6 @@ public abstract class PropertyQuoteTab extends Tab {
         }
         return td;
     }
-
     protected String getPercentForValue(String returnValue) {
         String[] percentAndCoverage = returnValue.split("\\|");
         Double percent = Double.parseDouble(percentAndCoverage[0]);

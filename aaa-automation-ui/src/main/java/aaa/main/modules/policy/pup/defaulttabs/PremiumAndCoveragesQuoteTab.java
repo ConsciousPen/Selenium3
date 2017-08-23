@@ -49,4 +49,17 @@ public class PremiumAndCoveragesQuoteTab extends PropertyQuoteTab {
     public static Dollar getPolicyTermPremium() {
   		return new Dollar(tableTotalPremium.getRow(1).getCell(2).getValue());
       }
+    
+    @Override
+    protected TestData convertValue(TestData td) {
+        TestData tdCoverages = td.getTestData(getAssetList().getName()).getTestData(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.OVERRRIDE_PREMIUM_DIALOG.getLabel());
+        for (String key : tdCoverages.getKeys()) {
+            String value = tdCoverages.getValue(key);
+            if (value != null && value.contains("|")) {
+                value = getPercentForValue(value);
+                td.adjust(TestData.makeKeyPath(getAssetList().getName(), key), value);
+            }
+        }
+        return td;  	
+    }  
 }
