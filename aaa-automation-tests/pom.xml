@@ -23,8 +23,15 @@
         <testType>*</testType>
         <suitePath>src/test/resources/testsuites</suitePath>
         <packagePath>aaa.modules.regression</packagePath>
-
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.exigen.etcs</groupId>
+            <artifactId>aaa-automation-ui</artifactId>
+            <version>1.2-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <pluginManagement>
@@ -57,18 +64,10 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
-    <dependencies>
-        <dependency>
-            <groupId>com.exigen.etcs</groupId>
-            <artifactId>aaa-automation-ui</artifactId>
-            <version>1.2-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
-    <profiles>
 
+    <profiles>
         <profile>
             <id>suite</id>
             <activation>
