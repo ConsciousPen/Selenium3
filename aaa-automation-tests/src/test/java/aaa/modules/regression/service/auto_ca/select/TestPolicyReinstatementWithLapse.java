@@ -34,6 +34,7 @@ public class TestPolicyReinstatementWithLapse extends PolicyReinstatementWithLap
         return PolicyType.AUTO_CA_SELECT;
     }
     
+    //currently removed from suite - not sure if applicable? field "Reinstate Date:" is disabled
     @Override
     @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT )

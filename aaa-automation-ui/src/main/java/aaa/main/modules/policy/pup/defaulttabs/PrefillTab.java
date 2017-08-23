@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 
 import aaa.common.Tab;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
+import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
@@ -78,6 +79,10 @@ public class PrefillTab extends Tab {
 	public Link getAdditionalPoliciesChangeLink(int rowNum) {
 		return getAdditionalPoliciesRow(rowNum).getCell(8).controls.links.get("View/Edit", Waiters.AJAX);
 	}
+	
+	 public MultiInstanceAfterAssetList getNamedInsuredAssetList() {
+	    	return getAssetList().getAsset(PersonalUmbrellaMetaData.PrefillTab.NAMED_INSURED.getLabel(), MultiInstanceAfterAssetList.class);
+		}
 	
 	public TestData adjustWithRealPolicies(TestData td, Map<String, String> policies){
 		String pathToList = TestData.makeKeyPath(getMetaKey(), PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel());

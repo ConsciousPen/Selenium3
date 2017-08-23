@@ -24,6 +24,9 @@ public class UpdateCampaignActionTab extends ActionTab {
     public static Link linkCampaignSchedulingCollapsed = new Link(By.xpath("//div[text()='Campaign Scheduling' and contains(@class, 'colps')]"));
 
     public static Table tableCampaignRelationshipInfo = new Table(By.xpath("//div[@id='campaignRelationshipsChain']//table"));
+    /*public static String tableCampaignRelationshipInfo2 = "<body><h1>Hello world</h1></body>";
+    @Language("HTML")
+    String s = "";*/
 
     public UpdateCampaignActionTab() {
         super(CemMetaData.UpdateCampaignActionTab.class);
