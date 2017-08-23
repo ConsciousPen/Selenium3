@@ -20,7 +20,7 @@ import toolkit.utils.TestInfo;
  * 5. Verify that status of the copied Quote is "Gathering Info"
  * 6. Select "Data Gather" action and click Go button.
  * 7. Fill all mandatory fields and issue quote.
- * 8. Verify new policy is in Active satus.
+ * 8. Verify new policy is in Active status.
  */
 
 public class TestQuoteCreateAndCopy extends PersonalUmbrellaBaseTest {
