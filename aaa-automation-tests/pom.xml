@@ -1,6 +1,5 @@
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
     <artifactId>aaa-automation-tests</artifactId>
     <packaging>jar</packaging>
@@ -13,7 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <browser.pool.config>${browser.pool.path}/${browser.pool.name}</browser.pool.config>
+        <!--<browser.pool.config>${browser.pool.path}/${browser.pool.name}</browser.pool.config>-->
         <browser.pool.name>1ThBrowserPool.xml</browser.pool.name>
         <browser.pool.path>src/test/resources/config/browserpools</browser.pool.path>
         <timeshift.report.dir>target/test-output/timeshift-report</timeshift.report.dir>
@@ -24,10 +23,36 @@
         <testType>*</testType>
         <suitePath>src/test/resources/testsuites</suitePath>
         <packagePath>aaa.modules.regression</packagePath>
-
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.exigen.etcs</groupId>
+            <artifactId>aaa-automation-ui</artifactId>
+            <version>1.2-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.19.1</version>
+                    <configuration>
+                        <systemPropertyVariables>
+                            <browser.pool.name>${browser.pool.name}</browser.pool.name>
+                            <browser.pool.path>${browser.pool.path}</browser.pool.path>
+                            <browser.pool.config>${browser.pool.path}/${browser.pool.name}</browser.pool.config>
+                            <timeshift.report.dir>${timeshift.report.dir}</timeshift.report.dir>
+                        </systemPropertyVariables>
+                        <argLine>-Xmx1024m</argLine>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -39,29 +64,10 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19.1</version>
-                <configuration>
-                    <systemPropertyVariables>
-                        <browser.pool.config>${browser.pool.config}</browser.pool.config>
-                        <timeshift.report.dir>${timeshift.report.dir}</timeshift.report.dir>
-                    </systemPropertyVariables>
-                    <argLine>-Xmx1024m</argLine>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
-    <dependencies>
-        <dependency>
-            <groupId>com.exigen.etcs</groupId>
-            <artifactId>aaa-automation-ui</artifactId>
-            <version>1.2-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
-    <profiles>
 
+    <profiles>
         <profile>
             <id>suite</id>
             <activation>
@@ -72,7 +78,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.19.1</version>
                         <configuration>
                             <suiteXmlFiles>
                                 <suiteXmlFile>${suitePath}/${suiteFile}</suiteXmlFile>
@@ -87,17 +92,13 @@
 
         <profile>
             <id>select_pef</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.19.1</version>
                         <configuration>
-                         <parallel>methods</parallel>
+                            <parallel>methods</parallel>
                             <threadCount>1024</threadCount>
                             <properties>
                                 <property>
@@ -121,9 +122,6 @@
 
         <profile>
             <id>select_single</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <build>
                 <plugins>
                     <plugin>
