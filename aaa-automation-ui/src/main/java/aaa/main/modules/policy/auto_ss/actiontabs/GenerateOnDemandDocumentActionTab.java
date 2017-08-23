@@ -5,7 +5,11 @@
 package aaa.main.modules.policy.auto_ss.actiontabs;
 
 import aaa.common.ActionTab;
+import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import toolkit.webdriver.controls.Button;
+
+import static org.openqa.selenium.By.id;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -16,5 +20,15 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 public class GenerateOnDemandDocumentActionTab extends ActionTab {
     public GenerateOnDemandDocumentActionTab() {
         super(AutoSSMetaData.GenerateOnDemandDocumentActionTab.class);
+    }
+
+    Button buttonOk = new Button(id("policyDataGatherForm:generateDocLink"));
+    Button buttonCancel = new Button(id("policyDataGatherForm:adhocCancel"));
+    Button buttonPreviewDocuments = new Button(id("policyDataGatherForm:previewDocLink"));
+
+    @Override
+    public Tab submitTab() {
+        buttonOk.click();
+        return this;
     }
 }

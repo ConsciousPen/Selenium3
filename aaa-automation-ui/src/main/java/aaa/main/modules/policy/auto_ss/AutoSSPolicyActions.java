@@ -4,6 +4,7 @@
  */
 package aaa.main.modules.policy.auto_ss;
 
+import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import org.openqa.selenium.By;
 
 import toolkit.datax.TestData;
@@ -275,6 +276,12 @@ public final class AutoSSPolicyActions {
         @Override
         public Workspace getView() {
             return new GenerateOnDemandDocumentQuoteView();
+        }
+
+        @Override
+        public AbstractAction submit() {
+            getView().getTab(GenerateOnDemandDocumentActionTab.class).submitTab();
+            return this;
         }
     }
 

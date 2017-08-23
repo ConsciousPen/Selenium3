@@ -208,7 +208,7 @@ public class INDeltaScenario1 extends BaseTest {
 		new BindTab().btnPurchase.click();
 		
 		ErrorTab errorTab = new ErrorTab(); 
-		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
 		errorTab.cancel();
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());

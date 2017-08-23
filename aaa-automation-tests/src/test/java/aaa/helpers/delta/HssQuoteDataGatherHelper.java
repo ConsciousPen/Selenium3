@@ -142,7 +142,7 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		new BindTab().btnPurchase.click();
 		
 		ErrorTab errorTab = new ErrorTab(); 
-		errorTab.verify.errorPresent(errorCode);
+		errorTab.verify.errorsPresent(errorCode);
 		errorTab.cancel();
 	}
 	
@@ -158,7 +158,7 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		new BindTab().btnPurchase.click();
 		
 		ErrorTab errorTab = new ErrorTab(); 
-		errorTab.verify.errorPresent(errorCode);
+		errorTab.verify.errorsPresent(errorCode);
 		errorTab.cancel();
 	}
 	
