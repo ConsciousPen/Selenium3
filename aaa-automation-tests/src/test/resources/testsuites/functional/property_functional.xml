@@ -95,6 +95,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyRenewDeclineByCustomer" />
 			<class name="aaa.modules.regression.service.pup.TestPolicyRenewDeletePending" />
 			<class name="aaa.modules.regression.service.pup.TestPolicyRenewFlatCancellation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 			
 		</classes>
 	</test>
@@ -131,6 +132,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 
@@ -166,6 +168,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 
@@ -201,6 +204,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 
@@ -236,6 +240,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 
@@ -271,6 +276,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 
@@ -306,6 +312,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 
@@ -341,6 +348,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 
@@ -377,6 +385,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 <!--
@@ -451,6 +460,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 
@@ -487,6 +497,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 
@@ -523,6 +534,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 
@@ -559,6 +571,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 
@@ -595,6 +608,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 
@@ -631,6 +645,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 
@@ -667,6 +682,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 
@@ -703,6 +719,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 
@@ -739,6 +756,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 
@@ -775,6 +793,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 
@@ -811,6 +830,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 
@@ -847,6 +867,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 
@@ -883,6 +904,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 
@@ -920,6 +942,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAdvancedRater" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 		</classes>
 	</test>
 
