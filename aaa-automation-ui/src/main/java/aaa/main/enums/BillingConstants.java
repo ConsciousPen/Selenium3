@@ -109,6 +109,7 @@ public final class BillingConstants {
         public static final String FEE_PLUS_RESTRICTION = "Fee + Restriction";
         public static final String NO_FEE_NO_RESTRICTION = "No Fee + No Restriction";
         public static final String NO_FEE_NO_RESTRICTION_NO_LETTER = "No Fee + No Restriction + No Letter";
+        public static final String OVERPAYMENT = "Overpayment";
     }
 
     public static final class PaymentsAndOtherTransactionStatus {
@@ -118,10 +119,12 @@ public final class BillingConstants {
         public static final String TRANSFERRED = "Transferred";
         public static final String DECLINED = "Declined";
         public static final String ISSUED = "Issued";
+        public static final String PENDING = "Pending";
     }
 
     public static final class PaymentsAndOtherTransactionAction {
         public static final String DECLINE = "Decline";
+        public static final String TRANSFER = "Transfer";
     }
 
     public static final class AcceptPaymentMethod {
@@ -214,9 +217,9 @@ public final class BillingConstants {
 
     public static final class BillingPendingTransactionsTable {
         public static final String TRANSACTION_DATE = "Transaction Date";
-        public static final String EFF_DATE = "Effective Date";
+        public static final String EFFECTIVE_DATE = "Effective Date";
         public static final String TYPE = "Type";
-        public static final String SUBTYPE_REASON = "Subtype/Reason";
+        public static final String SUBTYPE = "Subtype";
         public static final String REASON = "Reason";
         public static final String AMOUNT = "Amount";
         public static final String STATUS = "Status";

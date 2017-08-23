@@ -18,7 +18,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.BaseTest;
+import aaa.modules.e2e.ScenarioBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
@@ -27,18 +27,15 @@ import toolkit.verification.CustomAssert;
 
 import java.io.File;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class Scenario3 extends BaseTest {
+public class Scenario3 extends ScenarioBaseTest {
 
 	protected IPolicy policy;
 	protected TestData tdPolicy;
 	protected BillingAccount billingAccount = new BillingAccount();
 	protected TestData tdBilling = testDataManager.billingAccount;
 
-	protected String policyNum;
 	protected LocalDateTime policyEffectiveDate;
 	protected LocalDateTime policyExpirationDate;
 
@@ -76,7 +73,7 @@ public class Scenario3 extends BaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.labelCancelNotice.verify.present();
+		PolicySummaryPage.verifyCancelNoticeFlagPresent();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		new BillingAccountPoliciesVerifier().setPolicyFlag(PolicyFlag.CANCEL_NOTICE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingBillsAndStatementsVerifier().setDueDate(getTimePoints().getCancellationTransactionDate(installmentDueDates.get(1)))
@@ -97,7 +94,8 @@ public class Scenario3 extends BaseTest {
 		TimeSetterUtil.getInstance().nextPhase(date.plusDays(5).with(DateTimeUtils.closestWorkingDay));
 		mainApp().open();
 		SearchPage.search(SearchFor.BILLING, SearchBy.POLICY_QUOTE, policyNum);
-		Dollar cnAmount = getCancellationNoticeDueAmount(installmentDueDates.get(1));
+		Dollar cnAmount = BillingHelper.getBillDueAmount(getTimePoints().getCancellationTransactionDate(installmentDueDates.get(1)),
+				BillsAndStatementsType.CANCELLATION_NOTICE);
 		File remitanceFile = RemittancePaymentsHelper.createRemittanceFile(getState(), policyNum, cnAmount, ExternalPaymentSystem.REGLKBX);
 		RemittancePaymentsHelper.copyRemittanceFileToServer(remitanceFile);
 	}
@@ -108,7 +106,8 @@ public class Scenario3 extends BaseTest {
 		JobUtils.executeJob(Jobs.remittanceFeedBatchReceiveJob);
 		mainApp().open();
 		SearchPage.search(SearchFor.BILLING, SearchBy.POLICY_QUOTE, policyNum);
-		Dollar cnAmount = getCancellationNoticeDueAmount(installmentDueDates.get(1));
+		Dollar cnAmount = BillingHelper.getBillDueAmount(getTimePoints().getCancellationTransactionDate(installmentDueDates.get(1)),
+				BillsAndStatementsType.CANCELLATION_NOTICE);
 
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(paymentDate).setAmount(cnAmount.negate())
 				.setType(PaymentsAndOtherTransactionType.PAYMENT).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.REGULUS_LOCKBOX)
@@ -198,7 +197,6 @@ public class Scenario3 extends BaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
-
 	}
 
 	public void TC13_Bind_Renew() {
@@ -216,32 +214,13 @@ public class Scenario3 extends BaseTest {
 		}
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.labelLapseExist.verify.present();
-		PolicySummaryPage.labelLapseExist.verify.value("Term includes a lapse period");
+		PolicySummaryPage.verifyLapseExistFlagPresent();
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
 		//TODO Possible problems with MD state, See QC 35220 for details.
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getPayLapsedRenewShort(policyExpirationDate))
-				.setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
-	}
-
-	private Dollar getCancellationNoticeDueAmount(LocalDateTime installmentDate) {
-		Map<String, String> values = new HashMap<>();
-		values.put(BillingBillsAndStatmentsTable.DUE_DATE, getTimePoints().getCancellationTransactionDate(installmentDate).format(DateTimeUtils.MM_DD_YYYY));
-		values.put(BillingBillsAndStatmentsTable.TYPE, BillsAndStatementsType.CANCELLATION_NOTICE);
-		return new Dollar(BillingSummaryPage.tableBillsStatements.getRow(values).getCell(BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
-	}
-
-	private void generateAndCheckBill(LocalDateTime installmentDate) {
-		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDate);
-		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
-		mainApp().open();
-		SearchPage.openBilling(policyNum);
-		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDate, billGenDate);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate)
 				.setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 }

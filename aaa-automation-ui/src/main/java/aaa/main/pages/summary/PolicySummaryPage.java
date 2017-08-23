@@ -112,6 +112,16 @@ public class PolicySummaryPage extends SummaryPage {
         return dateEffective;
     }
 
+    public static void verifyCancelNoticeFlagPresent() {
+        labelCancelNotice.verify.present("'Cancel Notice' flag is present");
+        labelCancelNotice.verify.value("Cancel Notice");
+    }
+
+    public static void verifyLapseExistFlagPresent() {
+        PolicySummaryPage.labelLapseExist.verify.present("Lapse period flag is present");
+        PolicySummaryPage.labelLapseExist.verify.value("Term includes a lapse period");
+    }
+
     public static class TransactionHistory {
         public static LocalDateTime getEffectiveDate() {
             return getEffectiveDate(1);
