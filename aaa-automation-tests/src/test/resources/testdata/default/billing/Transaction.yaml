@@ -1,0 +1,15 @@
+TestData_Fee: {
+  OtherTransactionsActionTab: {
+    Transaction Type: Fee,
+    Transaction Subtype: Prior term premium,
+    Amount: 50
+  }
+}
+
+TestData_WriteOff: {
+  OtherTransactionsActionTab: {
+    Transaction Type: Adjustment,
+    Transaction Subtype: Write-off,
+    Amount: -100
+  }
+}

@@ -1,22 +1,21 @@
 TestData: {
-  GeneralPolicyTab: {},
-  InsuredContactInfoTab: {},
-  InsuredEmploymentTab: {},
-  PolicyUnderwritingCoveragesTab: {},
-  PolicyUnderwritingRatingInfoTab: {},
-  ResidentDriverDriverInfoIdentificationTab: {},
-  ResidentDriverDriverInfoEmploymentTab: {},
-  ResidentDriverReportsTab: {},
-  ResidentDriverInfractionsTab: {},
-  ResidentDriverUnderwritingTab: {},
-  ResidentDriverSR22Tab: {},
-  VehicleVehInfoTab: {},
-  VehicleCoveragesTab: {
-    Rental Reimbursement Coverage: '$125/$2,500',
-  },
-  VehicleGaragingRegOwnerTab: {},
-  VehicleAssignmentTab: {},
-  VehicleAddInterestTab: {},
-  VehicleUnderwritingTab: {},
-  VehiclePremiumTab: {},
+  GeneralTab: '@GeneralTab',
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {Bodily Injury Liability: 'contains=$500,000/$1,000,000'},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+# ------------- Tabs ----------
+
+GeneralTab: {
+  NamedInsuredInformation: {},
+  AAAProductOwned: {},
+  PolicyInformation: {
+    Authorized by: QA
+   }
 }

@@ -224,5 +224,12 @@
 			<artifactId>snakeyaml</artifactId>
 			<version>1.18</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>annotations</artifactId>
+			<optional>true</optional>
+			<version>2.0.3</version>
+		</dependency>
 	</dependencies>
 </project>

@@ -13,6 +13,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
@@ -41,11 +42,12 @@ import java.util.Collections;
  * 10. Verify dropdown visible
  * @details
  */
+@Test(groups = {Groups.DELTA, Groups.HIGH})
 public class TestDeltaScenario1 extends AutoSSBaseTest {
 	private String quoteNumber;
 	private DriverTab driverTab = new DriverTab();
 	private PremiumAndCoveragesTab pacTab = new PremiumAndCoveragesTab();
-	GeneralTab gTab = new GeneralTab();
+	private GeneralTab gTab = new GeneralTab();
 	private MultiInstanceBeforeAssetList aiAssetList = driverTab.getActivityInformationAssetList();
 
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
@@ -104,7 +106,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	 * 6. Verify Dropdown Values in Driver tab
 	 * @details
 	 */
-	@Test(groups = {Groups.DELTA, Groups.HIGH})
+	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	public void testSC1_TC02() {
 		preconditions(NavigationEnum.AutoSSTab.DRIVER);
@@ -150,7 +152,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	 * 13. Remove activity information, verify that 'List of Activity Information' table gets empty
 	 * @details
 	 */
-	@Test(groups = {Groups.DELTA, Groups.HIGH})
+	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	public void testSC1_TC03() {
 		preconditions(NavigationEnum.AutoSSTab.DRIVER);
@@ -192,7 +194,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	 * @author Dmitry Chubkov
 	 * @name CO_SC1_TC04
 	 */
-	@Test(groups = {Groups.DELTA, Groups.HIGH})
+	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	public void testSC1_TC04() {
 		VehicleTab vTab = new VehicleTab();
@@ -217,7 +219,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	 * @author Dmitry Chubkov
 	 * @name CO_SC1_TC05
 	 */
-	@Test(groups = {Groups.DELTA, Groups.HIGH})
+	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	public void testSC1_TC05() {
 		preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
@@ -240,7 +242,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	 * @author Dmitry Chubkov
 	 * @name CO_SC1_TC06
 	 */
-	@Test(groups = {Groups.DELTA, Groups.HIGH})
+	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	public void testSC1_TC06() {
 		ErrorTab errorTab = new ErrorTab();
@@ -258,7 +260,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		errorTab.overrideError(ErrorEnum.Errors.ERROR_200103, ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.TEMPORARY_ISSUE);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
-		StaticElement warningMessage = new StaticElement(By.id("policyDataGaАtherForm:warningMessage"));
+		StaticElement warningMessage = new StaticElement(By.id("policyDataGatherForm:warningMessage"));
 		warningMessage.verify.value(String.format("Adversely Impacted was applied to the policy effective %s.", QuoteDataGatherPage.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY)));
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
@@ -269,7 +271,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		PremiumAndCoveragesTab.buttonCalculatePremium.click();
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		CustomAssert.assertEquals(pacTab.getRatingDetailsQuoteInfoData().getValue("Adversely Impacted Applied"), "No");
-		gTab.submitTab();
+		pacTab.submitTab();
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
 		warningMessage.verify.present(false);
@@ -284,6 +286,31 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		Tab.buttonSaveAndExit.click();
 	}
 
+	/**
+	 * @author Dmitry Chubkov
+	 * @name CO_SC1_TC07
+	 */
+	@Test
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
+	public void testSC1_TC07() {
+		preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
+		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.FULL_SAFETY_GLASS).verify.value("No Coverage");
+		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.SPECIAL_EQUIPMENT_COVERAGE).verify.value(new Dollar(1500).toString());
+
+		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE).setValueByRegex("No Coverage.*");
+		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE).verify.value("$250  (+$0.00)");
+
+		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE).setValueByRegex("\\$250.*");
+		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE).verify.present(false);
+
+		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_PAYMENTS).setValueByRegex("No Coverage.*");
+		PremiumAndCoveragesTab.buttonCalculatePremium.click();
+		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_SAVINGS_OPTIONS).setValue("Yes");
+		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.MOTORCYCLE).verify.present(false);
+		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_SAVINGS_OPTIONS).setValue("No");
+
+		Tab.buttonSaveAndExit.click();
+	}
 
 	private void preconditions(NavigationEnum.AutoSSTab navigateTo) {
 		mainApp().open();

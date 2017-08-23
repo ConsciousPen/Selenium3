@@ -165,7 +165,7 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
         //  3.  Verify an eligibility error if Year built < 1900
         String yearBuilt = propertyInfoTab.getConstructionAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel(), TextBox.class).getValue();
         propertyInfoTab.getConstructionAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel(), TextBox.class).setValue("1899");
-        goToBindAndVerifyError(Errors.ERORR_AAA_HO_CA7220104);
+        goToBindAndVerifyError(Errors.ERROR_AAA_HO_CA7220104);
         propertyInfoTab.getConstructionAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel(), TextBox.class).setValue(yearBuilt);
 
         //  4.  Verify an eligibility error if there is one liability loss claim

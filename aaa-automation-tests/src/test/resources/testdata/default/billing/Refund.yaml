@@ -4,3 +4,10 @@ TestData_Cash: {
     Amount: 100
   }
 }
+
+TestData_Check: {
+  RefundActionTab: {
+    Payment Method: 'Check',
+    Amount: 1000
+  }
+}
