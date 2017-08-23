@@ -4,6 +4,7 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.actiontabs.EndorsementActionTab;
 import aaa.modules.e2e.templates.Scenario4;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 
@@ -22,6 +23,9 @@ public class TestScenario4 extends Scenario4 {
 		
 		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData")
 				.adjust(getTestSpecificTD("TestData").resolveLinks());
+
+		cashOverpaymentLow = new Dollar(499.99);
+		cashOverpaymentHigh = new Dollar(500);
 		
 		super.createTestPolicy(policyCreationTD);
 	}

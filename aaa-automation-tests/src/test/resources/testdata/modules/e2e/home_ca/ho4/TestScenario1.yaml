@@ -5,4 +5,22 @@ TestData: {
   PurchaseTab: '@<home_ca_ho3>@DataGather@PurchaseTab_WithAutopay'
 }
 
-TestData_Endorsement: '@ho3@TestScenario1@TestData_Endorsement'
+TestData_Endorsement: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+      'Personal property value': '35000'
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage D - Loss of Use limit: '10000'
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
