@@ -289,7 +289,7 @@ public class BaseTest {
 	 * product, it is suggested to login, create/open customer first, then use
 	 * this method to get policy num.
 	 */
-	protected Map<String, String> getPrimaryPoliciesForPup() {
+	protected final Map<String, String> getPrimaryPoliciesForPup() {
 		//EntitiesHolder.addNewEntity(EntitiesHolder.makeDefaultPolicyKey(PolicyType.HOME_SS_HO3,
 		//getState()), "COH3927438929");
 		if (!NavigationPage.isMainTabSelected(AppMainTabs.CUSTOMER.get())) {
