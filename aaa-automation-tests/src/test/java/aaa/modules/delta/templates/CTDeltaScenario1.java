@@ -1,5 +1,6 @@
 package aaa.modules.delta.templates;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class CTDeltaScenario1 extends BaseTest {
 		mainApp().open();		
         createCustomerIndividual();
         
-        policy.initiate();
+        policy.initiate();        
         policy.getDefaultView().fillUpTo(td, BindTab.class, true); 
         BindTab.buttonSaveAndExit.click();
         
@@ -47,8 +48,19 @@ public class CTDeltaScenario1 extends BaseTest {
         effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue(); 		
 	}
 	
-	//public void TC_verifyEndorsements() {}
+	public void TC_verifyLOVsOfImmediatePriorCarrier() {
+		mainApp().open(); 
+		SearchPage.openQuote(quoteNumber);	
+		policy.dataGather().start();
+		
+		CustomAssert.enableSoftMode();
+		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrier(immediatePriorCarrierLOVs);
+		
+		GeneralTab.buttonSaveAndExit.click();
+		CustomAssert.assertAll();
+	}
 	
+	//public void TC_verifyEndorsements() {}	
 	
 	public void TC_verifyWindstormMitigationDiscount() {		
 		TestData td_WindstormMitigationYes = getTestSpecificTD("TestData_WindstormMitigationYes"); 
@@ -192,5 +204,48 @@ public class CTDeltaScenario1 extends BaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.labelCancelNotice.verify.present();
 		CustomAssert.assertAll();
+	}
+	
+	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<String>();
+	static {
+		immediatePriorCarrierLOVs.add("21st Century");
+		immediatePriorCarrierLOVs.add("AAA-Michigan (ACG)");
+		immediatePriorCarrierLOVs.add("AAA-NoCal (CSAA IG) Rewrite");
+		immediatePriorCarrierLOVs.add("AAA-NoCal (CSAA IG) Sold/Bought");
+		immediatePriorCarrierLOVs.add("AAA-SoCal (ACSC)");
+		immediatePriorCarrierLOVs.add("Allied");
+		immediatePriorCarrierLOVs.add("Allstate");
+		immediatePriorCarrierLOVs.add("American Family");
+		immediatePriorCarrierLOVs.add("American Modern");
+		immediatePriorCarrierLOVs.add("American National");
+		immediatePriorCarrierLOVs.add("Amica");
+		immediatePriorCarrierLOVs.add("Andover");
+		immediatePriorCarrierLOVs.add("Chartis");
+		immediatePriorCarrierLOVs.add("CSE Safeguard");
+		immediatePriorCarrierLOVs.add("Farm Bureau");
+		immediatePriorCarrierLOVs.add("Farmers");
+		immediatePriorCarrierLOVs.add("Fire Insurance");
+		immediatePriorCarrierLOVs.add("First Time Homebuyer");
+		immediatePriorCarrierLOVs.add("Foremost");
+		immediatePriorCarrierLOVs.add("Hanover");
+		immediatePriorCarrierLOVs.add("Hartford");
+		immediatePriorCarrierLOVs.add("Homesite");
+		immediatePriorCarrierLOVs.add("Liberty Mutual");
+		immediatePriorCarrierLOVs.add("Metropolitan");
+		immediatePriorCarrierLOVs.add("Middlesex Mutual");
+		immediatePriorCarrierLOVs.add("Nationwide");
+		immediatePriorCarrierLOVs.add("New London County");
+		immediatePriorCarrierLOVs.add("No Prior Insurance");
+		immediatePriorCarrierLOVs.add("Other Carriers");
+		immediatePriorCarrierLOVs.add("Owners Insurance");
+		immediatePriorCarrierLOVs.add("Refusal");
+		immediatePriorCarrierLOVs.add("SafeCo");
+		immediatePriorCarrierLOVs.add("State Farm");
+		immediatePriorCarrierLOVs.add("Tower Insurance");
+		immediatePriorCarrierLOVs.add("Travelers");
+		immediatePriorCarrierLOVs.add("Unigard");
+		immediatePriorCarrierLOVs.add("Union Mutual");
+		immediatePriorCarrierLOVs.add("USAA");
+		immediatePriorCarrierLOVs.add("Vermont Mutual");		
 	}
 }

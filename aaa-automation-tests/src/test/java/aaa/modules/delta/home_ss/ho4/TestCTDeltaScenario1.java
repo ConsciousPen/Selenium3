@@ -20,25 +20,30 @@ public class TestCTDeltaScenario1 extends CTDeltaScenario1 {
 	}
 
 	@Test
-	public void TC02_verifyWindstormMitigationDiscount() {
+	public void TC02_verifyLOVsOfImmediatePriorCarrier() {
+		super.TC_verifyLOVsOfImmediatePriorCarrier();
+	}
+	
+	@Test
+	public void TC03_verifyWindstormMitigationDiscount() {
 		super.TC_verifyWindstormMitigationDiscount();
 	}
 	
 	@Test
-	public void TC03_verifyELC() {
+	public void TC04_verifyELC() {
 		super.TC_verifyELC();
 	}
 	
 	@Test
-	public void TC04_purchasePolicy() {
+	public void TC05_purchasePolicy() {
 		super.TC_purchasePolicy(scenarioPolicyType);
 	}
 	
 	@Test
-	public void TC05_verifyODDPolicy() {} 
+	public void TC06_verifyODDPolicy() {} 
 	
 	@Test
-	public void TC06_verifyCancelNoticeTab() {
+	public void TC07_verifyCancelNoticeTab() {
 		super.TC_verifyCancelNoticeTab();
 	}
 }

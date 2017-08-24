@@ -1,6 +1,6 @@
 package aaa.modules.delta.templates;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +10,6 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.delta.HssQuoteDataGatherHelper;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
-import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
@@ -27,7 +26,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.ComboBox;
 
 public class INDeltaScenario1 extends BaseTest { 
 	
@@ -55,15 +53,11 @@ public class INDeltaScenario1 extends BaseTest {
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
-		GeneralTab generalTab = new GeneralTab();
-		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER.getLabel(), ComboBox.class).verify.options(
-				Arrays.asList("AAA-Michigan (ACG)", "AAA-NoCal (CSAA IG) Rewrite", "AAA-NoCal (CSAA IG) Sold/Bought", "AAA-SoCal (ACSC)", "Allied", 
-						"Allstate", "Amco Ins Co", "American Family", "American Modern", "American National", "Auto Owners", "Chartis", "Cincinnati", 
-						"Farmers", "Foremost", "Hartford", "Homesite", "IDS", "Kemper", "Liberty Mutual", "Metropolitan", "Nationwide", "No Prior", 
-						"Other Carrier", "Owners Insurance", "Pacific Indemnity", "SafeCo", "Sentinel Insurance", "Standard Guaranty", 
-						"State Farm", "Travelers", "USAA", "None")); 
+		CustomAssert.enableSoftMode();
+		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrier(immediatePriorCarrierLOVs);
 		
 		GeneralTab.buttonSaveAndExit.click();
+		CustomAssert.assertAll();
 	}
 	
 	public void TC_verifyEndorsementsTab() {
@@ -246,4 +240,41 @@ public class INDeltaScenario1 extends BaseTest {
 		//TODO verify On-Demand Documents generation
 	}
 
+	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<String>();
+	static {
+		immediatePriorCarrierLOVs.add("AAA-Michigan (ACG)");
+		immediatePriorCarrierLOVs.add("AAA-NoCal (CSAA IG) Rewrite");
+		immediatePriorCarrierLOVs.add("AAA-NoCal (CSAA IG) Sold/Bought");
+		immediatePriorCarrierLOVs.add("AAA-SoCal (ACSC)");
+		immediatePriorCarrierLOVs.add("Allied");
+		immediatePriorCarrierLOVs.add("Allstate");
+		immediatePriorCarrierLOVs.add("Amco Ins Co");
+		immediatePriorCarrierLOVs.add("American Family");
+		immediatePriorCarrierLOVs.add("American Modern");
+		immediatePriorCarrierLOVs.add("American National");
+		immediatePriorCarrierLOVs.add("Auto Owners");
+		immediatePriorCarrierLOVs.add("Chartis");
+		immediatePriorCarrierLOVs.add("Cincinnati");
+		immediatePriorCarrierLOVs.add("Farmers");
+		immediatePriorCarrierLOVs.add("Foremost");
+		immediatePriorCarrierLOVs.add("Hartford");
+		immediatePriorCarrierLOVs.add("Homesite");
+		immediatePriorCarrierLOVs.add("IDS");
+		immediatePriorCarrierLOVs.add("Kemper");
+		immediatePriorCarrierLOVs.add("Liberty Mutual");
+		immediatePriorCarrierLOVs.add("Metropolitan");
+		immediatePriorCarrierLOVs.add("Nationwide");
+		immediatePriorCarrierLOVs.add("No Prior");
+		immediatePriorCarrierLOVs.add("Other Carrier");
+		immediatePriorCarrierLOVs.add("Owners Insurance");
+		immediatePriorCarrierLOVs.add("Pacific Indemnity");
+		immediatePriorCarrierLOVs.add("SafeCo");
+		immediatePriorCarrierLOVs.add("Sentinel Insurance");
+		immediatePriorCarrierLOVs.add("Standard Guaranty");
+		immediatePriorCarrierLOVs.add("State Farm");
+		immediatePriorCarrierLOVs.add("Travelers");
+		immediatePriorCarrierLOVs.add("USAA");
+		immediatePriorCarrierLOVs.add("None");
+	}
+	
 }

@@ -19,35 +19,40 @@ public String scenarioPolicyType = "DP3";
 		super.TC_createQuote(scenarioPolicyType);
 	}
 
+	@Test
+	public void TC02_verifyLOVsOfImmediatePriorCarrier() {
+		super.TC_verifyLOVsOfImmediatePriorCarrier();
+	}
+	
 	/*
 	@Test
-	public void TC02_verifyEndorsementsTab() {
+	public void TC03_verifyEndorsementsTab() {
 		super.TC_verifyEndorsementsTab();
 	}
 	*/
 	
 	@Test
-	public void TC03_verifyQuoteODD() {
+	public void TC04_verifyQuoteODD() {
 		super.TC_verifyQuoteODD();
 	}
 	
 	@Test
-	public void TC04_verifyAdverselyImpacted() {
+	public void TC05_verifyAdverselyImpacted() {
 		super.TC_verifyAdverselyImpacted();
 	}
 	
 	@Test
-	public void TC05_verifyIneligibleRoofType() {
+	public void TC06_verifyIneligibleRoofType() {
 		super.TC_verifyIneligibleRoofType();
 	}
 	
 	@Test
-	public void TC06_purchasePolicy() {
+	public void TC07_purchasePolicy() {
 		super.TC_purchasePolicy(scenarioPolicyType);
 	}
 	
 	@Test
-	public void TC07_verifyPolicyODD() {
+	public void TC08_verifyPolicyODD() {
 		super.TC_verifyPolicyODD();
 	}
 }

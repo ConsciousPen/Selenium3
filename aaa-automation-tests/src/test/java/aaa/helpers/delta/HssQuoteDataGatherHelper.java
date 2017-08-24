@@ -1,5 +1,7 @@
 package aaa.helpers.delta;
 
+import java.util.ArrayList;
+
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.ErrorEnum;
@@ -13,8 +15,21 @@ import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.ComboBox;
 
 public class HssQuoteDataGatherHelper extends BaseTest {
+	
+	public static void verifyLOVsOfImmediatePriorCarrier(ArrayList<String> optionsOfImmediatePriorCarrier) {
+		GeneralTab generalTab = new GeneralTab();
+		ComboBox immediatePriorCarrier = generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER.getLabel(), ComboBox.class); 
+		verifyLOVs(immediatePriorCarrier, optionsOfImmediatePriorCarrier, "Immediate Prior Carrier");
+	}
+	
+	public static void verifyLOVs(ComboBox nameComboBox, ArrayList<String> options, String comboBoxName){
+		for (String i: options){
+			CustomAssert.assertTrue("Option "+i+" is not in "+comboBoxName+" combo box", nameComboBox.isOptionPresent(i));
+		}
+	}
 	
 	public static void verifyBestFRScoreNotApplied(TestData td, String scoreInRatingDetails) {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get()); 
