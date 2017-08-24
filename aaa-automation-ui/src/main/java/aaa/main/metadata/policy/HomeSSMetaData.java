@@ -1166,6 +1166,8 @@ public final class HomeSSMetaData {
 		public static final AssetDescriptor<MultiInstanceAfterAssetList> ADDITIONAL_INTEREST = declare("AdditionalInterest", MultiInstanceAfterAssetList.class, AdditionalInterest.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHOAdditionalInterest']"));
 		public static final AssetDescriptor<RadioGroup> IS_THERE_ANY_THIRD_PARTY_DESIGNEE = declare("Is there any third party designee?", RadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<AssetList> THIRD_PARTY_DESIGNEE = declare("ThirdPartyDesignee", AssetList.class, ThirdPartyDesignee.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAThirdPartyDesignee']"));
+		public static final AssetDescriptor<RadioGroup> IS_THERE_A_CERTIFICATE_HOLDER = declare("Is there a certificate holder?", RadioGroup.class, Waiters.AJAX);
+		public static final AssetDescriptor<AssetList> CERTIFICATE_HOLDERS = declare("CertificateHolders", AssetList.class, CertificateHolders.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHOCertificateHolders']"));
 
 		public static final class MortgageeInformation extends MetaData {
 			public static final AssetDescriptor<TextBox> NAME = declare("Name", TextBox.class, Waiters.AJAX);
@@ -1223,6 +1225,15 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.AJAX);
+		}
+
+		public static final class CertificateHolders extends MetaData {
+			public static final AssetDescriptor<TextBox> NAME = declare("Name", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street Address 1", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street Address 2", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.AJAX);
 		}

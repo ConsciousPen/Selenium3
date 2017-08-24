@@ -34,6 +34,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison" />
 
 			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreationFull"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreationFull"/>
 			<class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreation"/>
