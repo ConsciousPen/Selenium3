@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import aaa.common.enums.Constants;
-import aaa.modules.BaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
@@ -18,7 +16,6 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.composite.table.Row;
 
 public final class BillingHelper {
@@ -105,55 +102,6 @@ public final class BillingHelper {
 		values.put(BillingBillsAndStatmentsTable.TYPE, billType);
 		return new Dollar(BillingSummaryPage.tableBillsStatements.getRow(values).getCell(BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
 	}
-
-	public static void verifyRenewOfferGenerated(LocalDateTime date, List<LocalDateTime> installmentDates) {
-		BillingSummaryPage.showPriorTerms();
-
-		CustomAssert.enableSoftMode();
-		for (int i = 1; i < installmentDates.size(); i++) { //Do not include Deposit bill
-			new BillingInstallmentsScheduleVerifier().setDescription(InstallmentDescription.INSTALLMENT)
-					.setInstallmentDueDate(installmentDates.get(i).plusYears(1)).verifyPresent();
-		}
-		new BillingBillsAndStatementsVerifier().setType(BillsAndStatementsType.OFFER).verifyPresent(false);
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
-	}
-
-	/**
-	 * @param expirationDate - original policy expiration date
-	 * @param renewOfferDate - Renew generate offer date
-	 * @param billGenDate - Bill generation date
-	 * @param installmentsCount:
-	 * MONTHLY_STANDARD or ELEVEN_PAY: 11 installments
-	 * QUARTERLY: 4 installments
-	 * SEMI_ANNUAL: 2 installments
-	 * PAY_IN_FULL or ANNUAL: 1 installment
-	 */
-	public static void verifyRenewalOfferPaymentAmount(LocalDateTime expirationDate, LocalDateTime renewOfferDate, LocalDateTime billGenDate, Integer installmentsCount) {
-		BillingSummaryPage.showPriorTerms();
-		Dollar fullAmount = getPolicyRenewalProposalSum(renewOfferDate);
-		//Get fees for both CA and non-CA states
-		Dollar fee = getFeesValue(renewOfferDate).add(getFeesValue(billGenDate));
-
-		Dollar expOffer = calculateFirstInstallmentAmount(fullAmount, installmentsCount).add(fee);
-		if (BaseTest.getState().equals(Constants.States.CA)) {
-			new BillingBillsAndStatementsVerifier().setType(BillsAndStatementsType.OFFER)
-					.setDueDate(expirationDate).setMinDue(expOffer).verifyPresent();
-		} else {
-			new BillingBillsAndStatementsVerifier().setType(BillsAndStatementsType.BILL)
-					.setDueDate(expirationDate).setMinDue(expOffer).verifyPresent();
-		}
-	}
-
-	public static void verifyRenewPremiumNotice(LocalDateTime renewDate, LocalDateTime billGenerationDate) {
-		BillingSummaryPage.showPriorTerms();
-		Dollar billAmount = getInstallmentDueByDueDate(renewDate).add(getFeesValue(billGenerationDate));
-		new BillingBillsAndStatementsVerifier().setType(BillsAndStatementsType.BILL).verifyRowWithDueDate(renewDate);
-		if (!BaseTest.getState().equals(Constants.States.KY) && !BaseTest.getState().equals(Constants.States.WV)) {
-			new BillingBillsAndStatementsVerifier().setMinDue(billAmount).verifyRowWithDueDate(renewDate);
-		}
-	}
-
 
 	// ------- Payments & Other Transactions table -------
 

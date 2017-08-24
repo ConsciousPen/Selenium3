@@ -1,5 +1,6 @@
 package aaa.modules.e2e.templates;
 
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -44,13 +45,14 @@ public class Scenario4 extends ScenarioBaseTest {
 	protected LocalDateTime endorsementInstallmentDueDate;
 	private Dollar endorsementDue;
 
+	protected int installmentsCount = 1;
 	protected Dollar cashOverpaymentLow = new Dollar(999.99);
 	protected Dollar cashOverpaymentHigh = new Dollar(1000);
 
 	/*
 	 * Create policy
 	 */
-	public void createTestPolicy(TestData policyCreationTD) {
+	protected void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();
 
 		mainApp().open();
@@ -67,13 +69,13 @@ public class Scenario4 extends ScenarioBaseTest {
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		CustomAssert.assertEquals("Billing Installments count for Pay in Full payment plan", 1, installmentDueDates.size());
+		CustomAssert.assertEquals("Billing Installments count for Pay in Full payment plan", installmentsCount, installmentDueDates.size());
 
-		//Get 6th installment due date
+		//TODO Get 6th installment due date
 		endorsementInstallmentDueDate = policyEffectiveDate.plusMonths(6);
 	}
 
-	public void TC02_Overpayment() {
+	protected void overpayment() {
 		LocalDateTime overpayment = policyEffectiveDate.plusMonths(1);
 		TimeSetterUtil.getInstance().nextPhase(overpayment);
 		mainApp().open();
@@ -86,7 +88,7 @@ public class Scenario4 extends ScenarioBaseTest {
 				.setStatus(PaymentsAndOtherTransactionStatus.CLEARED).verifyPresent();
 	}
 
-	public void TC03_Automatic_refund() {
+	protected void automaticRefund() {
 		LocalDateTime refund = getTimePoints().getRefundDate(policyEffectiveDate.plusMonths(1));
 		TimeSetterUtil.getInstance().nextPhase(refund);
 		JobUtils.executeJob(Jobs.refundGenerationJob);
@@ -100,14 +102,14 @@ public class Scenario4 extends ScenarioBaseTest {
 				.setReason(PaymentsAndOtherTransactionReason.OVERPAYMENT).verifyPresent();
 	}
 
-	public void TC04_Overpayment_High() {
+	protected void overpaymentHigh() {
 		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusMonths(2));
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), cashOverpaymentHigh);
 	}
 
-	public void TC05_Automatic_refund_High() {
+	protected void automaticRefundHigh() {
 		LocalDateTime refundDate = getTimePoints().getRefundDate(policyEffectiveDate.plusMonths(2));
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
 		JobUtils.executeJob(Jobs.refundGenerationJob);
@@ -129,7 +131,7 @@ public class Scenario4 extends ScenarioBaseTest {
 				.setStatus(PaymentsAndOtherTransactionStatus.APPROVED).verifyPresent();
 	}
 
-	public void TC06_Endorse_Policy() {
+	protected void endorsePolicy() {
 		// Set Date before BillGenerationDate
 		TimeSetterUtil.getInstance().nextPhase(endorsementInstallmentDueDate.minusDays(28).with(DateTimeUtils.closestWorkingDay));
 
@@ -148,7 +150,7 @@ public class Scenario4 extends ScenarioBaseTest {
 				.setSubtypeReason(reason).verifyPresent();
 	}
 
-	public void TC07_Generate_Off_Cycle_Bill() {
+	protected void generateOffCycleBill() {
 		LocalDateTime dueDate = getTimePoints().getOffcycleBillGenerationDate(endorsementInstallmentDueDate);
 		TimeSetterUtil.getInstance().nextPhase(dueDate);
 		JobUtils.executeJob(Jobs.offCycleBillingInvoiceAsyncJob);
@@ -160,7 +162,7 @@ public class Scenario4 extends ScenarioBaseTest {
 				.setPastDueZero().verifyRowWithDueDate(endorsementInstallmentDueDate);
 	}
 
-	public void TC08_Generate_CancellNotice() {
+	protected void generateCancellNotice() {
 		LocalDateTime cnDate = getTimePoints().getCancellationNoticeDate(endorsementInstallmentDueDate);
 		TimeSetterUtil.getInstance().nextPhase(cnDate);
 		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
@@ -177,7 +179,7 @@ public class Scenario4 extends ScenarioBaseTest {
 				.verifyRowWithDueDate(getTimePoints().getCancellationTransactionDate(endorsementInstallmentDueDate));
 	}
 
-	public void TC09_Payment_In_Full_Cancell_Notice_Amount() {
+	protected void paymentInFullCancellNoticeAmount() {
 		// Set any date prior to Cancelation date
 		LocalDateTime cnDate = getTimePoints().getCancellationDate(endorsementInstallmentDueDate).minusDays(5).with(DateTimeUtils.closestWorkingDay);
 		TimeSetterUtil.getInstance().nextPhase(cnDate);
@@ -195,12 +197,12 @@ public class Scenario4 extends ScenarioBaseTest {
 		PolicySummaryPage.labelCancelNotice.verify.present(false);
 	}
 
-	public void TC10_Verify_Form_AHCWXX() {
+	protected void verifyFormAHCWXX() {
 		//TODO DocGen utils
 //		DocGenHelper.verifyDocumentsGeneratedByJob(TimeSetterUtil.getInstance().getCurrentTime(), policyNum, OnDemandDocuments.AHCWXX);
 	}
 
-	public void TC11_Renewal_Image_Generation() {
+	protected void renewalImageGeneration() {
 		LocalDateTime renewDateImage = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewDateImage);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
@@ -212,7 +214,7 @@ public class Scenario4 extends ScenarioBaseTest {
 		PolicyHelper.verifyAutomatedRenewalGenerated(renewDateImage);
 	}
 
-	public void TC12_Renewal_Preview_Generation() {
+	protected void renewalPreviewGeneration() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
@@ -224,7 +226,7 @@ public class Scenario4 extends ScenarioBaseTest {
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PREMIUM_CALCULATED).verify(1);
 	}
 
-	public void TC13_Renewal_Offer_Generation() {
+	protected void renewalOfferGeneration() {
 		LocalDateTime renewDateOffer = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewDateOffer);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
@@ -240,12 +242,13 @@ public class Scenario4 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		BillingHelper.verifyRenewOfferGenerated(policyExpirationDate, installmentDueDates);
+		verifyRenewOfferGenerated(policyExpirationDate, renewDateOffer, installmentDueDates);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewDateOffer)
 				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
 	}
 
-	public void TC14_Renewal_Premium_Notice() {
+	//Skip this step for CA
+	protected void renewalPremiumNotice() {
 		LocalDateTime billDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(billDate);
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
@@ -254,10 +257,10 @@ public class Scenario4 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		BillingHelper.verifyRenewPremiumNotice(policyExpirationDate, billDate);
+		verifyRenewPremiumNotice(policyExpirationDate, billDate);
 	}
 
-	public void TC15_Expire_Policy() {
+	protected void expirePolicy() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		// JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
@@ -269,7 +272,7 @@ public class Scenario4 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 	}
 
-	public void TC16_Customer_Decline_Renewal() {
+	protected void customerDeclineRenewal() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 
@@ -280,7 +283,7 @@ public class Scenario4 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
 	}
 
-	public void TC17_Pay_Renew_Offer() {
+	protected void payRenewOffer() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getPayLapsedRenewLong(policyExpirationDate));
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 		mainApp().open();
@@ -292,7 +295,7 @@ public class Scenario4 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
 	}
 
-	public void TC18_Bind_Renew() {
+	protected void bindRenew() {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 		mainApp().open();

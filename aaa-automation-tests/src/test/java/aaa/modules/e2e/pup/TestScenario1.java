@@ -1,5 +1,6 @@
 package aaa.modules.e2e.pup;
 
+import aaa.common.enums.Constants;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.actiontabs.EndorsementActionTab;
@@ -28,71 +29,73 @@ public class TestScenario1 extends Scenario1 {
 	
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC02_Generate_First_Bill() {
-		super.TC02_Generate_First_Bill();
+		super.generateFirstBill();
 	}
 	
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC03_Endorse_Policy() {
-		super.TC03_Endorse_Policy();
+		super.endorsePolicy();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC04_Pay_First_Bill() {
-		super.TC04_Pay_First_Bill();
+		super.payFirstBill();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC05_Generate_Second_Bill() {
-		super.TC05_Generate_Second_Bill();
+		super.generateSecondBill();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC06_Pay_Second_Bill() {
-		super.TC06_Pay_Second_Bill();
+		super.paySecondBill();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC07_Generate_Third_Bill() {
-		super.TC07_Generate_Third_Bill();
+		super.generateThirdBill();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC08_Pay_Third_Bill() {
-		super.TC08_Pay_Third_Bill();
+		super.payThirdBill();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC09_Renewal_R_74() {
-		super.TC09_Renewal_R_74();
+	public void TC09_Early_Renew_Not_Generated() {
+		super.earlyRenewNotGenerated();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC10_Renewal_R_73() {
-		super.TC10_Renewal_R_73();
+	public void TC10_Renewal_Image_Generation() {
+		super.renewalImageGeneration();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC11_Renewal_R_45() {
-		super.TC11_Renewal_R_45();
+	public void TC11_Renewal_Preview_Generation() {
+		super.renewalPreviewGeneration();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC12_Renewal_R_35() {
-		super.TC12_Renewal_R_35();
+	public void TC12_Renewal_Offer_Generation() {
+		super.renewalOfferGeneration();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC13_Renewal_Premium_Notice() {
-		super.TC13_Renewal_Premium_Notice();
+		if (!getState().equals(Constants.States.CA)) {
+			super.renewalPremiumNotice();
+		}
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC14_Pay_Renewal_Bill_R() {
-		super.TC14_Pay_Renewal_Bill_R();
+	public void TC14_Pay_Renewal_Bill() {
+		super.payRenewalBill();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC15_Update_Policy_Status() {
-		super.TC15_Update_Policy_Status();
+		super.updatePolicyStatus();
 	}
 }
