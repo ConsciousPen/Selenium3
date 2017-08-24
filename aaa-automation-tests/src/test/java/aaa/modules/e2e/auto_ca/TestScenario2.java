@@ -133,13 +133,13 @@ public class TestScenario2 extends Scenario2 {
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC24_Pay_Tenth_Bill() {
-		super.payTenthBill();
+	public void TC24_Renewal_Preview_Generation() {
+		super.renewalPreviewGeneration();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC25_Renewal_Preview_Generation() {
-		super.renewalPreviewGeneration();
+	public void TC25_Pay_Tenth_Bill() {
+		super.payTenthBill();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
