@@ -54,17 +54,17 @@ public class TestQuoteAdvancedRater extends HomeSSHO3BaseTest {
 
         Dollar premiuimChangeOf = changeCoverage(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE);
         Dollar newPremiumValue = origPremiumValue.add(premiuimChangeOf);
-        PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().verify.equals(newPremiumValue);
+        PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().verify.equals(newPremiumValue, 1.0);
 
         premiuimChangeOf = changeCoverage(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E);
         newPremiumValue = newPremiumValue.add(premiuimChangeOf);
-        PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().verify.equals(newPremiumValue);
+        PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().verify.equals(newPremiumValue, 1.0);
 
         PremiumsAndCoveragesQuoteTab.btnContinue.click();
         policy.getDefaultView().fillFromTo(getPolicyTD(), MortgageesTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
 
-        PolicySummaryPage.getTotalPremiumSummaryForProperty().verify.equals(newPremiumValue);
+        PolicySummaryPage.getTotalPremiumSummaryForProperty().verify.equals(newPremiumValue, 1.0);
     }
 
     private void verifyPremiumChangeOf(AssetDescriptor<ComboBox> field) {
