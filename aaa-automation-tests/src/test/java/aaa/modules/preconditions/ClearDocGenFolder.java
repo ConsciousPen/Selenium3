@@ -1,5 +1,6 @@
 package aaa.modules.preconditions;
 
+import aaa.helpers.docgen.DocGenHelper;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -11,9 +12,9 @@ public class ClearDocGenFolder {
 	@Test
 	public void clearDocGenFolder() {
 		try {
-			RemoteHelper.clearFolder("/home/mp2/pas/sit/PAS_B_EXGPAS_DCMGMT_6500_D/outbound/");
-			RemoteHelper.clearFolder("/home/DocGen/");
-			RemoteHelper.clearFolder("/home/DocGen/Batch/");
+			RemoteHelper.clearFolder(DocGenHelper.JOB_GENERATION_DOCGEN_FOLDER);
+			RemoteHelper.clearFolder(DocGenHelper.DOCGEN_SOURCE_FOLDER);
+			RemoteHelper.clearFolder(DocGenHelper.DOCGEN_BATCH_SOURCE_FOLDER);
 		} catch (Exception e) {
 			Assert.fail("Clearing doc gen folder failed: \n", e);
 		}

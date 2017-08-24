@@ -1,8 +1,6 @@
 package aaa.helpers.ssh;
 
 import java.io.File;
-import java.io.FileFilter;
-import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Vector;
 
@@ -14,6 +12,7 @@ import com.jcraft.jsch.SftpATTRS;
 
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
+import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
 
 public class RemoteHelper {
@@ -34,160 +33,67 @@ public class RemoteHelper {
 		if (isFolderExist(folder))
 			ssh.removeFiles(folder);
 		else
-			log.info("SSH: Folder '" + folder + "' doesn't exist.");
+			log.warn("SSH: Folder '" + folder + "' doesn't exist.");
 	}
 
 	public static void downloadFile(String source, String destination) {
+		log.info(String.format("SSH: File '%s' downloading to '%s' destination folder has been started.", source, destination));
 		ssh.downloadFile(source, destination);
 	}
 
 	public static void uploadFile(String source, String destination) {
+		log.info(String.format("SSH: File '%s' uploading to '%s' destination folder has been started.", source, destination));
 		ssh.putFile(source, destination);
 	}
 
 	public static void removeFile(String file) {
+		log.info(String.format("SSH: File '%s' deleting has been started.", file));
 		ssh.removeFile(file);
 	}
 
-	public static void downloadFile(String host, String source, String destination) {
-		ssh.downloadFile(source, destination);
-	}
-
-	public static void uploadFile(String host, String source, String destination) {
-		ssh.putFile(destination, source);
-	}
-
-	public static void downloadAndRemoveFilesByPolicy(String sourceFolder, String destinationFolder, String policy) throws FileNotFoundException {
-		String searchCommandTemplate = "cd %s; find . -type f -iname '*.xml' -print | xargs grep -li '%s'";
-		String searchCommand = String.format(searchCommandTemplate, sourceFolder, policy);
-
-		log.debug(String.format("Executing on host %s shell command: %s", hostName, searchCommand));
-		String result = ssh.executeCommand(searchCommand);
-		log.debug("Result of shell cmd: " + result);
-
-		if (result.isEmpty()) {
-			throw new FileNotFoundException("Files not found for policy:" + policy + ",path:" + sourceFolder);
-		}
-
-		String[] files = result.split("\n");
-		String file;
-
-		for (int i = 0; i < files.length; i++) {
-			file = files[i].substring(files[i].indexOf('/') + 1).trim();
-			ssh.downloadFile(sourceFolder + file, destinationFolder + file);
-			ssh.removeFile(sourceFolder + file);
-		}
-	}
-
-	public static void downloadFilesByPolicy(String sourceFolder, String destinationFolder, String policy) throws FileNotFoundException {
-		String searchCommandTemplate = "cd %s; find . -type f -iname '*.xml' -print | xargs grep -li '%s'";
-		String searchCommand = String.format(searchCommandTemplate, sourceFolder, policy);
-
-		String result = ssh.executeCommand(searchCommand);
-
-		if (result.isEmpty()) {
-			throw new FileNotFoundException("Files not found for policy:" + policy + ",path:" + sourceFolder);
-		}
-
-		String[] files = result.split("\n");
-		String file;
-
-		for (int i = 0; i < files.length; i++) {
-			file = files[i].substring(files[i].indexOf('/') + 1).trim();
-			ssh.downloadFile(sourceFolder + file, destinationFolder + file);
-		}
-	}
-
-	public static boolean downloadAndRemoveDocumentFiles(String sourceFolder, String destinationFolder, String policyNum, String formID, String xPathInfo) {
-		String searchCommandTemplate = "cd %s; find . -type f -iname '*.xml' -print | xargs grep -li '%s' | xargs grep -li '%s' | xargs grep -li '%s'";
-		String searchCommand = String.format(searchCommandTemplate, sourceFolder, policyNum, formID, xPathInfo);
-
-		String result = ssh.executeCommand(searchCommand);
-
-		if (result.isEmpty()) {
-			return false;
-		}
-
-		String[] files = result.split("\n");
-		String file;
-
-		for (int i = 0; i < files.length; i++) {
-			file = files[i].substring(files[i].indexOf('/') + 1).trim();
-			ssh.downloadFile(sourceFolder + file, destinationFolder + file);
-			ssh.removeFile(sourceFolder + file);
-		}
-		return true;
-	}
-
-	public static boolean downloadDocumentFiles(String sourceFolder, String destinationFolder, String policyNum, String formID, String xPathInfo) {
-		String searchCommandTemplate = "cd %s; find . -type f -iname '*.xml' -print | xargs grep -li '%s' | xargs grep -li '%s' | xargs grep -li '%s'";
-		String searchCommand = String.format(searchCommandTemplate, sourceFolder, policyNum, formID, xPathInfo);
-
-		String result = ssh.executeCommand(searchCommand);
-
-		if (result.isEmpty()) {
-			return false;
-		}
-
-		String[] files = result.split("\n");
-		String file;
-
-		for (int i = 0; i < files.length; i++) {
-			file = files[i].substring(files[i].indexOf('/') + 1).trim();
-			ssh.downloadFile(sourceFolder + file, destinationFolder + file);
-		}
-		return true;
-	}
-
 	public static void uploadFiles(String sourceFolder, String destinationFolder) {
-
 		File directory = new File(sourceFolder);
-
-		File[] files = directory.listFiles(new FileFilter() {
-			@Override
-			public boolean accept(File file) {
-				return file.isFile();
-			}
-		});
+		File[] files = directory.listFiles(File::isFile);
+		log.info(String.format("SSH: Files uploading from '%s' folder to '%s' destination folder has been started.", sourceFolder, destinationFolder));
 		if (files != null && files.length != 0) {
 			for (File file : files) {
-				ssh.putFile(sourceFolder + file.getName(), destinationFolder + file.getName());
+				uploadFile(sourceFolder + file.getName(), destinationFolder + file.getName());
 			}
 		}
+		log.info(String.format("SSH: All files from '%s' folder were uploaded to '%s' destination folder.", sourceFolder, destinationFolder));
 	}
 
 	public static String executeCommand(String command) {
-		return ssh.executeCommand(command);
+		log.info(String.format("SSH: Executing on host '%s' shell command: '%s'", hostName, command));
+		String result = ssh.executeCommand(command);
+		log.info("SSH: Result of shell cmd: " + result);
+		return result;
 	}
 
 	public static Boolean isFolderExist(String source) {
 		SftpATTRS attrs = null;
-		Boolean returnValue;
 		source = ssh.parseFileName(source);
 
 		try {
 			ChannelSftp channel = ssh.getSftpChannel();
 			attrs = channel.stat(source);
-		} catch (Exception e1) {
-			System.out.println("SSH: Folder '" + source + "' doesn't exist.");
+		} catch (Exception e) {
+			log.debug("SSH: Folder '" + source + "' doesn't exist.", e);
 		}
-		if (attrs != null) {
-			returnValue = true;
-		} else
-			returnValue = false;
-
-		return returnValue;
+		return attrs != null;
 	}
 
 	public static void createFolder(String source) {
 		source = ssh.parseFileName(source);
 
+		log.info(String.format("SSH: Creating folder '%s'", source));
 		try {
 			executeCommand("mkdir -p " + source);
 			executeCommand("chmod 777 " + source);
-		} catch (Exception e1) {
-			throw new RuntimeException("SSH: Folder '" + source + "' couldn't be created. " + e1.getMessage());
+		} catch (Exception e) {
+			throw new IstfException("SSH: Folder '" + source + "' couldn't be created. " + e.getMessage());
 		}
+		log.info(String.format("SSH: Folder '%s' was created", source));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -197,7 +103,7 @@ public class RemoteHelper {
 			Vector<ChannelSftp.LsEntry> list = ssh.getSftpChannel().ls("*");
 			CustomAssert.assertTrue("SSH: Folder should be empty", list.size() == 0);
 		} catch (Exception e) {
-			throw new RuntimeException("SSH: Folder '" + source + "' doesn't exist.", e);
+			throw new IstfException("SSH: Folder '" + source + "' doesn't exist.", e);
 		}
 	}
 
