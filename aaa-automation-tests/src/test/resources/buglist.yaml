@@ -66,5 +66,7 @@ QC-44331:
       messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}', 'Errors: Time out. No session available.']
     - tests: [aaa.modules.regression.service.pup.TestPolicyCancellation.testPolicyCancellationMidTerm]
       messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}', 'Errors: Time out. No session available.']
-    - tests: [aaa.modules.regression.service.pup.TestPolicyCancellation.testPolicyCancellationMidTerm]
+    - tests: [aaa.modules.regression.service.pup.TestPolicyReinstatementWithLapse.testPolicyReinstatementWithLapse]
+      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}', 'Errors: Time out. No session available.']
+    - tests: [aaa.modules.regression.service.pup.TestPolicyRenewFlatCancellation.testPolicyRenewFlatCancellation]
       messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}', 'Errors: Time out. No session available.']
