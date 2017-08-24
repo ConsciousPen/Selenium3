@@ -14,6 +14,7 @@ import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
+import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import aaa.toolkit.webdriver.customcontrols.endorsements.PupEndorsementsMultiAssetList;
 import toolkit.webdriver.controls.Button;
@@ -582,6 +583,14 @@ public final class PersonalUmbrellaMetaData {
 		public static final AssetDescriptor<ComboBox> PAYMENT_PLAN_AT_RENEWAL = declare("Payment plan at renewal", ComboBox.class, Waiters.AJAX);
 		
 		public static final AssetDescriptor<ComboBox> PERSONAL_UMBRELLA = declare("Personal Umbrella", ComboBox.class, Waiters.AJAX, true, By.id("policyDataGatherForm:pupCoverageDetail:0:pupTableCoverageLimitSelect"));
+		public static final AssetDescriptor<DialogAssetList> OVERRRIDE_PREMIUM_DIALOG = declare("OverridePremium", DialogAssetList.class, OverridePremiumDialog.class,
+				By.xpath("//form[@id='premiumOverrideInfoFormAAAPUPPremiumOverride']"));
+		public static final class OverridePremiumDialog extends MetaData {
+			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> REMARKS = declare("Remarks", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> OVERRIDE_PREMIUM_BY_FLAT_AMOUNT = declare("Override Premium By Flat Amount", TextBox.class, Waiters.AJAX, By.id("premiumOverrideInfoFormAAAPUPPremiumOverride:deltaPremiumAmt"));
+			public static final AssetDescriptor<TextBox> OVERRIDE_PERCENTAGE = declare("Percentage", TextBox.class, Waiters.AJAX, By.id("premiumOverrideInfoFormAAAPUPPremiumOverride:percentageAmt"));
+	     }
 	}
 	
 	public static final class UnderwritingAndApprovalTab extends MetaData {
