@@ -2,10 +2,13 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.modules.policy.pup.defaulttabs;
 
+import org.openqa.selenium.By;
+
 import aaa.common.Tab;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import toolkit.datax.TestData;
+import toolkit.webdriver.controls.composite.table.Table;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -14,6 +17,8 @@ import toolkit.datax.TestData;
  * @category Generated
  */
 public class UnderlyingRisksAutoTab extends Tab {
+	public static Table tableAutomobiles = new Table(By.xpath("//table[tbody[@id='policyDataGatherForm:dataGatherView_ListPupAutomobile_data']]"));
+	
     public UnderlyingRisksAutoTab() {
         super(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.class);
     }

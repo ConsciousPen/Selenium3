@@ -2,9 +2,12 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.modules.policy.pup.defaulttabs;
 
+import org.openqa.selenium.By;
+
 import aaa.common.Tab;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import toolkit.webdriver.controls.composite.assets.AssetList;
+import toolkit.webdriver.controls.composite.table.Table;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -13,6 +16,8 @@ import toolkit.webdriver.controls.composite.assets.AssetList;
  * @category Generated
  */
 public class UnderlyingRisksPropertyTab extends Tab {
+	public static Table tableAdditionalResidences = new Table(By.xpath("//table[tbody[@id='policyDataGatherForm:dataGatherView_ListPupAdditionalDwelling_data']]"));
+	
     public UnderlyingRisksPropertyTab() {
         super(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.class);
     }
