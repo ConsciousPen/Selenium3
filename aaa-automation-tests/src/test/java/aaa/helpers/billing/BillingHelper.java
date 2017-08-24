@@ -5,17 +5,17 @@ package aaa.helpers.billing;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import aaa.common.enums.Constants;
-import aaa.modules.BaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 import aaa.main.enums.BillingConstants.*;
 import aaa.main.pages.summary.BillingSummaryPage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.composite.table.Row;
 
 public final class BillingHelper {
@@ -45,6 +45,7 @@ public final class BillingHelper {
 	public static final int DAYS_RENEW_WITH_LAPSE = 25;
 	public static final int DAYS_OFF_CYCLE = 6;
 
+	protected static Logger log = LoggerFactory.getLogger(BillingHelper.class);
 
 	// ------- Billing Account Policies table -------
 
@@ -64,8 +65,10 @@ public final class BillingHelper {
 	 * @return - list of dates including Deposit payments, so index of first Installment is usualy 1
 	 */
 	public static List<LocalDateTime> getInstallmentDueDates() {
-		return BillingSummaryPage.tableInstallmentSchedule.getValuesFromRows(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE)
+		List<LocalDateTime> installments =  BillingSummaryPage.tableInstallmentSchedule.getValuesFromRows(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE)
 				.stream().map(value -> TimeSetterUtil.getInstance().parse(value, DateTimeUtils.MM_DD_YYYY)).collect(Collectors.toList());
+		log.info("Billing installments due dates: " + installments.stream().map(date -> date.format(DateTimeUtils.MM_DD_YYYY)).collect(Collectors.joining(" ,")));
+		return installments;
 	}
 
 	/**
@@ -76,74 +79,32 @@ public final class BillingHelper {
 		return BillingSummaryPage.tableInstallmentSchedule.getValuesFromRows(BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT)
 				.stream().map(Dollar::new).collect(Collectors.toList());
 	}
-	
+
 	public static Dollar getInstallmentDueByDueDate(LocalDateTime date) {
 		String value = BillingSummaryPage.tableInstallmentSchedule.getRow(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE,
 				date.format(DateTimeUtils.MM_DD_YYYY)).getCell(BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT).getValue();
 		return new Dollar(value);
 	}
-	
+
 	// ------- Bills and Statements table-------
-	
+
 	public static Row getBillRowByDate(LocalDateTime date) {
 		return BillingSummaryPage.tableBillsStatements.getRow(BillingBillsAndStatmentsTable.DUE_DATE, date.format(DateTimeUtils.MM_DD_YYYY));
 	}
-	
+
 	public static String getBillCellValue(LocalDateTime date, String columnName) {
 		return getBillRowByDate(date).getCell(columnName).getValue();
 	}
 
-	public static void verifyRenewOfferGenerated(LocalDateTime date, List<LocalDateTime> installmentDates) {
-		BillingSummaryPage.showPriorTerms();
-
-		CustomAssert.enableSoftMode();
-		for (int i = 1; i < installmentDates.size(); i++) { //Do not include Deposit bill
-			new BillingInstallmentsScheduleVerifier().setDescription(InstallmentDescription.INSTALLMENT)
-					.setInstallmentDueDate(installmentDates.get(i).plusYears(1)).verifyPresent();
-		}
-		new BillingBillsAndStatementsVerifier().setType(BillsAndStatementsType.OFFER).verifyPresent(false);
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+	public static Dollar getBillDueAmount(LocalDateTime billDueDate, String billType) {
+		Map<String, String> values = new HashMap<>();
+		values.put(BillingBillsAndStatmentsTable.DUE_DATE, billDueDate.format(DateTimeUtils.MM_DD_YYYY));
+		values.put(BillingBillsAndStatmentsTable.TYPE, billType);
+		return new Dollar(BillingSummaryPage.tableBillsStatements.getRow(values).getCell(BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
 	}
 
-	/**
-	 * @param expirationDate - original policy expiration date
-	 * @param renewOfferDate - Renew generate offer date
-	 * @param billGenDate - Bill generation date
-	 * @param installmentsCount:
-	 * MONTHLY_STANDARD or ELEVEN_PAY: 11 installments
-	 * QUARTERLY: 4 installments
-	 * SEMI_ANNUAL: 2 installments
-	 * PAY_IN_FULL or ANNUAL: 1 installment
-	 */
-	public static void verifyRenewalOfferPaymentAmount(LocalDateTime expirationDate, LocalDateTime renewOfferDate, LocalDateTime billGenDate, Integer installmentsCount) {
-		BillingSummaryPage.showPriorTerms();
-		Dollar fullAmount = getPolicyRenewalProposalSum(renewOfferDate);
-		//Get fees for both CA and non-CA states
-		Dollar fee = getFeesValue(renewOfferDate).add(getFeesValue(billGenDate));
-
-		Dollar expOffer = calculateFirstInstallmentAmount(fullAmount, installmentsCount).add(fee);
-		if (BaseTest.getState().equals(Constants.States.CA)) {
-			new BillingBillsAndStatementsVerifier().setType(BillsAndStatementsType.OFFER)
-					.setDueDate(expirationDate).setMinDue(expOffer).verifyPresent();
-		} else {
-			new BillingBillsAndStatementsVerifier().setType(BillsAndStatementsType.BILL)
-					.setDueDate(expirationDate).setMinDue(expOffer).verifyPresent();
-		}
-	}
-
-	public static void verifyRenewPremiumNotice(LocalDateTime renewDate, LocalDateTime billGenerationDate) {
-		BillingSummaryPage.showPriorTerms();
-		Dollar billAmount = getInstallmentDueByDueDate(renewDate).add(getFeesValue(billGenerationDate));
-		new BillingBillsAndStatementsVerifier().setType(BillsAndStatementsType.BILL).verifyRowWithDueDate(renewDate);
-		if (!BaseTest.getState().equals(Constants.States.KY) && !BaseTest.getState().equals(Constants.States.WV)) {
-			new BillingBillsAndStatementsVerifier().setMinDue(billAmount).verifyRowWithDueDate(renewDate);
-		}
-	}
-
-	
 	// ------- Payments & Other Transactions table -------
-	
+
 	/**
 	 * Search for all Fee transactions in specified date
 	 */
@@ -165,6 +126,17 @@ public final class BillingHelper {
 		values.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PREMIUM);
 		values.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL);
 		return new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(values).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
+	}
+
+	// ------- Pending Transactions table -------
+
+	public static void approvePendingTransaction(LocalDateTime transactionDate, String type) {
+		HashMap<String, String> values = new HashMap<>();
+		values.put(BillingPendingTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
+		values.put(BillingPendingTransactionsTable.TYPE, type);
+		BillingSummaryPage.tablePendingTransactions.getRow(values).getCell(BillingPendingTransactionsTable.ACTION)
+				.controls.links.get(BillingPendingTransactionsActions.APPROVE).click();
+		BillingSummaryPage.dialogApprovePendingTransaction.confirm();
 	}
 
 	// ------- Other -------

@@ -6,6 +6,12 @@ public final class BillingConstants {
 
     private BillingConstants() {}
 
+    public static final class PolicyFlag {
+        public static final String CANCEL_NOTICE = "Cancel Notice";
+        public static final String LAPSE_EXIST = "Term includes a lapse period";
+        public static final String DO_NOT_RENEW = "Do Not Renew";
+    }
+
     public static final class PaymentPlan {
         public static final String PAY_IN_FULL = "Pay in Full";
         public static final String SEMI_ANNUAL = "Semi-Annual";
@@ -95,6 +101,7 @@ public final class BillingConstants {
         public static final String NSF_FEE__WITH_RESTRICTION = "NSF fee - with restriction";
         public static final String DEPOSIT_PAYMENT = "Deposit Payment";
         public static final String RECURRING_PAYMENT = "Recurring Payment";
+        public static final String REGULUS_LOCKBOX = "Regulus LockBox";
     }
 
     public static final class PaymentsAndOtherTransactionReason {
@@ -102,6 +109,7 @@ public final class BillingConstants {
         public static final String FEE_PLUS_RESTRICTION = "Fee + Restriction";
         public static final String NO_FEE_NO_RESTRICTION = "No Fee + No Restriction";
         public static final String NO_FEE_NO_RESTRICTION_NO_LETTER = "No Fee + No Restriction + No Letter";
+        public static final String OVERPAYMENT = "Overpayment";
     }
 
     public static final class PaymentsAndOtherTransactionStatus {
@@ -111,10 +119,12 @@ public final class BillingConstants {
         public static final String TRANSFERRED = "Transferred";
         public static final String DECLINED = "Declined";
         public static final String ISSUED = "Issued";
+        public static final String PENDING = "Pending";
     }
 
     public static final class PaymentsAndOtherTransactionAction {
         public static final String DECLINE = "Decline";
+        public static final String TRANSFER = "Transfer";
     }
 
     public static final class AcceptPaymentMethod {
@@ -150,6 +160,12 @@ public final class BillingConstants {
     public static final class HoldsAndMoratoriumsActions {
         public static final String EDIT = "Edit";
         public static final String REMOVE = "Remove";
+    }
+
+    public static final class ExternalPaymentSystem {
+        public static final String REGLKBX = "REGLKBX";
+        public static final String REGONLN = "REGONLN";
+        public static final String BLLMAT = "BLLMAT";
     }
 
     //----TABLES----
@@ -201,9 +217,9 @@ public final class BillingConstants {
 
     public static final class BillingPendingTransactionsTable {
         public static final String TRANSACTION_DATE = "Transaction Date";
-        public static final String EFF_DATE = "Effective Date";
+        public static final String EFFECTIVE_DATE = "Effective Date";
         public static final String TYPE = "Type";
-        public static final String SUBTYPE_REASON = "Subtype/Reason";
+        public static final String SUBTYPE = "Subtype";
         public static final String REASON = "Reason";
         public static final String AMOUNT = "Amount";
         public static final String STATUS = "Status";

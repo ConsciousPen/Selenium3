@@ -1,0 +1,120 @@
+TestData: {
+  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab',
+  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab'
+}
+
+UnderlyingRisksPropertyTab: {
+  AdditionalResidencies: [
+  {},
+  {
+    Policy type: HO3,
+    Zip Code: 19703,
+    Street Address 1: 4811 GRANT AVE,
+    Policy Number: DEH3876543234,
+    Effective date: 01/05/2014,
+    Expiration date: 01/05/2015,
+    Occupancy type: Primary Residence,
+    'Number of units/acres': 2,
+    Current Carrier: 'AAA-Michigan (ACG)',
+    Limit of liability: '$600,000',
+    Deductible: 500,
+    Public protection class: 4,
+    Excluded: 'No',
+    Validate Address: '',
+    Validate Address Dialog: {
+      Street number: 265,
+      Street Name: CHIPMAN AVE
+    }
+  }
+  ]
+}
+
+UnderlyingRisksAutoTab: {
+  Automobiles: [
+  {
+    Add automobile: 'Yes',
+    Car Type: Private Passenger Auto,
+    VIN: 91N1K36Y991234567,
+    Current Carrier: index=2,
+    'Policy #': 123456,
+    Primary Auto Policy: 'Yes',
+    Auto Tier: E,
+    State: CA,
+    Coverage Type: Split,
+    BI Limits: [250000,500000],
+    PD Limits: '100000'
+  },
+  {
+    Car Type: 'Limited Production/Antique',
+    VIN: 91N1K36Y991234567,
+    Current Carrier: index=2,
+    'Policy #': 123456,
+    State: CA,
+    Coverage Type: Split,
+    BI Limits: [250000,500000],
+    PD Limits: '100000'
+  }
+  ],
+  Motorcycles: {
+    Add motorcycle: 'Yes',
+    Guest Passenger Liability Coverage: 'Yes',
+    VIN: 81N1K36Y191234567,
+    Year: 2009,
+    Make: BMW,
+    Model: AAA,
+    Current Carrier: index=2,
+    State: CO,
+    'Policy #': 123457,
+    Coverage Type: Split,
+    BI Limits: [250000,500000],
+    PD Limits: '100000',
+    Excluded: 'No'
+  },
+  MotorHomes: {
+    Add motor home: 'Yes',
+    VIN: 1G1ZF5EZ5A1234567,
+    Year: 2009,
+    Make: BMW,
+    Model: BBB,
+    Current Carrier: index=2,
+    State: CO,
+    'Policy #': 123458,
+    Coverage Type: Single,
+    Combined Single Limit: 500000,
+    Excluded: 'No'
+  }
+}
+
+UnderlyingRisksOtherVehiclesTab: {
+  Watercraft: {
+    Add watercraft: 'Yes',
+    Type: Inboard Powerboat,
+    HIN: 4444444,
+    Year: 2014,
+    Make: nn,
+    Model: nn,
+    Length: 14-25 ft,
+    Horsepower: 0-100 hp,
+    Current Carrier: 'AAA-SoCal (ACSC)',
+    State: CO,
+    'Policy #': AU343543,
+    Combined Single Limit: 600000,
+    Excluded: 'No'
+  },
+  RecreationalVehicle: {
+    'Add recreational vehicle (off-road)': 'Yes',
+    Type: Golf-cart,
+    VIN: 1G1ZF5EZ5A1234569,
+    Year: 2009,
+    Make: Golf-Car Maker,
+    Model: DDD,
+    Current Carrier: index=2,
+    State: CO,
+    'Policy #': 123467,
+    Coverage Type: Single,
+    Combined Single Limit: 500000,
+    Usage: Off-road,
+    Excluded: 'No'
+  }
+}

@@ -8,7 +8,9 @@ import org.openqa.selenium.By;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
+import toolkit.webdriver.controls.composite.table.Row;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,20 +34,37 @@ public abstract class CommonErrorTab extends Tab {
 		return this;
 	}
 
-
-	//TODO-dchubkov: implement methods override/refer list of errors/all errors
-
-	public void overrideError(ErrorEnum.Errors error) {
-		overrideError(error, ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.OTHER);
+	public void overrideAllErrors() {
+		overrideAllErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.OTHER);
 	}
 
-	public void overrideError(ErrorEnum.Errors error, ErrorEnum.Duration duration, ErrorEnum.ReasonForOverride reason) {
+	public void overrideAllErrors(ErrorEnum.Duration duration, ErrorEnum.ReasonForOverride reason) {
+		for (Row row : errorsList.getTable().getRows()) {
+			CheckBox checkBoxOverride = row.getCell("Override").controls.checkBoxes.getFirst();
+			if (checkBoxOverride.isPresent() && checkBoxOverride.isEnabled()) {
+				checkBoxOverride.setValue(true);
+				row.getCell("Duration").controls.radioGroups.getFirst().setValue(duration.get());
+				row.getCell("Reason for override").controls.comboBoxes.getFirst().setValue(reason.get());
+			}
+		}
+		buttonOverride.click();
+	}
+
+	public void overrideErrors(ErrorEnum.Errors... errors) {
+		overrideErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.OTHER, errors);
+	}
+
+	public void overrideErrors(ErrorEnum.Duration duration, ErrorEnum.ReasonForOverride reason, ErrorEnum.Errors... errors) {
 		TestData td = DataProviderFactory.dataOf(
 				"Override", "true",
-				"Code", error.getCode(),
 				"Duration", duration.get(),
 				"Reason for override", reason.get());
-		errorsList.setValue(Collections.singletonList(td));
+
+		for (ErrorEnum.Errors error : errors) {
+			td.adjust("Code", error.getCode());
+			errorsList.setValue(Collections.singletonList(td));
+		}
+
 		buttonOverride.click();
 	}
 
@@ -66,17 +85,25 @@ public abstract class CommonErrorTab extends Tab {
 
 	public class Verify {
 
-		public void errorPresent(ErrorEnum.Errors error) {
-			errorPresent(error, true);
+		public void errorsPresent(ErrorEnum.Errors... errors) {
+			errorsPresent(true, errors);
 		}
 
-		public void errorPresent(ErrorEnum.Errors error, boolean expectedValue) {
+		public void errorsPresent(boolean expectedValue, ErrorEnum.Errors... errors) {
 			Map<String, String> errorQuery = new HashMap<>();
-			errorQuery.put("Code", error.getCode());
-			errorQuery.put("Message", error.getMessage());
-			String message = String.format("Underwriting Rule %1$s is not %2$s as expected.", error, expectedValue ? "present" : "absent");
 
-			errorsList.getTable().getRow(errorQuery).verify.present(message, expectedValue);
+			//TODO-dchubkov: implement comparison of given full error message with truncated error ou UI (with '...')
+			for (ErrorEnum.Errors error : errors) {
+				String message = String.format("Underwriting Rule %1$s is not %2$s as expected.", error, expectedValue ? "present" : "absent");
+				errorQuery.put("Code", error.getCode());
+				if (error.getMessage().contains("'")) {
+					errorQuery.put("Message", error.getMessage().replaceAll("'.*", "")); // quote in message breaks xpath
+					errorsList.getTable().getRowContains(errorQuery).verify.present(message, expectedValue); // search by part of message
+				} else {
+					errorQuery.put("Message", error.getMessage());
+					errorsList.getTable().getRow(errorQuery).verify.present(message, expectedValue);
+				}
+			}
 		}
 	}
 }

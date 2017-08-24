@@ -97,7 +97,7 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         new BindTab().btnPurchase.click();
         
         ErrorTab errorTab = new ErrorTab();
-		//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+		//TODO-dchubkov: replace with errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_XXXXXX);
         errorTab.errorsList.getTable().getRow(1).getCell("Message").verify.value("Policy effective date cannot be backdated more than three days from today's d...");
         errorTab.cancel();
         

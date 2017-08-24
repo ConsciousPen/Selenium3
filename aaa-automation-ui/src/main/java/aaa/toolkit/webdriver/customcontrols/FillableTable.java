@@ -61,7 +61,7 @@ import toolkit.webdriver.controls.composite.table.Table;
  * In case when column has no header name with column number such as "column=1" should be used for control in metadata and testdata.
  */
 public class FillableTable extends AbstractContainer<List<TestData>, List<TestData>> {
-	private Table fillableTable = new Table(getLocator());
+	protected Table fillableTable = new Table(getLocator());
 
 	public FillableTable(BaseElement<?, ?> parent, By locator, Class<? extends MetaData> metaDataClass) {
 		super(parent, locator, metaDataClass);
@@ -110,23 +110,17 @@ public class FillableTable extends AbstractContainer<List<TestData>, List<TestDa
 			}
 
 			Row fillableRow;
-			String findRowByAssertionMessage;
-
 			if (searchRowQuery.isEmpty()) {
 				fillableRow = fillableTable.getRow(rowToFillIndex);
-				findRowByAssertionMessage = "by row number: " + rowToFillIndex;
 			} else {
 				if (searchRowByContains) {
 					fillableRow = fillableTable.getRowContains(searchRowQuery);
-					findRowByAssertionMessage = "by contains query: " + searchRowQuery.entrySet();
 				} else {
 					fillableRow = fillableTable.getRow(searchRowQuery);
-					findRowByAssertionMessage = "by query: " + searchRowQuery.entrySet();
 				}
 			}
-			fillableRow.verify.present(String.format("Can't find row in \"%1$s\" fillable table %2$s.", getName(), findRowByAssertionMessage));
-			fillRow(fillableRow, rowData);
 
+			fillRow(fillableRow, rowData);
 			rowToFillIndex++;
 		}
 	}
@@ -135,7 +129,7 @@ public class FillableTable extends AbstractContainer<List<TestData>, List<TestDa
 	 * Interact with controls within found row
 	 *
 	 * @param row row with controls to be interacted
-	 * @param rowData test data to be used while filling/clicking controls ins
+	 * @param rowData test data to be used while filling/clicking controls inside the row
 	 */
 	protected void fillRow(Row row, TestData rowData) {
 		for (String assetName : rowData.getKeys()) {

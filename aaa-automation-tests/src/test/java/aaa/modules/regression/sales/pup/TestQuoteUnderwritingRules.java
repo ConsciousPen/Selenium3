@@ -1,10 +1,6 @@
 package aaa.modules.regression.sales.pup;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.testng.annotations.Test;
-
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import aaa.common.enums.NavigationEnum;
@@ -12,6 +8,7 @@ import aaa.common.pages.ErrorPage;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.ErrorEnum.Errors;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.DocumentsTab;
@@ -42,149 +39,95 @@ import aaa.modules.policy.PersonalUmbrellaBaseTest;
  * @details
  */
 
-public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest{
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest {
+	private final String FIELDS_ERROR_KEY = "FieldsError";
+	private final String BOTTOM_ERROR_KEY = "BottomError";
+	private UnderwritingAndApprovalTab underwritingTab = policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class);
+	private ErrorTab errorTab = policy.getDefaultView().getTab(ErrorTab.class);
+	
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Sales.PUP)
-	public void testQuoteUnderwritingRules(){
+	public void testQuoteUnderwritingRules() {
 		mainApp().open();
 		createCustomerIndividual();
 		
-		TestData td = getPolicyTD("DataGather", "TestData");
-		td = adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
+		TestData tdPolicy = getPolicyTD();
+		tdPolicy = adjustWithRealPolicies(tdPolicy, getPrimaryPoliciesForPup());
 		TestData td_uw1 = getTestSpecificTD("TestData_UW1");
 		TestData td_uw2 = getTestSpecificTD("TestData_UW2");
 		TestData td_uw3 = getTestSpecificTD("TestData_UW3");
-		TestData td_uw4 = getTestSpecificTD("TestData_UW4");	
+		TestData td_uw4 = getTestSpecificTD("TestData_UW4");
 		
 		policy.initiate();
-		policy.getDefaultView().fillUpTo(td, UnderwritingAndApprovalTab.class, false);
+		policy.getDefaultView().fillUpTo(tdPolicy, UnderwritingAndApprovalTab.class, false);
+
+		// Enter td_uw1 and verify the wringing message
+		underwritingTab.fillTab(td_uw1);
+		underwritingTab.submitTab();
+		checkErrorMsg(td_uw1);
+
+		// Enter td_uw2 and verify the mandatory fields for Remark
+		underwritingTab.fillTab(td_uw2);
+		underwritingTab.submitTab();
+		checkErrorMsg(td_uw2);
+
+		// Enter td_uw3 for Remark fields and verify override messages
+		underwritingTab.fillTab(td_uw3);
+		underwritingTab.submitTab();
+		policy.getDefaultView().fillFromTo(tdPolicy, DocumentsTab.class, BindTab.class, true);
+		policy.getDefaultView().getTab(BindTab.class).btnPurchase.click();
+		checkOverrideMsg();
+		errorTab.cancel();
 		
-		UnderwritingAndApprovalTab underwritingTab = new UnderwritingAndApprovalTab();
-        underwritingTab.fillTab(td_uw1);
-        underwritingTab.submitTab();
-        
-        if (getState().equals("MD")){
-        	underwritingTab.verifyFieldHasMessage("Is any business or farming activity conducted on the premises?","Business or farming activity is ineligible");
-        	ErrorPage.provideLabelErrorMessage("Applicants who have been sued for libel or slander are ineligible.").verify.present();
-            ErrorPage.provideLabelErrorMessage("Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting history are unacceptable.").verify.present();
-            ErrorPage.provideLabelErrorMessage("Applicants without underlying bodily injury and property damage liability coverage are ineligible.").verify.present();
-            ErrorPage.provideLabelErrorMessage("Applicants who use their personal vehicles for wholesale or retail delivery are ineligible.").verify.present();
-            ErrorPage.provideLabelErrorMessage("Business or farming activity is ineligible").verify.present();
-        	
-        }
-        else if(getState().equals("OR")){
-        	underwritingTab.verifyFieldHasMessage("Is any business, adult day care, pet day care or farming activity conducted on the premises?","Adult day care, or pet day care are not eligible.");
-        	ErrorPage.provideLabelErrorMessage("Applicants who have been sued for libel or slander are ineligible.").verify.present();
-            ErrorPage.provideLabelErrorMessage("Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting history are unacceptable.").verify.present();
-            ErrorPage.provideLabelErrorMessage("Applicants without underlying bodily injury and property damage liability coverage are ineligible.").verify.present();
-            ErrorPage.provideLabelErrorMessage("Applicants who use their personal vehicles for wholesale or retail delivery are ineligible.").verify.present();
-            ErrorPage.provideLabelErrorMessage("Adult day care, or pet day care are not eligible.").verify.present();
-        }
-        else if (getState().equals("CA")){
-        	underwritingTab.verifyFieldHasMessage("Has the applicant been sued for libel or slander?","Applicants who have been sued for libel or slander are ineligible.");
-        	underwritingTab.verifyFieldHasMessage("Do you have a license?","Dwellings or applicants that perform a home day care, including child day care, adult day care, or pet day care, are unacceptable unless they are licensed and insured.");
-        	underwritingTab.verifyFieldHasMessage("Is it a for-profit business?","Farming/Ranching on premises is unacceptable unless it is incidental and not for profit.");
-        	underwritingTab.verifyFieldHasMessage("Others","Other business exposures on premises are unacceptable.");
-        	underwritingTab.verifyFieldHasMessage("Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?","Animals with any prior bite history are not acceptable.");
-        	underwritingTab.verifyFieldHasMessage("Are there any owned, leased or rented watercraft, recreational vehicles, motorcycles or automobiles without liability coverage?","Applicants without underlying bodily injury and property damage liability coverage are ineligible.");
-        	underwritingTab.verifyFieldHasMessage("Do any applicants or drivers use their personal vehicles for wholesale or retail delivery of cargo or persons?","Applicants who use their personal vehicles for wholesale or retail delivery are ineligible.");
-        }
-        else{
-        	ErrorPage.provideLabelErrorMessage("Applicants who have been sued for libel or slander are ineligible.").verify.present();
-            ErrorPage.provideLabelErrorMessage("Risk must be endorsed with the appropriate business or farming endorsement when an eligible business or incidental farming exposure is present. Applicants that perform a home day care, including child, adult or pet day care, are unacceptable.").verify.present();
-            ErrorPage.provideLabelErrorMessage("Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting history are unacceptable.").verify.present();
-            ErrorPage.provideLabelErrorMessage("Applicants without underlying bodily injury and property damage liability coverage are ineligible.").verify.present();
-            ErrorPage.provideLabelErrorMessage("Applicants who use their personal vehicles for wholesale or retail delivery are ineligible.").verify.present();
-        }
-            
-        underwritingTab.fillTab(td_uw2);
-        underwritingTab.submitTab(); 
-        
-        if (getState().equals("CT")||getState().equals("KY")){
-        	underwritingTab.verifyFieldHasMessage("Remark Property Outside US", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Vehicles not for personal/pleasure use", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Commercial Vehicle", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Celebrity", "'Remarks' is required");
-        }
-        else if(getState().equals("MD")){
-        	underwritingTab.verifyFieldHasMessage("Remark Cancelled Policy Extn", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Property Outside US", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Vehicles not for personal/pleasure use", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Commercial Vehicle", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Celebrity", "'Remarks' is required");
-        }
-        else if(getState().equals("CA")){
-        	underwritingTab.verifyFieldHasMessage("Remark Cancelled Policy", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Property Outside US", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Vehicles not for personal/pleasure use", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Commercial Vehicle", "'Remarks' is required");	
-        }
-        else{
-        	underwritingTab.verifyFieldHasMessage("Remark Cancelled Policy", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Property Outside US", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Vehicles not for personal/pleasure use", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Commercial Vehicle", "'Remarks' is required");
-            underwritingTab.verifyFieldHasMessage("Remark Celebrity", "'Remarks' is required");
-        }
-        
-        underwritingTab.fillTab(td_uw3);
-        underwritingTab.submitTab();
-        policy.getDefaultView().fillFromTo(td, DocumentsTab.class, BindTab.class, true);
-        BindTab bindTab = new BindTab();
-        bindTab.btnPurchase.click();
-        
-        Map<String, String> err1_dataRow = new HashMap<>();
-        err1_dataRow.put("Severity", "Error");
-        err1_dataRow.put("Message", "UW approval is required to bind the policy if any applicants or insureds are ...");
-        
-        Map<String, String> err2_dataRow = new HashMap<>();
-        err2_dataRow.put("Severity", "Error");
-        err2_dataRow.put("Message", "Applicants who own property, or reside for extended periods, outside of the U...");
-        
-        Map<String, String> err3_dataRow = new HashMap<>();
-        err3_dataRow.put("Severity", "Error");
-        err3_dataRow.put("Message", "Vehicles used for business, promotional or racing are ineligible.");
-        
-        Map<String, String> err4_dataRow = new HashMap<>();
-        err4_dataRow.put("Severity", "Error");
-        err4_dataRow.put("Message", "Applicants who have been cancelled, refused insurance or non-renewed in the p...");
-        
-        Map<String, String> err5_dataRow = new HashMap<>();
-        err5_dataRow.put("Severity", "Error");
-        err5_dataRow.put("Message", "Residents holding one of the special occupations or holder of any elected or ...");
-        
-        ErrorTab errorTab = new ErrorTab();
-        if(getState().equals("CT")||getState().equals("KY")){
-        	errorTab.errorsList.getTable().getRowContains(err1_dataRow).verify.present();
-        	errorTab.errorsList.getTable().getRowContains(err2_dataRow).verify.present();
-        	errorTab.errorsList.getTable().getRowContains(err3_dataRow).verify.present();
-        }
-        else if (getState().equals("CA")){
-        	errorTab.errorsList.getTable().getRowContains(err5_dataRow).verify.present();
-         	errorTab.errorsList.getTable().getRowContains(err2_dataRow).verify.present();
-         	errorTab.errorsList.getTable().getRowContains(err3_dataRow).verify.present();
-         	errorTab.errorsList.getTable().getRowContains(err4_dataRow).verify.present();       	
-        }
-        else{
-        	errorTab.errorsList.getTable().getRowContains(err1_dataRow).verify.present();
-         	errorTab.errorsList.getTable().getRowContains(err2_dataRow).verify.present();
-         	errorTab.errorsList.getTable().getRowContains(err3_dataRow).verify.present();
-         	errorTab.errorsList.getTable().getRowContains(err4_dataRow).verify.present();
-        }
+		// Enter td_uw4 to change all UW questions as No
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERWRITING_AND_APPROVAL.get());
+		underwritingTab.fillTab(td_uw4);
+		underwritingTab.submitTab();
 
-        errorTab.cancel();
-   
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERWRITING_AND_APPROVAL.get());
-        underwritingTab.fillTab(td_uw4);
-        underwritingTab.submitTab();
-        
-        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
-        policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);
-        new PurchaseTab().submitTab();
-        
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);    
-        log.info("TEST Underwriting rules: PUP Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
+		policy.getDefaultView().fillFromTo(tdPolicy, BindTab.class, PurchaseTab.class, true);
+		policy.getDefaultView().getTab(PurchaseTab.class).submitTab();
 
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		log.info("TEST Underwriting rules: PUP Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
+
+	}
+
+	private void checkErrorMsg(TestData td) {
+		if(td.containsKey(FIELDS_ERROR_KEY))
+			checkFieldsError(td);
+		if(td.containsKey(BOTTOM_ERROR_KEY))
+			checkBottomError(td);
+	}
+
+	private void checkFieldsError(TestData td) {
+		TestData tdFieldsError = td.getTestData(FIELDS_ERROR_KEY);
+		for (String key : tdFieldsError.getKeys())
+			underwritingTab.verifyFieldHasMessage(key, tdFieldsError.getValue(key));
+	}
+	
+	private void checkBottomError(TestData td) {
+		for (String error : td.getList(BOTTOM_ERROR_KEY)) {
+			ErrorPage.provideLabelErrorMessage(error).verify.present();
+		}
+	}
+	
+	private void checkOverrideMsg() {
+		errorTab.verify.errorsPresent(Errors.ERROR_AAA_PUP_SS5310180);
+		errorTab.verify.errorsPresent(Errors.ERROR_AAA_PUP_SS5310750);
+
+		switch(getState()) {
+		case "CT":
+		case "KY":
+			errorTab.verify.errorsPresent(Errors.ERROR_AAA_PUP_SS3171100);
+			break;
+		case "CA":
+			errorTab.verify.errorsPresent(Errors.ERROR_AAA_PUP_SS5311428);
+			//TODO need to add "Residents holding one of the special occupations or holder of any elected or ..."
+			break;
+		default: 
+			errorTab.verify.errorsPresent(Errors.ERROR_AAA_PUP_SS3171100);
+			errorTab.verify.errorsPresent(Errors.ERROR_AAA_PUP_SS5311428);
+		}
 	}
 }

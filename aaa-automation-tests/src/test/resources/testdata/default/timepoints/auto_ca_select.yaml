@@ -1,8 +1,8 @@
 TestData_CA: {
-  Renew generate image: [-83, NONE],
-  Renew check uw rules: [-57, NONE],
-  Renew generate preview: [-45, NONE],
-  Renew generate offer: [-48, PREVIOUS],
+  Renew generate image: [-81, NONE],
+  Renew check uw rules: [-63, NONE],
+  Renew generate preview: [-63, NONE],
+  Renew generate offer: [-35, PREVIOUS],
   Bill generation: [-20, PREVIOUS],
   Offcycle bill generation: [-20, NEXT],
   Bill payment: [0, NEXT],

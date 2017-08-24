@@ -1,0 +1,7 @@
+TestData: {
+  PremiumAndCoveragesQuoteTab: {
+    Payment Plan: Semi-Annual,
+    Recurring Payment: true,
+    Personal Umbrella: '$1,000,000'
+  },
+}

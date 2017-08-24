@@ -90,7 +90,7 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
         
         ErrorTab errorTab = new ErrorTab();
 
-		//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+		//TODO-dchubkov: replace with errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_XXXXXX);
     	errorTab.errorsList.getTable().getRowContains("Message", ER0679).verify.present();
     	errorTab.errorsList.getTable().getRowContains("Message", WM0566).verify.present();
     	errorTab.cancel();
@@ -105,7 +105,7 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.btnPurchase.click();
 
-		//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+		//TODO-dchubkov: replace with errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_XXXXXX);
         errorTab.errorsList.getTable().getRowContains("Message", WM0561).verify.present();
         errorTab.errorsList.getTable().getRowContains("Message", ER0680).verify.present();
         errorTab.cancel();
@@ -146,7 +146,7 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
         ErrorTab errorTab = new ErrorTab();
          
         CustomAssert.enableSoftMode();
-		//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+		//TODO-dchubkov: replace with errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_XXXXXX);
     	errorTab.errorsList.getTable().getRowContains("Message", WM0548).verify.present();
     	errorTab.errorsList.getTable().getRowContains("Message", WM0550).verify.present();
     	errorTab.errorsList.getTable().getRowContains("Message", ER0913).verify.present();
@@ -161,7 +161,7 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.btnPurchase.click();
 
-		//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+		//TODO-dchubkov: replace with errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_XXXXXX);
         errorTab.errorsList.getTable().getRowContains("Message", WM0549).verify.present();
     	errorTab.errorsList.getTable().getRowContains("Message", WM0550).verify.present();
     	errorTab.errorsList.getTable().getRowContains("Message", ER0913).verify.present();

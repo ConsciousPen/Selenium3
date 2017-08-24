@@ -1,0 +1,230 @@
+# --------- TEST DATA FOR FULL TEST -----------
+TestDataFull: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+}
+
+GeneralTab: {
+  State: 'UT',
+  Policy type: 'HO4',
+  Application type: 'New',
+  Commission Type: 'New Business',
+  Lead source: 'AAA Teen',
+  Suppress Print: 'Print documents',
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+}
+
+ApplicantTab: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress',
+  PreviousDwellingAddress: '@PreviousDwellingAddress',
+  MailingAddress: '@MailingAddress',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AgentInfo: '@AgentInfo',
+  OtherActiveAAAPolicies: {},
+}
+
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction',
+  Interior: '@Interior',
+  FireProtectiveDD: '@FireProtectiveDD',
+  TheftProtectiveTPDD: '@TheftProtectiveTPDD',
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+}
+
+EndorsementTab: {
+  'HS 06 14': [{
+    Zip code: '84003',
+    'Street address 1': 'Just a test address',
+    'Street address 2': 'Test Street address 2',
+    Coverage limit: '5000',
+  }]
+}
+
+PremiumsAndCoveragesQuoteTab: {
+  Payment plan: Pay in Full,
+  'Coverage C - Building Additions & Alterations': '20%',
+  'Coverage E - Personal Liability Each Occurrence': '$300,000'
+}
+
+MortgageesTab: {
+  'Use legal named insured': 'Yes',
+  'Use legal property address': 'Yes',
+  'Is there an additional insured?': 'Yes',
+  'Is there a certificate holder?': 'Yes',
+
+  LegalPropetyAddress: {
+    Validate Address: true,
+    Validate Address Dialog: {}
+  },
+  AdditionalInsured: {
+    Interest: 'Trust',
+    Name: 'Pasha Ulybasha'
+  },
+  CertificateHolders: {
+    Name: 'Chuck Norris',
+    Zip code: '84003',
+    Street Address 1: 'Power Str',
+    Street Address 2: 'He is a very cool guy',
+  },
+}
+
+UnderwritingAndApprovalTab: {
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No"
+}
+
+DocumentsTab: {
+  DocumentsToBind: {
+    'Proof of central fire alarm': 'Yes',
+    'Proof of central theft alarm': 'Yes',
+  },
+  DocumentsToIssue: {
+    Signed policy application: 'Physically Signed',
+  }
+}
+
+# ------------------------------------------------------------------
+# ApplicantTab
+NamedInsured: {
+  Prefix: 'Mrs.',
+   First Name: 'Test',
+   Middle name: 'MiddleName',
+   Last name: 'Testovich',
+   Suffix: 'Jr.',
+   Relationship to primary named insured: 'Primary Insured',
+   Marital status: 'Married',
+   Date of birth: '12/05/1970',
+   Social security number: '345756876',
+   Occupation: 'Dentist',
+   AAA employee: 'Yes',
+   Trustee/LLC Owner: 'No',
+}
+
+AAAMembership: {
+  Current AAA Member: 'Yes',
+  Membership number: '4290023667710001',
+  Last name: 'Testovich',
+}
+
+DwellingAddress: {
+  Zip code: '84003',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+PreviousDwellingAddress: {
+  'Has there been another dwelling address within the last 3 consecutive years?': 'Yes',
+  Zip code: '84003',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+MailingAddress: {
+  'Is the mailing address different from the dwelling address?': 'Yes',
+  Zip code: '84003',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+NamedInsuredInformation: {
+  Home Phone Number: '1234567890',
+  Work Phone Number: '1234567891',
+  Mobile Phone Number: '1234567892',
+  'Preferred Phone #': 'index=1',
+  Email: 'test@esigroup.com' ,
+}
+
+AgentInfo: {
+  Channel Type: 'AAA Agent',
+  Agency: 'SMTestNCNU - 400001005',
+  Sales Channel: 'Online',
+  Agency Location: 'SMTestNCNU LOCATION - 400001105 - Emeryville',
+  Agent: 'index=1',
+  TollFree Number: '500001002',
+}
+
+#-------------PropertyInfoTab-------------------------------------------------------------------------
+
+DwellingAddress_PropertyInfoTab: {
+  Number of family units: '2-Duplex'
+}
+
+PropertyValue: {
+  Personal property value: '25000',
+}
+
+Construction: {
+  Year built: '2009',
+  Square footage: '1',
+  Roof type: 'Laminate / Architectural',
+  Construction type: 'index=1',
+  Masonry Veneer: 'No',
+ }
+
+Interior: {
+  Dwelling usage: 'Primary',
+  Occupancy type: 'Tenant occupied',
+  Number of residents: '3',
+  Number of stories: 'index=1'
+}
+
+FireProtectiveDD: {
+  Local fire alarm: true,
+  Central fire alarm : true,
+  Full residential sprinklers: true,
+  Partial residential sprinklers: false,
+}
+
+TheftProtectiveTPDD: {
+  Local theft alarm: true,
+  Central theft alarm: true,
+  Gated community: true,
+}
+
+PetsOrAnimals: {
+  "Are any insured-owned pets or animals kept on the property?": 'Yes',
+  Animal type: 'Livestock - Cow',
+  Animal count: '2'
+}
+
+Stoves: {
+  "Does the property have a wood-burning stove?": 'Yes',
+  "Is the stove the sole source of heat?": 'No',
+  "Was the stove installed by a licensed contractor?": 'Yes',
+  "Does the dwelling have at least one smoke detector per story?": 'Yes'
+}
+
+RecreationalEquipment: {
+  Swimming pool: 'Restricted access with no accessories',
+  Spa/hot tub: 'Restricted access',
+  Trampoline: 'Restricted access in-ground with safety net',
+}

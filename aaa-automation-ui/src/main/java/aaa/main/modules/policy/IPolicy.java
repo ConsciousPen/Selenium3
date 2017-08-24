@@ -141,6 +141,8 @@ public interface IPolicy {
 
 	PolicyActions.UpdateRulesOverride updateRulesOverride();
 
+    PolicyActions.ManualRenewalWithOrWithoutLapse manualRenewalWithOrWithoutLapse();
+
 	//TODO check if used in AAA and delete
 	PolicyActions.RemoveSuspendQuote removeSuspendQuote();
 

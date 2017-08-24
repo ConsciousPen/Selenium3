@@ -12,6 +12,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.utils.datetime.DateTimeUtils;
 
 /**
  * @author Jelena Dembovska
@@ -42,7 +43,7 @@ public class TestPolicyBackdated extends AutoSSBaseTest {
 				.adjust(TestData.makeKeyPath("GeneralTab",
 						AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
 						AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()),
-						"/today-10d:MM/dd/yyyy")
+						DateTimeUtils.getCurrentDateTime().minusDays(10).format(DateTimeUtils.MM_DD_YYYY))
 				.adjust(getTestSpecificTD("TestData").resolveLinks());
 
 		getPolicyType().get().createPolicy(td);

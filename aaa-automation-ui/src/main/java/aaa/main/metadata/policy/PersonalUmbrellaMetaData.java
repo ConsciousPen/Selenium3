@@ -14,6 +14,7 @@ import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
+import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import aaa.toolkit.webdriver.customcontrols.endorsements.PupEndorsementsMultiAssetList;
 import toolkit.webdriver.controls.Button;
@@ -152,6 +153,10 @@ public final class PersonalUmbrellaMetaData {
 			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.NONE);
 			public static final AssetDescriptor<TextBox> COUNTY = declare("County", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<Button> VALIDATE_ADDRESS_DWELLING_ADDRESS = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateAdditionalDwellingAddressButton"));
+			public static final AssetDescriptor<AddressValidationDialog> VALIDATE_ADDRESS_DIALOG_DWELLING_ADDRESS
+ = declare("Validate Address Dialog", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class,
+					By.id(" .//form[@id='addressValidationFormAAAHODwellAddressValidationComp']"));
 		}
 
 		public static final class MailingAddress extends MetaData {
@@ -202,13 +207,13 @@ public final class PersonalUmbrellaMetaData {
 			public static final AssetDescriptor<TextBox> NUMBER_OF_ADDITIONAL_RESIDENCES_ON_HARI = declare("Number of additional residences on HARI", TextBox.class, Waiters.NONE);
 			public static final AssetDescriptor<RadioGroup> PERSONAL_INJURY_ENDORSEMENT_DS_24_82 = declare("Personal Injury endorsement DS 24 82", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip Code", TextBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street Address 1", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street Address 2", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> COUNTY = declare("County", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<RadioGroup> PRIMARY_POLICY = declare("Primary policy", RadioGroup.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street Address 1", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street Address 2", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> COUNTY = declare("County", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<RadioGroup> PRIMARY_POLICY = declare("Primary policy", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> EFFECTIVE_DATE = declare("Effective date", TextBox.class, Waiters.NONE);
 			public static final AssetDescriptor<TextBox> EXPIRATION_DATE = declare("Expiration date", TextBox.class, Waiters.NONE);
 			public static final AssetDescriptor<ComboBox> OCCUPANCY_TYPE = declare("Occupancy type", ComboBox.class, Waiters.AJAX);
@@ -578,6 +583,14 @@ public final class PersonalUmbrellaMetaData {
 		public static final AssetDescriptor<ComboBox> PAYMENT_PLAN_AT_RENEWAL = declare("Payment plan at renewal", ComboBox.class, Waiters.AJAX);
 		
 		public static final AssetDescriptor<ComboBox> PERSONAL_UMBRELLA = declare("Personal Umbrella", ComboBox.class, Waiters.AJAX, true, By.id("policyDataGatherForm:pupCoverageDetail:0:pupTableCoverageLimitSelect"));
+		public static final AssetDescriptor<DialogAssetList> OVERRRIDE_PREMIUM_DIALOG = declare("OverridePremium", DialogAssetList.class, OverridePremiumDialog.class,
+				By.xpath("//form[@id='premiumOverrideInfoFormAAAPUPPremiumOverride']"));
+		public static final class OverridePremiumDialog extends MetaData {
+			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> REMARKS = declare("Remarks", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> OVERRIDE_PREMIUM_BY_FLAT_AMOUNT = declare("Override Premium By Flat Amount", TextBox.class, Waiters.AJAX, By.id("premiumOverrideInfoFormAAAPUPPremiumOverride:deltaPremiumAmt"));
+			public static final AssetDescriptor<TextBox> OVERRIDE_PERCENTAGE = declare("Percentage", TextBox.class, Waiters.AJAX, By.id("premiumOverrideInfoFormAAAPUPPremiumOverride:percentageAmt"));
+	     }
 	}
 	
 	public static final class UnderwritingAndApprovalTab extends MetaData {
@@ -911,5 +924,11 @@ public final class PersonalUmbrellaMetaData {
 	}
 
 	public static final class GenerateOnDemandDocumentActionTab extends MetaData {
+	}
+	public static final class ManualRenewalWithOrWithoutLapseActionTab extends MetaData {
+		public static final AssetDescriptor<TextBox> EXPIRATION_DATE = declare("Expiration Date", TextBox.class);
+		public static final AssetDescriptor<TextBox> RENEWAL_LAPSE_DATE = declare("Renewal Lapse Date", TextBox.class);
+		public static final AssetDescriptor<TextBox> REVISED_RENEWAL_DATE = declare("Revised Renewal Date", TextBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<ComboBox> LAPSE_CHANGE_REASON = declare("Lapse Change Reason", ComboBox.class, Waiters.AJAX);
 	}
 }

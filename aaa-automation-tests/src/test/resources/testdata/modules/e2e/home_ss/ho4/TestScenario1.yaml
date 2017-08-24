@@ -21,6 +21,6 @@ TestData_Endorsement: {
   MortgageesTab: {},
   UnderwritingAndApprovalTab: {},
   DocumentsTab: {},
-  BindTab: {},
+  BindTab: {}
 }
 

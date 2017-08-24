@@ -94,7 +94,7 @@ public class AutoCaPolicy implements IPolicy {
     public void purchase(TestData td) {
         dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
-		new DocumentsAndBindTab().submitTab();
+		new DocumentsAndBindTab().fillTab(td).submitTab();
 		new PurchaseTab().fillTab(td).submitTab();
 		log.info("Purchased Quote " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
 	}
@@ -295,6 +295,11 @@ public class AutoCaPolicy implements IPolicy {
 	public PolicyActions.RollOn rollOn() {
 		//return null;
 		return new AutoCaPolicyActions.RollOn();
+	}
+
+	@Override
+	public PolicyActions.ManualRenewalWithOrWithoutLapse manualRenewalWithOrWithoutLapse() {
+		throw new UnsupportedOperationException("Action manualRenewalWithOrWithoutLapse is not defined for Auto Policy");
 	}
 
 }
