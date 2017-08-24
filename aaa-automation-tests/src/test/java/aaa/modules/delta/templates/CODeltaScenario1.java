@@ -152,7 +152,7 @@ public class CODeltaScenario1 extends BaseTest {
 		new BindTab().btnPurchase.click();
 		
 		ErrorTab errorTab = new ErrorTab();
-		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS10060735);
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS10060735);
 		errorTab.cancel();
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get()); 

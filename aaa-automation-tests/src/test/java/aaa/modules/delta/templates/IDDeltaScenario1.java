@@ -84,7 +84,7 @@ public class IDDeltaScenario1 extends BaseTest {
 		
 		ErrorTab errorTab = new ErrorTab(); 
 		CustomAssert.enableSoftMode();	
-		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS14061993);
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS14061993);
 		errorTab.cancel(); 
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());

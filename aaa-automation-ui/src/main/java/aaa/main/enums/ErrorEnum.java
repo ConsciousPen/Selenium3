@@ -4,6 +4,8 @@ public class ErrorEnum {
 
     public enum Errors {
         ERROR_200103("200103", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
+        ERROR_200401("200401", "Credit Adverse Impact requires Underwriting Review and approval"),
+        ERROR_200060_CO("200060_CO", "If Medical Payments coverage is rejected, a signed form must be received"),
         //Property errors
 
         ERROR_AAA_HO_CA_15011_1("AAA_HO_CA_15011_1", "Dwellings built prior to 1940 must have all four major systems fully renovated."),
@@ -38,8 +40,11 @@ public class ErrorEnum {
         ERROR_AAA_PUP_SS5310180("AAA_PUP_SS5310180", "Applicants who own property, or reside for extended periods, outside of the U..."),
         ERROR_AAA_PUP_SS5310750("AAA_PUP_SS5310750", "Vehicles used for business, promotional or racing are ineligible."),
         ERROR_AAA_PUP_SS5311428("AAA_PUP_SS5311428", "Applicants who have been cancelled, refused insurance or non-renewed in the p..."),
-        ;
-        //TODO: add other rules there...
+
+        ERROR_AAA_CSA3080819("AAA_CSA3080819", "Home policy is indicated but home policy # doesn't exist"),
+        ERROR_AAA_XXXXX("CondoXXXXX", "Condo policy is indicated but condo policy # doesn't exist"), // <-- TODO-dchubkov: set correct code!
+        ERROR_AAA_CSA3082394("AAA_CSA3082394", "Life policy is indicated but life policy # doesn't exist"),
+        ERROR_AAA_CSA3083444("AAA_CSA3083444", "Renters policy is indicated but renters policy # doesn't exist");
         
         private String code;
         private String message;

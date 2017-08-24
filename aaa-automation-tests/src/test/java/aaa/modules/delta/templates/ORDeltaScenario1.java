@@ -82,10 +82,10 @@ public class ORDeltaScenario1 extends BaseTest {
         
         ErrorTab errorTab = new ErrorTab(); 
         if (getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
-        	errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3151364);
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3151364);
         }
         else {
-        	errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3150198);
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3150198);
         }
 		errorTab.cancel(); 
 		
@@ -118,13 +118,13 @@ public class ORDeltaScenario1 extends BaseTest {
 		
         ErrorTab errorTab = new ErrorTab(); 	
         if (getPolicyType().equals(PolicyType.HOME_SS_HO4)) {
-        	errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1050670_OR);
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1050670_OR);
         }
         else {
-        	errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1020340_OR);
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1020340_OR);
         }
-		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12023000);
-		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12200234);
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12023000);
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12200234);
 		errorTab.cancel(); 
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());

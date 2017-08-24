@@ -1,4 +1,5 @@
 {
-"headerLocator": ".//tr[1]",
-"rowThatTemplate": "/tbody/tr[position()>1][%s]"
+  "headerLocator": ".//tr[1]",
+  "rowThatTemplate": "/tbody/tr[position()>1][%s]",
+  "columnByIndexTemplate": "/tbody[1]/tr[position()>1]/td[%s]"
 }
