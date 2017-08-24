@@ -184,22 +184,7 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
 		propertyInfoTab.fillTab(td);
 	}
-	
-	public static void verifyDaysOfNotice(String daysOfNotice, int days, String err_message) {
-		CancelNoticeActionTab cancelNoticeTab = new CancelNoticeActionTab();		
-		
-		CustomAssert.assertTrue("'Days of Notice' has wrong value on Cancel Notice tab", 
-				cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.DAYS_OF_NOTICE.getLabel()).getValue().toString().equals(daysOfNotice));
-		
-		String cancelEffectiveDate_default = DateTimeUtils.getCurrentDateTime().plusDays(days).format(DateTimeUtils.MM_DD_YYYY);
-		CustomAssert.assertTrue("'Cancellation Effective date' has wrong value on Cancel Notice Tab",
-				cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()).getValue().toString().equals(cancelEffectiveDate_default));
-		
-		//cancelNoticeTab.fillTab(td); 
-		cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE).setValue(
-				DateTimeUtils.getCurrentDateTime().plusDays(days-1).format(DateTimeUtils.MM_DD_YYYY));
-		cancelNoticeTab.verifyFieldHasMessage(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel(), err_message); 
-	}
+
 	
 	public static void verifyDaysOfNotice(String daysOfNotice, int days, String err_message1, String err_message2) {
 		CancelNoticeActionTab cancelNoticeTab = new CancelNoticeActionTab();	

@@ -174,30 +174,20 @@ public class CTDeltaScenario1 extends BaseTest {
 	} 
 	
 	public void TC_verifyCancelNoticeTab() {
-		//TestData td_plus33days = getTestSpecificTD("TestData_Plus33Days");
 		TestData td_plus34days = getTestSpecificTD("TestData_Plus34Days");
 		
 		String error_9931 = "Cancellation effective date must be at least 34 days from today when the policy is within the new business discovery period.";
+		String error_9208 = "Cancellation effective date must be before the end of the policy term.";
 		
 		mainApp().open(); 		
 		SearchPage.openPolicy(policyNumber);
 		
 		policy.cancelNotice().start(); 
-		CancelNoticeActionTab cancelNoticeTab = new CancelNoticeActionTab();
 		CustomAssert.enableSoftMode();	
 		
-		HssQuoteDataGatherHelper.verifyDaysOfNotice("34", 34, error_9931);
-/*
-		CustomAssert.assertTrue("'Days of Notice' has wrong value on Cancel Notice tab", 
-				cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.DAYS_OF_NOTICE.getLabel()).getValue().toString().equals("34"));
+		HssQuoteDataGatherHelper.verifyDaysOfNotice("34", 34, error_9931, error_9208);
 		
-		String cancelEffectiveDate_default = DateTimeUtils.getCurrentDateTime().plusDays(34).format(DateTimeUtils.MM_DD_YYYY);
-		CustomAssert.assertTrue("'Cancellation Effective date' has wrong value on Cancel Notice Tab",
-				cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()).getValue().toString().equals(cancelEffectiveDate_default));
-		
-		cancelNoticeTab.fillTab(td_plus33days);
-		cancelNoticeTab.verifyFieldHasMessage(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel(), er9931); 
-*/		
+		CancelNoticeActionTab cancelNoticeTab = new CancelNoticeActionTab();
 		cancelNoticeTab.fillTab(td_plus34days);
 		CancelNoticeActionTab.buttonOk.click();
 		
