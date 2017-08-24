@@ -92,13 +92,17 @@ public abstract class CommonErrorTab extends Tab {
 		public void errorsPresent(boolean expectedValue, ErrorEnum.Errors... errors) {
 			Map<String, String> errorQuery = new HashMap<>();
 
+			//TODO-dchubkov: implement comparison of given full error message with truncated error ou UI (with '...')
 			for (ErrorEnum.Errors error : errors) {
-				errorQuery.put("Code", error.getCode());
-				errorQuery.put("Message", error.getMessage());
 				String message = String.format("Underwriting Rule %1$s is not %2$s as expected.", error, expectedValue ? "present" : "absent");
-
-				//TODO-dchubkov: implement comparison of given full error message with truncated error ou UI (with '...')
-				errorsList.getTable().getRow(errorQuery).verify.present(message, expectedValue);
+				errorQuery.put("Code", error.getCode());
+				if (error.getMessage().contains("'")) {
+					errorQuery.put("Message", error.getMessage().replaceAll("'.*", "")); // quote in message breaks xpath
+					errorsList.getTable().getRowContains(errorQuery).verify.present(message, expectedValue); // search by part of message
+				} else {
+					errorQuery.put("Message", error.getMessage());
+					errorsList.getTable().getRow(errorQuery).verify.present(message, expectedValue);
+				}
 			}
 		}
 	}

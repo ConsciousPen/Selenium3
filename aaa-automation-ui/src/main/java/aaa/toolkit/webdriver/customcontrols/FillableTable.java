@@ -110,23 +110,17 @@ public class FillableTable extends AbstractContainer<List<TestData>, List<TestDa
 			}
 
 			Row fillableRow;
-			String findRowByAssertionMessage;
-
 			if (searchRowQuery.isEmpty()) {
 				fillableRow = fillableTable.getRow(rowToFillIndex);
-				findRowByAssertionMessage = "by row number: " + rowToFillIndex;
 			} else {
 				if (searchRowByContains) {
 					fillableRow = fillableTable.getRowContains(searchRowQuery);
-					findRowByAssertionMessage = "by contains query: " + searchRowQuery.entrySet();
 				} else {
 					fillableRow = fillableTable.getRow(searchRowQuery);
-					findRowByAssertionMessage = "by query: " + searchRowQuery.entrySet();
 				}
 			}
-			fillableRow.verify.present(String.format("Can't find row in \"%1$s\" fillable table %2$s.", getName(), findRowByAssertionMessage));
-			fillRow(fillableRow, rowData);
 
+			fillRow(fillableRow, rowData);
 			rowToFillIndex++;
 		}
 	}

@@ -1,0 +1,10 @@
+TestData_Minus10Days: {
+  GeneralTab: {
+    PolicyInfo: {
+      Effective date: '/today-10d:MM/dd/yyyy'
+    },
+    CurrentCarrier: {
+      Base date with AAA: '/today-10d:MM/dd/yyyy'
+    }
+  }
+}

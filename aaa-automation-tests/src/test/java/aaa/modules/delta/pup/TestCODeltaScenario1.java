@@ -9,13 +9,13 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
+import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksOtherVehiclesTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksPropertyTab;
-import aaa.main.modules.policy.pup.defaulttabs.UnderwritingAndApprovalTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import toolkit.datax.TestData;
@@ -86,11 +86,10 @@ public class TestCODeltaScenario1 extends PersonalUmbrellaBaseTest {
 		NavigationPage.toViewTab(PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
 		PremiumAndCoveragesQuoteTab premiumQuoteTab = policy.getDefaultView().getTab(PremiumAndCoveragesQuoteTab.class);
 		premiumQuoteTab.calculatePremium();
-		premiumQuoteTab.submitTab();
-
-		policy.getDefaultView().fillFromTo(getPolicyTD(), UnderwritingAndApprovalTab.class, PurchaseTab.class, true);
-		PurchaseTab purchaseTab = policy.getDefaultView().getTab(PurchaseTab.class);
-		purchaseTab.submitTab();
+		
+		NavigationPage.toViewTab(PersonalUmbrellaTab.BIND.get());
+		policy.getDefaultView().getTab(BindTab.class).submitTab();
+		policy.getDefaultView().getTab(PurchaseTab.class).fillTab(getPolicyTD()).submitTab();
 		
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
@@ -152,6 +151,7 @@ public class TestCODeltaScenario1 extends PersonalUmbrellaBaseTest {
 
 	private static ArrayList<String> auto_CurrentCarrierLOVs = new ArrayList<String>();
 	static {
+		auto_CurrentCarrierLOVs.add("");
 		auto_CurrentCarrierLOVs.add("AAA-Michigan (ACG)");
 		auto_CurrentCarrierLOVs.add("AAA-NoCal (CSAA IG)");
 		auto_CurrentCarrierLOVs.add("AAA-SoCal (ACSC)");
@@ -178,6 +178,7 @@ public class TestCODeltaScenario1 extends PersonalUmbrellaBaseTest {
 		auto_CurrentCarrierLOVs.add("Foremost");
 		auto_CurrentCarrierLOVs.add("GEICO");
 		auto_CurrentCarrierLOVs.add("GMAC");
+		auto_CurrentCarrierLOVs.add("Grange");
 		auto_CurrentCarrierLOVs.add("Great American");
 		auto_CurrentCarrierLOVs.add("Guaranty National");
 		auto_CurrentCarrierLOVs.add("GuideOne");
@@ -214,6 +215,7 @@ public class TestCODeltaScenario1 extends PersonalUmbrellaBaseTest {
 
 	private static ArrayList<String> antq_CurrentCarrierLOVs = new ArrayList<String>();
 	static {
+		antq_CurrentCarrierLOVs.add("");
 		antq_CurrentCarrierLOVs.add("AAA-Michigan (ACG)");
 		antq_CurrentCarrierLOVs.add("AAA-NoCal (CSAA IG)");
 		antq_CurrentCarrierLOVs.add("AAA-SoCal (ACSC)");
@@ -278,6 +280,7 @@ public class TestCODeltaScenario1 extends PersonalUmbrellaBaseTest {
 
 	private static ArrayList<String> motorcycle_CurrentCarrierLOVs = new ArrayList<String>();
 	static {
+		motorcycle_CurrentCarrierLOVs.add("");
 		motorcycle_CurrentCarrierLOVs.add("AAA-Michigan (ACG)");
 		motorcycle_CurrentCarrierLOVs.add("AAA-NoCal (CSAA IG)");
 		motorcycle_CurrentCarrierLOVs.add("AAA-SoCal (ACSC)");
@@ -341,6 +344,7 @@ public class TestCODeltaScenario1 extends PersonalUmbrellaBaseTest {
 
 	private static ArrayList<String> motorhome_CurrentCarrierLOVs = new ArrayList<String>();
 	static {
+		motorhome_CurrentCarrierLOVs.add("");
 		motorhome_CurrentCarrierLOVs.add("AAA-Michigan (ACG)");
 		motorhome_CurrentCarrierLOVs.add("AAA-NoCal (CSAA IG)");
 		motorhome_CurrentCarrierLOVs.add("AAA-SoCal (ACSC)");
@@ -404,6 +408,7 @@ public class TestCODeltaScenario1 extends PersonalUmbrellaBaseTest {
 
 	private static ArrayList<String> watercraft_CurrentCarrierLOVs = new ArrayList<String>();
 	static {
+		watercraft_CurrentCarrierLOVs.add("");
 		watercraft_CurrentCarrierLOVs.add("AAA-Michigan (ACG)");
 		watercraft_CurrentCarrierLOVs.add("AAA-NoCal (CSAA IG)");
 		watercraft_CurrentCarrierLOVs.add("AAA-SoCal (ACSC)");

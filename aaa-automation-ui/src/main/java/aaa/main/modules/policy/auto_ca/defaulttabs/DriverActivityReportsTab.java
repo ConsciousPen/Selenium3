@@ -4,8 +4,11 @@
  */
 package aaa.main.modules.policy.auto_ca.defaulttabs;
 
+import org.openqa.selenium.By;
+
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoCaMetaData;
+import toolkit.webdriver.controls.composite.table.Table;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -14,6 +17,10 @@ import aaa.main.metadata.policy.AutoCaMetaData;
  * @category Generated
  */
 public class DriverActivityReportsTab extends Tab {
+	
+	public static Table tableCLUEReports = new Table(By.id("policyDataGatherForm:extLossReports"));
+	public static Table tableMVRReports = new Table(By.id("policyDataGatherForm:mvrReports"));
+	
 	public DriverActivityReportsTab() {
 		super(AutoCaMetaData.DriverActivityReportsTab.class);
 	}

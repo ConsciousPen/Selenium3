@@ -4,23 +4,26 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.composite.assets.AssetList;
-import aaa.common.enums.ErrorPageEnum;
 import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.ErrorPage;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 
+@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
+
+    GeneralTab generalTab = new GeneralTab();
 
     /**
       * @author Jurij Kuznecov
@@ -34,10 +37,10 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
       * 6. Bind a policy
       * 7. Verify policy status is Policy Pending  
       */
-    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
+
+    @Test(enabled = true)
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
     public void testQuoteFuturedated() {
-        GeneralTab generalTab = new GeneralTab();
         String expectedWarning = "Policy effective date cannot be more than 90 days from today's date.";
 
         mainApp().open();
@@ -71,19 +74,17 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
     * 7. Recalculate premium and bind policy
     * 8. Verify policy status is Active
     */
-    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
+
+    @Test(enabled = true)
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
     public void testQuoteBackdated() {
-        GeneralTab generalTab = new GeneralTab();
-        String expectedWarning = "Policy effective date cannot be backdated more than three days from today's d...";
 
         mainApp().open();
         createCustomerIndividual();
 
         policy.initiate();
         generalTab.fillTab(getPolicyTD());
-        generalTab.getAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.class.getSimpleName(), AssetList.class).getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE)
-                .setValue(DateTimeUtils.getCurrentDateTime().minusDays(10).format(DateTimeUtils.MM_DD_YYYY));
+        generalTab.fillTab(getTestSpecificTD("TestData_Minus10Days"));
         //TODO Change if bug will be fixed
         //generalTab.getAssetList().getAsset(HomeCaMetaData.GeneralTab.POLICY_INFO).getWarning(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE.getLabel()).verify.contains(expectedWarning);
         //generalTab.getAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.class.getSimpleName(), AssetList.class).getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE)
@@ -96,8 +97,9 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
         policy.getDefaultView().fillFromTo(getPolicyTD(), ApplicantTab.class, BindTab.class);
         new BindTab().btnPurchase.click();
 
-        ErrorPage.tableError.getRow(1).getCell(ErrorPageEnum.ErrorsColumn.MESSAGE.get()).verify.contains(expectedWarning);
-        ErrorPage.buttonCancel.click();
+        ErrorTab errorTab = new ErrorTab();
+        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_CA3230672);
+        errorTab.cancel();
 
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.GENERAL.get());
         generalTab.getAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.class.getSimpleName(), AssetList.class).getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE)
