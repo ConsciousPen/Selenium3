@@ -30,8 +30,7 @@ public class TestPolicyCreationFull extends HomeCaDP3BaseTest {
         createCustomerIndividual();
         createPolicy(getTestSpecificTD("TestDataFull"));
 
-        //TODO Add values in YAML for FULL test for tabs after Rating (Mortgagee, Underwriting&Approval, Documents, Bind)
-
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        log.info("TEST: CA DP3 Full is passed; Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
     }
 }
