@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 
 import aaa.common.Tab;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
-import toolkit.webdriver.controls.composite.assets.AssetList;
+import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import toolkit.webdriver.controls.composite.table.Table;
 
 /**
@@ -37,16 +37,16 @@ public class UnderlyingRisksPropertyTab extends Tab {
         return this;
     }
     
-    public AssetList getAdditionalResidenciesAssetList() {
-    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.ADDITIONAL_RESIDENCIES.getLabel(), AssetList.class);
+    public MultiInstanceAfterAssetList getAdditionalResidenciesAssetList() {
+    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.ADDITIONAL_RESIDENCIES.getLabel(), MultiInstanceAfterAssetList.class);
 	}
-    public AssetList getBusinessOrFarmingCoverageAssetList() {
-    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.BUSINESS_OR_FARMING_COVERAGE.getLabel(), AssetList.class);
+    public MultiInstanceAfterAssetList getBusinessOrFarmingCoverageAssetList() {
+    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.BUSINESS_OR_FARMING_COVERAGE.getLabel(), MultiInstanceAfterAssetList.class);
 	}
-    public AssetList getPetsOrAnimalsInfoAssetList() {
-    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.PETS_OR_ANIMAL_INFORMATION.getLabel(), AssetList.class);
+    public MultiInstanceAfterAssetList getPetsOrAnimalsInfoAssetList() {
+    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.PETS_OR_ANIMAL_INFORMATION.getLabel(), MultiInstanceAfterAssetList.class);
 	}
-    public AssetList getRecreationalEquipmentInfoAssetList() {
-    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.RECREATIONAL_EQUIPMENT_INFORMATION.getLabel(), AssetList.class);
+    public MultiInstanceAfterAssetList getRecreationalEquipmentInfoAssetList() {
+    	return getAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.RECREATIONAL_EQUIPMENT_INFORMATION.getLabel(), MultiInstanceAfterAssetList.class);
 	}
 }
