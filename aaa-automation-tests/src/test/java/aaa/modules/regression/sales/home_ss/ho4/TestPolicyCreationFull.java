@@ -21,6 +21,6 @@ public class TestPolicyCreationFull extends HomeSSHO4BaseTest {
 		policy.createPolicy(getTestSpecificTD("TestDataFull"));
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		log.info("TEST: HSS06 Full Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
+		log.info("TEST: Hss HO4 Full Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
 	}
 }
