@@ -17,7 +17,6 @@ import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.apache.commons.lang.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import toolkit.datax.DataProviderFactory;
@@ -347,7 +346,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 				ErrorEnum.Errors.ERROR_AAA_CSA3080819,
 				ErrorEnum.Errors.ERROR_AAA_CSA3082394,
 				ErrorEnum.Errors.ERROR_AAA_CSA3083444,
-				ErrorEnum.Errors.ERROR_AAA_XXXXX);
+				ErrorEnum.Errors.ERROR_AAA_CSA3080903);
 
 		errorTab.overrideErrors(ErrorEnum.Errors.ERROR_200060_CO, ErrorEnum.Errors.ERROR_200401);
 
@@ -368,25 +367,27 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		policy.quoteDocGen().start();
 
 		List<TestData> expectedData = new ArrayList<>(8);
-		expectedData.add(DataProviderFactory.dataOf("Select", "", "Document #", "AA11CO", "Document Name", "Colorado Auto Insurance Application"));
-		expectedData.add(DataProviderFactory.dataOf("Select", "", "Document #", "AA43CO", "Document Name", "Named Driver Exclusion Endorsement"));
-		expectedData.add(DataProviderFactory.dataOf("Select", "", "Document #", "AAIQCO", "Document Name", "Auto Insurance Quote"));
-		expectedData.add(DataProviderFactory.dataOf("Select", "", "Document #", "AHFMXX", "Document Name", "Fax Memorandum"));
-		expectedData.add(DataProviderFactory.dataOf("Select", "", "Document #", "AU03", "Document Name", "Notice of Declination"));
-		expectedData.add(DataProviderFactory.dataOf("Select", "", "Document #", "AA16CO", "Document Name", "MEDICAL PAYMENTS REJECTION OF COVERAGE"));
-		expectedData.add(DataProviderFactory.dataOf("Select", "", "Document #", "AADNCO", "Document Name", "Colorado Private Passenger Automobile Insurance Summary Disclosure Form"));
-		expectedData.add(DataProviderFactory.dataOf("Select", "", "Document #", "AHAUXX", "Document Name", "Consumer Information Notice")); //missed in original TC
+		expectedData.add(DataProviderFactory.dataOf("Document #", "AA11CO", "Document Name", "Colorado Auto Insurance Application"));
+		expectedData.add(DataProviderFactory.dataOf("Document #", "AA43CO", "Document Name", "Named Driver Exclusion Endorsement"));
+		expectedData.add(DataProviderFactory.dataOf("Document #", "AAIQCO", "Document Name", "Auto Insurance Quote"));
+		expectedData.add(DataProviderFactory.dataOf("Document #", "AHFMXX", "Document Name", "Fax Memorandum"));
+		expectedData.add(DataProviderFactory.dataOf("Document #", "AU03", "Document Name", "Notice of Declination"));
+		expectedData.add(DataProviderFactory.dataOf("Document #", "AA16CO", "Document Name", "MEDICAL PAYMENTS REJECTION OF COVERAGE"));
+		expectedData.add(DataProviderFactory.dataOf("Document #", "AADNCO", "Document Name", "Colorado Private Passenger Automobile Insurance Summary Disclosure Form"));
+		expectedData.add(DataProviderFactory.dataOf("Document #", "AHAUXX", "Document Name", "Consumer Information Notice")); //missed in original TC
+		expectedData.forEach(e -> e.adjust("Select", ""));
 
 		FillableDocumentsTable documents = goddTab.getAssetList().getAsset(AutoSSMetaData.GenerateOnDemandDocumentActionTab.ON_DEMAND_DOCUMENTS);
 		documents.getTable().verify.value(expectedData);
 		documents.getTable().getRow("Document #", "AA43CO").getCell("Select").controls.checkBoxes.getFirst().verify.enabled(false);
 
-		expectedData.removeIf(e -> e.getValue("Document #").equals("AA43CO"));
-		expectedData.add(DataProviderFactory.dataOf("Free Form Text", RandomStringUtils.randomAlphanumeric(10)));
+		expectedData.forEach(e -> e.adjust("Select", "true"));
+		expectedData.add(DataProviderFactory.dataOf("Free Form Text", "Free Text"));
 		documents.setValue(expectedData);
 
 		goddTab.getAssetList().getAsset(AutoSSMetaData.GenerateOnDemandDocumentActionTab.DELIVERY_METHOD).setValue("Central Print");
 		policy.quoteDocGen().submit();
+		NavigationPage.Verify.mainTabSelected(NavigationEnum.AppMainTabs.QUOTE.get());
 	}
 
 	private void preconditions(NavigationEnum.AutoSSTab navigateTo) {

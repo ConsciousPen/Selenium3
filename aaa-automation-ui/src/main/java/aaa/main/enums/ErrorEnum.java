@@ -42,7 +42,7 @@ public class ErrorEnum {
         ERROR_AAA_PUP_SS5311428("AAA_PUP_SS5311428", "Applicants who have been cancelled, refused insurance or non-renewed in the p..."),
 
         ERROR_AAA_CSA3080819("AAA_CSA3080819", "Home policy is indicated but home policy # doesn't exist"),
-        ERROR_AAA_XXXXX("CondoXXXXX", "Condo policy is indicated but condo policy # doesn't exist"), // <-- TODO-dchubkov: set correct code!
+        ERROR_AAA_CSA3080903("AAA_CSA3080903", "Condo policy is indicated but condo policy # doesn't exist"),
         ERROR_AAA_CSA3082394("AAA_CSA3082394", "Life policy is indicated but life policy # doesn't exist"),
         ERROR_AAA_CSA3083444("AAA_CSA3083444", "Renters policy is indicated but renters policy # doesn't exist");
         
