@@ -11,6 +11,7 @@
 		<classes>
 			<class name="aaa.modules.regression.common.TestSearchPageFillingAndWarnings" />
 			<class name="aaa.modules.regression.common.TestSearchForAllCriteria" />
+			<class name="aaa.modules.regression.common.TestAccountUpdate" />
 		</classes>
 	</test>
 
