@@ -48,7 +48,6 @@ public class TestPolicyChangeInsuredDeceased extends PersonalUmbrellaBaseTest{
 		TestData td_Endorsement = getPolicyTD("Endorsement", "TestData");
 		TestData td_Endorsement1 = getTestSpecificTD("TestData_Endorsement1");
 		TestData td_Endorsement2 = getTestSpecificTD("TestData_Endorsement2");
-//		PrefillTab prefilltab=policy.getDefaultView().getTab(PrefillTab.class);
 
 //       change NI1 as Deceased 
 		policy.endorse().performAndFill(td_Endorsement);
