@@ -1,0 +1,29 @@
+TestData_CA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ca_select>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ca_select>@DataGather@DriverTab',
+  MembershipTab: '@<auto_ca_select>@DataGather@MembershipTab',
+  VehicleTab: '@<auto_ca_select>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ca_select>@DataGather@AssignmentTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@<auto_ca_select>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
+}
+
+# ------------- Tabs ----------
+
+PrefillTab: {
+  First Name: Greg,
+  Last Name: Red,
+  #Zip Code: 94544,
+  #Address Line 1: 8416 Briggs Drive,
+  #Date of Birth: '07/08/1976',
+  Validate Address: click,
+  Validate Address Dialog: {
+    },
+  Order Prefill: click
+}
+
+
+
+
