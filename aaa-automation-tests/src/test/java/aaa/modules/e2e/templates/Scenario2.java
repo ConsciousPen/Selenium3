@@ -163,21 +163,17 @@ public class Scenario2 extends ScenarioBaseTest {
 	}
 
 	protected void generateTenthBill() {
-		if (!getState().equals("KY"))
-			generateAndCheckBill(installmentDueDates.get(10));
-		else {
-			LocalDateTime billDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(10));
-			if (DateTimeUtils.getCurrentDateTime().isAfter(billDate)) {
-				billDate = DateTimeUtils.getCurrentDateTime();
-			}
-			TimeSetterUtil.getInstance().nextPhase(billDate);
-			JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
-			mainApp().open();
-			SearchPage.openBilling(policyNum);
-			new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(10), getTimePoints().getBillGenerationDate(installmentDueDates.get(10)));
-			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillGenerationDate(installmentDueDates.get(10)))
-					.setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
+		LocalDateTime billDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(10));
+		if (DateTimeUtils.getCurrentDateTime().isAfter(billDate)) {
+			billDate = DateTimeUtils.getCurrentDateTime();
 		}
+		TimeSetterUtil.getInstance().nextPhase(billDate);
+		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
+		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(10), getTimePoints().getBillGenerationDate(installmentDueDates.get(10)));
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillGenerationDate(installmentDueDates.get(10)))
+				.setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
 	protected void renewalImageGeneration() {

@@ -21,7 +21,6 @@ import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
-import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 
 public class CTDeltaScenario1 extends BaseTest { 
@@ -175,10 +174,10 @@ public class CTDeltaScenario1 extends BaseTest {
 	} 
 	
 	public void TC_verifyCancelNoticeTab() {
-		TestData td_plus33days = getTestSpecificTD("TestData_Plus33Days");
+		//TestData td_plus33days = getTestSpecificTD("TestData_Plus33Days");
 		TestData td_plus34days = getTestSpecificTD("TestData_Plus34Days");
 		
-		String er9931 = "Cancellation effective date must be at least 34 days from today when the policy is within the new business discovery period.";
+		String error_9931 = "Cancellation effective date must be at least 34 days from today when the policy is within the new business discovery period.";
 		
 		mainApp().open(); 		
 		SearchPage.openPolicy(policyNumber);
@@ -186,7 +185,9 @@ public class CTDeltaScenario1 extends BaseTest {
 		policy.cancelNotice().start(); 
 		CancelNoticeActionTab cancelNoticeTab = new CancelNoticeActionTab();
 		CustomAssert.enableSoftMode();	
-
+		
+		HssQuoteDataGatherHelper.verifyDaysOfNotice("34", 34, error_9931);
+/*
 		CustomAssert.assertTrue("'Days of Notice' has wrong value on Cancel Notice tab", 
 				cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.DAYS_OF_NOTICE.getLabel()).getValue().toString().equals("34"));
 		
@@ -196,9 +197,8 @@ public class CTDeltaScenario1 extends BaseTest {
 		
 		cancelNoticeTab.fillTab(td_plus33days);
 		cancelNoticeTab.verifyFieldHasMessage(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel(), er9931); 
-		
+*/		
 		cancelNoticeTab.fillTab(td_plus34days);
-		//cancelNoticeTab.submitTab();
 		CancelNoticeActionTab.buttonOk.click();
 		
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);

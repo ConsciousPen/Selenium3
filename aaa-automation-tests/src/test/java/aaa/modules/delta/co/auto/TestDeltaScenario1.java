@@ -7,6 +7,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.*;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+//import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentActionTab;
@@ -31,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static aaa.main.enums.OnDemandDocumentEnum.*;
 
 /**
  * @author Dmitry Chubkov
@@ -367,14 +370,14 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		policy.quoteDocGen().start();
 
 		List<TestData> expectedData = new ArrayList<>(8);
-		expectedData.add(DataProviderFactory.dataOf("Document #", "AA11CO", "Document Name", "Colorado Auto Insurance Application"));
-		expectedData.add(DataProviderFactory.dataOf("Document #", "AA43CO", "Document Name", "Named Driver Exclusion Endorsement"));
-		expectedData.add(DataProviderFactory.dataOf("Document #", "AAIQCO", "Document Name", "Auto Insurance Quote"));
-		expectedData.add(DataProviderFactory.dataOf("Document #", "AHFMXX", "Document Name", "Fax Memorandum"));
-		expectedData.add(DataProviderFactory.dataOf("Document #", "AU03", "Document Name", "Notice of Declination"));
-		expectedData.add(DataProviderFactory.dataOf("Document #", "AA16CO", "Document Name", "MEDICAL PAYMENTS REJECTION OF COVERAGE"));
-		expectedData.add(DataProviderFactory.dataOf("Document #", "AADNCO", "Document Name", "Colorado Private Passenger Automobile Insurance Summary Disclosure Form"));
-		expectedData.add(DataProviderFactory.dataOf("Document #", "AHAUXX", "Document Name", "Consumer Information Notice")); //missed in original TC
+		expectedData.add(DataProviderFactory.dataOf("Document #", AA11CO.getId(), "Document Name", AA11CO.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", AA43CO.getId(), "Document Name", AA43CO.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", AAIQCO.getId(), "Document Name", AAIQCO.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", AHFMXX.getId(), "Document Name", AHFMXX.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", AU03.getId(), "Document Name", AU03.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", AA16CO.getId(), "Document Name", AA16CO.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", AADNCO.getId(), "Document Name", AADNCO.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", AHAUXX.getId(), "Document Name", AHAUXX.getName())); //missed in original TC
 		expectedData.forEach(e -> e.adjust("Select", ""));
 
 		FillableDocumentsTable documents = goddTab.getAssetList().getAsset(AutoSSMetaData.GenerateOnDemandDocumentActionTab.ON_DEMAND_DOCUMENTS);
@@ -388,6 +391,18 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		goddTab.getAssetList().getAsset(AutoSSMetaData.GenerateOnDemandDocumentActionTab.DELIVERY_METHOD).setValue("Central Print");
 		policy.quoteDocGen().submit();
 		NavigationPage.Verify.mainTabSelected(NavigationEnum.AppMainTabs.QUOTE.get());
+		quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+	}
+
+	/**
+	 * @author Dmitry Chubkov
+	 * @name CO_SC1_TC10
+	 */
+	@Test
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
+	public void testSC1_TC10() {
+		//DocGenHelper.Verify.documentsExists(getQuoteNumber(), AA11CO, AA43CO, AAIQCO, AHFMXX, AU03, AA16CO, AADNCO, AHAUXX);
+		//TODO-dchubkov: to be continued...
 	}
 
 	private void preconditions(NavigationEnum.AutoSSTab navigateTo) {

@@ -123,13 +123,13 @@ public class TestScenario2 extends Scenario2 {
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC22_Generate_Tenth_Bill() {
-		super.generateTenthBill();
+	public void TC22_Renewal_Image_Generation() {
+		super.renewalImageGeneration();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC23_Renewal_Image_Generation() {
-		super.renewalImageGeneration();
+	public void TC23_Generate_Tenth_Bill() {
+		super.generateTenthBill();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")

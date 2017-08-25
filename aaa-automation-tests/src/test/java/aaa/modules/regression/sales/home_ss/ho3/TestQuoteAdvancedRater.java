@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -31,7 +32,7 @@ public class TestQuoteAdvancedRater extends HomeSSHO3BaseTest {
      * 7. Check System resets the premium to $0
      * 8. Click Calculate Premium button
      * 9. Check Premium changed according to selected value
-     * 10. Select other E Coverage value
+     * 10. Select other B Coverage value
      * 11. Check System resets the premium to $0
      * 12. Click Calculate Premium button
      * 13. Check Premium changed according to selected value
@@ -49,22 +50,30 @@ public class TestQuoteAdvancedRater extends HomeSSHO3BaseTest {
         premiumsAndCoveragesQuoteTab.calculatePremium();
         Dollar origPremiumValue = new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
 
-        verifyPremiumChangeOf(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE);
+        verifyPremiumChangeOf(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_B);
+        verifyPremiumChangeOf(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D);
         verifyPremiumChangeOf(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E);
+        verifyPremiumChangeOf(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_F);
+        verifyPremiumChangeOf(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE);
 
         Dollar premiuimChangeOf = changeCoverage(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE);
         Dollar newPremiumValue = origPremiumValue.add(premiuimChangeOf);
-        PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().verify.equals(newPremiumValue);
+        if (getState().equals(Constants.States.OK)) {
+            PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().verify.equals(newPremiumValue, 260.0);
+            newPremiumValue = new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
+        }
+        else
+            PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().verify.equals(newPremiumValue, 1.0);
 
-        premiuimChangeOf = changeCoverage(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E);
+        premiuimChangeOf = changeCoverage(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_B);
         newPremiumValue = newPremiumValue.add(premiuimChangeOf);
-        PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().verify.equals(newPremiumValue);
+        PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().verify.equals(newPremiumValue, 1.0);
 
         PremiumsAndCoveragesQuoteTab.btnContinue.click();
         policy.getDefaultView().fillFromTo(getPolicyTD(), MortgageesTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
 
-        PolicySummaryPage.getTotalPremiumSummaryForProperty().verify.equals(newPremiumValue);
+        PolicySummaryPage.getTotalPremiumSummaryForProperty().verify.equals(newPremiumValue, 1.0);
     }
 
     private void verifyPremiumChangeOf(AssetDescriptor<ComboBox> field) {

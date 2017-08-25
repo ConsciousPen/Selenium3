@@ -24,6 +24,7 @@ public class CustomerSummaryPage extends SummaryPage {
     public static StaticElement labelMembershipInformationCollapsed = new StaticElement(By.id("crmForm:participantHeaderContentCollapsedMembershipInfo_0"));
     public static StaticElement labelStudentInformationExpanded = new StaticElement(By.id("crmForm:participantHeaderContentExpandedStudentInfo_0"));
     public static StaticElement labelStudentInformationCollapsed = new StaticElement(By.id("crmForm:participantHeaderContentCollapsedStudentInfo_0"));
+    public static StaticElement labelAccountName = new StaticElement(By.id("acctInfoForm:name"));
     public static StaticElement labelAccountNumber = new StaticElement(By.id("acctInfoForm:accountNo"));
     public static StaticElement labelConfidential = new StaticElement(By.id("acctInfoForm:confidential"));
     public static StaticElement labelMergedFrom = new StaticElement(By.id("custInfoForm:mergedFromNavigationLinks"));
