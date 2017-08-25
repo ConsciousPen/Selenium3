@@ -1,6 +1,8 @@
 package aaa.modules.regression.service.pup;
 
 
+import java.util.Map;
+
 import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
@@ -34,25 +36,27 @@ public class TestPolicyChangeInsuredDeceased extends PersonalUmbrellaBaseTest{
 	public void testPolicyChangeInsuredDeceased() {
 		mainApp().open();
 		createCustomerIndividual();
-		TestData td = getTestSpecificTD("TestData_AddNI");
-		td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
-		getPolicyType().get().createPolicy(td);
 		
-		String policyNumber= PolicySummaryPage.labelPolicyNumber.getValue();
+		 Map<String, String> primaryPolicies = getPrimaryPoliciesForPup();
+		 TestData tdPolicy = getPolicyTD().adjust(getTestSpecificTD("TestData_AddNI").resolveLinks());
+	     PrefillTab prefillTab = policy.getDefaultView().getTab(PrefillTab.class);
+	     tdPolicy = prefillTab.adjustWithRealPolicies(tdPolicy, primaryPolicies);
+		
+		String policyNumber= createPolicy(tdPolicy);
 		log.info("TEST: Change the namd insured to Deceased #" + policyNumber);
 		
 		TestData td_Endorsement = getPolicyTD("Endorsement", "TestData");
 		TestData td_Endorsement1 = getTestSpecificTD("TestData_Endorsement1");
 		TestData td_Endorsement2 = getTestSpecificTD("TestData_Endorsement2");
-		PrefillTab prefilltab=policy.getDefaultView().getTab(PrefillTab.class);
+//		PrefillTab prefilltab=policy.getDefaultView().getTab(PrefillTab.class);
 
 //       change NI1 as Deceased 
 		policy.endorse().performAndFill(td_Endorsement);
 		policy.getDefaultView().fill(td_Endorsement1);
-		prefilltab.getNamedInsuredAssetList().getWarning(PersonalUmbrellaMetaData.PrefillTab.NamedInsured.RELATIONSHIP_TO_PRIMARY_NAMED_INSURED.getLabel()).equals("One named insured must be selected as the primary insured");
+		prefillTab.getNamedInsuredAssetList().getWarning(PersonalUmbrellaMetaData.PrefillTab.NamedInsured.RELATIONSHIP_TO_PRIMARY_NAMED_INSURED.getLabel()).equals("One named insured must be selected as the primary insured");
 		
 //      and NI2 as primary insured
-		prefilltab.getNamedInsuredRow(2).getCell(5).controls.links.get("View/Edit").click(Waiters.AJAX);		
+		prefillTab.getNamedInsuredRow(2).getCell(5).controls.links.get("View/Edit").click(Waiters.AJAX);		
 	    policy.getDefaultView().fill(td_Endorsement2);
 	    PolicySummaryPage.tableInsuredInformation.getRow(2).getCell(3).getValue().equals("Primary Insured");
 	    
