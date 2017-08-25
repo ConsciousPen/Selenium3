@@ -119,6 +119,7 @@ public class TestPupQuoteVoiceBind extends PersonalUmbrellaBaseTest {
         createCustomerIndividual();
         //Fill all required filds, rate the quote and save.
         this.createQuote();
+        
         policy.calculatePremium(getPolicyTD("DataGather", "TestData"));
         //Go To Bind Tab
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
