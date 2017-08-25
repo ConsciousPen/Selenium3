@@ -17,6 +17,8 @@ import toolkit.utils.logging.CustomLogger;
 
 public class RemittancePaymentsHelper {
 
+	private static final String REMITTANCE_REMOTE_PATH = "/home/mp2/pas/sit/PMT_E_PMTCTRL_PASSYS_7001_D/inbound/";
+
 	/**
 	 * This method is used for prepare remittance file with data specified by input parameters.
 	 * 
@@ -58,6 +60,6 @@ public class RemittancePaymentsHelper {
 	public static synchronized void copyRemittanceFileToServer(File file) {
 		if (file == null)
 			throw new IstfException("Remmitance file is NULL");
-		RemoteHelper.uploadFile(file.getAbsolutePath(), PropertyProvider.getProperty(CustomTestProperties.REMITTANCE_REMOTE_PATH) + file.getName());
+		RemoteHelper.uploadFile(file.getAbsolutePath(), REMITTANCE_REMOTE_PATH + file.getName());
 	}
 }

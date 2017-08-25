@@ -44,7 +44,7 @@ public class ScenarioBaseTest extends BaseTest {
 		new BillingPaymentsAndTransactionsVerifier().verifyAutoPaymentGenerated(DateTimeUtils.getCurrentDateTime(), minDue.negate());
 	}
 
-	protected void verifyRenewOfferGenerated(LocalDateTime policyExpDate, LocalDateTime renewOfferGenDate, List<LocalDateTime> installmentDates) {
+	protected void verifyRenewOfferGenerated(LocalDateTime policyExpDate, List<LocalDateTime> installmentDates) {
 		BillingSummaryPage.showPriorTerms();
 
 		CustomAssert.enableSoftMode();
