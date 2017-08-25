@@ -6,6 +6,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.home_ss.actiontabs.CancelNoticeActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
@@ -14,6 +15,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 
@@ -182,6 +184,47 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
 		propertyInfoTab.fillTab(td);
 	}
-
+	
+	public static void verifyDaysOfNotice(String daysOfNotice, int days, String err_message) {
+		CancelNoticeActionTab cancelNoticeTab = new CancelNoticeActionTab();		
+		
+		CustomAssert.assertTrue("'Days of Notice' has wrong value on Cancel Notice tab", 
+				cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.DAYS_OF_NOTICE.getLabel()).getValue().toString().equals(daysOfNotice));
+		
+		String cancelEffectiveDate_default = DateTimeUtils.getCurrentDateTime().plusDays(days).format(DateTimeUtils.MM_DD_YYYY);
+		CustomAssert.assertTrue("'Cancellation Effective date' has wrong value on Cancel Notice Tab",
+				cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()).getValue().toString().equals(cancelEffectiveDate_default));
+		
+		//cancelNoticeTab.fillTab(td); 
+		cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE).setValue(
+				DateTimeUtils.getCurrentDateTime().plusDays(days-1).format(DateTimeUtils.MM_DD_YYYY));
+		cancelNoticeTab.verifyFieldHasMessage(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel(), err_message); 
+	}
+	
+	public static void verifyDaysOfNotice(String daysOfNotice, int days, String err_message1, String err_message2) {
+		CancelNoticeActionTab cancelNoticeTab = new CancelNoticeActionTab();	
+		
+		String cancelEffDate_default = DateTimeUtils.getCurrentDateTime().plusDays(days).format(DateTimeUtils.MM_DD_YYYY);
+		
+		CustomAssert.assertTrue("'Days of Notice' has wrong value on Cancel Notice tab", 
+				cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.DAYS_OF_NOTICE.getLabel()).getValue().toString().equals(daysOfNotice));
+		CustomAssert.assertTrue("'Cancellation Effective date' has wrong value on Cancel Notice Tab",
+				cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()).getValue().toString().equals(cancelEffDate_default));
+		
+		//cancelNoticeTab.fillTab(td); 
+		cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE).setValue(
+				DateTimeUtils.getCurrentDateTime().plusDays(days-1).format(DateTimeUtils.MM_DD_YYYY));
+		cancelNoticeTab.verifyFieldHasMessage(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel(), err_message1); 
+		
+		cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE).setValue(
+				DateTimeUtils.getCurrentDateTime().plusDays(367).format(DateTimeUtils.MM_DD_YYYY));
+		cancelNoticeTab.verifyFieldHasMessage(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel(), err_message2); 
+	}
+	
 }
+
+
+
+
+
 

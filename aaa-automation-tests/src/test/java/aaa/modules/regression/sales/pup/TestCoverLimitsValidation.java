@@ -10,14 +10,12 @@ import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.DoubleTextBox;
-import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
 import aaa.common.Tab;
 import aaa.common.enums.ErrorPageEnum.ErrorsColumn;
 import aaa.common.enums.NavigationEnum.PersonalUmbrellaTab;
 import aaa.common.pages.ErrorPage;
 import aaa.common.pages.NavigationPage;
-import aaa.common.pages.Page;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles;
@@ -219,7 +217,6 @@ public class TestCoverLimitsValidation  extends PersonalUmbrellaBaseTest {
 			autoTab.getAutomobilesAssetList().getWarning(Automobiles.COMBINED_SINGLE_LIMIT.getLabel()).verify.value(sLimitErrorMsgExpected);
 			changeSinglelimit(vehType, sLimitCorrect);
 			autoTab.getAutomobilesAssetList().getWarning(Automobiles.COMBINED_SINGLE_LIMIT.getLabel()).verify.value("");
-			removeItem(vehType);
 			break;
 		case MOTORCYCLE:
 			NavigationPage.toViewSubTab(PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
@@ -228,7 +225,6 @@ public class TestCoverLimitsValidation  extends PersonalUmbrellaBaseTest {
 			autoTab.getMotorcyclesAssetList().getWarning(Motorcycles.COMBINED_SINGLE_LIMIT.getLabel()).verify.value(sLimitErrorMsgExpected);
 			changeSinglelimit(vehType, sLimitCorrect);
 			autoTab.getMotorcyclesAssetList().getWarning(Motorcycles.COMBINED_SINGLE_LIMIT.getLabel()).verify.value("");
-			removeItem(vehType);
 			break;
 		case MOTORHOME:
 			NavigationPage.toViewSubTab(PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
@@ -237,7 +233,6 @@ public class TestCoverLimitsValidation  extends PersonalUmbrellaBaseTest {
 			autoTab.getMotorHomesAssetList().getWarning(MotorHomes.COMBINED_SINGLE_LIMIT.getLabel()).verify.value(sLimitErrorMsgExpected);
 			changeSinglelimit(vehType, sLimitCorrect);
 			autoTab.getMotorHomesAssetList().getWarning(MotorHomes.COMBINED_SINGLE_LIMIT.getLabel()).verify.value("");
-			removeItem(vehType);
 			break;
 		case RECREATIONAL:
 			NavigationPage.toViewSubTab(PersonalUmbrellaTab.UNDERLYING_RISKS_OTHER_VEHICLES.get());
@@ -246,7 +241,6 @@ public class TestCoverLimitsValidation  extends PersonalUmbrellaBaseTest {
 			otherVehiclesTab.getRecreationalVehicleAssetList().getWarning(RecreationalVehicle.COMBINED_SINGLE_LIMIT.getLabel()).verify.value(sLimitErrorMsgExpected);
 			changeSinglelimit(vehType, sLimitCorrect);
 			otherVehiclesTab.getRecreationalVehicleAssetList().getWarning(RecreationalVehicle.COMBINED_SINGLE_LIMIT.getLabel()).verify.value("");
-			removeItem(vehType);
 			break;
 		}
 	}
@@ -306,7 +300,6 @@ public class TestCoverLimitsValidation  extends PersonalUmbrellaBaseTest {
 			changeSplitLimits(vehType, bILimitFirstCorrectCA, bILimitSecondCorrect, pDLimitIncorrect);
 			checkErrorMsg(vehType, pdLimitErrorMsgExpected);
 		}
-		removeItem(vehType);
 	}
 	
 	private void checkErrorMsg(VehicleType vehType, String errorMsg) {
@@ -385,26 +378,6 @@ public class TestCoverLimitsValidation  extends PersonalUmbrellaBaseTest {
 
 		biLimit.setValue(Arrays.asList(biLimFirst, biLimSec));
 		pdLimits.setValue(pdLim);
-	}
-	
-	private void removeItem(VehicleType vehType) {
-		RadioGroup addItem = null;
-		switch (vehType) {
-		case AUTOMOBILE:
-			addItem = autoTab.getAutomobilesAssetList().getAsset(Automobiles.ADD_AUTOMOBILE.getLabel(), RadioGroup.class);
-			break;
-		case MOTORCYCLE:
-			addItem = autoTab.getMotorcyclesAssetList().getAsset(Motorcycles.ADD_MOTORCYCLE.getLabel(), RadioGroup.class);
-			break;
-		case MOTORHOME:
-			addItem = autoTab.getMotorHomesAssetList().getAsset(MotorHomes.ADD_MOTORE_HOME.getLabel(), RadioGroup.class);
-			break;
-		case RECREATIONAL:
-			addItem = otherVehiclesTab.getRecreationalVehicleAssetList().getAsset(RecreationalVehicle.ADD_RECREATIONAL_VEHICLE.getLabel(), RadioGroup.class);
-			break;
-		}
-		addItem.setValue("No");
-		Page.dialogConfirmation.confirm();
 	}
 	
 	private enum VehicleType {

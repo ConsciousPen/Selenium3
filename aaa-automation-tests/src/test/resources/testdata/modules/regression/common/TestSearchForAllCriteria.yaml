@@ -39,9 +39,12 @@ CustomerGeneralTab: {
   City: 'Phoenix',
   State: 'AZ',
   Address Line 1: 269 CHIPMAN AVE,
-  Contact Details Type: Phone,
-  Phone Type: Home,
-  Phone Number: '(111) 222-3456',
+  ADD Contact Details: [ 
+   { Contact Details Type: Phone,
+     Phone Type: Home,
+     Phone Number: '(111) 222-3456'
+   }  
+  ],
   Agency Assignment: [
     {Agency Name: Broker1Name, Agency Code: Broker1Code},
     {Agency Name: Broker2Name, Agency Code: Broker2Code},

@@ -57,18 +57,18 @@ public class TestScenario1 extends Scenario1 {
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC08_Pay_Third_Bill() {
-		super.payThirdBill();
-	}
-
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC09_Early_Renew_Not_Generated() {
+	public void TC08_Early_Renew_Not_Generated() {
 		super.earlyRenewNotGenerated();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC10_Renewal_Image_Generation() {
+	public void TC09_Renewal_Image_Generation() {
 		super.renewalImageGeneration();
+	}
+
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC10_Pay_Third_Bill() {
+		super.payThirdBill();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")

@@ -17,7 +17,10 @@ TestData_Endorsement: {
   },
   ProductOfferingTab: {},
   EndorsementTab: {},
-  PremiumsAndCoveragesQuoteTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage E - Personal Liability Each Occurrence: 'contains=$1,000,000',
+    Coverage F - Medical Payments to Others: 'contains=$25,000'
+  },
   MortgageesTab: {},
   UnderwritingAndApprovalTab: {},
   DocumentsTab: {},

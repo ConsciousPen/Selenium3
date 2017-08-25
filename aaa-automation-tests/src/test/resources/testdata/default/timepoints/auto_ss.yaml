@@ -322,7 +322,7 @@ TestData_OH: {
   Offcycle bill generation: [-20, NEXT],
   Bill payment: [0, NEXT],
   Update policy status: [1, NEXT],
-  Refund: [10, NONE],
+  Refund: [1, NONE],
   Cancellation notice: [5, PREVIOUS],
   Cancellation: [13, NEXT],
   Renew customer decline: [15, NEXT],

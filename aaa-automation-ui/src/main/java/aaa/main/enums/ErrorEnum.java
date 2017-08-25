@@ -35,12 +35,14 @@ public class ErrorEnum {
         ERROR_AAA_HO_SS1020340_OR("AAA_HO_SS1020340_OR", "Applicants with more than 1 paid non-CAT claim and/or more than 1 paid CAT cl..."),
         ERROR_AAA_HO_SS1050670_OR("AAA_HO_SS1050670_OR", "Applicants with any paid non-CAT claim and/or more than 1 paid CAT claim in t..."),
         ERROR_AAA_HO_SS12023000("AAA_HO_SS12023000", "Applicants with any liability claims in the past 3 years are ineligible."),
-        ERROR_AAA_HO_SS12200234("AAA_HO_SS12200234", "Applicants with any paid claims over $25,000 in the last 3 years are ineligible."),
+        ERROR_AAA_HO_SS12200234("AAA_HO_SS12200234", "Applicants with any paid claims over $25,000 in the last 3 years are ineligible."), 
+        ERROR_AAA_HO_SS7160042("AAA_HO_SS7160042", "Applicants who have been cancelled, refused insurance or non-renewed in the p..."),
 
         ERROR_AAA_PUP_SS3171100("AAA_PUP_SS3171100", "UW approval is required to bind the policy if any applicants or insureds are ..."),
         ERROR_AAA_PUP_SS5310180("AAA_PUP_SS5310180", "Applicants who own property, or reside for extended periods, outside of the U..."),
         ERROR_AAA_PUP_SS5310750("AAA_PUP_SS5310750", "Vehicles used for business, promotional or racing are ineligible."),
         ERROR_AAA_PUP_SS5311428("AAA_PUP_SS5311428", "Applicants who have been cancelled, refused insurance or non-renewed in the p..."),
+        ERROR_AAA_PUP_SS7150344("AAA_PUP_SS7150344", "Applicants who have been cancelled, refused insurance or non-renewed in the p..."),
 
         ERROR_AAA_CSA3080819("AAA_CSA3080819", "Home policy is indicated but home policy # doesn't exist"),
         ERROR_AAA_CSA3080903("AAA_CSA3080903", "Condo policy is indicated but condo policy # doesn't exist"),
