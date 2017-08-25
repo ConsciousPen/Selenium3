@@ -32,7 +32,7 @@ public class TestAccountUpdate extends BaseTest {
 
     @Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void testPolicyCreation() {
+    public void testAccountUpdate() {
     	
         mainApp().open();
 
