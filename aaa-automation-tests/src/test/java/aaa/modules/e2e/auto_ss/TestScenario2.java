@@ -118,18 +118,18 @@ public class TestScenario2 extends Scenario2 {
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC21_Pay_Ninth_Bill() {
+	public void TC21_Renewal_Image_Generation() {
+		super.renewalImageGeneration();
+	}
+
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC22_Pay_Ninth_Bill() {
 		super.payNinthBill();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC22_Generate_Tenth_Bill() {
+	public void TC23_Generate_Tenth_Bill() {
 		super.generateTenthBill();
-	}
-
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC23_Renewal_Image_Generation() {
-		super.renewalImageGeneration();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")

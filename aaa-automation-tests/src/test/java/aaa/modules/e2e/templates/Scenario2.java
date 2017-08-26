@@ -16,7 +16,6 @@ import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants.*;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.modules.billing.account.BillingAccount;
-import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
@@ -33,7 +32,6 @@ import java.util.List;
 
 public class Scenario2 extends ScenarioBaseTest {
 
-	protected IPolicy policy;
 	protected TestData tdPolicy;
 	protected BillingAccount billingAccount = new BillingAccount();
 	protected TestData tdBilling = testDataManager.billingAccount;
@@ -163,21 +161,17 @@ public class Scenario2 extends ScenarioBaseTest {
 	}
 
 	protected void generateTenthBill() {
-		if (!getState().equals("KY"))
-			generateAndCheckBill(installmentDueDates.get(10));
-		else {
-			LocalDateTime billDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(10));
-			if (DateTimeUtils.getCurrentDateTime().isAfter(billDate)) {
-				billDate = DateTimeUtils.getCurrentDateTime();
-			}
-			TimeSetterUtil.getInstance().nextPhase(billDate);
-			JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
-			mainApp().open();
-			SearchPage.openBilling(policyNum);
-			new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(10), getTimePoints().getBillGenerationDate(installmentDueDates.get(10)));
-			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillGenerationDate(installmentDueDates.get(10)))
-					.setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
+		LocalDateTime billDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(10));
+		if (DateTimeUtils.getCurrentDateTime().isAfter(billDate)) {
+			billDate = DateTimeUtils.getCurrentDateTime();
 		}
+		TimeSetterUtil.getInstance().nextPhase(billDate);
+		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
+		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(10), getTimePoints().getBillGenerationDate(installmentDueDates.get(10)));
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillGenerationDate(installmentDueDates.get(10)))
+				.setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
 	protected void renewalImageGeneration() {
@@ -224,7 +218,7 @@ public class Scenario2 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 
-		verifyRenewOfferGenerated(policyExpirationDate, renewOfferGenDate, installmentDueDates);
+		verifyRenewOfferGenerated(policyExpirationDate, installmentDueDates);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferGenDate)
 				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
 

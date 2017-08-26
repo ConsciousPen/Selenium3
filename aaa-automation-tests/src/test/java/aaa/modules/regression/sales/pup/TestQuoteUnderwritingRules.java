@@ -125,6 +125,10 @@ public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest {
 			errorTab.verify.errorsPresent(Errors.ERROR_AAA_PUP_SS5311428);
 			//TODO need to add "Residents holding one of the special occupations or holder of any elected or ..."
 			break;
+		case "MD":
+			errorTab.verify.errorsPresent(Errors.ERROR_AAA_PUP_SS3171100);
+			errorTab.verify.errorsPresent(Errors.ERROR_AAA_PUP_SS7150344);
+			break;
 		default: 
 			errorTab.verify.errorsPresent(Errors.ERROR_AAA_PUP_SS3171100);
 			errorTab.verify.errorsPresent(Errors.ERROR_AAA_PUP_SS5311428);

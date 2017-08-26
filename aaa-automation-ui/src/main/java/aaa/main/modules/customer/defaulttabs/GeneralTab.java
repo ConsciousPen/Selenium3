@@ -2,8 +2,6 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.modules.customer.defaulttabs;
 
-import static aaa.main.metadata.CustomerMetaData.GeneralTab.AdditionalNameDetailsSection.BUTTON_ADD_ALL;
-
 import org.openqa.selenium.By;
 
 import aaa.common.DefaultTab;
@@ -31,7 +29,7 @@ public class GeneralTab extends DefaultTab {
     public GeneralTab() {
         super(CustomerMetaData.GeneralTab.class);
     }
-
+/*
     @Override
     public Tab fillTab(TestData td) {
         for (TestData testData : td.getTestDataList(getMetaKey())) {
@@ -72,6 +70,40 @@ public class GeneralTab extends DefaultTab {
             }
 
             ((AssetList) getAssetList()).setValue(testData.mask(key, "Account Type", "Account Designation Type"));
+        }
+
+        if (buttonAddAllContacts.isPresent() && buttonAddAllContacts.isVisible()) {
+            buttonAddAllContacts.click();
+        }
+
+        return this;
+    } */
+    
+    @Override
+    public Tab fillTab(TestData td) {
+      
+    	for (TestData testData : td.getTestDataList(getMetaKey())) {
+    		
+    		String key = CustomerMetaData.GeneralTab.CONTACT_DETAILS_TYPE.getLabel();
+            String keyAdd = "ADD Contact Details";
+            String keyUpdate = "UPDATE Contact Details";
+            
+            if (testData.containsKey(keyAdd)) {
+                for (TestData tdContact : testData.getTestDataList(keyAdd)) {
+                    comboBoxSelectContactMethod.setValue(tdContact.getValue(key));
+                    buttonAddContact.click();
+                    ((AssetList) getAssetList()).setValue(tdContact.mask(key));
+                }
+            }
+            if (testData.containsKey(keyUpdate)) {
+                String keyRow = "ROW KEY";
+                for (TestData tdContact : testData.getTestDataList(keyUpdate)) {
+                	tableContactDetails.getRowContains("Contact Details", tdContact.getValue(keyRow)).getCell("Action").controls.buttons.get("Change").click();
+                    ((AssetList) getAssetList()).setValue(tdContact);
+                }
+            }  
+
+            ((AssetList) getAssetList()).setValue(testData.mask(key));
         }
 
         if (buttonAddAllContacts.isPresent() && buttonAddAllContacts.isVisible()) {

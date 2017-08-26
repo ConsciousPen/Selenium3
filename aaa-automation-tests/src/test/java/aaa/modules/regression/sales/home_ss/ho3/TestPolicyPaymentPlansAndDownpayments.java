@@ -1,19 +1,26 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
+import java.util.HashMap;
+import java.util.List;
 import org.testng.annotations.Test;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.composite.table.Row;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.BillingConstants;
+import aaa.main.enums.BillingConstants.BillingInstallmentScheduleTable;
+import aaa.main.enums.BillingConstants.InstallmentDescription;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 
@@ -26,7 +33,7 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 
     /**
      * @author Jurij Kuznecov
-     * @name Test HSS Policy Down payment calculations for different payment plans
+     * @name Test down payment calculations for different payment plans
      * @scenario 
      * 1.  Create new or open existent Customer
      * 2.  Create a new HO3 policy
@@ -73,28 +80,71 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
         createQuote();
 
         //   Quarterly
+        policy.dataGather().start();
         changePlan(BillingConstants.PaymentPlan.QUARTERLY);
         verifyFigures(25.00, 3, true);
 
         //  Eleven Pay Standard
+        policy.dataGather().start();
         changePlan(BillingConstants.PaymentPlan.ELEVEN_PAY);
         verifyFigures(16.67, 10, true);
 
         //  Pay in Full
+        policy.dataGather().start();
         changePlan(BillingConstants.PaymentPlan.PAY_IN_FULL);
         verifyFigures(100.00, 0, false);
 
         //  Mortgagee Bill
+        policy.dataGather().start();
         changePlan(BillingConstants.PaymentPlan.MORTGAGEE_BILL);
         verifyFigures(0.00, 1, true);
 
         //  Semi Annual
+        policy.dataGather().start();
         changePlan(BillingConstants.PaymentPlan.SEMI_ANNUAL);
         verifyFigures(50.00, 1, true);
     }
 
+    /**
+     * @author Jurij Kuznecov
+     * @name Test the ability to calculate the installment amount when the number of installments increases due to a payment 
+     *          plan change
+     * @scenario 
+     * 1.  Create new or open existent Customer
+     * 2.  Create a new HO3 policy with payment plan 'Semi Annual'
+     * 3.  Endorse the policy and change payment plan to 'Quarterly'
+     * 4.  Bind policy
+     * 5.  Go to Billing tab
+     * 6.  Verify Number of installments = 3
+     * 7.  Verify that sum of installments values + deposit = term premium
+     * 8.  Verify that deposit value doesn't change 
+     * 9.  Endorse the policy and change payment plan to 'Eleven Pay Standard'
+     * 10. Bind policy
+     * 11. Go to Billing tab
+     * 12. Verify Number of installments = 10
+     * 13. Verify that sum of installments values + deposit = term premium
+     * 14. Verify that deposit value doesn't change  
+     */
+
+    @Test(enabled = true)
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
+    public void testPaymentPlanLowerToHigherInstallments() {
+        int installmentsQuarterly = 3;
+        int installmentsElevenPay = 10;
+
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber =
+                createPolicy(getPolicyTD().adjust(TestData.makeKeyPath(PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()),
+                        BillingConstants.PaymentPlan.SEMI_ANNUAL));
+
+        BillingSummaryPage.open();
+
+        endorsePolicyWithNewPlanAndVerify(policyNumber, BillingConstants.PaymentPlan.QUARTERLY, installmentsQuarterly);
+        endorsePolicyWithNewPlanAndVerify(policyNumber, BillingConstants.PaymentPlan.ELEVEN_PAY, installmentsElevenPay);
+    }
+
     private void changePlan(String plan) {
-        policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel(), ComboBox.class).setValue(plan);
@@ -123,5 +173,31 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
         purchaseTab.totalRemainingTermPremium.verify.equals(premium.subtract(downPayment));
 
         PurchaseTab.buttonCancel.click();
+    }
+
+    private void endorsePolicyWithNewPlanAndVerify(String policyNumber, String plan, int numberOfInstallment) {
+        Dollar origDepositAmount =
+                new Dollar(BillingSummaryPage.getInstallmentAmount(BillingSummaryPage.tableInstallmentSchedule.getRow(BillingInstallmentScheduleTable.DESCRIPTION, InstallmentDescription.DEPOSIT)
+                        .getIndex()));
+        BillingSummaryPage.openPolicy(BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM, policyNumber).getIndex());
+
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        changePlan(plan);
+        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+
+        HashMap<String, String> query = new HashMap<>();
+        query.put(BillingInstallmentScheduleTable.DESCRIPTION, InstallmentDescription.INSTALLMENT);
+        BillingSummaryPage.tableInstallmentSchedule.verify.rowsCount(numberOfInstallment, query);
+
+        BillingSummaryPage.tableInstallmentSchedule.getRow(BillingInstallmentScheduleTable.DESCRIPTION, InstallmentDescription.DEPOSIT).getCell(BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT).verify
+                .value(origDepositAmount.toString());
+
+        Dollar totalAmount = new Dollar(0);
+        List<Row> installments = BillingSummaryPage.tableInstallmentSchedule.getRows();
+        for (Row installment : installments) {
+            totalAmount = totalAmount.add(new Dollar(installment.getCell(BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT).getValue()));
+        }
+
+        BillingSummaryPage.getBillableAmount().verify.equals(totalAmount);
     }
 }

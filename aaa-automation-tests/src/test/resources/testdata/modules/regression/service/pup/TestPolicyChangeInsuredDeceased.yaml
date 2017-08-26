@@ -1,19 +1,7 @@
-TestData_AddNI_UT: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
-  
-# ----------------- Tabs -----------------
+TestData_AddNI: {
+PrefillTab: '@PrefillTab'
+}
+
 PrefillTab: {
   NamedInsured: ['@NamedInsured1', '@NamedInsured2'],
   
@@ -48,44 +36,15 @@ NamedInsured2: {
     LLC: 'No',
     Trustee: 'No'
  }
- 
- # --------- TestData for AZ states ---------
-TestData_AddNI_AZ: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_AZ',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
-  
-   # --------- TestData for CA states ---------
+
 TestData_AddNI_CA: {
-  PrefillTab: '@PrefillTab_CA',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_CA',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  UnderlyingRisksAllResidentsTab: '@<pup>@DataGather@UnderlyingRisksAllResidentsTab_CA',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab_CA',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab_CA',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  } 
-  
+PrefillTab: '@PrefillTab_CA'
+}
+
 PrefillTab_CA: {
-  NamedInsured: ['@NamedInsured1_CA', '@NamedInsured2_CA'],
+  NamedInsured: ['@NamedInsured1', '@NamedInsured2'],
   
-  ActiveUnderlyingPolicies: [{
+  ActiveUnderlyingPolicies:  [{
     ActiveUnderlyingPoliciesSearch: {
       Policy Type: HO3,
       Policy Number: Primary_HO3
@@ -106,362 +65,471 @@ PrefillTab_CA: {
   }]
 }
 
-NamedInsured1_CA: {
-    Relationship to primary named insured: Primary Insured,
-    Marital status: Single,
-    AAA employee: 'No',
-    LLC: 'No',
-    Trustee: 'No'
-  }
-  
-NamedInsured2_CA: {
-    First name: Jenny,
-    Last name: Smith,
-    Relationship to primary named insured: Spouse,
-    Marital status: Single,
-    Gender: Female,
-    Date of birth: 01/01/1981,
-    Occupation: Clergy,
-    AAA employee: 'No',
-    LLC: 'No',
-    Trustee: 'No'
- }
- 
- # --------- TestData for CO states ---------
-TestData_AddNI_CO: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_CO',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
-  
-  # --------- TestData for CT states --------- 
-TestData_AddNI_CT: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_CT',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab_CT',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
-  
- # --------- TestData for DC states --------- 
-TestData_AddNI_DC: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_DC',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
-  
- # --------- TestData for DE states --------- 
-TestData_AddNI_DE: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_DE',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
-  
-  # --------- TestData for ID states --------- 
-TestData_AddNI_ID: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_ID',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
- 
-  # --------- TestData for IN states --------- 
-TestData_AddNI_IN: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_IN',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
-  
- # --------- TestData for KS states --------- 
-TestData_AddNI_KS: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_KS',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
-  
-   # --------- TestData for KY states --------- 
-TestData_AddNI_KY: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_KY',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab_KY',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
-  
-   # --------- TestData for MD states --------- 
-TestData_AddNI_MD: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_MD',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab_MD',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
-  
-   # --------- TestData for MT states --------- 
-TestData_AddNI_MT: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_MT',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
-  
-   # --------- TestData for NJ states --------- 
-TestData_AddNI_NJ: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_NJ',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
-  
-   # --------- TestData for NV states --------- 
-TestData_AddNI_NV: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_NV',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab_NV',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
-  
-   # --------- TestData for NY states --------- 
-TestData_AddNI_NY: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_NY',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
-  
-   # --------- TestData for OH states --------- 
-TestData_AddNI_OH: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_OH',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
-  
-   # --------- TestData for OK states --------- 
-TestData_AddNI_OK: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_OK',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
-  
-   # --------- TestData for OR states --------- 
-TestData_AddNI_OR: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_OR',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab_OR',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
-  
-   # --------- TestData for PA states --------- 
-TestData_AddNI_PA: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_PA',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
-  
-   # --------- TestData for SD states --------- 
-TestData_AddNI_SD: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_SD',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
-  
-   # --------- TestData for VA states --------- 
-TestData_AddNI_VA: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_VA',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
-  
-   # --------- TestData for WV states --------- 
-TestData_AddNI_WV: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_WV',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab_WV',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
-  
-   # --------- TestData for WY states --------- 
-TestData_AddNI_WY: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab',
-  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_WY',
-  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
-  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
-  BindTab: '@<pup>@DataGather@BindTab',
-  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
-  }
+
+#TestData_AddNI_UT: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+#  
+## ----------------- Tabs -----------------
+#PrefillTab: {
+#  NamedInsured: ['@NamedInsured1', '@NamedInsured2'],
+#  
+#  ActiveUnderlyingPolicies: [{
+#    ActiveUnderlyingPoliciesSearch: {
+#      Policy Type: HO3,
+#      Policy Number: Primary_HO3
+#    },
+#    ActiveUnderlyingPoliciesManual: {
+#      Primary policy: 'Yes'
+#    }
+#  }]
+#}
+#
+#NamedInsured1: {
+#    Relationship to primary named insured: Primary Insured,
+#    Marital status: Single,
+#    AAA employee: 'No',
+#    LLC: 'No',
+#    Trustee: 'No'
+#  }
+#  
+#NamedInsured2: {
+#    First name: Jenny,
+#    Last name: Smith,
+#    Relationship to primary named insured: 'Child',
+#    Marital status: Single,
+#    Gender: Female,
+#    Date of birth: 01/01/1981,
+#    Occupation: Other,
+#    AAA employee: 'No',
+#    LLC: 'No',
+#    Trustee: 'No'
+# }
+# 
+# # --------- TestData for AZ states ---------
+#TestData_AddNI_AZ: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_AZ',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+#  
+#   # --------- TestData for CA states ---------
+#TestData_AddNI_CA: {
+#  PrefillTab: '@PrefillTab_CA',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_CA',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  UnderlyingRisksAllResidentsTab: '@<pup>@DataGather@UnderlyingRisksAllResidentsTab_CA',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab_CA',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab_CA',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  } 
+#  
+#PrefillTab_CA: {
+#  NamedInsured: ['@NamedInsured1_CA', '@NamedInsured2_CA'],
+#  
+#  ActiveUnderlyingPolicies: [{
+#    ActiveUnderlyingPoliciesSearch: {
+#      Policy Type: HO3,
+#      Policy Number: Primary_HO3
+#    }, 
+#    ActiveUnderlyingPoliciesManual: {
+#      Primary policy: 'Yes',
+#    }
+#  }, 
+#  {
+#    ActiveUnderlyingPoliciesSearch: {
+#      Policy Type: Auto,
+#      Policy Number: Primary_Auto
+#    }, 
+#    ActiveUnderlyingPoliciesManual: {
+#      "View/Edit": 'click', 
+#      Save: 'click'
+#    }
+#  }]
+#}
+#
+#NamedInsured1_CA: {
+#    Relationship to primary named insured: Primary Insured,
+#    Marital status: Single,
+#    AAA employee: 'No',
+#    LLC: 'No',
+#    Trustee: 'No'
+#  }
+#  
+#NamedInsured2_CA: {
+#    First name: Jenny,
+#    Last name: Smith,
+#    Relationship to primary named insured: Spouse,
+#    Marital status: Single,
+#    Gender: Female,
+#    Date of birth: 01/01/1981,
+#    Occupation: Clergy,
+#    AAA employee: 'No',
+#    LLC: 'No',
+#    Trustee: 'No'
+# }
+# 
+# # --------- TestData for CO states ---------
+#TestData_AddNI_CO: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_CO',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+#  
+#  # --------- TestData for CT states --------- 
+#TestData_AddNI_CT: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_CT',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab_CT',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+#  
+# # --------- TestData for DC states --------- 
+#TestData_AddNI_DC: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_DC',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+#  
+# # --------- TestData for DE states --------- 
+#TestData_AddNI_DE: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_DE',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+#  
+#  # --------- TestData for ID states --------- 
+#TestData_AddNI_ID: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_ID',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+# 
+#  # --------- TestData for IN states --------- 
+#TestData_AddNI_IN: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_IN',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+#  
+# # --------- TestData for KS states --------- 
+#TestData_AddNI_KS: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_KS',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+#  
+#   # --------- TestData for KY states --------- 
+#TestData_AddNI_KY: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_KY',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab_KY',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+#  
+#   # --------- TestData for MD states --------- 
+#TestData_AddNI_MD: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_MD',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab_MD',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+#  
+#   # --------- TestData for MT states --------- 
+#TestData_AddNI_MT: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_MT',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+#  
+#   # --------- TestData for NJ states --------- 
+#TestData_AddNI_NJ: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_NJ',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+#  
+#   # --------- TestData for NV states --------- 
+#TestData_AddNI_NV: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_NV',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab_NV',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+#  
+#   # --------- TestData for NY states --------- 
+#TestData_AddNI_NY: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_NY',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+#  
+#   # --------- TestData for OH states --------- 
+#TestData_AddNI_OH: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_OH',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+#  
+#   # --------- TestData for OK states --------- 
+#TestData_AddNI_OK: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_OK',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+#  
+#   # --------- TestData for OR states --------- 
+#TestData_AddNI_OR: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_OR',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab_OR',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+#  
+#   # --------- TestData for PA states --------- 
+#TestData_AddNI_PA: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_PA',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+#  
+#   # --------- TestData for SD states --------- 
+#TestData_AddNI_SD: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_SD',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+#  
+#   # --------- TestData for VA states --------- 
+#TestData_AddNI_VA: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_VA',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+#  
+#   # --------- TestData for WV states --------- 
+#TestData_AddNI_WV: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_WV',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab_WV',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
+#  
+#   # --------- TestData for WY states --------- 
+#TestData_AddNI_WY: {
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@<pup>@DataGather@GeneralTab',
+#  UnderlyingRisksPropertyTab: '@<pup>@DataGather@UnderlyingRisksPropertyTab',
+#  UnderlyingRisksAutoTab: '@<pup>@DataGather@UnderlyingRisksAutoTab_WY',
+#  UnderlyingRisksOtherVehiclesTab: '@<pup>@DataGather@UnderlyingRisksOtherVehiclesTab',
+#  ClaimsTab: '@<pup>@DataGather@ClaimsTab',
+#  EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
+#  PremiumAndCoveragesQuoteTab: '@<pup>@DataGather@PremiumAndCoveragesQuoteTab',
+#  UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
+#  DocumentsTab: '@<pup>@DataGather@DocumentsTab',
+#  BindTab: '@<pup>@DataGather@BindTab',
+#  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+#  }
   
    # --------- TestData for Endorsement ---------  
 TestData_Endorsement1: {
@@ -500,4 +568,20 @@ PrefillTab_ED2: {
 NamedInsured2_ED2: {
    Relationship to primary named insured: Primary Insured
 }
+
+TestData_Endorsement2_CA: {
+  PrefillTab: '@PrefillTab_ED2',
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {},
+  UnderlyingRisksOtherVehiclesTab: {},
+  UnderlyingRisksAllResidentsTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+ } 
+
   

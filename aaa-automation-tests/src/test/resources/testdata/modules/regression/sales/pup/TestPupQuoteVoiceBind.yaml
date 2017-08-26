@@ -1,0 +1,80 @@
+TestData_Voice_Cash: {
+  PurchaseTab: '@PurchaseTab_Cash'
+}
+
+PurchaseTab_Cash: {
+  Bind by Voice Signature: 'Yes', 
+  PaymentAllocation: {
+    Cash: /rest
+  }
+}
+
+TestData_Voice_Check: {
+  PurchaseTab: '@PurchaseTab_Check'
+}
+
+PurchaseTab_Check: {
+  Check Reference: '1',
+  Bind by Voice Signature: 'Yes', 
+  PaymentAllocation: {
+    Check: /rest
+    
+  }
+}
+
+TestData_Voice_CreditCard: {
+  PurchaseTab: '@PurchaseTab_creditCard'
+}
+
+PurchaseTab_creditCard: {
+  Bind by Voice Signature: 'Yes',
+  PaymentAllocation: {
+    Cash: /rest
+    
+  }
+}
+
+CreditCard: {
+  PurchasePaymentMethod: {
+    Type: 'Visa',
+    Number: '4716330860655347'
+  }
+}
+
+TestData_Voice_ACH: {
+  PurchaseTab: '@PurchaseTab_ACH'
+}
+
+PurchaseTab_ACH: {
+  Bind by Voice Signature: 'Yes', 
+  PaymentAllocation: {
+    Cash: /rest
+  }
+}
+
+Payment_ACH: {
+  PurchasePaymentMethod: {
+    Payment Method: 'Checking/Savings (ACH)',
+    Transit: '111000025',
+    Bank Name: 'bank name',
+    Account: '111000025'
+  }
+}
+
+TestData_Voice_ACH_CreditCard: {
+  PurchaseTab: '@PurchaseTab_ACH_CreditCard'
+}
+
+PurchaseTab_ACH_CreditCard: {
+  Bind by Voice Signature: 'Yes', 
+  PaymentAllocation: {
+    Cash: /rest
+  }
+}
+
+PurchaseTab: {
+  Bind by Voice Signature: 'Yes', 
+  PaymentAllocation: {
+    Cash: /rest
+  }
+}
