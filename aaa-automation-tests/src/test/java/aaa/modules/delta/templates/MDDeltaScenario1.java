@@ -256,6 +256,10 @@ public class MDDeltaScenario1 extends BaseTest {
 		CustomAssert.assertAll();
 	}
 	
+	public void TC_verifyInspectionTypeAndEligibility() {
+		//TODO
+	}
+	
 	public void TC_purchasePolicy(String scenarioPolicyType) {
 		TestData td = getTestSpecificTD("TestData");
 		
@@ -289,6 +293,14 @@ public class MDDeltaScenario1 extends BaseTest {
 	public void TC_verifyODDPolicy() {
 		//TODO
 	}
+
+	public void TC_verifyAnimalType() {
+		//TODO
+	}
+	
+	public void TC_verifyHSPIMDA() {
+		//TODO
+	}
 	
 	public void TC_verifyCancelNoticeTab() {
 		TestData td_plus21days = getTestSpecificTD("TestData_Plus21Days");
@@ -312,7 +324,8 @@ public class MDDeltaScenario1 extends BaseTest {
 		PolicySummaryPage.labelCancelNotice.verify.present();
 		CustomAssert.assertAll();
 		
-	}
+	}	
+	
 	
 	private void addHS0495AndVerifyCoverageLimitLOVs(Map<String, String> hs0495, String policyLimit) {
 		EndorsementTab endorsementTab = new EndorsementTab(); 
