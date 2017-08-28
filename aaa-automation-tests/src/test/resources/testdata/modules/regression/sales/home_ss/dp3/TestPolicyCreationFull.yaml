@@ -1,28 +1,16 @@
-# --------- TEST DATA FOR FULL TEST -----------
+#       Test Data for FULL test
 TestDataFull: {
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<home_ss_dp3>@DataGather@GeneralTab',
   ApplicantTab: '@ApplicantTab',
   ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab',
-  EndorsementTab: '@EndorsementTabFull',
-  PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@<home_ss_dp3>@DataGather@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
   BindTab: '@<home_ss_ho3>@DataGather@BindTab',
   PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
-}
-
-GeneralTab: {
-  State: 'UT',
-  Policy type: 'HO6',
-  Effective date: '/today:MM/dd/yyyy',
-  Lead source: 'Book Roll',
-  CalVet: null,
-  Extraordinary Life Circumstance: null,
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
 }
 
 ApplicantTab: {
@@ -53,19 +41,13 @@ PropertyInfoTab: {
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
   ClaimHistory: {},
-  RentalInformation: {}
+  RentalInformation: '@RentalInformation'
 }
 
-ProductOfferingTab: {}
-
-EndorsementTabFull: {
-  'HS 24 71': [{
-    Name of business: 'Test',
-    Description of Business: 'Just a test business',
-    Classification/occupation: 'index=1',
-    Co-applicant Classification/occupation: 'index=1',
-    'Is the insured self-employed, a partner in the business, or maintain any financial control in this business?': 'No',
-    }]
+EndorsementTab: {
+ 'DS 04 69':{
+  Deductible: '25%'
+ }
 }
 
 MortgageesTab: {
@@ -77,15 +59,11 @@ MortgageesTab: {
 
   LegalPropetyAddress: {
     Validate Address: true,
-    Validate Address Dialog: {
-            #Street number: 265,
-            #Street name: CHIPMAN AVE,
-            #Select Address: "/default"
-            }
+    Validate Address Dialog: {}
   },
   MortgageeInformation: {
     Name: 'Chuck Norris',
-    Zip code: '84003',
+    Zip code: '90201',
     Street address 1: '265 CHIPMAN AVE',
     Street address 2: '2',
     Validate Address: true,
@@ -93,27 +71,35 @@ MortgageesTab: {
     Loan number: '1',
   },
   AdditionalInsured: {
-    Interest: 'index=1',
+    Interest: 'Trust',
     Name: 'Chuck Norris'
   },
   AdditionalInterest: {
     Name: 'Chuck Norris',
-    Zip code: '84003',
+    Zip code: '90201',
     Street address 1: 'Power Str',
     Street address 2: '2',
     Description of interest: 'He is a very cool guy',
     Effective Date: '/today',
-  },
+  }
 }
 
-# ApplicantTab
+UnderwritingAndApprovalTab: {
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?": "No",
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?":  "No",
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+  "Is any gas water heater located in a garage?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is any business, home day care or farming activity conducted on the premises?": "No"
+}
+
+# ----------------- ApplicantTab -----------------------------------------------
 NamedInsured: {
   Relationship to primary named insured:  Primary Insured,
-  Suffix: 'index=1',
-  Prefix: 'index=1',
+  Suffix: 'Jr.',
+  Prefix: 'Mr.',
   Middle name: 'Middle name',
   Social security number: 1234567890,
-  Employer: '1234567890',
 }
 
 AAAMembership: {
@@ -173,7 +159,7 @@ AgentInfo: {
   Agency: SMTestIA - 400001650
 }
 
-#PropertyInfoTab
+# -----------PropertyInfoTab--------------------------------------------
 PropertyValue: {
   Coverage A - Dwelling limit: 150000,
   ISO replacement cost: 145000,
@@ -213,12 +199,13 @@ Construction: {
   Square footage: 1,
   Roof type: Laminate / Architectural,
   Roof shape: 'index=1',
+  Roof condition: 'index=1',
   Construction type: 'index=1'
 }
 
 Interior: {
   Dwelling usage: 'Primary',
-  Occupancy type: 'Owner occupied',
+  Occupancy type: 'Tenant occupied',
   Number of residents: 3,
   Number of stories: 'index=1',
 }
@@ -230,11 +217,17 @@ DetachedStructures: {
   Limit of liability: '100',
 }
 
+RentalInformation: {
+'Number of consecutive years insured has owned any rental properties': '5',
+Property manager: 'index=1',
+'Does the tenant have an underlying HO4 policy?': 'No'
+}
+
 PetsOrAnimals: {
   'Are any insured-owned pets or animals kept on the property?': 'Yes',
   Animal type: 'Livestock - Cow',
   Animal count: '2',
-      }
+}
 
 Stoves: {
   'Does the property have a wood-burning stove?': 'Yes',
