@@ -59,13 +59,13 @@ PropertyInfoTab: {
 ProductOfferingTab: {}
 
 EndorsementTabFull: {
-'HS 24 71': [{
+  'HS 24 71': [{
     Name of business: 'Test',
     Description of Business: 'Just a test business',
     Classification/occupation: 'index=1',
     Co-applicant Classification/occupation: 'index=1',
     'Is the insured self-employed, a partner in the business, or maintain any financial control in this business?': 'No',
-     }]
+    }]
 }
 
 MortgageesTab: {
@@ -89,14 +89,13 @@ MortgageesTab: {
     Street address 1: '265 CHIPMAN AVE',
     Street address 2: '2',
     Validate Address: true,
-    Validate Address Dialog: {
-          },
+    Validate Address Dialog: {},
     Loan number: '1',
   },
   AdditionalInsured: {
     Interest: 'index=1',
     Name: 'Chuck Norris'
-    },
+  },
   AdditionalInterest: {
     Name: 'Chuck Norris',
     Zip code: '84003',
@@ -104,7 +103,7 @@ MortgageesTab: {
     Street address 2: '2',
     Description of interest: 'He is a very cool guy',
     Effective Date: '/today',
-    },
+  },
 }
 
 # ApplicantTab
@@ -123,28 +122,26 @@ AAAMembership: {
 }
 
 DwellingAddress: {
- Zip code: '84003',
- Street address 1: 265 CHIPMAN AVE,
- Validate Address: true,
- Validate Address Dialog: {
- }
-
+  Zip code: '84003',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
 }
 
 PreviousDwellingAddress: {
-    'Has there been another dwelling address within the last 3 consecutive years?': 'Yes',
-    Zip code: '84003',
-    Street address 1: 265 CHIPMAN AVE,
-    Validate Address: true,
-    Validate Address Dialog: {}
+  'Has there been another dwelling address within the last 3 consecutive years?': 'Yes',
+  Zip code: '84003',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
 }
 
 MailingAddress: {
-    'Is the mailing address different from the dwelling address?': 'Yes',
-    Zip code: '84003',
-    Street address 1: 265 CHIPMAN AVE,
-    Validate Address: true,
-    Validate Address Dialog: {}
+  'Is the mailing address different from the dwelling address?': 'Yes',
+  Zip code: '84003',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
 }
 
 NamedInsuredInformation: {
@@ -161,13 +158,14 @@ OtherActiveAAAPolicies: {
   ActiveUnderlyingPoliciesSearch: {},
   ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual'
 }
-OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual:  {
- Policy type: HO3,
- Policy number: '345345345',
- Coverage E: '1000',
- Deductible: '1000',
- Dwelling usage: Primary,
- Occupancy type: Owner occupied
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual: {
+  Policy type: HO3,
+  Policy number: '345345345',
+  Coverage E: '1000',
+  Deductible: '1000',
+  Dwelling usage: Primary,
+  Occupancy type: Owner occupied
 }
 
 AgentInfo: {
@@ -188,26 +186,26 @@ DwellingAddress_PropertyInfoTab: {
 }
 
 HomeRenovation: {
-    Green Home discount: "No",
-    Plumbing renovation: 'index=1',
-        'Plumbing % complete': '50',
-        'Plumbing Month of completion': '3',
-        'Plumbing Year of completion': '2009',
+  Green Home discount: "No",
+  Plumbing renovation: 'index=1',
+    'Plumbing % complete': '50',
+    'Plumbing Month of completion': '3',
+    'Plumbing Year of completion': '2009',
 
-    Electrical renovation: 'index=1',
-        'Electrical % complete': '90',
-        'Electrical Month of completion': '10',
-        'Electrical Year of completion': '2010',
+  Electrical renovation: 'index=1',
+    'Electrical % complete': '90',
+    'Electrical Month of completion': '10',
+    'Electrical Year of completion': '2010',
 
-    Roof renovation: 'index=1',
-        'Roof % complete': '60',
-        'Roof Month of completion': '6',
-        'Roof Year of completion': '2012',
+  Roof renovation: 'index=1',
+    'Roof % complete': '60',
+    'Roof Month of completion': '6',
+    'Roof Year of completion': '2012',
 
-    'Heating/cooling renovation': 'index=1',
-        'Heating/cooling % complete': '55',
-        'Heating/cooling Month of completion': '5',
-        'Heating/cooling Year of completion': '2011',
+  'Heating/cooling renovation': 'index=1',
+    'Heating/cooling % complete': '55',
+    'Heating/cooling Month of completion': '5',
+    'Heating/cooling Year of completion': '2011',
 }
 
 Construction: {
@@ -226,10 +224,10 @@ Interior: {
 }
 
 DetachedStructures: {
-      'Are there any detached structures on the property?': 'Yes',
-      Rented to others: 'No',
-      Description: 'Description',
-      Limit of liability: '100',
+  'Are there any detached structures on the property?': 'Yes',
+  Rented to others: 'No',
+  Description: 'Description',
+  Limit of liability: '100',
 }
 
 PetsOrAnimals: {

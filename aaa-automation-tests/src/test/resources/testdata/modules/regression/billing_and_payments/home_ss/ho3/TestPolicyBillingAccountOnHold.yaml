@@ -16,7 +16,7 @@ TestData_2: {
     Hold Description: 'Test',
     Reason: 'Other',
     Additional Info: 'Because we can',
-    Hold Type: ['Invoice','Cancellation'],
+    Hold Type: ['Invoice'],
     Effective Date: '/today',
     Expiration Date: '/today+1d',
   }

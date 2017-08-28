@@ -1,13 +1,13 @@
 package aaa.modules.delta.templates;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.delta.HssQuoteDataGatherHelper;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
-import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
@@ -21,7 +21,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.ComboBox;
 
 public class IDDeltaScenario1 extends BaseTest {
 	
@@ -49,15 +48,11 @@ public class IDDeltaScenario1 extends BaseTest {
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
-		GeneralTab generalTab = new GeneralTab();
-		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER.getLabel(), ComboBox.class).verify.options(
-				Arrays.asList("AAA-Michigan (ACG)", "AAA-NoCal (CSAA IG) Rewrite", "AAA-NoCal (CSAA IG) Sold/Bought", "AAA-SoCal (ACSC)", 
-						"ACIC", "Allstate", "American Family", "Auto-Owners", "Chubb", "Country Insurance", "Farm Bureau", "Farmers", "Fireman's Fund", 
-						"First Time Homebuyer", "Foremost", "Hartford", "Liberty Insurance", "Liberty Mutual", "Metropolitian", 
-						"Mutual of Enumclaw Ins Co.", "Nationwide", "Other", "Safeco", "State Farm", "Travelers", "United Heritage", 
-						"United Services", "USAA", "Vigilant Insurance", "None")); 
+		CustomAssert.enableSoftMode();
+		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrier(immediatePriorCarrierLOVs);
 		
 		GeneralTab.buttonSaveAndExit.click();
+		CustomAssert.assertAll();
 	}	
 	
 	public void TC_verifyErrorForZipCode83213() {
@@ -89,7 +84,7 @@ public class IDDeltaScenario1 extends BaseTest {
 		
 		ErrorTab errorTab = new ErrorTab(); 
 		CustomAssert.enableSoftMode();	
-		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS14061993);
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS14061993);
 		errorTab.cancel(); 
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
@@ -130,4 +125,37 @@ public class IDDeltaScenario1 extends BaseTest {
 		//TODO verify AHAUXX - Consumer Information Notice is on On-Demand Documents tab, verify AHAUXX generation
 	}
 	
+	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<String>();
+	static {
+		immediatePriorCarrierLOVs.add("AAA-Michigan (ACG)");
+		immediatePriorCarrierLOVs.add("AAA-NoCal (CSAA IG) Rewrite");
+		immediatePriorCarrierLOVs.add("AAA-NoCal (CSAA IG) Sold/Bought");
+		immediatePriorCarrierLOVs.add("AAA-SoCal (ACSC)");
+		immediatePriorCarrierLOVs.add("ACIC");
+		immediatePriorCarrierLOVs.add("Allstate");
+		immediatePriorCarrierLOVs.add("American Family");
+		immediatePriorCarrierLOVs.add("Auto-Owners");
+		immediatePriorCarrierLOVs.add("Chubb");
+		immediatePriorCarrierLOVs.add("Country Insurance");
+		immediatePriorCarrierLOVs.add("Farm Bureau");
+		immediatePriorCarrierLOVs.add("Farmers");
+		immediatePriorCarrierLOVs.add("Fireman's Fund");
+		immediatePriorCarrierLOVs.add("First Time Homebuyer");
+		immediatePriorCarrierLOVs.add("Foremost");
+		immediatePriorCarrierLOVs.add("Hartford");
+		immediatePriorCarrierLOVs.add("Liberty Insurance");
+		immediatePriorCarrierLOVs.add("Liberty Mutual");
+		immediatePriorCarrierLOVs.add("Metropolitian");
+		immediatePriorCarrierLOVs.add("Mutual of Enumclaw Ins Co.");
+		immediatePriorCarrierLOVs.add("Nationwide");
+		immediatePriorCarrierLOVs.add("Other");
+		immediatePriorCarrierLOVs.add("Safeco");
+		immediatePriorCarrierLOVs.add("State Farm");
+		immediatePriorCarrierLOVs.add("Travelers");
+		immediatePriorCarrierLOVs.add("United Heritage");
+		immediatePriorCarrierLOVs.add("United Services");
+		immediatePriorCarrierLOVs.add("USAA");
+		immediatePriorCarrierLOVs.add("Vigilant Insurance");
+		immediatePriorCarrierLOVs.add("None");	
+	}
 }

@@ -1,12 +1,12 @@
 package aaa.modules.delta.templates;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.delta.HssQuoteDataGatherHelper;
 import aaa.main.enums.ProductConstants;
-import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
@@ -15,7 +15,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
-import toolkit.webdriver.controls.ComboBox;
+import toolkit.verification.CustomAssert;
 
 public class DCDeltaScenario1 extends BaseTest {
 	protected IPolicy policy;
@@ -42,18 +42,12 @@ public class DCDeltaScenario1 extends BaseTest {
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
-		GeneralTab generalTab = new GeneralTab();
-		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER.getLabel(), ComboBox.class).verify.options(
-				Arrays.asList("AAA-Michigan (ACG)", "AAA Other", "AAA-Michigan (ACG)", "AAA-NoCal (CSAA IG) Rewrite", 
-						"AAA-NoCal (CSAA IG) Sold/Bought", "AAA-SoCal (ACSC)", "AIG", "Alfa Insurance", "Allstate", "Assurant",  "Chubb", 
-						"Compliant w/o Ins-Military", "Compliant w/o Ins-Military AAA", "Compliant w/o Ins-Newly Purchased", "Donegal", "Erie", 
-						"Farmers", "GMAC", "Hanover", "Harleysville", "Hartford", "High Point", "Homesite", "Kemper", "Liberty Mutual", 
-						"Loudoun Mutual", "Mercury", "MetLife", "Nationwide", "NJ Cure", "NJ Manufacturers", "NJ Skylands", "No Prior", 
-						"Northern Neck", "Ohio Casualty", "Other Carrier", "Palisades", "Proformance", "Rockingham Mutual", "Safeco", 
-						"Selective", "State Farm", "Travelers", "USAA", "VA Farm Bureau", "Western United", "White Mountains")); 
+		CustomAssert.enableSoftMode();
+		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrier(immediatePriorCarrierLOVs);
 		
 		GeneralTab.buttonSaveAndExit.click();
-	}
+		CustomAssert.assertAll();
+	}	
 	
 	public void TC_purchasePolicy(String scenarioPolicyType) {
 		TestData td = getTestSpecificTD("TestData");
@@ -82,5 +76,56 @@ public class DCDeltaScenario1 extends BaseTest {
 	
 	public void TC_verifyPolicyODD() {
 		//TODO add verification of On-Demand Documents Tab
+	}
+	
+	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<String>();
+	static {
+		immediatePriorCarrierLOVs.add("AAA-Michigan (ACG)");
+		immediatePriorCarrierLOVs.add("AAA Other");
+		immediatePriorCarrierLOVs.add("AAA-Michigan (ACG)"); 
+		immediatePriorCarrierLOVs.add("AAA-NoCal (CSAA IG) Rewrite");
+		immediatePriorCarrierLOVs.add("AAA-NoCal (CSAA IG) Sold/Bought");
+		immediatePriorCarrierLOVs.add("AAA-SoCal (ACSC)");
+		immediatePriorCarrierLOVs.add("AIG");
+		immediatePriorCarrierLOVs.add("Alfa Insurance"); 
+		immediatePriorCarrierLOVs.add("Allstate");
+		immediatePriorCarrierLOVs.add("Assurant"); 
+		immediatePriorCarrierLOVs.add("Chubb"); 
+		immediatePriorCarrierLOVs.add("Compliant w/o Ins-Military"); 
+		immediatePriorCarrierLOVs.add("Compliant w/o Ins-Military AAA"); 
+		immediatePriorCarrierLOVs.add("Compliant w/o Ins-Newly Purchased"); 
+		immediatePriorCarrierLOVs.add("Donegal"); 
+		immediatePriorCarrierLOVs.add("Erie");
+		immediatePriorCarrierLOVs.add("Farmers");
+		immediatePriorCarrierLOVs.add("GMAC"); 
+		immediatePriorCarrierLOVs.add("Hanover"); 
+		immediatePriorCarrierLOVs.add("Harleysville");
+		immediatePriorCarrierLOVs.add("Hartford"); 
+		immediatePriorCarrierLOVs.add("High Point"); 
+		immediatePriorCarrierLOVs.add("Homesite"); 
+		immediatePriorCarrierLOVs.add("Kemper"); 
+		immediatePriorCarrierLOVs.add("Liberty Mutual"); 
+		immediatePriorCarrierLOVs.add("Loudoun Mutual");
+		immediatePriorCarrierLOVs.add("Mercury"); 
+		immediatePriorCarrierLOVs.add("MetLife"); 
+		immediatePriorCarrierLOVs.add("Nationwide"); 
+		immediatePriorCarrierLOVs.add("NJ Cure");
+		immediatePriorCarrierLOVs.add("NJ Manufacturers"); 
+		immediatePriorCarrierLOVs.add("NJ Skylands"); 
+		immediatePriorCarrierLOVs.add("No Prior");
+		immediatePriorCarrierLOVs.add("Northern Neck"); 
+		immediatePriorCarrierLOVs.add("Ohio Casualty"); 
+		immediatePriorCarrierLOVs.add("Other Carrier"); 
+		immediatePriorCarrierLOVs.add("Palisades"); 
+		immediatePriorCarrierLOVs.add("Proformance");
+		immediatePriorCarrierLOVs.add("Rockingham Mutual"); 
+		immediatePriorCarrierLOVs.add("Safeco"); 
+		immediatePriorCarrierLOVs.add("Selective"); 
+		immediatePriorCarrierLOVs.add("State Farm"); 
+		immediatePriorCarrierLOVs.add("Travelers"); 
+		immediatePriorCarrierLOVs.add("USAA");
+		immediatePriorCarrierLOVs.add("VA Farm Bureau"); 
+		immediatePriorCarrierLOVs.add("Western United");
+		immediatePriorCarrierLOVs.add("White Mountains");	
 	}
 }

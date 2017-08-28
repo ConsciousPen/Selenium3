@@ -19,7 +19,7 @@ import toolkit.webdriver.controls.composite.table.Table;
  */
 public class GenerateOnDemandDocumentActionTab extends ActionTab {
 	
-	public Table tableOnDemandDocuments = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body']/div[1]//table")); 
+	public static Table tableOnDemandDocuments = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body']/div[1]//table")); 
 	public static Button btnGenerateDocuments = new Button(By.id("policyDataGatherForm:generateDocLink"));
 	public static Button btnCancel = new Button(By.id("policyDataGatherForm:adhocCancel"));
 	public static Button btnPreviewDocuments = new Button(By.id("policyDataGatherForm:previewDocLink"));

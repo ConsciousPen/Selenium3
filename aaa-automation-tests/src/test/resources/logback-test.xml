@@ -44,6 +44,10 @@
         <appender-ref ref="testLog"/>
         <appender-ref ref="testng"/>
     </logger>
+    <logger name="com.exigen.ipb.etcsa.utils.TimeSetterUtil" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="testLog"/>
+    </logger>
     <logger name="com.exigen.istf.exec" additivity="false">
         <level value="debug"/>
         <appender-ref ref="pef-file"/>

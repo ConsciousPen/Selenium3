@@ -30,14 +30,14 @@ public class TestPolicyCancelNoticeWithCancellation extends PolicyCancelNoticeWi
 		return PolicyType.AUTO_SS;
 	}
 	
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, enabled = false)
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	public void TC01_CreatePolicyAndCancelNotice() {
 		super.TC01_CreatePolicyAndCancelNotice();
 	}
 	
 	@Test(dependsOnMethods = "TC01_CreatePolicyAndCancelNotice",
-		  groups = {Groups.REGRESSION, Groups.CRITICAL})
+		  groups = {Groups.REGRESSION, Groups.CRITICAL}, enabled = false)
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	public void TC02_CancellationPolicy() {
 		super.TC02_CancellationPolicy();

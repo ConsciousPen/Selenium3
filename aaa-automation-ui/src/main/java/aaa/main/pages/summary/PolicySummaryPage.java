@@ -70,7 +70,8 @@ public class PolicySummaryPage extends SummaryPage {
             + "or @id='productConsolidatedViewForm:scolumn_InsuredInformation' "
             + "or @id='scolumn_AAAHONamedInsured'"
             + "or @id='scolumn_AAAHONamedInsuredInformation'"
-            + "or @id='scolumn_InsuredInformationMVO']//table"));
+            + "or @id='scolumn_InsuredInformationMVO'"
+            + "or @id='productConsolidatedViewForm:consolidatedInfoPanelAAAPupNamedInsuredInfo_body']//table"));
     public static Table tableCoveragePremiumSummary = new Table(By.id("policyDataGatherForm:policySummary_ListCLGLPremOpsProdCoveragePremiumSummary"));
     public static Table tableCompare = new Table(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']/table[@role='treegrid']"));
     public static Table tableOtherUnderlyingRisks = new Table(By.xpath("//div[@id='productConsolidatedViewForm:pupUnderlyingRiskPanel_body'//table"));
@@ -110,6 +111,16 @@ public class PolicySummaryPage extends SummaryPage {
         }
 
         return dateEffective;
+    }
+
+    public static void verifyCancelNoticeFlagPresent() {
+        labelCancelNotice.verify.present("'Cancel Notice' flag is present");
+        labelCancelNotice.verify.value("Cancel Notice");
+    }
+
+    public static void verifyLapseExistFlagPresent() {
+        PolicySummaryPage.labelLapseExist.verify.present("Lapse period flag is present");
+        PolicySummaryPage.labelLapseExist.verify.value("Term includes a lapse period");
     }
 
     public static class TransactionHistory {

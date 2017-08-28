@@ -44,6 +44,11 @@ public class BillingPaymentsAndTransactionsVerifier extends TableVerifier {
         return this;
     }
 
+    public BillingPaymentsAndTransactionsVerifier setReason(String value) {
+        setValue(BillingPaymentsAndOtherTransactionsTable.REASON, value);
+        return this;
+    }
+
     public BillingPaymentsAndTransactionsVerifier setAmount(Dollar value) {
         setValue(BillingPaymentsAndOtherTransactionsTable.AMOUNT, value.toString());
         return this;

@@ -1,10 +1,11 @@
 package aaa.modules.delta.templates;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.delta.HssQuoteDataGatherHelper;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -21,7 +22,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.ComboBox;
 
 public class ORDeltaScenario1 extends BaseTest { 
 	protected IPolicy policy;
@@ -48,15 +48,11 @@ public class ORDeltaScenario1 extends BaseTest {
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
-		GeneralTab generalTab = new GeneralTab();
-		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER.getLabel(), ComboBox.class).verify.options(
-				Arrays.asList("AAA-Michigan (ACG)", "AAA-NoCal (CSAA IG) Rewrite", "AAA-NoCal (CSAA IG) Sold/Bought", "AAA-SoCal (ACSC)", 
-						"Allstate", "American Family", "Country Mutual", "Farmers", "Fireman's Fund", "First Time Homebuyer", "Foremost", 
-						"Hartford", "Homesite", "Liberty Insurance Corp.", "Liberty Mutual", "MET", "Mutual of Enumclaw Ins Co.", 
-						"Nationwide", "Oregon Mutual", "Other", "Safeco", "State Farm", "Travelers", "United Svcs Automobile Assn", 
-						"USAA", "None")); 
+		CustomAssert.enableSoftMode();
+		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrier(immediatePriorCarrierLOVs);
 		
 		GeneralTab.buttonSaveAndExit.click();
+		CustomAssert.assertAll();
 	}	
 	
 	public void TC_verifyUnderwritingApprovalTab() {
@@ -86,10 +82,10 @@ public class ORDeltaScenario1 extends BaseTest {
         
         ErrorTab errorTab = new ErrorTab(); 
         if (getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
-        	errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3151364);
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3151364);
         }
         else {
-        	errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3150198);
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3150198);
         }
 		errorTab.cancel(); 
 		
@@ -122,13 +118,13 @@ public class ORDeltaScenario1 extends BaseTest {
 		
         ErrorTab errorTab = new ErrorTab(); 	
         if (getPolicyType().equals(PolicyType.HOME_SS_HO4)) {
-        	errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1050670_OR);
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1050670_OR);
         }
         else {
-        	errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1020340_OR);
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1020340_OR);
         }
-		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12023000);
-		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12200234);
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12023000);
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12200234);
 		errorTab.cancel(); 
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
@@ -161,4 +157,33 @@ public class ORDeltaScenario1 extends BaseTest {
 		//TODO verify AHAUXX - Consumer Information Notice is on On-Demand Documents tab, verify AHAUXX generation
 	}
 	
+	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<String>();
+	static {
+		immediatePriorCarrierLOVs.add("AAA-Michigan (ACG)");
+		immediatePriorCarrierLOVs.add("AAA-NoCal (CSAA IG) Rewrite");
+		immediatePriorCarrierLOVs.add("AAA-NoCal (CSAA IG) Sold/Bought");
+		immediatePriorCarrierLOVs.add("AAA-SoCal (ACSC)");
+		immediatePriorCarrierLOVs.add("Allstate");
+		immediatePriorCarrierLOVs.add("American Family");
+		immediatePriorCarrierLOVs.add("Country Mutual");
+		immediatePriorCarrierLOVs.add("Farmers");
+		immediatePriorCarrierLOVs.add("Fireman's Fund");
+		immediatePriorCarrierLOVs.add("First Time Homebuyer");
+		immediatePriorCarrierLOVs.add("Foremost");
+		immediatePriorCarrierLOVs.add("Hartford");
+		immediatePriorCarrierLOVs.add("Homesite");
+		immediatePriorCarrierLOVs.add("Liberty Insurance Corp.");
+		immediatePriorCarrierLOVs.add("Liberty Mutual");
+		immediatePriorCarrierLOVs.add("MET");
+		immediatePriorCarrierLOVs.add("Mutual of Enumclaw Ins Co.");
+		immediatePriorCarrierLOVs.add("Nationwide");
+		immediatePriorCarrierLOVs.add("Oregon Mutual");
+		immediatePriorCarrierLOVs.add("Other");
+		immediatePriorCarrierLOVs.add("Safeco");
+		immediatePriorCarrierLOVs.add("State Farm");
+		immediatePriorCarrierLOVs.add("Travelers");
+		immediatePriorCarrierLOVs.add("United Svcs Automobile Assn");
+		immediatePriorCarrierLOVs.add("USAA");
+		immediatePriorCarrierLOVs.add("None");			
+	}
 }

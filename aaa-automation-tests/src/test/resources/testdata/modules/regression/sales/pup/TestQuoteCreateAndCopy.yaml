@@ -1,0 +1,14 @@
+TestData: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {},
+  UnderlyingRisksOtherVehiclesTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+  PurchaseTab: '@<pup>@DataGather@PurchaseTab'
+ }

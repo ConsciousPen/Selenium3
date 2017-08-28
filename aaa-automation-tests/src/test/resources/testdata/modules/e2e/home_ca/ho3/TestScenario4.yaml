@@ -1,0 +1,30 @@
+TestData: {
+  PremiumsAndCoveragesQuoteTab: {
+    Payment Plan: Annual,
+    Coverage C - Personal Property limit: '75|Coverage A - Dwelling limit',
+    Coverage D - Loss of Use limit: '45|Coverage A - Dwelling limit'
+  },
+}
+
+# ----- Endorsement -----
+TestData_Endorsement: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+      Coverage A - Dwelling limit: 200000,
+      ISO replacement cost: 180000
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage C - Personal Property limit: '80|Coverage A - Dwelling limit',
+    Coverage D - Loss of Use limit: '90|Coverage A - Dwelling limit'
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+}

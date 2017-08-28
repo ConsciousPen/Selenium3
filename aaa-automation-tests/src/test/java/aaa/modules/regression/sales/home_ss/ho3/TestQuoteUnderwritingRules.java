@@ -144,16 +144,16 @@ public class TestQuoteUnderwritingRules extends HomeSSHO3BaseTest {
         ErrorTab errorTab = new ErrorTab();
         
         if (getState().equals("CT")) {
-			//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+			//TODO-dchubkov: replace with errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_XXXXXX);
         	errorTab.errorsList.getTable().getRowContains(err1_dataRow).verify.present();
         }
         else if (getState().equals("KY")) {
-			//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+			//TODO-dchubkov: replace with errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_XXXXXX);
         	errorTab.errorsList.getTable().getRowContains(err1_dataRow).verify.present();
         	errorTab.errorsList.getTable().getRowContains(err3_dataRow).verify.present();
         }
         else {
-			//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+			//TODO-dchubkov: replace with errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_XXXXXX);
         	errorTab.errorsList.getTable().getRowContains(err1_dataRow).verify.present();
         	errorTab.errorsList.getTable().getRowContains(err2_dataRow).verify.present();
         	errorTab.errorsList.getTable().getRowContains(err3_dataRow).verify.present();

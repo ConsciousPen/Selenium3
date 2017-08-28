@@ -1,7 +1,12 @@
 package aaa.modules.regression.billing_and_payments.template;
 
 import java.util.HashMap;
+
+import aaa.helpers.billing.BillingHelper;
+import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
+import aaa.helpers.billing.BillingPendingTransactionsVerifier;
 import toolkit.datax.TestData;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.TextBox;
@@ -12,7 +17,6 @@ import aaa.main.enums.ActionConstants;
 import aaa.main.enums.BillingConstants.BillingAccountPoliciesTable;
 import aaa.main.enums.BillingConstants.BillingGeneralInformationTable;
 import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
-import aaa.main.enums.BillingConstants.BillingPendingTransactionsActions;
 import aaa.main.enums.BillingConstants.BillingPendingTransactionsTable;
 import aaa.main.enums.BillingConstants.BillingPendingTransactionsType;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionAction;
@@ -139,7 +143,6 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
                         paymentAmount.toString());
         TestData refund = tdBilling.getTestData("Refund", "TestData_Check");
         String keyPathRefundAmount = TestData.makeKeyPath(BillingAccountMetaData.RefundActionTab.class.getSimpleName(), BillingAccountMetaData.RefundActionTab.AMOUNT.getLabel());
-        HashMap<String, String> query;
 
         mainApp().open();
         getCopiedPolicy();
@@ -175,10 +178,7 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
         RefundActionTab.buttonOk.click();
 
         // 8. Check presence of the refund transaction in Pending transactions on billing tab
-        query = new HashMap<>();
-        query.put(BillingPendingTransactionsTable.TYPE, BillingPendingTransactionsType.REFUND);
-        query.put(BillingPendingTransactionsTable.AMOUNT, paymentAmount.toString());
-        BillingSummaryPage.tablePendingTransactions.getRow(query).verify.present();
+        new BillingPendingTransactionsVerifier().setType(BillingPendingTransactionsType.REFUND).setAmount(paymentAmount).verifyPresent();
 
         // 9. Check that System creates an Approval task for the Refund transaction
         String referenceID = BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.ID).getValue();
@@ -189,18 +189,11 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
         MyWorkSummaryPage.tableTasks.getRow(1).getCell(MyWorkConstants.MyWorkTasksTable.REFERENCE_ID).controls.links.getFirst().click();
 
         // 10. Approve the refund transaction
-        query = new HashMap<>();
-        query.put(BillingPendingTransactionsTable.TYPE, BillingPendingTransactionsType.REFUND);
-        query.put(BillingPendingTransactionsTable.AMOUNT, paymentAmount.toString());
-        BillingSummaryPage.tablePendingTransactions.getRow(query).getCell(BillingPendingTransactionsTable.ACTION).controls.links.get(BillingPendingTransactionsActions.APPROVE).click();
-        Page.dialogConfirmation.confirm();
+        BillingHelper.approvePendingTransaction(DateTimeUtils.getCurrentDateTime(), BillingPendingTransactionsType.REFUND);
 
         // 11. Check presence of the refund transaction in Payments & Other Transactions on billing tab
-        query = new HashMap<>();
-        query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.REFUND);
-        query.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, paymentAmount.toString());
-        query.put(BillingPaymentsAndOtherTransactionsTable.STATUS, PaymentsAndOtherTransactionStatus.APPROVED);
-        BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
+        new BillingPaymentsAndTransactionsVerifier().setType(PaymentsAndOtherTransactionType.REFUND).setAmount(paymentAmount)
+                .setStatus(PaymentsAndOtherTransactionStatus.APPROVED).verifyPresent();
 
         // 12. Check Total Paid Amount value after refunding
         BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_PAID).verify.contains(initiateTotalPaid.toString());

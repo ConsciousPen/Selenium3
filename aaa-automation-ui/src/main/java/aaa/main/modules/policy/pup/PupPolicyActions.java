@@ -5,6 +5,7 @@ package aaa.main.modules.policy.pup;
 import aaa.common.AbstractAction;
 import aaa.common.Workspace;
 import aaa.main.modules.policy.PolicyActions;
+import aaa.main.modules.policy.pup.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.pup.views.*;
 import toolkit.datax.TestData;
 
@@ -171,6 +172,12 @@ public final class PupPolicyActions {
         @Override
         public Workspace getView() {
             return new GenerateOnDemandDocumentView();
+        }
+        
+        @Override
+        public AbstractAction submit() {
+            getView().getTab(GenerateOnDemandDocumentActionTab.class).submitTab();
+            return this;
         }
     }
 

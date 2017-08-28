@@ -7,16 +7,20 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.*;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+//import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -24,8 +28,12 @@ import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.StaticElement;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+
+import static aaa.main.enums.OnDemandDocumentEnum.*;
 
 /**
  * @author Dmitry Chubkov
@@ -45,10 +53,12 @@ import java.util.Collections;
 @Test(groups = {Groups.DELTA, Groups.HIGH})
 public class TestDeltaScenario1 extends AutoSSBaseTest {
 	private String quoteNumber;
+
 	private DriverTab driverTab = new DriverTab();
 	private PremiumAndCoveragesTab pacTab = new PremiumAndCoveragesTab();
 	private GeneralTab gTab = new GeneralTab();
 	private MultiInstanceBeforeAssetList aiAssetList = driverTab.getActivityInformationAssetList();
+	private ErrorTab errorTab = new ErrorTab();
 
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
@@ -245,8 +255,6 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	public void testSC1_TC06() {
-		ErrorTab errorTab = new ErrorTab();
-
 		preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		//CO DELTA - No full safety glass
@@ -255,9 +263,9 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		CustomAssert.assertEquals(pacTab.getRatingDetailsQuoteInfoData().getValue("Adversely Impacted Applied"), "Yes");
 		pacTab.submitTab();
 		//PAS 11 fix application change #35
-		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_200103);
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_200103);
 		//PAS11 CR fix
-		errorTab.overrideError(ErrorEnum.Errors.ERROR_200103, ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.TEMPORARY_ISSUE);
+		errorTab.overrideErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.TEMPORARY_ISSUE, ErrorEnum.Errors.ERROR_200103);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
 		StaticElement warningMessage = new StaticElement(By.id("policyDataGatherForm:warningMessage"));
@@ -310,6 +318,91 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_SAVINGS_OPTIONS).setValue("No");
 
 		Tab.buttonSaveAndExit.click();
+	}
+
+	/**
+	 * @author Dmitry Chubkov
+	 * @name CO_SC1_TC08
+	 */
+	@Test
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
+	public void testSC1_TC08() {
+		DocumentsAndBindTab dabTab = new DocumentsAndBindTab();
+
+		preconditions(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS);
+		policy.getDefaultView().fillFromTo(getPolicyTD(), DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
+		//policy.getDefaultView().fillFromTo(getPolicyTD().mask("DriverActivityReportsTab|Has the customer expressed interest in purchasing the quote?"), DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
+		dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.MEDICAL_PAYMENTS_REJECTION_OF_COVERAGE).verify.present();
+		dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.MEDICAL_PAYMENTS_REJECTION_OF_COVERAGE).verify.value("Yes");
+
+		dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND).getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.MEDICAL_PAYMENTS_REJECTION_OF_COVERAGE).verify.present();
+
+		dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EXISTING_AAA_LIFE_POLICY_NUMBER).verify.present();
+		dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EXISTING_AAA_HOME_POLICY_NUMBER).verify.present();
+		dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EXISTING_AAA_RENTERS_POLICY_NUMBER).verify.present();
+		dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EXISTING_AAA_CONDO_POLICY_NUMBER).verify.present();
+
+		dabTab.submitTab();
+		errorTab.verify.errorsPresent(
+				ErrorEnum.Errors.ERROR_200060_CO,
+				ErrorEnum.Errors.ERROR_200401,
+				ErrorEnum.Errors.ERROR_AAA_CSA3080819,
+				ErrorEnum.Errors.ERROR_AAA_CSA3082394,
+				ErrorEnum.Errors.ERROR_AAA_CSA3083444,
+				ErrorEnum.Errors.ERROR_AAA_CSA3080903);
+
+		errorTab.overrideErrors(ErrorEnum.Errors.ERROR_200060_CO, ErrorEnum.Errors.ERROR_200401);
+
+		Tab.buttonSaveAndExit.click();
+	}
+
+	/**
+	 * @author Dmitry Chubkov
+	 * @name CO_SC1_TC09
+	 */
+	@Test
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
+	public void testSC1_TC09() {
+		GenerateOnDemandDocumentActionTab goddTab = new GenerateOnDemandDocumentActionTab();
+
+		mainApp().open();
+		SearchPage.openQuote(getQuoteNumber());
+		policy.quoteDocGen().start();
+
+		List<TestData> expectedData = new ArrayList<>(8);
+		expectedData.add(DataProviderFactory.dataOf("Document #", AA11CO.getId(), "Document Name", AA11CO.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", AA43CO.getId(), "Document Name", AA43CO.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", AAIQCO.getId(), "Document Name", AAIQCO.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", AHFMXX.getId(), "Document Name", AHFMXX.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", AU03.getId(), "Document Name", AU03.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", AA16CO.getId(), "Document Name", AA16CO.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", AADNCO.getId(), "Document Name", AADNCO.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", AHAUXX.getId(), "Document Name", AHAUXX.getName())); //missed in original TC
+		expectedData.forEach(e -> e.adjust("Select", ""));
+
+		FillableDocumentsTable documents = goddTab.getAssetList().getAsset(AutoSSMetaData.GenerateOnDemandDocumentActionTab.ON_DEMAND_DOCUMENTS);
+		documents.getTable().verify.value(expectedData);
+		documents.getTable().getRow("Document #", "AA43CO").getCell("Select").controls.checkBoxes.getFirst().verify.enabled(false);
+
+		expectedData.forEach(e -> e.adjust("Select", "true"));
+		expectedData.add(DataProviderFactory.dataOf("Free Form Text", "Free Text"));
+		documents.setValue(expectedData);
+
+		goddTab.getAssetList().getAsset(AutoSSMetaData.GenerateOnDemandDocumentActionTab.DELIVERY_METHOD).setValue("Central Print");
+		policy.quoteDocGen().submit();
+		NavigationPage.Verify.mainTabSelected(NavigationEnum.AppMainTabs.QUOTE.get());
+		quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+	}
+
+	/**
+	 * @author Dmitry Chubkov
+	 * @name CO_SC1_TC10
+	 */
+	@Test
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
+	public void testSC1_TC10() {
+		//DocGenHelper.Verify.documentsExists(getQuoteNumber(), AA11CO, AA43CO, AAIQCO, AHFMXX, AU03, AA16CO, AADNCO, AHAUXX);
+		//TODO-dchubkov: to be continued...
 	}
 
 	private void preconditions(NavigationEnum.AutoSSTab navigateTo) {

@@ -1,5 +1,6 @@
 package aaa.modules.delta.templates;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +42,7 @@ public class CODeltaScenario1 extends BaseTest {
 		mainApp().open();		
         createCustomerIndividual();
         
-        policy.initiate();
+        policy.initiate();        
         policy.getDefaultView().fillUpTo(td, BindTab.class, true); 
         BindTab.buttonSaveAndExit.click();
         
@@ -49,6 +50,18 @@ public class CODeltaScenario1 extends BaseTest {
         log.info("DELTA CO SC1: "+scenarioPolicyType+" Quote created with #" + quoteNumber);
         
         effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue(); 		
+	}
+	
+	public void TC_verifyLOVsOfImmediatePriorCarrier() {
+		mainApp().open(); 
+		SearchPage.openQuote(quoteNumber);	
+		policy.dataGather().start();
+		
+		CustomAssert.enableSoftMode();
+		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrier(immediatePriorCarrierLOVs);
+		
+		GeneralTab.buttonSaveAndExit.click();
+		CustomAssert.assertAll();
 	}
 	
 	public void TC_verifyEndorsementsTab() {
@@ -139,7 +152,7 @@ public class CODeltaScenario1 extends BaseTest {
 		new BindTab().btnPurchase.click();
 		
 		ErrorTab errorTab = new ErrorTab();
-		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS10060735);
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS10060735);
 		errorTab.cancel();
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get()); 
@@ -211,5 +224,46 @@ public class CODeltaScenario1 extends BaseTest {
 		//TODO add verification of On-Demand Documents Tab
 		
 		policy.policyDocGen().start();		
+	}
+	
+	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<String>();	
+	static {
+		immediatePriorCarrierLOVs.add("AAA-Michigan (ACG)");
+		immediatePriorCarrierLOVs.add("AAA-NoCal (CSAA IG) Rewrite");
+		immediatePriorCarrierLOVs.add("AAA-NoCal (CSAA IG) Sold/Bought");
+		immediatePriorCarrierLOVs.add("AAA-SoCal (ACSC)");
+		immediatePriorCarrierLOVs.add("Allied");
+		immediatePriorCarrierLOVs.add("Allstate");
+		immediatePriorCarrierLOVs.add("Amco Ins Co");
+		immediatePriorCarrierLOVs.add("American Family");
+		immediatePriorCarrierLOVs.add("American National");
+		immediatePriorCarrierLOVs.add("Auto Owners");
+		immediatePriorCarrierLOVs.add("Bear River Mutual");
+		immediatePriorCarrierLOVs.add("Chartis");
+		immediatePriorCarrierLOVs.add("Cincinnati");
+		immediatePriorCarrierLOVs.add("Country");
+		immediatePriorCarrierLOVs.add("CSAA IG");
+		immediatePriorCarrierLOVs.add("CSE Safeguard");
+		immediatePriorCarrierLOVs.add("Farm Bureau");
+		immediatePriorCarrierLOVs.add("Farmers");
+		immediatePriorCarrierLOVs.add("Fire Insurance");
+		immediatePriorCarrierLOVs.add("First Time Homebuyer");
+		immediatePriorCarrierLOVs.add("Foremost");
+		immediatePriorCarrierLOVs.add("Great Northern");
+		immediatePriorCarrierLOVs.add("Hartford");
+		immediatePriorCarrierLOVs.add("Homesite");
+		immediatePriorCarrierLOVs.add("Liberty Mutual");
+		immediatePriorCarrierLOVs.add("Metropolitan");
+		immediatePriorCarrierLOVs.add("Nationwide");
+		immediatePriorCarrierLOVs.add("No Prior");
+		immediatePriorCarrierLOVs.add("Other Carrier");
+		immediatePriorCarrierLOVs.add("Owners Insurance");
+		immediatePriorCarrierLOVs.add("Pacific Indemnity");
+		immediatePriorCarrierLOVs.add("Safeco");
+		immediatePriorCarrierLOVs.add("Standard Fire");
+		immediatePriorCarrierLOVs.add("State Farm");
+		immediatePriorCarrierLOVs.add("Travelers");
+		immediatePriorCarrierLOVs.add("Unigard");
+		immediatePriorCarrierLOVs.add("USAA");		
 	}
 }

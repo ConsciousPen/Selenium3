@@ -5,12 +5,9 @@ package aaa.main.metadata;
 import aaa.toolkit.webdriver.customcontrols.FillableTable;
 import org.openqa.selenium.By;
 import toolkit.webdriver.controls.*;
-import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.waiters.Waiters;
-import aaa.common.pages.Page;
-import aaa.main.metadata.policy.PurchaseMetaData;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import com.exigen.ipb.etcsa.controls.dialog.DialogMultiSelector;
 import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
@@ -54,7 +51,7 @@ public final class BillingAccountMetaData {
         public static final AssetDescriptor<ComboBox> STATE_PROVINCE = declare("State / Province", ComboBox.class, Waiters.NONE);
         public static final AssetDescriptor<TextBox> PHONE = declare("Phone #", TextBox.class, Waiters.AJAX);
 
-        public static final AssetDescriptor<CheckBox> ACTIVATE_AUTOPAY = declare("Activate Autopay", CheckBox.class);
+        public static final AssetDescriptor<CheckBox> ACTIVATE_AUTOPAY = declare("Activate Autopay", CheckBox.class, Waiters.AJAX(120000));
         public static final AssetDescriptor<ComboBox> AUTOPAY_SELECTION = declare("Autopay Selection", ComboBox.class);
     }
 

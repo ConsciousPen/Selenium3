@@ -10,8 +10,8 @@ import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
+import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.composite.assets.AssetList;
 import aaa.toolkit.webdriver.customcontrols.AdvancedTable;
 
 /**
@@ -25,7 +25,8 @@ import aaa.toolkit.webdriver.customcontrols.AdvancedTable;
  */
 public class DriverTab extends Tab {
 	
-	 public static AdvancedTable tableDriverList = new AdvancedTable(By.id("policyDataGatherForm:dataGatherView_ListDriver"));
+	public static AdvancedTable tableDriverList = new AdvancedTable(By.id("policyDataGatherForm:dataGatherView_ListDriver"));
+	public static AdvancedTable tableActivityInformationList = new AdvancedTable(By.id("policyDataGatherForm:dataGatherView_ListDrivingRecord"));
 	 
 	public DriverTab() {
 		super(AutoCaMetaData.DriverTab.class);
@@ -43,8 +44,9 @@ public class DriverTab extends Tab {
 		buttonNext.click();
 		return this;
 	}
+
 	
-	public AssetList getActivityInformationAssetList() {
-    	return getAssetList().getAsset(AutoCaMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), AssetList.class);
+	public MultiInstanceBeforeAssetList getActivityInformationAssetList() {
+		return getAssetList().getAsset(AutoCaMetaData.DriverTab.ACTIVITY_INFORMATION);
 	}
 }
