@@ -1,0 +1,93 @@
+SpinTestData: {
+   SpinActionTab: {
+  Transaction Effective Date: /today,
+  'Insureds approve removal of drivers and vehicles': 'Yes',
+    Drivers: '1',
+    Vehicles : '2'
+    }
+}
+
+#------ Test data for endorsement 
+
+TestData_endorsement: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {
+  DriverVehicleRelationshipTable: [{
+    Primary Driver: index=1,
+    Manually Rated Driver: index=1
+  }]
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+#----- Test Data for binding spun quote --- 
+
+TestData: {
+  GeneralTab: '@GeneralTab',
+  DriverTab: {},
+  MembershipTab: '@MembershipTab',
+  VehicleTab: {},
+  AssignmentTab: '@AssignmentTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {},
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation'
+}
+
+AAAProductOwned: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001,
+  Member Last Name: Test,
+}
+
+NamedInsuredInformation: {
+  'Home Phone #': 1234567890 
+}
+
+PolicyInformation: {
+  Channel Type: Phone (Direct Sales Unit),
+  Agency: SMTestCC - 400000092,
+  Sales Channel: Online,
+  Authorized by: QA,
+}
+
+MembershipTab: {
+  Order Report: click
+}
+
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [{
+    Vehicle: '2011, CHEVROLET, EXPRESS VAN',
+    Primary Driver: index=1,
+    Manually Rated Driver: index=1
+  }]
+}
+
+PremiumAndCoveragesTab: {
+  Payment Plan: Annual
+}
+
+DriverActivityReportsTab: {
+  Validate Driving History: click,
+  OrderCLUEReport: [{}]
+}
+ 
+PurchaseTab: {
+  PaymentAllocation: {
+    Cash: /rest
+  }
+}
