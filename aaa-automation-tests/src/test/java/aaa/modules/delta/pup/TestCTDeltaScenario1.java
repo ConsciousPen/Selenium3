@@ -1,11 +1,12 @@
 package aaa.modules.delta.pup;
 
-
 import java.util.ArrayList;
+import java.util.List;
 
 import org.testng.annotations.Test;
 
 import aaa.common.Tab;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.NavigationEnum.PersonalUmbrellaTab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -14,6 +15,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.actiontabs.CancelNoticeActionTab;
+import aaa.main.modules.policy.pup.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
@@ -23,12 +25,15 @@ import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksOtherVehiclesTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksPropertyTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.TextBox;
+import static aaa.main.enums.OnDemandDocumentEnum.*;
 
 
 
@@ -151,6 +156,8 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("DELTA CT SC1: PUP policy bound with #" + policyNumber);
+		
+		//TODO verify PS02 generate on DB
 	}
 	
 	/**
@@ -161,13 +168,46 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 	 * 2. Go to On-Demand Documents tab. 
 	 * 3. Navigate to Bind tab and purchase policy. 
 	 * 4. Verify documents are present and absent on ODD tab.
+	 * 5. Verify document PS11 present and enabled on ODD tab.
+	 * 6. Select PS11 and generate the form
 	 * @details
 	 */
 	
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.PUP)
 	public void TC04_verifyODDPolicy() {
-		//TODO add
+		GenerateOnDemandDocumentActionTab GODDTab= new GenerateOnDemandDocumentActionTab();		
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		policy.policyDocGen().start();
+		List<TestData> expectedData = new ArrayList<>(18);
+		expectedData.add(DataProviderFactory.dataOf("Document #", HSU01XX.getId(), "Document Name", HSU01XX.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", HSU02XX.getId(), "Document Name", HSU02XX.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", HSU03XX.getId(), "Document Name", HSU03XX.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", HSU04XX.getId(), "Document Name", HSU04XX.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", HSU05XX.getId(), "Document Name", HSU05XX.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", HSU06XX.getId(), "Document Name", HSU06XX.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", HSU07XX.getId(), "Document Name", HSU07XX.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", HSU08XX.getId(), "Document Name", HSU08XX.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", HSU09XX.getId(), "Document Name", HSU09XX.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", F605005.getId(), "Document Name", F605005.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", PS0922.getId(), "Document Name", PS0922.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", HSRFIXX.getId(), "Document Name", HSRFIXX.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", AHRCTXX.getId(), "Document Name", AHRCTXX.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", AHFMXX.getId(), "Document Name", AHFMXX.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", PSIQXX.getId(), "Document Name", PSIQXX.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", PS11.getId(), "Document Name", PS11.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", AHAUXX.getId(), "Document Name", AHAUXX.getName()));
+		expectedData.add(DataProviderFactory.dataOf("Document #", AHCDCT.getId(), "Document Name", AHCDCT.getName()));	
+		expectedData.forEach(e -> e.adjust("Select", ""));
+
+		FillableDocumentsTable documents=GODDTab.getAssetList().getAsset(PersonalUmbrellaMetaData.GenerateOnDemandDocumentActionTab.ON_DEMAND_DOCUMENTS);
+		documents.getTable().verify.value(expectedData);
+		documents.getTable().getRow("Document #", "PS11").getCell("Select").controls.checkBoxes.getFirst().verify.enabled(true);
+		documents.getTable().getRow("Document #", "PS11").getCell("Select").controls.checkBoxes.getFirst().setValue(true);
+		
+		GODDTab.buttonOk.click();
+		NavigationPage.Verify.mainTabSelected(NavigationEnum.AppMainTabs.POLICY.get());
 	}
 	
 	/**

@@ -9,9 +9,22 @@ public enum OnDemandDocumentEnum {
 	AHAUXX("Consumer Information Notice"),
 	AHFMXX("Fax Memorandum"),
 	AU03("Notice of Declination"),
+	HSU01XX("Advisory Letter"),
+	HSU02XX("Cancellation Letter"),
+	HSU03XX("Customer Decline at POS"),
+	HSU04XX("Free Form to Insured"),
+	HSU05XX("Free Form to Other"),
+	HSU06XX("Free Form to Producer"),
+	HSU07XX("Non-Renewal Letter"),
+	HSU08XX("Request for Additional Information"),
+	HSU09XX("Uprate"),
+	F605005("60 5005", "Returning Payment"),
+	PS0922("PS 09 22", "Named Driver Exclusion"),
+	HSRFIXX("Request For Information"),
+	AHRCTXX("Insured Receipt for Funds Received by Agent"),
 	PSIQXX("Personal Umbrella Liability Insurance Quote Page"),
 	PS11("Application for Personal Umbrella Liability Insurance"),
-	;
+	AHCDCT("Credit Disclosure Notice And Summary of Consumer Protections");
 	//TODO-dchubkov: add remaining documents
 
 	private String id;
