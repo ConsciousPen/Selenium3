@@ -8,13 +8,13 @@ import aaa.common.pages.*;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 //import aaa.helpers.docgen.DocGenHelper;
+import aaa.main.enums.DocGenConstants;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -28,12 +28,10 @@ import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.StaticElement;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
-import static aaa.main.enums.OnDemandDocumentEnum.*;
+import static aaa.main.enums.DocGenEnum.*;
 
 /**
  * @author Dmitry Chubkov
@@ -369,27 +367,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		SearchPage.openQuote(getQuoteNumber());
 		policy.quoteDocGen().start();
 
-		List<TestData> expectedData = new ArrayList<>(8);
-		expectedData.add(DataProviderFactory.dataOf("Document #", AA11CO.getId(), "Document Name", AA11CO.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", AA43CO.getId(), "Document Name", AA43CO.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", AAIQCO.getId(), "Document Name", AAIQCO.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", AHFMXX.getId(), "Document Name", AHFMXX.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", AU03.getId(), "Document Name", AU03.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", AA16CO.getId(), "Document Name", AA16CO.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", AADNCO.getId(), "Document Name", AADNCO.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", AHAUXX.getId(), "Document Name", AHAUXX.getName())); //missed in original TC
-		expectedData.forEach(e -> e.adjust("Select", ""));
-
-		FillableDocumentsTable documents = goddTab.getAssetList().getAsset(AutoSSMetaData.GenerateOnDemandDocumentActionTab.ON_DEMAND_DOCUMENTS);
-		documents.getTable().verify.value(expectedData);
-		documents.getTable().getRow("Document #", "AA43CO").getCell("Select").controls.checkBoxes.getFirst().verify.enabled(false);
-
-		expectedData.forEach(e -> e.adjust("Select", "true"));
-		expectedData.add(DataProviderFactory.dataOf("Free Form Text", "Free Text"));
-		documents.setValue(expectedData);
-
-		goddTab.getAssetList().getAsset(AutoSSMetaData.GenerateOnDemandDocumentActionTab.DELIVERY_METHOD).setValue("Central Print");
-		policy.quoteDocGen().submit();
+		goddTab.verify.documentsPresent(Documents.AA11CO, Documents.AA43CO, Documents.AAIQCO, Documents.AHFMXX, Documents.AU03, Documents.AA16CO, Documents.AADNCO, Documents.AHAUXX);
+		goddTab.getDocumentsControl().getTable().getRow(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, Documents.AA43CO.getId()).getCell(DocGenConstants.OnDemandDocumentsTable.SELECT).controls.checkBoxes.getFirst().verify.enabled(false);
+		TestData td = DataProviderFactory.dataOf(AutoSSMetaData.GenerateOnDemandDocumentActionTab.DocumentsRow.FREE_FORM_TEXT.getLabel(), "Free Text");
+		goddTab.generateDocuments(td);
 		NavigationPage.Verify.mainTabSelected(NavigationEnum.AppMainTabs.QUOTE.get());
 		quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 	}

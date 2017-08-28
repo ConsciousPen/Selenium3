@@ -1,6 +1,7 @@
 package aaa.main.enums;
 
-public class ErrorEnum {
+public final class ErrorEnum {
+    private ErrorEnum() {}
 
     public enum Errors {
         ERROR_200103("200103", "Driver with 3 or more Minor or Speeding violations are unacceptable"),

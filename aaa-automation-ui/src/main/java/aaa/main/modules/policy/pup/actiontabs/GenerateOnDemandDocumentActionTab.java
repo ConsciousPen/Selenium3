@@ -2,10 +2,8 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.modules.policy.pup.actiontabs;
 
-import static org.openqa.selenium.By.id;
-import toolkit.webdriver.controls.Button;
-import aaa.common.ActionTab;
-import aaa.common.Tab;
+import aaa.main.modules.policy.abstract_tabs.CommonDocumentActionTab;
+import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 
 /**
@@ -14,18 +12,13 @@ import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
  * Modify this class if tab filling procedure has to be customized, extra asset list to be added, custom testdata key to be defined, etc.
  * @category Generated
  */
-public class GenerateOnDemandDocumentActionTab extends ActionTab {
+public class GenerateOnDemandDocumentActionTab extends CommonDocumentActionTab {
     public GenerateOnDemandDocumentActionTab() {
         super(PersonalUmbrellaMetaData.GenerateOnDemandDocumentActionTab.class);
     }
-    
-    public Button buttonOk = new Button(id("policyDataGatherForm:generateDocLink"));
-    public Button buttonCancel = new Button(id("policyDataGatherForm:adhocCancel"));
-    public Button buttonPreviewDocuments = new Button(id("policyDataGatherForm:previewDocLink"));
 
     @Override
-    public Tab submitTab() {
-        buttonOk.click();
-        return this;
+    public FillableDocumentsTable getDocumentsControl() {
+        return getAssetList().getAsset(PersonalUmbrellaMetaData.GenerateOnDemandDocumentActionTab.ON_DEMAND_DOCUMENTS);
     }
 }

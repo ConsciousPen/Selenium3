@@ -4,31 +4,25 @@
  */
 package aaa.main.modules.policy.auto_ss.actiontabs;
 
-import aaa.common.ActionTab;
-import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import toolkit.webdriver.controls.Button;
-
-import static org.openqa.selenium.By.id;
+import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
+import aaa.main.modules.policy.abstract_tabs.CommonDocumentActionTab;
+import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 
 /**
  * Implementation of a specific tab in a workspace.
  * Tab classes from the default workspace are named <TAB LABEL>Tab, whereas all other tab classes - <TAB LABEL>ActionTab (to prevent duplication).
  * Modify this class if tab filling procedure has to be customized, extra asset list to be added, custom testdata key to be defined, etc.
+ *
  * @category Generated
  */
-public class GenerateOnDemandDocumentActionTab extends ActionTab {
-    public GenerateOnDemandDocumentActionTab() {
-        super(AutoSSMetaData.GenerateOnDemandDocumentActionTab.class);
-    }
+public class GenerateOnDemandDocumentActionTab extends CommonDocumentActionTab {
+	public GenerateOnDemandDocumentActionTab() {
+		super(AutoSSMetaData.GenerateOnDemandDocumentActionTab.class);
+	}
 
-    Button buttonOk = new Button(id("policyDataGatherForm:generateDocLink"));
-    Button buttonCancel = new Button(id("policyDataGatherForm:adhocCancel"));
-    Button buttonPreviewDocuments = new Button(id("policyDataGatherForm:previewDocLink"));
-
-    @Override
-    public Tab submitTab() {
-        buttonOk.click();
-        return this;
-    }
+	@Override
+	public FillableDocumentsTable getDocumentsControl() {
+		return getAssetList().getAsset(AutoSSMetaData.GenerateOnDemandDocumentActionTab.ON_DEMAND_DOCUMENTS);
+	}
 }

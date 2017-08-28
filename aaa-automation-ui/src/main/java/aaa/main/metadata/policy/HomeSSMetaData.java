@@ -2,6 +2,7 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.metadata.policy;
 
+import aaa.main.enums.DocGenConstants;
 import aaa.toolkit.webdriver.customcontrols.*;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import org.openqa.selenium.By;
@@ -1511,12 +1512,12 @@ public final class HomeSSMetaData {
 	}
 
 	public static final class GenerateOnDemandDocumentActionTab extends MetaData {
-		public static final AssetDescriptor<FillableTable> ON_DEMAND_DOCUMENTS = declare("OnDemandDocuments", FillableTable.class, DocumentRow.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body']")); 
+		public static final AssetDescriptor<FillableDocumentsTable> ON_DEMAND_DOCUMENTS = declare("OnDemandDocuments", FillableDocumentsTable.class, DocumentRow.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body']"));
 		
 		public static final class DocumentRow extends MetaData {
-			public static final AssetDescriptor<CheckBox> SELECT = declare("Select", CheckBox.class);
-			public static final AssetDescriptor<StaticElement> DOCUMENT_NUMBER = declare("Document #", StaticElement.class); 
-			public static final AssetDescriptor<StaticElement> DOCUMENT_NAME = declare("Document Name", StaticElement.class);
+			public static final AssetDescriptor<CheckBox> SELECT = declare(DocGenConstants.OnDemandDocumentsTable.SELECT, CheckBox.class);
+			public static final AssetDescriptor<StaticElement> DOCUMENT_NUMBER = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, StaticElement.class);
+			public static final AssetDescriptor<StaticElement> DOCUMENT_NAME = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, StaticElement.class);
 		}
 	}
 

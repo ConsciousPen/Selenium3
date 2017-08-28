@@ -2,6 +2,7 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.metadata.policy;
 
+import aaa.main.enums.DocGenConstants;
 import aaa.toolkit.webdriver.customcontrols.*;
 import org.openqa.selenium.By;
 
@@ -599,9 +600,9 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<TextBox> EMAIL_ADDRESS = declare("Email Address", TextBox.class, Waiters.AJAX);
 
 		public static final class DocumentsRow extends MetaData {
-			public static final AssetDescriptor<CheckBox> SELECT = declare("Select", CheckBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<StaticElement> DOCUMENT_NUMBER = declare("Document #", StaticElement.class, Waiters.AJAX);
-			public static final AssetDescriptor<StaticElement> DOCUMENT_NAME = declare("Document Name", StaticElement.class, Waiters.AJAX);
+			public static final AssetDescriptor<CheckBox> SELECT = declare(DocGenConstants.OnDemandDocumentsTable.SELECT, CheckBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<StaticElement> DOCUMENT_NUMBER = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, StaticElement.class, Waiters.AJAX);
+			public static final AssetDescriptor<StaticElement> DOCUMENT_NAME = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, StaticElement.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT = declare("Free Form Text", TextBox.class, Waiters.AJAX, false, By.id("policyDataGatherForm:uwLetterMsg_AU03"));
 		}
 	}

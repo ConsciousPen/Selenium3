@@ -1,8 +1,6 @@
 package aaa.modules.delta.pup;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import org.testng.annotations.Test;
 
 import aaa.common.Tab;
@@ -25,16 +23,15 @@ import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksOtherVehiclesTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksPropertyTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
-import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
-import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.TextBox;
-import static aaa.main.enums.OnDemandDocumentEnum.*;
 
+import static aaa.main.enums.DocGenEnum.Documents.*;
+import static aaa.main.enums.DocGenConstants.OnDemandDocumentsTable.*;
 
 
 @Test(groups = {Groups.DELTA, Groups.HIGH})
@@ -176,37 +173,15 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.PUP)
 	public void TC04_verifyODDPolicy() {
-		GenerateOnDemandDocumentActionTab GODDTab= new GenerateOnDemandDocumentActionTab();		
+		GenerateOnDemandDocumentActionTab goddTab = new GenerateOnDemandDocumentActionTab();
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		policy.policyDocGen().start();
-		List<TestData> expectedData = new ArrayList<>(18);
-		expectedData.add(DataProviderFactory.dataOf("Document #", HSU01XX.getId(), "Document Name", HSU01XX.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", HSU02XX.getId(), "Document Name", HSU02XX.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", HSU03XX.getId(), "Document Name", HSU03XX.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", HSU04XX.getId(), "Document Name", HSU04XX.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", HSU05XX.getId(), "Document Name", HSU05XX.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", HSU06XX.getId(), "Document Name", HSU06XX.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", HSU07XX.getId(), "Document Name", HSU07XX.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", HSU08XX.getId(), "Document Name", HSU08XX.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", HSU09XX.getId(), "Document Name", HSU09XX.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", F605005.getId(), "Document Name", F605005.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", PS0922.getId(), "Document Name", PS0922.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", HSRFIXX.getId(), "Document Name", HSRFIXX.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", AHRCTXX.getId(), "Document Name", AHRCTXX.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", AHFMXX.getId(), "Document Name", AHFMXX.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", PSIQXX.getId(), "Document Name", PSIQXX.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", PS11.getId(), "Document Name", PS11.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", AHAUXX.getId(), "Document Name", AHAUXX.getName()));
-		expectedData.add(DataProviderFactory.dataOf("Document #", AHCDCT.getId(), "Document Name", AHCDCT.getName()));	
-		expectedData.forEach(e -> e.adjust("Select", ""));
 
-		FillableDocumentsTable documents=GODDTab.getAssetList().getAsset(PersonalUmbrellaMetaData.GenerateOnDemandDocumentActionTab.ON_DEMAND_DOCUMENTS);
-		documents.getTable().verify.value(expectedData);
-		documents.getTable().getRow("Document #", "PS11").getCell("Select").controls.checkBoxes.getFirst().verify.enabled(true);
-		documents.getTable().getRow("Document #", "PS11").getCell("Select").controls.checkBoxes.getFirst().setValue(true);
-		
-		GODDTab.buttonOk.click();
+		goddTab.verify.documentsPresent(HSU01XX, HSU02XX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX, F605005, PS0922, HSRFIXX, AHRCTXX, AHFMXX, PSIQXX, PS11, AHAUXX, AHCDCT);
+		goddTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, PS11.getId()).getCell(SELECT).controls.checkBoxes.getFirst().verify.enabled(true);
+
+		goddTab.generateDocuments(PS11);
 		NavigationPage.Verify.mainTabSelected(NavigationEnum.AppMainTabs.POLICY.get());
 	}
 	
@@ -680,4 +655,3 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 		recrVehicleCurrentCarrierLOVs.add("Workmens Auto");
 	}
 }
-	

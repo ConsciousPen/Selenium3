@@ -1,7 +1,6 @@
 package aaa.modules.delta.pup;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,8 +11,7 @@ import aaa.common.enums.NavigationEnum.PersonalUmbrellaTab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.DocGenConstants.OnDemandDocumentsTable;
-import aaa.main.enums.OnDemandDocumentEnum;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.actiontabs.GenerateOnDemandDocumentActionTab;
@@ -26,7 +24,6 @@ import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksOtherVehiclesTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksPropertyTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
-import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
@@ -41,7 +38,7 @@ public class TestCODeltaScenario1 extends PersonalUmbrellaBaseTest {
 	private String quoteNumber;
 	private String policyNumber;
 	private GenerateOnDemandDocumentActionTab goddTab = new GenerateOnDemandDocumentActionTab();
-	private FillableDocumentsTable documents = goddTab.getAssetList().getAsset(PersonalUmbrellaMetaData.GenerateOnDemandDocumentActionTab.ON_DEMAND_DOCUMENTS);
+
 	/**
 	 * 1. Create new account. 
 	 * 2. Initiate new IN PUP-quote creation. 
@@ -69,10 +66,7 @@ public class TestCODeltaScenario1 extends PersonalUmbrellaBaseTest {
         quoteNumber = createQuote(tdPolicy);
 		
 		policy.quoteDocGen().start();
-		HashMap<String, String> document = new HashMap<>();
-		document.put(OnDemandDocumentsTable.DOCUMENT_NUM, OnDemandDocumentEnum.PSIQXX.getId());
-		document.put(OnDemandDocumentsTable.DOCUMENT_NAME, OnDemandDocumentEnum.PSIQXX.getName());
-		documents.getTable().getRow(document).verify.present();
+		goddTab.verify.documentsPresent(DocGenEnum.Documents.PSIQXX);
 		goddTab.buttonCancel.click();
 	}
 
@@ -162,10 +156,7 @@ public class TestCODeltaScenario1 extends PersonalUmbrellaBaseTest {
 		SearchPage.openPolicy(policyNumber);
 
 		policy.quoteDocGen().start();
-		HashMap<String, String> document = new HashMap<>();
-		document.put(OnDemandDocumentsTable.DOCUMENT_NUM, OnDemandDocumentEnum.PS11.getId());
-		document.put(OnDemandDocumentsTable.DOCUMENT_NAME, OnDemandDocumentEnum.PS11.getName());
-		documents.getTable().getRow(document).verify.present();
+		goddTab.verify.documentsPresent(DocGenEnum.Documents.PS11);
 		goddTab.buttonCancel.click();
 	}
 	
