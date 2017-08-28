@@ -8,7 +8,10 @@ public enum OnDemandDocumentEnum {
 	AAIQCO("Auto Insurance Quote"),
 	AHAUXX("Consumer Information Notice"),
 	AHFMXX("Fax Memorandum"),
-	AU03("Notice of Declination");
+	AU03("Notice of Declination"),
+	PSIQXX("Personal Umbrella Liability Insurance Quote Page"),
+	PS11("Application for Personal Umbrella Liability Insurance"),
+	;
 	//TODO-dchubkov: add remaining documents
 
 	private String id;
