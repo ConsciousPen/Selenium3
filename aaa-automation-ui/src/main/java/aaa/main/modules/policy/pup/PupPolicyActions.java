@@ -179,6 +179,12 @@ public final class PupPolicyActions {
         public Workspace getView() {
             return new GenerateOnDemandDocumentView();
         }
+        
+        @Override
+        public AbstractAction submit() {
+            getView().getTab(GenerateOnDemandDocumentActionTab.class).submitTab();
+            return this;
+        }
     }
 
     public static class QuoteInquiry extends PolicyActions.QuoteInquiry {
