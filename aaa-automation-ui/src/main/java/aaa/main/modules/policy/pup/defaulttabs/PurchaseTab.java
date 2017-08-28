@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
@@ -21,8 +20,7 @@ public class PurchaseTab extends Purchase {
 	public TextBox checkReference = new  TextBox(By.xpath(".//input[@id='purchaseForm:reference_1']"));
 	public TextBox visa = new  TextBox(By.xpath(".//input[@id='purchaseForm:amount_2']"));
 	public TextBox ach = new  TextBox(By.xpath(".//input[@id='purchaseForm:amount_3']"));
-	
-	public Dialog acceptcontinueDialog = new Dialog("//div[@id='purchaseForm:VoiceSignatureDialog_container']");
+	public Dialog acceptcontinueDialog = new Dialog("//div[@id='purchaseForm:VoiceSignatureDialog_container' ]");
 	public Button acceptcontinueButton = new Button(By.id("purchaseForm:acceptBtn"));
 	public TextBox totalBalance = new TextBox(By.id("purchaseForm:downpaymentComponent_minimumRequiredAmount_disabled"));
 	
@@ -57,7 +55,7 @@ public class PurchaseTab extends Purchase {
     public Tab submitTab() {
         btnApplyPayment.click();
         confirmPurchase.confirm();
-        if (acceptcontinueDialog.isVisible() && acceptcontinueDialog.isPresent()) {
+        if (acceptcontinueDialog.isPresent()) {
             acceptcontinueButton.click();
         }
         return this;

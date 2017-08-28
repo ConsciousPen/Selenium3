@@ -9,7 +9,9 @@ import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 
 import aaa.common.pages.Page;
 import aaa.main.metadata.DialogsMetaData;
+import aaa.main.metadata.policy.AutoSSMetaData.GenerateOnDemandDocumentActionTab.DocumentsRow;
 import aaa.toolkit.webdriver.customcontrols.AdditionalPoliciesMultiAssetList;
+import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
@@ -924,6 +926,8 @@ public final class PersonalUmbrellaMetaData {
 	}
 
 	public static final class GenerateOnDemandDocumentActionTab extends MetaData {
+		public static final AssetDescriptor<FillableDocumentsTable> ON_DEMAND_DOCUMENTS = declare("OnDemandDocuments", FillableDocumentsTable.class, DocumentsRow.class, By.xpath("(//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body']//table)[1]"));
+		public static final AssetDescriptor<RadioGroup> DELIVERY_METHOD = declare("Delivery Method", RadioGroup.class, Waiters.AJAX, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body']/table"));
 	}
 	public static final class ManualRenewalWithOrWithoutLapseActionTab extends MetaData {
 		public static final AssetDescriptor<TextBox> EXPIRATION_DATE = declare("Expiration Date", TextBox.class);
