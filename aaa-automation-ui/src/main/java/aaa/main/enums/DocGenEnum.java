@@ -29,6 +29,7 @@ public final class DocGenEnum {
 		PSIQXX("Personal Umbrella Liability Insurance Quote Page"),
 		PS11("Application for Personal Umbrella Liability Insurance"),
 		AHCDCT("Credit Disclosure Notice And Summary of Consumer Protections"),
+	 	AHAPXX("AutoPay Authorization Form"),
 		;
 
 		private String id;
