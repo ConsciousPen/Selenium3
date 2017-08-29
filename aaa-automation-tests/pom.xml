@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!--<browser.pool.config>${browser.pool.path}/${browser.pool.name}</browser.pool.config>-->
-        <browser.pool.name>1ThBrowserPool.xml</browser.pool.name>
+        <browser.pool.name>4ThBrowserPool.xml</browser.pool.name>
         <browser.pool.path>src/test/resources/config/browserpools</browser.pool.path>
         <timeshift.report.dir>target/test-output/timeshift-report</timeshift.report.dir>
         <dependency.locations.enabled>true</dependency.locations.enabled>
