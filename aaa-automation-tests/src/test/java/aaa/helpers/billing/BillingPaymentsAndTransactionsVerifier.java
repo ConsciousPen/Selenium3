@@ -2,15 +2,16 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.helpers.billing;
 
-import com.exigen.ipb.etcsa.utils.Dollar;
-
-import aaa.helpers.TableVerifier;
-import aaa.main.enums.BillingConstants.*;
-import aaa.main.pages.summary.BillingSummaryPage;
+import java.time.LocalDateTime;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.composite.table.Table;
-
-import java.time.LocalDateTime;
+import aaa.helpers.TableVerifier;
+import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
+import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionStatus;
+import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
+import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
+import aaa.main.pages.summary.BillingSummaryPage;
+import com.exigen.ipb.etcsa.utils.Dollar;
 
 public class BillingPaymentsAndTransactionsVerifier extends TableVerifier {
 
@@ -44,6 +45,11 @@ public class BillingPaymentsAndTransactionsVerifier extends TableVerifier {
         return this;
     }
 
+    public BillingPaymentsAndTransactionsVerifier setReason(String value) {
+        setValue(BillingPaymentsAndOtherTransactionsTable.REASON, value);
+        return this;
+    }
+
     public BillingPaymentsAndTransactionsVerifier setAmount(Dollar value) {
         setValue(BillingPaymentsAndOtherTransactionsTable.AMOUNT, value.toString());
         return this;
@@ -66,6 +72,13 @@ public class BillingPaymentsAndTransactionsVerifier extends TableVerifier {
         setAmount(value);
         setType(PaymentsAndOtherTransactionType.PAYMENT);
         setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RECURRING_PAYMENT);
+        verifyPresent();
+    }
+
+    public void verifyPaymentDeclined(LocalDateTime transactionDate) {
+        setTransactionDate(transactionDate);
+        setType(PaymentsAndOtherTransactionType.PAYMENT);
+        setStatus(PaymentsAndOtherTransactionStatus.DECLINED);
         verifyPresent();
     }
 }

@@ -142,22 +142,23 @@ public class TestQuoteUnderwritingRules extends HomeSSHO3BaseTest {
         err3_dataRow.put("Message", "Dwelling must not have been in foreclosure within the past 18 months unless a...");
         
         ErrorTab errorTab = new ErrorTab();
-        
-        if (getState().equals("CT")) {
-			//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
-        	errorTab.errorsList.getTable().getRowContains(err1_dataRow).verify.present();
-        }
-        else if (getState().equals("KY")) {
-			//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
-        	errorTab.errorsList.getTable().getRowContains(err1_dataRow).verify.present();
-        	errorTab.errorsList.getTable().getRowContains(err3_dataRow).verify.present();
-        }
-        else {
-			//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
-        	errorTab.errorsList.getTable().getRowContains(err1_dataRow).verify.present();
-        	errorTab.errorsList.getTable().getRowContains(err2_dataRow).verify.present();
-        	errorTab.errorsList.getTable().getRowContains(err3_dataRow).verify.present();
-        }
+
+        switch (getState()) {
+			case "CT":
+				//TODO-dchubkov: replace with errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+				errorTab.getErrorsControl().getTable().getRowContains(err1_dataRow).verify.present();
+				break;
+			case "KY":
+				//TODO-dchubkov: replace with errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+				errorTab.getErrorsControl().getTable().getRowContains(err1_dataRow).verify.present();
+				errorTab.getErrorsControl().getTable().getRowContains(err3_dataRow).verify.present();
+				break;
+			default:
+				//TODO-dchubkov: replace with errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_XXXXXX);
+				errorTab.getErrorsControl().getTable().getRowContains(err1_dataRow).verify.present();
+				errorTab.getErrorsControl().getTable().getRowContains(err2_dataRow).verify.present();
+				errorTab.getErrorsControl().getTable().getRowContains(err3_dataRow).verify.present();
+		}
         errorTab.cancel();
         
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.UNDERWRITING_AND_APPROVAL.get());

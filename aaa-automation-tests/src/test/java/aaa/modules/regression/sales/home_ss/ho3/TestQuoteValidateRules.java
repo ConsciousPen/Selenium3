@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
+import aaa.main.enums.ErrorEnum;
 import org.testng.annotations.Test;
 
 import aaa.common.enums.NavigationEnum;
@@ -97,8 +98,7 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         new BindTab().btnPurchase.click();
         
         ErrorTab errorTab = new ErrorTab();
-		//TODO-dchubkov: replace with errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_XXXXXX);
-        errorTab.errorsList.getTable().getRow(1).getCell("Message").verify.value("Policy effective date cannot be backdated more than three days from today's d...");
+        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_CA3230672);
         errorTab.cancel();
         
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get());

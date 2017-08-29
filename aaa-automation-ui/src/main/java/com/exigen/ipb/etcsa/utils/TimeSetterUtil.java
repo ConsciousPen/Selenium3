@@ -15,12 +15,16 @@ import com.exigen.istf.exec.testng.TimeShiftTestUtil;
 import com.exigen.istf.timesetter.client.TimeSetter;
 import com.exigen.istf.timesetter.client.TimeSetterClient;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
 public class TimeSetterUtil {
+
+	protected static Logger log = LoggerFactory.getLogger(TimeSetterUtil.class);
 
 	private static final String TIME_FORMAT = "HH:mm:ss";
 	private static Boolean isPEF = false;
@@ -108,8 +112,10 @@ public class TimeSetterUtil {
 		closeAllApps();
 		if (isPEF) {
 			getContext().nextPhase(javaDateToYoda(adjDate));
-		} else
+			log.info(String.format("+++++ Application date is set to %s +++++", adjDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss"))));
+		} else {
 			timeSetterClient.setDateTime(javaDateToIstf(adjDate));
+		}
 	}
 
 	public Boolean isPEF() {

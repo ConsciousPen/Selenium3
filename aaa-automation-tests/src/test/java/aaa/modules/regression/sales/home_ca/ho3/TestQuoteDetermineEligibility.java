@@ -181,7 +181,7 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
         //  6.  Verify error if animal count is > 100
         propertyInfoTab.fillTab(getTestSpecificTD("AnimalCount_MoreThanHundred"));
         propertyInfoTab.getPetsOrAnimalsAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.PetsOrAnimals.BTN_ADD.getLabel(), Button.class).click();
-        errorTab.verify.errorPresent(Errors.ERROR_AAA_HO_CA7220704);
+        errorTab.verify.errorsPresent(Errors.ERROR_AAA_HO_CA7220704);
         errorTab.cancel();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
         propertyInfoTab.getPetsOrAnimalsAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.PetsOrAnimals.ARE_ANY_PETS_OR_ANIMALS_KEPT_ON_THE_PROPERTY.getLabel(), RadioGroup.class).setValue("No");
@@ -285,7 +285,7 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
     private void goToBindAndVerifyError(Errors errorCode) {
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
         bindTab.btnPurchase.click();
-        errorTab.verify.errorPresent(errorCode);
+        errorTab.verify.errorsPresent(errorCode);
         errorTab.cancel();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
     }

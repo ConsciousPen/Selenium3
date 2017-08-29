@@ -1,6 +1,6 @@
 package aaa.modules.delta.templates;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +10,6 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.delta.HssQuoteDataGatherHelper;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
-import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
@@ -24,7 +23,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.ComboBox;
 
 public class KSDeltaScenario1 extends BaseTest {
 	protected IPolicy policy;
@@ -53,16 +51,11 @@ public class KSDeltaScenario1 extends BaseTest {
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
 		
-		GeneralTab generalTab = new GeneralTab();
-		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER.getLabel(), ComboBox.class).verify.options(
-				Arrays.asList("AAA-Michigan (ACG)", "AAA-NoCal (CSAA IG) Rewrite", "AAA-NoCal (CSAA IG) Sold/Bought", "AAA-SoCal (ACSC)",
-						"Allied", "Allstate", "Amco Ins Co", "American Family", "American National", "Auto Owners", "Chartis",
-						"Cincinnati", "CSAA IG", "CSE Safeguard", "Farm Bureau", "Farmers", "Fire Insurance", "First Time Homebuyer",
-						"Foremost", "Hartford", "Homesite", "Liberty Mutual", "Metropolitan", "Nationwide", "No Prior",
-						"Other Carrier", "Owners Insurance", "Pacific Indemnity", "Safeco", "Shelter Mutual",
-						"State Farm", "Travelers", "Unigard", "USAA")); 
+		CustomAssert.enableSoftMode();
+		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrier(immediatePriorCarrierLOVs);
 		
 		GeneralTab.buttonSaveAndExit.click();
+		CustomAssert.assertAll();
 	}
 	
 	public void TC_verifyEndorsementsTab() {
@@ -136,7 +129,7 @@ public class KSDeltaScenario1 extends BaseTest {
 		new BindTab().btnPurchase.click();
 		
 		ErrorTab errorTab = new ErrorTab(); 
-		errorTab.verify.errorPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS7230342);
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS7230342);
 		errorTab.cancel();
 		
 		HssQuoteDataGatherHelper.verifyBestFRScoreNotApplied(td_None_with_Score740, "740"); 
@@ -190,4 +183,42 @@ public class KSDeltaScenario1 extends BaseTest {
 		//TODO add verification of On-Demand Documents tab and documents generation
 	}
 
+	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<String>();
+	static {
+		immediatePriorCarrierLOVs.add("AAA-Michigan (ACG)");
+		immediatePriorCarrierLOVs.add("AAA-NoCal (CSAA IG) Rewrite");
+		immediatePriorCarrierLOVs.add("AAA-NoCal (CSAA IG) Sold/Bought");
+		immediatePriorCarrierLOVs.add("AAA-SoCal (ACSC)");
+		immediatePriorCarrierLOVs.add("Allied");
+		immediatePriorCarrierLOVs.add("Allstate");
+		immediatePriorCarrierLOVs.add("Amco Ins Co");
+		immediatePriorCarrierLOVs.add("American Family");
+		immediatePriorCarrierLOVs.add("American National");
+		immediatePriorCarrierLOVs.add("Auto Owners");
+		immediatePriorCarrierLOVs.add("Chartis");
+		immediatePriorCarrierLOVs.add("Cincinnati");
+		immediatePriorCarrierLOVs.add("CSAA IG");
+		immediatePriorCarrierLOVs.add("CSE Safeguard");
+		immediatePriorCarrierLOVs.add("Farm Bureau");
+		immediatePriorCarrierLOVs.add("Farmers");
+		immediatePriorCarrierLOVs.add("Fire Insurance");
+		immediatePriorCarrierLOVs.add("First Time Homebuyer");
+		immediatePriorCarrierLOVs.add("Foremost");
+		immediatePriorCarrierLOVs.add("Hartford");
+		immediatePriorCarrierLOVs.add("Homesite");
+		immediatePriorCarrierLOVs.add("Liberty Mutual");
+		immediatePriorCarrierLOVs.add("Metropolitan");
+		immediatePriorCarrierLOVs.add("Nationwide");
+		immediatePriorCarrierLOVs.add("No Prior");
+		immediatePriorCarrierLOVs.add("Other Carrier");
+		immediatePriorCarrierLOVs.add("Owners Insurance");
+		immediatePriorCarrierLOVs.add("Pacific Indemnity");
+		immediatePriorCarrierLOVs.add("Safeco");
+		immediatePriorCarrierLOVs.add("Shelter Mutual");
+		immediatePriorCarrierLOVs.add("State Farm");
+		immediatePriorCarrierLOVs.add("Travelers");
+		immediatePriorCarrierLOVs.add("Unigard");
+		immediatePriorCarrierLOVs.add("USAA");			
+	}
+	
 }

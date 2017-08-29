@@ -1,0 +1,332 @@
+# -- Default test data for UT state ---
+
+TestData: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+# ------------- Tabs ----------
+
+PrefillTab: {
+  First Name: Chad,
+  Last Name: Black,
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+RatingDetailReportsTab: {
+  Customer Agreement: Customer Agrees,
+  Sales Agent Agreement: I Agree,
+  Order Report: click
+}
+
+FormsTab: {}
+
+PremiumAndCoveragesTab: {
+  Payment Plan: Annual
+}
+
+DriverActivityReportsTab: {
+  "Has the customer expressed interest in purchasing the quote?": 'Yes',
+  Validate Driving History: click,
+}
+
+#------------- Custom states -----
+
+#-------- AZ -----
+
+TestData_AZ: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_AZ',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+#-------- CO -----
+
+TestData_CO: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_CO',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+#-------- CT -----
+
+TestData_CT: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_CT',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+#-------- DC -----
+
+TestData_DC: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_DC',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+#-------- DE -----
+
+TestData_DE: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_DE',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+#-------- ID -----
+
+TestData_ID: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_ID',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+#-------- IN -----
+
+TestData_IN: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_IN',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+#-------- KS -----
+
+TestData_KS: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_KS',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+#-------- KY -----
+
+TestData_KY: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_KY',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+#-------- MD -----
+
+TestData_MD: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_MD',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+#-------- MT -----
+
+TestData_MT: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_MT',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+#-------- NJ -----
+
+TestData_NJ: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_NJ',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+#-------- NV -----
+
+TestData_NV: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_NV',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+#-------- NY -----
+
+TestData_NY: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_NY',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab_NY',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+#-------- OH -----
+
+TestData_OH: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_OH',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+#-------- OK -----
+
+TestData_OK: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_OK',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+#-------- OR -----
+
+TestData_OR: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_OR',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+#-------- PA -----
+
+TestData_PA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_PA',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+#-------- SD -----
+
+TestData_SD: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_SD',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+#-------- VA -----
+
+TestData_VA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_VA',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+#-------- WV -----
+
+TestData_WV: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_WV',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+#-------- WY -----
+
+TestData_WY: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_WY',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+
+

@@ -9,7 +9,9 @@
 		<parameter name="state" value="UT" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation" />
-			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
+			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
+			<class name="aaa.modules.regression.service.auto_ss.TestPolicyCancelRewrite"/>
 			<class name="aaa.modules.regression.billing_and_payments.auto_ss.TestPolicyBilling"/>
 		</classes>
 	</test>

@@ -66,5 +66,13 @@ QC-44331:
       messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}', 'Errors: Time out. No session available.']
     - tests: [aaa.modules.regression.service.pup.TestPolicyCancellation.testPolicyCancellationMidTerm]
       messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}', 'Errors: Time out. No session available.']
-    - tests: [aaa.modules.regression.service.pup.TestPolicyCancellation.testPolicyCancellationMidTerm]
+    - tests: [aaa.modules.regression.service.pup.TestPolicyReinstatementWithLapse.testPolicyReinstatementWithLapse]
       messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}', 'Errors: Time out. No session available.']
+    - tests: [aaa.modules.regression.service.pup.TestPolicyRenewFlatCancellation.testPolicyRenewFlatCancellation]
+      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}', 'Errors: Time out. No session available.']
+QC-44491:
+  summary: "Regression: Sales: System logs out after Propose action was performed for saved quote"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction.testQuotePropose]
+      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}']

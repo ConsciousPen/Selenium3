@@ -30,7 +30,7 @@ public class TestPolicyCreationBig extends AutoCaChoiceBaseTest {
 
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE)
-	public void testQuoteCreation() {
+	public void testPolicyCreationBig() {
 		mainApp().open();
 
 		createCustomerIndividual();

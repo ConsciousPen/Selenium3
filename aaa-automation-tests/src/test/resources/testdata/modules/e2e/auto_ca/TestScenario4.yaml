@@ -1,0 +1,37 @@
+TestData: {
+  PremiumAndCoveragesTab: {
+    Payment Plan: Annual,
+    Bodily Injury Liability: 'contains=$500,000/$500,000',
+    Property Damage Liability: 'contains=$100,000'
+  },
+}
+
+# ----- Endorsement -----
+TestData_Endorsement: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: '@VehicleTab',
+  AssignmentTab: '@AssignmentTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+VehicleTab: {
+  Add Vehicle: Click,
+  VIN: WDCYC7BB0B6729451,
+  Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Odometer Reading: 3000
+}
+
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [{},{
+    Primary Driver: 'index=1',
+  }]
+}

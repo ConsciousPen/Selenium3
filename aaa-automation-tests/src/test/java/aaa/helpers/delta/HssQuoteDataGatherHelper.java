@@ -1,9 +1,12 @@
 package aaa.helpers.delta;
 
+import java.util.ArrayList;
+
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.home_ss.actiontabs.CancelNoticeActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
@@ -12,9 +15,23 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.ComboBox;
 
 public class HssQuoteDataGatherHelper extends BaseTest {
+	
+	public static void verifyLOVsOfImmediatePriorCarrier(ArrayList<String> optionsOfImmediatePriorCarrier) {
+		GeneralTab generalTab = new GeneralTab();
+		ComboBox immediatePriorCarrier = generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER.getLabel(), ComboBox.class); 
+		verifyLOVs(immediatePriorCarrier, optionsOfImmediatePriorCarrier, "Immediate Prior Carrier");
+	}
+	
+	public static void verifyLOVs(ComboBox nameComboBox, ArrayList<String> options, String comboBoxName){
+		for (String i: options){
+			CustomAssert.assertTrue("Option "+i+" is not in "+comboBoxName+" combo box", nameComboBox.isOptionPresent(i));
+		}
+	}
 	
 	public static void verifyBestFRScoreNotApplied(TestData td, String scoreInRatingDetails) {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get()); 
@@ -142,7 +159,7 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		new BindTab().btnPurchase.click();
 		
 		ErrorTab errorTab = new ErrorTab(); 
-		errorTab.verify.errorPresent(errorCode);
+		errorTab.verify.errorsPresent(errorCode);
 		errorTab.cancel();
 	}
 	
@@ -158,7 +175,7 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		new BindTab().btnPurchase.click();
 		
 		ErrorTab errorTab = new ErrorTab(); 
-		errorTab.verify.errorPresent(errorCode);
+		errorTab.verify.errorsPresent(errorCode);
 		errorTab.cancel();
 	}
 	
@@ -168,5 +185,31 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		propertyInfoTab.fillTab(td);
 	}
 
+	
+	public static void verifyDaysOfNotice(String daysOfNotice, int days, String err_message1, String err_message2) {
+		CancelNoticeActionTab cancelNoticeTab = new CancelNoticeActionTab();	
+		
+		String cancelEffDate_default = DateTimeUtils.getCurrentDateTime().plusDays(days).format(DateTimeUtils.MM_DD_YYYY);
+		
+		CustomAssert.assertTrue("'Days of Notice' has wrong value on Cancel Notice tab", 
+				cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.DAYS_OF_NOTICE.getLabel()).getValue().toString().equals(daysOfNotice));
+		CustomAssert.assertTrue("'Cancellation Effective date' has wrong value on Cancel Notice Tab",
+				cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()).getValue().toString().equals(cancelEffDate_default));
+		
+		//cancelNoticeTab.fillTab(td); 
+		cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE).setValue(
+				DateTimeUtils.getCurrentDateTime().plusDays(days-1).format(DateTimeUtils.MM_DD_YYYY));
+		cancelNoticeTab.verifyFieldHasMessage(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel(), err_message1); 
+		
+		cancelNoticeTab.getAssetList().getAsset(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE).setValue(
+				DateTimeUtils.getCurrentDateTime().plusDays(367).format(DateTimeUtils.MM_DD_YYYY));
+		cancelNoticeTab.verifyFieldHasMessage(HomeSSMetaData.CancelNoticeActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel(), err_message2); 
+	}
+	
 }
+
+
+
+
+
 

@@ -21,6 +21,7 @@ TestData_Endorsement: {
   EndorsementTab: {},
   PremiumsAndCoveragesQuoteTab: {
     Coverage C - Personal Property limit: '75|Coverage A - Dwelling limit',
+    Coverage D - Loss of Use limit: '45|Coverage A - Dwelling limit'
   },
   MortgageesTab: {},
   UnderwritingAndApprovalTab: {},

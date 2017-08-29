@@ -2,6 +2,7 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.metadata.policy;
 
+import aaa.main.enums.DocGenConstants;
 import aaa.toolkit.webdriver.customcontrols.*;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import org.openqa.selenium.By;
@@ -1166,6 +1167,8 @@ public final class HomeSSMetaData {
 		public static final AssetDescriptor<MultiInstanceAfterAssetList> ADDITIONAL_INTEREST = declare("AdditionalInterest", MultiInstanceAfterAssetList.class, AdditionalInterest.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHOAdditionalInterest']"));
 		public static final AssetDescriptor<RadioGroup> IS_THERE_ANY_THIRD_PARTY_DESIGNEE = declare("Is there any third party designee?", RadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<AssetList> THIRD_PARTY_DESIGNEE = declare("ThirdPartyDesignee", AssetList.class, ThirdPartyDesignee.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAThirdPartyDesignee']"));
+		public static final AssetDescriptor<RadioGroup> IS_THERE_A_CERTIFICATE_HOLDER = declare("Is there a certificate holder?", RadioGroup.class, Waiters.AJAX);
+		public static final AssetDescriptor<AssetList> CERTIFICATE_HOLDERS = declare("CertificateHolders", AssetList.class, CertificateHolders.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHOCertificateHolders']"));
 
 		public static final class MortgageeInformation extends MetaData {
 			public static final AssetDescriptor<TextBox> NAME = declare("Name", TextBox.class, Waiters.AJAX);
@@ -1223,6 +1226,15 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.AJAX);
+		}
+
+		public static final class CertificateHolders extends MetaData {
+			public static final AssetDescriptor<TextBox> NAME = declare("Name", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street Address 1", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street Address 2", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.AJAX);
 		}
@@ -1500,12 +1512,12 @@ public final class HomeSSMetaData {
 	}
 
 	public static final class GenerateOnDemandDocumentActionTab extends MetaData {
-		public static final AssetDescriptor<FillableTable> ON_DEMAND_DOCUMENTS = declare("OnDemandDocuments", FillableTable.class, DocumentRow.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body']")); 
+		public static final AssetDescriptor<FillableDocumentsTable> ON_DEMAND_DOCUMENTS = declare("OnDemandDocuments", FillableDocumentsTable.class, DocumentRow.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body']"));
 		
 		public static final class DocumentRow extends MetaData {
-			public static final AssetDescriptor<CheckBox> SELECT = declare("Select", CheckBox.class);
-			public static final AssetDescriptor<StaticElement> DOCUMENT_NUMBER = declare("Document #", StaticElement.class); 
-			public static final AssetDescriptor<StaticElement> DOCUMENT_NAME = declare("Document Name", StaticElement.class);
+			public static final AssetDescriptor<CheckBox> SELECT = declare(DocGenConstants.OnDemandDocumentsTable.SELECT, CheckBox.class);
+			public static final AssetDescriptor<StaticElement> DOCUMENT_NUMBER = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, StaticElement.class);
+			public static final AssetDescriptor<StaticElement> DOCUMENT_NAME = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, StaticElement.class);
 		}
 	}
 

@@ -1,0 +1,88 @@
+TD_CreateCustomer1: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab',
+  RelationshipTab: {}
+}
+
+CustomerType: {
+  Customer Type: Individual
+}
+
+GeneralTab: {
+  First Name: '/rx:Tom\d{5}',
+  Last Name: '/rx:Lee\d{5}',
+  Suffix: 'Sr.',
+  Date of Birth: 12/05/1985,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '86021',
+  Address Line 1: '111 Test Street',
+  ADD Contact Details: ['@Phone','@Email'],
+  Agency Assignment: [
+    {Agency Code: 1, State: AZ},
+  ]
+}
+
+Phone: {
+  Contact Details Type: Phone,
+  Phone Type: Home,
+  Phone Number: '5557676432',
+}
+
+Email: {
+  Contact Details Type: Email,
+  Email Type: Personal,
+  Email Address: 'lll@ll.gg',
+}
+
+#----------------------------
+
+TD_UpdateCustomer1: {
+  GeneralTab: '@GeneralTab_U1',
+  RelationshipTab: {}
+}
+
+GeneralTab_U1: {
+  UPDATE Contact Details: ['@Address_U1']
+}
+
+Address_U1: {
+  ROW KEY: '111 Test Street',
+  Address Line 1: '222 Test Street',
+}
+
+#--------------------------------------
+
+TD_CreateCustomer2: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_C2',
+  RelationshipTab: {}
+}
+
+GeneralTab_C2: {
+  First Name: '/rx:Jax\d{5}',
+  Last Name: '/rx:Jones\d{5}',
+  Suffix: 'PhD',
+  Date of Birth: 01/01/1981,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '85305',
+  Address Line 1: '711 Star Street',
+  ADD Contact Details: ['@Phone_C2']
+}
+
+Phone_C2: {
+  Contact Details Type: Phone,
+  Phone Type: Home,
+  Phone Number: '5557676432',
+}
+
+#-----------------------------
+
+TD_UpdateAccount: {
+  AcctInfoTab: {Account Name: Jax Jones},
+  DesignatedContactsTab: {},
+  AffinityGroupsTab: {}
+}
+
+

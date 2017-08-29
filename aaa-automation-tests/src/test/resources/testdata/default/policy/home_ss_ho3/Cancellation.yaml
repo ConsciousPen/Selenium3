@@ -8,7 +8,7 @@ TestData: {
 TestData_NonPaymentOfPremium: {
   CancellationActionTab: {
     Cancellation effective date: /today,
-    Cancellation reason: Non Payment of Premium
+    Cancellation reason: "Insured Non-Payment Of Premium"
   }
 }
 

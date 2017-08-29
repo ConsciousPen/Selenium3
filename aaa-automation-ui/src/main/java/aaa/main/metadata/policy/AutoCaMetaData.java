@@ -236,6 +236,10 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<ComboBox> TYPE = declare("Type", ComboBox.class);
 			public static final AssetDescriptor<TextBox> OCCURENCE_DATE = declare("Occurrence Date", TextBox.class);
 			public static final AssetDescriptor<ComboBox> DESCRIPTION = declare("Description", ComboBox.class);
+			public static final AssetDescriptor<TextBox> LOSS_PAYMENT_AMOUNT = declare("Loss Payment Amount", TextBox.class);
+			public static final AssetDescriptor<TextBox> ACCIDENT_POINTS = declare("Accident Points", TextBox.class);
+			public static final AssetDescriptor<TextBox> CONVICTION_POINTS = declare("Conviction Points", TextBox.class);
+			public static final AssetDescriptor<TextBox> SVC_DESCRIPTION = declare("SVC Description", TextBox.class);
 			public static final AssetDescriptor<TextBox> CLAIM_NUMBER = declare("Claim Number", TextBox.class);
 			public static final AssetDescriptor<RadioGroup> INCLUDE_IN_RATING = declare("Include in Rating?", RadioGroup.class);
 			public static final AssetDescriptor<ComboBox> NOT_INCLUDED_IN_RATING_REASON = declare("Not Included in Rating Reasons", ComboBox.class);
@@ -619,7 +623,7 @@ public final class AutoCaMetaData {
 	public static final class SpinActionTab extends MetaData {
 		public static final AssetDescriptor<TextBox> TRANSACTION_EFFECTIVE_DATE = declare("Transaction Effective Date", TextBox.class);
 		public static final AssetDescriptor<ComboBox> REASON_FOR_SPIN = declare("Reason for Spin", ComboBox.class);
-		public static final AssetDescriptor<RadioGroup> INSUREDS_APPROVE_REMOVAL_OF_DRIVER_AND_VEHICLES = declare("Insureds approve removal of driver and vehicles?", RadioGroup.class);
+		public static final AssetDescriptor<RadioGroup> INSUREDS_APPROVE_REMOVAL_OF_DRIVER_AND_VEHICLES = declare("Insureds approve removal of drivers and vehicles", RadioGroup.class);
 	}
 
 	public static final class QuoteTransferActionTab extends MetaData {

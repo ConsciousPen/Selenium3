@@ -1,0 +1,358 @@
+TestData: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '84003', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+DownPayment: {
+  Change Minimum Down Payment: true,
+  Minimum Required Down Payment: 0,
+  Reason for Changing: 'Companion Property Policy',
+  PaymentAllocation: {
+    Cash: 0
+  }
+}
+
+# =============== TestData for custom states ===============
+
+TestData_AZ: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '85003', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+TestData_CO: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '80004', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+TestData_CT: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '06519', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+TestData_DC: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '20004', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {
+        Street number: '265', 
+        Street Name: CHIPMAN AVE
+      }, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+TestData_DE: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '19802', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+TestData_ID: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '83212', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+TestData_IN: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '46064', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+TestData_KS: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '66006', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+TestData_KY: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '40006', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+TestData_MD: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '21217', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+TestData_MT: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '59003', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+TestData_NJ: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '07005', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+TestData_NV: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '89010', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+TestData_NY: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '10451', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+TestData_OH: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '43202', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+TestData_OK: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '73099', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+TestData_OR: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '97017', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+TestData_PA: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '15001', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+TestData_SD: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '57010', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+TestData_VA: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '20105', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+TestData_WV: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '24714', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+TestData_WY: {
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Leopold Stotch, 
+      Zip code: '82081', 
+      Street address 1: '265 CHIPMAN AVE', 
+      Validate Address: true, 
+      Validate Address Dialog: {}, 
+      Loan number: '12345678'
+    }      
+  },
+  PurchaseTab: '@DownPayment'
+}
