@@ -1,11 +1,10 @@
 package aaa.modules.delta.pup;
 
-
 import java.util.ArrayList;
-
 import org.testng.annotations.Test;
 
 import aaa.common.Tab;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.NavigationEnum.PersonalUmbrellaTab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -14,6 +13,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.actiontabs.CancelNoticeActionTab;
+import aaa.main.modules.policy.pup.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
@@ -30,6 +30,8 @@ import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.TextBox;
 
+import static aaa.main.enums.DocGenEnum.Documents.*;
+import static aaa.main.enums.DocGenConstants.OnDemandDocumentsTable.*;
 
 
 @Test(groups = {Groups.DELTA, Groups.HIGH})
@@ -151,6 +153,8 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("DELTA CT SC1: PUP policy bound with #" + policyNumber);
+		
+		//TODO verify PS02 generate on DB
 	}
 	
 	/**
@@ -161,13 +165,24 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 	 * 2. Go to On-Demand Documents tab. 
 	 * 3. Navigate to Bind tab and purchase policy. 
 	 * 4. Verify documents are present and absent on ODD tab.
+	 * 5. Verify document PS11 present and enabled on ODD tab.
+	 * 6. Select PS11 and generate the form
 	 * @details
 	 */
 	
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.PUP)
 	public void TC04_verifyODDPolicy() {
-		//TODO add
+		GenerateOnDemandDocumentActionTab goddTab = new GenerateOnDemandDocumentActionTab();
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		policy.policyDocGen().start();
+
+		goddTab.verify.documentsPresent(HSU01XX, HSU02XX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX, F605005, PS0922, HSRFIXX, AHRCTXX, AHFMXX, PSIQXX, PS11, AHAUXX, AHCDCT);
+		goddTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, PS11.getId()).getCell(SELECT).controls.checkBoxes.getFirst().verify.enabled(true);
+
+		goddTab.generateDocuments(PS11);
+		NavigationPage.Verify.mainTabSelected(NavigationEnum.AppMainTabs.POLICY.get());
 	}
 	
 	/**
@@ -640,4 +655,3 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 		recrVehicleCurrentCarrierLOVs.add("Workmens Auto");
 	}
 }
-	

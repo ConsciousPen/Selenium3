@@ -2,7 +2,6 @@ package aaa.main.modules.policy.abstract_tabs;
 
 import aaa.common.Tab;
 import aaa.main.enums.ErrorEnum;
-import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
 import org.openqa.selenium.By;
 import toolkit.datax.DataProviderFactory;
@@ -12,7 +11,6 @@ import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.composite.table.Row;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +20,6 @@ import java.util.Map;
 public abstract class CommonErrorTab extends Tab {
 	public Button buttonOverride = new Button(By.id("errorsForm:overrideRules"));
 	public Button buttonApproval = new Button(By.id("errorsForm:referForApproval"));
-	public FillableErrorTable errorsList = new FillableErrorTable(By.id("errorsForm:msgList"), AutoSSMetaData.ErrorTab.RuleRow.class);
 	public Verify verify = new Verify();
 
 	protected CommonErrorTab(Class<? extends MetaData> mdClass) {
@@ -39,7 +36,7 @@ public abstract class CommonErrorTab extends Tab {
 	}
 
 	public void overrideAllErrors(ErrorEnum.Duration duration, ErrorEnum.ReasonForOverride reason) {
-		for (Row row : errorsList.getTable().getRows()) {
+		for (Row row : getErrorsControl().getTable().getRows()) {
 			CheckBox checkBoxOverride = row.getCell("Override").controls.checkBoxes.getFirst();
 			if (checkBoxOverride.isPresent() && checkBoxOverride.isEnabled()) {
 				checkBoxOverride.setValue(true);
@@ -47,6 +44,7 @@ public abstract class CommonErrorTab extends Tab {
 				row.getCell("Reason for override").controls.comboBoxes.getFirst().setValue(reason.get());
 			}
 		}
+		
 		buttonOverride.click();
 	}
 
@@ -61,27 +59,29 @@ public abstract class CommonErrorTab extends Tab {
 				"Reason for override", reason.get());
 
 		for (ErrorEnum.Errors error : errors) {
-			td.adjust("Code", error.getCode());
-			errorsList.setValue(Collections.singletonList(td));
+			getErrorsControl().fillRow(td.adjust("Code", error.getCode()));
 		}
 
 		buttonOverride.click();
 	}
 
-	public void referForApproval(ErrorEnum.Errors error) {
-		referForApproval(error, ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.OTHER);
+	public void referForApprovals(ErrorEnum.Errors... errors) {
+		referForApprovals(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.OTHER, errors);
 	}
 
-	public void referForApproval(ErrorEnum.Errors error, ErrorEnum.Duration duration, ErrorEnum.ReasonForOverride reason) {
+	public void referForApprovals(ErrorEnum.Duration duration, ErrorEnum.ReasonForOverride reason, ErrorEnum.Errors... errors) {
 		TestData td = DataProviderFactory.dataOf(
 				"Approval", "true",
-				"Code", error.getCode(),
 				"Duration", duration.get(),
 				"Reason for override", reason.get());
 
-		errorsList.setValue(Collections.singletonList(td));
+		for (ErrorEnum.Errors error : errors) {
+			getErrorsControl().fillRow(td.adjust("Code", error.getCode()));
+		}
 		buttonApproval.click();
 	}
+
+	public abstract FillableErrorTable getErrorsControl();
 
 	public class Verify {
 
@@ -98,10 +98,10 @@ public abstract class CommonErrorTab extends Tab {
 				errorQuery.put("Code", error.getCode());
 				if (error.getMessage().contains("'")) {
 					errorQuery.put("Message", error.getMessage().replaceAll("'.*", "")); // quote in message breaks xpath
-					errorsList.getTable().getRowContains(errorQuery).verify.present(message, expectedValue); // search by part of message
+					getErrorsControl().getTable().getRowContains(errorQuery).verify.present(message, expectedValue); // search by part of message
 				} else {
 					errorQuery.put("Message", error.getMessage());
-					errorsList.getTable().getRow(errorQuery).verify.present(message, expectedValue);
+					getErrorsControl().getTable().getRow(errorQuery).verify.present(message, expectedValue);
 				}
 			}
 		}

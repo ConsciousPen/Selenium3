@@ -11,4 +11,10 @@ public final class DocGenConstants {
         public static final String TEMPLATE_ID = "Template Id";
         public static final String FORM_ID = "FORM_ID";
     }
+    
+    public static final class OnDemandDocumentsTable {
+        public static final String SELECT = "Select";
+        public static final String DOCUMENT_NUM = "Document #";
+        public static final String DOCUMENT_NAME = "Document Name";
+    }
 }

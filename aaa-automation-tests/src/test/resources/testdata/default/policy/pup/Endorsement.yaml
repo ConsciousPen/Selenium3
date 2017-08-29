@@ -7,7 +7,7 @@ TestData: {
 
 TestData_Plus1Month: {
   EndorsementActionTab: {
-    Endorsement Date: /today+1m,
+    Endorsement Date: /today+1M,
     Endorsement Reason: Underlying Insurance
   }
 }
