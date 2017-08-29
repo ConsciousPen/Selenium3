@@ -7,7 +7,7 @@ import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 /**
  * Abstract ActionTab class.
  */
-public class ActionTab extends Tab {
+public abstract class ActionTab extends Tab {
 
     protected ActionTab(Class<? extends MetaData> mdClass) {
         super(mdClass);

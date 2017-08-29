@@ -1,6 +1,4 @@
 #       Test Data for FULL test
-#TODO Add values for FULL test for all other tabs after Property Info tab (this tab is done)
-
 TestDataFull: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTabFull',

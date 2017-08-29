@@ -18,7 +18,7 @@ PropertyInfoTab_SC1_2: {
   HomeRenovation: '@HomeRenovation2',
   Stoves: '@Stoves2',
   PetsOrAnimals: '@PetsOrAnimals_2',
-  PropertyValue: '@PropertyValue',
+  PropertyValue: '@PropertyValue_1',
   DetachedStructures: ['@DetachedStructures1', '@DetachedStructures2', '@DetachedStructures3']
 }
 
@@ -40,7 +40,16 @@ TestData_SC2_1: {
 PropertyInfoTab_SC2_1: {
   Construction: '@Construction_1',
   Interior: '@Interior_1', 
-  PetsOrAnimals: '@PetsOrAnimals_3'
+  PetsOrAnimals: '@PetsOrAnimals_3', 
+  ClaimHistory: ['@ClaimHistory1', '@ClaimHistory2', '@ClaimHistory3', '@ClaimHistory4', '@ClaimHistory5', '@ClaimHistory6']
+}
+
+TestData_RmoveAllClaims: {
+  PropertyInfoTab: '@PropertyInfoTab_RemoveAllClaims' 
+}
+
+PropertyInfoTab_RemoveAllClaims: {
+  ClaimHistory: '@ClaimHistory_No'
 }
 
 TestData_SC2_2: {
@@ -48,12 +57,27 @@ TestData_SC2_2: {
 }
 
 PropertyInfoTab_SC2_2: {
+  PropertyValue: '@PropertyValue_2', 
   Construction: '@Construction_2',
   Interior: '@Interior_2', 
   HomeRenovation: '@HomeRenovation3',
-  PetsOrAnimals: '@PetsOrAnimals_4'
+  PetsOrAnimals: '@PetsOrAnimals_4', 
+  ClaimHistory: ['@ClaimHistory1']
 }
 
+TestData_SC2_3: {
+  PropertyInfoTab: '@PropertyInfoTab_SC2_3'
+}
+
+PropertyInfoTab_SC2_3: { 
+  PropertyValue: '@PropertyValue_3', 
+  Construction: '@Construction_3',
+  ClaimHistory: ['@ClaimHistory6']
+}
+
+TestData_SC3_1: {
+  MortgageesTab: '@MortgageesTab'
+}
 
 # ============ PropertyInfo Tab ==============
 # -------- SC1 ---------- 
@@ -79,9 +103,20 @@ Stoves2: {
   "Does the property have a wood-burning stove?": 'No' 
 }
 
-PropertyValue: {
+PropertyValue_1: {
   Coverage A - Dwelling limit: '100000',
   ISO replacement cost: '100000'
+}
+
+PropertyValue_2: {
+  Coverage A - Dwelling limit: '130000',
+  ISO replacement cost: '75000', 
+  Reason replacement cost differs from the tool value: 'Mortgagee requirements'
+}
+
+PropertyValue_3: {
+  Coverage A - Dwelling limit: '2000000',
+  ISO replacement cost: '2000000'
 }
 
 DetachedStructures1: {
@@ -125,6 +160,10 @@ Construction_1: {
 
 Construction_2: {
   Year built: '1939'
+}
+
+Construction_3: {
+  Year built: '2009'
 }
 
 Interior_1: {
@@ -176,3 +215,107 @@ HomeRenovation3: {
   "Heating/cooling Month of completion": 10,
   "Heating/cooling Year of completion": '2009' 
 }
+
+ClaimHistory1: {
+  Add a claim: 'Yes', 
+  Date of loss: '01/01/2015', 
+  Cause of loss: 'Liability', 
+  Amount of loss: '100', 
+  Claim status: 'Closed'
+}
+
+ClaimHistory2: {
+  Date of loss: '01/02/2015', 
+  Cause of loss: 'Fire', 
+  Amount of loss: '500', 
+  Claim status: 'Closed'
+}
+
+ClaimHistory3: {
+  Date of loss: '01/02/2015', 
+  Cause of loss: 'Liability', 
+  Amount of loss: '200', 
+  Claim status: 'Closed'
+}
+
+ClaimHistory4: {
+  Date of loss: '01/03/2015', 
+  Cause of loss: 'Water', 
+  Amount of loss: '100', 
+  Claim status: 'Closed'
+}
+
+ClaimHistory5: {
+  Date of loss: '01/04/2015', 
+  Cause of loss: 'Wind', 
+  Amount of loss: '300', 
+  Claim status: 'Closed'
+}
+
+ClaimHistory6: {
+  Date of loss: '12/02/2014', 
+  Cause of loss: 'Hail', 
+  Amount of loss: '500', 
+  Claim status: 'Closed'
+}
+
+ClaimHistory6: {
+Add a claim: 'Yes', 
+  Date of loss: '12/02/2014', 
+  Cause of loss: 'Hail', 
+  Amount of loss: '26000', 
+  Claim status: 'Closed'
+}
+
+ClaimHistory_No: {
+  Add a claim: 'No' 
+}
+
+# ------------ MortgageesTab --------------- 
+MortgageesTab: {
+  "Is there an additional insured?": 'Yes', 
+  AdditionalInsured: ['@AdditionalInsured1', '@AdditionalInsured2', '@AdditionalInsured3'],
+  "Is there an additional interest?": 'Yes', 
+  AdditionalInterest: ['@AdditionalInterest1', '@AdditionalInterest2', '@AdditionalInterest3']
+}
+
+AdditionalInsured1: {
+  Interest: Trust, 
+  Name: Pasha Ulybasha
+}
+
+AdditionalInsured2: {
+  Interest: Trust, 
+  Name: Sasha Ulybasha
+}
+
+AdditionalInsured3: {
+  Interest: Trust, 
+  Name: Vasya Ulybasha
+}
+
+AdditionalInterest1: {
+  Name: Stas Ivanov, 
+  Zip code: '84003', 
+  Street address 1: '265 CHIPMAN AVE', 
+  Description of interest: 'test1',
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+AdditionalInterest2: {
+  Name: Stas Petrov, 
+  Zip code: '84003', 
+  Street address 1: '266 CHIPMAN AVE', 
+  Description of interest: 'test2',
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+AdditionalInterest3: {
+  Name: Vasya Ivanov, 
+  Zip code: '84003', 
+  Street address 1: '267 CHIPMAN AVE', 
+  Description of interest: 'test3',
+  Effective date: '/today:MM/dd/yyyy'
+}
+
+

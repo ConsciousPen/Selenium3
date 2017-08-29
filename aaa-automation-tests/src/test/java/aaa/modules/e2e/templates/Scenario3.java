@@ -12,8 +12,6 @@ import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants.*;
 import aaa.main.enums.ProductConstants.PolicyStatus;
-import aaa.main.enums.SearchEnum.*;
-import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
@@ -34,8 +32,6 @@ public class Scenario3 extends ScenarioBaseTest {
 
 	protected IPolicy policy;
 	protected TestData tdPolicy;
-	protected BillingAccount billingAccount = new BillingAccount();
-	protected TestData tdBilling = testDataManager.billingAccount;
 
 	protected LocalDateTime policyEffectiveDate;
 	protected LocalDateTime policyExpirationDate;
@@ -43,10 +39,9 @@ public class Scenario3 extends ScenarioBaseTest {
 	protected List<LocalDateTime> installmentDueDates;
 	protected int installmentsCount = 2;
 
-	/*
-	 * Create policy
-	 */
 	public void createTestPolicy(TestData policyCreationTD) {
+		policy = getPolicyType().get();
+
 		mainApp().open();
 		createCustomerIndividual();
 
@@ -95,7 +90,7 @@ public class Scenario3 extends ScenarioBaseTest {
 		LocalDateTime date = getTimePoints().getCancellationDate(installmentDueDates.get(1));
 		TimeSetterUtil.getInstance().nextPhase(date.plusDays(5).with(DateTimeUtils.closestWorkingDay));
 		mainApp().open();
-		SearchPage.search(SearchFor.BILLING, SearchBy.POLICY_QUOTE, policyNum);
+		SearchPage.openBilling(policyNum);
 		Dollar cnAmount = BillingHelper.getBillDueAmount(getTimePoints().getCancellationTransactionDate(installmentDueDates.get(1)),
 				BillsAndStatementsType.CANCELLATION_NOTICE);
 		File remitanceFile = RemittancePaymentsHelper.createRemittanceFile(getState(), policyNum, cnAmount, ExternalPaymentSystem.REGLKBX);
@@ -107,7 +102,7 @@ public class Scenario3 extends ScenarioBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(paymentDate);
 		JobUtils.executeJob(Jobs.remittanceFeedBatchReceiveJob);
 		mainApp().open();
-		SearchPage.search(SearchFor.BILLING, SearchBy.POLICY_QUOTE, policyNum);
+		SearchPage.openBilling(policyNum);
 		Dollar cnAmount = BillingHelper.getBillDueAmount(getTimePoints().getCancellationTransactionDate(installmentDueDates.get(1)),
 				BillsAndStatementsType.CANCELLATION_NOTICE);
 
@@ -161,7 +156,7 @@ public class Scenario3 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		verifyRenewOfferGenerated(policyExpirationDate, renewDateOffer, installmentDueDates);
+		verifyRenewOfferGenerated(policyExpirationDate, installmentDueDates);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewDateOffer)
 				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
 
@@ -190,7 +185,7 @@ public class Scenario3 extends ScenarioBaseTest {
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		//JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 		mainApp().open();
-		SearchPage.search(SearchFor.BILLING, SearchBy.POLICY_QUOTE, policyNum);
+		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
@@ -200,7 +195,7 @@ public class Scenario3 extends ScenarioBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 		mainApp().open();
-		SearchPage.search(SearchFor.BILLING, SearchBy.POLICY_QUOTE, policyNum);
+		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);

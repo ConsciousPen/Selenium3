@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
