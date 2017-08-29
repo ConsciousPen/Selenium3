@@ -9,6 +9,16 @@ TestData: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }
+  },
+  PurchaseTab: '@DownPayment'
+}
+
+DownPayment: {
+  Change Minimum Down Payment: true,
+  Minimum Required Down Payment: 0,
+  Reason for Changing: 'Companion Property Policy',
+  PaymentAllocation: {
+    Cash: 0
   }
 }
 
@@ -25,7 +35,8 @@ TestData_AZ: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
 
 TestData_CO: {
@@ -39,7 +50,8 @@ TestData_CO: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
 
 TestData_CT: {
@@ -53,7 +65,8 @@ TestData_CT: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
 
 TestData_DC: {
@@ -70,7 +83,8 @@ TestData_DC: {
       }, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
 
 TestData_DE: {
@@ -84,7 +98,8 @@ TestData_DE: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
 
 TestData_ID: {
@@ -98,7 +113,8 @@ TestData_ID: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
 
 TestData_IN: {
@@ -112,7 +128,8 @@ TestData_IN: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
 
 TestData_KS: {
@@ -126,7 +143,8 @@ TestData_KS: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
 
 TestData_KY: {
@@ -140,7 +158,8 @@ TestData_KY: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
 
 TestData_MD: {
@@ -154,7 +173,8 @@ TestData_MD: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
 
 TestData_MT: {
@@ -168,7 +188,8 @@ TestData_MT: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
 
 TestData_NJ: {
@@ -182,7 +203,8 @@ TestData_NJ: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
 
 TestData_NV: {
@@ -196,7 +218,8 @@ TestData_NV: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
 
 TestData_NY: {
@@ -210,7 +233,8 @@ TestData_NY: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
 
 TestData_OH: {
@@ -224,7 +248,8 @@ TestData_OH: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
 
 TestData_OK: {
@@ -238,7 +263,8 @@ TestData_OK: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
 
 TestData_OR: {
@@ -252,7 +278,8 @@ TestData_OR: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
 
 TestData_PA: {
@@ -266,7 +293,8 @@ TestData_PA: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
 
 TestData_SD: {
@@ -280,7 +308,8 @@ TestData_SD: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
 
 TestData_VA: {
@@ -294,7 +323,8 @@ TestData_VA: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
 
 TestData_WV: {
@@ -308,7 +338,8 @@ TestData_WV: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
 
 TestData_WY: {
@@ -322,5 +353,6 @@ TestData_WY: {
       Validate Address Dialog: {}, 
       Loan number: '12345678'
     }      
-  }
+  },
+  PurchaseTab: '@DownPayment'
 }
