@@ -8,7 +8,7 @@ import aaa.modules.policy.PolicyBaseTest;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.waiters.Waiters;
 
-public class RatingDetailsCompCollSymbolsPresence extends PolicyBaseTest {
+public class CompCollSymbolsPresence extends PolicyBaseTest {
     public void verifyCompCollSymbolsPresence() {
         mainApp().open();
         createCustomerIndividual();
