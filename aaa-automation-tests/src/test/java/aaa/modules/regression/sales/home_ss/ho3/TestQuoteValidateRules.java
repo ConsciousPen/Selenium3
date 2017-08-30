@@ -73,8 +73,7 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         policy.getDefaultView().fillFromTo(td, ApplicantTab.class, PurchaseTab.class, true);  
         new PurchaseTab().submitTab();
                 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);        
-        
+        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);                
 	}
 
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
@@ -98,7 +97,7 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         new BindTab().btnPurchase.click();
         
         ErrorTab errorTab = new ErrorTab();
-        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_CA3230672);
+        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3230000);
         errorTab.cancel();
         
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get());
@@ -112,8 +111,7 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);  
         new PurchaseTab().submitTab();
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);     
-        
+        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);             
 	}
 	
 }
