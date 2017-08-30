@@ -4,7 +4,6 @@ import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.ErrorPage;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -108,7 +107,7 @@ public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest {
 	
 	private void checkBottomError(TestData td) {
 		for (String error : td.getList(BOTTOM_ERROR_KEY)) {
-			ErrorPage.provideLabelErrorMessage(error).verify.present();
+			underwritingTab.verifyTabHasBottomMessage(error);
 		}
 	}
 	

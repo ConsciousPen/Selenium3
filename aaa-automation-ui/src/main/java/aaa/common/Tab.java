@@ -175,6 +175,11 @@ public abstract class Tab {
         return this;
     }
 
+    public Tab verifyTabHasBottomMessage(String errorMessage) {
+        getBottomWarning().verify.contains(errorMessage);
+        return this;
+    }
+
     public StaticElement getBottomWarning() {
         return new StaticElement(By.xpath("//div[@id='contentWrapper']//span[@class='error_message']"));
     }

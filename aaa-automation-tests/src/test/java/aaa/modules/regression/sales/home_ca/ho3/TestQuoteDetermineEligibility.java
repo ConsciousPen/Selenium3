@@ -170,7 +170,7 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 
         //  4.  Verify an eligibility error if there is one liability loss claim
         propertyInfoTab.fillTab(getTestSpecificTD("ClaimHistory_LossClaim"));
-        goToBindAndVerifyError(Errors.ERROR_AAA_HO_CA1219040y);
+        goToBindAndVerifyError(Errors.ERROR_AAA_HO_CA338657_23);
 
         //  5.  Verify an eligibility error if Claim is more than 25000 in 3 years
         propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS.getLabel(), TextBox.class).setValue("26000");

@@ -1,10 +1,10 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import aaa.main.enums.ErrorEnum;
+import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-import aaa.common.enums.ErrorPageEnum;
 import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.ErrorPage;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -42,11 +42,6 @@ public class TestQuoteUnderwritingRules extends HomeCaHO3BaseTest {
     public void testQuoteUnderwritingRules() {
         UnderwritingAndApprovalTab underwritingAndApprovalTab = new UnderwritingAndApprovalTab();
 
-        String WM0533 = "Applicants who have been cancelled, refused insurance or non-renewed in the";
-        String WM0535 = "Dwelling must not have been in foreclosure within the past 18 months unless";
-        String WM0541 = "Risks with more than 2 resident employees are ineligible.";
-        String WM9801 = "Risks located within 500 feet of bay or coastal water is ineligible";
-
         mainApp().open();
         createCustomerIndividual();
         policy.initiate();
@@ -73,7 +68,7 @@ public class TestQuoteUnderwritingRules extends HomeCaHO3BaseTest {
         policy.getDefaultView().fill(getTestSpecificTD("TestData_TotalNumber3"));
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
         policy.getDefaultView().fill(getPolicyTD().ksam(DocumentsTab.class.getSimpleName()));
-        goToBindAndVerifyError(WM0541);
+        goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_HO_CA12230792);
 
         //  7.  Fill UW with correct values
         policy.getDefaultView().fill(getPolicyTD().ksam(UnderwritingAndApprovalTab.class.getSimpleName()));
@@ -82,16 +77,16 @@ public class TestQuoteUnderwritingRules extends HomeCaHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.UNDERWRITING_AND_APPROVAL.get());
         underwritingAndApprovalTab.getAssetList().getAsset(HomeCaMetaData.UnderwritingAndApprovalTab.HAVE_ANY_APPLICANTS_HAD_A_PRIOR_INSURANCE_POLICY_CANCELLED_IN_THE_PAST_3_YEARS).setValue("Yes");
         underwritingAndApprovalTab.getAssetList().getAsset(HomeCaMetaData.UnderwritingAndApprovalTab.REMARK_PRIOR_INSURANCE).setValue("Remarks");
-        goToBindAndVerifyError(WM0533);
+        goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_HO_CA338657_18);
         underwritingAndApprovalTab.getAssetList().getAsset(HomeCaMetaData.UnderwritingAndApprovalTab.HAVE_ANY_APPLICANTS_HAD_A_PRIOR_INSURANCE_POLICY_CANCELLED_IN_THE_PAST_3_YEARS).setValue("No");
 
         underwritingAndApprovalTab.getAssetList().getAsset(HomeCaMetaData.UnderwritingAndApprovalTab.HAS_THE_PROPERTY_BEEN_IN_FORECLOSURE_PROCEEDINGS_WITHIN_THE_PAST_18_MONTHS).setValue("Yes");
         underwritingAndApprovalTab.getAssetList().getAsset(HomeCaMetaData.UnderwritingAndApprovalTab.REMARK_FORECLOSURE).setValue("Remarks");
-        goToBindAndVerifyError(WM0535);
+        goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_HO_CA338657_20);
         underwritingAndApprovalTab.getAssetList().getAsset(HomeCaMetaData.UnderwritingAndApprovalTab.HAS_THE_PROPERTY_BEEN_IN_FORECLOSURE_PROCEEDINGS_WITHIN_THE_PAST_18_MONTHS).setValue("No");
 
         underwritingAndApprovalTab.getAssetList().getAsset(HomeCaMetaData.UnderwritingAndApprovalTab.IS_THE_DWELLING_LOCATED_WITHIN_500_FEET_OF_BAY_OR_COASTAL_WATERS).setValue("Yes");
-        goToBindAndVerifyError(WM9801);
+        goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_HO_CA338657_36);
         underwritingAndApprovalTab.getAssetList().getAsset(HomeCaMetaData.UnderwritingAndApprovalTab.IS_THE_DWELLING_LOCATED_WITHIN_500_FEET_OF_BAY_OR_COASTAL_WATERS).setValue("No");
 
         //  9.  Fill the rest tabs and issue policy
@@ -103,11 +98,12 @@ public class TestQuoteUnderwritingRules extends HomeCaHO3BaseTest {
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 
-    private void goToBindAndVerifyError(String expectedError) {
+    private void goToBindAndVerifyError(ErrorEnum.Errors... errors) {
+        ErrorTab errorTab = new ErrorTab();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
         bindTab.btnPurchase.click();
-        ErrorPage.tableError.getRowContains(ErrorPageEnum.ErrorsColumn.MESSAGE.get(), expectedError).verify.present();
-        ErrorPage.buttonCancel.click();
+        errorTab.verify.errorsPresent(errors);
+        errorTab.cancel();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.UNDERWRITING_AND_APPROVAL.get());
     }
 }

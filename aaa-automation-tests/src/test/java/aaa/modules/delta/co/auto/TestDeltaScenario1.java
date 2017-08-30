@@ -329,7 +329,6 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 
 		preconditions(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS);
 		policy.getDefaultView().fillFromTo(getPolicyTD(), DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
-		//policy.getDefaultView().fillFromTo(getPolicyTD().mask("DriverActivityReportsTab|Has the customer expressed interest in purchasing the quote?"), DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
 		dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.MEDICAL_PAYMENTS_REJECTION_OF_COVERAGE).verify.present();
 		dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.MEDICAL_PAYMENTS_REJECTION_OF_COVERAGE).verify.value("Yes");
 
