@@ -12,11 +12,14 @@ import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.BillingConstants.BillingGeneralInformationTable;
 import aaa.toolkit.webdriver.customcontrols.TableWithPages;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
+
+import java.time.LocalDateTime;
 
 public class BillingSummaryPage extends SummaryPage {
 
@@ -57,6 +60,10 @@ public class BillingSummaryPage extends SummaryPage {
     
     public static void openPolicy(int rowNumber) {
     	tableBillingAccountPolicies.getRow(rowNumber).getCell(1).controls.links.get(2).click();
+    }
+
+    public static void openPolicy(LocalDateTime effectiveDate) {
+        tableBillingAccountPolicies.getRow(BillingConstants.BillingAccountPoliciesTable.EFF_DATE, effectiveDate.format(DateTimeUtils.MM_DD_YYYY)).getCell(1).controls.links.get(2).click();
     }
     
     public static Dollar getInstallmentAmount(int intallmentIndex) { 

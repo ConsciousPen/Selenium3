@@ -102,6 +102,7 @@ public final class BillingConstants {
         public static final String DEPOSIT_PAYMENT = "Deposit Payment";
         public static final String RECURRING_PAYMENT = "Recurring Payment";
         public static final String REGULUS_LOCKBOX = "Regulus LockBox";
+        public static final String REGULUS_ONLINE = "Regulus Online";
     }
 
     public static final class PaymentsAndOtherTransactionReason {
