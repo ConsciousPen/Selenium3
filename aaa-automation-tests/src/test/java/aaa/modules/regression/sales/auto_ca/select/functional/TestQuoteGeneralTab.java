@@ -18,9 +18,9 @@ import static aaa.main.metadata.policy.AutoCaMetaData.DocumentsAndBindTab.*;
 import static aaa.main.metadata.policy.AutoCaMetaData.GeneralTab.*;
 
 /**
- * Created by lkazarnovskiy on 8/16/2017.
+ * Created by lkazarnovskiy on 8/29/2017.
  * <p>
- * Objectives: Validate premium bundle functionality.
+ * Objectives: Validate GeneralTab for auto_ca product.
  * <p>
  * TC Steps:
  *
@@ -83,7 +83,6 @@ public class TestQuoteGeneralTab extends AutoCaSelectBaseTest {
 
 		TestData td= getPolicyTD();
 		DocumentsAndBindTab documentsAndBindTab =new DocumentsAndBindTab();
-//		AssetList genTabAl = generalTab.getAssetList().getAsset(POLICY_INFORMATION);
 
 		mainApp().open();
 		createCustomerIndividual();
