@@ -47,7 +47,7 @@ import toolkit.utils.TestInfo;
  * </pre>
  **/
 public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
-/*	
+	
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
     public void testPolicyFuturedated() {
@@ -73,10 +73,9 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         policy.getDefaultView().fillFromTo(td, ApplicantTab.class, PurchaseTab.class, true);  
         new PurchaseTab().submitTab();
                 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);        
-        
+        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);                
 	}
-*/
+
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
 	public void testBackdatedPolicy() {
@@ -112,8 +111,7 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);  
         new PurchaseTab().submitTab();
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);     
-        
+        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);             
 	}
 	
 }
