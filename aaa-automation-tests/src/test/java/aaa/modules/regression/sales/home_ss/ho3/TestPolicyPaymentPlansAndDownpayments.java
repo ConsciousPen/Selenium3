@@ -15,12 +15,15 @@ import aaa.main.enums.BillingConstants;
 import aaa.main.enums.BillingConstants.BillingInstallmentScheduleTable;
 import aaa.main.enums.BillingConstants.InstallmentDescription;
 import aaa.main.enums.PolicyConstants;
+import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.metadata.policy.PurchaseMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.BillingSummaryPage;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 
@@ -33,7 +36,7 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 
     /**
      * @author Jurij Kuznecov
-     * @name Test down payment calculations for different payment plans
+     * @name Test verify payment calculations for different payment plans
      * @scenario 
      * 1.  Create new or open existent Customer
      * 2.  Create a new HO3 policy
@@ -74,7 +77,7 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 
     @Test(enabled = true)
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-    public void testPaymentsFiguresForDifferentPaymentPlans() {
+    public void testVerifyPaymentsFiguresForDifferentPaymentPlans() {
         mainApp().open();
         createCustomerIndividual();
         createQuote();
@@ -128,7 +131,7 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 
     @Test(enabled = true)
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-    public void testPaymentPlanLowerToHigherInstallments() {
+    public void testChangePaymentPlanLowerToHigherInstallments() {
         int installmentsQuarterly = 3;
         int installmentsElevenPay = 10;
 
@@ -142,6 +145,88 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 
         endorsePolicyWithNewPlanAndVerify(policyNumber, BillingConstants.PaymentPlan.QUARTERLY, installmentsQuarterly);
         endorsePolicyWithNewPlanAndVerify(policyNumber, BillingConstants.PaymentPlan.ELEVEN_PAY, installmentsElevenPay);
+    }
+
+    /**
+     * @author Jurij Kuznecov
+     * @name Test change the minimum required down payment
+     * @scenario 
+     * 1.  Create new or open existent Customer
+     * 2.  Initiate a new HO3 policy creation, fill all mandatory fields and bind quote
+     * 3.  In 'Purchase Tab'
+     *      - Enable "Change Minimum Down Payment" checkbox
+     *      - Enter incorrect value  to "Minimum required DownPayment"
+     *        (incorrect value = System  calculated downpayment + 50$)
+     * 4.  Check that error message appears
+     * 5.  Check that 'Apply payment' button is disabled
+     * 6.  Enter correct value  to "Minimum required DownPayment"
+     * 7.  Check that 'Apply payment' button is enabled
+     * 8.  Apply payment and check policy status = "Active"       
+     */
+
+    @Test(enabled = true)
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
+    public void testChangeMinimumRequiredDownpayment() {
+        String expectedErrorMessage = "Downpayment should not exceed the value of \"Total policy term premium + fees (if any)\"";
+        Dollar excessAmount = new Dollar("$50");
+
+        mainApp().open();
+        createCustomerIndividual();
+        policy.initiate();
+
+        policy.getDefaultView().fillUpTo(getPolicyTD(), PurchaseTab.class);
+
+        Dollar origMinimumRequiredDownPayment = new Dollar(purchaseTab.remainingBalanceDueToday.getValue());
+        purchaseTab
+                .fillTab(getTestSpecificTD("TestData")
+                        .adjust(TestData.makeKeyPath(PurchaseTab.class.getSimpleName(), PurchaseMetaData.PurchaseTab.MINIMUM_REQUIRED_DOWNPAYMENT.getLabel()),
+                                origMinimumRequiredDownPayment.add(excessAmount).toString())
+                        .adjust(TestData.makeKeyPath(PurchaseTab.class.getSimpleName(), PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION.getLabel(),
+                                PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH.getLabel()),
+                                origMinimumRequiredDownPayment.add(excessAmount).toString()));
+        purchaseTab.btnApplyPayment.verify.enabled(false);
+        purchaseTab.getBottomWarning().verify.contains(expectedErrorMessage);
+        purchaseTab
+                .fillTab(getTestSpecificTD("TestData")
+                        .adjust(TestData.makeKeyPath(PurchaseTab.class.getSimpleName(), PurchaseMetaData.PurchaseTab.MINIMUM_REQUIRED_DOWNPAYMENT.getLabel()),
+                                origMinimumRequiredDownPayment.toString())
+                        .adjust(TestData.makeKeyPath(PurchaseTab.class.getSimpleName(), PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION.getLabel(),
+                                PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH.getLabel()),
+                                origMinimumRequiredDownPayment.toString()));
+        purchaseTab.btnApplyPayment.verify.enabled(true);
+        purchaseTab.btnApplyPayment.click();
+        purchaseTab.confirmPurchase.confirm();
+        PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+    }
+
+    /**
+     * @author Jurij Kuznecov
+     * @name Test rewrite determine Downpayment
+     * @scenario 
+     * 1.  Create new or open existent Customer
+     * 2.  
+     */
+    @Test(enabled = false)
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
+    public void testRewriteDetermineDownpayment() {
+
+        mainApp().open();
+
+        createCustomerIndividual();
+        policy.copyQuote().perform(getPolicyTD("CopyFromQuote", "TestData"));
+
+        policy.dataGather().start();
+        policy.getDefaultView().fill(getPolicyTD("CopyFromQuote", "TestData_ChangePlan").adjust(
+                TestData.makeKeyPath(PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()),
+                BillingConstants.PaymentPlan.ELEVEN_PAY));
+
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData_NonPaymentOfPremium"));
+        policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataNewNumber"));
+        policy.dataGather().start();
+        policy.getDefaultView().fillUpTo(
+                getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy").adjust(
+                        TestData.makeKeyPath(PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()),
+                        BillingConstants.PaymentPlan.QUARTERLY), PurchaseTab.class, false);
     }
 
     private void changePlan(String plan) {

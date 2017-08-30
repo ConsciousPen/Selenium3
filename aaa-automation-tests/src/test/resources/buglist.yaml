@@ -75,4 +75,4 @@ QC-44491:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction.testQuotePropose]
-    messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}']
+      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}']

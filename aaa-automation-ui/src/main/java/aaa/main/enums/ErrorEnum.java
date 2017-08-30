@@ -7,6 +7,7 @@ public final class ErrorEnum {
         ERROR_200103("200103", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
         ERROR_200401("200401", "Credit Adverse Impact requires Underwriting Review and approval"),
         ERROR_200060_CO("200060_CO", "If Medical Payments coverage is rejected, a signed form must be received"),
+        ERROR_TODO("TODO", "It is too late in the term to change to the selected bill plan."),
         //Property errors
 
         ERROR_AAA_HO_CA_15011_1("AAA_HO_CA_15011_1", "Dwellings built prior to 1940 must have all four major systems fully renovated."),

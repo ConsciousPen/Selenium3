@@ -97,6 +97,7 @@ public abstract class CommonErrorTab extends Tab {
 				String message = String.format("Underwriting Rule %1$s is not %2$s as expected.", error, expectedValue ? "present" : "absent");
 				errorQuery.put("Code", error.getCode());
 				if (error.getMessage().contains("'")) {
+					//TODO Can we change row template to handle quote symbols?
 					errorQuery.put("Message", error.getMessage().replaceAll("'.*", "")); // quote in message breaks xpath
 					getErrorsControl().getTable().getRowContains(errorQuery).verify.present(message, expectedValue); // search by part of message
 				} else {

@@ -2,7 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common;
 
-import aaa.common.components.Dialog;
 import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
@@ -14,6 +13,7 @@ import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
+import aaa.common.components.Dialog;
 import aaa.common.pages.Page;
 
 /**
@@ -173,5 +173,9 @@ public abstract class Tab {
         String errorMessage = String.format("'%s' field's actual warning '%s' is not equal to the expected warning of '%s'", label, actualValue, expectedValue);
         CustomAssert.assertEquals(errorMessage, expectedValue, actualValue);
         return this;
+    }
+
+    public StaticElement getBottomWarning() {
+        return new StaticElement(By.xpath("//div[@id='contentWrapper']//span[@class='error_message']"));
     }
 }

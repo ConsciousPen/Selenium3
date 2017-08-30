@@ -23,6 +23,8 @@ import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
 
+import java.time.LocalDateTime;
+
 public class BillingSummaryPage extends SummaryPage {
 
 	private static final ByT PAGINATION_LOCATOR = ByT.xpath("//table[@id='%s']/ancestor::tr[1]/following-sibling::tr[1]/descendant::span[1]");
@@ -62,6 +64,10 @@ public class BillingSummaryPage extends SummaryPage {
     
     public static void openPolicy(int rowNumber) {
     	tableBillingAccountPolicies.getRow(rowNumber).getCell(1).controls.links.get(2).click();
+    }
+
+    public static void openPolicy(LocalDateTime effectiveDate) {
+        tableBillingAccountPolicies.getRow(BillingConstants.BillingAccountPoliciesTable.EFF_DATE, effectiveDate.format(DateTimeUtils.MM_DD_YYYY)).getCell(1).controls.links.get(2).click();
     }
     
     public static Dollar getInstallmentAmount(int intallmentIndex) { 

@@ -31,6 +31,11 @@ public class BillingAccountPoliciesVerifier extends TableVerifier {
         return this;
     }
 
+    public BillingAccountPoliciesVerifier setPaymentPlan(String value) {
+        setValue(BillingAccountPoliciesTable.PAYMENT_PLAN, value);
+        return this;
+    }
+
     public BillingAccountPoliciesVerifier setPolicyFlag(String valueProductFlag) {
         setValue(BillingAccountPoliciesTable.POLICY_FLAG, valueProductFlag);
         return this;

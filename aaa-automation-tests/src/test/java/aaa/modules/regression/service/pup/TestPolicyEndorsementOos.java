@@ -35,6 +35,7 @@ public class TestPolicyEndorsementOos extends PersonalUmbrellaBaseTest {
     public void testPolicyEndorsementOos() {
         mainApp().open();
         getCopiedPolicy();
+        
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
@@ -45,7 +46,7 @@ public class TestPolicyEndorsementOos extends PersonalUmbrellaBaseTest {
 
         log.info("OOS Endorsement for Policy #" + policyNumber);
         TestData endorsement_td1 = getStateTestData(testDataManager.getDefault(TestPolicyEndorsement.class), "TestData");
-        policy.createEndorsement(endorsement_td1.adjust(getPolicyTD("Endorsement", "TestData")));
+        policy.createEndorsement(endorsement_td1.adjust(getPolicyTD("Endorsement", "TestData_Plus10Day")));
 
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);

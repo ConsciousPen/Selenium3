@@ -33,6 +33,11 @@ public abstract class TableVerifier {
         return this;
     }
 
+    public TableVerifier verifyCount(int count) {
+        getTable().verify.rowsCount(count, values);
+        return this;
+    }
+
     public TableVerifier verify(int rowNumber) {
         for (Entry<String, String> entry : values.entrySet()) {
             getTable().getRow(rowNumber).getCell(entry.getKey()).verify
