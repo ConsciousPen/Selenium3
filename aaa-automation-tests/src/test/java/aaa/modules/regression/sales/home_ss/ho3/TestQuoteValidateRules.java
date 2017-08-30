@@ -47,7 +47,7 @@ import toolkit.utils.TestInfo;
  * </pre>
  **/
 public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
-	
+/*	
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
     public void testPolicyFuturedated() {
@@ -76,7 +76,7 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);        
         
 	}
-
+*/
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
 	public void testBackdatedPolicy() {
@@ -98,7 +98,7 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         new BindTab().btnPurchase.click();
         
         ErrorTab errorTab = new ErrorTab();
-        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_CA3230672);
+        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3230000);
         errorTab.cancel();
         
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get());
