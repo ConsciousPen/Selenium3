@@ -90,6 +90,10 @@ public class DocGenHelper {
 		log.info("Documents generation verification has been successfully passed.");
 	}
 
+	public static StandardDocumentRequest getDocumentRequest(String policyNumber) {
+		return getDocumentRequest(false, policyNumber);
+	}
+
 	/**
 	 * Search xml document by <b>policyNumber</b> text and get <b>StandardDocumentRequest</b> object model from it.
 	 *
@@ -113,6 +117,10 @@ public class DocGenHelper {
 		log.info(String.format("Getting object model from found xml document: \"%s\".", documentsFileNames.get(0)));
 		CreateDocuments createDocuments = XmlHelper.xmlToModel(content, CreateDocuments.class);
 		return createDocuments.getStandardDocumentRequest();
+	}
+
+	public static List<String> waitForDocumentsAppearance(String policyNumber) {
+		return waitForDocumentsAppearance(false, policyNumber);
 	}
 
 	/**
