@@ -1,0 +1,115 @@
+TestData: {
+    DriverTab: ['@DriverInformation1','@DriverInformation2'],
+    VehicleTab: ['@VehicleTab1','@VehicleTab2'],
+    FormsTab: '@FormsTab',
+    PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+    DocumentsAndBindTab: '@DocumentsAndBindTab',
+    ErrorTab: '@ErrorTab',
+    PurchaseTab: '@PurchaseTab_WithAutopay'
+}
+
+DriverInformation1: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A12345678,
+  ADB Coverage: 'Yes',
+  Financial Responsibility Filing Needed: 'Yes',
+  Filling State: Arizona
+}
+
+
+DriverInformation2: {
+  DriverSearchDialog: {},
+  Driver Type: Excluded,
+  Reason: Company Request,
+  First Name: Maria,
+  Last Name: Jefferson,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: '11/12/1986',
+  Gender: Female,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Learner's Permit"
+}
+
+VehicleTab1: { 
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273,
+  Existing Damage: Rust
+}
+
+VehicleTab2: { 
+  Type: Golf Cart,
+  Change Vehicle Confirmation: 'OK',
+  Usage: 'Traveling Primary Residence',
+  VIN: KNDJT2A2XA7038383,
+  Year: 2008,
+  Other Make: CHEVROLET,
+  Other Model: AVEO,
+  Stated Amount: 1500
+}
+
+FormsTab: { 
+  Driver Forms: {
+    Forms Subject: "Fernando",
+    SR22: {
+      Action: Edit,
+      Case Number: 123,
+      State: AZ
+    }
+  }
+}
+
+PremiumAndCoveragesTab: {
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Uninsured Motorists Bodily Injury: 'contains=$50,000/$100,000',
+  Underinsured Motorists Bodily Injury: 'contains=$50,000/$100,000',
+  Medical Payments: 'contains=$2,000',
+  Comprehensive Deductible: 'contains=$750',
+  Collision Deductible: 'contains=$500',
+  Special Equipment Coverage: 1100
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    Auto Insurance Application: Not Signed,
+    Uninsured and Underinsured Motorist Coverage Selection: Not Signed,
+    Named Driver Exclusion: Not Signed
+  },
+  Agreement: I agree
+}
+
+ErrorTab: {
+   ErrorsOverride: [{
+    Message: "contains=A signed Named Driver Exclusion Election must be received prior to issuing th...",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   },
+   {
+    Message: "contains=A signed Uninsured And Underinsured Motorist Coverage Selection Form must be ...",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   },
+   {
+    Message: "contains=A signed Auto Insurance Application must be received prior to issuing this tr...",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   }] 
+}
+
+PurchaseTab_WithAutopay: {
+  PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa'],
+  Activate Autopay: true,
+  Autopay Selection: 'index=1',
+  PaymentAllocation: {
+    Visa: /rest
+  }
+}
+
