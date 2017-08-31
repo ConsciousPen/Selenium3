@@ -1,12 +1,10 @@
 package aaa.modules.regression.sales.pup;
 
-import org.apache.commons.lang.StringUtils;
-import org.openqa.selenium.UnhandledAlertException;
 import org.testng.annotations.Test;
-import toolkit.datax.DataProviderFactory;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
+import toolkit.webdriver.controls.TextBox;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -15,9 +13,9 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.PurchaseMetaData;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.pup.defaulttabs.UnderwritingAndApprovalTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
-import aaa.toolkit.webdriver.customcontrols.PaymentMethodAllocationControl;
 
 
 /**
@@ -99,9 +97,10 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
 	}
 	
 	private void precondition(){
-		createCustomerIndividual();
-		createQuote();
-        policy.dataGather().start();
+		getCopiedQuote();
+        policy.calculatePremium(getPolicyTD());
+        NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERWRITING_AND_APPROVAL.get());
+        policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class).fillTab(getPolicyTD());
         NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
         policy.getDefaultView().getTab(BindTab.class).submitTab();
 	}
@@ -109,18 +108,18 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
 	private void verifyAlertError() {
 		try{
 			purchaseTab.submitTab();
-		} catch (UnhandledAlertException e) {}
+		} catch (Exception e) {}
 		// Verify ER-0589 error appears
 		CustomAssert.assertEquals(BrowserController.get().driver().switchTo().alert().getText(), VOICE_SIGNATURE_ERROR);
 		BrowserController.get().driver().switchTo().alert().accept();
 	}
 	
 	private void reSetCashVaue() {
-		purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION.getLabel(), PaymentMethodAllocationControl.class).fill(DataProviderFactory.dataOf("Cash", StringUtils.EMPTY));
+		purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CASH.getLabel(), TextBox.class).setValue("");
     }
 
     private void reSetCheckVaue() {
-    	purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION.getLabel(), PaymentMethodAllocationControl.class).fill(DataProviderFactory.dataOf("Check", StringUtils.EMPTY));
+    	purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PAYMENT_METHOD_CHECK.getLabel(), TextBox.class).setValue("");
     }
 
 
