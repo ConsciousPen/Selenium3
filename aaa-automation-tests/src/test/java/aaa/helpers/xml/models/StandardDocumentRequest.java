@@ -1,37 +1,34 @@
 package aaa.helpers.xml.models;
 
 import javax.xml.bind.annotation.*;
-import java.util.ArrayList;
-import java.util.List;
 
-@XmlRootElement(name = "doc:standardDocumentRequest")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StandardDocumentRequest {
-	@XmlElement(name = "doc:CorrelationId")
+	@XmlElement(name = "CorrelationId")
 	private String correlationId;
 
-	@XmlElement(name = "doc:DocumentReturnMode")
+	@XmlElement(name = "DocumentReturnMode")
 	private String documentReturnMode;
 
-	@XmlElement(name = "doc:ProductName")
-	private String ProductName;
+	@XmlElement(name = "ProductName")
+	private String productName;
 
-	@XmlElement(name = "doc:ProductType")
+	@XmlElement(name = "ProductType")
 	private String productType;
 
-	@XmlElement(name = "doc:RequestingAppName")
+	@XmlElement(name = "RequestingAppName")
 	private String requestingAppName;
 
-	@XmlElement(name = "doc:RequestingUserId")
+	@XmlElement(name = "RequestingUserId")
 	private String requestingUserId;
 
-	@XmlElement(name = "doc:State")
+	@XmlElement(name = "State")
 	private String state;
 
-	@XmlElement(name = "doc:DocumentPackages")
-	private List<DocumentPackage> documentPackages = new ArrayList<>();
+	@XmlElement(name = "DocumentPackages")
+	private DocumentPackages documentPackages;
 
-	@XmlElement(name = "doc:standardDocumentRequest")
+	@XmlElement(name = "standardDocumentRequest")
 	private String standardDocumentRequest;
 
 	public String getCorrelationId() {
@@ -51,11 +48,11 @@ public class StandardDocumentRequest {
 	}
 
 	public String getProductName() {
-		return ProductName;
+		return productName;
 	}
 
 	public void setProductName(String productName) {
-		ProductName = productName;
+		this.productName = productName;
 	}
 
 	public String getProductType() {
@@ -90,11 +87,11 @@ public class StandardDocumentRequest {
 		this.state = state;
 	}
 
-	public List<DocumentPackage> getDocumentPackages() {
+	public DocumentPackages getDocumentPackages() {
 		return documentPackages;
 	}
 
-	public void setDocumentPackages(List<DocumentPackage> documentPackages) {
+	public void setDocumentPackages(DocumentPackages documentPackages) {
 		this.documentPackages = documentPackages;
 	}
 
@@ -111,7 +108,7 @@ public class StandardDocumentRequest {
 		return "StandardDocumentRequest{" +
 				"correlationId='" + correlationId + '\'' +
 				", documentReturnMode='" + documentReturnMode + '\'' +
-				", ProductName='" + ProductName + '\'' +
+				", productName='" + productName + '\'' +
 				", productType='" + productType + '\'' +
 				", requestingAppName='" + requestingAppName + '\'' +
 				", requestingUserId='" + requestingUserId + '\'' +

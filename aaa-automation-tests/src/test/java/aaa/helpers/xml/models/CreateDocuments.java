@@ -4,18 +4,14 @@ import javax.xml.bind.annotation.*;
 
 @XmlRootElement(name = "CreateDocuments")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "DocgenTemplate", propOrder = {
-		"standardDocumentRequest",
-})
 public class CreateDocuments {
-	@XmlElement(name = "standardDocumentRequest")
-	private String standardDocumentRequest;
+	private StandardDocumentRequest standardDocumentRequest;
 
-	public String getStandardDocumentRequest() {
+	public StandardDocumentRequest getStandardDocumentRequest() {
 		return standardDocumentRequest;
 	}
 
-	public void setStandardDocumentRequest(String standardDocumentRequest) {
+	public void setStandardDocumentRequest(StandardDocumentRequest standardDocumentRequest) {
 		this.standardDocumentRequest = standardDocumentRequest;
 	}
 
