@@ -4,6 +4,8 @@ package aaa.main.modules.policy.pup.defaulttabs;
 
 import aaa.common.Tab;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
+import org.openqa.selenium.By;
+import toolkit.webdriver.controls.StaticElement;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -21,5 +23,10 @@ public class UnderwritingAndApprovalTab extends Tab {
     public Tab submitTab() {
         buttonNext.click();
         return this;
+    }
+
+    @Override
+    public StaticElement getBottomWarning() {
+        return new StaticElement(By.xpath("//span[@id='policyDataGatherForm:componentContextHolder']/ul"));
     }
 }

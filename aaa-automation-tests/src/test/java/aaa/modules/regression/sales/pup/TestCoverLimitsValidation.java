@@ -3,6 +3,8 @@ package aaa.modules.regression.sales.pup;
 import java.util.Arrays;
 import java.util.Map;
 
+import aaa.main.enums.ErrorEnum;
+import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
 import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
@@ -12,9 +14,7 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.DoubleTextBox;
 import toolkit.webdriver.controls.TextBox;
 import aaa.common.Tab;
-import aaa.common.enums.ErrorPageEnum.ErrorsColumn;
 import aaa.common.enums.NavigationEnum.PersonalUmbrellaTab;
-import aaa.common.pages.ErrorPage;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -257,52 +257,49 @@ public class TestCoverLimitsValidation  extends PersonalUmbrellaBaseTest {
 		String pDLimitCorrect = "100,000";
 		String pDLimitIncorrect = "90,000";
 
-		String biLimitErrorMsgExpected = "BI Limits should not be less than $250,000/500,000";
-		String biLimitErrorMsgExpectedCA = null;
-		String _biLimitErrorMsgExpectedCA = "BI Limits should not be less than $500,000/500,000";
-		String _biLimitErrorMsgExpectedCARecrV = "BI Limit should not be less than $500,000/500,000";
-		String pdLimitErrorMsgExpected = "PD Limits should not be less than $100,000";
-
+		ErrorEnum.Errors biLimitErrorMsgExpectedCA = null;
 		switch (vehType) {
 		case AUTOMOBILE:
 			NavigationPage.toViewSubTab(PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
 			autoTab.getAutomobilesAssetList().fill(tdSpecific);
-			biLimitErrorMsgExpectedCA = _biLimitErrorMsgExpectedCA;
+			biLimitErrorMsgExpectedCA = ErrorEnum.Errors.ERROR_AAA_PUP_SS4240324_CA;
 			break;
 		case MOTORCYCLE:
 			NavigationPage.toViewSubTab(PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
 			autoTab.getMotorcyclesAssetList().fill(tdSpecific);
-			biLimitErrorMsgExpectedCA = _biLimitErrorMsgExpectedCA;
+			biLimitErrorMsgExpectedCA = ErrorEnum.Errors.ERROR_AAA_PUP_SS4240324_CA;
 			break;
 		case MOTORHOME:
 			NavigationPage.toViewSubTab(PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
 			autoTab.getMotorHomesAssetList().fill(tdSpecific);
-			biLimitErrorMsgExpectedCA = _biLimitErrorMsgExpectedCA;
+			//biLimitErrorMsgExpectedCA = _biLimitErrorMsgExpectedCA;
+			biLimitErrorMsgExpectedCA = ErrorEnum.Errors.ERROR_AAA_PUP_SS4240324_CA;
 			break;
 		case RECREATIONAL:
 			NavigationPage.toViewSubTab(PersonalUmbrellaTab.UNDERLYING_RISKS_OTHER_VEHICLES.get());
 			otherVehiclesTab.getRecreationalVehicleAssetList().fill(tdSpecific);
-			biLimitErrorMsgExpectedCA = _biLimitErrorMsgExpectedCARecrV;
+			biLimitErrorMsgExpectedCA = ErrorEnum.Errors.ERROR_AAA_PUP_SS3415672;
 			break;
 		}
 		if (!getState().equals("CA")) {
 			changeSplitLimits(vehType, bILimitFirstCorrect, bILimitSecondIncorrect, pDLimitCorrect);
-			checkErrorMsg(vehType, biLimitErrorMsgExpected);
+			checkErrorMsg(vehType, ErrorEnum.Errors.ERROR_AAA_PUP_SS4240324.getMessage());
 			changeSplitLimits(vehType, bILimitFirstIncorrect, bILimitSecondCorrect, pDLimitCorrect);
-			checkErrorMsg(vehType, biLimitErrorMsgExpected);
+			checkErrorMsg(vehType, ErrorEnum.Errors.ERROR_AAA_PUP_SS4240323.getMessage());
 			changeSplitLimits(vehType, bILimitFirstCorrect, bILimitSecondCorrect, pDLimitIncorrect);
-			checkErrorMsg(vehType, pdLimitErrorMsgExpected);
+			checkErrorMsg(vehType, ErrorEnum.Errors.ERROR_AAA_PUP_SS4290091.getMessage());
 		} else {
 			changeSplitLimits(vehType, bILimitFirstCorrectCA, bILimitSecondIncorrect, pDLimitCorrect);
-			checkErrorMsg(vehType, biLimitErrorMsgExpectedCA);
+			checkErrorMsg(vehType, biLimitErrorMsgExpectedCA.getMessage());
 			changeSplitLimits(vehType, bILimitFirstIncorrectCA, bILimitSecondCorrect, pDLimitCorrect);
-			checkErrorMsg(vehType, biLimitErrorMsgExpectedCA);
+			checkErrorMsg(vehType, biLimitErrorMsgExpectedCA.getMessage());
 			changeSplitLimits(vehType, bILimitFirstCorrectCA, bILimitSecondCorrect, pDLimitIncorrect);
-			checkErrorMsg(vehType, pdLimitErrorMsgExpected);
+			checkErrorMsg(vehType, ErrorEnum.Errors.ERROR_AAA_PUP_SS4290091.getMessage());
 		}
 	}
 	
-	private void checkErrorMsg(VehicleType vehType, String errorMsg) {
+	private void checkErrorMsg(VehicleType vehType, String... errorMessages) {
+		ErrorTab errorTab = new ErrorTab();
 		switch (vehType) {
 		case AUTOMOBILE:
 			autoTab.getAutomobilesAssetList().getAsset(Automobiles.ADD.getLabel(), Button.class).click();
@@ -317,8 +314,8 @@ public class TestCoverLimitsValidation  extends PersonalUmbrellaBaseTest {
 			otherVehiclesTab.getRecreationalVehicleAssetList().getAsset(RecreationalVehicle.ADD.getLabel(), Button.class).click();
 			break;
 		}
-		ErrorPage.tableError.getRowContains(ErrorsColumn.MESSAGE.get(), errorMsg).verify.present();
-		ErrorPage.buttonCancel.click();
+		errorTab.verify.errorsPresent(errorMessages);
+		errorTab.cancel();
 	}
 
 	private void changeSinglelimit(VehicleType vehType, String singleLimit) {

@@ -14,17 +14,28 @@ public final class ErrorEnum {
         ERROR_AAA_HO_CACovAReplacementCost("AAA_HO_CACovAReplacementCost", "Coverage A greater than 120% of replacement cost requires underwriting approval."),
         ERROR_AAA_HO_CA12190315("AAA_HO_CA12190315", "Applicants with any paid claims over $25,000 in the last 3 years are ineligible."),
         ERROR_AAA_HO_CA1219040y("AAA_HO_CA1219040y", "Applicants with any liability claims in the past 3 years are ineligible."),
+        ERROR_AAA_HO_CA12230792("AAA_HO_CA12230792", "Risks with more than 2 resident employees are ineligible."),
         ERROR_AAA_HO_CA12240000("AAA_HO_CA12240000", "Policy is ineligible as combined total amount of all the detached structures ..."),
         ERROR_AAA_HO_CA12240080("AAA_HO_CA12240080", "A detached structure greater than 50% of Coverage A is ineligible."),
         ERROR_AAA_HO_CA12260015("AAA_HO_CA12260015", "Dwellings with more than 2 detached building structures rented to others on t..."),
         ERROR_AAA_HO_CA12261856("AAA_HO_CA12261856", "More than 2 additional Interests require Underwriting approval"),
         ERROR_AAA_HO_CA3230672("AAA_HO_CA3230672", "Policy effective date cannot be backdated more than three days from today's d..."),
+        ERROR_AAA_HO_CA338657_3("AAA_HO_CA338657_3", "Dwellings or applicants that perform a home day care, including child day car..."),
+        ERROR_AAA_HO_CA338657_6("AAA_HO_CA338657_6", "Farming/Ranching on premises is unacceptable unless it is incidental and not ..."),
+        ERROR_AAA_HO_CA338657_7("AAA_HO_CA338657_7", "Other business exposures on premises are unacceptable."),
+        ERROR_AAA_HO_CA338657_17("AAA_HO_CA338657_17", "Policies must be endorsed with the HO 04 42 10 00 Permitted Incidental Occupa..."),
+        ERROR_AAA_HO_CA338657_18("AAA_HO_CA338657_18", "Applicants who have been cancelled, refused insurance or non-renewed in the past 3 years are unacceptable unless approved by underwriting."),
+        ERROR_AAA_HO_CA338657_20("AAA_HO_CA338657_20", "Dwelling must not have been in foreclosure within the past 18 months unless approved by underwriting."),
+        ERROR_AAA_HO_CA338657_23("AAA_HO_CA338657_23", "Applicants/insureds with any dogs or other animals, reptiles, or pets with an..."),
+        ERROR_AAA_HO_CA338657_28("AAA_HO_CA338657_28", "Water heaters (except electric heaters) must be strapped to the wall or if lo..."),
+        ERROR_AAA_HO_CA338657_36("AAA_HO_CA338657_36", "Risks located within 500 feet of bay or coastal water is ineligible."),
         ERROR_AAA_HO_CA7220104("AAA_HO_CA7220104", "Dwellings built prior to 1900 are ineligible."),
         ERROR_AAA_HO_CA7220432("AAA_HO_CA7220432", "Dwellings with more than 2 roof layers are ineligible."),
         ERROR_AAA_HO_CA7220704("AAA_HO_CA7220704", "Maximum total number of livestock is 100."),
         ERROR_AAA_HO_CA7231530("AAA_HO_CA7231530", "More than 2 additional Insureds require Underwriting approval"),
         ERROR_AAA_HO_CA9230000("AAA_HO_CA9230000", "Dwellings with more than 3 detached building structures on the residence prem..."),
 
+        ERROR_AAA_HO_SS3230000("AAA_HO_SS3230000", "Policy effective date cannot be backdated more than three days from today's d..."),
         ERROR_AAA_HO_SS10060735("AAA_HO_SS10060735", "Underwriter approval is required when Adversely Impacted is selected."),
         ERROR_AAA_HO_SS624530_CO("AAA_HO_SS624530_CO", "Dwellings that have not had the roof replaced within the past 25 years if com..."),
         ERROR_AAA_HO_SS10030560("AAA_HO_SS10030560", "Dwellings with a wood shake/shingle roof are unacceptable."),
@@ -56,6 +67,15 @@ public final class ErrorEnum {
         ERROR_AAA_HO_SS3230756("AAA_HO_SS3230756", "More than 2 additional Interests require Underwriting approval"),
 
         ERROR_AAA_PUP_SS3171100("AAA_PUP_SS3171100", "UW approval is required to bind the policy if any applicants or insureds are ..."),
+        ERROR_AAA_PUP_SS3415672("AAA_PUP_SS3415672", "BI Limit should not be less than $500,000/500,000"),
+        ERROR_AAA_PUP_SS4240323("AAA_PUP_SS4240323", "BI Limits should not be less than $250,000/500,000."),
+        ERROR_AAA_PUP_SS4240324("AAA_PUP_SS4240324", "BI Limits should not be less than $250,000/500,000."),
+        ERROR_AAA_PUP_SS4241939("AAA_PUP_SS4241939", "BI Limits should not be less than $250,000/500,000."),
+        ERROR_AAA_PUP_SS4240324_CA("AAA_PUP_SS4240324_CA", "BI Limits should not be less than $500,000/500,000."),
+        ERROR_AAA_PUP_SS4290091("AAA_PUP_SS4290091", "PD Limits should not be less than $100,000."),
+        ERROR_AAA_PUP_SS4220760("AAA_PUP_SS4220760", "'Year' is required"),
+        ERROR_AAA_PUP_SS4221558("AAA_PUP_SS4221558", "'Model' is required"),
+        ERROR_AAA_PUP_SS4223895("AAA_PUP_SS4223895", "'Make' is required"),
         ERROR_AAA_PUP_SS5310180("AAA_PUP_SS5310180", "Applicants who own property, or reside for extended periods, outside of the U..."),
         ERROR_AAA_PUP_SS5310750("AAA_PUP_SS5310750", "Vehicles used for business, promotional or racing are ineligible."),
         ERROR_AAA_PUP_SS5311428("AAA_PUP_SS5311428", "Applicants who have been cancelled, refused insurance or non-renewed in the p..."),
@@ -150,6 +170,22 @@ public final class ErrorEnum {
 
         public void set(String id) {
             this.id = id;
+        }
+    }
+
+    public enum ErrorsColumn {
+        CODE("Code"),
+        SEVERITY("Severity"),
+        MESSAGE("Message");
+
+        String id;
+
+        ErrorsColumn(String id) {
+            this.id = id;
+        }
+
+        public String get() {
+            return id;
         }
     }
 }

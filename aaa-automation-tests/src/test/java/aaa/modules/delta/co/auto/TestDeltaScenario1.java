@@ -7,7 +7,8 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.*;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-//import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -19,6 +20,7 @@ import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.testng.annotations.Test;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -329,7 +331,6 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 
 		preconditions(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS);
 		policy.getDefaultView().fillFromTo(getPolicyTD(), DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
-		//policy.getDefaultView().fillFromTo(getPolicyTD().mask("DriverActivityReportsTab|Has the customer expressed interest in purchasing the quote?"), DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
 		dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.MEDICAL_PAYMENTS_REJECTION_OF_COVERAGE).verify.present();
 		dabTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING).getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.MEDICAL_PAYMENTS_REJECTION_OF_COVERAGE).verify.value("Yes");
 
@@ -382,7 +383,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	public void testSC1_TC10() {
-		//DocGenHelper.Verify.documentsExists(getQuoteNumber(), AA11CO, AA43CO, AAIQCO, AHFMXX, AU03, AA16CO, AADNCO, AHAUXX);
+		DocGenHelper.verifyDocumentsGenerated(getQuoteNumber(), Documents.AA11CO, Documents.AA43CO, Documents.AAIQCO, Documents.AHFMXX, Documents.AU03, Documents.AA16CO, Documents.AADNCO, Documents.AHAUXX);
 		//TODO-dchubkov: to be continued...
 	}
 
