@@ -1,14 +1,16 @@
 @XmlSchema(
-		namespace = "http://www.aaancnuie.com/DCS/2012/01/DocumentCreation",
+		namespace = DocGenEnum.XmlnsNamespaces.DOC_URI,
 		elementFormDefault = XmlNsForm.QUALIFIED,
 		xmlns = {
-				@XmlNs(prefix="doc", namespaceURI="http://www.aaancnuie.com/DCS/2012/01/DocumentCreation"),
-				@XmlNs(prefix="aaan", namespaceURI="http://www.aaancnuit.com.AAANCNU_IDocumentCreation_version1"),
-				@XmlNs(prefix="xsi", namespaceURI="http://www.w3.org/2001/XMLSchema-instance")
+				@XmlNs(prefix = DocGenEnum.XmlnsNamespaces.DOC_PREFIX, namespaceURI = DocGenEnum.XmlnsNamespaces.DOC_URI),
+				@XmlNs(prefix = DocGenEnum.XmlnsNamespaces.AAAN_PREFIX, namespaceURI = DocGenEnum.XmlnsNamespaces.AAAN_URI),
+				@XmlNs(prefix = DocGenEnum.XmlnsNamespaces.XSI_PREFIX, namespaceURI = DocGenEnum.XmlnsNamespaces.XSI_URI)
 		}
 )
 
 package aaa.helpers.xml.models;
+
+import aaa.main.enums.DocGenEnum;
 
 import javax.xml.bind.annotation.XmlNs;
 import javax.xml.bind.annotation.XmlNsForm;

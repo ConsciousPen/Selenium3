@@ -1,12 +1,14 @@
 package aaa.helpers.xml.models;
 
+import aaa.main.enums.DocGenEnum;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = "http://www.aaancnuie.com/DCS/2012/01/DocumentDistribution")
+@XmlType(namespace = DocGenEnum.XmlnsNamespaces.DOC_URI2)
 public class DistributionChannel {
 	@XmlElement(name = "DeliveryStatus")
 	String deliveryStatus;
