@@ -1,19 +1,18 @@
 package aaa.helpers.ssh;
 
-import java.io.File;
-import java.util.List;
-import java.util.Vector;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.SftpATTRS;
-
+import org.mortbay.log.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
+
+import java.io.File;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class RemoteHelper {
 
@@ -96,6 +95,55 @@ public class RemoteHelper {
 		log.info(String.format("SSH: Folder '%s' was created", source));
 	}
 
+	public static void closeSession() {
+		ssh.closeSession();
+	}
+
+	public static String getFileContent(String filePath) {
+		log.info(String.format("SSH: Getting content from \"%s\" file", filePath));
+		return ssh.getFileContent(filePath);
+	}
+
+	public static List<String> waitForFilesAppearanceWithText(String sourceFolder, String textToSearch, long timeout) {
+		return waitForFilesAppearanceWithText(sourceFolder, null, textToSearch, timeout);
+	}
+
+	/**
+	 * Wait for appearance of files containing defined text filtered by provided file extension and sorted by date modification (latest one comes first)
+	 *
+	 * @param sourceFolder folder to be searched in for files
+	 * @param fileExtension file extension filter, no filter will be used if value is null
+	 * @param textToSearch text to be searched in files
+	 * @param timeoutInSeconds timeout in seconds
+	 * @return list of absolute paths of found files in chronological order (latest one comes first)
+	 * @throws AssertionError if no files where found by provided timeout
+	 */
+	public static List<String> waitForFilesAppearanceWithText(String sourceFolder, String fileExtension, String textToSearch, long timeoutInSeconds) {
+		final long conditionCheckPoolingInterval = 1;
+		String cmd = String.format("cd %1$s; find . -type f -iname '*.%2$s' -print | xargs -r grep -li '%3$s' | xargs -r ls -t | xargs -r readlink -f", sourceFolder, fileExtension == null ? "*" : fileExtension, textToSearch);
+
+		Log.info(String.format("Searching for file(s)%1$s containing text \"%2$s\" in \"%3$s\" folder with %4$s timeout in seconds.",
+				fileExtension != null ? " with file extension " +  fileExtension : "", textToSearch, sourceFolder, timeoutInSeconds));
+
+		long searchStart = System.currentTimeMillis();
+		long timeout = searchStart + timeoutInSeconds * 1000;
+		String commandOutput = "";
+		do {
+			if (!(commandOutput = executeCommand(cmd)).isEmpty()) break;
+			try {
+				TimeUnit.SECONDS.sleep(conditionCheckPoolingInterval);
+			} catch (InterruptedException e) {
+				log.debug(e.getMessage());
+			}
+		} while (timeout > System.currentTimeMillis());
+		long searchTime = System.currentTimeMillis() - searchStart;
+
+		CustomAssert.assertTrue(String.format("No files have been found with text \"%1$s\" in folder \"%2$s\".", textToSearch, sourceFolder), !commandOutput.isEmpty());
+		List<String> foundFiles = Arrays.asList(commandOutput.split("\n"));
+		log.info(String.format("Found file(s): %1$s after %2$s milliseconds", foundFiles, searchTime));
+		return foundFiles;
+	}
+
 	@SuppressWarnings("unchecked")
 	public synchronized void verifyFolderIsEmpty(String source) {
 		source = ssh.parseFileName(source);
@@ -106,14 +154,4 @@ public class RemoteHelper {
 			throw new IstfException("SSH: Folder '" + source + "' doesn't exist.", e);
 		}
 	}
-
-	public static void closeSession() {
-		ssh.closeSession();
-	}
-
-	public static String getFileContent(String filePath) {
-		log.info(String.format("SSH: Getting content from \"%s\" file", filePath));
-		return ssh.getFileContent(filePath);
-	}
-
 }

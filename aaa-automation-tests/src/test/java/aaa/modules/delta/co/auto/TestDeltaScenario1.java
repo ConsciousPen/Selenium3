@@ -8,7 +8,6 @@ import aaa.common.pages.*;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -20,7 +19,6 @@ import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.FluentWait;
 import org.testng.annotations.Test;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -383,8 +381,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	public void testSC1_TC10() {
-		DocGenHelper.verifyDocumentsGenerated(getQuoteNumber(), Documents.AA11CO, Documents.AA43CO, Documents.AAIQCO, Documents.AHFMXX, Documents.AU03, Documents.AA16CO, Documents.AADNCO, Documents.AHAUXX);
-		//TODO-dchubkov: to be continued...
+		DocGenHelper.verifyDocumentsGenerated(getQuoteNumber(), Documents.AA11CO, Documents.AAIQCO, Documents.AHFMXX, Documents.AU03, Documents.AA16CO, Documents.AADNCO, Documents.AHAUXX);
 	}
 
 	private void preconditions(NavigationEnum.AutoSSTab navigateTo) {

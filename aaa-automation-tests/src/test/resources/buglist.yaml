@@ -76,3 +76,9 @@ QC-44491:
   failures:
     - tests: [aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction.testQuotePropose]
       messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}']
+QC-44518:
+  summary: "Regression: Out of sequence endorsement does not Calculate Premium for PUP NY policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.service.pup.TestPolicyEndorsementOos.testPolicyEndorsementOos]
+      messages: ['Unable to locate element:', 'Errors: Error; Failed to rate policy']
