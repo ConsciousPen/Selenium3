@@ -3,7 +3,6 @@ package aaa.modules.regression.sales.home_ss.dp3;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSDP3BaseTest;
 import org.testng.annotations.Test;

@@ -1,21 +1,13 @@
 package aaa.helpers.ssh;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import com.jcraft.jsch.*;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.jcraft.jsch.ChannelExec;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 
 @SuppressWarnings("unchecked")
 public class Ssh {
@@ -54,7 +46,7 @@ public class Ssh {
 	 */
 
 	public synchronized ArrayList<String> getListOfFiles(String folderName) {
-		ArrayList<String> listOfFiles = new ArrayList<String>();
+		ArrayList<String> listOfFiles = new ArrayList<>();
 
 		folderName = parseFileName(folderName);
 
@@ -284,6 +276,21 @@ public class Ssh {
 		}
 	}
 
+	public synchronized String getFileContent(String filePath) {
+		filePath = parseFileName(filePath);
+		try (InputStream is = sftpChannel.get(filePath)) {
+			BufferedReader br = new BufferedReader(new InputStreamReader(is));
+			return IOUtils.toString(br);
+		} catch (IOException | SftpException e) {
+			throw new RuntimeException("SSH: Unable to get content from file: " + filePath, e);
+		}
+	}
+
+	public synchronized ChannelSftp getSftpChannel() {
+		openSftpChannel();
+		return sftpChannel;
+	}
+
 	private synchronized void openSftpChannel() {
 		createSession();
 		if (sftpChannel == null || sftpChannel.isClosed()) {
@@ -310,10 +317,5 @@ public class Ssh {
 				throw new RuntimeException("Unable to start SSH session: ", e);
 			}
 		}
-	}
-
-	public synchronized ChannelSftp getSftpChannel() {
-		openSftpChannel();
-		return sftpChannel;
 	}
 }

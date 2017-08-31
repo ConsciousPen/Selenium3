@@ -2,10 +2,14 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.pages.summary;
 
+import java.time.LocalDateTime;
+
 import aaa.main.enums.BillingConstants;
+
 import org.openqa.selenium.By;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 import aaa.common.components.Dialog;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
@@ -86,5 +90,9 @@ public class BillingSummaryPage extends SummaryPage {
 
     public static Dollar getBillableAmount() {
         return new Dollar(tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.BILLABLE_AMOUNT).getValue());
+    }
+    
+    public static LocalDateTime getInstallmentDueDate(int index){
+    	 return TimeSetterUtil.getInstance().parse(tableInstallmentSchedule.getRow(index).getCell(3).getValue(), DateTimeUtils.MM_DD_YYYY);
     }
 }

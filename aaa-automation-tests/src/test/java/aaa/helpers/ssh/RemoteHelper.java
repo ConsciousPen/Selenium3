@@ -30,7 +30,7 @@ public class RemoteHelper {
 	}
 
 	public static void clearFolder(String folder) {
-		if (isFolderExist(folder))
+		if (isPathExist(folder))
 			ssh.removeFiles(folder);
 		else
 			log.warn("SSH: Folder '" + folder + "' doesn't exist.");
@@ -64,21 +64,21 @@ public class RemoteHelper {
 	}
 
 	public static String executeCommand(String command) {
-		log.info(String.format("SSH: Executing on host '%s' shell command: '%s'", hostName, command));
+		log.info(String.format("SSH: Executing on host \"%s\" shell command: \"%s\"", hostName, command));
 		String result = ssh.executeCommand(command);
-		log.info("SSH: Result of shell cmd: " + result);
+		log.info(String.format("SSH: command output is: \"%s\"", result));
 		return result;
 	}
 
-	public static Boolean isFolderExist(String source) {
+	public static boolean isPathExist(String path) {
 		SftpATTRS attrs = null;
-		source = ssh.parseFileName(source);
+		path = ssh.parseFileName(path);
 
 		try {
 			ChannelSftp channel = ssh.getSftpChannel();
-			attrs = channel.stat(source);
+			attrs = channel.stat(path);
 		} catch (Exception e) {
-			log.debug("SSH: Folder '" + source + "' doesn't exist.", e);
+			log.debug("SSH: File/folder '" + path + "' doesn't exist.", e);
 		}
 		return attrs != null;
 	}
@@ -109,6 +109,11 @@ public class RemoteHelper {
 
 	public static void closeSession() {
 		ssh.closeSession();
+	}
+
+	public static String getFileContent(String filePath) {
+		log.info(String.format("SSH: Getting content from \"%s\" file", filePath));
+		return ssh.getFileContent(filePath);
 	}
 
 }

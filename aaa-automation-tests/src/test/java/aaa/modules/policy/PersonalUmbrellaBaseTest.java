@@ -3,14 +3,9 @@
 package aaa.modules.policy;
 
 import java.util.Map;
-
-import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
-import aaa.main.metadata.policy.PersonalUmbrellaMetaData.GeneralTab.PolicyInfo;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.pup.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import toolkit.datax.TestData;
-import toolkit.utils.datetime.DateTimeUtils;
 
 public class PersonalUmbrellaBaseTest extends PolicyBaseTest {
 

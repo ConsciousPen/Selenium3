@@ -129,7 +129,7 @@ public class Scenario4 extends ScenarioBaseTest {
 
 	protected void endorsePolicy() {
 		// Set Date before BillGenerationDate
-		TimeSetterUtil.getInstance().nextPhase(endorsementInstallmentDueDate.minusDays(28).with(DateTimeUtils.closestWorkingDay));
+		TimeSetterUtil.getInstance().nextPhase(endorsementInstallmentDueDate.minusDays(28).with(DateTimeUtils.closestFutureWorkingDay));
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -177,7 +177,7 @@ public class Scenario4 extends ScenarioBaseTest {
 
 	protected void paymentInFullCancellNoticeAmount() {
 		// Set any date prior to Cancelation date
-		LocalDateTime cnDate = getTimePoints().getCancellationDate(endorsementInstallmentDueDate).minusDays(5).with(DateTimeUtils.closestWorkingDay);
+		LocalDateTime cnDate = getTimePoints().getCancellationDate(endorsementInstallmentDueDate).minusDays(5).with(DateTimeUtils.closestFutureWorkingDay);
 		TimeSetterUtil.getInstance().nextPhase(cnDate);
 
 		mainApp().open();

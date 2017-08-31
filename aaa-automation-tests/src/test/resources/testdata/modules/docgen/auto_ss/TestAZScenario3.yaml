@@ -1,0 +1,75 @@
+TestData: {
+  GeneralTab: '@GeneralTab',
+  VehicleTab: '@VehicleTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+# ------------- Tabs ----------
+GeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  #CurrentCarrierInformation: '@CurrentCarrierInformation',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation'
+}
+
+NamedInsuredInformation: {
+  Social Security Number: 123456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+AAAProductOwned: {
+  Membership Number: 2234567890123450,
+  Last name: Test
+}
+
+#CurrentCarrierInformation: {
+#"Override Prefilled Current Carrier?": 'Yes',
+##"Agent Entered Current/Prior Carrier": Allstate,
+#Agent Entered Inception Date: '/today:MM/dd/yyyy',
+#Agent Entered Expiration Date: '/today+1y:MM/dd/yyyy',
+#Agent Entered Policy Number: 21314151,
+#Agent Entered BI Limits: '$1,000,000/$1,000,000'
+#}
+
+ContactInformation: {
+   Home Phone Number: 1234567890
+}
+
+PolicyInformation: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: Independent Agent,
+  Agency: SMTestIA - 400001650,
+  Authorized by: QA,
+  Lead Source: AAA Magazines
+}
+
+VehicleTab: {
+  Vehicle Information: {
+    Is this vehicle for Pleasure Use: Yes
+  }
+}
+
+PremiumAndCoveragesTab: {}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Non-Owner Automobile Endorsement: Physically Signed
+  },
+  Agreement: I agree
+}
+
+PurchaseTab: {
+  PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa'],
+  Activate Autopay: true,
+  Autopay Selection: 'index=1',
+  PaymentAllocation: {
+    Visa: /rest
+  }
+}

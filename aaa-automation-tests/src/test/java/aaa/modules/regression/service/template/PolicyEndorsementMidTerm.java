@@ -3,10 +3,8 @@ package aaa.modules.regression.service.template;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.sales.pup.TestPolicyBackdated;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
 

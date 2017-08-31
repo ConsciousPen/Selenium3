@@ -29,13 +29,7 @@ public class PurchaseMetaData {
 		public static final AssetDescriptor<TextBox> ADDITIONAL_INFORMATION = declare("Additional Information", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> PAYMENT_METHOD_CASH = declare("Cash", TextBox.class, Waiters.AJAX, false, By.xpath(".//input[@id='purchaseForm:amount_0']"));
 		public static final AssetDescriptor<TextBox> PAYMENT_METHOD_CHECK = declare("Check", TextBox.class, Waiters.AJAX, false, By.xpath(".//input[@id='purchaseForm:amount_1']"));
-		public static final AssetDescriptor<TextBox> PAYMENT_METHOD_CHECK_REFERENCE = declare("Check Reference", TextBox.class, Waiters.AJAX, false, By.xpath(".//input[@id='purchaseForm:reference_1']"));
-		
-		public static final AssetDescriptor<TextBox> PAYMENT_METHOD_VISA = declare("Visa", TextBox.class, Waiters.AJAX, false, By.xpath(".//input[@id='purchaseForm:amount_2']"));
-		public static final AssetDescriptor<TextBox> PAYMENT_METHOD_ACH = declare("CheckAch", TextBox.class, Waiters.AJAX, false, By.xpath(".//input[@id='purchaseForm:amount_3']"));
 		public static final AssetDescriptor<RadioGroup> VOICE_SIGNATURE = declare("Bind by Voice Signature", RadioGroup.class, Waiters.AJAX, false, By.xpath(".//table[@id='purchaseForm:voiceBindingSelection']"));
-		public static final AssetDescriptor<Button> ADD_CARD_BANK_BTN = declare("Add Credit Card/Bank Account", Button.class, Waiters.AJAX, false, By.id("purchaseForm:addPaymentMethodBtn"));
-
 		public static final AssetDescriptor<PaymentMethodAllocationControl> PAYMENT_ALLOCATION = declare("PaymentAllocation", PaymentMethodAllocationControl.class, MetaData.class, By.id("purchaseForm:PaymentDetailsTable"));
 
 		public static final class ComunityServiceSurveyPromt extends MetaData {
@@ -46,19 +40,4 @@ public class PurchaseMetaData {
 
 		}
 	}
-	
-	public static final class PurchasePaymentMethod extends MetaData {
-		public static final AssetDescriptor<ComboBox> PAYMENT_METHOD = declare("Payment Method", ComboBox.class, Waiters.AJAX);
-		public static final AssetDescriptor<ComboBox> GENERAL_TYPE = declare("Type", ComboBox.class, Waiters.AJAX, By.xpath(".//select[@id='paymentMethodForm:generalPaymentMethod_displayType']"));
-		public static final AssetDescriptor<TextBox> NUMBER = declare("Number", TextBox.class, Waiters.AJAX, By.xpath(".//input[@id='paymentMethodForm:generalPaymentMethod_fullNumber']"));
-		public static final AssetDescriptor<Button> ADD_CARD_BANK_BTN = declare("AddCard", Button.class, Waiters.AJAX, false, By.id("paymentMethodForm:pciSaveBtn"));
-		public static final AssetDescriptor<Button> BACK_BUTTON = declare("Back", Button.class, Waiters.AJAX, false, By.id("primaryButtonsForm:backButton_footer"));
-		
-		public static final AssetDescriptor<TextBox> TRANSIT_NUMBER = declare("Transit", TextBox.class, Waiters.AJAX, false, By.id("paymentMethodEFTForm:paymentEFT_transitNumber"));
-		public static final AssetDescriptor<TextBox> BANK_NAME = declare("Bank Name", TextBox.class, Waiters.AJAX);
-		public static final AssetDescriptor<TextBox> ACCOUNT_NUMBER = declare("Account", TextBox.class, Waiters.AJAX, false, By.id("paymentMethodEFTForm:paymentEFT_accountNumber"));
-		
-		public static final AssetDescriptor<Button> ADD_ACH_SAVE_BTN = declare("AddACH", Button.class, Waiters.AJAX, false, By.id("paymentMethodEFTForm:eftSaveBtn"));
-	}
-
 }

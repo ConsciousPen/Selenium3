@@ -118,7 +118,7 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void TestQuoteComparison() {
+	public void testQuoteComparison() {
 
 		TestData td = getPolicyTD();
 		ProductOfferingTab productOfferingTab = new ProductOfferingTab();
