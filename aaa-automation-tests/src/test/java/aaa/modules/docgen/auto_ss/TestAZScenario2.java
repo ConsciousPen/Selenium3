@@ -23,6 +23,7 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("Original Policy #" + policyNumber);
+//		TODO vereify the xml file
 	 }
 
 }
