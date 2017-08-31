@@ -94,6 +94,7 @@ public class Scenario7  extends ScenarioBaseTest {
 		generateAndCheckBill(installmentDueDates.get(2));
 	}
 
+	// TODO (temporaly?) skipped for property products
 	protected void cantChangePaymentPlan() {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		mainApp().open();
@@ -158,7 +159,6 @@ public class Scenario7  extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		PolicyHelper.verifyAutomatedRenewalGenerated(renewImageGenDate);
-		PolicySummaryPage.buttonRenewals.verify.enabled(false);
 	}
 
 	protected void renewalPreviewGeneration() {
@@ -179,7 +179,7 @@ public class Scenario7  extends ScenarioBaseTest {
 	 * Additional premium for Renewal term is recalculated due to Mid - term
 	 * change US 15596
 	 */
-	public void TC12_Endorsement_RP_Before_Renewal() {
+	protected void TC12_Endorsement_RP_Before_Renewal() {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -212,7 +212,7 @@ public class Scenario7  extends ScenarioBaseTest {
 	 * Additional premium for Renewal term is recalculated due to Mid - term
 	 * change US 15595
 	 */
-	public void TC13_Endorsement_AP_Before_Renewal() {
+	protected void TC13_Endorsement_AP_Before_Renewal() {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -263,7 +263,7 @@ public class Scenario7  extends ScenarioBaseTest {
 		}
 	}
 
-	public void endorsementRPAfterRenewal() {
+	protected void endorsementRPAfterRenewal() {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -289,7 +289,7 @@ public class Scenario7  extends ScenarioBaseTest {
 		CustomAssert.assertAll();
 	}
 
-	public void endorsementAPAfterRenewal() {
+	protected void endorsementAPAfterRenewal() {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -381,7 +381,7 @@ public class Scenario7  extends ScenarioBaseTest {
 		//TODO  "Non EFT Installment Fee Waived" and "Renewal - Policy Renewal Proposal Reversal" transactions are generated on Payments & Other Transactions section.
 	}
 
-	public void createRemittanceFile() {
+	protected void createRemittanceFile() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getPayLapsedRenewLong(policyExpirationDate));
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -390,7 +390,7 @@ public class Scenario7  extends ScenarioBaseTest {
 		RemittancePaymentsHelper.copyRemittanceFileToServer(remitanceFile);
 	}
 
-	public void payRenewalBillByRemittance() {
+	protected void payRenewalBillByRemittance() {
 		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getCurrentTime();
 		TimeSetterUtil.getInstance().nextPhase(paymentDate);
 		JobUtils.executeJob(Jobs.remittanceFeedBatchReceiveJob);
@@ -409,7 +409,7 @@ public class Scenario7  extends ScenarioBaseTest {
 		MyWorkSummaryPage.tableTasks.getRow(MyWorkConstants.MyWorkTasksTable.TASK_NAME, "Qualify for manual renewal").verify.present(false);
 	}
 
-	public void QualifyForManualRenewalTaskCreated() {
+	protected void qualifyForManualRenewalTaskCreated() {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 		mainApp().open();

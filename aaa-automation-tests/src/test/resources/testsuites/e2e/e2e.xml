@@ -6,9 +6,8 @@
     <parameter name="timeshift-scenario-mode" value="test"/>
 
     <suite-files>
-        <suite-file path="./UT_e2e.xml" />
-        <suite-file path="./CA_e2e.xml" />
-        <suite-file path="./AZ_e2e.xml" />
+        <suite-file path="./Scenario1.xml" />
+        <suite-file path="./Scenario2.xml" />
     </suite-files>
 
 </suite>

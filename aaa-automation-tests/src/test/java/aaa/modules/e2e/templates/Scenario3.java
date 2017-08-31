@@ -88,7 +88,7 @@ public class Scenario3 extends ScenarioBaseTest {
 
 	public void createRemittanceFile() {
 		LocalDateTime date = getTimePoints().getCancellationDate(installmentDueDates.get(1));
-		TimeSetterUtil.getInstance().nextPhase(date.plusDays(5).with(DateTimeUtils.closestWorkingDay));
+		TimeSetterUtil.getInstance().nextPhase(date.plusDays(5).with(DateTimeUtils.closestFutureWorkingDay));
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		Dollar cnAmount = BillingHelper.getBillDueAmount(getTimePoints().getCancellationTransactionDate(installmentDueDates.get(1)),

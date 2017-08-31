@@ -1,6 +1,5 @@
 package aaa.helpers;
 
-import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,13 +29,13 @@ public class TimePoints {
 			throw new IllegalArgumentException("Wrong timepoint entry, please check testdata");
 		}
 		returnDate = returnDate.plusDays(Integer.parseInt(timepoint.get(0)));
-		if (applyShift && (returnDate.getDayOfWeek() == DayOfWeek.SATURDAY || returnDate.getDayOfWeek() == DayOfWeek.SUNDAY)) {
+		if (applyShift) {
 			switch (timepoint.get(1).toUpperCase()) {
 				case "PREVIOUS":
-					returnDate = returnDate.with(DateTimeUtils.previousWorkingDay);
+					returnDate = returnDate.with(DateTimeUtils.closestPastWorkingDay);
 					break;
 				case "NEXT":
-					returnDate = returnDate.with(DateTimeUtils.nextWorkingDay);
+					returnDate = returnDate.with(DateTimeUtils.closestFutureWorkingDay);
 					break;
 				case "NONE":
 					break;
