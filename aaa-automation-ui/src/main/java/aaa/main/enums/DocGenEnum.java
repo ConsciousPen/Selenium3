@@ -52,7 +52,7 @@ public final class DocGenEnum {
 			setId(this.name());
 			setIdInXml(this.name());
 			setName(""); // to prevent NPE on getName() call for documents with not defined names
-			setState(""); // to prevent NPE on getName() call for documents with not defined names
+			setState(""); // to prevent NPE on getState() call for documents with not defined names
 		}
 
 		Documents(String docName) {
