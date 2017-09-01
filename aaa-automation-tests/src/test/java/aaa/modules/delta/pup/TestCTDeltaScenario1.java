@@ -154,7 +154,7 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("DELTA CT SC1: PUP policy bound with #" + policyNumber);
-		DocGenHelper.verifyDocumentsGenerated(policyNumber, PS02);
+//		DocGenHelper.verifyDocumentsGenerated(policyNumber, PS02);
 
 	}
 	
@@ -177,13 +177,14 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 		GenerateOnDemandDocumentActionTab goddTab = new GenerateOnDemandDocumentActionTab();
 		mainApp().open();
     	SearchPage.openPolicy(policyNumber);
+//    	SearchPage.openQuote(quoteNumber);
+//    	policy.quoteDocGen().start();
 		policy.policyDocGen().start();
 
 		goddTab.verify.documentsPresent(PS11);
 		goddTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, PS11.getId()).getCell(SELECT).controls.checkBoxes.getFirst().verify.enabled(true);
 		goddTab.generateDocuments(PS11);
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, PS11);
-
 	}
 	
 	/**
