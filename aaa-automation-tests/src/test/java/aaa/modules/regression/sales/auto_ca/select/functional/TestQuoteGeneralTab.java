@@ -79,7 +79,7 @@ public class TestQuoteGeneralTab extends AutoCaSelectBaseTest {
 
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
-	public void TestQuoteGeneralTab() {
+	public void testQuoteGeneralTab() {
 
 		TestData td= getPolicyTD();
 		DocumentsAndBindTab documentsAndBindTab =new DocumentsAndBindTab();
