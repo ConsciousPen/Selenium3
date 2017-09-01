@@ -101,7 +101,7 @@ public final class DocGenEnum {
 		}
 
 		public String getIdInXml() {
-			return idInXml + getState();
+			return idInXml;
 		}
 
 		public void setIdInXml(String idInXml) {
