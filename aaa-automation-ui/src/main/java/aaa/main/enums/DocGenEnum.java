@@ -40,6 +40,7 @@ public final class DocGenEnum {
 	 	HSEIXX("Evidence of Property Insurance"),
 	 	HSES("Property Insurance Invoice"),
 	 	HSILXX("Property Inventory List"),
+	 	PS02("Personal Umbrella Policy Declarations"),
 		;
 
 		private String id;
