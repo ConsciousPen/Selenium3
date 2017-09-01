@@ -5,7 +5,7 @@
 package aaa.main.modules.policy.home_ss.views;
 
 import aaa.common.Workspace;
-import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentActionTab;
+import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 
 /**
  * Concrete workspace implementation.
