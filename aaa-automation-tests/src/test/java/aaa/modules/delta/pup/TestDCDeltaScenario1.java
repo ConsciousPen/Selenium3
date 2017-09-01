@@ -11,6 +11,7 @@ import aaa.common.enums.NavigationEnum.PersonalUmbrellaTab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.actiontabs.GenerateOnDemandDocumentActionTab;
@@ -28,13 +29,14 @@ import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 import static aaa.main.enums.DocGenEnum.Documents.*;
 import static aaa.main.enums.DocGenConstants.OnDemandDocumentsTable.*;
+
 /**
  * 
  * @author Xiaolan Ge
  *
  */
 
-@Test(groups = {Groups.DELTA, Groups.HIGH})
+@Test(groups = { Groups.DELTA, Groups.HIGH })
 public class TestDCDeltaScenario1 extends PersonalUmbrellaBaseTest {
 	private String quoteNumber;
 	private String policyNumber;
@@ -42,14 +44,14 @@ public class TestDCDeltaScenario1 extends PersonalUmbrellaBaseTest {
 	@Test
 	public void pupDeltaDC1_TC01() {
 		mainApp().open();
-        createCustomerIndividual();
+		createCustomerIndividual();
 
-        Map<String, String> primaryPolicies = getPrimaryPoliciesForPup();
-        TestData tdPolicy = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
-        PrefillTab prefillTab = policy.getDefaultView().getTab(PrefillTab.class);
-        tdPolicy = prefillTab.adjustWithRealPolicies(tdPolicy, primaryPolicies);
-        quoteNumber = createQuote(tdPolicy); 
-          log.info("DELTA DC SC1: PUP Quote created with #" + quoteNumber);
+		Map<String, String> primaryPolicies = getPrimaryPoliciesForPup();
+		TestData tdPolicy = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
+		PrefillTab prefillTab = policy.getDefaultView().getTab(PrefillTab.class);
+		tdPolicy = prefillTab.adjustWithRealPolicies(tdPolicy, primaryPolicies);
+		quoteNumber = createQuote(tdPolicy);
+		log.info("DELTA DC SC1: PUP Quote created with #" + quoteNumber);
 	}
 
 	@Test
@@ -81,10 +83,11 @@ public class TestDCDeltaScenario1 extends PersonalUmbrellaBaseTest {
 
 		otherVehiclesTab.getWatercraftAssetList().getAsset(PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.Watercraft.CURRENT_CARRIER.getLabel(), ComboBox.class).verify.options(watercraftCurrentCarrierLOVs);
 		Tab.buttonSaveAndExit.click();
-		
+
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
+
 	@Test
 	public void pupDeltaDC1_TC03() {
 		mainApp().open();
@@ -95,12 +98,11 @@ public class TestDCDeltaScenario1 extends PersonalUmbrellaBaseTest {
 		NavigationPage.toViewTab(PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
 		PremiumAndCoveragesQuoteTab premiumQuoteTab = policy.getDefaultView().getTab(PremiumAndCoveragesQuoteTab.class);
 		premiumQuoteTab.calculatePremium();
-		
+
 		NavigationPage.toViewTab(PersonalUmbrellaTab.BIND.get());
 		policy.getDefaultView().getTab(BindTab.class).submitTab();
 		policy.getDefaultView().getTab(PurchaseTab.class).fillTab(getPolicyTD()).submitTab();
-		
-		
+
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
@@ -108,19 +110,19 @@ public class TestDCDeltaScenario1 extends PersonalUmbrellaBaseTest {
 		log.info(getState() + " Policy PUP DC is created: " + policyNumber);
 		log.info("============================================");
 	}
-	
 
 	@Test
 	public void pupDeltaDC1_TC04() throws Exception {
 		GenerateOnDemandDocumentActionTab goddTab = new GenerateOnDemandDocumentActionTab();
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		//add verification of On-Demand Documents Tab	
+		// add verification of On-Demand Documents Tab
 		policy.policyDocGen().start();
-		goddTab.verify.documentsPresent(HSU01XX, HSU02XX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX, F605005, AHAPXX, HSRFIXX, AHRCTXX,AHFMXX, PS11, AHAUXX);
+		goddTab.verify.documentsPresent(HSU01XX, HSU02XX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX, F605005, AHAPXX, HSRFIXX, AHRCTXX, AHFMXX, PS11, AHAUXX);
 		goddTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, PS11.getId()).getCell(SELECT).controls.checkBoxes.getFirst().verify.enabled(true);
 		goddTab.generateDocuments(PS11);
 		NavigationPage.Verify.mainTabSelected(NavigationEnum.AppMainTabs.POLICY.get());
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, PS11);
 	}
 
 	private static ArrayList<String> residenceCurrentCarrierLOVs = new ArrayList<String>();
