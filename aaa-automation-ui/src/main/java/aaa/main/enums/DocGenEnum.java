@@ -30,6 +30,16 @@ public final class DocGenEnum {
 		PS11("Application for Personal Umbrella Liability Insurance"),
 		AHCDCT("Credit Disclosure Notice And Summary of Consumer Protections"),
 	 	AHAPXX("AutoPay Authorization Form"),
+	 	HSAUDVA("Virginia Adverse Action Underwriting Decision Notice"),
+	 	HS11("Application for Homeowners Insurance"),
+	 	HSIQXX("Homeowners Insurance Quote Page"),
+	 	_438BFUNS("438BFUNS", "Lender’s Loss Payable Endorsement"),
+	 	AHPNXX("Privacy Information Notice"),
+	 	HS02("Owners Policy Declaration"),
+	 	AHNBXX("New Business Welcome Letter"),
+	 	HSEIXX("Evidence of Property Insurance"),
+	 	HSES("Property Insurance Invoice"),
+	 	HSILXX("Property Inventory List"),
 		;
 
 		private String id;
