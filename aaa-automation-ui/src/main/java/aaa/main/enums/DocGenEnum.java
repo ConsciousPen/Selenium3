@@ -24,7 +24,7 @@ public final class DocGenEnum {
 		HSU09XX("Uprate"),
 		F605005("60 5005", "Returning Payment"),
 		PS0922("PS 09 22", "Named Driver Exclusion"),
-		HSRFIXX("Request For Information"),
+		HSRFIXX("Request for Information"),
 		AHRCTXX("Insured Receipt for Funds Received by Agent"),
 		PSIQXX("Personal Umbrella Liability Insurance Quote Page"),
 		PS11("Application for Personal Umbrella Liability Insurance"),
