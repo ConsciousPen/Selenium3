@@ -87,8 +87,9 @@ public final class DocGenEnum {
 			return state;
 		}
 
-		public void setState(String state) {
+		public Documents setState(String state) {
 			this.state = state;
+			return this;
 		}
 
 		public String getId() {
@@ -118,7 +119,10 @@ public final class DocGenEnum {
 		@Override
 		public String toString() {
 			String documentInfo = "Documents{id='%1$s'%2$s%3$s%4$s}'";
-			return String.format(documentInfo, id, idInXml.equals(id) ? "" : ", idInXml='" + idInXml + "'", name.isEmpty() ? "" : ", name='" + name + "'", state.isEmpty() ? "" : ", state='" + state + "'");
+			return String.format(documentInfo, getId(),
+					getIdInXml().equals(getId()) ? "" : ", idInXml='" + getIdInXml() + "'",
+					getName().isEmpty() ? "" : ", name='" + getName() + "'",
+					getState().isEmpty() ? "" : ", state='" + getState() + "'");
 		}
 	}
 
