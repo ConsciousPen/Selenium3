@@ -46,33 +46,53 @@ public final class DocGenEnum {
 		private String id;
 		private String idInXml;
 		private String name;
+		private String state;
 
 		Documents() {
 			setId(this.name());
 			setIdInXml(this.name());
 			setName(""); // to prevent NPE on getName() call for documents with not defined names
+			setState(""); // to prevent NPE on getName() call for documents with not defined names
 		}
 
 		Documents(String docName) {
 			setId(this.name());
 			setIdInXml(this.name());
 			setName(docName);
+			setState("");
 		}
 
 		Documents(String docId, String docName) {
 			setId(docId);
 			setIdInXml(docId);
 			setName(docName);
+			setState("");
 		}
 
 		Documents(String docId, String docIdInXml, String docName) {
 			setId(docId);
 			setIdInXml(docIdInXml);
 			setName(docName);
+			setState("");
+		}
+
+		Documents(String docId, String docIdInXml, String docName, String state) {
+			setId(docId);
+			setIdInXml(docIdInXml);
+			setName(docName);
+			setState(state);
+		}
+
+		public String getState() {
+			return state;
+		}
+
+		public void setState(String state) {
+			this.state = state;
 		}
 
 		public String getId() {
-			return id;
+			return id + getState();
 		}
 
 		public void setId(String id) {
@@ -80,7 +100,7 @@ public final class DocGenEnum {
 		}
 
 		public String getIdInXml() {
-			return idInXml;
+			return idInXml + getState();
 		}
 
 		public void setIdInXml(String idInXml) {
@@ -97,11 +117,8 @@ public final class DocGenEnum {
 
 		@Override
 		public String toString() {
-			return "OnDemandDocumentEnum{" +
-					"id='" + id + '\'' +
-					", idInXml='" + idInXml + '\'' +
-					", name='" + name + '\'' +
-					'}';
+			String documentInfo = "Documents{id='%1$s'%2$s%3$s%4$s}'";
+			return String.format(documentInfo, id, idInXml.equals(id) ? "" : ", idInXml='" + idInXml + "'", name.isEmpty() ? "" : ", name='" + name + "'", state.isEmpty() ? "" : ", state='" + state + "'");
 		}
 	}
 
