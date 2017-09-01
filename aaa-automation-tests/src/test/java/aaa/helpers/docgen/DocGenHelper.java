@@ -3,107 +3,137 @@ package aaa.helpers.docgen;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.helpers.xml.XmlHelper;
 import aaa.helpers.xml.models.CreateDocuments;
+import aaa.helpers.xml.models.Document;
+import aaa.helpers.xml.models.DocumentPackage;
+import aaa.helpers.xml.models.StandardDocumentRequest;
 import aaa.main.enums.DocGenEnum;
-import org.openqa.selenium.support.ui.FluentWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
 
-import java.io.File;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class DocGenHelper {
 	public static final String DOCGEN_SOURCE_FOLDER = "/home/DocGen/";
 	public static final String DOCGEN_BATCH_SOURCE_FOLDER = DOCGEN_SOURCE_FOLDER + "Batch/";
-	public static final String DOCGEN_DESTINATION_FOLDER = "src" + File.separator + "test" + File.separator + "resources" + File.separator + "xmls" + File.separator;
-	public static final String JOB_GENERATION_DOCGEN_FOLDER = "/home/mp2/pas/sit/PAS_B_EXGPAS_DCMGMT_6500_D/outbound/";
+	public static final String JOBS_DOCGEN_SOURCE_FOLDER = "/home/mp2/pas/sit/PAS_B_EXGPAS_DCMGMT_6500_D/outbound/";
 	private static final int DOCUMENT_GENERATION_TIMEOUT = 30;
 
 	private static Logger log = LoggerFactory.getLogger(DocGenHelper.class);
 
-	/*public static void downloadFilesByPolicy(String policyNum) {
-		downloadFilesByPolicy(policyNum, true);
-	}
-
-	public static void downloadFilesByPolicy(String policyNum, boolean removeAfterDownload) {
-		downloadFilesByPolicy(DOCGEN_SOURCE_FOLDER, DOCGEN_DESTINATION_FOLDER, policyNum, removeAfterDownload);
-	}
-
-	public static void downloadFilesByPolicy(String sourceFolder, String destinationFolder, String policyNum, boolean removeAfterDownload) {
-		String searchCommandTemplate = "cd %s; find . -type f -iname '*.xml' -print | xargs grep -li '%s'";
-		String searchCommand = String.format(searchCommandTemplate, sourceFolder, policyNum);
-		String result = RemoteHelper.executeCommand(searchCommand);
-		CustomAssert.assertFalse("Files not found for policy: " + policyNum + ", path: " + sourceFolder, result.isEmpty());
-
-		String[] files = result.split("\n");
-		String file;
-		for (String f : files) {
-			file = f.substring(f.indexOf('/') + 1).trim();
-			RemoteHelper.downloadFile(sourceFolder + file, destinationFolder + file);
-			if (removeAfterDownload) {
-				RemoteHelper.removeFile(sourceFolder + file);
-			}
+	/**
+	 * Cleanup all doc gen folders
+	 */
+	public static void clearDocGenFolders() {
+		try {
+			RemoteHelper.clearFolder(DocGenHelper.JOBS_DOCGEN_SOURCE_FOLDER);
+			RemoteHelper.clearFolder(DocGenHelper.DOCGEN_SOURCE_FOLDER);
+			RemoteHelper.clearFolder(DocGenHelper.DOCGEN_BATCH_SOURCE_FOLDER);
+		} catch (Exception e) {
+			Assert.fail("Clearing doc gen folder failed: \n", e);
 		}
 	}
-
-	public static boolean downloadDocumentFiles(String policyNum, String formID, String xPathInfo) {
-		return downloadDocumentFiles(policyNum, formID, xPathInfo, true);
-	}
-
-	public static boolean downloadDocumentFiles(String policyNum, String formID, String xPathInfo, boolean removeAfterDownload) {
-		return downloadDocumentFiles(DOCGEN_SOURCE_FOLDER, DOCGEN_DESTINATION_FOLDER, policyNum, formID, xPathInfo, true);
-	}
-
-	//TODO-dchubkov: move common lines from this and downloadFilesByPolicy() methods to separate private method
-	public static boolean downloadDocumentFiles(String sourceFolder, String destinationFolder, String policyNum, String formID, String xPathInfo, boolean removeAfterDownload) {
-		String searchCommandTemplate = "cd %s; find . -type f -iname '*.xml' -print | xargs grep -li '%s' | xargs grep -li '%s' | xargs grep -li '%s'";
-		String searchCommand = String.format(searchCommandTemplate, sourceFolder, policyNum, formID, xPathInfo);
-		String result = RemoteHelper.executeCommand(searchCommand);
-
-		if (result.isEmpty()) {
-			return false;
-		}
-
-		String[] files = result.split("\n");
-		String file;
-		for (String f : files) {
-			file = f.substring(f.indexOf('/') + 1).trim();
-			RemoteHelper.downloadFile(sourceFolder + file, destinationFolder + file);
-			if (removeAfterDownload) {
-				RemoteHelper.removeFile(sourceFolder + file);
-			}
-		}
-		return true;
-	}*/
 
 	public static void verifyDocumentsGenerated(String policyNumber, DocGenEnum.Documents... documents) {
-		List<String> documentsFileNames = waitForDocumentsAppearance(policyNumber);
-		for (String docFileName : documentsFileNames) {
-			String content = RemoteHelper.getFileContent(DOCGEN_SOURCE_FOLDER + docFileName);
-			CreateDocuments createDocuments = XmlHelper.xmlToModel(content, CreateDocuments.class, false);
-			/// to be continued...
-		}
-
+		verifyDocumentsGenerated(true, false, policyNumber, documents);
 	}
 
-	private static List<String> waitForDocumentsAppearance(String policyNumber) {
-		List<String> documentsFileNames = new ArrayList<>();
-		String searchCommand = String.format("cd %s; find . -type f -iname '*.xml' -print | xargs grep -li '%s'", DOCGEN_SOURCE_FOLDER, policyNumber);
-		FluentWait<String> documentsGenerationWait = new FluentWait<>(searchCommand);
-
-		documentsGenerationWait.withTimeout(DOCUMENT_GENERATION_TIMEOUT, TimeUnit.SECONDS)
-				.withMessage(String.format("Files not found for policy %s in folder \"%s\".", policyNumber, DOCGEN_SOURCE_FOLDER))
-				.until(e -> !RemoteHelper.executeCommand(e).isEmpty());
-
-		String[] documents = RemoteHelper.executeCommand(searchCommand).split("\n");
-		for (String doc : documents) {
-			documentsFileNames.add(doc.substring(doc.indexOf('/') + 1).trim());
-		}
-
-		return documentsFileNames;
+	public static void verifyDocumentsGenerated(boolean verifyExists, String policyNumber, DocGenEnum.Documents... documents) {
+		verifyDocumentsGenerated(verifyExists, false, policyNumber, documents);
 	}
 
-	//TODO-dchubkov: move & refactor verifyDocumentsGeneratedByJob() methods from old framework
+	/**
+	 * Verifies that all <b>documents</b> exist (or not exist if <b>verifyExists</b> is false) in found xml file with <b>policyNumber</b> inside after documents generation
+	 * (generation should be performed before this method call).
+	 *
+	 * @param verifyExists   defines expected documents presence or absence verification
+	 * @param generatedByJob if true then file search will be performed in appropriate jobs generation folder location
+	 * @param policyNumber   quote or policy number to be used for finding xml document for further documents searching.
+	 *                       If more than one file with <b>policyNumber</b> is found then newest one (last modified) will be used for documents searching.
+	 * @param documents      array of documents to be searched in found xml file.
+	 * @throws AssertionError if no xml document(s) with <b>policyNumber</b> inside were found within timeout ({@link #DOCUMENT_GENERATION_TIMEOUT} seconds by default)
+	 *                        or if provided documents are present or absent in found xml model (depending on <b>verifyExists</b> value).
+	 * @throws IstfException  if unmarshalling of found xml file to object model fails.
+	 *                        By default strict match check is used, this means exception will be thrown if xml content differs from existing model (e.g. has extra tags)
+	 */
+	public static void verifyDocumentsGenerated(boolean verifyExists, boolean generatedByJob, String policyNumber, DocGenEnum.Documents... documents) {
+		log.info(String.format("Verifying that %1$s documents%2$s are %3$s in generated xml file with \"%4$s\" policy number.",
+				Arrays.asList(documents), generatedByJob ? " generated by job" : "", verifyExists ? "present" : "absent", policyNumber));
+
+		StandardDocumentRequest standardDocumentRequest = getDocumentRequest(generatedByJob, policyNumber);
+		Map<DocGenEnum.Documents, Boolean> documentsExistence = new HashMap<>(documents.length);
+		Arrays.stream(documents).forEach(d -> documentsExistence.put(d, false));
+
+		for (DocGenEnum.Documents document : documents) {
+			List<DocumentPackage> documentPackages = standardDocumentRequest.getDocumentPackages().getDocumentPackages();
+
+			for (DocumentPackage packages : documentPackages) {
+				List<Document> documentsList = packages.getDocuments().getDocuments();
+
+				for (Document doc : documentsList) {
+					if (doc.getTemplateId().equals(document.getIdInXml())) {
+						documentsExistence.replace(document, true);
+						break;
+					}
+				}
+			}
+		}
+
+		List<DocGenEnum.Documents> failedDocsList = documentsExistence.entrySet().stream().filter(d -> d.getValue() != verifyExists).map(Map.Entry::getKey).collect(Collectors.toList());
+		CustomAssert.assertTrue(String.format("Documents were %1$s: %2$s in generated file(s).", verifyExists ? "absent" : "present", failedDocsList), failedDocsList.isEmpty());
+		log.info("Documents generation verification has been successfully passed.");
+	}
+
+	public static StandardDocumentRequest getDocumentRequest(String policyNumber) {
+		return getDocumentRequest(false, policyNumber);
+	}
+
+	/**
+	 * Search xml document by <b>policyNumber</b> text and get <b>StandardDocumentRequest</b> object model from it.
+	 *
+	 * @param generatedByJob if true then file search will be performed in appropriate jobs generation folder location
+	 * @param policyNumber   quote or policy number to be used for finding xml document.
+	 *                       If more than one file with <b>policyNumber</b> is found then newest one (last modified) will be used for getting document model.
+	 * @return unmarshalled StandardDocumentRequest object from found xml document
+	 * @throws AssertionError if no xml document(s) with <b>policyNumber</b> inside were found within timeout ({@link #DOCUMENT_GENERATION_TIMEOUT} seconds by default)
+	 * @throws IstfException  if unmarshalling of found xml file to object model fails.
+	 *                        By default strict match check is used, this means exception will be thrown if xml content differs from existing model (e.g. has extra tags)
+	 */
+	public static StandardDocumentRequest getDocumentRequest(boolean generatedByJob, String policyNumber) {
+		List<String> documentsFileNames = waitForDocumentsAppearance(generatedByJob, policyNumber);
+
+		if (documentsFileNames.size() > 1) {
+			log.warn(String.format("%1$s xml document files were found with policy number \"%2$s\": %3$s. Newest one (last modified) will be used for getting DocumentRequests model",
+					documentsFileNames.size(), policyNumber, documentsFileNames));
+		}
+		String content = RemoteHelper.getFileContent(documentsFileNames.get(0));
+
+		log.info(String.format("Getting object model from found xml document: \"%s\".", documentsFileNames.get(0)));
+		CreateDocuments createDocuments = XmlHelper.xmlToModel(content, CreateDocuments.class);
+		return createDocuments.getStandardDocumentRequest();
+	}
+
+	public static List<String> waitForDocumentsAppearance(String policyNumber) {
+		return waitForDocumentsAppearance(false, policyNumber);
+	}
+
+	/**
+	 * Wait for generated document(s) appearance with <b>policyNumber</b> inside and return absolute paths list of found files in chronological order (latest one comes first)
+	 *
+	 * @param generatedByJob if true then file(s) search will be performed in appropriate jobs generation folder location
+	 * @param policyNumber   quote or policy number to be used for finding xml document.
+	 * @return list with absolute paths of found xml documents with <b>policyNumber</b> inside in chronological order (latest one comes first)
+	 * @throws AssertionError if no xml document(s) with <b>policyNumber</b> inside were found within timeout ({@link #DOCUMENT_GENERATION_TIMEOUT} seconds by default)
+	 */
+	public static List<String> waitForDocumentsAppearance(boolean generatedByJob, String policyNumber) {
+		String docGenSourcePath = generatedByJob ? JOBS_DOCGEN_SOURCE_FOLDER : DOCGEN_SOURCE_FOLDER;
+		log.info(String.format("Waiting for xml document appearance with \"%1$s\" policy number in \"%2$s\" folder.", policyNumber, docGenSourcePath));
+		return RemoteHelper.waitForFilesAppearanceWithText(docGenSourcePath, "xml", policyNumber, DOCUMENT_GENERATION_TIMEOUT);
+	}
 }

@@ -37,7 +37,9 @@ public class TestQuoteAdvancedRater extends PersonalUmbrellaBaseTest {
      * 14. Issue quote. Check Total Premium Summary
      */
 
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	//jdemb: feature of the original test was checking if premium deltas are added to calculated premium correctly
+	//as I can see in old project - deltas are removed. So this test has no meaning. Temporary removed from run, probably need to be removed completely.
+	//@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.PUP )
     public void testQuoteAdvancedRater() {
         String expectedPersonalUmbrellaValue = "$1,000,000";

@@ -41,6 +41,7 @@ public class Scenario5 extends ScenarioBaseTest {
 
 	public void createTestPolicy(TestData policyCreationTD) {
 		mainApp().open();
+		TimeSetterUtil.getInstance().adjustTime();
 		createCustomerIndividual();
 
 		if (getPolicyType().equals(PolicyType.PUP)) {
@@ -75,7 +76,8 @@ public class Scenario5 extends ScenarioBaseTest {
 
 	public void TC06_Decline_Payments() {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+		if (!getPolicyType().equals(PolicyType.PUP))
+			JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -108,8 +110,7 @@ public class Scenario5 extends ScenarioBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 
 		new BillingAccountPoliciesVerifier().setPolicyFlag(BillingConstants.PolicyFlag.CANCEL_NOTICE).verifyRowWithEffectiveDate(policyEffectiveDate);
-		new BillingBillsAndStatementsVerifier().setDueDate(getTimePoints().getCancellationTransactionDate(installmentDueDates.get(2)))
-				.setType(BillingConstants.BillsAndStatementsType.CANCELLATION_NOTICE).verifyPresent();
+		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.CANCELLATION_NOTICE).verifyRowWithDueDate(cnDate);
 	}
 
 	public void TC08_Verify_Form_AH34XX() {
@@ -152,8 +153,7 @@ public class Scenario5 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(date)
-				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF).verifyPresent();
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(date).setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF).verifyPresent();
 	}
 
 	public void TC14_Renewal_Image_Generation() {
@@ -195,8 +195,8 @@ public class Scenario5 extends ScenarioBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_CANCELLED).verifyRowWithEffectiveDate(policyEffectiveDate);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(policyExpirationDate)
-				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent(false);
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(policyExpirationDate).setSubtypeReason(
+			BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent(false);
 	}
 
 	protected void generateAndCheckEarnedPremiumBill(LocalDateTime date) {

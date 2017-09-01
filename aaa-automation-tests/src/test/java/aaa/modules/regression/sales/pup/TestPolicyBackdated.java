@@ -4,7 +4,6 @@ package aaa.modules.regression.sales.pup;
 
 import org.testng.annotations.Test;
 
-import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;

@@ -16,6 +16,7 @@ public abstract class Purchase extends Tab {
     public Table tablePaymentPlan = new Table(By.id("purchaseForm:PaymentPlanTable"));
     public Button btnApplyPayment = new Button(By.id("purchaseForm:finishBtn_footer"), Waiters.AJAX);
     public Dialog confirmPurchase = new Dialog("//div[@id='purchaseForm:FinishConfirmationDialog_container']");
+    public Dialog confirmVoiceSignature= new Dialog("//div[@id='purchaseForm:VoiceSignatureDialog_container']");
     public StaticElement totalRemainingTermPremium = new StaticElement(By.id("purchaseForm:downpaymentComponent_totalRemainingDueValue"));
     public StaticElement remainingBalanceDueToday = new StaticElement(By.id("purchaseForm:downpaymentComponent_remainingBalanceValue"));
 

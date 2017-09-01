@@ -116,4 +116,15 @@ public final class DocGenEnum {
 		}
 	}
 
+	public static class XmlnsNamespaces {
+		public final static String DOC_PREFIX = "doc";
+		public final static String DOC_URI = "http://www.aaancnuie.com/DCS/2012/01/DocumentCreation";
+		public final static String DOC_URI2 = "http://www.aaancnuie.com/DCS/2012/01/DocumentDistribution";
+
+		public final static String AAAN_PREFIX = "aaan";
+		public final static String AAAN_URI = "http://www.aaancnuit.com.AAANCNU_IDocumentCreation_version1";
+
+		public final static String XSI_PREFIX = "xsi";
+		public final static String XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
+	}
 }

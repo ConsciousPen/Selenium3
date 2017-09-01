@@ -82,7 +82,7 @@
 		<dependency>
 			<groupId>com.exigen.istf</groupId>
 			<artifactId>istf-core</artifactId>
-			<version>3.4.2</version>
+			<version>3.4.2-01</version>
 		</dependency>
 		<dependency>
 			<groupId>com.exigen.istf</groupId>

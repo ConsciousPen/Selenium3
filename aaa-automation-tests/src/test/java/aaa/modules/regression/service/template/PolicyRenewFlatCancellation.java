@@ -7,7 +7,6 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.sales.pup.TestPolicyBackdated;
 
 /**
  * @author Xiaolan Ge

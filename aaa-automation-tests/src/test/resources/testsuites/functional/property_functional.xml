@@ -304,7 +304,7 @@
 			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
-			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />>
+			<class name="aaa.modules.regression.service.pup.TestPolicyChangeInsuredDeceased" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePremiumOverride" />
 		</classes>
 	</test>
