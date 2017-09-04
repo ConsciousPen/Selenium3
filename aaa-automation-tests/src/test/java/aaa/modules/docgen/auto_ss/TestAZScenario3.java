@@ -27,7 +27,7 @@ public class TestAZScenario3 extends AutoSSBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify
 				.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info(getState() + " Policy AZ AutoSS is created: " + policyNumber);
-		DocGenHelper.getDocumentRequest(policyNumber).getProductName().equals("AAAA");
+
 
 	}
 }
