@@ -154,7 +154,7 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("DELTA CT SC1: PUP policy bound with #" + policyNumber);
-//		DocGenHelper.verifyDocumentsGenerated(policyNumber, PS02);
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, PS02);
 
 	}
 	
