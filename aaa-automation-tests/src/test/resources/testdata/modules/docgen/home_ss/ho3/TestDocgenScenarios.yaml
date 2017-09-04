@@ -4,7 +4,8 @@ InsuranceScoreOverride926: {
       Action: '',
       EditInsuranceScoreDialog: {
         Score after override: '926',
-        Reason for override: 'Fair Credit Reporting Act Dispute'
+        Reason for override: 'Fair Credit Reporting Act Dispute',
+        Save: ''
       }
     }
   },
@@ -21,7 +22,8 @@ InsuranceScoreOverride920: {
       Action: '',
       EditInsuranceScoreDialog: {
         Score after override: '920',
-        Reason for override: 'Fair Credit Reporting Act Dispute'
+        Reason for override: 'Fair Credit Reporting Act Dispute',
+        Save: ''
       }
     }
   },
@@ -33,4 +35,14 @@ InsuranceScoreOverride920: {
   ProductOfferingTab: {},
   EndorsementTab: {},
   PremiumsAndCoveragesQuoteTab: {},
+}
+
+GenerateHSU: {
+  Decision based on CLUE: 'true',
+  First name: Tim,
+  Last name: Cook,
+  Zip code: 85003,
+  Street address 1: address 1,
+  City: citytest,
+  State: AZ
 }

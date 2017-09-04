@@ -1,12 +1,12 @@
 package aaa.modules.docgen.home_ss.ho3;
 
 import org.testng.annotations.Test;
+
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.HomeSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum;
-import aaa.main.enums.DocGenEnum.DeliveryMethod;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
@@ -91,8 +91,8 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		String quoteNum = createQuote();
-		policy.quoteDocGen().start();
 		GenerateOnDemandDocumentActionTab documentActionTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
+		policy.quoteDocGen().start();	
 		
 		if (getState().equals("VA")) {
 			documentActionTab.verify.documentsPresent(DocGenEnum.Documents.HSAUDVA);
@@ -136,7 +136,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 			DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSAUDVA);
 
 		policy.quoteDocGen().start();
-		documentActionTab.generateDocuments(DeliveryMethod.LOCAL_PRINT, Documents.HSU03XX, Documents.HSU04XX, Documents.HSU05XX, Documents.HSU06XX, Documents.HSU08XX);
+		documentActionTab.generateDocuments(getTestSpecificTD("GenerateHSU"), Documents.HSU03XX, Documents.HSU04XX, Documents.HSU05XX, Documents.HSU06XX, Documents.HSU08XX);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSU03XX, Documents.HSU04XX, Documents.HSU05XX, Documents.HSU06XX, Documents.HSU08XX);
 
 		policy.dataGather().start();
@@ -155,7 +155,8 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		Tab.buttonSaveAndExit.click();
 		policy.quoteDocGen().start();
 		documentActionTab.verify.documentsEnabled(Documents.AHFMXX, Documents.HSILXX);
-		documentActionTab.verify.documentsPresent(Documents.AHAUXX);
+		if (!getState().equals("VA"))
+			documentActionTab.verify.documentsPresent(Documents.AHAUXX);
 
 		log.info("==========================================");
 		log.info(getState() + " HO3 Quote Documents Generation is checked, quote: " + quoteNum);
