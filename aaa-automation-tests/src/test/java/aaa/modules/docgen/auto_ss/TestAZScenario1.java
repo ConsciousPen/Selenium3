@@ -78,7 +78,7 @@ public class TestAZScenario1 extends AutoSSBaseTest{
      * 3. Generate the form AH34XX
      * @details
      */
-    @Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+    @Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
     public void TC03_GenerateCancelNotice(){
     	
@@ -88,6 +88,9 @@ public class TestAZScenario1 extends AutoSSBaseTest{
     	JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
     	JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 
+    	 mainApp().open();
+    	 SearchPage.openPolicy(policyNumber);
+    	 PolicySummaryPage.labelCancelNotice.verify.present();
     	//TODO get xml file
     }
     
@@ -100,7 +103,7 @@ public class TestAZScenario1 extends AutoSSBaseTest{
      * 3. Generate the form AH67XX
      * @details
      */
-    @Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+    @Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
     public void TC04_GenerateCancellation(){
     	LocalDateTime cancelNoticeDate=getTimePoints().getCancellationNoticeDate(installmentDD1);
@@ -110,6 +113,9 @@ public class TestAZScenario1 extends AutoSSBaseTest{
     	JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
     	JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 
+    	mainApp().open();
+   	    SearchPage.openPolicy(policyNumber);
+   	    PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
     	//TODO get xml file
     }
     
@@ -122,7 +128,7 @@ public class TestAZScenario1 extends AutoSSBaseTest{
      * 3. Generate the form AH62XX
      * @details
      */
-    @Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+    @Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
     public void TC05_ReinstatementPolicy(){
     	mainApp().open();

@@ -2,6 +2,7 @@ package aaa.modules.docgen.auto_ss;
 
 import org.testng.annotations.Test;
 
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -26,6 +27,7 @@ public class TestAZScenario3 extends AutoSSBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify
 				.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info(getState() + " Policy AZ AutoSS is created: " + policyNumber);
+
 
 	}
 }
