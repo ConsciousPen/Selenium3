@@ -131,14 +131,35 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		policy.quoteDocGen().start();
 		if(getState().equals("VA"))
 			documentActionTab.selectDocuments(Documents.HSAUDVA);
-		documentActionTab.generateDocuments(Documents.HS11.setState(getState()), Documents.AHFMXX, Documents.HSILXX); 
-		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HS11.setState(getState()), Documents.AHFMXX, Documents.HSILXX, Documents.AHPNXX);
+		documentActionTab.generateDocuments(
+				Documents.HS11.setState(getState()), 
+				Documents.AHFMXX, 
+				Documents.HSILXX
+				); 
+		DocGenHelper.verifyDocumentsGenerated(quoteNum, 
+				Documents.HS11.setState(getState()), 
+				Documents.AHFMXX, 
+				Documents.HSILXX, 
+				Documents.AHPNXX
+				);
 		if(getState().equals("VA"))
 			DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSAUDVA);
 
 		policy.quoteDocGen().start();
-		documentActionTab.generateDocuments(getTestSpecificTD("GenerateHSU"), Documents.HSU03XX, Documents.HSU04XX, Documents.HSU05XX, Documents.HSU06XX, Documents.HSU08XX);
-		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSU03XX, Documents.HSU04XX, Documents.HSU05XX, Documents.HSU06XX, Documents.HSU08XX);
+		documentActionTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"), 
+				Documents.HSU03XX, 
+				Documents.HSU04XX, 
+				Documents.HSU05XX, 
+				Documents.HSU06XX, 
+				Documents.HSU08XX
+				);
+		DocGenHelper.verifyDocumentsGenerated(quoteNum, 
+				Documents.HSU03XX, 
+				Documents.HSU04XX, 
+				Documents.HSU05XX, 
+				Documents.HSU06XX, 
+				Documents.HSU08XX
+				);
 
 		policy.dataGather().start();
 		NavigationPage.toViewTab(HomeSSTab.REPORTS.get());
@@ -267,7 +288,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		
 		switchToWindow(currentHandle);
 		policy.policyDocGen().start();
-		documentActionTab.generateDocuments(
+		documentActionTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"),
 				Documents.AHRCTXX, 
 				Documents.HSEIXX, 
 				Documents.HSILXX, 
