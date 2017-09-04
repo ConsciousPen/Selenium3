@@ -1,9 +1,12 @@
 package aaa.helpers.xml.models;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-
+import javax.xml.bind.annotation.XmlElementWrapper;
+import aaa.main.enums.DocGenEnum;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DocumentPackage {
@@ -13,14 +16,16 @@ public class DocumentPackage {
 	@XmlElement(name = "CorrelationId")
 	private String correlationId;
 
-	@XmlElement(name = "DistributionChannels")
-	private DistributionChannels distributionChannels;
+	@XmlElementWrapper(name = "DistributionChannels")
+	@XmlElement(name = "DistributionChannel", namespace = DocGenEnum.XmlnsNamespaces.DOC_URI2)
+	List<DistributionChannel> DistributionChannels = new ArrayList<>();
 
 	@XmlElement(name = "DocumentPackageData")
 	private DocumentPackageData documentPackageData;
 
-	@XmlElement(name = "Documents")
-	private Documents documents;
+	@XmlElementWrapper(name = "Documents")
+	@XmlElement(name = "Document")
+	List<Document> documents = new ArrayList<>();
 
 	@XmlElement(name = "IsPreview")
 	private String isPreview;
@@ -34,8 +39,9 @@ public class DocumentPackage {
 	@XmlElement(name = "RequestingUserId")
 	private String requestingUserId;
 
-	@XmlElement(name = "SortKeys")
-	private SortKeys sortKeys;
+	@XmlElementWrapper(name = "SortKeys")
+	@XmlElement(name = "DocumentDataElement", namespace = DocGenEnum.XmlnsNamespaces.AAAN_URI)
+	List<DocumentDataElement> sortKeys = new ArrayList<>();
 
 	@XmlElement(name = "State")
 	private String State;
@@ -56,12 +62,12 @@ public class DocumentPackage {
 		this.correlationId = correlationId;
 	}
 
-	public DistributionChannels getDistributionChannels() {
-		return distributionChannels;
+	public List<DistributionChannel> getDistributionChannels() {
+		return DistributionChannels;
 	}
 
-	public void setDistributionChannels(DistributionChannels distributionChannels) {
-		this.distributionChannels = distributionChannels;
+	public void setDistributionChannels(List<DistributionChannel> distributionChannels) {
+		DistributionChannels = distributionChannels;
 	}
 
 	public DocumentPackageData getDocumentPackageData() {
@@ -72,11 +78,11 @@ public class DocumentPackage {
 		this.documentPackageData = documentPackageData;
 	}
 
-	public Documents getDocuments() {
+	public List<Document> getDocuments() {
 		return documents;
 	}
 
-	public void setDocuments(Documents documents) {
+	public void setDocuments(List<Document> documents) {
 		this.documents = documents;
 	}
 
@@ -112,11 +118,11 @@ public class DocumentPackage {
 		this.requestingUserId = requestingUserId;
 	}
 
-	public SortKeys getSortKeys() {
+	public List<DocumentDataElement> getSortKeys() {
 		return sortKeys;
 	}
 
-	public void setSortKeys(SortKeys sortKeys) {
+	public void setSortKeys(List<DocumentDataElement> sortKeys) {
 		this.sortKeys = sortKeys;
 	}
 
@@ -133,7 +139,7 @@ public class DocumentPackage {
 		return "DocumentPackage{" +
 				"archiveData=" + archiveData +
 				", correlationId='" + correlationId + '\'' +
-				", distributionChannels=" + distributionChannels +
+				", DistributionChannels=" + DistributionChannels +
 				", documentPackageData=" + documentPackageData +
 				", documents=" + documents +
 				", isPreview='" + isPreview + '\'' +

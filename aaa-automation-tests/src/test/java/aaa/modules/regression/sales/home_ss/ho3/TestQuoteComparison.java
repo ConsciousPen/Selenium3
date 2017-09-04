@@ -332,7 +332,7 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 				(productOfferingTab.getAssetList().getAsset(HERITAGE).isPresent());
 
 		policy.getDefaultView().fillFromTo(td, ProductOfferingTab.class, PurchaseTab.class, true);
-		endorsementTab.submitTab();
+		new PurchaseTab().submitTab();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info("TestQuoteComparison is passed with policy#" + PolicySummaryPage.labelPolicyNumber.getValue());
 	}

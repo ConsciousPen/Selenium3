@@ -11,7 +11,9 @@ import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
 
 import java.io.File;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
 public class RemoteHelper {
@@ -104,26 +106,33 @@ public class RemoteHelper {
 		return ssh.getFileContent(filePath);
 	}
 
-	public static List<String> waitForFilesAppearanceWithText(String sourceFolder, String textToSearch, long timeout) {
-		return waitForFilesAppearanceWithText(sourceFolder, null, textToSearch, timeout);
+	public static List<String> waitForFilesAppearance(String sourceFolder, int timeout, String... textsToSearchPatterns) {
+		return waitForFilesAppearance(sourceFolder, null, timeout, textsToSearchPatterns);
 	}
 
 	/**
-	 * Wait for appearance of files containing defined text filtered by provided file extension and sorted by date modification (latest one comes first)
+	 * Wait for file(s) appearance with <b>fileExtension</b> containing all text patterns from <b>textsToSearchPatterns</b> array and sorted by modification date (latest one comes first)
 	 *
-	 * @param sourceFolder folder to be searched in for files
-	 * @param fileExtension file extension filter, no filter will be used if value is null
-	 * @param textToSearch text to be searched in files
-	 * @param timeoutInSeconds timeout in seconds
+	 * @param sourceFolder          folder where file(s) search will be performed
+	 * @param fileExtension         file extension filter, no filter will be used if value is null
+	 * @param textsToSearchPatterns texts to be searched patterns. If array is empty then search by file extension only.
+	 *                              If <b>fileExtension</b> is also not provided (value is null) then method will return all existing files from <b>sourceFolder</b> sorted by modification date
+	 * @param timeoutInSeconds      timeout in seconds
 	 * @return list of absolute paths of found files in chronological order (latest one comes first)
-	 * @throws AssertionError if no files where found by provided timeout
+	 * @throws AssertionError if no files where found within provided timeout
 	 */
-	public static List<String> waitForFilesAppearanceWithText(String sourceFolder, String fileExtension, String textToSearch, long timeoutInSeconds) {
-		final long conditionCheckPoolingInterval = 1;
-		String cmd = String.format("cd %1$s; find . -type f -iname '*.%2$s' -print | xargs -r grep -li '%3$s' | xargs -r ls -t | xargs -r readlink -f", sourceFolder, fileExtension == null ? "*" : fileExtension, textToSearch);
+	public static List<String> waitForFilesAppearance(String sourceFolder, String fileExtension, int timeoutInSeconds, String... textsToSearchPatterns) {
+		final long conditionCheckPoolingIntervalInSeconds = 1;
+		StringBuilder grepCmd = new StringBuilder();
+		for (String textToSearch : textsToSearchPatterns) {
+			grepCmd.append(" | xargs -r grep -li '").append(textToSearch).append("'");
+		}
+		String cmd = String.format("cd %1$s; find . -type f -iname '*.%2$s' -print%3$s | xargs -r ls -t | xargs -r readlink -f", sourceFolder, fileExtension == null ? "*" : fileExtension, grepCmd.toString());
 
-		Log.info(String.format("Searching for file(s)%1$s containing text \"%2$s\" in \"%3$s\" folder with %4$s timeout in seconds.",
-				fileExtension != null ? " with file extension " +  fileExtension : "", textToSearch, sourceFolder, timeoutInSeconds));
+		Log.info(String.format("Searching for file(s)%1$s%2$s in \"%3$s\" folder with %4$s seconds timeout.",
+				fileExtension != null ? String.format(" with file extension \"%s\"", fileExtension) : "",
+				textsToSearchPatterns.length > 0 ? String.format(" containing text pattern(s): %s", Arrays.asList(textsToSearchPatterns)) : "",
+				sourceFolder, timeoutInSeconds));
 
 		long searchStart = System.currentTimeMillis();
 		long timeout = searchStart + timeoutInSeconds * 1000;
@@ -131,14 +140,14 @@ public class RemoteHelper {
 		do {
 			if (!(commandOutput = executeCommand(cmd)).isEmpty()) break;
 			try {
-				TimeUnit.SECONDS.sleep(conditionCheckPoolingInterval);
+				TimeUnit.SECONDS.sleep(conditionCheckPoolingIntervalInSeconds);
 			} catch (InterruptedException e) {
 				log.debug(e.getMessage());
 			}
 		} while (timeout > System.currentTimeMillis());
 		long searchTime = System.currentTimeMillis() - searchStart;
 
-		CustomAssert.assertTrue(String.format("No files have been found with text \"%1$s\" in folder \"%2$s\".", textToSearch, sourceFolder), !commandOutput.isEmpty());
+		CustomAssert.assertTrue("No files have been found.", !commandOutput.isEmpty());
 		List<String> foundFiles = Arrays.asList(commandOutput.split("\n"));
 		log.info(String.format("Found file(s): %1$s after %2$s milliseconds", foundFiles, searchTime));
 		return foundFiles;

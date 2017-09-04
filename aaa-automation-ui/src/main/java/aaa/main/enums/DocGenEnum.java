@@ -24,7 +24,7 @@ public final class DocGenEnum {
 		HSU09XX("Uprate"),
 		F605005("60 5005", "Returning Payment"),
 		PS0922("PS 09 22", "Named Driver Exclusion"),
-		HSRFIXX("Request For Information"),
+		HSRFIXX("Request for Information"),
 		AHRCTXX("Insured Receipt for Funds Received by Agent"),
 		PSIQXX("Personal Umbrella Liability Insurance Quote Page"),
 		PS11("Application for Personal Umbrella Liability Insurance"),
@@ -46,33 +46,54 @@ public final class DocGenEnum {
 		private String id;
 		private String idInXml;
 		private String name;
+		private String state;
 
 		Documents() {
 			setId(this.name());
 			setIdInXml(this.name());
 			setName(""); // to prevent NPE on getName() call for documents with not defined names
+			setState(""); // to prevent NPE on getState() call for documents with not defined names
 		}
 
 		Documents(String docName) {
 			setId(this.name());
 			setIdInXml(this.name());
 			setName(docName);
+			setState("");
 		}
 
 		Documents(String docId, String docName) {
 			setId(docId);
 			setIdInXml(docId);
 			setName(docName);
+			setState("");
 		}
 
 		Documents(String docId, String docIdInXml, String docName) {
 			setId(docId);
 			setIdInXml(docIdInXml);
 			setName(docName);
+			setState("");
+		}
+
+		Documents(String docId, String docIdInXml, String docName, String state) {
+			setId(docId);
+			setIdInXml(docIdInXml);
+			setName(docName);
+			setState(state);
+		}
+
+		public String getState() {
+			return state;
+		}
+
+		public Documents setState(String state) {
+			this.state = state;
+			return this;
 		}
 
 		public String getId() {
-			return id;
+			return id + getState();
 		}
 
 		public void setId(String id) {
@@ -97,11 +118,11 @@ public final class DocGenEnum {
 
 		@Override
 		public String toString() {
-			return "OnDemandDocumentEnum{" +
-					"id='" + id + '\'' +
-					", idInXml='" + idInXml + '\'' +
-					", name='" + name + '\'' +
-					'}';
+			String documentInfo = "Documents{id='%1$s'%2$s%3$s%4$s}'";
+			return String.format(documentInfo, getId(),
+					getIdInXml().equals(getId()) ? "" : ", idInXml='" + getIdInXml() + "'",
+					getName().isEmpty() ? "" : ", name='" + getName() + "'",
+					getState().isEmpty() ? "" : ", state='" + getState() + "'");
 		}
 	}
 
