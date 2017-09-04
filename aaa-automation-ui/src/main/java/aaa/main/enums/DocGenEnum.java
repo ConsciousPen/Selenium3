@@ -25,7 +25,7 @@ public final class DocGenEnum {
 		F605005("60 5005", "Returning Payment"),
 		PS0922("PS 09 22", "Named Driver Exclusion"),
 		HSRFIXX("Request for Information"),
-		AHRCTXX("Insured Receipt for Funds Received by Agent"),
+		AHRCTXX("Insured Receipt For Funds Received By Agent"),
 		PSIQXX("Personal Umbrella Liability Insurance Quote Page"),
 		PS11("Application for Personal Umbrella Liability Insurance"),
 		AHCDCT("Credit Disclosure Notice And Summary of Consumer Protections"),
@@ -41,6 +41,8 @@ public final class DocGenEnum {
 	 	HSES("Property Insurance Invoice"),
 	 	HSILXX("Property Inventory List"),
 	 	PS02("Personal Umbrella Policy Declarations"),
+	 	HS0420("HS 04 20", ""),
+	 	
 		;
 
 		private String id;

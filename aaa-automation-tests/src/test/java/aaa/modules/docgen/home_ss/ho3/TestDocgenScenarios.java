@@ -2,6 +2,7 @@ package aaa.modules.docgen.home_ss.ho3;
 
 import org.testng.annotations.Test;
 
+import toolkit.webdriver.BrowserController;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.HomeSSTab;
 import aaa.common.pages.NavigationPage;
@@ -163,5 +164,130 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		log.info("==========================================");
 	}
 	
+	/**
+	 * <pre>
+	 * TC Steps:
+	 * Open and Bind the quote from ho3QuoteDocuments test .
+	 * Verify that below forms are generated in xml batch after bind:
+	 * HS02
+	 * AHNBXX
+	 * HS0420
+	 * Go to On-Demand Documents tab.
+	 * Verify state and names of forms on the policy:
+	 * 60 5005 - enabled
+	 * AHFMXX - disabled
+	 * AHRCTXX - enabled
+	 * HS11UT - enabled
+	 * HSEIXX - enabled
+	 * HSILXX - enabled
+	 * HSRFIXX - disabled
+	 * HSU01XX - enabled
+	 * HSU02XX - enabled
+	 * HSU03XX - disabled
+	 * HSU04XX - enabled
+	 * HSU05XX - enabled
+	 * HSU06XX - enabled
+	 * HSU07XX - enabled
+	 * HSU08XX - enabled
+	 * HSU09XX - enabled
+	 * Verify that below forms aren't present:
+	 * AHAUXX
+	 * HSIQXX
+	 * AHPNXX
+	 * 438 BFUNS
+	 * HSES
+	 * Select HS11UT form and press "Generate" button
+	 * Verify that below forms are generated in xml batch:
+	 * HS11UT
+	 * AHPNXX
+	 * Select AHRCTXX,HSEIXX,HSILXX,HSU01XX,HSU09XX,60 5005  forms and press "Generate" button
+	 * Verify that below forms are generated in xml batch:
+	 * AHRCTXX
+	 * HSEIXX
+	 * HSILXX
+	 * HSU01XX
+	 * HSU09XX
+	 * 60 5005
+	 * </pre>
+	 * 
+	 * Req: HSU07XX - 16238:US CL GD-60 Generate Underwriting letter HSU07 Non
+	 * Renewal HSU01XX - 15272: US CL GD-53 Generate Underwriting Letter HSU01
+	 * Advisory HSU02XX - 15274: US CL GD-55 Generate Underwriting Letter HSU02
+	 * Cancellation HSU09XX - 15283: US CL GD-63 Generate Underwriting Letter
+	 * HSU09 Uprate 438 BFUNS - 15210: US CL GD-01 Generate 438BFUNS Endorsement
+	 * AHRCTXX - 15384: US CL GD-101 Generate Insured Receipt for Funds Received
+	 * by Agent AHPNXX - 15382: US CL GD-99 Generate Privacy Information Notice
+	 * HS02 - 16881: US CL GD-78 Generate Declaration Documents All Products;
+	 * AHNBXX - 15381: US CL GD-98 Generate New Business Welcome Letter HSEIXX -
+	 * 16184: US CL GD-121 Generate HSEIXX Evidence of Insurance HSESUT - 16200:
+	 * US CL GD-119 Generate HSESXX Property Insurance Invoice HSILXX - 16185:US
+	 * CL GD-122 Generate HSILXX Property Inventory List HS0420 - 15234: US CL
+	 * GD-16 Generate HS 04 20 Endorsement 60 5005 - 15316 - US CL GD-73
+	 * Generate Returning Payment Form
+	 */
+	@Test
+	public void testPolicyDocuments() {
+		mainApp().open();
+		String currentHandle = getWindowHandle();
+		String policyNum = getCopiedPolicy();
+		
+		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.HS02, Documents.AHNBXX, Documents.HS0420);
+		
+		GenerateOnDemandDocumentActionTab documentActionTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
+		policy.policyDocGen().start();
+		documentActionTab.verify.documentsEnabled(
+				Documents.F605005, 
+				Documents.AHRCTXX, 
+				Documents.HS11.setState(getState()), 
+				Documents.HSEIXX, 
+				Documents.HSILXX, 
+				Documents.HSU01XX,
+//				Documents.HSU02XX  //TODO Actually HSU02XX is disabled, need to confirm the request
+				Documents.HSU04XX,
+				Documents.HSU06XX,
+				Documents.HSU07XX,
+				Documents.HSU08XX,
+				Documents.HSU09XX
+				);
+		documentActionTab.verify.documentsEnabled(false, 
+				Documents.AHFMXX, 
+				Documents.HSRFIXX,
+				Documents.HSU03XX
+				);
+		documentActionTab.verify.documentsPresent(false, 
+//				Documents.AHAUXX // TODO Actually AHAUXX is present, need to confirm the request
+				Documents.HSIQXX,
+				Documents.AHPNXX,
+				Documents._438BFUNS,
+				Documents.HSES
+				);
+		
+		documentActionTab.generateDocuments(Documents.HS11);
+		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.HS11, Documents.AHPNXX);
+		
+		switchToWindow(currentHandle);
+		policy.policyDocGen().start();
+		documentActionTab.generateDocuments(
+				Documents.AHRCTXX, 
+				Documents.HSEIXX, 
+				Documents.HSILXX, 
+				Documents.HSU01XX, 
+				Documents.HSU09XX
+				);
+		DocGenHelper.verifyDocumentsGenerated(policyNum, 
+				Documents.AHRCTXX, 
+				Documents.HSEIXX, 
+				Documents.HSILXX, 
+				Documents.HSU01XX, 
+				Documents.HSU09XX
+				);
+	}
 	
+	private String getWindowHandle(){
+		return BrowserController.get().driver().getWindowHandle();
+	}
+	
+	private void switchToWindow(String windowHandle){
+		BrowserController.get().driver().switchTo().window(windowHandle);
+	}
 }
