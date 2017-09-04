@@ -78,7 +78,7 @@ public class TestAZScenario1 extends AutoSSBaseTest{
      * 3. Generate the form AH34XX
      * @details
      */
-    @Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC02_GenerateBillingInvoic")
+    @Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
     public void TC03_GenerateCancelNotice(){
     	
@@ -103,7 +103,7 @@ public class TestAZScenario1 extends AutoSSBaseTest{
      * 3. Generate the form AH67XX
      * @details
      */
-    @Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC03_GenerateCancelNotice")
+    @Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
     public void TC04_GenerateCancellation(){
     	LocalDateTime cancelNoticeDate=getTimePoints().getCancellationNoticeDate(installmentDD1);
@@ -128,7 +128,7 @@ public class TestAZScenario1 extends AutoSSBaseTest{
      * 3. Generate the form AH62XX
      * @details
      */
-    @Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC04_GenerateCancellation")
+    @Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
     public void TC05_ReinstatementPolicy(){
     	mainApp().open();

@@ -96,7 +96,7 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 	 * @details
 	 */	
 	
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_EndorsementOne")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void TC03_RenewalImageGeneration(){
 		
@@ -113,7 +113,7 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 			
 	}
 	
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL},dependsOnMethods = "TC03_RenewalImageGeneration")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL},dependsOnMethods = "TC01_EndorsementOne")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void TC04_RenewaPreviewGeneration(){
 		
@@ -131,7 +131,7 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 			
 	}
 	
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC04_RenewaPreviewGeneration")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_EndorsementOne")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void TC05_RenewaOfferGeneration(){
 		LocalDateTime renewOfferGenDate=getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
@@ -149,7 +149,7 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);		
 	}
 	
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC05_RenewaOfferGeneration")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_EndorsementOne")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void TC06_RenewaOfferBillGeneration(){
 		LocalDateTime renewOfferBillGenDate=getTimePoints().getBillGenerationDate(policyExpirationDate);
