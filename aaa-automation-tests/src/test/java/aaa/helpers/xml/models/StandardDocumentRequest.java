@@ -1,5 +1,7 @@
 package aaa.helpers.xml.models;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -25,8 +27,9 @@ public class StandardDocumentRequest {
 	@XmlElement(name = "State")
 	private String state;
 
-	@XmlElement(name = "DocumentPackages")
-	private DocumentPackages documentPackages;
+	@XmlElementWrapper(name = "DocumentPackages")
+	@XmlElement(name = "DocumentPackage")
+	private List<DocumentPackage> documentPackages = new ArrayList<>();
 
 	@XmlElement(name = "standardDocumentRequest")
 	private String standardDocumentRequest;
@@ -87,11 +90,11 @@ public class StandardDocumentRequest {
 		this.state = state;
 	}
 
-	public DocumentPackages getDocumentPackages() {
+	public List<DocumentPackage> getDocumentPackages() {
 		return documentPackages;
 	}
 
-	public void setDocumentPackages(DocumentPackages documentPackages) {
+	public void setDocumentPackages(List<DocumentPackage> documentPackages) {
 		this.documentPackages = documentPackages;
 	}
 
