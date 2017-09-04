@@ -101,12 +101,27 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 			for (DocGenEnum.Documents doc : documents) {
 				String message = String.format("On demand document %1$s is not %2$s as expected.", doc, expectedValue ? "present" : "absent");
 				documentQuery.put(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, doc.getId());
+				documentQuery.put(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, doc.getName());
+				getDocumentsControl().getTable().getRow(documentQuery).verify.present(message, expectedValue);
+			}
+		}
+		
+		public void documentsEnabled(DocGenEnum.Documents... documents) {
+			documentsEnabled(true, documents);
+		}
+		
+		public void documentsEnabled(boolean expectedValue, DocGenEnum.Documents... documents) {
+			Map<String, String> documentQuery = new HashMap<>();
+
+			for (DocGenEnum.Documents doc : documents) {
+				String message = String.format("On demand document %1$s is not %2$s as expected.", doc, expectedValue ? "enabled" : "disabled");
+				documentQuery.put(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, doc.getId());
 				if (doc.getName().contains("'")) {
 					documentQuery.put(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, doc.getName().replaceAll("'.*", "")); // quote in documents name breaks xpath
-					getDocumentsControl().getTable().getRowContains(documentQuery).verify.present(message, expectedValue); // search by part of documents name
+					getDocumentsControl().getTable().getRowContains(documentQuery).getCell(DocGenConstants.OnDemandDocumentsTable.SELECT).controls.checkBoxes.getFirst().verify.enabled(message, expectedValue);// search by part of documents name
 				} else {
 					documentQuery.put(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, doc.getName());
-					getDocumentsControl().getTable().getRow(documentQuery).verify.present(message, expectedValue);
+					getDocumentsControl().getTable().getRow(documentQuery).getCell(DocGenConstants.OnDemandDocumentsTable.SELECT).controls.checkBoxes.getFirst().verify.enabled(message, expectedValue);
 				}
 			}
 		}

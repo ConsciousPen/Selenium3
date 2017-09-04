@@ -1512,12 +1512,27 @@ public final class HomeSSMetaData {
 	}
 
 	public static final class GenerateOnDemandDocumentActionTab extends MetaData {
-		public static final AssetDescriptor<FillableDocumentsTable> ON_DEMAND_DOCUMENTS = declare("OnDemandDocuments", FillableDocumentsTable.class, DocumentRow.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body']"));
+		public static final AssetDescriptor<FillableDocumentsTable> ON_DEMAND_DOCUMENTS = declare("OnDemandDocuments", FillableDocumentsTable.class, DocumentRow.class, By.xpath("(//div[@id='policyDataGatherForm:componentView_AAAHODocGen']//table)[1]"));
+		public static final AssetDescriptor<RadioGroup> DELIVERY_METHOD = declare("Delivery Method", RadioGroup.class, Waiters.AJAX, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body']/table"));
+		public static final AssetDescriptor<TextBox> EMAIL_ADDRESS = declare("Email Address", TextBox.class, Waiters.AJAX);
 		
 		public static final class DocumentRow extends MetaData {
 			public static final AssetDescriptor<CheckBox> SELECT = declare(DocGenConstants.OnDemandDocumentsTable.SELECT, CheckBox.class);
 			public static final AssetDescriptor<StaticElement> DOCUMENT_NUMBER = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, StaticElement.class);
 			public static final AssetDescriptor<StaticElement> DOCUMENT_NAME = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, StaticElement.class);
+			
+			// Fields of HSU03XX
+			public static final AssetDescriptor<CheckBox> DECISION_BASED_ON_CLUE = declare("Decision based on CLUE", CheckBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:hsu03CIN:0']"));
+			
+			// Fields of HSU05XX
+			public static final AssetDescriptor<TextBox> FIRST_NAME_HSU05 = declare("First name", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:firstName_HSU05']"));
+			public static final AssetDescriptor<TextBox> LAST_NAME_HSU05 = declare("Last name", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:lastName_HSU05']"));
+			public static final AssetDescriptor<TextBox> ZIP_CODE_HSU05 = declare("Zip code", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:zipCode_HSU05']"));
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1_HSU05 = declare("Street address 1", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:address1_HSU05']"));
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2_HSU05 = declare("Street address 2", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:address2Show_HSU05']"));
+			public static final AssetDescriptor<TextBox> City_HSU05 = declare("City", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:city_HSU05']"));
+			public static final AssetDescriptor<ComboBox> STATE_HSU05 = declare("State", ComboBox.class, Waiters.AJAX, false, By.xpath("//span[@id='policyDataGatherForm:stateShow_HSU05']/select"));
+			public static final AssetDescriptor<TextBox> DESCRIPTION_HSU05 = declare("Description", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:uwMsg_HSU05']"));
 		}
 	}
 

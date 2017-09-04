@@ -11,6 +11,7 @@ import aaa.common.enums.NavigationEnum.PersonalUmbrellaTab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
@@ -157,7 +158,8 @@ public class TestCODeltaScenario1 extends PersonalUmbrellaBaseTest {
 
 		policy.quoteDocGen().start();
 		goddTab.verify.documentsPresent(DocGenEnum.Documents.PS11);
-		goddTab.buttonCancel.click();
+		goddTab.generateDocuments(DocGenEnum.Documents.PS11);
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.PS11);
 	}
 	
 	private List<String> residence_CurrentCarrierLOVs = Arrays.asList("AAA-Michigan (ACG)","AAA-NoCal (CSAA IG) Rewrite","AAA-NoCal (CSAA IG) Sold/Bought","AAA-SoCal (ACSC)","Allied","Allstate","Amco Ins Co","American Family","American National","Auto Owners","Bear River Mutual","Chartis","Cincinnati","Country","CSAA IG","CSE Safeguard","Farm Bureau","Farmers","Fire Insurance","First Time Homebuyer","Foremost","Great Northern","Hartford","Homesite","Liberty Mutual","Metropolitan","Nationwide","No Prior","Other Carrier","Owners Insurance","Pacific Indemnity","Safeco","Standard Fire","State Farm","Travelers","Unigard","USAA");

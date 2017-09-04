@@ -1,10 +1,13 @@
 package aaa.helpers.xml.models;
 
+import java.util.ArrayList;
+import java.util.List;
 import aaa.main.enums.DocGenEnum;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -13,8 +16,9 @@ public class DocumentDataSection {
 	@XmlElement(name = "SectionName")
 	private String sectionName;
 
-	@XmlElement(name = "DocumentDataElements")
-	private DocumentDataElements documentDataElements;
+	@XmlElementWrapper(name = "DocumentDataElements")
+	@XmlElement(name = "DocumentDataElement")
+	private List<DocumentDataElement> documentDataElements = new ArrayList<>();
 
 	public String getSectionName() {
 		return sectionName;
@@ -24,11 +28,11 @@ public class DocumentDataSection {
 		this.sectionName = sectionName;
 	}
 
-	public DocumentDataElements getDocumentDataElements() {
+	public List<DocumentDataElement> getDocumentDataElements() {
 		return documentDataElements;
 	}
 
-	public void setDocumentDataElements(DocumentDataElements documentDataElements) {
+	public void setDocumentDataElements(List<DocumentDataElement> documentDataElements) {
 		this.documentDataElements = documentDataElements;
 	}
 

@@ -1,8 +1,10 @@
 package aaa.toolkit.webdriver.customcontrols;
 
 import org.openqa.selenium.By;
+
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.*;
@@ -211,11 +213,15 @@ public class FillableTable extends AbstractContainer<List<TestData>, List<TestDa
 	}
 
 	private TestData getFillableData(TestData fullRowData) {
-		Map<String, String> tdMap = new LinkedHashMap<>();
+		Map<String, Object> tdMap = new LinkedHashMap<>();
 		for (String columnName : fullRowData.getKeys()) {
 			BaseElement<?, ?> control = getAssetCollection().get(columnName);
 			if (control != null && !isSearchableControl(control)) {
-				tdMap.put(columnName, fullRowData.getValue(columnName));
+				try {
+					tdMap.put(columnName, fullRowData.getValue(columnName));
+				} catch (TestDataException e) {
+					tdMap.put(columnName, fullRowData.getTestData(columnName));
+				}
 			}
 		}
 		return new SimpleDataProvider(tdMap);

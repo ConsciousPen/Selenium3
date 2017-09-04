@@ -174,12 +174,9 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		// 7. Make a refund of 1000$
 		refundActionTab.fillTab(tdBilling.getTestData("Refund", "TestData_Check"));
 		RefundActionTab.buttonOk.click();
-		// LocalDateTime tDate = DateTimeUtils.getCurrentDateTime();
 
 		// 8. Check presence of the refund transaction in Pending transactions on billing tab
 		new BillingPendingTransactionsVerifier().setType(BillingPendingTransactionsType.REFUND).setAmount(paymentAmount).verifyPresent();
-		// CharSequence value =
-		// BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(BillingPendingTransactionsTable.TRANSACTION_DATE).getValue();
 		LocalDateTime tDate = TimeSetterUtil.getInstance().parse(BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(BillingPendingTransactionsTable.TRANSACTION_DATE).getValue(),
 			DateTimeUtils.MM_DD_YYYY);
 
