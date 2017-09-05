@@ -8,7 +8,7 @@ import aaa.helpers.xml.models.DataElementChoice;
 import aaa.helpers.xml.models.DocumentDataElement;
 import aaa.helpers.xml.models.DocumentPackage;
 
-public class DataElementChoiceNode extends SearchBy<DataElementChoiceNode, DataElementChoice> {
+public final class DataElementChoiceNode extends SearchBy<DataElementChoiceNode, DataElementChoice> {
 	public DataElementChoiceNode textField(String value) {
 		return addCondition(dec -> Objects.equals(dec.getTextField(), value));
 	}

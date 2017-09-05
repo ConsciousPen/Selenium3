@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import aaa.helpers.xml.models.DistributionChannel;
 import aaa.helpers.xml.models.DocumentPackage;
 
-public class DistributionChannelNode extends SearchBy<DistributionChannelNode, DistributionChannel> {
+public final class DistributionChannelNode extends SearchBy<DistributionChannelNode, DistributionChannel> {
 	public DistributionChannelNode deliveryStatus(String value) {
 		return addCondition(dec -> Objects.equals(dec.getDeliveryStatus(), value));
 	}

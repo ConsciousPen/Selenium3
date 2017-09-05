@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 import aaa.helpers.xml.models.ArchiveData;
 import aaa.helpers.xml.models.DocumentPackage;
 
-public class ArchiveDataNode extends SearchBy<ArchiveDataNode, ArchiveData> {
+public final class ArchiveDataNode extends SearchBy<ArchiveDataNode, ArchiveData> {
 	public DocumentDataElementADNode documentDataElement = new DocumentDataElementADNode();
 
 	public ArchiveDataNode sectionName(String value) {

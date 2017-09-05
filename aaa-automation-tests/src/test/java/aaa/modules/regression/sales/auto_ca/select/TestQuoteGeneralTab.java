@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ca.select.functional;
+package aaa.modules.regression.sales.auto_ca.select;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
