@@ -12,6 +12,13 @@ TestData_NonPaymentOfPremium: {
   }
 }
 
+TestData_NewBusinessRescissionNSF: {
+  CancellationActionTab: {
+    Cancellation effective date: /today,
+    Cancellation reason: "New Business Rescission - NSF on Down Payment"
+  }
+}
+
 TestData_Plus3Days: {
   CancellationActionTab: {
     Cancellation effective date: /today+3d,

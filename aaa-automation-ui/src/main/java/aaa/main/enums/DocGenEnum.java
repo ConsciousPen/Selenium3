@@ -41,8 +41,8 @@ public final class DocGenEnum {
 	 	HSES("Property Insurance Invoice"),
 	 	HSILXX("Property Inventory List"),
 	 	PS02("Personal Umbrella Policy Declarations"),
-	 	HS0420("HS 04 20", ""),
-	 	
+	 	HS0420("HS 04 20", "HS 04 20 Endorsement"),
+	 	AH60XXA("Rescission Notice"),	 	
 		;
 
 		private String id;
