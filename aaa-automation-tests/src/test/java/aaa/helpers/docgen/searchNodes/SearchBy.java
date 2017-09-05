@@ -3,14 +3,14 @@ package aaa.helpers.docgen.searchNodes;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
-import aaa.helpers.xml.models.DocumentPackage;
+import aaa.helpers.xml.models.StandardDocumentRequest;
 
 public abstract class SearchBy<N, D> {
-	public static DocumentPackageNode documentPackage = new DocumentPackageNode();
+	public static StandardDocumentRequestNode standardDocumentRequest = new StandardDocumentRequestNode();
 
 	protected Predicate<D> condition;
 
-	public abstract List<D> search(List<DocumentPackage> documentsList);
+	public abstract List<D> search(StandardDocumentRequest sDocumentRequest);
 
 	@SuppressWarnings("unchecked")
 	protected final N addCondition(Predicate<D> condition) {

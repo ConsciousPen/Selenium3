@@ -3,9 +3,12 @@ package aaa.helpers.docgen.searchNodes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
 import aaa.helpers.xml.models.DistributionChannel;
 import aaa.helpers.xml.models.DocumentPackage;
+import aaa.helpers.xml.models.StandardDocumentRequest;
 
 public final class DistributionChannelNode extends SearchBy<DistributionChannelNode, DistributionChannel> {
 	public DistributionChannelNode deliveryStatus(String value) {
@@ -13,10 +16,11 @@ public final class DistributionChannelNode extends SearchBy<DistributionChannelN
 	}
 
 	@Override
-	public List<DistributionChannel> search(List<DocumentPackage> documentsList) {
+	public List<DistributionChannel> search(StandardDocumentRequest sDocumentRequest) {
+		Predicate<DistributionChannel> copiedCondition = getConditionAndClear();
 		List<DistributionChannel> filteredDc = new ArrayList<>();
-		for (DocumentPackage dp : documentPackage.search(documentsList)) {
-			filteredDc.addAll(dp.getDistributionChannels().stream().filter(getConditionAndClear()).collect(Collectors.toList()));
+		for (DocumentPackage dp : standardDocumentRequest.documentPackage.search(sDocumentRequest)) {
+			filteredDc.addAll(dp.getDistributionChannels().stream().filter(copiedCondition).collect(Collectors.toList()));
 		}
 		return filteredDc;
 	}

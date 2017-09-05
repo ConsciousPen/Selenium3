@@ -1,9 +1,12 @@
 package aaa.helpers.docgen.searchNodes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import aaa.helpers.xml.models.DocumentPackage;
+
+import aaa.helpers.xml.models.*;
 
 public final class DocumentPackageNode extends SearchBy<DocumentPackageNode, DocumentPackage> {
 	public ArchiveDataNode archiveData = new ArchiveDataNode();
@@ -36,7 +39,12 @@ public final class DocumentPackageNode extends SearchBy<DocumentPackageNode, Doc
 	}
 
 	@Override
-	public List<DocumentPackage> search(List<DocumentPackage> documentsList) {
-		return documentsList.stream().filter(getConditionAndClear()).collect(Collectors.toList());
+	public List<DocumentPackage> search(StandardDocumentRequest sDocumentRequest) {
+		Predicate<DocumentPackage> copiedCondition = getConditionAndClear();
+		List<DocumentPackage> filteredDps = new ArrayList<>();
+		for (StandardDocumentRequest sdr : standardDocumentRequest.search(sDocumentRequest)) {
+			filteredDps.addAll(sdr.getDocumentPackages().stream().filter(copiedCondition).collect(Collectors.toList()));
+		}
+		return filteredDps;
 	}
 }

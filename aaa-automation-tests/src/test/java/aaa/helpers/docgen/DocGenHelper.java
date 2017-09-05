@@ -4,6 +4,7 @@ import aaa.helpers.docgen.searchNodes.SearchBy;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.helpers.xml.XmlHelper;
 import aaa.helpers.xml.models.CreateDocuments;
+import aaa.helpers.xml.models.StandardDocumentRequest;
 import aaa.main.enums.DocGenEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +53,7 @@ public class DocGenHelper {
 	 * @param policyNumber       quote or policy number to be used for finding xml document for further documents searching.
 	 *                           If more than one file with <b>policyNumber</b> is found then newest one (last modified) will be used for documents searching.
 	 * @param documents          array of documents to be searched in found xml file. If array is empty then only existence of <b>policyNumber</b> will be verified.
-	 * @return DocumentWrapper object with CreateDocuments object unmarshalled from xml document and search/verification helper methods
+	 * @return DocumentWrapper object with StandardDocumentRequest object unmarshalled from xml document and search/verification helper methods
 	 * @throws AssertionError <p>1) if no xml document(s) with <b>policyNumber</b> inside were found within timeout ({@link #DOCUMENT_GENERATION_TIMEOUT} seconds by default).
 	 *                        <p>2) if provided documents are present or absent in found xml model (depending on <b>documentsExistence</b> value).
 	 *                        <p>3) if <b>documents</b> array is empty and <b>documentsExistence</b> argument is false.
@@ -67,11 +68,11 @@ public class DocGenHelper {
 				documents.length > 0 ? String.format(" and %1$s documents: %2$s", documentsExistence ? "contains all" : "does not contain", Arrays.asList(documents)) : ""));
 
 		DocumentWrapper documentWrapper = getDocumentRequest(generatedByJob, policyNumber, documentsExistence ? documents : new DocGenEnum.Documents[0]);
-		documentWrapper.verify.exists(String.format("Policy number \"%s\" is absent in documents object model.", policyNumber), SearchBy.documentPackage.packageIdentifier(policyNumber));
+		documentWrapper.verify.exists(String.format("Policy number \"%s\" is absent in documents object model.", policyNumber), SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber));
 
 		for (DocGenEnum.Documents document : documents) {
 			documentWrapper.verify.exists(documentsExistence, String.format("Document %1$s is %2$s in object model.", document, documentsExistence ? "absent" : "present"),
-					SearchBy.documentPackage.document.templateId(document.getIdInXml()));
+					SearchBy.standardDocumentRequest.documentPackage.document.templateId(document.getIdInXml()));
 		}
 
 		log.info("Documents generation verification has been successfully passed.");
@@ -88,7 +89,7 @@ public class DocGenHelper {
 	 * @param generatedByJob if true then file search will be performed in appropriate jobs generation folder location
 	 * @param policyNumber   quote or policy number to be used for finding xml document.
 	 *                       If more than one file with <b>policyNumber</b> is found then newest one (last modified) will be used for getting document model.
-	 * @return DocumentWrapper object with CreateDocuments object unmarshalled from xml document and search/verification helper methods
+	 * @return DocumentWrapper object with StandardDocumentRequest object unmarshalled from xml document and search/verification helper methods
 	 * @throws AssertionError if no xml document(s) with <b>policyNumber</b> inside were found within timeout ({@link #DOCUMENT_GENERATION_TIMEOUT} seconds by default)
 	 * @throws IstfException  if unmarshalling of found xml file to object model fails.
 	 *                        By default strict match check is used, this means exception will be thrown if xml content differs from existing model (e.g. has extra tags)
@@ -105,8 +106,15 @@ public class DocGenHelper {
 
 		String content = RemoteHelper.getFileContent(documentsFilePaths.get(0));
 		log.info(String.format("Getting object model from found xml document: \"%s\".", documentsFilePaths.get(0)));
-		DocumentWrapper documentWrapper = new DocumentWrapper(XmlHelper.xmlToModel(content, CreateDocuments.class));
-		return documentWrapper;
+
+		StandardDocumentRequest standardDocumentRequest;
+		if (generatedByJob) {
+			standardDocumentRequest = XmlHelper.xmlToModel(content, StandardDocumentRequest.class);
+		} else {
+			standardDocumentRequest = XmlHelper.xmlToModel(content, CreateDocuments.class).getStandardDocumentRequest();
+		}
+
+		return new DocumentWrapper(standardDocumentRequest);
 	}
 
 	public static List<String> waitForDocumentsAppearance(String policyNumber, DocGenEnum.Documents... documents) {

@@ -1,11 +1,12 @@
 package aaa.helpers.docgen.searchNodes;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 import aaa.helpers.xml.models.ArchiveData;
 import aaa.helpers.xml.models.DocumentPackage;
+import aaa.helpers.xml.models.StandardDocumentRequest;
 
 public final class ArchiveDataNode extends SearchBy<ArchiveDataNode, ArchiveData> {
 	public DocumentDataElementADNode documentDataElement = new DocumentDataElementADNode();
@@ -15,14 +16,7 @@ public final class ArchiveDataNode extends SearchBy<ArchiveDataNode, ArchiveData
 	}
 
 	@Override
-	public List<ArchiveData> search(List<DocumentPackage> documentsList) {
-		Predicate<ArchiveData> copiedCondition = getConditionAndClear();
-		List<ArchiveData> filteredAd = new ArrayList<>();
-		for (DocumentPackage dp : documentPackage.search(documentsList)) {
-			if (copiedCondition.test(dp.getArchiveData())) {
-				filteredAd.add(dp.getArchiveData());
-			}
-		}
-		return filteredAd;
+	public List<ArchiveData> search(StandardDocumentRequest sDocumentRequest) {
+		return standardDocumentRequest.documentPackage.search(sDocumentRequest).stream().map(DocumentPackage::getArchiveData).filter(getConditionAndClear()).collect(Collectors.toList());
 	}
 }

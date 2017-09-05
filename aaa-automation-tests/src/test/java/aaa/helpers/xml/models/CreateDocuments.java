@@ -2,7 +2,6 @@ package aaa.helpers.xml.models;
 
 import javax.xml.bind.annotation.*;
 
-@XmlRootElement(name = "CreateDocuments")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CreateDocuments {
 	private StandardDocumentRequest standardDocumentRequest;

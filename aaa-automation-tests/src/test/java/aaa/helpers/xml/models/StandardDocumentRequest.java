@@ -34,6 +34,9 @@ public class StandardDocumentRequest {
 	@XmlElement(name = "standardDocumentRequest")
 	private String standardDocumentRequest;
 
+	@XmlElement(name = "BatchFileSummary")
+	BatchFileSummary batchFileSummary;
+
 	public String getCorrelationId() {
 		return correlationId;
 	}
@@ -106,6 +109,14 @@ public class StandardDocumentRequest {
 		this.standardDocumentRequest = standardDocumentRequest;
 	}
 
+	public BatchFileSummary getBatchFileSummary() {
+		return batchFileSummary;
+	}
+
+	public void setBatchFileSummary(BatchFileSummary batchFileSummary) {
+		this.batchFileSummary = batchFileSummary;
+	}
+
 	@Override
 	public String toString() {
 		return "StandardDocumentRequest{" +
@@ -118,6 +129,7 @@ public class StandardDocumentRequest {
 				", state='" + state + '\'' +
 				", documentPackages=" + documentPackages +
 				", standardDocumentRequest='" + standardDocumentRequest + '\'' +
+				", batchFileSummary=" + batchFileSummary +
 				'}';
 	}
 }

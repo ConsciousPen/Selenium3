@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 
 import aaa.helpers.docgen.searchNodes.SearchBy;
-import aaa.helpers.xml.models.CreateDocuments;
 import aaa.helpers.xml.models.Document;
 import aaa.helpers.xml.models.DocumentPackage;
 import aaa.helpers.xml.models.StandardDocumentRequest;
@@ -13,14 +12,14 @@ import toolkit.verification.CustomAssert;
 
 public class DocumentWrapper {
 	public Verify verify = new Verify();
-	private CreateDocuments createDocuments;
+	private StandardDocumentRequest standardDocumentRequest;
 
-	public DocumentWrapper(CreateDocuments createDocuments) {
-		this.createDocuments = createDocuments;
+	public DocumentWrapper(StandardDocumentRequest standardDocumentRequest) {
+		this.standardDocumentRequest = standardDocumentRequest;
 	}
 
 	public StandardDocumentRequest getStandardDocumentRequest() {
-		return createDocuments.getStandardDocumentRequest();
+		return this.standardDocumentRequest;
 	}
 
 	public List<DocumentPackage> getAllDocumentPackages() {
@@ -36,7 +35,7 @@ public class DocumentWrapper {
 	}
 
 	public <D> List<D> getList(SearchBy<?, D> searchFilter) {
-		return searchFilter.search(getAllDocumentPackages());
+		return searchFilter.search(getStandardDocumentRequest());
 	}
 
 

@@ -3,10 +3,11 @@ package aaa.helpers.docgen.searchNodes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import aaa.helpers.xml.models.Document;
 import aaa.helpers.xml.models.DocumentDataSection;
-import aaa.helpers.xml.models.DocumentPackage;
+import aaa.helpers.xml.models.StandardDocumentRequest;
 
 public final class DocumentDataSectionNode extends SearchBy<DocumentDataSectionNode, DocumentDataSection> {
 	public DocumentDataElementNode documentDataElement = new DocumentDataElementNode();
@@ -16,12 +17,12 @@ public final class DocumentDataSectionNode extends SearchBy<DocumentDataSectionN
 	}
 
 	@Override
-	public List<DocumentDataSection> search(List<DocumentPackage> documentsList) {
+	public List<DocumentDataSection> search(StandardDocumentRequest sDocumentRequest) {
+		Predicate<DocumentDataSection> copiedCondition = getConditionAndClear();
 		List<DocumentDataSection> filteredDds = new ArrayList<>();
-		for (Document doc : documentPackage.document.search(documentsList)) {
-			filteredDds.addAll(doc.getDocumentDataSections().stream().filter(getConditionAndClear()).collect(Collectors.toList()));
+		for (Document doc : standardDocumentRequest.documentPackage.document.search(sDocumentRequest)) {
+			filteredDds.addAll(doc.getDocumentDataSections().stream().filter(copiedCondition).collect(Collectors.toList()));
 		}
-
 		return filteredDds;
 	}
 }
