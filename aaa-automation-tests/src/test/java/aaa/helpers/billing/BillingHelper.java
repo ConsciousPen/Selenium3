@@ -70,6 +70,16 @@ public final class BillingHelper {
 		return value.replace(" (Renewal)", "");
 	}
 
+	public static Dollar getPolicyMinimumDueAmount(String policyNumber) {
+		String value = BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingAccountPoliciesTable.POLICY_NUM, policyNumber).getCell(BillingAccountPoliciesTable.MIN_DUE).getValue();
+		return new Dollar(value);
+	}
+
+	public static Dollar getPolicyTotalDueAmount(String policyNumber) {
+		String value = BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingAccountPoliciesTable.POLICY_NUM, policyNumber).getCell(BillingAccountPoliciesTable.TOTAL_DUE).getValue();
+		return new Dollar(value);
+	}
+
 	// ------- Installments table-------
 
 	/**
@@ -79,10 +89,9 @@ public final class BillingHelper {
 	 *         Installment is usualy 1
 	 */
 	public static List<LocalDateTime> getInstallmentDueDates() {
-		List<LocalDateTime> installments = BillingSummaryPage.tableInstallmentSchedule.getValuesFromRows(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE)
-				.stream().map(value -> TimeSetterUtil.getInstance().parse(value, DateTimeUtils.MM_DD_YYYY)).collect(Collectors.toList());
-		log.info("Billing installments due dates: "
-				+ installments.stream().map(date -> date.format(DateTimeUtils.MM_DD_YYYY)).collect(Collectors.joining(", ")));
+		List<LocalDateTime> installments = BillingSummaryPage.tableInstallmentSchedule.getValuesFromRows(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).stream().map(
+			value -> TimeSetterUtil.getInstance().parse(value, DateTimeUtils.MM_DD_YYYY)).collect(Collectors.toList());
+		log.info("Billing installments due dates: " + installments.stream().map(date -> date.format(DateTimeUtils.MM_DD_YYYY)).collect(Collectors.joining(", ")));
 		return installments;
 	}
 
@@ -93,14 +102,12 @@ public final class BillingHelper {
 	 *         Installment is usualy 1
 	 */
 	public static List<Dollar> getInstallmentDues() {
-		return BillingSummaryPage.tableInstallmentSchedule.getValuesFromRows(BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT).stream().map(Dollar::new)
-				.collect(Collectors.toList());
+		return BillingSummaryPage.tableInstallmentSchedule.getValuesFromRows(BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT).stream().map(Dollar::new).collect(Collectors.toList());
 	}
 
 	public static Dollar getInstallmentDueByDueDate(LocalDateTime date) {
-		String value = BillingSummaryPage.tableInstallmentSchedule
-				.getRow(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE, date.format(DateTimeUtils.MM_DD_YYYY))
-				.getCell(BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT).getValue();
+		String value = BillingSummaryPage.tableInstallmentSchedule.getRow(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE, date.format(DateTimeUtils.MM_DD_YYYY)).getCell(
+			BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT).getValue();
 		return new Dollar(value);
 	}
 
@@ -119,6 +126,20 @@ public final class BillingHelper {
 		values.put(BillingBillsAndStatmentsTable.DUE_DATE, billDueDate.format(DateTimeUtils.MM_DD_YYYY));
 		values.put(BillingBillsAndStatmentsTable.TYPE, billType);
 		return new Dollar(BillingSummaryPage.tableBillsStatements.getRow(values).getCell(BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
+	}
+
+	public static Dollar getBillMinDueAmount(LocalDateTime billDueDate, String billType) {
+		Map<String, String> values = new HashMap<>();
+		values.put(BillingBillsAndStatmentsTable.DUE_DATE, billDueDate.format(DateTimeUtils.MM_DD_YYYY));
+		values.put(BillingBillsAndStatmentsTable.TYPE, billType);
+		return new Dollar(BillingSummaryPage.tableBillsStatements.getRow(values).getCell(BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
+	}
+
+	public static Dollar getBillTotalDueAmount(LocalDateTime billDueDate, String billType) {
+		Map<String, String> values = new HashMap<>();
+		values.put(BillingBillsAndStatmentsTable.DUE_DATE, billDueDate.format(DateTimeUtils.MM_DD_YYYY));
+		values.put(BillingBillsAndStatmentsTable.TYPE, billType);
+		return new Dollar(BillingSummaryPage.tableBillsStatements.getRow(values).getCell(BillingBillsAndStatmentsTable.TOTAL_DUE).getValue());
 	}
 
 	// ------- Payments & Other Transactions table -------
@@ -150,12 +171,10 @@ public final class BillingHelper {
 		HashMap<String, String> values = new HashMap<>();
 		values.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
 		values.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PAYMENT);
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(values).getCell(BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(
-				PaymentsAndOtherTransactionAction.DECLINE).click();
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(values).getCell(BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(PaymentsAndOtherTransactionAction.DECLINE).click();
 		DeclinePaymentActionTab declinePaymentActionTab = new DeclinePaymentActionTab();
 		if (declinePaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.DeclinePaymentActionTab.DECLINE_REASON.getLabel()).isPresent()) {
-			declinePaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.DeclinePaymentActionTab.DECLINE_REASON.getLabel(), ComboBox.class)
-					.setValue("index=1");
+			declinePaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.DeclinePaymentActionTab.DECLINE_REASON.getLabel(), ComboBox.class).setValue("index=1");
 			DeclinePaymentActionTab.buttonOk.click();
 		}
 	}
@@ -166,8 +185,7 @@ public final class BillingHelper {
 		HashMap<String, String> values = new HashMap<>();
 		values.put(BillingPendingTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
 		values.put(BillingPendingTransactionsTable.TYPE, type);
-		BillingSummaryPage.tablePendingTransactions.getRow(values).getCell(BillingPendingTransactionsTable.ACTION).controls.links.get(
-				BillingPendingTransactionsActions.APPROVE).click();
+		BillingSummaryPage.tablePendingTransactions.getRow(values).getCell(BillingPendingTransactionsTable.ACTION).controls.links.get(BillingPendingTransactionsActions.APPROVE).click();
 		BillingSummaryPage.dialogApprovePendingTransaction.confirm();
 	}
 
