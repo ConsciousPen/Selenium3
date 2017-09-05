@@ -22,7 +22,8 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestQuotePrefill"/>
-			
+			<class name="aaa.modules.regression.sales.auto_ss.TestQuoteCustomerSearch"/>
+
 			<class name="aaa.modules.regression.service.auto_ss.TestPolicyCancellation"/>
 			<class name="aaa.modules.regression.service.auto_ss.TestPolicyCancelNoticeAddDelete"/>
 			<class name="aaa.modules.regression.service.auto_ss.TestPolicyCancelReinstate"/>
@@ -42,7 +43,7 @@
 			<class name="aaa.modules.regression.service.auto_ss.TestPolicyRenewDeclineByCustomer"/>
 			<class name="aaa.modules.regression.service.auto_ss.TestPolicyRenewDeletePending"/>
 			<class name="aaa.modules.regression.service.auto_ss.TestPolicyRenewFlatCancellation"/>
-			
+
 			<class name="aaa.modules.regression.billing_and_payments.auto_ss.TestPolicyBilling"/>
 
    		</classes>
@@ -393,7 +394,8 @@
 			<class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyCreationBig"/>
 			<class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyFuturedated"/>
 			<class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyNano"/>
-			
+			<class name="aaa.modules.regression.sales.auto_ca.select.TestQuoteGeneralTab"/>
+
 			<class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancelNoticeAddDelete"/>			
 			<class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancelReinstate"/>
 			<class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancelRewrite"/>

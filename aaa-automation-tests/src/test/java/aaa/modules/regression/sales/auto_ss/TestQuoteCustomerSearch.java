@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ss.functional;
+package aaa.modules.regression.sales.auto_ss;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -76,7 +76,7 @@ public class TestQuoteCustomerSearch extends AutoSSBaseTest {
 		insuredSearchDialog.tableSearchResults.verify.rowsCount(1);
 		insuredSearchDialog.labelErrorMessage.verify.present(false);
 
-		insuredSearchDialog.tableSearchResults.getRow(1).getCell(1).controls.links.getFirst().click();
+		insuredSearchDialog.tableSearchResults.getRow(1).getCell("Customer Name").controls.links.getFirst().click();
 
 		//Return to "general" tab, just added customer should be opened for editing, validate address (5210 East Hampton), //PAS13 ER Fix: As per defect 42775
 		generalTab.getAssetList().getAsset(NAMED_INSURED_INFORMATION).getAsset(NamedInsuredInformation.FIRST_NAME).verify.value("John");
@@ -96,7 +96,7 @@ public class TestQuoteCustomerSearch extends AutoSSBaseTest {
 		driverTab.getAssetList().getAsset(DRIVER_SEARCH_DIALOG).getAsset(DialogsMetaData.DialogSearch.LAST_NAME).setValue("Bamboo");
 		driverTab.getAssetList().getAsset(DRIVER_SEARCH_DIALOG).getAsset(DialogsMetaData.DialogSearch.POSTAL_CODE).setValue("85206");
 		driverTab.getAssetList().getAsset(DRIVER_SEARCH_DIALOG).search();
-		driverTab.getAssetList().getAsset(DRIVER_SEARCH_DIALOG).tableSearchResults.getRow(1).getCell(1).controls.links.getFirst().click();
+		driverTab.getAssetList().getAsset(DRIVER_SEARCH_DIALOG).tableSearchResults.getRow(1).getCell("Customer Name").controls.links.getFirst().click();
 
 		//Verify that Driver's info is filled with found driver's details
 		driverTab.getAssetList().getAsset(FIRST_NAME).verify.value("John");
