@@ -10,22 +10,22 @@ public abstract class SearchBy<N, D> {
 
 	protected Predicate<D> condition;
 
+	public abstract List<D> search(List<DocumentPackage> documentsList);
+
 	@SuppressWarnings("unchecked")
 	protected final N addCondition(Predicate<D> condition) {
 		this.condition = Objects.isNull(this.condition) ? condition : this.condition.and(condition);
 		return (N) this;
 	}
 
-	@SuppressWarnings("unchecked")
-	protected <D> Predicate<D> getConditionAndClear() {
-		Predicate<D> copiedCondition = Objects.isNull(condition) ? d -> true : (Predicate<D>) condition;
+	protected Predicate<D> getConditionAndClear() {
+		Predicate<D> copiedCondition = Objects.isNull(condition) ? d -> true : condition;
 		condition = null;
 		return copiedCondition;
 	}
 
-	public abstract List<D> search(List<DocumentPackage> documentsList);
-
 	@Override
+	//TODO-dchubkov: implement output of all condition values
 	public String toString() {
 		return "SearchBy{" +
 				"condition=" + condition +

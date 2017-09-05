@@ -2,6 +2,8 @@ package aaa.helpers.docgen;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import aaa.helpers.docgen.searchNodes.SearchBy;
 import aaa.helpers.xml.models.CreateDocuments;
 import aaa.helpers.xml.models.Document;
@@ -40,11 +42,15 @@ public class DocumentWrapper {
 
 	public class Verify {
 		public <D> void exists(SearchBy<?, D> searchFilter) {
-			exists(true, searchFilter);
+			exists(true, null, searchFilter);
 		}
 
-		public <D> void exists(boolean expectedValue, SearchBy<?, D> searchFilter) {
-			String assertionMessage = String.format("Entries are %s in generated document by provided search criterias.", expectedValue ? "absent" : "present");
+		public <D> void exists(String assertionMessage, SearchBy<?, D> searchFilter) {
+			exists(true, assertionMessage, searchFilter);
+		}
+
+		public <D> void exists(boolean expectedValue, String assertionMessage, SearchBy<?, D> searchFilter) {
+			assertionMessage = Objects.isNull(assertionMessage) ? String.format("Entries are %s in generated document by provided search criteria.", expectedValue ? "absent" : "present") : assertionMessage;
 			CustomAssert.assertEquals(assertionMessage, getList(searchFilter).isEmpty(), !expectedValue);
 		}
 	}

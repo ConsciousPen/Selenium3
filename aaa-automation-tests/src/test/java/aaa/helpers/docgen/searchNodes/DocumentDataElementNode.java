@@ -8,7 +8,7 @@ import aaa.helpers.xml.models.DocumentDataElement;
 import aaa.helpers.xml.models.DocumentDataSection;
 import aaa.helpers.xml.models.DocumentPackage;
 
-public class DocumentDataElementNode extends SearchBy<DocumentDataElementNode, DocumentDataElement> {
+public final class DocumentDataElementNode extends SearchBy<DocumentDataElementNode, DocumentDataElement> {
 	public DataElementChoiceNode dataElementChoice = new DataElementChoiceNode();
 
 	public DocumentDataElementNode name(String value) {

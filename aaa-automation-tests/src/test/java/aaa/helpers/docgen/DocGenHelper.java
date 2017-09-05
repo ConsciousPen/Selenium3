@@ -1,11 +1,9 @@
 package aaa.helpers.docgen;
 
+import aaa.helpers.docgen.searchNodes.SearchBy;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.helpers.xml.XmlHelper;
 import aaa.helpers.xml.models.CreateDocuments;
-import aaa.helpers.xml.models.Document;
-import aaa.helpers.xml.models.DocumentPackage;
-import aaa.helpers.xml.models.StandardDocumentRequest;
 import aaa.main.enums.DocGenEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +12,7 @@ import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class DocGenHelper {
 	public static final String DOCGEN_SOURCE_FOLDER = "/home/DocGen/";
@@ -57,7 +52,7 @@ public class DocGenHelper {
 	 * @param policyNumber       quote or policy number to be used for finding xml document for further documents searching.
 	 *                           If more than one file with <b>policyNumber</b> is found then newest one (last modified) will be used for documents searching.
 	 * @param documents          array of documents to be searched in found xml file. If array is empty then only existence of <b>policyNumber</b> will be verified.
-	 * @return unmarshalled StandardDocumentRequest object from found xml document
+	 * @return DocumentWrapper object with CreateDocuments object unmarshalled from xml document and search/verification helper methods
 	 * @throws AssertionError <p>1) if no xml document(s) with <b>policyNumber</b> inside were found within timeout ({@link #DOCUMENT_GENERATION_TIMEOUT} seconds by default).
 	 *                        <p>2) if provided documents are present or absent in found xml model (depending on <b>documentsExistence</b> value).
 	 *                        <p>3) if <b>documents</b> array is empty and <b>documentsExistence</b> argument is false.
@@ -72,27 +67,14 @@ public class DocGenHelper {
 				documents.length > 0 ? String.format(" and %1$s documents: %2$s", documentsExistence ? "contains all" : "does not contain", Arrays.asList(documents)) : ""));
 
 		DocumentWrapper documentWrapper = getDocumentRequest(generatedByJob, policyNumber, documentsExistence ? documents : new DocGenEnum.Documents[0]);
-		//DocumentRequestWrapper standardDocumentRequest = getDocumentRequest(generatedByJob, policyNumber, documentsExistence ? documents : new DocGenEnum.Documents[0]);
-		CustomAssert.assertTrue(String.format("Policy number \"%s\" is absent in documents object model.", policyNumber),
-				documentWrapper.getStandardDocumentRequest().getDocumentPackages().stream().anyMatch(p -> p.getPackageIdentifier().equals(policyNumber)));
+		documentWrapper.verify.exists(String.format("Policy number \"%s\" is absent in documents object model.", policyNumber), SearchBy.documentPackage.packageIdentifier(policyNumber));
 
-		Map<DocGenEnum.Documents, Boolean> documentsExistenceMap = new HashMap<>(documents.length);
-		Arrays.stream(documents).forEach(d -> documentsExistenceMap.put(d, false));
 		for (DocGenEnum.Documents document : documents) {
-			for (DocumentPackage packages : documentWrapper.getStandardDocumentRequest().getDocumentPackages()) {
-				for (Document doc : packages.getDocuments()) {
-					if (doc.getTemplateId().equals(document.getIdInXml())) {
-						documentsExistenceMap.replace(document, true);
-						break;
-					}
-				}
-			}
+			documentWrapper.verify.exists(documentsExistence, String.format("Document %1$s is %2$s in object model.", document, documentsExistence ? "absent" : "present"),
+					SearchBy.documentPackage.document.templateId(document.getIdInXml()));
 		}
 
-		List<DocGenEnum.Documents> failedDocsList = documentsExistenceMap.entrySet().stream().filter(d -> d.getValue() != documentsExistence).map(Map.Entry::getKey).collect(Collectors.toList());
-		CustomAssert.assertTrue(String.format("Documents are %1$s: %2$s in object model.", documentsExistence ? "absent" : "present", failedDocsList), failedDocsList.isEmpty());
 		log.info("Documents generation verification has been successfully passed.");
-
 		return documentWrapper;
 	}
 
@@ -106,7 +88,7 @@ public class DocGenHelper {
 	 * @param generatedByJob if true then file search will be performed in appropriate jobs generation folder location
 	 * @param policyNumber   quote or policy number to be used for finding xml document.
 	 *                       If more than one file with <b>policyNumber</b> is found then newest one (last modified) will be used for getting document model.
-	 //////* @return unmarshalled StandardDocumentRequest object from found xml document
+	 * @return DocumentWrapper object with CreateDocuments object unmarshalled from xml document and search/verification helper methods
 	 * @throws AssertionError if no xml document(s) with <b>policyNumber</b> inside were found within timeout ({@link #DOCUMENT_GENERATION_TIMEOUT} seconds by default)
 	 * @throws IstfException  if unmarshalling of found xml file to object model fails.
 	 *                        By default strict match check is used, this means exception will be thrown if xml content differs from existing model (e.g. has extra tags)
@@ -114,7 +96,7 @@ public class DocGenHelper {
 	public static DocumentWrapper getDocumentRequest(boolean generatedByJob, String policyNumber, DocGenEnum.Documents... documents) {
 		List<String> documentsFilePaths = waitForDocumentsAppearance(generatedByJob, policyNumber, documents);
 		if (documentsFilePaths.size() > 1) {
-			log.warn(String.format("More than one (%1$s) xml document files were found with quote/policy number \"%2$s\"%3$s:\n%4$s.\nNewest one (last modified) will be used for getting StandardDocumentRequest model.",
+			log.warn(String.format("More than one (%1$s) xml document files were found with quote/policy number \"%2$s\"%3$s:\n%4$s.\nNewest one (last modified) will be used for getting CreateDocuments model.",
 					documentsFilePaths.size(),
 					policyNumber,
 					documents.length > 0 ? " and documents: " + Arrays.asList(documents) : "",
