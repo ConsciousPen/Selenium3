@@ -42,7 +42,7 @@ public final class DocGenEnum {
 	 	HSILXX("Property Inventory List"),
 	 	PS02("Personal Umbrella Policy Declarations"),
 	 	HS0420("HS 04 20", ""),
-	 	
+	 	AA41XX("Non-Owners Endorsement"),
 		;
 
 		private String id;
