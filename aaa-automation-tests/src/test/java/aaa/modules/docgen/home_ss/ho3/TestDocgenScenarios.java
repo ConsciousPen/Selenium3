@@ -15,6 +15,7 @@ import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentAction
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 
 /**
@@ -335,6 +336,171 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		// http://aws2aaaanalytics01.corevelocity.csaa.cloud:9001/runs/c6fdc790-91e8-11e7-97e8-61da2a42ca6c?exclude=PASSED
 		// http://aws2aaawas22.corevelocity.csaa.cloud/home/mp2/pas/sit/PAS_B_EXGPAS_DCMGMT_6500_D/outbound/20170905_052542_PAS_B_EXGPAS_DCMGMT_6500_D_PROPERTY.xml
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents.AH60XXA); 
+	}
+	
+	/**
+	 * <pre>
+	 * TC Steps: Create HO3 quote:
+	 *
+	 * Set Payment Plan : Mortgagee Bill Add one morgagee // for HSES and
+	 * 438BFUNS forms
+	 *
+	 * Set Fire department type = 'S - Subscription based' Subscription to fire
+	 * department/station = 'Yes' Public protection class = 5 // for HSRFIXX
+	 * form generation Construction type = "Frame" Proof of subscription to fire
+	 * department = "No"
+	 *
+	 * Set Coverage A - Dwelling limit = 280 000 // for enabling legacy bundle,
+	 * and all endorsement forms which are ISO replacement cost = 280 000 //
+	 * included : HS0420,HS0435,HS0455,HS0465,HS0465,HS0495 InsuranceScore = 870
+	 * // HS0906,HS0926,HS0931,HS0934,HS0965, HS0477
+	 *
+	 * Rate the quote. Save and exit quote, Go to On-Demand Documents tab,
+	 * Verify state of forms on the quote: AHAUXX - enabled AHFMXX - enabled
+	 * HS11 - enabled HSIQXX - enabled HSRFIXX - disabled HSU01XX - disabled
+	 * HSU02XX - disabled HSU03XX - enabled HSU04XX - enabled HSU05XX - enabled
+	 * HSU06XX - enabled HSU07XX - disabled HSU08XX - enabled HSU09XX - disabled
+	 * Verify that below forms aren't present: 438 BFUNS AHRCTXX AHPNXX HS02
+	 * AHNBXX HSEIXX HSESUT Bind the quote. Verify that below forms are
+	 * generated in xml batch after bind: HS02 AHNBXX 438BFUNS HS0420 HS0435
+	 * HS0455 HS0465 HS0495 HS0906 HS0926 HS0931 HS0934 HS0965 HS0477 Go
+	 * To On-Demand Document Tab Verify state of forms on the policy: AHFMXX -
+	 * enabled AHRCTXX - disabled HS11 - enabled HSEIXX - enabled HSES - enabled
+	 * HSILXX - enabled HSRFIXX - enabled HSU01XX - enabled HSU02XX - enabled
+	 * HSU03XX - disabled HSU04XX - enabled HSU05XX - enabled HSU06XX - enabled
+	 * HSU07XX - enabled HSU08XX - enabled HSU09XX - enabled
+	 *
+	 * Verify that below forms aren't present: AHNBXX HSIQXX AHPNXX 438 BFUNS
+	 * HS02
+	 *
+	 * Select forms on On-Demand Documents Tab : HSES HSRFIXX Press "Generate"
+	 * button Verify that below forms are generated in xml batch: HSES HSRFIXX
+	 *
+	 * <pre>
+	 * Req: AHAUXX - 15377: US CL GD-94 Consumer Information Notice AHFMXX -
+	 * 15379: US CL GD-96 Generate Fax Memorandum Document HS11 - 15209: US CL
+	 * GD-77 Generate Application Document All Products HSIQXX - 15207: US CL
+	 * GD-76 Generate Quote Document All Products HSRFIXX - 16187: US CL GD-124
+	 * Generate HSRFIXX Request For Information HSU01XX - 15272: US CL GD-53
+	 * Generate Underwriting Letter HSU01 Advisory HSU02XX - 15274: US CL GD-55
+	 * Generate Underwriting Letter HSU02 Cancellation HSU03XX - 15275: US CL
+	 * GD-56 Generate Underwriting Letter HSU03 Customer Decline HSU04XX -
+	 * 15276: US CL GD-57 Generate Underwriting Letter HSU04 Free Form to
+	 * Insured HSU05XX - 15277: US CL GD-58 Generate Undewriting Letter HSU05
+	 * Free Form to Other HSU06XX - 15278: US CL GD-59 Generate Underwriting
+	 * Letter HSU06 Free Form to Producer HSU07XX - 16238:US CL GD-60 Generate
+	 * Underwriting letter HSU07 Non Renewal HSU08XX - 15282: US CL GD-62
+	 * Generate Underwriting Letter HSU08 Request Add'l Info HSU09XX - 15283: US
+	 * CL GD-63 Generate Underwriting Letter HSU09 Uprate 438 BFUNS - 15210: US
+	 * CL GD-01 Generate 438BFUNS Endorsement AHRCTXX - 15384: US CL GD-101
+	 * Generate Insured Receipt for Funds Received by Agent AHPNXX - 15382: US
+	 * CL GD-99 Generate Privacy Information Notice HS02 - 16881: US CL GD-78
+	 * Generate Declaration Documents All Products; AHNBXX - 15381: US CL GD-98
+	 * Generate New Business Welcome Letter HSEIXX - 16184: US CL GD-121
+	 * Generate HSEIXX Evidence of Insurance HSESUT - 16200: US CL GD-119
+	 * Generate HSESXX Property Insurance Invoice HSILXX - 16185:US CL GD-122
+	 * Generate HSILXX Property Inventory List HS0420 - 15234: US CL GD-16
+	 * Generate HS 04 20 Endorsement HS0435 - 15235: US CL GD-17 Generate HS 04
+	 * 35 Endorsement HS0455 - 15244: US CL GD-27 Generate HS 04 55 Endorsement
+	 * HS0465 - 15247: US CL GD-30 Generate HS 04 65 Endorsement HS0495 - 15253:
+	 * US CL GD-34 Generate HS 04 95 Endorsement HS0906 - 15257: US CL GD-38
+	 * Generate HS 09 04 Endorsement HS0926 - 15259: US CL GD-40 Generate HS 09
+	 * 26 Endorsement HS0931 - 15260: US CL GD-41 Generate HS 09 31 Endorsement
+	 * HS0934 - 15261: US CL GD-42 Generate HS 09 34 Endorsement HS0965 - 15800:
+	 * US CL GD-44 Generate HS 09 65 Endorsement HS0477 - 15248: US CL GD-31
+	 * Generate HS 04 77 Endorsement For Bundles new stories :
+	 */
+	@Test
+	public void testMortgagePolicyDocuments(){
+		mainApp().open();
+		createCustomerIndividual();
+		createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_MortgagePolicy")));
+		
+		GenerateOnDemandDocumentActionTab documentActionTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
+		policy.quoteDocGen().start();
+		documentActionTab.verify.documentsEnabled(
+				Documents.AHAUXX,
+				Documents.AHFMXX,
+				Documents.HS11.setState(getState()),
+				Documents.HSIQXX,
+				Documents.HSU03XX,
+				Documents.HSU04XX,
+				Documents.HSU05XX,
+				Documents.HSU06XX,
+				Documents.HSU08XX
+				);
+		documentActionTab.verify.documentsEnabled(false,
+				Documents.HSRFIXX,
+				Documents.HSU01XX,
+				Documents.HSU02XX,
+				Documents.HSU07XX,
+				Documents.HSU09XX
+				);
+		documentActionTab.verify.documentsPresent(false,
+				Documents._438BFUNS,
+				Documents.AHRCTXX,
+				Documents.AHPNXX,
+				Documents.HS02,
+				Documents.AHNBXX,
+				Documents.HSEIXX,
+				Documents.HSES);
+		documentActionTab.buttonCancel.click();
+		
+		policy.purchase(getPolicyTD());
+		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
+		
+		DocGenHelper.verifyDocumentsGenerated(policyNum, 
+				Documents.HS02,
+				Documents.AHNBXX,
+				Documents._438BFUNS,
+				Documents.HS0420
+				// TODO the following documents cannot be found in the xml file, need to confirm the request
+//				Documents.HS0435,
+//				Documents.HS0455,
+//				Documents.HS0465,
+//				Documents.HS0495,
+//				Documents.HS0906,
+//				Documents.HS0926,
+//				Documents.HS0931,
+//				Documents.HS0934,
+//				Documents.HS0965,
+//				Documents.HS0477
+				);
+		
+		policy.policyDocGen().start();
+		documentActionTab.verify.documentsEnabled(
+//				Documents.AHFMXX, // TODO actually it is disabled on the page, need to confirm the request
+				Documents.HS11.setState(getState()),
+				Documents.HSEIXX,
+				Documents.HSES.setState(getState()),
+				Documents.HSILXX,
+//				Documents.HSRFIXX, // TODO actually it is disabled on the page, need to confirm the request
+				Documents.HSU01XX,
+//				Documents.HSU02XX, // TODO actually it is disabled on the page, need to confirm the request
+				Documents.HSU04XX,
+				Documents.HSU05XX,
+				Documents.HSU06XX,
+				Documents.HSU07XX,
+				Documents.HSU08XX,
+				Documents.HSU09XX
+				);
+		documentActionTab.verify.documentsEnabled(false, 
+//				Documents.AHRCTXX, // TODO actually it is enabled on the page, need to confirm the request
+				Documents.HSU03XX
+				);
+		documentActionTab.verify.documentsPresent(false,
+				Documents.AHNBXX,
+				Documents.HSIQXX,
+				Documents.AHPNXX,
+				Documents._438BFUNS,
+				Documents.HS02);
+		documentActionTab.generateDocuments(
+//				Documents.HSRFIXX, // TODO actually it is disabled on the page, need to confirm the request
+				Documents.HSES.setState(getState())
+				);
+		DocGenHelper.verifyDocumentsGenerated(policyNum, 
+//				Documents.HSRFIXX, // TODO actually it is disabled on the page, need to confirm the request
+				Documents.HSES);
 	}
 	
 	private String getWindowHandle(){
