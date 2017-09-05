@@ -75,10 +75,6 @@ public class Scenario5 extends ScenarioBaseTest {
 	}
 
 	public void TC06_Decline_Payments() {
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
-		if (!getPolicyType().equals(PolicyType.PUP))
-			JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
-
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 
