@@ -1,0 +1,76 @@
+TestData: {
+  PropertyInfoTab: '@PropertyInfoTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab_WithAutopay'   
+}
+
+PropertyInfoTab: {
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@<home_ss_ho3>@DataGather@Construction',
+  AdditionalQuestions: {},
+  Interior: '@<home_ss_ho3>@DataGather@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@<home_ss_ho3>@DataGather@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: {}
+}
+
+PremiumsAndCoveragesQuoteTab: {
+  Payment plan: Quarterly,
+  Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+  Coverage E - Personal Liability Each Occurrence: '$300,000'
+}
+
+PropertyValue: {
+  Coverage A - Dwelling limit: 200000,
+  ISO replacement cost: 174000,
+  Reason replacement cost differs from the tool value: 'index=1',
+  Purchase date of home: '/today-1y:MM/dd/yyyy'
+}
+
+#--- Endorsement ---  
+TestData_EndorsementRP: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+        Coverage A - Dwelling limit: 174000
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+}
+
+#--- Renew ---
+TestData_ProposeRenew: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
