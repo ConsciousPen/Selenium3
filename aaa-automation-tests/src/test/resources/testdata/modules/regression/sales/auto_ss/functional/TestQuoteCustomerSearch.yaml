@@ -1,0 +1,20 @@
+GeneralTabData: {
+  GeneralTab: {
+    NamedInsuredInformation: {
+      Base Date: '/today:MM/dd/yyyy',
+      Residence: 'Own Home',
+      Validate Address: click,
+      Validate Address Dialog: {Street Name: 'East Hampton'},
+    }
+  }
+}
+
+DriverTabData: {
+  DriverTab: {
+    Occupation: Self-Employed,
+    Age First Licensed: 18,
+    License Type: 'Licensed (US)',
+    License Number: 400064773,
+    'Rel. to First Named Insured': 'Spouse',
+  }
+}

@@ -1,3 +1,5 @@
+########################## testQuoteDocuments ######################### 
+
 InsuranceScoreOverride926: {
   ReportsTab: {
     InsuranceScoreOverride: {
@@ -37,12 +39,94 @@ InsuranceScoreOverride920: {
   PremiumsAndCoveragesQuoteTab: {},
 }
 
-GenerateHSU: {
-  Decision based on CLUE: 'true',
+QuoteGenerateHSU: {
+  Decision based on CLUE HSU03: 'true',
   First name: Tim,
   Last name: Cook,
   Zip code: 85003,
   Street address 1: address 1,
   City: citytest,
   State: AZ
+}
+
+########################## testPolicyDocuments #########################
+PolicyGenerateHSU: {
+  Decision based on CLUE HSU09: 'true'
+}
+
+########################## testMortgagePolicyDocuments #################
+TestData_MortgagePolicy: {
+  ReportsTab: {
+    Sales Agent Agreement: 'I Agree',
+    AAAMembershipReport: [{Report: 'Order report'}],
+    InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+    InsuranceScoreOverride: {
+      Action: '',
+      EditInsuranceScoreDialog: {
+        Score after override: '870',
+        Reason for override: 'Fair Credit Reporting Act Dispute',
+        Save: ''
+      }
+    },
+    FirelineReport: [{Report: 'Order Report'}],
+    PublicProtectionClass: [{Report: 'Order Report'}],
+    CLUEreport: [{Report: 'Order report'}]
+  },
+  PropertyInfoTab: {
+    DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+    AdditionalAddress: [{}],
+    PublicProtectionClass: {
+      Fire department type: 'S - Subscription based',
+      'Subscription to fire department/station': 'Yes',
+      Public protection class: 5
+    },
+    FireReport: {},
+    PropertyValue: {
+      Coverage A - Dwelling limit: 280000,
+      ISO replacement cost: 280000,
+      Purchase date of home: '/today-1y:MM/dd/yyyy'
+    },
+    Construction: {
+      Year built: 2009,
+      Square footage: 1,
+      Roof type: Laminate / Architectural,
+      Roof shape: 'index=1',
+      Construction type: Frame
+    },
+    AdditionalQuestions: {},
+    Interior: '@Interior',
+    DetachedStructures: [{}],
+    FireProtectiveDD: {},
+    TheftProtectiveTPDD: {},
+    HomeRenovation: '@HomeRenovation',
+    PetsOrAnimals: {},
+    Stoves: {},
+    RecreationalEquipment: {},
+    ClaimHistory: {},
+    RentalInformation: {}
+  },
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Mortgagee Bill,
+    Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+    Coverage E - Personal Liability Each Occurrence: '$300,000'
+  },
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Louie Espinoza,
+      Zip code: 85003,
+      Street address 1: 265 CHIPMAN AVE,
+      Loan number: 12345678,
+      Validate Address: '',
+      Validate Address Dialog: {}
+    }
+  },
+  DocumentsTab: {
+    DocumentsToBind: {
+      Proof of subscription to fire department: 'Yes'
+    },
+    DocumentsToIssue: {
+      Signed policy application: Physically Signed
+    }
+  }
 }
