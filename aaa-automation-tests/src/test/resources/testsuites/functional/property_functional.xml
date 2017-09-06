@@ -1108,7 +1108,7 @@
 			<class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyRenewDeclineByCompany" />
 			<class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyRenewDeclineByCustomer" />
 			<class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyRenewDeletePending" />
-			<class name="aaa.modules.regression.service.home_ca.ho3.PolicyRenewFlatCancellation" />
+			<class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyRenewFlatCancellation" />
 			
 			<class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBilling" />
 			<class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingAccountOnHold" />
