@@ -83,36 +83,34 @@ TestData_Verification: {
 
 AA41XX: {
   CompanyDetails: {
-    CoNm: 'AAA Members Insurance Company',
-    CoStrPobAddr1: 'P.O. BOX 24511',
-    CoAddlAddr2: '',
-    CoCityNm: 'Oakland',
-    CoStAbrv: 'CA',
-    CoZipPls4: '946239865',
-    CoPhnNum: '(800) 207-3618'
+    CoNm: {TextField: 'AAA Members Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: 'Fernando',
-    NmdInsrdLstNm: 'Alonso',
-    NmdInsrdStAbrv: AZ,
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdStAbrv: {TextField: AZ}
   },
   AgentDetails: {
-    GenlAgntNum: 400001650,
-    SubAgntNum: 400018581
+    GenlAgntNum: {TextField: 400001650},
+    SubAgntNum: {TextField: 400018581}
   },
   VehicleDetails: {
-    VehTyp: 'NO'
+    VehTyp: {TextField: 'NO'}
   },
   form: {
-    PlcyStAbrv: AZ,
-    PlcyTransCd: '0040',
-    PlcyPrfx: AZSS,
-    PlcyGrp: PERSONAL AUTO,
-    SpseExclNOPlcyYN: Y,
-    PlcyNum: '',
-    TermEffDt: {
-      DateTimeField: "/today:yyyy-MM-dd'T00:00:00.000+03:00'",
-    },
-    SgntrOnFile: SIGNATURE ON FILE
+    PlcyStAbrv: {TextField: AZ},
+    PlcyTransCd: {TextField: '0040'},
+    PlcyPrfx: {TextField: AZSS},
+    PlcyGrp: {TextField: PERSONAL AUTO},
+    SpseExclNOPlcyYN: {TextField: Y},
+    PlcyNum: {TextField: ''},
+    TermEffDt: {DateTimeField: "/today:yyyy-MM-dd'T00:00:00.000+03:00'"},
+    SgntrOnFile: {TextField: SIGNATURE ON FILE}
   }
 }

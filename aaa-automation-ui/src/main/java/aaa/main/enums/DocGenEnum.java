@@ -166,6 +166,11 @@ public final class DocGenEnum {
 		}
 	}
 
+	public static class DataElementChoiceTag {
+		public final static String TEXTFIELD = "TextField";
+		public final static String DATETIMEFIELD = "DateTimeField";
+	}
+
 	public static class XmlnsNamespaces {
 		public final static String DOC_PREFIX = "doc";
 		public final static String DOC_URI = "http://www.aaancnuie.com/DCS/2012/01/DocumentCreation";

@@ -2,6 +2,7 @@ package aaa.modules.docgen.auto_ss;
 
 import org.testng.annotations.Test;
 
+import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum.Documents;
@@ -29,8 +30,8 @@ public class TestAZScenario3 extends AutoSSBaseTest {
 		String policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info(getState() + " Policy AZ AutoSS is created: " + policyNumber);
-		DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AA41XX);
-		DocGenHelper.verifyDocumentsMapping(false, policyNumber, getTestSpecificTD("TestData_Verification").adjust("AA41XX|form|PlcyNum", policyNumber));
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AA41XX)
+				.verify.mapping(getTestSpecificTD("TestData_Verification").adjust(TestData.makeKeyPath("AA41XX", "form", "PlcyNum"), policyNumber));
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
