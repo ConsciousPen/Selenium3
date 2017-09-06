@@ -19,12 +19,16 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
-import aaa.main.enums.BillingConstants;
+import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
+import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
 import aaa.main.enums.BillingConstants.BillsAndStatementsType;
+import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionReason;
+import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
+import aaa.main.enums.BillingConstants.PolicyFlag;
 import aaa.main.enums.ProductConstants.PolicyStatus;
-import aaa.main.enums.SearchEnum.SearchBy;
-import aaa.main.enums.SearchEnum.SearchFor;
+import aaa.main.metadata.BillingAccountMetaData;
+import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
@@ -39,6 +43,7 @@ public class Scenario6 extends ScenarioBaseTest {
 
 	protected IPolicy policy;
 	protected TestData tdPolicy;
+	protected TestData tdBilling = testDataManager.billingAccount;
 
 	protected LocalDateTime policyEffectiveDate;
 	protected LocalDateTime policyExpirationDate;
@@ -48,31 +53,24 @@ public class Scenario6 extends ScenarioBaseTest {
 	protected Dollar installmentAmount;
 	protected Dollar totalDue;
 	protected Dollar minDue;
+	protected Dollar endorsementAmount;
+	protected Dollar installmentsSum = new Dollar(0);
 
 	protected String[] endorsementReasonDataKeys = {"EndorsementActionTab", "Endorsement Reason"};
+	protected String billingNum;
 	protected int installmentsCount = 4;
-
-	protected Dollar endorsementAmount;
 
 	public void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();
 
-		policyNum = "";
-
 		mainApp().open();
-		if (policyNum.equals("")) {
-			TimeSetterUtil.getInstance().adjustTime();
-			createCustomerIndividual();
+		TimeSetterUtil.getInstance().adjustTime(); // debug
+		createCustomerIndividual();
 
-			if (getPolicyType().equals(PolicyType.PUP)) {
-				policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
-			}
-			policyNum = createPolicy(policyCreationTD);
-			// PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
-			// policyNum = createPolicy(policyCreationTD);
-		} else {
-			SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, policyNum);
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
 		}
+		policyNum = createPolicy(policyCreationTD);
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
@@ -80,6 +78,8 @@ public class Scenario6 extends ScenarioBaseTest {
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		billingNum = BillingSummaryPage.labelBillingAccountNumber.getValue();
+
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
 		CustomAssert.assertEquals("Billing Installments count for Quaterly payment plan", installmentsCount, installmentDueDates.size());
 		installmentAmount = BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(1));
@@ -114,8 +114,8 @@ public class Scenario6 extends ScenarioBaseTest {
 		String reason = "Endorsement - " + endorsementTD.getValue(endorsementReasonDataKeys);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(TimeSetterUtil.getInstance().getPhaseStartTime()).setPolicy(policyNum).setType(PaymentsAndOtherTransactionType.PREMIUM)
 			.setSubtypeReason(reason).verifyPresent();
-		endorsementAmount = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, reason).getCell(
-			BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
+		endorsementAmount = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, reason).getCell(
+			BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
 
 		// Min due on General info section is reduced after RP Endorse
 		new Dollar(BillingSummaryPage.getMinimumDue()).verify.lessThan(minDue);
@@ -152,7 +152,7 @@ public class Scenario6 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 
-		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(1), BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE)).add(endorsementAmount);
+		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(1), BillingBillsAndStatmentsTable.MINIMUM_DUE)).add(endorsementAmount);
 		new BillingPaymentsAndTransactionsVerifier().verifyAutoPaymentGenerated(DateTimeUtils.getCurrentDateTime(), minDue.negate());
 	}
 
@@ -167,7 +167,7 @@ public class Scenario6 extends ScenarioBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		new BillingAccountPoliciesVerifier().setPolicyFlag(BillingConstants.PolicyFlag.DEFAULT).verifyRowWithEffectiveDate(policyEffectiveDate);
+		new BillingAccountPoliciesVerifier().setPolicyFlag(PolicyFlag.DEFAULT).verifyRowWithEffectiveDate(policyEffectiveDate);
 	}
 
 	public void TC07_Generate_Second_Bill() {
@@ -180,7 +180,7 @@ public class Scenario6 extends ScenarioBaseTest {
 
 		Dollar billAmount = BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(2));
 		billAmount = billAmount.add(BillingHelper.getFeesValue(getTimePoints().getBillGenerationDate(installmentDueDates.get(2))));
-		new BillingBillsAndStatementsVerifier().setDueDate(installmentDueDates.get(2)).setType(BillingConstants.BillsAndStatementsType.BILL).setMinDue(billAmount).verifyPresent();
+		new BillingBillsAndStatementsVerifier().setDueDate(installmentDueDates.get(2)).setType(BillsAndStatementsType.BILL).setMinDue(billAmount).verifyPresent();
 	}
 
 	public void TC08_Pay_Second_Bill() {
@@ -201,9 +201,6 @@ public class Scenario6 extends ScenarioBaseTest {
 		SearchPage.openPolicy(policyNum);
 
 		policy.doNotRenew().perform(getStateTestData(tdPolicy, "DoNotRenew", "TestData"));
-		// PolicySummaryPage.setActionAndGo(PolicyAction.DO_NOT_RENEW);
-		// DoNotRenewEditorPanel.fillDoNotRenewTab("DoNotRenew");
-		// DoNotRenewEditorPanel.clickOkButton();
 		PolicySummaryPage.verifyDoNotRenewFlagPresent();
 
 	}
@@ -243,12 +240,10 @@ public class Scenario6 extends ScenarioBaseTest {
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(policyExpirationDate).setType(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL)
-			.verifyPresent(false);
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(policyExpirationDate).setType(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent(false);
 	}
 
 	public void TC15_Manual_Renew_Policy() {
-		CustomAssert.enableSoftMode();
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -257,31 +252,19 @@ public class Scenario6 extends ScenarioBaseTest {
 		PolicySummaryPage.verifyManualRenewFlagPresent();
 
 		policy.createRenewal(getStateTestData(tdPolicy, "Renew", "TestData_Today").adjust(getTestSpecificTD("TestData_ProposeRenew")));
-		// policy.renew().perform(getStateTestData(tdPolicy, "Renew", "TestData_Today"));
-		// policy.calculatePremiumAndPurchase(getTestSpecificTD("TestData_ProposeRenew"));
 
-		// adjust(getTestSpecificTD("TestData_ProposeRenew")));
-		// policy.dataGather().perform(getTestSpecificTD("TestData_ProposeRenew"));
-		// policy.calculatePremium(getStateTestData(tdPolicy, "DataGather", "TestData"));
-		// policy.propose();
-
-		// EditorPanel.navigateTo(TabNames.QuoteHSSTabs.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		// PremiumsAndCoveragesTabEditorPanel.rate();
-		// EditorPanel.navigateTo(TabNames.QuoteHSSTabs.BIND.get());
-		// BindTabEditorPanel.proposeRenew();
-		//
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PROPOSED).verify(1);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
-		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
+		// new
+		// BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 		verifyRenewOfferGenerated(policyExpirationDate, installmentDueDates);
 
-		// ArrayList<LocalDateTime> dates = FileHelper.getRenewInstallmentsDueDates(PaymentPlan.QUARTERLY);
-		// for (LocalDateTime date : dates) {
-		// installmentsSum = installmentsSum.add(BillingHelper.getInstallmentDueByDueDate(date));
-		// }
+		for (LocalDateTime date : installmentDueDates) {
+			installmentsSum = installmentsSum.add(BillingHelper.getInstallmentDueByDueDate(date.plusYears(1)));
+		}
 		totalDue = BillingSummaryPage.getTotalDue();
 	}
 
@@ -295,61 +278,47 @@ public class Scenario6 extends ScenarioBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(policyExpirationDate));
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-		// Dollar rAmount = getRenewOfferAmount().add(200);
-		// BillingSummaryPage.btnAcceptPayment.click();
-		// AcceptPaymentEditorPanel.fillAcceptPaymentTab("Cash", rAmount.toString());
-		// AcceptPaymentEditorPanel.ok();
-		//
-		// BillingSummaryPage.showPriorTerms();
-		// new
-		// BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
-		//
-		// Dollar renewInstallmentsSum = new Dollar();
-		// ArrayList<LocalDateTime> dates = FileHelper.getRenewInstallmentsDueDates(PaymentPlan.QUARTERLY);
-		// for (LocalDateTime date : dates) {
-		// renewInstallmentsSum = renewInstallmentsSum.add(BillingHelper.getInstallmentDueByDueDate(date));
-		// }
-		// CustomAssert.assertEquals("Overpayment is not moved to the next Term. Total Due is not reduced. ",
-		// totalDue.subtract(rAmount), getGeneralInfoValue(GeneralInfoColumns.TOTAL_DUE));
-		// CustomAssert.assertEquals("Overpayment is not moved to the next Term. Installments are not reduced. ",
-		// installmentsSum.subtract(200), renewInstallmentsSum);
+
+		Dollar overpayment = new Dollar(200);
+		Dollar renewOfferAmount = BillingHelper.getBillMinDueAmount(policyExpirationDate, BillsAndStatementsType.BILL).add(overpayment);
+
+		BillingSummaryPage.linkAcceptPayment.click();
+		new AcceptPaymentActionTab().fillTab(tdBilling.getTestData("AcceptPayment", "TestData_Cash").adjust(
+			TestData.makeKeyPath(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName(), BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()), renewOfferAmount.toString()));
+		AcceptPaymentActionTab.buttonOk.click();
+		BillingSummaryPage.showPriorTerms();
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
+
+		Dollar renewInstallmentsSum = new Dollar(0);
+		for (LocalDateTime date : installmentDueDates) {
+			renewInstallmentsSum = renewInstallmentsSum.add(BillingHelper.getInstallmentDueByDueDate(date.plusYears(1)));
+		}
+
+		// Overpayment is moved to the next Term. Total Due is reduced
+		installmentsSum.subtract(overpayment).verify.equals(renewInstallmentsSum);
+		totalDue.subtract(renewOfferAmount).verify.equals(BillingSummaryPage.getTotalDue());
 	}
 
 	public void TC18_Update_Policy_Status() {
 		LocalDateTime date = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
-		// LocalDateTime cross_date = getTimePoints().getBillDueDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(date);
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 
-		/*
-		 * HashMap<PaymentsColumns, String> values = new HashMap<BillingMeta.PaymentsColumns, String>();
-		 * values.put(PaymentsColumns.TRANSACTION_DATE, cross_date.toString(DATE_FORMAT));
-		 * values.put(PaymentsColumns.AMOUNT, "($800.00)"); values.put(PaymentsColumns.TYPE, "Payment");
-		 * values.put(PaymentsColumns.SUBTYPE_REASON, "Cross Policy Transfer"); values.put(PaymentsColumns.STATUS,
-		 * "Cleared"); BillingHelper.getPaymentsRow(values).verify.present();
-		 * 
-		 * values.clear(); values.put(PaymentsColumns.TRANSACTION_DATE, cross_date.toString(DATE_FORMAT));
-		 * values.put(PaymentsColumns.AMOUNT, "$800.00"); values.put(PaymentsColumns.TYPE, "Adjustment");
-		 * values.put(PaymentsColumns.SUBTYPE_REASON, "Cross Policy Transfer"); values.put(PaymentsColumns.STATUS,
-		 * "Applied"); BillingHelper.getPaymentsRow(values).verify.present();
-		 */
 		BillingSummaryPage.showPriorTerms();
-		// BillingHelper.verifyPolicyStatus(policyEffectiveDate, PolicyStatus.POLICY_EXPIRED);
-		// BillingHelper.verifyPolicyStatus(policyExpirationDate, PolicyStatus.POLICY_ACTIVE);
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
 	}
 
 	public void TC19_Automatic_Refund_Not_Generated() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRefundDate(getTimePoints().getBillDueDate(policyExpirationDate)));
 		JobUtils.executeJob(Jobs.refundGenerationJob);
 		mainApp().open();
-		// SearchPage.openBilling(billingNum);
-		//
-		// HashMap<PaymentsColumns, String> values = new HashMap<BillingMeta.PaymentsColumns, String>();
-		// values.put(PaymentsColumns.TYPE, "Refund");
-		// values.put(PaymentsColumns.SUBTYPE_REASON, "Automated Refund");
-		// values.put(PaymentsColumns.REASON, "Overpayment");
-		// BillingHelper.getPaymentsRow(values).verify.present(false);
+		SearchPage.openBilling(policyNum);
+
+		new BillingPaymentsAndTransactionsVerifier().setType(PaymentsAndOtherTransactionType.REFUND).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND).setReason(
+			PaymentsAndOtherTransactionReason.OVERPAYMENT).verifyPresent(false);
 	}
 }

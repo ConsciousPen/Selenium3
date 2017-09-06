@@ -66,11 +66,9 @@ TestData_ProposeRenew: {
   PropertyInfoTab: {},
   ProductOfferingTab: {},
   EndorsementTab: {},
-  PremiumsAndCoveragesQuoteTab: {
-    Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
-  },
+  PremiumsAndCoveragesQuoteTab: {},
   MortgageesTab: {},
   UnderwritingAndApprovalTab: {},
   DocumentsTab: {},
-  BindTab: {}
+  BindTab: {},
 }
