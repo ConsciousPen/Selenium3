@@ -160,10 +160,10 @@ public class DocGenHelper {
 	 *                           If more than one file with <b>policyNumber</b> is found then newest one (last modified) will be used for documents searching.
 	 * @param td          TestData defined for documents mapping check.
 	 */
-	public static void verifyDocumentsMapping(String policyNumber, TestData td) {
+	public static void verifyDocumentsMapping(boolean generatedByJob, String policyNumber, TestData td) {
 		for (String docKey : td.getKeys()) {
 			Documents document = Documents.valueOf(docKey);
-			DocumentWrapper dw = getDocumentRequest(false, policyNumber, document);
+			DocumentWrapper dw = getDocumentRequest(generatedByJob, policyNumber, document);
 			TestData tdDocumentDataSections = td.getTestData(docKey);
 			for (String sectionKey : tdDocumentDataSections.getKeys()) {
 				TestData tdDocumentDataElements = tdDocumentDataSections.getTestData(sectionKey);
