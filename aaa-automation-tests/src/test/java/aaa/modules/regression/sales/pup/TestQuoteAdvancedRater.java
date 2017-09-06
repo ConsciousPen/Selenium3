@@ -1,12 +1,10 @@
 package aaa.modules.regression.sales.pup;
 
-import org.testng.annotations.Test;
 
 import toolkit.utils.TestInfo;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;

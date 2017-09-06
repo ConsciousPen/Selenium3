@@ -2,14 +2,16 @@ package aaa.modules.docgen.auto_ss;
 
 import org.testng.annotations.Test;
 
+import toolkit.datax.TestData;
+import toolkit.verification.CustomAssert;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import static aaa.main.enums.DocGenEnum.Documents.*;
 
 /**
- * @author Lina Li
+ * @author Ryan Yu
  * @name Test the form AA41XX
  * @scenario
  * 1. Create Customer
@@ -18,22 +20,20 @@ import static aaa.main.enums.DocGenEnum.Documents.*;
  * 4. Verify the form AA41XX was generated
  * @details
  */
-
-@Test
 public class TestAZScenario3 extends AutoSSBaseTest {
-	private String policyNumber;
 
 	@Test
 	public void testPolicyCreation() {
-
+		CustomAssert.enableSoftMode();
 		mainApp().open();
 		createCustomerIndividual();
-		policyNumber = createPolicy(getPolicyTD().adjust(
-				getTestSpecificTD("TestData").resolveLinks()));
-		PolicySummaryPage.labelPolicyStatus.verify
-				.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info(getState() + " Policy AZ AutoSS is created: " + policyNumber);
-		DocGenHelper.verifyDocumentsGenerated(policyNumber, AA41XX);
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AA41XX)
+				.verify.mapping(getTestSpecificTD("TestData_Verification").adjust(TestData.makeKeyPath("AA41XX", "form", "PlcyNum"), policyNumber));
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
 }
 

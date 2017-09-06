@@ -23,6 +23,9 @@ public class Document {
 	@XmlElement(name = "XPathInfo")
 	private String xPathInfo;
 
+	@XmlElement(name = "eSignatureDocument")
+	private String eSignatureDocument;
+
 	public List<DocumentDataSection> getDocumentDataSections() {
 		return documentDataSections;
 	}
@@ -55,6 +58,14 @@ public class Document {
 		this.xPathInfo = xPathInfo;
 	}
 
+	public String geteSignatureDocument() {
+		return eSignatureDocument;
+	}
+
+	public void seteSignatureDocument(String eSignatureDocument) {
+		this.eSignatureDocument = eSignatureDocument;
+	}
+
 	@Override
 	public String toString() {
 		return "Document{" +
@@ -62,6 +73,7 @@ public class Document {
 				", sequence='" + sequence + '\'' +
 				", templateId='" + templateId + '\'' +
 				", xPathInfo='" + xPathInfo + '\'' +
+				", eSignatureDocument='" + eSignatureDocument + '\'' +
 				'}';
 	}
 }

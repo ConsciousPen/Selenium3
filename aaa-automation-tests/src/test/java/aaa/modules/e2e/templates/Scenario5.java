@@ -41,7 +41,6 @@ public class Scenario5 extends ScenarioBaseTest {
 
 	public void createTestPolicy(TestData policyCreationTD) {
 		mainApp().open();
-		TimeSetterUtil.getInstance().adjustTime();
 		createCustomerIndividual();
 
 		if (getPolicyType().equals(PolicyType.PUP)) {

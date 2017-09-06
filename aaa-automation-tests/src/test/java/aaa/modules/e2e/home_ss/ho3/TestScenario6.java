@@ -91,22 +91,22 @@ public class TestScenario6 extends Scenario6 {
 		super.TC15_Manual_Renew_Policy();
 	}
 
-	// @Test(dependsOnMethods = "TC01_createPolicy")
+	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC16_Verify_Form_AHR1XX_And_HSRNXX() {
 		super.TC16_Verify_Form_AHR1XX_And_HSRNXX();
 	}
 
-	// @Test(dependsOnMethods = "TC01_createPolicy")
+	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC17_Pay_Renew_Offer() {
 		super.TC17_Pay_Renew_Offer();
 	}
 
-	// @Test(dependsOnMethods = "TC01_createPolicy")
+	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC18_Update_Policy_Status() {
 		super.TC18_Update_Policy_Status();
 	}
 
-	// @Test(dependsOnMethods = "TC01_createPolicy")
+	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC19_Automatic_Refund_Not_Generated() {
 		super.TC19_Automatic_Refund_Not_Generated();
 	}

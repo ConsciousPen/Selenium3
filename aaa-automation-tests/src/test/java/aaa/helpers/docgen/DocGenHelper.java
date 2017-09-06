@@ -6,9 +6,11 @@ import aaa.helpers.xml.XmlHelper;
 import aaa.helpers.xml.models.CreateDocuments;
 import aaa.helpers.xml.models.StandardDocumentRequest;
 import aaa.main.enums.DocGenEnum;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
 
@@ -114,7 +116,7 @@ public class DocGenHelper {
 			standardDocumentRequest = XmlHelper.xmlToModel(content, CreateDocuments.class).getStandardDocumentRequest();
 		}
 
-		return new DocumentWrapper(standardDocumentRequest);
+		return new DocumentWrapper(standardDocumentRequest, generatedByJob);
 	}
 
 	public static List<String> waitForDocumentsAppearance(String policyNumber, DocGenEnum.Documents... documents) {

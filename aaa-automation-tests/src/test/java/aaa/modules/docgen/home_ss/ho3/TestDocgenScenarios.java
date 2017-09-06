@@ -325,16 +325,13 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * 15369 - US CL GD-86 Generate Rescission Notice Document
 	 * </pre>
 	 */
-	@Test(enabled = false)
+	@Test()
 	public void testPolicyRescissionNoticeDocument() {
 		mainApp().open();
 		String policyNum = getCopiedPolicy();
 		
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData_NewBusinessRescissionNSF"));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob); 
-		// TODO The verification has some issue, 
-		// http://aws2aaaanalytics01.corevelocity.csaa.cloud:9001/runs/c6fdc790-91e8-11e7-97e8-61da2a42ca6c?exclude=PASSED
-		// http://aws2aaawas22.corevelocity.csaa.cloud/home/mp2/pas/sit/PAS_B_EXGPAS_DCMGMT_6500_D/outbound/20170905_052542_PAS_B_EXGPAS_DCMGMT_6500_D_PROPERTY.xml
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents.AH60XXA); 
 	}
 	
