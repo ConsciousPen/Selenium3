@@ -4,16 +4,25 @@ import aaa.helpers.docgen.searchNodes.SearchBy;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.helpers.xml.XmlHelper;
 import aaa.helpers.xml.models.CreateDocuments;
+import aaa.helpers.xml.models.DataElementChoice;
+import aaa.helpers.xml.models.DocumentDataElement;
 import aaa.helpers.xml.models.StandardDocumentRequest;
 import aaa.main.enums.DocGenEnum;
+import aaa.main.enums.DocGenEnum.Documents;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+
+import toolkit.datax.TestData;
+import toolkit.datax.TestDataException;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class DocGenHelper {
 	public static final String DOCGEN_SOURCE_FOLDER = "/home/DocGen/";
@@ -141,5 +150,37 @@ public class DocGenHelper {
 			textsToSearchPatterns[i + 1] = String.format("<%1$s:TemplateId>%2$s</%1$s:TemplateId>", DocGenEnum.XmlnsNamespaces.DOC_PREFIX, documents[i].getIdInXml());
 		}
 		return RemoteHelper.waitForFilesAppearance(docGenSourcePath, "xml", DOCUMENT_GENERATION_TIMEOUT, textsToSearchPatterns);
+	}
+	
+	/**
+	 * Verifies the documents mapping in found xml file with <b>policyNumber</b> and <b>TestData</b> after documents generation
+	 * (generation should be performed before this method call).
+	 *
+	 * @param policyNumber       quote or policy number to be used for finding xml document for further documents searching.
+	 *                           If more than one file with <b>policyNumber</b> is found then newest one (last modified) will be used for documents searching.
+	 * @param td          TestData defined for documents mapping check.
+	 */
+	public static void verifyDocumentsMapping(String policyNumber, TestData td) {
+		for (String docKey : td.getKeys()) {
+			Documents document = Documents.valueOf(docKey);
+			DocumentWrapper dw = getDocumentRequest(false, policyNumber, document);
+			TestData tdDocumentDataSections = td.getTestData(docKey);
+			for (String sectionKey : tdDocumentDataSections.getKeys()) {
+				TestData tdDocumentDataElements = tdDocumentDataSections.getTestData(sectionKey);
+				List<DocumentDataElement> documentDataElementList = dw.getList(SearchBy.standardDocumentRequest.documentPackage.document.templateId(document.getIdInXml()).documentDataSection.sectionName(sectionKey).documentDataElement);
+				Map<String, DataElementChoice> documentDataElementMap = documentDataElementList.stream().collect(Collectors.toMap(DocumentDataElement::getName, DocumentDataElement::getDataElementChoice, (key1, key2) -> key2));
+				for (String dataElementKey : tdDocumentDataElements.getKeys()) {
+					CustomAssert.assertTrue(String.format("The expected key %s>%s>%s is not found in the xml file.", docKey, sectionKey, dataElementKey), documentDataElementMap.containsKey(dataElementKey));
+					try {
+						CustomAssert.assertEquals(String.format("The value of the expected key %s>%s>%s is not correct in the xml file", docKey, sectionKey, dataElementKey), tdDocumentDataElements.getValue(dataElementKey), documentDataElementMap.get(dataElementKey).getTextField());
+					} catch (TestDataException e) {
+						TestData tdDataElementChoice = tdDocumentDataElements.getTestData(dataElementKey);
+						for (String elementChoiceKey : tdDataElementChoice.getKeys()) {
+							CustomAssert.assertEquals(String.format("The value of the expected key %s>%s>%s>%s is not correct in the xml file", docKey, sectionKey, dataElementKey, elementChoiceKey), tdDataElementChoice.getValue(elementChoiceKey), elementChoiceKey.equals("TextField") ? documentDataElementMap.get(dataElementKey).getTextField() : documentDataElementMap.get(dataElementKey).getDateTimeField());
+						}
+					}
+				}
+			}
+		}
 	}
 }
