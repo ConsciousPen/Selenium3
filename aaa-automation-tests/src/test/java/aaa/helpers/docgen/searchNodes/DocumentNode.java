@@ -24,6 +24,10 @@ public final class DocumentNode extends SearchBy<DocumentNode, Document> {
 		return addCondition(d -> Objects.equals(d.getxPathInfo(), value));
 	}
 
+	public DocumentNode eSignatureDocument(String value) {
+		return addCondition(d -> Objects.equals(d.geteSignatureDocument(), value));
+	}
+
 	@Override
 	public List<Document> search(StandardDocumentRequest sDocumentRequest) {
 		Predicate<Document> copiedCondition = getConditionAndClear();
