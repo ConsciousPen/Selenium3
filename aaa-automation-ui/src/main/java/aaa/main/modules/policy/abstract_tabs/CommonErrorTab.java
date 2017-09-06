@@ -2,15 +2,14 @@ package aaa.main.modules.policy.abstract_tabs;
 
 import aaa.common.Tab;
 import aaa.main.enums.ErrorEnum;
+import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.ByChained;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
@@ -113,8 +112,8 @@ public abstract class CommonErrorTab extends Tab {
 						//check with full hint message
 						String messageInRow = actualMessagesList.stream().filter(actualMessage -> expectedTruncatedMessage.equals(actualMessage) || expectedTruncatedMessage.startsWith(actualMessage)).findFirst().get();
 						Row errorRow = getErrorsControl().getTable().getRow(actualMessagesList.indexOf(messageInRow) + 1);
-						WebElement actualFullMessageElement = BrowserController.get().driver().findElement(new ByChained(getErrorsControl().getTable().getLocator(), errorRow.getLocator(), By.xpath(".//div[contains(@id, 'content')]")));
-						CustomAssert.assertEquals(assertionMessage, expectedMessage, actualFullMessageElement.getAttribute("innerText"));
+						CustomAssert.assertEquals(assertionMessage, expectedMessage,
+								WebDriverHelper.getInnerText(new ByChained(getErrorsControl().getTable().getLocator(), errorRow.getLocator(), By.xpath(".//div[contains(@id, 'content')]"))));
 					} else {
 						CustomAssert.assertTrue(assertionMessage, actualMessagesList.stream().anyMatch(expectedTruncatedMessage::equals));
 					}
@@ -135,15 +134,9 @@ public abstract class CommonErrorTab extends Tab {
 
 		public void errorsPresent(boolean expectedValue, ErrorEnum.Errors... errors) {
 			List<String> actualErrorCodesList = getErrorsControl().getTable().getColumn(ErrorEnum.ErrorsColumn.CODE.get()).getValue();
-
 			for (ErrorEnum.Errors error : errors) {
-				if (expectedValue) {
-					CustomAssert.assertTrue(error + " is not present as expected.", actualErrorCodesList.contains(error.getCode()));
-				} else {
-					CustomAssert.assertFalse(error + " is not absent as expected.", actualErrorCodesList.contains(error.getCode()));
-				}
+				CustomAssert.assertTrue(String.format("%s is %s.", error, expectedValue ? "absent" : "present"), actualErrorCodesList.contains(error.getCode()) == expectedValue);
 			}
-
 			List<String> errorMessagesList = new ArrayList<>(errors.length);
 			Arrays.stream(errors).forEach(e -> errorMessagesList.add(e.getMessage()));
 			errorsPresent(expectedValue, errorMessagesList.toArray(new String[errorMessagesList.size()]));

@@ -2,11 +2,8 @@ package aaa.common.components;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-import org.mortbay.log.Log;
+import aaa.toolkit.webdriver.WebDriverHelper;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.ByChained;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
@@ -53,20 +50,8 @@ public class Pagination {
 	}
 
 	public int getSelectedPage() {
-		int pageNumber = 1;
-		try {
-			WebElement selectedPage = BrowserController.get().driver().findElement(new ByChained(locator, By.xpath(".//*[contains(@class, 'ds-act') or contains(@class, 'ui-state-active')]")));
-			String page = selectedPage.getText() != null ? selectedPage.getText() : selectedPage.getAttribute("innerText");
-			if (page != null && StringUtils.isNumeric(page.trim())) {
-				pageNumber = Integer.parseInt(page.trim());
-			} else {
-				Log.warn("Can't get page number for pager web element: " +  selectedPage);
-			}
-		} catch (WebDriverException ignored) {
-			//ignore
-		}
-
-		return pageNumber;
+		Integer pageNumber = WebDriverHelper.getInnerNumber(new ByChained(locator, By.xpath(".//*[contains(@class, 'ds-act') or contains(@class, 'ui-state-active')]")));
+		return pageNumber == null ? 1 : pageNumber;
 	}
 
 	public boolean isPresent() {
