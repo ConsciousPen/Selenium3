@@ -156,6 +156,7 @@ public class DocGenHelper {
 	 * Verifies the documents mapping in found xml file with <b>policyNumber</b> and <b>TestData</b> after documents generation
 	 * (generation should be performed before this method call).
 	 *
+	 * @param generatedByJob if true then file(s) search will be performed in appropriate jobs generation folder location
 	 * @param policyNumber       quote or policy number to be used for finding xml document for further documents searching.
 	 *                           If more than one file with <b>policyNumber</b> is found then newest one (last modified) will be used for documents searching.
 	 * @param td          TestData defined for documents mapping check.
