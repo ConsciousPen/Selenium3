@@ -3,7 +3,6 @@ package aaa.modules.docgen.home_ss.ho4;
 import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
-import toolkit.webdriver.BrowserController;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.HomeSSTab;
 import aaa.common.pages.NavigationPage;
@@ -16,6 +15,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO4BaseTest;
+import aaa.toolkit.webdriver.WebDriverHelper;
 import static aaa.main.enums.DocGenEnum.Documents.*;
 
 
@@ -71,7 +71,7 @@ public class TestHO4DocgenScenarios extends HomeSSHO4BaseTest{
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	public void TC01_Quote_Documents(){
 		mainApp().open();
-		String currentHandle = getWindowHandle();
+		String currentHandle = WebDriverHelper.getWindowHandle();
 		createCustomerIndividual();
 		TestData tdPoicy=getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
 		createQuote(tdPoicy);
@@ -86,17 +86,17 @@ public class TestHO4DocgenScenarios extends HomeSSHO4BaseTest{
 		goddTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"), HSU03XX,HSU04XX,HSU06XX,HSU08XX);
 		DocGenHelper.verifyDocumentsGenerated(quoteNumber,HSU03XX,HSU04XX,HSU06XX,HSU08XX);
 		
-		switchToWindow(currentHandle);
+		WebDriverHelper.switchToWindow(currentHandle);
 		policy.quoteDocGen().start();
 		goddTab.generateDocuments(HSIQXX4);
 		DocGenHelper.verifyDocumentsGenerated(quoteNumber,HSIQXX4,AHPNXX);
 		
-		switchToWindow(currentHandle);
+		WebDriverHelper.switchToWindow(currentHandle);
 		policy.quoteDocGen().start();
 		goddTab.generateDocuments(HS11_4.setState(String.format("%s4",getState())),AHFMXX,HSILXX);
 		DocGenHelper.verifyDocumentsGenerated(quoteNumber,HS11_4,AHFMXX,HSILXX);
 		
-		switchToWindow(currentHandle);
+		WebDriverHelper.switchToWindow(currentHandle);
 		policy.dataGather().start();
 		NavigationPage.toViewTab(HomeSSTab.REPORTS.get());
 		policy.getDefaultView().fillFromTo(getTestSpecificTD("InsuranceScoreOverride926"), ReportsTab.class, PropertyInfoTab.class, true);
@@ -171,7 +171,7 @@ public class TestHO4DocgenScenarios extends HomeSSHO4BaseTest{
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	public void TC02_Policy_Documents(){
 		mainApp().open();
-		String currentHandle = getWindowHandle();
+		String currentHandle = WebDriverHelper.getWindowHandle();
 		SearchPage.openQuote(quoteNumber);
 		policy.purchase(getPolicyTD("DataGather", "TestData"));
 		policyNumber=PolicySummaryPage.labelPolicyNumber.getValue();
@@ -203,17 +203,10 @@ public class TestHO4DocgenScenarios extends HomeSSHO4BaseTest{
 		goddTab.generateDocuments(HS11_4.setState(String.format("%s4",getState())));
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, HS11_4,AHPNXX);
 		
-		switchToWindow(currentHandle);
+		WebDriverHelper.switchToWindow(currentHandle);
 		policy.policyDocGen().start();
 		goddTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"),AHRCTXX,HSEIXX,HSILXX,HSU01XX,HSU09XX);
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, AHRCTXX,HSEIXX,HSILXX,HSU01XX,HSU09XX);
 	}
 	
-	private String getWindowHandle(){
-		return BrowserController.get().driver().getWindowHandle();
-	}
-	
-	private void switchToWindow(String windowHandle){
-		BrowserController.get().driver().switchTo().window(windowHandle);
-	}
 }
