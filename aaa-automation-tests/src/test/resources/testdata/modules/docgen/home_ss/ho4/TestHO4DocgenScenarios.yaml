@@ -148,7 +148,6 @@ InsuranceScoreOverride920: {
   MortgageesTab: {}
 }
 
-TestData_BindPolicy: {
-BindTab: {},
-PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+PolicyGenerateHSU: {
+  Decision based on CLUE HSU09: 'true'
 }

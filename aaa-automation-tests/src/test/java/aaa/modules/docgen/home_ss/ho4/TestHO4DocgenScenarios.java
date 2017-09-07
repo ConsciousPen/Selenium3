@@ -3,6 +3,7 @@ package aaa.modules.docgen.home_ss.ho4;
 import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
+import toolkit.webdriver.BrowserController;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.HomeSSTab;
 import aaa.common.pages.NavigationPage;
@@ -10,10 +11,8 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO4BaseTest;
@@ -70,14 +69,14 @@ public class TestHO4DocgenScenarios extends HomeSSHO4BaseTest{
      * 20. Rate and save quote.
 	 * @details
 	 */
-//	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	public void TC01_Quote_Documents(){
 		mainApp().open();
+		String currentHandle = getWindowHandle();
 		createCustomerIndividual();
 		TestData tdPoicy=getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
 		createQuote(tdPoicy);
 		quoteNumber=PolicySummaryPage.labelPolicyNumber.getValue();
-
 		policy.quoteDocGen().start();
 		GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 		goddTab.verify.documentsPresent(AHAUXX,AHFMXX,HS11_4.setState(String.format("%s4",getState())),HSIQXX4,HSRFIXX,HSILXX,HSU01XX,HSU02XX,HSU03XX,HSU04XX,HSU05XX,HSU06XX,HSU07XX,HSU08XX,HSU09XX);
@@ -88,14 +87,17 @@ public class TestHO4DocgenScenarios extends HomeSSHO4BaseTest{
 		goddTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"), HSU03XX,HSU04XX,HSU06XX,HSU08XX);
 		DocGenHelper.verifyDocumentsGenerated(quoteNumber,HSU03XX,HSU04XX,HSU06XX,HSU08XX);
 		
+		switchToWindow(currentHandle);
 		policy.quoteDocGen().start();
 		goddTab.generateDocuments(HSIQXX4);
 		DocGenHelper.verifyDocumentsGenerated(quoteNumber,HSIQXX4,AHPNXX);
 		
+		switchToWindow(currentHandle);
 		policy.quoteDocGen().start();
 		goddTab.generateDocuments(HS11_4.setState(String.format("%s4",getState())),AHFMXX,HSILXX);
 		DocGenHelper.verifyDocumentsGenerated(quoteNumber,HS11_4,AHFMXX,HSILXX);
-
+		
+		switchToWindow(currentHandle);
 		policy.dataGather().start();
 		NavigationPage.toViewTab(HomeSSTab.REPORTS.get());
 		policy.getDefaultView().fillFromTo(getTestSpecificTD("InsuranceScoreOverride926"), ReportsTab.class, PropertyInfoTab.class, true);
@@ -120,14 +122,98 @@ public class TestHO4DocgenScenarios extends HomeSSHO4BaseTest{
 		log.info("==========================================");
 	}
 	
-	
+	/**
+	 * @author Lina Li
+	 * @name Verify On-Demand Documents tab for policy
+	 * @scenario 
+	 * 1. Open and Bind the quote from TC01
+	 * 2. Verify that below forms are generated in xml 
+	 *    HS02_4
+	 *    AHNBXX
+	 *    HS0988
+	 * 3. Navigate to On Demand Document page
+	 * 4. Verify the following forms present and enable on GODD tab
+	 *    AHRCTXX
+     *    HS11XX4
+     *    HSEIXX
+     *    HSILXX
+     *    HSU01XX
+     *    HSU02XX
+     *    HSU04XX
+     *    HSU05XX
+     *    HSU06XX
+     *    HSU07XX
+     *    HSU08XX
+     *    HSU09XX
+	 * 5. Verify following forms present and disable on GODD tab.
+	 *    HSRFIXX
+     *    HSU03XX   
+     *    AHFMXX 
+	 * 6. Verify following forms absent on GODD tab
+	 *    438 BFUNS
+     *    AHPNXX
+     *    HSES
+     *    AHNBXX
+     *    HSIQXX  
+     * 7. Select HS11XX4 form and generate the form
+     * 8. Verify that below forms are generated 
+     *    HS11XX4
+     *    AHPNXX
+     * 9. Select AHRCTXX,HSEIXX,HSILXX,HSU01XX,HSU09XX  forms and generate the form
+     * 10. Verify that below forms are generated
+     *    AHRCTXX
+     *    HSEIXX
+     *    HSILXX
+     *    HSU01XX
+     *    HSU09XX
+	 * @details
+	 */
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	public void TC02_Policy_Documents(){
 		mainApp().open();
-//		SearchPage.openQuote(quoteNumber);
-		SearchPage.openQuote("QAZH4952118439");
+		String currentHandle = getWindowHandle();
+		SearchPage.openQuote(quoteNumber);
 		policy.purchase(getPolicyTD("DataGather", "TestData"));
 		policyNumber=PolicySummaryPage.labelPolicyNumber.getValue();
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, HS02_4,AHNBXX,HS0988);
+		
+		policy.policyDocGen().start();
+		GenerateOnDemandDocumentActionTab goddTab = policy.policyDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
+		goddTab.verify.documentsPresent(AHFMXX,AHRCTXX,HS11_4.setState(String.format("%s4",getState())),HSEIXX,HSILXX,HSRFIXX,HSU01XX,HSU02XX,HSU03XX,HSU04XX,HSU05XX,HSU06XX,HSU07XX,HSU08XX,HSU09XX);
+		goddTab.verify.documentsEnabled(
+				AHRCTXX,HS11_4.setState(String.format("%s4",getState())),
+				HSEIXX,
+				HSILXX,
+				HSU01XX,
+//				HSU02XX, //TODO Actually HSU02XX is disabled, need to confirm the request
+				HSU04XX,
+				HSU05XX,
+				HSU06XX,
+				HSU07XX,
+				HSU08XX,
+				HSU09XX);
+		goddTab.verify.documentsEnabled(false, AHFMXX,HSRFIXX,HSU03XX);
+		goddTab.verify.documentsPresent(false, 
+//				AHAUXX,// TODO Actually AHAUXX is present, need to confirm the request
+				HSIQXX4,
+				AHPNXX,
+				HSES,
+				_438BFUNS);
+		
+		goddTab.generateDocuments(HS11_4.setState(String.format("%s4",getState())));
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, HS11_4,AHPNXX);
+		
+		switchToWindow(currentHandle);
+		policy.policyDocGen().start();
+		goddTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"),AHRCTXX,HSEIXX,HSILXX,HSU01XX,HSU09XX);
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, AHRCTXX,HSEIXX,HSILXX,HSU01XX,HSU09XX);
+	}
+	
+	private String getWindowHandle(){
+		return BrowserController.get().driver().getWindowHandle();
+	}
+	
+	private void switchToWindow(String windowHandle){
+		BrowserController.get().driver().switchTo().window(windowHandle);
 	}
 }
