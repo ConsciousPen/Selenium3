@@ -31,8 +31,7 @@ public class TestHO4DocgenScenarios extends HomeSSHO4BaseTest{
 	 * 3. Calculate premium and Save&Exit the quote 
 	 * 4. Navigate to On Demand Document page
 	 * 5. Verify the following forms present and enable on GODD tab
-	 *    AHAUXX
-     *    AHFMXX
+	 *    AHAUXX 
      *    HS11XX4
      *    HSIQXX4
      *    HSU03XX
@@ -150,6 +149,7 @@ public class TestHO4DocgenScenarios extends HomeSSHO4BaseTest{
      *    HSU03XX   
      *    AHFMXX 
 	 * 6. Verify following forms absent on GODD tab
+	 *    AHAUXX  
 	 *    438 BFUNS
      *    AHPNXX
      *    HSES

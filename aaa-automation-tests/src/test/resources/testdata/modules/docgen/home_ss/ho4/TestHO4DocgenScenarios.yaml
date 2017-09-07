@@ -1,36 +1,8 @@
-TestData_AZ: {
-  EndorsementTab: '@EndorsementTab_AZ'
+TestData: {
+  EndorsementTab: '@EndorsementTab'
 }
 
-EndorsementTab_AZ: {
-  HS 09 88: {
-    Action: Add,
-    Name of person or organization: Test Name,
-    Zip code: 85003,
-    Street address 1: 111 Test street,
-    Description of insurable interest: Description of insurable interest,
-    Description of event: Description of event,
-    Event zip code: 85003,
-    Event street address 1: 265 chipman Ave,
-    Effective date: '/today+10d:MM/dd/yyyy',
-    Expiration date: '/today+12d:MM/dd/yyyy',
-    Additional comments about the event: Additional comments about the event,
-    "Will there be alcoholic beverages at the event?": 'No',
-    "Will there be a swimming pool, bounce house, or trampoline at the event location?": 'No',
-    "Will there be hired or volunteer staff at the event?": 'No',
-    Event location: index=1,
-    "Is a permit or license required for the event?": 'No',
-    "Is the event being held for business purposes?": 'No',
-    "Is the event being held for compensation or to raise donations or money? (charity events, political fundraisers, etc)": 'No'
-  }
-}
-
-
-TestData_UT: {
-  EndorsementTab: '@EndorsementTab_UT'
-}
-
-EndorsementTab_UT: {
+EndorsementTab: {
   HS 09 88: {
     Action: Add,
     Name of person or organization: Test Name,
@@ -53,60 +25,6 @@ EndorsementTab_UT: {
   }
 }
 
-TestData_PA: {
-  EndorsementTab: '@EndorsementTab_PA'
-}
-
-EndorsementTab_PA: {
-  HS 09 88: {
-    Action: Add,
-    Name of person or organization: Test Name,
-    Zip code: 15001,
-    Street address 1: 111 Test street,
-    Description of insurable interest: Description of insurable interest,
-    Description of event: Description of event,
-    Event zip code: 15001,
-    Event street address 1: 265 chipman Ave,
-    Effective date: '/today+10d:MM/dd/yyyy',
-    Expiration date: '/today+12d:MM/dd/yyyy',
-    Additional comments about the event: Additional comments about the event,
-    "Will there be alcoholic beverages at the event?": 'No',
-    "Will there be a swimming pool, bounce house, or trampoline at the event location?": 'No',
-    "Will there be hired or volunteer staff at the event?": 'No',
-    Event location: index=1,
-    "Is a permit or license required for the event?": 'No',
-    "Is the event being held for business purposes?": 'No',
-    "Is the event being held for compensation or to raise donations or money? (charity events, political fundraisers, etc)": 'No'
-  }
-}
-
-
-TestData_NJ: {
-  EndorsementTab: '@EndorsementTab_NJ'
-}
-
-EndorsementTab_NJ: {
-  HS 09 88: {
-    Action: Add,
-    Name of person or organization: Test Name,
-    Zip code: 07005,
-    Street address 1: 111 Test street,
-    Description of insurable interest: Description of insurable interest,
-    Description of event: Description of event,
-    Event zip code: 07005,
-    Event street address 1: 265 chipman Ave,
-    Effective date: '/today+10d:MM/dd/yyyy',
-    Expiration date: '/today+12d:MM/dd/yyyy',
-    Additional comments about the event: Additional comments about the event,
-    "Will there be alcoholic beverages at the event?": 'No',
-    "Will there be a swimming pool, bounce house, or trampoline at the event location?": 'No',
-    "Will there be hired or volunteer staff at the event?": 'No',
-    Event location: index=1,
-    "Is a permit or license required for the event?": 'No',
-    "Is the event being held for business purposes?": 'No',
-    "Is the event being held for compensation or to raise donations or money? (charity events, political fundraisers, etc)": 'No'
-  }
-}
 
 
 QuoteGenerateHSU: {
