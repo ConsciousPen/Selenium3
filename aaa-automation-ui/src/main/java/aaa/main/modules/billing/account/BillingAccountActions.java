@@ -337,9 +337,21 @@ public final class BillingAccountActions {
                         ActionConstants.BillingPaymentsAndOtherTransactionAction.DECLINE).click();
 	            return this;
 	        }
+	        
+	        public AbstractAction start(String amount) {
+                BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT, amount).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(
+                        ActionConstants.BillingPaymentsAndOtherTransactionAction.DECLINE).click();
+	            return this;
+	        }
 
 	        public AbstractAction perform(TestData td, int rowNumber) {
 	            start(rowNumber);
+	            getView().fill(td);
+	            return submit();
+	        }
+	        
+	        public AbstractAction perform(TestData td, String amount) {
+	            start(amount);
 	            getView().fill(td);
 	            return submit();
 	        }

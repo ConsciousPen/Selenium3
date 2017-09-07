@@ -1,0 +1,17 @@
+TestData_FeeRestriction: {
+   DeclinePaymentActionTab: {
+     Decline Reason: 'Fee + Restriction'
+   }
+}
+
+TestData_FeeNoRestriction: {
+   DeclinePaymentActionTab: {
+     Decline Reason: 'Fee + No Restriction'
+   }
+}
+
+TestData_NoFeeNoRestriction: {
+   DeclinePaymentActionTab: {
+     Decline Reason: 'No Fee + No Restriction'
+   }
+}
