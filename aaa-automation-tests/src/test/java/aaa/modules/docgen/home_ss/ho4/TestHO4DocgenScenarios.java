@@ -104,7 +104,7 @@ public class TestHO4DocgenScenarios extends HomeSSHO4BaseTest{
 		
 		policy.quoteDocGen().start();
 		goddTab.verify.documentsEnabled(false, AHFMXX,HSILXX);
-//		goddTab.verify.documentsPresent(false, AHAUXX);// TODO AHAUXX form is not absent, need to confirm the request
+		goddTab.verify.documentsPresent(false, AHAUXX);
 		goddTab.buttonCancel.click();
 		
 		policy.dataGather().start();
@@ -136,8 +136,7 @@ public class TestHO4DocgenScenarios extends HomeSSHO4BaseTest{
      *    HS11XX4
      *    HSEIXX
      *    HSILXX
-     *    HSU01XX
-     *    HSU02XX
+     *    HSU01XX   
      *    HSU04XX
      *    HSU05XX
      *    HSU06XX
@@ -146,6 +145,7 @@ public class TestHO4DocgenScenarios extends HomeSSHO4BaseTest{
      *    HSU09XX
 	 * 5. Verify following forms present and disable on GODD tab.
 	 *    HSRFIXX
+	 *    HSU02XX
      *    HSU03XX   
      *    AHFMXX 
 	 * 6. Verify following forms absent on GODD tab
@@ -166,6 +166,9 @@ public class TestHO4DocgenScenarios extends HomeSSHO4BaseTest{
      *    HSILXX
      *    HSU01XX
      *    HSU09XX
+     * 11. Manually add cancel notice flag to the policy
+     * 12. Navigate to On Demand page
+     * 13. Verify HUS02XX is enable
 	 * @details
 	 */
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
@@ -185,14 +188,13 @@ public class TestHO4DocgenScenarios extends HomeSSHO4BaseTest{
 				HSEIXX,
 				HSILXX,
 				HSU01XX,
-//				HSU02XX, //TODO Actually HSU02XX is disabled, need to confirm the request
 				HSU04XX,
 				HSU05XX,
 				HSU06XX,
 				HSU07XX,
 				HSU08XX,
 				HSU09XX);
-		goddTab.verify.documentsEnabled(false, AHFMXX,HSRFIXX,HSU03XX);
+		goddTab.verify.documentsEnabled(false, AHFMXX,HSRFIXX,HSU03XX,HSU02XX);
 		goddTab.verify.documentsPresent(false, 
 //				AHAUXX,// TODO Actually AHAUXX is present, need to confirm the request
 				HSIQXX4,
@@ -207,6 +209,13 @@ public class TestHO4DocgenScenarios extends HomeSSHO4BaseTest{
 		policy.policyDocGen().start();
 		goddTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"),AHRCTXX,HSEIXX,HSILXX,HSU01XX,HSU09XX);
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, AHRCTXX,HSEIXX,HSILXX,HSU01XX,HSU09XX);
+		
+//		when the policy with cancel notice flag, HSU02XX will display as enable
+		policy.cancelNotice().perform(getTestSpecificTD("TestData_CancelNotice"));
+		PolicySummaryPage.labelCancelNotice.verify.present();
+		policy.policyDocGen().start();
+		goddTab.verify.documentsEnabled(HSU02XX);
+		
 	}
 	
 }

@@ -69,3 +69,10 @@ InsuranceScoreOverride920: {
 PolicyGenerateHSU: {
   Decision based on CLUE HSU09: 'true'
 }
+
+
+TestData_CancelNotice: {
+  CancelNoticeActionTab: {
+    Cancellation reason: index=1, 
+  }
+}
