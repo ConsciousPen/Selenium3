@@ -1,8 +1,6 @@
 package aaa.modules.docgen.home_ss.ho3;
 
 import org.testng.annotations.Test;
-
-import toolkit.webdriver.BrowserController;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.HomeSSTab;
 import aaa.common.pages.NavigationPage;
@@ -17,6 +15,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.toolkit.webdriver.WebDriverHelper;
 
 /**
  * 
@@ -257,7 +256,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	@Test
 	public void testPolicyDocuments() {
 		mainApp().open();
-		String currentHandle = getWindowHandle();
+		String currentHandle = WebDriverHelper.getWindowHandle();
 		String policyNum = getCopiedPolicy();
 		
 		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.HS02, Documents.AHNBXX, Documents.HS0420);
@@ -294,7 +293,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		documentActionTab.generateDocuments(Documents.HS11);
 		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.HS11, Documents.AHPNXX);
 		
-		switchToWindow(currentHandle);
+		WebDriverHelper.switchToWindow(currentHandle);
 		policy.policyDocGen().start();
 		documentActionTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"),
 				Documents.AHRCTXX, 
@@ -498,13 +497,5 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		DocGenHelper.verifyDocumentsGenerated(policyNum, 
 //				Documents.HSRFIXX, // TODO actually it is disabled on the page, need to confirm the request
 				Documents.HSES);
-	}
-	
-	private String getWindowHandle(){
-		return BrowserController.get().driver().getWindowHandle();
-	}
-	
-	private void switchToWindow(String windowHandle){
-		BrowserController.get().driver().switchTo().window(windowHandle);
 	}
 }

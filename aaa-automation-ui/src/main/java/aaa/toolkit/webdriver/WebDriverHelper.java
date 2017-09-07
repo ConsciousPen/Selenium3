@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import toolkit.exceptions.IstfException;
 import toolkit.webdriver.BrowserController;
 
@@ -54,5 +55,13 @@ public class WebDriverHelper {
 		}
 
 		return number;
+	}
+	
+	public static String getWindowHandle(){
+		return BrowserController.get().driver().getWindowHandle();
+	}
+	
+	public static void switchToWindow(String windowHandle){
+		BrowserController.get().driver().switchTo().window(windowHandle);
 	}
 }
