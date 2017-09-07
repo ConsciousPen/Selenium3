@@ -63,6 +63,10 @@ public final class DocGenEnum {
 		AH60XXA("Rescission Notice"),
 		AA41XX("Non-Owners Endorsement"),
 		HS0988("HS 09 88","Additional Insured - Special Event"),
+		_60_5000("60 5000", "Fee + Restriction Form"),
+		_60_5001("60 5001", "Fee + No Restriction Form"),
+		_60_5002("60 5002", "No Fee + No Restriction Form"),
+		_60_5003("60 5003", "Payment Restriction Form"),
 		;
 
 		private String id;
