@@ -9,7 +9,9 @@ import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.table.Row;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.billing.BillingHelper;
@@ -112,7 +114,6 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 		changePlan(BillingConstants.PaymentPlan.SEMI_ANNUAL);
 		verifyFigures(50.00, 1, true);
 	}
-
 	/**
 	 * @author Jurij Kuznecov
 	 * @name Test the ability to calculate the installment amount when the
@@ -253,9 +254,21 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 		else
 			new Dollar(purchaseTab.tablePaymentPlan.getRow(1).getCell(PolicyConstants.PolicyPaymentPlanTable.INSTALLMENT_AMOUNT).getValue()).verify.equals(new Dollar(0));
 
-		new Dollar(purchaseTab.remainingBalanceDueToday.getValue()).verify.equals(downPayment);
+		Dollar fee = new Dollar();
+		if (getState().equals(Constants.States.NJ)) {
+			fee = new Dollar(purchaseTab.getAssetList().getAsset(PurchaseMetaData.PurchaseTab.PLIGA_FEE.getLabel(), TextBox.class).getValue());
+		}
+		Dollar remainingBalance = new Dollar(purchaseTab.remainingBalanceDueToday.getValue());
+		if (remainingBalance.moreThan(new Dollar(0))) {
+			remainingBalance = remainingBalance.subtract(fee);
+		}
+		remainingBalance.verify.equals(downPayment);
 		purchaseTab.fillTab(getPolicyTD().ksam(PurchaseTab.class.getSimpleName()));
-		purchaseTab.totalRemainingTermPremium.verify.equals(premium.subtract(downPayment));
+		Dollar totalRemainingTermPremium = new Dollar(purchaseTab.totalRemainingTermPremium.getValue());
+		if (remainingBalance.equals(new Dollar(0))) {
+			totalRemainingTermPremium = totalRemainingTermPremium.subtract(fee);
+		}
+		totalRemainingTermPremium.verify.equals(premium.subtract(downPayment));
 
 		PurchaseTab.buttonCancel.click();
 	}
