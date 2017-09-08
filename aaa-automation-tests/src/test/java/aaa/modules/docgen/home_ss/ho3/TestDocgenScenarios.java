@@ -7,6 +7,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import aaa.common.Tab;
+import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.HomeSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
@@ -114,7 +115,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		GenerateOnDemandDocumentActionTab documentActionTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 		policy.quoteDocGen().start();	
 		
-		if (getState().equals("VA")) {
+		if (getState().equals(States.VA)) {
 			documentActionTab.verify.documentsPresent(DocGenEnum.Documents.HSAUDVA);
 		} else {
 			documentActionTab.verify.documentsPresent(DocGenEnum.Documents.AHAUXX);
@@ -148,7 +149,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSIQXX, Documents.AHPNXX);
 
 		policy.quoteDocGen().start();
-		if(getState().equals("VA"))
+		if(getState().equals(States.VA))
 			documentActionTab.selectDocuments(Documents.HSAUDVA);
 		documentActionTab.generateDocuments(
 				Documents.HS11.setState(getState()), 
@@ -161,7 +162,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				Documents.HSILXX, 
 				Documents.AHPNXX
 				);
-		if(getState().equals("VA"))
+		if(getState().equals(States.VA))
 			DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSAUDVA);
 
 		policy.quoteDocGen().start();
@@ -592,6 +593,41 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 
 		log.info("==========================================");
 		log.info(getState() + " HO3 Return Payment Documents is checked, policy: " + policyNum);
+		log.info("==========================================");
+	}
+	
+	/**
+	 * <pre>
+	 * Test steps:
+	 * 1. Open policy which was created in ho3RefundCheckDocument test;
+	 * 2. Select "Cancellation Notice" from "MoveTo"
+	 * 3. Fill the cancellation notice dialogue (Cancellation reason = "'Material Misrepresentation" )
+	 * 4. Run DocGen Batch Job
+	 * 5. Verify that AH61XX form is generated
+	 * # Req
+	 * 15370: US CL GD-87 Generate Cancellation Notice Document U/W or Insured Request
+	 * 15780:US PA GD-02 Generate Cancellation Notice-UW or Insured Request
+	 * </pre>
+	 */
+	@Test
+	public void testCancellationNoticeDocument() throws Exception {
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNum = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_ReturnPaymentPolicy")));
+
+		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData"));
+		PolicySummaryPage.verifyCancelNoticeFlagPresent();
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		if (getState().equals(States.PA)) {
+			DocGenHelper.verifyDocumentsGenerated(false, true, policyNum, Documents.AH61XX);
+			DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents.HS61PA);
+		} else {
+			DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents.AH61XX);
+			DocGenHelper.verifyDocumentsGenerated(false, true, policyNum, Documents.HS61PA);
+		}
+
+		log.info("==========================================");
+		log.info(getState() + " HO3 Policy Cancellation Notice Document Generation is checked, policy: " + policyNum);
 		log.info("==========================================");
 	}
 	
