@@ -8,6 +8,8 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import aaa.modules.bct.BctType;
 import org.apache.commons.lang3.StringUtils;
 import aaa.admin.modules.agencyvendor.AgencyVendorType;
 import aaa.admin.modules.cem.campaigns.CampaignType;
@@ -67,6 +69,7 @@ public final class TestDataManager {
 	public EnumMap<FeeGroupType, TestData> feeGroup = new EnumMap<>(FeeGroupType.class);
 	public EnumMap<RESTServiceType, TestData> rest = new EnumMap<>(RESTServiceType.class);
 	public Map<PolicyType, TestData> timepoint = new HashMap<>();
+	public EnumMap<BctType, TestData> bct = new EnumMap<>(BctType.class);
 	protected DataProviderFactory dataProvider = new DataProviderFactory().applyConfiguration(DataFormat.YAML.name());
 
 	public TestDataManager() {
@@ -146,6 +149,8 @@ public final class TestDataManager {
 
 		operationalReports.put(OperationalReportType.OPERATIONAL_REPORT, dataProvider.get("default/platform/admin/reports/operationalreports"));
 		templates.put(TemplateType.TEMPLATE, dataProvider.get("default/platform/admin/reports/templates"));
+		bct.put(BctType.BATCH_TEST, dataProvider.get("default/bct").getTestData(BctType.BATCH_TEST.getName()));
+		bct.put(BctType.ONLINE_TEST, dataProvider.get("default/bct").getTestData(BctType.ONLINE_TEST.getName()));
 	}
 
 	public TestData getCompatibilityTestData() {

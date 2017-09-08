@@ -130,3 +130,13 @@ TestData_MortgagePolicy: {
     }
   }
 }
+
+########################## testReturnPaymentDocuments #################
+TestData_ReturnPaymentPolicy: {
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Eleven Pay Standard,
+    Coverage E - Personal Liability Each Occurrence: '$100,000',
+    Coverage F - Medical Payments to Others: '$1,000',
+    Deductible: '$1,000'
+  }
+}

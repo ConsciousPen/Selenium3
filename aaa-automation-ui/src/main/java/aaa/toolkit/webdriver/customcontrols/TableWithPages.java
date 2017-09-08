@@ -46,16 +46,14 @@ public class TableWithPages extends Table {
 
 	@Override
 	protected List<TestData> getRawValue() {
-		List<TestData> data = new ArrayList<>();
 		if (pagination.getPagesCount() > 1) {
 			pagination.setMaxRowsPerPage();
 			pagination.goToFirstPage();
 		}
-
-		data.addAll(super.getRawValue());
-		while (pagination.goToNextPage()) {
+		List<TestData> data = new ArrayList<>();
+		do {
 			data.addAll(super.getRawValue());
-		}
+		} while (pagination.goToNextPage());
 		return data;
 	}
 

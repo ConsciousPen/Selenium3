@@ -1,22 +1,31 @@
 package aaa.modules.docgen.home_ss.ho3;
 
 import org.testng.annotations.Test;
-
-import toolkit.webdriver.BrowserController;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.verification.CustomAssert;
 import aaa.common.Tab;
+import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.HomeSSTab;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
+import aaa.helpers.billing.BillingPendingTransactionsVerifier;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.DocGenEnum.Documents;
+import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.billing.account.IBillingAccount;
 import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.toolkit.webdriver.WebDriverHelper;
 
 /**
  * 
@@ -24,6 +33,14 @@ import aaa.modules.policy.HomeSSHO3BaseTest;
  *
  */
 public class TestDocgenScenarios extends HomeSSHO3BaseTest {
+	private GenerateOnDemandDocumentActionTab documentActionTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
+	private IBillingAccount billing = new BillingAccount();
+	private TestData tdBilling = testDataManager.billingAccount;
+	private TestData cash_payment = tdBilling.getTestData("AcceptPayment", "TestData_Cash");
+	private TestData check_payment = tdBilling.getTestData("AcceptPayment", "TestData_Check");
+	private TestData cc_payment = tdBilling.getTestData("AcceptPayment", "TestData_CC");
+	private TestData eft_payment = tdBilling.getTestData("AcceptPayment", "TestData_EFT");
+	private TestData tdRefund = tdBilling.getTestData("Refund", "TestData_Check");
 	/**
 	 * <pre>
 	 * TC Steps:
@@ -97,13 +114,13 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 
 	@Test
 	public void testQuoteDocuments() {
+		CustomAssert.enableSoftMode();
 		mainApp().open();
 		createCustomerIndividual();
 		String quoteNum = createQuote();
-		GenerateOnDemandDocumentActionTab documentActionTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 		policy.quoteDocGen().start();	
 		
-		if (getState().equals("VA")) {
+		if (getState().equals(States.VA)) {
 			documentActionTab.verify.documentsPresent(DocGenEnum.Documents.HSAUDVA);
 		} else {
 			documentActionTab.verify.documentsPresent(DocGenEnum.Documents.AHAUXX);
@@ -137,7 +154,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSIQXX, Documents.AHPNXX);
 
 		policy.quoteDocGen().start();
-		if(getState().equals("VA"))
+		if(getState().equals(States.VA))
 			documentActionTab.selectDocuments(Documents.HSAUDVA);
 		documentActionTab.generateDocuments(
 				Documents.HS11.setState(getState()), 
@@ -150,7 +167,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				Documents.HSILXX, 
 				Documents.AHPNXX
 				);
-		if(getState().equals("VA"))
+		if(getState().equals(States.VA))
 			DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSAUDVA);
 
 		policy.quoteDocGen().start();
@@ -191,6 +208,8 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		log.info("==========================================");
 		log.info(getState() + " HO3 Quote Documents Generation is checked, quote: " + quoteNum);
 		log.info("==========================================");
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
 	
 	/**
@@ -256,13 +275,13 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 */
 	@Test
 	public void testPolicyDocuments() {
+		CustomAssert.enableSoftMode();
 		mainApp().open();
-		String currentHandle = getWindowHandle();
+		String currentHandle = WebDriverHelper.getWindowHandle();
 		String policyNum = getCopiedPolicy();
 		
 		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.HS02, Documents.AHNBXX, Documents.HS0420);
 		
-		GenerateOnDemandDocumentActionTab documentActionTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 		policy.policyDocGen().start();
 		documentActionTab.verify.documentsEnabled(
 				Documents.F605005, 
@@ -294,7 +313,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		documentActionTab.generateDocuments(Documents.HS11);
 		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.HS11, Documents.AHPNXX);
 		
-		switchToWindow(currentHandle);
+		WebDriverHelper.switchToWindow(currentHandle);
 		policy.policyDocGen().start();
 		documentActionTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"),
 				Documents.AHRCTXX, 
@@ -310,6 +329,8 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				Documents.HSU01XX, 
 				Documents.HSU09XX
 				);
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
 	
 	/**
@@ -409,11 +430,11 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 */
 	@Test
 	public void testMortgagePolicyDocuments(){
+		CustomAssert.enableSoftMode();
 		mainApp().open();
 		createCustomerIndividual();
 		createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_MortgagePolicy")));
 		
-		GenerateOnDemandDocumentActionTab documentActionTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 		policy.quoteDocGen().start();
 		documentActionTab.verify.documentsEnabled(
 				Documents.AHAUXX,
@@ -498,13 +519,185 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		DocGenHelper.verifyDocumentsGenerated(policyNum, 
 //				Documents.HSRFIXX, // TODO actually it is disabled on the page, need to confirm the request
 				Documents.HSES);
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
 	
-	private String getWindowHandle(){
-		return BrowserController.get().driver().getWindowHandle();
+	/**
+	 * <pre>
+	 * Test steps:
+	 * 1. Create a HO3 policy;
+	 * 2. Add 4 payment methods(Cash, Check, Credit Card, EFT);
+	 * 3. Make 6 different payments(Cash, Check, Credit Card, EFT);
+	 * 4. Decline Credit Card payment, with reason "NSF fee - with restriction"
+	 * 5. Check Payment Decline Transaction appears in Payment and Other Transaction section.
+	 * 6. Check Fee Transaction appears in Payment and Other Transaction section.
+	 * 7. Check status of the payment transaction changes to "Decline"
+	 * 8. Run DocGen Batch Job
+	 * 9. Check form 60 5000 is generated
+	 * 10. Decline Credit Card payment, with reason "NSF fee - with restriction"
+	 * 11. Run DocGen Batch Job
+	 * 12. Check form 60 5003 is generated
+	 * 13. Decline EFT payment, with reason "NSF fee - without restriction"
+	 * 14. Check Payment Decline Transaction appears in Payment and Other Transaction section.
+	 * 15. Check Fee Transaction appears in Payment and Other Transaction section.
+	 * 16. Check status of the payment transaction changes to "Decline"
+	 * 17. Run DocGen Batch Job
+	 * 18. Check form 60 5001 is generated
+	 * 19. Decline Check payment, with reason "No Fee + No Restriction"
+	 * 20. Check Payment Decline Transaction appears in Payment and Other Transaction section.
+	 * 21. Check status of the payment transaction changes to "Decline"
+	 * 22. Run DocGen Batch Job
+	 * 23. Check form 60 5002 is generated
+	 * 24. Decline Check payment, with reason "No Fee + No Restriction + No Letter"
+	 * 25. Check Payment Decline Transaction appears in Payment and Other Transaction section.
+	 * 26. Check status of the payment transaction changes to "Decline"
+	 * 27. Decline Cash payment.
+	 * 28. Check Payment Decline Transaction appears in Payment and Other Transaction section.
+	 * 29. Check status of the payment transaction changes to "Decline"
+	 * # Req
+	 * 15311: US CL GD-68 Generate NSF = Fee + Restriction Form
+	 * 15312: US CL GD-69 Generate Fee + No Restriction Form
+	 * 15313: US CL GD-70 Generate No Fee + No Restriction Form
+	 * 15314: US CL GD-71 Generate Payment Restriction Form
+	 * </pre>
+	 */
+	@Test
+	public void testReturnPaymentDocuments() throws Exception {
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNum = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_ReturnPaymentPolicy")));
+		makePayments();
+
+		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_FeeRestriction"), "($17.00)");
+		verifyPaymentDeclinedTransactionPresent("17");
+		verifyFeeTransaction("NSF fee - with restriction");
+		verifyPaymentTransactionBecameDeclined("-17");
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob); 
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents._60_5000);
+
+		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_FeeRestriction"), "($16.00)");
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents._60_5003);
+		
+		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_FeeNoRestriction"), "($18.00)");
+		verifyPaymentDeclinedTransactionPresent("18");
+		verifyFeeTransaction("NSF fee - without restriction");
+		verifyPaymentTransactionBecameDeclined("-18");
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents._60_5001);
+		
+		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_NoFeeNoRestriction"), "($19.00)");
+		verifyPaymentDeclinedTransactionPresent("19");
+		verifyPaymentTransactionBecameDeclined("-19");
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents._60_5002);
+
+
+		log.info("==========================================");
+		log.info(getState() + " HO3 Return Payment Documents is checked, policy: " + policyNum);
+		log.info("==========================================");
 	}
 	
-	private void switchToWindow(String windowHandle){
-		BrowserController.get().driver().switchTo().window(windowHandle);
+	/**
+	 * <pre>
+	 * Test steps:
+	 * 1. Open policy which was created in ho3RefundCheckDocument test;
+	 * 2. Select "Cancellation Notice" from "MoveTo"
+	 * 3. Fill the cancellation notice dialogue (Cancellation reason = "'Material Misrepresentation" )
+	 * 4. Run DocGen Batch Job
+	 * 5. Verify that AH61XX form is generated
+	 * # Req
+	 * 15370: US CL GD-87 Generate Cancellation Notice Document U/W or Insured Request
+	 * 15780:US PA GD-02 Generate Cancellation Notice-UW or Insured Request
+	 * </pre>
+	 */
+	@Test
+	public void testCancellationNoticeDocument() throws Exception {
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNum = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_ReturnPaymentPolicy")));
+
+		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData"));
+		PolicySummaryPage.verifyCancelNoticeFlagPresent();
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		if (getState().equals(States.PA)) {
+			DocGenHelper.verifyDocumentsGenerated(false, true, policyNum, Documents.AH61XX);
+			DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents.HS61PA);
+		} else {
+			DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents.AH61XX);
+			DocGenHelper.verifyDocumentsGenerated(false, true, policyNum, Documents.HS61PA);
+		}
+
+		log.info("==========================================");
+		log.info(getState() + " HO3 Policy Cancellation Notice Document Generation is checked, policy: " + policyNum);
+		log.info("==========================================");
+	}
+	
+	/**
+	 * <pre>
+	 * Test steps:
+	 * 1. Create an HO3 policy;
+	 * 2. Make check payment > 1000$;
+	 * 3. Make manual refund of the payment;
+	 * 4. Approve the refund;
+	 * 5. Issue the refund;
+	 * 6. Run DocGen Batch Job
+	 * 7. Check form  is generated 55 3500
+	 * 8. Check the form is enabled on OnDemand Documents Tab
+	 * # Req
+	 * 18833:US CL GD-64 Generate Refund Check
+	 * </pre>
+	 */
+	@Test
+	public void testRefundCheckDocument() throws Exception {
+		mainApp().open();
+		String policyNum = getCopiedPolicy();
+		BillingSummaryPage.open();
+		billing.acceptPayment().perform(check_payment, new Dollar(1234));
+		new BillingPaymentsAndTransactionsVerifier().setType("Payment").setSubtypeReason("Manual Payment").setAmount(new Dollar(-1234)).setStatus("Issued").verifyPresent();
+		billing.refund().perform(tdRefund, "1234");
+		new BillingPendingTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(new Dollar(1234)).setStatus("Pending").verifyPresent();
+		billing.approveRefund().perform(new SimpleDataProvider(), "$1,234.00");
+		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(new Dollar(1234)).setStatus("Approved").verifyPresent();
+		billing.issueRefund().perform(new SimpleDataProvider(), "$1,234.00");
+		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(new Dollar(1234)).setStatus("Issued").verifyPresent();
+		
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents._55_3500);
+		
+		BillingSummaryPage.openPolicy(1);
+		policy.policyDocGen().start();
+		documentActionTab.verify.documentsPresent(Documents._55_3500);
+
+		log.info("==========================================");
+		log.info(getState() + " HO3 Refund Check Document is checked, policy: " + policyNum);
+		log.info("==========================================");
+	}
+	
+	private void makePayments() {
+		BillingSummaryPage.open();
+        billing.acceptPayment().perform(check_payment, new Dollar(16));
+        billing.acceptPayment().perform(check_payment, new Dollar(17));
+        billing.acceptPayment().perform(cc_payment, new Dollar(18));
+        billing.acceptPayment().perform(eft_payment, new Dollar(19));
+        billing.acceptPayment().perform(check_payment, new Dollar(20));
+        billing.acceptPayment().perform(cash_payment, new Dollar(21));
+	}
+	
+	private void verifyPaymentDeclinedTransactionPresent(String amount) {
+		new BillingPaymentsAndTransactionsVerifier().setType("Adjustment").setSubtypeReason("Payment Declined").setAmount(new Dollar(amount)).setStatus("Applied").verifyPresent();
+	}
+	
+	private void verifyFeeTransaction(String reason) {
+		if (!getState().contains(States.NJ)) {
+			new BillingPaymentsAndTransactionsVerifier().setType("Fee").setSubtypeReason(reason).setAmount(new Dollar(20)).setStatus("Applied").verifyPresent();
+		} else {
+			new BillingPaymentsAndTransactionsVerifier().setType("Fee").setSubtypeReason(reason).setAmount(new Dollar(15)).setStatus("Applied").verifyPresent();
+		}
+	}
+	
+	private void verifyPaymentTransactionBecameDeclined(String amount) {
+		new BillingPaymentsAndTransactionsVerifier().setType("Payment").setSubtypeReason("Manual Payment").setAmount(new Dollar(amount)).setStatus("Declined").verifyPresent();
 	}
 }

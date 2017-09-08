@@ -23,6 +23,7 @@ public final class ActionConstants {
         public static final String WAIVE = "Waive";
         public static final String DECLINE = "Decline";
         public static final String TRANSFER = "Transfer";
+        public static final String ISSUE = "Issue";
     }
 
     public static final class BillingAction {

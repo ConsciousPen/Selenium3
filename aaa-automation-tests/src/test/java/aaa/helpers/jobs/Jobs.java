@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Jobs {
 
-	private static ConcurrentHashMap<String, JobState> jobsState = new ConcurrentHashMap<String, JobState>();
+	private static ConcurrentHashMap<String, JobState> jobsState = new ConcurrentHashMap<>();
 
 	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1", 
 			Arrays.asList("/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/outbound",
@@ -79,6 +79,8 @@ public class Jobs {
 	public static Job aaaCreditDisclosureNoticeJob = new Job("aaaCreditDisclosureNoticeJob");
 	
 	public static Job aaaBatchMarkerJob = new Job("aaaBatchMarkerJob");
+
+	public static Job aaaCollectionCancellDebtBatchJob = new Job("aaaCollectionCancelDebtBatchJob");
 	
 	public enum JobState {
 		TRUE, FALSE, FAILED
@@ -98,7 +100,7 @@ public class Jobs {
 	}
 
 	public static void clearJobsState() {
-		jobsState = new ConcurrentHashMap<String, JobState>();
+		jobsState = new ConcurrentHashMap<>();
 	}
 
 }

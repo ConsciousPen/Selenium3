@@ -32,10 +32,13 @@ public final class DocGenEnum {
 		AHAPXX("AutoPay Authorization Form"),
 		HSAUDVA("Virginia Adverse Action Underwriting Decision Notice"),
 		HS11("Application for Homeowners Insurance"),
+		HS11_4("HS11","HS11_4","Application for Renters Insurance"),
 		HSIQXX("Homeowners Insurance Quote Page"),
+		HSIQXX4("Renters Insurance Quote Page"),
 		_438BFUNS("438BFUNS", "Lender’s Loss Payable Endorsement"),
 		AHPNXX("Privacy Information Notice"),
 		HS02("Owners Policy Declaration"),
+		HS02_4("HS02","HS02_4","Renters Policy Declarations"),
 		AHNBXX("New Business Welcome Letter"),
 		HSEIXX("Evidence of Property Insurance"),
 		HSES("HSES", "HSESXX", "Property Insurance Invoice"),
@@ -59,6 +62,14 @@ public final class DocGenEnum {
 		HS0477("HS 04 77", "Building Code Upgrade endorsement"),
 		AH60XXA("Rescission Notice"),
 		AA41XX("Non-Owners Endorsement"),
+		HS0988("HS 09 88","Additional Insured - Special Event"),
+		_60_5000("60 5000", "Fee + Restriction Form"),
+		_60_5001("60 5001", "Fee + No Restriction Form"),
+		_60_5002("60 5002", "No Fee + No Restriction Form"),
+		_60_5003("60 5003", "Payment Restriction Form"),
+		AH61XX(""),
+		HS61PA("NOTICE OF CANCELLATION OR REFUSAL TO RENEW"),
+		_55_3500("55 3500", "Refund Check"),
 		;
 
 		private String id;

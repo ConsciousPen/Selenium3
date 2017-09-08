@@ -6,11 +6,11 @@ EndorsementTab: {
   HS 09 88: {
     Action: Add,
     Name of person or organization: Test Name,
-    Zip code: 85003,
+    Zip code: 84003,
     Street address 1: 111 Test street,
     Description of insurable interest: Description of insurable interest,
     Description of event: Description of event,
-    Event zip code: 85003,
+    Event zip code: 84003,
     Event street address 1: 265 chipman Ave,
     Effective date: '/today+10d:MM/dd/yyyy',
     Expiration date: '/today+12d:MM/dd/yyyy',
@@ -22,5 +22,57 @@ EndorsementTab: {
     "Is a permit or license required for the event?": 'No',
     "Is the event being held for business purposes?": 'No',
     "Is the event being held for compensation or to raise donations or money? (charity events, political fundraisers, etc)": 'No'
+  }
+}
+
+
+
+QuoteGenerateHSU: {
+Decision based on CLUE HSU03: 'true'
+}
+
+InsuranceScoreOverride926: {
+  ReportsTab: {
+    InsuranceScoreOverride: {
+      Action: '',
+      EditInsuranceScoreDialog: {
+        Score after override: '926',
+        Reason for override: 'Fair Credit Reporting Act Dispute',
+        Save: ''
+      }
+    }
+  },
+  PropertyInfoTab: {
+  PropertyValue: {
+    Personal property value: '$30,000.00'
+  }
+  }
+}
+
+InsuranceScoreOverride920: {
+  ReportsTab: {
+    InsuranceScoreOverride: {
+      Action: '',
+      EditInsuranceScoreDialog: {
+        Score after override: '920',
+        Reason for override: 'Fair Credit Reporting Act Dispute',
+        Save: ''
+      }
+    }
+  },
+  PropertyInfoTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {}
+}
+
+PolicyGenerateHSU: {
+  Decision based on CLUE HSU09: 'true'
+}
+
+
+TestData_CancelNotice: {
+  CancelNoticeActionTab: {
+    Cancellation reason: index=1, 
   }
 }

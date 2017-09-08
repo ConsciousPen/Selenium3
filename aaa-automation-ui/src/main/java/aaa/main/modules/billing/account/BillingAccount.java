@@ -5,9 +5,11 @@ package aaa.main.modules.billing.account;
 import aaa.common.Workspace;
 import aaa.main.modules.billing.account.BillingAccountActions.AcceptPayment;
 import aaa.main.modules.billing.account.BillingAccountActions.AddHold;
+import aaa.main.modules.billing.account.BillingAccountActions.ApproveRefund;
 import aaa.main.modules.billing.account.BillingAccountActions.DeclinePayment;
 import aaa.main.modules.billing.account.BillingAccountActions.DiscardBill;
 import aaa.main.modules.billing.account.BillingAccountActions.GenerateFutureStatement;
+import aaa.main.modules.billing.account.BillingAccountActions.IssueRefund;
 import aaa.main.modules.billing.account.BillingAccountActions.MovePolicies;
 import aaa.main.modules.billing.account.BillingAccountActions.OtherTransactions;
 import aaa.main.modules.billing.account.BillingAccountActions.Refund;
@@ -90,6 +92,17 @@ public class BillingAccount implements IBillingAccount {
     }
 
     @Override
+	public ApproveRefund approveRefund() {
+		return new BillingAccountActions.ApproveRefund();
+	}
+
+	@Override
+	public IssueRefund issueRefund() {
+		// TODO Auto-generated method stub
+		return new BillingAccountActions.IssueRefund();
+	}
+	
+    @Override
     public Update update() {
         return new BillingAccountActions.Update();
     }
@@ -108,4 +121,5 @@ public class BillingAccount implements IBillingAccount {
     public ViewModalPremium viewModalPremium() {
         return new BillingAccountActions.ViewModalPremium();
     }
+
 }
