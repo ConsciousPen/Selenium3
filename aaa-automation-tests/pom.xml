@@ -42,8 +42,6 @@
                     <version>2.19.1</version>
                     <configuration>
                         <systemPropertyVariables>
-                            <browser.pool.name>${browser.pool.name}</browser.pool.name>
-                            <browser.pool.path>${browser.pool.path}</browser.pool.path>
                             <browser.pool.config>${browser.pool.path}/${browser.pool.name}</browser.pool.config>
                             <timeshift.report.dir>${timeshift.report.dir}</timeshift.report.dir>
                         </systemPropertyVariables>
