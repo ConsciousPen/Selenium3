@@ -1,16 +1,16 @@
 package aaa.modules.docgen.home_ss.ho3;
 
 import org.testng.annotations.Test;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
-
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.verification.CustomAssert;
 import aaa.common.Tab;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.HomeSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
+import aaa.helpers.billing.BillingPendingTransactionsVerifier;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
@@ -33,8 +33,14 @@ import aaa.toolkit.webdriver.WebDriverHelper;
  *
  */
 public class TestDocgenScenarios extends HomeSSHO3BaseTest {
+	private GenerateOnDemandDocumentActionTab documentActionTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 	private IBillingAccount billing = new BillingAccount();
 	private TestData tdBilling = testDataManager.billingAccount;
+	private TestData cash_payment = tdBilling.getTestData("AcceptPayment", "TestData_Cash");
+	private TestData check_payment = tdBilling.getTestData("AcceptPayment", "TestData_Check");
+	private TestData cc_payment = tdBilling.getTestData("AcceptPayment", "TestData_CC");
+	private TestData eft_payment = tdBilling.getTestData("AcceptPayment", "TestData_EFT");
+	private TestData tdRefund = tdBilling.getTestData("Refund", "TestData_Check");
 	/**
 	 * <pre>
 	 * TC Steps:
@@ -112,7 +118,6 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		String quoteNum = createQuote();
-		GenerateOnDemandDocumentActionTab documentActionTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 		policy.quoteDocGen().start();	
 		
 		if (getState().equals(States.VA)) {
@@ -277,7 +282,6 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		
 		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.HS02, Documents.AHNBXX, Documents.HS0420);
 		
-		GenerateOnDemandDocumentActionTab documentActionTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 		policy.policyDocGen().start();
 		documentActionTab.verify.documentsEnabled(
 				Documents.F605005, 
@@ -431,7 +435,6 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		createCustomerIndividual();
 		createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_MortgagePolicy")));
 		
-		GenerateOnDemandDocumentActionTab documentActionTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 		policy.quoteDocGen().start();
 		documentActionTab.verify.documentsEnabled(
 				Documents.AHAUXX,
@@ -631,11 +634,48 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		log.info("==========================================");
 	}
 	
+	/**
+	 * <pre>
+	 * Test steps:
+	 * 1. Create an HO3 policy;
+	 * 2. Make check payment > 1000$;
+	 * 3. Make manual refund of the payment;
+	 * 4. Approve the refund;
+	 * 5. Issue the refund;
+	 * 6. Run DocGen Batch Job
+	 * 7. Check form  is generated 55 3500
+	 * 8. Check the form is enabled on OnDemand Documents Tab
+	 * # Req
+	 * 18833:US CL GD-64 Generate Refund Check
+	 * </pre>
+	 */
+	@Test
+	public void testRefundCheckDocument() throws Exception {
+		mainApp().open();
+		String policyNum = getCopiedPolicy();
+		BillingSummaryPage.open();
+		billing.acceptPayment().perform(check_payment, new Dollar(1234));
+		new BillingPaymentsAndTransactionsVerifier().setType("Payment").setSubtypeReason("Manual Payment").setAmount(new Dollar(-1234)).setStatus("Issued").verifyPresent();
+		billing.refund().perform(tdRefund, "1234");
+		new BillingPendingTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(new Dollar(1234)).setStatus("Pending").verifyPresent();
+		billing.approveRefund().perform(new SimpleDataProvider(), "$1,234.00");
+		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(new Dollar(1234)).setStatus("Approved").verifyPresent();
+		billing.issueRefund().perform(new SimpleDataProvider(), "$1,234.00");
+		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(new Dollar(1234)).setStatus("Issued").verifyPresent();
+		
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents._55_3500);
+		
+		BillingSummaryPage.openPolicy(1);
+		policy.policyDocGen().start();
+		documentActionTab.verify.documentsPresent(Documents._55_3500);
+
+		log.info("==========================================");
+		log.info(getState() + " HO3 Refund Check Document is checked, policy: " + policyNum);
+		log.info("==========================================");
+	}
+	
 	private void makePayments() {
-		TestData cash_payment = tdBilling.getTestData("AcceptPayment", "TestData_Cash");
-		TestData check_payment = tdBilling.getTestData("AcceptPayment", "TestData_Check");
-		TestData cc_payment = tdBilling.getTestData("AcceptPayment", "TestData_CC");
-		TestData eft_payment = tdBilling.getTestData("AcceptPayment", "TestData_EFT");
 		BillingSummaryPage.open();
         billing.acceptPayment().perform(check_payment, new Dollar(16));
         billing.acceptPayment().perform(check_payment, new Dollar(17));
@@ -650,7 +690,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	}
 	
 	private void verifyFeeTransaction(String reason) {
-		if (!getState().contains("NJ")) {
+		if (!getState().contains(States.NJ)) {
 			new BillingPaymentsAndTransactionsVerifier().setType("Fee").setSubtypeReason(reason).setAmount(new Dollar(20)).setStatus("Applied").verifyPresent();
 		} else {
 			new BillingPaymentsAndTransactionsVerifier().setType("Fee").setSubtypeReason(reason).setAmount(new Dollar(15)).setStatus("Applied").verifyPresent();

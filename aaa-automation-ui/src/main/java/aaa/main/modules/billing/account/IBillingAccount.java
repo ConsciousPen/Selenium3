@@ -29,6 +29,10 @@ public interface IBillingAccount {
     BillingAccountActions.WaiveFee waiveFee();
 
     BillingAccountActions.Refund refund();
+    
+    BillingAccountActions.ApproveRefund approveRefund();
+    
+    BillingAccountActions.IssueRefund issueRefund();
 
     BillingAccountActions.Update update();
 
