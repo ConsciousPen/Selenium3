@@ -5,6 +5,7 @@ package aaa.main.modules.billing.account;
 import java.util.List;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
+
 import org.openqa.selenium.By;
 
 import aaa.common.AbstractAction;
@@ -337,9 +338,21 @@ public final class BillingAccountActions {
                         ActionConstants.BillingPaymentsAndOtherTransactionAction.DECLINE).click();
 	            return this;
 	        }
+	        
+	        public AbstractAction start(String amount) {
+                BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT, amount).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(
+                        ActionConstants.BillingPaymentsAndOtherTransactionAction.DECLINE).click();
+	            return this;
+	        }
 
 	        public AbstractAction perform(TestData td, int rowNumber) {
 	            start(rowNumber);
+	            getView().fill(td);
+	            return submit();
+	        }
+	        
+	        public AbstractAction perform(TestData td, String amount) {
+	            start(amount);
 	            getView().fill(td);
 	            return submit();
 	        }
@@ -478,6 +491,110 @@ public final class BillingAccountActions {
 	        public AbstractAction submit() {
 	            return this;
 	        }
+	    }
+	    
+	    public static class ApproveRefund extends AbstractAction {
+			@Override
+			public String getName() {
+				return "Approve Refund";
+			}
+			
+			@Override
+	        public AbstractAction start() {
+	            return start(1);
+	        }
+
+	        public AbstractAction start(int rowNumber) {
+                BillingSummaryPage.tablePendingTransactions.getRow(rowNumber).getCell(BillingConstants.BillingPendingTransactionsTable.ACTION).controls.links.get(
+                        ActionConstants.BillingPendingTransactionAction.APPROVE).click();
+	            return this;
+	        }
+	        
+	        public AbstractAction start(String amount) {
+                BillingSummaryPage.tablePendingTransactions.getRow(BillingConstants.BillingPendingTransactionsTable.AMOUNT, amount).getCell(BillingConstants.BillingPendingTransactionsTable.ACTION).controls.links.get(
+                        ActionConstants.BillingPendingTransactionAction.APPROVE).click();
+	            return this;
+	        }
+
+			@Override
+			public Workspace getView() {
+				return null;
+			}
+			
+			@Override
+			public AbstractAction perform(TestData td) {
+		        start();
+		        return submit();
+		    }
+			
+			public AbstractAction perform(TestData td, int rowNumber) {
+		        start(rowNumber);
+		        return submit();
+		    }
+			
+			public AbstractAction perform(TestData td, String amount) {
+		        start(amount);
+		        return submit();
+		    }
+			
+			@Override
+			public AbstractAction submit() {
+		        Page.dialogConfirmation.confirm();
+		        return this;
+		    }
+	    }
+	    
+	    public static class IssueRefund extends AbstractAction {
+
+			@Override
+			public String getName() {
+				return "Issue Refund";
+			}
+			
+			@Override
+	        public AbstractAction start() {
+	            return start(1);
+	        }
+
+	        public AbstractAction start(int rowNumber) {
+                BillingSummaryPage.tablePaymentsOtherTransactions.getRow(rowNumber).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(
+                        ActionConstants.BillingPaymentsAndOtherTransactionAction.ISSUE).click();
+	            return this;
+	        }
+	        
+	        public AbstractAction start(String amount) {
+                BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT, amount).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(
+                        ActionConstants.BillingPaymentsAndOtherTransactionAction.ISSUE).click();
+	            return this;
+	        }
+
+			@Override
+			public Workspace getView() {
+				return null;
+			}
+			
+			@Override
+			public AbstractAction perform(TestData td) {
+		        start();
+		        return submit();
+		    }
+			
+			public AbstractAction perform(TestData td, int rowNumber) {
+		        start(rowNumber);
+		        return submit();
+		    }
+			
+			public AbstractAction perform(TestData td, String amount) {
+		        start(amount);
+		        return submit();
+		    }
+			
+			@Override
+			public AbstractAction submit() {
+		        Page.dialogConfirmation.confirm();
+		        return this;
+		    }
+	    	
 	    }
 
 	    public static class Update extends AbstractAction {

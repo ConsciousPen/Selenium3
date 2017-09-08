@@ -7,7 +7,6 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import toolkit.exceptions.IstfException;
 import toolkit.webdriver.BrowserController;
 
@@ -32,7 +31,7 @@ public class WebDriverHelper {
 			if (throwException) {
 				throw new IstfException("Error while getting text from web element with locator: " + locator, e);
 			}
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return text;
 	}
@@ -47,21 +46,18 @@ public class WebDriverHelper {
 		if (NumberUtils.isCreatable(text)) {
 			number = Integer.parseInt(text);
 		}
-		if (number == null) {
-			String message = String.format("Can't get number from text: \"%1$s\" found in web element by locator %2$s", text, locator);
-			if (throwException) {
-				throw new IstfException(message);
-			}
+		if (number == null && throwException) {
+			throw new IstfException(String.format("Can't get number from text: \"%1$s\" found in web element by locator %2$s", text, locator));
 		}
 
 		return number;
 	}
-	
-	public static String getWindowHandle(){
+
+	public static String getWindowHandle() {
 		return BrowserController.get().driver().getWindowHandle();
 	}
-	
-	public static void switchToWindow(String windowHandle){
+
+	public static void switchToWindow(String windowHandle) {
 		BrowserController.get().driver().switchTo().window(windowHandle);
 	}
 }
