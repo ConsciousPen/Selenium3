@@ -116,9 +116,10 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	public void testQuoteDocuments() {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
+		String currentHandle = WebDriverHelper.getWindowHandle();
 		createCustomerIndividual();
 		String quoteNum = createQuote();
-		policy.quoteDocGen().start();	
+		policy.quoteDocGen().start();
 		
 		if (getState().equals(States.VA)) {
 			documentActionTab.verify.documentsPresent(DocGenEnum.Documents.HSAUDVA);
@@ -151,8 +152,9 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				Documents.HSES);
 		
 		documentActionTab.generateDocuments(Documents.HSIQXX);
+		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSIQXX, Documents.AHPNXX);
-
+		
 		policy.quoteDocGen().start();
 		if(getState().equals(States.VA))
 			documentActionTab.selectDocuments(Documents.HSAUDVA);
@@ -161,6 +163,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				Documents.AHFMXX, 
 				Documents.HSILXX
 				); 
+		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, 
 				Documents.HS11.setState(getState()), 
 				Documents.AHFMXX, 
@@ -169,7 +172,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				);
 		if(getState().equals(States.VA))
 			DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSAUDVA);
-
+		
 		policy.quoteDocGen().start();
 		documentActionTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"), 
 				Documents.HSU03XX, 
@@ -178,6 +181,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				Documents.HSU06XX, 
 				Documents.HSU08XX
 				);
+		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, 
 				Documents.HSU03XX, 
 				Documents.HSU04XX, 
@@ -185,7 +189,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				Documents.HSU06XX, 
 				Documents.HSU08XX
 				);
-
+		
 		policy.dataGather().start();
 		NavigationPage.toViewTab(HomeSSTab.REPORTS.get());
 		policy.getDefaultView().fillFromTo(getTestSpecificTD("InsuranceScoreOverride926"), ReportsTab.class, PropertyInfoTab.class, true);
@@ -311,9 +315,9 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				);
 		
 		documentActionTab.generateDocuments(Documents.HS11);
+		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.HS11, Documents.AHPNXX);
 		
-		WebDriverHelper.switchToWindow(currentHandle);
 		policy.policyDocGen().start();
 		documentActionTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"),
 				Documents.AHRCTXX, 
