@@ -1,0 +1,49 @@
+########################## testQuoteDocuments ######################### 
+
+InsuranceScoreOverride926: {
+  ReportsTab: {
+    InsuranceScoreOverride: {
+      Action: '',
+      EditInsuranceScoreDialog: {
+        Score after override: '926',
+        Reason for override: 'Fair Credit Reporting Act Dispute',
+        Save: ''
+      }
+    }
+  },
+  PropertyInfoTab: {
+    PropertyValue: {
+      'Coverage A - Dwelling limit': '77500'
+    }
+  }
+}
+
+InsuranceScoreOverride920: {
+  ReportsTab: {
+    InsuranceScoreOverride: {
+      Action: '',
+      EditInsuranceScoreDialog: {
+        Score after override: '920',
+        Reason for override: 'Fair Credit Reporting Act Dispute',
+        Save: ''
+      }
+    }
+  },
+  PropertyInfoTab: {
+    PropertyValue: {
+      'Coverage A - Dwelling limit': '150000'
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+}
+
+QuoteGenerateHSU: {
+  Decision based on CLUE HSU03: 'true'
+}
+
+########################## testPolicyDocuments #########################
+PolicyGenerateHSU: {
+  Decision based on CLUE HSU09: 'true'
+}

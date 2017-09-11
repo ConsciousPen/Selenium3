@@ -73,11 +73,16 @@ public class BillingBillsAndStatementsVerifier extends TableVerifier {
 	}
 
 	public void verifyBillGenerated(LocalDateTime installmentDate, LocalDateTime feesTransacionDate) {
-		Dollar billAmount = BillingHelper.getInstallmentDueByDueDate(installmentDate);
-		billAmount = billAmount.add(BillingHelper.getFeesValue(feesTransacionDate));
+		verifyBillGenerated(installmentDate, feesTransacionDate, null);
+	}
 
+	public void verifyBillGenerated(LocalDateTime installmentDate, LocalDateTime feesTransacionDate, LocalDateTime effectiveDate) {
+		Dollar billAmount = BillingHelper.getInstallmentDueByDueDate(installmentDate);
+		Dollar pastDue = effectiveDate == null ? BillingHelper.DZERO : new Dollar(BillingHelper.getPolicyRowByEffDate(effectiveDate).getCell(BillingConstants.BillingAccountPoliciesTable.PAST_DUE).getValue());
+
+		billAmount = billAmount.add(BillingHelper.getFeesValue(feesTransacionDate)).add(pastDue);
 		setType(BillingConstants.BillsAndStatementsType.BILL);
-		setMinDue(billAmount).setPastDueZero();
+		setMinDue(billAmount).setPastDue(pastDue);
 		verifyRowWithDueDate(installmentDate);
 	}
 }

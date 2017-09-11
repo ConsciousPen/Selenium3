@@ -10,3 +10,9 @@ TestData_Plus370Days: {
     Reason for Renewal with Lapse: index=1
   }  
 }
+
+TestData_Today: {
+  RenewActionTab: {
+    Renewal Date: /today
+  }  
+}
