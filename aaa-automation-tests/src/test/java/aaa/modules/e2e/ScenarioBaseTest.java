@@ -27,12 +27,16 @@ public class ScenarioBaseTest extends BaseTest {
 	protected String policyNum;
 
 	protected void generateAndCheckBill(LocalDateTime installmentDate) {
+		generateAndCheckBill(installmentDate, null);
+	}
+
+	protected void generateAndCheckBill(LocalDateTime installmentDate, LocalDateTime effectiveDate) {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDate);
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
 		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDate, billGenDate);
+		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDate, billGenDate, effectiveDate);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
 				.verifyPresent();
 	}
