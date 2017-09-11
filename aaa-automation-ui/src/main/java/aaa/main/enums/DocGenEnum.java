@@ -70,6 +70,8 @@ public final class DocGenEnum {
 		AH61XX(""),
 		HS61PA("NOTICE OF CANCELLATION OR REFUSAL TO RENEW"),
 		_55_3500("55 3500", "Refund Check"),
+		AH35XX("Autopay Schedule Compilation"),
+		AA43AZ("Named Driver Exclusion Election"),
 		;
 
 		private String id;

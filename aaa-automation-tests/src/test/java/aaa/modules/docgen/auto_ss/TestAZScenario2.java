@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.mortbay.log.Log;
 import org.testng.annotations.Test;
 
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 import toolkit.datax.TestData;
@@ -15,14 +16,18 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
+import aaa.helpers.billing.BillingInstallmentsScheduleVerifier;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.ProductConstants;
+import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.enums.ProductConstants.PolicyStatus;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 
@@ -42,6 +47,17 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		policyExpirationDate=PolicySummaryPage.getExpirationDate();
 		log.info("Original Policy #" + policyNumber);
+//		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+//		String dueAmount1= BillingSummaryPage.getInstallmentAmount(2).toString();
+//		String dueAmount2= BillingSummaryPage.getInstallmentAmount(3).toString();
+//		String dueAmount3= BillingSummaryPage.getInstallmentAmount(4).toString();
+//		String dueAmount4= BillingSummaryPage.getInstallmentAmount(5).toString();
+//		String dueAmount5= BillingSummaryPage.getInstallmentAmount(6).toString();
+//		String dueAmount6= BillingSummaryPage.getInstallmentAmount(7).toString();
+//		String dueAmount7= BillingSummaryPage.getInstallmentAmount(8).toString();
+//		String dueAmount8= BillingSummaryPage.getInstallmentAmount(9).toString();
+//		String dueAmount9= BillingSummaryPage.getInstallmentAmount(10).toString();
+//		String dueAmount10= BillingSummaryPage.getInstallmentAmount(11).toString();	
 //		TODO vereify the xml file 
 //		AH35XX
 //		AA02AZ
@@ -53,6 +69,7 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 //		AARFIXX
 //		AASR22
 //		AHNBXX
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AA43AZ).verify.mapping(getTestSpecificTD("TestData_Verification").adjust(TestData.makeKeyPath("AA41XX", "form", "PlcyNum","TextField"), policyNumber));
 	 }
 	
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")

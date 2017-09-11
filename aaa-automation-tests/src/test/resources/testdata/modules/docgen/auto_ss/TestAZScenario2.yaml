@@ -1,4 +1,16 @@
 TestData: {
+    GeneralTab: {
+    NamedInsuredInformation: {
+    First Name: Fernando,
+    Last Name: Alonso,
+    Social Security Number: 123456789,
+    "Has lived here for less than three years?": 'No',
+    Residence: Own Home,
+    },
+    AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+    ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+    PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
+    },
     DriverTab: ['@DriverInformation1','@DriverInformation2'],
     VehicleTab: ['@VehicleTab1','@VehicleTab2'],
     FormsTab: '@FormsTab',
@@ -180,13 +192,14 @@ DriverTab_Renewal: {
 
 
 
-# ------------- Verification ----------
+# ------------- Documents Verification ----------
 TestData_Verification: {
-  AA41XX: '@AA41XX'
+  AA43AZ: '@AA43AZ'
 }
 
-AA41XX: {
+AA43AZ: {
   CompanyDetails: {
+    CoBrandNm: {TextField: ''},
     CoNm: {TextField: 'AAA Members Insurance Company'},
     CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
     CoAddlAddr2: {TextField: ''},
@@ -198,23 +211,24 @@ AA41XX: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'Fernando'},
     NmdInsrdLstNm: {TextField: 'Alonso'},
-    NmdInsrdStAbrv: {TextField: AZ}
+    NmdInsrdAge: {TextField: 54},
+    NmdInsrdPropLocStAbrv: {TextField: 'AZ'}
   },
   AgentDetails: {
-    GenlAgntNum: {TextField: 400001650},
-    SubAgntNum: {TextField: 400018581}
+    AgntNum: {TextField: '400001650'}
   },
-  VehicleDetails: {
-    VehTyp: {TextField: 'NO'}
+  DriverDetails: {
+    DrvrTyp: {TextField: 'E'},
+    DrvrFrstNm: {TextField: 'Maria'},
+    DrvrLstNm: {TextField: 'Jefferson'},
+    RlatToNmdInsrd: {TextField: 'Sibling'}
   },
   form: {
-    PlcyStAbrv: {TextField: AZ},
-    PlcyTransCd: {TextField: '0040'},
-    PlcyPrfx: {TextField: AZSS},
-    PlcyGrp: {TextField: PERSONAL AUTO},
-    SpseExclNOPlcyYN: {TextField: Y},
     PlcyNum: {TextField: ''},
+    PlcyTransCd: {TextField: '0040'},
+    PlcyStAbrv: {TextField: AZ},
     TermEffDt: {DateTimeField: "/today:yyyy-MM-dd'T00:00:00.000+03:00'"},
-    SgntrOnFile: {TextField: SIGNATURE ON FILE}
+    EndrEffDt: {DateTimeField: "/today:yyyy-MM-dd'T00:00:00.000+03:00'"},
+    SgntrOnFile: {TextField: ''}
   }
 }
