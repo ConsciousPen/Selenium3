@@ -1,0 +1,40 @@
+<!DOCTYPE suite SYSTEM 'http://testng.org/testng-1.0.dtd'>
+<suite name="Temp Suite" verbose="1" parallel="methods" thread-count="1024">
+
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method" />
+  <!--  <test name="HSS Smoke Tests" preserve-order="true">
+        <parameter name="state" value="UT,AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+        </classes>
+    </test>-->
+
+    <test name="HSS Smoke Tests">
+        <parameter name="state" value="UT,AZ,CA"/>
+        <classes>
+            <class name="aaa.modules.regression.Testerson"/>
+            <class name="aaa.modules.regression.Testerson2"/>
+        </classes>
+    </test>
+
+    <test name="1 Smoke Tests">
+        <parameter name="state" value="PA,CO"/>
+        <classes>
+            <class name="aaa.modules.regression.Testerson"/>
+            <class name="aaa.modules.regression.Testerson2"/>
+        </classes>
+    </test>
+
+    <!--  <test name="2 Smoke Tests" preserve-order="true">
+        <parameter name="state" value="AZ,CA"/>
+        <classes>
+            <class name="aaa.modules.regression.Testerson"/>
+            <class name="aaa.modules.regression.Testerson2"/>
+        </classes>
+    </test>-->
+
+</suite>

@@ -23,79 +23,78 @@ import static aaa.main.metadata.policy.AutoCaMetaData.GeneralTab.*;
  * Objectives: Validate GeneralTab for auto_ca product.
  * <p>
  * TC Steps:
- *
- 1.The Account is created successfully
- 2.The quote is initiated
- 3.Page should be navigated to General Page successfully.
- Policy Information Section should have the following:
- - Source of Business (dropdown, mandatory, enabled)
- - Policy State (dropdown, disabled)
- - Policy Type (dropdown, mandatory, enabled)
- - Effective Date (enabled, mandatory, calendar pick)
- - Expiration Date (disabled, calculated)
- - Channel Type (dropdown, mandatory, enabled/disabled rules in 020-220CL)
- - Agency(dropdown, mandatory, enabled/disabled rules in 020-220CL)
- - Agency of Record (disabled)
- - Agency Location
- - Agent (dropdown, mandatory, enabled/disabled rules in 020-220CL)
- - Agent of Record  (disabled, values display both agent name and number)
- - Agent Number
- - Commission Type
- - Authorized by (not mandatory, enabled)
- - Toll Free Number
- - Language Preference (enabled, radio button, default is English)
- - Suppress Print (enabled, drop down)
- 4.The following default values should be displayed:
- - Source of Business = "New Business"
- - Policy State = default to Policy state selected on the Prefill.
- - Policy Type = Standard
- - Effective Date = Current System Date
- - Channel Type = "Location Type" field from Agency/Vendor screen
- - Location = defaults to location of record for user
- - Agency =  defaulted to Agency Name and Agency Code
- - Agency of Record (defaults to AAA NCNU for all users, including Contact Center)
- - Agent and Agent Number =default to user sign on profile
- - Agent of Record = For branch office employees, should default to agent's name based on user sign on profile. For Contact Center, should default to House Agent.
- - Authorized by = blank
- - Toll Free Number = blank
- - Language Preference (enabled, radio button, default is English)
- - Suppress Print = Print Declaration
- 5.The following fields in the Policy Information section should  have values in a drop down list that have to be validated using the Lookup Table:
- - Source of Business
- - Policy Type
- - Channel Type
- - Location
- - Agency
- - Agent (includes Agent Number)
- - Suppress Print
- 6. Select "Yes" radio buttons for "Existing AAA Policy"" under "AAA Products Owned" section in the General page:
- Motorcycle  Life  Home  Renters _ Condo
- 7. Verify that Phone fields and PolicyNumber field are displayed on Bind Tab
-
+ * <p>
+ * 1.The Account is created successfully
+ * 2.The quote is initiated
+ * 3.Page should be navigated to General Page successfully.
+ * Policy Information Section should have the following:
+ * - Source of Business (dropdown, mandatory, enabled)
+ * - Policy State (dropdown, disabled)
+ * - Policy Type (dropdown, mandatory, enabled)
+ * - Effective Date (enabled, mandatory, calendar pick)
+ * - Expiration Date (disabled, calculated)
+ * - Channel Type (dropdown, mandatory, enabled/disabled rules in 020-220CL)
+ * - Agency(dropdown, mandatory, enabled/disabled rules in 020-220CL)
+ * - Agency of Record (disabled)
+ * - Agency Location
+ * - Agent (dropdown, mandatory, enabled/disabled rules in 020-220CL)
+ * - Agent of Record  (disabled, values display both agent name and number)
+ * - Agent Number
+ * - Commission Type
+ * - Authorized by (not mandatory, enabled)
+ * - Toll Free Number
+ * - Language Preference (enabled, radio button, default is English)
+ * - Suppress Print (enabled, drop down)
+ * 4.The following default values should be displayed:
+ * - Source of Business = "New Business"
+ * - Policy State = default to Policy state selected on the Prefill.
+ * - Policy Type = Standard
+ * - Effective Date = Current System Date
+ * - Channel Type = "Location Type" field from Agency/Vendor screen
+ * - Location = defaults to location of record for user
+ * - Agency =  defaulted to Agency Name and Agency Code
+ * - Agency of Record (defaults to AAA NCNU for all users, including Contact Center)
+ * - Agent and Agent Number =default to user sign on profile
+ * - Agent of Record = For branch office employees, should default to agent's name based on user sign on profile. For Contact Center, should default to House Agent.
+ * - Authorized by = blank
+ * - Toll Free Number = blank
+ * - Language Preference (enabled, radio button, default is English)
+ * - Suppress Print = Print Declaration
+ * 5.The following fields in the Policy Information section should  have values in a drop down list that have to be validated using the Lookup Table:
+ * - Source of Business
+ * - Policy Type
+ * - Channel Type
+ * - Location
+ * - Agency
+ * - Agent (includes Agent Number)
+ * - Suppress Print
+ * 6. Select "Yes" radio buttons for "Existing AAA Policy" under "AAA Products Owned" section in the General page:
+ * Motorcycle  Life  Home  Renters _ Condo
+ * 7. Verify that Phone fields and PolicyNumber field are displayed on Bind Tab
  */
 
 public class TestQuoteGeneralTab extends AutoCaSelectBaseTest {
-	GeneralTab generalTab = new GeneralTab();
 
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
 	public void testQuoteGeneralTab() {
 
-		TestData td= getPolicyTD();
-		DocumentsAndBindTab documentsAndBindTab =new DocumentsAndBindTab();
+		GeneralTab generalTab = new GeneralTab();
+		TestData td = getPolicyTD();
+		DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
-		policy.getDefaultView().fillUpTo(td, GeneralTab.class,false);
+		policy.getDefaultView().fillUpTo(td, GeneralTab.class, false);
 
- 		verifyFieldProperties(PolicyInformation.SOURCE_OF_BUSINESS, true, "New Business");
+		verifyFieldProperties(PolicyInformation.SOURCE_OF_BUSINESS, true, "New Business");
 		generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset("Source of Business", ComboBox.class).verify.
-				optionsContain(Arrays.asList("New Business", "Non-pay Rewrite", "Spin-Off","Split","Rewrite","Continuation"));
+				optionsContain(Arrays.asList("New Business", "Non-pay Rewrite", "Spin-Off", "Split", "Rewrite", "Continuation"));
 		verifyFieldProperties(PolicyInformation.POLICY_STATE, false, getState());
 		verifyFieldProperties(PolicyInformation.POLICY_TYPE, true, "Standard");
 		generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset("Policy Type", ComboBox.class).verify.
-				optionsContain(Arrays.asList("Standard", "TRUST", "Doing Business As","Named Non Owner"));
+				optionsContain(Arrays.asList("Standard", "TRUST", "Doing Business As", "Named Non Owner"));
 		verifyFieldProperties(PolicyInformation.EFFECTIVE_DATE, true);
 		verifyFieldProperties(PolicyInformation.EXPIRATION_DATE, false);
 		verifyFieldProperties(PolicyInformation.CHANNEL_TYPE, true);
@@ -138,18 +137,19 @@ public class TestQuoteGeneralTab extends AutoCaSelectBaseTest {
 	}
 
 	private void verifyFieldProperties(AssetDescriptor fieldDescriptor, boolean isEnabled) {
-		if(isEnabled){
+		GeneralTab generalTab = new GeneralTab();
+		if (isEnabled) {
 			//verification that field is enabled
 			generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(fieldDescriptor).verify.enabled();
 			//verification that field is mandatory
 			CustomAssert.assertTrue(generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(fieldDescriptor).getAttribute("class").contains("required"));
-		}
-		else {
+		} else {
 			generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(fieldDescriptor).verify.enabled(false);
 		}
 	}
 
-	private void verifyFieldProperties(AssetDescriptor fieldDescriptor, boolean isEnabled, String expectedFieldValue){
+	private void verifyFieldProperties(AssetDescriptor fieldDescriptor, boolean isEnabled, String expectedFieldValue) {
+		GeneralTab generalTab = new GeneralTab();
 		this.verifyFieldProperties(fieldDescriptor, isEnabled);
 		generalTab.getAssetList().getAsset(POLICY_INFORMATION).getAsset(fieldDescriptor).verify.value(expectedFieldValue);
 	}

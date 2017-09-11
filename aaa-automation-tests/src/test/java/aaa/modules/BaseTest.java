@@ -2,15 +2,15 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.lang.reflect.Method;
+import java.util.*;
 
-import aaa.helpers.AaaTestListener;
+import aaa.helpers.listeners.AaaTestListener;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.ITestContext;
 import org.testng.annotations.*;
 
 import com.exigen.ipb.etcsa.base.app.ApplicationFactory;
@@ -39,6 +39,7 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.rest.policy.PolicyRestImpl;
+import org.testng.annotations.Optional;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
@@ -59,6 +60,7 @@ public class BaseTest {
 	protected TestDataManager testDataManager;
 	private String quoteNumber;
 	private static ThreadLocal<String> state = new ThreadLocal<>();
+	private static ThreadLocal<String[]> states = new ThreadLocal<>();
 	private static String usState = PropertyProvider.getProperty("test.usstate");
 	private static Map<String, Integer> policyCount = new HashMap<>();
 	private boolean isCiModeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.IS_CI_MODE, "true"));
@@ -128,13 +130,6 @@ public class BaseTest {
 			closeAllApps();
 		}
 	}
-
-	/*@AfterClass(alwaysRun = true)
-	public void closeBrowser() {
-		if (isCiModeEnabled) {
-			closeAllApps();
-		}
-	}*/
 
 	@AfterSuite(alwaysRun = true)
 	public void afterSuite() {
@@ -264,7 +259,7 @@ public class BaseTest {
 		Assert.assertNotNull(policyType, "PolicyType is not set");
 		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), state);
 		String policyNumber;
-		synchronized (key) {
+		synchronized (key.intern()) {
 			Integer count = policyCount.get(key);
 			if (count == null)
 				count = 1;
@@ -297,7 +292,7 @@ public class BaseTest {
 		}
 		//remember customer that was created in test
 		String customerNum = CustomerSummaryPage.labelCustomerNumber.getValue();
-		Map<String, String> returnValue = new LinkedHashMap<String, String>();
+		Map<String, String> returnValue = new LinkedHashMap<>();
 		String state = getState().intern();
 		synchronized (state) {
 			PolicyType type;
@@ -337,7 +332,7 @@ public class BaseTest {
 	}
 
 	/**
-	 * Should be used for creation of custom policies to use them durring PUP policy creation.\
+	 * Should be used for creation of custom Underlying Home or Auto policies to use them durring PUP policy creation.\
 	 *
 	 * @param tdHomeAdjustment - TestData adjustment for creation of Home HO3 policy (use state specific test data for HOME_CA product)
 	 * @param tdAutoAdjustment - TestData adjustment for creation of AUTO_CA policy
@@ -397,7 +392,7 @@ public class BaseTest {
 		} else {
 			td = td.getTestData(tdName);
 			if (getState().equals(States.CA))
-				log.info(String.format("==== CA Test Data is used: %s ====", getState(), getStateTestDataName(tdName)));
+				log.info(String.format("==== CA Test Data is used: %s ====", getStateTestDataName(tdName)));
 			else
 				log.info(String.format("==== Default state UT Test Data is used. Requested Test Data: %s is missing ====", getStateTestDataName(tdName)));
 		}
