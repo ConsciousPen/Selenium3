@@ -1,13 +1,13 @@
 package aaa.modules.docgen.auto_ss;
 
 import java.time.LocalDateTime;
-
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import org.mortbay.log.Log;
 import org.testng.annotations.Test;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-
+import static aaa.main.enums.DocGenEnum.Documents.*;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import aaa.common.Tab;
@@ -16,7 +16,6 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
-import aaa.helpers.billing.BillingInstallmentsScheduleVerifier;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -25,7 +24,6 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.ProductConstants;
-import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -47,17 +45,19 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		policyExpirationDate=PolicySummaryPage.getExpirationDate();
 		log.info("Original Policy #" + policyNumber);
-//		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-//		String dueAmount1= BillingSummaryPage.getInstallmentAmount(2).toString();
-//		String dueAmount2= BillingSummaryPage.getInstallmentAmount(3).toString();
-//		String dueAmount3= BillingSummaryPage.getInstallmentAmount(4).toString();
-//		String dueAmount4= BillingSummaryPage.getInstallmentAmount(5).toString();
-//		String dueAmount5= BillingSummaryPage.getInstallmentAmount(6).toString();
-//		String dueAmount6= BillingSummaryPage.getInstallmentAmount(7).toString();
-//		String dueAmount7= BillingSummaryPage.getInstallmentAmount(8).toString();
-//		String dueAmount8= BillingSummaryPage.getInstallmentAmount(9).toString();
-//		String dueAmount9= BillingSummaryPage.getInstallmentAmount(10).toString();
-//		String dueAmount10= BillingSummaryPage.getInstallmentAmount(11).toString();	
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+			
+		ArrayList<TestData> dueAmount = new ArrayList<TestData>();
+		  for(int i = 2; i <=11; i++) {
+		   TestData td_dueAmount = DataProviderFactory.dataOf("TextField", BillingSummaryPage.getInstallmentAmount(i).toString()); 
+		   dueAmount.add(td_dueAmount);
+		  }
+	    ArrayList<TestData> installmentDueDate = new ArrayList<TestData>();
+			  for(int i = 2; i <=11; i++) {
+			   TestData td_installmentDueDate = DataProviderFactory.dataOf("DateTimeField", BillingSummaryPage.getInstallmentDueDate(i).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))); 
+			   installmentDueDate.add(td_installmentDueDate);
+			  }		
+			  
 //		TODO vereify the xml file 
 //		AH35XX
 //		AA02AZ
@@ -69,10 +69,14 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 //		AARFIXX
 //		AASR22
 //		AHNBXX
-		DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AA43AZ).verify.mapping(getTestSpecificTD("TestData_Verification").adjust(TestData.makeKeyPath("AA41XX", "form", "PlcyNum","TextField"), policyNumber));
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43AZ).verify.mapping(getTestSpecificTD("TestData_Verification").adjust(TestData.makeKeyPath("AA43AZ", "form", "PlcyNum","TextField"), policyNumber));
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, AH35XX).verify.mapping(getTestSpecificTD("TestData_Verification")
+						.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails","PlcyTotWdrlAmt"),dueAmount)
+						.adjust(TestData.makeKeyPath("AH35XX", "form","PlcyNum","TextField"), policyNumber)
+						.adjust(TestData.makeKeyPath("AH35XX", "form","FutInstlDueDt"),installmentDueDate));
 	 }
 	
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
+//	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
 	public void TC02_EndorsePolicy(){
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -83,7 +87,7 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 		
 	}
 	
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
+//	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
 	public void TC03_RenewalImageGeneration(){
 		LocalDateTime renewImageGenDate=getTimePoints().getRenewImageGenerationDate(policyExpirationDate);	
 		Log.info("Policy Renewal Image Generation Date" + renewImageGenDate);
@@ -97,7 +101,7 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);	
 	}
 	
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
+//	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
     public void TC04_RenewaPreviewGeneration(){
 		
 		LocalDateTime renewPreviewGenDate=getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
@@ -122,7 +126,7 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 		
 	}
 	
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
+//	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
 	public void TC05_RenewaOfferGeneration(){
 		LocalDateTime renewOfferGenDate=getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Offer Generation Date" + renewOfferGenDate);
@@ -142,7 +146,7 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 //		TODO verify the documents AA02,AHAUXX,AA10XX,AHPNXX
 	}
 	
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
+//	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
 	public void TC06_RenewaOfferBillGeneration(){
 		LocalDateTime renewOfferBillGenDate=getTimePoints().getBillGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Offer Bill Generation Date" + renewOfferBillGenDate);
