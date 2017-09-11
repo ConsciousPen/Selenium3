@@ -8,6 +8,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
@@ -62,9 +63,11 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 				propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.STOVES).getWarning(
 						HomeSSMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY.getLabel()).getValue().toString(), ER0522);
 
-		CustomAssert.assertEquals(
-				propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PETS_OR_ANIMALS).getWarning(
-						HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_TYPE.getLabel()).getValue().toString(), ER0903);
+		if (!getState().equals("MD")) {
+			CustomAssert.assertEquals(
+					propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PETS_OR_ANIMALS).getWarning(
+							HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_TYPE.getLabel()).getValue().toString(), ER0903);
+		}
 		
 		propertyInfoTab.fillTab(td_sc1_2);
 		
@@ -122,6 +125,10 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 		
 		policy.dataGather().start();
 		
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
+		ApplicantTab applicantTab = new ApplicantTab(); 
+		applicantTab.fillTab(td_sc2_1);
+
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
 		propertyInfoTab.fillTab(td_sc2_1);
