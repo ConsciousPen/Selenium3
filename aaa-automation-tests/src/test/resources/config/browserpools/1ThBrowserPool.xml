@@ -2,15 +2,12 @@
 	<properties>
 		<name>WEBDRIVER</name>
 		<seleniumType>WEBDRIVER</seleniumType>
-		<browserProfile>*firefox</browserProfile>
-		<isMultiWindow>false</isMultiWindow>
-		<isShared>false</isShared>
+		<browserProfile>firefox</browserProfile>
 		<useXpathLibrary>true</useXpathLibrary>
 		<allowNativeXPath>true</allowNativeXPath>
-		<cleanOnExit>true</cleanOnExit>
 		<browserLifetime>0</browserLifetime>
 		<timeout>200000</timeout>
-        <capability name="unexpectedAlertBehaviour">ignore</capability>
+		<capability name="unexpectedAlertBehaviour">ignore</capability>
 	</properties>
 	
 	<hub>
