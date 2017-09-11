@@ -82,29 +82,35 @@ public class DocumentWrapper {
 		public void mapping(boolean expectedValue, TestData td) {
 			for (String docKey : td.getKeys()) {
 				DocGenEnum.Documents document = DocGenEnum.Documents.valueOf(docKey);
+				TestData tdDoc = td.getTestData(docKey);
+				for (String sectionName : tdDoc.getKeys()) {
+					List<TestData> tdSectionList = tdDoc.getTestDataList(sectionName);
+					for(TestData tdSection : tdSectionList){
+						for (String dataElementName : tdSection.getKeys()) {
+							List<TestData> tdDataElementList = tdSection.getTestDataList(dataElementName);
+							for(TestData tdDataElementChoice : tdDataElementList){
+								if (tdDataElementChoice.getKeys().retainAll(Arrays.asList(DocGenEnum.DataElementChoiceTag.TEXTFIELD, DocGenEnum.DataElementChoiceTag.DATETIMEFIELD))) {
+									throw new IstfException(String.format("Data mapping verification for \"DataElementChoice\" section is supported only by \"%s\" and \"%s\" tags values. Check your test data format.",
+											DocGenEnum.DataElementChoiceTag.TEXTFIELD, DocGenEnum.DataElementChoiceTag.DATETIMEFIELD));
+								}
 
-				for (String sectionName : td.getTestData(docKey).getKeys()) {
-					for (String dataElementName : td.getTestData(docKey).getTestData(sectionName).getKeys()) {
-						TestData tdDataElementChoice = td.getTestData(docKey).getTestData(sectionName).getTestData(dataElementName);
-						if (tdDataElementChoice.getKeys().retainAll(Arrays.asList(DocGenEnum.DataElementChoiceTag.TEXTFIELD, DocGenEnum.DataElementChoiceTag.DATETIMEFIELD))) {
-							throw new IstfException(String.format("Data mapping verification for \"DataElementChoice\" section is supported only by \"%s\" and \"%s\" tags values. Check your test data format.",
-									DocGenEnum.DataElementChoiceTag.TEXTFIELD, DocGenEnum.DataElementChoiceTag.DATETIMEFIELD));
-						}
+								if (tdDataElementChoice.containsKey(DocGenEnum.DataElementChoiceTag.TEXTFIELD)) {
+									String testFieldValue = tdDataElementChoice.getValue(DocGenEnum.DataElementChoiceTag.TEXTFIELD);
+									String assertionMessage = String.format("The expected key \"%1$s\" -> \"%2$s\" -> \"%3$s\" -> \"%4$s\" is %5$s in the xml file.", docKey, sectionName, dataElementName, testFieldValue, expectedValue ? "absent" : "present");
+									exists(expectedValue, assertionMessage, SearchBy.standardDocumentRequest.documentPackage.document.templateId(document.getIdInXml())
+											.documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.textField(testFieldValue));
+								}
 
-						if (tdDataElementChoice.containsKey(DocGenEnum.DataElementChoiceTag.TEXTFIELD)) {
-							String testFieldValue = tdDataElementChoice.getValue(DocGenEnum.DataElementChoiceTag.TEXTFIELD);
-							String assertionMessage = String.format("The expected key \"%1$s\" -> \"%2$s\" -> \"%3$s\" -> \"%4$s\" is %5$s in the xml file.", docKey, sectionName, dataElementName, testFieldValue, expectedValue ? "absent" : "present");
-							exists(expectedValue, assertionMessage, SearchBy.standardDocumentRequest.documentPackage.document.templateId(document.getIdInXml())
-									.documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.textField(testFieldValue));
-						}
-
-						if (tdDataElementChoice.containsKey(DocGenEnum.DataElementChoiceTag.DATETIMEFIELD)) {
-							String dateTimeFieldValue = tdDataElementChoice.getValue(DocGenEnum.DataElementChoiceTag.DATETIMEFIELD);
-							String assertionMessage = String.format("The expected key \"%1$s\" -> \"%2$s\" -> \"%3$s\" -> \"%4$s\" is %5$s in the xml file.", docKey, sectionName, dataElementName, dateTimeFieldValue, expectedValue ? "absent" : "present");
-							exists(expectedValue, assertionMessage, SearchBy.standardDocumentRequest.documentPackage.document.templateId(document.getIdInXml())
-									.documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.dateTimeField(dateTimeFieldValue));
+								if (tdDataElementChoice.containsKey(DocGenEnum.DataElementChoiceTag.DATETIMEFIELD)) {
+									String dateTimeFieldValue = tdDataElementChoice.getValue(DocGenEnum.DataElementChoiceTag.DATETIMEFIELD);
+									String assertionMessage = String.format("The expected key \"%1$s\" -> \"%2$s\" -> \"%3$s\" -> \"%4$s\" is %5$s in the xml file.", docKey, sectionName, dataElementName, dateTimeFieldValue, expectedValue ? "absent" : "present");
+									exists(expectedValue, assertionMessage, SearchBy.standardDocumentRequest.documentPackage.document.templateId(document.getIdInXml())
+											.documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.dateTimeField(dateTimeFieldValue));
+								}	
+							}
 						}
 					}
+					
 				}
 			}
 		}
