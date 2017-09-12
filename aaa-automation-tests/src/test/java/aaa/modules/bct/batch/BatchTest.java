@@ -152,18 +152,6 @@ public class BatchTest extends BackwardCompatibilityBaseTest {
 	}
 
 	@Test
-	public void BCT_BTCH_Automated_Renewal_PreRenewal_Reminder_011() {
-		Job job = GroupJobs.grouppreRenewalReminderGenerationAsyncJob;
-		super.executeBatchTest("BCT_BTCH_Automated_Renewal_PreRenewal_Reminder_011", job);
-	}
-
-//	@Test
-//	public void BCT_BTCH_Bind_Issue_Renewal_Proposed_Lapsed_013() {
-//		Job job = GroupJobs.grouprenewalImageRatingAsyncTaskJob;
-//		super.executeBatchTest("BCT_BTCH_Bind_Issue_Renewal_Proposed_Lapsed_013", job);
-//	}
-
-	@Test
 	public void BCT_BTCH_Cancellation_Cancellation_Notice_Bill_023() {
 		Job job = GroupJobs.groupaaacancellationNoticeGenerationJob;
 		super.executeBatchTest("BCT_BTCH_Cancellation_Cancellation_Notice_Bill_023", job);

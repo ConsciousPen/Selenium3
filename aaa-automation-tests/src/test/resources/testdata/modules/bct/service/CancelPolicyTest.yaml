@@ -1,4 +1,11 @@
-Cancellation_BCT_ONL_009: {
+Cancellation_005: {
+  CancellationActionTab: {
+    Cancellation Reason: "New Business Rescission - Underwriting Material Misrepresentation",
+    Authorized By: QA
+  }
+}
+
+Cancellation_009: {
   CancellationActionTab: {
     Cancellation effective date: "/today",
     Cancellation reason: "New Business Rescission - NSF on Down Payment"

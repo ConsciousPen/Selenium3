@@ -65,9 +65,13 @@ public class SearchPage extends MainPage {
 	}
 
 	public static void openPolicy(String policyNum) {
+		openPolicy(policyNum, ProductConstants.PolicyStatus.POLICY_ACTIVE);
+	}
+
+	public static void openPolicy(String policyNum, String status) {
 		search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
 		if (tableSearchResults.isPresent()) {
-			tableSearchResults.getRow("Status", ProductConstants.PolicyStatus.POLICY_ACTIVE).getCell(1).controls.links.getFirst().click();
+			tableSearchResults.getRow("Status", status).getCell(1).controls.links.getFirst().click();
 		}
 	}
 

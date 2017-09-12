@@ -162,10 +162,6 @@ BCT_ONL_040_CopyQuote: {
   SelectPolicy: "select p.policynumber from pasadm.policysummary P , pasadm.quoteversion q where p.id = q.policyid and p.txtype = 'quote' and policystatuscd = 'rated' and timedpolicystatuscd = 'rated' and q.txtype = 'quote' and p.LOB = 'HOME' and riskstatecd = '/STATE/' and rownum = 1"
 }
 
-BCT_ONL_040_CopyQuote: {
-  SelectPolicy: "select p.policynumber, p.riskstatecd from pasadm.policysummary P , pasadm.quoteversion q where p.id = q.policyid and p.txtype = 'quote' and policystatuscd = 'rated' and timedpolicystatuscd = 'rated' and q.txtype = 'quote' and p.LOB = 'HOME' and rownum = 1"
-}
-
 BCT_ONL_047_ManualRenewal: {
   SelectPolicy: "select policynumber from pasadm.policysummary where LOB = 'AUTO' and riskstatecd ='/STATE/' and txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and policystatuscd = 'issued' and timedpolicystatuscd in ('inForce') and IMPORTED='CONV' and currentrevisionind = 1 and (donotrenewind is null or donotrenewind = 0) and (manualrenewind is null or manualrenewind = 0) and EXPIRATION - 75 <= '/EXECDATE/'  and expiration - 50 >= '/EXECDATE/' and rownum = 1"
 }
@@ -420,7 +416,7 @@ BCT_ONL_124_DeclinePayment: {
 }
 
 BCT_ONL_125_Endorsement: {
-  SelectPolicy: "SELECT policynumber FROM pasadm.POLICYSUMMARY WHERE POLICYNUMBER LIKE '%PU%' and riskstatecd = '/STATE/' and txtype in ('endorsement', 'policy', 'renewal', 'reinstatement') and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and expiration > to_date('/EXECDATE/') and (cancelnoticeind = 0 or cancelnoticeind is null) and currentrevisionind = 1 and rownum = 1"
+  SelectPolicy: "SELECT policynumber FROM pasadm.POLICYSUMMARY WHERE POLICYNUMBER LIKE '%PU%' and riskstatecd = '/STATE/' and txtype in ('endorsement', 'policy', 'renewal', 'reinstatement') and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and effective > to_date('/EXECDATE/') and (cancelnoticeind = 0 or cancelnoticeind is null) and currentrevisionind = 1 and rownum = 1"
 }
 
 BCT_ONL_126_Endorsement: {
