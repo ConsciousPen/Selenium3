@@ -1,10 +1,8 @@
 package aaa.modules.regression.billing_and_payments.template;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 
 import toolkit.datax.TestData;
-import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.TextBox;
@@ -177,8 +175,9 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 
 		// 8. Check presence of the refund transaction in Pending transactions on billing tab
 		new BillingPendingTransactionsVerifier().setType(BillingPendingTransactionsType.REFUND).setAmount(paymentAmount).verifyPresent();
-		LocalDateTime tDate = TimeSetterUtil.getInstance().parse(BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(BillingPendingTransactionsTable.TRANSACTION_DATE).getValue(),
-			DateTimeUtils.MM_DD_YYYY);
+		// LocalDateTime tDate =
+		// TimeSetterUtil.getInstance().parse(BillingSummaryPage.tablePendingTransactions.getRow(1).getCell(BillingPendingTransactionsTable.TRANSACTION_DATE).getValue(),
+		// DateTimeUtils.MM_DD_YYYY);
 
 		// 9. Check that System creates an Approval task for the Refund transaction
 		String referenceID = BillingSummaryPage.tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.ID).getValue();
@@ -189,7 +188,7 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		MyWorkSummaryPage.tableTasks.getRow(1).getCell(MyWorkConstants.MyWorkTasksTable.REFERENCE_ID).controls.links.getFirst().click();
 
 		// 10. Approve the refund transaction
-		BillingHelper.approvePendingTransaction(tDate, BillingPendingTransactionsType.REFUND);
+		BillingHelper.approvePendingTransaction(TimeSetterUtil.getInstance().getCurrentTime(), BillingPendingTransactionsType.REFUND);
 
 		// 11. Check presence of the refund transaction in Payments & Other Transactions on billing tab
 		new BillingPaymentsAndTransactionsVerifier().setType(PaymentsAndOtherTransactionType.REFUND).setAmount(paymentAmount).setStatus(PaymentsAndOtherTransactionStatus.APPROVED).verifyPresent();
