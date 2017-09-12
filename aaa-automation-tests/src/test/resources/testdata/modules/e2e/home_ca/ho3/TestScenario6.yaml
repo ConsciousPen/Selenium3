@@ -4,36 +4,47 @@ TestData: {
 }
 
 PropertyInfoTab: {
-  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_PropertyInfoTab',
+  DwellingAddress: {
+    Number of family units: 'index=1'
+  },
   AdditionalAddress: [{}],
   PublicProtectionClass: {},
   FireReport: {},
   PropertyValue: '@PropertyValue',
-  Construction: '@<home_ss_ho3>@DataGather@Construction',
+  Construction: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: index=1,
+    Construction type: index=1, 
+    Foundation Type: Slab
+  },
   AdditionalQuestions: {},
-  Interior: '@<home_ss_ho3>@DataGather@Interior',
+  Interior: {
+    Dwelling usage: Primary,
+    Number of residents: 3,
+    "Number of stories, including basement": '1'
+  },
   DetachedStructures: [{}],
   FireProtectiveDD: {},
   TheftProtectiveTPDD: {},
-  HomeRenovation: '@<home_ss_ho3>@DataGather@HomeRenovation',
+  HomeRenovation: {},
   PetsOrAnimals: {},
   Stoves: {},
   RecreationalEquipment: {},
   ClaimHistory: {},
-  RentalInformation: {}
 }
 
 PremiumsAndCoveragesQuoteTab: {
-  Payment plan: Quarterly,
-  Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+  Payment Plan: Quarterly,
+  Coverage C - Personal Property limit: '75|Coverage A - Dwelling limit',
   Coverage E - Personal Liability Each Occurrence: '$300,000'
 }
 
 PropertyValue: {
   Coverage A - Dwelling limit: 200000,
   ISO replacement cost: 174000,
-  Reason replacement cost differs from the tool value: 'index=1',
-  Purchase date of home: '/today-1y:MM/dd/yyyy'
+  Reason replacement cost differs from the tool value: 'index=1'
 }
 
 #--- Endorsement ---  
@@ -46,10 +57,9 @@ TestData_EndorsementRP: {
         Coverage A - Dwelling limit: 174000
     }
   },
-  ProductOfferingTab: {},
   EndorsementTab: {},
   PremiumsAndCoveragesQuoteTab: {
-    Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+    Coverage C - Personal Property limit: '75|Coverage A - Dwelling limit',
   },
   MortgageesTab: {},
   UnderwritingAndApprovalTab: {},
@@ -63,7 +73,6 @@ TestData_ProposeRenew: {
   ApplicantTab: {},
   ReportsTab: {},
   PropertyInfoTab: {},
-  ProductOfferingTab: {},
   EndorsementTab: {},
   PremiumsAndCoveragesQuoteTab: {},
   MortgageesTab: {},

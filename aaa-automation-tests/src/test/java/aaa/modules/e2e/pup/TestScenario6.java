@@ -1,4 +1,4 @@
-package aaa.modules.e2e.home_ss.ho3;
+package aaa.modules.e2e.pup;
 
 import org.testng.annotations.Test;
 
@@ -10,7 +10,7 @@ public class TestScenario6 extends Scenario6 {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO3;
+		return PolicyType.PUP;
 	}
 
 	@Test
@@ -26,88 +26,63 @@ public class TestScenario6 extends Scenario6 {
 		super.Generate_First_Bill();
 	}
 
-	// @Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC03_Verify_Form_AHIBXX() {
-		super.Verify_Form_AHIBXX();
-	}
-
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC04_Endorse_Policy() {
+	public void TC03_Endorse_Policy() {
 		super.Endorse_Policy();
-	}
 
+	}
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC05_Pay_First_Bill() {
+	public void TC04_Pay_First_Bill() {
 		super.Pay_First_Bill();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC06_Generate_CancellNotice() {
+	public void TC05_Generate_CancellNotice() {
 		super.Generate_CancellNotice();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC07_Generate_Second_Bill() {
+	public void TC06_Generate_Second_Bill() {
 		super.Generate_Second_Bill();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC08_Pay_Second_Bill() {
+	public void TC07_Pay_Second_Bill() {
 		super.Pay_Second_Bill();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC09_Generate_Third_Bill() {
+	public void TC08_Generate_Third_Bill() {
 		super.Generate_Third_Bill();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC10_Pay_Third_Bill() {
+	public void TC09_Pay_Third_Bill() {
 		super.Pay_Third_Bill();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC11_Set_Do_Not_Renew_Flag() {
+	public void TC10_Set_Do_Not_Renew_Flag() {
 		super.Set_Do_Not_Renew_Flag();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC12_Renewal_Image_Generation() {
+	public void TC11_Renewal_Image_Generation() {
 		super.Renewal_Image_Generation();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC13_Renewal_Preview_Generation() {
+	public void TC12_Renewal_Preview_Generation() {
 		super.Renewal_Preview_Generation();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC14_Renewal_Offer_Generation() {
+	public void TC13_Renewal_Offer_Generation() {
 		super.Renewal_Offer_Generation();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC15_Manual_Renew_Policy() {
-		super.Manual_Renew_Policy();
-	}
-
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC16_Verify_Form_AHR1XX_And_HSRNXX() {
-		super.Verify_Form_AHR1XX_And_HSRNXX();
-	}
-
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC17_Pay_Renew_Offer() {
-		super.Pay_Renew_Offer();
-	}
-
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC18_Update_Policy_Status() {
+	public void TC14_Update_Policy_Status() {
 		super.Update_Policy_Status();
-	}
-
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC19_Automatic_Refund_Not_Generated() {
-		super.Automatic_Refund_Not_Generated();
 	}
 }
