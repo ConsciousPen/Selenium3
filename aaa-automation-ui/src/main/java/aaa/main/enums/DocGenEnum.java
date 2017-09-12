@@ -77,6 +77,7 @@ public final class DocGenEnum {
 		AH35XX("Autopay Schedule Compilation"),
 		AA43AZ("Named Driver Exclusion Election"),
 		AASR22("Financial Responsibility"),
+		AA59XX("EXISTING DAMAGE ENDORSEMENT"),
 		;
 
 		private String id;

@@ -73,11 +73,12 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 //		AARFIXX
 //		AASR22
 //		AHNBXX
-		DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43AZ, AH35XX).verify.mapping(getTestSpecificTD("TestData_Verification")
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43AZ, AASR22).verify.mapping(getTestSpecificTD("TestData_Verification")
 				.adjust(TestData.makeKeyPath("AA43AZ", "form", "PlcyNum", "TextField"), policyNumber)
 //				.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
 //				.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
 //				.adjust(TestData.makeKeyPath("AH35XX", "form", "FutInstlDueDt"), installmentDueDate)
+				.adjust(TestData.makeKeyPath("AASR22", "form", "PlcyNum", "TextField"), policyNumber)
 				);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
