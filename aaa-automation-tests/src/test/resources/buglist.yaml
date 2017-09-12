@@ -82,3 +82,9 @@ QC-44518:
   failures:
     - tests: [aaa.modules.regression.service.pup.TestPolicyEndorsementOos.testPolicyEndorsementOos]
       messages: ['Unable to locate element:', 'Errors: Error; Failed to rate policy']
+QC-44666:
+  summary: "Regression: CAC Auto: Failed to rate NANO CA Choice Auto policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ca.choice.TestPolicyNano.testPolicyNano]
+      messages: ['Cannot set value of AssetList {PremiumAndCoveragesTab: By.xpath:', 'Errors: Error; Failed to rate policy']
