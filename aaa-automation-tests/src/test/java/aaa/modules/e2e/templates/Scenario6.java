@@ -12,6 +12,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
+import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.http.HttpStub;
@@ -187,34 +188,29 @@ public class Scenario6 extends ScenarioBaseTest {
 	}
 
 	public void Generate_Second_Bill() {
-		// LocalDateTime genDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(2));
-		// TimeSetterUtil.getInstance().nextPhase(genDate);
-		// JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
-		//
-		// mainApp().open();
-		// SearchPage.openBilling(policyNum);
-		//
-		// Dollar billAmount = BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(2));
-		// billAmount =
-		// billAmount.add(BillingHelper.getFeesValue(getTimePoints().getBillGenerationDate(installmentDueDates.get(2))));
-		// new
-		// BillingBillsAndStatementsVerifier().setDueDate(installmentDueDates.get(2)).setType(BillsAndStatementsType.BILL).setMinDue(billAmount).verifyPresent();
+		LocalDateTime genDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(2));
+		TimeSetterUtil.getInstance().nextPhase(genDate);
+		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
+
+		Dollar billAmount = BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(2));
+		billAmount = billAmount.add(BillingHelper.getFeesValue(getTimePoints().getBillGenerationDate(installmentDueDates.get(2))));
+		new BillingBillsAndStatementsVerifier().setDueDate(installmentDueDates.get(2)).setType(BillsAndStatementsType.BILL).setMinDue(billAmount).verifyPresent();
 	}
 
 	public void Pay_Second_Bill() {
-		// // payAndCheckBill(installmentDueDates.get(2));
-		// LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDates.get(2));
-		// TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		//
-		// mainApp().open();
-		// SearchPage.openBilling(policyNum);
-		//
-		// Dollar minDue = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(2),
-		// BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
-		// manualPayment(minDue);
-		// new BillingPaymentsAndTransactionsVerifier().verifyManualPaymentAccepted(DateTimeUtils.getCurrentDateTime(),
-		// minDue.negate());
+		// payAndCheckBill(installmentDueDates.get(2));
+		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDates.get(2));
+		TimeSetterUtil.getInstance().nextPhase(billDueDate);
 
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
+
+		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(2), BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
+		manualPayment(minDue);
+		new BillingPaymentsAndTransactionsVerifier().verifyManualPaymentAccepted(DateTimeUtils.getCurrentDateTime(), minDue.negate());
 	}
 
 	public void Generate_Third_Bill() {
