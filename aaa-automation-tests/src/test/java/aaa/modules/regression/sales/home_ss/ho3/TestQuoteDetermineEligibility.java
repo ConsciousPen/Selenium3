@@ -27,7 +27,7 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 	private String ER0909 = "Wood burning stoves are ineligible unless professionally installed by a licensed contractor.";
 	private String ER0522 = "Dwellings with a wood burning stove without at least one smoke detector installed per floor are ineligible.";
 	private String ER0903 = "Applicants/Insureds with vicious dogs or exotic animals are ineligible.";
-		
+/*		
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testDetermineEligibility_SC1() {
@@ -108,7 +108,7 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
         
         CustomAssert.assertAll();
 	}
-
+*/
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testDetermineEligibility_SC2() {
@@ -145,24 +145,35 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
         ErrorTab errorTab = new ErrorTab();
          
         CustomAssert.enableSoftMode();
-    	//WM-0548:Dwellings built prior to 1900 are ineligible
-    	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS11120040);
-    	//WM-0550: Risks with more than 3 horses or 4 livestock are unacceptable
-    	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3195184);
-    	//ER-0913: Underwriting approval required. Primary home of the applicant is not insured
-    	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12141800); 
         
         switch(getState()) {
+        case "NJ": 
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS11120040);
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3195184);
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_WM_0523);
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12023000);
+        	break;
         case "OR": 
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS11120040);
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3195184);
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12141800);
         	//Applicants with more than 1 paid non-CAT claim and/or more than 1 paid CAT claim in the last 3 years are ineligible
     		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1020340_OR);
-    		//ER-1607: Applicants with any liability claims in the past 3 years are ineligible
         	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12023000);
         	break;
         case "SD": 
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS11120040);
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3195184);
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12141800);
         	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_WM_0523_SD);
         	break; 
         default:
+        	//WM-0548:Dwellings built prior to 1900 are ineligible
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS11120040);
+        	//WM-0550: Risks with more than 3 horses or 4 livestock are unacceptable
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3195184);
+        	//ER-0913: Underwriting approval required. Primary home of the applicant is not insured
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12141800); 
         	//WM-0523: Applicants with 2 or more paid non-CAT claims OR 2 or more paid CAT claim
         	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_WM_0523);
         	//ER-1607: Applicants with any liability claims in the past 3 years are ineligible
@@ -182,15 +193,17 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
         bindTab.btnPurchase.click();
     	
     	switch(getState()) {
+    	case "NJ":
+            errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1160000);
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3282256);
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3200008);
+        	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12023000);
+        	break;
     	case "OR":
     	case "SD": 
-    		//WM-0912: Coverage A greater than 120% of replacement cost requires underwriting approval
             errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1160000);
-        	//WM-0549: Dwellings built prior to 1940 must have all four major systems fully renovated.
         	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3282256);
-        	//WM-0550: Risks with more than 3 horses or 4 livestock are unacceptable
         	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3200008);
-        	//ER-0913: Underwriting approval required. Primary home of the applicant is not insured
         	errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12141800);
         	break;
         default:
@@ -218,8 +231,12 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.btnPurchase.click();
        
-        //WM-0531: Coverage A greater than $1,000,000 requires underwriting approval
-        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1162304);
+        if (!getState().equals("MD")) {
+        	//For MD there is delta-rule AAA_HO_SS1162304_MD - Coverage A greater than $2,000,000 requires underwriting approval
+        	//WM-0531: Coverage A greater than $1,000,000 requires underwriting approval
+            errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1162304);
+        }
+        
         if (!getState().equals("OR")) {
         	//For OR this rule verifying in Delta tests: it's displaying when one more claim added older than this
         	//WM-0530: Applicants with any paid claims over $25,000 in the last 3 years are ineligible.
