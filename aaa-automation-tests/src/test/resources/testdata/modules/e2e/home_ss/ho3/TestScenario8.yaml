@@ -3,6 +3,28 @@ TestData: {
     Payment plan: Eleven Pay Standard,
     Coverage E - Personal Liability Each Occurrence: '$300,000'
   },
+  PropertyInfoTab: {
+    DwellingAddress: {
+      Number of family units: 'index=1'
+    },
+    PropertyValue: {
+      Coverage A - Dwelling limit: 184000,
+      ISO replacement cost: 174000,
+      Reason replacement cost differs from the tool value: 'index=1',
+      Purchase date of home: '/today:MM/dd/yyyy'
+    },
+    Construction: {
+      Year built: 2009,
+      Square footage: 1,
+      Roof type: Laminate / Architectural,
+      Roof shape: index=1,
+      Construction type: index=1
+    },
+    Interior: {
+      Number of residents: 3,
+      Number of stories: index=1
+    },
+  },
   PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab_WithAutopay'   
 }
 

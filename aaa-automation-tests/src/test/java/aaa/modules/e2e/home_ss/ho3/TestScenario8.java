@@ -18,7 +18,6 @@ import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
@@ -28,23 +27,18 @@ import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class TestScenario8 extends ScenarioBaseTest {
 	protected IPolicy policy;
 	protected TestData tdPolicy;
-	//protected BillingAccount billingAccount = new BillingAccount();
-	//protected TestData tdBilling = testDataManager.billingAccount;
 
 	protected LocalDateTime policyEffectiveDate;
 	protected LocalDateTime policyExpirationDate;
 
 	protected List<LocalDateTime> installmentDueDates;
-	//protected int installmentsCount = 11;
-
-	//protected Tab premiumTab;
-	//protected CommonErrorTab errorTab;
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -54,20 +48,14 @@ public class TestScenario8 extends ScenarioBaseTest {
 	@Test
 	public void TC01_createPolicy() {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
-		//errorTab = new ErrorTab();
 
-		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData")
-				.adjust(getTestSpecificTD("TestData").resolveLinks());
+		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
 		policy = getPolicyType().get();
 
 		mainApp().open();
 		createCustomerIndividual();
 
-		if (getPolicyType().equals(PolicyType.PUP)) {
-			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
-		}
 		policyNum = createPolicy(policyCreationTD);
-
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
@@ -142,12 +130,7 @@ public class TestScenario8 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		TestData endorsementTD = getStateTestData(tdPolicy, "Endorsement", "TestData");
-		// TODO Bags:
-		// In endorsement doesn't proposed to enter minimum due as custom
-		// payment
 		policy.endorse().performAndFill(getTestSpecificTD("TestData_Endorsement3").adjust(endorsementTD));
-		new ErrorTab().overrideErrors(ErrorEnum.Errors.ERROR_AAA_HO_SS1160000);
-		new BindTab().submitTab();
 		PolicyHelper.verifyEndorsementIsCreated();
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
@@ -182,7 +165,7 @@ public class TestScenario8 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 
-		PolicyHelper.verifyAutomatedRenewalNotGenerated(renewDateImage);
+		PolicyHelper.verifyAutomatedRenewalGenerated(renewDateImage); // verify Not Generated in excel
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
@@ -194,14 +177,10 @@ public class TestScenario8 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 
-		PolicySummaryPage.buttonRenewals.verify.enabled();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		PolicySummaryPage.buttonRenewals.verify.enabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
-
-		/*PolicySummaryPanel.btnRenewals.verify.enabled();
-		PolicySummaryPanel.openRenewals();
-		RenewalSummaryPanel.verifyRenewalStatus(RenewalStatus.PREMIUM_CALCULATED);*/
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
@@ -212,13 +191,11 @@ public class TestScenario8 extends ScenarioBaseTest {
 		TestData endorsementTD = getStateTestData(tdPolicy, "Endorsement", "TestData");
 		policy.renew().performAndFill(getTestSpecificTD("TestData_Endorsement4").adjust(endorsementTD));
 
-		//PolicyHelper.verifyEndorsementIsCreated();
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		PolicySummaryPage.buttonRenewals.verify.enabled();
-		//PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -230,7 +207,7 @@ public class TestScenario8 extends ScenarioBaseTest {
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC16_Change_Payment_In_Policy_To_Quaterly() {
+	public void TC16_Change_Payment_In_Policy_To_Quarterly() {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		TestData endorsementTD = getStateTestData(tdPolicy, "Endorsement", "TestData");
@@ -267,39 +244,33 @@ public class TestScenario8 extends ScenarioBaseTest {
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		BillingSummaryPage.showPriorTerms();
-		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
-		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		verifyRenewOfferGenerated(policyExpirationDate, installmentDueDates);
+		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).setPaymentPlan(BillingConstants.PaymentPlan.QUARTERLY)
+				.verifyRowWithEffectiveDate(policyEffectiveDate);
+		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).setPaymentPlan(BillingConstants.PaymentPlan.QUARTERLY_RENEWAL)
+				.verifyRowWithEffectiveDate(policyExpirationDate);
+		verifyRenewOfferGenerated(policyExpirationDate, Arrays.asList(installmentDueDates.get(0), installmentDueDates.get(3), installmentDueDates.get(6), installmentDueDates.get(9)));
 
-		//new BillingPaymentsAndTransactionsVerifier().setTransactionDate(policyExpirationDate).setType(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent(false);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(policyExpirationDateOffer).setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
-		/*if (getState().equals(Constants.States.CA)) {
-			verifyCaRenewalOfferPaymentAmount(policyExpirationDate,getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
-		}*/
 
-		new BillingAccountPoliciesVerifier().setPaymentPlan(BillingConstants.PaymentPlan.QUARTERLY).verifyRowWithEffectiveDate(policyExpirationDate);
 		/** TODO Why 9??? */
 		BillingSummaryPage.tableInstallmentSchedule.verify.rowsCount(9, Collections.singletonMap(BillingConstants.BillingInstallmentScheduleTable.DESCRIPTION, BillingConstants.InstallmentDescription.INSTALLMENT));
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC18_Change_Payment_Plan_To_Quaterly() {
+	public void TC18_Change_Payment_Plan_To_Quarterly() {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 
 		TestData endorsementTD = getStateTestData(tdPolicy, "Endorsement", "TestData");
 		policy.renew().performAndFill(getTestSpecificTD("TestData_Endorsement5").adjust(endorsementTD));
 
-
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-		/*PolicySummaryPage.buttonRenewals.verify.enabled();
-		PolicySummaryPage.buttonRenewals.click();*/
 		BillingSummaryPage.showPriorTerms();
 
-		new BillingAccountPoliciesVerifier().setPaymentPlan(BillingConstants.PaymentPlan.QUARTERLY).verifyRowWithEffectiveDate(policyExpirationDate);
+		new BillingAccountPoliciesVerifier().setPaymentPlan(BillingConstants.PaymentPlan.QUARTERLY_RENEWAL).verifyRowWithEffectiveDate(policyExpirationDate);
 		BillingSummaryPage.tableInstallmentSchedule.verify.rowsCount(9, Collections.singletonMap(BillingConstants.BillingInstallmentScheduleTable.DESCRIPTION, BillingConstants.InstallmentDescription.INSTALLMENT));
 	}
 
@@ -311,14 +282,14 @@ public class TestScenario8 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();
-		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
-		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
+		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).setPaymentPlan(BillingConstants.PaymentPlan.QUARTERLY)
+				.verifyRowWithEffectiveDate(policyEffectiveDate);
+		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).setPaymentPlan(BillingConstants.PaymentPlan.QUARTERLY_RENEWAL)
+				.verifyRowWithEffectiveDate(policyExpirationDate);
 		verifyRenewPremiumNotice(policyExpirationDate, billDate);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate)
-				.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 
-
-		new BillingAccountPoliciesVerifier().setPaymentPlan(BillingConstants.PaymentPlan.QUARTERLY).verifyRowWithEffectiveDate(policyExpirationDate);
+		BillingSummaryPage.showPriorTerms();
 		BillingSummaryPage.tableInstallmentSchedule.verify.rowsCount(9, Collections.singletonMap(BillingConstants.BillingInstallmentScheduleTable.DESCRIPTION, BillingConstants.InstallmentDescription.INSTALLMENT));
 	}
 
@@ -336,7 +307,7 @@ public class TestScenario8 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();
 
-		new BillingAccountPoliciesVerifier().setPaymentPlan(BillingConstants.PaymentPlan.ELEVEN_PAY).verifyRowWithEffectiveDate(policyExpirationDate);
+		new BillingAccountPoliciesVerifier().setPaymentPlan(BillingConstants.PaymentPlan.ELEVEN_PAY_RENEWAL).verifyRowWithEffectiveDate(policyExpirationDate);
 		BillingSummaryPage.tableInstallmentSchedule.verify.rowsCount(16, Collections.singletonMap(BillingConstants.BillingInstallmentScheduleTable.DESCRIPTION, BillingConstants.InstallmentDescription.INSTALLMENT));
 	}
 }

@@ -37,8 +37,7 @@ public class ScenarioBaseTest extends BaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDate, billGenDate, effectiveDate);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
-				.verifyPresent();
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
 	protected void payAndCheckBill(LocalDateTime installmentDueDate) {
