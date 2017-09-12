@@ -1,4 +1,4 @@
-package aaa.modules.e2e.home_ss.ho3;
+package aaa.modules.e2e.home_ca.ho3;
 
 import org.testng.annotations.Test;
 
@@ -7,10 +7,9 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.modules.e2e.templates.Scenario6;
 
 public class TestScenario6 extends Scenario6 {
-
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO3;
+		return PolicyType.HOME_CA_HO3;
 	}
 
 	@Test
@@ -91,7 +90,7 @@ public class TestScenario6 extends Scenario6 {
 		super.Manual_Renew_Policy();
 	}
 
-	@Test(dependsOnMethods = "TC01_createPolicy")
+	// @Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC16_Verify_Form_AHR1XX_And_HSRNXX() {
 		super.Verify_Form_AHR1XX_And_HSRNXX();
 	}

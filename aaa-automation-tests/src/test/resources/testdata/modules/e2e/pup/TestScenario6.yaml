@@ -1,0 +1,76 @@
+TestData: {
+  GeneralTab: {
+    PolicyInfo: {
+      Effective date: '/today:MM/dd/yyyy',
+      Application type: New,
+      Channel Type: Independent Agent,
+      Agency: 'index=1',
+      Commission Type: New Business,
+      Lead source: Yellow Pages
+    },    
+    NamedInsuredContactInformation: {
+      Home phone: 1234567890
+    },
+  },    
+  PremiumAndCoveragesQuoteTab: {
+    Payment Plan: Quarterly,
+    Recurring Payment: true,
+    Personal Umbrella: '$1,000,000'
+  },
+  UnderlyingRisksAutoTab: {
+  Automobiles: ['@Auto1', '@Auto2']
+  }
+}
+
+
+UnderlyingRisksAutoTab: {
+  Automobiles: ['@Auto1', '@Auto2']
+}
+
+Auto1: {
+  Add automobile: 'Yes',
+  Car Type: Private Passenger Auto,
+  VIN: '91N1K36Y991234567',
+  Year: 2008,
+  Make: 'RIX TRUCK Nr3',
+  Model: 'index=1',
+  Current Carrier: 'index=2',
+  "Policy #": 123456,
+  Primary Auto Policy: 'Yes',
+  "Is this a signature series auto policy?": 'Yes',
+  Auto Tier: A,
+  State: UT,
+  Coverage Type: Split,
+  BI Limits: [250000, 500000],
+  PD Limits: 100000,
+  Usage: Pleasure,
+  Excluded:  'No'
+}
+
+Auto2: {
+  Add automobile: 'Yes',
+  Car Type: Private Passenger Auto,
+  VIN: '1B3BA46K4KF440231',
+  Current Carrier: 'index=2',
+  "Policy #": 123456,
+  State: UT,
+  Coverage Type: Split,
+  BI Limits: [250000, 500000],
+  PD Limits: 100000,
+}  
+
+###
+
+TestData_CA: {
+  PremiumAndCoveragesQuoteTab: {
+    Payment Plan: Quarterly,
+    Recurring Payment: true,
+    Personal Umbrella: '$1,000,000'
+  },
+  UnderlyingRisksAutoTab: {
+    Automobiles: {
+      Add: 'click',
+      VIN: WDCYC7BB0B6729451
+    }
+  }    
+}

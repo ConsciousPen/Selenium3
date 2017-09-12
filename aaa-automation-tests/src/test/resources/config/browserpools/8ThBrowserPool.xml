@@ -12,8 +12,8 @@
 	
 	<hub>
 		<url>http://aws2aaaqas53.corevelocity.csaa.cloud:9999</url>
-		<min>1</min>
-		<max>1</max>
+		<min>8</min>
+		<max>8</max>
 		<keywords>
 			<keyword>CSAA</keyword>
 		</keywords>

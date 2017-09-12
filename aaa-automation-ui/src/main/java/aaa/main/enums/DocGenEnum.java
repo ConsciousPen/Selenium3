@@ -53,6 +53,7 @@ public final class DocGenEnum {
 		HS0465("HS 04 65", "Coverage C Increased Special Limits of Liability endorsement"),
 		HS0490("HS 04 90", "Personal Property Replacement Cost Loss Settlement endorsement"),
 		HS0495("HS 04 95", "Water Back Up and Sump Discharge or Overflow endorsement"),
+		HS0614("HS 06 14", "Personal Property Located In A Self-Storage Facility"),
 		HS0906("HS 09 06", "Mortgage Payment Protection endorsement"),
 		HS0926("HS 09 26", "Fungi, Wet or Dry Rot or Bacteria"),
 		HS0929("HS 09 29", "Fungi, Wet or Dry Rot, or Bacteria"),
