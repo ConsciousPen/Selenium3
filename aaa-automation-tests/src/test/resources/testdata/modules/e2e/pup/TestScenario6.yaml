@@ -1,17 +1,17 @@
 TestData: {
-  GeneralTab: {
-    PolicyInfo: {
-      Effective date: '/today:MM/dd/yyyy',
-      Application type: New,
-      Channel Type: Independent Agent,
-      Agency: 'index=1',
-      Commission Type: New Business,
-      Lead source: Yellow Pages
-    },    
-    NamedInsuredContactInformation: {
-      Home phone: 1234567890
-    },
-  },    
+#  GeneralTab: {
+#    PolicyInfo: {
+#      Effective date: '/today:MM/dd/yyyy',
+#      Application type: New,
+#      Channel Type: Independent Agent,
+#      Agency: 'index=1',
+#      Commission Type: New Business,
+#      Lead source: Yellow Pages
+#    },    
+#    NamedInsuredContactInformation: {
+#      Home phone: 1234567890
+#    },
+#  },    
   PremiumAndCoveragesQuoteTab: {
     Payment Plan: Quarterly,
     Recurring Payment: true,
@@ -21,7 +21,6 @@ TestData: {
   Automobiles: ['@Auto1', '@Auto2']
   }
 }
-
 
 UnderlyingRisksAutoTab: {
   Automobiles: ['@Auto1', '@Auto2']
@@ -59,18 +58,18 @@ Auto2: {
   PD Limits: 100000,
 }  
 
-###
+#---- CA ----
 
 TestData_CA: {
   PremiumAndCoveragesQuoteTab: {
     Payment Plan: Quarterly,
     Recurring Payment: true,
-    Personal Umbrella: '$1,000,000'
+    Personal Umbrella: '$2,000,000'
   },
   UnderlyingRisksAutoTab: {
     Automobiles: {
       Add: 'click',
-      VIN: WDCYC7BB0B6729451
+      VIN: 1B3BA46K4KF440231
     }
   }    
 }
