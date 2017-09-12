@@ -34,7 +34,14 @@ PropertyInfoTab_SC1_3: {
 
 # =============== TestData SC2 ================
 TestData_SC2_1: {
+  ApplicantTab: '@ApplicantTab', 
   PropertyInfoTab: '@PropertyInfoTab_SC2_1'
+}
+
+ApplicantTab: {
+  OtherActiveAAAPolicies: {
+    Other active AAA policies: "No",
+  },
 }
 
 PropertyInfoTab_SC2_1: {
