@@ -16,6 +16,7 @@ public class HttpAAARequestor extends HttpRequestor {
 	private String sessionCookieAdmin;
 	private String sessionCookieStub;
 	private String sessionWindowId;
+	private String cookieStubHeaderName = HttpConstants.COOKIE_STUB;
 
 	public void sendPostRequest(String url, String params) throws IOException {
 		if (url.startsWith(HttpConstants.URL_PROTOCOL)) {
@@ -81,6 +82,10 @@ public class HttpAAARequestor extends HttpRequestor {
 		this.domain = domain;
 	}
 
+	public void setCookieStubHeaderName(String name) {
+		cookieStubHeaderName = name;
+	}
+
 	public Map<HttpHeaders, String> getCommonRequestHeaders() {
 		Map<HttpHeaders, String> headers = new HashMap<HttpHeaders, String>();
 		headers.put(HttpHeaders.HOST, domain);
@@ -98,7 +103,7 @@ public class HttpAAARequestor extends HttpRequestor {
 		}
 
 		if (StringUtils.isNotEmpty(sessionCookieStub)) {
-			cookies = cookies + HttpConstants.COOKIE_STUB + sessionCookieStub + ";";
+			cookies = cookies + cookieStubHeaderName + sessionCookieStub + ";";
 		}
 
 		if (StringUtils.isNotEmpty(sessionWindowId)) {

@@ -71,10 +71,10 @@ public class JobUtils {
 		executeJob(job, false);
 	}
 
-	public static void executeJob(Job job, long timeout) {
+	public static void executeJob(Job job, long pauseBefore) {
 		try {
 			log.info("Pause before " + job.getJobName() + " job execution is called");
-			Thread.sleep(timeout);
+			Thread.sleep(pauseBefore);
 		} catch (InterruptedException e) {
 			log.info("Pause before job execution is failed: ", e);
 		}

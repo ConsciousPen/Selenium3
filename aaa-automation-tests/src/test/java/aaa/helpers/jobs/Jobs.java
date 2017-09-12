@@ -7,17 +7,15 @@ public class Jobs {
 
 	private static ConcurrentHashMap<String, JobState> jobsState = new ConcurrentHashMap<>();
 
-	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1", 
+	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1",
 			Arrays.asList("/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/outbound",
 					"/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/outbound",
 					"/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4001_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4001_D/outbound"));
 
-	public static Job groupaaaDocGenBatchJob = new Job("groupaaaDocGenBatchJob");
-	
 	public static Job renewalOfferGenerationPart2 = new Job("Renewal_Offer_Generation_Part2");
-	
+
 	public static Job billingInvoiceAsyncTaskJob = new Job("aaaBillingInvoiceAsyncTaskJob");
-	
+
 	public static Job policyStatusUpdateJob = new Job("policyStatusUpdateJob");
 
 	public static Job recurringPaymentsJob = new Job("aaaRecurringPaymentsProcessingJob");
@@ -39,7 +37,7 @@ public class Jobs {
 	public static Job remittanceFeedBatchReceiveJob = new Job("remittanceFeedBatchReceiveJob");
 
 	public static Job aaaRefundGenerationAsyncJob = new Job("aaaRefundGenerationAsyncJob");
-	
+
 	public static Job refundGenerationJob = new Job("refundGenerationJob");
 
 	public static Job automatedProcessingInitiationJob = new Job("automatedProcessingInitiationJob");
@@ -57,27 +55,27 @@ public class Jobs {
 	public static Job changeCancellationPendingPoliciesStatus = new Job("changeCancellationPendingPoliciesStatus");
 
 	public static Job membershipRenewalBatchOrderJob = new Job("membershipRenewalBatchOrderJob");
-	
+
 	public static Job aaaRenewalReminderGenerationAsyncJob = new Job("aaaRenewalReminderGenerationAsyncJob");
-	
+
 	public static Job aaaMortgageeRenewalReminderAndExpNoticeAsyncJob = new Job("aaaMortgageeRenewalReminderAndExpNoticeAsyncJob");
-	
+
 	public static Job aaaEscheatmentProcessAsyncJob = new Job("aaaEscheatmentProcessAsyncJob");
-	
+
 	public static Job doNotRenewJob = new Job("DoNotRenewJob");
-	
+
 	public static Job preRenewalReminderGenerationAsyncJob = new Job("preRenewalReminderGenerationAsyncJob");
-	
+
 	public static Job applyPendingTransactionAsyncjob = new Job("applypendingtransactionAsyncjob");
-	
+
 	public static Job aaaPreRenewalNoticeAsyncJob = new Job("aaaPreRenewalNoticeAsyncJob");
 
 	public static Job aaaGenerateLTRNoticeJob = new Job("aaaGenerateLTRNoticeJob");
-	
+
 	public static Job cftDcsEodJob = new Job("cftDcsEodJob");
-	
+
 	public static Job aaaCreditDisclosureNoticeJob = new Job("aaaCreditDisclosureNoticeJob");
-	
+
 	public static Job aaaBatchMarkerJob = new Job("aaaBatchMarkerJob");
 
 	public static Job aaaCollectionCancellDebtBatchJob = new Job("aaaCollectionCancelDebtBatchJob");
