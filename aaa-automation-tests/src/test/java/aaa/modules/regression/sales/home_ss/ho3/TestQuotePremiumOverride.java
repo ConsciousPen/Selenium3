@@ -82,7 +82,7 @@ public class TestQuotePremiumOverride extends HomeSSHO3BaseTest {
 
 		PremiumsAndCoveragesQuoteTab.dialogOverridePremium.confirm();
 		PremiumsAndCoveragesQuoteTab.dialogOverrideConfirmation.confirm();
-		PremiumsAndCoveragesQuoteTab.lblOverridenPremium.verify.value("Original term premium has been overridden.");
+		PremiumsAndCoveragesQuoteTab.lblOverridenPremium.verify.contains("Original term premium has been overridden.");
 		log.info("Override message is displayed on Premium&Coverages tab");
 		pcTab.submitTab();
 

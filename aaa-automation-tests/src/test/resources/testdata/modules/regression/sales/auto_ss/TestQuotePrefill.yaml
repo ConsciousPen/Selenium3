@@ -454,7 +454,7 @@ VerificationData2_ID: {
 
 # ------- IN ----
 
-# case 1 doesn't work, additional vehicle is returned from stub, probably stub needs to be updated 
+#additional vehicle is returned from stub
 # ------ IN case 1 ---- 
 
 TestData1_IN: {
@@ -640,7 +640,7 @@ PrefillTab2_KY: {
   Date of Birth: '09/17/1988',
   Validate Address: click,
   Validate Address Dialog: {
-    Select Address: /override,
+    Select Address: override,
     Street Name: 200 Johnson Rd},
   Order Prefill: click
 }

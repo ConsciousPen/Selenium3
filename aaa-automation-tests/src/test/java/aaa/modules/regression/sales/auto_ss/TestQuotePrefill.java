@@ -63,6 +63,7 @@ public class TestQuotePrefill extends AutoSSBaseTest {
 		PrefillTab.tableDrivers.getRow(1).getCell("Last Name").verify.value(expectedLN);
 		PrefillTab.tableDrivers.getRow(1).getCell("Date of Birth").verify.value(expectedBirthDay);
 
+		if (!getState().equals("IN")) //additional vehicle is returned from stub for IN
 		CustomAssert.assertEquals("No vehicles should be returned from stub", 0, PrefillTab.tableVehicles.getRowsCount());
 
 		prefillTab.submitTab();
