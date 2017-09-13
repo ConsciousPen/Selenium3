@@ -20,7 +20,6 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
-import aaa.main.enums.BillingConstants;
 import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
 import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
 import aaa.main.enums.BillingConstants.BillsAndStatementsType;
@@ -29,9 +28,7 @@ import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
 import aaa.main.enums.BillingConstants.PolicyFlag;
 import aaa.main.enums.ProductConstants.PolicyStatus;
-import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
-import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
@@ -63,7 +60,7 @@ public class Scenario6 extends ScenarioBaseTest {
 	protected Dollar endorsementAmount;
 	protected Dollar installmentsSum = new Dollar(0);
 
-	protected String[] endorsementReasonDataKeys = {"EndorsementActionTab", "Endorsement Reason"};
+	protected String[] endorsementReasonDataKeys;
 	protected String billingNum;
 	protected int installmentsCount = 4;
 
@@ -162,15 +159,7 @@ public class Scenario6 extends ScenarioBaseTest {
 	}
 
 	public void Pay_First_Bill() {
-		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDates.get(1));
-		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-
-		mainApp().open();
-		SearchPage.openBilling(policyNum);
-
-		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(1), BillingBillsAndStatmentsTable.MINIMUM_DUE));
-		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), minDue);
-		new BillingPaymentsAndTransactionsVerifier().verifyManualPaymentAccepted(DateTimeUtils.getCurrentDateTime(), minDue.negate());
+		payCashAndCheckBill(installmentDueDates.get(1));
 	}
 
 	public void Generate_CancellNotice() {
@@ -201,15 +190,7 @@ public class Scenario6 extends ScenarioBaseTest {
 	}
 
 	public void Pay_Second_Bill() {
-		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDates.get(2));
-		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-
-		mainApp().open();
-		SearchPage.openBilling(policyNum);
-
-		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(2), BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
-		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), minDue);
-		new BillingPaymentsAndTransactionsVerifier().verifyManualPaymentAccepted(DateTimeUtils.getCurrentDateTime(), minDue.negate());
+		payCashAndCheckBill(installmentDueDates.get(2));
 	}
 
 	public void Generate_Third_Bill() {
@@ -217,15 +198,7 @@ public class Scenario6 extends ScenarioBaseTest {
 	}
 
 	public void Pay_Third_Bill() {
-		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDates.get(3));
-		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-
-		mainApp().open();
-		SearchPage.openBilling(policyNum);
-
-		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(installmentDueDates.get(3), BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
-		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), minDue);
-		new BillingPaymentsAndTransactionsVerifier().verifyManualPaymentAccepted(DateTimeUtils.getCurrentDateTime(), minDue.negate());
+		payCashAndCheckBill(installmentDueDates.get(3));
 	}
 
 	public void Set_Do_Not_Renew_Flag() {
@@ -314,10 +287,8 @@ public class Scenario6 extends ScenarioBaseTest {
 		Dollar overpayment = new Dollar(200);
 		Dollar renewOfferAmount = BillingHelper.getBillMinDueAmount(policyExpirationDate, BillsAndStatementsType.OFFER).add(overpayment);
 
-		BillingSummaryPage.linkAcceptPayment.click();
-		new AcceptPaymentActionTab().fillTab(tdBilling.getTestData("AcceptPayment", "TestData_Cash").adjust(
-			TestData.makeKeyPath(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName(), BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()), renewOfferAmount.toString()));
-		AcceptPaymentActionTab.buttonOk.click();
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), renewOfferAmount);
+
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
 
@@ -353,5 +324,17 @@ public class Scenario6 extends ScenarioBaseTest {
 
 		new BillingPaymentsAndTransactionsVerifier().setType(PaymentsAndOtherTransactionType.REFUND).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND).setReason(
 			PaymentsAndOtherTransactionReason.OVERPAYMENT).verifyPresent(false);
+	}
+
+	private void payCashAndCheckBill(LocalDateTime installmentDueDate) {
+		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDate);
+		TimeSetterUtil.getInstance().nextPhase(billDueDate);
+
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
+
+		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(installmentDueDate, BillingBillsAndStatmentsTable.MINIMUM_DUE));
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+		new BillingPaymentsAndTransactionsVerifier().verifyManualPaymentAccepted(DateTimeUtils.getCurrentDateTime(), minDue.negate());
 	}
 }

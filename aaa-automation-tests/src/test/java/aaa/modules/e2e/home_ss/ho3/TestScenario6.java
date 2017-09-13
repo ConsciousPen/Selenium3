@@ -3,7 +3,9 @@ package aaa.modules.e2e.home_ss.ho3;
 import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
+import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ss.actiontabs.EndorsementActionTab;
 import aaa.modules.e2e.templates.Scenario6;
 
 public class TestScenario6 extends Scenario6 {
@@ -16,6 +18,7 @@ public class TestScenario6 extends Scenario6 {
 	@Test
 	public void TC01_createPolicy() {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
+		endorsementReasonDataKeys = new String[]{new EndorsementActionTab().getMetaKey(), HomeSSMetaData.EndorsementActionTab.ENDORSEMENT_REASON.getLabel()};
 
 		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
 		super.createTestPolicy(policyCreationTD);
