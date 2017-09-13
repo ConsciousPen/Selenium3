@@ -62,6 +62,11 @@ public final class BillingAccountActions {
 	            Page.dialogConfirmation.confirm();
 	            return this;
 	        }
+
+			public AbstractAction perform() {
+	        	start();
+	        	return submit();
+			}
 	    }
 
 	    public static class AcceptPayment extends AbstractAction {

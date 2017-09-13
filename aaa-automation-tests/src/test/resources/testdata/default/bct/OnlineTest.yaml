@@ -304,7 +304,7 @@ BCT_ONL_096_Endorsement: {
 }
 
 BCT_ONL_097_GenerateBill: {
-  SelectPolicy: "select A.policynumber from pasadm.policysummary A, pasadm.billablepolicyterm B, pasadm.paymentdetails C, pasadm.paymentoption D where LOB = 'AUTO' and riskstatecd = '/STATE/' and A.policynumber = B.policynumber and B.account_id = C.account_id and A.paymentoption_id = D.id AND (D.PAYMENTPLANCD LIKE '%Monthly%' OR D.PAYMENTPLANCD LIKE '%stand%') and C.signatureonfile is null and txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and effective > '/EXECDATE/' and rownum = 1"
+  SelectPolicy: "select A.policynumber from pasadm.policysummary A, pasadm.billablepolicyterm B, pasadm.paymentdetails C, pasadm.paymentoption D where LOB = 'AUTO' and riskstatecd = '/STATE/' and A.policynumber = B.policynumber and B.account_id = C.account_id and A.paymentoption_id = D.id AND (D.PAYMENTPLANCD LIKE '%Monthly%' OR D.PAYMENTPLANCD LIKE '%stand%') and C.signatureonfile is null and txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and expiration > '/EXECDATE/' and rownum = 1"
 }
 
 BCT_ONL_098_Endorsement: {

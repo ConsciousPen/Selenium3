@@ -793,7 +793,6 @@ public final class AutoSSMetaData {
 	}
 
 	public static final class ReinstatementActionTab extends MetaData {
-		public static final AssetDescriptor<TextBox> CANCELLATION_EFFECTIVE_DATE = declare("Cancellation Effective Date", TextBox.class, Waiters.NONE);
 		public static final AssetDescriptor<TextBox> REINSTATE_DATE = declare("Reinstate Date", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> AUTHORIZED_BY = declare("Authorized By", TextBox.class, Waiters.AJAX);
 	}

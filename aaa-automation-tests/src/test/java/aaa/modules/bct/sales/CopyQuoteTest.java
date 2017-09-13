@@ -1,7 +1,6 @@
 package aaa.modules.bct.sales;
 
 import aaa.common.Tab;
-import aaa.common.metadata.SearchMetaData;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.SearchEnum;
 import aaa.main.modules.policy.IPolicy;
