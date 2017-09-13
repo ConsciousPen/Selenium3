@@ -59,13 +59,3 @@ PropertyInfoTab_1000: {
     Limit of liability: '$1,000.00'
   }
 }
-
-ErrorTab: {
-    ErrorsOverride: [
-      {
-        Override: 'True',
-        Approval: 'True',
-        Message: 'Coverage B must be less than 50% of Coverage A to bind.'
-      }
-    ]
-  }
