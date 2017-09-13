@@ -2,10 +2,10 @@ package aaa.modules.docgen.auto_ss;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import aaa.helpers.ssh.RemoteHelper;
 import org.mortbay.log.Log;
 import org.testng.annotations.Test;
 
@@ -53,11 +53,11 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 		log.info("Original Policy #" + policyNumber);
 		BillingSummaryPage.open();
 
-		List<TestData> dueAmount = new ArrayList<TestData>();
-		List<TestData> installmentDueDate = new ArrayList<TestData>();
+		List<TestData> dueAmount = new ArrayList<>();
+		List<TestData> installmentDueDate = new ArrayList<>();
 		for (int i = 2; i <= 11; i++) {
 			TestData td_dueAmount = DataProviderFactory.dataOf("TextField", BillingSummaryPage.getInstallmentAmount(i).add(2).toString().replace("$", ""));
-			TestData td_installmentDueDate = DataProviderFactory.dataOf("DateTimeField", BillingSummaryPage.getInstallmentDueDate(i).atZone(ZoneId.of(ZoneId.SHORT_IDS.get("EAT"))).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T00:00:00.000'XXX")));
+			TestData td_installmentDueDate = DataProviderFactory.dataOf("DateTimeField", convertToZonedDateTime(BillingSummaryPage.getInstallmentDueDate(i)));
 			dueAmount.add(td_dueAmount);
 			installmentDueDate.add(td_installmentDueDate);
 		}
@@ -75,16 +75,16 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 //		AHNBXX
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43AZ, AASR22).verify.mapping(getTestSpecificTD("TestData_Verification")
 				.adjust(TestData.makeKeyPath("AA43AZ", "form", "PlcyNum", "TextField"), policyNumber)
-//				.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
-//				.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
-//				.adjust(TestData.makeKeyPath("AH35XX", "form", "FutInstlDueDt"), installmentDueDate)
+				.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
+				.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
+				.adjust(TestData.makeKeyPath("AH35XX", "form", "FutInstlDueDt"), installmentDueDate)
 				.adjust(TestData.makeKeyPath("AASR22", "form", "PlcyNum", "TextField"), policyNumber)
 				);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	 }
-	
-//	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
+
+	//	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
 	public void TC02_EndorsePolicy(){
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -162,5 +162,10 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 //		TODO verify the xml file AHREXX, AH35XX
+	}
+
+	private String convertToZonedDateTime(LocalDateTime installmentDueDate) {
+		final String zoneId = RemoteHelper.getServerTimeZone();
+		return installmentDueDate.atZone(ZoneId.of(zoneId)).format(DocGenHelper.DATE_TIME_FIELD_FORMAT);
 	}
 }

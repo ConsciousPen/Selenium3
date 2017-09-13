@@ -93,6 +93,6 @@ public class BillingSummaryPage extends SummaryPage {
     }
     
     public static LocalDateTime getInstallmentDueDate(int index){
-    	 return TimeSetterUtil.getInstance().parse(tableInstallmentSchedule.getRow(index).getCell(3).getValue(), DateTimeUtils.MM_DD_YYYY);
+    	 return TimeSetterUtil.getInstance().parse(tableInstallmentSchedule.getRow(index).getCell(BillingConstants.BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
     }
 }

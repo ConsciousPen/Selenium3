@@ -330,7 +330,7 @@ AASR22: {
     SR22CseNum: {TextField: '123'},
     SgnDt: {DateTimeField: "/today:yyyy-MM-dd'T00:00:00.000+03:00'"},
     SR22CertEffDt: {DateTimeField: "/today:yyyy-MM-dd'T00:00:00.000+03:00'"},
-    SR22CertReqSt: {TextField: 'ARIZONA'},
+    SR22CertReqSt: {TextField: 'Arizona'},
     SSNum: {TextField: '6789'}
   }
 }
