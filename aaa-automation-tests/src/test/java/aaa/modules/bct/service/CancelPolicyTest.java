@@ -21,11 +21,6 @@ import toolkit.verification.CustomAssert;
 
 public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 
-	@Override
-	protected BctType getBctType() {
-		return BctType.ONLINE_TEST;
-	}
-
 	@Test
 	public void BCT_ONL_005_CancelPolicy() {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_005_CancelPolicy", "SelectPolicy").get(0);
@@ -38,8 +33,6 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		policy.cancel().perform(getTestSpecificTD("Cancellation_005"));
-
-		// Check if Status is updated to Policy Cancelled in the UI
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 	}
 
@@ -92,6 +85,54 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		BillingSummaryPage.openPolicy(1);
 
 		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
+	}
+
+	@Test
+	public void BCT_ONL_013_CancelPolicy() {
+		String policyNumber = getPoliciesByQuery("BCT_ONL_013_CancelPolicy", "SelectPolicy").get(0);
+		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
+
+		mainApp().open();
+
+		// Search and open the active policy
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		policy.cancel().perform(getTestSpecificTD("Cancellation_013"));
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+	}
+
+	@Test
+	public void BCT_ONL_015_CancelPolicy() {
+		String policyNumber = getPoliciesByQuery("BCT_ONL_015_CancelPolicy", "SelectPolicy").get(0);
+		BillingAccount billingAccount = new BillingAccount();
+		TestData tdBilling = testDataManager.billingAccount;
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.verifyCancelNoticeFlagPresent();
+
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		Dollar minDue = BillingSummaryPage.getMinimumDue();
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+		BillingSummaryPage.openPolicy(1);
+
+		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
+	}
+
+	@Test
+	public void BCT_ONL_112_Cancellation() {
+		String policyNumber = getPoliciesByQuery("BCT_ONL_112_Cancellation", "SelectPolicy").get(0);
+		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
+
+		mainApp().open();
+
+		// Search and open the active policy
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		policy.cancel().perform(getTestSpecificTD("Cancellation_112"));
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
 	}
 
 }

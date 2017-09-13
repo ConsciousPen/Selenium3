@@ -23,7 +23,7 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 	protected static ConcurrentHashMap<List<String>, List<Map<String, String>>> queryResult = new ConcurrentHashMap<>();
 
 	protected BctType getBctType() {
-		return null;
+		return BctType.ONLINE_TEST;
 	}
 
 	protected void executeBatchTest(String name, Job job) {

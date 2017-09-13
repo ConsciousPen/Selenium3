@@ -11,3 +11,19 @@ Cancellation_009: {
     Cancellation reason: "New Business Rescission - NSF on Down Payment"
   }
 }
+
+Cancellation_013: {
+  CancellationActionTab: {
+    Cancel Date: "/today",
+    Cancellation Reason: "Vehicle Total Loss",
+    Authorized By: QA
+  }
+}
+
+Cancellation_112: {
+  CancellationActionTab: {
+    Cancel Date: "/today+10d",
+    Cancellation Reason: "Vehicle Total Loss",
+    Authorized By: QA
+  }
+}
