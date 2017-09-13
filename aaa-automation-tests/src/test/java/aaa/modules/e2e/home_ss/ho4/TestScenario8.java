@@ -1,4 +1,4 @@
-package aaa.modules.e2e.home_ss.ho3;
+package aaa.modules.e2e.home_ss.ho4;
 
 import aaa.main.enums.BillingConstants;
 import aaa.main.modules.policy.PolicyType;
@@ -9,7 +9,7 @@ import toolkit.datax.TestData;
 public class TestScenario8 extends Scenario8 {
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO3;
+		return PolicyType.HOME_SS_HO4;
 	}
 
 	@Test
