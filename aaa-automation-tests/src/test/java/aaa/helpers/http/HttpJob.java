@@ -3,6 +3,7 @@ package aaa.helpers.http;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.json.simple.JSONObject;
@@ -15,6 +16,7 @@ import aaa.helpers.http.impl.HttpAAARequestor;
 import aaa.helpers.http.impl.HttpConstants;
 import aaa.helpers.http.impl.HttpHelper;
 import aaa.helpers.http.impl.HttpQueryBuilder;
+import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
 
 public class HttpJob {
@@ -31,7 +33,7 @@ public class HttpJob {
 	private static final String JOB_EXECUTED_REGEX = "Executed\\:<span[^>]+>([/\\w]+)<";
 	private static final String JOB_ROW_SPLITTER_REGEX = "<tr id=\"jobs:jobsTable:\\d+\"";
 	private static final int JOB_SLEEP_RERUN = 1500;
-	private static final long JOB_TIMEOUT = 1500000;
+	private static int JOB_TIMEOUT = Integer.parseInt(PropertyProvider.getProperty("test.batchjob.timeout", "1200000"));
 
 	private static final String JOB_ADD_PARAMS_FILENAME = "job_run.txt";
 	private static final String STOP_ASYNC_PARAMS_FILENAME = "stop_async.txt";

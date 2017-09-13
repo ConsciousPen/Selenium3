@@ -7,7 +7,7 @@ TestData: {
   VehicleTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {
-  Personal Injury Protection: 'contains=5,000'
+    Property Damage Liability: 'contains=$300,000'
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {},

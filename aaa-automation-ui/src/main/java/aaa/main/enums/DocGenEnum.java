@@ -74,6 +74,14 @@ public final class DocGenEnum {
 		AH61XX(""),
 		HS61PA("NOTICE OF CANCELLATION OR REFUSAL TO RENEW"),
 		_55_3500("55 3500", "Refund Check"),
+		AH35XX("Autopay Schedule Compilation"),
+		AA43AZ("Named Driver Exclusion Election"),
+		AASR22("Financial Responsibility"),
+		AA59XX("EXISTING DAMAGE ENDORSEMENT"),
+		DS02("Rental Property Policy Declaration"),
+		DS11("Application for Rental Property Insurance"),
+		DSIQXX("Rental Property Insurance Quote page"),
+		DS0469("DS 04 69", "Earthquake"),
 		;
 
 		private String id;

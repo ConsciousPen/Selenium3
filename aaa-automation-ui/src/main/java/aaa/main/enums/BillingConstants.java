@@ -18,11 +18,13 @@ public final class BillingConstants {
 		public static final String PAY_IN_FULL = "Pay in Full";
 		public static final String SEMI_ANNUAL = "Semi-Annual";
 		public static final String QUARTERLY = "Quarterly";
+		public static final String QUARTERLY_RENEWAL = "Quarterly (Renewal)";
 		public static final String MONTHLY_STANDARD = "Monthly Standard";
 		public static final String MONTHLY_LOW_DOWN = "Monthly Low Down";
 		public static final String MONTHLY_ZERO_DOWN = "Monthly Zero Down";
 		public static final String MORTGAGEE_BILL = "Mortgagee Bill";
 		public static final String ELEVEN_PAY = "Eleven Pay Standard";
+		public static final String ELEVEN_PAY_RENEWAL = "Eleven Pay Standard (Renewal)";
 		public static final String ANNUAL = "Annual";
 	}
 

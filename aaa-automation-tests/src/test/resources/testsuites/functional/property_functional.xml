@@ -116,7 +116,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/> 
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
@@ -160,9 +160,11 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
+			<!-- every state contains many deltas, needs to be maintained in delta tests, common case will be tested for UT and AZ only
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/> -->
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
+			<!-- every state contains many deltas, needs to be maintained in delta tests, common case will be tested for UT and AZ only
+			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />-->
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
@@ -204,9 +206,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
@@ -248,9 +248,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
@@ -292,9 +290,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
@@ -336,9 +332,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
@@ -380,9 +374,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
@@ -424,9 +416,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
@@ -468,9 +458,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
@@ -510,9 +498,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
@@ -554,9 +540,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
@@ -598,9 +582,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
@@ -642,9 +624,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
@@ -686,9 +666,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
@@ -730,9 +708,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
@@ -774,9 +750,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
@@ -818,9 +792,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
@@ -862,9 +834,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
@@ -906,9 +876,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
@@ -950,9 +918,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
@@ -994,9 +960,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
@@ -1038,9 +1002,7 @@
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteComparison"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy" />
-			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteDetermineEligibility" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask" />
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
 			<class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules" />
