@@ -19,7 +19,6 @@ import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.AddHoldActionTab;
 import aaa.main.modules.billing.account.actiontabs.DeclinePaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.MovePoliciesActionTab;
-import aaa.main.modules.billing.account.actiontabs.OtherTransactionsActionTab;
 import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
 import aaa.main.modules.billing.account.views.AcceptPaymentView;
 import aaa.main.modules.billing.account.views.AddHoldView;
@@ -156,18 +155,12 @@ public final class BillingAccountActions {
 
 	        @Override
 	        public AbstractAction submit() {
-	            OtherTransactionsActionTab.buttonOk.click();
 	            return this;
 	        }
 
-	        public AbstractAction perform(TestData td, String amount) {
-	            td.adjust(TestData.makeKeyPath(BillingAccountMetaData.OtherTransactionsActionTab.class.getSimpleName(), BillingAccountMetaData.OtherTransactionsActionTab.AMOUNT.getLabel()), amount);
+	        public AbstractAction perform(TestData td, Dollar amount) {
+	            td.adjust(TestData.makeKeyPath(BillingAccountMetaData.OtherTransactionsActionTab.class.getSimpleName(), BillingAccountMetaData.OtherTransactionsActionTab.AMOUNT.getLabel()), amount.toString());
 	            return super.perform(td);
-	        }
-
-	        @Override
-	        public AbstractAction perform(TestData td) {
-	            throw new UnsupportedOperationException("perform(TestData td) method with testData is not supported for this action. Use perform(TestData td, String amount) instead.");
 	        }
 	    }
 
