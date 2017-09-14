@@ -121,10 +121,10 @@ public class Scenario8 extends ScenarioBaseTest {
 	}
 
 	protected void changePaymentPlanAndCheckInstallments(TestData td, String paymentPlan, int expectedInstallmentsNumber) {
-		changePaymentPlanAndCheckInstallments(td, paymentPlan, false, false, expectedInstallmentsNumber);
+		changePaymentPlanAndCheckInstallments(td, paymentPlan, false, false, expectedInstallmentsNumber, policyEffectiveDate);
 	}
 
-	protected void changePaymentPlanAndCheckInstallments(TestData td, String paymentPlan, boolean renew, boolean verifyRenewalsStatusIsPremiumCalculated, int expectedInstallmentsNumber) {
+	protected void changePaymentPlanAndCheckInstallments(TestData td, String paymentPlan, boolean renew, boolean verifyRenewalsStatusIsPremiumCalculated, int expectedInstallmentsNumber, LocalDateTime expectedEffectiveDate) {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		if (renew) {
@@ -141,12 +141,12 @@ public class Scenario8 extends ScenarioBaseTest {
 		if (verifyRenewalsStatusIsPremiumCalculated) {
 			verifyRenewalsStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-			BillingSummaryPage.showPriorTerms();
 		} else {
 			SearchPage.openBilling(policyNum);
 		}
 
-		new BillingAccountPoliciesVerifier().setPaymentPlan(paymentPlan).verifyRowWithEffectiveDate(policyEffectiveDate);
+		BillingSummaryPage.showPriorTerms();
+		new BillingAccountPoliciesVerifier().setPaymentPlan(paymentPlan).verifyRowWithEffectiveDate(expectedEffectiveDate);
 		new BillingInstallmentsScheduleVerifier().setDescription(BillingConstants.InstallmentDescription.INSTALLMENT).verifyCount(expectedInstallmentsNumber);
 	}
 
