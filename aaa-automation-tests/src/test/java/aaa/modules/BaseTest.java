@@ -346,10 +346,12 @@ public class BaseTest {
 			PolicyType.HOME_CA_HO3.get().createPolicy(tdHomeData);
 			policies.put("Primary_HO3", PolicySummaryPage.labelPolicyNumber.getValue());
 
-			TestData tdAuto = testDataManager.policy.get(PolicyType.AUTO_CA_SELECT);
-			TestData tdAutoData = getStateTestData(tdAuto, "DataGather", "TestData").adjust(tdAutoAdjustment);
-			PolicyType.AUTO_CA_SELECT.get().createPolicy(tdAutoData);
-			policies.put("Primary_Auto", PolicySummaryPage.labelPolicyNumber.getValue());
+			if(tdAutoAdjustment != null){
+				TestData tdAuto = testDataManager.policy.get(PolicyType.AUTO_CA_SELECT);
+				TestData tdAutoData = getStateTestData(tdAuto, "DataGather", "TestData").adjust(tdAutoAdjustment);
+				PolicyType.AUTO_CA_SELECT.get().createPolicy(tdAutoData);
+				policies.put("Primary_Auto", PolicySummaryPage.labelPolicyNumber.getValue());
+			}
 		} else {
 			TestData tdHome = testDataManager.policy.get(PolicyType.HOME_SS_HO3);
 			TestData tdHomeData = getStateTestData(tdHome, "DataGather", "TestData").adjust(tdHomeAdjustment);

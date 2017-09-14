@@ -18,3 +18,21 @@ UnderlyingRisksAutoTab: {
     VIN: WDCYC7BB0B6729451
   }]
 }
+
+
+TestData_CA: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {},
+  UnderlyingRisksOtherVehiclesTab: {},
+  UnderlyingRisksAllResidentsTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {
+      Personal Umbrella: '$2,000,000'
+   },
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}

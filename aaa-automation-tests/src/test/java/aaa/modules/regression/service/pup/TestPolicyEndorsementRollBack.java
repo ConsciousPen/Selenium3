@@ -11,7 +11,7 @@ import aaa.modules.regression.service.template.PolicyEndorsementRollBack;
 import toolkit.utils.TestInfo;
 
 /**
- * @author Andrey Shashenka
+ * @author 
  * @name Test Roll Back Endorsement for Umbrella Policy
  * @scenario
  * 1. Create Customer
