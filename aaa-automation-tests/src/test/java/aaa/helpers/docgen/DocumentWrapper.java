@@ -68,20 +68,23 @@ public class DocumentWrapper {
 			CustomAssert.assertEquals(assertionMessage, getList(searchFilter).isEmpty(), !expectedValue);
 		}
 
-		public void mapping(TestData td) {
-			mapping(true, td);
+		public void mapping(TestData td, String policyNumber) {
+			mapping(true, td, policyNumber);
 		}
-
-
+		
 		/**
 		 * Verifies the documents mapping with <b>TestData</b> after documents generation
 		 *
 		 * @param expectedValue defines whether all mapping should be correct or not
 		 * @param td TestData defined for documents mapping check.
+		 * @param policyNumber Policy/Quote Number
 		 */
-		public void mapping(boolean expectedValue, TestData td) {
+		public void mapping(boolean expectedValue, TestData td, String policyNumber) {
 			for (String docKey : td.getKeys()) {
-				DocGenEnum.Documents document = DocGenEnum.Documents.valueOf(docKey);
+				DocGenEnum.Documents document = null;
+				if (!docKey.equals("DocumentPackageData")) {
+					document = DocGenEnum.Documents.valueOf(docKey);
+				}
 				TestData tdDoc = td.getTestData(docKey);
 				for (String sectionName : tdDoc.getKeys()) {
 					List<TestData> tdSectionList = tdDoc.getTestDataList(sectionName);
@@ -97,16 +100,20 @@ public class DocumentWrapper {
 								if (tdDataElementChoice.containsKey(DocGenEnum.DataElementChoiceTag.TEXTFIELD)) {
 									String testFieldValue = tdDataElementChoice.getValue(DocGenEnum.DataElementChoiceTag.TEXTFIELD);
 									String assertionMessage = String.format("The expected key \"%1$s\" -> \"%2$s\" -> \"%3$s\" -> \"%4$s\" is %5$s in the xml file.", docKey, sectionName, dataElementName, testFieldValue, expectedValue ? "absent" : "present");
-									exists(expectedValue, assertionMessage, SearchBy.standardDocumentRequest.documentPackage.document.templateId(document.getIdInXml())
-											.documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.textField(testFieldValue));
+									if(docKey.equals("DocumentPackageData"))
+										exists(expectedValue, assertionMessage, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber).documentPackageData.documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.textField(testFieldValue));
+									else
+										exists(expectedValue, assertionMessage, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber).document.templateId(document.getIdInXml()).documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.textField(testFieldValue));
 								}
 
 								if (tdDataElementChoice.containsKey(DocGenEnum.DataElementChoiceTag.DATETIMEFIELD)) {
 									String dateTimeFieldValue = tdDataElementChoice.getValue(DocGenEnum.DataElementChoiceTag.DATETIMEFIELD);
 									String assertionMessage = String.format("The expected key \"%1$s\" -> \"%2$s\" -> \"%3$s\" -> \"%4$s\" is %5$s in the xml file.", docKey, sectionName, dataElementName, dateTimeFieldValue, expectedValue ? "absent" : "present");
-									exists(expectedValue, assertionMessage, SearchBy.standardDocumentRequest.documentPackage.document.templateId(document.getIdInXml())
-											.documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.dateTimeField(dateTimeFieldValue));
-								}	
+									if(docKey.equals("DocumentPackageData"))
+										exists(expectedValue, assertionMessage, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber).documentPackageData.documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.dateTimeField(dateTimeFieldValue));
+									else
+										exists(expectedValue, assertionMessage, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber).document.templateId(document.getIdInXml()).documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.dateTimeField(dateTimeFieldValue));
+								}
 							}
 						}
 					}

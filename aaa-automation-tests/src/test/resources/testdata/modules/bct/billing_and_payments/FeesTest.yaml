@@ -1,0 +1,7 @@
+OtherTransaction_061: {
+  OtherTransactionsActionTab: {
+    Transaction Type: Fee,
+    Transaction Subtype: Reinstatement Fee,
+    Amount: 10
+  }
+}
