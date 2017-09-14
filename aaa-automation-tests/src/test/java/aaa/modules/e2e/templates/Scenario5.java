@@ -40,6 +40,7 @@ public class Scenario5 extends ScenarioBaseTest {
 	protected int installmentsCount = 11;
 
 	public void createTestPolicy(TestData policyCreationTD) {
+		TimeSetterUtil.getInstance().adjustTime(); // *** Debug
 		mainApp().open();
 		createCustomerIndividual();
 
@@ -57,23 +58,23 @@ public class Scenario5 extends ScenarioBaseTest {
 		CustomAssert.assertEquals("Billing Installments count for Monthly (Eleven Pay) payment plan", installmentsCount, installmentDueDates.size());
 	}
 
-	public void TC02_Generate_First_Bill() {
+	public void Generate_First_Bill() {
 		generateAndCheckBill(installmentDueDates.get(1));
 	}
 
-	public void TC03_Pay_First_Bill() {
+	public void Pay_First_Bill() {
 		payAndCheckBill(installmentDueDates.get(1));
 	}
 
-	public void TC04_Generate_Second_Bill() {
+	public void Generate_Second_Bill() {
 		generateAndCheckBill(installmentDueDates.get(2));
 	}
 
-	public void TC05_Pay_Second_Bill() {
+	public void Pay_Second_Bill() {
 		payAndCheckBill(installmentDueDates.get(2));
 	}
 
-	public void TC06_Decline_Payments() {
+	public void Decline_Payments() {
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 
@@ -88,7 +89,7 @@ public class Scenario5 extends ScenarioBaseTest {
 		billingAccount.update().perform(tdBilling.getTestData("Update", "TestData_RemoveAutopay"));
 	}
 
-	public void TC07_Generate_CancellNotice() {
+	public void Generate_CancellNotice() {
 		LocalDateTime cnDate = getTimePoints().getCancellationNoticeDate(installmentDueDates.get(2));
 		// TODO Why?
 		if (getState().equals(Constants.States.AZ))
@@ -105,20 +106,21 @@ public class Scenario5 extends ScenarioBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 
 		new BillingAccountPoliciesVerifier().setPolicyFlag(BillingConstants.PolicyFlag.CANCEL_NOTICE).verifyRowWithEffectiveDate(policyEffectiveDate);
-		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.CANCELLATION_NOTICE).verifyRowWithDueDate(cnDate);
+		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.CANCELLATION_NOTICE).verifyRowWithDueDate(
+			getTimePoints().getCancellationTransactionDate(installmentDueDates.get(2)));
 	}
 
-	public void TC08_Verify_Form_AH34XX() {
+	public void Verify_Form_AH34XX() {
 		// // TODO DocGen utils
 		// DocGenHelper.verifyDocumentsGeneratedByJob(TimeSetterUtil.getInstance().getCurrentTime(),
 		// policyNum, OnDemandDocuments.AH34XX);
 	}
 
-	public void TC09_Cancel_Policy() {
+	public void Cancel_Policy() {
 		cancelPolicy(installmentDueDates.get(2));
 	}
 
-	public void TC10_Generate_First_EP_Bill() {
+	public void Generate_First_EP_Bill() {
 		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillFirst(installmentDueDates.get(2)));
 		// // TODO DocGen utils
 		// DocGenHelper.verifyDocumentsGeneratedByJob(policyNum,
@@ -126,21 +128,21 @@ public class Scenario5 extends ScenarioBaseTest {
 
 	}
 
-	public void TC11_Generate_Second_EP_Bill() {
+	public void Generate_Second_EP_Bill() {
 		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillSecond(installmentDueDates.get(2)));
 		// //TODO DocGen utils
 		// DocGenHelper.verifyDocumentsGeneratedByJob(policyNum,
 		// OnDemandDocuments._55_6102, XPathInfo.INVOICE_BILLS_STATEMENTS);
 	}
 
-	public void TC12_Generate_Third_EP_Bill() {
+	public void Generate_Third_EP_Bill() {
 		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillThird(installmentDueDates.get(2)));
 		// //TODO DocGen utils
 		// DocGenHelper.verifyDocumentsGeneratedByJob(policyNum,
 		// OnDemandDocuments._55_6103, XPathInfo.INVOICE_BILLS_STATEMENTS);
 	}
 
-	public void TC13_Generate_EP_Write_Off() {
+	public void Generate_EP_Write_Off() {
 		LocalDateTime date = getTimePoints().getEarnedPremiumWriteOff(installmentDueDates.get(2));
 		TimeSetterUtil.getInstance().nextPhase(date);
 		JobUtils.executeJob(Jobs.collectionFeedBatch_earnedPremiumWriteOff);
@@ -151,7 +153,7 @@ public class Scenario5 extends ScenarioBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(date).setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF).verifyPresent();
 	}
 
-	public void TC14_Renewal_Image_Generation() {
+	public void Renewal_Image_Generation() {
 		LocalDateTime renewDateImage = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewDateImage);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
@@ -165,7 +167,7 @@ public class Scenario5 extends ScenarioBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_CANCELLED);
 	}
 
-	public void TC15_Renewal_Preview_Generation() {
+	public void Renewal_Preview_Generation() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
@@ -176,7 +178,7 @@ public class Scenario5 extends ScenarioBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_CANCELLED);
 	}
 
-	public void TC16_Renewal_Offer_Generation() {
+	public void Renewal_Offer_Generation() {
 		LocalDateTime renewDateOffer = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewDateOffer);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
