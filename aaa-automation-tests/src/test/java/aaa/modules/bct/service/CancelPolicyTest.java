@@ -3,7 +3,6 @@ package aaa.modules.bct.service;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
@@ -13,7 +12,6 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
-import aaa.modules.bct.BctType;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
@@ -38,6 +36,7 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 
 	@Test
 	public void BCT_ONL_008_CancelPolicy() {
+		//TODO Test moved from Deloite's code as is, should be updated
 		String policyNumber = getPoliciesByQuery("BCT_ONL_008_CancelPolicy", "SelectPolicy").get(0);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.CANCELLATION_PENDING);
@@ -134,5 +133,4 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		policy.cancel().perform(getTestSpecificTD("Cancellation_112"));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
 	}
-
 }

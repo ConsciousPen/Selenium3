@@ -14,7 +14,10 @@ public final class DataElementChoiceNode extends SearchBy<DataElementChoiceNode,
 	}
 
 	public DataElementChoiceNode dateTimeField(String value) {
-		return addCondition(dec -> Objects.equals(dec.getDateTimeField(), value));
+		if(value.endsWith("contains"))
+			return addCondition(dec -> dec.getDateTimeField().contains(value.replace("contains", "")));
+		else
+			return addCondition(dec -> Objects.equals(dec.getDateTimeField(), value));
 	}
 
 	@Override

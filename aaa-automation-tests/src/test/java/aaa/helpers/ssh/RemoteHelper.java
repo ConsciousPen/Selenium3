@@ -163,4 +163,9 @@ public class RemoteHelper {
 			throw new IstfException("SSH: Folder '" + source + "' doesn't exist.", e);
 		}
 	}
+
+	public static String getServerTimeZone() {
+		String cmd = "timedatectl | grep -oP 'Time zone: \\K.*(?= \\()'";
+		return executeCommand(cmd).trim();
+	}
 }

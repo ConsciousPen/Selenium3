@@ -14,6 +14,9 @@ import org.testng.Assert;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,6 +24,7 @@ public class DocGenHelper {
 	public static final String DOCGEN_SOURCE_FOLDER = "/home/DocGen/";
 	public static final String DOCGEN_BATCH_SOURCE_FOLDER = DOCGEN_SOURCE_FOLDER + "Batch/";
 	public static final String JOBS_DOCGEN_SOURCE_FOLDER = "/home/mp2/pas/sit/PAS_B_EXGPAS_DCMGMT_6500_D/outbound/";
+	public static final DateTimeFormatter DATE_TIME_FIELD_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T00:00:00.000'XXX");
 	private static final int DOCUMENT_GENERATION_TIMEOUT = 30;
 
 	private static Logger log = LoggerFactory.getLogger(DocGenHelper.class);
@@ -143,5 +147,10 @@ public class DocGenHelper {
 			textsToSearchPatterns[i + 1] = String.format("<%1$s:TemplateId>%2$s</%1$s:TemplateId>", DocGenEnum.XmlnsNamespaces.DOC_PREFIX, documents[i].getIdInXml());
 		}
 		return RemoteHelper.waitForFilesAppearance(docGenSourcePath, "xml", DOCUMENT_GENERATION_TIMEOUT, textsToSearchPatterns);
+	}
+	
+	public static String convertToZonedDateTime(LocalDateTime installmentDueDate) {
+		final String zoneId = RemoteHelper.getServerTimeZone();
+		return installmentDueDate.atZone(ZoneId.of(zoneId)).format(DATE_TIME_FIELD_FORMAT);
 	}
 }
