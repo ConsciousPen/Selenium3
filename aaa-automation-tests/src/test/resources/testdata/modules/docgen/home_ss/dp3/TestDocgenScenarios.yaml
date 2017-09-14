@@ -59,3 +59,25 @@ PropertyInfoTab_1000: {
     Limit of liability: '$1,000.00'
   }
 }
+
+########################## testEndorsementsForms #########################
+TestData_EndorsementsForms: {
+  EndorsementTab: {
+    'DS 04 20': {},
+    'DS 04 63': {
+      Location type: 'Described Location',
+      Coverage limit: '$5000'
+    },
+    'DS 04 68': {
+      Location type: 'Described Location',
+      Construction type: Frame
+    },
+    'DS 04 69': {},
+    'DS 04 71': {},
+    'DS 04 73': {},
+    'DS 04 95': {},
+    'DS 09 26': {},
+    'DS 09 34': {},
+    'DS 24 82': {}
+  }
+}

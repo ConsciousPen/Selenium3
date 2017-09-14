@@ -140,7 +140,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
      * */
 
     @Test
-    public void ho6PolicyDocuments() {
+    public void testPolicyDocuments() {
     	CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
@@ -240,6 +240,85 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
 				Documents.HSILXX, 
 				Documents.HSRFIXX
 				);
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+    }
+    
+    /**
+     * <pre>
+     * TC Steps:
+     * Create a DP3 quote:
+     * Go to Endorsements Tab
+     * Add endorsements:
+     * DS0410
+     * DS0420
+     * DS0441
+     * DS0463
+     * DS0468
+     * DS0469
+     * DS0471
+     * DS0473
+     * DS0495
+     * DS0926
+     * DS0934
+     * DS2482
+     * Rate the quote.
+     * Save and exit quote,
+     * Go to On-Demand Documents tab.
+     * Verify that added endorsements are absent here on On-Demand Documents tab.
+     * Bind the quote.
+     * Verify that all added endorsements forms are generated in batch xml file.
+     *
+     * <pre>
+     * Req:
+     * DS 04 10  15213: US CL GD-109 Generate DS 04 10 Endorsement
+     * DS 04 20  15211: US CL GD-03 Generate DS 04 20 Endorsement
+     * DS 04 41  15214: US CL GD-04 Generate DS 04 41 Endorsement
+     * DS 04 63  15215: US CL GD-05 Generate DS 04 63 Endorsement
+     * DS 04 68  15216: US CL GD-06 Generate DS 04 68 Endorsement
+     * DS 04 69  15221: US CL GD-07 Generate DS 04 69 Endorsement
+     * DS 04 71  15222: US CL GD-08 Generate DS 04 71 Endorsement
+     * DS 04 73  15223: US CL GD-09 Generate DS 04 73 Endorsement
+     * DS 04 95  15228: US CL GD-10 Generate DS 04 95 Endorsement
+     * DS 09 26  15229: US CL GD-11 Generate DS 09 26 Endorsement
+     * DS 09 34  15230: US CL GD-12 Generate DS 09 34 Endorsement
+     * DS 24 82  15231: US CL GD-12 Generate DS 24 82 Endorsement
+     */
+
+    @Test
+    public void testEndorsementsForms() throws Exception {
+    	CustomAssert.enableSoftMode();
+		mainApp().open();
+		createCustomerIndividual();
+		createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_EndorsementsForms")));
+		
+		policy.quoteDocGen().start();
+		documentActionTab.verify.documentsPresent(false, 
+				Documents.DS0420,
+				Documents.DS0463,
+				Documents.DS0468,
+				Documents.DS0469,
+				Documents.DS0471,
+				Documents.DS0473,
+				Documents.DS0495,
+				Documents.DS0926,
+				Documents.DS0934,
+				Documents.DS2482);
+		documentActionTab.buttonCancel.click();
+		
+		policy.purchase(getPolicyTD());
+		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
+		DocGenHelper.verifyDocumentsGenerated(policyNum, 
+				Documents.DS0420,
+				Documents.DS0463,
+				Documents.DS0468,
+				Documents.DS0469,
+				Documents.DS0471,
+				Documents.DS0473,
+				Documents.DS0495,
+				Documents.DS0926,
+				Documents.DS0934,
+				Documents.DS2482);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
     }
