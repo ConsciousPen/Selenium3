@@ -1,15 +1,10 @@
 TestData: {
-    GeneralTab: {
-    NamedInsuredInformation: {
+    PrefillTab: {
     First Name: Fernando,
     Last Name: Alonso,
-    Social Security Number: 123456789,
-    "Has lived here for less than three years?": 'No',
-    Residence: Own Home,
-    },
-    AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
-    ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
-    PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
+    Validate Address: click,
+    Validate Address Dialog: {},
+    Order Prefill: click  
     },
     DriverTab: ['@DriverInformation1','@DriverInformation2'],
     VehicleTab: ['@VehicleTab1','@VehicleTab2'],
@@ -290,10 +285,10 @@ AASR22: {
   },
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdMidNm: {TextField: ''},
+#    NmdInsrdMidNm: {TextField: ''},
     NmdInsrdLstNm: {TextField: 'Alonso'},
     NmdInsrdStrPobAddr1: {TextField: '265 CHIPMAN AVE'},
-    NmdInsrdAddlAddr2: {TextField: ''},
+#    NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {'Phoenix'},
     NmdInsrdStAbrv: {TextField: 'AZ'},
     NmdInsrdZipPls4: {TextField: '85003'},
@@ -323,12 +318,12 @@ AASR22: {
   form: {
     PlcyNum: {TextField: ''},
     PlcyPrfx: {TextField: 'AZSS'},
-    PlcyEffDt: {DateTimeField: "/today:yyyy-MM-dd'T00:00:00.000+03:00'"},
+    TermEffDt: {DateTimeField: "/today:yyyy-MM-dd'T00:00:00.000+03:00'"},
     SR22FeeFlg: {TextField: 'N'},
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'AZ'},
     SR22CseNum: {TextField: '123'},
-    SgnDt: {DateTimeField: "/today:yyyy-MM-dd'T00:00:00.000+03:00'"},
+#    SgnDt: {DateTimeField: "/today:yyyy-MM-dd'T00:00:00.000+03:00'"},
     SR22CertEffDt: {DateTimeField: "/today:yyyy-MM-dd'T00:00:00.000+03:00'"},
     SR22CertReqSt: {TextField: 'Arizona'},
     SSNum: {TextField: '6789'}

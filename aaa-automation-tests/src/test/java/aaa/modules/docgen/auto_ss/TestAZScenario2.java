@@ -45,10 +45,12 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 	public void TC01_CreatePolicy() {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
-		createCustomerIndividual();
-		TestData tdpolicy = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
-		policyNumber = createPolicy(tdpolicy);
+//		createCustomerIndividual();
+//		TestData tdpolicy = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
+//		policyNumber = createPolicy(tdpolicy);
+		SearchPage.openPolicy("AZSS952122201");
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		policyNumber= PolicySummaryPage.labelPolicyNumber.getValue();
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		log.info("Original Policy #" + policyNumber);
 		BillingSummaryPage.open();
@@ -73,7 +75,7 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 //		AARFIXX
 //		AASR22
 //		AHNBXX
-		DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43AZ, AASR22).verify.mapping(getTestSpecificTD("TestData_Verification")
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43AZ,AH35XX,AASR22).verify.mapping(getTestSpecificTD("TestData_Verification")
 				.adjust(TestData.makeKeyPath("AA43AZ", "form", "PlcyNum", "TextField"), policyNumber)
 				.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
 				.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
