@@ -14,6 +14,8 @@ import org.testng.Assert;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
@@ -145,5 +147,10 @@ public class DocGenHelper {
 			textsToSearchPatterns[i + 1] = String.format("<%1$s:TemplateId>%2$s</%1$s:TemplateId>", DocGenEnum.XmlnsNamespaces.DOC_PREFIX, documents[i].getIdInXml());
 		}
 		return RemoteHelper.waitForFilesAppearance(docGenSourcePath, "xml", DOCUMENT_GENERATION_TIMEOUT, textsToSearchPatterns);
+	}
+	
+	public static String convertToZonedDateTime(LocalDateTime installmentDueDate) {
+		final String zoneId = RemoteHelper.getServerTimeZone();
+		return installmentDueDate.atZone(ZoneId.of(zoneId)).format(DATE_TIME_FIELD_FORMAT);
 	}
 }

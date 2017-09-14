@@ -13,6 +13,7 @@ public final class DocumentPackageNode extends SearchBy<DocumentPackageNode, Doc
 	public DistributionChannelNode distributionChannel = new DistributionChannelNode();
 	public DocumentNode document = new DocumentNode();
 	public SortKeyNode sortKey = new SortKeyNode();
+	public DocumentPackageDataNode documentPackageData = new DocumentPackageDataNode();
 
 	public DocumentPackageNode correlationId(String value) {
 		return addCondition(dp -> Objects.equals(dp.getCorrelationId(), value));

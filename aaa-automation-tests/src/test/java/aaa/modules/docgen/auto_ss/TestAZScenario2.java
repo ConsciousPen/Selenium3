@@ -57,7 +57,7 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 		List<TestData> installmentDueDate = new ArrayList<>();
 		for (int i = 2; i <= 11; i++) {
 			TestData td_dueAmount = DataProviderFactory.dataOf("TextField", BillingSummaryPage.getInstallmentAmount(i).add(2).toString().replace("$", ""));
-			TestData td_installmentDueDate = DataProviderFactory.dataOf("DateTimeField", convertToZonedDateTime(BillingSummaryPage.getInstallmentDueDate(i)));
+			TestData td_installmentDueDate = DataProviderFactory.dataOf("DateTimeField", DocGenHelper.convertToZonedDateTime(BillingSummaryPage.getInstallmentDueDate(i)));
 			dueAmount.add(td_dueAmount);
 			installmentDueDate.add(td_installmentDueDate);
 		}
@@ -78,8 +78,8 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 				.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
 				.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
 				.adjust(TestData.makeKeyPath("AH35XX", "form", "FutInstlDueDt"), installmentDueDate)
-				.adjust(TestData.makeKeyPath("AASR22", "form", "PlcyNum", "TextField"), policyNumber)
-				);
+				.adjust(TestData.makeKeyPath("AASR22", "form", "PlcyNum", "TextField"), policyNumber),
+				policyNumber);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	 }
@@ -164,8 +164,4 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 //		TODO verify the xml file AHREXX, AH35XX
 	}
 
-	private String convertToZonedDateTime(LocalDateTime installmentDueDate) {
-		final String zoneId = RemoteHelper.getServerTimeZone();
-		return installmentDueDate.atZone(ZoneId.of(zoneId)).format(DocGenHelper.DATE_TIME_FIELD_FORMAT);
-	}
 }

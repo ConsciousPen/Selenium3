@@ -31,7 +31,7 @@ public class TestAZScenario3 extends AutoSSBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info(getState() + " Policy AZ AutoSS is created: " + policyNumber);
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AA41XX)
-				.verify.mapping(getTestSpecificTD("TestData_Verification").adjust(TestData.makeKeyPath("AA41XX", "form", "PlcyNum", "TextField"), policyNumber));
+				.verify.mapping(getTestSpecificTD("TestData_Verification").adjust(TestData.makeKeyPath("AA41XX", "form", "PlcyNum", "TextField"), policyNumber), policyNumber);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
