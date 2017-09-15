@@ -32,6 +32,8 @@ public class PremiumAndCoveragesTab extends Tab {
     public static Table tableRatingDetailsVehicles = new Table(By.id("ratingDetailsPopupForm:vehicle_summary"));
     public static Table tableRatingDetailsActivities = new Table(By.id("ratingDetailsPopupForm:incident_summary"));
     public static Table tableDiscounts = new Table(By.id("policyDataGatherForm:discountSurchargeSummaryTable"));
+    public static Table tableFormsSummary = new Table(By.id("policyDataGatherForm:formSummaryTable"));
+    public static Table tablefeesSummary = new Table(By.id("policyDataGatherForm:feesSummaryTable"));
 
     public static Button buttonCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalc"));
     public static Button buttonViewRatingDetails = new Button(By.id("policyDataGatherForm:viewRatingDetails_Link_1"));
@@ -39,6 +41,8 @@ public class PremiumAndCoveragesTab extends Tab {
     public static Button buttonRatingDetailsOk = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"));
 
     public static StaticElement totalTermPremium = new StaticElement(By.xpath("//span[@class='TOTAL_TERM_PREMIUM']"));
+    public static StaticElement totalActualPremium  = new StaticElement(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAPremiumSummary_body']/table/tbody/tr/td[2]/span"));
+
 
 
     public PremiumAndCoveragesTab() {
@@ -94,6 +98,7 @@ public class PremiumAndCoveragesTab extends Tab {
         final ByT pagePattern = ByT.xpath("//div[@id='ratingDetailsPopupForm:vehiclePanel']//center//td[@class='pageText']//*[text()='%s']");
         return getTestDataFromTable(tableRatingDetailsVehicles, pagePattern);
     }
+    
 
     private List<TestData> getTestDataFromTable(Table table, ByT pagePattern) {
         List<TestData> testDataList = new ArrayList<>();

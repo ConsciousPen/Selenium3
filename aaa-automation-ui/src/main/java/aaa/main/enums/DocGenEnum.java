@@ -82,6 +82,11 @@ public final class DocGenEnum {
 		DS11("Application for Rental Property Insurance"),
 		DSIQXX("Rental Property Insurance Quote page"),
 		DS0469("DS 04 69", "Earthquake"),
+		AAGCAZ("Golf Cart Coverage Endorsement"),
+		AA52AZ("Uninsured and Underinsured Motorist Coverage selection form"),
+		AARFIXX("Request for Information"),
+		AA10XX("Insurance Identification Card"),
+		AA02AZ("Declaration page"),
 		;
 
 		private String id;
