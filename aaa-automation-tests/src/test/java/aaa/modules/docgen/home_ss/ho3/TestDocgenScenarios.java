@@ -4,7 +4,6 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.datax.TestData;
-import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.verification.CustomAssert;
 import aaa.common.Tab;
 import aaa.common.enums.Constants.States;
@@ -113,9 +112,8 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * Request Add'l Info
 	 */
 
-	@Parameters({"state"})
 	@Test
-	public void testQuoteDocuments(String state) {
+	public void testQuoteDocuments() {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
@@ -662,19 +660,21 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test
-	public void testRefundCheckDocument(String state) {
+	public void testRefundCheckDocument(String state) throws Exception {
+		Dollar amount = new Dollar(1234);
+
 		mainApp().open();
 		String policyNum = getCopiedPolicy();
 		BillingSummaryPage.open();
-		billing.acceptPayment().perform(check_payment, new Dollar(1234));
-		new BillingPaymentsAndTransactionsVerifier().setType("Payment").setSubtypeReason("Manual Payment").setAmount(new Dollar(-1234)).setStatus("Issued").verifyPresent();
-		billing.refund().perform(tdRefund, "1234");
-		new BillingPendingTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(new Dollar(1234)).setStatus("Pending").verifyPresent();
-		billing.approveRefund().perform(new SimpleDataProvider(), "$1,234.00");
-		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(new Dollar(1234)).setStatus("Approved").verifyPresent();
-		billing.issueRefund().perform(new SimpleDataProvider(), "$1,234.00");
-		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(new Dollar(1234)).setStatus("Issued").verifyPresent();
-		
+		billing.acceptPayment().perform(check_payment, amount);
+		new BillingPaymentsAndTransactionsVerifier().setType("Payment").setSubtypeReason("Manual Payment").setAmount(amount.negate()).setStatus("Issued").verifyPresent();
+		billing.refund().perform(tdRefund, amount);
+		new BillingPendingTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Pending").verifyPresent();
+		billing.approveRefund().perform(amount);
+		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Approved").verifyPresent();
+		billing.issueRefund().perform(amount);
+		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Issued").verifyPresent();
+
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents._55_3500);
 		

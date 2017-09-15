@@ -1,9 +1,9 @@
 BCT_AUDIT_ONL_AUTO_BLANK_Endorsement: {
-  SelectPolicy: "select policynumber from (select A.policynumber from pasadm.policysummary A, pasadm.riskitem B, pasadm.vehiclebaseinfo C where A.policydetail_id = B.policydetail_id and B.baseinfo_id = C.id and C.vehtypecd = 'PPA' and A.policynumber not like 'Q%' and A.LOB = 'AUTO' and A.riskstatecd = '/STATE/' and A.policystatuscd = 'issued' and A.timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and A.expiration = to_date('/EXECDATE/') + 260 and A.txtype in ('policy', 'renewal', 'endorsement', 'reinstatement') and policynumber not in (select POLICYNUMBER from PASADM2.POLICYNUMBER_STAGING_BCT) group by A.policynumber having count(A.policynumber) = 1) "
+  SelectPolicy: "select policynumber from (select A.policynumber from pasadm.policysummary A, pasadm.riskitem B, pasadm.vehiclebaseinfo C where A.policydetail_id = B.policydetail_id and B.baseinfo_id = C.id and C.vehtypecd = 'PPA' and A.policynumber not like 'Q%' and A.LOB = 'AUTO' and A.riskstatecd = '/STATE/' and A.policystatuscd = 'issued' and A.timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and A.expiration = to_date('/EXECDATE/') + 260 and A.txtype in ('policy', 'renewal', 'endorsement', 'reinstatement') group by A.policynumber having count(A.policynumber) = 1) "
 }
 
 BCT_AUDIT_ONL_AUTO_BLANK_Renewal_Endorsement: {
-  SelectPolicy: "select policynumber from (select A.policynumber from pasadm.policysummary A, pasadm.riskitem B, pasadm.vehiclebaseinfo C where A.policydetail_id = B.policydetail_id and B.baseinfo_id = C.id and C.vehtypecd = 'PPA' and A.policynumber not like 'Q%' and A.LOB = 'AUTO' and A.riskstatecd = '/STATE/' and A.policystatuscd = 'issued' and A.timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and A.expiration = to_date('/EXECDATE/') + 55 and A.txtype in ('policy', 'renewal', 'endorsement', 'reinstatement') and policynumber not in (select POLICYNUMBER from PASADM2.POLICYNUMBER_STAGING_BCT) group by A.policynumber having count(A.policynumber) = 1) where rownum = 1"
+  SelectPolicy: "select policynumber from (select A.policynumber from pasadm.policysummary A, pasadm.riskitem B, pasadm.vehiclebaseinfo C where A.policydetail_id = B.policydetail_id and B.baseinfo_id = C.id and C.vehtypecd = 'PPA' and A.policynumber not like 'Q%' and A.LOB = 'AUTO' and A.riskstatecd = '/STATE/' and A.policystatuscd = 'issued' and A.timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and A.expiration = to_date('/EXECDATE/') + 55 and A.txtype in ('policy', 'renewal', 'endorsement', 'reinstatement') group by A.policynumber having count(A.policynumber) = 1) where rownum = 1"
 }
 
 BCT_ONL_001_ManualRenewal: {
@@ -71,7 +71,7 @@ BCT_ONL_016_ReinstatePolicy: {
 }
 
 BCT_ONL_017_Endorsement: {
-  SelectPolicy: "select A.policynumber from pasadm.policysummary A, pasadm.riskitem B, pasadm.vehiclebaseinfo C where A.policydetail_id = B.policydetail_id and B.baseinfo_id = C.id and C.vehtypecd = 'PPA' and A.policynumber not like 'Q%' and A.LOB = 'AUTO' and A.riskstatecd = '/STATE/' and A.policystatuscd = 'issued' and A.timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and A.expiration = to_date('/EXECDATE/') + 100 and A.txtype in ('policy', 'renewal', 'reinstatement') and  A.policynumber not in (select POLICYNUMBER from PASADM2.POLICYNUMBER_STAGING_BCT) and  rownum = 1"
+  SelectPolicy: "select A.policynumber from pasadm.policysummary A, pasadm.riskitem B, pasadm.vehiclebaseinfo C where A.policydetail_id = B.policydetail_id and B.baseinfo_id = C.id and C.vehtypecd = 'PPA' and A.policynumber not like 'Q%' and A.LOB = 'AUTO' and A.riskstatecd = '/STATE/' and A.policystatuscd = 'issued' and A.timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and A.expiration = to_date('/EXECDATE/') + 100 and A.txtype in ('policy', 'renewal', 'reinstatement') and  rownum = 1"
 }
 
 BCT_ONL_018_Endorsement: {
@@ -131,7 +131,7 @@ BCT_ONL_031_PaymentMethod: {
 }
 
 BCT_ONL_032_ModifyPaymentMethod_PaymentPlan: {
-  SelectPolicy: "select DISTINCT A.policynumber from pasadm.policysummary A, pasadm.billablepolicyterm B, pasadm.paymentdetails C where LOB = 'AUTO' and riskstatecd = '/STATE/'  and A.policynumber = B.policynumber and B.account_id =C.account_id /*and C.signatureonfile is null*/ and txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and trunc(expiration) > '/EXECDATE/'  and   trunc(expiration)-180 < '/EXECDATE/' and  A.policynumber not in (select POLICYNUMBER from PASADM2.POLICYNUMBER_STAGING_BCT) and  rownum = 1"
+  SelectPolicy: "select DISTINCT A.policynumber from pasadm.policysummary A, pasadm.billablepolicyterm B, pasadm.paymentdetails C where LOB = 'AUTO' and riskstatecd = '/STATE/'  and A.policynumber = B.policynumber and B.account_id =C.account_id /*and C.signatureonfile is null*/ and txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and trunc(expiration) > '/EXECDATE/'  and   trunc(expiration)-180 < '/EXECDATE/' and  rownum = 1"
 }
 
 BCT_ONL_033_ModifyPaymentPlan: {
@@ -304,7 +304,7 @@ BCT_ONL_096_Endorsement: {
 }
 
 BCT_ONL_097_GenerateBill: {
-  SelectPolicy: "select A.policynumber from pasadm.policysummary A, pasadm.billablepolicyterm B, pasadm.paymentdetails C, pasadm.paymentoption D where LOB = 'AUTO' and riskstatecd = '/STATE/' and A.policynumber = B.policynumber and B.account_id = C.account_id and A.paymentoption_id = D.id AND (D.PAYMENTPLANCD LIKE '%Monthly%' OR D.PAYMENTPLANCD LIKE '%stand%') and C.signatureonfile is null and txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and expiration > '/EXECDATE/' and rownum = 1"
+  SelectPolicy: "select A.policynumber from pasadm.policysummary A, pasadm.billablepolicyterm B, pasadm.paymentdetails C, pasadm.paymentoption D where LOB = 'AUTO' and riskstatecd = '/STATE/' and A.policynumber = B.policynumber and B.account_id = C.account_id and A.paymentoption_id = D.id AND (D.PAYMENTPLANCD LIKE '%Monthly%' OR D.PAYMENTPLANCD LIKE '%stand%') and C.signatureonfile is null and txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and effective > '/EXECDATE/' and rownum = 1"
 }
 
 BCT_ONL_098_Endorsement: {
@@ -384,11 +384,11 @@ BCT_ONL_116_Split_UBI: {
 }
 
 BCT_ONL_117_Endorsement: {
-  SelectPolicy: "SELECT PS.POLICYNUMBER, CI.ROOFSHAPE FROM pasadm.POLICYSUMMARY PS INNER JOIN POLICYDETAIL PD ON PS.POLICYDETAIL_ID = PD.ID INNER JOIN RISKITEM RI ON PD.ID = RI.POLICYDETAIL_ID INNER JOIN CONSTRUCTIONINFO CI ON RI.CONSTRUCTIONINFO_ID = CI.ID WHERE PS.RISKSTATECD = 'STATE1' AND PS.TXTYPE IN ('endorsement') AND PS.POLICYSTATUSCD = 'issued' AND PS.TIMEDPOLICYSTATUSCD = 'inForce' AND PS.CURRENTREVISIONIND = 1 AND PS.LOB = 'HOME' AND CI.ROOFSHAPE = 'FLT' AND ROWNUM =1 and policynumber not in (select A.POLICYNUMBER from PASADM2.POLICYNUMBER_STAGING_BCT A)"
+  SelectPolicy: "SELECT PS.POLICYNUMBER, CI.ROOFSHAPE FROM pasadm.POLICYSUMMARY PS INNER JOIN POLICYDETAIL PD ON PS.POLICYDETAIL_ID = PD.ID INNER JOIN RISKITEM RI ON PD.ID = RI.POLICYDETAIL_ID INNER JOIN CONSTRUCTIONINFO CI ON RI.CONSTRUCTIONINFO_ID = CI.ID WHERE PS.RISKSTATECD = 'STATE1' AND PS.TXTYPE IN ('endorsement') AND PS.POLICYSTATUSCD = 'issued' AND PS.TIMEDPOLICYSTATUSCD = 'inForce' AND PS.CURRENTREVISIONIND = 1 AND PS.LOB = 'HOME' AND CI.ROOFSHAPE = 'FLT' AND ROWNUM =1"
 }
 
 BCT_ONL_118_Endorsement: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where policynumber like '%H6%' and riskstatecd = 'AZ' and txtype in ('endorsement') and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and rownum=1 and policynumber not in (select A.POLICYNUMBER from PASADM2.POLICYNUMBER_STAGING_BCT A)"
+  SelectPolicy: "select policynumber from pasadm.policysummary where policynumber like '%H6%' and riskstatecd = 'AZ' and txtype in ('endorsement') and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and rownum=1"
 }
 
 BCT_ONL_119_Endorsement: {
@@ -416,7 +416,7 @@ BCT_ONL_124_DeclinePayment: {
 }
 
 BCT_ONL_125_Endorsement: {
-  SelectPolicy: "SELECT policynumber FROM pasadm.POLICYSUMMARY WHERE POLICYNUMBER LIKE '%PU%' and riskstatecd = '/STATE/' and txtype in ('endorsement', 'policy', 'renewal', 'reinstatement') and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and effective > to_date('/EXECDATE/') and (cancelnoticeind = 0 or cancelnoticeind is null) and currentrevisionind = 1 and rownum = 1"
+  SelectPolicy: "SELECT policynumber FROM pasadm.POLICYSUMMARY WHERE POLICYNUMBER LIKE '%PU%' and riskstatecd = '/STATE/' and txtype in ('endorsement', 'policy', 'renewal', 'reinstatement') and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and expiration > to_date('/EXECDATE/') and (cancelnoticeind = 0 or cancelnoticeind is null) and currentrevisionind = 1 and rownum = 1"
 }
 
 BCT_ONL_126_Endorsement: {
@@ -448,19 +448,19 @@ BCT_ONL_132_QuoteBind: {
 }
 
 BCT_ONL_133_Endorsement: {
-  SelectPolicy: "select policynumber from pasadm.policysummary PS,pasadm.FORM F where PS.policydetail_ID = F.policydetail_ID and  F.formcd = 'HS 24 73' and PS.riskstatecd = 'UT'  and PS.policystatuscd = 'issued' and PS.timedpolicystatuscd = 'inForce' and PS.currentrevisionind = 1 and rownum=1 and PS.policynumber not in (select A.POLICYNUMBER from PASADM2.POLICYNUMBER_STAGING_BCT A)"
+  SelectPolicy: "select policynumber from pasadm.policysummary PS,pasadm.FORM F where PS.policydetail_ID = F.policydetail_ID and  F.formcd = 'HS 24 73' and PS.riskstatecd = 'UT'  and PS.policystatuscd = 'issued' and PS.timedpolicystatuscd = 'inForce' and PS.currentrevisionind = 1 and rownum=1"
 }
 
 BCT_ONL_134_Endorsement: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where policynumber like '%H4%' and riskstatecd = 'UT' and txtype in ('endorsement') and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and rownum=1 and policynumber not in (select A.POLICYNUMBER from PASADM2.POLICYNUMBER_STAGING_BCT A)"
+  SelectPolicy: "select policynumber from pasadm.policysummary where policynumber like '%H4%' and riskstatecd = 'UT' and txtype in ('endorsement') and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and rownum=1"
 }
 
 BCT_ONL_135_Endorsement: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where policynumber like '%H4%' and riskstatecd = 'AZ' and txtype in ('endorsement') and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and rownum=1 and policynumber not in (select A.POLICYNUMBER from PASADM2.POLICYNUMBER_STAGING_BCT A)"
+  SelectPolicy: "select policynumber from pasadm.policysummary where policynumber like '%H4%' and riskstatecd = 'AZ' and txtype in ('endorsement') and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and rownum=1"
 }
 
 BCT_ONL_136_Endorsement: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where policynumber like '%H4%' and riskstatecd = 'CA' and txtype in ('endorsement') and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and rownum=1 and policynumber not in (select A.POLICYNUMBER from PASADM2.POLICYNUMBER_STAGING_BCT A)"
+  SelectPolicy: "select policynumber from pasadm.policysummary where policynumber like '%H4%' and riskstatecd = 'CA' and txtype in ('endorsement') and policystatuscd = 'issued' and timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and rownum=1"
 }
 
 BCT_ONL_137_Endorsement: {
@@ -624,13 +624,13 @@ BCT_ONL_181_Refund_Validation: {
 }
 
 BCT_ONL_182_Refund_Validation: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where LOB = 'AUTO' and IMPORTED ='CONV' and riskstatecd ='AZ' and txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and policystatuscd = 'issued' and timedpolicystatuscd in ('inForce') and currentrevisionind = 1 and (donotrenewind is null or donotrenewind = 0) and (manualrenewind is null or manualrenewind = 0)  and EXPIRATION - 75 <= '/EXECDATE/' and expiration - 45 >= '/EXECDATE/' and policynumber not in (select POLICYNUMBER from PASADM2.POLICYNUMBER_STAGING_BCT) and  rownum = 1"
+  SelectPolicy: "select policynumber from pasadm.policysummary where LOB = 'AUTO' and IMPORTED ='CONV' and riskstatecd ='AZ' and txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and policystatuscd = 'issued' and timedpolicystatuscd in ('inForce') and currentrevisionind = 1 and (donotrenewind is null or donotrenewind = 0) and (manualrenewind is null or manualrenewind = 0)  and EXPIRATION - 75 <= '/EXECDATE/' and expiration - 45 >= '/EXECDATE/' and  rownum = 1"
 }
 
 BCT_ONL_185_Refund_Validation: {
-  SelectPolicy: "select ps.policynumber from pasadm.policysummary ps, pasadm.INVOICE I, pasadm.billablepolicyterm p,pasadm.balanceinfo bi, pasadm.balanceamount ba, pasadm.paymentdetails pd, pasadm.billingaccount bact where ps.LOB = 'AUTO' and ps.IMPORTED ='NEW' and ps.riskstatecd ='CA' and txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and ps.policystatuscd = 'issued' and ps.timedpolicystatuscd in ('inForce') and ps.currentrevisionind = 1 and (ps.donotrenewind is null or ps.donotrenewind = 0) and (ps.manualrenewind is null or ps.manualrenewind = 0)  and I.account_id = p.account_id and I.balance_info_id = bi.id and bi.balancedue_id = ba.id and p.account_id = pd.account_id and ps.policynumber = p.policynumber and p.paymentplan like '%annual%' and p.account_id = bact.id and bact.ENABLERECURRINGPAYMENTS = 1 and pd.DTYPE IN ('AAAPaymentDetailsPCICreditCard', 'AAAPaymentDetailsEFT') and ps.expiration - 25 = '/EXECDATE/' and ps.policynumber not in (select POLICYNUMBER from PASADM2.POLICYNUMBER_STAGING_BCT) and  rownum = 1"
+  SelectPolicy: "select ps.policynumber from pasadm.policysummary ps, pasadm.INVOICE I, pasadm.billablepolicyterm p,pasadm.balanceinfo bi, pasadm.balanceamount ba, pasadm.paymentdetails pd, pasadm.billingaccount bact where ps.LOB = 'AUTO' and ps.IMPORTED ='NEW' and ps.riskstatecd ='CA' and txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and ps.policystatuscd = 'issued' and ps.timedpolicystatuscd in ('inForce') and ps.currentrevisionind = 1 and (ps.donotrenewind is null or ps.donotrenewind = 0) and (ps.manualrenewind is null or ps.manualrenewind = 0)  and I.account_id = p.account_id and I.balance_info_id = bi.id and bi.balancedue_id = ba.id and p.account_id = pd.account_id and ps.policynumber = p.policynumber and p.paymentplan like '%annual%' and p.account_id = bact.id and bact.ENABLERECURRINGPAYMENTS = 1 and pd.DTYPE IN ('AAAPaymentDetailsPCICreditCard', 'AAAPaymentDetailsEFT') and ps.expiration - 25 = '/EXECDATE/' and  rownum = 1"
 }
 
 BCT_ONL_186_Refund_Validation: {
-  SelectPolicy: "select ps.policynumber from pasadm.policysummary ps, pasadm.INVOICE I, pasadm.billablepolicyterm p,pasadm.balanceinfo bi, pasadm.balanceamount ba, pasadm.paymentdetails pd, pasadm.billingaccount bact where ps.LOB = 'AUTO' and ps.IMPORTED ='NEW' and ps.riskstatecd ='CA' and txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and ps.policystatuscd = 'issued' and ps.timedpolicystatuscd in ('inForce') and ps.currentrevisionind = 1 and (ps.donotrenewind is null or ps.donotrenewind = 0) and (ps.manualrenewind is null or ps.manualrenewind = 0)  and I.account_id = p.account_id and I.balance_info_id = bi.id and bi.balancedue_id = ba.id and p.account_id = pd.account_id and ps.policynumber = p.policynumber and p.paymentplan like '%annual%' and p.account_id = bact.id and bact.ENABLERECURRINGPAYMENTS = 1 and pd.DTYPE IN ('AAAPaymentDetailsPCICreditCard', 'AAAPaymentDetailsEFT') and ps.expiration - 25 = '/EXECDATE/' and ps.policynumber not in (select POLICYNUMBER from PASADM2.POLICYNUMBER_STAGING_BCT) and  rownum = 1"
+  SelectPolicy: "select ps.policynumber from pasadm.policysummary ps, pasadm.INVOICE I, pasadm.billablepolicyterm p,pasadm.balanceinfo bi, pasadm.balanceamount ba, pasadm.paymentdetails pd, pasadm.billingaccount bact where ps.LOB = 'AUTO' and ps.IMPORTED ='NEW' and ps.riskstatecd ='CA' and txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and ps.policystatuscd = 'issued' and ps.timedpolicystatuscd in ('inForce') and ps.currentrevisionind = 1 and (ps.donotrenewind is null or ps.donotrenewind = 0) and (ps.manualrenewind is null or ps.manualrenewind = 0)  and I.account_id = p.account_id and I.balance_info_id = bi.id and bi.balancedue_id = ba.id and p.account_id = pd.account_id and ps.policynumber = p.policynumber and p.paymentplan like '%annual%' and p.account_id = bact.id and bact.ENABLERECURRINGPAYMENTS = 1 and pd.DTYPE IN ('AAAPaymentDetailsPCICreditCard', 'AAAPaymentDetailsEFT') and ps.expiration - 25 = '/EXECDATE/' and  rownum = 1"
 }
