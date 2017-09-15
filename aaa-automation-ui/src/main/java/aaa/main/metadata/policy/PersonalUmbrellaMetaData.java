@@ -934,6 +934,22 @@ public final class PersonalUmbrellaMetaData {
 			public static final AssetDescriptor<CheckBox> SELECT = declare(DocGenConstants.OnDemandDocumentsTable.SELECT, CheckBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<StaticElement> DOCUMENT_NUMBER = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, StaticElement.class, Waiters.AJAX);
 			public static final AssetDescriptor<StaticElement> DOCUMENT_NAME = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, StaticElement.class, Waiters.AJAX);
+			
+	     // Fields of HSU03XX
+			public static final AssetDescriptor<CheckBox> DECISION_BASED_ON_CLUE_HSU03 = declare("Decision based on CLUE HSU03", CheckBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:hsu03CIN:0']"));
+						
+	     // Fields of HSU05XX
+			public static final AssetDescriptor<TextBox> FIRST_NAME_HSU05 = declare("First name", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:firstName_HSU05']"));
+			public static final AssetDescriptor<TextBox> LAST_NAME_HSU05 = declare("Last name", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:lastName_HSU05']"));
+			public static final AssetDescriptor<TextBox> ZIP_CODE_HSU05 = declare("Zip code", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:zipCode_HSU05']"));
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1_HSU05 = declare("Street address 1", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:address1_HSU05']"));
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2_HSU05 = declare("Street address 2", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:address2Show_HSU05']"));
+			public static final AssetDescriptor<TextBox> City_HSU05 = declare("City", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:city_HSU05']"));
+			public static final AssetDescriptor<ComboBox> STATE_HSU05 = declare("State", ComboBox.class, Waiters.AJAX, false, By.xpath("//span[@id='policyDataGatherForm:stateShow_HSU05']/select"));
+			public static final AssetDescriptor<TextBox> DESCRIPTION_HSU05 = declare("Description", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:uwMsg_HSU05']"));
+					
+		// Fields of HSU09XX
+		   public static final AssetDescriptor<CheckBox> DECISION_BASED_ON_CLUE_HSU09 = declare("Decision based on CLUE HSU09", CheckBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:hsu09CIN:0']"));
 		}
 	}
 	public static final class ManualRenewalWithOrWithoutLapseActionTab extends MetaData {
