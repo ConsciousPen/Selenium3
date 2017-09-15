@@ -1,5 +1,6 @@
 package aaa.modules.docgen.home_ss.ho6;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.verification.CustomAssert;
@@ -97,8 +98,9 @@ public class TestDocgenScenarios extends HomeSSHO6BaseTest{
      * HSU08XX - 15282: US CL GD-62 Generate Underwriting Letter HSU08 Request Add'l Info
      */
 
-    @Test
-    public void testQuoteDocuments() throws Exception {
+    @Parameters({"state"})
+	@Test
+    public void testQuoteDocuments(String state) {
     	CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
@@ -252,8 +254,9 @@ public class TestDocgenScenarios extends HomeSSHO6BaseTest{
      * HSILXX - 16185:US CL GD-122 Generate HSILXX Property Inventory List
      */
 
-    @Test
-    public void ho6PolicyDocuments() {
+    @Parameters({"state"})
+	@Test
+    public void ho6PolicyDocuments(String state) {
     	CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();

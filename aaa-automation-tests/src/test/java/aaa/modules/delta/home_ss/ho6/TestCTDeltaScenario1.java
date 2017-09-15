@@ -1,5 +1,6 @@
 package aaa.modules.delta.home_ss.ho6;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.main.modules.policy.PolicyType;
@@ -13,36 +14,43 @@ public class TestCTDeltaScenario1 extends CTDeltaScenario1 {
 		return PolicyType.HOME_SS_HO6;
 	}
 	
+	@Parameters({"state"})
 	@Test
-	public void TC01_createQuote() {				
+	public void TC01_createQuote(String state) {				
 		super.TC_createQuote(scenarioPolicyType);
 	}
 
+	@Parameters({"state"})
 	@Test
-	public void TC02_verifyLOVsOfImmediatePriorCarrier() {
+	public void TC02_verifyLOVsOfImmediatePriorCarrier(String state) {
 		super.TC_verifyLOVsOfImmediatePriorCarrier();
 	}
 	
+	@Parameters({"state"})
 	@Test
-	public void TC03_verifyWindstormMitigationDiscount() {
+	public void TC03_verifyWindstormMitigationDiscount(String state) {
 		super.TC_verifyWindstormMitigationDiscount();
 	}
 	
+	@Parameters({"state"})
 	@Test
-	public void TC04_verifyELC() {
+	public void TC04_verifyELC(String state) {
 		super.TC_verifyELC();
 	}
 	
+	@Parameters({"state"})
 	@Test
-	public void TC05_purchasePolicy() {
+	public void TC05_purchasePolicy(String state) {
 		super.TC_purchasePolicy(scenarioPolicyType);
 	}
 	
+	@Parameters({"state"})
 	@Test
-	public void TC06_verifyODDPolicy() {} 
+	public void TC06_verifyODDPolicy(String state) {} 
 	
+	@Parameters({"state"})
 	@Test
-	public void TC07_verifyCancelNoticeTab() {
+	public void TC07_verifyCancelNoticeTab(String state) {
 		super.TC_verifyCancelNoticeTab();
 	}	
 }

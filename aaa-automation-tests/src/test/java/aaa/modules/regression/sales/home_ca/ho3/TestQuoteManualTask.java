@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.helpers.constants.ComponentConstant;
@@ -15,10 +16,10 @@ public class TestQuoteManualTask extends QuoteManualTask {
 		return PolicyType.HOME_CA_HO3;
 	}
 	
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
-	@Override
-	public void testQuoteManualTask() {
+	public void testQuoteManualTask(String state) {
 		super.testQuoteManualTask();
 	}
 	

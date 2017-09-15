@@ -8,6 +8,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.service.template.PolicyCancellation;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
@@ -34,9 +35,10 @@ public class TestPolicyCancellation extends PolicyCancellation {
 	 * 3. Cancel policy with current date
 	 * @details
 	 */
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testPolicyCancellationMidTerm() {
+	public void testPolicyCancellationMidTerm(String state) {
 		super.testPolicyCancellationMidTerm();
 	}
 }

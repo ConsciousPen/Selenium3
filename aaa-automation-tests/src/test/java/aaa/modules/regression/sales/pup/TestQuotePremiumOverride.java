@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.pup;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -38,9 +39,10 @@ import aaa.modules.policy.PersonalUmbrellaBaseTest;
  */
 
 public class TestQuotePremiumOverride extends PersonalUmbrellaBaseTest {   
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.PUP )
-    public void testQuotePremiumOverride() {
+    public void testQuotePremiumOverride(String state) {
 		PremiumAndCoveragesQuoteTab premiumQuoteTab = policy.getDefaultView().getTab(PremiumAndCoveragesQuoteTab.class);
         mainApp().open();
         createCustomerIndividual();

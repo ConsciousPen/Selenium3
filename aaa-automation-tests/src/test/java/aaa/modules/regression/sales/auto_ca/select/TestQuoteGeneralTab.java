@@ -5,6 +5,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -75,9 +76,10 @@ import static aaa.main.metadata.policy.AutoCaMetaData.GeneralTab.*;
 
 public class TestQuoteGeneralTab extends AutoCaSelectBaseTest {
 
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
-	public void testQuoteGeneralTab() {
+	public void testQuoteGeneralTab(String state) {
 
 		GeneralTab generalTab = new GeneralTab();
 		TestData td = getPolicyTD();

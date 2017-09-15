@@ -12,6 +12,7 @@ import aaa.main.modules.policy.home_ss.actiontabs.ReinstatementActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -21,8 +22,9 @@ import java.time.LocalDateTime;
 
 public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 
+	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_006_ReinstatePolicy() {
+	public void BCT_ONL_006_ReinstatePolicy(String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_006_ReinstatePolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_SS.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_SS);
@@ -46,8 +48,9 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		CustomAssert.assertEquals("Reinstatement transaction added to Transaction History", "Reinstatement with Lapse", PolicySummaryPage.TransactionHistory.getType(1));
 	}
 
+	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_007_ReinstatePolicy() {
+	public void BCT_ONL_007_ReinstatePolicy(String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_007_ReinstatePolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_SS.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_SS);
@@ -68,8 +71,9 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		CustomAssert.assertEquals("Reinstatement transaction added to Transaction History", PolicySummaryPage.TransactionHistory.getType(1), "Reinstatement");
 	}
 
+	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_010_ReinstatePolicy() {
+	public void BCT_ONL_010_ReinstatePolicy(String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_010_ReinstatePolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.HOME_SS_HO3.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.HOME_SS_HO3);
@@ -96,8 +100,9 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		CustomAssert.assertEquals("Reinstatement transaction added to Transaction History", "Reinstatement with Lapse", PolicySummaryPage.TransactionHistory.getType(1));
 	}
 
+	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_011_ReinstatePolicy() {
+	public void BCT_ONL_011_ReinstatePolicy(String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_011_ReinstatePolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.HOME_SS_HO3.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.HOME_SS_HO3);
@@ -118,8 +123,9 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		CustomAssert.assertEquals("Reinstatement transaction added to Transaction History", PolicySummaryPage.TransactionHistory.getType(1), "Reinstatement");
 	}
 
+	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_014_ReinstatePolicy() {
+	public void BCT_ONL_014_ReinstatePolicy(String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_014_ReinstatePolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_CA_SELECT);
@@ -135,8 +141,9 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
+	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_016_ReinstatePolicy() {
+	public void BCT_ONL_016_ReinstatePolicy(String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_016_ReinstatePolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_CA_SELECT);

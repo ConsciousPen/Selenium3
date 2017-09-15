@@ -3,6 +3,7 @@
 package aaa.modules.regression.common;
 
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.helpers.constants.ComponentConstant;
@@ -30,9 +31,10 @@ import aaa.main.modules.account.actiontabs.AcctInfoTab;
  */
 public class TestAccountUpdate extends BaseTest {
 
-    @Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
+    @Parameters({"state"})
+	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void testAccountUpdate() {
+    public void testAccountUpdate(String state) {
     	
         mainApp().open();
 

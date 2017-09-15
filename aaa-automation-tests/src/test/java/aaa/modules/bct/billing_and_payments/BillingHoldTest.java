@@ -6,12 +6,14 @@ import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 public class BillingHoldTest extends BackwardCompatibilityBaseTest {
 
+	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_059_BillingHold() {
+	public void BCT_ONL_059_BillingHold(String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_059_BillingHold", "SelectPolicy").get(0);
 
 		mainApp().open();
@@ -24,8 +26,9 @@ public class BillingHoldTest extends BackwardCompatibilityBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
 	}
 
+	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_064_BillingHold() {
+	public void BCT_ONL_064_BillingHold(String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_064_BillingHold", "SelectPolicy").get(0);
 
 		mainApp().open();

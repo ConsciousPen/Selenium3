@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.home_ca.ho3;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
@@ -25,9 +26,10 @@ public class TestPolicyManualRenew extends HomeCaHO3BaseTest {
      * 7. Check Manual Renew flag
      */
 
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
-    public void testPolicyManualRenew() {
+    public void testPolicyManualRenew(String state) {
 
         mainApp().open();
         createCustomerIndividual();

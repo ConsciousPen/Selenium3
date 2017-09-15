@@ -4,6 +4,7 @@ package aaa.modules.regression.sales.auto_ss;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.main.enums.SearchEnum;
 import aaa.common.pages.SearchPage;
@@ -34,11 +35,12 @@ import toolkit.verification.CustomAssert;
  */
 public class TestPolicySplit extends AutoSSBaseTest {
 
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testPolicySplit() {
+	public void testPolicySplit(String state) {
 
-		new TestPolicyCreationBig().testPolicyCreationBig();
+		new TestPolicyCreationBig().testPolicyCreationBig(state);
 
 		//SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, "UTSS927278826");
 		//Read and store zip code from UI, will need it to fill values for spun quote

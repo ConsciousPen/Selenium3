@@ -5,6 +5,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.actiontabs.EndorsementActionTab;
 import aaa.modules.e2e.templates.Scenario4;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 
@@ -15,8 +16,9 @@ public class TestScenario4 extends Scenario4 {
 		return PolicyType.AUTO_CA_SELECT;
 	}
 	
+	@Parameters({"state"})
 	@Test
-	public void TC01_createPolicy() {
+	public void TC01_createPolicy(String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
 		endorsementReasonDataKeys = new String[] {new EndorsementActionTab().getMetaKey(),
 				AutoCaMetaData.EndorsementActionTab.ENDORSEMENT_REASON.getLabel()};
@@ -30,83 +32,99 @@ public class TestScenario4 extends Scenario4 {
 		super.createTestPolicy(policyCreationTD);
 	}
 
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC02_Overpayment() {
+	public void TC02_Overpayment(String state) {
 		super.overpayment();
 	}
 
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC03_Automatic_refund() {
+	public void TC03_Automatic_refund(String state) {
 		super.automaticRefund();
 	}
 
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC04_Overpayment_High() {
+	public void TC04_Overpayment_High(String state) {
 		super.overpaymentHigh();
 	}
 
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC05_Automatic_refund_High() {
+	public void TC05_Automatic_refund_High(String state) {
 		super.automaticRefundHigh();
 	}
 
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC06_Endorse_Policy() {
+	public void TC06_Endorse_Policy(String state) {
 		super.endorsePolicy();
 	}
 
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC07_Generate_Off_Cycle_Bill() {
+	public void TC07_Generate_Off_Cycle_Bill(String state) {
 		super.generateOffCycleBill();
 	}
 
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC08_Generate_CancellNotice() {
+	public void TC08_Generate_CancellNotice(String state) {
 		super.generateCancellNotice();
 	}
 
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC09_Payment_In_Full_Cancell_Notice_Amount() {
+	public void TC09_Payment_In_Full_Cancell_Notice_Amount(String state) {
 		super.paymentInFullCancellNoticeAmount();
 	}
 
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC10_Verify_Form_AHCWXX() {
+	public void TC10_Verify_Form_AHCWXX(String state) {
 		super.verifyFormAHCWXX();
 	}
 
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC11_Renewal_Image_Generation() {
+	public void TC11_Renewal_Image_Generation(String state) {
 		super.renewalImageGeneration();
 	}
 
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC12_Renewal_Preview_Generation() {
+	public void TC12_Renewal_Preview_Generation(String state) {
 		super.renewalPreviewGeneration();
 	}
 
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC13_Renewal_Offer_Generation() {
+	public void TC13_Renewal_Offer_Generation(String state) {
 		super.renewalOfferGeneration();
 	}
 
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC14_Expire_Policy() {
+	public void TC14_Expire_Policy(String state) {
 		super.expirePolicy();
 	}
 
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC15_Customer_Decline_Renewal() {
+	public void TC15_Customer_Decline_Renewal(String state) {
 		super.customerDeclineRenewal();
 	}
 
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC16_Pay_Renew_Offer() {
+	public void TC16_Pay_Renew_Offer(String state) {
 		super.payRenewOffer();
 	}
 
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC17_Bind_Renew() {
+	public void TC17_Bind_Renew(String state) {
 		super.bindRenew();
 	}
 }

@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.home_ss.ho3;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.helpers.constants.ComponentConstant;
@@ -16,8 +17,7 @@ import toolkit.utils.TestInfo;
 /**
  * @author Ryan Yu
  * @name Test Add and Remove 'Do Not Renew' flag for Home Policy
- * @scenario
- * 1. Create Customer
+ * @scenario 1. Create Customer
  * 2. Create Home (Preconfigured) Policy
  * 3. Set Do Not Renew for Policy
  * 4. Verify Policy status is 'Policy Active'
@@ -29,16 +29,16 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyDoNotRenewAddRemove extends PolicyDoNotRenewAddRemove {
 
-    @Override
-    protected PolicyType getPolicyType() {
-        return PolicyType.HOME_SS_HO3;
-    }
-    
-    @Override
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3 )
-    public void testPolicyDoNotRenewAddRemove() {
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_HO3;
+	}
 
-        super.testPolicyDoNotRenewAddRemove();
-    } 
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
+	public void testPolicyDoNotRenewAddRemove(String state) {
+
+		super.testPolicyDoNotRenewAddRemove();
+	}
 }

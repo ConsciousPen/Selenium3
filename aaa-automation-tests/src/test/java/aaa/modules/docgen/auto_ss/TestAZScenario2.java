@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.xerces.xs.StringList;
 import org.mortbay.log.Log;
 import org.openqa.selenium.By;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -46,9 +47,10 @@ public class TestAZScenario2 extends AutoSSBaseTest{
     public static Table tablePolicybyVehicle1 = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table/tbody/tr/td[1]/div/div/table[2]"));
 	public static Table tableTermPremiumbyVehicle = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table"));
 	
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void TC01_CreatePolicy() {
+	public void TC01_CreatePolicy(String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 //		createCustomerIndividual();
@@ -203,8 +205,9 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 		CustomAssert.assertAll();
 	 }
 
-	//	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
-	public void TC02_EndorsePolicy(){
+	//	@Parameters({"state"})
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
+	public void TC02_EndorsePolicy(String state) {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		TestData endorsementTd = getTestSpecificTD("TestData_Endorsement");
@@ -214,8 +217,9 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 		
 	}
 	
-//	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
-	public void TC03_RenewalImageGeneration(){
+//	@Parameters({"state"})
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
+	public void TC03_RenewalImageGeneration(String state) {
 		LocalDateTime renewImageGenDate=getTimePoints().getRenewImageGenerationDate(policyExpirationDate);	
 		Log.info("Policy Renewal Image Generation Date" + renewImageGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
@@ -228,8 +232,9 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);	
 	}
 	
-//	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
-    public void TC04_RenewaPreviewGeneration(){
+//	@Parameters({"state"})
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
+    public void TC04_RenewaPreviewGeneration(String state) {
 		
 		LocalDateTime renewPreviewGenDate=getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Preview Generation Date" + renewPreviewGenDate);
@@ -253,8 +258,9 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 		
 	}
 	
-//	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
-	public void TC05_RenewaOfferGeneration(){
+//	@Parameters({"state"})
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
+	public void TC05_RenewaOfferGeneration(String state) {
 		LocalDateTime renewOfferGenDate=getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Offer Generation Date" + renewOfferGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
@@ -273,8 +279,9 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 //		TODO verify the documents AA02,AHAUXX,AA10XX,AHPNXX
 	}
 	
-//	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
-	public void TC06_RenewaOfferBillGeneration(){
+//	@Parameters({"state"})
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
+	public void TC06_RenewaOfferBillGeneration(String state) {
 		LocalDateTime renewOfferBillGenDate=getTimePoints().getBillGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Offer Bill Generation Date" + renewOfferBillGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferBillGenDate);

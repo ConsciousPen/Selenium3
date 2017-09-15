@@ -1,5 +1,6 @@
 package aaa.modules.docgen.home_ss.ho3;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.datax.TestData;
@@ -112,8 +113,9 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * Request Add'l Info
 	 */
 
+	@Parameters({"state"})
 	@Test
-	public void testQuoteDocuments() {
+	public void testQuoteDocuments(String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
@@ -277,8 +279,9 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * GD-16 Generate HS 04 20 Endorsement 60 5005 - 15316 - US CL GD-73
 	 * Generate Returning Payment Form
 	 */
+	@Parameters({"state"})
 	@Test
-	public void testPolicyDocuments() {
+	public void testPolicyDocuments(String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
@@ -350,8 +353,9 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * 15369 - US CL GD-86 Generate Rescission Notice Document
 	 * </pre>
 	 */
+	@Parameters({"state"})
 	@Test()
-	public void testPolicyRescissionNoticeDocument() {
+	public void testPolicyRescissionNoticeDocument(String state) {
 		mainApp().open();
 		String policyNum = getCopiedPolicy();
 		
@@ -432,8 +436,9 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * US CL GD-44 Generate HS 09 65 Endorsement HS0477 - 15248: US CL GD-31
 	 * Generate HS 04 77 Endorsement For Bundles new stories :
 	 */
+	@Parameters({"state"})
 	@Test
-	public void testMortgagePolicyDocuments(){
+	public void testMortgagePolicyDocuments(String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		createCustomerIndividual();
@@ -566,8 +571,9 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * 15314: US CL GD-71 Generate Payment Restriction Form
 	 * </pre>
 	 */
+	@Parameters({"state"})
 	@Test
-	public void testReturnPaymentDocuments() throws Exception {
+	public void testReturnPaymentDocuments(String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNum = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_ReturnPaymentPolicy")));
@@ -616,8 +622,9 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * 15780:US PA GD-02 Generate Cancellation Notice-UW or Insured Request
 	 * </pre>
 	 */
+	@Parameters({"state"})
 	@Test
-	public void testCancellationNoticeDocument() throws Exception {
+	public void testCancellationNoticeDocument(String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNum = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_ReturnPaymentPolicy")));
@@ -653,8 +660,9 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * 18833:US CL GD-64 Generate Refund Check
 	 * </pre>
 	 */
+	@Parameters({"state"})
 	@Test
-	public void testRefundCheckDocument() throws Exception {
+	public void testRefundCheckDocument(String state) {
 		mainApp().open();
 		String policyNum = getCopiedPolicy();
 		BillingSummaryPage.open();

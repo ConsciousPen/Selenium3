@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho4;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import aaa.helpers.constants.ComponentConstant;
@@ -22,9 +23,10 @@ import aaa.modules.policy.HomeCaHO4BaseTest;
  */
 public class TestPolicyCreationFull extends HomeCaHO4BaseTest {
 
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4) 
-    public void testPolicyCreateHo4Full() {
+    public void testPolicyCreateHo4Full(String state) {
         mainApp().open();
         createCustomerIndividual();
         createPolicy(getPolicyTD("DataGather", "TestData_Full").adjust(getPolicyTD("DataGather", "TestData_AddForm_HO210")).resolveLinks());
