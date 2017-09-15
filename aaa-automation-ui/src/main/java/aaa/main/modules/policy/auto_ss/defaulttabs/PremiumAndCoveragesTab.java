@@ -39,7 +39,7 @@ public class PremiumAndCoveragesTab extends Tab {
     public static Button buttonRatingDetailsOk = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"));
 
     public static StaticElement totalTermPremium = new StaticElement(By.xpath("//span[@class='TOTAL_TERM_PREMIUM']"));
-
+    public static StaticElement discountsAndSurcharges = new StaticElement(By.id("policyDataGatherForm:discountSurchargeSummaryTable"));
 
     public PremiumAndCoveragesTab() {
         super(AutoSSMetaData.PremiumAndCoveragesTab.class);
