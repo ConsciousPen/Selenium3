@@ -40,9 +40,9 @@ public class TestQuoteCustomerSearch extends AutoSSBaseTest {
 		generalTab.getAssetList().getAsset(NAMED_INSURED_INFORMATION).getAsset(NamedInsuredInformation.ADD_INSURED).click();
 
 		//Verify that clear button deletes inserted values
-		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.STATE).setValue(getState());
+		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.FIRST_NAME).setValue("Test name");
 		insuredSearchDialog.clear();
-		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.STATE).verify.value("");
+		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.FIRST_NAME).verify.value("");
 
 		//Verify that if no search criteria were entered, No search results will be returned, error message will be displayed
 		insuredSearchDialog.search();

@@ -4,9 +4,13 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.actiontabs.EndorsementActionTab;
+import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
 import aaa.modules.e2e.templates.Scenario6;
 
 public class TestScenario6 extends Scenario6 {
@@ -102,5 +106,13 @@ public class TestScenario6 extends Scenario6 {
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC14_Update_Policy_Status(String state) {
 		super.Update_Policy_Status();
+	}
+
+	@Override
+	protected void removeSecondVehicle() {
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS.get());
+		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
+		UnderlyingRisksAutoTab.tableAutomobiles.getRow(2).getCell(9).controls.links.get("Remove").click();
+		Page.dialogConfirmation.confirm();
 	}
 }

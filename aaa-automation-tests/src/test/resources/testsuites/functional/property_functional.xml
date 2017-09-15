@@ -76,6 +76,7 @@
 		<classes>
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
 		    <class name="aaa.modules.regression.sales.pup.TestPolicyBackdated" />
+			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAction" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteInitiate" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />
@@ -1083,7 +1084,6 @@
 		<classes>
 			<class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation" />
 		    <class name="aaa.modules.regression.sales.pup.TestPolicyBackdated" />
-			<class name="aaa.modules.regression.sales.pup.TestPolicyCreationFull" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteAction" />
 			<class name="aaa.modules.regression.sales.pup.TestQuoteInitiate" />
 			<class name="aaa.modules.regression.sales.pup.TestQuotePrefill" />

@@ -1,6 +1,5 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.common.enums.NavigationEnum;
@@ -28,11 +27,10 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 	private String ER0909 = "Wood burning stoves are ineligible unless professionally installed by a licensed contractor.";
 	private String ER0522 = "Dwellings with a wood burning stove without at least one smoke detector installed per floor are ineligible.";
 	private String ER0903 = "Applicants/Insureds with vicious dogs or exotic animals are ineligible.";
-/*		
-	@Parameters({"state"})
+		
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testDetermineEligibility_SC1(String state) {
+	public void testDetermineEligibility_SC1() {
 		mainApp().open();
 
 		TestData td_sc1_1 = getTestSpecificTD("TestData_SC1_1"); 
@@ -110,11 +108,10 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
         
         CustomAssert.assertAll();
 	}
-*/
-	@Parameters({"state"})
+
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testDetermineEligibility_SC2(String state) {
+	public void testDetermineEligibility_SC2() {
 		mainApp().open();
 
 		TestData td_sc2_1 = getTestSpecificTD("TestData_SC2_1"); 
@@ -253,10 +250,9 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
         CustomAssert.assertAll();
 	}
 	
-	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testDetermineEligibility_SC3(String state) {
+	public void testDetermineEligibility_SC3() {
 		mainApp().open();
 
 		TestData td_sc3_1 = getTestSpecificTD("TestData_SC3_1"); 

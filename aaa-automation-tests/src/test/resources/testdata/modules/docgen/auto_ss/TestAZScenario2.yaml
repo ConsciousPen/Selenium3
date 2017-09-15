@@ -185,7 +185,9 @@ DriverTab_Renewal: {
  }
 }
 
-
+TestData_KeysMap: {
+  
+}
 
 # ------------- Documents Verification ----------
 TestData_Verification: {
@@ -198,7 +200,7 @@ TestData_Verification: {
   AARFIXX: '@AARFIXX',
   AHNBXX: '@AHNBXX',
   AA10XX: '@AA10XX',
-#  AA02AZ: 'AA02AZ'
+  AA02AZ: '@AA02AZ'
 }
 
 AA43AZ: {
@@ -661,8 +663,7 @@ AA02AZ: {
     GenlAgntNum: {TextField: '400001650'},
     SubAgntNum: {TextField: '400018581'},
     AgntAddr1: {TextField: '132 E Illinois St'},
-    AgntAddr2: {TextField: ''},
-    AgntIdString: {TextField: 'SMTestIA/400018581/House Agent SMTestIA<'},
+    AgntIdString: {TextField: 'SMTestIA/400018581/House Agent SMTestIA'},
     AgntCityNm: {TextField: 'Spearfish'},
     AgntStAbrv: {TextField: 'SD'},
     AgntZipPls4: {TextField: '57783'},
@@ -681,7 +682,7 @@ AA02AZ: {
     VehGarZipPls4: {TextField: '85003'}
   },
   {
-    VehTyp: {TextField: 'GC'},
+    VehTyp: {TextField: 'Golf'},
     VehManufactureYear: {TextField: '2008'},
     VehManfrNm: {TextField: 'CHEVROLET'},
     VehMdelNm: {TextField: 'AVEO'},
@@ -705,7 +706,10 @@ AA02AZ: {
   PlcyUIMBEaOcc: {TextField: '100000'},
   PlcyUIMBEaPers: {TextField: '50000'},
   PlcyAutoDeadBenEaOcc: {TextField: '0'},
-  PlcySpclEqpmtTotAmt: {},
+  PlcySpclEqpmtTotAmt: [
+  {TextField: '1100.00'},
+  {TextField: '0'}
+  ],
   PlcyAutoDeadBenPrem: {TextField: ''},
   PlcyAutoDeadBenDed: {TextField: '0.00'}, 
   NetWrtPrem: {TextField: ''},
@@ -803,7 +807,7 @@ AA02AZ: {
   ]
   },
   PaymentDetails: {
-    PlcyTotPrem: {TextField: '3948.00'},
+    PlcyTotPrem: {TextField: ''},
     PlcyTotFee: {TextField: ''}
   },
   DriverDetails: [
@@ -812,7 +816,7 @@ AA02AZ: {
     DrvrFrstNm: {TextField: 'Fernando'},
     DrvrLstNm: {TextField: 'Alonso'},
     DrvrSeqNum: {TextField: '1'},
-    DrvrDOB: {TextField: '1962-12-04T22:00:00.000Z'},
+    DrvrDOB: {DateTimeField: '1962-12-04T22:00:00.000Z'},
     DrvrmrtlSts: {TextField: 'Married'},
     DrvrGender: {TextField: 'Male'},
     DrvrDiscDesc: {TextField: ''},
@@ -824,7 +828,7 @@ AA02AZ: {
     DrvrFrstNm: {TextField: 'Maria'},
     DrvrLstNm: {TextField: 'Jefferson'},
     DrvrSeqNum: {TextField: '2'},
-    DrvrDOB: {TextField: '1986-11-11T22:00:00.000Z'},
+    DrvrDOB: {DateTimeField: '1986-11-11T22:00:00.000Z'},
     DrvrmrtlSts: {TextField: 'Single'},
     DrvrGender: {TextField: 'Female'},
     DrvrDiscDesc: {TextField: ''},

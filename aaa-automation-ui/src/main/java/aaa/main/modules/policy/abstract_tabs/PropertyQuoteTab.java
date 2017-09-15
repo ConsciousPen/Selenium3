@@ -70,7 +70,7 @@ public abstract class PropertyQuoteTab extends Tab {
     }
 
     public static Double getOverridenPremiumPercentageAmount() {
-        DecimalFormat df = new DecimalFormat("#.##");
+        DecimalFormat df = new DecimalFormat("#.####");
         return new Double(df.format(new Double(textBoxOverridePercentageAmount.getValue())));
     }
 
@@ -79,7 +79,7 @@ public abstract class PropertyQuoteTab extends Tab {
     }
 
     public static Double calculatedOverridePercentageAmount() {
-        DecimalFormat df = new DecimalFormat("#.##");
+        DecimalFormat df = new DecimalFormat("#.####");
         return new Double(df.format((new Double(getOverridenPremiumFlatAmount().toPlaingString()) /
                 (new Double(getPolicyDwellingPremium().toPlaingString())) * 100)));
     }
