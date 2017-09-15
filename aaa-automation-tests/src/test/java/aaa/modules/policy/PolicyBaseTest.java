@@ -54,13 +54,13 @@ public abstract class PolicyBaseTest extends BaseTest {
 			case "Personal Umbrella Policy":
 				String pupKey = TestData.makeKeyPath(PersonalUmbrellaMetaData.GeneralTab.class.getSimpleName(), PersonalUmbrellaMetaData.GeneralTab.POLICY_INFO.getLabel(), PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE.getLabel());
 				TestData tdPup = returnValue.resolveLinks().adjust(pupKey, date);
-				String pupAutoKey = TestData.makeKeyPath(AutoCaMetaData.GeneralTab.class.getSimpleName(), AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel());
+				//String pupAutoKey = TestData.makeKeyPath(AutoCaMetaData.GeneralTab.class.getSimpleName(), AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel());
 				TestData tdPupAuto = DataProviderFactory.emptyData();
 				if (getState().equals(Constants.States.CA)) {
 					String pupHomeCaKey = TestData.makeKeyPath(HomeCaMetaData.GeneralTab.class.getSimpleName(), HomeCaMetaData.GeneralTab.POLICY_INFO.getLabel(), HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE.getLabel());
 					String pupHomeCaDateKey = TestData.makeKeyPath(HomeCaMetaData.GeneralTab.class.getSimpleName(), HomeCaMetaData.GeneralTab.CURRENT_CARRIER.getLabel(), HomeCaMetaData.GeneralTab.CurrentCarrier.BASE_DATE_WITH_AAA.getLabel());
 					TestData tdPupHomeCa = getStateTestData(testDataManager.policy.get(PolicyType.HOME_CA_HO3), "DataGather", "TestData").resolveLinks().adjust(pupHomeCaDateKey, date).adjust(pupHomeCaKey, date);
-					tdPupAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_CA_SELECT), "DataGather", "TestData").resolveLinks().adjust(pupAutoKey, date);
+					//tdPupAuto = getStateTestData(testDataManager.policy.get(PolicyType.AUTO_CA_SELECT), "DataGather", "TestData").resolveLinks().adjust(pupAutoKey, date);
 					tdPup = new PrefillTab().adjustWithRealPolicies(tdPup, getPrimaryPoliciesForPup(tdPupHomeCa, tdPupAuto));
 				} else {
 					String pupHomeKey = TestData.makeKeyPath(HomeSSMetaData.GeneralTab.class.getSimpleName(), HomeSSMetaData.GeneralTab.EFFECTIVE_DATE.getLabel());

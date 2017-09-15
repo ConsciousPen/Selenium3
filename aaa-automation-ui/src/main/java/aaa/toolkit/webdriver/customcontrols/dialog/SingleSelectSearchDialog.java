@@ -20,7 +20,7 @@ public class SingleSelectSearchDialog extends AbstractDialogSingleSearch {
 	public ResultTable tableSearchResults = new ResultTable(POPUP_PARENT, RESULT_TABLE_LOCATOR);
 	Button buttonSearch = new Button(POPUP_PARENT, By.xpath(".//input[@value = 'Search'] | .//button[contains(. , 'Search')]"), Waiters.AJAX);
 	Button buttonCancel = new Button(POPUP_PARENT, By.xpath(".//input[@value = 'cancel' or @value = 'Cancel']"), Waiters.AJAX.then(Waiters.AJAX));
-	Button buttonClear = new Button(POPUP_PARENT, By.xpath(".//input[@value = 'Clear' or @value = 'clear']"));
+	Button buttonClear = new Button(POPUP_PARENT, By.xpath(".//input[@value = 'Clear' or @value = 'clear']"), Waiters.SLEEP(1000));
 	public StaticElement labelErrorMessage = new StaticElement(POPUP_PARENT,ERROR_MESSAGE_LOCATOR);
 
 	public SingleSelectSearchDialog(By locator) {

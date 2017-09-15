@@ -8,21 +8,23 @@ TestData: {
       Number of family units: 'index=1'
     },
     PropertyValue: {
-      Coverage A - Dwelling limit: 184000,
-      ISO replacement cost: 174000,
-      Reason replacement cost differs from the tool value: 'index=1',
-      Purchase date of home: '/today:MM/dd/yyyy'
+      Personal property value: 25000
     },
     Construction: {
       Year built: 2009,
       Square footage: 1,
-      Roof type: Laminate / Architectural,
-      Roof shape: index=1,
+      Roof type: index=1,
       Construction type: index=1
     },
     Interior: {
       Number of residents: 3,
       Number of stories: index=1
+    },
+    PublicProtectionClass: {
+      Fire department type: 'index=1',
+      Public protection class: 'index=1',
+      Distance to fire hydrant: 'index=1',
+      Fire protection area: '7'
     },
     HomeRenovation: {
       Green Home discount: "No"
@@ -53,7 +55,7 @@ TestData_Endorsement2: {
   ReportsTab: {},
   PropertyInfoTab: {
     PropertyValue: {
-      'Coverage A - Dwelling limit': '174000'
+      Personal property value: 35000
     }
   },
   ProductOfferingTab: {},
@@ -73,8 +75,7 @@ TestData_Endorsement3: {
   ReportsTab: {},
   PropertyInfoTab: {
     PropertyValue: {
-      'Coverage A - Dwelling limit': '200000',
-      Reason replacement cost differs from the tool value: 'index=1'
+      Personal property value: 45000
     }
   },
   ProductOfferingTab: {},
