@@ -25,7 +25,9 @@ public final class DocGenEnum {
 		F605005("60 5005", "Returning Payment"),
 		PS0922("PS 09 22", "Named Driver Exclusion"),
 		HSRFIXX("Request for Information"),
+		HSRFIXXPUP("HSRFIXX","Request For Information"),
 		AHRCTXX("Insured Receipt For Funds Received By Agent"),
+		AHRCTXXPUP("AHRCTXX","Insured Receipt for Funds Received by Agent"),
 		PSIQXX("Personal Umbrella Liability Insurance Quote Page"),
 		PS11("Application for Personal Umbrella Liability Insurance"),
 		AHCDCT("Credit Disclosure Notice And Summary of Consumer Protections"),
@@ -91,6 +93,11 @@ public final class DocGenEnum {
 		DS0926("DS 09 26", ""),
 		DS0934("DS 09 34", ""),
 		DS2482("DS 24 82", ""),
+		AAGCAZ("Golf Cart Coverage Endorsement"),
+		AA52AZ("Uninsured and Underinsured Motorist Coverage selection form"),
+		AARFIXX("Request for Information"),
+		AA10XX("Insurance Identification Card"),
+		AA02AZ("Declaration page"),
 		;
 
 		private String id;

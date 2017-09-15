@@ -95,14 +95,14 @@ public class TestScenario8 extends Scenario8 {
 	public void TC15_Change_Payment_In_Renewal_To_Monthly() {
 		TestData td = getTestSpecificTD("TestData_Endorsement4").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
 		/** TODO Why 5??? */
-		super.changePaymentPlanAndCheckInstallments(td, BillingConstants.PaymentPlan.SEMI_ANNUAL, true, true, 5);
+		super.changePaymentPlanAndCheckInstallments(td, BillingConstants.PaymentPlan.SEMI_ANNUAL, true, true, 5, policyEffectiveDate);
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC16_Change_Payment_In_Policy_To_Quarterly() {
 		TestData td = getTestSpecificTD("TestData_Endorsement").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
 		/** TODO Why 5??? */
-		super.changePaymentPlanAndCheckInstallments(td, BillingConstants.PaymentPlan.QUARTERLY, false, true, 5);
+		super.changePaymentPlanAndCheckInstallments(td, BillingConstants.PaymentPlan.QUARTERLY, false, true, 5, policyEffectiveDate);
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
@@ -113,7 +113,7 @@ public class TestScenario8 extends Scenario8 {
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC18_Change_Payment_Plan_To_Quarterly() {
 		TestData td = getTestSpecificTD("TestData_Endorsement5").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
-		super.changePaymentPlanAndCheckInstallments(td, BillingConstants.PaymentPlan.QUARTERLY_RENEWAL, true, false, 9);
+		super.changePaymentPlanAndCheckInstallments(td, BillingConstants.PaymentPlan.QUARTERLY_RENEWAL, true, false, 9, policyExpirationDate);
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
@@ -124,6 +124,6 @@ public class TestScenario8 extends Scenario8 {
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC20_Change_Payment_Plan_To_Monthly() {
 		TestData td = getTestSpecificTD("TestData_Endorsement4").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
-		super.changePaymentPlanAndCheckInstallments(td, BillingConstants.PaymentPlan.ELEVEN_PAY_RENEWAL, true, false, 16);
+		super.changePaymentPlanAndCheckInstallments(td, BillingConstants.PaymentPlan.ELEVEN_PAY_RENEWAL, true, false, 16, policyExpirationDate);
 	}
 }
