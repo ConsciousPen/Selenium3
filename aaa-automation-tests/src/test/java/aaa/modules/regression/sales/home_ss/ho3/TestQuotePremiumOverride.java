@@ -72,7 +72,8 @@ public class TestQuotePremiumOverride extends HomeSSHO3BaseTest {
 
 //		9. Override premium by Flat Amount ($400), check calculated values.
 		pcTab.fillTab(tdOverridePremiumF, false);
-		CustomAssert.assertTrue(PremiumsAndCoveragesQuoteTab.calculatedOverridePercentageAmount().equals(PremiumsAndCoveragesQuoteTab.getOverridenPremiumPercentageAmount()));
+		//CustomAssert.assertTrue(PremiumsAndCoveragesQuoteTab.calculatedOverridePercentageAmount().equals(PremiumsAndCoveragesQuoteTab.getOverridenPremiumPercentageAmount()));
+		CustomAssert.assertEquals(PremiumsAndCoveragesQuoteTab.calculatedOverridePercentageAmount(), PremiumsAndCoveragesQuoteTab.getOverridenPremiumPercentageAmount());
 		PremiumsAndCoveragesQuoteTab.dialogOverridePremium.reject();
 
 //		10. Override premium by Percentage (20%), check calculated values. Confirm Override.
