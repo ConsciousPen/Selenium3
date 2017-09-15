@@ -91,6 +91,11 @@ public final class DocGenEnum {
 		DS0926("DS 09 26", ""),
 		DS0934("DS 09 34", ""),
 		DS2482("DS 24 82", ""),
+		AAGCAZ("Golf Cart Coverage Endorsement"),
+		AA52AZ("Uninsured and Underinsured Motorist Coverage selection form"),
+		AARFIXX("Request for Information"),
+		AA10XX("Insurance Identification Card"),
+		AA02AZ("Declaration page"),
 		;
 
 		private String id;
