@@ -77,6 +77,7 @@ public final class DocGenEnum {
 		HS61PA("NOTICE OF CANCELLATION OR REFUSAL TO RENEW"),
 		_55_3500("55 3500", "Refund Check"),
 		AH35XX("Autopay Schedule Compilation"),
+		AHRBXX("AHRBXX", "Insurance Renewal Premium Notice (Non-Auto Pay)"),
 		AA43AZ("Named Driver Exclusion Election"),
 		AASR22("Financial Responsibility"),
 		AA59XX("EXISTING DAMAGE ENDORSEMENT"),
@@ -98,6 +99,13 @@ public final class DocGenEnum {
 		AARFIXX("Request for Information"),
 		AA10XX("Insurance Identification Card"),
 		AA02AZ("Declaration page"),
+		AHCWXX("AHCWXX", "Cancellation Notice Withdrawn"),
+		AH34XX("AH34XX","AH34XX","Cancellation Notice Document (NonPayment)"),
+		_55_6101("55 6101", "Earned Premium Bill 1"),
+		_55_6102("55 6102", "Earned Premium Bill 2"),
+		_55_6103("55 6103", "Earned Premium Bill 3"),
+		AHIBXX("AHIBXX", "Premium Due Notice"),
+		HSRNXX("HSRNXX", "Renewal Offer: Important Renewal Information"),
 		;
 
 		private String id;

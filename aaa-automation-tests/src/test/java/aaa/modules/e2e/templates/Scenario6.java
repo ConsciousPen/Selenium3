@@ -3,6 +3,8 @@ package aaa.modules.e2e.templates;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import aaa.helpers.docgen.DocGenHelper;
+import aaa.main.enums.DocGenEnum;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -94,9 +96,11 @@ public class Scenario6 extends ScenarioBaseTest {
 
 	// TODO Check: Removed according to 20427:US CL GD Generate Premium Due Notice v2.0. Form has been renamed to AHIBXX
 	public void Verify_Form_AHIBXX() {
-		// TODO DocGen utils
 		// DocGenHelper.verifyDocumentsGeneratedByJob(TimeSetterUtil.getInstance().getCurrentTime(), policyNum,
 		// OnDemandDocuments.AHIBXX);
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHIBXX);
 	}
 
 	public void Endorse_Policy() {
@@ -263,9 +267,11 @@ public class Scenario6 extends ScenarioBaseTest {
 	}
 
 	public void Verify_Form_AHR1XX_And_HSRNXX() {
-		// TODO DocGen utils
 		// DocGenHelper.verifyDocumentsGeneratedByJob(TimeSetterUtil.getInstance().getCurrentTime(), policyNum,
 		// Arrays.asList(OnDemandDocuments.AHRBXX, OnDemandDocuments.HSRNXX));
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHRBXX, DocGenEnum.Documents.HSRNXX);
 	}
 
 	public void Pay_Renew_Offer() {
@@ -331,3 +337,4 @@ public class Scenario6 extends ScenarioBaseTest {
 		// TODO Auto-generated method stub
 	}
 }
+

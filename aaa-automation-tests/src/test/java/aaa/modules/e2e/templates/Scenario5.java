@@ -3,7 +3,10 @@ package aaa.modules.e2e.templates;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import aaa.helpers.docgen.DocGenHelper;
+import aaa.main.enums.DocGenEnum;
 import toolkit.datax.TestData;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -111,9 +114,11 @@ public class Scenario5 extends ScenarioBaseTest {
 	}
 
 	public void Verify_Form_AH34XX() {
-		// // TODO DocGen utils
 		// DocGenHelper.verifyDocumentsGeneratedByJob(TimeSetterUtil.getInstance().getCurrentTime(),
 		// policyNum, OnDemandDocuments.AH34XX);
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH34XX);
 	}
 
 	public void Cancel_Policy() {
@@ -122,24 +127,23 @@ public class Scenario5 extends ScenarioBaseTest {
 
 	public void Generate_First_EP_Bill() {
 		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillFirst(installmentDueDates.get(2)));
-		// // TODO DocGen utils
 		// DocGenHelper.verifyDocumentsGeneratedByJob(policyNum,
 		// OnDemandDocuments._55_6101, XPathInfo.INVOICE_BILLS_STATEMENTS);
-
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._55_6101);
 	}
 
 	public void Generate_Second_EP_Bill() {
 		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillSecond(installmentDueDates.get(2)));
-		// //TODO DocGen utils
 		// DocGenHelper.verifyDocumentsGeneratedByJob(policyNum,
 		// OnDemandDocuments._55_6102, XPathInfo.INVOICE_BILLS_STATEMENTS);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._55_6102);
 	}
 
 	public void Generate_Third_EP_Bill() {
 		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillThird(installmentDueDates.get(2)));
-		// //TODO DocGen utils
 		// DocGenHelper.verifyDocumentsGeneratedByJob(policyNum,
 		// OnDemandDocuments._55_6103, XPathInfo.INVOICE_BILLS_STATEMENTS);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._55_6103);
 	}
 
 	public void Generate_EP_Write_Off() {
