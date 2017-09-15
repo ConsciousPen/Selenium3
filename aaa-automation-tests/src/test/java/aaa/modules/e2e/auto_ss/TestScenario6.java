@@ -70,18 +70,18 @@ public class TestScenario6 extends Scenario6 {
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC10_Pay_Third_Bill() {
-		super.Pay_Third_Bill();
-	}
-
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC11_Set_Do_Not_Renew_Flag() {
+	public void TC10_Set_Do_Not_Renew_Flag() {
 		super.Set_Do_Not_Renew_Flag();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC12_Renewal_Image_Generation() {
+	public void TC11_Renewal_Image_Generation() {
 		super.Renewal_Image_Generation();
+	}
+
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC12_Pay_Third_Bill() {
+		super.Pay_Third_Bill();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
