@@ -3,44 +3,41 @@ package aaa.helpers.docgen.searchNodes;
 import aaa.helpers.xml.models.StandardDocumentRequest;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class StandardDocumentRequestNode extends SearchBy<StandardDocumentRequestNode, StandardDocumentRequest> {
 	public DocumentPackageNode documentPackage = new DocumentPackageNode();
 	public BatchFileSummaryNode batchFileSummary = new BatchFileSummaryNode();
 
 	public StandardDocumentRequestNode correlationId(String value) {
-		return addCondition(sdr -> Objects.equals(sdr.getCorrelationId(), value));
+		return addCondition("CorrelationId", StandardDocumentRequest::getCorrelationId, value);
 	}
 
 	public StandardDocumentRequestNode documentReturnMode(String value) {
-		return addCondition(sdr -> Objects.equals(sdr.getDocumentReturnMode(), value));
+		return addCondition("DocumentReturnMode", StandardDocumentRequest::getDocumentReturnMode, value);
 	}
 
 	public StandardDocumentRequestNode productName(String value) {
-		return addCondition(sdr -> Objects.equals(sdr.getProductName(), value));
+		return addCondition("ProductName", StandardDocumentRequest::getProductName, value);
 	}
 
 	public StandardDocumentRequestNode productType(String value) {
-		return addCondition(sdr -> Objects.equals(sdr.getProductType(), value));
+		return addCondition("ProductType", StandardDocumentRequest::getProductType, value);
 	}
 
 	public StandardDocumentRequestNode requestingAppName(String value) {
-		return addCondition(sdr -> Objects.equals(sdr.getRequestingAppName(), value));
+		return addCondition("RequestingAppName", StandardDocumentRequest::getRequestingAppName, value);
 	}
 
 	public StandardDocumentRequestNode requestingUserId(String value) {
-		return addCondition(sdr -> Objects.equals(sdr.getRequestingUserId(), value));
+		return addCondition("RequestingUserId", StandardDocumentRequest::getRequestingUserId, value);
 	}
 
 	public StandardDocumentRequestNode state(String value) {
-		return addCondition(sdr -> Objects.equals(sdr.getState(), value));
+		return addCondition("State", StandardDocumentRequest::getState, value);
 	}
 
 	@Override
 	public List<StandardDocumentRequest> search(StandardDocumentRequest standardDocumentRequest) {
-		return Stream.of(standardDocumentRequest).filter(getConditionAndClear()).collect(Collectors.toList());
+		return filter(standardDocumentRequest);
 	}
 }

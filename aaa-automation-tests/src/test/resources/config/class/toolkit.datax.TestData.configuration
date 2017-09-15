@@ -1,5 +1,6 @@
 {
-  "parser": "toolkit.datax.DefaultMarkupParser",
+  #"parser": "toolkit.datax.DefaultMarkupParser",
+  "parser": "aaa.helpers.AdvancedMarkupParser",
   "testDataAliases": {
     "auto_ca_choice": "default/policy/auto_ca_choice",
     "auto_ca_select": "default/policy/auto_ca_select",

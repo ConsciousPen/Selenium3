@@ -1,28 +1,24 @@
 package aaa.helpers.docgen.searchNodes;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 import aaa.helpers.xml.models.DataElementChoice;
-import aaa.helpers.xml.models.DocumentDataElement;
 import aaa.helpers.xml.models.StandardDocumentRequest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class DataElementChoiceNode extends SearchBy<DataElementChoiceNode, DataElementChoice> {
 	public DataElementChoiceNode textField(String value) {
-		return addCondition(dec -> Objects.equals(dec.getTextField(), value));
+		return addCondition("TextField", DataElementChoice::getTextField, value);
 	}
 
 	public DataElementChoiceNode dateTimeField(String value) {
-		if(value.endsWith("contains"))
-			return addCondition(dec -> dec.getDateTimeField().contains(value.replace("contains", "")));
-		else
-			return addCondition(dec -> Objects.equals(dec.getDateTimeField(), value));
+		return addCondition("DateTimeField", DataElementChoice::getDateTimeField, value);
 	}
 
 	@Override
 	public List<DataElementChoice> search(StandardDocumentRequest sDocumentRequest) {
-		return standardDocumentRequest.documentPackage.document.documentDataSection.documentDataElement.search(sDocumentRequest).stream()
-				.map(DocumentDataElement::getDataElementChoice).filter(getConditionAndClear()).collect(Collectors.toList());
+		List<DataElementChoice> filteredDec = new ArrayList<>();
+		standardDocumentRequest.documentPackage.document.documentDataSection.documentDataElement.search(sDocumentRequest).forEach(l -> filteredDec.addAll(filter(l.getDataElementChoice())));
+		return filteredDec;
 	}
 }

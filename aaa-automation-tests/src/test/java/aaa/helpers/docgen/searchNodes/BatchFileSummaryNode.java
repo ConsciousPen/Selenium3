@@ -3,8 +3,8 @@ package aaa.helpers.docgen.searchNodes;
 import aaa.helpers.xml.models.BatchFileSummary;
 import aaa.helpers.xml.models.StandardDocumentRequest;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class BatchFileSummaryNode extends SearchBy<BatchFileSummaryNode, BatchFileSummary> {
 	public BatchJobInfoNode batchJobInfo = new BatchJobInfoNode();
@@ -12,6 +12,8 @@ public class BatchFileSummaryNode extends SearchBy<BatchFileSummaryNode, BatchFi
 
 	@Override
 	public List<BatchFileSummary> search(StandardDocumentRequest sDocumentRequest) {
-		return standardDocumentRequest.search(sDocumentRequest).stream().map(StandardDocumentRequest::getBatchFileSummary).filter(getConditionAndClear()).collect(Collectors.toList());
+		List<BatchFileSummary> filteredBfs = new ArrayList<>();
+		standardDocumentRequest.search(sDocumentRequest).forEach(l -> filteredBfs.addAll(filter(l.getBatchFileSummary())));
+		return filteredBfs;
 	}
 }

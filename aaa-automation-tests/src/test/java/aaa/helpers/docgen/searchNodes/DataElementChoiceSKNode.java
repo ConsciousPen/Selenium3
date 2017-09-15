@@ -1,20 +1,20 @@
 package aaa.helpers.docgen.searchNodes;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 import aaa.helpers.xml.models.DataElementChoice;
-import aaa.helpers.xml.models.DocumentDataElement;
 import aaa.helpers.xml.models.StandardDocumentRequest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class DataElementChoiceSKNode extends SearchBy<DataElementChoiceSKNode, DataElementChoice> {
 	public DataElementChoiceSKNode textField(String value) {
-		return addCondition(dec -> Objects.equals(dec.getTextField(), value));
+		return addCondition("TextField", DataElementChoice::getTextField, value);
 	}
 
 	@Override
 	public List<DataElementChoice> search(StandardDocumentRequest sDocumentRequest) {
-		return standardDocumentRequest.documentPackage.sortKey.search(sDocumentRequest).stream().map(DocumentDataElement::getDataElementChoice).filter(getConditionAndClear()).collect(Collectors.toList());
+		List<DataElementChoice> filteredDec = new ArrayList<>();
+		standardDocumentRequest.documentPackage.sortKey.search(sDocumentRequest).forEach(l -> filteredDec.addAll(filter(l.getDataElementChoice())));
+		return filteredDec;
 	}
 }
