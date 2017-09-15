@@ -49,7 +49,7 @@ import static aaa.main.enums.DocGenEnum.*;
  * 10. Verify dropdown visible
  * @details
  */
-@Parameters({"state"})
+
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 public class TestDeltaScenario1 extends AutoSSBaseTest {
 	private String quoteNumber;
@@ -59,7 +59,8 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	private GeneralTab gTab = new GeneralTab();
 	private MultiInstanceBeforeAssetList aiAssetList = driverTab.getActivityInformationAssetList();
 	private ErrorTab errorTab = new ErrorTab();
-
+	
+	@Parameters({"state"})
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	public void testSC1_TC01(String state) {
