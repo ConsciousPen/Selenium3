@@ -27,7 +27,7 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 	private String ER0909 = "Wood burning stoves are ineligible unless professionally installed by a licensed contractor.";
 	private String ER0522 = "Dwellings with a wood burning stove without at least one smoke detector installed per floor are ineligible.";
 	private String ER0903 = "Applicants/Insureds with vicious dogs or exotic animals are ineligible.";
-/*		
+		
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testDetermineEligibility_SC1() {
@@ -108,7 +108,7 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
         
         CustomAssert.assertAll();
 	}
-*/
+
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testDetermineEligibility_SC2() {
