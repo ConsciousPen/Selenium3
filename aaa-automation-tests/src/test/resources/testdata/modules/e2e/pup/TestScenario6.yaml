@@ -1,17 +1,4 @@
 TestData: {
-#  GeneralTab: {
-#    PolicyInfo: {
-#      Effective date: '/today:MM/dd/yyyy',
-#      Application type: New,
-#      Channel Type: Independent Agent,
-#      Agency: 'index=1',
-#      Commission Type: New Business,
-#      Lead source: Yellow Pages
-#    },    
-#    NamedInsuredContactInformation: {
-#      Home phone: 1234567890
-#    },
-#  },    
   PremiumAndCoveragesQuoteTab: {
     Payment Plan: Quarterly,
     Recurring Payment: true,
@@ -20,10 +7,6 @@ TestData: {
   UnderlyingRisksAutoTab: {
   Automobiles: ['@Auto1', '@Auto2']
   }
-}
-
-UnderlyingRisksAutoTab: {
-  Automobiles: ['@Auto1', '@Auto2']
 }
 
 Auto1: {
@@ -72,4 +55,17 @@ TestData_CA: {
       VIN: 1B3BA46K4KF440231
     }
   }    
+}
+
+#---- Endorsement ----
+
+TestData_Endorsement: {
+  UnderlyingRisksAutoTab: {},
+  UnderlyingRisksOtherVehiclesTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
 }

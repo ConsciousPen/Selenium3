@@ -9,7 +9,6 @@ import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
@@ -31,10 +30,7 @@ import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
-import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
-import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
@@ -61,11 +57,12 @@ public class Scenario6 extends ScenarioBaseTest {
 	protected Dollar installmentsSum = new Dollar(0);
 
 	protected String[] endorsementReasonDataKeys;
-	protected String billingNum;
 	protected int installmentsCount = 4;
 
 	public void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();
+
+		TimeSetterUtil.getInstance().adjustTime(); // *** Debug
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -81,7 +78,6 @@ public class Scenario6 extends ScenarioBaseTest {
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		billingNum = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
 		CustomAssert.assertEquals("Billing Installments count for Quaterly payment plan", installmentsCount, installmentDueDates.size());
@@ -110,17 +106,10 @@ public class Scenario6 extends ScenarioBaseTest {
 		SearchPage.openPolicy(policyNum);
 
 		TestData endorsementTD = getStateTestData(tdPolicy, "Endorsement", "TestData");
-		if (getPolicyType().equals(PolicyType.PUP)) {
+		if (getPolicyType().equals(PolicyType.PUP) || getPolicyType().equals(PolicyType.AUTO_SS) || getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
 			policy.endorse().perform(endorsementTD);
-			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS.get());
-			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
-			UnderlyingRisksAutoTab.tableAutomobiles.getRow(2).getCell(9).controls.links.get("Remove").click();
-			Page.dialogConfirmation.confirm();
-			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
-			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
-			new PremiumAndCoveragesQuoteTab().calculatePremium();
-			NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.BIND.get());
-			new BindTab().submitTab();
+			removeSecondVehicle();
+			policy.getDefaultView().fill(getTestSpecificTD("TestData_Endorsement"));
 		} else {
 			policy.endorse().performAndFill(endorsementTD.adjust(getTestSpecificTD("TestData_EndorsementRP")));
 		}
@@ -152,9 +141,9 @@ public class Scenario6 extends ScenarioBaseTest {
 		new Dollar(BillingHelper.getBillTotalDueAmount(installmentDueDates.get(1), BillsAndStatementsType.BILL)).verify.equals(totalDue);
 
 		// TODO
-		// replace with verify.lessThan if 42369 Defect will be fixed
-		for (int i = 1; i < installmentsAmounts.size(); i++) {
-			BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(i)).verify.equals(installmentsAmounts.get(i));
+		// Replace with verify.less if 42369 Defect will be fixed
+		for (int i = 2; i < installmentsAmounts.size(); i++) {
+			BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(i)).verify.lessThan(installmentsAmounts.get(i));
 		}
 	}
 
@@ -336,5 +325,9 @@ public class Scenario6 extends ScenarioBaseTest {
 		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(installmentDueDate, BillingBillsAndStatmentsTable.MINIMUM_DUE));
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), minDue);
 		new BillingPaymentsAndTransactionsVerifier().verifyManualPaymentAccepted(DateTimeUtils.getCurrentDateTime(), minDue.negate());
+	}
+
+	protected void removeSecondVehicle() {
+		// TODO Auto-generated method stub
 	}
 }
