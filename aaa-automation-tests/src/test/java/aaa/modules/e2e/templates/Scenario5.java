@@ -43,7 +43,6 @@ public class Scenario5 extends ScenarioBaseTest {
 	protected int installmentsCount = 11;
 
 	public void createTestPolicy(TestData policyCreationTD) {
-		TimeSetterUtil.getInstance().adjustTime(); // *** Debug
 		mainApp().open();
 		createCustomerIndividual();
 
