@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.home_ss.ho3;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.utils.TestInfo;
@@ -28,17 +29,19 @@ public class TestPolicyDoNotRenewWithRenew extends PolicyDoNotRenewWithRenew{
         return PolicyType.HOME_SS_HO3;
     }
     
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-    public void TC01_CreatePolicyAddDoNotRenew() {
+    public void TC01_CreatePolicyAddDoNotRenew(String state) {
 
         super.TC01_CreatePolicyAddDoNotRenew();
     }
     
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_CreatePolicyAddDoNotRenew",
 			groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void TC02_RenewPolicy() {
+	public void TC02_RenewPolicy(String state) {
 		super.TC02_RenewPolicy();
 	}
 }

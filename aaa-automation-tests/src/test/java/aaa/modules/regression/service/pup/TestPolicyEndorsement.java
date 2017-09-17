@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.pup;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 
@@ -14,9 +15,10 @@ import toolkit.verification.CustomAssert;
 
 public class TestPolicyEndorsement extends PersonalUmbrellaBaseTest {
 
+	@Parameters({"state"})
 	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.Service.PUP )
-	public void testPolicyEndorsement() {
+	public void testPolicyEndorsement(String state) {
 		mainApp().open();
 
 		getCopiedPolicy();

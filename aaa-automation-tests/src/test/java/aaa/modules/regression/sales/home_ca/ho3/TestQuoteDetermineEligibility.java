@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.utils.TestInfo;
@@ -23,7 +24,8 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 
-@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 
 	PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
@@ -53,7 +55,7 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 	  */
 	@Test(enabled = true)
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
-	public void testQuoteDetermineEligibilitySC1() {
+	public void testQuoteDetermineEligibilitySC1(String state) {
 		String expected_ER0908 = "Wood burning stoves as the sole source of heat are ineligible.";
 		String expected_ER0522 = "Dwellings with a wood burning stove without at least one smoke detector installed per floor are ineligible.";
 		String expected_ER0909 = "Wood burning stoves are ineligible unless professionally installed by a licensed contractor.";
@@ -149,9 +151,10 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 	  * 6.  Verify error if animal count is > 100
 	  */
 
+	@Parameters({"state"})
 	@Test(enabled = true)
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
-	public void testQuoteDetermineEligibilitySC2() {
+	public void testQuoteDetermineEligibilitySC2(String state) {
 
 		mainApp().open();
 		// TODO
@@ -206,9 +209,10 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 	 * 7.  Verify an eligibility error if heat renovation is not eligible
 	 * 8.  Verify an eligibility error if plumbing renovation is not eligible
 	 */
+	@Parameters({"state"})
 	@Test(enabled = true)
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
-	public void testQuoteDetermineEligibilitySC3() {
+	public void testQuoteDetermineEligibilitySC3(String state) {
 
 		mainApp().open();
 		// TODO

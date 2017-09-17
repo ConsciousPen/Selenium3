@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
 import aaa.main.enums.ErrorEnum;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.common.enums.NavigationEnum;
@@ -48,9 +49,10 @@ import toolkit.utils.TestInfo;
  **/
 public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
 	
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
-    public void testPolicyFuturedated() {
+    public void testPolicyFuturedated(String state) {
         mainApp().open();
         
         createCustomerIndividual();
@@ -76,9 +78,10 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);                
 	}
 
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
-	public void testBackdatedPolicy() {
+	public void testBackdatedPolicy(String state) {
 		mainApp().open();
         
         createCustomerIndividual();

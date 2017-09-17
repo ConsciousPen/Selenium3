@@ -5,6 +5,7 @@ package aaa.modules.regression.service.pup;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.modules.regression.service.template.PolicyEndorsementMidTerm;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import aaa.main.modules.policy.PolicyType;
@@ -29,9 +30,10 @@ public class TestPolicyEndorsementMidTerm extends PolicyEndorsementMidTerm {
 		return PolicyType.PUP;
 	}
 	
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.PUP )
-	public void testPolicyEndorsementMidTerm() {
+	public void testPolicyEndorsementMidTerm(String state) {
 		super.testPolicyEndorsementMidTerm();
 	}
 }

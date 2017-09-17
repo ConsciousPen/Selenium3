@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.pup;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.helpers.constants.ComponentConstant;
@@ -24,9 +25,10 @@ import toolkit.utils.TestInfo;
  */
 public class TestQuoteInitiate extends PersonalUmbrellaBaseTest {
 
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.PUP )
-    public void testQuoteInitiate() {
+    public void testQuoteInitiate(String state) {
         mainApp().open();
 
         createCustomerIndividual();

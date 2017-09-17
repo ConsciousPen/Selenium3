@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.home_ca.ho3;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
@@ -34,9 +35,10 @@ public class TestPolicyRenewFlatCancellation extends PolicyRenewFlatCancellation
 		return new HomeCaHO3BaseTest().getBackDatedPolicyTD();
 	}
 	
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3 )
-    public void testPolicyRenewFlatCancellation() {
+    public void testPolicyRenewFlatCancellation(String state) {
         super.testPolicyRenewFlatCancellation();
     }
 }

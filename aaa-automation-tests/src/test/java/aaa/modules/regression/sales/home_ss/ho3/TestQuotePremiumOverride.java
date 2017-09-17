@@ -8,6 +8,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -39,9 +40,10 @@ import toolkit.verification.CustomAssert;
  */
 public class TestQuotePremiumOverride extends HomeSSHO3BaseTest {
 
+	@Parameters({"state"})
 	@Test(groups= {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testQuotePremiumOverride() {
+	public void testQuotePremiumOverride(String state) {
 
 		TestData td = getPolicyTD();
 		TestData tdCoverageF = DataProviderFactory.dataOf("Coverage F - Medical Payments to Others", "index=2");
@@ -72,7 +74,8 @@ public class TestQuotePremiumOverride extends HomeSSHO3BaseTest {
 
 //		9. Override premium by Flat Amount ($400), check calculated values.
 		pcTab.fillTab(tdOverridePremiumF, false);
-		CustomAssert.assertTrue(PremiumsAndCoveragesQuoteTab.calculatedOverridePercentageAmount().equals(PremiumsAndCoveragesQuoteTab.getOverridenPremiumPercentageAmount()));
+		//CustomAssert.assertTrue(PremiumsAndCoveragesQuoteTab.calculatedOverridePercentageAmount().equals(PremiumsAndCoveragesQuoteTab.getOverridenPremiumPercentageAmount()));
+		CustomAssert.assertEquals(PremiumsAndCoveragesQuoteTab.calculatedOverridePercentageAmount(), PremiumsAndCoveragesQuoteTab.getOverridenPremiumPercentageAmount());
 		PremiumsAndCoveragesQuoteTab.dialogOverridePremium.reject();
 
 //		10. Override premium by Percentage (20%), check calculated values. Confirm Override.

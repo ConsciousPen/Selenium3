@@ -3,6 +3,7 @@
 package aaa.modules.regression.sales.auto_ss;
 
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -27,9 +28,10 @@ import toolkit.webdriver.controls.composite.assets.MultiAssetList;
  */
 public class TestQuotePrefill extends AutoSSBaseTest {
 
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testPolicyPrefill1() {
+	public void testPolicyPrefill1(String state) {
 
 		mainApp().open();
 
@@ -95,9 +97,10 @@ public class TestQuotePrefill extends AutoSSBaseTest {
 
 	}
 
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testPolicyPrefill2() {
+	public void testPolicyPrefill2(String state) {
 
 		mainApp().open();
 

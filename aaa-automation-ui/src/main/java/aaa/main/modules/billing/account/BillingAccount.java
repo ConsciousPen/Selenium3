@@ -20,6 +20,7 @@ import aaa.main.modules.billing.account.BillingAccountActions.UnallocatePayment;
 import aaa.main.modules.billing.account.BillingAccountActions.Update;
 import aaa.main.modules.billing.account.BillingAccountActions.ViewModalPremium;
 import aaa.main.modules.billing.account.BillingAccountActions.WaiveFee;
+import aaa.main.modules.billing.account.BillingAccountActions.ChangePaymentPlan;
 import aaa.main.modules.billing.account.views.DefaultView;
 import toolkit.datax.TestData;
 
@@ -120,6 +121,11 @@ public class BillingAccount implements IBillingAccount {
     @Override
     public ViewModalPremium viewModalPremium() {
         return new BillingAccountActions.ViewModalPremium();
+    }
+
+    @Override
+    public ChangePaymentPlan changePaymentPlan() {
+        return new BillingAccountActions.ChangePaymentPlan();
     }
 
 }

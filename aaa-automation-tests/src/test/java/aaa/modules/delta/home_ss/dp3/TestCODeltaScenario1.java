@@ -1,5 +1,6 @@
 package aaa.modules.delta.home_ss.dp3;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.main.modules.policy.PolicyType;
@@ -14,45 +15,53 @@ public String scenarioPolicyType = "DP3";
 		return PolicyType.HOME_SS_DP3;
 	}
 	
+	@Parameters({"state"})
 	@Test
-	public void TC01_createQuote() {				
+	public void TC01_createQuote(String state) {				
 		super.TC_createQuote(scenarioPolicyType);
 	}
 
+	@Parameters({"state"})
 	@Test
-	public void TC02_verifyLOVsOfImmediatePriorCarrier() {
+	public void TC02_verifyLOVsOfImmediatePriorCarrier(String state) {
 		super.TC_verifyLOVsOfImmediatePriorCarrier();
 	}
 	
 	/*
+	@Parameters({"state"})
 	@Test
-	public void TC03_verifyEndorsementsTab() {
+	public void TC03_verifyEndorsementsTab(String state) {
 		super.TC_verifyEndorsementsTab();
 	}
 	*/
 	
+	@Parameters({"state"})
 	@Test
-	public void TC04_verifyQuoteODD() {
+	public void TC04_verifyQuoteODD(String state) {
 		super.TC_verifyQuoteODD();
 	}
 	
+	@Parameters({"state"})
 	@Test
-	public void TC05_verifyAdverselyImpacted() {
+	public void TC05_verifyAdverselyImpacted(String state) {
 		super.TC_verifyAdverselyImpacted();
 	}
 	
+	@Parameters({"state"})
 	@Test
-	public void TC06_verifyIneligibleRoofType() {
+	public void TC06_verifyIneligibleRoofType(String state) {
 		super.TC_verifyIneligibleRoofType();
 	}
 	
+	@Parameters({"state"})
 	@Test
-	public void TC07_purchasePolicy() {
+	public void TC07_purchasePolicy(String state) {
 		super.TC_purchasePolicy(scenarioPolicyType);
 	}
 	
+	@Parameters({"state"})
 	@Test
-	public void TC08_verifyPolicyODD() {
+	public void TC08_verifyPolicyODD(String state) {
 		super.TC_verifyPolicyODD();
 	}
 }

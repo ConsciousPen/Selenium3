@@ -13,14 +13,16 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 
 public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 
+	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_005_CancelPolicy() {
+	public void BCT_ONL_005_CancelPolicy(String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_005_CancelPolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_SS.get();
 
@@ -34,8 +36,9 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 	}
 
+	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_008_CancelPolicy() {
+	public void BCT_ONL_008_CancelPolicy(String state) {
 		//TODO Test moved from Deloite's code as is, should be updated
 		String policyNumber = getPoliciesByQuery("BCT_ONL_008_CancelPolicy", "SelectPolicy").get(0);
 		mainApp().open();
@@ -43,8 +46,9 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
 	}
 
+	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_009_CancelPolicy() {
+	public void BCT_ONL_009_CancelPolicy(String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_009_CancelPolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.HOME_SS_HO3.get();
 
@@ -68,8 +72,9 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		CustomAssert.assertAll();
 	}
 
+	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_012_CancelPolicy() {
+	public void BCT_ONL_012_CancelPolicy(String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_012_CancelPolicy", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 		TestData tdBilling = testDataManager.billingAccount;
@@ -86,8 +91,9 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
 	}
 
+	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_013_CancelPolicy() {
+	public void BCT_ONL_013_CancelPolicy(String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_013_CancelPolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
 
@@ -101,8 +107,9 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 	}
 
+	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_015_CancelPolicy() {
+	public void BCT_ONL_015_CancelPolicy(String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_015_CancelPolicy", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 		TestData tdBilling = testDataManager.billingAccount;
@@ -119,8 +126,9 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
 	}
 
+	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_112_Cancellation() {
+	public void BCT_ONL_112_Cancellation(String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_112_Cancellation", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
 

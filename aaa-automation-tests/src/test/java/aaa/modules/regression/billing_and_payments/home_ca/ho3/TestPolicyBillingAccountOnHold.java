@@ -1,5 +1,6 @@
 package aaa.modules.regression.billing_and_payments.home_ca.ho3;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.TestInfo;
@@ -36,9 +37,10 @@ public class TestPolicyBillingAccountOnHold extends HomeCaHO3BaseTest {
      * 11. Verify billing account status is "Active"
      */
 
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3) 
-    public void testPolicyBillingAccountOnHold() {
+    public void testPolicyBillingAccountOnHold(String state) {
 
         AddHoldActionTab addHoldActoinTab = new AddHoldActionTab();
 

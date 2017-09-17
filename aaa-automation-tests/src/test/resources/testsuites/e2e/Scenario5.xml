@@ -1,0 +1,45 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="E2E Scenario 5" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+
+    <test name="HSS Scenario 5" parallel="none">
+        <parameter name="state" value="UT, AZ, NJ, OK" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario5" />
+        </classes>
+    </test>
+
+    <test name="PUP Scenario 5" parallel="none">
+        <parameter name="state" value="UT, CA, AZ, NJ, OK" />
+        <classes>
+            <class name="aaa.modules.e2e.pup.TestScenario5" />
+        </classes>
+    </test>
+
+    <test name="Auto SS Scenario 5" parallel="none">
+        <parameter name="state" value="UT, AZ, CO, IN, KS, KY, NJ, NY, OH, OR, PA, SD, VA" />
+        <classes>
+            <class name="aaa.modules.e2e.auto_ss.TestScenario5" />
+        </classes>
+    </test>
+
+    <!-- CA -->
+    <test name="CA HSS Scenario 5 E2E" parallel="none">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ca.ho3.TestScenario5" />
+        </classes>
+    </test>
+
+    <test name="Auto CA Scenario 5" parallel="none">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.e2e.auto_ca.TestScenario5" />
+        </classes>
+    </test>
+
+</suite>

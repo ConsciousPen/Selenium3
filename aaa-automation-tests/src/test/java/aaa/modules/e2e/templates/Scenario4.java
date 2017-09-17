@@ -4,12 +4,14 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.*;
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants.*;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.MyWorkConstants;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -194,7 +196,9 @@ public class Scenario4 extends ScenarioBaseTest {
 	}
 
 	protected void verifyFormAHCWXX() {
-		//TODO DocGen utils
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHCWXX);
 //		DocGenHelper.verifyDocumentsGeneratedByJob(TimeSetterUtil.getInstance().getCurrentTime(), policyNum, OnDemandDocuments.AHCWXX);
 	}
 

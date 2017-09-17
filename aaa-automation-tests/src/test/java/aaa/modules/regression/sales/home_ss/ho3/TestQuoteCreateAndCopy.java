@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.helpers.constants.ComponentConstant;
@@ -27,9 +28,10 @@ import toolkit.utils.TestInfo;
  */
 public class TestQuoteCreateAndCopy extends HomeSSHO3BaseTest {
 	
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-    public void testPolicyCreation() {
+    public void testPolicyCreation(String state) {
         mainApp().open();
 
         createCustomerIndividual();
