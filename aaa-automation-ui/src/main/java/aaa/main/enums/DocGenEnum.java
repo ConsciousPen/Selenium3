@@ -98,6 +98,10 @@ public final class DocGenEnum {
 		AARFIXX("Request for Information"),
 		AA10XX("Insurance Identification Card"),
 		AA02AZ("Declaration page"),
+		AHIBXX("Installment Bill"),
+		AH34XX("Cancellation Notice - Equity (All Non-Pay)"),
+		AH67XX("Lapse Notice - Non-pay"),
+		AH62XX("Reinstatement Notice");
 		;
 
 		private String id;
