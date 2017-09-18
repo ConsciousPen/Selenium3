@@ -54,6 +54,8 @@ public class TestAZScenario1 extends AutoSSBaseTest{
 	protected String reCalcTotFee;
 	protected String reinEffDt;
 	protected String priorReinEffDt;
+
+	
 	
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
@@ -105,7 +107,7 @@ public class TestAZScenario1 extends AutoSSBaseTest{
 	    Dollar _instlFee=new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,"Non EFT Installment Fee").getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());     
 	    totNwCrgAmt=BillingSummaryPage.tableInstallmentSchedule.getRow(2).getCell(BillingInstallmentScheduleTable.BILLED_AMOUNT).getValue().toString().replace("$", "");
 	    plcyPayMinAmt=BillingSummaryPage.getMinimumDue().toString().replace("$", "");
-	    String plcyPayFullAmt=BillingSummaryPage.getTotalDue().subtract(_instlFee).toString().replace("$", "").replace(",", "");
+	    plcyPayFullAmt=BillingSummaryPage.getTotalDue().subtract(_instlFee).toString().replace("$", "").replace(",", "");
 	    		
 	    DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, AHIBXX).verify.mapping(getTestSpecificTD("TestData_AHIBXX_Verification")
 				.adjust(TestData.makeKeyPath("AHIBXX", "form", "PlcyNum", "TextField"), policyNumber)
