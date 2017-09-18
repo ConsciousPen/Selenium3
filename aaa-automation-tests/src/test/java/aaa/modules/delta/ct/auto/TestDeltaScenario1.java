@@ -42,7 +42,7 @@ import java.util.List;
 @Test(groups = {Groups.DELTA, Groups.HIGH})
 public class TestDeltaScenario1 extends AutoSSBaseTest {
     //todo make it empty
-    private String quoteNumber = "QCTSS950552321";
+    private String quoteNumber;// = "QCTSS950552321";
 
     private DriverTab driverTab = new DriverTab();
     private PrefillTab prefillTab = new PrefillTab();
