@@ -16,6 +16,12 @@ public class SortKeyNode extends SearchBy<SortKeyNode, DocumentDataElement>{
 	public List<DocumentDataElement> search(StandardDocumentRequest sDocumentRequest) {
 		List<DocumentDataElement> filteredDdes = new ArrayList<>();
 		standardDocumentRequest.documentPackage.search(sDocumentRequest).forEach(l -> filteredDdes.addAll(filter(l.getSortKeys())));
+		conditionsMap.clear();
 		return filteredDdes;
+	}
+
+	@Override
+	public String getNodePath() {
+		return "\\standardDocumentRequest\\DocumentPackage\\SortKeys\\DocumentDataElement";
 	}
 }

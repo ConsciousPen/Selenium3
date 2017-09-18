@@ -17,6 +17,12 @@ public final class DocumentDataElementNode extends SearchBy<DocumentDataElementN
 	public List<DocumentDataElement> search(StandardDocumentRequest sDocumentRequest) {
 		List<DocumentDataElement> filteredDdes = new ArrayList<>();
 		standardDocumentRequest.documentPackage.document.documentDataSection.search(sDocumentRequest).forEach(l -> filteredDdes.addAll(filter(l.getDocumentDataElements())));
+		conditionsMap.clear();
 		return filteredDdes;
+	}
+
+	@Override
+	public String getNodePath() {
+		return "\\standardDocumentRequest\\DocumentPackage\\Document\\DocumentDataSection\\DocumentDataElement";
 	}
 }

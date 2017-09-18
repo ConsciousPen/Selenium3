@@ -38,6 +38,13 @@ public class StandardDocumentRequestNode extends SearchBy<StandardDocumentReques
 
 	@Override
 	public List<StandardDocumentRequest> search(StandardDocumentRequest standardDocumentRequest) {
-		return filter(standardDocumentRequest);
+		List<StandardDocumentRequest> filteredList = filter(standardDocumentRequest);
+		conditionsMap.clear();
+		return filteredList;
+	}
+
+	@Override
+	public String getNodePath() {
+		return "\\standardDocumentRequest";
 	}
 }

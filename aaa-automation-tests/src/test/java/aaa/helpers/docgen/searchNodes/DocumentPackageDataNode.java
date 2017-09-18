@@ -13,6 +13,12 @@ public class DocumentPackageDataNode extends SearchBy<DocumentPackageDataNode, D
 	public List<DocumentPackageData> search(StandardDocumentRequest sDocumentRequest) {
 		List<DocumentPackageData> filteredDpd = new ArrayList<>();
 		standardDocumentRequest.documentPackage.search(sDocumentRequest).forEach(l -> filteredDpd.addAll(filter(l.getDocumentPackageData())));
+		conditionsMap.clear();
 		return filteredDpd;
+	}
+
+	@Override
+	public String getNodePath() {
+		return "\\standardDocumentRequest\\DocumentPackage\\DocumentPackageData";
 	}
 }

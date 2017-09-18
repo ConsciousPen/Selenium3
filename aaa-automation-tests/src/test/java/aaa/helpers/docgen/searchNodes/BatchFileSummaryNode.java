@@ -14,6 +14,12 @@ public class BatchFileSummaryNode extends SearchBy<BatchFileSummaryNode, BatchFi
 	public List<BatchFileSummary> search(StandardDocumentRequest sDocumentRequest) {
 		List<BatchFileSummary> filteredBfs = new ArrayList<>();
 		standardDocumentRequest.search(sDocumentRequest).forEach(l -> filteredBfs.addAll(filter(l.getBatchFileSummary())));
+		conditionsMap.clear();
 		return filteredBfs;
+	}
+
+	@Override
+	public String getNodePath() {
+		return "\\standardDocumentRequest\\BatchFileSummary";
 	}
 }

@@ -19,6 +19,12 @@ public final class DataElementChoiceNode extends SearchBy<DataElementChoiceNode,
 	public List<DataElementChoice> search(StandardDocumentRequest sDocumentRequest) {
 		List<DataElementChoice> filteredDec = new ArrayList<>();
 		standardDocumentRequest.documentPackage.document.documentDataSection.documentDataElement.search(sDocumentRequest).forEach(l -> filteredDec.addAll(filter(l.getDataElementChoice())));
+		conditionsMap.clear();
 		return filteredDec;
+	}
+
+	@Override
+	public String getNodePath() {
+		return "\\standardDocumentRequest\\DocumentPackage\\Document\\DocumentDataSection\\DocumentDataElement\\DataElementChoice";
 	}
 }

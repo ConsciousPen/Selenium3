@@ -29,6 +29,12 @@ public final class DocumentNode extends SearchBy<DocumentNode, Document> {
 	public List<Document> search(StandardDocumentRequest sDocumentRequest) {
 		List<Document> filteredDocs = new ArrayList<>();
 		standardDocumentRequest.documentPackage.search(sDocumentRequest).forEach(l -> filteredDocs.addAll(filter(l.getDocuments())));
+		conditionsMap.clear();
 		return filteredDocs;
+	}
+
+	@Override
+	public String getNodePath() {
+		return "\\standardDocumentRequest\\DocumentPackage\\Document";
 	}
 }

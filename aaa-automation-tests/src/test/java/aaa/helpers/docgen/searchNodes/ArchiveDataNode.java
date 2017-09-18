@@ -17,6 +17,12 @@ public final class ArchiveDataNode extends SearchBy<ArchiveDataNode, ArchiveData
 	public List<ArchiveData> search(StandardDocumentRequest sDocumentRequest) {
 		List<ArchiveData> filteredAd = new ArrayList<>();
 		standardDocumentRequest.documentPackage.search(sDocumentRequest).forEach(l -> filteredAd.addAll(filter(l.getArchiveData())));
+		conditionsMap.clear();
 		return filteredAd;
+	}
+
+	@Override
+	public String getNodePath() {
+		return "\\standardDocumentRequest\\DocumentPackage\\ArchiveData";
 	}
 }

@@ -41,6 +41,12 @@ public final class DocumentPackageNode extends SearchBy<DocumentPackageNode, Doc
 	public List<DocumentPackage> search(StandardDocumentRequest sDocumentRequest) {
 		List<DocumentPackage> filteredDps = new ArrayList<>();
 		standardDocumentRequest.search(sDocumentRequest).forEach(l -> filteredDps.addAll(filter(l.getDocumentPackages())));
+		conditionsMap.clear();
 		return filteredDps;
+	}
+
+	@Override
+	public String getNodePath() {
+		return "\\standardDocumentRequest\\DocumentPackage";
 	}
 }
