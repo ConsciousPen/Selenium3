@@ -2,14 +2,12 @@ package aaa.modules.docgen.home_ss.pup;
 
 import static aaa.main.enums.DocGenEnum.Documents.*;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.PersonalUmbrellaTab;
 import aaa.common.pages.NavigationPage;
-import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.modules.policy.pup.actiontabs.GenerateOnDemandDocumentActionTab;
@@ -104,9 +102,9 @@ public class TestDocgenScenarios extends PersonalUmbrellaBaseTest{
 	 * @details
 	 */
 	
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
-	@TestInfo(component = ComponentConstant.Sales.PUP)
-	public void testPUPDocgenScenarios(){
+	public void testPUPDocgenScenarios(String state){
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();	
