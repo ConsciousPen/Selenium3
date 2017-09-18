@@ -106,7 +106,7 @@ public class Scenario6 extends ScenarioBaseTest {
 		SearchPage.openPolicy(policyNum);
 
 		TestData endorsementTD = getStateTestData(tdPolicy, "Endorsement", "TestData");
-		if (getPolicyType().equals(PolicyType.PUP) || getPolicyType().equals(PolicyType.AUTO_SS) || getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
+		if (getPolicyType().equals(PolicyType.PUP) || getPolicyType().equals(PolicyType.AUTO_SS)) {
 			policy.endorse().perform(endorsementTD);
 			removeSecondVehicle();
 			policy.getDefaultView().fill(getTestSpecificTD("TestData_Endorsement"));
@@ -301,7 +301,7 @@ public class Scenario6 extends ScenarioBaseTest {
 
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
-		if (!getPolicyType().equals(PolicyType.PUP))
+		if (!getPolicyType().equals(PolicyType.PUP) && !getPolicyType().equals(PolicyType.AUTO_SS))
 			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
 	}
 
