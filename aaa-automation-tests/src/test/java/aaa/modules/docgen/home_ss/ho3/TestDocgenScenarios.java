@@ -158,6 +158,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSIQXX, Documents.AHPNXX);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.quoteDocGen().start();
 		if(getState().equals(States.VA))
 			documentActionTab.selectDocuments(Documents.HSAUDVA);
@@ -176,6 +177,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		if(getState().equals(States.VA))
 			DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSAUDVA);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.quoteDocGen().start();
 		documentActionTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"), 
 				Documents.HSU03XX, 
@@ -193,6 +195,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				Documents.HSU08XX
 				);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.dataGather().start();
 		NavigationPage.toViewTab(HomeSSTab.REPORTS.get());
 		policy.getDefaultView().fillFromTo(getTestSpecificTD("InsuranceScoreOverride926"), ReportsTab.class, PropertyInfoTab.class, true);
@@ -322,6 +325,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.HS11, Documents.AHPNXX);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.policyDocGen().start();
 		documentActionTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"),
 				Documents.AHRCTXX, 
