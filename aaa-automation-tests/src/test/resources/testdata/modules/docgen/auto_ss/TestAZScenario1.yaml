@@ -62,7 +62,7 @@ AHIBXX: {
    TotNwCrgAmt: {TextField: ''},
    PlcyPayMinAmt: {TextField: ''},
    PlcyDueDt: {DateTimeField: ''},
-#   PlcyPayFullAmt: {TextField: ''},
+   PlcyPayFullAmt: {TextField: ''},
    NSFPayRstrYN: {TextField: 'N'},
    PlcyPrTrmBal: {TextField: '0.00'},
    PlcyPastDueBal: {TextField: '0.00'},
