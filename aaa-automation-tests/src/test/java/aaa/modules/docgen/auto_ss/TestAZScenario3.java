@@ -1,5 +1,6 @@
 package aaa.modules.docgen.auto_ss;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
@@ -22,8 +23,9 @@ import aaa.modules.policy.AutoSSBaseTest;
  */
 public class TestAZScenario3 extends AutoSSBaseTest {
 
+	@Parameters({"state"})
 	@Test
-	public void testPolicyCreation() {
+	public void testPolicyCreation(String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		createCustomerIndividual();

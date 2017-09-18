@@ -3,6 +3,7 @@
 package aaa.modules.regression.sales.auto_ss;
 
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.helpers.constants.ComponentConstant;
@@ -23,9 +24,10 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyCreation extends AutoSSBaseTest {
 
-    @Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
+    @Parameters({"state"})
+	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void testPolicyCreation() {
+    public void testPolicyCreation(String state) {
     	
         mainApp().open();
 

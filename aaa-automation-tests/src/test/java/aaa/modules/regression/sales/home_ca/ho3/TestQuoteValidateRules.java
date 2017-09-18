@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -20,7 +21,8 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 
-@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
 
     GeneralTab generalTab = new GeneralTab();
@@ -40,7 +42,7 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
 
     @Test(enabled = true)
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
-    public void testQuoteFuturedated() {
+    public void testQuoteFuturedated(String state) {
         String expectedWarning = "Policy effective date cannot be more than 90 days from today's date.";
 
         mainApp().open();
@@ -75,9 +77,10 @@ public class TestQuoteValidateRules extends HomeCaHO3BaseTest {
     * 8. Verify policy status is Active
     */
 
-    @Test(enabled = true)
+    @Parameters({"state"})
+	@Test(enabled = true)
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
-    public void testQuoteBackdated() {
+    public void testQuoteBackdated(String state) {
 
         mainApp().open();
         createCustomerIndividual();

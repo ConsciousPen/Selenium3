@@ -3,6 +3,7 @@ package aaa.modules.docgen.auto_ss;
 import java.time.LocalDateTime;
 
 import org.mortbay.log.Log;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -39,9 +40,10 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 	 * 4. Verify the documents generate AASR22 and AAGCAZ
 	 * @details
 	 */	
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void TC01_EndorsementOne() {
+	public void TC01_EndorsementOne(String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
@@ -70,9 +72,10 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 	 * @details
 	 */	
 	
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void TC02_EndorsementTwo(){
+	public void TC02_EndorsementTwo(String state) {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		log.info("Make second endorsement for Policy #" + policyNumber);
@@ -96,9 +99,10 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 	 * @details
 	 */	
 	
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_EndorsementOne")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void TC03_RenewalImageGeneration(){
+	public void TC03_RenewalImageGeneration(String state) {
 		
 		LocalDateTime renewImageGenDate=getTimePoints().getRenewImageGenerationDate(policyExpirationDate);	
 		Log.info("Policy Renewal Image Generation Date" + renewImageGenDate);
@@ -113,9 +117,10 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 			
 	}
 	
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL},dependsOnMethods = "TC01_EndorsementOne")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void TC04_RenewaPreviewGeneration(){
+	public void TC04_RenewaPreviewGeneration(String state) {
 		
 		LocalDateTime renewPreviewGenDate=getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Preview Generation Date" + renewPreviewGenDate);
@@ -131,9 +136,10 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 			
 	}
 	
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_EndorsementOne")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void TC05_RenewaOfferGeneration(){
+	public void TC05_RenewaOfferGeneration(String state) {
 		LocalDateTime renewOfferGenDate=getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Offer Generation Date" + renewOfferGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
@@ -149,9 +155,10 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);		
 	}
 	
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_EndorsementOne")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void TC06_RenewaOfferBillGeneration(){
+	public void TC06_RenewaOfferBillGeneration(String state) {
 		LocalDateTime renewOfferBillGenDate=getTimePoints().getBillGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Offer Bill Generation Date" + renewOfferBillGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferBillGenDate);

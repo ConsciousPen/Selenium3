@@ -64,8 +64,6 @@ public class Scenario6 extends ScenarioBaseTest {
 	public void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();
 
-		TimeSetterUtil.getInstance().adjustTime(); // *** Debug
-
 		mainApp().open();
 		createCustomerIndividual();
 

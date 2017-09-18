@@ -3,6 +3,7 @@ package aaa.modules.regression.sales.home_ss.ho3;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 
@@ -42,9 +43,10 @@ import toolkit.verification.CustomAssert;
 
 public class TestPolicyDiscountSafe extends HomeSSHO3BaseTest {
 	
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testPolicySafeDiscount() {
+	public void testPolicySafeDiscount(String state) {
 		mainApp().open();
 
 		TestData td = getPolicyTD("DataGather", "TestData"); 

@@ -3,6 +3,7 @@
 package aaa.modules.regression.billing_and_payments.auto_ca.choice;
 
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.helpers.constants.ComponentConstant;
@@ -13,8 +14,7 @@ import toolkit.utils.TestInfo;
 /**
  * @author Jelena Dembovska
  * @name Test Billing functionality
- * @scenario
- * 1. Find customer or create new if customer does not exist;
+ * @scenario 1. Find customer or create new if customer does not exist;
  * 2. Create new Auto Policy;
  * 3. Move to Billing tab
  * 4. Make 4 different payments(Accept Payment with Payments types: Cash, Check, Credit Card, EFT);
@@ -26,18 +26,18 @@ import toolkit.utils.TestInfo;
 
 public class TestPolicyBilling extends PolicyBilling {
 
-	
-    @Override
-    protected PolicyType getPolicyType() {
-        return PolicyType.AUTO_CA_CHOICE;
-    }
-    
-    @Override
-	@Test(groups = { Groups.REGRESSION, Groups.BLOCKER })
-    @TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_CA_CHOICE) 
-    public void testBilling() {
 
-        super.testBilling();
-    }
-    
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_CA_CHOICE;
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.BLOCKER})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_CA_CHOICE)
+	public void testBilling(String state) {
+
+		super.testBilling();
+	}
+
 }

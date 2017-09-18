@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.auto_ca.choice;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.helpers.constants.ComponentConstant;
@@ -22,9 +23,10 @@ public class TestPolicyCancelReinstate extends PolicyCancelReinstate {
         return PolicyType.AUTO_CA_CHOICE;
     }
     
-    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+    @Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE)
-    public void testPolicyCancelReinstate() {
+    public void testPolicyCancelReinstate(String state) {
         
     	super.testPolicyCancelReinstate();
         

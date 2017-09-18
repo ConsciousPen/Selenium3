@@ -1,5 +1,6 @@
 package aaa.modules.regression.billing_and_payments.home_ss.ho3;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import aaa.helpers.constants.ComponentConstant;
@@ -7,7 +8,8 @@ import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.billing_and_payments.template.PolicyBillingOperations;
 
-@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 public class TestPolicyBillingOperations extends PolicyBillingOperations {
 
     @Override
@@ -34,7 +36,7 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
 
     @Test(enabled = true)
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
-    public void testManualFeeAdjustment() {
+    public void testManualFeeAdjustment(String state) {
         super.testManualFeeAdjustment();
     }
 
@@ -56,9 +58,10 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      * 12. Check Total Paid Amount value after refunding
      */
 
-    @Test(enabled = true)
+    @Parameters({"state"})
+	@Test(enabled = true)
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
-    public void testManualRefund() {
+    public void testManualRefund(String state) {
         super.testManualRefund();
     }
 
@@ -88,9 +91,10 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      * 19. Check Minimum Due Amount doesn't change
      */
 
-    @Test(enabled = true)
+    @Parameters({"state"})
+	@Test(enabled = true)
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
-    public void testManualWriteOff() {
+    public void testManualWriteOff(String state) {
         super.testManualWriteOff();
     }
 
@@ -130,9 +134,10 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      * 29. Check that Prepaid is decreased.
      */
 
-    @Test(enabled = true)
+    @Parameters({"state"})
+	@Test(enabled = true)
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
-    public void testManualReturnedPayments() {
+    public void testManualReturnedPayments(String state) {
         super.testManualReturnedPayments();
     }
 }

@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.home_ss.ho3;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.helpers.constants.ComponentConstant;
@@ -26,9 +27,10 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 * 3. Verify quote status is 'Premium Calculated'
 	 * @details
 	 */
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testQuoteCreation() {
+	public void testQuoteCreation(String state) {
 		super.testQuoteCreation();
 	}
 	
@@ -42,9 +44,10 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 * 4. Verify policy status is 'Policy Active'
 	 * @details
 	 */
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testQuoteIssue() {
+	public void testQuoteIssue(String state) {
 		super.testQuoteIssue();
 	}
 	
@@ -61,9 +64,10 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 * 7. Verify quote status is 'Proposed'
 	 * @details
 	 */
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testQuotePropose() {
+	public void testQuotePropose(String state) {
 		super.testQuotePropose();
 	}
 }
