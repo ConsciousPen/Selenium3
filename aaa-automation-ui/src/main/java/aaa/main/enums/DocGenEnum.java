@@ -107,7 +107,9 @@ public final class DocGenEnum {
 		AHIBXX("AHIBXX", "Premium Due Notice"),
 		HSRNXX("HSRNXX", "Renewal Offer: Important Renewal Information"),
 		AH67XX("Lapse Notice - Non-pay"),
-		AH62XX("Reinstatement Notice")
+		AH62XX("Reinstatement Notice"),
+		AASR26("Cancellation of Financial Responsibility"),
+		AAPDXX("Courtesy Coverage Letter"),
 		;
 
 		private String id;

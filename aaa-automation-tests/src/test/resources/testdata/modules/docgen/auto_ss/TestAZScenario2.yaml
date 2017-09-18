@@ -139,8 +139,8 @@ Existing Damage: Normal Wear and Tear
 },
 FormsTab: {},
 PremiumAndCoveragesTab: {
-  Uninsured Motorists Bodily Injury: 'contains=$25,000/$50,000',
-  Underinsured Motorists Bodily Injury: 'contains=$25,000/$50,000',
+  Uninsured Motorists Bodily Injury: 'contains=No Coverage',
+  Underinsured Motorists Bodily Injury: 'contains=No Coverage',
 },
 DriverActivityReportsTab: {},
 DocumentsAndBindTab: {},
@@ -190,7 +190,7 @@ TestData_KeysMap: {
 }
 
 # ------------- Documents Verification ----------
-TestData_Verification: {
+TestData_VerificationNB: {
   AA43AZ: '@AA43AZ',
   AH35XX: '@AH35XX',
   AASR22: '@AASR22',
@@ -233,8 +233,8 @@ AA43AZ: {
     PlcyNum: {TextField: ''},
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: AZ},
-    TermEffDt: {DateTimeField: "/today:yyyy-MM-dd'T00:00:00.000+03:00'"},
-    EndrEffDt: {DateTimeField: "/today:yyyy-MM-dd'T00:00:00.000+03:00'"},
+    TermEffDt: {DateTimeField: ''},
+    EndrEffDt: {DateTimeField: "/today:yyyy-MM-dd'contains'"},
     SgntrOnFile: {TextField: ''}
   }
 }
@@ -272,8 +272,8 @@ AH35XX: {
   form: {
     PlcyNum: {TextField: ''},
     PlcyGrp: {TextField: AUTO},
-    PlcyEffDt: {DateTimeField: "/today:yyyy-MM-dd'contains'"},
-    PlcyExprDt: {DateTimeField: "/today+1y:yyyy-MM-dd'contains'"},
+    PlcyEffDt: {DateTimeField: ''},
+    PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0040'},
     NoteDt: {DateTimeField: "/today:yyyy-MM-dd'contains'"},
     TransDesc: {TextField: 'NB'},
@@ -327,7 +327,7 @@ AASR22: {
   form: {
     PlcyNum: {TextField: ''},
     PlcyPrfx: {TextField: 'AZSS'},
-    TermEffDt: {DateTimeField: "/today:yyyy-MM-dd'contains'"},
+    TermEffDt: {DateTimeField: ''},
     SR22FeeFlg: {TextField: 'N'},
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'AZ'},
@@ -484,7 +484,7 @@ AA52AZ: {
     PlcyNum: {TextField: ''},
     PlcyPrfx: {TextField: 'AZSS'},
     EndrEffDt: {DateTimeField: "/today:yyyy-MM-dd'contains'"},
-    TermEffDt: {DateTimeField: "/today:yyyy-MM-dd'contains'"},
+    TermEffDt: {DateTimeField: ''},
     SgntrOnFile: {TextField: ''},
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'AZ'}
@@ -582,7 +582,7 @@ AHNBXX: {
     PlcyNum: {TextField: ''},
     PlcyPrfx: {TextField: 'AZSS'},
     PlcyGrp: {TextField: 'AUTO'},
-    TermEffDt: {DateTimeField: "/today:yyyy-MM-dd'contains'"},
+    TermEffDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'AZ'}
   }
@@ -630,8 +630,9 @@ AA10XX: {
   form: {
     PlcyNum: {TextField: ''},
     PlcyPrfx: {TextField: 'AZSS'},
-    TermExprDt: {DateTimeField: "/today+1y:yyyy-MM-dd'contains'"},
-    TermEffDt: {DateTimeField: "/today:yyyy-MM-dd'contains'"},
+    TermExprDt: {DateTimeField: ''},
+    TermEffDt: {DateTimeField: ''},
+    EndrEffDt: {DateTimeField: "/today:yyyy-MM-dd'contains'"},
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'AZ'}
   }
@@ -839,7 +840,7 @@ AA02AZ: {
   form: {
     PlcyNum: {TextField: ''},
     PlcyPrfx: {TextField: 'AZSS'},
-    TermEffDt: {DateTimeField: "/today:yyyy-MM-dd'contains'"},
+    TermEffDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'AZ'},
     PlcyInsrdSnc: {TextField: '2017'},
@@ -856,9 +857,568 @@ AA02AZ: {
     {TextField: 'AA11AZ'},
     ],
     PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount'},
-    TermExprDt: {DateTimeField: "/today+1y:yyyy-MM-dd'contains'"},
+    TermExprDt: {DateTimeField: ''},
     EndrEffDt: {DateTimeField: "/today:yyyy-MM-dd'contains'"}
   }
 }
 
+TestData_VerificationED: {
+  AA43AZ: '@AA43AZ_ED',
+  AH35XX: '@AH35XX_ED',
+  AASR26: '@AASR26_ED',
+  AA59XX: '@AA59XX_ED',
+  AA52AZ: '@AA52AZ_ED',
+  AA10XX: '@AA10XX_ED',
+  AA02AZ: '@AA02AZ_ED',
+  AAPDXX: '@AAPDXX_ED'
+}
 
+AASR26_ED: {
+  CompanyDetails: {
+    CoNm: {TextField: 'AAA Members Insurance Company'},
+    CoNum: {TextField: '01'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdMidNm: {TextField: ''},
+    NmdInsrdStAbrv: {TextField: 'AZ'},
+    NmdInsrdStrPobAddr1: {TextField: '265 CHIPMAN AVE'},
+    NmdInsrdStrPobAddr2: {TextField: ''},
+    NmdInsrdZipPls4: {TextField: '85003'},
+    NmdInsrdCityNm: {TextField: 'Phoenix'}
+  },
+  DriverDetails: {
+    DrvrLicNum: {TextField: 'A12345678'},
+    DrvrDOB: {DateTimeField: '1962-12-04T22:00:00.000Z'}
+  },
+  form: {
+    PlcyPrfx: {TextField: 'AZSS'},
+    PlcyNum: {TextField: ''},
+    TermEffDt: {DateTimeField: ''},
+    TermExprDt: {DateTimeField: ''},
+    SR22FeeFlg: {TextField: 'N'},
+    PlcyTransCd: {TextField: '0100'},
+    PlcyTransCd: {TextField: '0100'},
+    PlcyStAbrv: {TextField: 'AZ'},
+    SR22CseNum: {TextField: '123'},
+    SgnDt: {DateTimeField: "/today:yyyy-MM-dd'contains'"},
+    SR22CertReqSt: {TextField: 'Arizona'},
+    SR22FilgCancDt: {DateTimeField: "/today:yyyy-MM-dd'contains'"},
+    SSNum: {TextField: '6789'},
+    SR22YN: {TextField: 'Y'},
+    SR23YN: {TextField: 'N'}
+  }
+}
+
+AA43AZ_ED: {
+  CompanyDetails: {
+    CoBrandNm: {TextField: ''},
+    CoNm: {TextField: 'AAA Members Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(800) 207-3618'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdAge: {TextField: 54},
+    NmdInsrdStAbrv: {TextField: 'AZ'}
+  },
+  AgentDetails: {
+    AgntNum: {TextField: '400001650'}
+  },
+  DriverDetails: {
+    DrvrTyp: {TextField: 'E'},
+    DrvrFrstNm: {TextField: 'Maria'},
+    DrvrLstNm: {TextField: 'Jefferson'},
+    RlatToNmdInsrd: {TextField: 'Sibling'}
+  },
+  form: {
+    PlcyNum: {TextField: ''},
+    PlcyTransCd: {TextField: '0100'},
+    PlcyStAbrv: {TextField: AZ},
+    TermEffDt: {DateTimeField: ''},
+    EndrEffDt: {DateTimeField: ''},
+    SgntrOnFile: {TextField: ''}
+  }
+}
+
+AH35XX_ED: {
+  CompanyDetails: {
+    CoBrandNm: {TextField: ''},
+    CoNm: {TextField: 'AAA Members Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(800) 207-3618'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdMidNm: {TextField: ''},
+    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdStrPobAddr1: {TextField: '265 CHIPMAN AVE'},
+    NmdInsrdAddlAddr2: {TextField: ''},
+    NmdInsrdCityNm: {'Phoenix'},
+    NmdInsrdStAbrv: {TextField: 'AZ'},
+    NmdInsrdZipPls4: {TextField: '85003'},
+  },  
+  AgentDetails: {
+    AgntCo: {TextField: 'SMTestIA'}
+  },
+  PaymentDetails: {
+    PlcyTotWdrlAmt: {}
+  },
+  AccountDetails: {
+    AcctNum: {TextField: '************1111'}
+  },
+  form: {
+    PlcyNum: {TextField: ''},
+    PlcyGrp: {TextField: AUTO},
+    PlcyEffDt: {DateTimeField: ''},
+    PlcyExprDt: {DateTimeField: ''},
+    PlcyTransCd: {TextField: '0100'},
+    NoteDt: {DateTimeField: "/today:yyyy-MM-dd'contains'"},
+    TransDesc: {TextField: 'AMD'},
+    FutInstlDueDt: {}
+  }
+}
+
+AA59XX_ED: {
+  CompanyDetails: {
+    CoNm: {TextField: 'AAA Members Insurance Company'},
+    CoBrandNm: {TextField: ''},
+    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(800) 207-3618'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'},
+    AddlNmdInsrdFrstNm: {TextField: ''},
+    AddlNmdInsrdLstNm: {TextField: ''},
+    NmdInsrdStAbrv: {TextField: 'AZ'},
+  },  
+  AgentDetails: {
+    AgntNum: {TextField: '400018581'}
+  },
+  VehicleDetails: {
+    VehManfrNm: {TextField: 'MERCEDES-BENZ'},
+    VehManufactureYear: {TextField: '2011'},
+    VehMdelNm: {TextField: 'G55AMG'}
+  },
+  form: {
+    PlcyNum: {TextField: ''},
+    PlcyPrfx: {TextField: 'AZSS'},
+    PlcyGrp: {TextField: 'PERSONAL AUTO'},
+    PlcyTransCd: {TextField: '0100'},
+    PlcyStAbrv: {TextField: 'AZ'},
+    FreeFrmText: {TextField: 'Normal Wear and Tear'}
+  }
+}
+
+AA52AZ_ED: {
+ CompanyDetails: {
+    CoNm: {TextField: 'AAA Members Insurance Company'},
+    CoBrandNm: {TextField: ''},
+    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(800) 207-3618'}
+  },
+  AgentDetails: {
+    GenlAgntNum: {TextField: '400001650'},
+    SubAgntNum: {TextField: '400018581'},
+    AgntNum: {TextField: '400018581'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdStAbrv: {TextField: 'AZ'},
+    NmdInsrdAge: {TextField: '54'}
+  }, 
+  CoverageDetails: {
+    VehBICovAmt: {TextField: '100000/300000'},
+    VehUMCovAmt: [
+     {TextField: '15/30'},
+     {TextField: '25/50'},
+     {TextField: '50/100'},
+     {TextField: '100/300'},
+     {TextField: '250/500'},
+     {TextField: '300/500'},
+     {TextField: '500/500'},
+     {TextField: '500/1000'},
+     {TextField: '1000/1000'}
+    ],
+    VehUIMCovAmt: [
+     {TextField: '15/30'},
+     {TextField: '25/50'},
+     {TextField: '50/100'},
+     {TextField: '100/300'},
+     {TextField: '250/500'},
+     {TextField: '300/500'},
+     {TextField: '500/500'},
+     {TextField: '500/1000'},
+     {TextField: '1000/1000'}
+    ],
+    VehUMPrem: [
+     {TextField: '150'},
+     {TextField: '198'},
+     {TextField: '259'},
+     {TextField: '355'},
+     {TextField: '454'},
+     {TextField: '466'},
+     {TextField: '584'},
+     {TextField: '625'},
+     {TextField: '717'}
+    ],
+    VehUIMBPrem: [
+     {TextField: '307'},
+     {TextField: '437'},
+     {TextField: '659'},
+     {TextField: '1020'},
+     {TextField: '1659'},
+     {TextField: '1742'},
+     {TextField: '1866'},
+     {TextField: '2052'},
+     {TextField: '2717'}
+    ],
+    UMCovRjctFlg: {TextField: 'Y'},
+    UIMCovRjctFlg: {TextField: 'Y'},
+    UMSelCov: {TextField: '0/0'},
+    UIMSelCov: {TextField: '0/0'}
+  },
+  form: {
+    PlcyNum: {TextField: ''},
+    PlcyPrfx: {TextField: 'AZSS'},
+    EndrEffDt: {DateTimeField: ''},
+    TermEffDt: {DateTimeField: ''},
+    SgntrOnFile: {TextField: ''},
+    PlcyTransCd: {TextField: '0100'},
+    PlcyStAbrv: {TextField: 'AZ'}
+  }
+}
+
+AA10XX_ED: {
+  CompanyDetails: {
+    CoNm: {TextField: 'AAA Members Insurance Company'},
+    CoPhnNum: {TextField: '(800) 207-3618'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdStAbrv: {TextField: 'AZ'},
+    NmdInsrdStrPobAddr1: {TextField: '265 CHIPMAN AVE'},
+    NmdInsrdCityNm: {TextField: 'Phoenix'},
+    NmdInsrdZipPls4: {TextField: '85003'}
+  },
+  AgentDetails: {
+    GenlAgntNum: {TextField: '400001650'},
+    SubAgntNum: {TextField: '400018581'},
+    AgntNum: {TextField: '400018581'},
+    AgntIdString: {TextField: 'SMTestIA /400/House Agen'}
+  },
+  VehicleDetails: {
+    VehTyp: {TextField: '**'},
+    VehManufactureYear: {TextField: '2011'},
+    VehAddFlg: {TextField: 'Y'},
+    VehManfrNm: {TextField: 'MERCEDES-BENZ'},
+    VehMdelNm: {TextField: 'G55AMG'},
+    VehBdyTyp: {TextField: 'WAGON 4 DOOR'},
+    VehIdNum: {TextField: 'WDCYC7BB0B6729451'}
+  },
+  form: {
+    PlcyNum: {TextField: ''},
+    PlcyPrfx: {TextField: 'AZSS'},
+    TermExprDt: {DateTimeField: ''},
+    TermEffDt: {DateTimeField: ''},
+    EndrEffDt: {DateTimeField: ''},
+    PlcyTransCd: {TextField: '0100'},
+    PlcyStAbrv: {TextField: 'AZ'}
+  }
+}
+
+AAPDXX_ED: {
+  CompanyDetails: {
+    CoBrandNm: {TextField: ''},
+    CoNm: {TextField: 'AAA Members Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(800) 207-3618'},
+  },
+  DriverDetails: {
+    NmdInsrdFrstNm: {TextField: 'Mark'},
+    NmdInsrdLstNm: {TextField: 'Jefferson'},
+    DrvrLicSts: {TextField: 'Permit'},
+  },
+  form: {
+    PlcyStAbrv: {TextField: 'AZ'},
+    PlcyTransCd: {TextField: '0100'},
+    PrmtEffDt: {DateTimeField: ''},
+    PrmtNum: {TextField: ''}
+  }
+}
+
+AA02AZ_ED: {
+  CompanyDetails: {
+    CoNm: {TextField: 'AAA Members Insurance Company'},
+    CoBrandNm: {TextField: ''},
+    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(800) 207-3618'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdStAbrv: {TextField: 'AZ'},
+    NmdInsrdStrPobAddr1: {TextField: '265 CHIPMAN AVE'},
+    NmdInsrdAddlAddr2: {TextField: ''},
+    NmdInsrdCityNm: {TextField: 'Phoenix'},
+    NmdInsrdZipPls4: {TextField: '85003'},
+    AddlNmdInsrdFrstNm: {TextField: ''},
+    AddlNmdInsrdLstNm: {TextField: ''}
+  },
+  AgentDetails: {
+    GenlAgntNum: {TextField: '400001650'},
+    SubAgntNum: {TextField: '400018581'},
+    AgntAddr1: {TextField: '132 E Illinois St'},
+    AgntIdString: {TextField: 'SMTestIA/400018581/House Agent SMTestIA'},
+    AgntCityNm: {TextField: 'Spearfish'},
+    AgntStAbrv: {TextField: 'SD'},
+    AgntZipPls4: {TextField: '57783'},
+    AgntPhnNum: {TextField: ''}
+  },
+  VehicleDetails: [
+  {
+    VehTyp: {TextField: 'PPA'},
+    VehManufactureYear: {TextField: '2011'},
+    VehManfrNm: {TextField: 'CHEVROLET'},
+    VehMdelNm: {TextField: 'EXPRESS VAN SPORT VAN'},
+    VehIdNum: {TextField: '1GNWGPFG8B6548273'},
+    VehUnitNum: {TextField: '1'},
+    VehDiscDesc: {TextField: 'Hybrid Discount; Multi-Vehicle Discount; Passive Restraint Discount'},
+    VehDiscNum: {TextField: '1'},
+    VehGarZipPls4: {TextField: '85003'}
+  },
+  {
+    VehTyp: {TextField: 'Golf'},
+    VehManufactureYear: {TextField: '2008'},
+    VehManfrNm: {TextField: 'CHEVROLET'},
+    VehMdelNm: {TextField: 'AVEO'},
+    VehIdNum: {TextField: 'KNDJT2A2XA7038383'},
+    VehUnitNum: {TextField: '2'},
+    VehDiscDesc: {TextField: ''},
+    VehDiscNum: {TextField: '2'},
+    VehGarZipPls4: {TextField: '85003'}
+  },
+  {
+    VehTyp: {TextField: 'PPA'},
+    VehManufactureYear: {TextField: '2011'},
+    VehManfrNm: {TextField: 'MERCEDES-BENZ'},
+    VehMdelNm: {TextField: 'G55AMG WAGON 4 DOOR'},
+    VehIdNum: {TextField: 'WDCYC7BB0B6729451'},
+    VehUnitNum: {TextField: '3'},
+    VehDiscDesc: {TextField: ''},
+    VehDiscNum: {TextField: '3'},
+    VehGarZipPls4: {TextField: '85003'},
+    VehDiscDesc: {TextField: 'Multi-Vehicle Discount; Passive Restraint Discount'}
+  }
+  ], 
+  CoverageDetails: {
+  VehCovKey: [
+  {TextField: '1'},
+  {TextField: '2'},
+  {TextField: '3'}
+  ], 
+  PlcyBdyInjEaOcc: {TextField: '300000'},
+  PlcyBdyInjEaPers: {TextField: '100000'},
+  PlcyPdEaOcc: {TextField: '50000'},
+  PlcyUmEaOcc: {TextField: '0'},
+  PlcyUmEaPers: {TextField: '0'},
+  PlcyUIMBEaOcc: {TextField: '0'},
+  PlcyUIMBEaPers: {TextField: '0'},
+  PlcyAutoDeadBenEaOcc: {TextField: '0'},
+  PlcySpclEqpmtTotAmt: [
+  {TextField: '1100.00'},
+  {TextField: '0'},
+  {TextField: '1000.00'}
+  ],
+  PlcyAutoDeadBenPrem: {TextField: ''},
+  PlcyAutoDeadBenDed: {TextField: '0.00'}, 
+  NetWrtPrem: {TextField: ''},
+  PlcyMpEaPers: {TextField: '2000'},
+#  VehBdyInjPrem: {},
+#  VehPDPrem: {},
+#  VehUMPrem: {},
+#  VehUIMBPrem: {},
+#  VehMPPrem: {},
+#  VehCompPrem: {},
+#  VehClsnPrem:  {},
+  VehETEPrem: [
+  {TextField: '0.00'},
+  {TextField: '0.00'}
+  ],
+  VehSftyGlsprem: [
+  {TextField: '0'},
+  {TextField: '0'}
+  ],
+  VehRntlReimbsPrem: [
+  {TextField: '0.00'},
+  {TextField: '0.00'}
+  ],
+  VehTwgLbrPrem: [
+  {TextField: '0.00'},
+  {TextField: '0.00'}
+  ],
+  VehLnPrtcPrem: [
+  {TextField: '0.00'},
+  {TextField: '0.00'}
+  ],
+  VehNwAddPrtcPrem:  [
+  {TextField: '0'},
+  {TextField: '0'}
+  ],
+  VehClsnDed: {},
+  VehCompDed: {},
+  VehSftyGlsDed: [
+  {TextField: '0.00'},
+  {TextField: '0.00'}
+  ],
+  VehBdyInjDed: [
+  {TextField: '0.00'},
+  {TextField: '0.00'}
+  ],
+  VehPDDed: [
+  {TextField: '0.00'},
+  {TextField: '0.00'}
+  ],
+  VehUMDed: [
+  {TextField: '0.00'},
+  {TextField: '0.00'}
+  ],
+  VehUIMBDed: [
+  {TextField: '0.00'},
+  {TextField: '0.00'}
+  ], 
+  VehMPDed: [
+  {TextField: '0.00'},
+  {TextField: '0.00'}
+  ], 
+  VehRntlReimbsDed: [
+  {TextField: '0.00'},
+  {TextField: '0.00'}
+  ], 
+  VehTwgLbrDed: [
+  {TextField: '0.00'},
+  {TextField: '0.00'}
+  ], 
+  VehLnPrtcDed: [
+  {TextField: '0.00'},
+  {TextField: '0.00'}
+  ], 
+  VehNwAddPrtcDed: [
+  {TextField: '0.00'},
+  {TextField: '0.00'}
+  ], 
+  VehSpclEqpmtPrem: {}, 
+  VehSpclEqpmtDed: [
+  {TextField: '0.00'},
+  {TextField: '0.00'}
+  ], 
+#  VehTotPrem: {}, 
+  VehTrailerYN: [
+  {TextField: 'N'},
+  {TextField: 'N'}
+  ], 
+  VehCamprTrailerYN: [
+  {TextField: 'N'},
+  {TextField: 'N'}
+  ], 
+  VehStatedAmt:  [
+  {TextField: '0.00'},
+  {TextField: '1500.0'}
+  ]
+  },
+  PaymentDetails: {
+    PlcyTotPrem: {TextField: ''},
+    PlcyTotFee: {TextField: ''}
+  },
+  DriverDetails: [
+  {
+    DrvrTyp: {TextField: 'A'},
+    DrvrFrstNm: {TextField: 'Fernando'},
+    DrvrLstNm: {TextField: 'Alonso'},
+    DrvrSeqNum: {TextField: '1'},
+    DrvrDOB: {DateTimeField: '1962-12-04T22:00:00.000Z'},
+    DrvrmrtlSts: {TextField: 'Married'},
+    DrvrGender: {TextField: 'Male'},
+    DrvrDiscDesc: {TextField: ''},
+    DrvrDiscNum: {TextField: '1'},
+    PlcyDrvrAutoDeadBenYN: {TextField: 'Yes'},
+  },
+  {
+    DrvrTyp: {TextField: 'E'},
+    DrvrFrstNm: {TextField: 'Maria'},
+    DrvrLstNm: {TextField: 'Jefferson'},
+    DrvrSeqNum: {TextField: '2'},
+    DrvrDOB: {DateTimeField: '1986-11-11T22:00:00.000Z'},
+    DrvrmrtlSts: {TextField: 'Single'},
+    DrvrGender: {TextField: 'Female'},
+    DrvrDiscDesc: {TextField: ''},
+    DrvrDiscNum: {TextField: '2'},
+    PlcyDrvrAutoDeadBenYN: {TextField: 'No'},
+  },
+  {
+    DrvrTyp: {TextField: 'N'},
+    DrvrFrstNm: {TextField: 'Mark'},
+    DrvrLstNm: {TextField: 'Jefferson'},
+    DrvrSeqNum: {TextField: '3'},
+    DrvrDOB: {DateTimeField: '1985-11-11T22:00:00.000Z'},
+    DrvrmrtlSts: {TextField: 'Single'},
+    DrvrGender: {TextField: 'Male'},
+    DrvrDiscDesc: {TextField: ''},
+    DrvrDiscNum: {TextField: '3'},
+    PlcyDrvrAutoDeadBenYN: {TextField: 'No'},
+  },
+  ],
+  form: {
+    PlcyNum: {TextField: ''},
+    PlcyPrfx: {TextField: 'AZSS'},
+    TermEffDt: {DateTimeField: ''},
+    PlcyTransCd: {TextField: '0100'},
+    PlcyStAbrv: {TextField: 'AZ'},
+    PlcyInsrdSnc: {TextField: '2017'},
+    PlcyProgDesc: {TextField: 'AAA Select'},
+    SR22Fee:  {TextField: '0'},
+    SR22FilgFlg: {TextField: 'N'},
+    FrmEndrDetl: [
+    {TextField: 'AA59XX'},
+    {TextField: 'AAADXX'},
+    {TextField: 'AA43AZ'},
+    {TextField: 'AAGCAZ'},
+    {TextField: 'AA52AZ'},
+    {TextField: 'AA01AZ'},
+    {TextField: 'AA11AZ'},
+    ],
+    PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount'},
+    TermExprDt: {DateTimeField: ''},
+    EndrEffDt: {DateTimeField: ''},
+    PlcyEndrRsn: {TextField: 'VEH'}
+  }
+}
