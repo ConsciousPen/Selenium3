@@ -8,8 +8,6 @@ import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.billing_and_payments.template.PolicyBillingOperations;
 
-@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 public class TestPolicyBillingOperations extends PolicyBillingOperations {
 
     @Override
@@ -34,7 +32,8 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      * 11. Check minimum due doesn't change
      */
 
-    @Test(enabled = true)
+    @Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
     public void testManualFeeAdjustment(String state) {
         super.testManualFeeAdjustment();
@@ -59,7 +58,7 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      */
 
     @Parameters({"state"})
-	@Test(enabled = true)
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
     public void testManualRefund(String state) {
         super.testManualRefund();
@@ -92,7 +91,7 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      */
 
     @Parameters({"state"})
-	@Test(enabled = true)
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
     public void testManualWriteOff(String state) {
         super.testManualWriteOff();
@@ -135,7 +134,7 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      */
 
     @Parameters({"state"})
-	@Test(enabled = true)
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
     public void testManualReturnedPayments(String state) {
         super.testManualReturnedPayments();
