@@ -3,6 +3,7 @@ package aaa.modules.delta.pup;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -44,7 +45,7 @@ public class TestDCDeltaScenario1 extends PersonalUmbrellaBaseTest {
 	private String policyNumber;
 
 	@Test
-	public void pupDeltaDC1_TC01(String state) {
+	public void pupDeltaDC1_TC01(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 
@@ -58,7 +59,7 @@ public class TestDCDeltaScenario1 extends PersonalUmbrellaBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void pupDeltaDC1_TC02(String state) {
+	public void pupDeltaDC1_TC02(@Optional("") String state) {
 		mainApp().open();
 		CustomAssert.enableSoftMode();
 		SearchPage.openQuote(quoteNumber);
@@ -93,7 +94,7 @@ public class TestDCDeltaScenario1 extends PersonalUmbrellaBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void pupDeltaDC1_TC03(String state) {
+	public void pupDeltaDC1_TC03(@Optional("") String state) {
 		mainApp().open();
 		SearchPage.openQuote(quoteNumber);
 		policy.dataGather().start();
@@ -117,7 +118,7 @@ public class TestDCDeltaScenario1 extends PersonalUmbrellaBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void pupDeltaDC1_TC04(String state) {
+	public void pupDeltaDC1_TC04(@Optional("") String state) {
 		GenerateOnDemandDocumentActionTab goddTab = new GenerateOnDemandDocumentActionTab();
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);

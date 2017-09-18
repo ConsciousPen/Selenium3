@@ -2,6 +2,7 @@ package aaa.modules.regression.billing_and_payments.home_ss.ho3;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -37,7 +38,7 @@ public class TestPolicyPayments extends HomeSSHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3) 
-	public void testPolicyPayments(String state) {
+	public void testPolicyPayments(@Optional("") String state) {
 		mainApp().open();
 
 		createCustomerIndividual();

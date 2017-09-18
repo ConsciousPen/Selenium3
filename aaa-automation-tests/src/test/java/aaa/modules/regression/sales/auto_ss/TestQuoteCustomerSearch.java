@@ -10,6 +10,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
@@ -24,7 +25,7 @@ public class TestQuoteCustomerSearch extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testQuoteCustomerSearch(String state) {
+	public void testQuoteCustomerSearch(@Optional("") String state) {
 
 		TestData td = getPolicyTD();
 		GeneralTab generalTab = new GeneralTab();

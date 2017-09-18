@@ -3,6 +3,7 @@
 package aaa.modules.regression.common;
 
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -34,7 +35,7 @@ public class TestAccountUpdate extends BaseTest {
     @Parameters({"state"})
 	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void testAccountUpdate(String state) {
+    public void testAccountUpdate(@Optional("") String state) {
     	
         mainApp().open();
 

@@ -3,6 +3,7 @@ package aaa.modules.regression.sales.home_ca.ho6;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.main.enums.ProductConstants;
@@ -30,7 +31,7 @@ public class TestPolicyCreationFull extends HomeCaHO6BaseTest {
 	@Parameters({"state"})
 	@Test(groups= {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6)
-	public void testPolicyCreation(String state) {
+	public void testPolicyCreation(@Optional("CA") String state) {
 
 		TestData td =getTestSpecificTD("TestDataFull");
 

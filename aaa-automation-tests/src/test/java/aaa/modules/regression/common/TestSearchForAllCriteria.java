@@ -2,6 +2,7 @@ package aaa.modules.regression.common;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
@@ -49,7 +50,7 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Common.SEARCH )
-	public void testSearchForAccount(String state) {
+	public void testSearchForAccount(@Optional("") String state) {
 		TestData td = getFullSearchData(SearchEnum.SearchFor.ACCOUNT);
 		//BUG: Search by valid "Agency Name" or "Agency #" fails with error "base00003 -  Operation has failed due to illegal arguments".
 		//TODO-dchubkov: create a defect for this
@@ -97,7 +98,7 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Common.SEARCH )
-	public void testSearchForCustomer(String state) {
+	public void testSearchForCustomer(@Optional("") String state) {
 		TestData td = getFullSearchData(SearchEnum.SearchFor.CUSTOMER);
 		//BUG: Search by valid "Phone #" fails with error "base00003 -  Operation has failed due to illegal arguments".
 		//TODO-dchubkov: create a defect for this
@@ -137,7 +138,7 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Common.SEARCH )
-	public void testSearchForBillingAccount(String state) {
+	public void testSearchForBillingAccount(@Optional("") String state) {
 		TestData td = getFullSearchData(SearchEnum.SearchFor.BILLING);
 		//BUG: Search result for Billing by valid "Agency Name" or "Agency #" is empty
 		//TODO-dchubkov: create a defect for this
@@ -177,7 +178,7 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Common.SEARCH )
-	public void testSearchForPolicy(String state) {
+	public void testSearchForPolicy(@Optional("") String state) {
 		TestData td = getFullSearchData(SearchEnum.SearchFor.POLICY);
 		//BUG: Search result for Policy by valid "Phone #" or "Agency Name" or "Agency #" is empty
 		//TODO-dchubkov: create a defect for this
@@ -218,7 +219,7 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Common.SEARCH )
-	public void testSearchForQuote(String state) {
+	public void testSearchForQuote(@Optional("") String state) {
 		TestData td = getFullSearchData(SearchEnum.SearchFor.QUOTE);
 		//BUG: Search result for Quote by valid "Phone #" or "Agency Name" or "Agency #" is empty
 		//TODO-dchubkov: create a defect for this

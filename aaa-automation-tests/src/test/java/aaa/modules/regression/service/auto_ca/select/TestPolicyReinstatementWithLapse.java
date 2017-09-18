@@ -7,6 +7,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.template.PolicyReinstatementWithLapse;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
@@ -36,7 +37,7 @@ public class TestPolicyReinstatementWithLapse extends PolicyReinstatementWithLap
     @Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, enabled = false)
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT )
-    public void testPolicyReinstatementWithLapse(String state) {
+    public void testPolicyReinstatementWithLapse(@Optional("CA") String state) {
 
         super.testPolicyReinstatementWithLapse();
     }

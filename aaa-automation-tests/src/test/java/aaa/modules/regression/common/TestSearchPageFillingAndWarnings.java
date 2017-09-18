@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.main.enums.SearchEnum;
@@ -48,7 +49,7 @@ public class TestSearchPageFillingAndWarnings extends BaseTest {
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Common.SEARCH )
-	public void testFillAndClearAllSearchCriteria(String state) {
+	public void testFillAndClearAllSearchCriteria(@Optional("") String state) {
 		final SearchEnum.SearchFor defaultSearchForCriteria = SearchEnum.SearchFor.POLICY;
 
 		TestData searchRandomData = DataProviderFactory.dataOf(
@@ -105,7 +106,7 @@ public class TestSearchPageFillingAndWarnings extends BaseTest {
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Common.SEARCH )
-	public void testSearchWarnings(String state) {
+	public void testSearchWarnings(@Optional("") String state) {
 		final String accNumberLengthWarning = String.format("Account number invalid - Should enter %d or more numeric digits or leave as blank", MIN_ACC_NUMBER_LENGTH);
 		final String cityLengthWarning = String.format("City searches require less or equal %d characters", CITY_LENGTH);
 		final String stateLengthAndFormatWarning = String.format("State abbreviation. State search requires %d characters", STATE_LENGTH);

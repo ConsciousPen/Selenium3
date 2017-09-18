@@ -106,6 +106,24 @@ public final class DocGenEnum {
 		_55_6103("55 6103", "Earned Premium Bill 3"),
 		AHIBXX("AHIBXX", "Premium Due Notice"),
 		HSRNXX("HSRNXX", "Renewal Offer: Important Renewal Information"),
+		_61_6528("61 6528", "Homeowners Insurance Quote Page"),
+		F1122("Property Inventory List"),
+		_61_6530("61 6530", "California Residential Property Insurance Disclosure"),
+		_61_3000("61 3000", "California Residential Property Insurance Bill of Rights"),
+		_61_3026("61 3026", "Property Bill Plan Explanation"),
+		F1076B("California Application For Homeowners Insurance"),
+		_62_6500("62 6500", "CA Evidence of Property Insurance"),
+		WURFICA("Request for Information"),
+		HSU01CA("HSU01CA", "HSU01", "Advisory Letter"),
+		HSU06CA("HSU06CA", "HSU06", "Free Form to Producer"),
+		HSU07CA("HSU07CA", "HSU07", "Non-Renewal Letter"),
+		AHPNCA("Privacy Information Notice"),
+		WUAUCA("Consumer Information Notice"),
+		_61_6513("61 6513", "Property Insurance Invoice"),
+		_61_2006("61 2006", "Offer of Earthquake Coverage Homeowners/Dwelling Fire Basic Earthquake Policy"),
+		_61_5120("61 5120", "New Business Welcome Letter"),
+		_1075("1075", "Homeowners Policy Declarations"),
+		_60_5019("60 5019", "Subscriber Agreement")
 		;
 
 		private String id;

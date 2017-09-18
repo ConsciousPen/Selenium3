@@ -5,6 +5,7 @@ package aaa.modules.regression.sales.auto_ss;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -41,7 +42,7 @@ public class TestPolicySpin extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testPolicySpin(String state) {
+	public void testPolicySpin(@Optional("") String state) {
 
 
     	new TestPolicyCreationBig().testPolicyCreationBig(state);

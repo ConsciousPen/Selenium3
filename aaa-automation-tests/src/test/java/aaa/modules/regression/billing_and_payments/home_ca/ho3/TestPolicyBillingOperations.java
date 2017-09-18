@@ -1,5 +1,6 @@
 package aaa.modules.regression.billing_and_payments.home_ca.ho3;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
@@ -8,8 +9,6 @@ import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.billing_and_payments.template.PolicyBillingOperations;
 
-@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 public class TestPolicyBillingOperations extends PolicyBillingOperations {
 
     @Override
@@ -34,9 +33,10 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      * 11. Check minimum due doesn't change
      */
 
-    @Test(enabled = true)
+    @Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3)
-    public void testManualFeeAdjustment(String state) {
+    public void testManualFeeAdjustment(@Optional("CA") String state) {
         super.testManualFeeAdjustment();
     }
 
@@ -59,9 +59,9 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      */
 
     @Parameters({"state"})
-	@Test(enabled = true)
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3)
-    public void testManualRefund(String state) {
+    public void testManualRefund(@Optional("CA") String state) {
         super.testManualRefund();
     }
 
@@ -92,9 +92,9 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      */
 
     @Parameters({"state"})
-	@Test(enabled = true)
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3)
-    public void testManualWriteOff(String state) {
+    public void testManualWriteOff(@Optional("CA") String state) {
         super.testManualWriteOff();
     }
 
@@ -135,9 +135,9 @@ public class TestPolicyBillingOperations extends PolicyBillingOperations {
      */
 
     @Parameters({"state"})
-	@Test(enabled = true)
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3)
-    public void testManualReturnedPayments(String state) {
+    public void testManualReturnedPayments(@Optional("CA") String state) {
         super.testManualReturnedPayments();
     }
 }

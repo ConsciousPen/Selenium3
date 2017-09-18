@@ -276,7 +276,7 @@ public class HomeCaPolicy implements IPolicy {
 
     @Override
     public PolicyActions.PolicyDocGen policyDocGen() {
-        throw new NotImplementedException();
+    	return new HomeCaPolicyActions.PolicyDocGen();
     }
 
     @Override
@@ -286,7 +286,7 @@ public class HomeCaPolicy implements IPolicy {
 
     @Override
     public PolicyActions.QuoteDocGen quoteDocGen() {
-        throw new NotImplementedException();
+        return new HomeCaPolicyActions.QuoteDocGen();
     }
 
     @Override

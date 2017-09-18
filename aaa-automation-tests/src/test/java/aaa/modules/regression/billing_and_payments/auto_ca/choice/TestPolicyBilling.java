@@ -3,6 +3,7 @@
 package aaa.modules.regression.billing_and_payments.auto_ca.choice;
 
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -35,7 +36,7 @@ public class TestPolicyBilling extends PolicyBilling {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_CA_CHOICE)
-	public void testBilling(String state) {
+	public void testBilling(@Optional("CA") String state) {
 
 		super.testBilling();
 	}

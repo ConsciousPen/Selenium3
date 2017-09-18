@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ss;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -34,7 +35,7 @@ public class TestPolicyCancelNoticeWithCancellation extends PolicyCancelNoticeWi
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, enabled = false)
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void TC01_CreatePolicyAndCancelNotice(String state) {
+	public void TC01_CreatePolicyAndCancelNotice(@Optional("") String state) {
 		super.TC01_CreatePolicyAndCancelNotice();
 	}
 	
@@ -42,7 +43,7 @@ public class TestPolicyCancelNoticeWithCancellation extends PolicyCancelNoticeWi
 	@Test(dependsOnMethods = "TC01_CreatePolicyAndCancelNotice",
 		  groups = {Groups.REGRESSION, Groups.CRITICAL}, enabled = false)
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void TC02_CancellationPolicy(String state) {
+	public void TC02_CancellationPolicy(@Optional("") String state) {
 		super.TC02_CancellationPolicy();
 	}
 }
