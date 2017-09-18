@@ -4,6 +4,7 @@ package aaa.modules.regression.sales.home_ss.ho6;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -26,7 +27,7 @@ public class TestPolicyCreation extends HomeSSHO6BaseTest {
     @Parameters({"state"})
 	@Test(groups= {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6)
-    public void testPolicyCreation(String state) {
+    public void testPolicyCreation(@Optional("") String state) {
         mainApp().open();
         createCustomerIndividual();
         createPolicy();

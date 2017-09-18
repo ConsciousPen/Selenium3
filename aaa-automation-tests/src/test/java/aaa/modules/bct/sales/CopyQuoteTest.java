@@ -7,6 +7,7 @@ import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
@@ -16,7 +17,7 @@ public class CopyQuoteTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_023_CopyQuote(String state) {
+	public void BCT_ONL_023_CopyQuote(@Optional("") String state) {
 		String quoteNumber = getPoliciesByQuery("BCT_ONL_023_CopyQuote", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_SS.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_SS);
@@ -34,7 +35,7 @@ public class CopyQuoteTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_025_CopyQuote(String state) {
+	public void BCT_ONL_025_CopyQuote(@Optional("") String state) {
 		String quoteNumber = getPoliciesByQuery("BCT_ONL_025_CopyQuote", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_CA_SELECT);
@@ -52,7 +53,7 @@ public class CopyQuoteTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_040_CopyQuote(String state) {
+	public void BCT_ONL_040_CopyQuote(@Optional("") String state) {
 		String quoteNumber = getPoliciesByQuery("BCT_ONL_040_CopyQuote", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.HOME_SS_HO3.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.HOME_SS_HO3);

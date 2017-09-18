@@ -4,6 +4,7 @@ package aaa.modules.regression.sales.auto_ca.select;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.Tab;
@@ -41,7 +42,7 @@ public class TestPolicyRulesOverride extends AutoCaSelectBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
-	public void testPolicyRulesOverride(String state) {
+	public void testPolicyRulesOverride(@Optional("CA") String state) {
 
 		TestData class_td = getTestSpecificTD("TestData");
 

@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.pup;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
@@ -35,7 +36,7 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
     @Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.PUP)
-    public void TC01_testQuoteVoiceBind(String state) {
+    public void TC01_testQuoteVoiceBind(@Optional("") String state) {
         mainApp().open();
         precondition();
         //Set Voice Signature = Yes
@@ -66,7 +67,7 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
     @Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.PUP)
-    public void TC02_testQuoteVoiceBind(String state) {
+    public void TC02_testQuoteVoiceBind(@Optional("") String state) {
     	mainApp().open();
     	precondition();
         purchaseTab.fillTab(getTestSpecificTD("TestData_Voice_ACH"));
@@ -84,7 +85,7 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Sales.PUP)
-	public void TC03_testQuoteVoiceBind(String state) {
+	public void TC03_testQuoteVoiceBind(@Optional("") String state) {
 		mainApp().open();
 		precondition();
 		purchaseTab.fillTab(getTestSpecificTD("TestData_Voice_ACH_CreditCard"));

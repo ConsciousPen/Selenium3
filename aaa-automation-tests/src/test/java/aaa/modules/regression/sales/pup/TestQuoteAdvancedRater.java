@@ -2,6 +2,7 @@ package aaa.modules.regression.sales.pup;
 
 
 import aaa.helpers.constants.Groups;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
@@ -43,7 +44,7 @@ public class TestQuoteAdvancedRater extends PersonalUmbrellaBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, enabled = false)
 	@TestInfo(component = ComponentConstant.Sales.PUP )
-    public void testQuoteAdvancedRater(String state) {
+    public void testQuoteAdvancedRater(@Optional("") String state) {
         String expectedPersonalUmbrellaValue = "$1,000,000";
         mainApp().open();
         createCustomerIndividual();

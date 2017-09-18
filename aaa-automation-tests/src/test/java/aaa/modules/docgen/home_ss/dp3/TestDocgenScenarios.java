@@ -1,5 +1,6 @@
 package aaa.modules.docgen.home_ss.dp3;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -142,7 +143,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
 
     @Parameters({"state"})
 	@Test
-    public void testPolicyDocuments(String state) {
+    public void testPolicyDocuments(@Optional("") String state) {
     	CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
@@ -369,7 +370,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
 
     @Parameters({"state"})
 	@Test
-    public void testMortgagePolicyDocuments(String state) {
+    public void testMortgagePolicyDocuments(@Optional("") String state) {
     	CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
@@ -512,7 +513,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
 
     @Parameters({"state"})
 	@Test
-    public void testEndorsementsForms(String state) {
+    public void testEndorsementsForms(@Optional("") String state) {
     	CustomAssert.enableSoftMode();
 		mainApp().open();
 		createCustomerIndividual();

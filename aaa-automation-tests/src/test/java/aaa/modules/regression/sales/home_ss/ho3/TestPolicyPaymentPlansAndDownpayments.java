@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -85,7 +86,7 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testVerifyPaymentsFiguresForDifferentPaymentPlans(String state) {
+	public void testVerifyPaymentsFiguresForDifferentPaymentPlans(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		createQuote();
@@ -139,7 +140,7 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testChangePaymentPlanLowerToHigherInstallments(String state) {
+	public void testChangePaymentPlanLowerToHigherInstallments(@Optional("") String state) {
 		int installmentsQuarterly = 3;
 		int installmentsElevenPay = 10;
 
@@ -174,7 +175,7 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testChangeMinimumRequiredDownpayment(String state) {
+	public void testChangeMinimumRequiredDownpayment(@Optional("") String state) {
 		String expectedErrorMessage = "Downpayment should not exceed the value of \"Total policy term premium + fees (if any)\"";
 		Dollar excessAmount = new Dollar(50);
 
@@ -211,7 +212,7 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 	@Parameters({"state"})
 	//@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testRewriteDetermineDownpayment(String state) {
+	public void testRewriteDetermineDownpayment(@Optional("") String state) {
 
 		mainApp().open();
 

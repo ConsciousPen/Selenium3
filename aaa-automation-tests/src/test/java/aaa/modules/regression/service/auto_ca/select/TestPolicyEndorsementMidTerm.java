@@ -6,6 +6,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.modules.regression.service.template.PolicyEndorsementMidTerm;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -41,7 +42,7 @@ public class TestPolicyEndorsementMidTerm extends PolicyEndorsementMidTerm {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT)
-	public void testPolicyEndorsementMidTerm(String state) {
+	public void testPolicyEndorsementMidTerm(@Optional("CA") String state) {
 		super.testPolicyEndorsementMidTerm();
 	}
 }

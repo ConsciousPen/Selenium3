@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ca.select;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -30,7 +31,7 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT )
-	public void testQuoteCreation(String state) {
+	public void testQuoteCreation(@Optional("CA") String state) {
 		super.testQuoteCreation();
 	}
 	
@@ -47,7 +48,7 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT )
-	public void testQuoteIssue(String state) {
+	public void testQuoteIssue(@Optional("CA") String state) {
 		super.testQuoteIssue();
 	}
 	
@@ -65,7 +66,7 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testQuoteDeclineByCustomer(String state) {
+	public void testQuoteDeclineByCustomer(@Optional("CA") String state) {
 		super.testQuoteDeclineByCustomer();
 	}
 	
@@ -83,7 +84,7 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testQuoteDeclineByCompany(String state) {
+	public void testQuoteDeclineByCompany(@Optional("CA") String state) {
 		super.testQuoteDeclineByCompany();
 	}
 	
@@ -100,7 +101,7 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testQuoteCopy(String state) {
+	public void testQuoteCopy(@Optional("CA") String state) {
 		super.testQuoteCopy();
 	}
 }

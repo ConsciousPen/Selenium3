@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.home_ss.ho3;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -46,7 +47,7 @@ public class TestPolicyEndorsement extends HomeSSHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
     @TestInfo(component = ComponentConstant.Service.HOME_SS_HO3) 
-	public void testPolicyEndorsement(String state) {
+	public void testPolicyEndorsement(@Optional("") String state) {
 		mainApp().open();
 
 		getCopiedPolicy(); // fails by timeout

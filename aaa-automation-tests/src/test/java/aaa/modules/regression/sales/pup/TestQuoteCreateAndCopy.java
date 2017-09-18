@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.pup;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -29,7 +30,7 @@ public class TestQuoteCreateAndCopy extends PersonalUmbrellaBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.PUP)
-    public void testPolicyCreation(String state) {
+    public void testPolicyCreation(@Optional("") String state) {
         mainApp().open();
 
         createCustomerIndividual();

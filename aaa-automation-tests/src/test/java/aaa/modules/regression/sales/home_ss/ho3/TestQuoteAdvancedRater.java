@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
@@ -43,7 +44,7 @@ public class TestQuoteAdvancedRater extends HomeSSHO3BaseTest {
     @Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-    public void testQuoteAdvancedRater(String state) {
+    public void testQuoteAdvancedRater(@Optional("") String state) {
         mainApp().open();
         createCustomerIndividual();
 

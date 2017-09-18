@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -19,7 +20,7 @@ public class TestQuoteManualTask extends QuoteManualTask {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testQuoteManualTask(String state) {
+	public void testQuoteManualTask(@Optional("") String state) {
 		super.testQuoteManualTask();
 	}
 

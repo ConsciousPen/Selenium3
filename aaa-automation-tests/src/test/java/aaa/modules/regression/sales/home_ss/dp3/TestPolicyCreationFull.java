@@ -5,6 +5,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSDP3BaseTest;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
@@ -26,7 +27,7 @@ public class TestPolicyCreationFull extends HomeSSDP3BaseTest {
 	@Parameters({"state"})
 	@Test(groups= {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3)
-	public void testQuoteCreation(String state) {
+	public void testQuoteCreation(@Optional("") String state) {
 		mainApp().open();
 
 		createCustomerIndividual();

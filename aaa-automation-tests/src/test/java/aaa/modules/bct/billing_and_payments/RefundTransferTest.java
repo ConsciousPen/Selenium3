@@ -7,6 +7,7 @@ import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -14,7 +15,7 @@ public class RefundTransferTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_037_RefundTransfer(String state) {
+	public void BCT_ONL_037_RefundTransfer(@Optional("") String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_037_RefundTransfer", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
@@ -34,7 +35,7 @@ public class RefundTransferTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_038_RefundTransfer(String state) {
+	public void BCT_ONL_038_RefundTransfer(@Optional("") String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_038_RefundTransfer", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 

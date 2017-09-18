@@ -2,6 +2,7 @@ package aaa.modules.regression.sales.home_ca.ho3;
 
 import aaa.main.enums.ErrorEnum;
 import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
@@ -41,7 +42,7 @@ public class TestQuoteUnderwritingRules extends HomeCaHO3BaseTest {
     @Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
-    public void testQuoteUnderwritingRules(String state) {
+    public void testQuoteUnderwritingRules(@Optional("CA") String state) {
         UnderwritingAndApprovalTab underwritingAndApprovalTab = new UnderwritingAndApprovalTab();
 
         mainApp().open();

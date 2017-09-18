@@ -5,6 +5,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
@@ -24,7 +25,7 @@ public class TestCreateAndCopyQuote extends HomeCaHO3BaseTest {
     @Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
-    public void testCreateAndCopyQuote(String state) {
+    public void testCreateAndCopyQuote(@Optional("CA") String state) {
         mainApp().open();
         createCustomerIndividual();
 

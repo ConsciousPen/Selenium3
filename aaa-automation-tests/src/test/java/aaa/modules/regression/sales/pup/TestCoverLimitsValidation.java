@@ -5,6 +5,7 @@ import java.util.Map;
 
 import aaa.main.enums.ErrorEnum;
 import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -169,7 +170,7 @@ public class TestCoverLimitsValidation  extends PersonalUmbrellaBaseTest {
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Sales.PUP)
-	public void testCoverLimitsValidation(String state) {
+	public void testCoverLimitsValidation(@Optional("") String state) {
 		mainApp().open();
 
 		// 1 ~ 4

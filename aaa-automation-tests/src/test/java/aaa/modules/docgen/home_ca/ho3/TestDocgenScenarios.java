@@ -1,5 +1,6 @@
 package aaa.modules.docgen.home_ca.ho3;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.verification.CustomAssert;
@@ -71,7 +72,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
-	public void testQuoteDocuments(String state) {
+	public void testQuoteDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
@@ -202,7 +203,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
      */
 	@Parameters({"state"})
 	@Test
-	public void testPolicyDocuments(String state) {
+	public void testPolicyDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
