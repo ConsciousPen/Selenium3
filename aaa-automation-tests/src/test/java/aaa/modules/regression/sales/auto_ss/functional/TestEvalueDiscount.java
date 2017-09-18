@@ -10,6 +10,7 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -18,225 +19,51 @@ import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 
 public class TestEvalueDiscount extends AutoSSBaseTest {
 
+    @DataProvider(name = "Evalue parameters")
+    public static Object[][] evalueParams(){
+        return new Object[][] {
+            {"AAAProductOwned_Active", "CurrentCarrierInformation", true, true, "Pending"},
+            {"AAAProductOwned_Active", "CurrentCarrierInformation", false, false, ""},
+            {"AAAProductOwned_No", "CurrentCarrierInformation", false, false, ""},
+            {"AAAProductOwned_Pending", "CurrentCarrierInformation", true, true, "Pending"},
+            {"AAAProductOwned_Pending", "CurrentCarrierInformation", false, false, ""},
+            {"AAAProductOwned_Active", "CurrentCarrierInformation_DayLapsedMore4", false, false, ""},
+            {"AAAProductOwned_Active", "CurrentCarrierInformation_BILimitLess", false, false, ""},
+        };
+    }
+
     /**
      * @author Viktoriia Lutsenko
      * @name Test presence/status of eValue discount on P&C and consolidated pages(Membership = Active, Evalue = Yes)
      * @scenario
      * 1. Create customer
      * 2. Create active policy with next conditions:
-     * Current AAA Member = 'Yes'
-     * Current Carrier = 'AAA Mid-Atlantic - 500016292'
-     * Days Lapsed < 4
-     * BI Limit = $300,000/$500,000
-     * Apply eValue Discount  = 'Yes'
-     * 3. Verify that on P&C page 'eValue Discount' is present in Discounts & Surcharges table.
+     * TS1: Current AAA Member = 'Yes', Current Carrier = 'AAA Mid-Atlantic - 500016292', Days Lapsed < 4, BI Limit = $300,000/$500,000, Apply eValue Discount  = 'Yes'
+     * TS2: Current AAA Member = 'Yes', Current Carrier = 'AAA Mid-Atlantic - 500016292', Days Lapsed < 4, BI Limit = $300,000/$500,000, Apply eValue Discount  = 'No'
+     * TS3: Current AAA Member = 'No', Current Carrier = 'AAA Mid-Atlantic - 500016292', Days Lapsed < 4, BI Limit = $300,000/$500,000, Apply eValue Discount  = 'No'
+     * TS4: Current AAA Member = 'Membership Pending', Current Carrier = 'AAA Mid-Atlantic - 500016292', Days Lapsed < 4, BI Limit = $300,000/$500,000, Apply eValue Discount  = 'Yes'
+     * TS5: Current AAA Member = 'Membership Pending', Current Carrier = 'AAA Mid-Atlantic - 500016292', Days Lapsed < 4, BI Limit = $300,000/$500,000, Apply eValue Discount  = 'No'
+     * TS6: Current AAA Member = 'Yes', Current Carrier = 'AAA Mid-Atlantic - 500016292', Days Lapsed > 4, BI Limit = $300,000/$500,000, Apply eValue Discount  = 'No'
+     * TS7: Current AAA Member = 'Yes', Current Carrier = 'AAA Mid-Atlantic - 500016292', Days Lapsed < 4, BI Limit = $15,000/$30,000, Apply eValue Discount  = 'No'
+     * 3. Verify that on P&C page 'eValue Discount' is present in Discounts & Surcharges table (for TS1 and TS4) and 'eValue Discount' is absent in Discounts & Surcharges table (for TS2, TS3, TS5, TS6 and TS7) .
      * 4. Bind policy.
-     * 5. Verify that 'eEvalue Status' = 'Pending' on Consolidated page.
+     * 5. Verify that 'eEvalue Status' = 'Pending' (for TS1 and TS4) and 'eEvalue Status' is empty (for TS2, TS3, TS5, TS6 and TS7) on Consolidated page.
      * @details
      */
-
-	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
+    @Test(groups = { Groups.FUNCTIONAL, Groups.HIGH }, dataProvider = "Evalue parameters")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void testMemberActiveEvalueYes() {
-        prefillEvalueTestData("AAAProductOwned_Active", "CurrentCarrierInformation",
-                "PolicyInformation");
-        fillPremiumAndCoveragesTab(true);
+    public void testEvalueDiscount(String MembershipStatus, String CurrentCarrier, boolean evalueIsSelected, boolean evalueIsPresent, String evalueStatus) {
+        prefillEvalueTestData(MembershipStatus, CurrentCarrier);
+        fillPremiumAndCoveragesTab(evalueIsSelected);
         fillDriverActivityReportsTab();
-        TestData tdPolicyCreation = fillDocumentAndBindTab(true);
+        TestData tdPolicyCreation = fillDocumentAndBindTab(evalueIsPresent);
         new PurchaseTab().fillTab(tdPolicyCreation).submitTab();
 
-        validateEvalueStatus("Pending");
+        validateEvalueStatus(evalueStatus);
         validatePolicyStatus();
     }
 
-
-    /**
-     * @author Viktoriia Lutsenko
-     * @name Test presence/status of eValue discount on P&C and consolidated pages(Membership = Active, Evalue = No)
-     * @scenario
-     * 1. Create customer
-     * 2. Create active policy with next conditions:
-     * Current AAA Member = 'Yes'
-     * Current Carrier = 'AAA Mid-Atlantic - 500016292'
-     * Days Lapsed < 4
-     * BI Limit = $300,000/$500,000
-     * Apply eValue Discount  = 'No'
-     * 3. Verify that on P&C page 'eValue Discount' isn't present in Discounts & Surcharges table.
-     * 4. Bind policy.
-     * 5. Verify that 'eEvalue Status' is empty on Consolidated page.
-     * @details
-     */
-
-    @Test(groups = { Groups.REGRESSION, Groups.HIGH })
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void testMemberActiveEvalueNo() {
-        prefillEvalueTestData("AAAProductOwned_Active", "CurrentCarrierInformation",
-                "PolicyInformation");
-        fillPremiumAndCoveragesTab(false);
-        fillDriverActivityReportsTab();
-        TestData tdPolicyCreation = fillDocumentAndBindTab(false);
-        new PurchaseTab().fillTab(tdPolicyCreation).submitTab();
-
-        validateEvalueStatus("");
-        validatePolicyStatus();
-    }
-
-    /**
-     * @author Viktoriia Lutsenko
-     * @name Test presence/status of eValue discount on P&C and consolidated pages(Membership = No, Evalue = No)
-     * @scenario
-     * 1. Create customer
-     * 2. Create active policy with next conditions:
-     * Current AAA Member = 'No'
-     * Current Carrier = 'AAA Mid-Atlantic - 500016292'
-     * Days Lapsed < 4
-     * BI Limit = $300,000/$500,000
-     * Apply eValue Discount  = 'No'
-     * 3. Verify that on P&C page 'eValue Discount' isn't present in Discounts & Surcharges table.
-     * 4. Bind policy.
-     * 5. Verify that 'eEvalue Status' is empty on Consolidated page.
-     * @details
-     */
-
-    @Test(groups = { Groups.REGRESSION, Groups.HIGH })
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void testMemberInactiveEvalueNo() {
-        prefillEvalueTestData("AAAProductOwned_No", "CurrentCarrierInformation",
-                "PolicyInformation");
-        fillPremiumAndCoveragesTab(false);
-        fillDriverActivityReportsTab();
-        TestData tdPolicyCreation = fillDocumentAndBindTab(false);
-        new PurchaseTab().fillTab(tdPolicyCreation).submitTab();
-
-        validateEvalueStatus("");
-        validatePolicyStatus();
-    }
-
-    /**
-     * @author Viktoriia Lutsenko
-     * @name Test presence/status of eValue discount on P&C and consolidated pages(Membership = Pending, Evalue = Yes)
-     * @scenario
-     * 1. Create customer
-     * 2. Create active policy with next conditions:
-     * Current AAA Member = 'Membership Pending'
-     * Current Carrier = 'AAA Mid-Atlantic - 500016292'
-     * Days Lapsed < 4
-     * BI Limit = $300,000/$500,000
-     * Apply eValue Discount  = 'Yes'
-     * 3. Verify that on P&C page 'eValue Discount' is present in Discounts & Surcharges table.
-     * 4. Bind policy.
-     * 5. Verify that 'eEvalue Status' = 'Pending' on Consolidated page.
-     * @details
-     */
-
-    @Test(groups = { Groups.REGRESSION, Groups.HIGH })
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void testMemberPendingEvalueYes() {
-        prefillEvalueTestData("AAAProductOwned_Pending", "CurrentCarrierInformation",
-                "PolicyInformation");
-        fillPremiumAndCoveragesTab(true);
-        fillDriverActivityReportsTab();
-        TestData tdPolicyCreation = fillDocumentAndBindTab(true);
-        new PurchaseTab().fillTab(tdPolicyCreation).submitTab();
-
-        validateEvalueStatus("Pending");
-        validatePolicyStatus();
-    }
-
-    /**
-     * @author Viktoriia Lutsenko
-     * @name Test presence/status of eValue discount on P&C and consolidated pages(Membership = Pending, Evalue = No)
-     * @scenario
-     * 1. Create customer
-     * 2. Create active policy with next conditions:
-     * Current AAA Member = 'Membership Pending'
-     * Current Carrier = 'AAA Mid-Atlantic - 500016292'
-     * Days Lapsed < 4
-     * BI Limit = $300,000/$500,000
-     * Apply eValue Discount  = 'No'
-     * 3. Verify that on P&C page 'eValue Discount' isn't present in Discounts & Surcharges table.
-     * 4. Bind policy.
-     * 5. Verify that 'eEvalue Status' is empty on Consolidated page.
-     * @details
-     */
-
-    @Test(groups = { Groups.REGRESSION, Groups.HIGH })
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void testMemberPendingEvalueNo() {
-        prefillEvalueTestData("AAAProductOwned_Pending", "CurrentCarrierInformation",
-                "PolicyInformation");
-        fillPremiumAndCoveragesTab(false);
-        fillDriverActivityReportsTab();
-        TestData tdPolicyCreation = fillDocumentAndBindTab(false);
-        new PurchaseTab().fillTab(tdPolicyCreation).submitTab();
-
-        validateEvalueStatus("");
-        validatePolicyStatus();
-    }
-
-    /**
-     * @author Viktoriia Lutsenko
-     * @name Test presence/status of eValue discount on P&C and consolidated pages(Membership = Active, Evalue = No, lapsed > 4)
-     * @scenario
-     * 1. Create customer
-     * 2. Create active policy with next conditions:
-     * Current AAA Member = 'Yes'
-     * Current Carrier = 'AAA Mid-Atlantic - 500016292'
-     * Days Lapsed > 4
-     * BI Limit = $300,000/$500,000
-     * Apply eValue Discount  = 'No'
-     * 3. Verify that on P&C page 'eValue Discount' isn't present in Discounts & Surcharges table.
-     * 4. Bind policy.
-     * 5. Verify that 'eEvalue Status' is empty on Consolidated page.
-     * @details
-     */
-
-    @Test(groups = { Groups.REGRESSION, Groups.HIGH })
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void testMemberActiveEvalueNoDayLapsedMore4() {
-        prefillEvalueTestData("AAAProductOwned_Active", "CurrentCarrierInformation_DayLapsedMore4",
-                "PolicyInformation");
-        fillPremiumAndCoveragesTab(false);
-        fillDriverActivityReportsTab();
-        TestData tdPolicyCreation = fillDocumentAndBindTab(false);
-        new PurchaseTab().fillTab(tdPolicyCreation).submitTab();
-
-        validateEvalueStatus("");
-        validatePolicyStatus();
-    }
-
-    /**
-     * @author Viktoriia Lutsenko
-     * @name Test presence/status of eValue discount on P&C and consolidated pages(Membership = Active, Evalue = No, BI limit =  $15,000/$30,000)
-     * @scenario
-     * 1. Create customer
-     * 2. Create active policy with next conditions:
-     * Current AAA Member = 'Yes'
-     * Current Carrier = 'AAA Mid-Atlantic - 500016292'
-     * Days Lapsed < 4
-     * BI Limit = $15,000/$30,000
-     * Apply eValue Discount  = 'No'
-     * 3. Verify that on P&C page 'eValue Discount' isn't present in Discounts & Surcharges table.
-     * 4. Bind policy.
-     * 5. Verify that 'eEvalue Status' is empty on Consolidated page.
-     * @details
-     */
-
-    @Test(groups = { Groups.REGRESSION, Groups.HIGH })
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void testMemberActiveEvalueNoBILimitLess() {
-        prefillEvalueTestData("AAAProductOwned_Active", "CurrentCarrierInformation_BILimitLess",
-                "PolicyInformation");
-        fillPremiumAndCoveragesTab(false);
-        fillDriverActivityReportsTab();
-        TestData tdPolicyCreation = fillDocumentAndBindTab(false);
-        new PurchaseTab().fillTab(tdPolicyCreation).submitTab();
-
-        validateEvalueStatus("");
-        validatePolicyStatus();
-    }
-
-    private void prefillEvalueTestData(String aaaProductOwned, String currentCarrierInformation, String policyInformation) {
+    private void prefillEvalueTestData(String aaaProductOwned, String currentCarrierInformation) {
         mainApp().open();
         createCustomerIndividual();
         policy.initiate();
@@ -250,7 +77,7 @@ public class TestEvalueDiscount extends AutoSSBaseTest {
         TestData tdPolicyCreation = getPolicyTD("DataGather", "TestData")
                 .adjust(validateAddressDialogKey, getTestSpecificTD("ValidateAddressDialog"))
                 .adjust(currentCarrierInformationKey, getTestSpecificTD(currentCarrierInformation))
-                .adjust(policyInformationKey, getTestSpecificTD(policyInformation))
+                .adjust(policyInformationKey, getTestSpecificTD("PolicyInformation"))
                 .adjust(aaaProductOwnedKey, getTestSpecificTD(aaaProductOwned));
 
         policy.getDefaultView().fillUpTo(tdPolicyCreation, PremiumAndCoveragesTab.class, true);
