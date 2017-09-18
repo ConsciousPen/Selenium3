@@ -1,11 +1,12 @@
 package aaa.modules.e2e.home_ss.ho3;
 
+import org.testng.annotations.Test;
+
+import toolkit.datax.TestData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.modules.e2e.templates.Scenario7;
-import org.testng.annotations.Test;
-import toolkit.datax.TestData;
 
 public class TestScenario7 extends Scenario7 {
 
@@ -13,16 +14,15 @@ public class TestScenario7 extends Scenario7 {
 	protected PolicyType getPolicyType() {
 		return PolicyType.HOME_SS_HO3;
 	}
-	
+
 	@Test
 	public void TC01_createPolicy() {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
 		premiumTab = new PremiumsAndCoveragesQuoteTab();
 		errorTab = new ErrorTab();
 
-		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData")
-				.adjust(getTestSpecificTD("TestData").resolveLinks());
-		
+		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
+
 		super.createTestPolicy(policyCreationTD);
 	}
 
@@ -32,102 +32,107 @@ public class TestScenario7 extends Scenario7 {
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC03_Pay_First_Bill() {
+	public void TC03_Pay_First_Bill_Manual() {
 		super.payFirstBill();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC04_Generate_Second_Bill() {
+	public void TC04_Enable_Autopay() {
+		super.enableAutopay();
+	}
+
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC05_Generate_Second_Bill() {
 		super.generateSecondBill();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC05_Pay_Total_Due() {
-		super.payTotalDue();
+	public void TC06_Pay_Second_Bill() {
+		super.paySecondBill();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC06_Generate_Third_Bill() {
+	public void TC07_Generate_Third_Bill() {
 		super.generateThirdBill();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC07_Generate_Tenth_Bill() {
-		super.generateTenthBill();
+	public void TC08_Pay_Third_Bill() {
+		super.payThirdBill();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC08_Renewal_Image_Generation() {
+	public void TC09_Renewal_Image_Generation() {
 		super.renewalImageGeneration();
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC09_Renewal_Preview_Generation() {
+	public void TC10_Renewal_Preview_Generation() {
 		super.renewalPreviewGeneration();
 	}
 
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC10_Endorsement_RP_Before_Renewal() {
-		super.TC12_Endorsement_RP_Before_Renewal();
-	}
-
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC11_Endorsement_AP_Before_Renewal() {
-		super.TC13_Endorsement_AP_Before_Renewal();
-	}
-
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC12_Renewal_Offer_Generation() {
-		super.renewalOfferGeneration();
-	}
-
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC13_Endorsement_RP_After_Renewal() {
-		super.endorsementRPAfterRenewal();
-	}
-
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC14_Endorsement_AP_After_Renewal() {
-		super.endorsementAPAfterRenewal();
-	}
-
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC15_Renewal_Premium_Notice() {
-		super.renewalPremiumNotice();
-	}
-
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC16_Check_Renewal_Status_And_Payment_Not_Generated() {
-		super.checkRenewalStatusAndPaymentNotGenerated();
-	}
-
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC17_Expire_Policy() {
-		super.expirePolicy();
-	}
-
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC18_Generate_First_Renewal_Bill() {
-		super.generateFirstRenewalBill();
-	}
-
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC19_Customer_Decline_Renewal() {
-		super.customerDeclineRenewal();
-	}
-
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC20_Create_Remittance_File() {
-		super.createRemittanceFile();
-	}
-
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC21_Pay_Renewal_Bill_By_Remittance() {
-		super.payRenewalBillByRemittance();
-	}
-
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC22_Qualify_For_Manual_Renewal_Task_Created() {
-		super.qualifyForManualRenewalTaskCreated();
-	}
+	// @Test(dependsOnMethods = "TC01_createPolicy")
+	// public void TC10_Endorsement_RP_Before_Renewal() {
+	// super.TC12_Endorsement_RP_Before_Renewal();
+	// }
+	//
+	// @Test(dependsOnMethods = "TC01_createPolicy")
+	// public void TC11_Endorsement_AP_Before_Renewal() {
+	// super.TC13_Endorsement_AP_Before_Renewal();
+	// }
+	//
+	// @Test(dependsOnMethods = "TC01_createPolicy")
+	// public void TC12_Renewal_Offer_Generation() {
+	// super.renewalOfferGeneration();
+	// }
+	//
+	// @Test(dependsOnMethods = "TC01_createPolicy")
+	// public void TC13_Endorsement_RP_After_Renewal() {
+	// super.endorsementRPAfterRenewal();
+	// }
+	//
+	// @Test(dependsOnMethods = "TC01_createPolicy")
+	// public void TC14_Endorsement_AP_After_Renewal() {
+	// super.endorsementAPAfterRenewal();
+	// }
+	//
+	// @Test(dependsOnMethods = "TC01_createPolicy")
+	// public void TC15_Renewal_Premium_Notice() {
+	// super.renewalPremiumNotice();
+	// }
+	//
+	// @Test(dependsOnMethods = "TC01_createPolicy")
+	// public void TC16_Check_Renewal_Status_And_Payment_Not_Generated() {
+	// super.checkRenewalStatusAndPaymentNotGenerated();
+	// }
+	//
+	// @Test(dependsOnMethods = "TC01_createPolicy")
+	// public void TC17_Expire_Policy() {
+	// super.expirePolicy();
+	// }
+	//
+	// @Test(dependsOnMethods = "TC01_createPolicy")
+	// public void TC18_Generate_First_Renewal_Bill() {
+	// super.generateFirstRenewalBill();
+	// }
+	//
+	// @Test(dependsOnMethods = "TC01_createPolicy")
+	// public void TC19_Customer_Decline_Renewal() {
+	// super.customerDeclineRenewal();
+	// }
+	//
+	// @Test(dependsOnMethods = "TC01_createPolicy")
+	// public void TC20_Create_Remittance_File() {
+	// super.createRemittanceFile();
+	// }
+	//
+	// @Test(dependsOnMethods = "TC01_createPolicy")
+	// public void TC21_Pay_Renewal_Bill_By_Remittance() {
+	// super.payRenewalBillByRemittance();
+	// }
+	//
+	// @Test(dependsOnMethods = "TC01_createPolicy")
+	// public void TC22_Qualify_For_Manual_Renewal_Task_Created() {
+	// super.qualifyForManualRenewalTaskCreated();
+	// }
 }
