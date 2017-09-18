@@ -1,5 +1,6 @@
 package aaa.modules.docgen.home_ss.dp3;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.verification.CustomAssert;
@@ -139,8 +140,9 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
         HS0469 - 15221: US CL GD-07 Generate DS 04 69 Endorsement
      * */
 
-    @Test
-    public void testPolicyDocuments() {
+    @Parameters({"state"})
+	@Test
+    public void testPolicyDocuments(String state) {
     	CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
@@ -179,11 +181,13 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.DSIQXX, Documents.AHPNXX);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.quoteDocGen().start();
 		documentActionTab.generateDocuments(Documents.DS11.setState(getState()), Documents.AHFMXX, Documents.HSILXX, Documents.AHPNXX);
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.DS11, Documents.AHFMXX, Documents.HSILXX, Documents.AHPNXX);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.dataGather().start();
 		NavigationPage.toViewTab(HomeSSTab.PROPERTY_INFO.get());
 		policy.getDefaultView().getTab(PropertyInfoTab.class).fillTab(getTestSpecificTD("PropertyInfoTab_1000"));
@@ -227,6 +231,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.DS11, Documents.AHPNXX);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.policyDocGen().start();
 		documentActionTab.generateDocuments(
 				Documents.AHRCTXX, 
@@ -362,8 +367,9 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
      * HSILXX - 16185:US CL GD-122 Generate HSILXX Property Inventory List
      */
 
-    @Test
-    public void testMortgagePolicyDocuments() {
+    @Parameters({"state"})
+	@Test
+    public void testMortgagePolicyDocuments(String state) {
     	CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
@@ -415,6 +421,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
 				Documents.HSU08XX
 				);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.purchase(getPolicyTD());
 		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.DS02, Documents.AHNBXX, Documents._438BFUNS);
@@ -503,8 +510,9 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
      * DS 24 82  15231: US CL GD-12 Generate DS 24 82 Endorsement
      */
 
-    @Test
-    public void testEndorsementsForms() throws Exception {
+    @Parameters({"state"})
+	@Test
+    public void testEndorsementsForms(String state) {
     	CustomAssert.enableSoftMode();
 		mainApp().open();
 		createCustomerIndividual();

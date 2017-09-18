@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.helpers.constants.ComponentConstant;
@@ -14,12 +15,12 @@ public class TestQuoteManualTask extends QuoteManualTask {
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
 	}
-	
+
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	@Override
-	public void testQuoteManualTask() {
+	public void testQuoteManualTask(String state) {
 		super.testQuoteManualTask();
 	}
-	
+
 }

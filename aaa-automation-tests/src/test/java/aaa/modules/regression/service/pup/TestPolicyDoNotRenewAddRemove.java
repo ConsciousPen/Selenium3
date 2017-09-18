@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.pup;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.helpers.constants.ComponentConstant;
@@ -11,8 +12,7 @@ import toolkit.utils.TestInfo;
 /**
  * @author Lina Li
  * @name Test Add and Remove 'Do Not Renew' for Umbrella Policy
- * @scenario
- * 1. Create Customer
+ * @scenario 1. Create Customer
  * 2. Create Umbrella  Policy
  * 3. Set Do Not Renew for Policy
  * 4. Verify Policy status is 'Policy Active'
@@ -23,18 +23,18 @@ import toolkit.utils.TestInfo;
  * @details
  */
 
-public class TestPolicyDoNotRenewAddRemove extends PolicyDoNotRenewAddRemove{
+public class TestPolicyDoNotRenewAddRemove extends PolicyDoNotRenewAddRemove {
 
-    @Override
-    protected PolicyType getPolicyType() {
-        return PolicyType.PUP;
-    }
-    
-    @Override
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.PUP;
+	}
+
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.PUP )
-    public void testPolicyDoNotRenewAddRemove() {
+	@TestInfo(component = ComponentConstant.Service.PUP)
+	public void testPolicyDoNotRenewAddRemove(String state) {
 
-        super.testPolicyDoNotRenewAddRemove();
-    }
+		super.testPolicyDoNotRenewAddRemove();
+	}
 }

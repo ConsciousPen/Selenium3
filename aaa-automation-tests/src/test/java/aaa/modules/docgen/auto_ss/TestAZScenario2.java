@@ -3,10 +3,14 @@ package aaa.modules.docgen.auto_ss;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.mortbay.log.Log;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+
 import static aaa.main.enums.DocGenEnum.Documents.*;
+
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.Dollar;
@@ -32,7 +36,7 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 
-public class TestAZScenario2 extends AutoSSBaseTest{
+public class TestAZScenario2 extends AutoSSBaseTest {
 
 	private String policyNumber;
 	private LocalDateTime policyExpirationDate;
@@ -54,10 +58,11 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 	private String plcyTotFee;
 	private List<TestData> dueAmount = new ArrayList<TestData>();
 	private List<TestData> installmentDueDate = new ArrayList<TestData>();
-	
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void TC01_CreatePolicy() {
+	public void TC01_CreatePolicy(String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		createCustomerIndividual();
@@ -79,97 +84,101 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 		AARFIXX
 		AASR22
 		AHNBXX*/
-		DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43AZ,AH35XX,AASR22,AA59XX,AAGCAZ,AA52AZ,AARFIXX,AHNBXX,AA10XX,AA02AZ).verify.mapping(getTestSpecificTD("TestData_Verification")
-				.adjust(TestData.makeKeyPath("AA43AZ", "form", "PlcyNum", "TextField"), policyNumber)
-				.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
-				.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
-				.adjust(TestData.makeKeyPath("AH35XX", "form", "FutInstlDueDt"), installmentDueDate)
-				.adjust(TestData.makeKeyPath("AASR22", "form", "PlcyNum", "TextField"), policyNumber)
-				.adjust(TestData.makeKeyPath("AA59XX", "form", "PlcyNum", "TextField"), policyNumber)
-				.adjust(TestData.makeKeyPath("AAGCAZ", "form", "PlcyNum", "TextField"), policyNumber)
-				.adjust(TestData.makeKeyPath("AA52AZ", "form", "PlcyNum", "TextField"), policyNumber)
-				.adjust(TestData.makeKeyPath("AARFIXX", "form", "PlcyNum", "TextField"), policyNumber)
-				.adjust(TestData.makeKeyPath("AHNBXX", "form", "PlcyNum", "TextField"), policyNumber)
-				.adjust(TestData.makeKeyPath("AA10XX", "form", "PlcyNum", "TextField"), policyNumber)
-				.adjust(TestData.makeKeyPath("AA02AZ", "form", "PlcyNum", "TextField"), policyNumber)
-				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehBdyInjPrem"), vehBdyInjPrem)
-				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehPDPrem"), vehPDPrem)
-				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehUMPrem"), vehUMPrem)
-				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehUIMBPrem"), vehUIMBPrem)
-				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehMPPrem"), vehMPPrem)
-				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehCompPrem"), vehCompPrem)
-				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehClsnPrem"), vehClsnPrem)
-				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehClsnDed"), vehClsnDed)
-				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehCompDed"), vehCompDed)
-				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehSpclEqpmtPrem"), vehSpclEqpmtPrem)
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43AZ, AH35XX, AASR22, AA59XX, AAGCAZ, AA52AZ, AARFIXX, AHNBXX, AA10XX, AA02AZ).verify.mapping(getTestSpecificTD("TestData_Verification")
+						.adjust(TestData.makeKeyPath("AA43AZ", "form", "PlcyNum", "TextField"), policyNumber)
+						.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
+						.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
+						.adjust(TestData.makeKeyPath("AH35XX", "form", "FutInstlDueDt"), installmentDueDate)
+						.adjust(TestData.makeKeyPath("AASR22", "form", "PlcyNum", "TextField"), policyNumber)
+						.adjust(TestData.makeKeyPath("AA59XX", "form", "PlcyNum", "TextField"), policyNumber)
+						.adjust(TestData.makeKeyPath("AAGCAZ", "form", "PlcyNum", "TextField"), policyNumber)
+						.adjust(TestData.makeKeyPath("AA52AZ", "form", "PlcyNum", "TextField"), policyNumber)
+						.adjust(TestData.makeKeyPath("AARFIXX", "form", "PlcyNum", "TextField"), policyNumber)
+						.adjust(TestData.makeKeyPath("AHNBXX", "form", "PlcyNum", "TextField"), policyNumber)
+						.adjust(TestData.makeKeyPath("AA10XX", "form", "PlcyNum", "TextField"), policyNumber)
+						.adjust(TestData.makeKeyPath("AA02AZ", "form", "PlcyNum", "TextField"), policyNumber)
+						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehBdyInjPrem"), vehBdyInjPrem)
+						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehPDPrem"), vehPDPrem)
+						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehUMPrem"), vehUMPrem)
+						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehUIMBPrem"), vehUIMBPrem)
+						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehMPPrem"), vehMPPrem)
+						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehCompPrem"), vehCompPrem)
+						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehClsnPrem"), vehClsnPrem)
+						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehClsnDed"), vehClsnDed)
+						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehCompDed"), vehCompDed)
+						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehSpclEqpmtPrem"), vehSpclEqpmtPrem)
 //				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehTotPrem"), vehTotPrem)
-				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "NetWrtPrem","TextField"), netWrtPrem)
-				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "PlcyAutoDeadBenPrem","TextField"), plcyAutoDeadBenPrem)
-				.adjust(TestData.makeKeyPath("AA02AZ", "PaymentDetails", "PlcyTotFee","TextField"), plcyTotFee)
-				.adjust(TestData.makeKeyPath("AA02AZ", "PaymentDetails", "PlcyTotPrem","TextField"), plcyTotPrem),
+						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "NetWrtPrem", "TextField"), netWrtPrem)
+						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "PlcyAutoDeadBenPrem", "TextField"), plcyAutoDeadBenPrem)
+						.adjust(TestData.makeKeyPath("AA02AZ", "PaymentDetails", "PlcyTotFee", "TextField"), plcyTotFee)
+						.adjust(TestData.makeKeyPath("AA02AZ", "PaymentDetails", "PlcyTotPrem", "TextField"), plcyTotPrem),
 				policyNumber);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
-	 }
+	}
 
-	//	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
-	public void TC02_EndorsePolicy(){
+	@Parameters({"state"})
+//	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
+	public void TC02_EndorsePolicy(String state) {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		TestData endorsementTd = getTestSpecificTD("TestData_Endorsement");
 		policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
 		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		
+
 	}
-	
+
+	@Parameters({"state"})
 //	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
-	public void TC03_RenewalImageGeneration(){
-		LocalDateTime renewImageGenDate=getTimePoints().getRenewImageGenerationDate(policyExpirationDate);	
+	public void TC03_RenewalImageGeneration(String state) {
+		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Image Generation Date" + renewImageGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		
+
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);	
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
-	
+
+	@Parameters({"state"})
 //	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
-    public void TC04_RenewaPreviewGeneration(){
-		
-		LocalDateTime renewPreviewGenDate=getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
+	public void TC04_RenewaPreviewGeneration(String state) {
+
+		LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Preview Generation Date" + renewPreviewGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		
+
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.buttonRenewals.verify.enabled();
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
-	    Tab.buttonOk.click();
+		Tab.buttonOk.click();
 		// Create new renewal version
-	    if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
-			  Page.dialogConfirmation.confirm();
-		    }
-	    policy.getDefaultView().fill(getTestSpecificTD("TestData_AddRenewal"));
-	    PolicySummaryPage.buttonRenewals.click();
+		if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
+			Page.dialogConfirmation.confirm();
+		}
+		policy.getDefaultView().fill(getTestSpecificTD("TestData_AddRenewal"));
+		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PREMIUM_CALCULATED).verify(1);
-		
+
 	}
-	
+
+	@Parameters({"state"})
 //	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
-	public void TC05_RenewaOfferGeneration(){
-		LocalDateTime renewOfferGenDate=getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+	public void TC05_RenewaOfferGeneration(String state) {
+		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Offer Generation Date" + renewOfferGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
-		
+
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -178,29 +187,30 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PROPOSED).verify(1);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		
+
 //		TODO verify the documents AA02,AHAUXX,AA10XX,AHPNXX
 	}
-	
+
+	@Parameters({"state"})
 //	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
-	public void TC06_RenewaOfferBillGeneration(){
-		LocalDateTime renewOfferBillGenDate=getTimePoints().getBillGenerationDate(policyExpirationDate);
+	public void TC06_RenewaOfferBillGeneration(String state) {
+		LocalDateTime renewOfferBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Offer Bill Generation Date" + renewOfferBillGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferBillGenDate);
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 //		TODO verify the xml file AHREXX, AH35XX
 	}
-	
-	private void storeCoveragesData(){
+
+	private void storeCoveragesData() {
 		policy.policyInquiry().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		
+
 		for (TestData td : premiumAndCoveragesTab.getRatingDetailsVehiclesData()) {
 			vehClsnDed.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Collision Deductible"))));
 			vehCompDed.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Comprehensive Deductible"))));
 		}
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();		
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 
 		for (TestData td : premiumAndCoveragesTab.getTermPremiumByVehicleData()) {
 			vehBdyInjPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Bodily Injury Liability"))));
@@ -215,7 +225,7 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 		}
 		netWrtPrem = formatValue(PremiumAndCoveragesTab.totalActualPremium.getValue());
 		plcyAutoDeadBenPrem = formatValue(PremiumAndCoveragesTab.tableFormsSummary.getRow("Forms", "ADBE").getCell(2).getValue());
-		
+
 		// Store the value for total fee from tabel tablefeesSummary
 		Dollar _plcyTotFee = new Dollar(0);
 		for (int i = 1; i <= PremiumAndCoveragesTab.tablefeesSummary.getRowsCount(); i++) {
@@ -225,7 +235,7 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 		plcyTotPrem = new Dollar(PremiumAndCoveragesTab.totalTermPremium.getValue()).add(_plcyTotFee).toString().replace("$", "").replace(",", "");
 		Tab.buttonTopCancel.click();
 	}
-	
+
 	private void storeBillingData() {
 		BillingSummaryPage.open();
 		for (int i = 2; i <= 11; i++) {
@@ -233,9 +243,9 @@ public class TestAZScenario2 extends AutoSSBaseTest{
 			installmentDueDate.add(DataProviderFactory.dataOf("DateTimeField", DocGenHelper.convertToZonedDateTime(BillingSummaryPage.getInstallmentDueDate(i))));
 		}
 	}
-	
+
 	private String formatValue(String value) {
-		return "No Coverage".equals(value)? "0" : new Dollar(value.replace("\n", "")).toString().replace("$", "").replace(",", "");
+		return "No Coverage".equals(value) ? "0" : new Dollar(value.replace("\n", "")).toString().replace("$", "").replace(",", "");
 	}
 
 }

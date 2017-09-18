@@ -1,5 +1,6 @@
 package aaa.modules.docgen.home_ss.ho4;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
@@ -68,8 +69,9 @@ public class TestHO4DocgenScenarios extends HomeSSHO4BaseTest{
      * 20. Rate and save quote.
 	 * @details
 	 */
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
-	public void TC01_Quote_Documents(){
+	public void TC01_Quote_Documents(String state) {
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
 		createCustomerIndividual();
@@ -171,8 +173,9 @@ public class TestHO4DocgenScenarios extends HomeSSHO4BaseTest{
      * 13. Verify HUS02XX is enable
 	 * @details
 	 */
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
-	public void TC02_Policy_Documents(){
+	public void TC02_Policy_Documents(String state) {
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
 		SearchPage.openQuote(quoteNumber);

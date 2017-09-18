@@ -1,0 +1,134 @@
+TestData: {
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Eleven Pay Standard,
+    Coverage E - Personal Liability Each Occurrence: '$300,000'
+  },
+  PropertyInfoTab: {
+    DwellingAddress: {
+      Number of family units: 'index=1'
+    },
+    PropertyValue: {
+      Coverage A - Dwelling limit: 184000,
+      ISO replacement cost: 174000,
+      Reason replacement cost differs from the tool value: 'index=1',
+      Purchase date of home: '/today:MM/dd/yyyy'
+    },
+    Construction: {
+      Year built: 2009,
+      Square footage: 1,
+      Roof type: Laminate / Architectural,
+      Roof shape: index=1,
+      Construction type: index=1
+    },
+    Interior: {
+      Number of residents: 3,
+      Number of stories: index=1
+    },
+    PublicProtectionClass: {
+      Fire department type: 'index=1',
+      Public protection class: 'index=1',
+      Distance to fire hydrant: 'index=1',
+      Fire protection area: '7'
+    },
+    HomeRenovation: {
+      Green Home discount: "No"
+    },
+    RentalInformation: {
+      Number of consecutive years insured has owned any rental properties: '5',
+      Property manager: 'index=1',
+      "Does the tenant have an underlying HO4 policy?": "No"
+    }
+  },
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab_WithAutopay'   
+}
+
+TestData_Endorsement: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Quarterly,
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_Endorsement2: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+      'Coverage A - Dwelling limit': '174000'
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Eleven Pay Standard
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_Endorsement3: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+      'Coverage A - Dwelling limit': '200000',
+      Reason replacement cost differs from the tool value: 'index=1'
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Semi-Annual
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_Endorsement4: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Eleven Pay Standard (Renewal),
+    Payment plan at renewal: Eleven Pay Standard (Renewal)
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_Endorsement5: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Quarterly (Renewal),
+    Payment plan at renewal: Quarterly (Renewal)
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}

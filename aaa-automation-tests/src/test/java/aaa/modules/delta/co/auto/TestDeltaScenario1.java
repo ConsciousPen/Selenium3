@@ -19,6 +19,7 @@ import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.openqa.selenium.By;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -48,7 +49,8 @@ import static aaa.main.enums.DocGenEnum.*;
  * 10. Verify dropdown visible
  * @details
  */
-@Test(groups = {Groups.DELTA, Groups.HIGH})
+
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
 public class TestDeltaScenario1 extends AutoSSBaseTest {
 	private String quoteNumber;
 
@@ -57,10 +59,11 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	private GeneralTab gTab = new GeneralTab();
 	private MultiInstanceBeforeAssetList aiAssetList = driverTab.getActivityInformationAssetList();
 	private ErrorTab errorTab = new ErrorTab();
-
+	
+	@Parameters({"state"})
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testSC1_TC01() {
+	public void testSC1_TC01(String state) {
 		preconditions(NavigationEnum.AutoSSTab.GENERAL);
 
 		CustomAssert.enableSoftMode();
@@ -114,9 +117,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	 * 6. Verify Dropdown Values in Driver tab
 	 * @details
 	 */
+	@Parameters({"state"})
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testSC1_TC02() {
+	public void testSC1_TC02(String state) {
 		preconditions(NavigationEnum.AutoSSTab.DRIVER);
 
 		driverTab.fillTab(getTestSpecificTD("TestData"));
@@ -160,9 +164,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	 * 13. Remove activity information, verify that 'List of Activity Information' table gets empty
 	 * @details
 	 */
+	@Parameters({"state"})
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testSC1_TC03() {
+	public void testSC1_TC03(String state) {
 		preconditions(NavigationEnum.AutoSSTab.DRIVER);
 		driverTab.fillTab(getTestSpecificTD("TestData"));
 
@@ -202,9 +207,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	 * @author Dmitry Chubkov
 	 * @name CO_SC1_TC04
 	 */
+	@Parameters({"state"})
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testSC1_TC04() {
+	public void testSC1_TC04(String state) {
 		VehicleTab vTab = new VehicleTab();
 
 		preconditions(NavigationEnum.AutoSSTab.DRIVER);
@@ -227,9 +233,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	 * @author Dmitry Chubkov
 	 * @name CO_SC1_TC05
 	 */
+	@Parameters({"state"})
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testSC1_TC05() {
+	public void testSC1_TC05(String state) {
 		preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
 
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY).verify.value("$100,000/$300,000 (+$0.00)");
@@ -250,9 +257,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	 * @author Dmitry Chubkov
 	 * @name CO_SC1_TC06
 	 */
+	@Parameters({"state"})
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testSC1_TC06() {
+	public void testSC1_TC06(String state) {
 		preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		//CO DELTA - No full safety glass
@@ -296,9 +304,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	 * @author Dmitry Chubkov
 	 * @name CO_SC1_TC07
 	 */
+	@Parameters({"state"})
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testSC1_TC07() {
+	public void testSC1_TC07(String state) {
 		preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.FULL_SAFETY_GLASS).verify.value("No Coverage");
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.SPECIAL_EQUIPMENT_COVERAGE).verify.value(new Dollar(1500).toString());
@@ -322,9 +331,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	 * @author Dmitry Chubkov
 	 * @name CO_SC1_TC08
 	 */
+	@Parameters({"state"})
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testSC1_TC08() {
+	public void testSC1_TC08(String state) {
 		DocumentsAndBindTab dabTab = new DocumentsAndBindTab();
 
 		preconditions(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS);
@@ -357,9 +367,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	 * @author Dmitry Chubkov
 	 * @name CO_SC1_TC09
 	 */
+	@Parameters({"state"})
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testSC1_TC09() {
+	public void testSC1_TC09(String state) {
 		GenerateOnDemandDocumentActionTab goddTab = new GenerateOnDemandDocumentActionTab();
 
 		mainApp().open();
@@ -378,9 +389,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	 * @author Dmitry Chubkov
 	 * @name CO_SC1_TC10
 	 */
+	@Parameters({"state"})
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testSC1_TC10() {
+	public void testSC1_TC10(String state) {
 		DocGenHelper.verifyDocumentsGenerated(getQuoteNumber(), Documents.AA11CO, Documents.AAIQCO, Documents.AHFMXX, Documents.AU03, Documents.AA16CO, Documents.AADNCO, Documents.AHAUXX);
 	}
 

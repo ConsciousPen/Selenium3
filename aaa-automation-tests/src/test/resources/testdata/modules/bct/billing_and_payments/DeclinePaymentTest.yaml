@@ -1,0 +1,7 @@
+OtherTransaction_076: {
+  OtherTransactionsActionTab: {
+    Transaction Type: Fee,
+    Transaction Subtype: NSF fee - without restriction,
+    Amount: 10
+  }
+}

@@ -1,6 +1,7 @@
 package aaa.modules.regression.service.home_ca.ho3;
 
 import java.util.HashMap;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -52,9 +53,10 @@ public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
       * 17. Navigate to Billing page and verify that no reinstatement fee is applied
       */
 
-    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+    @Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
-    public void testPolicyCancelReinstateUWReason() {
+    public void testPolicyCancelReinstateUWReason(String state) {
         CancelActionTab cancelActionTab = new CancelActionTab();
         ReinstatementActionTab reinstatementActionTab = new ReinstatementActionTab();
 

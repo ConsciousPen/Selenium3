@@ -43,4 +43,6 @@ public interface IBillingAccount {
     BillingAccountActions.ViewModalPremium viewModalPremium();
 
     BillingAccountActions.UnallocatePayment unallocatePayment();
+
+    BillingAccountActions.ChangePaymentPlan changePaymentPlan();
 }
