@@ -2,36 +2,13 @@ package aaa.modules.docgen.home_ca.ho3;
 
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
-
-import toolkit.datax.TestData;
-import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
-import aaa.common.Tab;
-import aaa.common.enums.Constants.States;
-import aaa.common.enums.NavigationEnum.HomeSSTab;
-import aaa.common.pages.NavigationPage;
-import aaa.common.pages.SearchPage;
-import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
-import aaa.helpers.billing.BillingPendingTransactionsVerifier;
-import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.DocGenEnum.Documents;
-import aaa.main.modules.billing.account.BillingAccount;
-import aaa.main.modules.billing.account.IBillingAccount;
 import aaa.main.modules.policy.home_ca.actiontabs.PolicyDocGenActionTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
-import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
-import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
 
 /**
@@ -130,6 +107,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents._61_6528, Documents.HSU03XX, Documents.WUAUCA, Documents.AHPNCA);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.quoteDocGen().start();
 		documentActionTab.generateDocuments(
 				Documents.F1122, 
@@ -143,6 +121,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 				Documents.HSU04XX
 				);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.quoteDocGen().start();
 		documentActionTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU05"), 
 				Documents._61_3000, 
@@ -156,6 +135,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 				Documents.HSU05XX
 				);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.quoteDocGen().start();
 		documentActionTab.generateDocuments( 
 				Documents.F1076B, 
@@ -169,6 +149,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 				Documents.HSU08XX
 				);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.purchase(getPolicyTD());
 		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 		policy.policyDocGen().start();
@@ -219,65 +200,114 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
      * 9. Verify AHPNCA is generated with Application document (F1076B) (18541 AC2)
      * 10. Verify that all enabled documents are generated
      */
-//	@Parameters({"state"})
-//	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
-//	public void testPolicyDocuments(String state) {
-//		CustomAssert.enableSoftMode();
-//		mainApp().open();
-//		String currentHandle = WebDriverHelper.getWindowHandle();
-//		String policyNum = getCopiedPolicy();
-//		
-//		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.HS02, Documents.AHNBXX, Documents.HS0420);
-//		
-//		policy.policyDocGen().start();
-//		documentActionTab.verify.documentsEnabled(
-//				Documents.F605005, 
-//				Documents.AHRCTXX, 
-//				Documents.HS11.setState(getState()), 
-//				Documents.HSEIXX, 
-//				Documents.HSILXX, 
-//				Documents.HSU01XX,
-////				Documents.HSU02XX  //TODO Actually HSU02XX is disabled, need to confirm the request
-//				Documents.HSU04XX,
-//				Documents.HSU06XX,
-//				Documents.HSU07XX,
-//				Documents.HSU08XX,
-//				Documents.HSU09XX
-//				);
-//		documentActionTab.verify.documentsEnabled(false, 
-//				Documents.AHFMXX, 
-//				Documents.HSRFIXX,
-//				Documents.HSU03XX
-//				);
-//		documentActionTab.verify.documentsPresent(false, 
-////				Documents.AHAUXX // TODO Actually AHAUXX is present, need to confirm the request
-//				Documents.HSIQXX,
-//				Documents.AHPNXX,
-//				Documents._438BFUNS,
-//				Documents.HSES
-//				);
-//		
-//		documentActionTab.generateDocuments(Documents.HS11);
-//		WebDriverHelper.switchToWindow(currentHandle);
-//		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.HS11, Documents.AHPNXX);
-//		
-//		policy.policyDocGen().start();
-//		documentActionTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"),
-//				Documents.AHRCTXX, 
-//				Documents.HSEIXX, 
-//				Documents.HSILXX, 
-//				Documents.HSU01XX, 
-//				Documents.HSU09XX
-//				);
-//		DocGenHelper.verifyDocumentsGenerated(policyNum, 
-//				Documents.AHRCTXX, 
-//				Documents.HSEIXX, 
-//				Documents.HSILXX, 
-//				Documents.HSU01XX, 
-//				Documents.HSU09XX
-//				);
-//		CustomAssert.disableSoftMode();
-//		CustomAssert.assertAll();
-//	}
+	@Parameters({"state"})
+	@Test
+	public void testPolicyDocuments(String state) {
+		CustomAssert.enableSoftMode();
+		mainApp().open();
+		String currentHandle = WebDriverHelper.getWindowHandle();
+		createCustomerIndividual();
+		String policyNum = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_PolicyDocuments")));
+		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents._61_6530, Documents._61_3000, Documents._61_5120, Documents._1075);
+		
+		policy.policyDocGen().start();
+		documentActionTab.verify.documentsEnabled(
+				Documents.WUAUCA, 
+				Documents._62_6500,
+//				Documents.WURFICA, // TODO Actually WURFICA is disabled, need to confirm the request
+				Documents.F1122, 
+				Documents._60_5019,
+				Documents._61_6530,
+				Documents.HSU01CA,
+				Documents.HSU06CA,
+				Documents.HSU07CA,
+				Documents.HSU08XX,
+				Documents.HSU09XX,
+				Documents._61_3000,
+				Documents._61_3026,
+				Documents.F1076B
+//				Documents._61_6513 // TODO Actually _61_6513 is not present, need to confirm the request
+				);
+		documentActionTab.verify.documentsEnabled(false, 
+				Documents.HSU03XX
+//				Documents._61_2006 // TODO Actually _61_2006 is not present, need to confirm the request
+				);
+		documentActionTab.verify.documentsPresent(false,
+				Documents._61_6528,
+				Documents.AHPNCA
+				);
+		documentActionTab.generateDocuments(Documents.F1076B);
+		WebDriverHelper.switchToWindow(currentHandle);
+		DocGenHelper.verifyDocumentsGenerated(policyNum, 
+				Documents.F1076B, 
+				Documents._60_5019, 
+//				Documents._61_2006,  // TODO Not persent, need to confirm the request
+				Documents.AHPNCA);
+		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		policy.policyDocGen().start();
+		documentActionTab.generateDocuments(
+				Documents.WUAUCA, 
+				Documents._62_6500, 
+//				Documents.WURFICA, 
+				Documents.F1122
+				);
+		WebDriverHelper.switchToWindow(currentHandle);
+		DocGenHelper.verifyDocumentsGenerated(policyNum, 
+				Documents.WUAUCA, 
+				Documents._62_6500, 
+//				Documents.WURFICA, 
+				Documents.F1122
+				);
+		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		policy.policyDocGen().start();
+		documentActionTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU05"),
+				Documents._60_5019, 
+				Documents.HSU01CA, 
+				Documents.HSU04XX, 
+				Documents.HSU05XX,
+				Documents.HSU06CA
+				);
+		WebDriverHelper.switchToWindow(currentHandle);
+		DocGenHelper.verifyDocumentsGenerated(policyNum, 
+				Documents._60_5019, 
+				Documents.HSU01CA, 
+				Documents.HSU04XX, 
+				Documents.HSU05XX,
+				Documents.HSU06CA
+				);
+		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		policy.policyDocGen().start();
+		documentActionTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU09"),
+				Documents.HSU07CA, 
+				Documents.HSU08XX, 
+				Documents.HSU09XX
+				);
+		WebDriverHelper.switchToWindow(currentHandle);
+		DocGenHelper.verifyDocumentsGenerated(policyNum, 
+				Documents.HSU07CA, 
+				Documents.HSU08XX, 
+				Documents.HSU09XX
+				);
+		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		policy.policyDocGen().start();
+		documentActionTab.generateDocuments(
+				Documents._61_3000, 
+				Documents._61_3026, 
+				Documents.HSU08XX
+				);
+		WebDriverHelper.switchToWindow(currentHandle);
+		DocGenHelper.verifyDocumentsGenerated(policyNum, 
+				Documents._61_3000, 
+				Documents._61_3026, 
+				Documents.HSU08XX
+				);
+		
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
 	
 }
