@@ -35,8 +35,6 @@ import aaa.modules.policy.HomeSSHO3BaseTest;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
 
-@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 
 	PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
@@ -84,7 +82,8 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 	 * 		- Total remaining term premium = Total Premium - Down payment
 	 */
 
-	@Test(enabled = true)
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testVerifyPaymentsFiguresForDifferentPaymentPlans(String state) {
 		mainApp().open();
@@ -138,7 +137,7 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 	 */
 
 	@Parameters({"state"})
-	@Test(enabled = true)
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testChangePaymentPlanLowerToHigherInstallments(String state) {
 		int installmentsQuarterly = 3;
@@ -173,7 +172,7 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 	 */
 
 	@Parameters({"state"})
-	@Test(enabled = true)
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testChangeMinimumRequiredDownpayment(String state) {
 		String expectedErrorMessage = "Downpayment should not exceed the value of \"Total policy term premium + fees (if any)\"";
@@ -210,7 +209,7 @@ public class TestPolicyPaymentPlansAndDownpayments extends HomeSSHO3BaseTest {
 	 */
 
 	@Parameters({"state"})
-	@Test(enabled = false)
+	//@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testRewriteDetermineDownpayment(String state) {
 
