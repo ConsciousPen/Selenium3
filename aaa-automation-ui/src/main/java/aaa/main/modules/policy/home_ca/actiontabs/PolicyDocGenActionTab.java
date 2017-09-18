@@ -4,8 +4,9 @@
  */
 package aaa.main.modules.policy.home_ca.actiontabs;
 
-import aaa.common.ActionTab;
 import aaa.main.metadata.policy.HomeCaMetaData;
+import aaa.main.modules.policy.abstract_tabs.CommonDocumentActionTab;
+import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -13,8 +14,13 @@ import aaa.main.metadata.policy.HomeCaMetaData;
  * Modify this class if tab filling procedure has to be customized, extra asset list to be added, custom testdata key to be defined, etc.
  * @category Generated
  */
-public class PolicyDocGenActionTab extends ActionTab {
+public class PolicyDocGenActionTab extends CommonDocumentActionTab {
     public PolicyDocGenActionTab() {
         super(HomeCaMetaData.PolicyDocGenActionTab.class);
     }
+
+	@Override
+	public FillableDocumentsTable getDocumentsControl() {
+		return getAssetList().getAsset(HomeCaMetaData.PolicyDocGenActionTab.ON_DEMAND_DOCUMENTS);
+	}
 }

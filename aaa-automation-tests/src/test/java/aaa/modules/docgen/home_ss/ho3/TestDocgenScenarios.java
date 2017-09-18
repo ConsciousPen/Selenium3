@@ -2,7 +2,9 @@ package aaa.modules.docgen.home_ss.ho3;
 
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
 import com.exigen.ipb.etcsa.utils.Dollar;
+
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import aaa.common.Tab;
@@ -112,8 +114,9 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * Request Add'l Info
 	 */
 
+	@Parameters({"state"})
 	@Test
-	public void testQuoteDocuments() {
+	public void testQuoteDocuments(String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();

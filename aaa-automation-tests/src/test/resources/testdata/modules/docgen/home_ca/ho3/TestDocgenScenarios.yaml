@@ -1,0 +1,15 @@
+########################## testQuoteDocuments ######################### 
+QuoteGenerateHSU03: {
+  Decision based on CLUE HSU03: 'true'
+}
+
+QuoteGenerateHSU05: {
+  First name: Tim,
+  Last name: Cook,
+  Zip code: 90201,
+  Street address 1: address 1,
+  City: citytest,
+  State: CA
+}
+
+########################## testPolicyDocuments #########################

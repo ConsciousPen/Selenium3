@@ -190,6 +190,24 @@ public final class HomeCaPolicyActions {
         }
     }
     
+    public static class QuoteDocGen extends PolicyActions.QuoteDocGen {
+
+		@Override
+		public Workspace getView() {
+			return new PolicyDocGenView();
+		}
+        
+    }
+    
+    public static class PolicyDocGen extends PolicyActions.PolicyDocGen {
+
+		@Override
+		public Workspace getView() {
+			return new PolicyDocGenView();
+		}
+        
+    }
+    
     public static class RollBackEndorsement extends PolicyActions.RollBackEndorsement {
         @Override
         public Workspace getView() {
