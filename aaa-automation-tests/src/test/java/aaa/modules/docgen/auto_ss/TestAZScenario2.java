@@ -343,7 +343,8 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 	}
 
 	private String formatValue(String value) {
-		return "No Coverage".equals(value) ? "0" : new Dollar(value.replace("\n", "")).toString().replace("$", "").replace(",", "");
+//		return "No Coverage".contains(value) ? "0" : new Dollar(value.replace("\n", "")).toString().replace("$", "").replace(",", "");
+		return value.contains("No Coverage") ? "0.00" : new Dollar(value.replace("\n", "")).toString().replace("$", "").replace(",", "");
 	}
 
 }
