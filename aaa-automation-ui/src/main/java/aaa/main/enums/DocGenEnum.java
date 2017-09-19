@@ -127,6 +127,7 @@ public final class DocGenEnum {
 		_1075_HO4("1075", "1075A", "Homeowners Policy Declarations"),
 		_60_5019("60 5019", "Subscriber Agreement"),
 		_61_4003("61 4003", "California Application for Renters Insurance"),
+		_60_5005("60 5005", "Returning Payment")
 		;
 
 		private String id;
