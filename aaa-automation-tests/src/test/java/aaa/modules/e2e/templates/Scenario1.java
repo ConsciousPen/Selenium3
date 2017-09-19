@@ -168,6 +168,7 @@ public class Scenario1 extends ScenarioBaseTest {
 		SearchPage.openPolicy(policyNum);
 		PolicySummaryPage.buttonRenewals.verify.enabled();
 		PolicySummaryPage.buttonRenewals.click();
+		//TODO: investigate why whether it is a bug that status is "Gathering Info" but not "Premium Calculated"
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PREMIUM_CALCULATED).verify(1);
 	}
 
