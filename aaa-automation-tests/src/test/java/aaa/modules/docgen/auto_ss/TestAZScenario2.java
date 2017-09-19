@@ -81,6 +81,7 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(tdpolicy, PremiumAndCoveragesTab.class, true);
 		storeCoveragesData();
+		Tab.buttonContinue.click();
 		policy.getDefaultView().fillFromTo(tdpolicy, PremiumAndCoveragesTab.class,PurchaseTab.class, true);
 		policyNumber=PolicySummaryPage.labelPolicyNumber.getValue();
 //		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));

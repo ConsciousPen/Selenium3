@@ -53,9 +53,9 @@ VehicleTab2: {
   Change Vehicle Confirmation: 'OK',
   Usage: 'Traveling Primary Residence',
   VIN: KNDJT2A2XA7038383,
-  Year: 2008,
-  Other Make: CHEVROLET,
-  Other Model: AVEO,
+  Year: 2010,
+  Other Make: KIA,
+  Other Model: SOUL,
   Stated Amount: 1500
 }
 
@@ -313,9 +313,9 @@ AASR22: {
   },
   {
    VehItemNum: {TextField: '2'},
-   VehManufactureYear: {TextField: '2008'},
-   VehMdelNm: {TextField: 'AVEO'},
-   VehManfrNm: {TextField: 'CHEVROLET'},
+   VehManufactureYear: {TextField: '2010'},
+   VehMdelNm: {TextField: 'KIA'},
+   VehManfrNm: {TextField: 'SOUL'},
    VehTyp: {TextField: 'Golf'},
    VehIdNum: {TextField: 'KNDJT2A2XA7038383'}
   }
@@ -619,10 +619,10 @@ AA10XX: {
   },
   {
     VehTyp: {TextField: 'GC'},
-    VehManufactureYear: {TextField: '2008'},
+    VehManufactureYear: {TextField: '2010'},
     VehAddFlg: {TextField: 'Y'},
-    VehManfrNm: {TextField: 'CHEVROLET'},
-    VehMdelNm: {TextField: 'AVEO'},
+    VehManfrNm: {TextField: 'KIA'},
+    VehMdelNm: {TextField: 'SOUL'},
     VehBdyTyp: {TextField: ''},
     VehIdNum: {TextField: 'KNDJT2A2XA7038383'}
   }
@@ -684,9 +684,9 @@ AA02AZ: {
   },
   {
     VehTyp: {TextField: 'Golf'},
-    VehManufactureYear: {TextField: '2008'},
-    VehManfrNm: {TextField: 'CHEVROLET'},
-    VehMdelNm: {TextField: 'AVEO'},
+    VehManufactureYear: {TextField: '2010'},
+    VehManfrNm: {TextField: 'KIA'},
+    VehMdelNm: {TextField: 'SOUL'},
     VehIdNum: {TextField: 'KNDJT2A2XA7038383'},
     VehUnitNum: {TextField: '2'},
     VehDiscDesc: {TextField: ''},
@@ -1218,9 +1218,9 @@ AA02AZ_ED: {
   },
   {
     VehTyp: {TextField: 'Golf'},
-    VehManufactureYear: {TextField: '2008'},
-    VehManfrNm: {TextField: 'CHEVROLET'},
-    VehMdelNm: {TextField: 'AVEO'},
+    VehManufactureYear: {TextField: '2010'},
+    VehManfrNm: {TextField: 'KIA'},
+    VehMdelNm: {TextField: 'SOUL'},
     VehIdNum: {TextField: 'KNDJT2A2XA7038383'},
     VehUnitNum: {TextField: '2'},
     VehDiscDesc: {TextField: ''},
