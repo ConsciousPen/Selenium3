@@ -41,7 +41,8 @@ AAAProductOwned: {
 }
 
 ContactInformation: {
-   Home Phone Number: 1234567890
+   Home Phone Number: 1234567890,
+   Email: 'test@gmail.com'
 }
 
 PolicyInformation: {
@@ -102,7 +103,8 @@ DocumentsAndBindTab: {
   RequiredToBind: {
     Auto Insurance Application: Physically Signed
   },
-  Agreement: I agree
+  Agreement: I agree,
+  RequiredToIssue: {},
 }
 
 PurchaseTab: {
