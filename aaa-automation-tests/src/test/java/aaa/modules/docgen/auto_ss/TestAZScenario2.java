@@ -34,14 +34,16 @@ import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
 import aaa.main.enums.ProductConstants.PolicyStatus;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 
 public class TestAZScenario2 extends AutoSSBaseTest {
 
-	private String policyNumber="AZSS952124092";
+	private String policyNumber;
 	private LocalDateTime policyExpirationDate;
 	private String termEffDt;
 	private String termExprDt;
@@ -73,8 +75,14 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 	public void TC01_CreatePolicy(String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
-//		createCustomerIndividual();
+//		SearchPage.openPolicy(policyNumber);
+		createCustomerIndividual();
+		TestData tdpolicy=getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(tdpolicy, PremiumAndCoveragesTab.class, true);
+		storeCoveragesData();
+		policy.getDefaultView().fillFromTo(tdpolicy, PremiumAndCoveragesTab.class,PurchaseTab.class, true);
+		policyNumber=PolicySummaryPage.labelPolicyNumber.getValue();
 //		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -83,7 +91,7 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 		plcyEffDt=DocGenHelper.convertToZonedDateTime(PolicySummaryPage.getEffectiveDate());
 		plcyExprDt=DocGenHelper.convertToZonedDateTime(policyExpirationDate);
 		termExprDt=DocGenHelper.convertToZonedDateTime(policyExpirationDate);
-		storeCoveragesData();
+		
 		storeBillingData();
 		
 		/* verify the xml file 
@@ -141,17 +149,24 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
+	@Test
+//	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC02_EndorsePolicy(String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		TestData endorsementTd = getTestSpecificTD("TestData_Endorsement");
-		policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
+		policy.endorse().start();
+		policy.endorse().getView().fill(getPolicyTD("Endorsement", "TestData"));
+		policy.endorse().submit();
+		policy.getDefaultView().fillUpTo(endorsementTd, PremiumAndCoveragesTab.class, false);
+		storeCoveragesData();
+		policy.getDefaultView().fillFromTo(endorsementTd,PremiumAndCoveragesTab.class,DocumentsAndBindTab.class,true);
+//		policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
 		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		
-		storeCoveragesData();
+		
 		storeBillingData();
 		
 		endrEffDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tablePaymentsOtherTransactions
@@ -287,8 +302,8 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 	}
 
 	private void storeCoveragesData() {
-		policy.policyInquiry().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+//		policy.policyInquiry().start();
+//		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
 		for (TestData td : premiumAndCoveragesTab.getRatingDetailsVehiclesData()) {
 			vehClsnDed.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Collision Deductible"))));
