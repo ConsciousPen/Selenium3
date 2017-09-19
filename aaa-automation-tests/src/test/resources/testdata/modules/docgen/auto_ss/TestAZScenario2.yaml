@@ -76,8 +76,7 @@ PremiumAndCoveragesTab: {
   Underinsured Motorists Bodily Injury: 'contains=$50,000/$100,000',
   Medical Payments: 'contains=$2,000',
   Comprehensive Deductible: 'contains=$750',
-  Collision Deductible: 'contains=$500',
-  Special Equipment Coverage: 1100
+  Collision Deductible: 'contains=$500'
 }
 
 DocumentsAndBindTab: {
@@ -701,20 +700,20 @@ AA02AZ: {
   ], 
   PlcyBdyInjEaOcc: {TextField: '300000'},
   PlcyBdyInjEaPers: {TextField: '100000'},
-  PlcyPdEaOcc: {TextField: '50000'},
+#  PlcyPdEaOcc: {},
   PlcyUmEaOcc: {TextField: '100000'},
   PlcyUmEaPers: {TextField: '50000'},
   PlcyUIMBEaOcc: {TextField: '100000'},
   PlcyUIMBEaPers: {TextField: '50000'},
   PlcyAutoDeadBenEaOcc: {TextField: '0'},
   PlcySpclEqpmtTotAmt: [
-  {TextField: '1100.00'},
+  {TextField: '1000.00'},
   {TextField: '0'}
   ],
   PlcyAutoDeadBenPrem: {TextField: ''},
   PlcyAutoDeadBenDed: {TextField: '0.00'}, 
   NetWrtPrem: {TextField: ''},
-  PlcyMpEaPers: {TextField: '2000'},
+#  PlcyMpEaPers: {},
 #  VehBdyInjPrem: {},
 #  VehPDPrem: {},
 #  VehUMPrem: {},
@@ -730,14 +729,8 @@ AA02AZ: {
   {TextField: '0'},
   {TextField: '0'}
   ],
-  VehRntlReimbsPrem: [
-  {TextField: '0.00'},
-  {TextField: '0.00'}
-  ],
-  VehTwgLbrPrem: [
-  {TextField: '0.00'},
-  {TextField: '0.00'}
-  ],
+#  VehRntlReimbsPrem: {},
+#  VehTwgLbrPrem: {},
   VehLnPrtcPrem: [
   {TextField: '0.00'},
   {TextField: '0.00'}
@@ -746,12 +739,9 @@ AA02AZ: {
   {TextField: '0'},
   {TextField: '0'}
   ],
-  VehClsnDed: {},
-  VehCompDed: {},
-  VehSftyGlsDed: [
-  {TextField: '0.00'},
-  {TextField: '0.00'}
-  ],
+#  VehClsnDed: {},
+#  VehCompDed: {},
+#  VehSftyGlsDed: {},
   VehBdyInjDed: [
   {TextField: '0.00'},
   {TextField: '0.00'}
@@ -772,23 +762,14 @@ AA02AZ: {
   {TextField: '0.00'},
   {TextField: '0.00'}
   ], 
-  VehRntlReimbsDed: [
-  {TextField: '0.00'},
-  {TextField: '0.00'}
+#  VehRntlReimbsDed: {}, 
+#  VehTwgLbrDed: {}, 
+#  VehLnPrtcDed: {}, 
+#  VehNwAddPrtcDed: {}, 
+  VehSpclEqpmtPrem: [
+  {TextField: '1'},
+  {TextField: '0'}
   ], 
-  VehTwgLbrDed: [
-  {TextField: '0.00'},
-  {TextField: '0.00'}
-  ], 
-  VehLnPrtcDed: [
-  {TextField: '0.00'},
-  {TextField: '0.00'}
-  ], 
-  VehNwAddPrtcDed: [
-  {TextField: '0.00'},
-  {TextField: '0.00'}
-  ], 
-  VehSpclEqpmtPrem: {}, 
   VehSpclEqpmtDed: [
   {TextField: '0.00'},
   {TextField: '0.00'}
@@ -975,7 +956,7 @@ AH35XX_ED: {
     AgntCo: {TextField: 'SMTestIA'}
   },
   PaymentDetails: {
-    PlcyTotWdrlAmt: {}
+#    PlcyTotWdrlAmt: {}
   },
   AccountDetails: {
     AcctNum: {TextField: '************1111'}
@@ -988,7 +969,7 @@ AH35XX_ED: {
     PlcyTransCd: {TextField: '0100'},
     NoteDt: {DateTimeField: "/today:yyyy-MM-dd'contains'"},
     TransDesc: {TextField: 'AMD'},
-    FutInstlDueDt: {}
+#    FutInstlDueDt: {}
   }
 }
 
@@ -1251,21 +1232,21 @@ AA02AZ_ED: {
   ], 
   PlcyBdyInjEaOcc: {TextField: '300000'},
   PlcyBdyInjEaPers: {TextField: '100000'},
-  PlcyPdEaOcc: {TextField: '50000'},
+#  PlcyPdEaOcc: {},
   PlcyUmEaOcc: {TextField: '0'},
   PlcyUmEaPers: {TextField: '0'},
   PlcyUIMBEaOcc: {TextField: '0'},
   PlcyUIMBEaPers: {TextField: '0'},
   PlcyAutoDeadBenEaOcc: {TextField: '0'},
   PlcySpclEqpmtTotAmt: [
-  {TextField: '1100.00'},
+  {TextField: '1000.00'},
   {TextField: '0'},
   {TextField: '1000.00'}
   ],
   PlcyAutoDeadBenPrem: {TextField: ''},
   PlcyAutoDeadBenDed: {TextField: '0.00'}, 
   NetWrtPrem: {TextField: ''},
-  PlcyMpEaPers: {TextField: '2000'},
+#  PlcyMpEaPers: {},
 #  VehBdyInjPrem: {},
 #  VehPDPrem: {},
 #  VehUMPrem: {},
@@ -1281,14 +1262,8 @@ AA02AZ_ED: {
   {TextField: '0'},
   {TextField: '0'}
   ],
-  VehRntlReimbsPrem: [
-  {TextField: '0.00'},
-  {TextField: '0.00'}
-  ],
-  VehTwgLbrPrem: [
-  {TextField: '0.00'},
-  {TextField: '0.00'}
-  ],
+#  VehRntlReimbsPrem: {},
+#  VehTwgLbrPrem: {},
   VehLnPrtcPrem: [
   {TextField: '0.00'},
   {TextField: '0.00'}
@@ -1297,12 +1272,9 @@ AA02AZ_ED: {
   {TextField: '0'},
   {TextField: '0'}
   ],
-  VehClsnDed: {},
-  VehCompDed: {},
-  VehSftyGlsDed: [
-  {TextField: '0.00'},
-  {TextField: '0.00'}
-  ],
+#  VehClsnDed: {},
+#  VehCompDed: {},
+#  VehSftyGlsDed: {},
   VehBdyInjDed: [
   {TextField: '0.00'},
   {TextField: '0.00'}
@@ -1323,23 +1295,15 @@ AA02AZ_ED: {
   {TextField: '0.00'},
   {TextField: '0.00'}
   ], 
-  VehRntlReimbsDed: [
-  {TextField: '0.00'},
-  {TextField: '0.00'}
-  ], 
-  VehTwgLbrDed: [
-  {TextField: '0.00'},
-  {TextField: '0.00'}
-  ], 
-  VehLnPrtcDed: [
-  {TextField: '0.00'},
-  {TextField: '0.00'}
-  ], 
-  VehNwAddPrtcDed: [
-  {TextField: '0.00'},
-  {TextField: '0.00'}
-  ], 
-  VehSpclEqpmtPrem: {}, 
+#  VehRntlReimbsDed: {}, 
+#  VehTwgLbrDed: {}, 
+#  VehLnPrtcDed: {},
+#  VehNwAddPrtcDed: {}, 
+  VehSpclEqpmtPrem: {
+  {TextField: '1'},
+  {TextField: '0'},
+  {TextField: '1'}
+  }, 
   VehSpclEqpmtDed: [
   {TextField: '0.00'},
   {TextField: '0.00'}

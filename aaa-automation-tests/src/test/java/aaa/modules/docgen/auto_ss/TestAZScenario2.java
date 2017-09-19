@@ -44,8 +44,8 @@ import aaa.modules.policy.AutoSSBaseTest;
 
 public class TestAZScenario2 extends AutoSSBaseTest {
 
-	private String policyNumber="AZSS952111073";
-//	private String policyNumber;
+//	private String policyNumber="AZSS952111077";
+	private String policyNumber;
 	private LocalDateTime policyExpirationDate;
 	private String termEffDt;
 	private String termExprDt;
@@ -62,8 +62,17 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 	private List<TestData> vehMPPrem = new ArrayList<TestData>();
 	private List<TestData> vehClsnPrem = new ArrayList<TestData>();
 	private List<TestData> vehCompPrem = new ArrayList<TestData>();
-	private List<TestData> vehSpclEqpmtPrem = new ArrayList<TestData>();
+//	private List<TestData> vehSpclEqpmtPrem = new ArrayList<TestData>();
 	private List<TestData> vehTotPrem = new ArrayList<TestData>();
+	private List<TestData> vehSftyGlsDed = new ArrayList<TestData>();
+	private List<TestData> vehNwAddPrtcDed = new ArrayList<TestData>();
+	private List<TestData> vehRntlReimbsDed = new ArrayList<TestData>();
+	private List<TestData> vehTwgLbrDed = new ArrayList<TestData>();
+	private List<TestData> vehLnPrtcDed = new ArrayList<TestData>();
+	private List<TestData> plcyMpEaPers = new ArrayList<TestData>();
+	private List<TestData> plcyPdEaOcc = new ArrayList<TestData>();
+	private List<TestData> vehRntlReimbsPrem = new ArrayList<TestData>();
+	private List<TestData> vehTwgLbrPrem = new ArrayList<TestData>();
 	private String plcyTotPrem;
 	private String netWrtPrem;
 	private String plcyAutoDeadBenPrem;
@@ -72,12 +81,12 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 	private List<TestData> installmentDueDate = new ArrayList<TestData>();
 
 	@Parameters({"state"})
-//	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	public void TC01_CreatePolicy(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
+//		SearchPage.openPolicy(policyNumber);
 		createCustomerIndividual();
 		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -122,6 +131,8 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 						.adjust(TestData.makeKeyPath("AA10XX", "form", "TermEffDt","DateTimeField"), termEffDt)
 						.adjust(TestData.makeKeyPath("AA10XX", "form", "TermExprDt","DateTimeField"), termExprDt)
 						.adjust(TestData.makeKeyPath("AA02AZ", "form", "PlcyNum", "TextField"), policyNumber)
+						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "PlcyMpEaPers"), plcyMpEaPers)
+						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "PlcyPdEaOcc"), plcyPdEaOcc)
 						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehBdyInjPrem"), vehBdyInjPrem)
 						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehPDPrem"), vehPDPrem)
 						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehUMPrem"), vehUMPrem)
@@ -129,10 +140,17 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehMPPrem"), vehMPPrem)
 						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehCompPrem"), vehCompPrem)
 						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehClsnPrem"), vehClsnPrem)
+						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehRntlReimbsPrem"), vehRntlReimbsPrem)
+						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehTwgLbrPrem"), vehTwgLbrPrem)
 						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehClsnDed"), vehClsnDed)
 						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehCompDed"), vehCompDed)
-						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehSpclEqpmtPrem"), vehSpclEqpmtPrem)
-//				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehTotPrem"), vehTotPrem)
+//						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehSpclEqpmtPrem"), vehSpclEqpmtPrem)
+//				        .adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehTotPrem"), vehTotPrem)
+						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehSftyGlsDed"), vehSftyGlsDed)
+						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehNwAddPrtcDed"), vehNwAddPrtcDed)
+						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehRntlReimbsDed"), vehRntlReimbsDed)	
+						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehTwgLbrDed"), vehTwgLbrDed)
+						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehLnPrtcDed"), vehLnPrtcDed)						
 						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "NetWrtPrem", "TextField"), netWrtPrem)
 						.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "PlcyAutoDeadBenPrem", "TextField"), plcyAutoDeadBenPrem)
 						.adjust(TestData.makeKeyPath("AA02AZ", "PaymentDetails", "PlcyTotFee", "TextField"), plcyTotFee)
@@ -145,16 +163,16 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 	}
 
 	@Parameters({"state"})
-	@Test
-//	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
+//	@Test
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC02_EndorsePolicy(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-//		TestData endorsementTd = getTestSpecificTD("TestData_Endorsement");
-//		policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
-//		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-//		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		TestData endorsementTd = getTestSpecificTD("TestData_Endorsement");
+		policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
+		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		
 		storeCoveragesData();
 		storeBillingData();
@@ -193,7 +211,9 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 				.adjust(TestData.makeKeyPath("AA10XX", "form", "TermEffDt","DateTimeField"), termEffDt)
 				.adjust(TestData.makeKeyPath("AA10XX", "form", "TermExprDt","DateTimeField"), termExprDt)
 				.adjust(TestData.makeKeyPath("AA10XX", "form", "EndrEffDt","DateTimeField"), endrEffDt)
-				.adjust(TestData.makeKeyPath("AA02AZ", "form", "PlcyNum", "TextField"), policyNumber)
+	            .adjust(TestData.makeKeyPath("AA02AZ", "form", "PlcyNum", "TextField"), policyNumber)
+				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "PlcyMpEaPers"), plcyMpEaPers)
+				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "PlcyPdEaOcc"), plcyPdEaOcc)
 				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehBdyInjPrem"), vehBdyInjPrem)
 				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehPDPrem"), vehPDPrem)
 				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehUMPrem"), vehUMPrem)
@@ -201,10 +221,17 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehMPPrem"), vehMPPrem)
 				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehCompPrem"), vehCompPrem)
 				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehClsnPrem"), vehClsnPrem)
+				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehRntlReimbsPrem"), vehRntlReimbsPrem)
+				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehTwgLbrPrem"), vehTwgLbrPrem)
 				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehClsnDed"), vehClsnDed)
 				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehCompDed"), vehCompDed)
-				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehSpclEqpmtPrem"), vehSpclEqpmtPrem)
-//				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehTotPrem"), vehTotPrem)
+//				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehSpclEqpmtPrem"), vehSpclEqpmtPrem)
+//			    .adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehTotPrem"), vehTotPrem)
+				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehSftyGlsDed"), vehSftyGlsDed)
+				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehNwAddPrtcDed"), vehNwAddPrtcDed)
+				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehRntlReimbsDed"), vehRntlReimbsDed)	
+				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehTwgLbrDed"), vehTwgLbrDed)
+				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehLnPrtcDed"), vehLnPrtcDed)						
 				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "NetWrtPrem", "TextField"), netWrtPrem)
 				.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "PlcyAutoDeadBenPrem", "TextField"), plcyAutoDeadBenPrem)
 				.adjust(TestData.makeKeyPath("AA02AZ", "PaymentDetails", "PlcyTotFee", "TextField"), plcyTotFee)
@@ -298,6 +325,13 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 		for (TestData td : premiumAndCoveragesTab.getRatingDetailsVehiclesData()) {
 			vehClsnDed.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Collision Deductible"))));
 			vehCompDed.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Comprehensive Deductible"))));
+			vehSftyGlsDed.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Full Safety Glass"))));
+			vehNwAddPrtcDed.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("New Car Added Protection Coverage"))));
+			vehRntlReimbsDed.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Rental Reimbursement Limit"))));
+			vehTwgLbrDed.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Towing and Labor Coverage"))));
+			vehLnPrtcDed.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Vehicle Loan/Lease Coverage"))));
+			plcyMpEaPers.add(DataProviderFactory.dataOf("TextField", td.getValue("Medical Payments").toString().replace("$", "").replace(",", "")));
+			plcyPdEaOcc.add(DataProviderFactory.dataOf("TextField", td.getValue("Property Damage Liability").replace("$", "").replace(",", "")));
 		}
 		
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
@@ -310,8 +344,10 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 			vehMPPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Medical Payments"))));
 			vehClsnPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Collision Deductible"))));
 			vehCompPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Comprehensive Deductible"))));
-			vehSpclEqpmtPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Special Equipment Coverage"))));
+//			vehSpclEqpmtPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Special Equipment Coverage"))));
 			vehTotPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Total Vehicle Term Premium"))));
+			vehRntlReimbsPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Rental Reimbursement"))));
+			vehTwgLbrPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Towing and Labor Coverage"))));
 		}
 		netWrtPrem = formatValue(PremiumAndCoveragesTab.totalActualPremium.getValue());
 		
