@@ -31,6 +31,13 @@ public abstract class CommonErrorTab extends Tab {
 		super(mdClass);
 	}
 
+	public boolean isVisible() {
+		if (buttonOverride.isVisible()) 
+			return true;
+		else 
+			return false;
+	}
+	
 	public Tab cancel() {
 		buttonCancel.click();
 		return this;
