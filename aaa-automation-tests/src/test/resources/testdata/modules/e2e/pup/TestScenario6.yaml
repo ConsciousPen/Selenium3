@@ -59,8 +59,17 @@ TestData_CA: {
 
 #---- Endorsement ----
 
-TestData_Endorsement: {
-  UnderlyingRisksAutoTab: {},
+TestData_EndorsementRP: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {
+    List of Automobiles: [{
+      column=1: 2,
+      column=9: Remove,
+      Confirm Remove: click
+    }]
+  },
   UnderlyingRisksOtherVehiclesTab: {},
   ClaimsTab: {},
   EndorsementsTab: {},
