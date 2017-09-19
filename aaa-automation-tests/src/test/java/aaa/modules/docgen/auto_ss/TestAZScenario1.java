@@ -62,7 +62,7 @@ public class TestAZScenario1 extends AutoSSBaseTest{
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
     public void TC01_CreatePolicy(@Optional("") String state) {
-		 mainApp().open();
+		mainApp().open();
 
 	     createCustomerIndividual();
 	     TestData tdpolicy= getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
@@ -92,7 +92,7 @@ public class TestAZScenario1 extends AutoSSBaseTest{
 	@Parameters({"state"})
     @Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void TC02_GenerateBillingInvoice(String state){
+    public void TC02_GenerateBillingInvoice(@Optional("") String state){
     	CustomAssert.enableSoftMode();
 		LocalDateTime billingGenerationDate=getTimePoints().getBillGenerationDate(installmentDD1);
 		TimeSetterUtil.getInstance().nextPhase(billingGenerationDate);

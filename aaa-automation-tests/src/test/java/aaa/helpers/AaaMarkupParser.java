@@ -2,7 +2,7 @@ package aaa.helpers;
 
 import toolkit.datax.DefaultMarkupParser;
 
-public class AdvancedMarkupParser extends DefaultMarkupParser {
+public class AaaMarkupParser extends DefaultMarkupParser {
 	public final static String CONTAINS_PREFIX = "contains=";
 
 	static {

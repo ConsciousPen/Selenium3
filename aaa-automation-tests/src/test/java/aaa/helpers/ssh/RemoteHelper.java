@@ -2,7 +2,6 @@ package aaa.helpers.ssh;
 
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.SftpATTRS;
-import org.mortbay.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import toolkit.config.PropertyProvider;
@@ -129,7 +128,7 @@ public class RemoteHelper {
 		}
 		String cmd = String.format("cd %1$s; find . -type f -iname '*.%2$s' -print%3$s | xargs -r ls -t | xargs -r readlink -f", sourceFolder, fileExtension == null ? "*" : fileExtension, grepCmd.toString());
 
-		Log.info(String.format("Searching for file(s)%1$s%2$s in \"%3$s\" folder with %4$s seconds timeout.",
+		log.info(String.format("Searching for file(s)%1$s%2$s in \"%3$s\" folder with %4$s seconds timeout.",
 				fileExtension != null ? String.format(" with file extension \"%s\"", fileExtension) : "",
 				textsToSearchPatterns.length > 0 ? String.format(" containing text pattern(s): %s", Arrays.asList(textsToSearchPatterns)) : "",
 				sourceFolder, timeoutInSeconds));

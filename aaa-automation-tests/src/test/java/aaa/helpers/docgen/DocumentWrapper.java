@@ -67,8 +67,7 @@ public class DocumentWrapper {
 		}
 
 		public <D> void exists(boolean expectedValue, String assertionMessage, SearchBy<?, D> searchFilter) {
-			assertionMessage =
-					Objects.isNull(assertionMessage) ? String.format("Entries are %1$s in xml file by search criteria:\n%2$s", expectedValue ? "absent" : "present", searchFilter) : assertionMessage;
+			assertionMessage = Objects.isNull(assertionMessage) ? String.format("Entries are %1$s in xml file by search criteria:\n%2$s", expectedValue ? "absent" : "present", searchFilter) : assertionMessage;
 			CustomAssert.assertEquals(assertionMessage, getList(searchFilter).isEmpty(), !expectedValue);
 		}
 

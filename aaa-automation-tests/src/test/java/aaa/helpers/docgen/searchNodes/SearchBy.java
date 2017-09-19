@@ -1,6 +1,6 @@
 package aaa.helpers.docgen.searchNodes;
 
-import aaa.helpers.AdvancedMarkupParser;
+import aaa.helpers.AaaMarkupParser;
 import aaa.helpers.xml.models.StandardDocumentRequest;
 import javafx.util.Pair;
 
@@ -9,7 +9,7 @@ import java.util.function.Function;
 
 public abstract class SearchBy<N, D> {
 	public static StandardDocumentRequestNode standardDocumentRequest = new StandardDocumentRequestNode();
-	protected static Map<String, String> commonSearchCriteriaMap = new HashMap<>();
+	protected static Map<String, String> commonSearchCriteriaMap = new LinkedHashMap<>();
 	protected Map<String, Pair<Function<D, String>, String>> conditionsMap = new LinkedHashMap<>();
 
 	protected abstract String getNodePath();
@@ -62,8 +62,8 @@ public abstract class SearchBy<N, D> {
 	}
 
 	private boolean isConditionMet(String actualValue, String expectedValue) {
-		if (Objects.nonNull(actualValue) && Objects.nonNull(expectedValue) && expectedValue.startsWith(AdvancedMarkupParser.CONTAINS_PREFIX)) {
-			return actualValue.contains(expectedValue.replaceAll(AdvancedMarkupParser.CONTAINS_PREFIX, ""));
+		if (Objects.nonNull(actualValue) && Objects.nonNull(expectedValue) && expectedValue.startsWith(AaaMarkupParser.CONTAINS_PREFIX)) {
+			return actualValue.contains(expectedValue.replaceAll(AaaMarkupParser.CONTAINS_PREFIX, ""));
 		}
 		return Objects.equals(actualValue, expectedValue);
 	}

@@ -47,8 +47,8 @@ AHIBXX: {
    AutoPayYN: {TextField: 'N'},
    PlcyGrp: {TextField: 'AUTO'},
    PlcyNum: {TextField: ''},
-   PlcyEffDt: {DateTimeField: "/today:yyyy-MM-dd'contains'"},
-   PlcyExprDt: {DateTimeField: "/today+1y:yyyy-MM-dd'contains'"},
+   PlcyEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+   PlcyExprDt: {DateTimeField: "contains=/today+1y:yyyy-MM-dd"},
    PlcyStAbrv: {TextField: 'AZ'},
    PlcyTransCd: {TextField: 'STMT'},
    
