@@ -1,5 +1,6 @@
 package aaa.modules.e2e.pup;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -22,7 +23,7 @@ public class TestScenario6 extends Scenario6 {
 
 	@Parameters({"state"})
 	@Test
-	public void TC01_createPolicy(String state) {
+	public void TC01_createPolicy(@Optional("") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
 		endorsementReasonDataKeys = new String[]{new EndorsementActionTab().getMetaKey(), PersonalUmbrellaMetaData.EndorsementActionTab.ENDORSEMENT_REASON.getLabel()};
 
@@ -32,87 +33,79 @@ public class TestScenario6 extends Scenario6 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC02_Generate_First_Bill(String state) {
-		super.Generate_First_Bill();
+	public void TC02_Generate_First_Bill(@Optional("") String state) {
+		super.generateFirstBill();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC03_Endorse_Policy(String state) {
-		super.Endorse_Policy();
+	public void TC03_Endorse_Policy(@Optional("") String state) {
+		super.endorsePolicy();
 
 	}
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC04_Pay_First_Bill(String state) {
-		super.Pay_First_Bill();
+	public void TC04_Pay_First_Bill(@Optional("") String state) {
+		super.payFirstBill();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC05_Generate_CancellNotice(String state) {
-		super.Generate_CancellNotice();
+	public void TC05_Generate_CancellNotice(@Optional("") String state) {
+		super.generateCancellNotice();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC06_Generate_Second_Bill(String state) {
-		super.Generate_Second_Bill();
+	public void TC06_Generate_Second_Bill(@Optional("") String state) {
+		super.generateSecondBill();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC07_Pay_Second_Bill(String state) {
-		super.Pay_Second_Bill();
+	public void TC07_Pay_Second_Bill(@Optional("") String state) {
+		super.paySecondBill();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC08_Generate_Third_Bill(String state) {
-		super.Generate_Third_Bill();
+	public void TC08_Generate_Third_Bill(@Optional("") String state) {
+		super.generateThirdBill();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC09_Pay_Third_Bill(String state) {
-		super.Pay_Third_Bill();
+	public void TC09_Pay_Third_Bill(@Optional("") String state) {
+		super.payThirdBill();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC10_Set_Do_Not_Renew_Flag(String state) {
-		super.Set_Do_Not_Renew_Flag();
+	public void TC10_Set_Do_Not_Renew_Flag(@Optional("") String state) {
+		super.setDoNotRenewFlag();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC11_Renewal_Image_Generation(String state) {
-		super.Renewal_Image_Generation();
+	public void TC11_Renewal_Image_Generation(@Optional("") String state) {
+		super.renewalImageGeneration();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC12_Renewal_Preview_Generation(String state) {
-		super.Renewal_Preview_Generation();
+	public void TC12_Renewal_Preview_Generation(@Optional("") String state) {
+		super.renewalPreviewGeneration();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC13_Renewal_Offer_Generation(String state) {
-		super.Renewal_Offer_Generation();
+	public void TC13_Renewal_Offer_Generation(@Optional("") String state) {
+		super.renewalOfferGeneration();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC14_Update_Policy_Status(String state) {
-		super.Update_Policy_Status();
-	}
-
-	@Override
-	protected void removeSecondVehicle() {
-		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS.get());
-		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
-		UnderlyingRisksAutoTab.tableAutomobiles.getRow(2).getCell(9).controls.links.get("Remove").click();
-		Page.dialogConfirmation.confirm();
+	public void TC14_Update_Policy_Status(@Optional("") String state) {
+		super.updatePolicyStatus();
 	}
 }

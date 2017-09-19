@@ -7,6 +7,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.modules.policy.AutoSSBaseTest;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
@@ -23,7 +24,7 @@ public class TestQuoteDiscounts extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testMembershipDiscount(String state) {
+	public void testMembershipDiscount(@Optional("") String state) {
 		TestData td = getPolicyTD();
 		GeneralTab generalTab = new GeneralTab();
 
@@ -58,7 +59,7 @@ public class TestQuoteDiscounts extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testLoyaltyDiscount(String state) {
+	public void testLoyaltyDiscount(@Optional("") String state) {
 
 		TestData td = getPolicyTD();
 		GeneralTab generalTab = new GeneralTab();

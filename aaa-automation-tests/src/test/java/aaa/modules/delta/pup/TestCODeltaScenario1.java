@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -58,7 +59,7 @@ public class TestCODeltaScenario1 extends PersonalUmbrellaBaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = { Groups.DELTA, Groups.HIGH })
-	public void pupDeltaSC1_TC01(String state) {
+	public void pupDeltaSC1_TC01(@Optional("") String state) {
 		mainApp().open();
         createCustomerIndividual();
 
@@ -86,7 +87,7 @@ public class TestCODeltaScenario1 extends PersonalUmbrellaBaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = { Groups.DELTA, Groups.HIGH })
-	public void pupDeltaSC1_TC02(String state) {
+	public void pupDeltaSC1_TC02(@Optional("") String state) {
 		mainApp().open();
 		CustomAssert.enableSoftMode();
 		SearchPage.openQuote(quoteNumber);
@@ -127,7 +128,7 @@ public class TestCODeltaScenario1 extends PersonalUmbrellaBaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = { Groups.DELTA, Groups.HIGH })
-	public void pupDeltaSC1_TC03(String state) {
+	public void pupDeltaSC1_TC03(@Optional("") String state) {
 		mainApp().open();
 		SearchPage.openQuote(quoteNumber);
 		policy.dataGather().start();
@@ -157,7 +158,7 @@ public class TestCODeltaScenario1 extends PersonalUmbrellaBaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = { Groups.DELTA, Groups.HIGH })
-	public void pupDeltaSC1_TC04(String state) {
+	public void pupDeltaSC1_TC04(@Optional("") String state) {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 

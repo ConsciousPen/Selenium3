@@ -1,5 +1,6 @@
 package aaa.modules.delta.home_ss.ho3;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -17,31 +18,31 @@ public class TestCODeltaScenario3 extends CODeltaScenario1 {
 	
 	@Parameters({"state"})
 	@Test
-	public void TC01_createQuote(String state) {				
+	public void TC01_createQuote(@Optional("") String state) {				
 		super.TC_createQuote(scenarioPolicyType);
 	}
 	
 	@Parameters({"state"})
 	@Test
-	public void TC02_verifyEndorsementsTab(String state) {
+	public void TC02_verifyEndorsementsTab(@Optional("") String state) {
 		super.TC_verifyEndorsementsTab();
 	}
 	
 	@Parameters({"state"})
 	@Test
-	public void TC03_verifyQuoteODD(String state) {
+	public void TC03_verifyQuoteODD(@Optional("") String state) {
 		super.TC_verifyQuoteODD();
 	}
 	
 	@Parameters({"state"})
 	@Test
-	public void TC04_purchasePolicy(String state) {
+	public void TC04_purchasePolicy(@Optional("") String state) {
 		super.TC_purchasePolicy(scenarioPolicyType);
 	}
 	
 	@Parameters({"state"})
 	@Test
-	public void TC05_verifyPolicyODD(String state) {
+	public void TC05_verifyPolicyODD(@Optional("") String state) {
 		super.TC_verifyPolicyODD();
 	}
 

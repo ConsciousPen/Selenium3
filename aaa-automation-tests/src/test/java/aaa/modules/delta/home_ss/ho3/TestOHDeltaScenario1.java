@@ -1,5 +1,6 @@
 package aaa.modules.delta.home_ss.ho3;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -17,37 +18,37 @@ public String scenarioPolicyType = "HO3-Heritage";
 	
 	@Parameters({"state"})
 	@Test
-	public void TC01_createQuote(String state) {				
+	public void TC01_createQuote(@Optional("") String state) {				
 		super.TC_createQuote(scenarioPolicyType);
 	}
 	
 	@Parameters({"state"})
 	@Test
-	public void TC02_verifyImmediatePriorCarrier(String state) {
+	public void TC02_verifyImmediatePriorCarrier(@Optional("") String state) {
 		super.TC_verifyImmediatePriorCarrier();
 	}
 	
 	@Parameters({"state"})
 	@Test
-	public void TC03_verifyEndorsementsTab(String state) {
+	public void TC03_verifyEndorsementsTab(@Optional("") String state) {
 		super.TC_verifyEndorsementsTab();
 	}
 	
 	@Parameters({"state"})
 	@Test
-	public void TC04_verifyHailResistanceRating(String state) {
+	public void TC04_verifyHailResistanceRating(@Optional("") String state) {
 		super.TC_verifyHailResistanceRating();
 	}
 	
 	@Parameters({"state"})
 	@Test
-	public void TC05_verifyIneligibleRoofType(String state) {	
+	public void TC05_verifyIneligibleRoofType(@Optional("") String state) {	
 		super.TC_verifyIneligibleRoofType();
 	}
 	
 	@Parameters({"state"})
 	@Test
-	public void TC06_purchasePolicy(String state) {	
+	public void TC06_purchasePolicy(@Optional("") String state) {	
 		super.TC_purchasePolicy(scenarioPolicyType);
 	}
 

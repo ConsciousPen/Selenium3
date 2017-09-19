@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.home_ss.ho3;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -34,14 +35,14 @@ public class TestPolicyCancelNoticeWithCancellation extends PolicyCancelNoticeWi
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, enabled = false)
 	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
-	public void TC01_CreatePolicyAndCancelNotice(String state) {
+	public void TC01_CreatePolicyAndCancelNotice(@Optional("") String state) {
 		super.TC01_CreatePolicyAndCancelNotice();
 	}
 	
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicyAndCancelNotice", enabled = false)
 	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
-	public void TC02_CancellationPolicy(String state) {
+	public void TC02_CancellationPolicy(@Optional("") String state) {
 		super.TC02_CancellationPolicy();
 	}
 }

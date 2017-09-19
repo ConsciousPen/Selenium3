@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.home_ss.dp3;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -26,7 +27,7 @@ public class TestPolicyCreation extends HomeSSDP3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3)    
-    public void testPolicyCreation(String state) {
+    public void testPolicyCreation(@Optional("") String state) {
         mainApp().open();
         createCustomerIndividual();
         policy.createPolicy(getPolicyTD("DataGather", "TestData"));

@@ -2,6 +2,7 @@ package aaa.modules.regression.sales.home_ca.ho3;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
@@ -41,7 +42,7 @@ public class TestQuoteViewSelectedEndorsements extends HomeCaHO3BaseTest {
     @Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
-    public void testQuoteViewSelectedEndorsements(String state) {
+    public void testQuoteViewSelectedEndorsements(@Optional("CA") String state) {
 
         List<String> selectedEndorsements = initEndorsements();
 

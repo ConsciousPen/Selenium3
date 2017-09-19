@@ -1,6 +1,7 @@
 package aaa.modules.regression.service.home_ca.ho3;
 
 import java.util.HashMap;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
@@ -56,7 +57,7 @@ public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
     @Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
-    public void testPolicyCancelReinstateUWReason(String state) {
+    public void testPolicyCancelReinstateUWReason(@Optional("CA") String state) {
         CancelActionTab cancelActionTab = new CancelActionTab();
         ReinstatementActionTab reinstatementActionTab = new ReinstatementActionTab();
 

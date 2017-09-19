@@ -3,6 +3,7 @@
 package aaa.main.metadata.policy;
 
 import aaa.main.enums.DocGenConstants;
+import aaa.toolkit.webdriver.customcontrols.*;
 import org.openqa.selenium.By;
 
 import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
@@ -10,10 +11,6 @@ import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 
 import aaa.common.pages.Page;
 import aaa.main.metadata.DialogsMetaData;
-import aaa.toolkit.webdriver.customcontrols.AdditionalPoliciesMultiAssetList;
-import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
-import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
-import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
@@ -290,6 +287,7 @@ public final class PersonalUmbrellaMetaData {
 	
 	public static final class UnderlyingRisksAutoTab extends MetaData {
 		public static final AssetDescriptor<MultiInstanceAfterAssetList> DRIVERS = declare("Drivers", MultiInstanceAfterAssetList.class, Drivers.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_PupDriverMVO']"));
+		public static final AssetDescriptor<FillableTable> LIST_OF_AUTOMOBILES = declare("List of Automobiles", FillableTable.class, ListOfAutomobilesRow.class, By.xpath("//div[@id='policyDataGatherForm:dataGatherView_ListPupAutomobile']/div/table"));
 		public static final AssetDescriptor<MultiInstanceAfterAssetList> AUTOMOBILES = declare("Automobiles", MultiInstanceAfterAssetList.class, Automobiles.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_PupAutomobileMVO']"));
 		public static final AssetDescriptor<MultiInstanceAfterAssetList> MOTORCYCLES = declare("Motorcycles", MultiInstanceAfterAssetList.class, Motorcycles.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_PupMotorcycle']"));
 		public static final AssetDescriptor<MultiInstanceAfterAssetList> MOTOR_HOMES = declare("MotorHomes", MultiInstanceAfterAssetList.class, MotorHomes.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_PupMotorhome']"));
@@ -320,6 +318,19 @@ public final class PersonalUmbrellaMetaData {
 			public static final AssetDescriptor<RadioGroup> EXCLUDED = declare("Excluded", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> REASON_FOR_EXCLUSION = declare("Reason for exclusion", TextBox.class, Waiters.NONE);
 			public static final AssetDescriptor<Button> ADD = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addPupDriver"));
+		}
+
+		public static final class ListOfAutomobilesRow extends MetaData {
+			public static final AssetDescriptor<StaticElement> NUM_COLUMN = declare("column=1", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> YEAR = declare("Year", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> MAKE = declare("Make", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> MODEL = declare("Model", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> TYPE = declare("Type", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> CURRENT_CARRIER = declare("Current Carrier", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> POLICY_NUM = declare("Policy #", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> EXCLUDED = declare("Excluded", StaticElement.class);
+			public static final AssetDescriptor<Link> ACTION_COLUMN = declare("column=9", Link.class);
+			public static final AssetDescriptor<Button> CONFIRM_REMOVE = declare("Confirm Remove", Button.class, Waiters.AJAX, false, By.id("confirmEliminateInstance_Dialog_form:buttonYes"));
 		}
 		
 		public static final class Automobiles extends MetaData {

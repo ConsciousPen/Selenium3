@@ -9,6 +9,8 @@ import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.verification.CustomAssert;
@@ -20,7 +22,7 @@ public class AcceptPaymentTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_030_ProcessAcceptPayment(String state) {
+	public void BCT_ONL_030_ProcessAcceptPayment(@Optional("") String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_030_ProcessAcceptPayment", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 

@@ -4,6 +4,7 @@ package aaa.modules.regression.sales.home_ca.dp3;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -26,7 +27,7 @@ public class TestPolicyCreation extends HomeCaDP3BaseTest {
     @Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
-    public void testPolicyCreation(String state) {
+    public void testPolicyCreation(@Optional("CA") String state) {
         mainApp().open();
 
         createCustomerIndividual();

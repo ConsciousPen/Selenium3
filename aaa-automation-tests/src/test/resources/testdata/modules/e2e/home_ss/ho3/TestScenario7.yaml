@@ -6,6 +6,19 @@ TestData: {
   },
 }
 
+TestData_EnableAutopay: {
+  UpdateBillingAccountActionTab: {
+    Activate Autopay: true,
+    Autopay Selection: 'index=1'
+  }
+}
+
+TestData_DisableAutopay: {
+  UpdateBillingAccountActionTab: {
+    Activate Autopay: false
+  }
+}
+
 # ----- Endorsement -----
 TestData_EndorsementPlan: {
   GeneralTab: {},

@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ss;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -37,7 +38,7 @@ public class TestPolicyDoNotRenewAddRemove extends PolicyDoNotRenewAddRemove {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testPolicyDoNotRenewAddRemove(String state) {
+	public void testPolicyDoNotRenewAddRemove(@Optional("") String state) {
 
 		super.testPolicyDoNotRenewAddRemove();
 	}
