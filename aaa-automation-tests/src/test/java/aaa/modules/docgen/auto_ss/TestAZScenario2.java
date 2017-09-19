@@ -44,7 +44,8 @@ import aaa.modules.policy.AutoSSBaseTest;
 
 public class TestAZScenario2 extends AutoSSBaseTest {
 
-	private String policyNumber;
+	private String policyNumber="AZSS952111073";
+//	private String policyNumber;
 	private LocalDateTime policyExpirationDate;
 	private String termEffDt;
 	private String termExprDt;
@@ -71,21 +72,14 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 	private List<TestData> installmentDueDate = new ArrayList<TestData>();
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+//	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
 	public void TC01_CreatePolicy(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
-//		SearchPage.openPolicy(policyNumber);
+		SearchPage.openPolicy(policyNumber);
 		createCustomerIndividual();
-		TestData tdpolicy=getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(tdpolicy, PremiumAndCoveragesTab.class, true);
-		storeCoveragesData();
-		Tab.buttonContinue.click();
-		policy.getDefaultView().fillFromTo(tdpolicy, PremiumAndCoveragesTab.class,PurchaseTab.class, true);
-		policyNumber=PolicySummaryPage.labelPolicyNumber.getValue();
-//		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
+		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		log.info("Original Policy #" + policyNumber);
@@ -93,7 +87,7 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 		plcyEffDt=DocGenHelper.convertToZonedDateTime(PolicySummaryPage.getEffectiveDate());
 		plcyExprDt=DocGenHelper.convertToZonedDateTime(policyExpirationDate);
 		termExprDt=DocGenHelper.convertToZonedDateTime(policyExpirationDate);
-		
+		storeCoveragesData();
 		storeBillingData();
 		
 		/* verify the xml file 
@@ -157,18 +151,12 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		TestData endorsementTd = getTestSpecificTD("TestData_Endorsement");
-		policy.endorse().start();
-		policy.endorse().getView().fill(getPolicyTD("Endorsement", "TestData"));
-		policy.endorse().submit();
-		policy.getDefaultView().fillUpTo(endorsementTd, PremiumAndCoveragesTab.class, false);
-		storeCoveragesData();
-		policy.getDefaultView().fillFromTo(endorsementTd,PremiumAndCoveragesTab.class,DocumentsAndBindTab.class,true);
+//		TestData endorsementTd = getTestSpecificTD("TestData_Endorsement");
 //		policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+//		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+//		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		
-		
+		storeCoveragesData();
 		storeBillingData();
 		
 		endrEffDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tablePaymentsOtherTransactions
@@ -304,13 +292,14 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 	}
 
 	private void storeCoveragesData() {
-//		policy.policyInquiry().start();
-//		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		policy.policyInquiry().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
 		for (TestData td : premiumAndCoveragesTab.getRatingDetailsVehiclesData()) {
 			vehClsnDed.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Collision Deductible"))));
 			vehCompDed.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Comprehensive Deductible"))));
 		}
+		
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 
 		for (TestData td : premiumAndCoveragesTab.getTermPremiumByVehicleData()) {

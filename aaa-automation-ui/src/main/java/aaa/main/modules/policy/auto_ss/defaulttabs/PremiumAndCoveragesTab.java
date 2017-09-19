@@ -123,6 +123,13 @@ public class PremiumAndCoveragesTab extends Tab {
                     continue; // empty column means absent vehicle
                 }
 
+                List<String> _values = new ArrayList<String>();
+                _values.addAll(values);
+                _values.removeIf(s -> "No Coverage".equals(s));
+                if (_values.stream().allMatch(String::isEmpty)) {
+                    continue; // skip column with only "No Coverage"
+                }
+                
                 CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
 
                 for (int i = 0; i < keys.size(); i++) {

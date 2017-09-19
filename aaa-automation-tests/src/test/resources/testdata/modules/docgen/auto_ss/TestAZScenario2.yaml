@@ -314,8 +314,8 @@ AASR22: {
   {
    VehItemNum: {TextField: '2'},
    VehManufactureYear: {TextField: '2010'},
-   VehMdelNm: {TextField: 'KIA'},
-   VehManfrNm: {TextField: 'SOUL'},
+   VehMdelNm: {TextField: 'SOUL'},
+   VehManfrNm: {TextField: 'KIA'},
    VehTyp: {TextField: 'Golf'},
    VehIdNum: {TextField: 'KNDJT2A2XA7038383'}
   }
@@ -623,7 +623,7 @@ AA10XX: {
     VehAddFlg: {TextField: 'Y'},
     VehManfrNm: {TextField: 'KIA'},
     VehMdelNm: {TextField: 'SOUL'},
-    VehBdyTyp: {TextField: ''},
+    VehBdyTyp: {TextField: 'WAGON 4 DOOR'},
     VehIdNum: {TextField: 'KNDJT2A2XA7038383'}
   }
   ], 
@@ -686,7 +686,7 @@ AA02AZ: {
     VehTyp: {TextField: 'Golf'},
     VehManufactureYear: {TextField: '2010'},
     VehManfrNm: {TextField: 'KIA'},
-    VehMdelNm: {TextField: 'SOUL'},
+    VehMdelNm: {TextField: 'SOUL WAGON 4 DOOR'},
     VehIdNum: {TextField: 'KNDJT2A2XA7038383'},
     VehUnitNum: {TextField: '2'},
     VehDiscDesc: {TextField: ''},
@@ -1220,7 +1220,7 @@ AA02AZ_ED: {
     VehTyp: {TextField: 'Golf'},
     VehManufactureYear: {TextField: '2010'},
     VehManfrNm: {TextField: 'KIA'},
-    VehMdelNm: {TextField: 'SOUL'},
+    VehMdelNm: {TextField: 'SOUL WAGON 4 DOOR'},
     VehIdNum: {TextField: 'KNDJT2A2XA7038383'},
     VehUnitNum: {TextField: '2'},
     VehDiscDesc: {TextField: ''},

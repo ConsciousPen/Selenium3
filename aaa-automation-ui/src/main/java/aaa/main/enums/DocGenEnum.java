@@ -123,7 +123,12 @@ public final class DocGenEnum {
 		_61_2006("61 2006", "Offer of Earthquake Coverage Homeowners/Dwelling Fire Basic Earthquake Policy"),
 		_61_5120("61 5120", "New Business Welcome Letter"),
 		_1075("1075", "Homeowners Policy Declarations"),
-		_60_5019("60 5019", "Subscriber Agreement")
+		_60_5019("60 5019", "Subscriber Agreement"),
+		_61_6528_HO3("61 6528", "Homeowners Insurance Quote Page"),
+		_61_6528_HO4("61 6528", "Renters Insurance Quote Page"),
+		_61_6530("61 6530", "California Residential Property Insurance Disclosure"),
+		_61_3000("61 3000", "California Residential Property Insurance Bill of Rights"),
+		F1122("Property Inventory List")
 		;
 
 		private String id;
