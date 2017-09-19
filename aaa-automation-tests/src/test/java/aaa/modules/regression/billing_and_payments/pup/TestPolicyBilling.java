@@ -6,6 +6,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
@@ -33,7 +34,7 @@ public class TestPolicyBilling extends PolicyBilling {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP)
-	public void testBilling(String state) {
+	public void testBilling(@Optional("") String state) {
 
 		super.testBilling();
 	}

@@ -12,6 +12,7 @@ import aaa.main.modules.billing.account.actiontabs.ChangePaymentPlanActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -19,7 +20,7 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_086_ModifyPaymentPlan(String state) {
+	public void BCT_ONL_086_ModifyPaymentPlan(@Optional("") String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_086_ModifyPaymentPlan", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
@@ -39,7 +40,7 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_185_Refund_Validation(String state) {
+	public void BCT_ONL_185_Refund_Validation(@Optional("") String state) {
 		//TODO Test moved from Deloite's code as is, probably some additional steps should be added
 		String policyNumber = getPoliciesByQuery("BCT_ONL_185_Refund_Validation", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
@@ -59,7 +60,7 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_186_Refund_Validation(String state) {
+	public void BCT_ONL_186_Refund_Validation(@Optional("") String state) {
 		//TODO Test moved from Deloite's code as is, probably some additional steps should be added
 		String policyNumber = getPoliciesByQuery("BCT_ONL_186_Refund_Validation", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();

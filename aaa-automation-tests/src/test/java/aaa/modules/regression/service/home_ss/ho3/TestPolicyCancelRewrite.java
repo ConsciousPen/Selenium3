@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.home_ss.ho3;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -26,7 +27,7 @@ public class TestPolicyCancelRewrite extends PolicyCancelRewrite {
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
-	public void testPolicyCancelRewrite(String state) {
+	public void testPolicyCancelRewrite(@Optional("") String state) {
 
 		super.testPolicyCancelRewrite();
 

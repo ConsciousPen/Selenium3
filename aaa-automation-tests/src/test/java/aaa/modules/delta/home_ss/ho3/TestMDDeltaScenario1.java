@@ -1,5 +1,6 @@
 package aaa.modules.delta.home_ss.ho3;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -21,49 +22,49 @@ public class TestMDDeltaScenario1 extends MDDeltaScenario1 {
 	@Parameters({"state"})
 	@Test(groups = { Groups.DELTA, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
-	public void TC01_createQuote(String state) {				
+	public void TC01_createQuote(@Optional("") String state) {				
 		super.TC_createQuote(scenarioPolicyType);
 	}
 
 	@Parameters({"state"})
 	@Test
-	public void TC02_verifyLOVsOfImmediatePriorCarrier(String state) {
+	public void TC02_verifyLOVsOfImmediatePriorCarrier(@Optional("") String state) {
 		super.TC_verifyLOVsOfImmediatePriorCarrier();
 	}
 	
 	@Parameters({"state"})
 	@Test
-	public void TC03_verifyEndorsementHS0495(String state) {
+	public void TC03_verifyEndorsementHS0495(@Optional("") String state) {
 		super.TC_verifyEndorsementHS0495(scenarioPolicyType);
 	}
 	
 	@Parameters({"state"})
 	@Test
-	public void TC04_verifyEndorsementHS2338(String state) {
+	public void TC04_verifyEndorsementHS2338(@Optional("") String state) {
 		super.TC_verifyEndorsementHS2338();
 	}
 	
 	@Parameters({"state"})
 	@Test
-	public void TC05_verifyStormShutterDiscount(String state) {
+	public void TC05_verifyStormShutterDiscount(@Optional("") String state) {
 		super.TC_verifyStormShutterDiscount();
 	}
 	
 	@Parameters({"state"})
 	@Test
-	public void TC06_verifyUnderwritingApprovalTab (String state) {
+	public void TC06_verifyUnderwritingApprovalTab (@Optional("") String state) {
 		super.TC_verifyUnderwritingApprovalTab();
 	}
 	
 	@Parameters({"state"})
 	@Test
-	public void TC07_purchasePolicy(String state) {
+	public void TC07_purchasePolicy(@Optional("") String state) {
 		super.TC_purchasePolicy(scenarioPolicyType);
 	}
 	
 	@Parameters({"state"})
 	@Test
-	public void TC08_verifyCancelNoticeTab(String state) {
+	public void TC08_verifyCancelNoticeTab(@Optional("") String state) {
 		super.TC_verifyCancelNoticeTab();
 	}
 

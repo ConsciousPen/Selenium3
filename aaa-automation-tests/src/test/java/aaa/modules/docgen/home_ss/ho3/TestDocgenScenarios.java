@@ -1,8 +1,11 @@
 package aaa.modules.docgen.home_ss.ho3;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
 import com.exigen.ipb.etcsa.utils.Dollar;
+
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import aaa.common.Tab;
@@ -112,8 +115,9 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * Request Add'l Info
 	 */
 
+	@Parameters({"state"})
 	@Test
-	public void testQuoteDocuments() {
+	public void testQuoteDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
@@ -155,6 +159,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSIQXX, Documents.AHPNXX);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.quoteDocGen().start();
 		if(getState().equals(States.VA))
 			documentActionTab.selectDocuments(Documents.HSAUDVA);
@@ -173,6 +178,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		if(getState().equals(States.VA))
 			DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSAUDVA);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.quoteDocGen().start();
 		documentActionTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"), 
 				Documents.HSU03XX, 
@@ -190,6 +196,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				Documents.HSU08XX
 				);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.dataGather().start();
 		NavigationPage.toViewTab(HomeSSTab.REPORTS.get());
 		policy.getDefaultView().fillFromTo(getTestSpecificTD("InsuranceScoreOverride926"), ReportsTab.class, PropertyInfoTab.class, true);
@@ -279,7 +286,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test
-	public void testPolicyDocuments(String state) {
+	public void testPolicyDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
@@ -319,6 +326,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.HS11, Documents.AHPNXX);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.policyDocGen().start();
 		documentActionTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"),
 				Documents.AHRCTXX, 
@@ -353,7 +361,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test()
-	public void testPolicyRescissionNoticeDocument(String state) {
+	public void testPolicyRescissionNoticeDocument(@Optional("") String state) {
 		mainApp().open();
 		String policyNum = getCopiedPolicy();
 		
@@ -436,7 +444,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test
-	public void testMortgagePolicyDocuments(String state) {
+	public void testMortgagePolicyDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		createCustomerIndividual();
@@ -571,7 +579,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test
-	public void testReturnPaymentDocuments(String state) {
+	public void testReturnPaymentDocuments(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNum = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_ReturnPaymentPolicy")));
@@ -622,7 +630,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test
-	public void testCancellationNoticeDocument(String state) {
+	public void testCancellationNoticeDocument(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNum = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_ReturnPaymentPolicy")));

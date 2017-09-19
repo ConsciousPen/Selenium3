@@ -4,6 +4,7 @@ import static aaa.main.enums.DocGenEnum.Documents.*;
 
 import java.time.LocalDateTime;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -60,7 +61,7 @@ public class TestAZScenario1 extends AutoSSBaseTest{
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void TC01_CreatePolicy(String state){
+    public void TC01_CreatePolicy(@Optional("") String state) {
 		 mainApp().open();
 
 	     createCustomerIndividual();
@@ -138,7 +139,7 @@ public class TestAZScenario1 extends AutoSSBaseTest{
 	@Parameters({"state"})
     @Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void TC03_GenerateCancelNotice(String state){
+    public void TC03_GenerateCancelNotice(@Optional("") String state) {
     	CustomAssert.enableSoftMode();
     	
     	LocalDateTime cancelNoticeDate=getTimePoints().getCancellationNoticeDate(installmentDD1);

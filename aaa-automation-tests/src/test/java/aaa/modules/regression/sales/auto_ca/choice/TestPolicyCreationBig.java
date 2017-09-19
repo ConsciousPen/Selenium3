@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ca.choice;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -32,7 +33,7 @@ public class TestPolicyCreationBig extends AutoCaChoiceBaseTest {
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE)
-	public void testPolicyCreationBig(String state) {
+	public void testPolicyCreationBig(@Optional("CA") String state) {
 		mainApp().open();
 
 		createCustomerIndividual();

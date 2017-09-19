@@ -265,6 +265,7 @@ public final class AutoCaMetaData {
 	}
 
 	public static final class VehicleTab extends MetaData {
+		public static final AssetDescriptor<FillableTable> LIST_OF_VEHICLE = declare("List of Vehicle", FillableTable.class, ListOfVehicleRow.class, By.xpath("//div[@id='policyDataGatherForm:dataGatherView_ListVehicle']/div/table"));
 		public static final AssetDescriptor<Button> ADD_VEHICLE = declare("Add Vehicle", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addVehicle"));
 
 		public static final AssetDescriptor<ComboBox> TYPE = declare("Type", ComboBox.class);
@@ -322,6 +323,15 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<MultiInstanceAfterAssetList> ADDITIONAL_INTEREST_INFORMATION = declare("AdditionalInterestInformation", MultiInstanceAfterAssetList.class, AdditionalInterestInformation.class,
 				By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAAdditionalInterest']"));
 		public static final AssetDescriptor<ComboBox> VEHICLE_USE = declare("Vehicle Use", ComboBox.class);
+
+		public static final class ListOfVehicleRow extends MetaData {
+			public static final AssetDescriptor<StaticElement> NUM_COLUMN = declare("column=1", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> MAKE = declare("Make", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> MODEL = declare("Model", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> YEAR = declare("Year", StaticElement.class);
+			public static final AssetDescriptor<Link> ACTION_COLUMN = declare("column=5", Link.class);
+			public static final AssetDescriptor<Button> CONFIRM_REMOVE = declare("Confirm Remove", Button.class, Waiters.AJAX, false, By.id("confirmEliminateInstance_Dialog_form:buttonYes"));
+		}
 		
 		public static final class Ownership extends MetaData {
 			public static final AssetDescriptor<ComboBox> OWNERSHIP_TYPE = declare("Ownership Type", ComboBox.class);

@@ -1,5 +1,6 @@
 package aaa.modules.delta.home_ss.ho4;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -17,28 +18,28 @@ public String scenarioPolicyType = "HO4";
 	
 	@Parameters({"state"})
 	@Test
-	public void TC01_createQuote(String state) {				
+	public void TC01_createQuote(@Optional("") String state) {				
 		super.TC_createQuote(scenarioPolicyType);
 	}
 	
 	@Parameters({"state"})
 	@Test
-	public void TC02_verifyLOVsOfImmediatePriorCarrier(String state) {
+	public void TC02_verifyLOVsOfImmediatePriorCarrier(@Optional("") String state) {
 		super.TC_verifyLOVsOfImmediatePriorCarrier();
 	}
 	
 	@Parameters({"state"})
 	@Test
-	public void TC03_purchasePolicy(String state) {	
+	public void TC03_purchasePolicy(@Optional("") String state) {	
 		super.TC_purchasePolicy(scenarioPolicyType);
 	}
 	
 	@Parameters({"state"})
 	@Test
-	public void TC04_verifyDeclarationDocumentsGenerated(String state) {} 
+	public void TC04_verifyDeclarationDocumentsGenerated(@Optional("") String state) {} 
 	
 	@Parameters({"state"})
 	@Test
-	public void TC05_verifyPolicyODD(String state) {}
+	public void TC05_verifyPolicyODD(@Optional("") String state) {}
 
 }

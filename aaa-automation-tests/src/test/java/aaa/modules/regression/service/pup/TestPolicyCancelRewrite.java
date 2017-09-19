@@ -5,6 +5,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
@@ -31,7 +32,7 @@ public class TestPolicyCancelRewrite extends PersonalUmbrellaBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.PUP )
-	public void testPolicyCancelRewrite(String state) {
+	public void testPolicyCancelRewrite(@Optional("") String state) {
 		mainApp().open();
 
 		getCopiedPolicy();

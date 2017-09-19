@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.pup;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
@@ -31,7 +32,7 @@ public class TestPolicyCancellation extends PolicyCancellation {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.PUP )
-	public void testPolicyCancellationFlat(String state) {
+	public void testPolicyCancellationFlat(@Optional("") String state) {
 		super.testPolicyCancellationFlat();
 	}
 	
@@ -48,7 +49,7 @@ public class TestPolicyCancellation extends PolicyCancellation {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.PUP )
-    public void testPolicyCancellationMidTerm(String state) {
+    public void testPolicyCancellationMidTerm(@Optional("") String state) {
 		super.testPolicyCancellationMidTerm();
 	}
 }

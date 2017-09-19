@@ -108,6 +108,14 @@ PurchaseTab_WithAutopay: {
   }
 }
 
+PurchaseTab_AddCard_NoAutopay: {
+  PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa'],
+  Activate Autopay: false,
+  PaymentAllocation: {
+    Cash: /rest
+  }
+}
+
 # ApplicantTab
 NamedInsured: {
   Relationship to primary named insured:  Primary Insured,
