@@ -110,6 +110,11 @@ public final class DocGenEnum {
 		AH62XX("Reinstatement Notice"),
 		AASR26("Cancellation of Financial Responsibility"),
 		AAPDXX("Courtesy Coverage Letter"),
+		_61_6528_HO3("61 6528", "Homeowners Insurance Quote Page"),
+		_61_6528_HO4("61 6528", "Renters Insurance Quote Page"),
+		F1122("Property Inventory List"),
+		_61_6530("61 6530", "California Residential Property Insurance Disclosure"),
+		_61_3000("61 3000", "California Residential Property Insurance Bill of Rights"),
 		_61_3026("61 3026", "Property Bill Plan Explanation"),
 		F1076B("California Application For Homeowners Insurance"),
 		_62_6500("62 6500", "CA Evidence of Property Insurance"),
@@ -124,11 +129,9 @@ public final class DocGenEnum {
 		_61_5120("61 5120", "New Business Welcome Letter"),
 		_1075("1075", "Homeowners Policy Declarations"),
 		_60_5019("60 5019", "Subscriber Agreement"),
-		_61_6528_HO3("61 6528", "Homeowners Insurance Quote Page"),
-		_61_6528_HO4("61 6528", "Renters Insurance Quote Page"),
-		_61_6530("61 6530", "California Residential Property Insurance Disclosure"),
-		_61_3000("61 3000", "California Residential Property Insurance Bill of Rights"),
-		F1122("Property Inventory List")
+		_1075_HO4("1075", "1075A", "Homeowners Policy Declarations"),
+		_61_4003("61 4003", "California Application for Renters Insurance"),
+		_60_5005("60 5005", "Returning Payment")
 		;
 
 		private String id;

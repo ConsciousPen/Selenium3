@@ -70,7 +70,7 @@ public abstract class PropertyQuoteTab extends Tab {
     }
 
     public static Double getOverridenPremiumPercentageAmount() {
-        DecimalFormat df = new DecimalFormat("#.####");
+        DecimalFormat df = new DecimalFormat("#.##");
         return new Double(df.format(new Double(textBoxOverridePercentageAmount.getValue())));
     }
 
