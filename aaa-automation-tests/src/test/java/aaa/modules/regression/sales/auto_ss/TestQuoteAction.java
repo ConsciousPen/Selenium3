@@ -2,6 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.helpers.constants.ComponentConstant;
@@ -27,9 +29,10 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 * @details
 	 */
 
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testQuoteCreation() {
+	public void testQuoteCreation(@Optional("") String state) {
 		super.testQuoteCreation();
 	}
 	
@@ -43,9 +46,10 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 * 4. Verify policy status is 'Policy Active'
 	 * @details
 	 */
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testQuoteIssue() {
+	public void testQuoteIssue(@Optional("") String state) {
 		super.testQuoteIssue();
 	}
 	
@@ -61,9 +65,10 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 * 6. Verify quote status is 'Proposed'
 	 * @details
 	 */
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testQuotePropose() {
+	public void testQuotePropose(@Optional("") String state) {
 		super.testQuotePropose();
 	}
 	
@@ -78,9 +83,10 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 * @details
 	 */
 	
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testQuoteDeclineByCustomer() {
+	public void testQuoteDeclineByCustomer(@Optional("") String state) {
 		super.testQuoteDeclineByCustomer();
 	}
 	
@@ -95,9 +101,10 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 * @details
 	 */
 	  
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testQuoteDeclineByCompany() {
+	public void testQuoteDeclineByCompany(@Optional("") String state) {
 		super.testQuoteDeclineByCompany();
 	}
 	
@@ -111,9 +118,10 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	 * 4. Verify new quote status is 'Data Gathering'
 	 * @details
 	 */	
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testQuoteCopy() {
+	public void testQuoteCopy(@Optional("") String state) {
 		super.testQuoteCopy();
 	}
 }

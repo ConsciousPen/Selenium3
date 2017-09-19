@@ -1,5 +1,7 @@
 package aaa.modules.delta.home_ss.ho3;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.main.modules.policy.PolicyType;
@@ -14,28 +16,33 @@ public class TestORDeltaScenario1 extends ORDeltaScenario1 {
 		return PolicyType.HOME_SS_HO3;
 	}
 	
+	@Parameters({"state"})
 	@Test
-	public void TC01_createQuote() {			
+	public void TC01_createQuote(@Optional("") String state) {			
 		super.TC_createQuote(scenarioPolicyType);
 	}
 	
+	@Parameters({"state"})
 	@Test
-	public void TC02_verifyLOVsOfImmediatePriorCarrier() {
+	public void TC02_verifyLOVsOfImmediatePriorCarrier(@Optional("") String state) {
 		super.TC_verifyLOVsOfImmediatePriorCarrier();
 	}
 	
+	@Parameters({"state"})
 	@Test
-	public void TC03_verifyUnderwritingApprovalTab() {
+	public void TC03_verifyUnderwritingApprovalTab(@Optional("") String state) {
 		super.TC_verifyUnderwritingApprovalTab();
 	}
 
+	@Parameters({"state"})
 	@Test
-	public void TC04_verifyClaims() {
+	public void TC04_verifyClaims(@Optional("") String state) {
 		super.TC_verifyClaims();
 	}
 	
+	@Parameters({"state"})
 	@Test
-	public void TC05_purchasePolicy() {	
+	public void TC05_purchasePolicy(@Optional("") String state) {	
 		super.TC_purchasePolicy(scenarioPolicyType);
 	}
 

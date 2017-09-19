@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.pup;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -31,9 +33,10 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
 	private final String VOICE_SIGNATURE_ERROR = "Voice Signature is not available if cash or check is selected as a payment method.";
 	private PurchaseTab purchaseTab = policy.getDefaultView().getTab(PurchaseTab.class);
 	
-    @Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+    @Parameters({"state"})
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.PUP)
-    public void TC01_testQuoteVoiceBind() {
+    public void TC01_testQuoteVoiceBind(@Optional("") String state) {
         mainApp().open();
         precondition();
         //Set Voice Signature = Yes
@@ -61,9 +64,10 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
     
-    @Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+    @Parameters({"state"})
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.PUP)
-    public void TC02_testQuoteVoiceBind() {
+    public void TC02_testQuoteVoiceBind(@Optional("") String state) {
     	mainApp().open();
     	precondition();
         purchaseTab.fillTab(getTestSpecificTD("TestData_Voice_ACH"));
@@ -78,9 +82,10 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
 
     }
     
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Sales.PUP)
-	public void TC03_testQuoteVoiceBind() {
+	public void TC03_testQuoteVoiceBind(@Optional("") String state) {
 		mainApp().open();
 		precondition();
 		purchaseTab.fillTab(getTestSpecificTD("TestData_Voice_ACH_CreditCard"));

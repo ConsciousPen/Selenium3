@@ -1,0 +1,35 @@
+TestData: {
+  VehicleTab: ['@Vehicle1', '@Vehicle2'],
+  PremiumAndCoveragesTab: {
+    Payment Plan: Quarterly
+  }
+}
+
+Vehicle1: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273
+}
+
+Vehicle2: {
+  Usage: Pleasure,
+  VIN: 1B3BA46K4KF440231
+}
+
+TestData_EndorsementRP: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {
+    List of Vehicle: [{
+      column=1: 2,
+      column=5: Remove,
+      Confirm Remove: click
+    }]
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}

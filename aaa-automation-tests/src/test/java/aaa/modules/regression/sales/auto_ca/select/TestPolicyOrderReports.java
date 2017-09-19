@@ -2,6 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ca.select;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -24,9 +26,10 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyOrderReports extends AutoCaSelectBaseTest {
 
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
-	public void testPolicyOrderReports() {
+	public void testPolicyOrderReports(@Optional("CA") String state) {
 
 		TestData class_td = getTestSpecificTD("TestData");
 		MultiInstanceBeforeAssetList aiAssetList = new DriverTab().getActivityInformationAssetList();

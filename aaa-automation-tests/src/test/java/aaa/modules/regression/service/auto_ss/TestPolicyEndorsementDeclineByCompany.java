@@ -2,6 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ss;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.utils.TestInfo;
@@ -28,9 +30,10 @@ public class TestPolicyEndorsementDeclineByCompany extends PolicyEndorsementDecl
         return PolicyType.AUTO_SS;
     }
 	
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-    public void testPolicyEndorsementDeclineByCompany() {
+    public void testPolicyEndorsementDeclineByCompany(@Optional("") String state) {
 		super.testPolicyEndorsementDeclineByCompany();
     }
 }

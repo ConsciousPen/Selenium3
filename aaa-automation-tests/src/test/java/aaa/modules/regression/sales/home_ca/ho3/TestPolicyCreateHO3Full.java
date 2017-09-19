@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import aaa.helpers.constants.ComponentConstant;
@@ -22,9 +24,10 @@ public class TestPolicyCreateHO3Full extends HomeCaHO3BaseTest {
      * 6. Issue policy;
      * 7. Check Policy status is Active.
      */
-    @Test(groups= {Groups.REGRESSION, Groups.HIGH})
+    @Parameters({"state"})
+	@Test(groups= {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
-    public void testPolicyCreation() {
+    public void testPolicyCreation(@Optional("CA") String state) {
 
         mainApp().open();
         createCustomerIndividual();

@@ -5,6 +5,8 @@ package aaa.modules.regression.billing_and_payments.template;
 import java.util.HashMap;
 import java.util.Map;
 
+import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
+import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.IBillingAccount;
@@ -56,42 +58,35 @@ public abstract class PolicyBilling extends PolicyBaseTest {
         
         //cash payment
         billing.acceptPayment().perform(cash_payment, new Dollar(200));
-        checkPaymentIsGenerated("200.00");
+        checkPaymentIsGenerated(new Dollar(200));
 			
         //check payment
         billing.acceptPayment().perform(check_payment, new Dollar(250));
-        checkPaymentIsGenerated("250.00");
+        checkPaymentIsGenerated(new Dollar(250));
 			
 		//credit card payment
         billing.acceptPayment().perform(cc_payment, new Dollar(300));
-		checkPaymentIsGenerated("300.00");
+		checkPaymentIsGenerated(new Dollar(300));
 		 
 		//EFT payment
 		billing.acceptPayment().perform(eft_payment, new Dollar(350));
-        checkPaymentIsGenerated("350.00");
+        checkPaymentIsGenerated( new Dollar(350));
         
         //Refund
-        billing.refund().perform(refund, "150"); 
+		Dollar refundAmount = new Dollar(150);
+        billing.refund().perform(refund, refundAmount);
         
-		Map<String, String> query = new HashMap<>();
-		query.put("Type", "Refund");
-		query.put("Subtype/Reason", "Manual Refund");
-		query.put("Amount", "$150.00");
-		
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
+		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
+				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_REFUND)
+				.setAmount(refundAmount).verifyPresent();
 		
 		CustomAssert.assertAll();
     }
     
-    private void checkPaymentIsGenerated(String amount){
-    	
-		Map<String, String> query = new HashMap<>();
-		query.put("Type", "Payment");
-		query.put("Subtype/Reason", "Manual Payment");
-		query.put("Amount", "($" + amount + ")");
-			
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).verify.present();
-	
+    private void checkPaymentIsGenerated(Dollar amount){
+		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
+				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
+				.setAmount(amount.negate()).verifyPresent();
     }
     
 }

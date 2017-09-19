@@ -303,13 +303,20 @@ TestData_SD: {
 TestData_VA: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_VA',
+  DriverTab: '@DriverTab_VA',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+DriverTab_VA: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 517788642
 }
 
 #-------- WV -----

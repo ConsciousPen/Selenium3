@@ -4,6 +4,8 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.RatingDetailsCompCollSymbolsPresence;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
@@ -29,9 +31,10 @@ public class TestRatingDetailsView extends RatingDetailsCompCollSymbolsPresence 
         return PolicyType.AUTO_CA_CHOICE;
     }
 
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE)
-    public void testCompCollSymbolsPresence() {
+    public void testCompCollSymbolsPresence(@Optional("CA") String state) {
         super.verifyCompCollSymbolsPresence();
     }
 }

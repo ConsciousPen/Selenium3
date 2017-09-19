@@ -155,6 +155,9 @@ public class FillableTable extends AbstractContainer<List<TestData>, List<TestDa
 		if (searchRowQuery.isEmpty()) {
 			CustomAssert.assertFalse("Unable to get row neither by search controls data nor by index.", indexIfDataHasNoSearchControls < 0);
 			fillableRow = getTable().getRow(indexIfDataHasNoSearchControls);
+		} else if (searchRowQuery.size() == 1 && searchRowQuery.entrySet().iterator().next().getKey().startsWith("column=")) {
+			int columnNum = Integer.valueOf(searchRowQuery.entrySet().iterator().next().getKey().replace("column=", ""));
+			fillableRow = getTable().getRow(columnNum, searchRowQuery.entrySet().iterator().next().getValue());
 		} else {
 			if (searchRowByContains) {
 				fillableRow = getTable().getRowContains(searchRowQuery);

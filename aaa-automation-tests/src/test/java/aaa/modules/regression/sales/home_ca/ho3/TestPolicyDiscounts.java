@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import aaa.common.enums.NavigationEnum;
@@ -37,9 +39,10 @@ public class TestPolicyDiscounts extends HomeCaHO3BaseTest {
       * 12. Bind policy, verify policy status is 'Active' and premium is calculated according to MultyPolicy discount
       */
 
-    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+    @Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
-    public void testPolicyDiscounts() {
+    public void testPolicyDiscounts(@Optional("CA") String state) {
         ApplicantTab applicantTab = new ApplicantTab();
 
         mainApp().open();

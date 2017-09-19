@@ -7,12 +7,15 @@ import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 public class FeesTest extends BackwardCompatibilityBaseTest {
 
+	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_061_ManageFees() {
+	public void BCT_ONL_061_ManageFees(@Optional("") String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_061_ManageFees", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 

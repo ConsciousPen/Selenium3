@@ -93,18 +93,15 @@ public class BaseTest {
 		return new TimePoints(testDataManager.timepoint.get(getPolicyType()).getTestData(getStateTestDataName("TestData")));
 	}
 
-	@Parameters({"state"})
 	@BeforeMethod(alwaysRun = true)
-	public void beforeMethodStateConfiguration(@Optional("") String state) {
-		if (isStateCA()) {
+	public void beforeMethodStateConfiguration(Object[] parameters) {
+		if (parameters != null && parameters.length != 0 && StringUtils.isNotBlank(parameters[0].toString()))
+			setState(parameters[0].toString());
+		else if (isStateCA())
 			setState(Constants.States.CA);
-		} else if (StringUtils.isNotBlank(usState) && StringUtils.isBlank(state)) {
+		else if (StringUtils.isNotBlank(usState))
 			setState(usState);
-		} else if (StringUtils.isNotBlank(state)) {
-			setState(state);
-		} else {
-			setState(States.UT);
-		}
+		else setState(States.UT);
 	}
 
 	/**

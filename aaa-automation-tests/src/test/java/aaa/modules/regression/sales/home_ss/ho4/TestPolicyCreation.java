@@ -4,6 +4,8 @@ package aaa.modules.regression.sales.home_ss.ho4;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.main.enums.ProductConstants;
@@ -22,9 +24,10 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyCreation extends HomeSSHO4BaseTest {
 
-    @Test(groups= {Groups.REGRESSION, Groups.CRITICAL})
+    @Parameters({"state"})
+	@Test(groups= {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4)
-    public void testPolicyCreation() {
+    public void testPolicyCreation(@Optional("") String state) {
         mainApp().open();
         
         createCustomerIndividual();

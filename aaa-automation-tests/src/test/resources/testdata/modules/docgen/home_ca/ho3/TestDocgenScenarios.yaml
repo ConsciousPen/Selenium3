@@ -1,0 +1,47 @@
+########################## testQuoteDocuments ######################### 
+QuoteGenerateHSU03: {
+  Decision based on CLUE HSU03: 'true'
+}
+
+QuoteGenerateHSU05: {
+  First name: Tim,
+  Last name: Cook,
+  Zip code: 90201,
+  Street address 1: address 1,
+  City: citytest,
+  State: CA
+}
+
+########################## testPolicyDocuments #########################
+TestData_PolicyDocuments: {
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Mortgagee Bill,
+    Coverage C - Personal Property limit: '75|Coverage A - Dwelling limit',
+    Coverage D - Loss of Use limit: '45|Coverage A - Dwelling limit',
+  },
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Louie Espinoza,
+      Zip code: 90201,
+      Street address 1: 265 CHIPMAN AVE,
+      Loan number: 12345678,
+      Validate Address: '',
+      Validate Address Dialog: {}
+    }
+  }
+}
+
+PolicyGenerateHSU09: {
+  Decision based on CLUE HSU07: 'true',
+  Decision based on CLUE HSU09: 'true'
+}
+
+PolicyGenerateHSU05: {
+  First name: Tim,
+  Last name: Cook,
+  Zip code: 90201,
+  Street address 1: address 1,
+  City: citytest,
+  State: CA
+}

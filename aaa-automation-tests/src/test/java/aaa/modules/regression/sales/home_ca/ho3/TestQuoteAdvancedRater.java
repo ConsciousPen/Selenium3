@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.ComboBox;
@@ -38,9 +40,10 @@ public class TestQuoteAdvancedRater extends HomeCaHO3BaseTest {
      * 14. Issue quote. Check Total Premium Summary
      */
 
-    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
+    @Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
-    public void testQuoteAdvancedRater() {
+    public void testQuoteAdvancedRater(@Optional("CA") String state) {
         mainApp().open();
         createCustomerIndividual();
 

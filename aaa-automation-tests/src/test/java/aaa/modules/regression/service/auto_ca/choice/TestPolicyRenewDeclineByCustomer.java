@@ -2,9 +2,9 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ca.choice;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-
 
 
 import aaa.helpers.constants.ComponentConstant;
@@ -16,8 +16,7 @@ import toolkit.utils.TestInfo;
 /**
  * @author Lina Li
  * @name Test renew decline by customer for Auto Policy
- * @scenario
- * 1. Create Customer
+ * @scenario 1. Create Customer
  * 2. Create AutoCA Choice Policy
  * 3. Renew Policy
  * 4. Decline by customer
@@ -26,16 +25,16 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyRenewDeclineByCustomer extends PolicyRenewDeclineByCustomer {
 
-	 @Override
-	    protected PolicyType getPolicyType() {
-	        return PolicyType.AUTO_CA_CHOICE;
-	    }
-	    
-	    @Override
-	    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-		@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE )
-	    public void testPolicyRenewDeclineByCustomer() {
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_CA_CHOICE;
+	}
 
-	        super.testPolicyRenewDeclineByCustomer();
-	    }
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE)
+	public void testPolicyRenewDeclineByCustomer(@Optional("CA") String state) {
+
+		super.testPolicyRenewDeclineByCustomer();
+	}
 }
