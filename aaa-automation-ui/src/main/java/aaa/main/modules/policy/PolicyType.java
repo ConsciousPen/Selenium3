@@ -12,7 +12,7 @@ import aaa.rest.policy.personallines.PersonalLinesPolicyRest;
 
 /**
  * Single-root product (actually, entity) enum/factory.
- * 
+ *
  * @category Generated
  */
 public class PolicyType {
@@ -55,6 +55,18 @@ public class PolicyType {
 
 	public PolicyRest getPolicyRest() {
 		return policyRest;
+	}
+
+	public static PolicyType getPolicy(String policyType) {
+		switch (policyType) {
+			case "AutoCA": {
+				return AUTO_CA_SELECT;
+			}
+			case "AutoCAC": {
+				return AUTO_CA_CHOICE;
+			}
+		}
+		return AUTO_SS;
 	}
 
 	@Override
