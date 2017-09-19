@@ -6,16 +6,17 @@
         <defaultValue>INFO</defaultValue>
     </define>
     <timestamp key="bySecond" datePattern="yyyy-MM-dd_HH-mm-ss"/>
+    <conversionRule conversionWord="tid" converterClass="aaa.helpers.ThreadIdConverter"/>
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{ISO8601} | %5p | %c{0}:%M:%L %m%n</pattern>
+            <pattern>%d{ISO8601} | %-5p | THREAD %tid | %20.20c{0}:%20.20M:%-3L | %m%n</pattern>
         </encoder>
     </appender>
     <appender name="testng" class="toolkit.utils.logging.TestNGReporterAppender">
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>INFO</level>
         </filter>
-        <pattern>%d{ISO8601} | %5p | %c{0}:%M:%L %m%n</pattern>
+        <pattern>%d{ISO8601} | %-5p | %20.20t | %20.20c{0} | %m%n</pattern>
     </appender>
     <appender name="testLog" class="ch.qos.logback.classic.sift.SiftingAppender">
         <discriminator class="toolkit.utils.logging.CustomLoggerDiscriminator">
@@ -26,7 +27,7 @@
                 <file>${ISTF-LogFileName}</file>
                 <append>true</append>
                 <encoder>
-                    <pattern>%d{ISO8601} | %5p | %c{0}:%M:%L %m%n</pattern>
+                    <pattern>%d{ISO8601} | %-5p | THREAD %tid | %20.20c{0}:%20.20M:%-3L | %m%n</pattern>
                 </encoder>
             </appender>
         </sift>

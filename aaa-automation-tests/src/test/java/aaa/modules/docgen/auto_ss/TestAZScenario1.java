@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -42,7 +43,7 @@ public class TestAZScenario1 extends AutoSSBaseTest{
     @Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void TC01_CreatePolicy(String state) {
+    public void TC01_CreatePolicy(@Optional("") String state) {
 		 mainApp().open();
 
 	     createCustomerIndividual();
@@ -69,7 +70,7 @@ public class TestAZScenario1 extends AutoSSBaseTest{
     @Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void TC02_GenerateBillingInvoice(String state) {
+    public void TC02_GenerateBillingInvoice(@Optional("") String state) {
 		LocalDateTime billingGenerationDate=getTimePoints().getBillGenerationDate(installmentDD1);
 		TimeSetterUtil.getInstance().nextPhase(billingGenerationDate);
 		log.info("Installment Generatetion Date" + billingGenerationDate);
@@ -101,7 +102,7 @@ public class TestAZScenario1 extends AutoSSBaseTest{
     @Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void TC03_GenerateCancelNotice(String state) {
+    public void TC03_GenerateCancelNotice(@Optional("") String state) {
     	
     	LocalDateTime cancelNoticeDate=getTimePoints().getCancellationNoticeDate(installmentDD1);
        	log.info("Cancel Notice Generatetion Date" + cancelNoticeDate);
@@ -132,7 +133,7 @@ public class TestAZScenario1 extends AutoSSBaseTest{
     @Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void TC04_GenerateCancellation(String state) {
+    public void TC04_GenerateCancellation(@Optional("") String state) {
     	LocalDateTime cancelNoticeDate=getTimePoints().getCancellationNoticeDate(installmentDD1);
     	LocalDateTime cancellationDate=getTimePoints().getCancellationNoticeDate(cancelNoticeDate);
     	log.info("Cancellation Generatetion Date" + cancellationDate);
@@ -161,7 +162,7 @@ public class TestAZScenario1 extends AutoSSBaseTest{
     @Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void TC05_ReinstatementPolicy(String state) {
+    public void TC05_ReinstatementPolicy(@Optional("") String state) {
     	mainApp().open();
      	SearchPage.openPolicy(policyNumber);
      	policy.reinstate().perform(getTestSpecificTD("TestData_Plus13Days"));

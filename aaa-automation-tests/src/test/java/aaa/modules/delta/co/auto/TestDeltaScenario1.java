@@ -19,6 +19,7 @@ import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.openqa.selenium.By;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.DataProviderFactory;
@@ -63,7 +64,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testSC1_TC01(String state) {
+	public void testSC1_TC01(@Optional("") String state) {
 		preconditions(NavigationEnum.AutoSSTab.GENERAL);
 
 		CustomAssert.enableSoftMode();
@@ -120,7 +121,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testSC1_TC02(String state) {
+	public void testSC1_TC02(@Optional("") String state) {
 		preconditions(NavigationEnum.AutoSSTab.DRIVER);
 
 		driverTab.fillTab(getTestSpecificTD("TestData"));
@@ -167,7 +168,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testSC1_TC03(String state) {
+	public void testSC1_TC03(@Optional("") String state) {
 		preconditions(NavigationEnum.AutoSSTab.DRIVER);
 		driverTab.fillTab(getTestSpecificTD("TestData"));
 
@@ -210,7 +211,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testSC1_TC04(String state) {
+	public void testSC1_TC04(@Optional("") String state) {
 		VehicleTab vTab = new VehicleTab();
 
 		preconditions(NavigationEnum.AutoSSTab.DRIVER);
@@ -236,7 +237,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testSC1_TC05(String state) {
+	public void testSC1_TC05(@Optional("") String state) {
 		preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
 
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY).verify.value("$100,000/$300,000 (+$0.00)");
@@ -260,7 +261,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testSC1_TC06(String state) {
+	public void testSC1_TC06(@Optional("") String state) {
 		preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		//CO DELTA - No full safety glass
@@ -307,7 +308,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testSC1_TC07(String state) {
+	public void testSC1_TC07(@Optional("") String state) {
 		preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.FULL_SAFETY_GLASS).verify.value("No Coverage");
 		pacTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.SPECIAL_EQUIPMENT_COVERAGE).verify.value(new Dollar(1500).toString());
@@ -334,7 +335,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testSC1_TC08(String state) {
+	public void testSC1_TC08(@Optional("") String state) {
 		DocumentsAndBindTab dabTab = new DocumentsAndBindTab();
 
 		preconditions(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS);
@@ -370,7 +371,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testSC1_TC09(String state) {
+	public void testSC1_TC09(@Optional("") String state) {
 		GenerateOnDemandDocumentActionTab goddTab = new GenerateOnDemandDocumentActionTab();
 
 		mainApp().open();
@@ -392,7 +393,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void testSC1_TC10(String state) {
+	public void testSC1_TC10(@Optional("") String state) {
 		DocGenHelper.verifyDocumentsGenerated(getQuoteNumber(), Documents.AA11CO, Documents.AAIQCO, Documents.AHFMXX, Documents.AU03, Documents.AA16CO, Documents.AADNCO, Documents.AHAUXX);
 	}
 

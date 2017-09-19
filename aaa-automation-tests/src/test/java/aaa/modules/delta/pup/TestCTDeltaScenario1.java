@@ -3,6 +3,7 @@ package aaa.modules.delta.pup;
 import java.util.ArrayList;
 
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -70,7 +71,7 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 	
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.PUP)
-	public void TC01_createQuote(String state) {		
+	public void TC01_createQuote(@Optional("") String state) {		
 		mainApp().open();		
         createCustomerIndividual();
         TestData td = getTestSpecificTD("TestData");
@@ -100,7 +101,7 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 	@Parameters({"state"})
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.PUP)
-	public void TC02_currentcarrierLOVs(String state) {
+	public void TC02_currentcarrierLOVs(@Optional("") String state) {
 		mainApp().open();
 		CustomAssert.enableSoftMode();
 		SearchPage.openQuote(quoteNumber);
@@ -140,7 +141,7 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 	@Parameters({"state"})
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.PUP)
-	public void TC03_BindPolicy(String state) {
+	public void TC03_BindPolicy(@Optional("") String state) {
 		mainApp().open();
 		SearchPage.openQuote(quoteNumber);
 
@@ -178,7 +179,7 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 	@Parameters({"state"})
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.PUP)
-	public void TC04_verifyODDPolicy(String state) {
+	public void TC04_verifyODDPolicy(@Optional("") String state) {
 		GenerateOnDemandDocumentActionTab goddTab = new GenerateOnDemandDocumentActionTab();
 		mainApp().open();
     	SearchPage.openPolicy(policyNumber);
@@ -209,7 +210,7 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 	@Parameters({"state"})
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.PUP)
-	public void TC05_verifyCancelNoticeTab(String state) {
+	public void TC05_verifyCancelNoticeTab(@Optional("") String state) {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		policy.cancelNotice().start(); 

@@ -3,6 +3,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -35,7 +36,7 @@ public class TestRatingDetailsView extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void testQuoteRatingViewDetailsCompCollSymbolsArePresentAndNotEmpty(String state) {
+    public void testQuoteRatingViewDetailsCompCollSymbolsArePresentAndNotEmpty(@Optional("") String state) {
         mainApp().open();
         createCustomerIndividual();
 

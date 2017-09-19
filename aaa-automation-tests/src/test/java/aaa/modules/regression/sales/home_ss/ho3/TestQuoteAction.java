@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.home_ss.ho3;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -30,7 +31,7 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testQuoteCreation(String state) {
+	public void testQuoteCreation(@Optional("") String state) {
 		super.testQuoteCreation();
 	}
 	
@@ -47,7 +48,7 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testQuoteIssue(String state) {
+	public void testQuoteIssue(@Optional("") String state) {
 		super.testQuoteIssue();
 	}
 	
@@ -67,7 +68,7 @@ public class TestQuoteAction extends QuoteActionAbstract {
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testQuotePropose(String state) {
+	public void testQuotePropose(@Optional("") String state) {
 		super.testQuotePropose();
 	}
 }

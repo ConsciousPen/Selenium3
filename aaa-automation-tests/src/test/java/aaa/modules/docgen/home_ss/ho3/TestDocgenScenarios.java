@@ -1,5 +1,6 @@
 package aaa.modules.docgen.home_ss.ho3;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -116,7 +117,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void testQuoteDocuments(String state) {
+	public void testQuoteDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
@@ -285,7 +286,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test
-	public void testPolicyDocuments(String state) {
+	public void testPolicyDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
@@ -360,7 +361,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test()
-	public void testPolicyRescissionNoticeDocument(String state) {
+	public void testPolicyRescissionNoticeDocument(@Optional("") String state) {
 		mainApp().open();
 		String policyNum = getCopiedPolicy();
 		
@@ -443,7 +444,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test
-	public void testMortgagePolicyDocuments(String state) {
+	public void testMortgagePolicyDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		createCustomerIndividual();
@@ -578,7 +579,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test
-	public void testReturnPaymentDocuments(String state) {
+	public void testReturnPaymentDocuments(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNum = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_ReturnPaymentPolicy")));
@@ -629,7 +630,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@Test
-	public void testCancellationNoticeDocument(String state) {
+	public void testCancellationNoticeDocument(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNum = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData_ReturnPaymentPolicy")));

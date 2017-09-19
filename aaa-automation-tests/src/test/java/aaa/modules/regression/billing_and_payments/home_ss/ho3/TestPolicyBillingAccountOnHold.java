@@ -5,6 +5,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.BillingConstants;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.main.metadata.BillingAccountMetaData;
@@ -46,7 +47,7 @@ public class TestPolicyBillingAccountOnHold extends HomeSSHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups= {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3)
-	public void hssPolicyBillingAccountOnHold(String state) {
+	public void hssPolicyBillingAccountOnHold(@Optional("") String state) {
 		BillingAccount billingAccount = new BillingAccount();
 		AddHoldActionTab ahaTab = new AddHoldActionTab();
 

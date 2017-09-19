@@ -1,5 +1,6 @@
 package aaa.modules.docgen.home_ss.ho6;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -101,7 +102,7 @@ public class TestDocgenScenarios extends HomeSSHO6BaseTest{
 
     @Parameters({"state"})
 	@Test
-    public void testQuoteDocuments(String state) {
+    public void testQuoteDocuments(@Optional("") String state) {
     	CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
@@ -260,7 +261,7 @@ public class TestDocgenScenarios extends HomeSSHO6BaseTest{
 
     @Parameters({"state"})
 	@Test
-    public void ho6PolicyDocuments(String state) {
+    public void ho6PolicyDocuments(@Optional("") String state) {
     	CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();

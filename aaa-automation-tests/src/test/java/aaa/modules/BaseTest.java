@@ -98,10 +98,12 @@ public class BaseTest {
 
 	@BeforeMethod(alwaysRun = true)
 	public void beforeMethodStateConfiguration(Object[] parameters) {
-		if(parameters.length!= 0)
+		if (parameters != null && parameters.length != 0 && StringUtils.isNotBlank(parameters[0].toString()))
 			setState(parameters[0].toString());
 		else if (isStateCA())
 			setState(Constants.States.CA);
+		else if (StringUtils.isNotBlank(usState))
+			setState(usState);
 		else setState(States.UT);
 	}
 
@@ -341,7 +343,7 @@ public class BaseTest {
 			PolicyType.HOME_CA_HO3.get().createPolicy(tdHomeData);
 			policies.put("Primary_HO3", PolicySummaryPage.labelPolicyNumber.getValue());
 
-			if(tdAutoAdjustment != null){
+			if (tdAutoAdjustment != null) {
 				TestData tdAuto = testDataManager.policy.get(PolicyType.AUTO_CA_SELECT);
 				TestData tdAutoData = getStateTestData(tdAuto, "DataGather", "TestData").adjust(tdAutoAdjustment);
 				PolicyType.AUTO_CA_SELECT.get().createPolicy(tdAutoData);

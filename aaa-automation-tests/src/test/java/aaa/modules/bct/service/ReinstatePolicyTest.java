@@ -12,6 +12,7 @@ import aaa.main.modules.policy.home_ss.actiontabs.ReinstatementActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
@@ -24,7 +25,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_006_ReinstatePolicy(String state) {
+	public void BCT_ONL_006_ReinstatePolicy(@Optional("") String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_006_ReinstatePolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_SS.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_SS);
@@ -50,7 +51,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_007_ReinstatePolicy(String state) {
+	public void BCT_ONL_007_ReinstatePolicy(@Optional("") String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_007_ReinstatePolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_SS.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_SS);
@@ -73,7 +74,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_010_ReinstatePolicy(String state) {
+	public void BCT_ONL_010_ReinstatePolicy(@Optional("") String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_010_ReinstatePolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.HOME_SS_HO3.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.HOME_SS_HO3);
@@ -102,7 +103,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_011_ReinstatePolicy(String state) {
+	public void BCT_ONL_011_ReinstatePolicy(@Optional("") String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_011_ReinstatePolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.HOME_SS_HO3.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.HOME_SS_HO3);
@@ -125,7 +126,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_014_ReinstatePolicy(String state) {
+	public void BCT_ONL_014_ReinstatePolicy(@Optional("") String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_014_ReinstatePolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_CA_SELECT);
@@ -143,7 +144,7 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_016_ReinstatePolicy(String state) {
+	public void BCT_ONL_016_ReinstatePolicy(@Optional("") String state) {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_016_ReinstatePolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_CA_SELECT);

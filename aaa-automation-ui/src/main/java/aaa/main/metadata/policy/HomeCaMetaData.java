@@ -8,6 +8,7 @@ import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
+import toolkit.webdriver.controls.ListBox;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
@@ -1792,6 +1793,9 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<StaticElement> DOCUMENT_NUMBER = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, StaticElement.class);
 			public static final AssetDescriptor<StaticElement> DOCUMENT_NAME = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, StaticElement.class);
 			
+			// 60 5005
+			public static final AssetDescriptor<ListBox> REASON_605005 = declare("Reason605005", ListBox.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:returnPaymentGrid_605005']//select"));
+						
 			// Fields of HSU03XX
 			public static final AssetDescriptor<CheckBox> DECISION_BASED_ON_CLUE_HSU03 = declare("Decision based on CLUE HSU03", CheckBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:hsu03CIN:0']"));
 			
@@ -1810,6 +1814,8 @@ public final class HomeCaMetaData {
 			
 			// Fields of HSU09XX
 			public static final AssetDescriptor<CheckBox> DECISION_BASED_ON_CLUE_HSU09 = declare("Decision based on CLUE HSU09", CheckBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:hsu09CIN:0']"));
+		
+			
 		}
 	}
 

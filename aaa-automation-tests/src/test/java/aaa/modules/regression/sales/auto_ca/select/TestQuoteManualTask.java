@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ca.select;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -19,7 +20,7 @@ public class TestQuoteManualTask extends QuoteManualTask {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
-	public void testQuoteManualTask(String state) {
+	public void testQuoteManualTask(@Optional("CA") String state) {
 		super.testQuoteManualTask();
 	}
 

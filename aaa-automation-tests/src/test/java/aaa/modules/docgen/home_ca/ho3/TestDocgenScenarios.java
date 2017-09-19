@@ -1,5 +1,6 @@
 package aaa.modules.docgen.home_ca.ho3;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.verification.CustomAssert;
@@ -71,7 +72,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
-	public void testQuoteDocuments(String state) {
+	public void testQuoteDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
@@ -80,7 +81,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 		
 		policy.quoteDocGen().start();
 		documentActionTab.verify.documentsEnabled(
-				Documents._61_6528,
+				Documents._61_6528_HO3,
 				Documents.F1122,
 				Documents._61_6530,
 				Documents.HSU06CA,
@@ -101,11 +102,11 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 		documentActionTab.verify.documentsPresent(false, Documents._61_6513);
 		
 		documentActionTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU03"),
-				Documents._61_6528, 
+				Documents._61_6528_HO3, 
 				Documents.HSU03XX
 				);
 		WebDriverHelper.switchToWindow(currentHandle);
-		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents._61_6528, Documents.HSU03XX, Documents.WUAUCA, Documents.AHPNCA);
+		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents._61_6528_HO3, Documents.HSU03XX, Documents.WUAUCA, Documents.AHPNCA);
 		
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.quoteDocGen().start();
@@ -202,7 +203,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
      */
 	@Parameters({"state"})
 	@Test
-	public void testPolicyDocuments(String state) {
+	public void testPolicyDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
@@ -233,7 +234,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 //				Documents._61_2006 // TODO Actually _61_2006 is not present, need to confirm the request
 				);
 		documentActionTab.verify.documentsPresent(false,
-				Documents._61_6528,
+				Documents._61_6528_HO3,
 				Documents.AHPNCA
 				);
 		documentActionTab.generateDocuments(Documents.F1076B);

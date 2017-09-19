@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.home_ss.ho3;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -34,7 +35,7 @@ public class TestPolicyRenewDeclineByCompany extends PolicyRenewDeclineByCompany
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
-	public void testPolicyRenewDeclineByCompany(String state) {
+	public void testPolicyRenewDeclineByCompany(@Optional("") String state) {
 
 		super.testPolicyRenewDeclineByCompany();
 	}

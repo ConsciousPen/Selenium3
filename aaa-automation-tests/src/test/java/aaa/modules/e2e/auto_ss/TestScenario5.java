@@ -1,5 +1,6 @@
 package aaa.modules.e2e.auto_ss;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -26,7 +27,7 @@ public class TestScenario5 extends Scenario5 {
 	// }
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC02_1_Generate_First_Bill(String state) {
+	public void TC02_1_Generate_First_Bill(@Optional("") String state) {
 		super.Generate_First_Bill();
 	}
 
@@ -36,23 +37,23 @@ public class TestScenario5 extends Scenario5 {
 	// }
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC03_1_Pay_First_Bill(String state) {
+	public void TC03_1_Pay_First_Bill(@Optional("") String state) {
 		super.Pay_First_Bill();
 	}
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC04_Generate_Second_Bill(String state) {
+	public void TC04_Generate_Second_Bill(@Optional("") String state) {
 		super.Generate_Second_Bill();
 	}
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC05_Pay_Second_Bill(String state) {
+	public void TC05_Pay_Second_Bill(@Optional("") String state) {
 		super.Pay_Second_Bill();
 	}
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	// TC6--6,5
-	public void TC06_Decline_Payments(String state) {
+	public void TC06_Decline_Payments(@Optional("") String state) {
 		super.Decline_Payments();
 	}
 
@@ -62,7 +63,7 @@ public class TestScenario5 extends Scenario5 {
 	// }
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC07_1_Generate_CancellNotice(String state) {
+	public void TC07_1_Generate_CancellNotice(@Optional("") String state) {
 		super.Generate_CancellNotice();
 	}
 
@@ -72,7 +73,7 @@ public class TestScenario5 extends Scenario5 {
 	// }
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC08_1_Cancel_Policy(String state) {
+	public void TC08_1_Cancel_Policy(@Optional("") String state) {
 		super.Cancel_Policy();
 	}
 
@@ -82,17 +83,17 @@ public class TestScenario5 extends Scenario5 {
 	// }
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC09_1_Generate_First_EP_Bill(String state) {
+	public void TC09_1_Generate_First_EP_Bill(@Optional("") String state) {
 		super.Generate_First_EP_Bill();
 	}
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC10_Generate_Second_EP_Bill(String state) {
+	public void TC10_Generate_Second_EP_Bill(@Optional("") String state) {
 		super.Generate_Second_EP_Bill();
 	}
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC11_Generate_Third_EP_Bill(String state) {
+	public void TC11_Generate_Third_EP_Bill(@Optional("") String state) {
 		super.Generate_Third_EP_Bill();
 	}
 
@@ -102,22 +103,22 @@ public class TestScenario5 extends Scenario5 {
 	// }
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC12_1_Generate_EP_Write_Off(String state) {
+	public void TC12_1_Generate_EP_Write_Off(@Optional("") String state) {
 		super.Generate_EP_Write_Off();
 	}
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC13_Renewal_Image_Generation(String state) {
+	public void TC13_Renewal_Image_Generation(@Optional("") String state) {
 		super.Renewal_Image_Generation();
 	}
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC14_Renewal_Preview_Generation(String state) {
+	public void TC14_Renewal_Preview_Generation(@Optional("") String state) {
 		super.Renewal_Preview_Generation();
 	}
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC15_Renewal_Offer_Generation(String state) {
+	public void TC15_Renewal_Offer_Generation(@Optional("") String state) {
 		super.Renewal_Offer_Generation();
 	}
 }

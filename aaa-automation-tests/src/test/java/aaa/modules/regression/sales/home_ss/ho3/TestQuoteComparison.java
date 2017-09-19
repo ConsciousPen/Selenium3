@@ -9,6 +9,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
@@ -120,7 +121,7 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void testQuoteComparison(String state) {
+	public void testQuoteComparison(@Optional("") String state) {
 
 		TestData td = getPolicyTD();
 		ProductOfferingTab productOfferingTab = new ProductOfferingTab();
