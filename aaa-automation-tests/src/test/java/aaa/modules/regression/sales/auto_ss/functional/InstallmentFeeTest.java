@@ -24,6 +24,4 @@ public class InstallmentFeeTest extends AutoSSBaseTest
 
         TestData bigPolicy_td = getTestSpecificTD("TestData_UT");
         getPolicyType().get().createPolicy(bigPolicy_td);
-
-
     }}
