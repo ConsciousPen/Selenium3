@@ -140,9 +140,14 @@ public abstract class CommonErrorTab extends Tab {
 		}
 
 		public void errorsPresent(boolean expectedValue, ErrorEnum.Errors... errors) {
+			boolean verifyPassed = true;
 			List<String> actualErrorCodesList = getErrorsControl().getTable().getColumn(ErrorEnum.ErrorsColumn.CODE.get()).getValue();
 			for (ErrorEnum.Errors error : errors) {
-				CustomAssert.assertTrue(String.format("%s is %s.", error, expectedValue ? "absent" : "present"), actualErrorCodesList.contains(error.getCode()) == expectedValue);
+				verifyPassed = actualErrorCodesList.contains(error.getCode()) == expectedValue;
+				CustomAssert.assertTrue(String.format("%s is %s.", error, expectedValue ? "absent" : "present"), verifyPassed);
+			}
+			if (!verifyPassed) {
+				return; // no need to check messages if code is missed
 			}
 			List<String> errorMessagesList = new ArrayList<>(errors.length);
 			Arrays.stream(errors).forEach(e -> errorMessagesList.add(e.getMessage()));
