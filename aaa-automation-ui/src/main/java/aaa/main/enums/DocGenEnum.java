@@ -121,6 +121,7 @@ public final class DocGenEnum {
 		F1076B("California Application For Homeowners Insurance"),
 		_62_6500("62 6500", "CA Evidence of Property Insurance"),
 		WURFICA("Request for Information"),
+		WURFICA_PUP("WURFICA", "Request For Information"),
 		HSU01CA("HSU01CA", "HSU01", "Advisory Letter"),
 		HSU06CA("HSU06CA", "HSU06", "Free Form to Producer"),
 		HSU07CA("HSU07CA", "HSU07", "Non-Renewal Letter"),
