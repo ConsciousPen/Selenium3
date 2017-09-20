@@ -3,8 +3,6 @@ package aaa.modules.e2e.templates;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import aaa.helpers.docgen.DocGenHelper;
-import aaa.main.enums.DocGenEnum;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -16,6 +14,7 @@ import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
@@ -28,6 +27,7 @@ import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionReason;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
 import aaa.main.enums.BillingConstants.PolicyFlag;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.IPolicy;
@@ -71,7 +71,6 @@ public class Scenario6 extends ScenarioBaseTest {
 			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
 		}
 		policyNum = createPolicy(policyCreationTD);
-
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -94,8 +93,6 @@ public class Scenario6 extends ScenarioBaseTest {
 
 	// TODO Check: Removed according to 20427:US CL GD Generate Premium Due Notice v2.0. Form has been renamed to AHIBXX
 	protected void verifyFormAHIBXX() {
-		// DocGenHelper.verifyDocumentsGeneratedByJob(TimeSetterUtil.getInstance().getCurrentTime(), policyNum,
-		// OnDemandDocuments.AHIBXX);
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHIBXX);
@@ -193,7 +190,6 @@ public class Scenario6 extends ScenarioBaseTest {
 
 		policy.doNotRenew().perform(getStateTestData(tdPolicy, "DoNotRenew", "TestData"));
 		PolicySummaryPage.verifyDoNotRenewFlagPresent();
-
 	}
 
 	protected void renewalImageGeneration() {
@@ -284,7 +280,6 @@ public class Scenario6 extends ScenarioBaseTest {
 			renewInstallmentsSum = renewInstallmentsSum.add(BillingHelper.getInstallmentDueByDueDate(date.plusYears(1)));
 		}
 
-		// Overpayment is moved to the next Term. Total Due is reduced
 		installmentsSum.subtract(overpayment).verify.equals(renewInstallmentsSum);
 		totalDue.subtract(renewOfferAmount).verify.equals(BillingSummaryPage.getTotalDue());
 	}
@@ -325,4 +320,3 @@ public class Scenario6 extends ScenarioBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().verifyManualPaymentAccepted(DateTimeUtils.getCurrentDateTime(), minDue.negate());
 	}
 }
-

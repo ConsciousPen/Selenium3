@@ -5,13 +5,9 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
-import aaa.common.pages.Page;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.actiontabs.EndorsementActionTab;
-import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
 import aaa.modules.e2e.templates.Scenario6;
 
 public class TestScenario6 extends Scenario6 {
