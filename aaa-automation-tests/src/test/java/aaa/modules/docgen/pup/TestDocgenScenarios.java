@@ -1,4 +1,4 @@
-package aaa.modules.docgen.home_ss.pup;
+package aaa.modules.docgen.pup;
 
 import static aaa.main.enums.DocGenEnum.Documents.*;
 
@@ -105,7 +105,7 @@ public class TestDocgenScenarios extends PersonalUmbrellaBaseTest{
 	
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
-	public void testPUPDocgenScenarios(String state){
+	public void testPUPDocgenScenarios(@Optional("") String state){
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();	
