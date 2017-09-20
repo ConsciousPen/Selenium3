@@ -243,6 +243,9 @@ public class TestDocgenScenarios extends HomeCaHO4BaseTest {
 		
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
+		log.info("==========================================");
+		log.info(getState() + " HO6 Policy Documents Generation is checked, policy: " + policyNum);
+		log.info("==========================================");
 	}
 	
 }
