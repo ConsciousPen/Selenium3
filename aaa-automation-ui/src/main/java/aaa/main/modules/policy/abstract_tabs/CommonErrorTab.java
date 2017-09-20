@@ -171,12 +171,12 @@ public abstract class CommonErrorTab extends Tab {
 		final int maxMessageLengthInTableWithoutDots = 77;
 		if (expectedMessage.length() > maxMessageLengthInTableWithoutDots) {
 			String expectedTruncatedMessage = StringUtils.removeEnd(expectedMessage, "...").trim();
-			List<Pair<String, String>> actualTruncatedTableAndHintErrorMessagePairs = new ArrayList<>();
+			List<Pair<String, String>> actualTruncatedTableAndHintErrorMessagePairs = new ArrayList<>(actualTableAndHintErrorMessagePairs.size());
 			actualTableAndHintErrorMessagePairs.forEach(actualMessagePair -> actualTruncatedTableAndHintErrorMessagePairs.add(
 					new Pair<>(StringUtils.removeEnd(actualMessagePair.getKey(), "...").trim(), StringUtils.removeEnd(actualMessagePair.getValue(), "...").trim())));
 
 			return actualTruncatedTableAndHintErrorMessagePairs.stream().anyMatch(actualMessagePair ->
-					(expectedTruncatedMessage.equals(actualMessagePair.getKey()) || expectedTruncatedMessage.startsWith(actualMessagePair.getKey())) && actualMessagePair.getValue().startsWith(expectedMessage));
+					(expectedTruncatedMessage.equals(actualMessagePair.getKey()) || expectedTruncatedMessage.startsWith(actualMessagePair.getKey())) && actualMessagePair.getValue().startsWith(expectedTruncatedMessage));
 		}
 
 		return actualTableAndHintErrorMessagePairs.stream().anyMatch(actualMessagePair -> actualMessagePair.getKey().equals(expectedMessage) && actualMessagePair.getValue().equals(expectedMessage));
