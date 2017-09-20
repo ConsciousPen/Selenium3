@@ -1299,11 +1299,11 @@ AA02AZ_ED: {
 #  VehTwgLbrDed: {}, 
 #  VehLnPrtcDed: {},
 #  VehNwAddPrtcDed: {}, 
-  VehSpclEqpmtPrem: {
+  VehSpclEqpmtPrem: [
   {TextField: '1'},
   {TextField: '0'},
   {TextField: '1'}
-  }, 
+  ], 
   VehSpclEqpmtDed: [
   {TextField: '0.00'},
   {TextField: '0.00'}
