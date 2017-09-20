@@ -50,8 +50,8 @@ ApplicantTab: {
     Last name: Test,
     },
   DwellingAddress: {
-    Zip code: '90201',
-    Street address 1: 265 CHIPMAN AVE,
+    Zip code: '90255',
+    Street address 1: 6586 PORCUPINE WAY,
     Validate Address: true,
     Validate Address Dialog: {
       #Street number: 265,
@@ -66,8 +66,8 @@ ApplicantTab: {
     },
   AgentInfo: {
     Channel Type: AAA Agent,
-    Agency: 'SMTestNCNU - 400001005',
-    Agency Location: 'SMTestNCNU LOCATION - 400001105 - Emeryville',
+    Agency: 'AAA NCNU - 500001005',
+    Agency Location: 'Los Gatos - 500005341 - Los Gatos',
     TollFree Number: 500001002
     },
   OtherActiveAAAPolicies: {},

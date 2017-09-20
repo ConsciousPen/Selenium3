@@ -129,8 +129,8 @@ AAAMembership: {
 }
 
 DwellingAddress: {
- Zip code: '84003',
- Street address 1: 265 CHIPMAN AVE,
+ Zip code: '84405',
+ Street address 1: 3646 MONROE BLVD,
  Validate Address: true,
  Validate Address Dialog: {
  #Street number: 265,
@@ -159,8 +159,10 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual:  {
 }
 
 AgentInfo: {
-  Channel Type: Independent Agent,
-  Agency: SMTestIA - 400001650
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'Draper - 500005417 - Draper',
+  TollFree Number: 1
 }
 
 #PropertyInfoTab
@@ -228,14 +230,21 @@ ApplicantTab_AZ: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_AZ'
 }
 
 DwellingAddress_AZ: {
- Zip code: '85003',
- Street address 1: 265 CHIPMAN AVE,
+ Zip code: '85118',
+ Street address 1: 4101 S LAST CHANCE TRL,
  Validate Address: true,
  Validate Address Dialog: {}
+}
+
+AgentInfo_AZ: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Arizona - 500001004',
+  Agency Location: 'Chandler - 500005091 - Chandler',
+  TollFree Number: 1
 }
 
 # --------- TestData CO ------------
@@ -275,12 +284,12 @@ ApplicantTab_CO: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_CO',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_CO'
 }
 
 DwellingAddress_CO: {
- Zip code: '80004',
- Street address 1: 265 CHIPMAN AVE,
+ Zip code: '81401',
+ Street address 1: 4527 WRANGELL RD,
  Validate Address: true,
  Validate Address Dialog: {}
 }
@@ -301,6 +310,13 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_CO:  {
   Policy tier: 'index=1',
   Auto policy BI limit: 'index=1',
   Auto Insurance Persistency: '21'
+}
+
+AgentInfo_CO: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Colorado - 500001007',
+  Agency Location: 'Denver - 500005106 - Denver',
+  TollFree Number: 1
 }
 
 
@@ -369,15 +385,22 @@ ApplicantTab_CT: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_CT'
 }
 
 DwellingAddress_CT: {
- Zip code: '06519',
- Street address 1: 265 CHIPMAN AVE,
+ Zip code: '06770',
+ Street address 1: 3978 SPANIEL CT,
  Validate Address: true,
  Validate Address Dialog: {}
-}  
+}
+
+AgentInfo_CT: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Allied Club - 500001019',
+  Agency Location: 'Lexington - Atkinson Ave - 80000515154 - Lexington',
+  TollFree Number: 1
+}
 
 ReportsTab_CT: {
   Sales Agent Agreement: 'I Agree',
@@ -432,19 +455,22 @@ ApplicantTab_DC: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_DC'
 }  
   
 DwellingAddress_DC: {
-  Zip code: '20004',
-  Street address 1: 265 CHIPMAN AVE,
+  Zip code: '20009',
+  Street address 1: 528 WIND WAY,
   Validate Address: true,
-  Validate Address Dialog: {
-   Street number: '265',
-   Street Name: CHIPMAN AVE,
-   #Select Address: "/default" 
-   }
-} 
+  Validate Address Dialog: {}
+}
+
+AgentInfo_DC: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
+  TollFree Number: 1
+}
 
 ReportsTab_DC: {
   Sales Agent Agreement: 'I Agree',
@@ -492,15 +518,22 @@ ApplicantTab_DE: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_DE'
 }  
   
 DwellingAddress_DE: {
-  Zip code: '19802',
-  Street address 1: 265 CHIPMAN AVE,
+  Zip code: '19702',
+  Street address 1: 830 WATKINS,
   Validate Address: true,
   Validate Address Dialog: {}
-} 
+}
+
+AgentInfo_DE: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
+  TollFree Number: 1
+}
 
 ReportsTab_DE: {
   Sales Agent Agreement: 'I Agree',
@@ -549,15 +582,22 @@ ApplicantTab_ID: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_ID'
 }  
   
 DwellingAddress_ID: {
-  Zip code: '83212',
-  Street address 1: 265 CHIPMAN AVE,
+  Zip code: '83607',
+  Street address 1: 3406 E HOMEDALE RD,
   Validate Address: true,
   Validate Address Dialog: {}
-} 
+}
+
+AgentInfo_ID: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Oregon - 500001021',
+  Agency Location: 'Beaverton - 500005277 - Portland',
+  TollFree Number: 1
+}
 
 # --------- TestData IN ------------
 
@@ -596,12 +636,12 @@ ApplicantTab_IN: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_IN',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_IN'
 }  
   
 DwellingAddress_IN: {
-  Zip code: '46064',
-  Street address 1: 265 CHIPMAN AVE,
+  Zip code: '47714',
+  Street address 1: 22616 ROCKVILLE RD,
   Validate Address: true,
   Validate Address Dialog: {}
 } 
@@ -622,6 +662,13 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_IN:  {
   Policy tier: 'index=1',
   Auto policy BI limit: 'index=1',
   Auto Insurance Persistency: '21'
+}
+
+AgentInfo_IN: {
+  Channel Type: 'AAA Agent',
+  Agency: 'HMC Insurance Agency Inc - 500001023',
+  Agency Location: 'Allisonville Branch - 5000017062 - Indianapolis',
+  TollFree Number: 1
 }
 
 ReportsTab_IN: {
@@ -699,12 +746,12 @@ ApplicantTab_KS: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_KS',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_KS'
 }  
   
 DwellingAddress_KS: {
-  Zip code: '66006',
-  Street address 1: 265 CHIPMAN AVE,
+  Zip code: '67210',
+  Street address 1: 3339 OSTRICH DR,
   Validate Address: true,
   Validate Address Dialog: {Select Address: override}
 } 
@@ -725,6 +772,13 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_KS:  {
   Policy tier: 'index=1',
   Auto policy BI limit: 'index=1',
   Auto Insurance Persistency: '21'
+}
+
+AgentInfo_KS: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Allied Club - 500001019',
+  Agency Location: 'Cromwell - 500005129 - Cromwell',
+  TollFree Number: 1
 }
 
 ReportsTab_KS: {
@@ -801,15 +855,22 @@ ApplicantTab_KY: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_KY',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_KY'
 }  
   
 DwellingAddress_KY: {
-  Zip code: '40006',
-  Street address 1: 265 CHIPMAN AVE,
+  Zip code: '41180',
+  Street address 1: 30 STATE HIGHWAY 486,
   Validate Address: true,
   Validate Address Dialog: {}
-} 
+}
+
+AgentInfo_KY: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Allied Club - 500001019',
+  Agency Location: 'Lexington - Atkinson Ave - 500005154 - Lexington',
+  TollFree Number: 1
+}
 
 OtherActiveAAAPolicies_KY: {
   Other active AAA policies: "Yes",
@@ -910,15 +971,22 @@ ApplicantTab_MD: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_MD'
 }  
   
 DwellingAddress_MD: {
-  Zip code: '21217',
-  Street address 1: 265 CHIPMAN AVE,
+  Zip code: '20854',
+  Street address 1: 9443 SUNNYFIELD CT,
   Validate Address: true,
   Validate Address Dialog: {}
-} 
+}
+
+AgentInfo_MD: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Agency Location: 'Annapolis CCIT - 500017191 - Annapolis',
+  TollFree Number: 1
+}
 
 ReportsTab_MD: {
   Sales Agent Agreement: 'I Agree',
@@ -975,14 +1043,21 @@ ApplicantTab_MT: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_MT'
 }  
   
 DwellingAddress_MT: {
-  Zip code: '59003',
-  Street address 1: 265 CHIPMAN AVE,
+  Zip code: '59802',
+  Street address 1: 4225 PLACER LN,
   Validate Address: true,
   Validate Address Dialog: {}
+}
+
+AgentInfo_MT: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mountain West - 500001006',
+  Agency Location: 'Great Falls - 500005162 - Great Falls',
+  TollFree Number: 1
 }
 
 ReportsTab_MT: {
@@ -1031,15 +1106,22 @@ ApplicantTab_NJ: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_NJ'
 }  
   
 DwellingAddress_NJ: {
-  Zip code: '07005',
-  Street address 1: 265 CHIPMAN AVE,
+  Zip code: '07094',
+  Street address 1: 219 HARMON COVE TOWER,
   Validate Address: true,
   Validate Address Dialog: {}
-} 
+}
+
+AgentInfo_NJ: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Agency Location: 'Newton - 500017271 - Newton',
+  TollFree Number: 1
+}
 
 ReportsTab_NJ: {
   Sales Agent Agreement: 'I Agree',
@@ -1087,15 +1169,22 @@ ApplicantTab_NV: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_NV'
 }  
   
 DwellingAddress_NV: {
-  Zip code: '89010',
-  Street address 1: 265 CHIPMAN AVE,
+  Zip code: '89506',
+  Street address 1: 11550 JUNPIER ST,
   Validate Address: true,
   Validate Address Dialog: {}
-} 
+}
+
+AgentInfo_NV: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'Las Vegas - 500005369 - Las Vegas',
+  TollFree Number: 1
+}
 
 UnderwritingAndApprovalTab_NV: {
   "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": "No",
@@ -1143,14 +1232,21 @@ ApplicantTab_NY: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_NY'
 }  
   
 DwellingAddress_NY: {
-  Zip code: '10451',
-  Street address 1: 265 CHIPMAN AVE,
+  Zip code: '14454',
+  Street address 1: 898 HAVEL RD,
   Validate Address: true,
   Validate Address Dialog: {}
+}
+
+AgentInfo_NY: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NORTHWAY NEW YORK - 500001009',
+  Agency Location: 'QUEENSBURY - 500005187 - QUEENSBURY',
+  TollFree Number: 1
 }
 
 ReportsTab_NY: {
@@ -1199,12 +1295,12 @@ ApplicantTab_OH: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_OH',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_OH'
 }  
   
 DwellingAddress_OH: {
-  Zip code: '43202',
-  Street address 1: 265 CHIPMAN AVE,
+  Zip code: '44057',
+  Street address 1: 498 HYDER DR,
   Validate Address: true,
   Validate Address Dialog: {}
 }
@@ -1225,6 +1321,13 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_OH:  {
   Policy tier: 'index=1',
   Auto policy BI limit: 'index=1',
   Auto Insurance Persistency: '21'
+}
+
+AgentInfo_OH: {
+  Channel Type: 'AAA Agent',
+  Agency: 'Ohio Findlay Club - 500001015',
+  Agency Location: 'Findlay Hq - 500005196 - Findlay',
+  TollFree Number: 1
 }
 
 ReportsTab_OH: {
@@ -1301,12 +1404,12 @@ ApplicantTab_OK: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_OK',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_OK'
 }  
   
 DwellingAddress_OK: {
-  Zip code: '73099',
-  Street address 1: 265 CHIPMAN AVE,
+  Zip code: '73065',
+  Street address 1: 1906 S JENSEN AVE NW,
   Validate Address: true,
   Validate Address Dialog: {}
 }
@@ -1327,6 +1430,13 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_OK:  {
   Policy tier: 'index=1',
   Auto policy BI limit: 'index=1',
   Auto Insurance Persistency: '21'
+}
+
+AgentInfo_OK: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA OKLAHOMA INSURANCE - 500001020',
+  Agency Location: 'Tulsa SW - 500025475 - Tulsa',
+  TollFree Number: 1
 }
 
 ReportsTab_OK: {
@@ -1403,14 +1513,21 @@ ApplicantTab_OR: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_OR'
 }  
   
 DwellingAddress_OR: {
-  Zip code: '97017',
-  Street address 1: 265 CHIPMAN AVE,
+  Zip code: '97213',
+  Street address 1: 5800 NE CENTER COMMONS WAY,
   Validate Address: true,
   Validate Address Dialog: {}
+}
+
+AgentInfo_OR: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Oregon - 500001021',
+  Agency Location: 'Portland - 500005275 - Portland',
+  TollFree Number: 1
 }
 
 UnderwritingAndApprovalTab_OR: {
@@ -1458,14 +1575,21 @@ ApplicantTab_PA: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_PA'
 }  
   
 DwellingAddress_PA: {
-  Zip code: '15001',
-  Street address 1: 265 CHIPMAN AVE,
+  Zip code: '19121',
+  Street address 1: 2302 W GLENWOOD AVE,
   Validate Address: true,
   Validate Address Dialog: {}
+}
+
+AgentInfo_PA: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Southern Penn - 500017173',
+  Agency Location: 'Bedford - 500017241 - Bedford',
+  TollFree Number: 1
 }
 
 ReportsTab_PA: {
@@ -1514,14 +1638,21 @@ ApplicantTab_SD: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_SD'
 }  
   
 DwellingAddress_SD: {
-  Zip code: '57010',
-  Street address 1: 265 CHIPMAN AVE,
+  Zip code: '57033',
+  Street address 1: 205 N EASTERN AVE APT 8,
   Validate Address: true,
   Validate Address Dialog: {}
+}
+
+AgentInfo_SD: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA SOUTH DAKOTA - 500001022',
+  Agency Location: 'Rapid City - 500020872 - Rapid City',
+  TollFree Number: 1
 }
 
 ReportsTab_SD: {
@@ -1598,14 +1729,21 @@ ApplicantTab_VA: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_VA'
 }  
   
 DwellingAddress_VA: {
-  Zip code: '20105',
-  Street address 1: 265 CHIPMAN AVE,
+  Zip code: '24541',
+  Street address 1: 817 OAKWOOD DR,
   Validate Address: true,
   Validate Address Dialog: {}
+}
+
+AgentInfo_VA: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Agency Location: 'CHANTILLY VA - 500016414 - Chantilly',
+  TollFree Number: 1
 }
 
 ReportsTab_VA: {
@@ -1655,14 +1793,21 @@ ApplicantTab_WV: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_WV'
 }  
   
 DwellingAddress_WV: {
-  Zip code: '24714',
-  Street address 1: 265 CHIPMAN AVE,
+  Zip code: '26062',
+  Street address 1: 236 KINGSVIEW DR,
   Validate Address: true,
   Validate Address Dialog: {}
+}
+
+AgentInfo_WV: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Allied Club - 500001019',
+  Agency Location: 'Charleston - 500005295 - Charleston',
+  TollFree Number: 1
 }
 
 ReportsTab_WV: {
@@ -1739,14 +1884,21 @@ ApplicantTab_WY: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
-  AgentInfo: '@AgentInfo'
+  AgentInfo: '@AgentInfo_WY'
 }  
   
 DwellingAddress_WY: {
-  Zip code: '82081',
-  Street address 1: 265 CHIPMAN AVE,
+  Zip code: '82604',
+  Street address 1: 3650 NAVARRE RD,
   Validate Address: true,
   Validate Address Dialog: {}
+}
+
+AgentInfo_WY: {
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mountain West - 500001006',
+  Agency Location: '',
+  TollFree Number: 1
 }
 
 ReportsTab_WY: {

@@ -48,9 +48,11 @@ PolicyInformation: {
   Policy Type: Standard,
   Effective Date: '/today:MM/dd/yyyy',
   Policy Term: Annual,
-  Channel Type: Independent Agent,
-  Agency: SMTestIA - 400001650,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'Draper - 500005417 - Draper',
   Authorized by: QA,
+  TollFree Number: 1
   Lead Source: AAA Magazines
 }
 
