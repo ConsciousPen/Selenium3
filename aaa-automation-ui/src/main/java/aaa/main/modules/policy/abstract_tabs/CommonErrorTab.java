@@ -204,8 +204,8 @@ public abstract class CommonErrorTab extends Tab {
 			Map<String, Pair<String, String>> actualErrorCodesAndMessagePairsMap = getErrorCodesAndMessagePairsMap(!expectedValue);
 			for (ErrorEnum.Errors error : errors) {
 				CustomAssert.assertTrue(String.format("%s is %s.", error, expectedValue ? "absent" : "present"),
-						actualErrorCodesAndMessagePairsMap.containsKey(error.getCode())
-								&& isMessagePresentInTableAndHintPopup(actualErrorCodesAndMessagePairsMap.get(error.getCode()), error.getMessage()) == expectedValue);
+						(actualErrorCodesAndMessagePairsMap.containsKey(error.getCode())
+								&& isMessagePresentInTableAndHintPopup(actualErrorCodesAndMessagePairsMap.get(error.getCode()), error.getMessage())) == expectedValue);
 			}
 		}
 	}
