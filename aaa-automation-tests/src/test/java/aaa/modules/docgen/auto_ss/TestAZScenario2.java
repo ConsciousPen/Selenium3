@@ -370,6 +370,7 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 		policyEffectiveDate=TimeSetterUtil.getInstance().parse(policy.getDefaultView().getTab(GeneralTab.class).getPolicyInfoAssetList().getAsset(PolicyInformation.EFFECTIVE_DATE.getLabel(), TextBox.class).getValue(), DateTimeUtils.MM_DD_YYYY);
 		policyExpirationDate=TimeSetterUtil.getInstance().parse(policy.getDefaultView().getTab(GeneralTab.class).getPolicyInfoAssetList().getAsset(PolicyInformation.EXPIRATION_DATE.getLabel(), TextBox.class).getValue(), DateTimeUtils.MM_DD_YYYY);
 		plcyEffDt=DocGenHelper.convertToZonedDateTime(policyEffectiveDate);
+		termEffDt=DocGenHelper.convertToZonedDateTime(policyEffectiveDate);		
 		plcyExprDt=DocGenHelper.convertToZonedDateTime(policyExpirationDate);
 		Tab.buttonCancel.click();
 		
@@ -457,13 +458,14 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 		BillingSummaryPage.open();
 		           
 		int pageNumber = 1;
-		ByT pagePattern =ByT.xpath("//span[@class='rf-ds alignCenter']");
+		ByT pagePattern =ByT.xpath("//*[contains(@id,'billingDetailedForm') and text()='%s'");
 	     while (new Link(pagePattern.format(pageNumber)).isPresent()) {
 	    	 new Link(pagePattern.format(pageNumber)).click();
 	    	 
 	    	 for (int i = 1; i <= BillingSummaryPage.tableInstallmentSchedule.getRowsCount(); i++) {
-	 			if (BillingSummaryPage.tableInstallmentSchedule.getRow(i).getCell(BillingInstallmentScheduleTable.DESCRIPTION).getValue().equals("Installment")
-	 					&& BillingSummaryPage.tableInstallmentSchedule.getRow(i).getCell(BillingInstallmentScheduleTable.BILLED_STATUS).getValue().equals("Unbilled")){
+	 			if ("Installment".equals(BillingSummaryPage.tableInstallmentSchedule.getRow(i).getCell(BillingInstallmentScheduleTable.DESCRIPTION).getValue())
+	 					&& "Unbilled".equals(BillingSummaryPage.tableInstallmentSchedule.getRow(i).getCell(BillingInstallmentScheduleTable.BILLED_STATUS).getValue()))
+	 			{
 	 				dueAmount.add(DataProviderFactory.dataOf("TextField", BillingSummaryPage.getInstallmentAmount(i).add(2).toString().replace("$", "")));
 	 				installmentDueDate.add(DataProviderFactory.dataOf("DateTimeField", DocGenHelper.convertToZonedDateTime(BillingSummaryPage.getInstallmentDueDate(i))));
 	 			}
