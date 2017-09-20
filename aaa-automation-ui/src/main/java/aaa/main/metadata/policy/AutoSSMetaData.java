@@ -172,7 +172,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<TextBox> AGENT_ENTERED_POLICY_NUMBER = declare("Agent Entered Policy Number", TextBox.class);
 			public static final AssetDescriptor<TextBox> AGENT_ENTERED_DAYS_LAPSED = declare("Agent Entered Days Lapsed", TextBox.class, By.id("policyDataGatherForm:currentCarrierInformation_enteredDaysLapsed"));
 			public static final AssetDescriptor<TextBox> AGENT_ENTERED_MONTHS_WITH_CARRIER = declare("Agent Entered Months with Carrier", TextBox.class, By.id("policyDataGatherForm:currentCarrierInformation_enteredMonthsWithInsurer"));
-			public static final AssetDescriptor<TextBox> AGENT_ENTERED_BI_LIMITS = declare("Agent Entered BI Limits", TextBox.class);
+			public static final AssetDescriptor<ComboBox> AGENT_ENTERED_BI_LIMITS = declare("Agent Entered BI Limits", ComboBox.class);
 		}
 
 		public static final class PolicyInformation extends MetaData {
@@ -428,6 +428,7 @@ public final class AutoSSMetaData {
 	}
 
 	public static final class PremiumAndCoveragesTab extends MetaData {
+		public static final AssetDescriptor<RadioGroup> APPLY_EVALUE_DISCOUNT = declare("Apply eValue Discount", RadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> PAYMENT_PLAN = declare("Payment Plan", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> POLICY_TERM = declare("Policy Term", ComboBox.class);
 
@@ -585,6 +586,8 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> UNINSURED_UNDERINSURED_MOTORISTS_COVERAGE_OFFER = declare("Uninsured/Underinsured Motorists Coverage Offer", RadioGroup.class, Waiters.NONE);
 			//Nano
 			public static final AssetDescriptor<RadioGroup> NON_OWNER_AUTOMOBILE_ENDORSEMENT = declare("Non-Owner Automobile Endorsement", RadioGroup.class, Waiters.NONE, By.id("policyDataGatherForm:supportingDocsContent_OptionalSupportingDocuments_NONOE"));
+			//VA
+			public static final AssetDescriptor<RadioGroup> EVALUE_ACKNOWLEDGEMENT = declare("eValue Acknowledgement", RadioGroup.class, Waiters.NONE);
 		}
 
 		public static final class RequiredToIssue extends MetaData {
@@ -596,6 +599,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> SEPARATE_VEHICLE_2 = declare("Separate Vehicle 2", RadioGroup.class, By.xpath("//table[@id='policyDataGatherForm:driverName_1']"));
 			//OK
 			public static final AssetDescriptor<RadioGroup> COVERAGE_SELECTION_FORM = declare("Coverage Selection Form", RadioGroup.class, Waiters.NONE);
+			public static final AssetDescriptor<RadioGroup> PROOF_OF_PRIOR_INSURANCE = declare("Proof of Prior Insurance", RadioGroup.class, Waiters.NONE);
 		}
 
 		public static final class GeneralInformation extends MetaData {
