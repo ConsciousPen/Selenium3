@@ -60,8 +60,32 @@ public class Scenario5 extends ScenarioBaseTest {
 		CustomAssert.assertEquals("Billing Installments count for Monthly (Eleven Pay) payment plan", installmentsCount, installmentDueDates.size());
 	}
 
+	public void generateFirstBillOneDayBefore() {
+		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(1)).minusDays(1);
+		TimeSetterUtil.getInstance().nextPhase(billGenDate);
+		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
+
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
+
+		new BillingBillsAndStatementsVerifier().setDueDate(installmentDueDates.get(1).minusDays(1)).setType(BillingConstants.BillsAndStatementsType.BILL).verifyPresent(false);
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent(false);
+	}
+
 	public void generateFirstBill() {
 		generateAndCheckBill(installmentDueDates.get(1));
+	}
+
+	public void payFirstBillOneDayBefore() {
+		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDates.get(1)).minusDays(1);
+		TimeSetterUtil.getInstance().nextPhase(billDueDate);
+		JobUtils.executeJob(Jobs.recurringPaymentsJob);
+
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
+
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDueDate).setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT).setSubtypeReason(
+			BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RECURRING_PAYMENT).verifyPresent(false);
 	}
 
 	public void payFirstBill() {
@@ -89,6 +113,27 @@ public class Scenario5 extends ScenarioBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().verifyPaymentDeclined(paymentDate);
 
 		billingAccount.update().perform(tdBilling.getTestData("Update", "TestData_RemoveAutopay"));
+	}
+
+	public void generateCancellNoticeOneDayBefore() {
+		LocalDateTime cnDate = getTimePoints().getCancellationNoticeDate(installmentDueDates.get(2)).minusDays(1);
+		// TODO Why?
+		if (getState().equals(Constants.States.AZ))
+			cnDate.minusHours(1);
+		TimeSetterUtil.getInstance().nextPhase(cnDate);
+		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNum);
+
+		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
+
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+
+		new BillingAccountPoliciesVerifier().setPolicyFlag(BillingConstants.PolicyFlag.DEFAULT).verifyRowWithEffectiveDate(policyEffectiveDate);
+		new BillingBillsAndStatementsVerifier().setDueDate(getTimePoints().getCancellationTransactionDate(installmentDueDates.get(2).minusDays(1))).setType(
+			BillingConstants.BillsAndStatementsType.CANCELLATION_NOTICE).verifyPresent(false);
 	}
 
 	public void generateCancellNotice() {
@@ -120,8 +165,37 @@ public class Scenario5 extends ScenarioBaseTest {
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH34XX);
 	}
 
+	public void cancelPolicyOneDayBefore() {
+		LocalDateTime cDate = getTimePoints().getCancellationDate(installmentDueDates.get(2)).minusDays(1);
+		TimeSetterUtil.getInstance().nextPhase(cDate);
+		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNum);
+
+		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		PolicySummaryPage.verifyCancelNoticeFlagPresent();
+	}
+
 	public void cancelPolicy() {
 		cancelPolicy(installmentDueDates.get(2));
+	}
+
+	public void verifyFormAH67XX() {
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH67XX);
+	}
+
+	public void generateFirstEPBillOneDayBefore() {
+		LocalDateTime epDate = getTimePoints().getEarnedPremiumBillFirst(installmentDueDates.get(2)).minusDays(1);
+		TimeSetterUtil.getInstance().nextPhase(epDate);
+		JobUtils.executeJob(Jobs.earnedPremiumBillGenerationJob);
+
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
+
+		new BillingBillsAndStatementsVerifier().setDueDate(epDate).setType(BillingConstants.BillsAndStatementsType.BILL).verifyPresent(false);
 	}
 
 	public void generateFirstEPBill() {
@@ -143,6 +217,17 @@ public class Scenario5 extends ScenarioBaseTest {
 		// DocGenHelper.verifyDocumentsGeneratedByJob(policyNum,
 		// OnDemandDocuments._55_6103, XPathInfo.INVOICE_BILLS_STATEMENTS);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._55_6103);
+	}
+
+	public void generateEPWriteOffOneDayBefore() {
+		LocalDateTime date = getTimePoints().getEarnedPremiumWriteOff(installmentDueDates.get(2)).minusDays(1);
+		TimeSetterUtil.getInstance().nextPhase(date);
+		JobUtils.executeJob(Jobs.collectionFeedBatch_earnedPremiumWriteOff);
+
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
+
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(date).setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF).verifyPresent(false);
 	}
 
 	public void generateEPWriteOff() {
@@ -197,85 +282,6 @@ public class Scenario5 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_CANCELLED).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(policyExpirationDate).setSubtypeReason(
 			BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent(false);
-	}
-
-	public void generateFirstBillOneDayBefore() {
-		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(1)).minusDays(1);
-		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
-
-		mainApp().open();
-		SearchPage.openBilling(policyNum);
-
-		new BillingBillsAndStatementsVerifier().setDueDate(installmentDueDates.get(1).minusDays(1)).setType(BillingConstants.BillsAndStatementsType.BILL).verifyPresent(false);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent(false);
-	}
-
-	public void payFirstBillOneDayBefore() {
-		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDates.get(1)).minusDays(1);
-		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		JobUtils.executeJob(Jobs.recurringPaymentsJob);
-
-		mainApp().open();
-		SearchPage.openBilling(policyNum);
-
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDueDate).setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT).setSubtypeReason(
-			BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RECURRING_PAYMENT).verifyPresent(false);
-	}
-
-	public void generateCancellNoticeOneDayBefore() {
-		LocalDateTime cnDate = getTimePoints().getCancellationNoticeDate(installmentDueDates.get(2)).minusDays(1);
-		// TODO Why?
-		if (getState().equals(Constants.States.AZ))
-			cnDate.minusHours(1);
-		TimeSetterUtil.getInstance().nextPhase(cnDate);
-		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
-
-		mainApp().open();
-		SearchPage.openPolicy(policyNum);
-
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
-
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-
-		new BillingAccountPoliciesVerifier().setPolicyFlag(BillingConstants.PolicyFlag.DEFAULT).verifyRowWithEffectiveDate(policyEffectiveDate);
-		new BillingBillsAndStatementsVerifier().setDueDate(getTimePoints().getCancellationTransactionDate(installmentDueDates.get(2).minusDays(1))).setType(
-			BillingConstants.BillsAndStatementsType.CANCELLATION_NOTICE).verifyPresent(false);
-	}
-
-	public void cancelPolicyOneDayBefore() {
-		LocalDateTime cDate = getTimePoints().getCancellationDate(installmentDueDates.get(2)).minusDays(1);
-		TimeSetterUtil.getInstance().nextPhase(cDate);
-		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
-
-		mainApp().open();
-		SearchPage.openPolicy(policyNum);
-
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.verifyCancelNoticeFlagPresent();
-	}
-
-	public void generateFirstEPBillOneDayBefore() {
-		LocalDateTime epDate = getTimePoints().getEarnedPremiumBillFirst(installmentDueDates.get(2)).minusDays(1);
-		TimeSetterUtil.getInstance().nextPhase(epDate);
-		JobUtils.executeJob(Jobs.earnedPremiumBillGenerationJob);
-
-		mainApp().open();
-		SearchPage.openBilling(policyNum);
-
-		new BillingBillsAndStatementsVerifier().setDueDate(epDate).setType(BillingConstants.BillsAndStatementsType.BILL).verifyPresent(false);
-	}
-
-	public void generateEPWriteOffOneDayBefore() {
-		LocalDateTime date = getTimePoints().getEarnedPremiumWriteOff(installmentDueDates.get(2)).minusDays(1);
-		TimeSetterUtil.getInstance().nextPhase(date);
-		JobUtils.executeJob(Jobs.collectionFeedBatch_earnedPremiumWriteOff);
-
-		mainApp().open();
-		SearchPage.openBilling(policyNum);
-
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(date).setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF).verifyPresent(false);
 	}
 
 	protected void generateAndCheckEarnedPremiumBill(LocalDateTime date) {

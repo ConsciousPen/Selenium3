@@ -26,13 +26,25 @@ public class TestScenario5 extends Scenario5 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC02_Generate_First_Bill(@Optional("CA") String state) {
+	public void TC02_0_Generate_First_Bill_One_Day_Before(@Optional("CA") String state) {
+		super.generateFirstBillOneDayBefore();
+	}
+
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC02_1_Generate_First_Bill(@Optional("CA") String state) {
 		super.generateFirstBill();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC03_Pay_First_Bill(@Optional("CA") String state) {
+	public void TC03_0_Pay_First_Bill_One_Day_Before(@Optional("CA") String state) {
+		super.payFirstBillOneDayBefore();
+	}
+
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC03_1_Pay_First_Bill(@Optional("CA") String state) {
 		super.payFirstBill();
 	}
 
@@ -56,7 +68,13 @@ public class TestScenario5 extends Scenario5 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC07_Generate_CancellNotice(@Optional("CA") String state) {
+	public void TC07_0_Generate_CancellNotice_One_Day_Before(@Optional("CA") String state) {
+		super.generateCancellNoticeOneDayBefore();
+	}
+
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC07_1_Generate_CancellNotice(@Optional("CA") String state) {
 		super.generateCancellNotice();
 	}
 
@@ -68,13 +86,25 @@ public class TestScenario5 extends Scenario5 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC09_Cancel_Policy(@Optional("CA") String state) {
+	public void TC09_0_Cancel_Policy_One_Day_Before(@Optional("CA") String state) {
+		super.cancelPolicyOneDayBefore();
+	}
+
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC09_1_Cancel_Policy(@Optional("CA") String state) {
 		super.cancelPolicy();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC10_Generate_First_EP_Bill(@Optional("CA") String state) {
+	public void TC010_0_Generate_First_EP_Bill_One_Day_Before(@Optional("CA") String state) {
+		super.generateFirstEPBillOneDayBefore();
+	}
+
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC10_1_Generate_First_EP_Bill(@Optional("CA") String state) {
 		super.generateFirstEPBill();
 	}
 
@@ -90,9 +120,14 @@ public class TestScenario5 extends Scenario5 {
 		super.generateThirdEPBill();
 	}
 
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC13_0_Generate_EP_Write_Off_One_Day_Before(@Optional("CA") String state) {
+		super.generateEPWriteOffOneDayBefore();
+	}
+
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC13_Generate_EP_Write_Off(@Optional("CA") String state) {
+	public void TC13_1_Generate_EP_Write_Off(@Optional("CA") String state) {
 		super.generateEPWriteOff();
 	}
 
