@@ -113,6 +113,7 @@ public final class DocGenEnum {
 		_61_6528_HO3("61 6528", "Homeowners Insurance Quote Page"),
 		_61_6528_HO4("61 6528", "Renters Insurance Quote Page"),
 		_61_6528_HO6("61 6528", "Condominium Owners Insurance Quote Page"),
+		_61_6528_DP3("61 6528", "Rental Property Insurance Quote Page"),
 		F1122("Property Inventory List"),
 		_61_6530("61 6530", "California Residential Property Insurance Disclosure"),
 		_61_3000("61 3000", "California Residential Property Insurance Bill of Rights"),
@@ -134,7 +135,9 @@ public final class DocGenEnum {
 		_61_4002("61 4002", "California Application For Condominium Owners Insurance"),
 		_61_4003("61 4003", "California Application for Renters Insurance"),
 		_60_5005("60 5005", "Returning Payment"),
-		_61_1500("61 1500", "")
+		_61_1500("61 1500", ""),
+		WU11DCA("California Application for Rental Property Insurance"),
+		DF02CA("DF 02 CA", "Rental Property policy Declarations"),
 		;
 
 		private String id;
