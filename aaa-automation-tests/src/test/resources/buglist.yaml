@@ -87,7 +87,7 @@ QC-44702:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd.testPolicyEndorsementAdd]
-      messages: ['Error message "Current CLUE must be ordered" is not absent as expected']
+      messages: ["Error{Code='AAA_CLUE_order_validation_SS', Message='Current CLUE must be ordered'} is present"]
 QC-44726:
   summary: "Regression: Exception on approve underwriting rule"
   reason: PROD
