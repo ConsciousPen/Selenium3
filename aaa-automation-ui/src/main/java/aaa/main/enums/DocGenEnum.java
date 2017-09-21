@@ -142,7 +142,12 @@ public final class DocGenEnum {
 		_58_4000("58 4000", "Personal Umbrella Policy Application"),
 		_61_6528("61 6528", "PUP Insurance Quote Page"),
 		_58_1027("58 1027", "Designated Recreational Motor Vehicle Exclusion Endorsement"),
-		_58_1500("58 1500", "")
+		_58_1500("58 1500", ""),
+		HSFLDNJ("Important Flood Information for New Jersey Policyholders"),
+		HSCSND("Rental Property Insurance"),
+		HSHU2NJ("New Jersey Policyholder Hurricane Percentage Deductible Consumer Guide"),
+		HSELNJ("Important Notice Regarding Extraordinary Life Circumstance"),
+		AHTPC("")
 		;
 
 		private String id;
