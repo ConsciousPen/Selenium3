@@ -77,7 +77,7 @@ public final class DocGenEnum {
 		HS61PA("NOTICE OF CANCELLATION OR REFUSAL TO RENEW"),
 		_55_3500("55 3500", "Refund Check"),
 		AH35XX("Autopay Schedule Compilation"),
-		AHRBXX("AHRBXX", "Insurance Renewal Premium Notice (Non-Auto Pay)"),
+		AHRBXX("AHRBXX", "Insurance Renewal Bill"),
 		AA43AZ("Named Driver Exclusion Election"),
 		AASR22("Financial Responsibility"),
 		AA59XX("EXISTING DAMAGE ENDORSEMENT"),

@@ -66,6 +66,7 @@ AHIBXX: {
    NSFPayRstrYN: {TextField: 'N'},
    PlcyPrTrmBal: {TextField: '0.00'},
    PlcyPastDueBal: {TextField: '0.00'},
+   PLIGAFee: {TextField: '0.00'}
  },
  NamedInsuredDetails: {
    NmdInsrdFrstNm: {TextField: 'Fernando'},

@@ -263,7 +263,7 @@ AH35XX: {
     AgntCo: {TextField: 'SMTestIA'}
   },
   PaymentDetails: {
-    InstlFee: {},
+    InstlFee: {TextField: '2.00'},
     PlcyTotWdrlAmt: {}
   },
   AccountDetails: {
@@ -957,7 +957,7 @@ AH35XX_ED: {
     AgntCo: {TextField: 'SMTestIA'}
   },
   PaymentDetails: {
-  InstlFee: {},
+  InstlFee: {TextField: '2.00'},
 #    PlcyTotWdrlAmt: {}
   },
   AccountDetails: {
@@ -1825,4 +1825,62 @@ AH35XX_Renewal: {
     TransDesc: {TextField: 'RNWL'},
     FutInstlDueDt: {}
   }
+}
+
+AHRBXX_Renewal: {
+form: { 
+   PlcyGrp: {TextField: 'AUTO'},
+   PlcyNum: {TextField: ''},
+   PlcyEffDt: {DateTimeField: ''},
+   PlcyExprDt: {DateTimeField: ''},
+   TermEffDt: {DateTimeField: ''},
+   PlcyStAbrv: {TextField: 'AZ'},
+   PlcyTransCd: {TextField: 'STMT'},
+   AutoPayYN: {TextField: 'Y'},
+   SR22Fee: {TextField: '0.00'},
+   NSFFee: {TextField: '0.00'},
+   MVLEFee: {TextField: '0.00'},
+#   LstBillYN: {DateTimeField: ''}
+ },
+ PaymentDetails: {
+   PayTyp: {TextField: 'INSTALLMENT PAYMENT'},
+   PayPln: {TextField: 'Monthly'},
+   CurRnwlAmt: {TextField: ''},
+   InstlFee: {TextField: ''},
+   OthrFee: {TextField: '0.00'},
+   TotNwCrgAmt: {TextField: ''},
+   PlcyPayMinAmt: {TextField: ''},
+   PlcyDueDt: {DateTimeField: ''},
+#   PlcyPayFullAmt: {TextField: ''},
+   NSFPayRstrYN: {TextField: 'N'},
+#   PlcyPrTrmBal: {TextField: '0.00'},
+   PlcyPastDueBal: {TextField: '0.00'},
+   plcyTotRnwlPrem: {TextField: ''},
+   PayMeth: {TextField: 'Credit Card'},
+   PLIGAFee: {TextField: '0.00'}
+ },
+ NamedInsuredDetails: {
+   NmdInsrdFrstNm: {TextField: 'Fernando'},
+   NmdInsrdMidNm: {TextField: ''},
+   NmdInsrdLstNm: {TextField: 'Alonso'},
+   NmdInsrdStrPobAddr1:  {TextField: '265 CHIPMAN AVE'},
+   NmdInsrdAddlAddr2: {TextField: ''},
+   NmdInsrdCityNm: {TextField: 'Phoenix'},
+   NmdInsrdStAbrv: {TextField: 'AZ'},
+   NmdInsrdZipPls4: {TextField: '85003'}
+ },
+ VehicleDetails: {
+   PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
+   PlcyVehInfo: {TextField: '2010 KIA SOUL'},
+   PlcyVehInfo: {TextField: '2011 MERCEDES-BENZ G55AMG'},
+ },
+ 
+ AccountDetails: {
+   AcctTyp: {TextField: ''}
+ },
+ 
+ CreditCardDetails: {
+   CrCrdNum: {TextField: '************1111'},
+   CrCrdTyp: {TextField: 'VISA'},
+ }
 }
