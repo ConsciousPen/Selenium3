@@ -47,8 +47,8 @@ AHIBXX: {
    AutoPayYN: {TextField: 'N'},
    PlcyGrp: {TextField: 'AUTO'},
    PlcyNum: {TextField: ''},
-   PlcyEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
-   PlcyExprDt: {DateTimeField: "contains=/today+1y:yyyy-MM-dd"},
+   PlcyEffDt: {DateTimeField: ''},
+   PlcyExprDt: {DateTimeField: ''},
    PlcyStAbrv: {TextField: 'AZ'},
    PlcyTransCd: {TextField: 'STMT'},
    
@@ -66,6 +66,7 @@ AHIBXX: {
    NSFPayRstrYN: {TextField: 'N'},
    PlcyPrTrmBal: {TextField: '0.00'},
    PlcyPastDueBal: {TextField: '0.00'},
+   PLIGAFee: {TextField: '0.00'}
  },
  NamedInsuredDetails: {
    NmdInsrdFrstNm: {TextField: 'Fernando'},
