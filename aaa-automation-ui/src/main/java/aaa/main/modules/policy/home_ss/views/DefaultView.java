@@ -5,6 +5,7 @@
 package aaa.main.modules.policy.home_ss.views;
 
 import aaa.common.Workspace;
+import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
@@ -41,6 +42,7 @@ public class DefaultView extends Workspace {
 		registerTab(UnderwritingAndApprovalTab.class);
 		registerTab(DocumentsTab.class);
 		registerTab(BindTab.class);
+		registerTab(ErrorTab.class);
 		registerTab(PurchaseTab.class);
 	}
 }
