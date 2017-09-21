@@ -37,6 +37,7 @@ public class Scenario1 extends ScenarioBaseTest {
 	
 	protected LocalDateTime policyEffectiveDate;
 	protected LocalDateTime policyExpirationDate;
+	protected LocalDateTime pligaFeeLastTransactionDate;
 
 	protected Dollar totalDue;
 	protected List<LocalDateTime> installmentDueDates;
@@ -65,8 +66,10 @@ public class Scenario1 extends ScenarioBaseTest {
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
 		CustomAssert.assertEquals("Billing Installments count for Quaterly payment plan", installmentsCount, installmentDueDates.size());
 		installmentAmount = BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(1));
+		if (getState().equals(Constants.States.NJ)) {
+			new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(policyEffectiveDate);
+		}
 
-		//TODO Check PLIGA fee for NJ Auto = Total Premium * PLIGA charge (currently 0.9% = 0.009) rounded to nearest dollar.
 		//TODO Check MVLE fee for NY Auto = $10.00
 	}
 	
@@ -85,8 +88,9 @@ public class Scenario1 extends ScenarioBaseTest {
 		// Endorsement transaction displayed on billing in Payments & Other transactions section
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String reason = "Endorsement - " + endorsementTD.getValue(endorsementReasonDataKeys);
+		LocalDateTime transactionDate = TimeSetterUtil.getInstance().getPhaseStartTime();
 		new BillingPaymentsAndTransactionsVerifier()
-			.setTransactionDate(TimeSetterUtil.getInstance().getPhaseStartTime())
+			.setTransactionDate(transactionDate)
 			.setPolicy(policyNum).setType(PaymentsAndOtherTransactionType.PREMIUM)
 			.setSubtypeReason(reason).verifyPresent();
 
@@ -107,7 +111,11 @@ public class Scenario1 extends ScenarioBaseTest {
 		totalDue1.verify.moreThan(totalDue);
 		totalDue2.verify.moreThan(totalDue);
 
-		//TODO Check PLIGA fee for NJ Auto is recalculated to added vehicle
+		if (getState().equals(Constants.States.NJ)) {
+			pligaFeeLastTransactionDate = transactionDate;
+			new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(pligaFeeLastTransactionDate);
+		}
+
 		//TODO Check MVLE fee for NY Auto is recalculated to added vehicle
 	}
 
@@ -116,7 +124,7 @@ public class Scenario1 extends ScenarioBaseTest {
 	}
 
 	protected void generateSecondBill() {
-		generateAndCheckBill(installmentDueDates.get(2));
+		generateAndCheckBill(installmentDueDates.get(2), policyEffectiveDate, pligaFeeLastTransactionDate);
 	}
 
 	protected void paySecondBill() {
@@ -195,7 +203,11 @@ public class Scenario1 extends ScenarioBaseTest {
 			verifyCaRenewalOfferPaymentAmount(policyExpirationDate,getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
 		}
 
-		//TODO Check PLIGA fee for NJ Auto is generated
+		if (getState().equals(Constants.States.NJ)) {
+			pligaFeeLastTransactionDate = renewOfferGenDate;
+			new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(renewOfferGenDate);
+		}
+
 		//TODO Check MVLE fee for NY Auto is generated
 	}
 
@@ -211,13 +223,11 @@ public class Scenario1 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 		// TODO Renew premium verification was excluded, due to unexpected installment calculations
 //		if (!getState().equals(Constants.States.KY) && !getState().equals(Constants.States.WV)) {
-		verifyRenewalOfferPaymentAmount(policyExpirationDate,getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, installmentsCount);
+		verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, pligaFeeLastTransactionDate, installmentsCount);
 //		}
 		verifyRenewPremiumNotice(policyExpirationDate, getTimePoints().getBillGenerationDate(policyExpirationDate));
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate)
-				.setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 
-		//TODO Check PLIGA fee for NJ Auto is included in bill
 		//TODO Check MVLE fee for NY Auto is included in bill
 	}
 
