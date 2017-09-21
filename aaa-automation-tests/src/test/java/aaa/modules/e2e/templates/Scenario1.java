@@ -112,10 +112,11 @@ public class Scenario1 extends ScenarioBaseTest {
 		totalDue1.verify.moreThan(totalDue);
 		totalDue2.verify.moreThan(totalDue);
 
-		pligaOrMvleFeeLastTransactionDate = transactionDate;
 		if (getState().equals(Constants.States.NJ)) {
+			pligaOrMvleFeeLastTransactionDate = transactionDate;
 			new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(pligaOrMvleFeeLastTransactionDate);
 		} else if (getState().equals(Constants.States.NY)) {
+			pligaOrMvleFeeLastTransactionDate = transactionDate;
 			new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(pligaOrMvleFeeLastTransactionDate);
 		}
 	}
@@ -200,12 +201,13 @@ public class Scenario1 extends ScenarioBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferGenDate)
 				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
 
-		pligaOrMvleFeeLastTransactionDate = renewOfferGenDate;
 		if (getState().equals(Constants.States.CA)) {
 			verifyCaRenewalOfferPaymentAmount(policyExpirationDate,getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
 		} else if (getState().equals(Constants.States.NJ)) {
+			pligaOrMvleFeeLastTransactionDate = renewOfferGenDate;
 			new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(pligaOrMvleFeeLastTransactionDate);
 		} else if (getState().equals(Constants.States.NY)) {
+			pligaOrMvleFeeLastTransactionDate = renewOfferGenDate;
 			new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(pligaOrMvleFeeLastTransactionDate);
 		}
 	}
