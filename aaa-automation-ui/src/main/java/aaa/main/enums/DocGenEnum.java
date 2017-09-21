@@ -77,7 +77,7 @@ public final class DocGenEnum {
 		HS61PA("NOTICE OF CANCELLATION OR REFUSAL TO RENEW"),
 		_55_3500("55 3500", "Refund Check"),
 		AH35XX("Autopay Schedule Compilation"),
-		AHRBXX("AHRBXX", "Insurance Renewal Premium Notice (Non-Auto Pay)"),
+		AHRBXX("AHRBXX", "Insurance Renewal Bill"),
 		AA43AZ("Named Driver Exclusion Election"),
 		AASR22("Financial Responsibility"),
 		AA59XX("EXISTING DAMAGE ENDORSEMENT"),
@@ -112,6 +112,8 @@ public final class DocGenEnum {
 		AAPDXX("Courtesy Coverage Letter"),
 		_61_6528_HO3("61 6528", "Homeowners Insurance Quote Page"),
 		_61_6528_HO4("61 6528", "Renters Insurance Quote Page"),
+		_61_6528_HO6("61 6528", "Condominium Owners Insurance Quote Page"),
+		_61_6528_DP3("61 6528", "Rental Property Insurance Quote Page"),
 		F1122("Property Inventory List"),
 		_61_6530("61 6530", "California Residential Property Insurance Disclosure"),
 		_61_3000("61 3000", "California Residential Property Insurance Bill of Rights"),
@@ -119,6 +121,7 @@ public final class DocGenEnum {
 		F1076B("California Application For Homeowners Insurance"),
 		_62_6500("62 6500", "CA Evidence of Property Insurance"),
 		WURFICA("Request for Information"),
+		WURFICA_PUP("WURFICA", "Request For Information"),
 		HSU01CA("HSU01CA", "HSU01", "Advisory Letter"),
 		HSU06CA("HSU06CA", "HSU06", "Free Form to Producer"),
 		HSU07CA("HSU07CA", "HSU07", "Non-Renewal Letter"),
@@ -130,8 +133,21 @@ public final class DocGenEnum {
 		_1075("1075", "Homeowners Policy Declarations"),
 		_60_5019("60 5019", "Subscriber Agreement"),
 		_1075_HO4("1075", "1075A", "Homeowners Policy Declarations"),
+		_61_4002("61 4002", "California Application For Condominium Owners Insurance"),
 		_61_4003("61 4003", "California Application for Renters Insurance"),
-		_60_5005("60 5005", "Returning Payment")
+		_60_5005("60 5005", "Returning Payment"),
+		_61_1500("61 1500", ""),
+		WU11DCA("California Application for Rental Property Insurance"),
+		DF02CA("DF 02 CA", "Rental Property policy Declarations"),
+		_58_4000("58 4000", "Personal Umbrella Policy Application"),
+		_61_6528("61 6528", "PUP Insurance Quote Page"),
+		_58_1027("58 1027", "Designated Recreational Motor Vehicle Exclusion Endorsement"),
+		_58_1500("58 1500", ""),
+		HSFLDNJ("Important Flood Information for New Jersey Policyholders"),
+		HSCSND("Rental Property Insurance"),
+		HSHU2NJ("New Jersey Policyholder Hurricane Percentage Deductible Consumer Guide"),
+		HSELNJ("Important Notice Regarding Extraordinary Life Circumstance"),
+		AHTPC("")
 		;
 
 		private String id;

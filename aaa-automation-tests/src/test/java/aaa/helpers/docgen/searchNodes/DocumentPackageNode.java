@@ -1,12 +1,10 @@
 package aaa.helpers.docgen.searchNodes;
 
+import aaa.helpers.xml.models.DocumentPackage;
+import aaa.helpers.xml.models.StandardDocumentRequest;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
-import aaa.helpers.xml.models.*;
 
 public final class DocumentPackageNode extends SearchBy<DocumentPackageNode, DocumentPackage> {
 	public ArchiveDataNode archiveData = new ArchiveDataNode();
@@ -16,36 +14,39 @@ public final class DocumentPackageNode extends SearchBy<DocumentPackageNode, Doc
 	public DocumentPackageDataNode documentPackageData = new DocumentPackageDataNode();
 
 	public DocumentPackageNode correlationId(String value) {
-		return addCondition(dp -> Objects.equals(dp.getCorrelationId(), value));
+		return addCondition("CorrelationId", DocumentPackage::getCorrelationId, value);
 	}
 
 	public DocumentPackageNode isPreview(String value) {
-		return addCondition(dp -> Objects.equals(dp.getIsPreview(), value));
+		return addCondition("IsPreview", DocumentPackage::getIsPreview, value);
 	}
 
 	public DocumentPackageNode packageIdentifier(String value) {
-		return addCondition(dp -> Objects.equals(dp.getPackageIdentifier(), value));
+		return addCondition("PackageIdentifier", DocumentPackage::getPackageIdentifier, value);
 	}
 
 	public DocumentPackageNode productName(String value) {
-		return addCondition(dp -> Objects.equals(dp.getProductName(), value));
+		return addCondition("ProductName", DocumentPackage::getProductName, value);
 	}
 
 	public DocumentPackageNode requestingUserId(String value) {
-		return addCondition(dp -> Objects.equals(dp.getRequestingUserId(), value));
+		return addCondition("RequestingUserId", DocumentPackage::getRequestingUserId, value);
 	}
 
 	public DocumentPackageNode state(String value) {
-		return addCondition(dp -> Objects.equals(dp.getState(), value));
+		return addCondition("State", DocumentPackage::getState, value);
 	}
 
 	@Override
 	public List<DocumentPackage> search(StandardDocumentRequest sDocumentRequest) {
-		Predicate<DocumentPackage> copiedCondition = getConditionAndClear();
 		List<DocumentPackage> filteredDps = new ArrayList<>();
-		for (StandardDocumentRequest sdr : standardDocumentRequest.search(sDocumentRequest)) {
-			filteredDps.addAll(sdr.getDocumentPackages().stream().filter(copiedCondition).collect(Collectors.toList()));
-		}
+		standardDocumentRequest.search(sDocumentRequest).forEach(l -> filteredDps.addAll(filter(l.getDocumentPackages())));
+		conditionsMap.clear();
 		return filteredDps;
+	}
+
+	@Override
+	public String getNodePath() {
+		return "\\standardDocumentRequest\\DocumentPackage";
 	}
 }

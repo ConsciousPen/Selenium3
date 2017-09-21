@@ -3,3 +3,9 @@ TestData: {
     Cancellation reason: index=1  
   }
 }
+
+TestData_MaterialMisrepresentation: {
+  CancelNoticeActionTab: {
+    Cancellation reason: Material Misrepresentation
+  }
+}

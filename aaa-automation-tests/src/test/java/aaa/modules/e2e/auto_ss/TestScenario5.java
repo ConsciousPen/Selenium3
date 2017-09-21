@@ -9,116 +9,149 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.modules.e2e.templates.Scenario5;
 
 public class TestScenario5 extends Scenario5 {
+
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
 	}
+
 	@Parameters({"state"})
 	@Test
 	public void TC01_createPolicy() {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
+
 		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
 		super.createTestPolicy(policyCreationTD);
 	}
 
-	// @Test(dependsOnMethods = "TC01_createPolicy")
-	// public void TC02_Generate_Bill_One_Day_Before() {
-	//
-	// }
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC02_0_Generate_First_Bill_One_Day_Before(@Optional("") String state) {
+		super.generateFirstBillOneDayBefore();
+	}
+
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC02_1_Generate_First_Bill(@Optional("") String state) {
-		super.Generate_First_Bill();
+		super.generateFirstBill();
 	}
 
-	// @Test(dependsOnMethods = "TC01_createPolicy")
-	// public void TC03_Pay_Bill_One_Day_Before() {
-	//
-	// }
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC03_0_Pay_First_Bill_One_Day_Before(@Optional("") String state) {
+		super.payFirstBillOneDayBefore();
+	}
+
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC03_1_Pay_First_Bill(@Optional("") String state) {
-		super.Pay_First_Bill();
+		super.payFirstBill();
 	}
+
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC04_Generate_Second_Bill(@Optional("") String state) {
-		super.Generate_Second_Bill();
+		super.generateSecondBill();
 	}
+
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC05_Pay_Second_Bill(@Optional("") String state) {
-		super.Pay_Second_Bill();
-	}
-	@Parameters({"state"})
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	// TC6--6,5
-	public void TC06_Decline_Payments(@Optional("") String state) {
-		super.Decline_Payments();
+		super.paySecondBill();
 	}
 
-	// @Test(dependsOnMethods = "TC01_createPolicy")
-	// public void TC07_Generate_CancellNotice_One_Day_Before() {
-	//
-	// }
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC06_Decline_Payments(@Optional("") String state) {
+		super.declinePayments();
+	}
+
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC07_0_Generate_CancellNotice_One_Day_Before(@Optional("") String state) {
+		super.generateCancellNoticeOneDayBefore();
+	}
+
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC07_1_Generate_CancellNotice(@Optional("") String state) {
-		super.Generate_CancellNotice();
+		super.generateCancellNotice();
 	}
 
-	// @Test(dependsOnMethods = "TC01_createPolicy")
-	// public void TC08_1_Cancel_Policy_One_Day_Before() {
-	//
-	// }
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC07_2_Verify_Form_AH34XX(@Optional("") String state) {
+		super.verifyFormAH34XX();
+	}
+
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC08_0_Cancel_Policy_One_Day_Before(@Optional("") String state) {
+		super.cancelPolicyOneDayBefore();
+	}
+
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC08_1_Cancel_Policy(@Optional("") String state) {
-		super.Cancel_Policy();
+		super.cancelPolicy();
 	}
 
-	// @Test(dependsOnMethods = "TC01_createPolicy")
-	// public void TC09_Generate_EP_Bill_One_Day_Before() {
-	//
-	// }
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC08_2_Verify_Form_AH67XX(@Optional("") String state) {
+		super.verifyFormAH67XX();
+	}
+
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC09_0_Generate_First_EP_Bill_One_Day_Before(@Optional("") String state) {
+		super.generateFirstEPBillOneDayBefore();
+	}
+
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC09_1_Generate_First_EP_Bill(@Optional("") String state) {
-		super.Generate_First_EP_Bill();
+		super.generateFirstEPBill();
 	}
+
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC10_Generate_Second_EP_Bill(@Optional("") String state) {
-		super.Generate_Second_EP_Bill();
+		super.generateSecondEPBill();
 	}
+
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC11_Generate_Third_EP_Bill(@Optional("") String state) {
-		super.Generate_Third_EP_Bill();
+		super.generateThirdEPBill();
 	}
 
-	// @Test(dependsOnMethods = "TC01_createPolicy")
-	// public void TC12_Generate_EP_Write_Off_One_Day_Before() {
-	//
-	// }
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC12_0_Generate_EP_Write_Off_One_Day_Before(@Optional("") String state) {
+		super.generateEPWriteOffOneDayBefore();
+	}
+
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC12_1_Generate_EP_Write_Off(@Optional("") String state) {
-		super.Generate_EP_Write_Off();
+		super.generateEPWriteOff();
 	}
+
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC13_Renewal_Image_Generation(@Optional("") String state) {
-		super.Renewal_Image_Generation();
+		super.renewalImageGeneration();
 	}
+
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC14_Renewal_Preview_Generation(@Optional("") String state) {
-		super.Renewal_Preview_Generation();
+		super.renewalPreviewGeneration();
 	}
+
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC15_Renewal_Offer_Generation(@Optional("") String state) {
-		super.Renewal_Offer_Generation();
+		super.renewalOfferGeneration();
 	}
 }
