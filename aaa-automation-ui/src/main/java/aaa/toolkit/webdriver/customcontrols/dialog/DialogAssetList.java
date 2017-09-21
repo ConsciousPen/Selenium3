@@ -2,16 +2,14 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.toolkit.webdriver.customcontrols.dialog;
 
-import java.util.Map;
-
-import org.openqa.selenium.By;
-
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
-
+import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.datax.TestData.Type;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
+
+import java.util.Map;
 
 public class DialogAssetList extends AbstractDialog<TestData, Void> {
 
@@ -35,6 +33,9 @@ public class DialogAssetList extends AbstractDialog<TestData, Void> {
     @Override
     protected void setRawValue(TestData data) {
         for (Map.Entry<String, BaseElement<?, ?>> entry : getAssetCollection().entrySet()) {
+            if(entry.getKey().equals(DEFAULT_POPUP_CLOSER_NAME)||entry.getKey().equals(DEFAULT_POPUP_OPENER_NAME)||entry.getKey().equals(DEFAULT_POPUP_SUBMITTER_NAME)){
+                continue;
+            }
             entry.getValue().fill(data);
         }
     }

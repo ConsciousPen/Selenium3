@@ -57,18 +57,6 @@ public class PolicyType {
 		return policyRest;
 	}
 
-	public static PolicyType getPolicy(String policyType) {
-		switch (policyType) {
-			case "AutoCA": {
-				return AUTO_CA_SELECT;
-			}
-			case "AutoCAC": {
-				return AUTO_CA_CHOICE;
-			}
-		}
-		return AUTO_SS;
-	}
-
 	@Override
 	public boolean equals(Object anObject) {
 		if (anObject == null) {

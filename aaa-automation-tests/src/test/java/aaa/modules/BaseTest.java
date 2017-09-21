@@ -170,23 +170,14 @@ public class BaseTest {
 	 * Create quote using default TestData
 	 */
 	protected String createQuote() {
-		return createQuote(getPolicyType());
-	}
-
-	/**
-	 * Create quote according to provided policyType
-	 *
-	 * @param policyType type of policy product
-	 * @return {@link String}  quote number
-	 */
-	protected String createQuote(PolicyType policyType) {
-		Assert.assertNotNull(policyType, "PolicyType is not set");
-		TestData td = getStateTestData(testDataManager.policy.get(policyType), "DataGather", "TestData");
+		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
 		if (getPolicyType().equals(PolicyType.PUP)) {
 			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
 		}
 		return createQuote(td);
 	}
+
 
 	/**
 	 * Create quote using provided TestData</br>
@@ -222,18 +213,8 @@ public class BaseTest {
 	 * @return policy number
 	 */
 	protected String createPolicy() {
-		return createPolicy(getPolicyType());
-	}
-
-	/**
-	 * Create Policy using default TestData
-	 *
-	 * @param policyType type of policy product
-	 * @return {@link String} policy number
-	 */
-	protected String createPolicy(PolicyType policyType) {
-		Assert.assertNotNull(policyType, "PolicyType is not set");
-		TestData td = getStateTestData(testDataManager.policy.get(policyType), "DataGather", "TestData");
+		Assert.assertNotNull(getPolicyType(), "PolicyType is not set");
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
 		if (getPolicyType().equals(PolicyType.PUP)) {
 			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
 		}
