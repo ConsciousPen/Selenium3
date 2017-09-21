@@ -3,22 +3,17 @@ package aaa.modules.docgen.auto_ss;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.mortbay.log.Log;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-
 import static aaa.main.enums.DocGenEnum.Documents.*;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.Dollar;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
-
 import toolkit.webdriver.controls.TextBox;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -45,7 +40,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 
 public class TestAZScenario2 extends AutoSSBaseTest {
-
+	
 	private String policyNumber;
 	private LocalDateTime policyExpirationDate;
 	private LocalDateTime policyExpirationDate_CurrentTerm;
@@ -89,7 +84,6 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 
 	@Parameters({ "state" })
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
-
 	public void TC01_CreatePolicy(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -165,8 +159,7 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 	}
 
 	@Parameters({ "state" })
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")	
 	public void TC02_EndorsePolicy(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -246,7 +239,6 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 
 	@Parameters({ "state" })
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	
 	public void TC03_RenewalImageGeneration(@Optional("") String state) {
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate_CurrentTerm);
 		Log.info("Policy Renewal Image Generation Date" + renewImageGenDate);
@@ -306,8 +298,7 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 		BillingSummaryPage.open();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyEffectiveDate);
 		
-		/* verify the xml file 
-	
+		/* verify the xml file 	
 		AA02AZ
 		AA10XX
 		AHAUXX
@@ -361,8 +352,7 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 		
 		CustomAssert.enableSoftMode();
 		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
-		
+		SearchPage.openPolicy(policyNumber);		
 		PolicySummaryPage.buttonRenewals.verify.enabled();
 		PolicySummaryPage.buttonRenewals.click();
 		policy.policyInquiry().start();
@@ -411,9 +401,8 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 	}
 
 	private void storeCoveragesData() {
-
 		policy.policyInquiry().start();
-//		Get the policy effective date and expiration date from general page
+		// Get the policy effective date and expiration date from general page
 		policyEffectiveDate = TimeSetterUtil.getInstance().parse(policy.getDefaultView().getTab(GeneralTab.class).getPolicyInfoAssetList().getAsset(PolicyInformation.EFFECTIVE_DATE.getLabel(), TextBox.class).getValue(), DateTimeUtils.MM_DD_YYYY);
 		policyExpirationDate = TimeSetterUtil.getInstance().parse(policy.getDefaultView().getTab(GeneralTab.class).getPolicyInfoAssetList().getAsset(PolicyInformation.EXPIRATION_DATE.getLabel(), TextBox.class).getValue(), DateTimeUtils.MM_DD_YYYY);
 		termEffDt = DocGenHelper.convertToZonedDateTime(policyEffectiveDate);
@@ -421,7 +410,7 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 		plcyExprDt = DocGenHelper.convertToZonedDateTime(policyExpirationDate);
 		termExprDt = DocGenHelper.convertToZonedDateTime(policyExpirationDate);
 
-//		Get the coverage information from premium and coverage page		
+		// Get the coverage information from premium and coverage page
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
 		for (TestData td : premiumAndCoveragesTab.getRatingDetailsVehiclesData()) {
@@ -435,7 +424,7 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 			plcyMpEaPers.add(DataProviderFactory.dataOf("TextField", td.getValue("Medical Payments").toString().replace("$", "").replace(",", "")));
 			plcyPdEaOcc.add(DataProviderFactory.dataOf("TextField", td.getValue("Property Damage Liability").toString().replace("$", "").replace(",", "")));
 		}
-		
+
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 
 		for (TestData td : premiumAndCoveragesTab.getTermPremiumByVehicleData()) {
@@ -450,7 +439,7 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 			vehTwgLbrPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Towing and Labor Coverage"))));
 		}
 		netWrtPrem = formatValue(PremiumAndCoveragesTab.totalActualPremium.getValue());
-		
+
 		plcyAutoDeadBenPrem = formatValue(PremiumAndCoveragesTab.tableFormsSummary.getRow("Forms", "ADBE").getCell(2).getValue());
 
 		// Store the value for total fee from table tablefeesSummary
@@ -465,13 +454,11 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 			plcyTotFee = "0.00";
 			plcyTotPrem = new Dollar(PremiumAndCoveragesTab.totalTermPremium.getValue()).toString().replace("$", "").replace(",", "");
 		}
-
 		Tab.buttonTopCancel.click();
 	}
 
 	private void storeBillingData() {
 		BillingSummaryPage.open();
-
 		for (int i = 1; i <= BillingSummaryPage.tableInstallmentSchedule.getRowsCount(); i++) {
 			if ("Installment".equals(BillingSummaryPage.tableInstallmentSchedule.getRow(i).getCell(BillingInstallmentScheduleTable.DESCRIPTION).getValue()) && "Unbilled".equals(BillingSummaryPage.tableInstallmentSchedule.getRow(i).getCell(BillingInstallmentScheduleTable.BILLED_STATUS).getValue())) {
 				dueAmount.add(DataProviderFactory.dataOf("TextField", formatValue(BillingSummaryPage.getInstallmentAmount(i).add(2).toString())));
