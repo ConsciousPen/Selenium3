@@ -101,4 +101,12 @@ public class BillingPaymentsAndTransactionsVerifier extends TableVerifier {
 		setAmount(expectedPligaFee);
 		verifyPresent();
 	}
+
+	public void verifyMVLEFee(LocalDateTime transactionDate) {
+		setTransactionDate(transactionDate);
+		setType(BillingConstants.PaymentsAndOtherTransactionType.FEE);
+		setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.MVLE_FEE);
+		setAmount(new Dollar(10));
+		verifyPresent();
+	}
 }

@@ -37,7 +37,7 @@ public class Scenario1 extends ScenarioBaseTest {
 	
 	protected LocalDateTime policyEffectiveDate;
 	protected LocalDateTime policyExpirationDate;
-	protected LocalDateTime pligaFeeLastTransactionDate;
+	protected LocalDateTime pligaOrMvleFeeLastTransactionDate;
 
 	protected Dollar totalDue;
 	protected List<LocalDateTime> installmentDueDates;
@@ -66,11 +66,12 @@ public class Scenario1 extends ScenarioBaseTest {
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
 		CustomAssert.assertEquals("Billing Installments count for Quaterly payment plan", installmentsCount, installmentDueDates.size());
 		installmentAmount = BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(1));
+
 		if (getState().equals(Constants.States.NJ)) {
 			new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(policyEffectiveDate);
+		} else if (getState().equals(Constants.States.NY)) {
+			new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(policyEffectiveDate);
 		}
-
-		//TODO Check MVLE fee for NY Auto = $10.00
 	}
 	
 	protected void generateFirstBill() {
@@ -111,12 +112,12 @@ public class Scenario1 extends ScenarioBaseTest {
 		totalDue1.verify.moreThan(totalDue);
 		totalDue2.verify.moreThan(totalDue);
 
+		pligaOrMvleFeeLastTransactionDate = transactionDate;
 		if (getState().equals(Constants.States.NJ)) {
-			pligaFeeLastTransactionDate = transactionDate;
-			new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(pligaFeeLastTransactionDate);
+			new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(pligaOrMvleFeeLastTransactionDate);
+		} else if (getState().equals(Constants.States.NY)) {
+			new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(pligaOrMvleFeeLastTransactionDate);
 		}
-
-		//TODO Check MVLE fee for NY Auto is recalculated to added vehicle
 	}
 
 	protected void payFirstBill() {
@@ -124,7 +125,7 @@ public class Scenario1 extends ScenarioBaseTest {
 	}
 
 	protected void generateSecondBill() {
-		generateAndCheckBill(installmentDueDates.get(2), policyEffectiveDate, pligaFeeLastTransactionDate);
+		generateAndCheckBill(installmentDueDates.get(2), policyEffectiveDate, pligaOrMvleFeeLastTransactionDate);
 	}
 
 	protected void paySecondBill() {
@@ -199,16 +200,14 @@ public class Scenario1 extends ScenarioBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferGenDate)
 				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
 
+		pligaOrMvleFeeLastTransactionDate = renewOfferGenDate;
 		if (getState().equals(Constants.States.CA)) {
 			verifyCaRenewalOfferPaymentAmount(policyExpirationDate,getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
+		} else if (getState().equals(Constants.States.NJ)) {
+			new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(pligaOrMvleFeeLastTransactionDate);
+		} else if (getState().equals(Constants.States.NY)) {
+			new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(pligaOrMvleFeeLastTransactionDate);
 		}
-
-		if (getState().equals(Constants.States.NJ)) {
-			pligaFeeLastTransactionDate = renewOfferGenDate;
-			new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(renewOfferGenDate);
-		}
-
-		//TODO Check MVLE fee for NY Auto is generated
 	}
 
 	//Skip this step for CA
@@ -221,14 +220,20 @@ public class Scenario1 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
+
+		Dollar pligaOrMvleFee = BillingHelper.DZERO;
+		if (getState().equals(Constants.States.NJ)) {
+			pligaOrMvleFee = BillingSummaryPage.getPligaFee(pligaOrMvleFeeLastTransactionDate);
+		} else if (getState().equals(Constants.States.NY)) {
+			pligaOrMvleFee = new Dollar(10);
+		}
+
 		// TODO Renew premium verification was excluded, due to unexpected installment calculations
 //		if (!getState().equals(Constants.States.KY) && !getState().equals(Constants.States.WV)) {
-		verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, pligaFeeLastTransactionDate, installmentsCount);
+		verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, pligaOrMvleFee, installmentsCount);
 //		}
 		verifyRenewPremiumNotice(policyExpirationDate, getTimePoints().getBillGenerationDate(policyExpirationDate));
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
-
-		//TODO Check MVLE fee for NY Auto is included in bill
 	}
 
 	protected void payRenewalBill() {
