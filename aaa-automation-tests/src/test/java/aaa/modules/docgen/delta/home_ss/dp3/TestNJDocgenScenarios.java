@@ -102,5 +102,7 @@ public class TestNJDocgenScenarios extends HomeSSDP3BaseTest{
 		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData_MaterialMisrepresentation"));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents.AH61XX);
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
     }
 }
