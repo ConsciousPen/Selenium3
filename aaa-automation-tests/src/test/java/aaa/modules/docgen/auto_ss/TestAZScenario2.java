@@ -99,7 +99,7 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 		createCustomerIndividual();
 		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		policyExpirationDate_CurrentTerm=PolicySummaryPage.getExpirationDate();
+		policyExpirationDate_CurrentTerm = PolicySummaryPage.getExpirationDate();
 		log.info("Original Policy #" + policyNumber);
 		
 		storeCoveragesData();
@@ -369,29 +369,27 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 		PolicySummaryPage.buttonRenewals.verify.enabled();
 		PolicySummaryPage.buttonRenewals.click();
 		policy.policyInquiry().start();
-		policyEffectiveDate=TimeSetterUtil.getInstance().parse(policy.getDefaultView().getTab(GeneralTab.class).getPolicyInfoAssetList().getAsset(PolicyInformation.EFFECTIVE_DATE.getLabel(), TextBox.class).getValue(), DateTimeUtils.MM_DD_YYYY);
-		policyExpirationDate=TimeSetterUtil.getInstance().parse(policy.getDefaultView().getTab(GeneralTab.class).getPolicyInfoAssetList().getAsset(PolicyInformation.EXPIRATION_DATE.getLabel(), TextBox.class).getValue(), DateTimeUtils.MM_DD_YYYY);
-		plcyEffDt=DocGenHelper.convertToZonedDateTime(policyEffectiveDate);
-		termEffDt=DocGenHelper.convertToZonedDateTime(policyEffectiveDate);		
-		plcyExprDt=DocGenHelper.convertToZonedDateTime(policyExpirationDate);
+		policyEffectiveDate = TimeSetterUtil.getInstance().parse(policy.getDefaultView().getTab(GeneralTab.class).getPolicyInfoAssetList().getAsset(PolicyInformation.EFFECTIVE_DATE.getLabel(),TextBox.class).getValue(),DateTimeUtils.MM_DD_YYYY);
+		policyExpirationDate = TimeSetterUtil.getInstance().parse(policy.getDefaultView().getTab(GeneralTab.class).getPolicyInfoAssetList().getAsset(PolicyInformation.EXPIRATION_DATE.getLabel(),TextBox.class).getValue(),DateTimeUtils.MM_DD_YYYY);
+		plcyEffDt = DocGenHelper.convertToZonedDateTime(policyEffectiveDate);
+		termEffDt = DocGenHelper.convertToZonedDateTime(policyEffectiveDate);
+		plcyExprDt = DocGenHelper.convertToZonedDateTime(policyExpirationDate);
 		Tab.buttonCancel.click();
 		
 		storeBillingData();
+
+		plcyTotRnwlPrem = formatValue(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,"Renewal - Policy Renewal Proposal")
+				          .getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
 		
-		plcyTotRnwlPrem=BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "Renewal - Policy Renewal Proposal")
-				        .getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue().toString().replace("$", "").replace(",", "");
-		
-		Dollar _curRnwlAmt=new Dollar (BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
-		Dollar _instlFee=new Dollar (BillingSummaryPage.tablePaymentsOtherTransactions
-				.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,"EFT Installment Fee")
-				.getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
-		curRnwlAmt=_curRnwlAmt.subtract(_instlFee).toString().replace("$", "").replace(",", "");
-		totNwCrgAmt=BillingSummaryPage.tableInstallmentSchedule.getRow(12).getCell(BillingInstallmentScheduleTable.BILLED_AMOUNT).getValue().toString().replace("$", "").replace(",", "");
-		plcyPayMinAmt=BillingSummaryPage.getMinimumDue().toString().replace("$", "").replace(",", "");
-		plcyDueDt=DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(BillingBillsAndStatmentsTable.TYPE,"Bill").getCell(BillingBillsAndStatmentsTable.DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
-		instlFee = BillingSummaryPage.tablePaymentsOtherTransactions
-				.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,"EFT Installment Fee")
-				.getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue().toString().replace("$", "");
+		Dollar _curRnwlAmt = new Dollar(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
+		Dollar _instlFee = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,"EFT Installment Fee").getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
+		curRnwlAmt = _curRnwlAmt.subtract(_instlFee).toString().replace("$", "").replace(",", "");
+		totNwCrgAmt = formatValue(BillingSummaryPage.tableInstallmentSchedule.getRow(12).getCell(BillingInstallmentScheduleTable.BILLED_AMOUNT).getValue());
+		plcyPayMinAmt = formatValue(BillingSummaryPage.getMinimumDue().toString());
+		plcyDueDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(BillingBillsAndStatmentsTable.TYPE, "Bill")
+					.getCell(BillingBillsAndStatmentsTable.DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
+		instlFee = formatValue(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,"EFT Installment Fee")
+				   .getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
 	
 		/*verify the xml file 
 		AH35XX
@@ -423,12 +421,14 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 
 		policy.policyInquiry().start();
 //		Get the policy effective date and expiration date from general page
-		policyEffectiveDate=TimeSetterUtil.getInstance().parse(policy.getDefaultView().getTab(GeneralTab.class).getPolicyInfoAssetList().getAsset(PolicyInformation.EFFECTIVE_DATE.getLabel(), TextBox.class).getValue(), DateTimeUtils.MM_DD_YYYY);
-		policyExpirationDate=TimeSetterUtil.getInstance().parse(policy.getDefaultView().getTab(GeneralTab.class).getPolicyInfoAssetList().getAsset(PolicyInformation.EXPIRATION_DATE.getLabel(), TextBox.class).getValue(), DateTimeUtils.MM_DD_YYYY);
-		termEffDt=DocGenHelper.convertToZonedDateTime(policyEffectiveDate);
-		plcyEffDt=DocGenHelper.convertToZonedDateTime(policyEffectiveDate);
-		plcyExprDt=DocGenHelper.convertToZonedDateTime(policyExpirationDate);
-		termExprDt=DocGenHelper.convertToZonedDateTime(policyExpirationDate);
+		policyEffectiveDate = TimeSetterUtil.getInstance().parse(policy.getDefaultView().getTab(GeneralTab.class).getPolicyInfoAssetList()
+				              .getAsset(PolicyInformation.EFFECTIVE_DATE.getLabel(),TextBox.class).getValue(),DateTimeUtils.MM_DD_YYYY);
+		policyExpirationDate = TimeSetterUtil.getInstance().parse(policy.getDefaultView().getTab(GeneralTab.class).getPolicyInfoAssetList()
+						      .getAsset(PolicyInformation.EXPIRATION_DATE.getLabel(),TextBox.class).getValue(),DateTimeUtils.MM_DD_YYYY);
+		termEffDt = DocGenHelper.convertToZonedDateTime(policyEffectiveDate);
+		plcyEffDt = DocGenHelper.convertToZonedDateTime(policyEffectiveDate);
+		plcyExprDt = DocGenHelper.convertToZonedDateTime(policyExpirationDate);
+		termExprDt = DocGenHelper.convertToZonedDateTime(policyExpirationDate);
 		
 //		Get the coverage information from premium and coverage page		
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -472,7 +472,7 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 			plcyTotPrem = new Dollar(PremiumAndCoveragesTab.totalTermPremium.getValue()).add(_plcyTotFee).toString().replace("$", "").replace(",", "");
 		}
 		else {
-			plcyTotFee="0.00";
+			plcyTotFee = "0.00";
 			plcyTotPrem = new Dollar(PremiumAndCoveragesTab.totalTermPremium.getValue()).toString().replace("$", "").replace(",", "");
 		}
 		
@@ -482,7 +482,7 @@ public class TestAZScenario2 extends AutoSSBaseTest {
 	private void storeBillingData() {
 		BillingSummaryPage.open();
 		           	    	 
-	    	 for (int i = 1; i <= BillingSummaryPage.tableInstallmentSchedule.getRowsCount(); i++) {
+		for (int i = 1; i <= BillingSummaryPage.tableInstallmentSchedule.getRowsCount(); i++) {
 	 			if ("Installment".equals(BillingSummaryPage.tableInstallmentSchedule.getRow(i).getCell(BillingInstallmentScheduleTable.DESCRIPTION).getValue())
 	 					&& "Unbilled".equals(BillingSummaryPage.tableInstallmentSchedule.getRow(i).getCell(BillingInstallmentScheduleTable.BILLED_STATUS).getValue()))
 	 			{

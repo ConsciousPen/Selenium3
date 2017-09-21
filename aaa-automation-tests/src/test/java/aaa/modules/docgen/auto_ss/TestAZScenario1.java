@@ -65,13 +65,13 @@ public class TestAZScenario1 extends AutoSSBaseTest{
 		mainApp().open();
 
 	     createCustomerIndividual();
-	     TestData tdpolicy= getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
+	     TestData tdpolicy = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
 	     createPolicy(tdpolicy);
         
 	     PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-	     policyNumber=PolicySummaryPage.labelPolicyNumber.getValue();
-	     policyEffectiveDate=DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(PolicyGeneralInformationTable.EFFECTIVE_DATE).getValue(),DateTimeUtils.MM_DD_YYYY));
-	     policyExpirationDate=DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(PolicyGeneralInformationTable.EXPIRATION_DATE).getValue(),DateTimeUtils.MM_DD_YYYY));
+	     policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+	     policyEffectiveDate = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(PolicyGeneralInformationTable.EFFECTIVE_DATE).getValue(),DateTimeUtils.MM_DD_YYYY));
+	     policyExpirationDate = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(PolicyGeneralInformationTable.EXPIRATION_DATE).getValue(),DateTimeUtils.MM_DD_YYYY));
 	    
 	     log.info("Original Policy #" + policyNumber);
 	     
@@ -94,7 +94,7 @@ public class TestAZScenario1 extends AutoSSBaseTest{
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
     public void TC02_GenerateBillingInvoice(@Optional("") String state){
     	CustomAssert.enableSoftMode();
-		LocalDateTime billingGenerationDate=getTimePoints().getBillGenerationDate(installmentDD1);
+		LocalDateTime billingGenerationDate = getTimePoints().getBillGenerationDate(installmentDD1);
 		TimeSetterUtil.getInstance().nextPhase(billingGenerationDate);
 		log.info("Installment Generatetion Date" + billingGenerationDate);
 		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
@@ -102,13 +102,13 @@ public class TestAZScenario1 extends AutoSSBaseTest{
 		
 	    mainApp().open();    
 	    SearchPage.openBilling(policyNumber);
-	    plcyDueDt=DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(BillingBillsAndStatmentsTable.TYPE,"Bill").getCell(BillingBillsAndStatmentsTable.DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
-	    curRnwlAmt=BillingSummaryPage.getInstallmentAmount(2).toString().replace("$", "");
-	    instlFee = BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,"Non EFT Installment Fee").getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue().toString().replace("$", "");
-	    Dollar _instlFee=new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,"Non EFT Installment Fee").getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());     
-	    totNwCrgAmt=BillingSummaryPage.tableInstallmentSchedule.getRow(2).getCell(BillingInstallmentScheduleTable.BILLED_AMOUNT).getValue().toString().replace("$", "");
-	    plcyPayMinAmt=BillingSummaryPage.getMinimumDue().toString().replace("$", "");
-	    plcyPayFullAmt=BillingSummaryPage.getTotalDue().subtract(_instlFee).toString().replace("$", "").replace(",", "");
+	    plcyDueDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(BillingBillsAndStatmentsTable.TYPE,"Bill").getCell(BillingBillsAndStatmentsTable.DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
+	    curRnwlAmt = formatValue(BillingSummaryPage.getInstallmentAmount(2).toString());
+	    instlFee = formatValue(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,"Non EFT Installment Fee").getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
+	    Dollar _instlFee = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,"Non EFT Installment Fee").getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());     
+	    totNwCrgAmt = formatValue(BillingSummaryPage.tableInstallmentSchedule.getRow(2).getCell(BillingInstallmentScheduleTable.BILLED_AMOUNT).getValue());
+	    plcyPayMinAmt = formatValue(BillingSummaryPage.getMinimumDue().toString());
+	    plcyPayFullAmt = formatValue(BillingSummaryPage.getTotalDue().subtract(_instlFee).toString());
 	    		
 	    DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, AHIBXX).verify.mapping(getTestSpecificTD("TestData_AHIBXX_Verification")
 				.adjust(TestData.makeKeyPath("AHIBXX", "form", "PlcyNum", "TextField"), policyNumber)
@@ -142,7 +142,7 @@ public class TestAZScenario1 extends AutoSSBaseTest{
     public void TC03_GenerateCancelNotice(@Optional("") String state) {
     	CustomAssert.enableSoftMode();
     	
-    	LocalDateTime cancelNoticeDate=getTimePoints().getCancellationNoticeDate(installmentDD1);
+    	LocalDateTime cancelNoticeDate = getTimePoints().getCancellationNoticeDate(installmentDD1);
        	log.info("Cancel Notice Generatetion Date" + cancelNoticeDate);
     	TimeSetterUtil.getInstance().nextPhase(cancelNoticeDate);
     	JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
@@ -152,9 +152,9 @@ public class TestAZScenario1 extends AutoSSBaseTest{
     	 SearchPage.openPolicy(policyNumber);
     	 PolicySummaryPage.labelCancelNotice.verify.present();
     	 BillingSummaryPage.open();
-    	 plcyPayMinAmt=BillingSummaryPage.getMinimumDue().toString().replace("$", "");
-    	 plcyPayFullAmt=BillingSummaryPage.getTotalDue().toString().replace("$", "").replace(",", "");
-    	 plcyDueDt=DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(BillingBillsAndStatmentsTable.TYPE,"Cancellation Notice").getCell(BillingBillsAndStatmentsTable.DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
+    	 plcyPayMinAmt = formatValue(BillingSummaryPage.getMinimumDue().toString());
+    	 plcyPayFullAmt = formatValue(BillingSummaryPage.getTotalDue().toString().replace("$", ""));
+    	 plcyDueDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(BillingBillsAndStatmentsTable.TYPE,"Cancellation Notice").getCell(BillingBillsAndStatmentsTable.DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
     			 
     	 DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, AH34XX).verify.mapping(getTestSpecificTD("TestData_AH34XX_Verification")
  				.adjust(TestData.makeKeyPath("AH34XX", "form", "PlcyNum", "TextField"), policyNumber)
@@ -182,11 +182,11 @@ public class TestAZScenario1 extends AutoSSBaseTest{
 	@Parameters({"state"})
     @Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void TC04_GenerateCancellation(String state){
+    public void TC04_GenerateCancellation(@Optional("") String state){
     	CustomAssert.enableSoftMode();
     	
-    	LocalDateTime cancelNoticeDate=getTimePoints().getCancellationNoticeDate(installmentDD1);
-    	LocalDateTime cancellationDate=getTimePoints().getCancellationNoticeDate(cancelNoticeDate);
+    	LocalDateTime cancelNoticeDate = getTimePoints().getCancellationNoticeDate(installmentDD1);
+    	LocalDateTime cancellationDate = getTimePoints().getCancellationNoticeDate(cancelNoticeDate);
     	log.info("Cancellation Generatetion Date" + cancellationDate);
     	TimeSetterUtil.getInstance().nextPhase(cancellationDate);   	
     	JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
@@ -196,7 +196,7 @@ public class TestAZScenario1 extends AutoSSBaseTest{
    	    SearchPage.openPolicy(policyNumber);
    	    PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
    	    BillingSummaryPage.open();
-   	    cancEffDt=DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(BillingBillsAndStatmentsTable.TYPE,"Cancellation").getCell(BillingBillsAndStatmentsTable.DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
+   	    cancEffDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(BillingBillsAndStatmentsTable.TYPE,"Cancellation").getCell(BillingBillsAndStatmentsTable.DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
    	    
    	    
    	 DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, AH67XX).verify.mapping(getTestSpecificTD("TestData_AH67XX_Verification")
@@ -224,7 +224,7 @@ public class TestAZScenario1 extends AutoSSBaseTest{
 	@Parameters({"state"})
     @Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_CreatePolicy")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void TC05_ReinstatementPolicy(String state){
+    public void TC05_ReinstatementPolicy(@Optional("") String state){
     	CustomAssert.enableSoftMode();
     	
     	mainApp().open();
@@ -236,10 +236,10 @@ public class TestAZScenario1 extends AutoSSBaseTest{
     	
     	BillingSummaryPage.open();
  
-    	plcyPayFullAmt=BillingSummaryPage.getTotalDue().toString().replace("$", "").replace(",", "");
-    	reinstmtFee=BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,"Reinstatement Fee").getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue().toString().replace("$", "").replace(".00", "");
-    	reinEffDt=DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,"Reinstatement").getCell(BillingPaymentsAndOtherTransactionsTable.EFF_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
-    	priorReinEffDt=DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,"Reinstatement").getCell(BillingPaymentsAndOtherTransactionsTable.EFF_DATE).getValue(), DateTimeUtils.MM_DD_YYYY).minusDays(1));
+    	plcyPayFullAmt = formatValue(BillingSummaryPage.getTotalDue().toString());
+    	reinstmtFee = BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,"Reinstatement Fee").getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue().replace("$", "").replace(".00", "");
+    	reinEffDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,"Reinstatement").getCell(BillingPaymentsAndOtherTransactionsTable.EFF_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
+    	priorReinEffDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,"Reinstatement").getCell(BillingPaymentsAndOtherTransactionsTable.EFF_DATE).getValue(), DateTimeUtils.MM_DD_YYYY).minusDays(1));
     	
     	
     	Dollar fee=new Dollar(0);
@@ -268,7 +268,9 @@ public class TestAZScenario1 extends AutoSSBaseTest{
          CustomAssert.assertAll();	
     }
 
-    
+	private String formatValue(String value) {
+		return new Dollar(value.replace("\n", "")).toString().replace("$", "").replace(",", "");
+	}
 }
 
 

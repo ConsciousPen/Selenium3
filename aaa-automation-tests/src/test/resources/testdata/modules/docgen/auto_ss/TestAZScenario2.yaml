@@ -1855,7 +1855,7 @@ form: {
    NSFPayRstrYN: {TextField: 'N'},
 #   PlcyPrTrmBal: {TextField: '0.00'},
    PlcyPastDueBal: {TextField: '0.00'},
-   plcyTotRnwlPrem: {TextField: ''},
+   PlcyTotRnwlPrem: {TextField: ''},
    PayMeth: {TextField: 'Credit Card'},
    PLIGAFee: {TextField: '0.00'}
  },
