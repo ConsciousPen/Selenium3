@@ -315,8 +315,8 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_CO:  {
 AgentInfo_CO: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Colorado - 500001007',
-  Agency Location: 'Denver - 500005106 - Denver',
-  TollFree Number: 1
+  Agency Location: 'Denver - 500005106 - Denver'
+  #TollFree Number: 1
 }
 
 
@@ -398,8 +398,9 @@ DwellingAddress_CT: {
 AgentInfo_CT: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
-  Agency Location: 'Lexington - Atkinson Ave - 80000515154 - Lexington',
-  TollFree Number: 1
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Lexington - Atkinson Ave - 80000515154 - Lexington'
+  #TollFree Number: 1
 }
 
 ReportsTab_CT: {
@@ -468,8 +469,7 @@ DwellingAddress_DC: {
 AgentInfo_DC: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
-  Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
-  TollFree Number: 1
+  Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas'
 }
 
 ReportsTab_DC: {
@@ -531,8 +531,7 @@ DwellingAddress_DE: {
 AgentInfo_DE: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
-  Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
-  TollFree Number: 1
+  Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas'
 }
 
 ReportsTab_DE: {
@@ -595,8 +594,7 @@ DwellingAddress_ID: {
 AgentInfo_ID: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Oregon - 500001021',
-  Agency Location: 'Beaverton - 500005277 - Portland',
-  TollFree Number: 1
+  Agency Location: 'Beaverton - 500005277 - Portland'
 }
 
 # --------- TestData IN ------------
@@ -667,8 +665,8 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_IN:  {
 AgentInfo_IN: {
   Channel Type: 'AAA Agent',
   Agency: 'HMC Insurance Agency Inc - 500001023',
-  Agency Location: 'Allisonville Branch - 5000017062 - Indianapolis',
-  TollFree Number: 1
+  Agency Location: 'Allisonville Branch - 5000017062 - Indianapolis'
+  #TollFree Number: 1
 }
 
 ReportsTab_IN: {
@@ -984,8 +982,7 @@ DwellingAddress_MD: {
 AgentInfo_MD: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
-  Agency Location: 'Annapolis CCIT - 500017191 - Annapolis',
-  TollFree Number: 1
+  Agency Location: 'Annapolis CCIT - 500017191 - Annapolis'
 }
 
 ReportsTab_MD: {
@@ -1056,8 +1053,7 @@ DwellingAddress_MT: {
 AgentInfo_MT: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mountain West - 500001006',
-  Agency Location: 'Great Falls - 500005162 - Great Falls',
-  TollFree Number: 1
+  Agency Location: 'Great Falls - 500005162 - Great Falls'
 }
 
 ReportsTab_MT: {
@@ -1119,8 +1115,7 @@ DwellingAddress_NJ: {
 AgentInfo_NJ: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
-  Agency Location: 'Newton - 500017271 - Newton',
-  TollFree Number: 1
+  Agency Location: 'Newton - 500017271 - Newton'
 }
 
 ReportsTab_NJ: {
@@ -1182,8 +1177,7 @@ DwellingAddress_NV: {
 AgentInfo_NV: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA NCNU - 500001005',
-  Agency Location: 'Las Vegas - 500005369 - Las Vegas',
-  TollFree Number: 1
+  Agency Location: 'Las Vegas - 500005369 - Las Vegas'
 }
 
 UnderwritingAndApprovalTab_NV: {
@@ -1246,7 +1240,6 @@ AgentInfo_NY: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA NORTHWAY NEW YORK - 500001009',
   Agency Location: 'QUEENSBURY - 500005187 - QUEENSBURY',
-  TollFree Number: 1
 }
 
 ReportsTab_NY: {
@@ -1408,8 +1401,8 @@ ApplicantTab_OK: {
 }  
   
 DwellingAddress_OK: {
-  Zip code: '73065',
-  Street address 1: 1906 S JENSEN AVE NW,
+  Zip code: '73118',
+  Street address 1: 4417 N GEORGIA AVE,
   Validate Address: true,
   Validate Address Dialog: {}
 }
@@ -1436,7 +1429,6 @@ AgentInfo_OK: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA OKLAHOMA INSURANCE - 500001020',
   Agency Location: 'Tulsa SW - 500025475 - Tulsa',
-  TollFree Number: 1
 }
 
 ReportsTab_OK: {
@@ -1526,8 +1518,7 @@ DwellingAddress_OR: {
 AgentInfo_OR: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Oregon - 500001021',
-  Agency Location: 'Portland - 500005275 - Portland',
-  TollFree Number: 1
+  Agency Location: 'Portland - 500005275 - Portland'
 }
 
 UnderwritingAndApprovalTab_OR: {
@@ -1588,8 +1579,7 @@ DwellingAddress_PA: {
 AgentInfo_PA: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Southern Penn - 500017173',
-  Agency Location: 'Bedford - 500017241 - Bedford',
-  TollFree Number: 1
+  Agency Location: 'Bedford - 500017241 - Bedford'
 }
 
 ReportsTab_PA: {
@@ -1651,7 +1641,7 @@ DwellingAddress_SD: {
 AgentInfo_SD: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA SOUTH DAKOTA - 500001022',
-  Agency Location: 'Rapid City - 500020872 - Rapid City',
+  Agency Location: 'Sioux Falls HQ - 500005294 - Tulsa',
   TollFree Number: 1
 }
 
@@ -1742,8 +1732,7 @@ DwellingAddress_VA: {
 AgentInfo_VA: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
-  Agency Location: 'CHANTILLY VA - 500016414 - Chantilly',
-  TollFree Number: 1
+  Agency Location: 'CHANTILLY VA - 500016414 - Chantilly'
 }
 
 ReportsTab_VA: {
@@ -1806,8 +1795,7 @@ DwellingAddress_WV: {
 AgentInfo_WV: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
-  Agency Location: 'Charleston - 500005295 - Charleston',
-  TollFree Number: 1
+  Agency Location: 'Charleston - 500005295 - Charleston'
 }
 
 ReportsTab_WV: {
@@ -1897,8 +1885,7 @@ DwellingAddress_WY: {
 AgentInfo_WY: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mountain West - 500001006',
-  Agency Location: '',
-  TollFree Number: 1
+  Agency Location: 'Bozeman - 500005161 - Bozeman'
 }
 
 ReportsTab_WY: {

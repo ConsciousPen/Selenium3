@@ -10,6 +10,7 @@ import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.Button;
 import com.exigen.ipb.etcsa.base.config.CustomTestProperties;
 import com.exigen.istf.exec.testng.TimeShiftTestUtil;
+import toolkit.webdriver.controls.StaticElement;
 
 public abstract class Application {
 
@@ -84,6 +85,10 @@ public abstract class Application {
                 Button buttonSaveAndExit = new Button(By.id("topSaveAndExitLink"));
                 if (buttonSaveAndExit.isPresent() && buttonSaveAndExit.isVisible()) {
                     buttonSaveAndExit.click();
+                    StaticElement policyNum = new StaticElement(By.id("productContextInfoForm:grid"));
+                    if(policyNum.isPresent() && policyNum.isVisible()){
+						log.info("Policy/Quote is saved with num: " + policyNum.getValue());
+					}
                 }
                 getLogin().logout();
             } catch (Exception e) {
