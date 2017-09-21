@@ -3,6 +3,7 @@ package aaa.modules.docgen.delta.home_ss.ho3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
 import toolkit.verification.CustomAssert;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -13,6 +14,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import aaa.toolkit.webdriver.WebDriverHelper;
 
 /**
  * 
@@ -68,14 +70,17 @@ public class TestNJDocgenScenarios extends HomeSSHO3BaseTest{
     public void testDeltaPolicyDocuments(@Optional("") String state) {
     	CustomAssert.enableSoftMode();
 		mainApp().open();
+		String currentHandle = WebDriverHelper.getWindowHandle();
 		createCustomerIndividual();
 		String quoteNum = createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_DeltaPolicyDocuments")));
 		
 		policy.quoteDocGen().start();
 		documentActionTab.verify.documentsPresent(false, Documents.HSEQNJ);
 		documentActionTab.generateDocuments(Documents.HS11.setState(getState()));
+		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSEQNJ, Documents.HS11);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
 		policy.getDefaultView().fillFromTo(getPolicyTD().adjust(getTestSpecificTD("TestData_DeltaPolicyDocuments")), BindTab.class, PurchaseTab.class, true);
