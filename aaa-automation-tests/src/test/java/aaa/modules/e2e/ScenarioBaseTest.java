@@ -27,16 +27,16 @@ public class ScenarioBaseTest extends BaseTest {
 	protected String policyNum;
 
 	protected void generateAndCheckBill(LocalDateTime installmentDate) {
-		generateAndCheckBill(installmentDate, null);
+		generateAndCheckBill(installmentDate, null, null);
 	}
 
-	protected void generateAndCheckBill(LocalDateTime installmentDate, LocalDateTime effectiveDate) {
+	protected void generateAndCheckBill(LocalDateTime installmentDate, LocalDateTime effectiveDate, LocalDateTime pligaFeeTransactionDate) {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDate);
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
 		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDate, billGenDate, effectiveDate);
+		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDate, billGenDate, pligaFeeTransactionDate, effectiveDate);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
@@ -75,6 +75,10 @@ public class ScenarioBaseTest extends BaseTest {
 		CustomAssert.assertAll();
 	}
 
+	protected void verifyRenewalOfferPaymentAmount(LocalDateTime expirationDate, LocalDateTime renewOfferDate, LocalDateTime billGenDate, Integer installmentsCount) {
+		verifyRenewalOfferPaymentAmount(expirationDate, renewOfferDate, billGenDate, BillingHelper.DZERO, installmentsCount);
+	}
+
 	/**
 	 * @param expirationDate
 	 *            - original policy expiration date
@@ -82,18 +86,20 @@ public class ScenarioBaseTest extends BaseTest {
 	 *            - Renew generate offer date
 	 * @param billGenDate
 	 *            - Bill generation date
+	 * @param pligaOrMvleFee
+	 * 			  - PLIGA or MVLE Fee amount(applicable for NJ and NY states only, for other states provide new Dollar(0) or use overloaded method without this argument)
 	 * @param installmentsCount
 	 *            : MONTHLY_STANDARD or ELEVEN_PAY: 11 installments QUARTERLY: 4
 	 *            installments SEMI_ANNUAL: 2 installments PAY_IN_FULL or
 	 *            ANNUAL: 1 installment
 	 */
-	protected void verifyRenewalOfferPaymentAmount(LocalDateTime expirationDate, LocalDateTime renewOfferDate, LocalDateTime billGenDate,
+	protected void verifyRenewalOfferPaymentAmount(LocalDateTime expirationDate, LocalDateTime renewOfferDate, LocalDateTime billGenDate, Dollar pligaOrMvleFee,
 			Integer installmentsCount) {
 		BillingSummaryPage.showPriorTerms();
 		Dollar fullAmount = BillingHelper.getPolicyRenewalProposalSum(renewOfferDate);
 		Dollar fee = BillingHelper.getFeesValue(billGenDate);
 
-		Dollar expOffer = BillingHelper.calculateFirstInstallmentAmount(fullAmount, installmentsCount).add(fee);
+		Dollar expOffer = BillingHelper.calculateFirstInstallmentAmount(fullAmount, installmentsCount).add(fee).add(pligaOrMvleFee);
 		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).setDueDate(expirationDate).setMinDue(expOffer)
 				.verifyPresent();
 	}

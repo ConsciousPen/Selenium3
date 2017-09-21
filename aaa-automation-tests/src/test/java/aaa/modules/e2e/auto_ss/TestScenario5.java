@@ -9,14 +9,17 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.modules.e2e.templates.Scenario5;
 
 public class TestScenario5 extends Scenario5 {
+
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
 	}
+
 	@Parameters({"state"})
 	@Test
 	public void TC01_createPolicy() {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
+
 		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
 		super.createTestPolicy(policyCreationTD);
 	}
@@ -77,6 +80,12 @@ public class TestScenario5 extends Scenario5 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC07_2_Verify_Form_AH34XX(@Optional("") String state) {
+		super.verifyFormAH34XX();
+	}
+
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC08_0_Cancel_Policy_One_Day_Before(@Optional("") String state) {
 		super.cancelPolicyOneDayBefore();
 	}
@@ -89,7 +98,13 @@ public class TestScenario5 extends Scenario5 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC09_0_Generate_EP_Bill_One_Day_Before() {
+	public void TC08_2_Verify_Form_AH67XX(@Optional("") String state) {
+		super.verifyFormAH67XX();
+	}
+
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC09_0_Generate_First_EP_Bill_One_Day_Before(@Optional("") String state) {
 		super.generateFirstEPBillOneDayBefore();
 	}
 
@@ -112,7 +127,7 @@ public class TestScenario5 extends Scenario5 {
 	}
 
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC12_0_Generate_EP_Write_Off_One_Day_Before() {
+	public void TC12_0_Generate_EP_Write_Off_One_Day_Before(@Optional("") String state) {
 		super.generateEPWriteOffOneDayBefore();
 	}
 
