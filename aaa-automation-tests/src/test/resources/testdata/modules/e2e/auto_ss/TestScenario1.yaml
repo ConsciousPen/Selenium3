@@ -32,6 +32,7 @@ TestData_Endorsement_NY: {
   DriverTab: {},
   RatingDetailReportsTab: {},
   VehicleTab: '@VehicleTab_NY',
+  AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
