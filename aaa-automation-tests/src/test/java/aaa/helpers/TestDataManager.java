@@ -71,8 +71,11 @@ public final class TestDataManager {
 	public Map<PolicyType, TestData> timepoint = new HashMap<>();
 	public EnumMap<BctType, TestData> bct = new EnumMap<>(BctType.class);
 	protected DataProviderFactory dataProvider = new DataProviderFactory().applyConfiguration(DataFormat.YAML.name());
+	public TestData loginUsers = new SimpleDataProvider();
 
 	public TestDataManager() {
+		loginUsers = dataProvider.get("default/login").getTestData("users");
+
 		policy.put(PolicyType.AUTO_SS, dataProvider.get("default/policy/auto_ss"));
 		policy.put(PolicyType.AUTO_CA_SELECT, dataProvider.get("default/policy/auto_ca_select"));
 		policy.put(PolicyType.AUTO_CA_CHOICE, dataProvider.get("default/policy/auto_ca_choice"));

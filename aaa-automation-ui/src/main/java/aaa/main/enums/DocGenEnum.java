@@ -77,7 +77,7 @@ public final class DocGenEnum {
 		HS61PA("NOTICE OF CANCELLATION OR REFUSAL TO RENEW"),
 		_55_3500("55 3500", "Refund Check"),
 		AH35XX("Autopay Schedule Compilation"),
-		AHRBXX("AHRBXX", "Insurance Renewal Premium Notice (Non-Auto Pay)"),
+		AHRBXX("AHRBXX", "Insurance Renewal Bill"),
 		AA43AZ("Named Driver Exclusion Election"),
 		AASR22("Financial Responsibility"),
 		AA59XX("EXISTING DAMAGE ENDORSEMENT"),
@@ -142,7 +142,18 @@ public final class DocGenEnum {
 		_58_4000("58 4000", "Personal Umbrella Policy Application"),
 		_61_6528("61 6528", "PUP Insurance Quote Page"),
 		_58_1027("58 1027", "Designated Recreational Motor Vehicle Exclusion Endorsement"),
-		_58_1500("58 1500", "")
+		_58_1500("58 1500", ""),
+		HSFLDNJ("Important Flood Information for New Jersey Policyholders"),
+		HSCSND("Rental Property Insurance"),
+		HSHU2NJ("New Jersey Policyholder Hurricane Percentage Deductible Consumer Guide"),
+		HSELNJ("Important Notice Regarding Extraordinary Life Circumstance"),
+		AHTPC("Third Party Designee Cover Page"),
+		HSEQNJ("New Jersey Earthquake Insurance Availability Notice"),
+		HSCSNA("Homeowners Insurance"),
+		AHELCXXA("ELC UW Letter for Approval"),
+		AHELCXXD("ELC UW Letter for Denial"),
+		AHELCXXL("ELC UW Letter for Lack of Supporting Documentation"),
+		AHELCXXP("ELC UW Letter for No Premium Benefit Denial"),
 		;
 
 		private String id;
