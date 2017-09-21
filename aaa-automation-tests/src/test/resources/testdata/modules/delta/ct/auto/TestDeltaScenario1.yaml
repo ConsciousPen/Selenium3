@@ -1,88 +1,50 @@
-TestData_CT: {
-  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: ['@DriverTab_Driver_01','@DriverTab_Driver_02','@DriverTab_Driver_03','@DriverTab_Driver_04'],
-  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
-  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab_CT',
-  PurchaseTab: '@PurchaseTab'
-}
-GeneralTab: {
-  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation2'],
+TestData_CT567: {
+ DriverTab: '@DriverTab_CT567'
 }
 
-NamedInsuredInformation2: {
-  InsuredSearchDialog: {},
-  First Name: '/rx:Yossi\d{5}',
-  Last Name: '/rx:Cohen\d{5}',
-  Base Date: /today,
-  Social Security Number: 223456789,
-  "Has lived here for less than three years?": 'No',
-  Residence: Own Home,
-}
-
-PolicyInformation: {
-  Policy Type: Standard,
-  Effective Date: '/today:MM/dd/yyyy',
-  Policy Term: Annual,
-  Channel Type: Independent Agent,
-  Agency: SMTestIA - 400001650,
-  Authorized by: QA,
-  Lead Source: AAA Magazines
-}
-
-DriverTab_Driver_01: {
-  Gender: Male,
-  Marital Status: Single,
-  Occupation: Employed,
-  Age First Licensed: 16,
-  License Type: 'Licensed (US)',
-  License Number: 215487451
-}
-
-DriverTab_Driver_02: {
-  DriverSearchDialog: {},
-  Driver Type: Available for Rating,
-  'Rel. to First Named Insured': Other,
-  First Name: Jack,
-  Last Name: Book,
-  Date of Birth: '01/01/1980',
-  Gender: Male,
-  Marital Status: Single,
-  Occupation: Employed,
-  Age First Licensed: 16,
-  License Type: 'Licensed (US)',
-  License Number: 235689875
-}
-
-DriverTab_TC04: {
-  Gender: Male,
-  Marital Status: Single,
-  Occupation: Employed,
-  Age First Licensed: 16,
-  License Type: 'Licensed (US)',
-  License Number: 215487451,
+DriverTab_CT567: {
   ActivityInformation: [
     {
+      Activity Source : 'Company Input',
       Type: 'Minor Violation',
-      Description: 'Improper Passing',
-      Occurrence Date: '01/10/2012',
-      Conviction Date: '/today-30d:MM/dd/yyyy'
+      Description: 'Improper Turn',
+      Occurrence Date: '/today-10d:MM/dd/yyyy'
     },
     {
-      Type: 'Minor Violation',
-      Description: 'Improper Signal',
-      Occurrence Date: '01/12/2012',
-      Conviction Date: '/today-250d:MM/dd/yyyy'
+      Activity Source : 'Company Input',
+      Type: 'Speeding Violation',
+      Description: 'Speeding',
+      Occurrence Date: '/today-11d:MM/dd/yyyy'
     },
     {
-      Type: 'Minor Violation',
-      Description: 'Illegal Riding',
-      Occurrence Date: '01/02/2013',
-      Conviction Date: '/today-20d:MM/dd/yyyy'
+      Activity Source : 'Company Input',
+      Type: 'At-Fault Accident',
+      Description: 'Accident (Property Damage Only)',
+      Occurrence Date: '/today-11d:MM/dd/yyyy',
+      Loss Payment Amount : '1001'
+
+    }
+  ]
+}
+
+TestData_CT8: {
+ DriverTab: '@DriverTab_CT8'
+}
+
+DriverTab_CT8: {
+ ActivityInformation: [
+    {
+      Activity Source : 'Company Input',
+      Type: 'Major Violation',
+      Description: 'Hit and Run',
+      Occurrence Date: '/today-2d:MM/dd/yyyy'
+    },
+    {
+      Activity Source : 'Company Input',
+      Type: 'At-Fault Accident',
+      Description: 'Accident (Resulting in Bodily Injury)',
+      Loss Payment Amount : '1001',
+      Occurrence Date: '/today-2d:MM/dd/yyyy'
     }
   ]
 }

@@ -11,15 +11,15 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.ComboBox;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,7 +42,7 @@ import java.util.List;
 @Test(groups = {Groups.DELTA, Groups.HIGH})
 public class TestDeltaScenario1 extends AutoSSBaseTest {
     //todo make it empty
-    private String quoteNumber;// = "QCTSS950552321";
+    private String quoteNumber = "QCTSS952122037";
 
     private DriverTab driverTab = new DriverTab();
     private PrefillTab prefillTab = new PrefillTab();
@@ -80,7 +80,6 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
 
-        prefillTab.fillTab(getPolicyTD());
         Tab.buttonSaveAndExit.click();
     }
 
@@ -139,12 +138,88 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
     public void testSC1_TC03() {
         preconditions(NavigationEnum.AutoSSTab.GENERAL);
 
-        generalTab.getAssetList().getAsset(AutoSSMetaData.PrefillTab.ZIP_CODE).setValue("06001");
-        generalTab.getAssetList().getAsset(AutoSSMetaData.PrefillTab.COUNTY_TOWNSHIP).verify.
+        generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ZIP_CODE).setValue("06756");
+        generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.COUNTY_TOWNSHIP).verify.
                 value("");
 
-        generalTab.getAssetList().getAsset(AutoSSMetaData.PrefillTab.ZIP_CODE).setValue(getCustomerIndividualTD("DataGather","TestData")
-                .getTestData("GeneralTab").getValue("Zip Code"));}
+        generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ZIP_CODE).setValue("06519");
+
+        generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.VALIDATE_ADDRESS_BTN).click();
+        generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.VALIDATE_ADDRESS_DIALOG).submit();
+        Tab.buttonSaveAndExit.click();
+    }
+
+    @Test
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS)
+    public void testSC1_TC04() {
+        preconditions(NavigationEnum.AutoSSTab.DRIVER);
+
+        //Driver Type
+        List<String> expectedDriverType = Arrays.asList("Available for Rating", "Not Available for Rating", "Excluded");
+        driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DRIVER_TYPE).verify.optionsContain(expectedDriverType);
+
+
+        List<String> expectedRelationToNI = Arrays.asList("First Named Insured", "Spouse", "Child", "Parent",
+                "Sibling", "Other Resident Relative", "Employee", "Other");
+        driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED).verify.optionsContain(expectedRelationToNI);
+
+        List<String> expectedGender = Arrays.asList("Male", "Female");
+        driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.GENDER).verify.optionsContain(expectedGender);
+
+        List<String> expectedMaritalStatus = Arrays.asList("Married", "Single", "Divorced", "Widowed", "Separated");
+        driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).verify.optionsContain(expectedMaritalStatus);
+
+        driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).verify.noOption("Domestic Partner");
+        driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).verify.noOption("Registered Domestic Partner");
+        driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).verify.noOption("Civil Union");
+
+        //PAS13 ER fix-App change#21-As per US 28555, License type dropdown values have changed
+        List<String> expectedLicenseStatus = Arrays.asList("Licensed (US)", "Licensed (Canadian)", "Foreign", "Not Licensed", "Learner's Permit");
+        driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.LICENSE_TYPE).verify.optionsContain(expectedLicenseStatus);
+
+        //todo
+        ////driver 1
+        //assDriverTabFilling.driverFilling(getDataSet(), "Driver_01");
+
+        ////driver 2
+        //assDriverTabFilling.driverFillingAdd(getDataSet(), "Driver_02");
+
+        ////driver 3, excluded
+        //assDriverTabFilling.driverFillingAdd(getDataSet(), "Driver_03");
+        ////checkForVerificationErrors();
+
+    }
+
+    @Test
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS)
+    public void testSC1_TC05_6_7() {
+        preconditions(NavigationEnum.AutoSSTab.DRIVER);
+
+        driverTab.fillTab(getPolicyTD());
+        driverTab.fillTab(getTestSpecificTD("TestData_CT567"));
+        //violation points should be = 0
+        DriverTab.tableActivityInformationList.getRow("Description","Improper Turn").getCell("Points").verify.value("0");
+        DriverTab.tableActivityInformationList.getRow("Description","Speeding").getCell("Points").verify.value("0");
+        DriverTab.tableActivityInformationList.getRow("Description","Accident (Property Damage Only)").getCell("Points").verify.value("0");
+    }
+
+    @Test
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS)
+    public void testSC1_TC08() {
+        preconditions(NavigationEnum.AutoSSTab.DRIVER);
+
+        driverTab.fillTab(getPolicyTD());
+        driverTab.fillTab(getTestSpecificTD("TestData_CT8"));
+        //violation points should be = 4
+        DriverTab.tableActivityInformationList.getRow("Description","Hit and Run").getCell("Points").verify.value("4");
+        //violation points should be = 7
+        DriverTab.tableActivityInformationList.getRow("Description","Accident (Resulting in Bodily Injury)").getCell("Points").verify.value("7");
+        //go to Major accident, points for the same day should be = 0
+        DriverTab.tableActivityInformationList.getRow("Description","Hit and Run").getCell(8).controls.links.getFirst().click();
+        driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER).setValue("No");
+        DriverTab.tableActivityInformationList.getRow("Description","Hit and Run").getCell("Points").verify.value("0");
+
+    }
 
     private void preconditions(NavigationEnum.AutoSSTab navigateTo) {
         initiateQuote();
@@ -169,7 +244,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
             mainApp().open();
             createCustomerIndividual();
             policy.initiate();
-            policy.getDefaultView().fillUpTo(getPolicyTD(), PrefillTab.class, true);
+            policy.getDefaultView().fillUpTo(getPolicyTD(), GeneralTab.class, true);
             Tab.buttonSaveAndExit.click();
             quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
             log.info("DELTA CT SC1: ASS Quote created with #" + quoteNumber);
