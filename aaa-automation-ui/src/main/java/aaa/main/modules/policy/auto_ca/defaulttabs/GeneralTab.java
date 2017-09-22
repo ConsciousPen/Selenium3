@@ -9,6 +9,8 @@ import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedTable;
+import toolkit.datax.TestData;
+import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
 /**
@@ -30,6 +32,15 @@ public class GeneralTab extends Tab {
         buttonNext.click();
         return this;
     }
+
+	public Tab fillTab(TestData td) {
+		assetList.fill(td);
+		ComboBox agent = getPolicyInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.PolicyInformation.AGENT);
+		String value = agent.getValue();
+		agent.setValue("");
+		agent.setValue(value);
+		return this;
+	}
     
     public AssetList getNamedInsuredInfoAssetList() {
     	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class);
