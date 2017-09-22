@@ -1613,4 +1613,9 @@ public final class HomeSSMetaData {
 		public static final AssetDescriptor<TextBox> REVISED_RENEWAL_DATE = declare("Revised Renewal Date", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> LAPSE_CHANGE_REASON = declare("Lapse Change Reason", ComboBox.class, Waiters.AJAX);
 	}
+
+	public static final class CreateQuoteVersionTab extends MetaData {
+		public static final AssetDescriptor<StaticElement> VERSION_NUM = declare("Version #", StaticElement.class);
+		public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class);
+	}
 }

@@ -903,4 +903,9 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<ComboBox> REASON_FOR_RENEWAL_WITH_LAPSE = declare("Reason for Renewal with Lapse", ComboBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> OTHER = declare("Other", TextBox.class, Waiters.NONE);
 	}
+
+	public static final class CreateQuoteVersionTab extends MetaData {
+		public static final AssetDescriptor<StaticElement> VERSION_NUM = declare("Version #", StaticElement.class);
+		public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class);
+	}
 }
