@@ -854,8 +854,8 @@ UnderlyingRisksAutoTab_MT: {
 
 # --------------------- NJ ---------------------
 TestData_NJ: {
-  PrefillTab: '@PrefillTab_NJ',
-  GeneralTab: '@GeneralTab',
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_NJ',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_NJ',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
