@@ -1,0 +1,64 @@
+TestData: {
+  VehicleTab: ['@Vehicle1', '@Vehicle2'],
+  PremiumAndCoveragesTab: {
+    Payment Plan: Eleven Pay - Standard
+  }
+}
+
+Vehicle1: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273
+}
+
+Vehicle2: {
+  Usage: Pleasure,
+  VIN: 1B3BA46K4KF440231
+}
+
+#---- Endorsements ----
+
+TestData_EndorsementPlan: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Payment Plan: Annual
+  }
+}
+  
+TestData_EndorsementRP: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {
+    List of Vehicle: [{}, {
+      'column=5': Remove,
+      Confirm Remove: click
+    }]
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+TestData_EndorsementAP: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: WDCYC7BB0B6729451,
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
