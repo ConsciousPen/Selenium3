@@ -43,13 +43,19 @@ public class TestScenario7 extends Scenario7 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC05_Generate_Second_Bill(@Optional("") String state) {
+	public void TC04_Generate_Second_Bill(@Optional("") String state) {
 		super.generateSecondBill();
+	}
+
+	// @Parameters({"state"})
+	// @Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC05_Cant_Change_Payment_Plan(@Optional("") String state) {
+		super.cantChangePaymentPlan();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC05_Pay_Total_Due(@Optional("") String state) {
+	public void TC06_Pay_Total_Due(@Optional("") String state) {
 		super.payTotalDue();
 	}
 
@@ -80,13 +86,13 @@ public class TestScenario7 extends Scenario7 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC10_Endorsement_RP_Before_Renewal(@Optional("") String state) {
-		super.TC12_Endorsement_RP_Before_Renewal();
+		super.endorsementRPBeforeRenewal();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC11_Endorsement_AP_Before_Renewal(@Optional("") String state) {
-		super.TC13_Endorsement_AP_Before_Renewal();
+		super.endorsementAPBeforeRenewal();
 	}
 
 	@Parameters({"state"})

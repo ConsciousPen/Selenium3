@@ -154,6 +154,12 @@ public final class DocGenEnum {
 		AHELCXXD("ELC UW Letter for Denial"),
 		AHELCXXL("ELC UW Letter for Lack of Supporting Documentation"),
 		AHELCXXP("ELC UW Letter for No Premium Benefit Denial"),
+		HSHUVA("Virginia Adverse Action Underwriting Decision Notice"),
+		HS_03_30("HS 03 30", "Special Hurricane Percentage Deductible"),
+		HSVAAD("Policy holder Advisory Notice"),
+		HSINVAP("Important Information Regarding Your Insurance"),
+		HSINVA("Important Notice Regarding Flood and earthquake Exclusion"),
+        AH64XX("Expiration Notice"),
 		;
 
 		private String id;

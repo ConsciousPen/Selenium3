@@ -94,7 +94,10 @@ public class BillingPaymentsAndTransactionsVerifier extends TableVerifier {
 	}
 
 	public void verifyPligaFee(LocalDateTime transactionDate) {
-		Dollar expectedPligaFee = BillingSummaryPage.calculatePligaFee(transactionDate);
+		verifyPligaFee(BillingSummaryPage.calculatePligaFee(transactionDate), transactionDate);
+	}
+
+	public void verifyPligaFee(Dollar expectedPligaFee, LocalDateTime transactionDate) {
 		setTransactionDate(transactionDate);
 		setType(BillingConstants.PaymentsAndOtherTransactionType.FEE);
 		setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.PLIGA_FEE);

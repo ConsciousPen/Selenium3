@@ -122,8 +122,12 @@ public class ScenarioBaseTest extends BaseTest {
 	}
 
 	protected void verifyRenewPremiumNotice(LocalDateTime renewDate, LocalDateTime billGenerationDate) {
+		verifyRenewPremiumNotice(renewDate, billGenerationDate, BillingHelper.DZERO);
+	}
+
+	protected void verifyRenewPremiumNotice(LocalDateTime renewDate, LocalDateTime billGenerationDate, Dollar pligaOrMvleFee) {
 		BillingSummaryPage.showPriorTerms();
-		Dollar billAmount = BillingHelper.getInstallmentDueByDueDate(renewDate).add(BillingHelper.getFeesValue(billGenerationDate));
+		Dollar billAmount = BillingHelper.getInstallmentDueByDueDate(renewDate).add(BillingHelper.getFeesValue(billGenerationDate).add(pligaOrMvleFee));
 		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).verifyRowWithDueDate(renewDate);
 		// TODO Check whu there are no verifications for KY and WV
 		// if (!BaseTest.getState().equals(Constants.States.KY) &&
