@@ -45,6 +45,7 @@ PolicyInfo_UT: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA NCNU - 500001005',
     Agency Location: 'Draper - 500005417 - Draper',
+    TollFree Number: 1,
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -234,24 +235,6 @@ PrefillTab_CA: {
 }
 
 GeneralTab_CA: {
-  PolicyInfo: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: Independent Agent,
-    Agency: 'SMTestIA - 400001650',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
-  },
-    DwellingAddress: {
-    Validate Address: click,
-    Validate Address Dialog: {}
-    },
-  NamedInsuredContactInformation: {
-    Home phone: 1234567890
-  },
-}
-
-GeneralTab_CA: {
   PolicyInfo: '@PolicyInfo_CA',
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
@@ -262,6 +245,7 @@ PolicyInfo_CA: {
   Channel Type: AAA Agent,
   Agency: 'AAA NCNU - 500001005',
   Agency Location: 'Los Gatos - 500005341 - Los Gatos',
+  TollFree Number: 1,
   Commission Type: New Business,
   Lead source: Yellow Pages
 }
@@ -620,7 +604,7 @@ PolicyInfo_IN: {
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA INDIANA HOOSIER MOTOR CLUB - 500001023',
-  Agency Location: 'Allisonville Branch - 5000017062 - Indianapolis',
+  Agency Location: 'Allisonville Branch - 500017062 - Indianapolis',
   Commission Type: New Business,
   Lead source: Yellow Pages
 }

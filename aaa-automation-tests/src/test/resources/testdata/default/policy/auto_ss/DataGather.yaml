@@ -209,7 +209,7 @@ DriverTab_CO: {
 # ------- CT ------
 
 TestData_CT: {
-  PrefillTab: '@PrefillTab',
+  PrefillTab: '@PrefillTab_CT',
   GeneralTab: '@GeneralTab_CT',
   DriverTab: '@DriverTab_CT',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
@@ -219,6 +219,13 @@ TestData_CT: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_CT',
   PurchaseTab: '@PurchaseTab'
+}
+
+PrefillTab_CT: {
+  'County / Township': 'New Haven / Middlebury';
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
 }
 
 GeneralTab_CT: {
@@ -272,9 +279,7 @@ TestData_DC: {
 
 PrefillTab_DC: {
   Validate Address: click,
-  Validate Address Dialog: { 
-      Street Name: 265 CHIPMAN AVE
-     },
+  Validate Address Dialog: {},
   Order Prefill: click
 }
 
