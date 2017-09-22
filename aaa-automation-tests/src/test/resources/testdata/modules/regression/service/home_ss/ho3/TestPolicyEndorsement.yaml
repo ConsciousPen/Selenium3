@@ -181,7 +181,7 @@ MailingAddress_CT: {
   Validate Address: true,
   Validate Address Dialog: {
     Street number: '111',
-	Street Name: Test street,
+    Street Name: Test street,
   }
 }
 
@@ -245,7 +245,7 @@ MailingAddress_DE: {
   Validate Address: true,
   Validate Address Dialog: {
     Street number: '111',
-	Street Name: Test street,
+    Street Name: Test street,
   }
 }
 
@@ -276,7 +276,7 @@ MailingAddress_ID: {
   Validate Address: true,
   Validate Address Dialog: {
     Street number: '111',
-	Street Name: Test street,
+    Street Name: Test street,
   }
 }
 
