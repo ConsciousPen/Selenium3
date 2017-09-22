@@ -177,7 +177,7 @@ ApplicantTab_CT: {
 MailingAddress_CT: {
   "Is the mailing address different from the dwelling address?": 'Yes', 
   Zip code: '06010', 
-  Street address 1: '58 Willis St', 
+  Street address 1: '111 Test street',
   Validate Address: true,
   Validate Address Dialog: {
     Street number: '111',
@@ -558,7 +558,7 @@ ApplicantTab_OH: {
 MailingAddress_OH: {
   "Is the mailing address different from the dwelling address?": 'Yes', 
   Zip code: '43609', 
-  Street address 1: '708 Spencer St', 
+  Street address 1: '111 Test street',
   Validate Address: true,
   Validate Address Dialog: {
     Street number: '111', 

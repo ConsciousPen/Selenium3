@@ -11,7 +11,7 @@ TestData_UT: {
   DocumentsTab: '@DocumentsTab',
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
- }
+}
   
 # ----------------- Tabs -----------------
 PrefillTab: {
@@ -39,7 +39,7 @@ GeneralTab: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_UT: {
+PolicyInfo_UT: {
     Effective date: '/today:MM/dd/yyyy',
     Application type: New,
     Channel Type: 'AAA Agent',
@@ -47,11 +47,11 @@ GeneralTab: {
     Agency Location: 'Draper - 500005417 - Draper',
     Commission Type: New Business,
     Lead source: Yellow Pages
-  }
+}
 
-   NamedInsuredContactInformation: {
-      Home phone: 1234567890
-    }
+NamedInsuredContactInformation: {
+    Home phone: 1234567890
+}
 
 UnderlyingRisksPropertyTab: {}
 
@@ -149,15 +149,15 @@ GeneralTab_AZ: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_AZ: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: 'AAA Agent',
-    Agency: 'AAA Arizona - 500001004',
-    Agency Location: 'Chandler - 500005091 - Chandler',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
-  }
+PolicyInfo_AZ: {
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Arizona - 500001004',
+  Agency Location: 'Chandler - 500005091 - Chandler',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
+}
 
 UnderlyingRisksAutoTab_AZ: {
   Automobiles: [{
@@ -234,15 +234,15 @@ GeneralTab_CA: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_CA: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: AAA Agent,
-    Agency: 'AAA NCNU - 500001005',
-    Agency Location: 'Los Gatos - 500005341 - Los Gatos',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
-  }
+PolicyInfo_CA: {
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: AAA Agent,
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'Los Gatos - 500005341 - Los Gatos',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
+}
 
 UnderlyingRisksAutoTab_CA: {
 #  Automobiles: [{
@@ -302,7 +302,7 @@ GeneralTab_CO: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_CO: {
+PolicyInfo_CO: {
     Effective date: '/today:MM/dd/yyyy',
     Application type: New,
     Channel Type: 'AAA Agent',
@@ -310,7 +310,7 @@ GeneralTab_CO: {
     Agency Location: 'Denver - 500005106 - Denver',
     Commission Type: New Business,
     Lead source: Yellow Pages
-  }
+}
 
 UnderlyingRisksAutoTab_CO: {
   Automobiles: [{
@@ -355,7 +355,7 @@ GeneralTab_CT: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_CT: {
+PolicyInfo_CT: {
     Effective date: '/today:MM/dd/yyyy',
     Application type: New,
     Channel Type: 'AAA Agent',
@@ -364,7 +364,7 @@ GeneralTab_CT: {
     Agency Location: 'Lexington - 500005154 - Lexington',
     Commission Type: New Business,
     Lead source: Yellow Pages
-  }
+}
 
 UnderlyingRisksAutoTab_CT: {
   Automobiles: [{
@@ -422,7 +422,7 @@ GeneralTab_DC: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_DC: {
+PolicyInfo_DC: {
     Effective date: '/today:MM/dd/yyyy',
     Application type: New,
     Channel Type: 'AAA Agent',
@@ -430,7 +430,7 @@ GeneralTab_DC: {
     Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
     Commission Type: New Business,
     Lead source: Yellow Pages
-  }
+}
 
 UnderlyingRisksAutoTab_DC: {
   Automobiles: [{
@@ -475,7 +475,7 @@ GeneralTab_DE: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_DE: {
+PolicyInfo_DE: {
     Effective date: '/today:MM/dd/yyyy',
     Application type: New,
     Channel Type: 'AAA Agent',
@@ -483,7 +483,7 @@ GeneralTab_DE: {
     Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
     Commission Type: New Business,
     Lead source: Yellow Pages
-  }
+}
 
 UnderlyingRisksAutoTab_DE: {
   Automobiles: [{
@@ -528,7 +528,7 @@ GeneralTab_ID: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_ID: {
+PolicyInfo_ID: {
   Effective date: '/today:MM/dd/yyyy',
   Application type: New,
   Channel Type: 'AAA Agent',
@@ -536,7 +536,7 @@ GeneralTab_ID: {
   Agency Location: 'Beaverton - 500005277 - Portland',
   Commission Type: New Business,
   Lead source: Yellow Pages
-  }
+}
 
 UnderlyingRisksAutoTab_ID: {
   Automobiles: [{
@@ -634,7 +634,7 @@ GeneralTab_KS: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_KS: {
+PolicyInfo_KS: {
     Effective date: '/today:MM/dd/yyyy',
     Application type: New,
     Channel Type: 'AAA Agent',
@@ -642,7 +642,7 @@ GeneralTab_KS: {
     Agency Location: 'Cromwell - 500005129 - Cromwell',
     Commission Type: New Business,
     Lead source: Yellow Pages
-  }
+}
 
 UnderlyingRisksAutoTab_KS: {
   Automobiles: [{
@@ -687,7 +687,7 @@ GeneralTab_KY: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_KY: {
+PolicyInfo_KY: {
     Effective date: '/today:MM/dd/yyyy',
     Application type: New,
     Channel Type: 'AAA Agent',
@@ -695,7 +695,7 @@ GeneralTab_KY: {
     Agency Location: 'Lexington - Atkinson Ave - 500005154 - Lexington',
     Commission Type: New Business,
     Lead source: Yellow Pages
-  }
+}
 
 UnderlyingRisksAutoTab_KY: {
   Automobiles: [{
@@ -753,7 +753,7 @@ GeneralTab_MD: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_MD: {
+PolicyInfo_MD: {
     Effective date: '/today:MM/dd/yyyy',
     Application type: New,
     Channel Type: 'AAA Agent',
@@ -761,7 +761,7 @@ GeneralTab_MD: {
     Agency Location: 'Annapolis CCIT - 500017191 - Annapolis',
     Commission Type: New Business,
     Lead source: Yellow Pages
-  }
+}
 
 UnderlyingRisksAutoTab_MD: {
   Automobiles: [{
@@ -820,7 +820,7 @@ GeneralTab_MT: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_MT: {
+PolicyInfo_MT: {
     Effective date: '/today:MM/dd/yyyy',
     Application type: New,
     Channel Type: 'AAA Agent',
@@ -828,7 +828,7 @@ GeneralTab_MT: {
     Agency Location: 'Great Falls - 500005162 - Great Falls',
     Commission Type: New Business,
     Lead source: Yellow Pages
-  }
+}
 
 UnderlyingRisksAutoTab_MT: {
   Automobiles: [{
@@ -873,7 +873,7 @@ GeneralTab_NJ: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_NJ: {
+PolicyInfo_NJ: {
     Effective date: '/today:MM/dd/yyyy',
     Application type: New,
     Channel Type: 'AAA Agent',
@@ -881,7 +881,7 @@ GeneralTab_NJ: {
     Agency Location: 'Newton - 500017271 - Newton',
     Commission Type: New Business,
     Lead source: Yellow Pages
-  }
+}
 
 UnderlyingRisksAutoTab_NJ: {
   Automobiles: [{
@@ -926,7 +926,7 @@ GeneralTab_NV: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_NV: {
+PolicyInfo_NV: {
     Effective date: '/today:MM/dd/yyyy',
     Application type: New,
     Channel Type: 'AAA Agent',
@@ -934,7 +934,7 @@ GeneralTab_NV: {
     Agency Location: 'Las Vegas - 500005369 - Las Vegas',
     Commission Type: New Business,
     Lead source: Yellow Pages
-  }
+}
 
 UnderlyingRisksAutoTab_NV: {
   Automobiles: [{
@@ -986,7 +986,7 @@ GeneralTab_NY: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_NY: {
+PolicyInfo_NY: {
     Effective date: '/today:MM/dd/yyyy',
     Application type: New,
     Channel Type: 'AAA Agent',
@@ -994,7 +994,7 @@ GeneralTab_NY: {
     Agency Location: 'QUEENSBURY - 500005187 - QUEENSBURY',
     Commission Type: New Business,
     Lead source: Yellow Pages
-  }
+}
 
 UnderlyingRisksAutoTab_NY: {
   Automobiles: [{
@@ -1039,7 +1039,7 @@ GeneralTab_OH: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_OH: {
+PolicyInfo_OH: {
     Effective date: '/today:MM/dd/yyyy',
     Application type: New,
     Channel Type: 'AAA Agent',
@@ -1047,7 +1047,7 @@ GeneralTab_OH: {
     Agency Location: 'Findlay Hq - 500005196 - Findlay',
     Commission Type: New Business,
     Lead source: Yellow Pages
-  }
+}
 
 UnderlyingRisksAutoTab_OH: {
   Automobiles: [{
@@ -1092,7 +1092,7 @@ GeneralTab_OK: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_OK: {
+PolicyInfo_OK: {
     Effective date: '/today:MM/dd/yyyy',
     Application type: New,
     Channel Type: 'AAA Agent',
@@ -1100,7 +1100,7 @@ GeneralTab_OK: {
     Agency Location: 'AAA Tulsa Training Center - 500005226 - Tulsa',
     Commission Type: New Business,
     Lead source: Yellow Pages
-  }
+}
 
 UnderlyingRisksAutoTab_OK: {
   Automobiles: [{
@@ -1145,7 +1145,7 @@ GeneralTab_OR: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_OR: {
+PolicyInfo_OR: {
     Effective date: '/today:MM/dd/yyyy',
     Application type: New,
     Channel Type: 'AAA Agent',
@@ -1153,7 +1153,7 @@ GeneralTab_OR: {
     Agency Location: 'Portland - 500005275 - Portland',
     Commission Type: New Business,
     Lead source: Yellow Pages
-  }
+}
 
 UnderlyingRisksAutoTab_OR: {
   Automobiles: [{
@@ -1212,7 +1212,7 @@ GeneralTab_PA: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_PA: {
+PolicyInfo_PA: {
     Effective date: '/today:MM/dd/yyyy',
     Application type: New,
     Channel Type: 'AAA Agent',
@@ -1220,7 +1220,7 @@ GeneralTab_PA: {
     Agency Location: 'Bedford - 500017241 - Bedford',
     Commission Type: New Business,
     Lead source: Yellow Pages
-  }
+}
 
 UnderlyingRisksAutoTab_PA: {
   Automobiles: [{
@@ -1265,7 +1265,7 @@ GeneralTab_SD: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_SD {
+PolicyInfo_SD: {
     Effective date: '/today:MM/dd/yyyy',
     Application type: New,
     Channel Type: 'AAA Agent',
@@ -1273,7 +1273,7 @@ GeneralTab_SD: {
     Agency Location: 'Sioux Falls HQ - 500005294 - Tulsa',
     Commission Type: New Business,
     Lead source: Yellow Pages
-  }
+}
 
 UnderlyingRisksAutoTab_SD: {
   Automobiles: [{
@@ -1318,7 +1318,7 @@ GeneralTab_VA: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_VA: {
+PolicyInfo_VA: {
     Effective date: '/today:MM/dd/yyyy',
     Application type: New,
     Channel Type: 'AAA Agent',
@@ -1326,7 +1326,7 @@ GeneralTab_VA: {
     Agency Location: 'CHANTILLY VA - 500016414 - Chantilly',
     Commission Type: New Business,
     Lead source: Yellow Pages
-  }
+}
 
 UnderlyingRisksAutoTab_VA: {
   Automobiles: [{
@@ -1371,7 +1371,7 @@ GeneralTab_WV: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_WV: {
+PolicyInfo_WV: {
     Effective date: '/today:MM/dd/yyyy',
     Application type: New,
     Channel Type: 'AAA Agent',
@@ -1379,7 +1379,7 @@ GeneralTab_WV: {
     Agency Location: 'Charleston - 500005295 - Charleston',
     Commission Type: New Business,
     Lead source: Yellow Pages
-  }
+}
 
 UnderlyingRisksAutoTab_WV: {
   Automobiles: [{
@@ -1432,7 +1432,7 @@ GeneralTab_WY: {
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
- PolicyInfo_WY: {
+PolicyInfo_WY: {
     Effective date: '/today:MM/dd/yyyy',
     Application type: New,
     Channel Type: 'AAA Agent',
@@ -1440,7 +1440,7 @@ GeneralTab_WY: {
     Agency Location: 'Bozeman - 500005161 - Bozeman',
     Commission Type: New Business,
     Lead source: Yellow Pages
-  }
+}
 
 UnderlyingRisksAutoTab_WY: {
   Automobiles: [{

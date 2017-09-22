@@ -243,8 +243,7 @@ DwellingAddress_AZ: {
 AgentInfo_AZ: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Arizona - 500001004',
-  Agency Location: 'Chandler - 500005091 - Chandler',
-  TollFree Number: 1
+  Agency Location: 'Chandler - 500005091 - Chandler'
 }
 
 # --------- TestData CO ------------
@@ -665,7 +664,7 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_IN:  {
 AgentInfo_IN: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA INDIANA HOOSIER MOTOR CLUB - 500001023',
-  Agency Location: 'Allisonville Branch - 5000017062 - Indianapolis'
+  Agency Location: 'Allisonville Branch - 500017062 - Indianapolis'
   #TollFree Number: 1
 }
 
@@ -775,8 +774,7 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_KS:  {
 AgentInfo_KS: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
-  Agency Location: 'Cromwell - 500005129 - Cromwell',
-  TollFree Number: 1
+  Agency Location: 'Cromwell - 500005129 - Cromwell'
 }
 
 ReportsTab_KS: {
@@ -1122,6 +1120,7 @@ ReportsTab_NJ: {
   Sales Agent Agreement: 'I Agree',
   AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  RiskMeterReport: [{Report: 'Order Report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
   CLUEreport: [{Report: 'Order report'}]
