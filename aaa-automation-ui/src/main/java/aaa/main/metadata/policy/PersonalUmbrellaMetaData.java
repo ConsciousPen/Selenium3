@@ -85,6 +85,7 @@ public final class PersonalUmbrellaMetaData {
 				public static final AssetDescriptor<ComboBox> PREFILL_DATA_SOURCE = declare("Prefill/Data source", ComboBox.class, Waiters.NONE);
 				public static final AssetDescriptor<RadioGroup> PRIMARY_POLICY = declare("Primary policy", RadioGroup.class, Waiters.AJAX);
 				public static final AssetDescriptor<ComboBox> RELATIONSHIP_TO_PRIMARY_NAMED_INSURED = declare("Relationship to primary named insured", ComboBox.class, Waiters.NONE);
+				public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.AJAX);
 			}
 		}
 
