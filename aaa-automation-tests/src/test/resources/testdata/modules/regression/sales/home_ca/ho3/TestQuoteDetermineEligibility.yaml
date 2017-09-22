@@ -181,17 +181,26 @@ AdditionalInsured_CountMoreThan2: {
 
 AdditionalInsured1: {
   Interest: 'Trust',
-  Name: 'NifNif'
+  Name: 'NifNif',
+  "Same as insured mailing address?": "No",
+   Zip code: 86021,
+   Street address 1: Test
 }
 
 AdditionalInsured2: {
   Interest: 'Trust',
-  Name: 'NufNuf'
+  Name: 'NufNuf',
+  "Same as insured mailing address?": "No",
+  Zip code: 86021,
+  Street address 1: Test
 }
 
 AdditionalInsured3: {
   Interest: 'Trust',
-  Name: 'NafNaf'
+  Name: 'NafNaf',
+  "Same as insured mailing address?": "No",
+  Zip code: 86021,
+  Street address 1: Test
 }
 
 #--- Home Renovation ---

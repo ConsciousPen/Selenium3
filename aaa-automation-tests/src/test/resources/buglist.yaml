@@ -94,3 +94,13 @@ QC-44726:
   failures:
     - tests: [aaa.modules.regression.sales.home_ca.ho3.TestQuoteTaskManager.testQuoteTaskManager]
       messages: ['Unable to locate element', 'Errors: base00003; Error; Operation has failed due to illegal arguments']
+QC-44752:
+  summary: "Regression: Exception occurs on ordering CLUE reports for nano auto policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.TestPolicyNano.testPolicyNano]
+      messages: ['Cannot get value of StaticElement', 'Errors: MES-DR-0138_SS; Error; Current CLUE must be ordered']
+    - tests: [aaa.modules.regression.sales.auto_ca.choice.TestPolicyNano.testPolicyNano]
+      messages: ['Cannot get value of StaticElement', 'Errors: MES-DR-0138_CA; Error; Current CLUE must be ordered']
+    - tests: [aaa.modules.regression.sales.auto_ca.select.TestPolicyNano.testPolicyNano]
+      messages: ['Cannot get value of StaticElement', 'Errors: MES-DR-0138_CA; Error; Current CLUE must be ordered']

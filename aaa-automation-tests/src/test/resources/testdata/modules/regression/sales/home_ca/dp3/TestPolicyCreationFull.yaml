@@ -203,7 +203,10 @@ MortgageesTab: {
   },
   AdditionalInsured: {
     Interest: 'Trust',
-    Name: 'Chuck Norris'
+    Name: 'Chuck Norris',
+    "Same as insured mailing address?": "No",
+    Zip code: 86021,
+    Street address 1: Test
   },
   AdditionalInterest: {
     Name: 'Chuck Norris',
