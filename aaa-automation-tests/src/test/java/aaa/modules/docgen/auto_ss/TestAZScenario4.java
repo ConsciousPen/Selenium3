@@ -50,6 +50,7 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 	protected String plcyDueDt;
 	protected String plcyTotRnwlPrem;
 	protected String instlFee;
+	protected String sr22Fee;
 	protected String cancEffDt;
 	protected String plcyRnwlExprDt;
 	protected String rnwlDnPayAmt;
@@ -234,13 +235,14 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 		BillingSummaryPage.open();
 		Dollar _curRnwlAmt = new Dollar(BillingSummaryPage.tableInstallmentSchedule.getRow(12).getCell(BillingInstallmentScheduleTable.BILLED_AMOUNT).getValue());
 		Dollar _instlFee = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "Non EFT Installment Fee").getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
-		curRnwlAmt = _curRnwlAmt.subtract(_instlFee).toString().replace("$", "").replace(",", "");
+		Dollar _sr22Fee = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "SR22 Fee").getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
+		curRnwlAmt = _curRnwlAmt.subtract(_instlFee).subtract(_sr22Fee).toString().replace("$", "").replace(",", "");
 		totNwCrgAmt = formatValue(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
 		plcyPayMinAmt = formatValue(BillingSummaryPage.getMinimumDue().toString());
 		plcyDueDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(BillingBillsAndStatmentsTable.TYPE, "Bill").getCell(BillingBillsAndStatmentsTable.DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
-	
 		plcyTotRnwlPrem = formatValue(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "Renewal - Policy Renewal Proposal").getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
-		instlFee = formatValue(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "Non EFT Installment Fee").getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
+		instlFee = formatValue(_instlFee.toString());
+		sr22Fee = formatValue(_sr22Fee.toString());
 		// verify the xml file AHRBXX
 		
 		DocGenHelper.verifyDocumentsGenerated(true,true,policyNumber, AHRBXX).verify.mapping(getTestSpecificTD("TestData_VerificationRenewal")
@@ -253,6 +255,7 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 				.adjust(TestData.makeKeyPath("AHRBXX", "PaymentDetails", "PlcyPayMinAmt","TextField"), plcyPayMinAmt)
 				.adjust(TestData.makeKeyPath("AHRBXX", "PaymentDetails", "PlcyTotRnwlPrem","TextField"), plcyTotRnwlPrem)
 				.adjust(TestData.makeKeyPath("AHRBXX", "PaymentDetails", "PlcyDueDt","DateTimeField"), plcyDueDt)
+				.adjust(TestData.makeKeyPath("AHRBXX", "form", "SR22Fee","TextField"), sr22Fee)
 				.adjust(TestData.makeKeyPath("AHRBXX", "PaymentDetails", "InstlFee","TextField"), instlFee),
 				policyNumber);
 		
