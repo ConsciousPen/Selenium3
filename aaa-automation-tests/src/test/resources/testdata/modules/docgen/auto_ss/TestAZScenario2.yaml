@@ -1840,7 +1840,6 @@ form: {
    SR22Fee: {TextField: '0.00'},
    NSFFee: {TextField: '0.00'},
    MVLEFee: {TextField: '0.00'},
-#   LstBillYN: {DateTimeField: ''}
  },
  PaymentDetails: {
    PayTyp: {TextField: 'INSTALLMENT PAYMENT'},
@@ -1853,7 +1852,6 @@ form: {
    PlcyDueDt: {DateTimeField: ''},
 #   PlcyPayFullAmt: {TextField: ''},
    NSFPayRstrYN: {TextField: 'N'},
-#   PlcyPrTrmBal: {TextField: '0.00'},
    PlcyPastDueBal: {TextField: '0.00'},
    PlcyTotRnwlPrem: {TextField: ''},
    PayMeth: {TextField: 'Credit Card'},
