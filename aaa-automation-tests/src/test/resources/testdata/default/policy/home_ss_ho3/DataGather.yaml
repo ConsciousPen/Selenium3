@@ -399,7 +399,7 @@ AgentInfo_CT: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
   Sales Channel: 'Captive Branch Agents',
-  Agency Location: 'Lexington - Atkinson Ave - 80000515154 - Lexington'
+  Agency Location: 'Lexington - 500005154 - Lexington'
   #TollFree Number: 1
 }
 
@@ -664,7 +664,7 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_IN:  {
 
 AgentInfo_IN: {
   Channel Type: 'AAA Agent',
-  Agency: 'HMC Insurance Agency Inc - 500001023',
+  Agency: 'AAA INDIANA HOOSIER MOTOR CLUB - 500001023',
   Agency Location: 'Allisonville Branch - 5000017062 - Indianapolis'
   #TollFree Number: 1
 }
@@ -1239,7 +1239,7 @@ DwellingAddress_NY: {
 AgentInfo_NY: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA NORTHWAY NEW YORK - 500001009',
-  Agency Location: 'QUEENSBURY - 500005187 - QUEENSBURY',
+  Agency Location: 'QUEENSBURY - 500005187 - QUEENSBURY'
 }
 
 ReportsTab_NY: {
@@ -1428,7 +1428,7 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_OK:  {
 AgentInfo_OK: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA OKLAHOMA INSURANCE - 500001020',
-  Agency Location: 'Tulsa SW - 500025475 - Tulsa',
+  Agency Location: 'AAA Tulsa Training Center - 500005226 - Tulsa'
 }
 
 ReportsTab_OK: {

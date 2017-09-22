@@ -35,19 +35,23 @@ PrefillTab: {
 }
 
 GeneralTab: {
-  PolicyInfo: {
+  PolicyInfo: '@PolicyInfo_UT',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_UT: {
     Effective date: '/today:MM/dd/yyyy',
     Application type: New,
-    Channel Type: Independent Agent,
-    Agency: 'SMTestIA - 400001650',
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA NCNU - 500001005',
+    Agency Location: 'Draper - 500005417 - Draper',
     Commission Type: New Business,
     Lead source: Yellow Pages
-  },
-  
-  NamedInsuredContactInformation: {
-    Home phone: 1234567890
-  },
-}
+  }
+
+   NamedInsuredContactInformation: {
+      Home phone: 1234567890
+    }
 
 UnderlyingRisksPropertyTab: {}
 
@@ -127,7 +131,7 @@ PurchaseTab_WithAutopay: {
 # --------------------- AZ ---------------------
 TestData_AZ: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_AZ',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_AZ',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -138,7 +142,22 @@ TestData_AZ: {
   DocumentsTab: '@DocumentsTab',
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
-}  
+}
+
+GeneralTab_AZ: {
+  PolicyInfo: '@PolicyInfo_AZ',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_AZ: {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA Arizona - 500001004',
+    Agency Location: 'Chandler - 500005091 - Chandler',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  }
 
 UnderlyingRisksAutoTab_AZ: {
   Automobiles: [{
@@ -165,7 +184,7 @@ UnderlyingRisksAutoTab_AZ: {
 # --------------------- CA ---------------------
 TestData_CA: {
   PrefillTab: '@PrefillTab_CA',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_CA',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_CA',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -210,6 +229,21 @@ PrefillTab_CA: {
 
 }
 
+GeneralTab_CA: {
+  PolicyInfo: '@PolicyInfo_CA',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_CA: {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: AAA Agent,
+    Agency: 'AAA NCNU - 500001005',
+    Agency Location: 'Los Gatos - 500005341 - Los Gatos',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  }
+
 UnderlyingRisksAutoTab_CA: {
 #  Automobiles: [{
 #    Add: 'click', 
@@ -250,7 +284,7 @@ UnderwritingAndApprovalTab_CA: {
 # --------------------- CO ---------------------
 TestData_CO: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_CO',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_CO',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -261,7 +295,22 @@ TestData_CO: {
   DocumentsTab: '@DocumentsTab',
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
-}  
+}
+
+GeneralTab_CO: {
+  PolicyInfo: '@PolicyInfo_CO',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_CO: {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA Colorado - 500001007',
+    Agency Location: 'Denver - 500005106 - Denver',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  }
 
 UnderlyingRisksAutoTab_CO: {
   Automobiles: [{
@@ -288,7 +337,7 @@ UnderlyingRisksAutoTab_CO: {
 # --------------------- CT ---------------------
 TestData_CT: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_CT',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_CT',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -299,7 +348,23 @@ TestData_CT: {
   DocumentsTab: '@DocumentsTab',
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
-}  
+}
+
+GeneralTab_CT: {
+  PolicyInfo: '@PolicyInfo_CT',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_CT: {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA Allied Club - 500001019',
+    Sales Channel: 'Captive Branch Agents',
+    Agency Location: 'Lexington - 500005154 - Lexington',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  }
 
 UnderlyingRisksAutoTab_CT: {
   Automobiles: [{
@@ -339,7 +404,7 @@ UnderwritingAndApprovalTab_CT: {
 # --------------------- DC ---------------------
 TestData_DC: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_DC',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_DC',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -351,6 +416,21 @@ TestData_DC: {
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
 }
+
+GeneralTab_DC: {
+  PolicyInfo: '@PolicyInfo_DC',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_DC: {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA Mid-Atlantic - 500016292',
+    Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  }
 
 UnderlyingRisksAutoTab_DC: {
   Automobiles: [{
@@ -377,7 +457,7 @@ UnderlyingRisksAutoTab_DC: {
 # --------------------- DE ---------------------
 TestData_DE: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_DE',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_DE',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -389,6 +469,21 @@ TestData_DE: {
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
 }
+
+GeneralTab_DE: {
+  PolicyInfo: '@PolicyInfo_DE',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_DE: {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA Mid-Atlantic - 500016292',
+    Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  }
 
 UnderlyingRisksAutoTab_DE: {
   Automobiles: [{
@@ -415,7 +510,7 @@ UnderlyingRisksAutoTab_DE: {
 # --------------------- ID ---------------------
 TestData_ID: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_ID',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_ID',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -427,6 +522,21 @@ TestData_ID: {
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
 }
+
+GeneralTab_ID: {
+  PolicyInfo: '@PolicyInfo_ID',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_ID: {
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Oregon - 500001021',
+  Agency Location: 'Beaverton - 500005277 - Portland',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
+  }
 
 UnderlyingRisksAutoTab_ID: {
   Automobiles: [{
@@ -453,7 +563,7 @@ UnderlyingRisksAutoTab_ID: {
 # --------------------- IN ---------------------
 TestData_IN: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_IN',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_IN',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -464,6 +574,21 @@ TestData_IN: {
   DocumentsTab: '@DocumentsTab',
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_IN: {
+  PolicyInfo: '@PolicyInfo_IN',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+PolicyInfo_IN: {
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA INDIANA HOOSIER MOTOR CLUB - 500001023',
+  Agency Location: 'Allisonville Branch - 5000017062 - Indianapolis',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
 }
 
 UnderlyingRisksAutoTab_IN: {
@@ -491,7 +616,7 @@ UnderlyingRisksAutoTab_IN: {
 # --------------------- KS ---------------------
 TestData_KS: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_KS',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_KS',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -503,6 +628,21 @@ TestData_KS: {
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
 }
+
+GeneralTab_KS: {
+  PolicyInfo: '@PolicyInfo_KS',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_KS: {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA Allied Club - 500001019',
+    Agency Location: 'Cromwell - 500005129 - Cromwell',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  }
 
 UnderlyingRisksAutoTab_KS: {
   Automobiles: [{
@@ -529,7 +669,7 @@ UnderlyingRisksAutoTab_KS: {
 # --------------------- KY ---------------------
 TestData_KY: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_KY',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_KY',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -541,6 +681,21 @@ TestData_KY: {
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
 }
+
+GeneralTab_KY: {
+  PolicyInfo: '@PolicyInfo_KY',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_KY: {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA Allied Club - 500001019',
+    Agency Location: 'Lexington - Atkinson Ave - 500005154 - Lexington',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  }
 
 UnderlyingRisksAutoTab_KY: {
   Automobiles: [{
@@ -580,7 +735,7 @@ UnderwritingAndApprovalTab_KY: {
 # --------------------- MD ---------------------
 TestData_MD: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_MD',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_MD',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -592,6 +747,21 @@ TestData_MD: {
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
 }
+
+GeneralTab_MD: {
+  PolicyInfo: '@PolicyInfo_MD',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_MD: {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA Mid-Atlantic - 500016292',
+    Agency Location: 'Annapolis CCIT - 500017191 - Annapolis',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  }
 
 UnderlyingRisksAutoTab_MD: {
   Automobiles: [{
@@ -632,7 +802,7 @@ UnderwritingAndApprovalTab_MD: {
 # --------------------- MT ---------------------
 TestData_MT: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_MT',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_MT',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -644,6 +814,21 @@ TestData_MT: {
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
 }
+
+GeneralTab_MT: {
+  PolicyInfo: '@PolicyInfo_MT',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_MT: {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA Mountain West - 500001006',
+    Agency Location: 'Great Falls - 500005162 - Great Falls',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  }
 
 UnderlyingRisksAutoTab_MT: {
   Automobiles: [{
@@ -669,7 +854,7 @@ UnderlyingRisksAutoTab_MT: {
 
 # --------------------- NJ ---------------------
 TestData_NJ: {
-  PrefillTab: '@PrefillTab',
+  PrefillTab: '@PrefillTab_NJ',
   GeneralTab: '@GeneralTab',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_NJ',
@@ -682,6 +867,21 @@ TestData_NJ: {
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
 }
+
+GeneralTab_NJ: {
+  PolicyInfo: '@PolicyInfo_NJ',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_NJ: {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA Mid-Atlantic - 500016292',
+    Agency Location: 'Newton - 500017271 - Newton',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  }
 
 UnderlyingRisksAutoTab_NJ: {
   Automobiles: [{
@@ -708,7 +908,7 @@ UnderlyingRisksAutoTab_NJ: {
 # --------------------- NV ---------------------
 TestData_NV: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_NV',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_NV',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -720,6 +920,21 @@ TestData_NV: {
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
 }
+
+GeneralTab_NV: {
+  PolicyInfo: '@PolicyInfo_NV',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_NV: {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA NCNU - 500001005',
+    Agency Location: 'Las Vegas - 500005369 - Las Vegas',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  }
 
 UnderlyingRisksAutoTab_NV: {
   Automobiles: [{
@@ -753,7 +968,7 @@ DocumentsTab_NV: {
 # --------------------- NY ---------------------
 TestData_NY: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_NY',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_NY',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -765,6 +980,21 @@ TestData_NY: {
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
 }
+
+GeneralTab_NY: {
+  PolicyInfo: '@PolicyInfo_NY',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_NY: {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA NORTHWAY NEW YORK - 500001009',
+    Agency Location: 'QUEENSBURY - 500005187 - QUEENSBURY',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  }
 
 UnderlyingRisksAutoTab_NY: {
   Automobiles: [{
@@ -791,7 +1021,7 @@ UnderlyingRisksAutoTab_NY: {
 # --------------------- OH ---------------------
 TestData_OH: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_OH',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_OK',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -803,6 +1033,21 @@ TestData_OH: {
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
 }
+
+GeneralTab_OH: {
+  PolicyInfo: '@PolicyInfo_OH',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_OH: {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: 'AAA Agent',
+    Agency: 'Ohio Findlay Club - 500001015',
+    Agency Location: 'Findlay Hq - 500005196 - Findlay',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  }
 
 UnderlyingRisksAutoTab_OH: {
   Automobiles: [{
@@ -829,7 +1074,7 @@ UnderlyingRisksAutoTab_OH: {
 # --------------------- OK ---------------------
 TestData_OK: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_OK',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_OK',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -841,6 +1086,21 @@ TestData_OK: {
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
 }
+
+GeneralTab_OK: {
+  PolicyInfo: '@PolicyInfo_OK',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_OK: {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA OKLAHOMA INSURANCE - 500001020',
+    Agency Location: 'AAA Tulsa Training Center - 500005226 - Tulsa',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  }
 
 UnderlyingRisksAutoTab_OK: {
   Automobiles: [{
@@ -867,7 +1127,7 @@ UnderlyingRisksAutoTab_OK: {
 # --------------------- OR ---------------------
 TestData_OR: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_OR',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_OR',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -879,6 +1139,21 @@ TestData_OR: {
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
 }
+
+GeneralTab_OR: {
+  PolicyInfo: '@PolicyInfo_OR',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_OR: {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA Oregon - 500001021',
+    Agency Location: 'Portland - 500005275 - Portland',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  }
 
 UnderlyingRisksAutoTab_OR: {
   Automobiles: [{
@@ -919,7 +1194,7 @@ UnderwritingAndApprovalTab_OR: {
 # --------------------- PA ---------------------
 TestData_PA: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_PA',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_PA',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -931,6 +1206,21 @@ TestData_PA: {
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
 }
+
+GeneralTab_PA: {
+  PolicyInfo: '@PolicyInfo_PA',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_PA: {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA Southern Penn - 500017173',
+    Agency Location: 'Bedford - 500017241 - Bedford',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  }
 
 UnderlyingRisksAutoTab_PA: {
   Automobiles: [{
@@ -957,7 +1247,7 @@ UnderlyingRisksAutoTab_PA: {
 # --------------------- SD ---------------------
 TestData_SD: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_SD',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_SD',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -969,6 +1259,21 @@ TestData_SD: {
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
 }
+
+GeneralTab_SD: {
+  PolicyInfo: '@PolicyInfo_SD',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_SD {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA SOUTH DAKOTA - 500001022',
+    Agency Location: 'Sioux Falls HQ - 500005294 - Tulsa',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  }
 
 UnderlyingRisksAutoTab_SD: {
   Automobiles: [{
@@ -995,7 +1300,7 @@ UnderlyingRisksAutoTab_SD: {
 # --------------------- VA ---------------------
 TestData_VA: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_VA',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_VA',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -1007,6 +1312,21 @@ TestData_VA: {
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
 }
+
+GeneralTab_VA: {
+  PolicyInfo: '@PolicyInfo_VA',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_VA: {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA Mid-Atlantic - 500016292',
+    Agency Location: 'CHANTILLY VA - 500016414 - Chantilly',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  }
 
 UnderlyingRisksAutoTab_VA: {
   Automobiles: [{
@@ -1033,7 +1353,7 @@ UnderlyingRisksAutoTab_VA: {
 # --------------------- WV ---------------------
 TestData_WV: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_WV',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_WV',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -1045,6 +1365,21 @@ TestData_WV: {
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
 }
+
+GeneralTab_WV: {
+  PolicyInfo: '@PolicyInfo_WV',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_WV: {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA Allied Club - 500001019',
+    Agency Location: 'Charleston - 500005295 - Charleston',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  }
 
 UnderlyingRisksAutoTab_WV: {
   Automobiles: [{
@@ -1079,7 +1414,7 @@ DocumentsTab_WV: {
 # --------------------- WY ---------------------
 TestData_WY: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_WY',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_WY',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -1091,6 +1426,21 @@ TestData_WY: {
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
 }
+
+GeneralTab_WY: {
+  PolicyInfo: '@PolicyInfo_WY',
+  NamedInsuredContactInformation: '@NamedInsuredContactInformation'
+}
+
+ PolicyInfo_WY: {
+    Effective date: '/today:MM/dd/yyyy',
+    Application type: New,
+    Channel Type: 'AAA Agent',
+    Agency: 'AAA Mountain West - 500001006',
+    Agency Location: 'Bozeman - 500005161 - Bozeman',
+    Commission Type: New Business,
+    Lead source: Yellow Pages
+  }
 
 UnderlyingRisksAutoTab_WY: {
   Automobiles: [{
