@@ -21,6 +21,20 @@ TestData_Endorsement: {
   }
 }
 
+TestData_Endorsement_VA: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleTab',
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
 VehicleTab: {
   Add Vehicle: Click,
   Usage: Pleasure,

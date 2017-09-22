@@ -113,8 +113,12 @@ public class Scenario1 extends ScenarioBaseTest {
 		totalDue2.verify.moreThan(totalDue);
 
 		if (getState().equals(Constants.States.NJ)) {
-			pligaOrMvleFeeLastTransactionDate = transactionDate;
-			new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(pligaOrMvleFeeLastTransactionDate);
+			Dollar expectedPligaFee = BillingSummaryPage.calculatePligaFee(transactionDate);
+			//TODO-dchubkov: maybe we need to tweak Endorsement test data for all scenarios to make PLIGA fee always more than zero
+			if (!expectedPligaFee.isZero()) {
+				pligaOrMvleFeeLastTransactionDate = transactionDate;
+				new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(expectedPligaFee, pligaOrMvleFeeLastTransactionDate);
+			}
 		} else if (getState().equals(Constants.States.NY)) {
 			pligaOrMvleFeeLastTransactionDate = transactionDate;
 			new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(pligaOrMvleFeeLastTransactionDate);
@@ -234,7 +238,7 @@ public class Scenario1 extends ScenarioBaseTest {
 //		if (!getState().equals(Constants.States.KY) && !getState().equals(Constants.States.WV)) {
 		verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, pligaOrMvleFee, installmentsCount);
 //		}
-		verifyRenewPremiumNotice(policyExpirationDate, getTimePoints().getBillGenerationDate(policyExpirationDate));
+		verifyRenewPremiumNotice(policyExpirationDate, getTimePoints().getBillGenerationDate(policyExpirationDate), pligaOrMvleFee);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
