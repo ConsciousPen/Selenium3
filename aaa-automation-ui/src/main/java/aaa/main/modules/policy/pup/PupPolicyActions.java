@@ -4,8 +4,10 @@ package aaa.main.modules.policy.pup;
 
 import aaa.common.AbstractAction;
 import aaa.common.Workspace;
+import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.PolicyActions;
 import aaa.main.modules.policy.pup.actiontabs.GenerateOnDemandDocumentActionTab;
+import aaa.main.modules.policy.pup.defaulttabs.CreateQuoteVersionTab;
 import aaa.main.modules.policy.pup.views.*;
 import toolkit.datax.TestData;
 
@@ -88,6 +90,21 @@ public final class PupPolicyActions {
         @Override
         public Workspace getView() {
             return new DefaultView();
+        }
+
+        @Override
+        public AbstractAction start() {
+            NavigationPage.setActionAndGo(getName());
+            new CreateQuoteVersionTab().submitIfPresent();
+            return this;
+        }
+
+        public AbstractAction start(TestData td) {
+            NavigationPage.setActionAndGo(getName());
+            CreateQuoteVersionTab versionTab = new CreateQuoteVersionTab();
+            versionTab.fillTab(td);
+            versionTab.submitTab();
+            return this;
         }
     }
 

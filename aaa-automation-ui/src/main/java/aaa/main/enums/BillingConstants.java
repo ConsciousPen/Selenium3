@@ -106,6 +106,8 @@ public final class BillingConstants {
 		public static final String NSF_FEE__WITH_RESTRICTION = "NSF fee - with restriction";
 		public static final String NSF_FEE__WITHOUT_RESTRICTION = "NSF fee - without restriction";
 		public static final String DEPOSIT_PAYMENT = "Deposit Payment";
+		public static final String PLIGA_FEE = "PLIGA Fee";
+		public static final String MVLE_FEE = "MVLE Fee";
 		public static final String RECURRING_PAYMENT = "Recurring Payment";
 		public static final String REGULUS_LOCKBOX = "Regulus LockBox";
 		public static final String REGULUS_ONLINE = "Regulus Online";

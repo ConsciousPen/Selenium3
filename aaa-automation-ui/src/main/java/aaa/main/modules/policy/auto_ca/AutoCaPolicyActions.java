@@ -4,6 +4,8 @@
  */
 package aaa.main.modules.policy.auto_ca;
 
+import aaa.common.pages.NavigationPage;
+import aaa.main.modules.policy.auto_ca.defaulttabs.CreateQuoteVersionTab;
 import org.openqa.selenium.By;
 
 import aaa.common.AbstractAction;
@@ -155,6 +157,21 @@ public final class AutoCaPolicyActions {
         @Override
         public Workspace getView() {
             return new DefaultView();
+        }
+
+        @Override
+        public AbstractAction start() {
+            NavigationPage.setActionAndGo(getName());
+            new CreateQuoteVersionTab().submitIfPresent();
+            return this;
+        }
+
+        public AbstractAction start(TestData td) {
+            NavigationPage.setActionAndGo(getName());
+            CreateQuoteVersionTab versionTab = new CreateQuoteVersionTab();
+            versionTab.fillTab(td);
+            versionTab.submitTab();
+            return this;
         }
     }
 

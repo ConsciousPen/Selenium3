@@ -6,7 +6,9 @@ package aaa.main.modules.policy.home_ca;
 
 import aaa.common.AbstractAction;
 import aaa.common.Workspace;
+import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.PolicyActions;
+import aaa.main.modules.policy.home_ca.defaulttabs.CreateQuoteVersionTab;
 import aaa.main.modules.policy.home_ca.views.*;
 import toolkit.datax.TestData;
 
@@ -89,6 +91,21 @@ public final class HomeCaPolicyActions {
         @Override
         public Workspace getView() {
             return new DefaultView();
+        }
+
+        @Override
+        public AbstractAction start() {
+            NavigationPage.setActionAndGo(getName());
+            new CreateQuoteVersionTab().submitIfPresent();
+            return this;
+        }
+
+        public AbstractAction start(TestData td) {
+            NavigationPage.setActionAndGo(getName());
+            CreateQuoteVersionTab versionTab = new CreateQuoteVersionTab();
+            versionTab.fillTab(td);
+            versionTab.submitTab();
+            return this;
         }
     }
 

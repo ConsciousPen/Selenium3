@@ -1,0 +1,8 @@
+########################## testDeltaPolicyDocuments #########################
+TestData_DeltaPolicyDocuments: {
+  ProductOfferingTab: {
+    Heritage: {
+      Hurricane Deductible: '2%'
+    }
+  }
+}

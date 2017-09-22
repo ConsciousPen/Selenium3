@@ -119,7 +119,7 @@ public abstract class CommonErrorTab extends Tab {
 		List<String> actualMessagesList = new ArrayList<>();
 		if (getHintMessages) {
 			for (Row row : getErrorsControl().getTable().getRows()) {
-				actualMessagesList.add(WebDriverHelper.getInnerText(new ByChained(getErrorsControl().getTable().getLocator(), row.getLocator(), By.xpath(".//div[contains(@id, 'content')]"))));
+				actualMessagesList.add(WebDriverHelper.getInnerText(new ByChained(getErrorsControl().getTable().getLocator(), row.getLocator(), By.xpath(".//div[contains(@id, 'content')]"))).trim());
 			}
 		} else {
 			actualMessagesList = getErrorsControl().getTable().getColumn(ErrorEnum.ErrorsColumn.MESSAGE.get()).getValue();
