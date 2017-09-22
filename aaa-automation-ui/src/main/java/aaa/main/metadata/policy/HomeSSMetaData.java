@@ -539,6 +539,7 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<ComboBox> COVERAGE_E = declare("Coverage E", ComboBox.class, Waiters.AJAX, By.xpath(".//select[contains(@id, 'AAACoverageE_limitAmount_limitAmount')]"));
 			public static final AssetDescriptor<ComboBox> COVERAGE_F = declare("Coverage F", ComboBox.class, Waiters.AJAX, By.xpath(".//select[contains(@id, 'AAACoverageF_limitAmount_limitAmount')]"));
 			public static final AssetDescriptor<ComboBox> DEDUCTIBLE = declare("Deductible", ComboBox.class, Waiters.AJAX, By.xpath(".//select[contains(@id, 'AAAPropertyDeductible_limitAmount_limitAmount')]"));
+			public static final AssetDescriptor<ComboBox> HURRICANE_DEDUCTIBLE = declare("Hurricane Deductible", ComboBox.class, Waiters.AJAX, By.xpath(".//select[contains(@id, 'AAAPropertHurricaneNew_additionalLimitAmount_deductibleAmount')]"));
 			public static final AssetDescriptor<Button> SELECT_VARIATION = declare("Select variation", Button.class, Waiters.AJAX, By.xpath(".//input[@value='Select variation']"));
 			public static final AssetDescriptor<Button> REMOVE_VARIATION = declare("Remove variation", Button.class, Waiters.AJAX, By.xpath(".//input[@value='Remove variation']"));
 			public static final AssetDescriptor<Button> RESTORE_DEFAULTS = declare("Restore defaults", Button.class, Waiters.AJAX, By.xpath(".//input[@value='Restore defaults']"));
