@@ -9,10 +9,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
@@ -46,14 +43,6 @@ public class TestPolicyEndorsementAdd extends AutoSSBaseTest {
         policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
        
         CustomAssert.enableSoftMode();
-        
-        //workaround for defect QC 44702
-        ErrorTab errorTab = new ErrorTab();
-        if (errorTab.isVisible()) {
-          errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_CLUE_order_validation_SS);
-          errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_CLUE_order_validation_SS);
-          new DocumentsAndBindTab().submitTab();
-        }
         
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
