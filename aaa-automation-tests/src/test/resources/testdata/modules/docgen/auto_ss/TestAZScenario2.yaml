@@ -71,6 +71,8 @@ FormsTab: {
 }
 
 PremiumAndCoveragesTab: {
+  Payment Plan: 'Eleven Pay - Standard',
+  Policy Term: Annual,
   Bodily Injury Liability: 'contains=$100,000/$300,000',
   Uninsured Motorists Bodily Injury: 'contains=$50,000/$100,000',
   Underinsured Motorists Bodily Injury: 'contains=$50,000/$100,000',

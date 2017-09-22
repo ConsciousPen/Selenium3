@@ -14,6 +14,7 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.utils.Dollar;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.TextBox;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -39,7 +40,6 @@ import aaa.modules.policy.AutoSSBaseTest;
 
 public class TestAZScenario4 extends AutoSSBaseTest{
 	protected String policyNumber;
-//	protected String policyNumber="AZSS952111102";
 	protected String termEffDt;
 	protected String plcyEffDt;
 	protected String plcyExprDt;
@@ -49,8 +49,12 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 	protected String plcyPayFullAmt;
 	protected String plcyDueDt;
 	protected String plcyTotRnwlPrem;
+	protected String instlFee;
+	protected String cancEffDt;
+	protected String plcyRnwlExprDt;
+	protected String rnwlDnPayAmt;
 	protected LocalDateTime policyExpirationDate;
-	protected LocalDateTime policyEffectivenDate;
+	protected LocalDateTime policyEffectiveDate;
 	
 	
 	/**
@@ -66,13 +70,13 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	public void TC01_EndorsementOne(@Optional("") String state) {
+		CustomAssert.enableSoftMode();
 		mainApp().open();
-//		SearchPage.openPolicy(policyNumber);
 		createCustomerIndividual();
 		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		policyEffectivenDate = PolicySummaryPage.getEffectiveDate();
-		Log.info("Policy Effective date" + policyEffectivenDate);
+		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+		log.info("Policy Effective date" + policyEffectiveDate);
 		log.info("Make first endorsement for Policy #" + policyNumber);
 		
 		TestData tdEndorsement = getTestSpecificTD("TestData_EndorsementOne");
@@ -80,7 +84,7 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		
-		termEffDt = DocGenHelper.convertToZonedDateTime(policyEffectivenDate);
+		termEffDt = DocGenHelper.convertToZonedDateTime(policyEffectiveDate);
 		
 //		verify the xml file AASR22 and AAGCAZ
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR22,AAGCAZ).verify.mapping(getTestSpecificTD("TestData_VerificationEDOne")
@@ -88,6 +92,8 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 				.adjust(TestData.makeKeyPath("AASR22", "form", "TermEffDt","DateTimeField"), termEffDt)
 				.adjust(TestData.makeKeyPath("AAGCAZ", "form", "PlcyNum", "TextField"), policyNumber),
 				policyNumber);	
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	 }
 	
 	/**
@@ -105,6 +111,7 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 	@Parameters({"state"})
     @Test(groups = { Groups.REGRESSION, Groups.CRITICAL },dependsOnMethods = "TC01_EndorsementOne")
 	public void TC02_EndorsementTwo(@Optional("") String state) {
+		CustomAssert.enableSoftMode();
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		log.info("Make second endorsement for Policy #" + policyNumber);
@@ -118,6 +125,8 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 				.adjust(TestData.makeKeyPath("AA41XX", "form", "PlcyNum", "TextField"), policyNumber)
 				.adjust(TestData.makeKeyPath("AA41XX", "form", "TermEffDt","DateTimeField"), termEffDt),
 				policyNumber);
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
 	
 	/**
@@ -143,11 +152,15 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
+		
+		CustomAssert.enableSoftMode();
+		
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
+		
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
 	
 	@Parameters({ "state" })
@@ -158,14 +171,18 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 		Log.info("Policy Renewal Preview Generation Date" + renewPreviewGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
+		
+		CustomAssert.enableSoftMode();
+		
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		PolicySummaryPage.buttonRenewals.verify.enabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PREMIUM_CALCULATED).verify(1);
-
+		
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
 	
 	@Parameters({ "state" })
@@ -177,6 +194,8 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 
+		CustomAssert.enableSoftMode();
+		
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -185,6 +204,9 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PROPOSED).verify(1);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
+		
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
 	
 	@Parameters({ "state" })
@@ -196,6 +218,8 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 
+		CustomAssert.enableSoftMode();
+		
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonRenewals.click();
@@ -208,12 +232,15 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 		Tab.buttonCancel.click();
 
 		BillingSummaryPage.open();
-		curRnwlAmt = formatValue(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
-		totNwCrgAmt = formatValue(BillingSummaryPage.tableInstallmentSchedule.getRow(12).getCell(BillingInstallmentScheduleTable.BILLED_AMOUNT).getValue());
+		Dollar _curRnwlAmt = new Dollar(BillingSummaryPage.tableInstallmentSchedule.getRow(12).getCell(BillingInstallmentScheduleTable.BILLED_AMOUNT).getValue());
+		Dollar _instlFee = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "Non EFT Installment Fee").getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
+		curRnwlAmt = _curRnwlAmt.subtract(_instlFee).toString().replace("$", "").replace(",", "");
+		totNwCrgAmt = formatValue(BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
 		plcyPayMinAmt = formatValue(BillingSummaryPage.getMinimumDue().toString());
 		plcyDueDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(BillingBillsAndStatmentsTable.TYPE, "Bill").getCell(BillingBillsAndStatmentsTable.DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
-		plcyPayFullAmt = formatValue(BillingSummaryPage.getTotalDue().toString());
+	
 		plcyTotRnwlPrem = formatValue(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "Renewal - Policy Renewal Proposal").getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
+		instlFee = formatValue(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "Non EFT Installment Fee").getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
 		// verify the xml file AHRBXX
 		
 		DocGenHelper.verifyDocumentsGenerated(true,true,policyNumber, AHRBXX).verify.mapping(getTestSpecificTD("TestData_VerificationRenewal")
@@ -225,10 +252,67 @@ public class TestAZScenario4 extends AutoSSBaseTest{
 				.adjust(TestData.makeKeyPath("AHRBXX", "PaymentDetails", "TotNwCrgAmt","TextField"), totNwCrgAmt)
 				.adjust(TestData.makeKeyPath("AHRBXX", "PaymentDetails", "PlcyPayMinAmt","TextField"), plcyPayMinAmt)
 				.adjust(TestData.makeKeyPath("AHRBXX", "PaymentDetails", "PlcyTotRnwlPrem","TextField"), plcyTotRnwlPrem)
-				.adjust(TestData.makeKeyPath("AHRBXX", "PaymentDetails", "PlcyDueDt","DateTimeField"), plcyDueDt),
+				.adjust(TestData.makeKeyPath("AHRBXX", "PaymentDetails", "PlcyDueDt","DateTimeField"), plcyDueDt)
+				.adjust(TestData.makeKeyPath("AHRBXX", "PaymentDetails", "InstlFee","TextField"), instlFee),
+				policyNumber);
+		
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+	
+	@Parameters({ "state" })
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_EndorsementOne")
+	public void TC07_UpdatePolicyStatus(@Optional("") String state) {
+		LocalDateTime updatePolicyStatusDate = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
+		Log.info("Policy Update Status Date" + updatePolicyStatusDate);
+		TimeSetterUtil.getInstance().nextPhase(updatePolicyStatusDate);
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		
+		CustomAssert.enableSoftMode();
+		mainApp().open();
+		SearchPage.openBilling(policyNumber);
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
+		
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+	
+	@Parameters({ "state" })
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_EndorsementOne")
+	public void TC08_InsuranceRenewalReminder(@Optional("") String state) {
+		 LocalDateTime insuranceRenewalReminderDate =
+		 getTimePoints().getInsuranceRenewalReminderDate(policyExpirationDate);
+		 Log.info("Policy Insurance Renewal Reminder Notice Date" + insuranceRenewalReminderDate);
+		 TimeSetterUtil.getInstance().nextPhase(insuranceRenewalReminderDate);
+		 JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+		 JobUtils.executeJob(Jobs.aaaRenewalReminderGenerationAsyncJob);
+		 JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+
+		CustomAssert.enableSoftMode();
+
+		mainApp().open();
+		SearchPage.openBilling(policyNumber);
+		plcyEffDt = DocGenHelper.convertToZonedDateTime(policyEffectiveDate);
+		plcyExprDt = DocGenHelper.convertToZonedDateTime(policyExpirationDate);
+		cancEffDt = DocGenHelper.convertToZonedDateTime(policyExpirationDate.plusDays(20));
+		plcyRnwlExprDt = DocGenHelper.convertToZonedDateTime(policyExpirationDate.plusDays(20));
+		rnwlDnPayAmt = formatValue(BillingSummaryPage.getMinimumDue().toString());
+		plcyPayFullAmt = formatValue(BillingSummaryPage.getTotalDue().toString());
+
+//		Verify the xml for AH64XX
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, AH64XX).verify.mapping(getTestSpecificTD("TestData_AH64XX")
+//		        .adjust(TestData.makeKeyPath("AH64XX", "form", "PlcyNum", "TextField"), policyNumber)  //TODO the field is absent, defect 44754
+//				.adjust(TestData.makeKeyPath("AH64XX", "form", "PlcyEffDt", "DateTimeField"), plcyEffDt) //TODO the field is absent, defect 44754
+//				.adjust(TestData.makeKeyPath("AH64XX", "form", "PlcyExprDt", "DateTimeField"), plcyExprDt) //TODO the field is incorrect, defect 44754
+				.adjust(TestData.makeKeyPath("AH64XX", "form", "CancEffDt", "DateTimeField"), cancEffDt)
+				.adjust(TestData.makeKeyPath("AH64XX", "PaymentDetails", "RnwlDnPayAmt", "TextField"), rnwlDnPayAmt)
+				.adjust(TestData.makeKeyPath("AH64XX", "PaymentDetails", "PlcyPayFullAmt", "TextField"), plcyPayFullAmt),
 				policyNumber);
 
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
+	
 	
 	private String formatValue(String value) {
 		return  new Dollar(value.replace("\n", "")).toString().replace("$", "").replace(",", "");

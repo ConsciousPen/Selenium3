@@ -5,9 +5,18 @@ TestData: {
     Validate Address: click,
     Validate Address Dialog: {},
     Order Prefill: click  
-    }
+    },  
+    PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
 }
 
+PremiumAndCoveragesTab: {
+  Payment Plan: 'Eleven Pay - Standard',
+  Policy Term: Annual,
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750',
+  Collision Deductible: 'contains=$500',
+  Special Equipment Coverage: 1100
+}
 
 TestData_EndorsementOne: {
     GeneralTab: {
@@ -228,15 +237,15 @@ AHRBXX: {
    MVLEFee: {TextField: '0.00'},
  },
  PaymentDetails: {
-   PayTyp: {TextField: 'FULL PAYMENT'},
-   PayPln: {TextField: 'Annual'},
+   PayTyp: {TextField: 'INSTALLMENT PAYMENT'},
+   PayPln: {TextField: 'Monthly'},
    CurRnwlAmt: {TextField: ''},
-   InstlFee: {TextField: '0.00'},
+   InstlFee: {TextField: ''},
    OthrFee: {TextField: '0.00'},
    TotNwCrgAmt: {TextField: ''},
    PlcyPayMinAmt: {TextField: ''},
    PlcyDueDt: {DateTimeField: ''},
-   PlcyPayFullAmt: {TextField: ''},
+#   PlcyPayFullAmt: {TextField: ''},
    NSFPayRstrYN: {TextField: 'N'},
    PlcyPastDueBal: {TextField: '0.00'},
    PlcyTotRnwlPrem: {TextField: ''},
@@ -254,7 +263,7 @@ AHRBXX: {
    NmdInsrdZipPls4: {TextField: '85003'}
  },
  VehicleDetails: {
-   PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
+   PlcyVehInfo: {TextField: '2000 NANO NANO'},
  },
  AccountDetails: {
    AcctTyp: {TextField: ''}
@@ -263,3 +272,38 @@ AHRBXX: {
    CrCrdTyp: {TextField: ''},
  }
 }
+
+TestData_AH64XX: {
+  AH64XX: '@AH64XX'
+}
+
+AH64XX: {
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdMidNm: {TextField: ''},
+    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdStrPobAddr1: {TextField: '265 CHIPMAN AVE'},
+    NmdInsrdAddlAddr2: {TextField: ''},
+    NmdInsrdCityNm: {TextField: 'Phoenix'},
+    NmdInsrdZipPls4: {TextField: '85003'},
+    NmdInsrdStAbrv: {TextField: 'AZ'},
+  },
+  VehicleDetails: {
+    PlcyVehInfo: {TextField: '2000 NANO NANO'}
+  },
+  form: {
+    AutoPayYN: {TextField: 'N'},
+    MrtGgeYN: {TextField: 'N'},
+    CancEffDt: {DateTimeField: ''},
+#    PlcyNum: {TextField: ''},
+#    PlcyEffDt: {DateTimeField: ''},
+#    PlcyExprDt: {DateTimeField: ''},
+    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"}
+  },
+  PaymentDetails: {
+    RnwlDnPayAmt: {TextField: ''},
+    PlcyPayFullAmt: {TextField: ''},
+    NSFPayRstrYN: {TextField: 'N'},
+  }
+}
+

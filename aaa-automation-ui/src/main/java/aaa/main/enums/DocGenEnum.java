@@ -154,6 +154,7 @@ public final class DocGenEnum {
 		AHELCXXD("ELC UW Letter for Denial"),
 		AHELCXXL("ELC UW Letter for Lack of Supporting Documentation"),
 		AHELCXXP("ELC UW Letter for No Premium Benefit Denial"),
+		AH64XX("Expiration Notice"),
 		;
 
 		private String id;
