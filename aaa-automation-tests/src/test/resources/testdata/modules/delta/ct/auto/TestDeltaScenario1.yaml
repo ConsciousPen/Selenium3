@@ -48,3 +48,23 @@ DriverTab_CT8: {
     }
   ]
 }
+
+RatingDetailReportsTab_TC9: {
+  RatingDetailReportsTab : '@RatingDetailReportsTab'
+}
+
+RatingDetailReportsTab: {
+  Customer Agreement: Customer Agrees,
+  Sales Agent Agreement: I Agree,
+  Order Report: click,
+  InsuranceScoreOverride: '@InsuranceScoreOverride_OverrideTo645'
+}
+
+InsuranceScoreOverride_OverrideTo645: {
+    Action: Override Score,
+    EditInsuranceScoreDialog: {
+    New Score: '645',
+    Reason for override: 'Fair Credit Reporting Act Dispute',
+    Save: 'click'
+  }
+}

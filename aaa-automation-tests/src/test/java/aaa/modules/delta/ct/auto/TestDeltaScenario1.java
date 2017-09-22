@@ -14,6 +14,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import org.testng.annotations.Test;
@@ -42,11 +43,12 @@ import java.util.List;
 @Test(groups = {Groups.DELTA, Groups.HIGH})
 public class TestDeltaScenario1 extends AutoSSBaseTest {
     //todo make it empty
-    private String quoteNumber = "QCTSS952122037";
+    private String quoteNumber;
 
     private DriverTab driverTab = new DriverTab();
     private PrefillTab prefillTab = new PrefillTab();
     private GeneralTab generalTab = new GeneralTab();
+    private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
 
     public String scenarioPolicyType = "Auto SS";
 
@@ -67,7 +69,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
     @Test(groups = {Groups.DELTA, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
     public void testSC1_TC1() {
-        preconditions();
+        initiateQuote();
 
         CustomAssert.enableSoftMode();
         //010-005CT
@@ -210,24 +212,34 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 
         driverTab.fillTab(getPolicyTD());
         driverTab.fillTab(getTestSpecificTD("TestData_CT8"));
-        //violation points should be = 4
-        DriverTab.tableActivityInformationList.getRow("Description","Hit and Run").getCell("Points").verify.value("4");
+
         //violation points should be = 7
         DriverTab.tableActivityInformationList.getRow("Description","Accident (Resulting in Bodily Injury)").getCell("Points").verify.value("7");
+        //violation points should be = 4
+        DriverTab.tableActivityInformationList.getRow("Description","Hit and Run").getCell("Points").verify.value("4");
         //go to Major accident, points for the same day should be = 0
         DriverTab.tableActivityInformationList.getRow("Description","Hit and Run").getCell(8).controls.links.getFirst().click();
         driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER).setValue("No");
-        DriverTab.tableActivityInformationList.getRow("Description","Hit and Run").getCell("Points").verify.value("0");
+        driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.VIOLATION_POINTS).verify.value("0");
+        // Prep step for 9 case as i understood.
+        // assDriverTabFilling.setIncidentOccurenceDate(addDaysToCurrentDate(-4));
 
     }
+
+    @Test
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS)
+    public void testSC1_TC09() {
+        preconditions(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS);
+
+        //ratingDetailReportsTab.fillTab(getTestSpecificTD("RatingDetailReportsTab_TC9"));
+        /*toolkit.exceptions.IstfException: Cannot set value of AssetList {RatingDetailReportsTab: By.xpath: //div[@id='contentWrapper']} to '{Customer Agreement=Customer Agrees, Sales Agent Agreement=I Agree, Order Report=click, InsuranceScoreOverride=@InsuranceScoreOverride_OverrideTo645}'
+        Caused by: toolkit.exceptions.IstfException: Cannot set value of AssetList {EditInsuranceScoreDialog: By.xpath: //table[@id='policyDataGatherForm:creditScoreOverride']} to '{New Score=645, Reason for override=Fair Credit Reporting Act Dispute, Save=click}'
+        Caused by: org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {"method":"xpath","selector":"//select[@id='editInsuranceScoreFrom:billingType_billing']"}
+    */}
 
     private void preconditions(NavigationEnum.AutoSSTab navigateTo) {
         initiateQuote();
         NavigationPage.toViewTab(navigateTo.get());
-    }
-
-    private void preconditions() {
-        initiateQuote();
     }
 
     private void initiateQuote() {
