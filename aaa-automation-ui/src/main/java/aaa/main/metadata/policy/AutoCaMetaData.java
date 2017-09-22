@@ -797,5 +797,10 @@ public final class AutoCaMetaData {
 	
 	public static final class RollOnChangesActionTab extends MetaData {
 	}
+
+	public static final class CreateQuoteVersionTab extends MetaData {
+		public static final AssetDescriptor<StaticElement> VERSION_NUM = declare("Version #", StaticElement.class);
+		public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class);
+	}
 	
 }
