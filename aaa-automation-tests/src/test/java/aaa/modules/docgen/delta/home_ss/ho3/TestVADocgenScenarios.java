@@ -3,15 +3,10 @@ package aaa.modules.docgen.delta.home_ss.ho3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import toolkit.verification.CustomAssert;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
