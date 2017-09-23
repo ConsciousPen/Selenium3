@@ -64,7 +64,7 @@ public class AlterSuiteListener implements IAlterSuiteListener {
 	private XmlTest createTest(XmlTest test, String state) {
 		XmlTest xmlTest = new XmlTest();
 		String testNameme = test.getName();
-		if (!testNameme.startsWith("state")) {
+		if (!testNameme.startsWith(state)) {
 			xmlTest.setName(state + " " + test.getName());
 		}
 		xmlTest.setVerbose(test.getVerbose());
