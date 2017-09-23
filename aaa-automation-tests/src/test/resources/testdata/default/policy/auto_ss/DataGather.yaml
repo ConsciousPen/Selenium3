@@ -222,7 +222,7 @@ TestData_CT: {
 }
 
 PrefillTab_CT: {
-  'County / Township': 'New Haven / Middlebury';
+  "County / Township": 'New Haven / Middlebury',
   Validate Address: click,
   Validate Address Dialog: {},
   Order Prefill: click

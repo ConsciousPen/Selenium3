@@ -20,9 +20,9 @@ import toolkit.webdriver.controls.composite.assets.AssetList;
  * @category Generated
  */
 public class GeneralTab extends Tab {
-	
+
 	public static AdvancedTable tableInsuredList = new AdvancedTable(By.id("policyDataGatherForm:dataGatherView_ListInsured"));
-    
+
     public GeneralTab() {
         super(AutoCaMetaData.GeneralTab.class);
     }
@@ -35,14 +35,16 @@ public class GeneralTab extends Tab {
 
 	public Tab fillTab(TestData td) {
 		assetList.fill(td);
-		ComboBox agent = getPolicyInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.PolicyInformation.AGENT);
-		String value = agent.getValue();
-		agent.setValue("");
-		agent.setValue(value);
+		if (td.containsKey(AutoCaMetaData.GeneralTab.PolicyInformation.AGENT.getLabel())) {
+			ComboBox agent = getPolicyInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.PolicyInformation.AGENT);
+			String value = agent.getValue();
+			agent.setValue("");
+			agent.setValue(value);
+		}
 		return this;
 	}
-    
-    public AssetList getNamedInsuredInfoAssetList() {
+
+	public AssetList getNamedInsuredInfoAssetList() {
     	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class);
 	}
     public AssetList getValidateAddressDialogAssetList() {
