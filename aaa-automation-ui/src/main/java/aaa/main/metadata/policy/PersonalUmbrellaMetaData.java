@@ -118,23 +118,23 @@ public final class PersonalUmbrellaMetaData {
 			public static final AssetDescriptor<ComboBox> APPLICATION_TYPE = declare("Application type", ComboBox.class, Waiters.NONE);
 			public static final AssetDescriptor<TextBox> UNDERWRITING_COMPANY = declare("Underwriting Company", TextBox.class, Waiters.NONE);
 			public static final AssetDescriptor<ComboBox> CHANNEL_TYPE = declare("Channel Type", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> LOCATION = declare("Location", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> LOCATION = declare("Location", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> AGENCY = declare("Agency", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> AGENCY_OF_RECORD = declare("Agency of Record", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> AGENT_OF_RECORD = declare("Agent of Record", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> AGENCY_OF_RECORD = declare("Agency of Record", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> AGENT_OF_RECORD = declare("Agent of Record", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<StaticElement> AGENT_NUMBER = declare("Agent Number", StaticElement.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> SALES_CHANNEL = declare("Sales Channel", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> AGENCY_LOCATION = declare("Agency Location", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> SALES_CHANNEL = declare("Sales Channel", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> AGENCY_LOCATION = declare("Agency Location", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> AGENT = declare("Agent", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> COMMISSION_TYPE = declare("Commission Type", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> COMMISSION_TYPE = declare("Commission Type", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> LEAD_SOURCE = declare("Lead source", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> SUPPRESS_PRINT = declare("Suppress Print", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> POLICY_INSURANCE_SCORE = declare("Policy insurance score", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> SUPPRESS_PRINT = declare("Suppress Print", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> POLICY_INSURANCE_SCORE = declare("Policy insurance score", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> OVERRIDE_POLICY_INSURANCE_SCORE = declare("Override policy insurance score", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> OVERRIDE_SCORE = declare("Override score", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> OVERRIDEN_BY = declare("Overriden by", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> TOLLFREE_NUMBER = declare("TollFree Number", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> OVERRIDEN_BY = declare("Overriden by", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> TOLLFREE_NUMBER = declare("TollFree Number", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class AAAMembership extends MetaData {
