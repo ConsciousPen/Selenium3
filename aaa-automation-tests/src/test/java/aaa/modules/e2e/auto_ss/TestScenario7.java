@@ -1,31 +1,32 @@
 package aaa.modules.e2e.auto_ss;
 
-import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.modules.e2e.templates.Scenario7;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
 import toolkit.datax.TestData;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
+import aaa.modules.e2e.templates.Scenario7;
 
 public class TestScenario7 extends Scenario7 {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO3;
+		return PolicyType.AUTO_SS;
 	}
-	
+
 	@Parameters({"state"})
 	@Test
 	public void TC01_createPolicy(@Optional("") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
-		premiumTab = new PremiumsAndCoveragesQuoteTab();
+		premiumTab = new PremiumAndCoveragesTab();
 		errorTab = new ErrorTab();
+		tableDiscounts = PremiumAndCoveragesTab.tableDiscounts;
 
-		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData")
-				.adjust(getTestSpecificTD("TestData").resolveLinks());
-		
+		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
+
 		super.createTestPolicy(policyCreationTD);
 	}
 
@@ -49,20 +50,20 @@ public class TestScenario7 extends Scenario7 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC05_Cant_Change_Payment_Plan(@Optional("") String state) {
-		super.cantChangePaymentPlan();
-	}
-
-	@Parameters({"state"})
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC06_Pay_Total_Due(@Optional("") String state) {
+	public void TC05_Pay_Total_Due(@Optional("") String state) {
 		super.payTotalDue();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC07_Generate_Third_Bill(@Optional("") String state) {
+	public void TC06_Generate_Third_Bill(@Optional("") String state) {
 		super.generateThirdBill();
+	}
+
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC07_Renewal_Image_Generation(@Optional("") String state) {
+		super.renewalImageGeneration();
 	}
 
 	@Parameters({"state"})
@@ -73,8 +74,8 @@ public class TestScenario7 extends Scenario7 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC09_Renewal_Image_Generation(@Optional("") String state) {
-		super.renewalImageGeneration();
+	public void TC09_Cant_Change_Payment_Plan(@Optional("") String state) {
+		super.cantChangePaymentPlan();
 	}
 
 	@Parameters({"state"})
@@ -86,13 +87,13 @@ public class TestScenario7 extends Scenario7 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC11_Endorsement_RP_Before_Renewal(@Optional("") String state) {
-		super.TC12_Endorsement_RP_Before_Renewal();
+		super.endorsementRPBeforeRenewal();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC12_Endorsement_AP_Before_Renewal(@Optional("") String state) {
-		super.TC13_Endorsement_AP_Before_Renewal();
+		super.endorsementAPBeforeRenewal();
 	}
 
 	@Parameters({"state"})

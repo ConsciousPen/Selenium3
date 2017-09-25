@@ -147,7 +147,19 @@ public final class DocGenEnum {
 		HSCSND("Rental Property Insurance"),
 		HSHU2NJ("New Jersey Policyholder Hurricane Percentage Deductible Consumer Guide"),
 		HSELNJ("Important Notice Regarding Extraordinary Life Circumstance"),
-		AHTPC("")
+		AHTPC("Third Party Designee Cover Page"),
+		HSEQNJ("New Jersey Earthquake Insurance Availability Notice"),
+		HSCSNA("Homeowners Insurance"),
+		AHELCXXA("ELC UW Letter for Approval"),
+		AHELCXXD("ELC UW Letter for Denial"),
+		AHELCXXL("ELC UW Letter for Lack of Supporting Documentation"),
+		AHELCXXP("ELC UW Letter for No Premium Benefit Denial"),
+		HSHUVA("Virginia Adverse Action Underwriting Decision Notice"),
+		HS_03_30("HS 03 30", "Special Hurricane Percentage Deductible"),
+		HSVAAD("Policy holder Advisory Notice"),
+		HSINVAP("Important Information Regarding Your Insurance"),
+		HSINVA("Important Notice Regarding Flood and earthquake Exclusion"),
+        AH64XX("Expiration Notice"),
 		;
 
 		private String id;

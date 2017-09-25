@@ -6,10 +6,12 @@ import java.util.List;
 
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.composite.table.Table;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
@@ -59,6 +61,7 @@ public class Scenario7 extends ScenarioBaseTest {
 
 	protected Tab premiumTab;
 	protected CommonErrorTab errorTab;
+	protected Table tableDiscounts;
 
 	protected void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();
@@ -69,6 +72,7 @@ public class Scenario7 extends ScenarioBaseTest {
 		if (getPolicyType().equals(PolicyType.PUP)) {
 			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
 		}
+
 		policyNum = createPolicy(policyCreationTD);
 
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
@@ -101,25 +105,6 @@ public class Scenario7 extends ScenarioBaseTest {
 		generateAndCheckBill(installmentDueDates.get(2));
 	}
 
-	// TODO (temporaly?) skipped for property products
-	protected void cantChangePaymentPlan() {
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
-		mainApp().open();
-		SearchPage.openPolicy(policyNum);
-		policy.endorse().perform(getStateTestData(tdPolicy, "Endorsement", "TestData"));
-		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData_EndorsementPlan"), premiumTab.getClass(), true);
-		// TODO Update error code
-		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_TODO);
-		errorTab.cancel();
-
-		// TODO Verify There is no Payment Plan discount.
-
-		premiumTab.buttonCancel.click();
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		policy.deletePendedTransaction().start().submit();
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-	}
-
 	protected void payTotalDue() {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		mainApp().open();
@@ -143,6 +128,17 @@ public class Scenario7 extends ScenarioBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().setType(PaymentsAndOtherTransactionType.PAYMENT).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT).verify(1);
 	}
 
+	protected void renewalImageGeneration() {
+		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
+		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		HttpStub.executeAllBatches();
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		mainApp().open();
+		SearchPage.openPolicy(policyNum);
+		PolicyHelper.verifyAutomatedRenewalGenerated(renewImageGenDate);
+	}
+
 	protected void generateTenthBill() {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(10));
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
@@ -153,15 +149,24 @@ public class Scenario7 extends ScenarioBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().setType(PaymentsAndOtherTransactionType.PAYMENT).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT).verify(1);
 	}
 
-	protected void renewalImageGeneration() {
-		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
-		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		HttpStub.executeAllBatches();
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+	protected void cantChangePaymentPlan() {
+		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusMonths(10).minusDays(18));
+
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		PolicyHelper.verifyAutomatedRenewalGenerated(renewImageGenDate);
+
+		policy.endorse().perform(getStateTestData(tdPolicy, "Endorsement", "TestData"));
+		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData_EndorsementPlan"), premiumTab.getClass(), true);
+
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_SS9140068);
+		errorTab.cancel();
+
+		CustomAssert.assertFalse(tableDiscounts.getRow(1).getCell(1).getValue().contains("Payment Plan Discount"));
+
+		premiumTab.cancel();
+		Page.dialogConfirmation.buttonDeleteEndorsement.click();
+
+		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
 	}
 
 	protected void renewalPreviewGeneration() {
@@ -182,7 +187,7 @@ public class Scenario7 extends ScenarioBaseTest {
 	 * Additional premium for Renewal term is recalculated due to Mid - term
 	 * change US 15596
 	 */
-	protected void TC12_Endorsement_RP_Before_Renewal() {
+	protected void endorsementRPBeforeRenewal() {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -215,7 +220,7 @@ public class Scenario7 extends ScenarioBaseTest {
 	 * Additional premium for Renewal term is recalculated due to Mid - term
 	 * change US 15595
 	 */
-	protected void TC13_Endorsement_AP_Before_Renewal() {
+	protected void endorsementAPBeforeRenewal() {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -225,7 +230,7 @@ public class Scenario7 extends ScenarioBaseTest {
 		Dollar totalDueBeforeEndorsment = BillingSummaryPage.getTotalDue();
 		BillingSummaryPage.openPolicy(policyEffectiveDate);
 
-		policy.endorse().performAndFill(getTestSpecificTD("TestData_EndorsementRP").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData")));
+		policy.endorse().performAndFill(getTestSpecificTD("TestData_EndorsementAP").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData")));
 		PolicyHelper.verifyEndorsementIsCreated();
 
 		CustomAssert.enableSoftMode();
@@ -280,7 +285,7 @@ public class Scenario7 extends ScenarioBaseTest {
 
 		CustomAssert.enableSoftMode();
 		PolicySummaryPage.buttonRenewals.click();
-		new ProductRenewalsVerifier().setStatus(PolicyStatus.PREMIUM_CALCULATED).verify(1);
+		new ProductRenewalsVerifier().setStatus(PolicyStatus.PROPOSED).verify(1);
 		Dollar premiumAfterEndorsement = new Dollar(PolicySummaryPage.tableRenewals.getColumn(PolicyRenewalsTable.PREMIUM).getCell(1).getValue());
 		premiumAfterEndorsement.verify.lessThan(premiumBeforeEndorsement);
 
@@ -299,14 +304,14 @@ public class Scenario7 extends ScenarioBaseTest {
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		Dollar totalDueBeforeEndorsment = BillingSummaryPage.getTotalDue();
-		BillingSummaryPage.openPolicy(policyEffectiveDate);
+		BillingSummaryPage.openPolicy(policyExpirationDate);
 
-		policy.endorse().performAndFill(getTestSpecificTD("TestData_EndorsementRP").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData")));
+		policy.endorse().performAndFill(getTestSpecificTD("TestData_EndorsementAP").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData")));
 		PolicyHelper.verifyEndorsementIsCreated();
 
 		CustomAssert.enableSoftMode();
 		PolicySummaryPage.buttonRenewals.click();
-		new ProductRenewalsVerifier().setStatus(PolicyStatus.PREMIUM_CALCULATED).verify(1);
+		new ProductRenewalsVerifier().setStatus(PolicyStatus.PROPOSED).verify(1);
 
 		Dollar premiumAfterEndorsement = new Dollar(PolicySummaryPage.tableRenewals.getColumn(PolicyRenewalsTable.PREMIUM).getCell(1).getValue());
 		premiumAfterEndorsement.verify.moreThan(premiumBeforeEndorsement);
@@ -342,9 +347,8 @@ public class Scenario7 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillGenerationDate(policyExpirationDate)).setType(PaymentsAndOtherTransactionType.FEE).verify(1); // No
-																																																// new
-																																																// transactions
+		// No new transactions
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillGenerationDate(policyExpirationDate)).setType(PaymentsAndOtherTransactionType.FEE).verify(1);
 	}
 
 	protected void expirePolicy() {
@@ -365,9 +369,8 @@ public class Scenario7 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		new BillingBillsAndStatementsVerifier().setType(BillsAndStatementsType.BILL).setDueDate(installmentDueDates.get(1).plusYears(1)).verifyPresent(false);
 		new BillingPaymentsAndTransactionsVerifier().setType(PaymentsAndOtherTransactionType.FEE).setTransactionDate(billGenDate).verifyPresent(false);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillGenerationDate(policyExpirationDate)).setType(PaymentsAndOtherTransactionType.FEE).verify(1); // No
-																																																// new
-																																																// transactions
+		// No new transactions
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillGenerationDate(policyExpirationDate)).setType(PaymentsAndOtherTransactionType.FEE).verify(1); //
 	}
 
 	protected void customerDeclineRenewal() {
