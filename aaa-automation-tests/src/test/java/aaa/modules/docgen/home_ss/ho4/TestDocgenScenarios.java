@@ -21,7 +21,7 @@ import aaa.toolkit.webdriver.WebDriverHelper;
 import static aaa.main.enums.DocGenEnum.Documents.*;
 
 
-public class TestHO4DocgenScenarios extends HomeSSHO4BaseTest{
+public class TestDocgenScenarios extends HomeSSHO4BaseTest{
 	private String quoteNumber;
 	private String policyNumber;
 	/**

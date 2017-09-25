@@ -1,5 +1,6 @@
 package aaa.modules.e2e.templates;
 
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -290,7 +291,12 @@ public class Scenario4 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
 
-		Dollar rAmount = BillingHelper.getBillDueAmount(policyExpirationDate, "Bill");
+		Dollar rAmount;
+		if (getState().equals(Constants.States.CA)) {
+			rAmount = BillingHelper.getBillDueAmount(policyExpirationDate, "Offer");
+		} else {
+			rAmount = BillingHelper.getBillDueAmount(policyExpirationDate, "Bill");
+		}
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), rAmount);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
 	}

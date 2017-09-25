@@ -158,7 +158,8 @@ public final class DocGenEnum {
 		HS_03_30("HS 03 30", "Special Hurricane Percentage Deductible"),
 		HSVAAD("Policy holder Advisory Notice"),
 		HSINVAP("Important Information Regarding Your Insurance"),
-		HSINVA("Important Notice Regarding Flood and earthquake Exclusion")
+		HSINVA("Important Notice Regarding Flood and earthquake Exclusion"),
+        AH64XX("Expiration Notice"),
 		;
 
 		private String id;
