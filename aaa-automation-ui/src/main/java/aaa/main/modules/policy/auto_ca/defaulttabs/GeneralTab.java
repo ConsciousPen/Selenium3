@@ -33,17 +33,6 @@ public class GeneralTab extends Tab {
         return this;
     }
 
-	public Tab fillTab(TestData td) {
-		assetList.fill(td);
-		if (td.getTestData(getMetaKey(), AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel()).containsKey(TestData.makeKeyPath(AutoCaMetaData.GeneralTab.PolicyInformation.AGENT.getLabel()))) {
-			ComboBox agent = getPolicyInfoAssetList().getAsset(AutoCaMetaData.GeneralTab.PolicyInformation.AGENT);
-			String value = agent.getValue();
-			agent.setValue("");
-			agent.setValue(value);
-		}
-		return this;
-	}
-
 	public AssetList getNamedInsuredInfoAssetList() {
     	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), AssetList.class);
 	}
