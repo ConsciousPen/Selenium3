@@ -94,6 +94,7 @@ public final class BillingConstants {
 		public static final String REALLOCATED_PAYMENT = "Reallocated Payment";
 		public static final String REALLOCATE_PAYMENT = "Reallocate Payment";
 		public static final String RENEWAL_POLICY_RENEWAL_PROPOSAL = "Renewal - Policy Renewal Proposal";
+		public static final String RENEWAL_POLICY_RENEWAL_PROPOSAL_REVERSAL = "Renewal - Policy Renewal Proposal Reversal";
 		public static final String REINSTATEMENT = "Reinstatement";
 		public static final String REINSTATEMENT_FEE = "Reinstatement Fee";
 		public static final String REINSTATEMENT_FEE_WITH_LAPSE = "Reinstatement with Lapse";
@@ -111,6 +112,7 @@ public final class BillingConstants {
 		public static final String RECURRING_PAYMENT = "Recurring Payment";
 		public static final String REGULUS_LOCKBOX = "Regulus LockBox";
 		public static final String REGULUS_ONLINE = "Regulus Online";
+		public static final String NON_EFT_INSTALLMENT_FEE_WAIVED = "Non EFT Installment Fee Waived";
 	}
 
 	public static final class PaymentsAndOtherTransactionReason {
