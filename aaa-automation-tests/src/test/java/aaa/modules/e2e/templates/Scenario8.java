@@ -179,11 +179,7 @@ public class Scenario8 extends ScenarioBaseTest {
 		new BillingInstallmentsScheduleVerifier().setDescription(BillingConstants.InstallmentDescription.INSTALLMENT).verifyCount(expectedInstallmentsNumber);
 
 		if (getState().equals(Constants.States.NJ)) {
-			Map<String, String> premiumRowSearchQuery = new HashMap<>();
-			premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
-			premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.PREMIUM);
-			Dollar expectedPligaFee = BillingSummaryPage.tablePaymentsOtherTransactions.getRow(premiumRowSearchQuery).isPresent() ? BillingSummaryPage.calculatePligaFee(transactionDate) : BillingHelper.DZERO;
-
+			Dollar expectedPligaFee = BillingSummaryPage.calculatePligaFee(transactionDate);
 			if (!expectedPligaFee.isZero()) {
 				pligaOrMvleFeeLastTransactionDate = transactionDate;
 				new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(expectedPligaFee, pligaOrMvleFeeLastTransactionDate);

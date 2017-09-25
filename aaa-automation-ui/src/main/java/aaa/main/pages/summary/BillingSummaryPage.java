@@ -98,6 +98,10 @@ public class BillingSummaryPage extends SummaryPage {
 		Map<String, String> premiumRowSearchQuery = new HashMap<>();
 		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
 		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.PREMIUM);
+		if (!tablePaymentsOtherTransactions.getRow(premiumRowSearchQuery).isPresent()) {
+			return new Dollar(0);
+		}
+
 		Dollar totalPremiumAmount = new Dollar(tablePaymentsOtherTransactions.getRow(premiumRowSearchQuery).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
 		return calculatePligaFee(transactionDate, totalPremiumAmount);
 	}

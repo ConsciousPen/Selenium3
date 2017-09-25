@@ -32,3 +32,22 @@ TestData_EndorsementRP: {
     Authorized By: qa
   }
 }
+
+TestData_NY: {
+  VehicleTab: ['@Vehicle1_NY', '@Vehicle2_NY'],
+  PremiumAndCoveragesTab: {
+    Payment Plan: Quarterly
+  }
+}
+
+Vehicle1_NY: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273,
+  "Less Than 3,000 Miles": 'No'
+}
+
+Vehicle2_NY: {
+  Usage: Pleasure,
+  VIN: 1B3BA46K4KF440231,
+  "Less Than 3,000 Miles": 'No'
+}
