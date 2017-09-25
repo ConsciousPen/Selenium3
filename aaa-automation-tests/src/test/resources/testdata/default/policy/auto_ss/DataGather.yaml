@@ -51,6 +51,7 @@ PolicyInformation: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA NCNU - 500001005',
   Agency Location: 'Draper - 500005417 - Draper',
+  Agent: 'House Account Draper',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -153,6 +154,7 @@ PolicyInformation_AZ: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Arizona - 500001004',
   Agency Location: 'Chandler - 500005091 - Chandler',
+  Agent: 'House Agent Mesa',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -194,6 +196,7 @@ PolicyInformation_CO: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Colorado - 500001007',
   Agency Location: 'Denver - 500005106 - Denver',
+  Agent: 'House Agent Boulder',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -243,6 +246,7 @@ PolicyInformation_CT: {
   Agency: 'AAA Allied Club - 500001019',
   Sales Channel: 'Captive Branch Agents',
   Agency Location: 'Lexington - 500005154 - Lexington',
+  Agent: 'House Agent Allied Club',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -298,6 +302,7 @@ PolicyInformation_DC: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
   Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
+  Agent: 'AAAAgentTEST Mid-Atlantic',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -347,6 +352,7 @@ PolicyInformation_DE: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
   Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
+  Agent: 'AAAAgentTEST Mid-Atlantic',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -398,6 +404,7 @@ PolicyInformation_ID: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Oregon - 500001021',
   Agency Location: 'Beaverton - 500005277 - Portland',
+  Agent: 'House Agent Pocatello',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -439,6 +446,7 @@ PolicyInformation_IN: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA INDIANA HOOSIER MOTOR CLUB - 500001023',
   Agency Location: 'Allisonville Branch - 500017062 - Indianapolis',
+  Agent: 'House Agent AAA Hoosier Motor Club',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -480,6 +488,7 @@ PolicyInformation_KS: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
   Agency Location: 'Cromwell - 500005129 - Cromwell',
+  Agent: 'House Agent Allied Club',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -529,6 +538,7 @@ PolicyInformation_KY: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
   Agency Location: 'Lexington - Atkinson Ave - 500005154 - Lexington',
+  Agent: 'House Agent Allied Club',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -570,6 +580,7 @@ PolicyInformation_MD: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
   Agency Location: 'Annapolis CCIT - 500017191 - Annapolis',
+  Agent: 'House Agent Annapolis CCIT',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -629,6 +640,7 @@ PolicyInformation_MT: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mountain West - 500001006',
   Agency Location: 'Great Falls - 500005162 - Great Falls',
+  Agent: 'House Agent Great Falls',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -670,6 +682,7 @@ PolicyInformation_NJ: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
   Agency Location: 'Newton - 500017271 - Newton',
+  Agent: 'House Agent Mid-Atlantic',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -724,6 +737,7 @@ PolicyInformation_NV: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA NCNU - 500001005',
   Agency Location: 'Las Vegas - 500005369 - Las Vegas',
+  Agent: 'House Account Las Vegas',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -766,6 +780,7 @@ PolicyInformation_NY: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA NORTHWAY NEW YORK - 500001009',
   Agency Location: 'QUEENSBURY - 500005187 - QUEENSBURY',
+  Agent: 'House Agent QUEENSBURY',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -824,6 +839,7 @@ PolicyInformation_OH: {
   Channel Type: 'AAA Agent',
   Agency: 'Ohio Findlay Club - 500001015',
   Agency Location: 'Findlay Hq - 500005196 - Findlay',
+  Agent: 'HOUSE AGENT Ohio Findlay Club',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -865,6 +881,7 @@ PolicyInformation_OK: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA OKLAHOMA INSURANCE - 500001020',
   Agency Location: 'AAA Tulsa Training Center - 500005226 - Tulsa',
+  Agent: 'House Agent AAA  W Oklahoma',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -916,6 +933,7 @@ PolicyInformation_OR: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Oregon - 500001021',
   Agency Location: 'Portland - 500005275 - Portland',
+  Agent: 'House Agent Portland',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -957,6 +975,7 @@ PolicyInformation_PA: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Southern Penn - 500017173',
   Agency Location: 'Bedford - 500017241 - Bedford',
+  Agent: 'House Agent AAA Southern Penn',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -1018,6 +1037,7 @@ PolicyInformation_SD: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA SOUTH DAKOTA - 500001022',
   Agency Location: 'Sioux Falls HQ - 500005294 - Tulsa',
+  Agent: 'House Agent AAA SD',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -1053,6 +1073,7 @@ PolicyInformation_VA: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
   Agency Location: 'CHANTILLY VA - 500016414 - Chantilly',
+  Agent: 'House Agent Mid-Atlantic',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -1102,6 +1123,7 @@ PolicyInformation_WV: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
   Agency Location: 'Charleston - 500005295 - Charleston',
+  Agent: 'House Agent Charleston',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -1151,6 +1173,7 @@ PolicyInformation_WY: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mountain West - 500001006',
   Agency Location: 'Bozeman - 500005161 - Bozeman',
+  Agent: 'House Agent Mountain Wes',
   Authorized by: QA,
   TollFree Number: 1,
   Lead Source: AAA Magazines
@@ -1161,27 +1184,4 @@ DriverTab_WY: {
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
   License Number: 4000647712
-}
-
-TestData_TwoVehicles: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: ['@VehicleTab_1', '@VehicleTab_2'],
-  AssignmentTab: '@AssignmentTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-VehicleTab_1: {
-  Usage: Pleasure,
-  VIN: 1GNWGPFG8B6548273
-}
-VehicleTab_2: {
-  Usage: Pleasure,
-  VIN: WDCYC7BB0B6729451
 }

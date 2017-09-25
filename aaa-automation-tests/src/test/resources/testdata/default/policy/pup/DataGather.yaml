@@ -45,6 +45,7 @@ PolicyInfo_UT: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA NCNU - 500001005',
     Agency Location: 'Draper - 500005417 - Draper',
+    Agent: 'House Account Draper',
     TollFree Number: 1,
     Commission Type: New Business,
     Lead source: Yellow Pages
@@ -156,6 +157,7 @@ PolicyInfo_AZ: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Arizona - 500001004',
   Agency Location: 'Chandler - 500005091 - Chandler',
+  Agent: 'House Agent Mesa',
   Commission Type: New Business,
   Lead source: Yellow Pages
 }
@@ -249,6 +251,7 @@ PolicyInfo_CA: {
   Channel Type: AAA Agent,
   Agency: 'AAA NCNU - 500001005',
   Agency Location: 'Los Gatos - 500005341 - Los Gatos',
+  Agent: 'House Agent Los Gatos',
   TollFree Number: 1,
   Commission Type: New Business,
   Lead source: Yellow Pages
@@ -330,6 +333,7 @@ PolicyInfo_CO: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA Colorado - 500001007',
     Agency Location: 'Denver - 500005106 - Denver',
+    Agent: 'House Agent Allied Club',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -384,6 +388,7 @@ PolicyInfo_CT: {
     Agency: 'AAA Allied Club - 500001019',
     Sales Channel: 'Captive Branch Agents',
     Agency Location: 'Lexington - 500005154 - Lexington',
+    Agent: 'AAAAgentTEST Mid-Atlantic',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -450,6 +455,7 @@ PolicyInfo_DC: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA Mid-Atlantic - 500016292',
     Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
+    Agent: 'AAAAgentTEST Mid-Atlantic',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -503,6 +509,7 @@ PolicyInfo_DE: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA Mid-Atlantic - 500016292',
     Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
+    Agent: 'AAAAgentTEST Mid-Atlantic',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -556,6 +563,7 @@ PolicyInfo_ID: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Oregon - 500001021',
   Agency Location: 'Beaverton - 500005277 - Portland',
+  AAgent: 'House Agent Pocatello',
   Commission Type: New Business,
   Lead source: Yellow Pages
 }
@@ -608,7 +616,8 @@ PolicyInfo_IN: {
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA INDIANA HOOSIER MOTOR CLUB - 500001023',
-  Agency Location: 'Allisonville Branch - 500017062 - Indianapolis',
+  Agent: 'House Agent AAA Hoosier Motor Club',
+  Agent: 'House Agent Allied Club',
   Commission Type: New Business,
   Lead source: Yellow Pages
 }
@@ -662,6 +671,7 @@ PolicyInfo_KS: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA Allied Club - 500001019',
     Agency Location: 'Cromwell - 500005129 - Cromwell',
+    Agent: 'House Agent Allied Club',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -715,6 +725,7 @@ PolicyInfo_KY: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA Allied Club - 500001019',
     Agency Location: 'Lexington - Atkinson Ave - 500005154 - Lexington',
+    Agent: 'House Agent Allied Club',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -781,6 +792,7 @@ PolicyInfo_MD: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA Mid-Atlantic - 500016292',
     Agency Location: 'Annapolis CCIT - 500017191 - Annapolis',
+    Agent: 'House Agent Annapolis CCIT',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -848,6 +860,7 @@ PolicyInfo_MT: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA Mountain West - 500001006',
     Agency Location: 'Great Falls - 500005162 - Great Falls',
+    Agent: 'House Agent Great Falls',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -901,6 +914,7 @@ PolicyInfo_NJ: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA Mid-Atlantic - 500016292',
     Agency Location: 'Newton - 500017271 - Newton',
+    Agent: 'House Agent Mid-Atlantic',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -954,6 +968,7 @@ PolicyInfo_NV: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA NCNU - 500001005',
     Agency Location: 'Las Vegas - 500005369 - Las Vegas',
+    Agent: 'House Account Las Vegas',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -1014,6 +1029,7 @@ PolicyInfo_NY: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA NORTHWAY NEW YORK - 500001009',
     Agency Location: 'QUEENSBURY - 500005187 - QUEENSBURY',
+    Agent: 'House Agent QUEENSBURY',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -1067,6 +1083,7 @@ PolicyInfo_OH: {
     Channel Type: 'AAA Agent',
     Agency: 'Ohio Findlay Club - 500001015',
     Agency Location: 'Findlay Hq - 500005196 - Findlay',
+    Agent: 'HOUSE AGENT Ohio Findlay Club',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -1120,6 +1137,7 @@ PolicyInfo_OK: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA OKLAHOMA INSURANCE - 500001020',
     Agency Location: 'AAA Tulsa Training Center - 500005226 - Tulsa',
+    Agent: 'House Agent AAA  W Oklahoma',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -1173,6 +1191,7 @@ PolicyInfo_OR: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA Oregon - 500001021',
     Agency Location: 'Portland - 500005275 - Portland',
+    Agent: 'House Agent Portland',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -1240,6 +1259,7 @@ PolicyInfo_PA: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA Southern Penn - 500017173',
     Agency Location: 'Bedford - 500017241 - Bedford',
+    Agent: 'House Agent AAA Southern Penn',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -1293,6 +1313,7 @@ PolicyInfo_SD: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA SOUTH DAKOTA - 500001022',
     Agency Location: 'Sioux Falls HQ - 500005294 - Tulsa',
+    Agent: 'House Agent AAA SD',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -1346,6 +1367,7 @@ PolicyInfo_VA: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA Mid-Atlantic - 500016292',
     Agency Location: 'CHANTILLY VA - 500016414 - Chantilly',
+    Agent: 'House Agent Mid-Atlantic',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -1399,6 +1421,7 @@ PolicyInfo_WV: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA Allied Club - 500001019',
     Agency Location: 'Charleston - 500005295 - Charleston',
+    Agent: 'House Agent Charleston',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -1460,6 +1483,7 @@ PolicyInfo_WY: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA Mountain West - 500001006',
     Agency Location: 'Bozeman - 500005161 - Bozeman',
+    Agent: 'House Agent Mountain Wes',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }

@@ -68,6 +68,7 @@ ApplicantTab: {
     Channel Type: AAA Agent,
     Agency: 'AAA NCNU - 500001005',
     Agency Location: 'Los Gatos - 500005341 - Los Gatos',
+    Agent: 'House Agent Los Gatos',
     TollFree Number: 500001002
     },
   OtherActiveAAAPolicies: {},
