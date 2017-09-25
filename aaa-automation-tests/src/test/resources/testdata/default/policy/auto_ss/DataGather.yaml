@@ -239,6 +239,7 @@ PolicyInformation_CT: {
   Policy Type: Standard,
   Effective Date: '/today:MM/dd/yyyy',
   Policy Term: Annual,
+  Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
   Sales Channel: 'Captive Branch Agents',
   Agency Location: 'Lexington - 500005154 - Lexington',
