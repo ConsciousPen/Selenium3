@@ -19,10 +19,11 @@ public class TestPolicyEndorsement extends PersonalUmbrellaBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.Service.PUP )
-	public void testPolicyEndorsement(@Optional("") String state) {
+	public void testPolicyEndorsement(@Optional("CA") String state) {
 		mainApp().open();
 
-		getCopiedPolicy();
+		createCustomerIndividual();
+		createPolicy();
 
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
