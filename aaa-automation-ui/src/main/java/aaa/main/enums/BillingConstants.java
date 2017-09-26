@@ -29,6 +29,11 @@ public final class BillingConstants {
 		public static final String ANNUAL = "Annual";
 	}
 
+	public static final class PolicyTerm {
+		public static final String ANNUAL = "Annual";
+		public static final String SEMI_ANNUAL = "Semi-Annual";
+	}
+
 	public static final class BillingAccountPoliciesBillingStatus {
 		public static final String ACTIVE = "Active";
 		public static final String HOLD = "On Hold";
@@ -140,11 +145,13 @@ public final class BillingConstants {
 	public static final class AcceptPaymentMethod {
 		public static final String CASH = "Cash";
 		public static final String CHECK = "Check";
+		public static final String VISA = "Visa";
 	}
 
 	public static final class RefundPaymentMethod {
 		public static final String CASH = "Cash";
 		public static final String CHECK = "Check";
+		public static final String VISA = "Visa";
 	}
 
 	public static final class ModalPremiumTransactionType {
