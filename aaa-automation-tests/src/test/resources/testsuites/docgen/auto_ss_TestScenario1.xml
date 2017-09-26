@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="HSS Smoke Tests" verbose="1" parallel="tests" thread-count="1024">
+	<listeners>
+		<listener class-name="aaa.helpers.listeners.AlterSuiteListener" />
+		<listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
+	</listeners>
+	<parameter name="timeshift-scenario-mode" value="test" />
+	
+	<test name="Docgen Scenarios of AutoSS TestScenario1">
+        <parameter name="state" value="AZ,IN,OK,PA" />
+        <classes>
+            <class name="aaa.modules.docgen.auto_ss.TestScenario1" />
+        </classes>
+    </test>
+
+	
