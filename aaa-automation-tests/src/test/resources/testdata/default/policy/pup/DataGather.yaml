@@ -333,7 +333,7 @@ PolicyInfo_CO: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA Colorado - 500001007',
     Agency Location: 'Denver - 500005106 - Denver',
-    Agent: 'House Agent Allied Club',
+    Agent: 'House Agent Boulder',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -388,7 +388,7 @@ PolicyInfo_CT: {
     Agency: 'AAA Allied Club - 500001019',
     Sales Channel: 'Captive Branch Agents',
     Agency Location: 'Lexington - 500005154 - Lexington',
-    Agent: 'AAAAgentTEST Mid-Atlantic',
+    Agent: 'House Agent Allied Club',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -455,7 +455,7 @@ PolicyInfo_DC: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA Mid-Atlantic - 500016292',
     Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
-    Agent: 'AAAAgentTEST Mid-Atlantic',
+    Agent: 'House Agent Mid-Atlantic',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -509,7 +509,7 @@ PolicyInfo_DE: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA Mid-Atlantic - 500016292',
     Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
-    Agent: 'AAAAgentTEST Mid-Atlantic',
+    Agent: 'House Agent Mid-Atlantic',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -616,8 +616,7 @@ PolicyInfo_IN: {
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA INDIANA HOOSIER MOTOR CLUB - 500001023',
-  Agent: 'House Agent AAA Hoosier Motor Club',
-  Agent: 'House Agent Allied Club',
+  Agent: 'House Agent AAA Hoosier Headquarters',
   Commission Type: New Business,
   Lead source: Yellow Pages
 }
@@ -1137,7 +1136,7 @@ PolicyInfo_OK: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA OKLAHOMA INSURANCE - 500001020',
     Agency Location: 'AAA Tulsa Training Center - 500005226 - Tulsa',
-    Agent: 'House Agent AAA  W Oklahoma',
+    Agent: 'House Agent AAA W Oklahoma',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }
@@ -1483,7 +1482,7 @@ PolicyInfo_WY: {
     Channel Type: 'AAA Agent',
     Agency: 'AAA Mountain West - 500001006',
     Agency Location: 'Bozeman - 500005161 - Bozeman',
-    Agent: 'House Agent Mountain Wes',
+    Agent: 'House Agent AK Diamond Blvd',
     Commission Type: New Business,
     Lead source: Yellow Pages
 }

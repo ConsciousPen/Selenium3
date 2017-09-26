@@ -467,7 +467,7 @@ AgentInfo_DC: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
   Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
-  Agent: 'AAAAgentTEST Mid-Atlantic'
+  Agent: 'House Agent Mid-Atlantic'
 }
 
 ReportsTab_DC: {
@@ -530,7 +530,7 @@ AgentInfo_DE: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
   Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
-  Agent: 'AAAAgentTEST Mid-Atlantic'
+  Agent: 'House Agent Mid-Atlantic'
 }
 
 ReportsTab_DE: {
@@ -666,7 +666,7 @@ AgentInfo_IN: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA INDIANA HOOSIER MOTOR CLUB - 500001023',
   Agency Location: 'Allisonville Branch - 500017062 - Indianapolis',
-  Agent: 'House Agent AAA Hoosier Motor Club'
+  Agent: 'House Agent AAA Hoosier Headquarters'
 }
 
 ReportsTab_IN: {
@@ -1437,7 +1437,7 @@ AgentInfo_OK: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA OKLAHOMA INSURANCE - 500001020',
   Agency Location: 'AAA Tulsa Training Center - 500005226 - Tulsa',
-  Agent: 'House Agent AAA  W Oklahoma'
+  Agent: 'House Agent AAA W Oklahoma'
 }
 
 ReportsTab_OK: {
@@ -1900,7 +1900,7 @@ AgentInfo_WY: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mountain West - 500001006',
   Agency Location: 'Bozeman - 500005161 - Bozeman',
-  Agent: 'House Agent Mountain Wes'
+  Agent: 'House Agent AK Diamond Blvd'
 }
 
 ReportsTab_WY: {
