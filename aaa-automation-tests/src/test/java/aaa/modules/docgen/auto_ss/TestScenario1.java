@@ -170,8 +170,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 	public void TC04_GenerateCancellation(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 
-		LocalDateTime cancelNoticeDate = getTimePoints().getCancellationNoticeDate(installmentDD1);
-		LocalDateTime cancellationDate = getTimePoints().getCancellationNoticeDate(cancelNoticeDate);
+		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(installmentDD1);
 		log.info("Cancellation Generatetion Date" + cancellationDate);
 		TimeSetterUtil.getInstance().nextPhase(cancellationDate);
 		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);

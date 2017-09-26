@@ -7,7 +7,7 @@
 	<parameter name="timeshift-scenario-mode" value="test" />
 	
 	<test name="Docgen Scenarios of AutoSS TestScenario1">
-        <parameter name="state" value="AZ" />
+        <parameter name="state" value="AZ,IN,OK,PA" />
         <classes>
             <class name="aaa.modules.docgen.auto_ss.TestScenario1" />
         </classes>
