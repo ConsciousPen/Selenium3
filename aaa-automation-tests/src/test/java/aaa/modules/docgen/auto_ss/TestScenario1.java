@@ -35,7 +35,7 @@ import aaa.modules.policy.AutoSSBaseTest;
  *           active
  * @details
  */
-public class TestAZScenario1 extends AutoSSBaseTest {
+public class TestScenario1 extends AutoSSBaseTest {
 	protected String policyNumber;
 	protected LocalDateTime installmentDD1;
 	protected String policyEffectiveDate;
