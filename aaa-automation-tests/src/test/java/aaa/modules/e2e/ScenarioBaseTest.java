@@ -30,13 +30,23 @@ public class ScenarioBaseTest extends BaseTest {
 		generateAndCheckBill(installmentDate, null, null);
 	}
 
-	protected void generateAndCheckBill(LocalDateTime installmentDate, LocalDateTime effectiveDate, LocalDateTime pligaFeeTransactionDate) {
+	protected void generateAndCheckBill(LocalDateTime installmentDate, LocalDateTime effectiveDate, LocalDateTime pligaOrMvleFeeTransactionDate) {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDate);
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
 		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDate, billGenDate, pligaFeeTransactionDate, effectiveDate);
+
+		Dollar pligaOrMvleFee = BillingHelper.DZERO;
+		if (pligaOrMvleFeeTransactionDate != null) {
+			if (getState().equals(Constants.States.NJ)) {
+				pligaOrMvleFee = BillingSummaryPage.calculatePligaFee(pligaOrMvleFeeTransactionDate);
+			} else if (getState().equals(Constants.States.NY)) {
+				pligaOrMvleFee = new Dollar(10);
+			}
+		}
+
+		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDate, billGenDate, effectiveDate, pligaOrMvleFee);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
