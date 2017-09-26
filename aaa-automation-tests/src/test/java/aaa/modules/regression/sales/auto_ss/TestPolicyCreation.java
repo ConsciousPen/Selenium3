@@ -32,7 +32,7 @@ public class TestPolicyCreation extends AutoSSBaseTest {
     	
         mainApp().open();
 
-        createCustomerIndividual();
+        createCustomerIndividual(getCustomerIndividualTD("DataGather", "TestData_AZ").resolveLinks().adjust(getTestSpecificTD("TestData_AZ")));
         createPolicy();
 
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
