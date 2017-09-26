@@ -31,7 +31,7 @@ public class AgencyAutoCaAssetList extends AssetList {
 		if (data.containsKey(AutoCaMetaData.GeneralTab.PolicyInformation.AGENT.getLabel())) {
 			ComboBox agent = getAsset(AutoCaMetaData.GeneralTab.PolicyInformation.AGENT);
 			String value = agent.getValue();
-			agent.setValue("");
+			agent.setValueByRegex("(?!(" + value + ")$).*");
 			agent.setValue(value);
 		}
 	}
