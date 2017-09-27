@@ -81,49 +81,10 @@ public class BillingSummaryPage extends SummaryPage {
 		return new Dollar(tableBillingGeneralInformation.getRow(1).getCell(BillingGeneralInformationTable.TOTAL_PAID).getValue());
 	}
 
-	public static Dollar getPligaFee(LocalDateTime transactionDate) {
-		Map<String, String> pligaFeeRowSearchQuery = new HashMap<>(3);
-		pligaFeeRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
-		pligaFeeRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.FEE);
-		pligaFeeRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PLIGA_FEE);
-		return new Dollar(tablePaymentsOtherTransactions.getRow(pligaFeeRowSearchQuery).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
-	}
-
 	public static void showPriorTerms() {
 		if (buttonShowPriorTerms.isPresent() && buttonShowPriorTerms.isVisible() && buttonShowPriorTerms.isEnabled()) {
 			buttonShowPriorTerms.click();
 		}
-	}
-
-	public static Dollar calculatePligaFee(LocalDateTime transactionDate) {
-		Map<String, String> premiumRowSearchQuery = new HashMap<>();
-		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
-		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.PREMIUM);
-		if (!tablePaymentsOtherTransactions.getRow(premiumRowSearchQuery).isPresent()) {
-			return new Dollar(0);
-		}
-
-		Dollar totalPremiumAmount = new Dollar(tablePaymentsOtherTransactions.getRow(premiumRowSearchQuery).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
-		return calculatePligaFee(transactionDate, totalPremiumAmount);
-	}
-
-	public static Dollar calculatePligaFee(LocalDateTime transactionDate, Dollar totalPremiumAmount) {
-		final double pligaFeePercentage;
-		switch (transactionDate.getYear()) {
-			//PAS12: PLIGAFEE is configured as 0.7% of the premium for 1-Jan-2017 to 31-Dec-2017
-			case 2017:
-				pligaFeePercentage = 0.7;
-				break;
-			//PAS13 ER: PLIGAFEE is configured as 0.6% of the premium for 1-Jan-2018 to 31-Dec-2019
-			case 2018:
-			case 2019:
-				pligaFeePercentage = 0.6;
-				break;
-			default:
-				pligaFeePercentage = 0.7;
-				log.warn(String.format("PLIGA Fee charge percent for %s year is unknown, default %s charge percent will be used for calculation.", transactionDate.getYear(), pligaFeePercentage));
-		}
-		return new Dollar(Math.round(Double.valueOf(totalPremiumAmount.getPercentage(pligaFeePercentage).toPlaingString())));
 	}
 
 	public static Dollar getBillableAmount() {
@@ -134,25 +95,11 @@ public class BillingSummaryPage extends SummaryPage {
 		return TimeSetterUtil.getInstance().parse(tableInstallmentSchedule.getRow(index).getCell(BillingConstants.BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
 	}
 
-	public static Dollar calculateNonAutoMvleFee() {
-		return calculateMvleFee(BillingConstants.PolicyTerm.ANNUAL, null);
-	}
-
-	public static Dollar calculateMvleFee(String policyTerm, Integer numberOfVehiclesExceptTrailers) {
-		Dollar termFee;
-		if (BillingConstants.PolicyTerm.SEMI_ANNUAL.equals(policyTerm)) {
-			termFee = new Dollar(5);
-		} else if (BillingConstants.PolicyTerm.ANNUAL.equals(policyTerm)) {
-			termFee = new Dollar(10);
-		} else {
-			throw new IstfException(String.format("Unable to calculate MVLE Fee for unknown policy term \"%1$s\", only \"%2$s\" and \"%3$s\" are allowed.",
-					policyTerm, BillingConstants.PolicyTerm.ANNUAL, BillingConstants.PolicyTerm.SEMI_ANNUAL));
-		}
-
-		if (numberOfVehiclesExceptTrailers != null) {
-			//for auto policy
-			termFee = termFee.multiply(numberOfVehiclesExceptTrailers);
-		}
-		return termFee;
+	public static Dollar getPligaFee(LocalDateTime transactionDate) {
+		Map<String, String> pligaFeeRowSearchQuery = new HashMap<>(3);
+		pligaFeeRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
+		pligaFeeRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.FEE);
+		pligaFeeRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PLIGA_FEE);
+		return new Dollar(tablePaymentsOtherTransactions.getRow(pligaFeeRowSearchQuery).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
 	}
 }
