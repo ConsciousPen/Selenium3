@@ -10,7 +10,10 @@ import aaa.helpers.http.HttpStub;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.ProductConstants.*;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.modules.e2e.ScenarioBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -37,6 +40,7 @@ public class Scenario1 extends ScenarioBaseTest {
 	
 	protected LocalDateTime policyEffectiveDate;
 	protected LocalDateTime policyExpirationDate;
+	protected LocalDateTime pligaOrMvleFeeLastTransactionDate;
 
 	protected Dollar totalDue;
 	protected List<LocalDateTime> installmentDueDates;
@@ -45,6 +49,9 @@ public class Scenario1 extends ScenarioBaseTest {
 	protected Dollar firstBillAmount;
 	protected String[] endorsementReasonDataKeys;
 	protected int installmentsCount = 4;
+
+	protected String policyTerm;
+	protected int totalVehiclesNumber;
 	
 	protected void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();
@@ -55,6 +62,9 @@ public class Scenario1 extends ScenarioBaseTest {
 		if (getPolicyType().equals(PolicyType.PUP)) {
 			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
 		}
+		policyTerm = policyCreationTD.getTestData(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel()).getValue(AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM.getLabel());
+		totalVehiclesNumber = policyCreationTD.getTestDataList(new VehicleTab().getMetaKey()).size();
+
 		policyNum = createPolicy(policyCreationTD);
 
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
@@ -66,8 +76,12 @@ public class Scenario1 extends ScenarioBaseTest {
 		CustomAssert.assertEquals("Billing Installments count for Quaterly payment plan", installmentsCount, installmentDueDates.size());
 		installmentAmount = BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(1));
 
-		//TODO Check PLIGA fee for NJ Auto = Total Premium * PLIGA charge (currently 0.9% = 0.009) rounded to nearest dollar.
-		//TODO Check MVLE fee for NY Auto = $10.00
+		if (getState().equals(Constants.States.NJ)) {
+			new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(TimeSetterUtil.getInstance().getPhaseStartTime());
+		} else if (getState().equals(Constants.States.NY)) {
+			Dollar expectedMvleFee = BillingSummaryPage.calculateMvleFee(policyTerm, totalVehiclesNumber);
+			new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(TimeSetterUtil.getInstance().getPhaseStartTime(), expectedMvleFee);
+		}
 	}
 	
 	protected void generateFirstBill() {
@@ -78,15 +92,16 @@ public class Scenario1 extends ScenarioBaseTest {
 	protected void endorsePolicy() {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		TestData endorsementTD = getStateTestData(tdPolicy, "Endorsement", "TestData");
-		policy.endorse().performAndFill(getTestSpecificTD("TestData_Endorsement").adjust(endorsementTD));
+		TestData endorsementTD = getTestSpecificTD("TestData_Endorsement").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
+		policy.endorse().performAndFill(endorsementTD);
 		PolicyHelper.verifyEndorsementIsCreated();
 
 		// Endorsement transaction displayed on billing in Payments & Other transactions section
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String reason = "Endorsement - " + endorsementTD.getValue(endorsementReasonDataKeys);
+		LocalDateTime transactionDate = TimeSetterUtil.getInstance().getPhaseStartTime();
 		new BillingPaymentsAndTransactionsVerifier()
-			.setTransactionDate(TimeSetterUtil.getInstance().getPhaseStartTime())
+			.setTransactionDate(transactionDate)
 			.setPolicy(policyNum).setType(PaymentsAndOtherTransactionType.PREMIUM)
 			.setSubtypeReason(reason).verifyPresent();
 
@@ -107,8 +122,19 @@ public class Scenario1 extends ScenarioBaseTest {
 		totalDue1.verify.moreThan(totalDue);
 		totalDue2.verify.moreThan(totalDue);
 
-		//TODO Check PLIGA fee for NJ Auto is recalculated to added vehicle
-		//TODO Check MVLE fee for NY Auto is recalculated to added vehicle
+		if (getState().equals(Constants.States.NJ)) {
+			Dollar expectedPligaFee = BillingSummaryPage.calculatePligaFee(transactionDate);
+			//TODO-dchubkov: maybe we need to tweak Endorsement test data for all scenarios to make PLIGA fee always more than zero
+			if (!expectedPligaFee.isZero()) {
+				pligaOrMvleFeeLastTransactionDate = transactionDate;
+				new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(expectedPligaFee, pligaOrMvleFeeLastTransactionDate);
+			}
+		} else if (getState().equals(Constants.States.NY)) {
+			pligaOrMvleFeeLastTransactionDate = transactionDate;
+			int vehiclesNumber = endorsementTD.getTestDataList(new VehicleTab().getMetaKey()).size();
+			new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(pligaOrMvleFeeLastTransactionDate, BillingSummaryPage.calculateMvleFee(policyTerm, vehiclesNumber));
+			totalVehiclesNumber += vehiclesNumber;
+		}
 	}
 
 	protected void payFirstBill() {
@@ -116,7 +142,7 @@ public class Scenario1 extends ScenarioBaseTest {
 	}
 
 	protected void generateSecondBill() {
-		generateAndCheckBill(installmentDueDates.get(2));
+		generateAndCheckBill(installmentDueDates.get(2), policyEffectiveDate, pligaOrMvleFeeLastTransactionDate);
 	}
 
 	protected void paySecondBill() {
@@ -168,6 +194,7 @@ public class Scenario1 extends ScenarioBaseTest {
 		SearchPage.openPolicy(policyNum);
 		PolicySummaryPage.buttonRenewals.verify.enabled();
 		PolicySummaryPage.buttonRenewals.click();
+		//TODO: investigate why whether it is a bug that status is "Gathering Info" but not "Premium Calculated"
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PREMIUM_CALCULATED).verify(1);
 	}
 
@@ -191,11 +218,14 @@ public class Scenario1 extends ScenarioBaseTest {
 				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
 
 		if (getState().equals(Constants.States.CA)) {
-			verifyCaRenewalOfferPaymentAmount(policyExpirationDate,getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
+			verifyCaRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
+		} else if (getState().equals(Constants.States.NJ)) {
+			pligaOrMvleFeeLastTransactionDate = renewOfferGenDate;
+			new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(pligaOrMvleFeeLastTransactionDate);
+		} else if (getState().equals(Constants.States.NY)) {
+			pligaOrMvleFeeLastTransactionDate = renewOfferGenDate;
+			new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(pligaOrMvleFeeLastTransactionDate, BillingSummaryPage.calculateMvleFee(policyTerm, totalVehiclesNumber));
 		}
-
-		//TODO Check PLIGA fee for NJ Auto is generated
-		//TODO Check MVLE fee for NY Auto is generated
 	}
 
 	//Skip this step for CA
@@ -208,16 +238,20 @@ public class Scenario1 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
+
+		Dollar pligaOrMvleFee = BillingHelper.DZERO;
+		if (getState().equals(Constants.States.NJ)) {
+			pligaOrMvleFee = BillingSummaryPage.getPligaFee(pligaOrMvleFeeLastTransactionDate);
+		} else if (getState().equals(Constants.States.NY)) {
+			pligaOrMvleFee = BillingSummaryPage.calculateMvleFee(policyTerm, totalVehiclesNumber);
+		}
+
 		// TODO Renew premium verification was excluded, due to unexpected installment calculations
 //		if (!getState().equals(Constants.States.KY) && !getState().equals(Constants.States.WV)) {
-		verifyRenewalOfferPaymentAmount(policyExpirationDate,getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, installmentsCount);
+		verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, pligaOrMvleFee, installmentsCount);
 //		}
-		verifyRenewPremiumNotice(policyExpirationDate, getTimePoints().getBillGenerationDate(policyExpirationDate));
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate)
-				.setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
-
-		//TODO Check PLIGA fee for NJ Auto is included in bill
-		//TODO Check MVLE fee for NY Auto is included in bill
+		verifyRenewPremiumNotice(policyExpirationDate, getTimePoints().getBillGenerationDate(policyExpirationDate), pligaOrMvleFee);
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
 	protected void payRenewalBill() {

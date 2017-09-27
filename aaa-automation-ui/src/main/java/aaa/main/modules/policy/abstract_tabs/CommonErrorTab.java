@@ -4,6 +4,7 @@ import aaa.common.Tab;
 import aaa.main.enums.ErrorEnum;
 import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
+import javafx.util.Pair;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
@@ -15,9 +16,7 @@ import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.composite.table.Row;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by lkazarnovskiy on 8/8/2017.
@@ -29,6 +28,13 @@ public abstract class CommonErrorTab extends Tab {
 
 	protected CommonErrorTab(Class<? extends MetaData> mdClass) {
 		super(mdClass);
+	}
+
+	public boolean isVisible() {
+		if (buttonOverride.isVisible())
+			return true;
+		else
+			return false;
 	}
 
 	public Tab cancel() {
@@ -88,6 +94,94 @@ public abstract class CommonErrorTab extends Tab {
 
 	public abstract FillableErrorTable getErrorsControl();
 
+	public List<String> getErrorCodesList() {
+		return getErrorsControl().getTable().getColumn(ErrorEnum.ErrorsColumn.CODE.get()).getValue();
+	}
+
+
+	public List<String> getErrorMessagesList() {
+		return getErrorMessagesList(false);
+	}
+
+	public List<String> getHintErrorMessagesList() {
+		return getErrorMessagesList(true);
+	}
+
+	public Map<String, String> getErrorsMap() {
+		return getErrorsMap(false);
+	}
+
+	public Map<String, String> getErrorsWithHintMessagesMap() {
+		return getErrorsMap(true);
+	}
+
+	private List<String> getErrorMessagesList(boolean getHintMessages) {
+		List<String> actualMessagesList = new ArrayList<>();
+		if (getHintMessages) {
+			for (Row row : getErrorsControl().getTable().getRows()) {
+				actualMessagesList.add(WebDriverHelper.getInnerText(new ByChained(getErrorsControl().getTable().getLocator(), row.getLocator(), By.xpath(".//div[contains(@id, 'content')]"))).trim());
+			}
+		} else {
+			actualMessagesList = getErrorsControl().getTable().getColumn(ErrorEnum.ErrorsColumn.MESSAGE.get()).getValue();
+		}
+		return actualMessagesList;
+	}
+
+	private Map<String, String> getErrorsMap(boolean getHintMessages) {
+		List<String> actualCodesList = getErrorCodesList();
+		List<String> actualMessagesList = getErrorMessagesList(getHintMessages);
+		Map<String, String> actualErrors = new LinkedHashMap<>(actualCodesList.size());
+		for (int i = 0; i < actualCodesList.size(); i++) {
+			actualErrors.put(actualCodesList.get(i), actualMessagesList.get(i));
+		}
+		return actualErrors;
+	}
+
+	private Map<String, Pair<String, String>> getErrorCodesAndMessagePairsMap(boolean returnHintSameAsInTable) {
+		List<String> actualCodesList = getErrorCodesList();
+		List<Pair<String, String>> tableAndHintErrorMessagePairs = getTableAndHintErrorMessagePairs(returnHintSameAsInTable);
+		Map<String, Pair<String, String>> actualErrorCodesAndMessagePairsMap = new LinkedHashMap<>(actualCodesList.size());
+		for (int i = 0; i < actualCodesList.size(); i++) {
+			actualErrorCodesAndMessagePairsMap.put(actualCodesList.get(i), tableAndHintErrorMessagePairs.get(i));
+		}
+		return actualErrorCodesAndMessagePairsMap;
+	}
+
+	private List<Pair<String, String>> getTableAndHintErrorMessagePairs(boolean returnHintSameAsInTable) {
+		List<String> actualMessagesList = getErrorMessagesList();
+		List<String> actualHintMessagesList;
+		if (returnHintSameAsInTable) {
+			actualHintMessagesList = new ArrayList<>(actualMessagesList);
+		} else {
+			actualHintMessagesList = getHintErrorMessagesList();
+		}
+
+		List<Pair<String, String>> tableAndHintErrorMessagePairs = new ArrayList<>(actualMessagesList.size());
+		for (int i = 0; i < actualMessagesList.size(); i++) {
+			tableAndHintErrorMessagePairs.add(new Pair<>(actualMessagesList.get(i), actualHintMessagesList.get(i)));
+		}
+		return tableAndHintErrorMessagePairs;
+	}
+
+	private boolean isMessagePresentInTableAndHintPopup(Pair<String, String> actualTableAndHintErrorMessagePairs, String expectedMessage) {
+		return isMessagePresentInTableAndHintPopup(Collections.singletonList(actualTableAndHintErrorMessagePairs), expectedMessage);
+	}
+
+	private boolean isMessagePresentInTableAndHintPopup(List<Pair<String, String>> actualTableAndHintErrorMessagePairs, String expectedMessage) {
+		final int maxMessageLengthInTableWithoutDots = 77;
+		if (expectedMessage.length() > maxMessageLengthInTableWithoutDots) {
+			String expectedTruncatedMessage = StringUtils.removeEnd(expectedMessage, "...").trim();
+			List<Pair<String, String>> actualTruncatedTableAndHintErrorMessagePairs = new ArrayList<>(actualTableAndHintErrorMessagePairs.size());
+			actualTableAndHintErrorMessagePairs.forEach(actualMessagePair -> actualTruncatedTableAndHintErrorMessagePairs.add(
+					new Pair<>(StringUtils.removeEnd(actualMessagePair.getKey(), "...").trim(), StringUtils.removeEnd(actualMessagePair.getValue(), "...").trim())));
+
+			return actualTruncatedTableAndHintErrorMessagePairs.stream().anyMatch(actualMessagePair ->
+					(expectedTruncatedMessage.equals(actualMessagePair.getKey()) || expectedTruncatedMessage.startsWith(actualMessagePair.getKey())) && actualMessagePair.getValue().startsWith(expectedTruncatedMessage));
+		}
+
+		return actualTableAndHintErrorMessagePairs.stream().anyMatch(actualMessagePair -> actualMessagePair.getKey().equals(expectedMessage) && actualMessagePair.getValue().equals(expectedMessage));
+	}
+
 	public class Verify {
 
 		public void errorsPresent(String... errorsMessages) {
@@ -95,36 +189,10 @@ public abstract class CommonErrorTab extends Tab {
 		}
 
 		public void errorsPresent(boolean expectedValue, String... errorsMessages) {
-			final int maxMessageLengthInTableWithoutDots = 77;
-
-			List<String> actualMessagesList = getErrorsControl().getTable().getColumn(ErrorEnum.ErrorsColumn.MESSAGE.get()).getValue();
-			actualMessagesList.replaceAll(actualMessage -> StringUtils.removeEnd(actualMessage, "...").trim());
-
+			List<Pair<String, String>> tableAndHintErrorMessagePairs = getTableAndHintErrorMessagePairs(!expectedValue);
 			for (String expectedMessage : errorsMessages) {
 				String assertionMessage = String.format("Error message \"%1$s\" is not %2$s as expected.", expectedMessage, expectedValue ? "present" : "absent");
-				final String expectedTruncatedMessage = StringUtils.removeEnd(expectedMessage, "...").trim();
-
-				// check error exists
-				if (expectedValue) {
-					if (expectedTruncatedMessage.length() > maxMessageLengthInTableWithoutDots) {
-						CustomAssert.assertTrue(assertionMessage, actualMessagesList.stream().anyMatch(expectedTruncatedMessage::startsWith));
-
-						//check with full hint message
-						String messageInRow = actualMessagesList.stream().filter(actualMessage -> expectedTruncatedMessage.equals(actualMessage) || expectedTruncatedMessage.startsWith(actualMessage)).findFirst().get();
-						Row errorRow = getErrorsControl().getTable().getRow(actualMessagesList.indexOf(messageInRow) + 1);
-						CustomAssert.assertEquals(assertionMessage, expectedMessage,
-								WebDriverHelper.getInnerText(new ByChained(getErrorsControl().getTable().getLocator(), errorRow.getLocator(), By.xpath(".//div[contains(@id, 'content')]"))));
-					} else {
-						CustomAssert.assertTrue(assertionMessage, actualMessagesList.stream().anyMatch(expectedTruncatedMessage::equals));
-					}
-				// check error does not exist
-				} else {
-					if (expectedTruncatedMessage.length() > maxMessageLengthInTableWithoutDots) {
-						CustomAssert.assertTrue(assertionMessage, actualMessagesList.stream().noneMatch(expectedTruncatedMessage::startsWith));
-					} else {
-						CustomAssert.assertTrue(assertionMessage, actualMessagesList.stream().noneMatch(expectedTruncatedMessage::equals));
-					}
-				}
+				CustomAssert.assertTrue(assertionMessage, isMessagePresentInTableAndHintPopup(tableAndHintErrorMessagePairs, expectedMessage) == expectedValue);
 			}
 		}
 
@@ -133,13 +201,12 @@ public abstract class CommonErrorTab extends Tab {
 		}
 
 		public void errorsPresent(boolean expectedValue, ErrorEnum.Errors... errors) {
-			List<String> actualErrorCodesList = getErrorsControl().getTable().getColumn(ErrorEnum.ErrorsColumn.CODE.get()).getValue();
+			Map<String, Pair<String, String>> actualErrorCodesAndMessagePairsMap = getErrorCodesAndMessagePairsMap(!expectedValue);
 			for (ErrorEnum.Errors error : errors) {
-				CustomAssert.assertTrue(String.format("%s is %s.", error, expectedValue ? "absent" : "present"), actualErrorCodesList.contains(error.getCode()) == expectedValue);
+				CustomAssert.assertTrue(String.format("%s is %s.", error, expectedValue ? "absent" : "present"),
+						(actualErrorCodesAndMessagePairsMap.containsKey(error.getCode())
+								&& isMessagePresentInTableAndHintPopup(actualErrorCodesAndMessagePairsMap.get(error.getCode()), error.getMessage())) == expectedValue);
 			}
-			List<String> errorMessagesList = new ArrayList<>(errors.length);
-			Arrays.stream(errors).forEach(e -> errorMessagesList.add(e.getMessage()));
-			errorsPresent(expectedValue, errorMessagesList.toArray(new String[errorMessagesList.size()]));
 		}
 	}
 }

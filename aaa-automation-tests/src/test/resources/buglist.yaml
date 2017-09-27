@@ -82,9 +82,25 @@ QC-44518:
   failures:
     - tests: [aaa.modules.regression.service.pup.TestPolicyEndorsementOos.testPolicyEndorsementOos]
       messages: ['Unable to locate element:', 'Errors: Error; Failed to rate policy']
-QC-44666:
-  summary: "Regression: CAC Auto: Failed to rate NANO CA Choice Auto policy"
+QC-44702:
+  summary: "Regression: The message 'Current CLUE must be ordered' is getting displayed after clicking on Bind button on Endorsement of auto SS policy"
   reason: PROD
   failures:
+    - tests: [aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd.testPolicyEndorsementAdd]
+      messages: ["Error{Code='AAA_CLUE_order_validation_SS', Message='Current CLUE must be ordered'} is present"]
+QC-44726:
+  summary: "Regression: Exception on approve underwriting rule"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.home_ca.ho3.TestQuoteTaskManager.testQuoteTaskManager]
+      messages: ['Unable to locate element', 'Errors: base00003; Error; Operation has failed due to illegal arguments']
+QC-44752:
+  summary: "Regression: Exception occurs on ordering CLUE reports for nano auto policy"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.TestPolicyNano.testPolicyNano]
+      messages: ['Cannot get value of StaticElement', 'Errors: MES-DR-0138_SS; Error; Current CLUE must be ordered']
     - tests: [aaa.modules.regression.sales.auto_ca.choice.TestPolicyNano.testPolicyNano]
-      messages: ['Cannot set value of AssetList {PremiumAndCoveragesTab: By.xpath:', 'Errors: Error; Failed to rate policy']
+      messages: ['Cannot get value of StaticElement', 'Errors: MES-DR-0138_CA; Error; Current CLUE must be ordered']
+    - tests: [aaa.modules.regression.sales.auto_ca.select.TestPolicyNano.testPolicyNano]
+      messages: ['Cannot get value of StaticElement', 'Errors: MES-DR-0138_CA; Error; Current CLUE must be ordered']

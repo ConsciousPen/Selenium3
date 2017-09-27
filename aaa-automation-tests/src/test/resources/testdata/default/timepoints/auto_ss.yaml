@@ -32,6 +32,7 @@ TestData_AZ: {
   Cancellation notice: [8, NEXT],
   Cancellation: [8, NEXT],
   Renew customer decline: [15, NEXT],
+  Insurance renewal reminder: [10, NEXT],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],

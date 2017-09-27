@@ -4,7 +4,9 @@
  */
 package aaa.main.modules.policy.auto_ss;
 
+import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentActionTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.CreateQuoteVersionTab;
 import org.openqa.selenium.By;
 
 import toolkit.datax.TestData;
@@ -168,6 +170,21 @@ public final class AutoSSPolicyActions {
         @Override
         public Workspace getView() {
             return new DefaultView();
+        }
+
+        @Override
+        public AbstractAction start() {
+            NavigationPage.setActionAndGo(getName());
+            new CreateQuoteVersionTab().submitIfPresent();
+            return this;
+        }
+
+        public AbstractAction start(TestData td) {
+            NavigationPage.setActionAndGo(getName());
+            CreateQuoteVersionTab versionTab = new CreateQuoteVersionTab();
+            versionTab.fillTab(td);
+            versionTab.submitTab();
+            return this;
         }
     }
 

@@ -22,7 +22,7 @@ import aaa.modules.policy.AutoSSBaseTest;
  * 4. Verify the form AA41XX was generated
  * @details
  */
-public class TestAZScenario3 extends AutoSSBaseTest {
+public class TestScenario3 extends AutoSSBaseTest {
 
 	@Parameters({"state"})
 	@Test

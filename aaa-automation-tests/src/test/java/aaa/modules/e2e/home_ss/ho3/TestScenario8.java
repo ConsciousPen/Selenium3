@@ -1,7 +1,10 @@
 package aaa.modules.e2e.home_ss.ho3;
 
+import aaa.common.enums.Constants;
 import aaa.main.enums.BillingConstants;
+import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.modules.e2e.templates.Scenario8;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -19,6 +22,10 @@ public class TestScenario8 extends Scenario8 {
 	public void TC01_createPolicy(@Optional("") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
 		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
+		if (getState().equals(Constants.States.OK)) {
+			policyCreationTD.adjust(TestData.makeKeyPath(
+					new PropertyInfoTab().getMetaKey(), HomeSSMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING.getLabel()), "index=1");
+		}
 		super.createTestPolicy(policyCreationTD);
 	}
 
@@ -38,7 +45,7 @@ public class TestScenario8 extends Scenario8 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC04_Generate_Second_Quterly_Bill(@Optional("") String state) {
-		generateAndCheckBill(installmentDueDates.get(3), policyEffectiveDate);
+		generateAndCheckBill(installmentDueDates.get(3), policyEffectiveDate, pligaOrMvleFeeLastTransactionDate);
 	}
 
 	@Parameters({"state"})
@@ -57,7 +64,7 @@ public class TestScenario8 extends Scenario8 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC07_Generate_Forth_Monthly_Bill(@Optional("") String state) {
-		generateAndCheckBill(installmentDueDates.get(4), policyEffectiveDate);
+		generateAndCheckBill(installmentDueDates.get(4), policyEffectiveDate, pligaOrMvleFeeLastTransactionDate);
 	}
 
 	@Parameters({"state"})
@@ -69,7 +76,7 @@ public class TestScenario8 extends Scenario8 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC09_Generate_Five_Monthly_Bill(@Optional("") String state) {
-		generateAndCheckBill(installmentDueDates.get(5), policyEffectiveDate);
+		generateAndCheckBill(installmentDueDates.get(5), policyEffectiveDate, null);
 	}
 
 	@Parameters({"state"})
@@ -82,7 +89,7 @@ public class TestScenario8 extends Scenario8 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC11_Generate_Semi_Annual_Bill(@Optional("") String state) {
-		generateAndCheckBill(installmentDueDates.get(6), policyEffectiveDate);
+		generateAndCheckBill(installmentDueDates.get(6), policyEffectiveDate, null);
 	}
 
 	@Parameters({"state"})
