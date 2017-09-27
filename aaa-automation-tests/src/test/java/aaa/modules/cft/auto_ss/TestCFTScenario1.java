@@ -29,24 +29,33 @@ public class TestCFTScenario1 extends ControlledFinancialBaseTest {
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void testCFTScenario1CreateQuote(@Optional(StringUtils.EMPTY) String state) {
-		super.testCFTScenario1CreateQuoteDD0();
-		super.testCFTScenario1EndorsementX_2();
-		super.testCFTScenario1CheckInstallmentsBillsGeneratedDD1_20();
+		super.testCFTScenario1CreateQuote();
+		super.testCFTScenario1Endorsement();
+		super.testCFTScenario1FirstInstallmentBillGeneration();
+		super.testCFTScenario1AutomaticCancellationNotice();
 		super.testCFTScenario1AutomaticCancellation();
+		super.testCFTScenario1WriteOff();
 	}
 
 	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
-	public void testCFTScenario1EndorsementX_2(@Optional(StringUtils.EMPTY) String state) {
-		super.testCFTScenario1EndorsementX_2();
+	public void testCFTScenario1Endorsement(@Optional(StringUtils.EMPTY) String state) {
+		super.testCFTScenario1Endorsement();
 	}
 
 	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
-	public void testCFTScenario1CheckInstallmentsBillsGeneratedDD1_20(@Optional(StringUtils.EMPTY) String state) {
-		super.testCFTScenario1CheckInstallmentsBillsGeneratedDD1_20();
+	public void testCFTScenario1CheckInstallmentsBillsGeneration(@Optional(StringUtils.EMPTY) String state) {
+		super.testCFTScenario1FirstInstallmentBillGeneration();
+	}
+
+	@Test(groups = {Groups.CFT})
+	@TestInfo(component = Groups.CFT)
+	@Parameters({STATE_PARAM})
+	public void testCFTScenario1AutomaticCancellationNotice(@Optional(StringUtils.EMPTY) String state) {
+		super.testCFTScenario1AutomaticCancellationNotice();
 	}
 
 	@Test(groups = {Groups.CFT})
@@ -55,4 +64,12 @@ public class TestCFTScenario1 extends ControlledFinancialBaseTest {
 	public void testCFTScenario1AutomaticCancellation(@Optional(StringUtils.EMPTY) String state) {
 		super.testCFTScenario1AutomaticCancellation();
 	}
+
+	@Test(groups = {Groups.CFT})
+	@TestInfo(component = Groups.CFT)
+	@Parameters({STATE_PARAM})
+	public void testCFTScenario1WriteOff(@Optional(StringUtils.EMPTY) String state) {
+		super.testCFTScenario1WriteOff();
+	}
+
 }

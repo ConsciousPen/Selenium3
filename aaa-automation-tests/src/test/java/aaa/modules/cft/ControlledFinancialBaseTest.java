@@ -43,7 +43,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 * Creating of the policy for test
 	 * DD0 - means today time - start time point
 	 */
-	protected void testCFTScenario1CreateQuoteDD0() {
+	protected void testCFTScenario1CreateQuote() {
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
@@ -58,33 +58,54 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 * Endorsement of the policy
 	 * X_2 - today(suite start time) + 2 day
 	 */
-	protected void testCFTScenario1EndorsementX_2() {
+	protected void testCFTScenario1Endorsement() {
 		TimeSetterUtil.getInstance().nextPhase(startTime.plusDays(2));
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber.get());
 		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionContains(1, "Bind Endorsement effective");
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Endorsement effective %1$s for Policy %2$s", TimeSetterUtil.getInstance().getCurrentTime().plusDays(2).format(DateTimeUtils.MM_DD_YYYY), policyNumber.get()));
 	}
 
 	/**
 	 * Endorsement of the policy
 	 * DD1_20 - 1st Due Day - 20 days
 	 */
-	protected void testCFTScenario1CheckInstallmentsBillsGeneratedDD1_20() {
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installments.get().get(0)));
+	protected void testCFTScenario1FirstInstallmentBillGeneration() {
+		LocalDateTime billDueDate = getTimePoints().getBillGenerationDate(installments.get().get(0));
+		TimeSetterUtil.getInstance().nextPhase(billDueDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber.get());
-		BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE).verify.value(BillingConstants.BillsAndStatementsType.BILL);
+		BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE).verify
+				.value(BillingConstants.BillsAndStatementsType.BILL);
 		BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.DUE_DATE).verify
-				.value(TimeSetterUtil.getInstance().getCurrentTime().plusDays(20).format(DateTimeUtils.MM_DD_YYYY));
+				.value(installments.get().get(0).format(DateTimeUtils.MM_DD_YYYY));
 		BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE).verify
 				.value(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue());
 		BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.PAST_DUE).verify
 				.value(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PAST_DUE).getValue());
 		BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TOTAL_DUE).verify
 				.value(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue());
+	}
+
+	/**
+	 * Endorsement of the policy
+	 * Auto AZ DD1+8+8
+	 * Auto MD, Property - UT, DE, OK, MD, KS, OH DD1+5+13
+	 * Property NJ - DD1+5+15
+	 */
+	protected void testCFTScenario1AutomaticCancellationNotice() {
+		LocalDateTime cancellationNoticeDate = getTimePoints().getCancellationNoticeDate(installments.get().get(0));
+		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(installments.get().get(0));
+		TimeSetterUtil.getInstance().nextPhase(cancellationNoticeDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber.get());
+		BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.DUE_DATE)
+				.verify.value(cancellationDate.format(DateTimeUtils.MM_DD_YYYY));
+		BillingSummaryPage.tableBillsStatements.getRow(1).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE)
+				.verify.value(BillingConstants.BillsAndStatementsType.CANCELLATION_NOTICE);
 	}
 
 	/**
@@ -101,6 +122,19 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber.get());
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+	}
+
+	/**
+	 *
+	 */
+	protected void testCFTScenario1WriteOff() {
+		LocalDateTime writeOffDate = getTimePoints().getEarnedPremiumWriteOff(installments.get().get(0));
+		TimeSetterUtil.getInstance().nextPhase(writeOffDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber.get());
+		// check write off was generated
+		log.info("");
 	}
 
 	private void runCFTJobs() {

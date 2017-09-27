@@ -33,9 +33,6 @@ public class DialogAssetList extends AbstractDialog<TestData, Void> {
     @Override
     protected void setRawValue(TestData data) {
         for (Map.Entry<String, BaseElement<?, ?>> entry : getAssetCollection().entrySet()) {
-            if(entry.getKey().equals(DEFAULT_POPUP_CLOSER_NAME)||entry.getKey().equals(DEFAULT_POPUP_OPENER_NAME)||entry.getKey().equals(DEFAULT_POPUP_SUBMITTER_NAME)){
-                continue;
-            }
             entry.getValue().fill(data);
         }
     }

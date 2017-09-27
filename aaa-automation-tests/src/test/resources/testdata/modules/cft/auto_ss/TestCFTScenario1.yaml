@@ -24,11 +24,9 @@ DriverTab: {
 PremiumAndCoveragesTab : {
     Bodily Injury Liability: 'contains=$1,000,000/$1,000,000',
     Override Premium: {
-    Open Popup : 'click',
     Bodily Injury Liability By Flat Amount: '200',
     Reason for Override: 'OTHER',
-    Other Reason: 'CFT tests',
-    Submit Popup: 'click'
+    Other Reason: 'CFT tests'
     }
 }
 
