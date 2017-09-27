@@ -1,6 +1,8 @@
 package aaa.main.modules.policy.abstract_tabs;
 
+import aaa.main.enums.BillingConstants;
 import org.openqa.selenium.By;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.StaticElement;
@@ -22,6 +24,21 @@ public abstract class Purchase extends Tab {
 
     protected Purchase(Class<? extends MetaData> mdClass) {
         super(mdClass);
+    }
+
+    public boolean isVisible() {
+        return btnApplyPayment.isPresent() && btnApplyPayment.isVisible();
+    }
+
+    public Tab payRemainingBalance() {
+        return payRemainingBalance(BillingConstants.AcceptPaymentMethod.VISA);
+    }
+
+    public Tab payRemainingBalance(String paymentMethod) {
+        TestData payRemainingBalanceTD = DataProviderFactory.dataOf(getMetaKey(), DataProviderFactory.dataOf(PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION.getLabel(),
+                DataProviderFactory.dataOf(paymentMethod, PaymentMethodAllocationControl.REST_KEY)));
+        fillTab(payRemainingBalanceTD);
+        return this;
     }
 
     @Override

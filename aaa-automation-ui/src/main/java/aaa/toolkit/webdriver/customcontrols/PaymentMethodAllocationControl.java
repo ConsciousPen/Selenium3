@@ -30,6 +30,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 public class PaymentMethodAllocationControl extends AbstractContainer<TestData, TestData>{
 
     public static final String BALANCE_DUE_KEY = "Balance Due";
+	public static final String REST_KEY = "/rest";
     
     public PaymentMethodAllocationControl(BaseElement<?, ?> parent, By locator, Class<? extends MetaData> metaDataClass) {
         super(parent, locator, metaDataClass);
@@ -56,7 +57,7 @@ public class PaymentMethodAllocationControl extends AbstractContainer<TestData, 
 	            input = new TextBox(this, By.xpath(String.format(".//tr[td/input[contains(@value,'%s')]]/td[2]/input", key)), Waiters.AJAX);
             }
             String value = data.getValue(key);
-            if (value.equals("/rest")) {
+            if (value.equals(REST_KEY)) {
                 value = due.subtract(enteredSum).toString();
             } else if (value.endsWith("%")) {
                 value = due.getPercentage(Double.valueOf(value.replace("%", "").replace("/", ""))).toString();
