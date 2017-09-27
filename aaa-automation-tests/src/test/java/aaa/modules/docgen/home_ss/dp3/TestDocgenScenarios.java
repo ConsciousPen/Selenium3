@@ -184,7 +184,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
 		
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.quoteDocGen().start();
-		documentActionTab.generateDocuments(Documents.DS11.setState(getState()), Documents.AHFMXX, Documents.HSILXX, Documents.AHPNXX);
+		documentActionTab.generateDocuments(Documents.DS11.setState(getState()), Documents.AHFMXX, Documents.HSILXX);
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.DS11, Documents.AHFMXX, Documents.HSILXX, Documents.AHPNXX);
 		
@@ -195,7 +195,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
 		NavigationPage.toViewTab(HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		PropertyQuoteTab.btnCalculatePremium.click();
-		Tab.buttonTopSave.click();
+		Tab.buttonSaveAndExit.click();
 		policy.purchase(getPolicyTD());
 		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.DS02, Documents.AHNBXX, Documents.DS0469);

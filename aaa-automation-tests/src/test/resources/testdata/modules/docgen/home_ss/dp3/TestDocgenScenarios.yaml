@@ -55,9 +55,11 @@ TestData_PolicyDocuments: {
 }
 
 PropertyInfoTab_1000: {
-  DetachedStructures: {
-    Limit of liability: '$1,000.00'
-  }
+  PropertyInfoTab: {
+    DetachedStructures: {
+      Limit of liability: '$1,000.00'
+    }
+  } 
 }
 ########################## testMortgagePolicyDocuments ###################
 TestData_MortgagePolicy: {
