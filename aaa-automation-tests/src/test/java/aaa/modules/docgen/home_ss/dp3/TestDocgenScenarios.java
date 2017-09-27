@@ -148,7 +148,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
 		createCustomerIndividual();
-		String quoteNum = createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_PolicyDocuments")));
+		String quoteNum = createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_PolicyDocuments").resolveLinks()));
 		
 		policy.quoteDocGen().start();
 		documentActionTab.verify.documentsEnabled(

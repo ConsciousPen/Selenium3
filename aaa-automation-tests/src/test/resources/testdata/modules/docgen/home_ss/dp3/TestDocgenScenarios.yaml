@@ -1,56 +1,110 @@
 ########################## testPolicyDocuments #########################
 TestData_PolicyDocuments: {
-  ReportsTab: {
-    Sales Agent Agreement: 'I Agree',
-    AAAMembershipReport: [{Report: 'Order report'}],
-    InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
-    FirelineReport: [{Report: 'Order Report'}],
-    PublicProtectionClass: [{Report: 'Order Report'}],
-    CLUEreport: [{Report: 'Order report'}],
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@EndorsementTab',
+  DocumentsTab: '@DocumentsTab'
+}
+
+TestData_PolicyDocuments_NJ: {
+  ReportsTab: '@ReportsTab_NJ',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@EndorsementTab',
+  DocumentsTab: '@DocumentsTab'
+}
+
+TestData_PolicyDocuments_PA: {
+  ReportsTab: '@ReportsTab_PA',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@EndorsementTab',
+  DocumentsTab: '@DocumentsTab'
+}
+
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  InsuranceScoreOverride: {
+    Action: '',
+    EditInsuranceScoreDialog: {
+      Score after override: '925',
+      Reason for override: 'Fair Credit Reporting Act Dispute',
+      Save: ''
+    }
+  }
+}
+
+ReportsTab_NJ: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
     InsuranceScoreOverride: {
-      Action: '',
-      EditInsuranceScoreDialog: {
-        Score after override: '925',
-        Reason for override: 'Fair Credit Reporting Act Dispute',
-        Save: ''
-      }
+    Action: '',
+    EditInsuranceScoreDialog: {
+      Score after override: '925',
+      Reason for override: 'Fair Credit Reporting Act Dispute',
+      Save: ''
     }
-  },
-  PropertyInfoTab: {
-    DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress_PropertyInfoTab',
-    AdditionalAddress: [{}],
-    PublicProtectionClass: {},
-    FireReport: {},
-    PropertyValue: '@home_ss_ho3@DataGather@PropertyValue',
-    Construction: '@home_ss_ho3@DataGather@Construction',
-    AdditionalQuestions: {},
-    Interior: '@home_ss_ho3@DataGather@Interior',
-    DetachedStructures: [
-      {
-        'Are there any detached structures on the property?': 'Yes',
-        Rented to others: 'No',
-        Description: Test,
-        Limit of liability: '$100,000.00'
-      }
-    ],
-    FireProtectiveDD: {},
-    TheftProtectiveTPDD: {},
-    HomeRenovation: '@home_ss_ho3@DataGather@HomeRenovation',
-    PetsOrAnimals: {
-      'Are any insured-owned pets or animals kept on the property?': 'No'
-    },
-    Stoves: {},
-    RecreationalEquipment: {},
-    ClaimHistory: {},
-    RentalInformation: '@RentalInformation'
-  },
-  EndorsementTab: {
-    'DS 04 69': {}
-  },
-  DocumentsTab: {
-    DocumentsToIssue: {
-      Signed policy application: Not Signed
+  }
+}
+
+ReportsTab_PA: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  InsuranceScoreOverride: {
+    Action: '',
+    EditInsuranceScoreDialog: {
+      Score after override: '925',
+      Reason for override: 'Fair Credit Reporting Act Dispute',
+      Save: ''
     }
+  }
+}
+
+PropertyInfoTab: {
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@<home_ss_ho3>@DataGather@PropertyValue',
+  Construction: '@<home_ss_ho3>@DataGather@Construction',
+  AdditionalQuestions: {},
+  Interior: '@<home_ss_ho3>@DataGather@Interior',
+  DetachedStructures: [
+    {
+      'Are there any detached structures on the property?': 'Yes',
+      Rented to others: 'No',
+      Description: Test,
+      Limit of liability: '$100,000.00'
+    }
+  ],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@<home_ss_ho3>@DataGather@HomeRenovation',
+  PetsOrAnimals: {
+    'Are any insured-owned pets or animals kept on the property?': 'No'
+  },
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: '@<home_ss_dp3>@DataGather@RentalInformation'
+}
+  
+EndorsementTab: {
+  'DS 04 69': {}
+}
+  
+DocumentsTab: {
+  DocumentsToIssue: {
+    Signed policy application: Not Signed
   }
 }
 
@@ -64,7 +118,7 @@ PropertyInfoTab_1000: {
 ########################## testMortgagePolicyDocuments ###################
 TestData_MortgagePolicy: {
   PropertyInfoTab: {
-    DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress_PropertyInfoTab',
+    DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_PropertyInfoTab',
     AdditionalAddress: [{}],
     PublicProtectionClass: {
       Fire department type: 'S - Subscription based',
@@ -72,7 +126,7 @@ TestData_MortgagePolicy: {
       Public protection class: 5
     },
     FireReport: {},
-    PropertyValue: '@home_ss_ho3@DataGather@PropertyValue',
+    PropertyValue: '@<home_ss_ho3>@DataGather@PropertyValue',
     Construction: {
       Year built: 2009,
       Square footage: 1,
@@ -81,11 +135,11 @@ TestData_MortgagePolicy: {
       Construction type: Frame
     },
     AdditionalQuestions: {},
-    Interior: '@home_ss_ho3@DataGather@Interior',
+    Interior: '@<home_ss_ho3>@DataGather@Interior',
     DetachedStructures: [{}],
     FireProtectiveDD: {},
     TheftProtectiveTPDD: {},
-    HomeRenovation: '@home_ss_ho3@DataGather@HomeRenovation',
+    HomeRenovation: '@<home_ss_ho3>@DataGather@HomeRenovation',
     PetsOrAnimals: {},
     Stoves: {},
     RecreationalEquipment: {},

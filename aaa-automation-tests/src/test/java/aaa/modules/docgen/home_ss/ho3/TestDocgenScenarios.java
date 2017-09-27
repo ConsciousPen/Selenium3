@@ -448,7 +448,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		createCustomerIndividual();
-		createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_MortgagePolicy")));
+		createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_MortgagePolicy").resolveLinks()));
 		
 		policy.quoteDocGen().start();
 		documentActionTab.verify.documentsEnabled(
