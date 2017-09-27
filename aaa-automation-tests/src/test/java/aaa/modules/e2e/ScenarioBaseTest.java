@@ -3,6 +3,13 @@ package aaa.modules.e2e;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import aaa.common.enums.Constants;
@@ -23,20 +30,26 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 public class ScenarioBaseTest extends BaseTest {
+	protected static Logger log = LoggerFactory.getLogger(ScenarioBaseTest.class);
 
 	protected String policyNum;
 
 	protected void generateAndCheckBill(LocalDateTime installmentDate) {
-		generateAndCheckBill(installmentDate, null, null);
+		generateAndCheckBill(installmentDate, null, BillingHelper.DZERO);
 	}
 
-	protected void generateAndCheckBill(LocalDateTime installmentDate, LocalDateTime effectiveDate, LocalDateTime pligaFeeTransactionDate) {
+	protected void generateAndCheckBill(LocalDateTime installmentDate, LocalDateTime effectiveDate) {
+		generateAndCheckBill(installmentDate, effectiveDate, BillingHelper.DZERO);
+	}
+
+	protected void generateAndCheckBill(LocalDateTime installmentDate, LocalDateTime effectiveDate, Dollar pligaOrMvleFee) {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDate);
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
 		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDate, billGenDate, pligaFeeTransactionDate, effectiveDate);
+
+		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDate, billGenDate, effectiveDate, pligaOrMvleFee);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
@@ -134,5 +147,57 @@ public class ScenarioBaseTest extends BaseTest {
 		// !BaseTest.getState().equals(Constants.States.WV)) {
 		new BillingBillsAndStatementsVerifier().setMinDue(billAmount).verifyRowWithDueDate(renewDate);
 		// }
+	}
+
+	protected boolean verifyPligaOrMvleFee(LocalDateTime transactionDate) {
+		return verifyPligaOrMvleFee(transactionDate, BillingConstants.PolicyTerm.ANNUAL, 0);
+	}
+
+	protected boolean verifyPligaOrMvleFee(LocalDateTime transactionDate, String policyTerm, int numberOfVehiclesExceptTrailers) {
+		Dollar expectedPligaOrMvleFee = getPligaOrMvleFee(transactionDate, policyTerm, numberOfVehiclesExceptTrailers);
+		boolean feeShouldExist = !expectedPligaOrMvleFee.isZero();
+		if (feeShouldExist) {
+			if (getState().equals(Constants.States.NJ)) {
+				new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(transactionDate, expectedPligaOrMvleFee);
+			} else if (getState().equals(Constants.States.NY)) {
+				new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(transactionDate, expectedPligaOrMvleFee);
+			}
+		} else {
+			log.warn("Calculated Pliga or MVLE Fee is $0, verification on \"Payments & Other Transactions\" is skipped. Adjust your test data if you don't want to skip such verification.");
+		}
+		return feeShouldExist;
+	}
+
+	protected Dollar getPligaOrMvleFee(LocalDateTime transactionDate) {
+		return getPligaOrMvleFee(transactionDate, BillingConstants.PolicyTerm.ANNUAL, 0);
+	}
+
+	protected Dollar getPligaOrMvleFee(LocalDateTime transactionDate, String policyTerm, int numberOfVehiclesExceptTrailers) {
+		Dollar expectedPligaOrMvleFee = BillingHelper.DZERO;
+		if (getState().equals(Constants.States.NJ)) {
+			expectedPligaOrMvleFee = BillingHelper.calculatePligaFee(transactionDate);
+		} else if (getState().equals(Constants.States.NY)) {
+			expectedPligaOrMvleFee = isAutoPolicy() ? BillingHelper.calculateMvleFee(policyTerm, numberOfVehiclesExceptTrailers) : BillingHelper.calculateNonAutoMvleFee();
+		}
+		return expectedPligaOrMvleFee;
+	}
+
+	protected boolean isAutoPolicy() {
+		PolicyType policyType = getPolicyType();
+		return PolicyType.AUTO_CA_SELECT.equals(policyType) || PolicyType.AUTO_CA_CHOICE.equals(policyType) || PolicyType.AUTO_SS.equals(policyType);
+	}
+
+	public String getPolicyTerm(TestData td) {
+		if (isAutoPolicy()) {
+			return td.getTestData(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel()).getValue(AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM.getLabel());
+		}
+		return BillingConstants.PolicyTerm.ANNUAL;
+	}
+
+	public int getVehiclesNumber(TestData td) {
+		if (isAutoPolicy()) {
+			td.getTestDataList(new VehicleTab().getMetaKey()).size();
+		}
+		return 0;
 	}
 }

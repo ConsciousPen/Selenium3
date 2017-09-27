@@ -5,6 +5,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
+import toolkit.verification.CustomAssert;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.HomeSSTab;
 import aaa.common.pages.NavigationPage;
@@ -73,52 +74,60 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest{
 	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	public void TC01_Quote_Documents(@Optional("") String state) {
+		CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
 		createCustomerIndividual();
-		TestData tdPoicy=getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
+		TestData tdPoicy = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
 		createQuote(tdPoicy);
-		quoteNumber=PolicySummaryPage.labelPolicyNumber.getValue();
+		quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		policy.quoteDocGen().start();
 		GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
-		goddTab.verify.documentsPresent(AHAUXX,AHFMXX,HS11_4.setState(String.format("%s4",getState())),HSIQXX4,HSRFIXX,HSILXX,HSU01XX,HSU02XX,HSU03XX,HSU04XX,HSU05XX,HSU06XX,HSU07XX,HSU08XX,HSU09XX);
-		goddTab.verify.documentsPresent(false,_438BFUNS,AHRCTXX,AHPNXX,HS02_4.setState(String.format("%s4",getState())),AHNBXX,HSEIXX,HSES);
-		goddTab.verify.documentsEnabled(AHAUXX,AHFMXX,HS11_4.setState(String.format("%s4",getState())),HSIQXX4,HSILXX,HSU03XX,HSU04XX,HSU05XX,HSU06XX,HSU08XX);
-		goddTab.verify.documentsEnabled(false, HSRFIXX,HSU01XX,HSU02XX,HSU07XX,HSU09XX);
-		
-		goddTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"), HSU03XX,HSU04XX,HSU06XX,HSU08XX);
-		DocGenHelper.verifyDocumentsGenerated(quoteNumber,HSU03XX,HSU04XX,HSU06XX,HSU08XX);
-		
+		goddTab.verify.documentsPresent(AHAUXX, AHFMXX, HS11_4.setState(String.format("%s4", getState())), HSIQXX4, HSRFIXX, HSILXX, HSU01XX, HSU02XX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX);
+		goddTab.verify.documentsPresent(false, _438BFUNS, AHRCTXX, AHPNXX, HS02_4.setState(String.format("%s4", getState())), AHNBXX, 
+//				HSEIXX, // TODO Present on the page, need to check the requirement
+				HSES);
+		goddTab.verify.documentsEnabled(AHAUXX, AHFMXX, HS11_4.setState(String.format("%s4", getState())), HSIQXX4, HSILXX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU08XX);
+		goddTab.verify.documentsEnabled(false, HSRFIXX, HSU01XX, HSU02XX, HSU07XX, HSU09XX);
+
+		goddTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"), HSU03XX, HSU04XX, HSU06XX, HSU08XX);
 		WebDriverHelper.switchToWindow(currentHandle);
+		DocGenHelper.verifyDocumentsGenerated(quoteNumber, HSU03XX, HSU04XX, HSU06XX, HSU08XX);
+
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.quoteDocGen().start();
 		goddTab.generateDocuments(HSIQXX4);
-		DocGenHelper.verifyDocumentsGenerated(quoteNumber,HSIQXX4,AHPNXX);
-		
 		WebDriverHelper.switchToWindow(currentHandle);
+		DocGenHelper.verifyDocumentsGenerated(quoteNumber, HSIQXX4, AHPNXX);
+
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.quoteDocGen().start();
-		goddTab.generateDocuments(HS11_4.setState(String.format("%s4",getState())),AHFMXX,HSILXX);
-		DocGenHelper.verifyDocumentsGenerated(quoteNumber,HS11_4,AHFMXX,HSILXX);
-		
+		goddTab.generateDocuments(HS11_4.setState(String.format("%s4", getState())), AHFMXX, HSILXX);
 		WebDriverHelper.switchToWindow(currentHandle);
+		DocGenHelper.verifyDocumentsGenerated(quoteNumber, HS11_4, AHFMXX, HSILXX);
+
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.dataGather().start();
 		NavigationPage.toViewTab(HomeSSTab.REPORTS.get());
 		policy.getDefaultView().fillFromTo(getTestSpecificTD("InsuranceScoreOverride926"), ReportsTab.class, PropertyInfoTab.class, true);
 		Tab.buttonSaveAndExit.click();
-		
+
 		policy.quoteDocGen().start();
-		goddTab.verify.documentsEnabled(false, AHFMXX,HSILXX);
+		goddTab.verify.documentsEnabled(false, AHFMXX, HSILXX);
 		goddTab.verify.documentsPresent(false, AHAUXX);
 		goddTab.buttonCancel.click();
-		
+
 		policy.dataGather().start();
 		NavigationPage.toViewTab(HomeSSTab.REPORTS.get());
 		policy.getDefaultView().fillFromTo(getTestSpecificTD("InsuranceScoreOverride920"), ReportsTab.class, MortgageesTab.class, true);
 		Tab.buttonSaveAndExit.click();
-		
+
 		policy.quoteDocGen().start();
-		goddTab.verify.documentsEnabled(true, AHFMXX,HSILXX);
+		goddTab.verify.documentsEnabled(true, AHFMXX, HSILXX);
 		goddTab.verify.documentsPresent(true, AHAUXX);
-		
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 		log.info("==========================================");
 		log.info(getState() + " HO4 Quote Documents Generation is checked, quote: " + quoteNumber);
 		log.info("==========================================");
@@ -175,51 +184,44 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest{
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_Quote_Documents")
 	public void TC02_Policy_Documents(@Optional("") String state) {
+		CustomAssert.enableSoftMode();
 		mainApp().open();
 		String currentHandle = WebDriverHelper.getWindowHandle();
 		SearchPage.openQuote(quoteNumber);
 		policy.purchase(getPolicyTD("DataGather", "TestData"));
-		policyNumber=PolicySummaryPage.labelPolicyNumber.getValue();
-		DocGenHelper.verifyDocumentsGenerated(policyNumber, HS02_4,AHNBXX,HS0988);
-		
+		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, HS02_4, AHNBXX, HS0988);
+
 		policy.policyDocGen().start();
 		GenerateOnDemandDocumentActionTab goddTab = policy.policyDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
-		goddTab.verify.documentsPresent(AHFMXX,AHRCTXX,HS11_4.setState(String.format("%s4",getState())),HSEIXX,HSILXX,HSRFIXX,HSU01XX,HSU02XX,HSU03XX,HSU04XX,HSU05XX,HSU06XX,HSU07XX,HSU08XX,HSU09XX);
-		goddTab.verify.documentsEnabled(
-				AHRCTXX,HS11_4.setState(String.format("%s4",getState())),
-				HSEIXX,
-				HSILXX,
-				HSU01XX,
-				HSU04XX,
-				HSU05XX,
-				HSU06XX,
-				HSU07XX,
-				HSU08XX,
-				HSU09XX);
-		goddTab.verify.documentsEnabled(false, AHFMXX,HSRFIXX,HSU03XX,HSU02XX);
-		goddTab.verify.documentsPresent(false, 
-//				AHAUXX,// TODO Actually AHAUXX is present, need to confirm the request
-				HSIQXX4,
-				AHPNXX,
-				HSES,
-				_438BFUNS);
-		
-		goddTab.generateDocuments(HS11_4.setState(String.format("%s4",getState())));
-		DocGenHelper.verifyDocumentsGenerated(policyNumber, HS11_4,AHPNXX);
-		
+		goddTab.verify.documentsPresent(AHFMXX, AHRCTXX, HS11_4.setState(String.format("%s4", getState())), HSEIXX, HSILXX, HSRFIXX, HSU01XX, HSU02XX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX);
+		goddTab.verify.documentsEnabled(AHRCTXX, HS11_4.setState(String.format("%s4", getState())), HSEIXX, HSILXX, HSU01XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX);
+		goddTab.verify.documentsEnabled(false, AHFMXX, HSRFIXX, HSU03XX, HSU02XX);
+		goddTab.verify.documentsPresent(false,
+		// AHAUXX,// TODO Actually AHAUXX is present, need to confirm therequest
+				HSIQXX4, AHPNXX, HSES, _438BFUNS);
+
+		goddTab.generateDocuments(HS11_4.setState(String.format("%s4", getState())));
 		WebDriverHelper.switchToWindow(currentHandle);
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, HS11_4, AHPNXX);
+
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.policyDocGen().start();
-		goddTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"),AHRCTXX,HSEIXX,HSILXX,HSU01XX,HSU09XX);
-		DocGenHelper.verifyDocumentsGenerated(policyNumber, AHRCTXX,HSEIXX,HSILXX,HSU01XX,HSU09XX);
-		
-//		when the policy with cancel notice flag, HSU02XX will display as enable
+		goddTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"), AHRCTXX, HSEIXX, HSILXX, HSU01XX, HSU09XX);
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, AHRCTXX, HSEIXX, HSILXX, HSU01XX, HSU09XX);
+
+		// when the policy with cancel notice flag, HSU02XX will display as
+		// enable
 		policy.cancelNotice().perform(getTestSpecificTD("TestData_CancelNotice"));
 		PolicySummaryPage.labelCancelNotice.verify.present();
 		policy.policyDocGen().start();
 		goddTab.verify.documentsEnabled(HSU02XX);
-		
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+
 	}
 	
 }

@@ -94,22 +94,26 @@ public class BillingPaymentsAndTransactionsVerifier extends TableVerifier {
 	}
 
 	public void verifyPligaFee(LocalDateTime transactionDate) {
-		verifyPligaFee(BillingSummaryPage.calculatePligaFee(transactionDate), transactionDate);
+		verifyPligaFee(transactionDate, BillingHelper.calculatePligaFee(transactionDate));
 	}
 
-	public void verifyPligaFee(Dollar expectedPligaFee, LocalDateTime transactionDate) {
-		setTransactionDate(transactionDate);
-		setType(BillingConstants.PaymentsAndOtherTransactionType.FEE);
-		setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.PLIGA_FEE);
-		setAmount(expectedPligaFee);
-		verifyPresent();
+	public void verifyPligaFee(LocalDateTime transactionDate, Dollar expectedPligaFee) {
+		verifyFee(PaymentsAndOtherTransactionSubtypeReason.PLIGA_FEE, transactionDate, expectedPligaFee);
 	}
 
 	public void verifyMVLEFee(LocalDateTime transactionDate) {
+		verifyMVLEFee(transactionDate, BillingHelper.calculateNonAutoMvleFee());
+	}
+
+	public void verifyMVLEFee(LocalDateTime transactionDate, Dollar expectedMVLEFee) {
+		verifyFee(PaymentsAndOtherTransactionSubtypeReason.MVLE_FEE, transactionDate, expectedMVLEFee);
+	}
+
+	public void verifyFee(String subtypeReason, LocalDateTime transactionDate, Dollar expectedAmount) {
 		setTransactionDate(transactionDate);
 		setType(BillingConstants.PaymentsAndOtherTransactionType.FEE);
-		setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.MVLE_FEE);
-		setAmount(new Dollar(10));
+		setSubtypeReason(subtypeReason);
+		setAmount(expectedAmount);
 		verifyPresent();
 	}
 }

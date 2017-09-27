@@ -38,7 +38,7 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 
-public class TestAZScenario4 extends AutoSSBaseTest{
+public class TestScenario4 extends AutoSSBaseTest {
 	protected String policyNumber;
 	protected String termEffDt;
 	protected String plcyEffDt;

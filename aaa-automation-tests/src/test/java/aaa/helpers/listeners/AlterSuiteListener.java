@@ -43,9 +43,9 @@ public class AlterSuiteListener implements IAlterSuiteListener {
 
 	private List<String> parseStates(String input) {
 		LinkedList<String> statesList = new LinkedList<>();
-		 for(String state : input.split(",")){
-			 statesList.add(state.trim().toUpperCase());
-		 }
+		for (String state : input.split(",")) {
+			statesList.add(state.trim().toUpperCase());
+		}
 		return statesList;
 	}
 
@@ -66,6 +66,8 @@ public class AlterSuiteListener implements IAlterSuiteListener {
 		String testNameme = test.getName();
 		if (!testNameme.startsWith(state)) {
 			xmlTest.setName(state + " " + test.getName());
+		} else {
+			xmlTest.setName(test.getName());
 		}
 		xmlTest.setVerbose(test.getVerbose());
 		xmlTest.setPreserveOrder(test.getPreserveOrder());

@@ -160,6 +160,8 @@ public final class DocGenEnum {
 		HSINVAP("Important Information Regarding Your Insurance"),
 		HSINVA("Important Notice Regarding Flood and earthquake Exclusion"),
         AH64XX("Expiration Notice"),
+        AAIQAZ("Auto Insurance Quote"),
+        AATSXX("Critical Information For Teenage Drivers And Their Parents"),
 		;
 
 		private String id;
