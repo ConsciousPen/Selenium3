@@ -49,6 +49,7 @@ public class Scenario6 extends ScenarioBaseTest {
 
 	protected LocalDateTime policyEffectiveDate;
 	protected LocalDateTime policyExpirationDate;
+	protected LocalDateTime pligaOrMvleFeeLastTransactionDate;
 
 	protected List<LocalDateTime> installmentDueDates;
 	protected List<Dollar> installmentsAmounts;
@@ -61,6 +62,9 @@ public class Scenario6 extends ScenarioBaseTest {
 	protected String[] endorsementReasonDataKeys;
 	protected int installmentsCount = 4;
 
+	protected String policyTerm;
+	protected Integer totalVehiclesNumber;
+
 	protected void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();
 
@@ -70,6 +74,10 @@ public class Scenario6 extends ScenarioBaseTest {
 		if (getPolicyType().equals(PolicyType.PUP)) {
 			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
 		}
+
+		policyTerm = getPolicyTerm(policyCreationTD);
+		totalVehiclesNumber = getVehiclesNumber(policyCreationTD);
+
 		policyNum = createPolicy(policyCreationTD);
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
@@ -81,6 +89,8 @@ public class Scenario6 extends ScenarioBaseTest {
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
 		CustomAssert.assertEquals("Billing Installments count for Quaterly payment plan", installmentsCount, installmentDueDates.size());
 		installmentAmount = BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(1));
+
+		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}
 
 	protected void generateFirstBill() {
