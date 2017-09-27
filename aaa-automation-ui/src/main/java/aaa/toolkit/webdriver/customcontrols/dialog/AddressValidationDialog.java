@@ -6,7 +6,6 @@ import toolkit.exceptions.IstfException;
 import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -69,8 +68,8 @@ public class AddressValidationDialog extends DialogAssetList {
 						break;
 				}
 			} else if (data.getKeys().isEmpty()) {
-				RadioGroup selectAddress = (RadioGroup) getAsset(DEFAULT_SELECT_ADDRESS_NAME);
-				if (!selectAddress.isPresent() || !selectAddress.isVisible()) {
+				TextBox streetName = (TextBox) getAsset(STREET_NAME);
+				if (streetName.isPresent() && streetName.isVisible()) {
 					log.info("Address Validation failed, starting address override.");
 					try {
 						String address = ((StaticElement) getAsset(YOU_ENTERED)).getValue();
