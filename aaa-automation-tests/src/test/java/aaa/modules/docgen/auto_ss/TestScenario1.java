@@ -206,15 +206,20 @@ public class TestScenario1 extends AutoSSBaseTest {
 	@Parameters({ "state" })
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC05_ReinstatementPolicy(@Optional("") String state) {
+		
+		LocalDateTime reinstateDate = getTimePoints().getCancellationDate(installmentDD1).plusDays(13);
+		TimeSetterUtil.getInstance().nextPhase(reinstateDate);
+		log.info("Reinstatement Date"+reinstateDate);
+		
 		CustomAssert.enableSoftMode();
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		policy.reinstate().perform(getTestSpecificTD("TestData_Plus13Days"));
+		policy.reinstate().perform(getTestSpecificTD("TestData_Reinstate"));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
+        
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
-
+				
 		BillingSummaryPage.open();
 
 		plcyPayFullAmt = formatValue(BillingSummaryPage.getTotalDue().toString());
