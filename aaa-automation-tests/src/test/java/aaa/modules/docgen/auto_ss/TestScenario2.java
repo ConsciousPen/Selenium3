@@ -39,7 +39,7 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 
-public class TestAZScenario2 extends AutoSSBaseTest {
+public class TestScenario2 extends AutoSSBaseTest {
 	
 	private String policyNumber;
 	private LocalDateTime policyExpirationDate;

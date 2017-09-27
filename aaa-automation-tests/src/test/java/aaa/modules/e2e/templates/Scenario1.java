@@ -10,7 +10,10 @@ import aaa.helpers.http.HttpStub;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.ProductConstants.*;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.modules.e2e.ScenarioBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -46,6 +49,9 @@ public class Scenario1 extends ScenarioBaseTest {
 	protected Dollar firstBillAmount;
 	protected String[] endorsementReasonDataKeys;
 	protected int installmentsCount = 4;
+
+	protected String policyTerm;
+	protected int totalVehiclesNumber;
 	
 	protected void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();
@@ -56,6 +62,9 @@ public class Scenario1 extends ScenarioBaseTest {
 		if (getPolicyType().equals(PolicyType.PUP)) {
 			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
 		}
+		policyTerm = policyCreationTD.getTestData(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel()).getValue(AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM.getLabel());
+		totalVehiclesNumber = policyCreationTD.getTestDataList(new VehicleTab().getMetaKey()).size();
+
 		policyNum = createPolicy(policyCreationTD);
 
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
@@ -68,9 +77,10 @@ public class Scenario1 extends ScenarioBaseTest {
 		installmentAmount = BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(1));
 
 		if (getState().equals(Constants.States.NJ)) {
-			new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(policyEffectiveDate);
+			new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(TimeSetterUtil.getInstance().getPhaseStartTime());
 		} else if (getState().equals(Constants.States.NY)) {
-			new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(policyEffectiveDate);
+			Dollar expectedMvleFee = BillingSummaryPage.calculateMvleFee(policyTerm, totalVehiclesNumber);
+			new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(TimeSetterUtil.getInstance().getPhaseStartTime(), expectedMvleFee);
 		}
 	}
 	
@@ -82,8 +92,8 @@ public class Scenario1 extends ScenarioBaseTest {
 	protected void endorsePolicy() {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		TestData endorsementTD = getStateTestData(tdPolicy, "Endorsement", "TestData");
-		policy.endorse().performAndFill(getTestSpecificTD("TestData_Endorsement").adjust(endorsementTD));
+		TestData endorsementTD = getTestSpecificTD("TestData_Endorsement").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
+		policy.endorse().performAndFill(endorsementTD);
 		PolicyHelper.verifyEndorsementIsCreated();
 
 		// Endorsement transaction displayed on billing in Payments & Other transactions section
@@ -121,7 +131,9 @@ public class Scenario1 extends ScenarioBaseTest {
 			}
 		} else if (getState().equals(Constants.States.NY)) {
 			pligaOrMvleFeeLastTransactionDate = transactionDate;
-			new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(pligaOrMvleFeeLastTransactionDate);
+			int vehiclesNumber = endorsementTD.getTestDataList(new VehicleTab().getMetaKey()).size();
+			new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(pligaOrMvleFeeLastTransactionDate, BillingSummaryPage.calculateMvleFee(policyTerm, vehiclesNumber));
+			totalVehiclesNumber += vehiclesNumber;
 		}
 	}
 
@@ -206,13 +218,13 @@ public class Scenario1 extends ScenarioBaseTest {
 				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
 
 		if (getState().equals(Constants.States.CA)) {
-			verifyCaRenewalOfferPaymentAmount(policyExpirationDate,getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
+			verifyCaRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
 		} else if (getState().equals(Constants.States.NJ)) {
 			pligaOrMvleFeeLastTransactionDate = renewOfferGenDate;
 			new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(pligaOrMvleFeeLastTransactionDate);
 		} else if (getState().equals(Constants.States.NY)) {
 			pligaOrMvleFeeLastTransactionDate = renewOfferGenDate;
-			new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(pligaOrMvleFeeLastTransactionDate);
+			new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(pligaOrMvleFeeLastTransactionDate, BillingSummaryPage.calculateMvleFee(policyTerm, totalVehiclesNumber));
 		}
 	}
 
@@ -231,7 +243,7 @@ public class Scenario1 extends ScenarioBaseTest {
 		if (getState().equals(Constants.States.NJ)) {
 			pligaOrMvleFee = BillingSummaryPage.getPligaFee(pligaOrMvleFeeLastTransactionDate);
 		} else if (getState().equals(Constants.States.NY)) {
-			pligaOrMvleFee = new Dollar(10);
+			pligaOrMvleFee = BillingSummaryPage.calculateMvleFee(policyTerm, totalVehiclesNumber);
 		}
 
 		// TODO Renew premium verification was excluded, due to unexpected installment calculations

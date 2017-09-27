@@ -56,78 +56,136 @@ PolicyGenerateHSU: {
 
 ########################## testMortgagePolicyDocuments #################
 TestData_MortgagePolicy: {
-  ReportsTab: {
-    Sales Agent Agreement: 'I Agree',
-    AAAMembershipReport: [{Report: 'Order report'}],
-    InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
-    InsuranceScoreOverride: {
-      Action: '',
-      EditInsuranceScoreDialog: {
-        Score after override: '870',
-        Reason for override: 'Fair Credit Reporting Act Dispute',
-        Save: ''
-      }
-    },
-    FirelineReport: [{Report: 'Order Report'}],
-    PublicProtectionClass: [{Report: 'Order Report'}],
-    CLUEreport: [{Report: 'Order report'}]
-  },
-  PropertyInfoTab: {
-    DwellingAddress: '@DwellingAddress_PropertyInfoTab',
-    AdditionalAddress: [{}],
-    PublicProtectionClass: {
-      Fire department type: 'S - Subscription based',
-      'Subscription to fire department/station': 'Yes',
-      Public protection class: 5
-    },
-    FireReport: {},
-    PropertyValue: {
-      Coverage A - Dwelling limit: 280000,
-      ISO replacement cost: 280000,
-      Purchase date of home: '/today-1y:MM/dd/yyyy'
-    },
-    Construction: {
-      Year built: 2009,
-      Square footage: 1,
-      Roof type: Laminate / Architectural,
-      Roof shape: 'index=1',
-      Construction type: Frame
-    },
-    AdditionalQuestions: {},
-    Interior: '@Interior',
-    DetachedStructures: [{}],
-    FireProtectiveDD: {},
-    TheftProtectiveTPDD: {},
-    HomeRenovation: '@HomeRenovation',
-    PetsOrAnimals: {},
-    Stoves: {},
-    RecreationalEquipment: {},
-    ClaimHistory: {},
-    RentalInformation: {}
-  },
-  PremiumsAndCoveragesQuoteTab: {
-    Payment plan: Mortgagee Bill,
-    Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
-    Coverage E - Personal Liability Each Occurrence: '$300,000'
-  },
-  MortgageesTab: {
-    Mortgagee: 'Yes',
-    MortgageeInformation: {
-      Name: Louie Espinoza,
-      Zip code: 85003,
-      Street address 1: 265 CHIPMAN AVE,
-      Loan number: 12345678,
-      Validate Address: '',
-      Validate Address Dialog: {}
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  DocumentsTab: '@DocumentsTab'
+}
+
+TestData_MortgagePolicy_NJ: {
+  ReportsTab: '@ReportsTab_NJ',
+  PropertyInfoTab: '@PropertyInfoTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  DocumentsTab: '@DocumentsTab'
+}
+
+TestData_MortgagePolicy_PA: {
+  ReportsTab: '@ReportsTab_PA',
+  PropertyInfoTab: '@PropertyInfoTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  DocumentsTab: '@DocumentsTab'
+}
+
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  InsuranceScoreOverride: {
+    Action: '',
+    EditInsuranceScoreDialog: {
+      Score after override: '870',
+      Reason for override: 'Fair Credit Reporting Act Dispute',
+      Save: ''
     }
   },
-  DocumentsTab: {
-    DocumentsToBind: {
-      Proof of subscription to fire department: 'Yes'
-    },
-    DocumentsToIssue: {
-      Signed policy application: Physically Signed
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+ReportsTab_NJ: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  InsuranceScoreOverride: {
+    Action: '',
+    EditInsuranceScoreDialog: {
+      Score after override: '870',
+      Reason for override: 'Fair Credit Reporting Act Dispute',
+      Save: ''
     }
+  }
+}
+
+ReportsTab_PA: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  InsuranceScoreOverride: {
+    Action: '',
+    EditInsuranceScoreDialog: {
+      Score after override: '870',
+      Reason for override: 'Fair Credit Reporting Act Dispute',
+      Save: ''
+    }
+  }
+}
+  
+PropertyInfoTab: {
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {
+    Fire department type: 'S - Subscription based',
+    'Subscription to fire department/station': 'Yes',
+    Public protection class: 5
+  },
+  FireReport: {},
+  PropertyValue: {
+    Coverage A - Dwelling limit: 280000,
+    ISO replacement cost: 280000,
+    Purchase date of home: '/today-1y:MM/dd/yyyy'
+  },
+  Construction: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: 'index=1',
+    Construction type: Frame
+  },
+  AdditionalQuestions: {},
+  Interior: '@<home_ss_ho3>@DataGather@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@<home_ss_ho3>@DataGather@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: {}
+}
+
+PremiumsAndCoveragesQuoteTab: {
+  Payment plan: Mortgagee Bill,
+  Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+  Coverage E - Personal Liability Each Occurrence: '$300,000'
+}
+
+MortgageesTab: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: {
+    Name: Louie Espinoza,
+    Zip code: 85003,
+    Street address 1: 265 CHIPMAN AVE,
+    Loan number: 12345678,
+    Validate Address: '',
+    Validate Address Dialog: {}
+  }
+}
+  
+DocumentsTab: {
+  DocumentsToBind: {
+    Proof of subscription to fire department: 'Yes'
+  },
+  DocumentsToIssue: {
+    Signed policy application: Physically Signed
   }
 }
 

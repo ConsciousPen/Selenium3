@@ -106,10 +106,14 @@ public class BillingPaymentsAndTransactionsVerifier extends TableVerifier {
 	}
 
 	public void verifyMVLEFee(LocalDateTime transactionDate) {
+		verifyMVLEFee(transactionDate, BillingSummaryPage.calculateNonAutoMvleFee());
+	}
+
+	public void verifyMVLEFee(LocalDateTime transactionDate, Dollar expectedMVLEFee) {
 		setTransactionDate(transactionDate);
 		setType(BillingConstants.PaymentsAndOtherTransactionType.FEE);
 		setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.MVLE_FEE);
-		setAmount(new Dollar(10));
+		setAmount(expectedMVLEFee);
 		verifyPresent();
 	}
 }

@@ -13,6 +13,7 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.openqa.selenium.By;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
@@ -131,5 +132,27 @@ public class BillingSummaryPage extends SummaryPage {
 
 	public static LocalDateTime getInstallmentDueDate(int index) {
 		return TimeSetterUtil.getInstance().parse(tableInstallmentSchedule.getRow(index).getCell(BillingConstants.BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
+	}
+
+	public static Dollar calculateNonAutoMvleFee() {
+		return calculateMvleFee(BillingConstants.PolicyTerm.ANNUAL, null);
+	}
+
+	public static Dollar calculateMvleFee(String policyTerm, Integer numberOfVehiclesExceptTrailers) {
+		Dollar termFee;
+		if (BillingConstants.PolicyTerm.SEMI_ANNUAL.equals(policyTerm)) {
+			termFee = new Dollar(5);
+		} else if (BillingConstants.PolicyTerm.ANNUAL.equals(policyTerm)) {
+			termFee = new Dollar(10);
+		} else {
+			throw new IstfException(String.format("Unable to calculate MVLE Fee for unknown policy term \"%1$s\", only \"%2$s\" and \"%3$s\" are allowed.",
+					policyTerm, BillingConstants.PolicyTerm.ANNUAL, BillingConstants.PolicyTerm.SEMI_ANNUAL));
+		}
+
+		if (numberOfVehiclesExceptTrailers != null) {
+			//for auto policy
+			termFee = termFee.multiply(numberOfVehiclesExceptTrailers);
+		}
+		return termFee;
 	}
 }

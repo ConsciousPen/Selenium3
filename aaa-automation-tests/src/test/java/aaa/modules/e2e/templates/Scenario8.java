@@ -17,6 +17,7 @@ import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -24,14 +25,11 @@ import aaa.modules.e2e.ScenarioBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
-import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Scenario8 extends ScenarioBaseTest {
 
@@ -62,9 +60,9 @@ public class Scenario8 extends ScenarioBaseTest {
 		CustomAssert.assertEquals("Billing Installments count for Monthly (Eleven Pay) payment plan", 11, installmentDueDates.size());
 
 		if (getState().equals(Constants.States.NJ)) {
-			new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(policyEffectiveDate);
+			new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(TimeSetterUtil.getInstance().getPhaseStartTime());
 		} else if (getState().equals(Constants.States.NY)) {
-			new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(policyEffectiveDate);
+			new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(TimeSetterUtil.getInstance().getPhaseStartTime());
 		}
 	}
 
@@ -134,7 +132,7 @@ public class Scenario8 extends ScenarioBaseTest {
 		if (getState().equals(Constants.States.NJ)) {
 			pligaOrMvleFee = BillingSummaryPage.getPligaFee(pligaOrMvleFeeLastTransactionDate);
 		} else if (getState().equals(Constants.States.NY)) {
-			pligaOrMvleFee = new Dollar(10);
+			pligaOrMvleFee = BillingSummaryPage.calculateNonAutoMvleFee();
 		}
 
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).setPaymentPlan(BillingConstants.PaymentPlan.QUARTERLY)
@@ -159,6 +157,10 @@ public class Scenario8 extends ScenarioBaseTest {
 			policy.renew().performAndFill(td);
 		} else {
 			policy.endorse().performAndFill(td);
+			PurchaseTab purchaseTab = new PurchaseTab();
+			if (purchaseTab.isVisible()) {
+				purchaseTab.payRemainingBalance().submitTab();
+			}
 			PolicyHelper.verifyEndorsementIsCreated();
 		}
 
