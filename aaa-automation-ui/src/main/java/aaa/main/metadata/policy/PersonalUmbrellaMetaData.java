@@ -154,8 +154,7 @@ public final class PersonalUmbrellaMetaData {
 			public static final AssetDescriptor<TextBox> COUNTY = declare("County", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.NONE);
 			public static final AssetDescriptor<Button> VALIDATE_ADDRESS_DWELLING_ADDRESS = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateAdditionalDwellingAddressButton"));
-			public static final AssetDescriptor<AddressValidationDialog> VALIDATE_ADDRESS_DIALOG_DWELLING_ADDRESS
- = declare("Validate Address Dialog", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class,
+			public static final AssetDescriptor<AddressValidationDialog> VALIDATE_ADDRESS_DIALOG_DWELLING_ADDRESS = declare("Validate Address Dialog", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class,
 					By.id(" .//form[@id='addressValidationFormAAAHODwellAddressValidationComp']"));
 		}
 

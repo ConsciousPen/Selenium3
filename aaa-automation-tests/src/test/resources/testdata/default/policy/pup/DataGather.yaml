@@ -616,6 +616,7 @@ PolicyInfo_IN: {
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA INDIANA HOOSIER MOTOR CLUB - 500001023',
+  Agency Location: 'Allisonville Branch - 500017062 - Indianapolis',
   Agent: 'House Agent AAA Hoosier Headquarters',
   Commission Type: New Business,
   Lead source: Yellow Pages

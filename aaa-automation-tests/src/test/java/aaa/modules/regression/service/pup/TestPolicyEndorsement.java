@@ -19,7 +19,7 @@ public class TestPolicyEndorsement extends PersonalUmbrellaBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.Service.PUP )
-	public void testPolicyEndorsement(@Optional("CA") String state) {
+	public void testPolicyEndorsement(@Optional("") String state) {
 		mainApp().open();
 
 		createCustomerIndividual();
