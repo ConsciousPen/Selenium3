@@ -4,15 +4,16 @@
  */
 package aaa.main.modules.policy.auto_ca.defaulttabs;
 
-import aaa.common.Tab;
-import aaa.main.metadata.policy.AutoCaMetaData;
 import org.openqa.selenium.By;
+
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
+import aaa.common.Tab;
+import aaa.main.metadata.policy.AutoCaMetaData;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -23,32 +24,32 @@ import toolkit.webdriver.controls.waiters.Waiters;
  */
 public class PremiumAndCoveragesTab extends Tab {
 
-    public static Button buttonCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalc"));
-    public static StaticElement labelProductInquiry = new StaticElement(By.xpath("//span[@id='policyDataGatherForm:sedit_AAAProductOverride_policyFormCd']"));
-    public static Link buttonViewRatingDetails = new Link(By.id("policyDataGatherForm:viewRatingDetails_Link"));
-    public static Table tableRatingDetailsVehicles = new Table(By.id("ratingDetailsPopupForm:vehicle_summary"));
-    //-- old controls
-    public static Table tablePremiumSummary = new Table(By.id("policyDataGatherForm:riskItemPremiumInfoTable"));
-    public static Button buttonCommissionOverride = new Button(By.id("policyDataGatherForm:commissionOverrideButton"));
-    public Button btnContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
+	public static Button buttonCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalc"));
+	public static StaticElement labelProductInquiry = new StaticElement(By.xpath("//span[@id='policyDataGatherForm:sedit_AAAProductOverride_policyFormCd']"));
+	public static Link buttonViewRatingDetails = new Link(By.id("policyDataGatherForm:viewRatingDetails_Link"));
+	public static Table tableRatingDetailsVehicles = new Table(By.id("ratingDetailsPopupForm:vehicle_summary"));
+	public static Table tableDiscounts = new Table(By.id("policyDataGatherForm:discountSurchargeSummaryTable"));
 
-    //--
-    public PremiumAndCoveragesTab() {
-        super(AutoCaMetaData.PremiumAndCoveragesTab.class);
-    }
+	// -- old controls
+	public static Table tablePremiumSummary = new Table(By.id("policyDataGatherForm:riskItemPremiumInfoTable"));
+	public static Button buttonCommissionOverride = new Button(By.id("policyDataGatherForm:commissionOverrideButton"));
+	public Button btnContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
 
-    @Override
-    public Tab fillTab(TestData td) {
-        super.fillTab(td);
-        buttonCalculatePremium.click();
-        return this;
-    }
+	// --
+	public PremiumAndCoveragesTab() {
+		super(AutoCaMetaData.PremiumAndCoveragesTab.class);
+	}
 
-    @Override
-    public Tab submitTab() {
-    	btnContinue.click();
-        return this;
-    }
+	@Override
+	public Tab fillTab(TestData td) {
+		super.fillTab(td);
+		buttonCalculatePremium.click();
+		return this;
+	}
+
+	@Override
+	public Tab submitTab() {
+		btnContinue.click();
+		return this;
+	}
 }
-
-
