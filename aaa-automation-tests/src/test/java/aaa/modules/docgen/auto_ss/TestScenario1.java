@@ -35,7 +35,7 @@ import aaa.modules.policy.AutoSSBaseTest;
  *           active
  * @details
  */
-public class TestAZScenario1 extends AutoSSBaseTest {
+public class TestScenario1 extends AutoSSBaseTest {
 	protected String policyNumber;
 	protected LocalDateTime installmentDD1;
 	protected String policyEffectiveDate;
@@ -170,8 +170,7 @@ public class TestAZScenario1 extends AutoSSBaseTest {
 	public void TC04_GenerateCancellation(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 
-		LocalDateTime cancelNoticeDate = getTimePoints().getCancellationNoticeDate(installmentDD1);
-		LocalDateTime cancellationDate = getTimePoints().getCancellationNoticeDate(cancelNoticeDate);
+		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(installmentDD1);
 		log.info("Cancellation Generatetion Date" + cancellationDate);
 		TimeSetterUtil.getInstance().nextPhase(cancellationDate);
 		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
@@ -207,15 +206,20 @@ public class TestAZScenario1 extends AutoSSBaseTest {
 	@Parameters({ "state" })
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC05_ReinstatementPolicy(@Optional("") String state) {
+		
+		LocalDateTime reinstateDate = getTimePoints().getCancellationDate(installmentDD1).plusDays(13);
+		TimeSetterUtil.getInstance().nextPhase(reinstateDate);
+		log.info("Reinstatement Date"+reinstateDate);
+		
 		CustomAssert.enableSoftMode();
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		policy.reinstate().perform(getTestSpecificTD("TestData_Plus13Days"));
+		policy.reinstate().perform(getTestSpecificTD("TestData_Reinstate"));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
+        
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
-
+				
 		BillingSummaryPage.open();
 
 		plcyPayFullAmt = formatValue(BillingSummaryPage.getTotalDue().toString());
