@@ -301,8 +301,8 @@ public class Scenario2 extends ScenarioBaseTest {
 	}
 
 	protected void makeManualPaymentInFullRenewalOfferAmount() {
-		LocalDateTime renewDatePlus15 = policyExpirationDate.plusDays(15);
-		TimeSetterUtil.getInstance().nextPhase(renewDatePlus15);
+		LocalDateTime renewCustomerDecline = getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate);
+		TimeSetterUtil.getInstance().nextPhase(renewCustomerDecline);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
