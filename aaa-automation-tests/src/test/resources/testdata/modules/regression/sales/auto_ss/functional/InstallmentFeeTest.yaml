@@ -41,8 +41,8 @@ PolicyInformation: {
   Policy Term: Annual,
   Channel Type: AAA Agent,
   Agency: AAA NCNU - 500001005,
-  Agency Location: Fresno - 500005301 - Fresno (0003),
+  Agency Location: 'contains=Fresno',
   Authorized by: QA,
   Lead Source: AAA Magazines,
-  TollFree Number: '1'
+  TollFree Number: '1112223335'
 }

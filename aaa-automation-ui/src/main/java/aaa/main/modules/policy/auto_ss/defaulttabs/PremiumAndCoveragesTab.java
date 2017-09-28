@@ -46,8 +46,11 @@ public class PremiumAndCoveragesTab extends Tab {
     public static StaticElement totalTermPremium = new StaticElement(By.xpath("//span[@class='TOTAL_TERM_PREMIUM']"));
     public static StaticElement totalActualPremium  = new StaticElement(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAPremiumSummary_body']/table/tbody/tr/td[2]/span"));
 
+    public static StaticElement discountsAndSurcharges = new StaticElement(By.id("policyDataGatherForm:discountSurchargeSummaryTable"));
 
-
+    public static Link linkPaymentPlan = new Link(By.id("policyDataGatherForm:paymentPlansTogglePanel:header"), Waiters.AJAX);
+    public static Link linkViewApplicableFeeSchedule = new Link(By.id("policyDataGatherForm:installmentFeeDetails"), Waiters.AJAX);
+    public static Table tableInstallmenFee = new Table(By.id("policyDataGatherForm:installmentFeeDetailsTable"));
     public PremiumAndCoveragesTab() {
         super(AutoSSMetaData.PremiumAndCoveragesTab.class);
     }
