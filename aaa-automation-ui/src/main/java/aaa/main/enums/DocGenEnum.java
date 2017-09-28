@@ -167,7 +167,7 @@ public final class DocGenEnum {
 		private String id;
 		private String idInXml;
 		private String name;
-		private String state;
+		private ThreadLocal<String> state = new ThreadLocal<>();
 
 		Documents() {
 			setId(this.name());
@@ -205,11 +205,11 @@ public final class DocGenEnum {
 		}
 
 		public String getState() {
-			return state;
+			return this.state.get();
 		}
 
 		public Documents setState(String state) {
-			this.state = state;
+			this.state.set(state);
 			return this;
 		}
 
