@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -36,9 +38,10 @@ public class TestQuoteTaskManager extends HomeCaHO3BaseTest {
       * 7.  Check task is completed
       */
 
-    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+    @Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
-    public void testQuoteTaskManager() {
+    public void testQuoteTaskManager(@Optional("CA") String state) {
         BindTab bindTab = new BindTab();
         ErrorTab errorTab = new ErrorTab();
         MyWork myWork = new MyWork();

@@ -8,9 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import aaa.main.enums.BillingConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.table.Row;
@@ -198,5 +200,58 @@ public final class BillingHelper {
 
 	public static Dollar calculateLastInstallmentAmount(Dollar totalAmount, Integer installmentsCount) {
 		return totalAmount.divide(installmentsCount);
+	}
+
+	public static Dollar calculatePligaFee(LocalDateTime transactionDate) {
+		Map<String, String> premiumRowSearchQuery = new HashMap<>();
+		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
+		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.PREMIUM);
+		if (!BillingSummaryPage.tablePaymentsOtherTransactions.getRow(premiumRowSearchQuery).isPresent()) {
+			return new Dollar(0);
+		}
+
+		Dollar totalPremiumAmount = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(premiumRowSearchQuery).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
+		return calculatePligaFee(transactionDate, totalPremiumAmount);
+	}
+
+	public static Dollar calculatePligaFee(LocalDateTime transactionDate, Dollar totalPremiumAmount) {
+		final double pligaFeePercentage;
+		switch (transactionDate.getYear()) {
+			//PAS12: PLIGAFEE is configured as 0.7% of the premium for 1-Jan-2017 to 31-Dec-2017
+			case 2017:
+				pligaFeePercentage = 0.7;
+				break;
+			//PAS13 ER: PLIGAFEE is configured as 0.6% of the premium for 1-Jan-2018 to 31-Dec-2019
+			case 2018:
+			case 2019:
+				pligaFeePercentage = 0.6;
+				break;
+			default:
+				pligaFeePercentage = 0.7;
+				log.warn(String.format("PLIGA Fee charge percent for %s year is unknown, default %s charge percent will be used for calculation.", transactionDate.getYear(), pligaFeePercentage));
+		}
+		return new Dollar(Math.round(Double.valueOf(totalPremiumAmount.getPercentage(pligaFeePercentage).toPlaingString())));
+	}
+
+	public static Dollar calculateNonAutoMvleFee() {
+		return calculateMvleFee(BillingConstants.PolicyTerm.ANNUAL, 0);
+	}
+
+	public static Dollar calculateMvleFee(String policyTerm, int numberOfVehiclesExceptTrailers) {
+		Dollar termFee;
+		if (BillingConstants.PolicyTerm.SEMI_ANNUAL.equals(policyTerm)) {
+			termFee = new Dollar(5);
+		} else if (BillingConstants.PolicyTerm.ANNUAL.equals(policyTerm)) {
+			termFee = new Dollar(10);
+		} else {
+			throw new IstfException(String.format("Unable to calculate MVLE Fee for unknown policy term \"%1$s\", only \"%2$s\" and \"%3$s\" are allowed.",
+					policyTerm, BillingConstants.PolicyTerm.ANNUAL, BillingConstants.PolicyTerm.SEMI_ANNUAL));
+		}
+
+		if (numberOfVehiclesExceptTrailers > 0) {
+			//for auto policy
+			termFee = termFee.multiply(numberOfVehiclesExceptTrailers);
+		}
+		return termFee;
 	}
 }

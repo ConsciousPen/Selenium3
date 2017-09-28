@@ -1,40 +1,46 @@
 package aaa.helpers.docgen.searchNodes;
 
-import aaa.helpers.xml.models.BatchFileSummary;
 import aaa.helpers.xml.models.BatchJobInfo;
 import aaa.helpers.xml.models.StandardDocumentRequest;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class BatchJobInfoNode extends SearchBy<BatchJobInfoNode, BatchJobInfo> {
 	public BatchJobInfoNode batchJobEnvironmentType(String value) {
-		return addCondition(d -> Objects.equals(d.getBatchJobEnvironmentType(), value));
+		return addCondition("batchJobEnvironmentType", BatchJobInfo::getBatchJobEnvironmentType, value);
 	}
 
 	public BatchJobInfoNode batchJobApplicationName(String value) {
-		return addCondition(d -> Objects.equals(d.getBatchJobApplicationName(), value));
+		return addCondition("batchJobApplicationName", BatchJobInfo::getBatchJobApplicationName, value);
 	}
 
 	public BatchJobInfoNode batchJobName(String value) {
-		return addCondition(d -> Objects.equals(d.getBatchJobName(), value));
+		return addCondition("batchJobName", BatchJobInfo::getBatchJobName, value);
 	}
 
 	public BatchJobInfoNode batchJobServerName(String value) {
-		return addCondition(d -> Objects.equals(d.getBatchJobServerName(), value));
+		return addCondition("batchJobServerName", BatchJobInfo::getBatchJobServerName, value);
 	}
 
 	public BatchJobInfoNode batchJobIPAddress(String value) {
-		return addCondition(d -> Objects.equals(d.getBatchJobIPAddress(), value));
+		return addCondition("batchJobIPAddress", BatchJobInfo::getBatchJobIPAddress, value);
 	}
 
 	public BatchJobInfoNode batchJobCorrelationId(String value) {
-		return addCondition(d -> Objects.equals(d.getBatchJobCorrelationId(), value));
+		return addCondition("batchJobCorrelationId", BatchJobInfo::getBatchJobCorrelationId, value);
 	}
 
 	@Override
 	public List<BatchJobInfo> search(StandardDocumentRequest sDocumentRequest) {
-		return standardDocumentRequest.batchFileSummary.search(sDocumentRequest).stream().map(BatchFileSummary::getBatchJobInfo).filter(getConditionAndClear()).collect(Collectors.toList());
+		List<BatchJobInfo> filteredBji = new ArrayList<>();
+		standardDocumentRequest.batchFileSummary.search(sDocumentRequest).forEach(l -> filteredBji.addAll(filter(l.getBatchJobInfo())));
+		conditionsMap.clear();
+		return filteredBji;
+	}
+
+	@Override
+	public String getNodePath() {
+		return "\\standardDocumentRequest\\BatchFileSummary";
 	}
 }

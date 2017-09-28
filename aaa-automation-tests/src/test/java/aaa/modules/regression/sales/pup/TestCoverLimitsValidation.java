@@ -5,6 +5,8 @@ import java.util.Map;
 
 import aaa.main.enums.ErrorEnum;
 import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
@@ -165,9 +167,10 @@ public class TestCoverLimitsValidation  extends PersonalUmbrellaBaseTest {
 	private UnderlyingRisksAutoTab autoTab = policy.getDefaultView().getTab(UnderlyingRisksAutoTab.class);
 	private UnderlyingRisksOtherVehiclesTab otherVehiclesTab = policy.getDefaultView().getTab(UnderlyingRisksOtherVehiclesTab.class);
 	
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Sales.PUP)
-	public void testCoverLimitsValidation() {
+	public void testCoverLimitsValidation(@Optional("") String state) {
 		mainApp().open();
 
 		// 1 ~ 4

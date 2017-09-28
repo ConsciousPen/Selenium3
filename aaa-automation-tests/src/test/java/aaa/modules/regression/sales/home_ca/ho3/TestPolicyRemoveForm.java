@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import aaa.common.enums.NavigationEnum;
@@ -32,9 +34,10 @@ public class TestPolicyRemoveForm extends HomeCaHO3BaseTest {
       * 9.  Verify policy status is 'Active'
       */
 
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)  
-    public void testPolicyRemoveForm() {
+    public void testPolicyRemoveForm(@Optional("CA") String state) {
 
         mainApp().open();
         createCustomerIndividual();

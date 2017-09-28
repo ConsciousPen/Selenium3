@@ -3,6 +3,8 @@ package aaa.modules.regression.service.pup;
 
 import java.util.Map;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
@@ -31,9 +33,10 @@ import aaa.modules.policy.PersonalUmbrellaBaseTest;
 
 public class TestPolicyChangeInsuredDeceased extends PersonalUmbrellaBaseTest{
 	
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.PUP )
-	public void testPolicyChangeInsuredDeceased() {
+	public void testPolicyChangeInsuredDeceased(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		

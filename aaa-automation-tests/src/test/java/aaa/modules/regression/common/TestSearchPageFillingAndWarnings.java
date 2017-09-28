@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.main.enums.SearchEnum;
 import aaa.common.metadata.SearchMetaData;
@@ -44,9 +46,10 @@ public class TestSearchPageFillingAndWarnings extends BaseTest {
 	 * 5. Verify that all search by criteria fields have empty values except "Search For" which resets to default "Policy" value
 	 * @details
 	 */
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Common.SEARCH )
-	public void testFillAndClearAllSearchCriteria() {
+	public void testFillAndClearAllSearchCriteria(@Optional("") String state) {
 		final SearchEnum.SearchFor defaultSearchForCriteria = SearchEnum.SearchFor.POLICY;
 
 		TestData searchRandomData = DataProviderFactory.dataOf(
@@ -100,9 +103,10 @@ public class TestSearchPageFillingAndWarnings extends BaseTest {
 	 * 15. Check that warning message about not entered criteria appears
 	 * @details
 	 */
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Common.SEARCH )
-	public void testSearchWarnings() {
+	public void testSearchWarnings(@Optional("") String state) {
 		final String accNumberLengthWarning = String.format("Account number invalid - Should enter %d or more numeric digits or leave as blank", MIN_ACC_NUMBER_LENGTH);
 		final String cityLengthWarning = String.format("City searches require less or equal %d characters", CITY_LENGTH);
 		final String stateLengthAndFormatWarning = String.format("State abbreviation. State search requires %d characters", STATE_LENGTH);

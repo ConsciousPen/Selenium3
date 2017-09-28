@@ -176,6 +176,7 @@ TestData_CA: {
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_CA',
   DocumentsTab: '@DocumentsTab',
   BindTab: '@BindTab',
+  #ErrorTab: '@ErrorTab_CA',
   PurchaseTab: '@PurchaseTab'
 }  
 
@@ -189,16 +190,20 @@ PrefillTab_CA: {
   }],
 
   ActiveUnderlyingPolicies: [{
+    Add: click,
     ActiveUnderlyingPoliciesSearch: {
       Policy Type: HO3,
-      Policy Number: Primary_HO3
+      Policy Number: Primary_HO3  
     }, 
     ActiveUnderlyingPoliciesManual: {
+      #Policy type: HO3,
+      #Policy number: Primary_HO3,
       Primary policy: 'Yes',
+      #State: CA
     }
   }, 
-  {
-    ActiveUnderlyingPoliciesSearch: {
+ {
+   ActiveUnderlyingPoliciesSearch: {
       Policy Type: Auto,
       Policy Number: Primary_Auto
     }, 
@@ -207,8 +212,25 @@ PrefillTab_CA: {
       Save: 'click'
     }
   }]
-
 }
+
+#GeneralTab_CA: {
+#  PolicyInfo: {
+#    Effective date: '/today:MM/dd/yyyy',
+#    Application type: New,
+#    Channel Type: Independent Agent,
+#    Agency: 'SMTestIA - 400001650',
+#    Commission Type: New Business,
+#    Lead source: Yellow Pages
+#  },
+#    DwellingAddress: {
+#    Validate Address: click,
+#    Validate Address Dialog: {}
+#    },
+#  NamedInsuredContactInformation: {
+#    Home phone: 1234567890
+#  },
+#}
 
 UnderlyingRisksAutoTab_CA: {
 #  Automobiles: [{
@@ -246,6 +268,18 @@ UnderwritingAndApprovalTab_CA: {
   "Do employees of any resident or applicant reside in the dwelling?": 'No',
   "Any resident self-employed, public lecturer, broadcaster, telecaster, newspaper reporter, editor, publisher, professional actor or entertainer, author, professional athlete or similar, or holder of any elected or appointed public offices?": 'No'
 }
+
+#ErrorTab_CA: {
+#    ErrorsOverride: [
+#      {
+#        Message: "contains=Approval required for PUP when underlying policy cannot be verified",
+#        Override: 'true',
+#        Approval: 'true',
+#        Duration: Life,
+#        Reason for override: index=1
+#      }
+#    ]
+#  }
 
 # --------------------- CO ---------------------
 TestData_CO: {

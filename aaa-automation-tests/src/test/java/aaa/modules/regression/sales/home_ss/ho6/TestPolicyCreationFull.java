@@ -5,6 +5,8 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO6BaseTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
@@ -22,9 +24,10 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyCreationFull extends HomeSSHO6BaseTest {
 
-    @Test(groups= {Groups.REGRESSION, Groups.HIGH})
+    @Parameters({"state"})
+	@Test(groups= {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6)
-    public void testQuoteCreation() {
+    public void testQuoteCreation(@Optional("") String state) {
         mainApp().open();
         createCustomerIndividual();
         policy.createPolicy(getTestSpecificTD("TestDataFull"));

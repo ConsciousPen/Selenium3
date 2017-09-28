@@ -53,7 +53,6 @@ public class DocumentWrapper {
 		return searchFilter.search(getStandardDocumentRequest());
 	}
 
-
 	public class Verify {
 		public <D> void exists(SearchBy<?, D> searchFilter) {
 			exists(true, null, searchFilter);
@@ -63,15 +62,19 @@ public class DocumentWrapper {
 			exists(true, assertionMessage, searchFilter);
 		}
 
+		public <D> void exists(boolean expectedValue, SearchBy<?, D> searchFilter) {
+			exists(expectedValue, null, searchFilter);
+		}
+
 		public <D> void exists(boolean expectedValue, String assertionMessage, SearchBy<?, D> searchFilter) {
-			assertionMessage = Objects.isNull(assertionMessage) ? String.format("Entries are %s in generated document by provided search criteria.", expectedValue ? "absent" : "present") : assertionMessage;
+			assertionMessage = Objects.isNull(assertionMessage) ? String.format("Entries are %1$s in xml file by search criteria:\n%2$s", expectedValue ? "absent" : "present", searchFilter) : assertionMessage;
 			CustomAssert.assertEquals(assertionMessage, getList(searchFilter).isEmpty(), !expectedValue);
 		}
 
 		public void mapping(TestData td, String policyNumber) {
 			mapping(true, td, policyNumber);
 		}
-		
+
 		/**
 		 * Verifies the documents mapping with <b>TestData</b> after documents generation
 		 *
@@ -88,36 +91,39 @@ public class DocumentWrapper {
 				TestData tdDoc = td.getTestData(docKey);
 				for (String sectionName : tdDoc.getKeys()) {
 					List<TestData> tdSectionList = tdDoc.getTestDataList(sectionName);
-					for(TestData tdSection : tdSectionList){
+					for (TestData tdSection : tdSectionList) {
 						for (String dataElementName : tdSection.getKeys()) {
 							List<TestData> tdDataElementList = tdSection.getTestDataList(dataElementName);
-							for(TestData tdDataElementChoice : tdDataElementList){
+							for (TestData tdDataElementChoice : tdDataElementList) {
 								if (tdDataElementChoice.getKeys().retainAll(Arrays.asList(DocGenEnum.DataElementChoiceTag.TEXTFIELD, DocGenEnum.DataElementChoiceTag.DATETIMEFIELD))) {
 									throw new IstfException(String.format("Data mapping verification for \"DataElementChoice\" section is supported only by \"%s\" and \"%s\" tags values. Check your test data format.",
-											DocGenEnum.DataElementChoiceTag.TEXTFIELD, DocGenEnum.DataElementChoiceTag.DATETIMEFIELD));
+													DocGenEnum.DataElementChoiceTag.TEXTFIELD, DocGenEnum.DataElementChoiceTag.DATETIMEFIELD));
 								}
 
 								if (tdDataElementChoice.containsKey(DocGenEnum.DataElementChoiceTag.TEXTFIELD)) {
 									String testFieldValue = tdDataElementChoice.getValue(DocGenEnum.DataElementChoiceTag.TEXTFIELD);
-									String assertionMessage = String.format("The expected key \"%1$s\" -> \"%2$s\" -> \"%3$s\" -> \"%4$s\" is %5$s in the xml file.", docKey, sectionName, dataElementName, testFieldValue, expectedValue ? "absent" : "present");
-									if(docKey.equals("DocumentPackageData"))
-										exists(expectedValue, assertionMessage, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber).documentPackageData.documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.textField(testFieldValue));
-									else
-										exists(expectedValue, assertionMessage, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber).document.templateId(document.getIdInXml()).documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.textField(testFieldValue));
+									if ("DocumentPackageData".equals(docKey)) {
+										exists(expectedValue, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber)
+												.documentPackageData.documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.textField(testFieldValue));
+									} else {
+										exists(expectedValue, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber)
+												.document.templateId(document.getIdInXml()).documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.textField(testFieldValue));
+									}
 								}
 
 								if (tdDataElementChoice.containsKey(DocGenEnum.DataElementChoiceTag.DATETIMEFIELD)) {
 									String dateTimeFieldValue = tdDataElementChoice.getValue(DocGenEnum.DataElementChoiceTag.DATETIMEFIELD);
-									String assertionMessage = String.format("The expected key \"%1$s\" -> \"%2$s\" -> \"%3$s\" -> \"%4$s\" is %5$s in the xml file.", docKey, sectionName, dataElementName, dateTimeFieldValue, expectedValue ? "absent" : "present");
-									if(docKey.equals("DocumentPackageData"))
-										exists(expectedValue, assertionMessage, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber).documentPackageData.documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.dateTimeField(dateTimeFieldValue));
-									else
-										exists(expectedValue, assertionMessage, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber).document.templateId(document.getIdInXml()).documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.dateTimeField(dateTimeFieldValue));
+									if ("DocumentPackageData".equals(docKey)) {
+										exists(expectedValue, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber)
+												.documentPackageData.documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.dateTimeField(dateTimeFieldValue));
+									} else {
+										exists(expectedValue, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber)
+												.document.templateId(document.getIdInXml()).documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.dateTimeField(dateTimeFieldValue));
+									}
 								}
 							}
 						}
 					}
-					
 				}
 			}
 		}

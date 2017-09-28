@@ -1,15 +1,18 @@
 package aaa.modules.e2e.templates;
 
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.*;
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants.*;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.MyWorkConstants;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -39,6 +42,7 @@ public class Scenario4 extends ScenarioBaseTest {
 
 	protected LocalDateTime policyEffectiveDate;
 	protected LocalDateTime policyExpirationDate;
+	protected LocalDateTime pligaOrMvleFeeLastTransactionDate;
 
 	protected List<LocalDateTime> installmentDueDates;
 	protected LocalDateTime endorsementInstallmentDueDate;
@@ -47,6 +51,9 @@ public class Scenario4 extends ScenarioBaseTest {
 	protected int installmentsCount = 1;
 	protected Dollar cashOverpaymentLow = new Dollar(999.99);
 	protected Dollar cashOverpaymentHigh = new Dollar(1000);
+
+	protected String policyTerm;
+	protected Integer totalVehiclesNumber;
 
 	protected void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();
@@ -57,6 +64,10 @@ public class Scenario4 extends ScenarioBaseTest {
 		if (getPolicyType().equals(PolicyType.PUP)) {
 			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
 		}
+
+		policyTerm = getPolicyTerm(policyCreationTD);
+		totalVehiclesNumber = getVehiclesNumber(policyCreationTD);
+
 		policyNum = createPolicy(policyCreationTD);
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
@@ -66,6 +77,8 @@ public class Scenario4 extends ScenarioBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
 		CustomAssert.assertEquals("Billing Installments count for Pay in Full payment plan", installmentsCount, installmentDueDates.size());
+
+		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 
 		//TODO Get 6th installment due date
 		endorsementInstallmentDueDate = policyEffectiveDate.plusMonths(6);
@@ -194,7 +207,9 @@ public class Scenario4 extends ScenarioBaseTest {
 	}
 
 	protected void verifyFormAHCWXX() {
-		//TODO DocGen utils
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHCWXX);
 //		DocGenHelper.verifyDocumentsGeneratedByJob(TimeSetterUtil.getInstance().getCurrentTime(), policyNum, OnDemandDocuments.AHCWXX);
 	}
 
@@ -286,7 +301,12 @@ public class Scenario4 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
 
-		Dollar rAmount = BillingHelper.getBillDueAmount(policyExpirationDate, "Bill");
+		Dollar rAmount;
+		if (getState().equals(Constants.States.CA)) {
+			rAmount = BillingHelper.getBillDueAmount(policyExpirationDate, "Offer");
+		} else {
+			rAmount = BillingHelper.getBillDueAmount(policyExpirationDate, "Bill");
+		}
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), rAmount);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
 	}

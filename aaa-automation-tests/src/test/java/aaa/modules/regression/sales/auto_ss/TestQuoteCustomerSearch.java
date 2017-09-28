@@ -10,6 +10,8 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -20,9 +22,10 @@ import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.*;
 
 public class TestQuoteCustomerSearch extends AutoSSBaseTest {
 
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testQuoteCustomerSearch() {
+	public void testQuoteCustomerSearch(@Optional("") String state) {
 
 		TestData td = getPolicyTD();
 		GeneralTab generalTab = new GeneralTab();
@@ -38,9 +41,9 @@ public class TestQuoteCustomerSearch extends AutoSSBaseTest {
 		generalTab.getAssetList().getAsset(NAMED_INSURED_INFORMATION).getAsset(NamedInsuredInformation.ADD_INSURED).click();
 
 		//Verify that clear button deletes inserted values
-		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.STATE).setValue(getState());
+		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.FIRST_NAME).setValue("Test name");
 		insuredSearchDialog.clear();
-		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.STATE).verify.value("");
+		insuredSearchDialog.getAsset(DialogsMetaData.DialogSearch.FIRST_NAME).verify.value("");
 
 		//Verify that if no search criteria were entered, No search results will be returned, error message will be displayed
 		insuredSearchDialog.search();

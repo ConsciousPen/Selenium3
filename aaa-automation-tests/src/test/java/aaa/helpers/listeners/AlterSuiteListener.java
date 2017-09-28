@@ -1,7 +1,7 @@
 package aaa.helpers.listeners;
 
 import aaa.common.enums.Constants;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.testng.IAlterSuiteListener;
 import org.testng.collections.Maps;
 import org.testng.xml.XmlClass;
@@ -17,38 +17,12 @@ public class AlterSuiteListener implements IAlterSuiteListener {
 	public void alter(List<XmlSuite> suites) {
 
 		for (XmlSuite suite : suites) {
-			CustomLogger.getInstance().info(suite.toXml());
-			List<XmlTest> newTests = new LinkedList<>();
-			List<XmlTest> tests = suite.getTests();
-			for (XmlTest test : tests) {
-				List<String> states = getStates(test);
-
-				for (String state : states) {
-					XmlTest xmlTest = new XmlTest();
-					//xmlTest = test;
-					xmlTest.setName(state + " " + test.getName());
-					xmlTest.setVerbose(test.getVerbose());
-					xmlTest.setPreserveOrder(test.getPreserveOrder());
-					//xmlTest.setThreadCount(test.getThreadCount());
-					//xmlTest.setParallel(test.getParallel());
-					xmlTest.setIncludedGroups(test.getIncludedGroups());
-					xmlTest.setExcludedGroups(test.getExcludedGroups());
-					//xmlTest.setPackages(test.getPackages());
-					Map<String, String> parameters = Maps.newHashMap();
-					parameters.put("state", state);
-					xmlTest.setParameters(parameters);
-					List<XmlClass> classes = test.getClasses();
-					for (XmlClass xmlClass : classes) {
-						xmlTest.getClasses().add(xmlClass);
-					}
-					newTests.add(xmlTest);
-				}
+			List<XmlSuite> childSuites = suite.getChildSuites();
+			if (childSuites.isEmpty()) {
+				alterSuite(suite);
+			} else {
+				alter(childSuites);
 			}
-			suite.setTests(newTests);
-			for(XmlTest newTest : newTests){
-				newTest.setSuite(suite);
-			}
-			CustomLogger.getInstance().info(suite.toXml());
 		}
 	}
 
@@ -67,7 +41,78 @@ public class AlterSuiteListener implements IAlterSuiteListener {
 		return states;
 	}
 
-	private static List<String> parseStates(String input) {
-		return Arrays.asList(input.split(","));
+	private List<String> parseStates(String input) {
+		LinkedList<String> statesList = new LinkedList<>();
+		for (String state : input.split(",")) {
+			statesList.add(state.trim().toUpperCase());
+		}
+		return statesList;
+	}
+
+	private Boolean isCAProduct(XmlClass xmlClass) {
+		return xmlClass != null && xmlClass.getName().contains("_ca.");
+	}
+
+	private Boolean isSSProduct(XmlClass xmlClass) {
+		return xmlClass != null && xmlClass.getName().contains("_ss.");
+	}
+
+	private Boolean isPUPProduct(XmlClass xmlClass) {
+		return xmlClass != null && xmlClass.getName().contains(".pup.");
+	}
+
+	private XmlTest createTest(XmlTest test, String state) {
+		XmlTest xmlTest = new XmlTest();
+		String testNameme = test.getName();
+		if (!testNameme.startsWith(state)) {
+			xmlTest.setName(state + " " + test.getName());
+		} else {
+			xmlTest.setName(test.getName());
+		}
+		xmlTest.setVerbose(test.getVerbose());
+		xmlTest.setPreserveOrder(test.getPreserveOrder());
+		xmlTest.setIncludedGroups(test.getIncludedGroups());
+		xmlTest.setExcludedGroups(test.getExcludedGroups());
+		Map<String, String> parameters = Maps.newHashMap();
+		parameters.put("state", state);
+		xmlTest.setParameters(parameters);
+		return xmlTest;
+	}
+
+	private XmlSuite alterSuite(XmlSuite suite) {
+		XmlTest newCATest = new XmlTest();
+		CustomLogger.getInstance().info(suite.toXml());
+		List<XmlTest> newTests = new LinkedList<>();
+		List<XmlTest> tests = suite.getTests();
+		for (XmlTest test : tests) {
+			newCATest = createTest(test, Constants.States.CA);
+			List<String> states = getStates(test);
+
+			for (String state : states) {
+
+				XmlTest xmlTest = createTest(test, state);
+				List<XmlClass> classes = test.getClasses();
+				for (XmlClass xmlClass : classes) {
+					if ((isSSProduct(xmlClass) || isPUPProduct(xmlClass)) && !state.equalsIgnoreCase(Constants.States.CA)) {
+						xmlTest.getClasses().add(xmlClass);
+					} else if ((isCAProduct(xmlClass) || isPUPProduct(xmlClass)) && state.equalsIgnoreCase(Constants.States.CA)) {
+						xmlTest.getClasses().add(xmlClass);
+					} else if (isCAProduct(xmlClass) && !states.contains(Constants.States.CA)) {
+						newCATest.getClasses().add(xmlClass);
+					}
+				}
+				if (!xmlTest.getClasses().isEmpty())
+					newTests.add(xmlTest);
+			}
+			if (!newCATest.getClasses().isEmpty()) {
+				newTests.add(newCATest);
+			}
+		}
+		suite.setTests(newTests);
+		for (XmlTest newTest : newTests) {
+			newTest.setSuite(suite);
+		}
+		CustomLogger.getInstance().info(suite.toXml());
+		return suite;
 	}
 }

@@ -2,6 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.home_ca.ho3;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 
@@ -33,9 +35,10 @@ public class TestPolicyReinstatementWithLapse extends PolicyReinstatementWithLap
 		return PolicyType.HOME_CA_HO3;
 	}
 
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
-	public void testPolicyReinstatementWithLapse() {
+	public void testPolicyReinstatementWithLapse(@Optional("CA") String state) {
 		super.testPolicyReinstatementWithLapse();
 	}
 

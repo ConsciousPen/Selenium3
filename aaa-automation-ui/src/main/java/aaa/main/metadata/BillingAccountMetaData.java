@@ -217,4 +217,9 @@ public final class BillingAccountMetaData {
         public static final AssetDescriptor<TextBox> PRODUCT_SUB_TOTAL = declare("Total Amount", TextBox.class);
         public static final AssetDescriptor<TextBox> OTHER = declare("Other", TextBox.class);
     }
+
+    public static final class ChangePaymentPlanActionTab extends MetaData {
+        public static final AssetDescriptor<StaticElement> PRODUCT_NUM = declare("Product #", StaticElement.class);
+        public static final AssetDescriptor<ComboBox> PAYMENT_PLAN = declare("Payment Plan:", ComboBox.class);
+    }
 }

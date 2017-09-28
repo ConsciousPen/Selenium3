@@ -1,0 +1,127 @@
+TestData: {
+  VehicleTab: [{
+    Usage: Pleasure,
+    VIN: 1GNWGPFG8B6548273
+  }, {
+    Usage: Pleasure,
+    VIN: 1B3BA46K4KF440231
+  }],
+  PremiumAndCoveragesTab: {
+    Payment Plan: Eleven Pay - Standard
+  }
+}
+
+#---- NY ----
+TestData_NY: {
+  VehicleTab: [{
+    Usage: Pleasure,
+    VIN: 1GNWGPFG8B6548273,
+    'Less Than 3,000 Miles': 'No'
+  }, {
+    Usage: Pleasure,
+    VIN: 1B3BA46K4KF440231
+  }],
+  PremiumAndCoveragesTab: {
+    Payment Plan: Eleven Pay - Standard
+  }
+}
+
+#---- Endorsement ----
+
+TestData_EndorsementPlan: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Payment Plan: Annual
+  }
+}
+  
+TestData_EndorsementRP: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {
+    List of Vehicle: [{}, {
+      'column=5': Remove,
+      Confirm Remove: click
+    }]
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+TestData_EndorsementAP: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 1B3BA46K4KF440231
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+#---- Endorsement NY ----
+
+TestData_EndorsementPlan_NY: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Payment Plan: Annual
+  }
+}
+
+TestData_EndorsementRP_NY: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {
+    List of Vehicle: [{}, {
+      'column=5': Remove,
+      Confirm Remove: click
+    }]
+  },
+  AssignmentTab: {},  
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+TestData_EndorsementAP_NY: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 1B3BA46K4KF440231,
+    'Is this a Replacement Vehicle?': 'No'
+  },
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}

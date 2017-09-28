@@ -61,6 +61,7 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 		query = query.replace("/EXECDATE/", executionDate);
 		query = query.replace("/STATE/", getState());
 		query = query.replace("pasadm.", "");
+		query = query.replace("PASADM.", "");
 
 		return DBService.get().getRows(query);
 	}

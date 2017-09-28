@@ -194,6 +194,8 @@ AdditionalAddress: {
   'Are there any additional addresses?': 'Yes', 
   Zip code: '90201', 
   Street address 1: '266 Chipman Ave', 
+  City: Bell,
+  State: CA,
   Validate Address: true, 
   Validate Address Dialog: {
     Additional Dwelling Address: 'Override and use original address'
@@ -272,6 +274,8 @@ MortgageeInformation: {
   Name: Leopold Stotch, 
   Zip code: '90201', 
   Street address 1: '265 CHIPMAN AVE', 
+  City: Bell,
+  State: CA,
   Validate Address: true, 
   Validate Address Dialog: {}, 
   Loan number: '12345678'
@@ -284,7 +288,10 @@ LegalPropetyAddress: {
 
 AdditionalInsured: {
   Interest: Trust, 
-  Name: Pasha Ulybasha
+  Name: Pasha Ulybasha,
+  "Same as insured mailing address?": "No",
+  Zip code: 86021,
+  Street address 1: Test
 }
 
 AdditionalInterest: {

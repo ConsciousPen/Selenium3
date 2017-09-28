@@ -8,6 +8,7 @@ import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
+import toolkit.webdriver.controls.ListBox;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
@@ -16,7 +17,9 @@ import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.waiters.Waiters;
 import aaa.common.pages.Page;
+import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
+import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
 import aaa.toolkit.webdriver.customcontrols.FillableTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
@@ -1441,7 +1444,7 @@ public final class HomeCaMetaData {
 		public static final class AdditionalInsured extends MetaData {
 			public static final AssetDescriptor<ComboBox> INTEREST = declare("Interest", ComboBox.class, Waiters.NONE);
 			public static final AssetDescriptor<TextBox> NAME = declare("Name", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<RadioGroup> SAME_AS_INSURED_S_MAILING_ADDRESS = declare("Same as insured's mailing address?", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<RadioGroup> SAME_AS_INSURED_S_MAILING_ADDRESS = declare("Same as insured mailing address?", RadioGroup.class, Waiters.AJAX, By.id("policyDataGatherForm:sedit_AAAHOAdditionalInsured_differentAddressInd"));
 			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1 = declare("Street address 1", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2 = declare("Street address 2", TextBox.class, Waiters.AJAX);
@@ -1781,6 +1784,39 @@ public final class HomeCaMetaData {
 	}
 
 	public static final class PolicyDocGenActionTab extends MetaData {
+		public static final AssetDescriptor<FillableDocumentsTable> ON_DEMAND_DOCUMENTS = declare("OnDemandDocuments", FillableDocumentsTable.class, DocumentRow.class, By.xpath("(//div[@id='policyDataGatherForm:componentView_AAAHODocGen']//table)[1]"));
+		public static final AssetDescriptor<RadioGroup> DELIVERY_METHOD = declare("Delivery Method", RadioGroup.class, Waiters.AJAX, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAHODocGen_body']/table"));
+		public static final AssetDescriptor<TextBox> EMAIL_ADDRESS = declare("Email Address", TextBox.class, Waiters.AJAX);
+		
+		public static final class DocumentRow extends MetaData {
+			public static final AssetDescriptor<CheckBox> SELECT = declare(DocGenConstants.OnDemandDocumentsTable.SELECT, CheckBox.class);
+			public static final AssetDescriptor<StaticElement> DOCUMENT_NUMBER = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, StaticElement.class);
+			public static final AssetDescriptor<StaticElement> DOCUMENT_NAME = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, StaticElement.class);
+			
+			// 60 5005
+			public static final AssetDescriptor<ListBox> REASON_605005 = declare("Reason605005", ListBox.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:returnPaymentGrid_605005']//select"));
+						
+			// Fields of HSU03XX
+			public static final AssetDescriptor<CheckBox> DECISION_BASED_ON_CLUE_HSU03 = declare("Decision based on CLUE HSU03", CheckBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:hsu03CIN:0']"));
+			
+			// Fields of HSU05XX
+			public static final AssetDescriptor<TextBox> FIRST_NAME_HSU05 = declare("First name", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:firstName_HSU05']"));
+			public static final AssetDescriptor<TextBox> LAST_NAME_HSU05 = declare("Last name", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:lastName_HSU05']"));
+			public static final AssetDescriptor<TextBox> ZIP_CODE_HSU05 = declare("Zip code", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:zipCode_HSU05']"));
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_1_HSU05 = declare("Street address 1", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:address1_HSU05']"));
+			public static final AssetDescriptor<TextBox> STREET_ADDRESS_2_HSU05 = declare("Street address 2", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:address2Show_HSU05']"));
+			public static final AssetDescriptor<TextBox> City_HSU05 = declare("City", TextBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:city_HSU05']"));
+			public static final AssetDescriptor<ComboBox> STATE_HSU05 = declare("State", ComboBox.class, Waiters.AJAX, false, By.xpath("//span[@id='policyDataGatherForm:stateShow_HSU05']/select"));
+			public static final AssetDescriptor<TextBox> DESCRIPTION_HSU05 = declare("Description", TextBox.class, Waiters.AJAX, false, By.xpath("//textarea[@id='policyDataGatherForm:uwMsg_HSU05']"));
+		
+			// Fields of HSU07XX
+			public static final AssetDescriptor<CheckBox> DECISION_BASED_ON_CLUE_HSU07 = declare("Decision based on CLUE HSU07", CheckBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:hsu07CIN:0']"));	
+			
+			// Fields of HSU09XX
+			public static final AssetDescriptor<CheckBox> DECISION_BASED_ON_CLUE_HSU09 = declare("Decision based on CLUE HSU09", CheckBox.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:hsu09CIN:0']"));
+		
+			
+		}
 	}
 
 	public static final class EndorsementActionTab extends MetaData {
@@ -1801,5 +1837,10 @@ public final class HomeCaMetaData {
 		public static final AssetDescriptor<TextBox> RENEWAL_LAPSE_DATE = declare("Renewal Lapse Date", TextBox.class);
 		public static final AssetDescriptor<TextBox> REVISED_RENEWAL_DATE = declare("Revised Renewal Date", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> LAPSE_CHANGE_REASON = declare("Lapse Change Reason", ComboBox.class, Waiters.AJAX);
+	}
+
+	public static final class CreateQuoteVersionTab extends MetaData {
+		public static final AssetDescriptor<StaticElement> VERSION_NUM = declare("Version #", StaticElement.class);
+		public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class);
 	}
 }

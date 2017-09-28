@@ -5,6 +5,8 @@ package aaa.modules.regression.sales.auto_ss;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.main.enums.SearchEnum;
@@ -37,12 +39,13 @@ import toolkit.verification.CustomAssert;
  */
 public class TestPolicySpin extends AutoSSBaseTest {
 
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testPolicySpin() {
+	public void testPolicySpin(@Optional("") String state) {
 
 
-    	new TestPolicyCreationBig().testPolicyCreationBig();
+    	new TestPolicyCreationBig().testPolicyCreationBig(state);
     	
 		//Read and store zip code from UI, will need it to fill values for spun quote
 		String zip_code = PolicySummaryPage.tablePolicyVehicles.getRow(1).getCell("Garaging Zip").getValue();

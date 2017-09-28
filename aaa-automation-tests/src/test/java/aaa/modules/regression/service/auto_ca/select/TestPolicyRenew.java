@@ -2,6 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ca.select;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.helpers.constants.ComponentConstant;
@@ -20,9 +22,10 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyRenew extends AutoCaSelectBaseTest {
 
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT)
-	public void testQuoteCreation() {
+	public void testQuoteCreation(@Optional("CA") String state) {
 		mainApp().open();
 
 		createCustomerIndividual();

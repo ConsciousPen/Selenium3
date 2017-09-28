@@ -6,14 +6,15 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 /**
  * @author Jelena Dembovska
  * @name Test Billing functionality
- * @scenario
- * 1. Find customer or create new if customer does not exist;
+ * @scenario 1. Find customer or create new if customer does not exist;
  * 2. Create new Auto Policy;
  * 3. Move to Billing tab
  * 4. Make 4 different payments(Accept Payment with Payments types: Cash, Check, Credit Card, EFT);
@@ -30,10 +31,10 @@ public class TestPolicyBilling extends PolicyBilling {
 		return PolicyType.PUP;
 	}
 
-	@Override
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.BLOCKER})
-	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP )
-	public void testBilling() {
+	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP)
+	public void testBilling(@Optional("") String state) {
 
 		super.testBilling();
 	}

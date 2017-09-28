@@ -17,6 +17,7 @@ public final class BillingConstants {
 	public static final class PaymentPlan {
 		public static final String PAY_IN_FULL = "Pay in Full";
 		public static final String SEMI_ANNUAL = "Semi-Annual";
+		public static final String SEMI_ANNUAL_RENEWAL = "Semi-Annual (Renewal)";
 		public static final String QUARTERLY = "Quarterly";
 		public static final String QUARTERLY_RENEWAL = "Quarterly (Renewal)";
 		public static final String MONTHLY_STANDARD = "Monthly Standard";
@@ -26,6 +27,11 @@ public final class BillingConstants {
 		public static final String ELEVEN_PAY = "Eleven Pay Standard";
 		public static final String ELEVEN_PAY_RENEWAL = "Eleven Pay Standard (Renewal)";
 		public static final String ANNUAL = "Annual";
+	}
+
+	public static final class PolicyTerm {
+		public static final String ANNUAL = "Annual";
+		public static final String SEMI_ANNUAL = "Semi-Annual";
 	}
 
 	public static final class BillingAccountPoliciesBillingStatus {
@@ -93,6 +99,7 @@ public final class BillingConstants {
 		public static final String REALLOCATED_PAYMENT = "Reallocated Payment";
 		public static final String REALLOCATE_PAYMENT = "Reallocate Payment";
 		public static final String RENEWAL_POLICY_RENEWAL_PROPOSAL = "Renewal - Policy Renewal Proposal";
+		public static final String RENEWAL_POLICY_RENEWAL_PROPOSAL_REVERSAL = "Renewal - Policy Renewal Proposal Reversal";
 		public static final String REINSTATEMENT = "Reinstatement";
 		public static final String REINSTATEMENT_FEE = "Reinstatement Fee";
 		public static final String REINSTATEMENT_FEE_WITH_LAPSE = "Reinstatement with Lapse";
@@ -103,14 +110,20 @@ public final class BillingConstants {
 		public static final String OFFER_WITHOUT_LAPSE = "Offer without Lapse";
 		public static final String SUSPENSE = "Suspense";
 		public static final String NSF_FEE__WITH_RESTRICTION = "NSF fee - with restriction";
+		public static final String NSF_FEE__WITHOUT_RESTRICTION = "NSF fee - without restriction";
 		public static final String DEPOSIT_PAYMENT = "Deposit Payment";
+		public static final String PLIGA_FEE = "PLIGA Fee";
+		public static final String MVLE_FEE = "MVLE Fee";
 		public static final String RECURRING_PAYMENT = "Recurring Payment";
 		public static final String REGULUS_LOCKBOX = "Regulus LockBox";
 		public static final String REGULUS_ONLINE = "Regulus Online";
+		public static final String NON_EFT_INSTALLMENT_FEE = "Non EFT Installment Fee";
+		public static final String NON_EFT_INSTALLMENT_FEE_WAIVED = "Non EFT Installment Fee Waived";
 	}
 
 	public static final class PaymentsAndOtherTransactionReason {
 		public static final String COUNTERFEIT = "Counterfeit";
+		public static final String FEE_NO_RESTRICTION = "Fee + No Restriction";
 		public static final String FEE_PLUS_RESTRICTION = "Fee + Restriction";
 		public static final String NO_FEE_NO_RESTRICTION = "No Fee + No Restriction";
 		public static final String NO_FEE_NO_RESTRICTION_NO_LETTER = "No Fee + No Restriction + No Letter";
@@ -135,11 +148,13 @@ public final class BillingConstants {
 	public static final class AcceptPaymentMethod {
 		public static final String CASH = "Cash";
 		public static final String CHECK = "Check";
+		public static final String VISA = "Visa";
 	}
 
 	public static final class RefundPaymentMethod {
 		public static final String CASH = "Cash";
 		public static final String CHECK = "Check";
+		public static final String VISA = "Visa";
 	}
 
 	public static final class ModalPremiumTransactionType {

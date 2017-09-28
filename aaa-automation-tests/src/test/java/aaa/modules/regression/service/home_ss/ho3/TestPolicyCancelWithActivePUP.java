@@ -1,6 +1,8 @@
 package aaa.modules.regression.service.home_ss.ho3;
 
 import java.util.HashMap;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -33,9 +35,10 @@ public class TestPolicyCancelWithActivePUP extends HomeSSHO3BaseTest {
      * 6.  Confirm cancellation and verify Policy Status 'Policy Cancelled'
      */
 
-    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
+    @Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
-    public void testPolicyCancelWithActivePUP() {
+    public void testPolicyCancelWithActivePUP(@Optional("") String state) {
         String alert = "Are you sure you want to cancel the underlying home policy? The companion PUP will need review.";
 
         mainApp().open();

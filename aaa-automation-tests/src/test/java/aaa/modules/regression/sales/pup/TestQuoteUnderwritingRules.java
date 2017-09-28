@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.pup;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -44,9 +46,10 @@ public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest {
 	private UnderwritingAndApprovalTab underwritingTab = policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class);
 	private ErrorTab errorTab = policy.getDefaultView().getTab(ErrorTab.class);
 	
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Sales.PUP)
-	public void testQuoteUnderwritingRules() {
+	public void testQuoteUnderwritingRules(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		

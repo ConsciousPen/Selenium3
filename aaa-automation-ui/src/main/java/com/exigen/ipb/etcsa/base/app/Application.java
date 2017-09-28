@@ -1,6 +1,9 @@
 package com.exigen.ipb.etcsa.base.app;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import toolkit.config.PropertyProvider;
@@ -104,13 +107,17 @@ public abstract class Application {
     }
 
     private void openSession() {
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
         if (TimeShiftTestUtil.isContextAvailable()) {
             if (TimeShiftTestUtil.getContext().getPhaseUrls().length == 0) {
                 TimeShiftTestUtil.getContext().setPhaseStartUrls(url);
             }
             BrowserController.initBrowser(TimeShiftTestUtil.getContext().getBrowser(0).getWebDriver());
         } else {
-            BrowserController.initBrowser();
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.setExperimentalOption("useAutomationExtension", false);
+            WebDriver driver = new ChromeDriver(chromeOptions);
+            BrowserController.initBrowser(driver);
         }
 
         BrowserController.get().open(url);

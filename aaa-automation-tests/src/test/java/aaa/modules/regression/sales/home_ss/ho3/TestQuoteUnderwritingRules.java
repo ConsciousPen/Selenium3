@@ -3,6 +3,8 @@ package aaa.modules.regression.sales.home_ss.ho3;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.common.enums.NavigationEnum;
@@ -60,9 +62,10 @@ import toolkit.verification.CustomAssert;
  */
 public class TestQuoteUnderwritingRules extends HomeSSHO3BaseTest {
 
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
-	public void testQuoteUnderwritingRules() {
+	public void testQuoteUnderwritingRules(@Optional("") String state) {
 		mainApp().open();
 		
 		TestData td = getPolicyTD("DataGather", "TestData");
