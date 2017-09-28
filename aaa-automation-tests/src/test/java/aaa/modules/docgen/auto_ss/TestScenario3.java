@@ -32,9 +32,8 @@ public class TestScenario3 extends AutoSSBaseTest {
 		createCustomerIndividual();
 		String policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		log.info(getState() + " Policy AZ AutoSS is created: " + policyNumber);
-		DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AA41XX)
-				.verify.mapping(getTestSpecificTD("TestData_Verification").adjust(TestData.makeKeyPath("AA41XX", "form", "PlcyNum", "TextField"), policyNumber), policyNumber);
+		log.info(getState() + " Policy AutoSS is created: " + policyNumber);
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AA41XX).verify.mapping(getTestSpecificTD("TestData_Verification").adjust(TestData.makeKeyPath("AA41XX", "form", "PlcyNum", "TextField"), policyNumber).adjust(TestData.makeKeyPath("AARFIXX", "form", "PlcyNum", "TextField"), policyNumber), policyNumber);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
