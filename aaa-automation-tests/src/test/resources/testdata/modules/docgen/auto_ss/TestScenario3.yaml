@@ -17,6 +17,15 @@ TestData_IN: {
   PurchaseTab: '@PurchaseTab'
 }
 
+TestData_OK: {
+  GeneralTab: '@GeneralTab',
+  VehicleTab: '@VehicleTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab_OK',
+  PurchaseTab: '@PurchaseTab'
+}
+
 # ------------- Tabs ----------
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
@@ -127,6 +136,37 @@ ErrorTab_IN: {
    }]
 }
 
+ErrorTab_OK: {
+  ErrorsOverride: [{
+    Message: "contains=Current CLUE must be ordered",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   },
+   {
+    Message: "contains=A signed Non-Owners Automobile Endorsement must be received prior to issuing",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   },
+   {
+    Message: "contains=A signed Coverage Selection Form must be received prior to issuing",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   },
+   {
+    Message: "contains=Oklahoma Auto Insurance Application",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   }]
+}
+
 PurchaseTab: {
   PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa'],
   Activate Autopay: true,
@@ -144,6 +184,10 @@ TestData_Verification_AZ: {
 
 TestData_Verification_IN: {
   AA41XX: '@AA41XX_IN'
+}
+
+TestData_Verification_OK: {
+  AA41XX: '@AA41XX_OK'
 }
 
 AA41XX_AZ: {
@@ -206,6 +250,40 @@ AA41XX_IN: {
     PlcyStAbrv: {TextField: IN},
     PlcyTransCd: {TextField: '0040'},
     PlcyPrfx: {TextField: INSS},
+    PlcyGrp: {TextField: PERSONAL AUTO},
+    SpseExclNOPlcyYN: {TextField: Y},
+    PlcyNum: {TextField: ''},
+    TermEffDt: {DateTimeField: "/today:yyyy-MM-dd'T00:00:00.000+03:00'"},
+    SgntrOnFile: {TextField: ''}
+  }
+}
+
+AA41XX_OK: {
+  CompanyDetails: {
+    CoNm: {TextField: 'AAA Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(800) 259-8008'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdStAbrv: {TextField: OK}
+  },
+  AgentDetails: {
+    GenlAgntNum: {TextField: 400001650},
+    SubAgntNum: {TextField: 400018581}
+  },
+  VehicleDetails: {
+    VehTyp: {TextField: 'NO'}
+  },
+  form: {
+    PlcyStAbrv: {TextField: OK},
+    PlcyTransCd: {TextField: '0040'},
+    PlcyPrfx: {TextField: OKSS},
     PlcyGrp: {TextField: PERSONAL AUTO},
     SpseExclNOPlcyYN: {TextField: Y},
     PlcyNum: {TextField: ''},

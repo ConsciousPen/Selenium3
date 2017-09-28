@@ -40,6 +40,7 @@ public class TestScenario3 extends AutoSSBaseTest {
 			DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AA41XX, Documents.AARFIXX).verify.mapping(tdVerification, policyNumber);
 			break;
 		case "IN":
+		case "OK":
 			tdVerification.adjust(TestData.makeKeyPath("AA41XX", "form", "PlcyNum", "TextField"), policyNumber);
 			DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AA41XX).verify.mapping(tdVerification, policyNumber);
 			break;
