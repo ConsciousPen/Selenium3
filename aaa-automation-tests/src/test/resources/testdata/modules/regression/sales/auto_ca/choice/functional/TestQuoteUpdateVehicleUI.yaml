@@ -9,17 +9,6 @@ TestCase_3: {
   }
 }
 
-Assignment: {
-  'Primary Driver': 'index=1',
-  'Manually Rated Driver': 'index=1'
-}
-
-
-VehicleInformation: {
-  'Are there any additional interest(s)?': 'No'
-  }
-
-
 Vehicle_1_VIN_MATCH: {
   Primary Use: 'index=1',
   VIN: JT8UF22E3S0028445,
