@@ -83,7 +83,4 @@ public class BillingBillsAndStatementsVerifier extends TableVerifier {
 		verifyRowWithDueDate(installmentDate);
 	}
 
-	public Map<String, String> getValues() {
-		return values;
-	}
 }

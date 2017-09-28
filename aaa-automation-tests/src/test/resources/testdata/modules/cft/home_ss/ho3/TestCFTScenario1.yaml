@@ -1,0 +1,44 @@
+TestData: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+EndorsementActionTab: {
+  Endorsement Date: /today+2d,
+  Endorsement Reason: 'Other Interest(s)/Mortgagees'
+}
+
+PremiumsAndCoveragesQuoteTab: {
+  Coverage E - Personal Liability Each Occurrence: 'contains=$700,000',
+  Calculate Premium: 'click',
+  Override Premium: {
+    Remarks: 'Only Erich Maria Remarque',
+    Override Premium By Flat Amount: '200.00',
+    Additional Popup Submit: {
+      Submit Popup: 'click'
+    }
+  }
+}
+
+PremiumsAndCoveragesQuoteTab_DataGather: {
+  Payment plan: Eleven Pay Standard,
+  Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+  Coverage E - Personal Liability Each Occurrence: '$300,000'
+}
+
+PurchaseTab_DataGather: {
+ PaymentAllocation: {
+    Check: /rest,
+    Check Number Check: '123456'
+ }
+}

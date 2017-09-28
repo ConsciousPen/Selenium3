@@ -7,6 +7,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
+import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
@@ -36,16 +37,16 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	private ThreadLocal<List<LocalDateTime>> installments = new ThreadLocal<>();
 	private ThreadLocal<String> policyNumber = ThreadLocal.withInitial(() -> StringUtils.EMPTY);
 	private ThreadLocal<BillingBillsAndStatementsVerifier> billingBillsAndStatementsVerifier = ThreadLocal.withInitial(BillingBillsAndStatementsVerifier::new);
+	private ThreadLocal<BillingPaymentsAndTransactionsVerifier> billingPaymentsAndTransactionsVerifier = ThreadLocal.withInitial(BillingPaymentsAndTransactionsVerifier::new);
 
 	@BeforeSuite(alwaysRun = true)
 	public void runCFTJob() {
-		//runCFTJobs();
+		runCFTJobs();
 		startTime = TimeSetterUtil.getInstance().getCurrentTime();
 	}
 
 	/**
 	 * Creating of the policy for test
-	 * DD0 - means today time - start time point
 	 */
 	protected void testCFTScenario1CreatePolicy() {
 		mainApp().open();
@@ -58,22 +59,26 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	/**
 	 * Endorsement of the policy
-	 * X_2 - today(suite start time) + 2 day
+	 * today(suite start time) + 2 day
 	 */
 	protected void testCFTScenario1Endorsement() {
+		log.info("Endorsment action started");
+		log.info("Endorsement date: " + startTime.plusDays(2));
 		TimeSetterUtil.getInstance().nextPhase(startTime.plusDays(2));
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber.get());
-		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));// get endorse data according to product
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Endorsement effective %1$s for Policy %2$s", TimeSetterUtil.getInstance().getCurrentTime().plusDays(2).format(DateTimeUtils.MM_DD_YYYY), policyNumber.get()));
+		log.info("Endorsment action finished successfully");
 	}
 
 	/**
-	 * Endorsement of the policy
-	 * DD1_20 - 1st Due Day - 20 days
+	 * Bill generation for first installment of the policy
 	 */
 	protected void testCFTScenario1FirstInstallmentBillGeneration() {
-		LocalDateTime billDueDate = getTimePoints().getBillGenerationDate(installments.get().get(0));
+		LocalDateTime billDueDate = getTimePoints().getBillGenerationDate(installments.get().get(1));
+		log.info("Installment generation started");
+		log.info("Installment generation date: " + billDueDate);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
@@ -81,22 +86,22 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		getBillingBillsAndStatementsVerifier().getValues().clear();
 		getBillingBillsAndStatementsVerifier()
 				.setType(BillingConstants.BillsAndStatementsType.BILL)
-				.setDueDate(installments.get().get(0))
+				.setDueDate(installments.get().get(1))
 				.setMinDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue()))
 				.setPastDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PAST_DUE).getValue()))
 				.setTotalDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue()))
 				.verifyPresent();
+		log.info("Installment generation finished successfully");
 	}
 
 	/**
-	 * Endorsement of the policy
-	 * Auto AZ DD1+8+8
-	 * Auto MD, Property - UT, DE, OK, MD, KS, OH DD1+5+13
-	 * Property NJ - DD1+5+15
+	 * Cancellation Notice for the policy
 	 */
 	protected void testCFTScenario1AutomaticCancellationNotice() {
-		LocalDateTime cancellationNoticeDate = getTimePoints().getCancellationNoticeDate(installments.get().get(0));
-		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(installments.get().get(0));
+		LocalDateTime cancellationNoticeDate = getTimePoints().getCancellationNoticeDate(installments.get().get(1));
+		log.info("Cancellation Notice action started");
+		log.info("Cancellation Notice date: " + cancellationNoticeDate);
+		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(installments.get().get(1));
 		TimeSetterUtil.getInstance().nextPhase(cancellationNoticeDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
@@ -106,56 +111,75 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 				.setDueDate(cancellationDate)
 				.setType(BillingConstants.BillsAndStatementsType.CANCELLATION_NOTICE)
 				.verifyPresent();
+		log.info("Cancellation Notice action finished successfully");
 	}
 
 	/**
 	 * Endorsement of the policy
-	 * Auto AZ DD1+8+8
-	 * Auto MD, Property - UT, DE, OK, MD, KS, OH DD1+5+13
-	 * Property NJ - DD1+5+15
 	 */
 	protected void testCFTScenario1AutomaticCancellation() {
-		LocalDateTime cancellationNoticeDate = getTimePoints().getCancellationNoticeDate(installments.get().get(0));
-		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(cancellationNoticeDate);
+		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(installments.get().get(1));
+		log.info("Cancellation action started");
+		log.info("Cancellation date: " + cancellationDate);
 		TimeSetterUtil.getInstance().nextPhase(cancellationDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber.get());
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		log.info("Cancellation action finished successfully");
 	}
 
 	/**
 	 * Generate 1st EP bill
 	 */
 	protected void testCFTScenario1GenerateFirstEPBill() {
-		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillFirst(installments.get().get(0)));
+		LocalDateTime firstEPBillDate = getTimePoints().getEarnedPremiumBillFirst(installments.get().get(1));
+		log.info("First EP bill generation started");
+		log.info("First EP bill generated date: " + firstEPBillDate);
+		generateAndCheckEarnedPremiumBill(firstEPBillDate);
+		log.info("First EP bill generated successfully");
 	}
 
 	/**
 	 * Generate 2st EP bill
 	 */
 	protected void testCFTScenario1GenerateSecondEPBill() {
-		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillSecond(installments.get().get(0)));
+		LocalDateTime secondEPBillDate = getTimePoints().getEarnedPremiumBillSecond(installments.get().get(1));
+		log.info("Second EP bill generation started");
+		log.info("Second EP bill generated date: " + secondEPBillDate);
+		generateAndCheckEarnedPremiumBill(secondEPBillDate);
+		log.info("Second EP bill generated successfully");
 	}
 
 	/**
 	 * Generate 3st EP bill
 	 */
 	protected void testCFTScenario1GenerateThirdEPBill() {
-		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillThird(installments.get().get(0)));
+		LocalDateTime thirdEPBillDate = getTimePoints().getEarnedPremiumBillThird(installments.get().get(1));
+		log.info("Third EP bill generation started");
+		log.info("Third EP bill generated date: " + thirdEPBillDate);
+		generateAndCheckEarnedPremiumBill(thirdEPBillDate);
+		log.info("Third EP bill generated successfully");
 	}
 
 	/**
-	 *
+	 * Generate EP write off
 	 */
 	protected void testCFTScenario1WriteOff() {
-		LocalDateTime writeOffDate = getTimePoints().getEarnedPremiumWriteOff(installments.get().get(0));
+		LocalDateTime writeOffDate = getTimePoints().getEarnedPremiumWriteOff(installments.get().get(1));
 		TimeSetterUtil.getInstance().nextPhase(writeOffDate);
+		log.info("EP Write off generation action started");
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
-		// check write off was generated
-		log.info("");
+		getBillingPaymentsAndTransactionsVerifier().getValues().clear();
+		getBillingPaymentsAndTransactionsVerifier()
+				.setTransactionDate(writeOffDate)
+				.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
+				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF)
+				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
+				.verifyPresent();
+		log.info("EP Write off generated successfully");
 	}
 
 	protected void generateAndCheckEarnedPremiumBill(LocalDateTime date) {
@@ -183,7 +207,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 			}
 			case "HomeSS": {
 				TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
-				td.adjust("PremiumAndCoveragesTab", getTestSpecificTD("PremiumAndCoveragesTab_DataGather"));
+				td.adjust("PremiumsAndCoveragesQuoteTab", getTestSpecificTD("PremiumsAndCoveragesQuoteTab_DataGather"));
 				td.adjust("PurchaseTab", getTestSpecificTD("PurchaseTab_DataGather"));
 				return td;
 			}
@@ -195,5 +219,9 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	private BillingBillsAndStatementsVerifier getBillingBillsAndStatementsVerifier() {
 		return billingBillsAndStatementsVerifier.get();
+	}
+
+	public BillingPaymentsAndTransactionsVerifier getBillingPaymentsAndTransactionsVerifier() {
+		return billingPaymentsAndTransactionsVerifier.get();
 	}
 }

@@ -55,17 +55,10 @@ public class PremiumAndCoveragesTab extends Tab {
 
 	@Override
 	public Tab fillTab(TestData td) {
-		// local copy of TD
-		//td.mask("key for override");
-		TestData tdLocal = td.getTestData(getMetaKey());
-		tdLocal.mask(AutoSSMetaData.PremiumAndCoveragesTab.OVERRRIDE_PREMIUM_DIALOG.getLabel());
-		super.fillTab(new SimpleDataProvider().adjust(getMetaKey(),tdLocal));
-		// TODO iguliam : use CALCULATE_PREMIUM attributeDescriptor from TD directly instead of buttonCalculatePremium. refactoring needed.
-		//then invocation directly from class will not be needed as well as manipulation with test data
-		buttonCalculatePremium.click();
-		tdLocal.purgeAdjustments();
-		tdLocal.ksam(AutoSSMetaData.PremiumAndCoveragesTab.OVERRRIDE_PREMIUM_DIALOG.getLabel());
-		super.fillTab(new SimpleDataProvider().adjust(getMetaKey(),tdLocal));
+		super.fillTab(td);
+		if (!td.getTestData(getMetaKey()).containsKey(AutoSSMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM.getLabel())) {
+			buttonCalculatePremium.click();
+		}
 		return this;
 	}
 
