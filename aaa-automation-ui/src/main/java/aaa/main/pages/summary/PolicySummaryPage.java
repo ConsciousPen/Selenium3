@@ -117,7 +117,7 @@ public class PolicySummaryPage extends SummaryPage {
 	}
 
 	public static void verifyCancelNoticeFlagNotPresent() {
-		labelCancelNotice.verify.present("'Cancel Notice' flag is present", false);
+		labelCancelNotice.verify.present("'Cancel Notice' flag is absent", false);
 	}
 
 	public static void verifyLapseExistFlagPresent() {
