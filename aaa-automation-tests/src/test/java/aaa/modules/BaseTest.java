@@ -2,27 +2,9 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules;
 
-import java.lang.reflect.Method;
-import java.util.*;
-
-import aaa.helpers.listeners.AaaTestListener;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.Assert;
-import org.testng.ITestContext;
-import org.testng.annotations.*;
-
-import com.exigen.ipb.etcsa.base.app.ApplicationFactory;
-import com.exigen.ipb.etcsa.base.app.MainApplication;
-import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
-
 import aaa.EntityLogger;
 import aaa.common.enums.Constants;
 import aaa.common.enums.Constants.States;
-import aaa.main.enums.SearchEnum;
-import aaa.main.enums.SearchEnum.SearchBy;
-import aaa.main.enums.SearchEnum.SearchFor;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.metadata.LoginPageMeta;
 import aaa.common.pages.LoginPage;
@@ -32,6 +14,10 @@ import aaa.helpers.EntitiesHolder;
 import aaa.helpers.TestDataManager;
 import aaa.helpers.TimePoints;
 import aaa.helpers.config.CustomTestProperties;
+import aaa.helpers.listeners.AaaTestListener;
+import aaa.main.enums.SearchEnum;
+import aaa.main.enums.SearchEnum.SearchBy;
+import aaa.main.enums.SearchEnum.SearchFor;
 import aaa.main.modules.customer.Customer;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.PolicyType;
@@ -39,13 +25,24 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.rest.policy.PolicyRestImpl;
-import org.testng.annotations.Optional;
+import com.exigen.ipb.etcsa.base.app.ApplicationFactory;
+import com.exigen.ipb.etcsa.base.app.MainApplication;
+import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import org.testng.annotations.*;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.verification.CustomAssert;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Listeners({AaaTestListener.class})
 public class BaseTest {
@@ -181,6 +178,7 @@ public class BaseTest {
 		return createQuote(td);
 	}
 
+
 	/**
 	 * Create quote using provided TestData</br>
 	 * Note: Suitable only for quote type that is returned by test's getPolicyType()</br>
@@ -256,7 +254,7 @@ public class BaseTest {
 		Assert.assertNotNull(policyType, "PolicyType is not set");
 		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), state);
 		String policyNumber;
-		synchronized (key.intern()) {
+		synchronized (key) {
 			Integer count = policyCount.get(key);
 			if (count == null)
 				count = 1;

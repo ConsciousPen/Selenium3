@@ -48,7 +48,8 @@ public class GeneralSchedulerPage extends AdminPage {
         REFUND_GENERATION_JOB("refundGenerationJob"),
         RENEWAL_PROPOSING_JOB("renewalProposingJob"),
         RENEWAL_RATING_JOB("renewalRatingJob"),
-        PENDING_UPDATE_JOB("pendingUpdateJob");
+        PENDING_UPDATE_JOB("pendingUpdateJob"),
+        CFT_DCS_EOD_JOB("cftDcsEodJob");
 
         String id;
 

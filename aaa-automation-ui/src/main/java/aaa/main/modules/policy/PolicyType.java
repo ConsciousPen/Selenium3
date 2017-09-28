@@ -12,7 +12,7 @@ import aaa.rest.policy.personallines.PersonalLinesPolicyRest;
 
 /**
  * Single-root product (actually, entity) enum/factory.
- * 
+ *
  * @category Generated
  */
 public class PolicyType {

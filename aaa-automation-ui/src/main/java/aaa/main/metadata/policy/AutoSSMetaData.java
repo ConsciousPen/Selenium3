@@ -4,6 +4,7 @@ package aaa.main.metadata.policy;
 
 import aaa.main.enums.DocGenConstants;
 import aaa.toolkit.webdriver.customcontrols.*;
+import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import org.openqa.selenium.By;
 
 import com.exigen.ipb.etcsa.controls.PartySearchTextBox;
@@ -458,6 +459,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<ComboBox> PROPERTY_DAMAGE_LIABILITY = declare("Property Damage Liability", ComboBox.class, By.xpath(".//table[@id='policyDataGatherForm:policy_vehicle_detail_coverage']//span[normalize-space(.)='Property Damage Liability']/ancestor::tr[1]//select"));
 		public static final AssetDescriptor<ComboBox> UNINSURED_MOTORISTS_BODILY_INJURY = declare("Uninsured Motorists Bodily Injury", ComboBox.class, By.xpath(".//table[@id='policyDataGatherForm:policy_vehicle_detail_coverage']//span[normalize-space(.)='Uninsured Motorists Bodily Injury']/ancestor::tr[1]//select"));
 		public static final AssetDescriptor<ComboBox> UNDERINSURED_MOTORISTS_BODILY_INJURY = declare("Underinsured Motorists Bodily Injury", ComboBox.class, By.xpath(".//table[@id='policyDataGatherForm:policy_vehicle_detail_coverage']//span[normalize-space(.)='Underinsured Motorists Bodily Injury']/ancestor::tr[1]//select"));	
+		public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_PROPERTY_DAMAGE_LIMIT = declare("Uninsured Motorist Property Damage Limit", ComboBox.class, By.xpath(".//table[@id='policyDataGatherForm:policy_vehicle_detail_coverage']//span[normalize-space(.)='Uninsured Motorist Property Damage Limit']/ancestor::tr[1]//select"));
 		public static final AssetDescriptor<ComboBox> UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY =
 				declare("Uninsured/Underinsured Motorist Bodily Injury", ComboBox.class, By.xpath(".//table[@id='policyDataGatherForm:policy_vehicle_detail_coverage']//span[normalize-space(.)='Uninsured/Underinsured Motorist Bodily Injury']/ancestor::tr[1]//select"));
 		public static final AssetDescriptor<ComboBox> MEDICAL_PAYMENTS = declare("Medical Payments", ComboBox.class, By.xpath(".//table[@id='policyDataGatherForm:policy_vehicle_detail_coverage']//span[normalize-space(.)='Medical Payments']/ancestor::tr[1]//select"));
@@ -492,6 +494,24 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<CheckBox> CONDO = declare("Condo", CheckBox.class, By.xpath("//td[text()='Condo']//input"));
 		public static final AssetDescriptor<CheckBox> MOTORCYCLE = declare("Motorcycle", CheckBox.class, By.xpath("//td[text()='Motorcycle']//input"));
 
+		public static final AssetDescriptor<DialogAssetList> OVERRRIDE_PREMIUM_DIALOG = declare("Override Premium", DialogAssetList.class, OverridePremiumDialog.class,
+				By.xpath("//div[@id='premiumOverridePopup_container']//div[@id='premiumOverridePopup_content']"));
+
+		public static final class OverridePremiumDialog extends MetaData {
+			public static final AssetDescriptor<Button> BUTTON_OPEN_POPUP = declare(AbstractDialog.DEFAULT_POPUP_OPENER_NAME, Button.class, Waiters.AJAX, false,
+					By.id("policyDataGatherForm:overridePremiumLink"));
+
+			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for Override", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> OTHER_REASON = declare("Other Reason", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> ORIGINAL_BODILY_INJURY_OVERRIDE_PREMIUM_BY_FLAT_AMOUNT = declare("Bodily Injury Liability By Flat Amount", TextBox.class, Waiters.AJAX, By.xpath("//div[@id='premiumOverridePopup_content']//td[contains(.,'Bodily Injury Liability') and contains(.,'Original')]//following-sibling::td//input[contains(@id,'premiumOverrideInfoForm:deltaPremiumAmt0')]"));
+			public static final AssetDescriptor<TextBox> ORIGINAL_BODILY_INJURY_OVERRIDE_PREMIUM_BY_PERCENTAGE = declare("Bodily Injury Liability By Percentage", TextBox.class, Waiters.AJAX, By.xpath("//div[@id='premiumOverridePopup_content']//td[contains(.,'Bodily Injury Liability') and contains(.,'Original')]//following-sibling::td//input[contains(@id,'premiumOverrideInfoForm:percentageAmt0')]"));
+
+			public static final AssetDescriptor<Button> BUTTON_SUBMIT_POPUP = declare(AbstractDialog.DEFAULT_POPUP_SUBMITTER_NAME, Button.class, Waiters.AJAX, false,
+					By.id("premiumOverrideInfoForm:premiumOverrideSaveBtn"));
+			public static final AssetDescriptor<Button> BUTTON_CANCEL_POPUP = declare(AbstractDialog.DEFAULT_POPUP_CLOSER_NAME, Button.class, Waiters.DEFAULT, false,
+					By.id("premiumOverrideInfoForm:premiumOverrideCancelBtn"));
+
+		}
 	}
 
 	public static final class DriverActivityReportsTab extends MetaData {
@@ -581,6 +601,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> MEDICAL_PAYMENTS_REJECTION_OF_COVERAGE = declare("Medical Payments Rejection of Coverage", RadioGroup.class, Waiters.NONE, false, By.xpath("//table[@id='policyDataGatherForm:document_RMPC']"));
 			public static final AssetDescriptor<RadioGroup> PERSONAL_AUTO_APPLICATION = declare("Personal Auto Application", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS = declare("AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> NAMED_DRIVER_EXCLUSION_ELECTION = declare("Named Driver Exclusion Election", RadioGroup.class);
 			//DC
 			public static final AssetDescriptor<RadioGroup> INFORMED_CONSENT_FORM_UNINSURED_MOTORIST_COVERAGE = declare("Informed Consent Form - Uninsured Motorist Coverage", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> DISTRICT_OF_COLUMBIA_COVERAGE_SELECTION_REJECTION_FORM = declare("District of Columbia Coverage Selection/Rejection Form", RadioGroup.class);
@@ -609,6 +630,10 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> UNINSURED_UNDERINSURED_MOTORISTS_COVERAGE_OFFER = declare("Uninsured/Underinsured Motorists Coverage Offer", RadioGroup.class, Waiters.NONE);
 			//Nano
 			public static final AssetDescriptor<RadioGroup> NON_OWNER_AUTOMOBILE_ENDORSEMENT = declare("Non-Owner Automobile Endorsement", RadioGroup.class, Waiters.NONE, By.id("policyDataGatherForm:supportingDocsContent_OptionalSupportingDocuments_NONOE"));
+            //IN
+			public static final AssetDescriptor<RadioGroup> REJECTION_OF_UMPD_COVERAGE = declare("Rejection of UMPD Coverage", RadioGroup.class, Waiters.NONE);
+			public static final AssetDescriptor<RadioGroup> UNINSURED_UNDERINSURED_COVERAGE_REJECTION_OR_ELECTION_OF_LOWER_LIMITS = declare("Uninsured/Underinsured Coverage - Rejection or Election of Lower Limits", RadioGroup.class, Waiters.NONE);
+ 		}
 			//VA
 			public static final AssetDescriptor<RadioGroup> EVALUE_ACKNOWLEDGEMENT = declare("eValue Acknowledgement", RadioGroup.class, Waiters.NONE);
 		}
@@ -866,6 +891,20 @@ public final class AutoSSMetaData {
 	}
 
 	public static final class ErrorTab extends MetaData {
+		public static final AssetDescriptor<FillableErrorTable> ERROR_OVERRIDE = declare("ErrorsOverride", FillableErrorTable.class, RuleRow.class, By.id("errorsForm:msgList"));
+
+		public static final class RuleRow extends MetaData {
+			public static final AssetDescriptor<CheckBox> OVERRIDE = declare("Override", CheckBox.class);
+			public static final AssetDescriptor<CheckBox> APPROVAL = declare("Approval", CheckBox.class);
+			public static final AssetDescriptor<Link> CODE = declare("Code", Link.class);
+			public static final AssetDescriptor<StaticElement> SEVERITY = declare("Severity", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> MESSAGE = declare("Message", StaticElement.class);
+			public static final AssetDescriptor<RadioGroup> DURATION = declare("Duration", RadioGroup.class);
+			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class);
+		}
+	}
+
+	public static final class ErrorTabCalculatePremium extends MetaData {
 		public static final AssetDescriptor<FillableErrorTable> ERROR_OVERRIDE = declare("ErrorsOverride", FillableErrorTable.class, RuleRow.class, By.id("errorsForm:msgList"));
 
 		public static final class RuleRow extends MetaData {

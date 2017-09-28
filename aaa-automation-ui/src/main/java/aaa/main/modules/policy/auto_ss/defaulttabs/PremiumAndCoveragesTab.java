@@ -37,7 +37,7 @@ public class PremiumAndCoveragesTab extends Tab {
     public static Table tableFormsSummary = new Table(By.id("policyDataGatherForm:formSummaryTable"));
     public static Table tablefeesSummary = new Table(By.id("policyDataGatherForm:feesSummaryTable"));
     public static Table tableTermPremiumbyVehicle = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table"));
-
+    
     public static Button buttonCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalc"));
     public static Button buttonViewRatingDetails = new Button(By.id("policyDataGatherForm:viewRatingDetails_Link_1"));
     public static Button buttonContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
@@ -102,6 +102,7 @@ public class PremiumAndCoveragesTab extends Tab {
         final ByT pagePattern = ByT.xpath("//div[@id='ratingDetailsPopupForm:vehiclePanel']//center//td[@class='pageText']//*[text()='%s']");
         return getTestDataFromTable(tableRatingDetailsVehicles, pagePattern);
     }
+    
 
     private List<TestData> getTestDataFromTable(Table table, ByT pagePattern) {
         List<TestData> testDataList = new ArrayList<>();
@@ -129,7 +130,7 @@ public class PremiumAndCoveragesTab extends Tab {
                 if (_values.stream().allMatch(String::isEmpty)) {
                     continue; // skip column with only "No Coverage"
                 }
-
+                
                 CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
 
                 for (int i = 0; i < keys.size(); i++) {
@@ -144,7 +145,7 @@ public class PremiumAndCoveragesTab extends Tab {
 
         return testDataList;
     }
-
+	
 	public List<TestData> getTermPremiumByVehicleData() {
 		List<TestData> testDataList = new ArrayList<>();
 		Map<String, Object> map = new LinkedHashMap<>();
