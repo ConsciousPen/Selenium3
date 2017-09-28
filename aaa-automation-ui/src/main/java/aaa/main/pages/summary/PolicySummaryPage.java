@@ -111,6 +111,11 @@ public class PolicySummaryPage extends SummaryPage {
 		return dateEffective;
 	}
 
+	public static String getPolicyNumber() {
+		String policyNumber = labelPolicyNumber.getValue();
+		return policyNumber;
+	}
+
 	public static void verifyCancelNoticeFlagPresent() {
 		labelCancelNotice.verify.present("'Cancel Notice' flag is present");
 		labelCancelNotice.verify.value("Cancel Notice");
