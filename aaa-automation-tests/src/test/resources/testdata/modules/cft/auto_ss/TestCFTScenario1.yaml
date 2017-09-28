@@ -12,6 +12,22 @@ TestData: {
   }
 }
 
+TestData_HomeSS_HO3: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+  PurchaseTab: {},
+}
+
 EndorsementActionTab: {
     Endorsement Date: /today+2d,
     Endorsement Reason: Maintain Vehicle(s)
@@ -31,7 +47,7 @@ PremiumAndCoveragesTab : {
 }
 
 PremiumAndCoveragesTab_DataGather: {
-  Payment Plan: Monthly - Zero Down,
+  Payment Plan: Eleven Pay - Standard,
   Policy Term: Annual,
   Bodily Injury Liability: 'contains=$100,000/$300,000',
   Comprehensive Deductible: 'contains=$750',
