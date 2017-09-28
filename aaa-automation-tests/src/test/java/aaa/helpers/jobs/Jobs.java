@@ -50,6 +50,12 @@ public class Jobs {
 
 	public static Job aaaImportPolicyHomeCAHdesAsyncTaskJob = new Job("aaaImportPolicyHomeCAHdesAsyncTaskJob");
 
+	public static Job aaaImportPolicyHomeCaSisAsyncTaskJob = new Job("aaaImportPolicyHomeCaSisAsyncTaskJob");
+
+	public static Job aaaImportMiniPupPolicyAsyncTaskJob = new Job("aaaImportMiniPupPolicyAsyncTaskJob");
+
+	public static Job importMiniPolicyAsyncTaskJob = new Job("ImportMiniPolicyAsyncTaskJob");
+
 	public static Job aaaRenewalNoticeBillAsyncJob = new Job("aaaRenewalNoticeBillAsyncJob");
 
 	public static Job changeCancellationPendingPoliciesStatus = new Job("changeCancellationPendingPoliciesStatus");

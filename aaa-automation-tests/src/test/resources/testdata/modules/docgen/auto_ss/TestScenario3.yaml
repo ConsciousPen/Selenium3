@@ -3,6 +3,26 @@ TestData: {
   VehicleTab: '@VehicleTab',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+TestData_IN: {
+  GeneralTab: '@GeneralTab',
+  VehicleTab: '@VehicleTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  ErrorTabCalculatePremium: '@ErrorTabCalculatePremium',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab_IN',
+  PurchaseTab: '@PurchaseTab'
+}
+
+TestData_OK: {
+  GeneralTab: '@GeneralTab',
+  VehicleTab: '@VehicleTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab_OK',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -28,15 +48,6 @@ AAAProductOwned: {
   Last name: Test
 }
 
-#CurrentCarrierInformation: {
-#"Override Prefilled Current Carrier?": 'Yes',
-##"Agent Entered Current/Prior Carrier": Allstate,
-#Agent Entered Inception Date: '/today:MM/dd/yyyy',
-#Agent Entered Expiration Date: '/today+1y:MM/dd/yyyy',
-#Agent Entered Policy Number: 21314151,
-#Agent Entered BI Limits: '$1,000,000/$1,000,000'
-#}
-
 ContactInformation: {
    Home Phone Number: 1234567890
 }
@@ -59,12 +70,101 @@ VehicleTab: {
 
 PremiumAndCoveragesTab: {}
 
+ErrorTabCalculatePremium: {
+  ErrorsOverride: [{
+    Message: "contains=The selected limit of Uninsured Motorist Property Damage coverage is no longe...",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   }]
+}
+
 DocumentsAndBindTab: {
   RequiredToBind: {
-    Auto Insurance Application: Physically Signed,
-    Non-Owner Automobile Endorsement: Physically Signed
+    Auto Insurance Application: Not Signed,
+    Non-Owner Automobile Endorsement: Not Signed
   },
   Agreement: I agree
+}
+
+ErrorTab: {
+  ErrorsOverride: [{
+    Message: "contains=Current CLUE must be ordered",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   },
+   {
+    Message: "contains=A signed Non-Owners Automobile Endorsement must be received prior to issuing",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   },
+   {
+    Message: "contains=A signed Auto Insurance Application must be received prior to issuing",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   }]
+}
+
+ErrorTab_IN: {
+  ErrorsOverride: [{
+    Message: "contains=Current CLUE must be ordered",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   },
+   {
+    Message: "contains=A signed Non-Owners Automobile Endorsement must be received prior to issuing",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   },
+   {
+    Message: "contains=Indiana Auto Insurance Application",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   }]
+}
+
+ErrorTab_OK: {
+  ErrorsOverride: [{
+    Message: "contains=Current CLUE must be ordered",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   },
+   {
+    Message: "contains=A signed Non-Owners Automobile Endorsement must be received prior to issuing",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   },
+   {
+    Message: "contains=A signed Coverage Selection Form must be received prior to issuing",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   },
+   {
+    Message: "contains=Oklahoma Auto Insurance Application",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   }]
 }
 
 PurchaseTab: {
@@ -77,11 +177,20 @@ PurchaseTab: {
 }
 
 # ------------- Verification ----------
-TestData_Verification: {
-  AA41XX: '@AA41XX'
+TestData_Verification_AZ: {
+  AA41XX: '@AA41XX_AZ',
+  AARFIXX: '@AARFIXX_AZ'
 }
 
-AA41XX: {
+TestData_Verification_IN: {
+  AA41XX: '@AA41XX_IN'
+}
+
+TestData_Verification_OK: {
+  AA41XX: '@AA41XX_OK'
+}
+
+AA41XX_AZ: {
   CompanyDetails: {
     CoNm: {TextField: 'AAA Members Insurance Company'},
     CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
@@ -111,6 +220,132 @@ AA41XX: {
     SpseExclNOPlcyYN: {TextField: Y},
     PlcyNum: {TextField: ''},
     TermEffDt: {DateTimeField: "/today:yyyy-MM-dd'T00:00:00.000+03:00'"},
-    SgntrOnFile: {TextField: SIGNATURE ON FILE}
+    SgntrOnFile: {TextField: ''}
+  }
+}
+
+AA41XX_IN: {
+  CompanyDetails: {
+    CoNm: {TextField: 'AAA Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(800) 207-3618'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdStAbrv: {TextField: IN}
+  },
+  AgentDetails: {
+    GenlAgntNum: {TextField: 400001650},
+    SubAgntNum: {TextField: 400018581}
+  },
+  VehicleDetails: {
+    VehTyp: {TextField: 'NO'}
+  },
+  form: {
+    PlcyStAbrv: {TextField: IN},
+    PlcyTransCd: {TextField: '0040'},
+    PlcyPrfx: {TextField: INSS},
+    PlcyGrp: {TextField: PERSONAL AUTO},
+    SpseExclNOPlcyYN: {TextField: Y},
+    PlcyNum: {TextField: ''},
+    TermEffDt: {DateTimeField: "/today:yyyy-MM-dd'T00:00:00.000+03:00'"},
+    SgntrOnFile: {TextField: ''}
+  }
+}
+
+AA41XX_OK: {
+  CompanyDetails: {
+    CoNm: {TextField: 'AAA Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(800) 259-8008'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdStAbrv: {TextField: OK}
+  },
+  AgentDetails: {
+    GenlAgntNum: {TextField: 400001650},
+    SubAgntNum: {TextField: 400018581}
+  },
+  VehicleDetails: {
+    VehTyp: {TextField: 'NO'}
+  },
+  form: {
+    PlcyStAbrv: {TextField: OK},
+    PlcyTransCd: {TextField: '0040'},
+    PlcyPrfx: {TextField: OKSS},
+    PlcyGrp: {TextField: PERSONAL AUTO},
+    SpseExclNOPlcyYN: {TextField: Y},
+    PlcyNum: {TextField: ''},
+    TermEffDt: {DateTimeField: "/today:yyyy-MM-dd'T00:00:00.000+03:00'"},
+    SgntrOnFile: {TextField: ''}
+  }
+}
+
+AARFIXX_AZ: {
+  CompanyDetails: {
+    CoBrandNm: {TextField: ''},
+    CoNm: {TextField: 'AAA Members Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(800) 207-3618'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdStAbrv: {TextField: AZ},
+    NmdInsrdStrPobAddr1: {TextField: 265 CHIPMAN AVE},
+    NmdInsrdAddlAddr2: {TextField: ''},
+    NmdInsrdCityNm: {TextField: 'Phoenix'},
+    NmdInsrdZipPls4: {TextField: '85003'}
+  },
+  VehicleDetails: {
+    VehTyp: {TextField: 'NO'}
+  },
+  CoverageDetails: {
+    InclRFIYN: {TextField: 'Y'},
+    CpsReqdYN: {TextField: 'N'},
+    UMUIMRjctFlg: {TextField: 'N'},
+    ElctLwrLmtsUMUIM: {TextField: 'N'},
+    PrevInsDiscYN: {TextField: 'N'},
+    GoodStuDiscYN: {TextField: 'N'},
+    VehNwAddPrtcYN: {TextField: 'N'},
+    CanMVRYN: {TextField: 'N'},
+    SmrtDrvrCrseCertYN: {TextField: 'N'},
+    VehNwAddPrtcPrevCrirYN: {TextField: 'N'},
+    SalvVehYN: {TextField: 'N'},
+    PsnlAutoApplYN: {TextField: 'Y'},
+    CurInsDrvrYN: {TextField: 'N'},
+    AntiThftRecDevYN: {TextField: 'N'},
+    SmrtTrkTrmCndYN: {TextField: 'N'}
+  },
+  PaymentDetails: {
+    PayByEFT: {TextField: ''}
+  },
+  DriverDetails: {
+    DrvrTyp: {TextField: ''},
+    DrvrFrstNm: {TextField: 'Fernando'},
+    DrvrLstNm: {TextField: 'Alonso'}
+  },
+  form: {
+    PlcyNum: {TextField: ''},
+    PlcyPrfx: {TextField: AZSS},
+    PlcyGrp: {TextField: AUTO},
+    PlcyStAbrv: {TextField: AZ},
+    PrdcrFullNm: {TextField: House Agent SMTestIA},
+    PlcyTransCd: {TextField: '0040'}
   }
 }
