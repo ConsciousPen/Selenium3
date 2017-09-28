@@ -44,6 +44,7 @@ public class TestQuoteUpdateVehicleUI extends AutoCaSelectBaseTest {
         TestData td = getPolicyTD();
         TestData vehicleData = getTestSpecificTD("TestCase_1").resolveLinks();
         TestData renewalVehicleInfo = getTestSpecificTD("TestCase_1_Renewal").resolveLinks();
+        VehicleTab vehicleTab = new VehicleTab();
 
         mainApp().open();
         createCustomerIndividual();
@@ -52,9 +53,9 @@ public class TestQuoteUpdateVehicleUI extends AutoCaSelectBaseTest {
         policy.getDefaultView().fillUpTo(td.adjust(vehicleData), VehicleTab.class, true);
 
         // verify if symbol field is not displayed for both vehicle
-        new VehicleTab().verifyFieldIsNotDisplayed("Comp/Coll Symbol");
+        vehicleTab.verifyFieldIsNotDisplayed("Comp/Coll Symbol");
 
-        new VehicleTab().submitTab();
+        vehicleTab.submitTab();
         policy.getDefaultView().fillFromTo(td.adjust(vehicleData), AssignmentTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
         policy.policyInquiry().start();
@@ -80,11 +81,11 @@ public class TestQuoteUpdateVehicleUI extends AutoCaSelectBaseTest {
 //        PolicySummaryPage.dialogConfirmation.confirm();
         NavigationPage.toViewTab("Vehicle");
         VehicleTab.buttonAddVehicle.click();
-        new VehicleTab().fillTab(renewalVehicleInfo);
+        vehicleTab.fillTab(renewalVehicleInfo);
         //verify coll/comp symbols
-        new VehicleTab().verifyFieldIsNotDisplayed("Comp/Coll Symbol");
+        vehicleTab.verifyFieldIsNotDisplayed("Comp/Coll Symbol");
 
-        new VehicleTab().submitTab();
+        vehicleTab.submitTab();
         policy.getDefaultView().fillFromTo(td.adjust(renewalVehicleInfo), AssignmentTab.class, PremiumAndCoveragesTab.class, true);
         PremiumAndCoveragesTab.buttonSaveAndExit.click();
     }

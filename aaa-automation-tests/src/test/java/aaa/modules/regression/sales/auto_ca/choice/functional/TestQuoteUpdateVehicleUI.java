@@ -5,7 +5,6 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
@@ -36,14 +35,15 @@ public class TestQuoteUpdateVehicleUI extends AutoCaChoiceBaseTest {
         InquiryAssetList inquiryAssetList = new InquiryAssetList(new VehicleTab().getAssetList().getLocator(), AutoCaMetaData.VehicleTab.class);
         TestData td = getPolicyTD().resolveLinks();
         TestData vehicleData = getTestSpecificTD("TestCase_3").resolveLinks();
+        VehicleTab vehicleTab = new VehicleTab();
 
         mainApp().open();
         createCustomerIndividual();
         policy.initiate();
 
         policy.getDefaultView().fillUpTo(td.adjust(vehicleData), VehicleTab.class, true);
-        new VehicleTab().verifyFieldIsNotDisplayed("Comp/Coll Symbol"); //VERIFY FIELDS
-        new VehicleTab().submitTab();
+        vehicleTab.verifyFieldIsNotDisplayed("Comp/Coll Symbol"); //VERIFY FIELDS
+        vehicleTab.submitTab();
         policy.getDefaultView().fillFromTo(td.adjust(vehicleData), AssignmentTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
         policy.policyInquiry().start();
