@@ -115,11 +115,11 @@ public class Scenario2 extends ScenarioBaseTest {
 	}
 
 	protected void paySecondBill() {
-		generateAndCheckBill(installmentDueDates.get(2), policyEffectiveDate, getPligaOrMvleFee(pligaOrMvleFeeLastTransactionDate));
+		generateAndCheckBill(installmentDueDates.get(2));
 	}
 
 	protected void generateThirdBill() {
-		generateAndCheckBill(installmentDueDates.get(3));
+		generateAndCheckBill(installmentDueDates.get(3), policyEffectiveDate);
 	}
 
 	protected void payThirdBill() {
@@ -239,6 +239,10 @@ public class Scenario2 extends ScenarioBaseTest {
 		if (getState().equals(Constants.States.CA)) {
 			verifyCaRenewalOfferPaymentAmount(policyExpirationDate,getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
 		}
+
+		if (verifyPligaOrMvleFee(renewOfferGenDate, policyTerm, totalVehiclesNumber)) {
+			pligaOrMvleFeeLastTransactionDate = renewOfferGenDate;
+		}
 	}
 
 	//Skip this step for CA
@@ -256,7 +260,7 @@ public class Scenario2 extends ScenarioBaseTest {
 
 		// TODO Renew premium verification was excluded, due to unexpected installment calculations
 //		if (!getState().equals(States.KY) && !getState().equals(States.WV)) {
-			verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billGenDate, pligaOrMvleFee, installmentsCount);
+		verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billGenDate, pligaOrMvleFee, installmentsCount);
 //		}
 		verifyRenewPremiumNotice(policyExpirationDate, billGenDate, pligaOrMvleFee);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
@@ -307,7 +311,7 @@ public class Scenario2 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 		Dollar sum = BillingHelper.getPolicyRenewalProposalSum(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
-		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData"), sum);
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_CC"), sum);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
 	}
 }

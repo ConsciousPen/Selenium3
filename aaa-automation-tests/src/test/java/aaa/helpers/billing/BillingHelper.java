@@ -207,6 +207,7 @@ public final class BillingHelper {
 		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
 		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.PREMIUM);
 		if (!BillingSummaryPage.tablePaymentsOtherTransactions.getRow(premiumRowSearchQuery).isPresent()) {
+			log.warn(String.format("There is no Premium transaction with query %s, assume PLIGA Fee should be $0", premiumRowSearchQuery.entrySet()));
 			return new Dollar(0);
 		}
 
@@ -233,10 +234,9 @@ public final class BillingHelper {
 		return new Dollar(Math.round(Double.valueOf(totalPremiumAmount.getPercentage(pligaFeePercentage).toPlaingString())));
 	}
 
-	public static Dollar calculateNonAutoMvleFee() {
-		return calculateMvleFee(BillingConstants.PolicyTerm.ANNUAL, 0);
-	}
-
+	/**
+	 * Applicable only for NY state and AutoSS product
+	 */
 	public static Dollar calculateMvleFee(String policyTerm, int numberOfVehiclesExceptTrailers) {
 		Dollar termFee;
 		if (BillingConstants.PolicyTerm.SEMI_ANNUAL.equals(policyTerm)) {
@@ -249,7 +249,6 @@ public final class BillingHelper {
 		}
 
 		if (numberOfVehiclesExceptTrailers > 0) {
-			//for auto policy
 			termFee = termFee.multiply(numberOfVehiclesExceptTrailers);
 		}
 		return termFee;

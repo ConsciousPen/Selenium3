@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import org.slf4j.Logger;
@@ -34,7 +35,7 @@ public class ScenarioBaseTest extends BaseTest {
 	protected String policyNum;
 
 	protected void generateAndCheckBill(LocalDateTime installmentDate) {
-		generateAndCheckBill(installmentDate, null, BillingHelper.DZERO);
+		generateAndCheckBill(installmentDate, null);
 	}
 
 	protected void generateAndCheckBill(LocalDateTime installmentDate, LocalDateTime effectiveDate) {
@@ -112,8 +113,7 @@ public class ScenarioBaseTest extends BaseTest {
 		Dollar fee = BillingHelper.getFeesValue(billGenDate);
 
 		Dollar expOffer = BillingHelper.calculateFirstInstallmentAmount(fullAmount, installmentsCount).add(fee).add(pligaOrMvleFee);
-		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).setDueDate(expirationDate).setMinDue(expOffer)
-				.verifyPresent();
+		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).setDueDate(expirationDate).setMinDue(expOffer).verifyPresent();
 	}
 
 	/**
@@ -153,54 +153,59 @@ public class ScenarioBaseTest extends BaseTest {
 	}
 
 	protected boolean verifyPligaOrMvleFee(LocalDateTime transactionDate, String policyTerm, int numberOfVehiclesExceptTrailers) {
-		Dollar expectedPligaOrMvleFee = getPligaOrMvleFee(transactionDate, policyTerm, numberOfVehiclesExceptTrailers);
+		Dollar expectedFee = getPligaOrMvleFee(transactionDate, policyTerm, numberOfVehiclesExceptTrailers);
 		boolean isFeePresent = false;
 
-		if (!expectedPligaOrMvleFee.isZero()) {
+		if (!expectedFee.isZero()) {
 			if (getState().equals(Constants.States.NJ)) {
-				new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(transactionDate, expectedPligaOrMvleFee);
+				new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(transactionDate, expectedFee);
 				isFeePresent = true;
-			} else if (getState().equals(Constants.States.NY)) {
-				new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(transactionDate, expectedPligaOrMvleFee);
+			} else if (isMvleFeeApplicable()) {
+				new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(transactionDate, expectedFee);
 				isFeePresent = true;
 			}
 		}
 
-		if ((getState().equals(Constants.States.NJ) || getState().equals(Constants.States.NY)) && expectedPligaOrMvleFee.isZero()) {
-			log.warn("Calculated Pliga or MVLE Fee is $0, verification in \"Payments & Other Transactions\" table is skipped. Adjust your test data if you don't want to skip such verification.");
+		if ((getState().equals(Constants.States.NJ) || isMvleFeeApplicable()) && expectedFee.isZero()) {
+			log.warn("PLIGA or MVLE Fee is applicable but expected value is $0, verification in \"Payments & Other Transactions\" table is skipped. Adjust your test data if you don't want to skip such verification.");
 		}
 		return isFeePresent;
 	}
 
 	protected Dollar getPligaOrMvleFee(LocalDateTime transactionDate) {
-		return getPligaOrMvleFee(transactionDate, BillingConstants.PolicyTerm.ANNUAL, 0);
+		return getPligaOrMvleFee(transactionDate, BillingConstants.PolicyTerm.ANNUAL, 1);
 	}
 
 	protected Dollar getPligaOrMvleFee(LocalDateTime transactionDate, String policyTerm, int numberOfVehiclesExceptTrailers) {
 		Dollar expectedPligaOrMvleFee = BillingHelper.DZERO;
 		if (transactionDate == null) {
+			log.warn("Premium transaction date is null, assume PLIGA or MVLE Fee should be $0");
 			return expectedPligaOrMvleFee;
 		}
 		if (getState().equals(Constants.States.NJ)) {
 			expectedPligaOrMvleFee = BillingHelper.calculatePligaFee(transactionDate);
-		} else if (getState().equals(Constants.States.NY)) {
-			expectedPligaOrMvleFee = getPolicyType().isAutoPolicy() ? BillingHelper.calculateMvleFee(policyTerm, numberOfVehiclesExceptTrailers) : BillingHelper.calculateNonAutoMvleFee();
+		} else if (isMvleFeeApplicable()) {
+			expectedPligaOrMvleFee = BillingHelper.calculateMvleFee(policyTerm, numberOfVehiclesExceptTrailers);
 		}
 		return expectedPligaOrMvleFee;
 	}
 
-	public String getPolicyTerm(TestData td) {
-		if (getPolicyType().isAutoPolicy()) {
+	protected String getPolicyTerm(TestData td) {
+		if (isMvleFeeApplicable()) {
 			return td.getTestData(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel()).getValue(AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM.getLabel());
 		}
 		return BillingConstants.PolicyTerm.ANNUAL;
 	}
 
-	public int getVehiclesNumber(TestData td) {
-		if (getPolicyType().isAutoPolicy()) {
+	protected int getVehiclesNumber(TestData td) {
+		if (isMvleFeeApplicable()) {
 			//TODO-dchubkov: exclude trailers from list of vehicles
 			return td.getTestDataList(new VehicleTab().getMetaKey()).size();
 		}
 		return 0;
+	}
+
+	protected boolean isMvleFeeApplicable() {
+		return getState().equals(Constants.States.NY) && getPolicyType().equals(PolicyType.AUTO_SS);
 	}
 }
