@@ -1,4 +1,4 @@
-TestData_UT: {
+TestData: {
   PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
   GeneralTab: '@GeneralTab',
   DriverTab: '@<auto_ss>@DataGather@DriverTab',
@@ -45,4 +45,13 @@ PolicyInformation: {
   Authorized by: QA,
   Lead Source: AAA Magazines,
   TollFree Number: '1'
+}
+
+TestData_UpdateBilling: {
+  UpdateBillingAccountActionTab: {
+    PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa', '@<billing>@PaymentMethods@EFT', '@<billing>@PaymentMethods@CC_MasterCard'],
+    Activate Autopay: true,
+    Autopay Selection: 'contains=ACH',
+    Signature on File Indicator: 'Yes'
+  }
 }
