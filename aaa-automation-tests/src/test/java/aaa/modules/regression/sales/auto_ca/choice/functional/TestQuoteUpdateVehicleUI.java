@@ -29,7 +29,7 @@ public class TestQuoteUpdateVehicleUI extends AutoCaChoiceBaseTest {
      * 6. Verify for each vehicle if symbol field is not displayed on Vehicle page
      * @details
      */
-    @Test(groups = {Groups.MEDIUM, Groups.REGRESSION})
+    @Test(groups = {Groups.MEDIUM, Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE)
     public void TestCase2() {
         InquiryAssetList inquiryAssetList = new InquiryAssetList(new VehicleTab().getAssetList().getLocator(), AutoCaMetaData.VehicleTab.class);

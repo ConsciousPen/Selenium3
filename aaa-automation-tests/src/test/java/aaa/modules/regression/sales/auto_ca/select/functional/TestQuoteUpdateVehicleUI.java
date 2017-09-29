@@ -37,7 +37,7 @@ public class TestQuoteUpdateVehicleUI extends AutoCaSelectBaseTest {
      * 12. Calculate premium and save renewal image
      * @details
      */
-    @Test(groups = {Groups.MEDIUM, Groups.REGRESSION})
+    @Test(groups = {Groups.MEDIUM, Groups.FUNCTIONAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
     public void TestCase1() {
         InquiryAssetList inquiryAssetList = new InquiryAssetList(new VehicleTab().getAssetList().getLocator(), AutoCaMetaData.VehicleTab.class);
