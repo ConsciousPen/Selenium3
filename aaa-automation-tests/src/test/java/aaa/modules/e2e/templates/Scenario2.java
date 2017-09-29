@@ -5,6 +5,7 @@ import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.TimePoints;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
@@ -304,7 +305,7 @@ public class Scenario2 extends ScenarioBaseTest {
 	}
 
 	protected void makeManualPaymentInFullRenewalOfferAmount() {
-		LocalDateTime renewCustomerDecline = getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate);
+		LocalDateTime renewCustomerDecline = getTimePoints().getTimepoint(policyExpirationDate, TimePoints.TimepointsList.RENEW_CUSTOMER_DECLINE, false);;
 		TimeSetterUtil.getInstance().nextPhase(renewCustomerDecline);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
