@@ -77,8 +77,6 @@ public class TestQuoteUpdateVehicleUI extends AutoCaSelectBaseTest {
 
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
-//        Tab.buttonOk.click();
-//        PolicySummaryPage.dialogConfirmation.confirm();
         NavigationPage.toViewTab("Vehicle");
         VehicleTab.buttonAddVehicle.click();
         vehicleTab.fillTab(renewalVehicleInfo);

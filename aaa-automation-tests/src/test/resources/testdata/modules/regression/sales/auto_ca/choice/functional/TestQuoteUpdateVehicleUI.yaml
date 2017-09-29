@@ -16,7 +16,6 @@ Vehicle_1_VIN_MATCH: {
   Odometer Reading: 1,
   Existing Damage: 'Rust',
   'Salvaged?': 'No',
-#  'Are there any additional interest(s)?': 'No',
 }
 
 Vehicle_2_VIN_MATCH: {
@@ -26,6 +25,5 @@ Vehicle_2_VIN_MATCH: {
   Odometer Reading: 1,
   Existing Damage: 'Rust',
   'Salvaged?': 'No',
-#  'Are there any additional interest(s)?': 'No',
 }
 
