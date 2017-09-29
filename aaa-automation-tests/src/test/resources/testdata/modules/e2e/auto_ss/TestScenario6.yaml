@@ -15,6 +15,8 @@ Vehicle2: {
   VIN: 1B3BA46K4KF440231
 }
 
+#---- Endorsement ----
+
 TestData_EndorsementRP: {
   GeneralTab: {},
   DriverTab: {},
@@ -32,6 +34,8 @@ TestData_EndorsementRP: {
     Authorized By: qa
   }
 }
+
+#---- NY ----
 
 TestData_NY: {
   VehicleTab: ['@Vehicle1_NY', '@Vehicle2_NY'],

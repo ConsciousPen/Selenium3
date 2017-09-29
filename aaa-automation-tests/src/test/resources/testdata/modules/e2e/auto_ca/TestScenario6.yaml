@@ -1,0 +1,48 @@
+TestData: {
+  PremiumAndCoveragesTab: {
+    Payment Plan: Quarterly,
+    Bodily Injury Liability: 'contains=$500,000/$500,000',
+    Property Damage Liability: 'contains=$100,000'
+  },
+  VehicleTab: [{
+    Add Vehicle: Click,
+    VIN: WDCYC7BB0B6729451,
+    Primary Use: Pleasure (recreational driving only),
+    Odometer Reading: 3000
+  }, {
+    Add Vehicle: Click,
+    VIN: WAUKJAFM8C6314628,
+    Primary Use: Pleasure (recreational driving only),
+    Odometer Reading: 7000
+  }],
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: [{
+      Primary Driver: index=1,
+      Manually Rated Driver: index=1
+    }, {
+      Primary Driver: index=1,
+      Manually Rated Driver: index=1
+    }]
+  }
+}
+
+#---- Endorsement ----
+
+TestData_EndorsementRP: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {
+    List of Vehicle: [{}, {
+      'column=5': Remove,
+      Confirm Remove: click
+    }]
+  },
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}

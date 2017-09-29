@@ -164,6 +164,11 @@ public final class DocGenEnum {
         AH64XX("Expiration Notice"),
         AAIQAZ("Auto Insurance Quote"),
         AATSXX("Critical Information For Teenage Drivers And Their Parents"),
+        AA41PA(""),
+        AA52UPAB(""),
+        AA52IPAB(""),
+        AA52UPAC(""),
+        AA52IPAC("")
 		;
 
 		private String id;

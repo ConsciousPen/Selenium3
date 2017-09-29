@@ -23,14 +23,15 @@ import aaa.modules.policy.AutoSSBaseTest;
  * @details
  */
 public class TestScenario3 extends AutoSSBaseTest {
-
+	private String policyNumber;
+	
 	@Parameters({"state"})
 	@Test
 	public void testPolicyCreation(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		createCustomerIndividual();
-		String policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
+		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info(getState() + " Policy AutoSS is created: " + policyNumber);
 		TestData tdVerification = getTestSpecificTD("TestData_Verification");
@@ -44,9 +45,22 @@ public class TestScenario3 extends AutoSSBaseTest {
 			tdVerification.adjust(TestData.makeKeyPath("AA41XX", "form", "PlcyNum", "TextField"), policyNumber);
 			DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AA41XX).verify.mapping(tdVerification, policyNumber);
 			break;
+		case "PA":
+			tdVerification.adjust(TestData.makeKeyPath("AA41PA", "form", "PlcyNum", "TextField"), policyNumber).adjust(TestData.makeKeyPath("AA52UPAB", "form", "PlcyNum", "TextField"), policyNumber).adjust(TestData.makeKeyPath("AA52IPAB", "form", "PlcyNum", "TextField"), policyNumber);
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AA41PA, Documents.AA52UPAB, Documents.AA52IPAB).verify.mapping(tdVerification, policyNumber);	
+			checkEndorseDocGen();
+			break; 
 		}
+		
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
+	}
+
+	private void checkEndorseDocGen() {
+		TestData tdVerification = getTestSpecificTD("TestData_EndorseVerification");
+		tdVerification.adjust(TestData.makeKeyPath("AA52UPAC", "form", "PlcyNum", "TextField"), policyNumber).adjust(TestData.makeKeyPath("AA52IPAC", "form", "PlcyNum", "TextField"), policyNumber);
+		policy.endorse().performAndFill(getTestSpecificTD("Endorsement").adjust(getPolicyTD("Endorsement", "TestData")));
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AA52UPAC, Documents.AA52IPAC).verify.mapping(tdVerification, policyNumber);
 	}
 }
 

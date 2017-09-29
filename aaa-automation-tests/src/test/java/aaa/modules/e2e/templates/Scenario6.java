@@ -304,7 +304,7 @@ public class Scenario6 extends ScenarioBaseTest {
 
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
-		if (!getPolicyType().equals(PolicyType.PUP) && !getPolicyType().equals(PolicyType.AUTO_SS))
+		if (getPolicyType().equals(PolicyType.HOME_CA_HO3) || getPolicyType().equals(PolicyType.HOME_SS_HO3))
 			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
 	}
 
