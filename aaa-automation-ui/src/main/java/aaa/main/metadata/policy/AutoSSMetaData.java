@@ -309,7 +309,8 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<TextBox> OTHER_MAKE = declare("Other Make", TextBox.class);
 		public static final AssetDescriptor<TextBox> OTHER_MODEL = declare("Other Model", TextBox.class);
 		public static final AssetDescriptor<TextBox> OTHER_SERIES = declare("Other Series", TextBox.class);
-		public static final AssetDescriptor<TextBox> OTHER_BODY_STYLE = declare("Other Body Style", TextBox.class);
+		public static final AssetDescriptor<ComboBox> OTHER_BODY_STYLE = declare("Other Body Style", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> STAT_CODE = declare("Stat Code", ComboBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> STATED_AMOUNT = declare("Stated Amount", TextBox.class,By.xpath(".//input[@id='policyDataGatherForm:vehicleInformation_vehicleRatingInfo_costPurchase']"));
 		public static final AssetDescriptor<ComboBox> EXISTING_DAMAGE = declare("Existing Damage", ComboBox.class);
 		public static final AssetDescriptor<RadioGroup> SALVAGED = declare("Salvaged?", RadioGroup.class);
