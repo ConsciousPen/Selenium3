@@ -266,11 +266,10 @@ public class Scenario2 extends ScenarioBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
-	protected void verifyDocGenForms() {
+	protected void verifyDocGenForms(DocGenEnum.Documents... documents) {
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH35XX, DocGenEnum.Documents.AHRBXX);
-//		DocGenHelper.verifyDocumentsGeneratedByJob(DateTimeUtils.getCurrentDateTime(), policyNum, Arrays.asList(OnDemandDocuments.AH35XX, OnDemandDocuments.AHRBXX));
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, documents);
 	}
 
 	protected void removeAutoPay() {
