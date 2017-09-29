@@ -10,7 +10,8 @@ TestData: {
   DocumentsAndBindTab: {
     Authorized By: qa
   },
-  CancellationActionTab: '@CancellationActionTab'
+  CancellationActionTab: '@CancellationActionTab',
+  ReinstatementActionTab: '@ReinstatementActionTab'
 }
 
 EndorsementActionTab: {
@@ -31,9 +32,14 @@ PremiumAndCoveragesTab : {
 
 CancellationActionTab: {
   Cancel Date: "/today+2d",
-  Cancellation Reason: "Vehicle Total Loss",
+  Cancellation Reason: "index=1",
   Authorized By: QA
 }
+
+ReinstatementActionTab: {
+   Reinstate Date: /today,
+   Authorized By: 'QA'
+ }
 
 DriverTab_DataGather: {
     Affinity Group: 'AAA Employee'

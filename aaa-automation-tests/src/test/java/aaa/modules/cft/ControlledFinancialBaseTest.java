@@ -122,15 +122,40 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Waive action comleted successfully");
 	}
 
-	protected void manualCancellationEffDatePlus25Days() {
+	protected void manualFutureCancellationEffDatePlus25Days() {
 		log.info("Manual cancellation action started");
 		LocalDateTime plus25Days = startTime.plusDays(25);
 		log.info("Manual cancellation date: " + plus25Days);
 		TimeSetterUtil.getInstance().nextPhase(plus25Days);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber.get());
 		policy.cancel().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
+	}
+
+	protected void updatePolicyStatusForPendedCancellation() {
+		log.info("Policy status update job action started");
+		LocalDateTime plus25Days = startTime.plusDays(25);
+		TimeSetterUtil.getInstance().nextPhase(plus25Days.plusDays(2));
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber.get());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		log.info("Policy status update job finished successfully");
+	}
+
+	protected void manualReinstatement() {
+		log.info("Manual reinstatement action started");
+		LocalDateTime reinstatementDate = getTimePoints().getCancellationNoticeDate(installments.get().get(1));
+		log.info("Manual reinstatement date: " + reinstatementDate);
+		TimeSetterUtil.getInstance().nextPhase(reinstatementDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber.get());
+		policy.reinstate().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Reinstatement for Policy %1$s", policyNumber.get()));
+		log.info("Manual reinstatement action completed successfully");
 	}
 
 	/**

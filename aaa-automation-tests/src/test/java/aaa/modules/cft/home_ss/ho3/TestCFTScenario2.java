@@ -1,11 +1,7 @@
-package aaa.modules.cft.auto_ss;
+package aaa.modules.cft.home_ss.ho3;
 
 import aaa.helpers.constants.Groups;
-import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Optional;
@@ -75,16 +71,16 @@ public class TestCFTScenario2 extends ControlledFinancialBaseTest {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_SS;
+		return PolicyType.HOME_SS_HO3;
 	}
 
 	@Override
 	protected TestData getPolicyTestData() {
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", DEFAULT_TEST_DATA_KEY);
-		td.adjust(PremiumAndCoveragesTab.class.getSimpleName(), getTestSpecificTD("PremiumAndCoveragesTab_DataGather"));
-		td.adjust(PurchaseTab.class.getSimpleName(), getTestSpecificTD("PurchaseTab_DataGather"));
-		td.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel()),
-				getTestSpecificTD("DriverTab_DataGather").getValue(AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel()));
+		//td.adjust(PremiumAndCoveragesTab.class.getSimpleName(), getTestSpecificTD("PremiumAndCoveragesTab_DataGather"));
+		//td.adjust(PurchaseTab.class.getSimpleName(), getTestSpecificTD("PurchaseTab_DataGather"));
+		//td.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel()),
+			//	getTestSpecificTD("DriverTab_DataGather").getValue(AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel()));
 		return td.resolveLinks();
 	}
 
