@@ -78,6 +78,10 @@ public class Jobs {
 
 	public static Job aaaGenerateLTRNoticeJob = new Job("aaaGenerateLTRNoticeJob");
 
+	public static Job earnedPremiumPostingAsyncTaskGenerationJob = new Job("earnedPremiumPostingAsyncTaskGenerationJob");
+
+	public static Job policyTransactionLedgerJob = new Job("policyTransactionLedgerJob");
+
 	public static Job cftDcsEodJob = new Job("cftDcsEodJob");
 
 	public static Job aaaCreditDisclosureNoticeJob = new Job("aaaCreditDisclosureNoticeJob");

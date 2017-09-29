@@ -1,5 +1,7 @@
 package aaa.main.enums;
 
+import org.apache.commons.lang.StringUtils;
+
 public final class DocGenEnum {
 	private DocGenEnum() {
 	}
@@ -162,12 +164,17 @@ public final class DocGenEnum {
         AH64XX("Expiration Notice"),
         AAIQAZ("Auto Insurance Quote"),
         AATSXX("Critical Information For Teenage Drivers And Their Parents"),
+        AA41PA(""),
+        AA52UPAB(""),
+        AA52IPAB(""),
+        AA52UPAC(""),
+        AA52IPAC("")
 		;
 
 		private String id;
 		private String idInXml;
 		private String name;
-		private String state;
+		private ThreadLocal<String> state = ThreadLocal.withInitial(() -> "");
 
 		Documents() {
 			setId(this.name());
@@ -205,11 +212,11 @@ public final class DocGenEnum {
 		}
 
 		public String getState() {
-			return state;
+			return this.state.get();
 		}
 
 		public Documents setState(String state) {
-			this.state = state;
+			this.state.set(state);
 			return this;
 		}
 
@@ -242,8 +249,8 @@ public final class DocGenEnum {
 			String documentInfo = "Documents{id='%1$s'%2$s%3$s%4$s}'";
 			return String.format(documentInfo, getId(),
 					getIdInXml().equals(getId()) ? "" : ", idInXml='" + getIdInXml() + "'",
-					getName().isEmpty() ? "" : ", name='" + getName() + "'",
-					getState().isEmpty() ? "" : ", state='" + getState() + "'");
+					StringUtils.isEmpty(getName()) ? "" : ", name='" + getName() + "'",
+					StringUtils.isEmpty(getState()) ? "" : ", state='" + getState() + "'");
 		}
 	}
 

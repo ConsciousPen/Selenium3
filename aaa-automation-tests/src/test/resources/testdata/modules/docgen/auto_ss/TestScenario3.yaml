@@ -1,11 +1,3 @@
-TestData: {
-  GeneralTab: '@GeneralTab',
-  VehicleTab: '@VehicleTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
 TestData_AZ: {
   GeneralTab: '@GeneralTab',
   VehicleTab: '@VehicleTab',
@@ -13,6 +5,49 @@ TestData_AZ: {
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   ErrorTab: '@ErrorTab',
   PurchaseTab: '@PurchaseTab'
+}
+
+TestData_IN: {
+  GeneralTab: '@GeneralTab',
+  VehicleTab: '@VehicleTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  ErrorTabCalculatePremium: '@ErrorTabCalculatePremium',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab_IN',
+  PurchaseTab: '@PurchaseTab'
+}
+
+TestData_OK: {
+  GeneralTab: '@GeneralTab',
+  VehicleTab: '@VehicleTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  ErrorTab: '@ErrorTab_OK',
+  PurchaseTab: '@PurchaseTab'
+}
+
+TestData_PA: {
+  GeneralTab: '@GeneralTab',
+  VehicleTab: '@VehicleTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_PA',
+  ErrorTab: '@ErrorTab_PA',
+  PurchaseTab: '@PurchaseTab'
+}
+
+Endorsement: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    "Uninsured Motorist Stacked/Unstacked": Stacked,
+    "Underinsured Motorist Stacked/Unstacked": Stacked
+  },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: Test
+  },
 }
 
 # ------------- Tabs ----------
@@ -59,6 +94,21 @@ VehicleTab: {
 
 PremiumAndCoveragesTab: {}
 
+PremiumAndCoveragesTab_PA: {
+  "Uninsured Motorist Stacked/Unstacked": Unstacked,
+  "Underinsured Motorist Stacked/Unstacked": Unstacked
+}
+
+ErrorTabCalculatePremium: {
+  ErrorsOverride: [{
+    Message: "contains=The selected limit of Uninsured Motorist Property Damage coverage is no longe...",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   }]
+}
+
 DocumentsAndBindTab: {
   RequiredToBind: {
     Auto Insurance Application: Not Signed,
@@ -91,6 +141,71 @@ ErrorTab: {
    }]
 }
 
+ErrorTab_IN: {
+  ErrorsOverride: [{
+    Message: "contains=Current CLUE must be ordered",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   },
+   {
+    Message: "contains=A signed Non-Owners Automobile Endorsement must be received prior to issuing",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   },
+   {
+    Message: "contains=Indiana Auto Insurance Application",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   }]
+}
+
+ErrorTab_OK: {
+  ErrorsOverride: [{
+    Message: "contains=Current CLUE must be ordered",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   },
+   {
+    Message: "contains=A signed Non-Owners Automobile Endorsement must be received prior to issuing",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   },
+   {
+    Message: "contains=A signed Coverage Selection Form must be received prior to issuing",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   },
+   {
+    Message: "contains=Oklahoma Auto Insurance Application",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   }]
+}
+
+ErrorTab_PA: {
+  ErrorsOverride: [{
+    Message: "contains=Current CLUE must be ordered",
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   }]
+}
+
 PurchaseTab: {
   PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa'],
   Activate Autopay: true,
@@ -104,6 +219,25 @@ PurchaseTab: {
 TestData_Verification_AZ: {
   AA41XX: '@AA41XX_AZ',
   AARFIXX: '@AARFIXX_AZ'
+}
+
+TestData_Verification_IN: {
+  AA41XX: '@AA41XX_IN'
+}
+
+TestData_Verification_OK: {
+  AA41XX: '@AA41XX_OK'
+}
+
+TestData_Verification_PA: {
+  AA41PA: '@AA41PA',
+  AA52UPAB: '@AA52UPAB',
+  AA52IPAB: '@AA52IPAB'
+}
+
+TestData_EndorseVerification_PA: {
+  AA52UPAC: '@AA52UPAC',
+  AA52IPAC: '@AA52IPAC'
 }
 
 AA41XX_AZ: {
@@ -135,8 +269,102 @@ AA41XX_AZ: {
     PlcyGrp: {TextField: PERSONAL AUTO},
     SpseExclNOPlcyYN: {TextField: Y},
     PlcyNum: {TextField: ''},
-    TermEffDt: {DateTimeField: "/today:yyyy-MM-dd'T00:00:00.000+03:00'"},
+    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
     SgntrOnFile: {TextField: ''}
+  }
+}
+
+AA41XX_IN: {
+  CompanyDetails: {
+    CoNm: {TextField: 'AAA Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(800) 207-3618'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdStAbrv: {TextField: IN}
+  },
+  AgentDetails: {
+    GenlAgntNum: {TextField: 400001650},
+    SubAgntNum: {TextField: 400018581}
+  },
+  VehicleDetails: {
+    VehTyp: {TextField: 'NO'}
+  },
+  form: {
+    PlcyStAbrv: {TextField: IN},
+    PlcyTransCd: {TextField: '0040'},
+    PlcyPrfx: {TextField: INSS},
+    PlcyGrp: {TextField: PERSONAL AUTO},
+    SpseExclNOPlcyYN: {TextField: Y},
+    PlcyNum: {TextField: ''},
+    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+    SgntrOnFile: {TextField: ''}
+  }
+}
+
+AA41XX_OK: {
+  CompanyDetails: {
+    CoNm: {TextField: 'AAA Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(800) 259-8008'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdStAbrv: {TextField: OK}
+  },
+  AgentDetails: {
+    GenlAgntNum: {TextField: 400001650},
+    SubAgntNum: {TextField: 400018581}
+  },
+  VehicleDetails: {
+    VehTyp: {TextField: 'NO'}
+  },
+  form: {
+    PlcyStAbrv: {TextField: OK},
+    PlcyTransCd: {TextField: '0040'},
+    PlcyPrfx: {TextField: OKSS},
+    PlcyGrp: {TextField: PERSONAL AUTO},
+    SpseExclNOPlcyYN: {TextField: Y},
+    PlcyNum: {TextField: ''},
+    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+    SgntrOnFile: {TextField: ''}
+  }
+}
+
+AA41PA: {
+  CompanyDetails: {
+    CoBrandNm: {TextField: 'AAA Insurance'},
+    CoNm: {TextField: 'underwritten by Western United Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. Box 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(888) 222-0094'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'}
+  },
+  AgentDetails: {
+    AgntNum: {TextField: 400018581}
+  },
+  form: {
+    PlcyStAbrv: {TextField: PA},
+    PlcyTransCd: {TextField: '0040'},
+    PlcyNum: {TextField: ''},
+    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"}
   }
 }
 
@@ -195,5 +423,112 @@ AARFIXX_AZ: {
     PlcyStAbrv: {TextField: AZ},
     PrdcrFullNm: {TextField: House Agent SMTestIA},
     PlcyTransCd: {TextField: '0040'}
+  }
+}
+
+AA52UPAB: {
+  CompanyDetails: {
+    CoNm: {TextField: 'underwritten by Western United Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. Box 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(888) 222-0094'}
+  },
+  AgentDetails: {
+    AgntNum: {TextField: 400018581}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'}
+  },
+  form: {
+    PlcyStAbrv: {TextField: PA},
+    PlcyTransCd: {TextField: '0040'},
+    PlcyNum: {TextField: ''},
+    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+  }
+}
+
+AA52IPAB: {
+  CompanyDetails: {
+    CoBrandNm: {TextField: 'AAA Insurance'},
+    CoNm: {TextField: 'underwritten by Western United Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. Box 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(888) 222-0094'}
+  },
+  AgentDetails: {
+    AgntNum: {TextField: 400018581}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'}
+  },
+  form: {
+    PlcyStAbrv: {TextField: PA},
+    PlcyTransCd: {TextField: '0040'},
+    PlcyNum: {TextField: ''},
+    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+  }
+}
+
+AA52UPAC: {
+  CompanyDetails: {
+    CoBrandNm: {TextField: 'AAA Insurance'},
+    CoNm: {TextField: 'underwritten by Western United Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. Box 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(888) 222-0094'}
+  },
+  AgentDetails: {
+    AgntNum: {TextField: 400018581}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'}
+  },
+  form: {
+    PlcyStAbrv: {TextField: PA},
+    PlcyTransCd: {TextField: '0100'},
+    PlcyNum: {TextField: ''},
+    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+  }
+}
+
+AA52IPAC: {
+  CompanyDetails: {
+    CoBrandNm: {TextField: 'AAA Insurance'},
+    CoNm: {TextField: 'underwritten by Western United Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. Box 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(888) 222-0094'}
+  },
+  AgentDetails: {
+    AgntNum: {TextField: 400018581}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'}
+  },
+  form: {
+    PlcyStAbrv: {TextField: PA},
+    PlcyTransCd: {TextField: '0100'},
+    PlcyNum: {TextField: ''},
+    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
   }
 }
