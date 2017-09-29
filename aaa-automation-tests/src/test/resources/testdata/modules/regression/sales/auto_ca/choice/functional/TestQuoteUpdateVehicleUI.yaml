@@ -1,0 +1,29 @@
+TestCase_3: {
+  VehicleTab: ['@Vehicle_1_VIN_MATCH','@Vehicle_2_VIN_MATCH'],
+  AssignmentTab: {
+     DriverVehicleRelationshipTable: ['@<auto_ca_choice>@DataGather@AssignedDriver1', '@<auto_ca_choice>@DataGather@AssignedDriver1'],
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: '@<auto_ca_choice>@DataGather@RequiredToBind',
+    VehicleInformation: ['@<auto_ca_choice>@DataGather@Vehicle1', '@<auto_ca_choice>@DataGather@Vehicle1']
+  }
+}
+
+Vehicle_1_VIN_MATCH: {
+  Primary Use: 'index=1',
+  VIN: JT8UF22E3S0028445,
+  'Miles One-way to Work or School': '500',
+  Odometer Reading: 1,
+  Existing Damage: 'Rust',
+  'Salvaged?': 'No',
+}
+
+Vehicle_2_VIN_MATCH: {
+  Primary Use: 'index=1',
+  VIN: 2MEFM75W02X643438,
+  'Miles One-way to Work or School': '500',
+  Odometer Reading: 1,
+  Existing Damage: 'Rust',
+  'Salvaged?': 'No',
+}
+
