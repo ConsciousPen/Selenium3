@@ -2,82 +2,96 @@ package aaa.modules.cft.home_ss.ho3;
 
 
 import aaa.helpers.constants.Groups;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 public class TestCFTScenario1 extends ControlledFinancialBaseTest {
-
-	@Override
-	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO3;
-	}
 
 	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void createPolicy(@Optional(StringUtils.EMPTY) String state) {
-		super.testCFTScenario1CreatePolicy();
+		super.createPolicyForTest();
 	}
 
 	@Test(groups = {Groups.CFT}, dependsOnMethods = "createPolicy")
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void endorsePolicy(@Optional(StringUtils.EMPTY) String state) {
-		super.testCFTScenario1Endorsement();
+		super.endorsePolicyEffDatePlus2Days();
 	}
 
 	@Test(groups = {Groups.CFT},dependsOnMethods = "endorsePolicy")
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void generateBillForFirstInstallment(@Optional(StringUtils.EMPTY) String state) {
-		super.testCFTScenario1FirstInstallmentBillGeneration();
+		super.generateFirstInstallmentBill();
 	}
 
 	@Test(groups = {Groups.CFT},dependsOnMethods = "generateBillForFirstInstallment")
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void generateCancellationNotice(@Optional(StringUtils.EMPTY) String state) {
-		super.testCFTScenario1AutomaticCancellationNotice();
+		super.automaticCancellationNotice();
 	}
 
 	@Test(groups = {Groups.CFT},dependsOnMethods = "generateCancellationNotice")
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void cancelPolicy(@Optional(StringUtils.EMPTY) String state) {
-		super.testCFTScenario1AutomaticCancellation();
+		super.automaticCancellation();
 	}
 
 	@Test(groups = {Groups.CFT},dependsOnMethods = "cancelPolicy")
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void generateFirstEPBill(@Optional(StringUtils.EMPTY) String state) {
-		super.testCFTScenario1GenerateFirstEPBill();
+		super.generateFirstEPBill();
 	}
 
 	@Test(groups = {Groups.CFT},dependsOnMethods = "generateFirstEPBill")
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void generateSecondEPBill(@Optional(StringUtils.EMPTY) String state) {
-		super.testCFTScenario1GenerateSecondEPBill();
+		super.generateSecondEPBill();
 	}
 
 	@Test(groups = {Groups.CFT},dependsOnMethods = "generateSecondEPBill")
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void generateThirdEPBill(@Optional(StringUtils.EMPTY) String state) {
-		super.testCFTScenario1GenerateThirdEPBill();
+		super.generateThirdEPBill();
 	}
 
 	@Test(groups = {Groups.CFT},dependsOnMethods = "generateThirdEPBill")
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void testCFTScenario1WriteOff(@Optional(StringUtils.EMPTY) String state) {
-		super.testCFTScenario1WriteOff();
+		super.writeOff();
 	}
 
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_HO3;
+	}
+
+	@Override
+	protected TestData getPolicyTestData() {
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", DEFAULT_TEST_DATA_KEY);
+		td.adjust(PremiumAndCoveragesTab.class.getSimpleName(), getTestSpecificTD("PremiumAndCoveragesTab_DataGather"));
+		td.adjust(PurchaseTab.class.getSimpleName(), getTestSpecificTD("PurchaseTab_DataGather"));
+		td.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel()),
+				getTestSpecificTD("DriverTab_DataGather").getValue(AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel()));
+		return td.resolveLinks();
+	}
 }
