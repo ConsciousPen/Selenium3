@@ -319,7 +319,6 @@ ErrorTab_IN: {
 TestData_VerificationNB_AZ: {
   AA43AZ: '@AA43AZ',
   AH35XX: '@AH35XX_AZ',
-  AASR22: '@AASR22_AZ',
   AA59XX: '@AA59XX_AZ',
   AAGCAZ: '@AAGCAZ',
   AA52AZ: '@AA52AZ',
@@ -328,6 +327,11 @@ TestData_VerificationNB_AZ: {
   AA10XX: '@AA10XX_AZ',
   AA02AZ: '@AA02AZ'
 }
+
+TestData_AASR22_AZ: {
+    AASR22: '@AASR22_AZ',
+}
+
 
 AA43AZ: {
   CompanyDetails: {
@@ -958,7 +962,6 @@ AA02AZ: {
     SR22FilgFlg: {TextField: 'Y'},
     FrmEndrDetl: [
     {TextField: 'AA59XX'},
-    {TextField: 'AAADXX'},
     {TextField: 'AA43AZ'},
     {TextField: 'AAGCAZ'},
     {TextField: 'AA52AZ'},
@@ -976,7 +979,6 @@ AA02AZ: {
 TestData_VerificationNB_IN: {
   AA43IN: '@AA43IN',
   AH35XX: '@AH35XX_IN',
-#  AASR22: '@AASR22_IN',
   AA59XX: '@AA59XX_IN',
   AA53IN: '@AA53IN',
   AA52IN: '@AA52IN',
@@ -984,6 +986,10 @@ TestData_VerificationNB_IN: {
   AHNBXX: '@AHNBXX_IN',
   AA10XX: '@AA10XX_IN',
   AA02IN: '@AA02IN'
+}
+
+TestData_AASR22_IN: {
+    AASR22: '@AASR22_IN'
 }
 
 AA43IN: {
@@ -1508,10 +1514,9 @@ AA02IN: {
 
 # ------------- Documents Verification for Endorsement----------
 
-TestData_VerificationED: {
+TestData_VerificationED_AZ: {
   AA43AZ: '@AA43AZ_ED',
   AH35XX: '@AH35XX_ED',
-  AASR26: '@AASR26_ED',
   AA59XX: '@AA59XX_ED',
   AA52AZ: '@AA52AZ_ED',
   AA10XX: '@AA10XX_ED',
@@ -1519,7 +1524,11 @@ TestData_VerificationED: {
   AAPDXX: '@AAPDXX_ED'
 }
 
-AASR26_ED: {
+TestData_AASR26_AZ: {
+    AASR26: '@AASR26_AZ',
+}
+
+AASR26_AZ: {
   CompanyDetails: {
     CoNm: {TextField: 'AAA Members Insurance Company'},
     CoNum: {TextField: '01'}
@@ -2013,7 +2022,7 @@ AA02AZ_ED: {
     DrvrGender: {TextField: 'Male'},
     DrvrDiscDesc: {TextField: ''},
     DrvrDiscNum: {TextField: '1'},
-    PlcyDrvrAutoDeadBenYN: {TextField: 'Yes'},
+    PlcyDrvrAutoDeadBenYN: {TextField: 'No'},
   },
   {
     DrvrTyp: {TextField: 'E'},
@@ -2052,7 +2061,6 @@ AA02AZ_ED: {
     SR22FilgFlg: {TextField: 'N'},
     FrmEndrDetl: [
     {TextField: 'AA59XX'},
-    {TextField: 'AAADXX'},
     {TextField: 'AA43AZ'},
     {TextField: 'AAGCAZ'},
     {TextField: 'AA52AZ'},
@@ -2386,7 +2394,7 @@ AA02AZ_Renewal: {
     DrvrGender: {TextField: 'Male'},
     DrvrDiscDesc: {TextField: ''},
     DrvrDiscNum: {TextField: '1'},
-    PlcyDrvrAutoDeadBenYN: {TextField: 'Yes'},
+    PlcyDrvrAutoDeadBenYN: {TextField: 'No'},
   },
   {
     DrvrTyp: {TextField: 'E'},
@@ -2425,7 +2433,6 @@ AA02AZ_Renewal: {
     SR22FilgFlg: {TextField: 'N'},
     FrmEndrDetl: [
     {TextField: 'AA59XX'},
-    {TextField: 'AAADXX'},
     {TextField: 'AA43AZ'},
     {TextField: 'AAGCAZ'},
     {TextField: 'AA52AZ'},
