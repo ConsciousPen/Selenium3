@@ -1,5 +1,7 @@
 package aaa.modules.e2e.home_ss.ho3;
 
+import aaa.common.enums.Constants;
+import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -24,6 +26,10 @@ public class TestScenario6 extends Scenario6 {
 		endorsementReasonDataKeys = new String[]{new EndorsementActionTab().getMetaKey(), HomeSSMetaData.EndorsementActionTab.ENDORSEMENT_REASON.getLabel()};
 
 		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
+		if (getState().equals(Constants.States.OK)) {
+			policyCreationTD.adjust(TestData.makeKeyPath(
+					new PropertyInfoTab().getMetaKey(), HomeSSMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), HomeSSMetaData.PropertyInfoTab.Construction.HAIL_RESISTANCE_RATING.getLabel()), "index=1");
+		}
 		super.createTestPolicy(policyCreationTD);
 	}
 

@@ -101,10 +101,6 @@ public class BillingPaymentsAndTransactionsVerifier extends TableVerifier {
 		verifyFee(PaymentsAndOtherTransactionSubtypeReason.PLIGA_FEE, transactionDate, expectedPligaFee);
 	}
 
-	public void verifyMVLEFee(LocalDateTime transactionDate) {
-		verifyMVLEFee(transactionDate, BillingHelper.calculateNonAutoMvleFee());
-	}
-
 	public void verifyMVLEFee(LocalDateTime transactionDate, Dollar expectedMVLEFee) {
 		verifyFee(PaymentsAndOtherTransactionSubtypeReason.MVLE_FEE, transactionDate, expectedMVLEFee);
 	}

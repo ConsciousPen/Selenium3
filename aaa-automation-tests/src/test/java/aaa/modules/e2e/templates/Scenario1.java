@@ -128,7 +128,7 @@ public class Scenario1 extends ScenarioBaseTest {
 	}
 
 	protected void generateSecondBill() {
-		generateAndCheckBill(installmentDueDates.get(2), policyEffectiveDate, getPligaOrMvleFee(pligaOrMvleFeeLastTransactionDate));
+		generateAndCheckBill(installmentDueDates.get(2), policyEffectiveDate, getPligaOrMvleFee(pligaOrMvleFeeLastTransactionDate, policyTerm, 0));
 	}
 
 	protected void paySecondBill() {
@@ -229,7 +229,7 @@ public class Scenario1 extends ScenarioBaseTest {
 //		if (!getState().equals(Constants.States.KY) && !getState().equals(Constants.States.WV)) {
 		verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, pligaOrMvleFee, installmentsCount);
 //		}
-		verifyRenewPremiumNotice(policyExpirationDate, getTimePoints().getBillGenerationDate(policyExpirationDate), pligaOrMvleFee);
+		verifyRenewPremiumNotice(policyExpirationDate, billDate, pligaOrMvleFee);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 

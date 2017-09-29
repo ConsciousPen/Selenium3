@@ -590,6 +590,9 @@ public final class BillingAccountActions {
 		@Override
 		public AbstractAction submit() {
 			UpdateBillingAccountActionTab.buttonSave.click();
+			if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
+				Page.dialogConfirmation.confirm();
+			}
 			return this;
 		}
 	}
