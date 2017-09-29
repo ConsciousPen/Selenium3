@@ -40,7 +40,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	@BeforeSuite(alwaysRun = true)
 	public void runCFTJob() {
-		//runCFTJobs();
+		runCFTJobs();
 		startTime = TimeSetterUtil.getInstance().getCurrentTime();
 	}
 

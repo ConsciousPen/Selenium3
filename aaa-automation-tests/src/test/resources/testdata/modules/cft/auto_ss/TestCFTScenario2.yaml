@@ -19,7 +19,6 @@ EndorsementActionTab: {
     Endorsement Reason: Maintain Vehicle(s)
 }
 
-
 PremiumAndCoveragesTab : {
     Bodily Injury Liability: 'contains=$1,000,000/$1,000,000',
     Calculate Premium: 'click',

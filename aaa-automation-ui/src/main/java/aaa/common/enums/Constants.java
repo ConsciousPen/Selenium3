@@ -13,9 +13,13 @@ public class Constants {
         public static final String VA = "VA";
         public static final String MD = "MD";
         public static final String KY = "KY";
+        public static final String KS = "KS";
         public static final String WV = "WV";
         public static final String MT = "MT";
         public static final String NY = "NY";
         public static final String OK = "OK";
+        public static final String DE = "DE";
+        public static final String OH = "OH";
+        public static final String CT = "CT";
     }
 }
