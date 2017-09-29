@@ -27,7 +27,6 @@ import aaa.toolkit.webdriver.WebDriverHelper;
 
 public class TestScenario5 extends AutoSSBaseTest {
 	protected String policyNumber;
-//	protected String policyNumber="QAZSS952111132";
 	protected String plcyTotSopPrem;
 	protected String plcyTotPrem;
 	protected String dnPayReq;
