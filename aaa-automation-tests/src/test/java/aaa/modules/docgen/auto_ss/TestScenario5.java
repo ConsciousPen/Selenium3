@@ -26,11 +26,11 @@ import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
 
 public class TestScenario5 extends AutoSSBaseTest {
-	protected String policyNumber;
-	protected String plcyTotSopPrem;
-	protected String plcyTotPrem;
-	protected String dnPayReq;
-	protected String plcyEffDt;
+	private String policyNumber;
+	private String plcyTotSopPrem;
+	private String plcyTotPrem;
+	private String dnPayReq;
+	private String plcyEffDt;
 	private List<TestData> vehClsnDed = new ArrayList<TestData>();
 	private List<TestData> vehCompDed = new ArrayList<TestData>();
 	private List<TestData> vehBdyInjPrem = new ArrayList<TestData>();
@@ -51,7 +51,7 @@ public class TestScenario5 extends AutoSSBaseTest {
 	private List<TestData> vehSpclEqpmtDed = new ArrayList<TestData>();
 	private List<TestData> vehSpclEqpmtPrem = new ArrayList<TestData>();
 	private List<TestData> vehTotPrem = new ArrayList<TestData>();
-	public Button buttongenerate = new Button(id("policyDataGatherForm:generate_link"));
+	private Button buttongenerate = new Button(id("policyDataGatherForm:generate_link"));
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = policy.getDefaultView().getTab(PremiumAndCoveragesTab.class);
 
 	/**

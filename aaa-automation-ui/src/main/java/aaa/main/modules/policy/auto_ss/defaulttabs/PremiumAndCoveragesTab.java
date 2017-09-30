@@ -129,7 +129,6 @@ public class PremiumAndCoveragesTab extends Tab {
 				List<String> _values = new ArrayList<String>();
 				_values.addAll(values);
 				_values.removeIf(s -> "No Coverage".equals(s));
-				_values.removeIf(s -> "driver averaging".equals(s));
 				if (_values.stream().allMatch(String::isEmpty)) {
 					continue; // skip column with only "No Coverage"
 				}
