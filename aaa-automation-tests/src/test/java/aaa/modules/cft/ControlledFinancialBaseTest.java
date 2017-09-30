@@ -12,7 +12,6 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -48,11 +47,11 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	/**
 	 * Creating of the policy for test
 	 */
-	protected void testCFTScenario1CreatePolicy() {
+	protected void createPolicyForTest() {
 		mainApp().open();
 		createCustomerIndividual();
-		TestData td = getPolicyTestData(getPolicyType());
-		policyNumber.set(createPolicy(td.resolveLinks()));
+		TestData td = getPolicyTestData();
+		policyNumber.set(createPolicy(td));
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installments.set(BillingHelper.getInstallmentDueDates());
 	}
@@ -61,7 +60,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 * Endorsement of the policy
 	 * today(suite start time) + 2 day
 	 */
-	protected void testCFTScenario1Endorsement() {
+	protected void endorsePolicyEffDatePlus2Days() {
 		log.info("Endorsment action started");
 		log.info("Endorsement date: " + startTime.plusDays(2));
 		TimeSetterUtil.getInstance().nextPhase(startTime.plusDays(2));
@@ -75,7 +74,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	/**
 	 * Bill generation for first installment of the policy
 	 */
-	protected void testCFTScenario1FirstInstallmentBillGeneration() {
+	protected void generateFirstInstallmentBill() {
 		LocalDateTime billDueDate = getTimePoints().getBillGenerationDate(installments.get().get(1));
 		log.info("Installment generation started");
 		log.info("Installment generation date: " + billDueDate);
@@ -95,9 +94,74 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	/**
+	 * Waive fee
+	 * X+16(BOA reconciliation JOBS)
+	 * BAOCheckconcillationBatch orderJOB,
+	 * BAOCheckconcillationBatch recieveJOB
+	 */
+	protected void waiveFee() {
+		log.info("Waive action started");
+		LocalDateTime plus16Days = startTime.plusDays(16);
+		log.info("Waive date: " + plus16Days);
+		TimeSetterUtil.getInstance().nextPhase(plus16Days);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openBilling(policyNumber.get());
+		BillingSummaryPage.tablePaymentsOtherTransactions
+				.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
+						BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE)
+				.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION)
+				.controls.links.get(BillingConstants.PaymentsAndOtherTransactionAction.WAIVE).click();
+		BillingSummaryPage.dialogConfirmation.confirm();
+		getBillingPaymentsAndTransactionsVerifier().getValues().clear();
+		getBillingPaymentsAndTransactionsVerifier()
+				.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
+				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED)
+				.setTransactionDate(plus16Days)
+				.verifyPresent();
+		log.info("Waive action comleted successfully");
+	}
+
+	protected void manualFutureCancellationEffDatePlus25Days() {
+		log.info("Manual cancellation action started");
+		LocalDateTime plus25Days = startTime.plusDays(25);
+		log.info("Manual cancellation date: " + plus25Days);
+		TimeSetterUtil.getInstance().nextPhase(plus25Days);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber.get());
+		policy.cancel().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
+	}
+
+	protected void updatePolicyStatusForPendedCancellation() {
+		log.info("Policy status update job action started");
+		LocalDateTime plus25Days = startTime.plusDays(25);
+		TimeSetterUtil.getInstance().nextPhase(plus25Days.plusDays(2));
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber.get());
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		log.info("Policy status update job finished successfully");
+	}
+
+	protected void manualReinstatement() {
+		log.info("Manual reinstatement action started");
+		LocalDateTime reinstatementDate = getTimePoints().getCancellationNoticeDate(installments.get().get(1));
+		log.info("Manual reinstatement date: " + reinstatementDate);
+		TimeSetterUtil.getInstance().nextPhase(reinstatementDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber.get());
+		policy.reinstate().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Reinstatement for Policy %1$s", policyNumber.get()));
+		log.info("Manual reinstatement action completed successfully");
+	}
+
+	/**
 	 * Cancellation Notice for the policy
 	 */
-	protected void testCFTScenario1AutomaticCancellationNotice() {
+	protected void automaticCancellationNotice() {
 		LocalDateTime cancellationNoticeDate = getTimePoints().getCancellationNoticeDate(installments.get().get(1));
 		log.info("Cancellation Notice action started");
 		log.info("Cancellation Notice date: " + cancellationNoticeDate);
@@ -117,7 +181,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	/**
 	 * Endorsement of the policy
 	 */
-	protected void testCFTScenario1AutomaticCancellation() {
+	protected void automaticCancellation() {
 		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(installments.get().get(1));
 		log.info("Cancellation action started");
 		log.info("Cancellation date: " + cancellationDate);
@@ -132,7 +196,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	/**
 	 * Generate 1st EP bill
 	 */
-	protected void testCFTScenario1GenerateFirstEPBill() {
+	protected void generateFirstEPBill() {
 		LocalDateTime firstEPBillDate = getTimePoints().getEarnedPremiumBillFirst(installments.get().get(1));
 		log.info("First EP bill generation started");
 		log.info("First EP bill generated date: " + firstEPBillDate);
@@ -143,7 +207,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	/**
 	 * Generate 2st EP bill
 	 */
-	protected void testCFTScenario1GenerateSecondEPBill() {
+	protected void generateSecondEPBill() {
 		LocalDateTime secondEPBillDate = getTimePoints().getEarnedPremiumBillSecond(installments.get().get(1));
 		log.info("Second EP bill generation started");
 		log.info("Second EP bill generated date: " + secondEPBillDate);
@@ -154,7 +218,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	/**
 	 * Generate 3st EP bill
 	 */
-	protected void testCFTScenario1GenerateThirdEPBill() {
+	protected void generateThirdEPBill() {
 		LocalDateTime thirdEPBillDate = getTimePoints().getEarnedPremiumBillThird(installments.get().get(1));
 		log.info("Third EP bill generation started");
 		log.info("Third EP bill generated date: " + thirdEPBillDate);
@@ -165,7 +229,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	/**
 	 * Generate EP write off
 	 */
-	protected void testCFTScenario1WriteOff() {
+	protected void writeOff() {
 		LocalDateTime writeOffDate = getTimePoints().getEarnedPremiumWriteOff(installments.get().get(1));
 		TimeSetterUtil.getInstance().nextPhase(writeOffDate);
 		log.info("EP Write off generation action started");
@@ -197,24 +261,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.policyTransactionLedgerJob);
 	}
 
-	private TestData getPolicyTestData(PolicyType policyType) {
-		switch (policyType.getShortName()) {
-			case "AutoSS": {
-				TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
-				td.adjust("PremiumAndCoveragesTab", getTestSpecificTD("PremiumAndCoveragesTab_DataGather"));
-				td.adjust("PurchaseTab", getTestSpecificTD("PurchaseTab_DataGather"));
-				return td;
-			}
-			case "HomeSS": {
-				TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
-				td.adjust("PremiumsAndCoveragesQuoteTab", getTestSpecificTD("PremiumsAndCoveragesQuoteTab_DataGather"));
-				td.adjust("PurchaseTab", getTestSpecificTD("PurchaseTab_DataGather"));
-				return td;
-			}
-			default: {
-				throw new IstfException("You have to provide existing product short name");
-			}
-		}
+	protected TestData getPolicyTestData() {
+		throw new IstfException("Please override method in appropriate child class with relevant test data preparation");
 	}
 
 	private BillingBillsAndStatementsVerifier getBillingBillsAndStatementsVerifier() {

@@ -1,7 +1,7 @@
 TestData: {
   EndorsementActionTab: '@EndorsementActionTab',
   GeneralTab: {},
-  DriverTab: '@DriverTab',
+  DriverTab: {},
   RatingDetailReportsTab: {},
   VehicleTab: {},
   FormsTab: {},
@@ -9,16 +9,14 @@ TestData: {
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
     Authorized By: qa
-  }
+  },
+  CancellationActionTab: '@CancellationActionTab',
+  ReinstatementActionTab: '@ReinstatementActionTab'
 }
 
 EndorsementActionTab: {
     Endorsement Date: /today+2d,
     Endorsement Reason: Maintain Vehicle(s)
-}
-
-DriverTab: {
-    ADB Coverage: 'Yes'
 }
 
 PremiumAndCoveragesTab : {
@@ -29,6 +27,21 @@ PremiumAndCoveragesTab : {
     Reason for Override: 'OTHER',
     Other Reason: 'CFT tests'
     }
+}
+
+CancellationActionTab: {
+  Cancel Date: "/today+2d",
+  Cancellation Reason: "index=1",
+  Authorized By: QA
+}
+
+ReinstatementActionTab: {
+   Reinstate Date: /today,
+   Authorized By: 'QA'
+ }
+
+DriverTab_DataGather: {
+    Affinity Group: 'AAA Employee'
 }
 
 PremiumAndCoveragesTab_DataGather: {
@@ -42,6 +55,7 @@ PremiumAndCoveragesTab_DataGather: {
 
 PurchaseTab_DataGather: {
   PaymentAllocation: {
-    Cash: /rest
+    Check: /rest,
+    Check Number Check: '123456'
   }
 }

@@ -8,6 +8,7 @@
 
     <suite-files>
         <suite-file path="./Scenario1.xml" />
+        <suite-file path="./Scenario1.xml" />
     </suite-files>
 
 </suite>

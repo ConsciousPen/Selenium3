@@ -5,6 +5,7 @@ import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.TimePoints;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
@@ -266,11 +267,10 @@ public class Scenario2 extends ScenarioBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
-	protected void verifyDocGenForms() {
+	protected void verifyDocGenForms(DocGenEnum.Documents... documents) {
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH35XX, DocGenEnum.Documents.AHRBXX);
-//		DocGenHelper.verifyDocumentsGeneratedByJob(DateTimeUtils.getCurrentDateTime(), policyNum, Arrays.asList(OnDemandDocuments.AH35XX, OnDemandDocuments.AHRBXX));
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, documents);
 	}
 
 	protected void removeAutoPay() {
@@ -305,7 +305,7 @@ public class Scenario2 extends ScenarioBaseTest {
 	}
 
 	protected void makeManualPaymentInFullRenewalOfferAmount() {
-		LocalDateTime renewCustomerDecline = getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate);
+		LocalDateTime renewCustomerDecline = getTimePoints().getTimepoint(policyExpirationDate, TimePoints.TimepointsList.RENEW_CUSTOMER_DECLINE, false);;
 		TimeSetterUtil.getInstance().nextPhase(renewCustomerDecline);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
