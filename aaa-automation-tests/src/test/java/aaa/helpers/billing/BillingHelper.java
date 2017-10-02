@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.utils.screenshots.ScreenshotManager;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.table.Row;
 import aaa.main.enums.BillingConstants.BillingAccountPoliciesTable;
@@ -208,7 +209,10 @@ public final class BillingHelper {
 		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.PREMIUM);
 		if (!BillingSummaryPage.tablePaymentsOtherTransactions.getRow(premiumRowSearchQuery).isPresent()) {
 			log.warn(String.format("There is no Premium transaction with query %s, assume PLIGA Fee should be $0", premiumRowSearchQuery.entrySet()));
-			return new Dollar(0);
+			//TODO-dchubkov: should be deleted after investigation
+			ScreenshotManager.getInstance().makeScreenshot("MissedPremiumTransaction_" + premiumRowSearchQuery.entrySet());
+
+			return DZERO;
 		}
 
 		Dollar totalPremiumAmount = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(premiumRowSearchQuery).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
