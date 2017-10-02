@@ -1,0 +1,69 @@
+TestData: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  },
+  AcceptPaymentActionTab: {
+      Payment Method: 'Check',
+      Amount: 50,
+      Check Number: 123456
+  }
+}
+
+EndorsementActionTab: {
+    Endorsement Date: /today,
+    Endorsement Reason: Maintain Vehicle(s)
+}
+
+DriverTab: {
+    Affinity Group: 'None'
+}
+
+PremiumAndCoveragesTab : {
+    Bodily Injury Liability: 'contains=$1,000,000/$1,000,000',
+    Calculate Premium: 'click',
+    Override Premium: {
+    Bodily Injury Liability By Flat Amount: '200',
+    Reason for Override: 'OTHER',
+    Other Reason: 'CFT tests'
+    }
+}
+
+AcceptPayment: {
+  AcceptPaymentActionTab: {
+      Payment Method: 'Cash'
+  }
+}
+
+DriverTab_DataGather: {
+    Affinity Group: 'AAA Employee'
+}
+
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Eleven Pay - Standard,
+  Policy Term: Annual,
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750',
+  Collision Deductible: 'contains=$500',
+  Special Equipment Coverage: 1100
+}
+
+PurchaseTab_DataGather: {
+  PaymentMethods: ['@CC_Visa'],
+  PaymentAllocation: {
+    Visa: /rest
+  }
+}
+
+CC_Visa: {
+  Payment Method: 'Credit/Debit Card',
+  Type: 'Visa',
+  Number: '4111111111111111'
+}

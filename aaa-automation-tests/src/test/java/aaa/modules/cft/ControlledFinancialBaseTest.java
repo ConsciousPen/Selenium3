@@ -12,7 +12,9 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
+import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -43,7 +45,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	@BeforeSuite(alwaysRun = true)
 	public void runCFTJob() {
-		runCFTJobs();
+		//runCFTJobs();
 		startTime = TimeSetterUtil.getInstance().getCurrentTime();
 	}
 
@@ -89,7 +91,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	/**
 	 * Accept 10$ cash payment on startDate + 25 days
 	 */
-	protected void acceptPayment10DollarsEffDatePlus25() {
+	protected void acceptPaymentEffDatePlus25() {
 		log.info("Accept payment action started");
 		LocalDateTime paymentDate = startTime.plusDays(25);
 		log.info("Accept payment date: " + paymentDate);
@@ -97,14 +99,25 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
 		billingAccount.acceptPayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		String expValue = getTestSpecificTD(DEFAULT_TEST_DATA_KEY)
+				.getTestData(AcceptPaymentActionTab.class.getSimpleName())
+				.getValue(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel());
 		getBillingPaymentsAndTransactionsVerifier().getValues().clear();
 		getBillingPaymentsAndTransactionsVerifier()
 				.setTransactionDate(paymentDate)
 				.setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
-				.setAmount(new Dollar(-10))
-				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.CLEARED)
+				.setAmount(new Dollar(expValue).negate())
 				.verifyPresent();
+		log.info("Accept payment action finished successfully");
+	}
+
+	/**
+	 * Fully pay installment with min Due
+	 */
+	protected void payInstallmentWithMinDue() {
+		log.info("Accept payment action started");
+		billingAccount.acceptPayment().perform(getTestSpecificTD("AcceptPayment"), BillingSummaryPage.getMinimumDue());
 		log.info("Accept payment action finished successfully");
 	}
 

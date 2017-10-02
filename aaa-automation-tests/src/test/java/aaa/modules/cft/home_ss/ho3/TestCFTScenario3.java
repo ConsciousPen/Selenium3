@@ -46,7 +46,7 @@ public class TestCFTScenario3 extends ControlledFinancialBaseTest {
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void acceptPayment(@Optional(StringUtils.EMPTY) String state) {
-		super.acceptPayment10DollarsEffDatePlus25();
+		super.acceptPaymentEffDatePlus25();
 	}
 
 	@Test(groups = {Groups.CFT}, dependsOnMethods = "acceptPayment")
