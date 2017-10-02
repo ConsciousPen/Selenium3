@@ -8,7 +8,9 @@
 
     <suite-files>
         <suite-file path="./Scenario1.xml" />
-        <suite-file path="./Scenario1.xml" />
+        <suite-file path="./Scenario2.xml" />
+        <suite-file path="./Scenario3.xml" />
+        <suite-file path="./Scenario4.xml" />
     </suite-files>
 
 </suite>

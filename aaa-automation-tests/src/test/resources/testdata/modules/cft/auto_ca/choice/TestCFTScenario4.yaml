@@ -2,8 +2,9 @@ TestData: {
   EndorsementActionTab: '@EndorsementActionTab',
   GeneralTab: {},
   DriverTab: '@DriverTab',
-  RatingDetailReportsTab: {},
+  MembershipTab: {},
   VehicleTab: {},
+  AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
@@ -23,7 +24,7 @@ EndorsementActionTab: {
 }
 
 DriverTab: {
-    Affinity Group: 'None'
+    Employee Benefit Type: 'None'
 }
 
 AcceptPayment: {
@@ -33,16 +34,12 @@ AcceptPayment: {
 }
 
 DriverTab_DataGather: {
-    Affinity Group: 'AAA Employee'
+    Employee Benefit Type: 'Active employee',
+    Employee ID: '12345678'
 }
 
 PremiumAndCoveragesTab_DataGather: {
-  Payment Plan: Eleven Pay - Standard,
-  Policy Term: Annual,
-  Bodily Injury Liability: 'contains=$100,000/$300,000',
-  Comprehensive Deductible: 'contains=$750',
-  Collision Deductible: 'contains=$500',
-  Special Equipment Coverage: 1100
+  Payment Plan: Standard Monthly
 }
 
 PurchaseTab_DataGather: {
