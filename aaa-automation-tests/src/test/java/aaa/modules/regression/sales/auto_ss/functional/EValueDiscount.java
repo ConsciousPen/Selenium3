@@ -12,7 +12,6 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -23,19 +22,6 @@ import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 
 public class EValueDiscount extends AutoSSBaseTest {
-
-    @DataProvider(name = "Evalue parameters")
-    public static Object[][] evalueParams() {
-        return new Object[][]{
-                {"state", "AAAProductOwned_Active", "CurrentCarrierInformation", true, true, "Pending"},
-                {"state", "AAAProductOwned_Active", "CurrentCarrierInformation", false, false, ""},
-                {"state", "AAAProductOwned_No", "CurrentCarrierInformation", false, false, ""},
-                {"state", "AAAProductOwned_Pending", "CurrentCarrierInformation", true, true, "Pending"},
-                {"state", "AAAProductOwned_Pending", "CurrentCarrierInformation", false, false, ""},
-                {"state", "AAAProductOwned_Active", "CurrentCarrierInformation_DayLapsedMore4", false, false, ""},
-                {"state", "AAAProductOwned_Active", "CurrentCarrierInformation_BILimitLess", false, false, ""},
-        };
-    }
 
     /**
      * @author Viktoriia Lutsenko
@@ -55,9 +41,55 @@ public class EValueDiscount extends AutoSSBaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, dataProvider = "Evalue parameters")
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void testEvalueDiscount(@Optional("VA") String state, String MembershipStatus, String CurrentCarrier, boolean evalueIsSelected, boolean evalueIsPresent, String evalueStatus) {
+    public void eValueDiscount_1(@Optional("VA") String state) {
+        testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", true, true, "Pending");
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+    public void eValueDiscount_2(@Optional("VA") String state) {
+        testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", true, true, "Pending");
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+    public void eValueDiscount_3(@Optional("VA") String state) {
+        testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", true, true, "Pending");
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+    public void eValueDiscount_4(@Optional("VA") String state) {
+        testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", true, true, "Pending");
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+    public void eValueDiscount_5(@Optional("VA") String state) {
+        testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", true, true, "Pending");
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+    public void eValueDiscount_6(@Optional("VA") String state) {
+        testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", true, true, "Pending");
+    }
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+    public void eValueDiscount_7(@Optional("VA") String state) {
+        testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", true, true, "Pending");
+    }
+
+    public void testEvalueDiscount(String MembershipStatus, String CurrentCarrier, boolean evalueIsSelected, boolean evalueIsPresent, String evalueStatus) {
         prefillEvalueTestData(MembershipStatus, CurrentCarrier);
         fillPremiumAndCoveragesTab(evalueIsSelected);
         fillDriverActivityReportsTab();
