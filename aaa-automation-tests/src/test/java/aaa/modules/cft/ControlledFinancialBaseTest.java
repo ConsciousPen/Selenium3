@@ -22,7 +22,6 @@ import aaa.modules.policy.PolicyBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.testng.annotations.BeforeSuite;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -37,17 +36,10 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected BillingAccount billingAccount = new BillingAccount();
 
-	private LocalDateTime startTime;
 	private ThreadLocal<List<LocalDateTime>> installments = new ThreadLocal<>();
 	private ThreadLocal<String> policyNumber = ThreadLocal.withInitial(() -> StringUtils.EMPTY);
 	private ThreadLocal<BillingBillsAndStatementsVerifier> billingBillsAndStatementsVerifier = ThreadLocal.withInitial(BillingBillsAndStatementsVerifier::new);
 	private ThreadLocal<BillingPaymentsAndTransactionsVerifier> billingPaymentsAndTransactionsVerifier = ThreadLocal.withInitial(BillingPaymentsAndTransactionsVerifier::new);
-
-	@BeforeSuite(alwaysRun = true)
-	public void runCFTJob() {
-		//runCFTJobs();
-		startTime = TimeSetterUtil.getInstance().getCurrentTime();
-	}
 
 	/**
 	 * Creating of the policy for test
@@ -67,7 +59,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void endorsePolicyEffDatePlus2Days() {
 		log.info("Endorsment action started");
-		LocalDateTime endorsePlus2 = startTime.plusDays(2);
+		LocalDateTime endorsePlus2 = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
 		log.info("Endorsement date: " + endorsePlus2);
 		TimeSetterUtil.getInstance().nextPhase(endorsePlus2.plusDays(2)); // check future dated endorsement
 		performAndCheckEndorsement(endorsePlus2.plusDays(2));
@@ -81,7 +73,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void endorsePolicyEffDatePlus16Days() {
 		log.info("Endorsment action started");
-		LocalDateTime endorsePlus16 = startTime.plusDays(16);
+		LocalDateTime endorsePlus16 = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
 		log.info("Endorsement date: " + endorsePlus16);
 		TimeSetterUtil.getInstance().nextPhase(endorsePlus16);
 		performAndCheckEndorsement(endorsePlus16);
@@ -93,7 +85,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void acceptPaymentEffDatePlus25() {
 		log.info("Accept payment action started");
-		LocalDateTime paymentDate = startTime.plusDays(25);
+		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
 		log.info("Accept payment date: " + paymentDate);
 		TimeSetterUtil.getInstance().nextPhase(paymentDate);
 		mainApp().reopen();
@@ -174,7 +166,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void waiveFee() {
 		log.info("Waive action started");
-		LocalDateTime plus16Days = startTime.plusDays(16);
+		LocalDateTime plus16Days = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
 		log.info("Waive date: " + plus16Days);
 		TimeSetterUtil.getInstance().nextPhase(plus16Days);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
@@ -197,7 +189,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected void manualFutureCancellationEffDatePlus25Days() {
 		log.info("Manual cancellation action started");
-		LocalDateTime plus25Days = startTime.plusDays(25);
+		LocalDateTime plus25Days = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
 		log.info("Manual cancellation date: " + plus25Days);
 		TimeSetterUtil.getInstance().nextPhase(plus25Days);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
@@ -209,7 +201,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected void updatePolicyStatusForPendedCancellation() {
 		log.info("Policy status update job action started");
-		LocalDateTime plus25Days = startTime.plusDays(25);
+		LocalDateTime plus25Days = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
 		TimeSetterUtil.getInstance().nextPhase(plus25Days.plusDays(2));
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
