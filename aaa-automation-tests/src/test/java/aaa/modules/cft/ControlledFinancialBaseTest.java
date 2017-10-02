@@ -12,6 +12,7 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
+import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -31,6 +32,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected static final String DEFAULT_TEST_DATA_KEY = "TestData";
 	protected static final String STATE_PARAM = "state";
+
+	protected BillingAccount billingAccount = new BillingAccount();
 
 	private LocalDateTime startTime;
 	private ThreadLocal<List<LocalDateTime>> installments = new ThreadLocal<>();
@@ -62,13 +65,70 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void endorsePolicyEffDatePlus2Days() {
 		log.info("Endorsment action started");
-		log.info("Endorsement date: " + startTime.plusDays(2));
-		TimeSetterUtil.getInstance().nextPhase(startTime.plusDays(2));
-		mainApp().reopen();
-		SearchPage.openPolicy(policyNumber.get());
-		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));// get endorse data according to product
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Endorsement effective %1$s for Policy %2$s", TimeSetterUtil.getInstance().getCurrentTime().plusDays(2).format(DateTimeUtils.MM_DD_YYYY), policyNumber.get()));
+		LocalDateTime endorsePlus2 = startTime.plusDays(2);
+		log.info("Endorsement date: " + endorsePlus2);
+		TimeSetterUtil.getInstance().nextPhase(endorsePlus2.plusDays(2)); // check future dated endorsement
+		performAndCheckEndorsement(endorsePlus2.plusDays(2));
 		log.info("Endorsment action finished successfully");
+	}
+
+
+	/**
+	 * Endorsement of the policy
+	 * today(suite start time) + 16 day
+	 */
+	protected void endorsePolicyEffDatePlus16Days() {
+		log.info("Endorsment action started");
+		LocalDateTime endorsePlus16 = startTime.plusDays(16);
+		log.info("Endorsement date: " + endorsePlus16);
+		TimeSetterUtil.getInstance().nextPhase(endorsePlus16);
+		performAndCheckEndorsement(endorsePlus16);
+		log.info("Endorsment action finished successfully");
+	}
+
+	/**
+	 * Accept 10$ cash payment on startDate + 25 days
+	 */
+	protected void acceptPayment10DollarsEffDatePlus25() {
+		log.info("Accept payment action started");
+		LocalDateTime paymentDate = startTime.plusDays(25);
+		log.info("Accept payment date: " + paymentDate);
+		TimeSetterUtil.getInstance().nextPhase(paymentDate);
+		mainApp().reopen();
+		SearchPage.openBilling(policyNumber.get());
+		billingAccount.acceptPayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		getBillingPaymentsAndTransactionsVerifier().getValues().clear();
+		getBillingPaymentsAndTransactionsVerifier()
+				.setTransactionDate(paymentDate)
+				.setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
+				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
+				.setAmount(new Dollar(-10))
+				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.CLEARED)
+				.verifyPresent();
+		log.info("Accept payment action finished successfully");
+	}
+
+	/**
+	 * Decline Payment on cancellation Notice generation day
+	 */
+	protected void decline10DollarsPayment() {
+		LocalDateTime cancellationNoticeDate = getTimePoints().getCancellationNoticeDate(installments.get().get(1));
+		log.info("Decline Payment action started");
+		log.info("Decline Payment date: " + cancellationNoticeDate);
+		TimeSetterUtil.getInstance().nextPhase(cancellationNoticeDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openBilling(policyNumber.get());
+		billingAccount.declinePayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY), new Dollar(-10).toString());
+		getBillingPaymentsAndTransactionsVerifier().getValues().clear();
+		getBillingPaymentsAndTransactionsVerifier()
+				.setTransactionDate(cancellationNoticeDate)
+				.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
+				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PAYMENT_DECLINED)
+				.setAmount(new Dollar(10))
+				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
+				.verifyPresent();
+		log.info("Decline payment action finished successfully");
 	}
 
 	/**
@@ -196,7 +256,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	/**
 	 * Generate 1st EP bill
 	 */
-	protected void generateFirstEPBill() {
+	protected void generateFirstEarnedPremiumBill() {
 		LocalDateTime firstEPBillDate = getTimePoints().getEarnedPremiumBillFirst(installments.get().get(1));
 		log.info("First EP bill generation started");
 		log.info("First EP bill generated date: " + firstEPBillDate);
@@ -207,7 +267,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	/**
 	 * Generate 2st EP bill
 	 */
-	protected void generateSecondEPBill() {
+	protected void generateSecondEarnedPremiumBill() {
 		LocalDateTime secondEPBillDate = getTimePoints().getEarnedPremiumBillSecond(installments.get().get(1));
 		log.info("Second EP bill generation started");
 		log.info("Second EP bill generated date: " + secondEPBillDate);
@@ -218,7 +278,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	/**
 	 * Generate 3st EP bill
 	 */
-	protected void generateThirdEPBill() {
+	protected void generateThirdEarnedPremiumBill() {
 		LocalDateTime thirdEPBillDate = getTimePoints().getEarnedPremiumBillThird(installments.get().get(1));
 		log.info("Third EP bill generation started");
 		log.info("Third EP bill generated date: " + thirdEPBillDate);
@@ -246,7 +306,11 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("EP Write off generated successfully");
 	}
 
-	protected void generateAndCheckEarnedPremiumBill(LocalDateTime date) {
+	protected TestData getPolicyTestData() {
+		throw new IstfException("Please override method in appropriate child class with relevant test data preparation");
+	}
+
+	private void generateAndCheckEarnedPremiumBill(LocalDateTime date) {
 		TimeSetterUtil.getInstance().nextPhase(date);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().open();
@@ -261,15 +325,19 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.policyTransactionLedgerJob);
 	}
 
-	protected TestData getPolicyTestData() {
-		throw new IstfException("Please override method in appropriate child class with relevant test data preparation");
-	}
-
 	private BillingBillsAndStatementsVerifier getBillingBillsAndStatementsVerifier() {
 		return billingBillsAndStatementsVerifier.get();
 	}
 
-	public BillingPaymentsAndTransactionsVerifier getBillingPaymentsAndTransactionsVerifier() {
+	private BillingPaymentsAndTransactionsVerifier getBillingPaymentsAndTransactionsVerifier() {
 		return billingPaymentsAndTransactionsVerifier.get();
 	}
+
+	private void performAndCheckEndorsement(LocalDateTime endorsementDate) {
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber.get());
+		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementDate.format(DateTimeUtils.MM_DD_YYYY), policyNumber.get()));
+	}
+
 }

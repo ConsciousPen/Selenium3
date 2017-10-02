@@ -1,9 +1,9 @@
-package aaa.modules.cft.auto_ss;
+package aaa.modules.cft.home_ss.ho3;
 
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Optional;
@@ -13,15 +13,13 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 /**
- * Controlled Financial Testing Scenario 1
+ * Controlled Financial Testing Scenario 3
  * For any product and any defined state from params
- * NB W/O Emp Ben
- * Down pay_Cash
- * 1st installment
- * Cancel with future date
- * Earned Premium Write off
+ * NB_Down_Cash
+ * Policy Write off
+
  */
-public class TestCFTScenario1 extends ControlledFinancialBaseTest {
+public class TestCFTScenario3 extends ControlledFinancialBaseTest {
 
 	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
@@ -33,13 +31,6 @@ public class TestCFTScenario1 extends ControlledFinancialBaseTest {
 	@Test(groups = {Groups.CFT}, dependsOnMethods = "createPolicy")
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
-	public void endorsePolicy(@Optional(StringUtils.EMPTY) String state) {
-		super.endorsePolicyEffDatePlus2Days();
-	}
-
-	@Test(groups = {Groups.CFT}, dependsOnMethods = "endorsePolicy")
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
 	public void generateBillForFirstInstallment(@Optional(StringUtils.EMPTY) String state) {
 		super.generateFirstInstallmentBill();
 	}
@@ -47,11 +38,25 @@ public class TestCFTScenario1 extends ControlledFinancialBaseTest {
 	@Test(groups = {Groups.CFT}, dependsOnMethods = "generateBillForFirstInstallment")
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
-	public void generateCancellationNotice(@Optional(StringUtils.EMPTY) String state) {
-		super.automaticCancellationNotice();
+	public void endorsePolicy(@Optional(StringUtils.EMPTY) String state) {
+		super.endorsePolicyEffDatePlus16Days();
 	}
 
-	@Test(groups = {Groups.CFT}, dependsOnMethods = "generateCancellationNotice")
+	@Test(groups = {Groups.CFT}, dependsOnMethods = "endorsePolicy")
+	@TestInfo(component = Groups.CFT)
+	@Parameters({STATE_PARAM})
+	public void acceptPayment(@Optional(StringUtils.EMPTY) String state) {
+		super.acceptPayment10DollarsEffDatePlus25();
+	}
+
+	@Test(groups = {Groups.CFT}, dependsOnMethods = "acceptPayment")
+	@TestInfo(component = Groups.CFT)
+	@Parameters({STATE_PARAM})
+	public void declinePayment(@Optional(StringUtils.EMPTY) String state) {
+		super.decline10DollarsPayment();
+	}
+
+	@Test(groups = {Groups.CFT}, dependsOnMethods = "declinePayment")
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void cancelPolicy(@Optional(StringUtils.EMPTY) String state) {
@@ -88,13 +93,13 @@ public class TestCFTScenario1 extends ControlledFinancialBaseTest {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_SS;
+		return PolicyType.HOME_SS_HO3;
 	}
 
 	@Override
 	protected TestData getPolicyTestData() {
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", DEFAULT_TEST_DATA_KEY);
-		td.adjust(PremiumAndCoveragesTab.class.getSimpleName(), getTestSpecificTD("PremiumAndCoveragesTab_DataGather"));
+		td.adjust(PremiumsAndCoveragesQuoteTab.class.getSimpleName(), getTestSpecificTD("PremiumsAndCoveragesQuoteTab_DataGather"));
 		td.adjust(PurchaseTab.class.getSimpleName(), getTestSpecificTD("PurchaseTab_DataGather"));
 		return td.resolveLinks();
 	}

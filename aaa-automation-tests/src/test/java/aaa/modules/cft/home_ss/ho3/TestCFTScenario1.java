@@ -54,21 +54,21 @@ public class TestCFTScenario1 extends ControlledFinancialBaseTest {
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void generateFirstEPBill(@Optional(StringUtils.EMPTY) String state) {
-		super.generateFirstEPBill();
+		super.generateFirstEarnedPremiumBill();
 	}
 
 	@Test(groups = {Groups.CFT},dependsOnMethods = "generateFirstEPBill")
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void generateSecondEPBill(@Optional(StringUtils.EMPTY) String state) {
-		super.generateSecondEPBill();
+		super.generateSecondEarnedPremiumBill();
 	}
 
 	@Test(groups = {Groups.CFT},dependsOnMethods = "generateSecondEPBill")
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void generateThirdEPBill(@Optional(StringUtils.EMPTY) String state) {
-		super.generateThirdEPBill();
+		super.generateThirdEarnedPremiumBill();
 	}
 
 	@Test(groups = {Groups.CFT},dependsOnMethods = "generateThirdEPBill")
