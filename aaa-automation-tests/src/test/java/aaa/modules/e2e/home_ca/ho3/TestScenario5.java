@@ -98,7 +98,7 @@ public class TestScenario5 extends Scenario5 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC010_0_Generate_First_EP_Bill_One_Day_Before(@Optional("CA") String state) {
+	public void TC10_0_Generate_First_EP_Bill_One_Day_Before(@Optional("CA") String state) {
 		super.generateFirstEPBillOneDayBefore();
 	}
 

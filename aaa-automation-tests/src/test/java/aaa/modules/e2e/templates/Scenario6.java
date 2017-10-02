@@ -7,6 +7,7 @@ import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
+import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -278,7 +279,8 @@ public class Scenario6 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 
 		Dollar overpayment = new Dollar(200);
-		Dollar renewOfferAmount = BillingHelper.getBillMinDueAmount(policyExpirationDate, BillsAndStatementsType.OFFER).add(overpayment);
+		String billType = getState().equals(States.CA) ? BillsAndStatementsType.OFFER : BillsAndStatementsType.BILL;
+		Dollar renewOfferAmount = BillingHelper.getBillMinDueAmount(policyExpirationDate, billType).add(overpayment);
 
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), renewOfferAmount);
 

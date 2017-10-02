@@ -1,4 +1,4 @@
-package aaa.modules.e2e.auto_ca;
+package aaa.modules.e2e.home_ca.ho3;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -7,23 +7,22 @@ import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.modules.e2e.templates.Scenario7;
 
 public class TestScenario7 extends Scenario7 {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_CA_SELECT;
+		return PolicyType.HOME_CA_HO3;
 	}
 
 	@Parameters({"state"})
 	@Test
 	public void TC01_createPolicy(@Optional("CA") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
-		premiumTab = new PremiumAndCoveragesTab();
+		premiumTab = new PremiumsAndCoveragesQuoteTab();
 		errorTab = new ErrorTab();
-		tableDiscounts = PremiumAndCoveragesTab.tableDiscounts;
 
 		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
 
@@ -62,20 +61,20 @@ public class TestScenario7 extends Scenario7 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC07_Generate_Tenth_Bill(@Optional("CA") String state) {
+	public void TC07_Renewal_Image_Generation(@Optional("CA") String state) {
+		super.renewalImageGeneration();
+	}
+
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC08_Generate_Tenth_Bill(@Optional("CA") String state) {
 		super.generateTenthBill();
 	}
 
 	// @Parameters({"state"})
 	// @Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC08_Cant_Change_Payment_Plan(@Optional("CA") String state) {
+	public void TC09_Cant_Change_Payment_Plan(@Optional("CA") String state) {
 		super.cantChangePaymentPlan();
-	}
-
-	@Parameters({"state"})
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC09_Renewal_Image_Generation(@Optional("CA") String state) {
-		super.renewalImageGeneration();
 	}
 
 	@Parameters({"state"})
@@ -114,8 +113,8 @@ public class TestScenario7 extends Scenario7 {
 		super.endorsementAPAfterRenewal();
 	}
 
-	// @Parameters({"state"})
-	// @Test(dependsOnMethods = "TC01_createPolicy")
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC16_Renewal_Premium_Notice(@Optional("CA") String state) {
 		super.renewalPremiumNotice();
 	}

@@ -185,8 +185,8 @@ public final class DocGenEnum {
 		Documents() {
 			setId(this.name());
 			setIdInXml(this.name());
-			setName(""); // to prevent NPE on getName() call for documents with not defined names
-			setState(""); // to prevent NPE on getState() call for documents with not defined names
+			setName("");
+			setState("");
 		}
 
 		Documents(String docName) {
@@ -230,7 +230,7 @@ public final class DocGenEnum {
 			return id + getState();
 		}
 
-		public void setId(String id) {
+		private void setId(String id) {
 			this.id = id;
 		}
 
@@ -238,7 +238,7 @@ public final class DocGenEnum {
 			return idInXml;
 		}
 
-		public void setIdInXml(String idInXml) {
+		private void setIdInXml(String idInXml) {
 			this.idInXml = idInXml;
 		}
 
@@ -246,7 +246,7 @@ public final class DocGenEnum {
 			return name;
 		}
 
-		public void setName(String name) {
+		private void setName(String name) {
 			this.name = name;
 		}
 

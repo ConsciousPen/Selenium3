@@ -149,8 +149,8 @@ public class DocGenHelper {
 		return RemoteHelper.waitForFilesAppearance(docGenSourcePath, "xml", DOCUMENT_GENERATION_TIMEOUT, textsToSearchPatterns);
 	}
 	
-	public static String convertToZonedDateTime(LocalDateTime installmentDueDate) {
+	public static String convertToZonedDateTime(LocalDateTime date) {
 		final String zoneId = RemoteHelper.getServerTimeZone();
-		return installmentDueDate.atZone(ZoneId.of(zoneId)).format(DATE_TIME_FIELD_FORMAT);
+		return date.atZone(ZoneId.of(zoneId)).format(DATE_TIME_FIELD_FORMAT);
 	}
 }

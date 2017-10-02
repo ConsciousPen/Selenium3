@@ -1,0 +1,193 @@
+TestData: {
+  PremiumAndCoveragesQuoteTab: {
+    Payment Plan: Eleven Pay Standard,
+    Recurring Payment: true,
+    Personal Umbrella: '$1,000,000'
+  },
+  UnderlyingRisksAutoTab: {
+  Automobiles: ['@Auto1', '@Auto2']
+  }
+}
+
+Auto1: {
+  Add automobile: 'Yes',
+  Car Type: Private Passenger Auto,
+  VIN: '91N1K36Y991234567',
+  Year: 2008,
+  Make: 'RIX TRUCK Nr3',
+  Model: 'index=1',
+  Current Carrier: 'index=2',
+  "Policy #": 123456,
+  Primary Auto Policy: 'Yes',
+  "Is this a signature series auto policy?": 'Yes',
+  Auto Tier: A,
+  State: UT,
+  Coverage Type: Split,
+  BI Limits: [250000, 500000],
+  PD Limits: 100000,
+  Usage: Pleasure,
+  Excluded:  'No'
+}
+
+Auto2: {
+  Add automobile: 'Yes',
+  Car Type: Private Passenger Auto,
+  VIN: '1B3BA46K4KF440231',
+  Current Carrier: 'index=2',
+  "Policy #": 123456,
+  State: UT,
+  Coverage Type: Split,
+  BI Limits: [250000, 500000],
+  PD Limits: 100000,
+}  
+
+#---- CA ----
+
+TestData_CA: {
+  UnderlyingRisksAutoTab: {
+    Automobiles: {
+      Add: 'click',
+      VIN: 1B3BA46K4KF440231
+    }
+  },
+  PremiumAndCoveragesQuoteTab: {
+    Payment Plan: Monthly Standard,
+    Recurring Payment: true,
+    Personal Umbrella: '$2,000,000'
+  }
+}
+
+#---- Endorsement ----
+
+TestData_EndorsementPlan: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {},
+  UnderlyingRisksOtherVehiclesTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {
+    Payment Plan: Pay in Full
+  },
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_EndorsementRP: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {
+    List of Automobiles: [{}, {
+      'column=9': Remove,
+      Confirm Remove: click
+    }]
+  },
+  UnderlyingRisksOtherVehiclesTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_EndorsementAP: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {
+    Automobiles: [{
+      Add: 'click',
+      Car Type: Private Passenger Auto,
+      VIN: '91N1K36Y991234567',
+      Year: 2008,
+      Make: 'RIX TRUCK Nr2',
+      Model: 'index=1',
+      Current Carrier: 'index=2',
+      "Policy #": 123456,
+      Usage: Pleasure,
+      Excluded: 'No'
+    }]
+  },
+  UnderlyingRisksOtherVehiclesTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+#---- Endorsement CA ----
+
+TestData_EndorsementPlan_CA: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {},
+  UnderlyingRisksOtherVehiclesTab: {},
+  UnderlyingRisksAllResidentsTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {
+    Payment Plan: Annual,
+  },
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_EndorsementRP_CA: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {
+    List of Automobiles: [{}, {
+      'column=9': Remove,
+      Confirm Remove: click
+    }]
+  },
+  UnderlyingRisksOtherVehiclesTab: {},
+  UnderlyingRisksAllResidentsTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_EndorsementAP_CA: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {
+    Automobiles: [{
+      Add: 'click',
+      Car Type: Private Passenger Auto,
+      VIN: '91N1K36Y991234567',
+      Year: 2008,
+      Make: 'RIX TRUCK Nr3',
+      Model: 'index=1',
+      Current Carrier: 'index=2',
+      "Policy #": 123456,
+      State: CA,
+      Coverage Type: Split,
+      "BI Limits": [500000, 500000],
+      PD Limits: 100000,
+      Usage: Pleasure,
+      Excluded:  'No'
+    }]
+  },
+  UnderlyingRisksOtherVehiclesTab: {},
+  UnderlyingRisksAllResidentsTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
