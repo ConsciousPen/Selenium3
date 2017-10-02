@@ -58,3 +58,13 @@ CurrentCarrierInformation_BILimitLess: {
   Agent Entered Policy Number: 'VASS876456324',
   Agent Entered BI Limits: '$15,000/$30,000',
 }
+
+PrefillTab_eValue: {
+  Validate Address: click,
+      Validate Address Dialog: {
+        Street number: '265',
+        Street Name: 'CHIPMAN AVE',
+      },
+  Order Prefill: click
+}
+

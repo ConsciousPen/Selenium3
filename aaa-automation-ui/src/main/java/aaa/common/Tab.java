@@ -2,8 +2,9 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common;
 
+import aaa.common.components.Dialog;
+import aaa.common.pages.Page;
 import org.openqa.selenium.By;
-
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.BaseElement;
@@ -14,8 +15,6 @@ import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
-import aaa.common.components.Dialog;
-import aaa.common.pages.Page;
 
 /**
  * Abstract tab class.
@@ -187,6 +186,11 @@ public abstract class Tab {
 
 	public Tab cancel() {
 		buttonCancel.click();
+		return this;
+	}
+
+	public Tab saveAndExit() {
+		buttonSaveAndExit.click();
 		return this;
 	}
 }
