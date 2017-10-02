@@ -17,7 +17,7 @@ public final class DocumentDataSectionNode extends SearchBy<DocumentDataSectionN
 	public List<DocumentDataSection> search(StandardDocumentRequest sDocumentRequest) {
 		List<DocumentDataSection> filteredDds = new ArrayList<>();
 		standardDocumentRequest.documentPackage.document.search(sDocumentRequest).forEach(l -> filteredDds.addAll(filter(l.getDocumentDataSections())));
-		conditionsMap.clear();
+		clearConditions();
 		return filteredDds;
 	}
 

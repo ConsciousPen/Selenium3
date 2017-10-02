@@ -5,16 +5,20 @@ import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.modules.policy.PolicyBaseTest;
+import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 public class RatingDetailsCompCollSymbolsPresence extends PolicyBaseTest {
-    public void verifyCompCollSymbolsPresence() {
+    public void verifyCompCollSymbolsOnRatingDetails() {
+        //Adjust default Data with modified VehicleTab Data
+        TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
+
         mainApp().open();
         createCustomerIndividual();
 
         policy.initiate();
-        policy.getDefaultView().fillUpTo(getPolicyTD("DataGather", "TestData_TwoVehicles"), VehicleTab.class, true);
+        policy.getDefaultView().fillUpTo(testData, VehicleTab.class, true);
 
         NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
         PremiumAndCoveragesTab.buttonCalculatePremium.click(Waiters.AJAX);
@@ -30,6 +34,11 @@ public class RatingDetailsCompCollSymbolsPresence extends PolicyBaseTest {
 
         CustomAssert.assertFalse("Second vehicle Comp Symbol is empty", PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Comp Symbol").getCell(3).getValue().isEmpty());
         CustomAssert.assertFalse("Second vehicle Coll Symbol is empty", PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Coll Symbol").getCell(3).getValue().isEmpty());
+
+        //For the second vehicle with VIN that did not match we should validate if Comp and Coll symbols are equals (if VIN matches they could be different)
+        CustomAssert.assertEquals("Comp and Coll symbols are not equals for vehicle 2",
+                PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Comp Symbol").getCell(3).getValue(),
+                PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Coll Symbol").getCell(3).getValue());
 
         CustomAssert.disableSoftMode();
 

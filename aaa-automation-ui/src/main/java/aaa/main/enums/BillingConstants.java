@@ -143,6 +143,7 @@ public final class BillingConstants {
 	public static final class PaymentsAndOtherTransactionAction {
 		public static final String DECLINE = "Decline";
 		public static final String TRANSFER = "Transfer";
+		public static final String WAIVE = "Waive";
 	}
 
 	public static final class AcceptPaymentMethod {

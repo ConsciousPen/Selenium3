@@ -39,23 +39,23 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 
 public class TestScenario4 extends AutoSSBaseTest {
-	protected String policyNumber;
-	protected String termEffDt;
-	protected String plcyEffDt;
-	protected String plcyExprDt;
-	protected String curRnwlAmt;
-	protected String totNwCrgAmt;
-	protected String plcyPayMinAmt;
-	protected String plcyPayFullAmt;
-	protected String plcyDueDt;
-	protected String plcyTotRnwlPrem;
-	protected String instlFee;
-	protected String sr22Fee;
-	protected String cancEffDt;
-	protected String plcyRnwlExprDt;
-	protected String rnwlDnPayAmt;
-	protected LocalDateTime policyExpirationDate;
-	protected LocalDateTime policyEffectiveDate;
+	private String policyNumber;
+	private String termEffDt;
+	private String plcyEffDt;
+	private String plcyExprDt;
+	private String curRnwlAmt;
+	private String totNwCrgAmt;
+	private String plcyPayMinAmt;
+	private String plcyPayFullAmt;
+	private String plcyDueDt;
+	private String plcyTotRnwlPrem;
+	private String instlFee;
+	private String sr22Fee;
+	private String cancEffDt;
+	private String plcyRnwlExprDt;
+	private String rnwlDnPayAmt;
+	private LocalDateTime policyExpirationDate;
+	private LocalDateTime policyEffectiveDate;
 	
 	
 	/**

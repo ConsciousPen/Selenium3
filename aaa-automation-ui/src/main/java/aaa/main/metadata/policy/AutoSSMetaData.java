@@ -50,6 +50,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<ComboBox> STATE_PROVINCE = declare("State / Province", ComboBox.class);
 		public static final AssetDescriptor<TextBox> DATE_OF_BIRTH = declare("Date of Birth", TextBox.class);
 		public static final AssetDescriptor<ComboBox> POLICY_STATE = declare("Policy State", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> COUNTRY_TOWNSHIP = declare("County / Township", ComboBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<Button> VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX.then(Waiters.SLEEP(2000)), false, By.id("policyDataGatherForm:validateAddressButton"));
 		public static final AssetDescriptor<AddressValidationDialog> VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class, By.id(".//*[@id='addressValidationPopupAAAPrefillAddressValidation_container']"));
 		public static final AssetDescriptor<Button> ORDER_PREFILL = declare("Order Prefill", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:orderPrefillButton"));
@@ -331,7 +332,8 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<TextBox> OTHER_MAKE = declare("Other Make", TextBox.class);
 		public static final AssetDescriptor<TextBox> OTHER_MODEL = declare("Other Model", TextBox.class);
 		public static final AssetDescriptor<TextBox> OTHER_SERIES = declare("Other Series", TextBox.class);
-		public static final AssetDescriptor<TextBox> OTHER_BODY_STYLE = declare("Other Body Style", TextBox.class);
+		public static final AssetDescriptor<ComboBox> OTHER_BODY_STYLE = declare("Other Body Style", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> STAT_CODE = declare("Stat Code", ComboBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> STATED_AMOUNT = declare("Stated Amount", TextBox.class,By.xpath(".//input[@id='policyDataGatherForm:vehicleInformation_vehicleRatingInfo_costPurchase']"));
 		public static final AssetDescriptor<ComboBox> EXISTING_DAMAGE = declare("Existing Damage", ComboBox.class);
 		public static final AssetDescriptor<RadioGroup> SALVAGED = declare("Salvaged?", RadioGroup.class);
@@ -340,6 +342,8 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<RadioGroup> ALTERNATIVE_FUEL_VEHICLE = declare("Alternative Fuel Vehicle", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> LESS_THAN_3000_MILES = declare("Less Than 3,000 Miles", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> IS_THIS_A_REPLACEMENT_VEHICLE = declare("Is this a Replacement Vehicle?", RadioGroup.class);
+		public static final AssetDescriptor<TextBox> MILES_ONE_WAY_TO_WORK_OR_SCHOOL = declare("Miles One-way to Work or School", TextBox.class);
+		public static final AssetDescriptor<TextBox> VALUE = declare("Value($)", TextBox.class);
 
 		public static final AssetDescriptor<RadioGroup> ENROLL_IN_USAGE_BASED_INSURANCE = declare("Enroll in Usage Based Insurance?", RadioGroup.class);
 		public static final AssetDescriptor<Button> GET_VEHICLE_DETAILS = declare("Get Vehicle Details", Button.class, By.id("policyDataGatherForm:vehicleUBIDetaiilsButton_AAATelematicDeviceInfo"));
