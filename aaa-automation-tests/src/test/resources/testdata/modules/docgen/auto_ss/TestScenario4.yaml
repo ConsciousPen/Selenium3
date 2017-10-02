@@ -109,27 +109,25 @@ AASR22_EDOne: {
     NmdInsrdStAbrv: {TextField: 'AZ'},
     NmdInsrdZipPls4: {TextField: '85003'},
   },  
-  VehicleDetails: [
-  {
-   VehItemNum: {TextField: '1'},
-   VehManufactureYear: {TextField: '2011'},
-   VehMdelNm: {TextField: 'EXPRESS VAN'},
-   VehManfrNm: {TextField: 'CHEVROLET'},
-   VehTyp: {TextField: 'PPA'},
-   VehIdNum: {TextField: '1GNWGPFG8B6548273'}
-  },
-  {
-   VehItemNum: {TextField: '2'},
-   VehManufactureYear: {TextField: '2010'},
-   VehMdelNm: {TextField: 'SOUL'},
-   VehManfrNm: {TextField: 'KIA'},
-   VehTyp: {TextField: 'Golf'},
-   VehIdNum: {TextField: 'KNDJT2A2XA7038383'}
-  }
+  VehicleDetails: [{
+    VehItemNum: {TextField: '1'},
+    VehManufactureYear: {TextField: '2011'},
+    VehMdelNm: {TextField: 'EXPRESS VAN'},
+    VehManfrNm: {TextField: 'CHEVROLET'},
+    VehTyp: {TextField: 'PPA'},
+    VehIdNum: {TextField: '1GNWGPFG8B6548273'}
+    },{
+    VehItemNum: {TextField: '2'},
+    VehManufactureYear: {TextField: '2010'},
+    VehMdelNm: {TextField: 'SOUL'},
+    VehManfrNm: {TextField: 'KIA'},
+    VehTyp: {TextField: 'Golf'},
+    VehIdNum: {TextField: 'KNDJT2A2XA7038383'}
+    }
   ],
   DriverDetails: {
-   DrvrLicNum: {TextField: 'A12345678'},
-   DrvrDOB: {DateTimeField: '1962-12-04T22:00:00.000Z'},
+    DrvrLicNum: {TextField: 'A12345678'},
+    DrvrDOB: {DateTimeField: '1962-12-04T22:00:00.000Z'},
   },
   form: {
     PlcyNum: {TextField: ''},
