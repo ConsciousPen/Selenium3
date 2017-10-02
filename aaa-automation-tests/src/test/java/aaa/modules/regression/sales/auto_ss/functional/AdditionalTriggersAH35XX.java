@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -20,9 +21,13 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
+import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
+
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 
 /**
  * @author Oleg Stasyuk
@@ -37,7 +42,7 @@ import toolkit.webdriver.controls.ComboBox;
 public class AdditionalTriggersAH35XX extends AutoSSBaseTest {
 
     @Parameters({"state"})
-    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
     public void pas2241_AdditionalTriggersAH35XX(@Optional("") String state) {
 
@@ -52,22 +57,24 @@ public class AdditionalTriggersAH35XX extends AutoSSBaseTest {
         String policyNum = PolicySummaryPage.getPolicyNumber();
 
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-
         BillingAccount billingAccount = new BillingAccount();
         billingAccount.update().perform(getTestSpecificTD("TestData_UpdateBilling"));
-        //TODO SSH for win is not supported, additional checks required
-        //JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
-        //DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH35XX);
+        String numberACH = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(1).getValue("Account #"); //ACH
+        documentCheckInDb(policyNum, numberACH);
 
         autopaySelection("contains=Visa");
-        //TODO SSH for win is not supported, additional checks required
-        //JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
-        //DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH35XX);
+        String visaNumber = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0).getValue("Number");  //Visa
+        documentCheckInDb(policyNum, visaNumber);
 
         autopaySelection("contains=Master");
-        //TODO SSH for win is not supported, additional checks required
-        //JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
-        //DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH35XX);
+        String numberMaster = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2).getValue("Number"); //Master
+        documentCheckInDb(policyNum, numberMaster);
+    }
+
+    private void documentCheckInDb(String policyNum, String numberCCACH) {
+        String VisaNumberScreened = "***"+numberCCACH.substring(numberCCACH.length()-4, numberCCACH.length());
+        CustomAssert.assertTrue(DBService.get().getValue(String.format(GET_DOCUMENT_BY_EVENT_NAME + " and data like '%%"+VisaNumberScreened+"%%'", policyNum, "AH35XX", "AUTO_PAY_METNOD_CHANGED")).isPresent());
+
     }
 
     private void autopaySelection(String autopaySelectionValue) {
@@ -76,4 +83,6 @@ public class AdditionalTriggersAH35XX extends AutoSSBaseTest {
         updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.AUTOPAY_SELECTION.getLabel(), ComboBox.class).setValue(autopaySelectionValue);
         UpdateBillingAccountActionTab.buttonSave.click();
     }
+
+
 }
