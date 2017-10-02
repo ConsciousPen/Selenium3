@@ -2,16 +2,12 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.BillingAccountMetaData;
-import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
@@ -23,7 +19,6 @@ import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
-import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 
@@ -56,6 +51,7 @@ public class AdditionalTriggersAH35XX extends AutoSSBaseTest {
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         String policyNum = PolicySummaryPage.getPolicyNumber();
 
+        CustomAssert.enableSoftMode();
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
         BillingAccount billingAccount = new BillingAccount();
         billingAccount.update().perform(getTestSpecificTD("TestData_UpdateBilling"));
@@ -69,12 +65,13 @@ public class AdditionalTriggersAH35XX extends AutoSSBaseTest {
         autopaySelection("contains=Master");
         String numberMaster = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2).getValue("Number"); //Master
         documentCheckInDb(policyNum, numberMaster);
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
     }
 
     private void documentCheckInDb(String policyNum, String numberCCACH) {
         String VisaNumberScreened = "***"+numberCCACH.substring(numberCCACH.length()-4, numberCCACH.length());
         CustomAssert.assertTrue(DBService.get().getValue(String.format(GET_DOCUMENT_BY_EVENT_NAME + " and data like '%%"+VisaNumberScreened+"%%'", policyNum, "AH35XX", "AUTO_PAY_METNOD_CHANGED")).isPresent());
-
     }
 
     private void autopaySelection(String autopaySelectionValue) {
