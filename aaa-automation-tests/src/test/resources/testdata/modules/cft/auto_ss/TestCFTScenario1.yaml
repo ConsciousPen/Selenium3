@@ -12,22 +12,6 @@ TestData: {
   }
 }
 
-TestData_HomeSS_HO3: {
-  EndorsementActionTab: '@EndorsementActionTab',
-  GeneralTab: {},
-  ApplicantTab: {},
-  ReportsTab: {},
-  PropertyInfoTab: {},
-  ProductOfferingTab: {},
-  EndorsementTab: {},
-  PremiumsAndCoveragesQuoteTab: {},
-  MortgageesTab: {},
-  UnderwritingAndApprovalTab: {},
-  DocumentsTab: {},
-  BindTab: {},
-  PurchaseTab: {},
-}
-
 EndorsementActionTab: {
     Endorsement Date: /today+2d,
     Endorsement Reason: Maintain Vehicle(s)
@@ -58,7 +42,6 @@ PremiumAndCoveragesTab_DataGather: {
 
 PurchaseTab_DataGather: {
   PaymentAllocation: {
-    Check: /rest,
-    Check Number Check: '123456'
+    Cash: /rest
   }
 }

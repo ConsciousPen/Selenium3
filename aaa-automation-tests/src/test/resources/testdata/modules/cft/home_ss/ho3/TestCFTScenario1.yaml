@@ -38,7 +38,6 @@ PremiumsAndCoveragesQuoteTab_DataGather: {
 
 PurchaseTab_DataGather: {
  PaymentAllocation: {
-    Check: /rest,
-    Check Number Check: '123456'
+    Cash: /rest
  }
 }

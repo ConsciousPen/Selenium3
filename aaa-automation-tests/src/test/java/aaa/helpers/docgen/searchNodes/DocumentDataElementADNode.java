@@ -17,7 +17,7 @@ public final class DocumentDataElementADNode extends SearchBy<DocumentDataElemen
 	public List<DocumentDataElement> search(StandardDocumentRequest sDocumentRequest) {
 		List<DocumentDataElement> filteredDdes = new ArrayList<>();
 		standardDocumentRequest.documentPackage.archiveData.search(sDocumentRequest).forEach(l -> filteredDdes.addAll(filter(l.getDocumentDataElements())));
-		conditionsMap.clear();
+		clearConditions();
 		return filteredDdes;
 	}
 

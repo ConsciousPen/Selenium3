@@ -114,8 +114,8 @@ public class TestScenario7 extends Scenario7 {
 		super.endorsementAPAfterRenewal();
 	}
 
-	@Parameters({"state"})
-	@Test(dependsOnMethods = "TC01_createPolicy")
+	// @Parameters({"state"})
+	// @Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC16_Renewal_Premium_Notice(@Optional("CA") String state) {
 		super.renewalPremiumNotice();
 	}

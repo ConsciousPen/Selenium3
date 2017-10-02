@@ -36,21 +36,21 @@ import aaa.modules.policy.AutoSSBaseTest;
  * @details
  */
 public class TestScenario1 extends AutoSSBaseTest {
-	protected String policyNumber;
-	protected LocalDateTime installmentDD1;
-	protected String policyEffectiveDate;
-	protected String policyExpirationDate;
-	protected String plcyDueDt;
-	protected String curRnwlAmt;
-	protected String instlFee;
-	protected String totNwCrgAmt;
-	protected String plcyPayMinAmt;
-	protected String plcyPayFullAmt;
-	protected String cancEffDt;
-	protected String reinstmtFee;
-	protected String reCalcTotFee;
-	protected String reinEffDt;
-	protected String priorReinEffDt;
+	private String policyNumber;
+	private LocalDateTime installmentDD1;
+	private String policyEffectiveDate;
+	private String policyExpirationDate;
+	private String plcyDueDt;
+	private String curRnwlAmt;
+	private String instlFee;
+	private String totNwCrgAmt;
+	private String plcyPayMinAmt;
+	private String plcyPayFullAmt;
+	private String cancEffDt;
+	private String reinstmtFee;
+	private String reCalcTotFee;
+	private String reinEffDt;
+	private String priorReinEffDt;
 
 	@Parameters({ "state" })
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })

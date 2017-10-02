@@ -15,7 +15,7 @@ public final class DistributionChannelNode extends SearchBy<DistributionChannelN
 	public List<DistributionChannel> search(StandardDocumentRequest sDocumentRequest) {
 		List<DistributionChannel> filteredDc = new ArrayList<>();
 		standardDocumentRequest.documentPackage.search(sDocumentRequest).forEach(l -> filteredDc.addAll(filter(l.getDistributionChannels())));
-		conditionsMap.clear();
+		clearConditions();
 		return filteredDc;
 	}
 
