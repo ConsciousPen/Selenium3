@@ -70,6 +70,7 @@ public class Scenario7 extends ScenarioBaseTest {
 	protected void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();
 
+		TimeSetterUtil.getInstance().adjustTime(); // Debug
 		mainApp().open();
 		createCustomerIndividual();
 
@@ -168,7 +169,9 @@ public class Scenario7 extends ScenarioBaseTest {
 	}
 
 	protected void cantChangePaymentPlan() {
-		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusMonths(10).minusDays(18));
+		// verify that error page is opened with with message "It is too late in the term to change to the selected bill plan."
+		// PAS 13 RCA fix: US 150-141-3CL The error appears only if the payment plan is changed on a day greater than effective date+10 months-20 days+1 day
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getOffcycleBillGenerationDate(installmentDueDates.get(10)).plusDays(2));
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -224,8 +227,7 @@ public class Scenario7 extends ScenarioBaseTest {
 		CustomAssert.enableSoftMode();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PREMIUM_CALCULATED).verify(1);
-		Dollar premiumAfterEndorsement = new
-			Dollar(PolicySummaryPage.tableRenewals.getColumn(PolicyRenewalsTable.PREMIUM).getCell(1).getValue());
+		Dollar premiumAfterEndorsement = new Dollar(PolicySummaryPage.tableRenewals.getColumn(PolicyRenewalsTable.PREMIUM).getCell(1).getValue());
 		premiumAfterEndorsement.verify.lessThan(premiumBeforeEndorsement);
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -303,7 +305,7 @@ public class Scenario7 extends ScenarioBaseTest {
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		Dollar totalDueBeforeEndorsment = BillingSummaryPage.getTotalDue();
-		BillingSummaryPage.openPolicy(policyEffectiveDate);
+		BillingSummaryPage.openPolicy(policyExpirationDate);
 
 		policy.endorse().performAndFill(getTestSpecificTD("TestData_EndorsementRP").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData")));
 		PolicyHelper.verifyEndorsementIsCreated();
@@ -360,8 +362,8 @@ public class Scenario7 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		// verifyRenewalOfferPaymentAmount(policyExpirationDate,
-		// getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, installmentsCount);
+		// TODO should be added Endorsement's delta
+		verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, installmentsCount);
 		new BillingBillsAndStatementsVerifier().setDueDate(policyExpirationDate).setType(BillsAndStatementsType.BILL).verifyPresent();
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE).verifyPresent();
 		if (getState().equals(States.NY))
@@ -421,8 +423,7 @@ public class Scenario7 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
-		// TODO "Non EFT Installment Fee Waived" and "Renewal - Policy Renewal Proposal Reversal" transactions are
-		// generated on Payments & Other Transactions section
+		// TODO "Non EFT Installment Fee Waived" and "Renewal - Policy Renewal Proposal Reversal" transactions are generated on Payments & Other Transactions section
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(declineDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL_REVERSAL)
 			.verifyPresent();
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(declineDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED).verifyPresent();
@@ -450,11 +451,13 @@ public class Scenario7 extends ScenarioBaseTest {
 
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(paymentDate).setAmount(minDue.negate()).setType(PaymentsAndOtherTransactionType.PAYMENT).setStatus(
 			PaymentsAndOtherTransactionStatus.ISSUED).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.REGULUS_ONLINE).verifyPresent();
+
+		// TODO Why Auto policy status Customer Declined, Home policy status Active?
 		String policyStatus;
-		if (getPolicyType().equals(PolicyType.HOME_CA_HO3) || getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
-			policyStatus = PolicyStatus.POLICY_ACTIVE;
-		} else {
+		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT) || getPolicyType().equals(PolicyType.AUTO_SS)) {
 			policyStatus = PolicyStatus.CUSTOMER_DECLINED;
+		} else {
+			policyStatus = PolicyStatus.POLICY_ACTIVE;
 		}
 		new BillingAccountPoliciesVerifier().setPolicyStatus(policyStatus).verifyRowWithEffectiveDate(policyExpirationDate);
 
@@ -464,7 +467,7 @@ public class Scenario7 extends ScenarioBaseTest {
 	}
 
 	protected void qualifyForManualRenewalTaskCreated() {
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 
 		mainApp().open();

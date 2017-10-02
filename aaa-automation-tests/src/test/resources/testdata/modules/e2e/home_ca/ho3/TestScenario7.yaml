@@ -1,0 +1,104 @@
+TestData: {
+  PropertyInfoTab: '@PropertyInfoTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+}
+
+PropertyInfoTab: {
+  DwellingAddress: {
+    Number of family units: 'index=1'
+  },
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: index=1,
+    Construction type: index=1, 
+    Foundation Type: Slab
+  },
+  AdditionalQuestions: {},
+  Interior: {
+    Dwelling usage: Primary,
+    Number of residents: 3,
+    "Number of stories, including basement": '1'
+  },
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: {},
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+}
+
+PremiumsAndCoveragesQuoteTab: {
+  Payment Plan: Monthly Standard,
+  Coverage C - Personal Property limit: '75|Coverage A - Dwelling limit',
+  Coverage E - Personal Liability Each Occurrence: '$300,000'
+}
+
+PropertyValue: {
+  Coverage A - Dwelling limit: 200000,
+  ISO replacement cost: 174000,
+  Reason replacement cost differs from the tool value: 'index=1',
+}
+
+#---- Endorsement ----
+  
+TestData_EndorsementPlan: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Pay in Full
+  }
+}
+
+TestData_EndorsementRP: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+        Coverage A - Dwelling limit: 174000
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage C - Personal Property limit: '75|Coverage A - Dwelling limit',
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+}
+
+TestData_EndorsementAP: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+      Coverage A - Dwelling limit: 200000,
+      ISO replacement cost: 174000,
+      Reason replacement cost differs from the tool value: 'index=1',
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage C - Personal Property limit: '75|Coverage A - Dwelling limit',
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+}
