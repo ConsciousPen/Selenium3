@@ -208,9 +208,9 @@ public final class BillingHelper {
 		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
 		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.PREMIUM);
 		if (!BillingSummaryPage.tablePaymentsOtherTransactions.getRow(premiumRowSearchQuery).isPresent()) {
-			log.warn(String.format("There is no Premium transaction with query %s, assume PLIGA Fee should be $0", premiumRowSearchQuery.entrySet()));
 			//TODO-dchubkov: should be deleted after investigation
-			ScreenshotManager.getInstance().makeScreenshot("MissedPremiumTransaction_" + premiumRowSearchQuery.entrySet());
+			ScreenshotManager.getInstance().makeScreenshot(BillingHelper.class.getSimpleName(), "calculatePligaFee", null, new IstfException("MissedPremiumTransaction"));
+			log.warn(String.format("There is no Premium transaction with query %s, assume PLIGA Fee should be $0", premiumRowSearchQuery.entrySet()));
 
 			return DZERO;
 		}

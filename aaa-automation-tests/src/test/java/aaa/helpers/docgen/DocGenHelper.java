@@ -74,11 +74,8 @@ public class DocGenHelper {
 				documents.length > 0 ? String.format(" and %1$s documents: %2$s", documentsExistence ? "contains all" : "does not contain", Arrays.asList(documents)) : ""));
 
 		DocumentWrapper documentWrapper = getDocumentRequest(generatedByJob, policyNumber, documentsExistence ? documents : new DocGenEnum.Documents[0]);
-		documentWrapper.verify.exists(String.format("Policy number \"%s\" is absent in documents object model.", policyNumber), SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber));
-
 		for (DocGenEnum.Documents document : documents) {
-			documentWrapper.verify.exists(documentsExistence, String.format("Document %1$s is %2$s in object model.", document, documentsExistence ? "absent" : "present"),
-					SearchBy.standardDocumentRequest.documentPackage.document.templateId(document.getIdInXml()));
+			documentWrapper.verify.exists(documentsExistence, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber).document.templateId(document.getIdInXml()));
 		}
 
 		log.info("Documents generation verification has been successfully passed.");
