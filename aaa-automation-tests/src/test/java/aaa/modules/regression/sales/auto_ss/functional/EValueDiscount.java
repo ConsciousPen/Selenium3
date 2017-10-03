@@ -23,6 +23,9 @@ import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 
 public class EValueDiscount extends AutoSSBaseTest {
 
+    private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+    private static final String E_VALUE_DISCOUNT = "eValue Discount"; //rumors have it, that discount might be renamed
+
     /**
      * @author Viktoriia Lutsenko
      * @name Test presence/status of eValue discount on P&C and consolidated pages(Membership = Active, Evalue = Yes)
@@ -124,9 +127,9 @@ public class EValueDiscount extends AutoSSBaseTest {
         if (eValueIsPresent) {
             new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
             PremiumAndCoveragesTab.buttonCalculatePremium.click();
-            PremiumAndCoveragesTab.discountsAndSurcharges.verify.contains("eValue Discount");
+            PremiumAndCoveragesTab.discountsAndSurcharges.verify.contains(E_VALUE_DISCOUNT);
         } else {
-            CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("eValue Discount"));
+            CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT));
         }
         PremiumAndCoveragesTab.buttonContinue.click();
     }
@@ -185,7 +188,6 @@ public class EValueDiscount extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
     public void pas272_eValueDiscountApplied(@Optional("VA") String state) {
-        PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
         eValueQuoteCreationVA();
 
@@ -198,7 +200,7 @@ public class EValueDiscount extends AutoSSBaseTest {
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("No");
 
         //PAS-272 start
-        CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("eValue Discount"));
+        CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT));
         //PAS-272 end
 
         //Get premiums before discount is applied
@@ -208,13 +210,13 @@ public class EValueDiscount extends AutoSSBaseTest {
 
         //PAS-305 start
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-        PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3,"eValue Discount").getCell(4).verify.value("None");
+        PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, E_VALUE_DISCOUNT).getCell(4).verify.value("None");
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         //PAS-305 end
 
         //PAS-2053
         premiumAndCoveragesTab.saveAndExit();
-        PolicySummaryPage.tableAppliedDiscountsPolicy.getRowContains(2, "eValue Discount").verify.present(false);
+        PolicySummaryPage.tableAppliedDiscountsPolicy.getRowContains(2, E_VALUE_DISCOUNT).verify.present(false);
         //PAS-2053
 
 
@@ -224,13 +226,13 @@ public class EValueDiscount extends AutoSSBaseTest {
         //Set discount to Yes
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
         //PAS-304 start
-        premiumAndCoveragesTab.getPolicyLevelLiabilityCoveragesPremium().equals(0);
+        CustomAssert.assertTrue(premiumAndCoveragesTab.getPolicyLevelLiabilityCoveragesPremium().toString().equals("0"));
         //PAS-304 end
 
         PremiumAndCoveragesTab.calculatePremium();
 
         //PAS-272 start
-        CustomAssert.assertTrue(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("eValue Discount"));
+        CustomAssert.assertTrue(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT));
         //PAS-272 end
 
         //Get premiums after discount is applied
@@ -248,17 +250,44 @@ public class EValueDiscount extends AutoSSBaseTest {
 
         //PAS-305 start
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-        PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3,"eValue Discount").getCell(4).verify.value("Yes");
+        PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, E_VALUE_DISCOUNT).getCell(4).verify.value("Yes");
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         //PAS-305 end
 
         //PAS-2053
         premiumAndCoveragesTab.saveAndExit();
-        PolicySummaryPage.tableAppliedDiscountsPolicy.getRowContains(2, "eValue Discount").verify.present();
+        PolicySummaryPage.tableAppliedDiscountsPolicy.getRowContains(2, E_VALUE_DISCOUNT).verify.present();
         //PAS-2053
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
+    }
+
+    /**
+     * @author Oleg Stasyuk
+     * @name Test eValue Discount not shown for state where it is not configured
+     * @scenario 1. Create new eValue eligible quote but for the not eligible state (PA)
+     * 2. Check eValue Discount field is not shown in P&C
+     * 3. Check eValue Discount field is not shown in Rating Details
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+    public void pas305_eValueNotApplicableForState(@Optional("PA") String state) {
+        eValueQuoteCreationVA();
+
+        CustomAssert.enableSoftMode();
+        policy.dataGather().start();
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
+        //Check field properties and default value of eValue Discount
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.present(false);
+        //PAS-305 start
+        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, E_VALUE_DISCOUNT).verify.present(false);
+        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        //PAS-305 end
     }
 
     void eValueQuoteCreationVA() {

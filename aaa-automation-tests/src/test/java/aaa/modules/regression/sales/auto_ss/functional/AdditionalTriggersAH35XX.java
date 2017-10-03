@@ -66,7 +66,6 @@ public class AdditionalTriggersAH35XX extends AutoSSBaseTest {
         String numberMaster = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2).getValue("Number"); //Master
         documentCheckInDb(policyNum, numberMaster);
         CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
     }
 
     private void documentCheckInDb(String policyNum, String numberCCACH) {

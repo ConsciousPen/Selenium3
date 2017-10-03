@@ -4,11 +4,10 @@
  */
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
-import org.openqa.selenium.By;
-
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import org.openqa.selenium.By;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
@@ -56,5 +55,9 @@ public class DocumentsAndBindTab extends Tab {
 	}
 	public AssetList getRequiredToIssueAssetList() {
     	return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel(), AssetList.class);
+	}
+
+	public AssetList getPaperlessPreferencesAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PAPERLESS_PREFERENCES.getLabel(), AssetList.class);
 	}
 }

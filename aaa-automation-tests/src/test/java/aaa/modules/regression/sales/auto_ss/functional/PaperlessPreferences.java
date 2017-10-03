@@ -8,47 +8,87 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.utils.Dollar;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
 public class PaperlessPreferences extends AutoSSBaseTest {
 
+    private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+
+    /**
+     * @author Oleg Stasyuk
+     * @name Test Paperless Preferences properties and Inquiry mode
+     * @scenario 1. Create new Paperless Preferences eligible quote but for the not eligible state (PA)
+     * 2. Check Enrolled in Paperless? field and Manage Paperless Preferences button are shown in Documents tab
+     * 3. Check Manage Paperless Preferences button is enabled
+     * 4. Save and Exist
+     * 5. Open quote in Inquiry mode
+     * 6. Check Manage Paperless Preferences button is disabled
+     * @details
+     */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void pas2241_eValuePayperlessPreferences(@Optional("VA") String state) {
-        PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+    public void pas282_eValuePaperlessPreferences(@Optional("VA") String state) {
+
         EValueDiscount eValueDiscount = new EValueDiscount();
         eValueDiscount.eValueQuoteCreationVA();
 
         CustomAssert.enableSoftMode();
         policy.dataGather().start();
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.present();
-        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled();
-        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("No");
-        CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("eValue Discount"));
 
-        Dollar policyLevelLiabilityCoveragesPremiumWithoutEvalueDiscount = premiumAndCoveragesTab.getPolicyLevelLiabilityCoveragesPremium();
-        Dollar vehicleCoveragePremiumWithoutEvalueDiscount = premiumAndCoveragesTab.getVehicleCoveragePremiumByVehicle1(1);
-        Dollar totalPremiumWithoutEvalueDiscount = policyLevelLiabilityCoveragesPremiumWithoutEvalueDiscount.add(vehicleCoveragePremiumWithoutEvalueDiscount);
+        //PAS-282, PAS-268 start
+        documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.present();
+        documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.enabled(false);
+        documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.value("Yes");
 
-        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-        PremiumAndCoveragesTab.calculatePremium();
-        CustomAssert.assertTrue(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("eValue Discount"));
-        Dollar policyLevelLiabilityCoveragesPremiumWithEvalueDiscount = premiumAndCoveragesTab.getPolicyLevelLiabilityCoveragesPremium();
-        Dollar vehicleCoveragePremiumWithEvalueDiscount = premiumAndCoveragesTab.getVehicleCoveragePremiumByVehicle1(1);
-        Dollar totalPremiumWithEvalueDiscount = policyLevelLiabilityCoveragesPremiumWithEvalueDiscount.add(vehicleCoveragePremiumWithEvalueDiscount);
+        documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.MANAGE_PAPERLESS_PREFERENCES).verify.present();
+        documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.MANAGE_PAPERLESS_PREFERENCES).verify.enabled();
+        //PAS-282, PAS-268 end
 
-        log.info("totalPremiumWithoutEvalueDiscount: " + totalPremiumWithoutEvalueDiscount);
-        log.info("totalPremiumWithEvalueDiscount: " + totalPremiumWithEvalueDiscount);
-        CustomAssert.assertTrue(totalPremiumWithoutEvalueDiscount.moreThan(totalPremiumWithEvalueDiscount));
+        documentsAndBindTab.saveAndExit();
+        policy.quoteInquiry().start();
+
+        //PAS-269 start
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.MANAGE_PAPERLESS_PREFERENCES).verify.present();
+        documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.MANAGE_PAPERLESS_PREFERENCES).verify.enabled(false);
+        //PAS-269 end
+
+        documentsAndBindTab.cancel();
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    /**
+     * @author Oleg Stasyuk
+     * @name Test Paperless Preferences not shown for state where it is not configured
+     * @scenario 1. Create new Paperless Preferences eligible quote but for the not eligible state (PA)
+     * 2. Check Enrolled in Paperless? field and Manage Paperless Preferences button are not shown in Documents tab
+     * @details
+     */
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+    public void pas838_eValuePaperlessPreferences(@Optional("PA") String state) {
+
+        EValueDiscount eValueDiscount = new EValueDiscount();
+        eValueDiscount.eValueQuoteCreationVA();
+
+        CustomAssert.enableSoftMode();
+        policy.dataGather().start();
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+
+        documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.present(false);
+        documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.MANAGE_PAPERLESS_PREFERENCES).verify.present(false);
+        documentsAndBindTab.saveAndExit();
 
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
@@ -62,21 +102,55 @@ public class PaperlessPreferences extends AutoSSBaseTest {
 */
 
 /*PAS-266
-* GIVEN the agent is creating a new quote/viewing a policy in other than View Only modeWHEN I click on the Paperless Preferences buttonTHEN I see the Preferences UIAND the UI shows both billing and policy preferencesGiven the agent is updating Paperless PreferencesAND selects preferences for Billing AND PolicyWHEN I click SAVE on the API UITHEN the "Enrolled in Preferences?" field is set to PendingGiven the agent is updating Paperless PreferencesAND selects preferences for Billing OR Policy but NOT BOTHWHEN I click SAVE on the API UITHEN the "Enrolled in Preferences?" field is set to See Below Paperless Preferences - Billing Paperless Preferences - Policy Status on Enrolled in Preferences? Opt In Opt In Yes Opt In Opt Out Yes (Billing Only) Opt In Pending Pending (Policy) Opt Out Opt In Yes (Policy Only) Opt Out Opt Out No Opt Out Pending Pending (Policy Only) Pending Opt In Pending (Billing) Pending Opt Out Pending (Billiing Only) Pending Pending Pending */
+* GIVEN the agent is creating a new quote/viewing a policy in other than View Only mode
+* WHEN I click on the Paperless Preferences button
+* THEN I see the Preferences UI
+* AND the UI shows both billing and policy preferencesGiven the agent is updating Paperless Preferences
+* AND selects preferences for Billing
+* AND Policy
+* WHEN I click SAVE on the API UI
+* THEN the "Enrolled in Preferences?" field is set to Pending
+*
+* Given the agent is updating Paperless Preferences
+* AND selects preferences for Billing OR Policy but NOT BOTH
+* WHEN I click SAVE on the API UI
+* THEN the "Enrolled in Preferences?" field is set to See Below Paperless Preferences - Billing Paperless Preferences - Policy Status on Enrolled in Preferences? Opt In Opt In Yes Opt In Opt Out Yes (Billing Only) Opt In Pending Pending (Policy) Opt Out Opt In Yes (Policy Only) Opt Out Opt Out No Opt Out Pending Pending (Policy Only) Pending Opt In Pending (Billing) Pending Opt Out Pending (Billiing Only) Pending Pending Pending */
 
-/*PAS-268
-GIVEN I am an agentWHEN I navigate to the General Info PageTHEN I see the Enrolled in Paperless questionAND the answer is populated based on the customers current preferences
+/*PAS-268 - done
+GIVEN I am an agent
+WHEN I navigate to the General Info Page
+THEN I see the Enrolled in Paperless question
+AND the answer is populated based on the customers current preferences
  */
 
-/*PAS-269
-* GIVEN I am an agent and I am in a policy in other than inquiry modeWHEN I go to the General Info PageTHEN I see the preferences button displayed and enabledGIVEN I am an agent and I am in a policy in inquiry modeWHEN I go to the General Info PageTHEN I see the preferences button displayed and disabled.GIVEN I am an agent and have entered the email address on General Info PageWHEN I click on the preferences buttonTHEN I am able to set my preferencesAND change email is populated in the preferences API POP UPGIVEN I am an agent and I am in a quoteWHEN I go to the General Info PageTHEN I see the preferences button is displayed and disabled
+/*PAS-269 - done
+* GIVEN I am an agent and I am in a policy in other than inquiry mode
+* WHEN I go to the General Info Page
+* THEN I see the preferences button displayed and enabled
+*
+* GIVEN I am an agent and I am in a policy in inquiry mode
+* WHEN I go to the General Info Page
+* THEN I see the preferences button displayed and disabled.
+*
+* GIVEN I am an agent and have entered the email address on General Info Page
+* WHEN I click on the preferences button
+* THEN I am able to set my preferences
+* AND change email is populated in the preferences API POP UP
+*
+* GIVEN I am an agent and I am in a quote
+* WHEN I go to the General Info Page
+* THEN I see the preferences button is displayed and disabled
 * */
 
 /*Question to Sabra
 how do we receive data from stub? can we trick the app with stub response <> Yes for example submitting a request with expected value?*/
 
-/*PAS-271
-GIVEN I am an agent on the General Info page in other than inquiry mode or QuoteWHEN I select the paperless billing preferences buttonAND I change/add my current billing preferences enrollmentAND save my choicesTHEN the answer is updated with my new current paperless billing preferences enrollment
+/*PAS-271 OSI - not planned - stubbed
+GIVEN I am an agent on the General Info page in other than inquiry mode or Quote
+WHEN I select the paperless billing preferences button
+AND I change/add my current billing preferences enrollment
+AND save my choices
+THEN the answer is updated with my new current paperless billing preferences enrollment
 */
 
 /*
