@@ -43,6 +43,13 @@ public class RemoteHelper {
 
 	public static void uploadFile(String source, String destination) {
 		log.info(String.format("SSH: File '%s' uploading to '%s' destination folder has been started.", source, destination));
+		String folderPath = destination.substring(0, destination.lastIndexOf("/"));
+		if (!isPathExist(folderPath)) {
+			executeCommand("mkdir -p -m 777 " + folderPath);
+			if (folderPath.contains("/")) {
+				executeCommand("chmod -R 777 " + folderPath.substring(0, folderPath.lastIndexOf("/")));
+			}
+		}
 		ssh.putFile(source, destination);
 	}
 
