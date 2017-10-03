@@ -92,8 +92,8 @@ public class EValueDiscount extends AutoSSBaseTest {
         testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", true, true, "Pending");
     }
 
-    public void testEvalueDiscount(String MembershipStatus, String CurrentCarrier, boolean evalueIsSelected, boolean evalueIsPresent, String evalueStatus) {
-        prefillEvalueTestData(MembershipStatus, CurrentCarrier);
+    private void testEvalueDiscount(String membershipStatus, String currentCarrier, boolean evalueIsSelected, boolean evalueIsPresent, String evalueStatus) {
+        prefillEvalueTestData(membershipStatus, currentCarrier);
         fillPremiumAndCoveragesTab(evalueIsSelected);
         fillDriverActivityReportsTab();
         TestData tdPolicyCreation = fillDocumentAndBindTab(evalueIsPresent);
@@ -226,7 +226,7 @@ public class EValueDiscount extends AutoSSBaseTest {
         //Set discount to Yes
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
         //PAS-304 start
-        CustomAssert.assertTrue(premiumAndCoveragesTab.getPolicyLevelLiabilityCoveragesPremium().toString().equals("0"));
+        premiumAndCoveragesTab.getPolicyLevelLiabilityCoveragesPremium().verify.equals(new Dollar (0));
         //PAS-304 end
 
         PremiumAndCoveragesTab.calculatePremium();
