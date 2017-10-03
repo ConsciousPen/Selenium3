@@ -41,8 +41,9 @@ public class PremiumAndCoveragesTab extends Tab {
 
 	@Override
 	public Tab fillTab(TestData td) {
-		super.fillTab(td);
-		if (!td.getTestData(getMetaKey()).containsKey(AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM.getLabel())) {
+		super.fillTab(td); 
+		if ((td.getTestData(getMetaKey()) != null))
+			if (!td.getTestData(getMetaKey()).containsKey(AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM.getLabel())) {
 			buttonCalculatePremium.click();
 		}
 		return this;
