@@ -62,12 +62,26 @@ public class DialogAssetList extends AbstractDialog<TestData, Void> {
 
 	@Override
 	public void fill(TestData td) {
+		fill(td, true);
+	}
+
+	/**
+	 * Fills dialog asset list
+	 *
+	 * @param td             - td to fill
+	 * @param closeOpenLogic - true - include close/open auto logic, otherwise - false
+	 */
+	public void fill(TestData td, boolean closeOpenLogic) {
 		if (td.containsKey(this.name)) {
-			this.openDialog();
-			this.setValue(this.getValueToFill(td));
-			this.submit();
-			if (this.getValueToFill(td).containsKey(ADDITIONAL_POPUP_SUBMIT)) {
-				this.getAsset(ADDITIONAL_POPUP_SUBMIT, DialogAssetList.class).setValue(this.getValueToFill(td).getTestData(ADDITIONAL_POPUP_SUBMIT));
+			if (closeOpenLogic) {
+				this.openDialog();
+				this.setValue(this.getValueToFill(td));
+				this.submit();
+				if (this.getValueToFill(td).containsKey(ADDITIONAL_POPUP_SUBMIT)) {
+					this.getAsset(ADDITIONAL_POPUP_SUBMIT, DialogAssetList.class).setValue(this.getValueToFill(td).getTestData(ADDITIONAL_POPUP_SUBMIT));
+				}
+			} else {
+				this.setValue(this.getValueToFill(td));
 			}
 		}
 	}
