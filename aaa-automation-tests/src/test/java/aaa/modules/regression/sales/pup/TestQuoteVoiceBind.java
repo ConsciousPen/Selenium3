@@ -7,6 +7,7 @@ import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.TextBox;
+import toolkit.webdriver.controls.waiters.Waiters;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -112,7 +113,9 @@ public class TestQuoteVoiceBind extends PersonalUmbrellaBaseTest {
     
 	private void verifyAlertError() {
 		try{
-			purchaseTab.submitTab();
+			//purchaseTab.submitTab();
+			purchaseTab.btnApplyPayment.click();
+			purchaseTab.confirmPurchase.buttonYes.click(Waiters.NONE); 
 		} catch (Exception e) {}
 		// Verify ER-0589 error appears
 		CustomAssert.assertEquals(BrowserController.get().driver().switchTo().alert().getText(), VOICE_SIGNATURE_ERROR);

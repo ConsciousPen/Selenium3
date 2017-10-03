@@ -1,6 +1,5 @@
 package aaa.modules.e2e.auto_ca;
 
-import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.e2e.templates.Scenario2;
 import org.testng.annotations.Optional;
