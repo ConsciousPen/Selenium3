@@ -63,8 +63,4 @@ public abstract class TableVerifier {
         return this;
     }
 
-    public Map<String, String> getValues() {
-        return values;
-    }
-
 }

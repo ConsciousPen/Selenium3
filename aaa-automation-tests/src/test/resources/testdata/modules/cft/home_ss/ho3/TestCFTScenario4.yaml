@@ -1,21 +1,20 @@
 TestData: {
   EndorsementActionTab: '@EndorsementActionTab',
   GeneralTab: {},
-  ApplicantTab: {},
+  ApplicantTab: '@ApplicantTab',
   ReportsTab: {},
   PropertyInfoTab: {},
   ProductOfferingTab: {},
   EndorsementTab: {},
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  PremiumsAndCoveragesQuoteTab: {},
   MortgageesTab: {},
   UnderwritingAndApprovalTab: {},
   DocumentsTab: {},
   BindTab: {},
   AcceptPaymentActionTab: {
-    Payment Method: 'Cash',
-    Amount: 10,
-  },
-  DeclinePaymentActionTab: {
+    Payment Method: 'Check',
+    Amount: 50,
+    Check Number: 123456
   }
 }
 
@@ -24,15 +23,12 @@ EndorsementActionTab: {
     Endorsement Reason: 'Other Interest(s)/Mortgagees'
 }
 
-PremiumsAndCoveragesQuoteTab : {
-    Calculate Premium: 'click',
-    Override Premium: {
-    Remarks: 'Only Erich Maria Remarque',
-        Override Premium By Flat Amount: '-20',
-        Additional Popup Submit: {
-          Submit Popup: 'click'
-        }
-    }
+ApplicantTab: {
+  AAA employee: 'No'
+}
+
+ApplicantTab_DataGather: {
+  AAA employee: 'Yes'
 }
 
 PremiumsAndCoveragesQuoteTab_DataGather: {
@@ -42,17 +38,20 @@ PremiumsAndCoveragesQuoteTab_DataGather: {
 }
 
 PurchaseTab_DataGather: {
-  Change Minimum Down Payment: true,
-  Minimum Required Down Payment: 50,
+  PaymentMethods: ['@CC_Visa'],
   PaymentAllocation: {
-    Cash: 50
+    Visa: /rest
   }
 }
 
-PurchaseTab_DataGather_NJ: {
-  Change Minimum Down Payment: true,
-  Minimum Required Down Payment: 50,
-  PaymentAllocation: {
-    Cash: 54
+CC_Visa: {
+  Payment Method: 'Credit/Debit Card',
+  Type: 'Visa',
+  Number: '4111111111111111'
+}
+
+AcceptPayment: {
+  AcceptPaymentActionTab: {
+      Payment Method: 'Cash'
   }
 }

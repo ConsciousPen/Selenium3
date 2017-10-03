@@ -12,7 +12,9 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
+import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -20,7 +22,6 @@ import aaa.modules.policy.PolicyBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.testng.annotations.BeforeSuite;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -35,17 +36,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected BillingAccount billingAccount = new BillingAccount();
 
-	private LocalDateTime startTime;
 	private ThreadLocal<List<LocalDateTime>> installments = new ThreadLocal<>();
 	private ThreadLocal<String> policyNumber = ThreadLocal.withInitial(() -> StringUtils.EMPTY);
-	private ThreadLocal<BillingBillsAndStatementsVerifier> billingBillsAndStatementsVerifier = ThreadLocal.withInitial(BillingBillsAndStatementsVerifier::new);
-	private ThreadLocal<BillingPaymentsAndTransactionsVerifier> billingPaymentsAndTransactionsVerifier = ThreadLocal.withInitial(BillingPaymentsAndTransactionsVerifier::new);
-
-	@BeforeSuite(alwaysRun = true)
-	public void runCFTJob() {
-		runCFTJobs();
-		startTime = TimeSetterUtil.getInstance().getCurrentTime();
-	}
 
 	/**
 	 * Creating of the policy for test
@@ -65,7 +57,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void endorsePolicyEffDatePlus2Days() {
 		log.info("Endorsment action started");
-		LocalDateTime endorsePlus2 = startTime.plusDays(2);
+		LocalDateTime endorsePlus2 = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
 		log.info("Endorsement date: " + endorsePlus2);
 		TimeSetterUtil.getInstance().nextPhase(endorsePlus2.plusDays(2)); // check future dated endorsement
 		performAndCheckEndorsement(endorsePlus2.plusDays(2));
@@ -79,7 +71,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void endorsePolicyEffDatePlus16Days() {
 		log.info("Endorsment action started");
-		LocalDateTime endorsePlus16 = startTime.plusDays(16);
+		LocalDateTime endorsePlus16 = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
 		log.info("Endorsement date: " + endorsePlus16);
 		TimeSetterUtil.getInstance().nextPhase(endorsePlus16);
 		performAndCheckEndorsement(endorsePlus16);
@@ -89,22 +81,32 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	/**
 	 * Accept 10$ cash payment on startDate + 25 days
 	 */
-	protected void acceptPayment10DollarsEffDatePlus25() {
+	protected void acceptPaymentEffDatePlus25() {
 		log.info("Accept payment action started");
-		LocalDateTime paymentDate = startTime.plusDays(25);
+		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
 		log.info("Accept payment date: " + paymentDate);
 		TimeSetterUtil.getInstance().nextPhase(paymentDate);
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
 		billingAccount.acceptPayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		getBillingPaymentsAndTransactionsVerifier().getValues().clear();
-		getBillingPaymentsAndTransactionsVerifier()
+		String expValue = getTestSpecificTD(DEFAULT_TEST_DATA_KEY)
+				.getTestData(AcceptPaymentActionTab.class.getSimpleName())
+				.getValue(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel());
+		new BillingPaymentsAndTransactionsVerifier()
 				.setTransactionDate(paymentDate)
 				.setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
-				.setAmount(new Dollar(-10))
-				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.CLEARED)
+				.setAmount(new Dollar(expValue).negate())
 				.verifyPresent();
+		log.info("Accept payment action finished successfully");
+	}
+
+	/**
+	 * Fully pay installment with min Due
+	 */
+	protected void payInstallmentWithMinDue() {
+		log.info("Accept payment action started");
+		billingAccount.acceptPayment().perform(getTestSpecificTD("AcceptPayment"), BillingSummaryPage.getMinimumDue());
 		log.info("Accept payment action finished successfully");
 	}
 
@@ -120,8 +122,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
 		billingAccount.declinePayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY), new Dollar(-10).toString());
-		getBillingPaymentsAndTransactionsVerifier().getValues().clear();
-		getBillingPaymentsAndTransactionsVerifier()
+		new BillingPaymentsAndTransactionsVerifier()
 				.setTransactionDate(cancellationNoticeDate)
 				.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PAYMENT_DECLINED)
@@ -142,8 +143,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
-		getBillingBillsAndStatementsVerifier().getValues().clear();
-		getBillingBillsAndStatementsVerifier()
+		new BillingBillsAndStatementsVerifier()
 				.setType(BillingConstants.BillsAndStatementsType.BILL)
 				.setDueDate(installments.get().get(1))
 				.setMinDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue()))
@@ -161,7 +161,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void waiveFee() {
 		log.info("Waive action started");
-		LocalDateTime plus16Days = startTime.plusDays(16);
+		LocalDateTime plus16Days = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
 		log.info("Waive date: " + plus16Days);
 		TimeSetterUtil.getInstance().nextPhase(plus16Days);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
@@ -173,8 +173,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 				.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION)
 				.controls.links.get(BillingConstants.PaymentsAndOtherTransactionAction.WAIVE).click();
 		BillingSummaryPage.dialogConfirmation.confirm();
-		getBillingPaymentsAndTransactionsVerifier().getValues().clear();
-		getBillingPaymentsAndTransactionsVerifier()
+		new BillingPaymentsAndTransactionsVerifier()
 				.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED)
 				.setTransactionDate(plus16Days)
@@ -184,7 +183,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected void manualFutureCancellationEffDatePlus25Days() {
 		log.info("Manual cancellation action started");
-		LocalDateTime plus25Days = startTime.plusDays(25);
+		LocalDateTime plus25Days = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
 		log.info("Manual cancellation date: " + plus25Days);
 		TimeSetterUtil.getInstance().nextPhase(plus25Days);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
@@ -196,7 +195,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected void updatePolicyStatusForPendedCancellation() {
 		log.info("Policy status update job action started");
-		LocalDateTime plus25Days = startTime.plusDays(25);
+		LocalDateTime plus25Days = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
 		TimeSetterUtil.getInstance().nextPhase(plus25Days.plusDays(2));
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
@@ -230,8 +229,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
-		getBillingBillsAndStatementsVerifier().getValues().clear();
-		getBillingBillsAndStatementsVerifier()
+		new BillingBillsAndStatementsVerifier()
 				.setDueDate(cancellationDate)
 				.setType(BillingConstants.BillsAndStatementsType.CANCELLATION_NOTICE)
 				.verifyPresent();
@@ -296,8 +294,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
-		getBillingPaymentsAndTransactionsVerifier().getValues().clear();
-		getBillingPaymentsAndTransactionsVerifier()
+		new BillingPaymentsAndTransactionsVerifier()
 				.setTransactionDate(writeOffDate)
 				.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF)
@@ -315,22 +312,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber.get());
-		getBillingBillsAndStatementsVerifier().getValues().clear();
-		getBillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).verifyRowWithDueDate(date);
-	}
-
-	private void runCFTJobs() {
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
-		JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-		JobUtils.executeJob(Jobs.policyTransactionLedgerJob);
-	}
-
-	private BillingBillsAndStatementsVerifier getBillingBillsAndStatementsVerifier() {
-		return billingBillsAndStatementsVerifier.get();
-	}
-
-	private BillingPaymentsAndTransactionsVerifier getBillingPaymentsAndTransactionsVerifier() {
-		return billingPaymentsAndTransactionsVerifier.get();
+		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).verifyRowWithDueDate(date);
 	}
 
 	private void performAndCheckEndorsement(LocalDateTime endorsementDate) {

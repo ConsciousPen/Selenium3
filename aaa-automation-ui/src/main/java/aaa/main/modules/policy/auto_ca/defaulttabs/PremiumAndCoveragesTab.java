@@ -4,16 +4,15 @@
  */
 package aaa.main.modules.policy.auto_ca.defaulttabs;
 
+import aaa.common.Tab;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import org.openqa.selenium.By;
-
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
-import aaa.common.Tab;
-import aaa.main.metadata.policy.AutoCaMetaData;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -42,8 +41,11 @@ public class PremiumAndCoveragesTab extends Tab {
 
 	@Override
 	public Tab fillTab(TestData td) {
-		super.fillTab(td);
-		buttonCalculatePremium.click();
+		super.fillTab(td); 
+		if ((td.getTestData(getMetaKey()) != null))
+			if (!td.getTestData(getMetaKey()).containsKey(AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM.getLabel())) {
+			buttonCalculatePremium.click();
+		}
 		return this;
 	}
 

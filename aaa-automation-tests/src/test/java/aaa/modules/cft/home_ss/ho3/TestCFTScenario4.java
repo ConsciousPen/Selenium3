@@ -1,8 +1,10 @@
 package aaa.modules.cft.home_ss.ho3;
 
 import aaa.helpers.constants.Groups;
+import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
 import org.apache.commons.lang3.StringUtils;
@@ -13,13 +15,12 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 /**
- * Controlled Financial Testing Scenario 3
- * For any product and any defined state from params
- * NB_Down_Cash
- * Policy Write off
-
+ * Controlled Financial Testing Scenario 4
+ * NB_Down_Credit Card
+ * 1st installment PT
+ * Lapse w/o emp ben
  */
-public class TestCFTScenario3 extends ControlledFinancialBaseTest {
+public class TestCFTScenario4 extends ControlledFinancialBaseTest {
 
 	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
@@ -33,6 +34,7 @@ public class TestCFTScenario3 extends ControlledFinancialBaseTest {
 	@Parameters({STATE_PARAM})
 	public void generateBillForFirstInstallment(@Optional(StringUtils.EMPTY) String state) {
 		super.generateFirstInstallmentBill();
+		super.payInstallmentWithMinDue();
 	}
 
 	@Test(groups = {Groups.CFT}, dependsOnMethods = "generateBillForFirstInstallment")
@@ -49,48 +51,6 @@ public class TestCFTScenario3 extends ControlledFinancialBaseTest {
 		super.acceptPaymentEffDatePlus25();
 	}
 
-	@Test(groups = {Groups.CFT}, dependsOnMethods = "acceptPayment")
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void declinePayment(@Optional(StringUtils.EMPTY) String state) {
-		super.decline10DollarsPayment();
-	}
-
-	@Test(groups = {Groups.CFT}, dependsOnMethods = "declinePayment")
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void cancelPolicy(@Optional(StringUtils.EMPTY) String state) {
-		super.automaticCancellation();
-	}
-
-	@Test(groups = {Groups.CFT}, dependsOnMethods = "cancelPolicy")
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void generateFirstEPBill(@Optional(StringUtils.EMPTY) String state) {
-		super.generateFirstEarnedPremiumBill();
-	}
-
-	@Test(groups = {Groups.CFT}, dependsOnMethods = "generateFirstEPBill")
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void generateSecondEPBill(@Optional(StringUtils.EMPTY) String state) {
-		super.generateSecondEarnedPremiumBill();
-	}
-
-	@Test(groups = {Groups.CFT}, dependsOnMethods = "generateSecondEPBill")
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void generateThirdEPBill(@Optional(StringUtils.EMPTY) String state) {
-		super.generateThirdEarnedPremiumBill();
-	}
-
-	@Test(groups = {Groups.CFT}, dependsOnMethods = "generateThirdEPBill")
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void testCFTScenario1WriteOff(@Optional(StringUtils.EMPTY) String state) {
-		super.writeOff();
-	}
-
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.HOME_SS_HO3;
@@ -101,6 +61,8 @@ public class TestCFTScenario3 extends ControlledFinancialBaseTest {
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", DEFAULT_TEST_DATA_KEY);
 		td.adjust(PremiumsAndCoveragesQuoteTab.class.getSimpleName(), getTestSpecificTD("PremiumsAndCoveragesQuoteTab_DataGather"));
 		td.adjust(PurchaseTab.class.getSimpleName(), getTestSpecificTD("PurchaseTab_DataGather"));
+		td.adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(),HomeSSMetaData.ApplicantTab.NamedInsured.AAA_EMPLOYEE.getLabel()),
+				getTestSpecificTD("ApplicantTab_DataGather").getValue(HomeSSMetaData.ApplicantTab.NamedInsured.AAA_EMPLOYEE.getLabel()));
 		return td.resolveLinks();
 	}
 

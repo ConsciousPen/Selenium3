@@ -1,6 +1,5 @@
 package aaa.modules.e2e.auto_ss;
 
-import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.e2e.templates.Scenario2;
 import org.testng.annotations.Optional;
@@ -185,7 +184,7 @@ public class TestScenario2 extends Scenario2 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC28_Verify_DocGen_Forms(@Optional("") String state) {
-		super.verifyDocGenForms(DocGenEnum.Documents.AH35XX, DocGenEnum.Documents.AHRBXX);
+		super.verifyDocGenForms();
 	}
 
 	@Parameters({"state"})

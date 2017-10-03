@@ -189,4 +189,9 @@ public abstract class Tab {
 		buttonCancel.click();
 		return this;
 	}
+
+	public Tab saveAndExit() {
+		buttonSaveAndExit.click();
+		return this;
+	}
 }
