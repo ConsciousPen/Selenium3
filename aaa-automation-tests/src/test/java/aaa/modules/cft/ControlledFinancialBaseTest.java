@@ -38,8 +38,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	private ThreadLocal<List<LocalDateTime>> installments = new ThreadLocal<>();
 	private ThreadLocal<String> policyNumber = ThreadLocal.withInitial(() -> StringUtils.EMPTY);
-	private ThreadLocal<BillingBillsAndStatementsVerifier> billingBillsAndStatementsVerifier = ThreadLocal.withInitial(BillingBillsAndStatementsVerifier::new);
-	private ThreadLocal<BillingPaymentsAndTransactionsVerifier> billingPaymentsAndTransactionsVerifier = ThreadLocal.withInitial(BillingPaymentsAndTransactionsVerifier::new);
 
 	/**
 	 * Creating of the policy for test
@@ -94,8 +92,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		String expValue = getTestSpecificTD(DEFAULT_TEST_DATA_KEY)
 				.getTestData(AcceptPaymentActionTab.class.getSimpleName())
 				.getValue(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel());
-		getBillingPaymentsAndTransactionsVerifier().getValues().clear();
-		getBillingPaymentsAndTransactionsVerifier()
+		new BillingPaymentsAndTransactionsVerifier()
 				.setTransactionDate(paymentDate)
 				.setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
@@ -125,8 +122,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
 		billingAccount.declinePayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY), new Dollar(-10).toString());
-		getBillingPaymentsAndTransactionsVerifier().getValues().clear();
-		getBillingPaymentsAndTransactionsVerifier()
+		new BillingPaymentsAndTransactionsVerifier()
 				.setTransactionDate(cancellationNoticeDate)
 				.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PAYMENT_DECLINED)
@@ -147,8 +143,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
-		getBillingBillsAndStatementsVerifier().getValues().clear();
-		getBillingBillsAndStatementsVerifier()
+		new BillingBillsAndStatementsVerifier()
 				.setType(BillingConstants.BillsAndStatementsType.BILL)
 				.setDueDate(installments.get().get(1))
 				.setMinDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue()))
@@ -178,8 +173,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 				.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION)
 				.controls.links.get(BillingConstants.PaymentsAndOtherTransactionAction.WAIVE).click();
 		BillingSummaryPage.dialogConfirmation.confirm();
-		getBillingPaymentsAndTransactionsVerifier().getValues().clear();
-		getBillingPaymentsAndTransactionsVerifier()
+		new BillingPaymentsAndTransactionsVerifier()
 				.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED)
 				.setTransactionDate(plus16Days)
@@ -235,8 +229,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
-		getBillingBillsAndStatementsVerifier().getValues().clear();
-		getBillingBillsAndStatementsVerifier()
+		new BillingBillsAndStatementsVerifier()
 				.setDueDate(cancellationDate)
 				.setType(BillingConstants.BillsAndStatementsType.CANCELLATION_NOTICE)
 				.verifyPresent();
@@ -301,8 +294,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
-		getBillingPaymentsAndTransactionsVerifier().getValues().clear();
-		getBillingPaymentsAndTransactionsVerifier()
+		new BillingPaymentsAndTransactionsVerifier()
 				.setTransactionDate(writeOffDate)
 				.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF)
@@ -320,22 +312,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber.get());
-		getBillingBillsAndStatementsVerifier().getValues().clear();
-		getBillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).verifyRowWithDueDate(date);
-	}
-
-	private void runCFTJobs() {
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
-		JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-		JobUtils.executeJob(Jobs.policyTransactionLedgerJob);
-	}
-
-	private BillingBillsAndStatementsVerifier getBillingBillsAndStatementsVerifier() {
-		return billingBillsAndStatementsVerifier.get();
-	}
-
-	private BillingPaymentsAndTransactionsVerifier getBillingPaymentsAndTransactionsVerifier() {
-		return billingPaymentsAndTransactionsVerifier.get();
+		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).verifyRowWithDueDate(date);
 	}
 
 	private void performAndCheckEndorsement(LocalDateTime endorsementDate) {
