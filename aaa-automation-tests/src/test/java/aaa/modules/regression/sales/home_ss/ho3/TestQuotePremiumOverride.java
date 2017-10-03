@@ -3,6 +3,7 @@ package aaa.modules.regression.sales.home_ss.ho3;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
+import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
@@ -34,15 +35,14 @@ import toolkit.verification.CustomAssert;
  * 12.Issue Policy;
  * 13.Check Policy status is Active.
  * 14.Check Policy premium summary.
- *  // Stories
+ * // Stories
  * 13736:US NB - Calculate Premium - Premium Override
  * 14891:US Calculate Premium - reset premium after change
- *
  */
 public class TestQuotePremiumOverride extends HomeSSHO3BaseTest {
 
 	@Parameters({"state"})
-	@Test(groups= {Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testQuotePremiumOverride(@Optional("") String state) {
 
@@ -60,28 +60,30 @@ public class TestQuotePremiumOverride extends HomeSSHO3BaseTest {
 		policy.getDefaultView().fillUpTo(td, PremiumsAndCoveragesQuoteTab.class, true);
 
 //		On Premium and coverage tab change "Coverage F" and check that calculated premium resets to zero.
-		pcTab.fillTab(DataProviderFactory.dataOf(new PremiumsAndCoveragesQuoteTab().getMetaKey(), tdCoverageF), false);
+		pcTab.fillTab(DataProviderFactory.dataOf(PremiumsAndCoveragesQuoteTab.class.getSimpleName(), tdCoverageF), false);
 		PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().verify.zero();
 
 //		Override premium by -101%, check error message appears.
 		pcTab.calculatePremium();
 		PremiumsAndCoveragesQuoteTab.btnOverridePremium.click();
-		pcTab.fillTab(tdOverridePremiumP,false);
+		pcTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.OVERRRIDE_PREMIUM_DIALOG).fill(tdOverridePremiumP.getTestData(PremiumsAndCoveragesQuoteTab.class.getSimpleName()), false);
 		PremiumsAndCoveragesQuoteTab.lblErrorMessage.verify.present();
 		PremiumsAndCoveragesQuoteTab.lblErrorMessage.verify.value("The premium cannot be decreased by more than 100%.");
 
-		pcTab.fillTab(tdOverridePremiumP.adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab","Override Premium","Percentage"),"20"),false);
+		TestData adjustedOverridePTestData = tdOverridePremiumP.adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab", "Override Premium", "Percentage"), "20").resolveLinks().getTestData(PremiumsAndCoveragesQuoteTab.class.getSimpleName());
+		pcTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.OVERRRIDE_PREMIUM_DIALOG).fill(adjustedOverridePTestData,false);
 		PremiumsAndCoveragesQuoteTab.calculatedOverrideFlatAmount().verify.equals(PremiumsAndCoveragesQuoteTab.getOverridenPremiumFlatAmount());
 
 //		9. Override premium by Flat Amount ($400), check calculated values.
-		pcTab.fillTab(tdOverridePremiumF, false);
+		pcTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.OVERRRIDE_PREMIUM_DIALOG).fill(tdOverridePremiumF.getTestData(PremiumsAndCoveragesQuoteTab.class.getSimpleName()), false);
 		//CustomAssert.assertTrue(PremiumsAndCoveragesQuoteTab.calculatedOverridePercentageAmount().equals(PremiumsAndCoveragesQuoteTab.getOverridenPremiumPercentageAmount()));
 		CustomAssert.assertEquals(PremiumsAndCoveragesQuoteTab.calculatedOverridePercentageAmount(), PremiumsAndCoveragesQuoteTab.getOverridenPremiumPercentageAmount());
 		PremiumsAndCoveragesQuoteTab.dialogOverridePremium.reject();
 
 //		10. Override premium by Percentage (20%), check calculated values. Confirm Override.
 		PremiumsAndCoveragesQuoteTab.btnOverridePremium.click();
-		pcTab.fillTab(tdOverridePremiumP.adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab","Override Premium","Percentage"),"20"),false);
+		TestData adjustedOverrideFTestData = tdOverridePremiumP.adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab", "Override Premium", "Percentage"), "20").getTestData(PremiumsAndCoveragesQuoteTab.class.getSimpleName());
+		pcTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.OVERRRIDE_PREMIUM_DIALOG).fill(adjustedOverrideFTestData,false);
 		PremiumsAndCoveragesQuoteTab.calculatedOverrideFlatAmount().verify.equals(PremiumsAndCoveragesQuoteTab.getOverridenPremiumFlatAmount());
 
 		PremiumsAndCoveragesQuoteTab.dialogOverridePremium.confirm();

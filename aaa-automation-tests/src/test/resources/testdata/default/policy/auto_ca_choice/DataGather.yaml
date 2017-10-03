@@ -32,7 +32,7 @@ GeneralTab: {
 }
 
 NamedInsuredInformation: {
-  "Home Phone #": 1234567890 
+  "Home Phone #": 1234567890
 }
 
 AAAProductOwned: {
@@ -103,12 +103,14 @@ DriverActivityReportsTab: {
 }
 
 DocumentsAndBindTab: {
-  RequiredToBind: {
-    Personal Auto Application: Physically Signed,
-    Deleting Uninsured Motorist Property Damage Coverage: Physically Signed
-  },
+  RequiredToBind: '@RequiredToBind',
   #RequiredToIssue: { },
   VehicleInformation: ['@Vehicle1'],
+}
+
+RequiredToBind: {
+  Personal Auto Application: Physically Signed,
+  Deleting Uninsured Motorist Property Damage Coverage: Physically Signed
 }
 
 Vehicle1: {

@@ -2,26 +2,20 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.metadata.policy;
 
+import aaa.common.pages.Page;
 import aaa.main.enums.DocGenConstants;
+import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.*;
+import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
+import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
-import org.openqa.selenium.By;
+import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
+import aaa.toolkit.webdriver.customcontrols.endorsements.HomeSSEndorsementsMultiAssetList;
 import com.exigen.ipb.etcsa.controls.PartySearchTextBox;
 import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
-import aaa.common.pages.Page;
-import aaa.main.metadata.DialogsMetaData;
-import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
-import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
-import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
-import aaa.toolkit.webdriver.customcontrols.endorsements.HomeSSEndorsementsMultiAssetList;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.CheckBox;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.TextBox;
+import org.openqa.selenium.By;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
@@ -325,6 +319,7 @@ public final class HomeSSMetaData {
 		public static final AssetDescriptor<AssetList> PETS_OR_ANIMALS = declare("PetsOrAnimals", AssetList.class, PetsOrAnimals.class);
 		public static final AssetDescriptor<AssetList> STOVES = declare("Stoves", AssetList.class, Stoves.class);
 		public static final AssetDescriptor<AssetList> RECREATIONAL_EQUIPMENT = declare("RecreationalEquipment", AssetList.class, RecreationalEquipment.class);
+		public static final AssetDescriptor<AssetList> OIL_FUEL_OR_PROPANE_STORAGE_TANK = declare("OilFuelOrPropaneStorageTank", AssetList.class, OilPropaneStorageTank.class);
 		public static final AssetDescriptor<MultiInstanceAfterAssetList> CLAIM_HISTORY = declare("ClaimHistory", MultiInstanceAfterAssetList.class, ClaimHistory.class);
 		public static final AssetDescriptor<AssetList> RENTAL_INFORMATION = declare("RentalInformation", AssetList.class, RentalInformation.class);
 
@@ -1110,9 +1105,6 @@ public final class HomeSSMetaData {
 		public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.AJAX);
 
-		public static final AssetDescriptor<DialogAssetList> OVERRRIDE_PREMIUM_DIALOG = declare("Override Premium", DialogAssetList.class, OverridePremiumDialog.class,
-				By.xpath("//form[@id='premiumOverrideInfoFormAAAHOPremiumOverride']"));
-
 		public static final AssetDescriptor<StaticElement> COVERAGE_A = declare(HomeSSCoverages.COVERAGE_A.get(), StaticElement.class, Waiters.AJAX, true,
 				By.xpath(String.format("//table[@id='policyDataGatherForm:coverageSummaryTable']//tr[td[.='%s']]//span", HomeSSCoverages.COVERAGE_A.get())));
 		public static final AssetDescriptor<ComboBox> COVERAGE_B = declare(HomeSSCoverages.COVERAGE_B.get(), ComboBox.class, Waiters.AJAX, true,
@@ -1132,11 +1124,31 @@ public final class HomeSSMetaData {
 		public static final AssetDescriptor<ComboBox> COVERAGE_C_BUILDING = declare(HomeSSCoverages.COVERAGE_C_BUILDING.get(), ComboBox.class, Waiters.AJAX, true,
 				By.xpath(String.format("//table[@id='policyDataGatherForm:coverageSummaryTable']//tr[td[.='%s']]//select", HomeSSCoverages.COVERAGE_C_BUILDING.get())));
 
+		public static final AssetDescriptor<Button> CALCULATE_PREMIUM = declare("Calculate Premium", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:premiumRecalcCov"));
+
+		public static final AssetDescriptor<DialogAssetList> OVERRRIDE_PREMIUM_DIALOG = declare("Override Premium", DialogAssetList.class, OverridePremiumDialog.class,
+				By.xpath("//form[@id='premiumOverrideInfoFormAAAHOPremiumOverride']"));
+
 		public static final class OverridePremiumDialog extends MetaData {
+			public static final AssetDescriptor<Button> BUTTON_OPEN_POPUP = declare(AbstractDialog.DEFAULT_POPUP_OPENER_NAME, Button.class, Waiters.AJAX, false,
+					By.id("policyDataGatherForm:overridePremiumLinkHo"));
 			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class, Waiters.NONE);
 			public static final AssetDescriptor<TextBox> REMARKS = declare("Remarks", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> OVERRIDE_PREMIUM_BY_FLAT_AMOUNT = declare("Override Premium By Flat Amount", TextBox.class, Waiters.AJAX, By.id("premiumOverrideInfoFormAAAHOPremiumOverride:deltaPremiumAmt"));
 			public static final AssetDescriptor<TextBox> OVERRIDE_PERCENTAGE = declare("Percentage", TextBox.class, Waiters.AJAX, By.id("premiumOverrideInfoFormAAAHOPremiumOverride:percentageAmt"));
+			public static final AssetDescriptor<Button> BUTTON_SUBMIT_POPUP = declare(AbstractDialog.DEFAULT_POPUP_SUBMITTER_NAME, Button.class, Waiters.AJAX, false,
+					By.id("premiumOverrideInfoFormAAAHOPremiumOverride:premiumOverrideSaveBtn"));
+			public static final AssetDescriptor<Button> BUTTON_CANCEL_POPUP = declare(AbstractDialog.DEFAULT_POPUP_CLOSER_NAME, Button.class, Waiters.DEFAULT, false,
+					By.id("premiumOverrideInfoFormAAAHOPremiumOverride:premiumOverrideCancelBtn"));
+			public static final AssetDescriptor<DialogAssetList> ADDITIONAL_POPUP_SUBMIT = declare("Additional Popup Submit", DialogAssetList.class, AdditionalOverridePremiumDialog.class,
+					By.id("overrideModalConfirmationDialog_container"));
+		}
+
+		public static final class AdditionalOverridePremiumDialog extends MetaData{
+			public static final AssetDescriptor<Button> BUTTON_SUBMIT_POPUP = declare(AbstractDialog.DEFAULT_POPUP_SUBMITTER_NAME, Button.class, Waiters.AJAX, false,
+					By.id("overrideModalConfirmationDialogForm:okBtn"));
+			public static final AssetDescriptor<Button> BUTTON_CANCEL_POPUP = declare(AbstractDialog.DEFAULT_POPUP_CLOSER_NAME, Button.class, Waiters.DEFAULT, false,
+					By.id("overrideModalConfirmationDialogForm:cancelBtn"));
 		}
 
 		public enum HomeSSCoverages {

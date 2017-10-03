@@ -43,6 +43,13 @@ public class RemoteHelper {
 
 	public static void uploadFile(String source, String destination) {
 		log.info(String.format("SSH: File '%s' uploading to '%s' destination folder has been started.", source, destination));
+		String folderPath = destination.substring(0, destination.lastIndexOf("/"));
+		if (!isPathExist(folderPath)) {
+			executeCommand("mkdir -p -m 777 " + folderPath);
+			if (folderPath.contains("/")) {
+				executeCommand("chmod -R 777 " + folderPath.substring(0, folderPath.lastIndexOf("/")));
+			}
+		}
 		ssh.putFile(source, destination);
 	}
 
@@ -127,12 +134,12 @@ public class RemoteHelper {
 			grepCmd.append(" | xargs -r grep -li '").append(textToSearch).append("'");
 		}
 		String cmd = String.format("cd %1$s; find . -type f -iname '*.%2$s' -print%3$s | xargs -r ls -t | xargs -r readlink -f", sourceFolder, fileExtension == null ? "*" : fileExtension, grepCmd.toString());
-
-		log.info(String.format("Searching for file(s)%1$s%2$s in \"%3$s\" folder with %4$s seconds timeout.",
+		String searchParams = String.format("%1$s%2$s in \"%3$s\" folder with %4$s seconds timeout.",
 				fileExtension != null ? String.format(" with file extension \"%s\"", fileExtension) : "",
 				textsToSearchPatterns.length > 0 ? String.format(" containing text pattern(s): %s", Arrays.asList(textsToSearchPatterns)) : "",
-				sourceFolder, timeoutInSeconds));
+				sourceFolder, timeoutInSeconds);
 
+		log.info("Searching for file(s)" + searchParams);
 		long searchStart = System.currentTimeMillis();
 		long timeout = searchStart + timeoutInSeconds * 1000;
 		String commandOutput = "";
@@ -146,7 +153,7 @@ public class RemoteHelper {
 		} while (timeout > System.currentTimeMillis());
 		long searchTime = System.currentTimeMillis() - searchStart;
 
-		CustomAssert.assertTrue("No files have been found.", !commandOutput.isEmpty());
+		CustomAssert.assertTrue("No files have been found" + searchParams, !commandOutput.isEmpty());
 		List<String> foundFiles = Arrays.asList(commandOutput.split("\n"));
 		log.info(String.format("Found file(s): %1$s after %2$s milliseconds", foundFiles, searchTime));
 		return foundFiles;

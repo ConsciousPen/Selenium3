@@ -35,22 +35,22 @@ import aaa.modules.policy.AutoSSBaseTest;
  *           active
  * @details
  */
-public class TestAZScenario1 extends AutoSSBaseTest {
-	protected String policyNumber;
-	protected LocalDateTime installmentDD1;
-	protected String policyEffectiveDate;
-	protected String policyExpirationDate;
-	protected String plcyDueDt;
-	protected String curRnwlAmt;
-	protected String instlFee;
-	protected String totNwCrgAmt;
-	protected String plcyPayMinAmt;
-	protected String plcyPayFullAmt;
-	protected String cancEffDt;
-	protected String reinstmtFee;
-	protected String reCalcTotFee;
-	protected String reinEffDt;
-	protected String priorReinEffDt;
+public class TestScenario1 extends AutoSSBaseTest {
+	private String policyNumber;
+	private LocalDateTime installmentDD1;
+	private String policyEffectiveDate;
+	private String policyExpirationDate;
+	private String plcyDueDt;
+	private String curRnwlAmt;
+	private String instlFee;
+	private String totNwCrgAmt;
+	private String plcyPayMinAmt;
+	private String plcyPayFullAmt;
+	private String cancEffDt;
+	private String reinstmtFee;
+	private String reCalcTotFee;
+	private String reinEffDt;
+	private String priorReinEffDt;
 
 	@Parameters({ "state" })
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
@@ -170,8 +170,7 @@ public class TestAZScenario1 extends AutoSSBaseTest {
 	public void TC04_GenerateCancellation(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 
-		LocalDateTime cancelNoticeDate = getTimePoints().getCancellationNoticeDate(installmentDD1);
-		LocalDateTime cancellationDate = getTimePoints().getCancellationNoticeDate(cancelNoticeDate);
+		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(installmentDD1);
 		log.info("Cancellation Generatetion Date" + cancellationDate);
 		TimeSetterUtil.getInstance().nextPhase(cancellationDate);
 		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
@@ -207,15 +206,20 @@ public class TestAZScenario1 extends AutoSSBaseTest {
 	@Parameters({ "state" })
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC05_ReinstatementPolicy(@Optional("") String state) {
+		
+		LocalDateTime reinstateDate = getTimePoints().getCancellationDate(installmentDD1).plusDays(13);
+		TimeSetterUtil.getInstance().nextPhase(reinstateDate);
+		log.info("Reinstatement Date"+reinstateDate);
+		
 		CustomAssert.enableSoftMode();
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		policy.reinstate().perform(getTestSpecificTD("TestData_Plus13Days"));
+		policy.reinstate().perform(getTestSpecificTD("TestData_Reinstate"));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
+        
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
-
+				
 		BillingSummaryPage.open();
 
 		plcyPayFullAmt = formatValue(BillingSummaryPage.getTotalDue().toString());

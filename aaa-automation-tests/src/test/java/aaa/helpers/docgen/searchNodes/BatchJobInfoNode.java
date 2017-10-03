@@ -35,7 +35,7 @@ public class BatchJobInfoNode extends SearchBy<BatchJobInfoNode, BatchJobInfo> {
 	public List<BatchJobInfo> search(StandardDocumentRequest sDocumentRequest) {
 		List<BatchJobInfo> filteredBji = new ArrayList<>();
 		standardDocumentRequest.batchFileSummary.search(sDocumentRequest).forEach(l -> filteredBji.addAll(filter(l.getBatchJobInfo())));
-		conditionsMap.clear();
+		clearConditions();
 		return filteredBji;
 	}
 

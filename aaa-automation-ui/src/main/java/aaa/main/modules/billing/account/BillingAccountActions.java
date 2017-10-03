@@ -2,14 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.modules.billing.account;
 
-import java.util.List;
-
-import aaa.main.modules.billing.account.actiontabs.*;
-import aaa.main.modules.billing.account.views.*;
-import com.exigen.ipb.etcsa.utils.Dollar;
-
-import org.openqa.selenium.By;
-
 import aaa.common.AbstractAction;
 import aaa.common.Tab;
 import aaa.common.Workspace;
@@ -17,7 +9,11 @@ import aaa.common.pages.Page;
 import aaa.main.enums.ActionConstants;
 import aaa.main.enums.BillingConstants.*;
 import aaa.main.metadata.BillingAccountMetaData;
+import aaa.main.modules.billing.account.actiontabs.*;
+import aaa.main.modules.billing.account.views.*;
 import aaa.main.pages.summary.BillingSummaryPage;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.Button;
@@ -25,6 +21,8 @@ import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.RadioButton;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.table.Table;
+
+import java.util.List;
 
 public final class BillingAccountActions {
 
@@ -367,7 +365,7 @@ public final class BillingAccountActions {
 		public AbstractAction submit() {
 			if (DeclinePaymentActionTab.buttonOk.isPresent()) {
 				DeclinePaymentActionTab.buttonOk.click();
-			} else {
+			} else if (new Button(By.id("declinePaymentReasonForm:okBtnPopup_footer")).isPresent()) {
 				new Button(By.id("declinePaymentReasonForm:okBtnPopup_footer")).click();
 			}
 
@@ -590,6 +588,9 @@ public final class BillingAccountActions {
 		@Override
 		public AbstractAction submit() {
 			UpdateBillingAccountActionTab.buttonSave.click();
+			if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
+				Page.dialogConfirmation.confirm();
+			}
 			return this;
 		}
 	}
@@ -674,7 +675,7 @@ public final class BillingAccountActions {
 		public AbstractAction perform(String paymentPlan) {
 			start(1);
 			getView().fill(new SimpleDataProvider().adjust(new ChangePaymentPlanActionTab().getMetaKey(), new SimpleDataProvider()).adjust(TestData.makeKeyPath(new ChangePaymentPlanActionTab().getMetaKey(),
-				BillingAccountMetaData.ChangePaymentPlanActionTab.PAYMENT_PLAN.getLabel()), paymentPlan));
+					BillingAccountMetaData.ChangePaymentPlanActionTab.PAYMENT_PLAN.getLabel()), paymentPlan));
 			return submit();
 		}
 

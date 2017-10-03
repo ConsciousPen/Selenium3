@@ -50,6 +50,12 @@ public class Jobs {
 
 	public static Job aaaImportPolicyHomeCAHdesAsyncTaskJob = new Job("aaaImportPolicyHomeCAHdesAsyncTaskJob");
 
+	public static Job aaaImportPolicyHomeCaSisAsyncTaskJob = new Job("aaaImportPolicyHomeCaSisAsyncTaskJob");
+
+	public static Job aaaImportMiniPupPolicyAsyncTaskJob = new Job("aaaImportMiniPupPolicyAsyncTaskJob");
+
+	public static Job importMiniPolicyAsyncTaskJob = new Job("ImportMiniPolicyAsyncTaskJob");
+
 	public static Job aaaRenewalNoticeBillAsyncJob = new Job("aaaRenewalNoticeBillAsyncJob");
 
 	public static Job changeCancellationPendingPoliciesStatus = new Job("changeCancellationPendingPoliciesStatus");
@@ -71,6 +77,10 @@ public class Jobs {
 	public static Job aaaPreRenewalNoticeAsyncJob = new Job("aaaPreRenewalNoticeAsyncJob");
 
 	public static Job aaaGenerateLTRNoticeJob = new Job("aaaGenerateLTRNoticeJob");
+
+	public static Job earnedPremiumPostingAsyncTaskGenerationJob = new Job("earnedPremiumPostingAsyncTaskGenerationJob");
+
+	public static Job policyTransactionLedgerJob = new Job("policyTransactionLedgerJob");
 
 	public static Job cftDcsEodJob = new Job("cftDcsEodJob");
 

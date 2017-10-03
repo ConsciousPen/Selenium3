@@ -23,32 +23,35 @@ import toolkit.webdriver.controls.waiters.Waiters;
  */
 public class PremiumAndCoveragesTab extends Tab {
 
-    public static Button buttonCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalc"));
-    public static StaticElement labelProductInquiry = new StaticElement(By.xpath("//span[@id='policyDataGatherForm:sedit_AAAProductOverride_policyFormCd']"));
-    public static Link buttonViewRatingDetails = new Link(By.id("policyDataGatherForm:viewRatingDetails_Link"));
-    public static Table tableRatingDetailsVehicles = new Table(By.id("ratingDetailsPopupForm:vehicle_summary"));
-    //-- old controls
-    public static Table tablePremiumSummary = new Table(By.id("policyDataGatherForm:riskItemPremiumInfoTable"));
-    public static Button buttonCommissionOverride = new Button(By.id("policyDataGatherForm:commissionOverrideButton"));
-    public Button btnContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
+	public static Button buttonCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalc"));
+	public static StaticElement labelProductInquiry = new StaticElement(By.xpath("//span[@id='policyDataGatherForm:sedit_AAAProductOverride_policyFormCd']"));
+	public static Link buttonViewRatingDetails = new Link(By.id("policyDataGatherForm:viewRatingDetails_Link"));
+	public static Table tableRatingDetailsVehicles = new Table(By.id("ratingDetailsPopupForm:vehicle_summary"));
+	public static Table tableDiscounts = new Table(By.id("policyDataGatherForm:discountSurchargeSummaryTable"));
 
-    //--
-    public PremiumAndCoveragesTab() {
-        super(AutoCaMetaData.PremiumAndCoveragesTab.class);
-    }
+	// -- old controls
+	public static Table tablePremiumSummary = new Table(By.id("policyDataGatherForm:riskItemPremiumInfoTable"));
+	public static Button buttonCommissionOverride = new Button(By.id("policyDataGatherForm:commissionOverrideButton"));
+	public Button btnContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
 
-    @Override
-    public Tab fillTab(TestData td) {
-        super.fillTab(td);
-        buttonCalculatePremium.click();
-        return this;
-    }
+	// --
+	public PremiumAndCoveragesTab() {
+		super(AutoCaMetaData.PremiumAndCoveragesTab.class);
+	}
 
-    @Override
-    public Tab submitTab() {
-    	btnContinue.click();
-        return this;
-    }
+	@Override
+	public Tab fillTab(TestData td) {
+		super.fillTab(td); 
+		if ((td.getTestData(getMetaKey()) != null))
+			if (!td.getTestData(getMetaKey()).containsKey(AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM.getLabel())) {
+			buttonCalculatePremium.click();
+		}
+		return this;
+	}
+
+	@Override
+	public Tab submitTab() {
+		btnContinue.click();
+		return this;
+	}
 }
-
-

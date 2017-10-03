@@ -17,7 +17,7 @@ public class TestScenario5 extends Scenario5 {
 
 	@Parameters({"state"})
 	@Test
-	public void TC01_createPolicy() {
+	public void TC01_createPolicy(@Optional("") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
 
 		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
@@ -126,6 +126,7 @@ public class TestScenario5 extends Scenario5 {
 		super.generateThirdEPBill();
 	}
 
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC12_0_Generate_EP_Write_Off_One_Day_Before(@Optional("") String state) {
 		super.generateEPWriteOffOneDayBefore();

@@ -6,8 +6,9 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
+    <!-- TODO add KY state after fixing QC-44688, QC-44699 defects -->
     <test name="HSS Scenario 2" parallel="none">
-        <parameter name="state" value="UT, AZ, NJ, CO, IN, KS, KY, MT, NY, OK, OR, PA, SD, VA" />
+        <parameter name="state" value="UT, AZ, NJ, CO, IN, KS, MT, NY, OK, OR, PA, SD, VA" />
         <classes>
             <class name="aaa.modules.e2e.home_ss.ho3.TestScenario2" />
         </classes>
@@ -20,8 +21,9 @@
         </classes>
     </test>
 
+    <!-- TODO add KY state after fixing QC-44688, QC-44699 defects -->
     <test name="Auto SS Scenario 2" parallel="none">
-        <parameter name="state" value="UT, AZ, CO, IN, KS, KY, NJ, NY, OH, OR, PA, SD, VA" />
+        <parameter name="state" value="UT, AZ, CO, IN, KS, NJ, NY, OH, OR, PA, SD, VA" />
         <classes>
             <class name="aaa.modules.e2e.auto_ss.TestScenario2" />
         </classes>

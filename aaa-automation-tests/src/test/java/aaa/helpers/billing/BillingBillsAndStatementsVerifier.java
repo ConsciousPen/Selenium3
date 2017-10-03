@@ -2,18 +2,17 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.helpers.billing;
 
-import java.time.LocalDateTime;
-import java.util.Map;
-
-import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.webdriver.controls.composite.table.Row;
-import toolkit.webdriver.controls.composite.table.Table;
 import aaa.helpers.TableVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
 import aaa.main.pages.summary.BillingSummaryPage;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
+import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.webdriver.controls.composite.table.Row;
+import toolkit.webdriver.controls.composite.table.Table;
+
+import java.time.LocalDateTime;
+import java.util.Map;
 
 public class BillingBillsAndStatementsVerifier extends TableVerifier {
 
@@ -73,16 +72,15 @@ public class BillingBillsAndStatementsVerifier extends TableVerifier {
 	}
 
 	public void verifyBillGenerated(LocalDateTime installmentDate, LocalDateTime feesTransacionDate) {
-		verifyBillGenerated(installmentDate, feesTransacionDate, null, null);
+		verifyBillGenerated(installmentDate, feesTransacionDate, null, BillingHelper.DZERO);
 	}
 
-	public void verifyBillGenerated(LocalDateTime installmentDate, LocalDateTime feesTransactionDate, LocalDateTime pligasFeeTransactionDate, LocalDateTime effectiveDate) {
-		Dollar pligaFee = pligasFeeTransactionDate == null ? BillingHelper.DZERO : BillingSummaryPage.getPligaFee(pligasFeeTransactionDate);
+	public void verifyBillGenerated(LocalDateTime installmentDate, LocalDateTime feesTransactionDate, LocalDateTime effectiveDate, Dollar pligaOrMvleFee) {
 		Dollar pastDue = effectiveDate == null ? BillingHelper.DZERO : new Dollar(BillingHelper.getPolicyRowByEffDate(effectiveDate).getCell(BillingConstants.BillingAccountPoliciesTable.PAST_DUE).getValue());
-
-		Dollar billAmount = BillingHelper.getInstallmentDueByDueDate(installmentDate).add(BillingHelper.getFeesValue(feesTransactionDate)).add(pastDue).add(pligaFee);
+		Dollar billAmount = BillingHelper.getInstallmentDueByDueDate(installmentDate).add(BillingHelper.getFeesValue(feesTransactionDate)).add(pastDue).add(pligaOrMvleFee);
 		setType(BillingConstants.BillsAndStatementsType.BILL);
 		setMinDue(billAmount).setPastDue(pastDue);
 		verifyRowWithDueDate(installmentDate);
 	}
+
 }

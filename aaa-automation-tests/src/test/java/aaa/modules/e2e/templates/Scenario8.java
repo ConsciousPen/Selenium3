@@ -16,6 +16,7 @@ import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -35,6 +36,7 @@ public class Scenario8 extends ScenarioBaseTest {
 
 	protected LocalDateTime policyEffectiveDate;
 	protected LocalDateTime policyExpirationDate;
+	protected LocalDateTime pligaOrMvleFeeLastTransactionDate;
 
 	protected List<LocalDateTime> installmentDueDates;
 
@@ -54,6 +56,8 @@ public class Scenario8 extends ScenarioBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
 		CustomAssert.assertEquals("Billing Installments count for Monthly (Eleven Pay) payment plan", 11, installmentDueDates.size());
+
+		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime());
 	}
 
 	protected void generateFirstBill() {
@@ -100,6 +104,9 @@ public class Scenario8 extends ScenarioBaseTest {
 
 		/** TODO Why 9??? */
 		new BillingInstallmentsScheduleVerifier().setDescription(BillingConstants.InstallmentDescription.INSTALLMENT).verifyCount(9);
+		if (verifyPligaOrMvleFee(policyExpirationDateOffer)) {
+			pligaOrMvleFeeLastTransactionDate = policyExpirationDateOffer;
+		}
 	}
 
 	protected void renewalPremiumNotice() {
@@ -109,11 +116,12 @@ public class Scenario8 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();
+
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).setPaymentPlan(BillingConstants.PaymentPlan.QUARTERLY)
 				.verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).setPaymentPlan(BillingConstants.PaymentPlan.QUARTERLY_RENEWAL)
 				.verifyRowWithEffectiveDate(policyExpirationDate);
-		verifyRenewPremiumNotice(policyExpirationDate, billDate);
+		verifyRenewPremiumNotice(policyExpirationDate, billDate, getPligaOrMvleFee(pligaOrMvleFeeLastTransactionDate));
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 
 		BillingSummaryPage.showPriorTerms();
@@ -131,10 +139,15 @@ public class Scenario8 extends ScenarioBaseTest {
 			policy.renew().performAndFill(td);
 		} else {
 			policy.endorse().performAndFill(td);
+			PurchaseTab purchaseTab = new PurchaseTab();
+			if (purchaseTab.isVisible()) {
+				purchaseTab.payRemainingBalance().submitTab();
+			}
 			PolicyHelper.verifyEndorsementIsCreated();
 		}
 
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
+		LocalDateTime transactionDate = TimeSetterUtil.getInstance().getCurrentTime();
+		TimeSetterUtil.getInstance().nextPhase(transactionDate);
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		mainApp().open();
 
@@ -148,6 +161,10 @@ public class Scenario8 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPaymentPlan(paymentPlan).verifyRowWithEffectiveDate(expectedEffectiveDate);
 		new BillingInstallmentsScheduleVerifier().setDescription(BillingConstants.InstallmentDescription.INSTALLMENT).verifyCount(expectedInstallmentsNumber);
+
+		if (verifyPligaOrMvleFee(transactionDate)) {
+			pligaOrMvleFeeLastTransactionDate = transactionDate;
+		}
 	}
 
 	private void verifyRenewalsStatus(String status) {

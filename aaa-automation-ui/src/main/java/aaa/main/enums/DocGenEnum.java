@@ -1,5 +1,7 @@
 package aaa.main.enums;
 
+import org.apache.commons.lang.StringUtils;
+
 public final class DocGenEnum {
 	private DocGenEnum() {
 	}
@@ -79,6 +81,7 @@ public final class DocGenEnum {
 		AH35XX("Autopay Schedule Compilation"),
 		AHRBXX("AHRBXX", "Insurance Renewal Bill"),
 		AA43AZ("Named Driver Exclusion Election"),
+		AA43IN("Named Driver Exclusion Election"),
 		AASR22("Financial Responsibility"),
 		AA59XX("EXISTING DAMAGE ENDORSEMENT"),
 		DS02("Rental Property Policy Declaration"),
@@ -96,9 +99,12 @@ public final class DocGenEnum {
 		DS2482("DS 24 82", ""),
 		AAGCAZ("Golf Cart Coverage Endorsement"),
 		AA52AZ("Uninsured and Underinsured Motorist Coverage selection form"),
+		AA52IN("Uninsured/Underinsured Motorist Coverage selection form - Rejection or Election of Lower Limits"),
+		AA53IN("Rejection of Uninsured Motorist Property Damage Coverage"),
 		AARFIXX("Request for Information"),
 		AA10XX("Insurance Identification Card"),
 		AA02AZ("Declaration page"),
+		AA02IN("Declaration page"),
 		AHCWXX("AHCWXX", "Cancellation Notice Withdrawn"),
 		AH34XX("AH34XX","AH34XX","Cancellation Notice Document (NonPayment)"),
 		_55_6101("55 6101", "Earned Premium Bill 1"),
@@ -115,9 +121,11 @@ public final class DocGenEnum {
 		_61_6528_HO6("61 6528", "Condominium Owners Insurance Quote Page"),
 		_61_6528_DP3("61 6528", "Rental Property Insurance Quote Page"),
 		F1122("Property Inventory List"),
+		_347A0086("347A0086", "Offer of Earthquake Coverage"),
 		_61_6530("61 6530", "California Residential Property Insurance Disclosure"),
 		_61_3000("61 3000", "California Residential Property Insurance Bill of Rights"),
 		_61_3026("61 3026", "Property Bill Plan Explanation"),
+		_61_5121("61 5121", "Renewal Thank You Letter"),
 		F1076B("California Application For Homeowners Insurance"),
 		_62_6500("62 6500", "CA Evidence of Property Insurance"),
 		WURFICA("Request for Information"),
@@ -160,18 +168,25 @@ public final class DocGenEnum {
 		HSINVAP("Important Information Regarding Your Insurance"),
 		HSINVA("Important Notice Regarding Flood and earthquake Exclusion"),
         AH64XX("Expiration Notice"),
+        AAIQAZ("Auto Insurance Quote"),
+        AATSXX("Critical Information For Teenage Drivers And Their Parents"),
+        AA41PA(""),
+        AA52UPAB(""),
+        AA52IPAB(""),
+        AA52UPAC(""),
+        AA52IPAC("")
 		;
 
 		private String id;
 		private String idInXml;
 		private String name;
-		private String state;
+		private ThreadLocal<String> state = ThreadLocal.withInitial(() -> "");
 
 		Documents() {
 			setId(this.name());
 			setIdInXml(this.name());
-			setName(""); // to prevent NPE on getName() call for documents with not defined names
-			setState(""); // to prevent NPE on getState() call for documents with not defined names
+			setName("");
+			setState("");
 		}
 
 		Documents(String docName) {
@@ -203,11 +218,11 @@ public final class DocGenEnum {
 		}
 
 		public String getState() {
-			return state;
+			return this.state.get();
 		}
 
 		public Documents setState(String state) {
-			this.state = state;
+			this.state.set(state);
 			return this;
 		}
 
@@ -215,7 +230,7 @@ public final class DocGenEnum {
 			return id + getState();
 		}
 
-		public void setId(String id) {
+		private void setId(String id) {
 			this.id = id;
 		}
 
@@ -223,7 +238,7 @@ public final class DocGenEnum {
 			return idInXml;
 		}
 
-		public void setIdInXml(String idInXml) {
+		private void setIdInXml(String idInXml) {
 			this.idInXml = idInXml;
 		}
 
@@ -231,7 +246,7 @@ public final class DocGenEnum {
 			return name;
 		}
 
-		public void setName(String name) {
+		private void setName(String name) {
 			this.name = name;
 		}
 
@@ -240,8 +255,8 @@ public final class DocGenEnum {
 			String documentInfo = "Documents{id='%1$s'%2$s%3$s%4$s}'";
 			return String.format(documentInfo, getId(),
 					getIdInXml().equals(getId()) ? "" : ", idInXml='" + getIdInXml() + "'",
-					getName().isEmpty() ? "" : ", name='" + getName() + "'",
-					getState().isEmpty() ? "" : ", state='" + getState() + "'");
+					StringUtils.isEmpty(getName()) ? "" : ", name='" + getName() + "'",
+					StringUtils.isEmpty(getState()) ? "" : ", state='" + getState() + "'");
 		}
 	}
 

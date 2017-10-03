@@ -9,19 +9,23 @@ import java.util.function.Function;
 
 public abstract class SearchBy<N, D> {
 	public static StandardDocumentRequestNode standardDocumentRequest = new StandardDocumentRequestNode();
-	protected static Map<String, String> commonSearchCriteriaMap = new LinkedHashMap<>();
-	protected Map<String, Pair<Function<D, String>, String>> conditionsMap = new LinkedHashMap<>();
 
-	protected abstract String getNodePath();
+	private static ThreadLocal<Map<String, String>> commonSearchCriteriaMap = ThreadLocal.withInitial(LinkedHashMap::new);
+	private ThreadLocal<Map<String, Pair<Function<D, String>, String>>> conditionsMap = ThreadLocal.withInitial(LinkedHashMap::new);
 
 	public abstract List<D> search(StandardDocumentRequest sDocumentRequest);
+	protected abstract String getNodePath();
 
 	@SuppressWarnings("unchecked")
 	protected final N addCondition(String conditionName, Function<D, String> conditionFunction, String expectedValue) {
 		String searchCriteriaPath = getNodePath() + "\\" + conditionName;
-		conditionsMap.put(searchCriteriaPath, new Pair<>(conditionFunction, expectedValue));
-		commonSearchCriteriaMap.put(searchCriteriaPath, expectedValue);
+		conditionsMap.get().put(searchCriteriaPath, new Pair<>(conditionFunction, expectedValue));
+		commonSearchCriteriaMap.get().put(searchCriteriaPath, expectedValue);
 		return (N) this;
+	}
+
+	protected void clearConditions() {
+		conditionsMap.get().clear();
 	}
 
 	public List<D> filter(D input) {
@@ -29,14 +33,14 @@ public abstract class SearchBy<N, D> {
 	}
 
 	public List<D> filter(List<D> inputList) {
-		if (conditionsMap.isEmpty()) {
+		if (conditionsMap.get().isEmpty()) {
 			return inputList;
 		}
 
 		List<D> filteredList = new ArrayList<>();
 		for (D d : inputList) {
 			boolean allConditionsAreMet = true;
-			for (Map.Entry<String, Pair<Function<D, String>, String>> condition : conditionsMap.entrySet()) {
+			for (Map.Entry<String, Pair<Function<D, String>, String>> condition : conditionsMap.get().entrySet()) {
 				if (!isConditionMet(condition.getValue().getKey().apply(d), condition.getValue().getValue())) {
 					allConditionsAreMet = false;
 					break;
@@ -53,11 +57,11 @@ public abstract class SearchBy<N, D> {
 	@Override
 	public String toString() {
 		StringBuilder conditionsOutput = new StringBuilder("SearchBy{\n");
-		for (Map.Entry<String, String> searchCriteria : commonSearchCriteriaMap.entrySet()) {
+		for (Map.Entry<String, String> searchCriteria : commonSearchCriteriaMap.get().entrySet()) {
 			conditionsOutput.append("  \"").append(searchCriteria.getKey()).append("\" -> \"").append(searchCriteria.getValue()).append("\"\n");
 		}
 		conditionsOutput.append("}");
-		commonSearchCriteriaMap.clear();
+		commonSearchCriteriaMap.get().clear();
 		return conditionsOutput.toString();
 	}
 

@@ -7,7 +7,7 @@ import aaa.main.metadata.BillingAccountMetaData;
 
 public class UpdateBillingAccountActionTab extends ActionTab {
 
-    public UpdateBillingAccountActionTab() {
-        super(BillingAccountMetaData.UpdateBillingAccountActionTab.class);
-    }
+	public UpdateBillingAccountActionTab() {
+		super(BillingAccountMetaData.UpdateBillingAccountActionTab.class);
+	}
 }

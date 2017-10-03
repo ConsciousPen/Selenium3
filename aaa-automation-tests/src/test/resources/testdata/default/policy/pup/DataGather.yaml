@@ -198,7 +198,7 @@ TestData_CA: {
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_CA',
   DocumentsTab: '@DocumentsTab',
   BindTab: '@BindTab',
-  ErrorTab: '@ErrorTab_CA',
+  #ErrorTab: '@ErrorTab_CA',
   PurchaseTab: '@PurchaseTab'
 }  
 
@@ -213,15 +213,12 @@ PrefillTab_CA: {
 
   ActiveUnderlyingPolicies: [{
     Add: click,
-    #ActiveUnderlyingPoliciesSearch: {
-      #Policy Type: HO3,
-      #Policy Number: Primary_HO3  
-    #}, 
+    ActiveUnderlyingPoliciesSearch: {
+      Policy Type: HO3,
+      Policy Number: Primary_HO3
+    },
     ActiveUnderlyingPoliciesManual: {
-      Policy type: HO3,
-      Policy number: Primary_HO3,
       Primary policy: 'Yes',
-      State: CA
     }
   }, 
   {
@@ -294,17 +291,17 @@ UnderwritingAndApprovalTab_CA: {
   "Any resident self-employed, public lecturer, broadcaster, telecaster, newspaper reporter, editor, publisher, professional actor or entertainer, author, professional athlete or similar, or holder of any elected or appointed public offices?": 'No'
 }
 
-ErrorTab_CA: {
-    ErrorsOverride: [
-      {
-        Message: "contains=Approval required for PUP when underlying policy cannot be verified",
-        Override: 'true',
-        Approval: 'true',
-        Duration: Life,
-        Reason for override: index=1
-      }
-    ]
-  }
+#ErrorTab_CA: {
+#    ErrorsOverride: [
+#      {
+#        Message: "contains=Approval required for PUP when underlying policy cannot be verified",
+#        Override: 'true',
+#        Approval: 'true',
+#        Duration: Life,
+#        Reason for override: index=1
+#      }
+#    ]
+#  }
 
 # --------------------- CO ---------------------
 TestData_CO: {

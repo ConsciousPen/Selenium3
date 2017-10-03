@@ -1,0 +1,70 @@
+TestData: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  },
+  AcceptPaymentActionTab: {
+    Payment Method: 'Cash',
+    Amount: 10,
+  },
+  DeclinePaymentActionTab: {
+  }
+}
+
+EndorsementActionTab: {
+    Endorsement Date: /today,
+    Endorsement Reason: Maintain Vehicle(s)
+}
+
+DriverTab: {
+    ADB Coverage: 'Yes'
+}
+
+PremiumAndCoveragesTab : {
+    Override Premium: {
+    Bodily Injury Liability By Flat Amount: '-20',
+    Reason for Override: 'OTHER',
+    Other Reason: 'CFT tests'
+    }
+}
+
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Eleven Pay - Standard,
+  Policy Term: Annual,
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750',
+  Collision Deductible: 'contains=$500',
+  Special Equipment Coverage: 1100
+}
+
+PremiumAndCoveragesTab_DataGather_MD: {
+  Payment Plan: Eleven Pay - Standard,
+  Policy Term: Annual,
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750',
+  Collision Deductible: 'contains=$500',
+  Special Equipment: 1100
+}
+
+PurchaseTab_DataGather: {
+  Change Minimum Down Payment: true,
+  Minimum Required Down Payment: 50,
+  PaymentAllocation: {
+    Cash: 50
+  }
+}
+
+PurchaseTab_DataGather_NJ: {
+  Change Minimum Down Payment: true,
+  Minimum Required Down Payment: 50,
+  PaymentAllocation: {
+    Cash: 66
+  }
+}

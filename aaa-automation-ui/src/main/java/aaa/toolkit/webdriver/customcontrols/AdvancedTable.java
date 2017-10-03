@@ -238,7 +238,7 @@ public class AdvancedTable extends TableWithPages {
 	}
 
 	private TextBox getFilterTextBoxByHeadersCell(Cell cell) {
-		return new TextBox(new ByChained(getLocator(), cell.getLocator(), By.xpath(".//input")), Waiters.AJAX);
+		return new TextBox(new ByChained(getLocator(), cell.getLocator(), By.xpath(".//input")), Waiters.SLEEP(500).then(Waiters.AJAX));
 	}
 
 	public class TableState {

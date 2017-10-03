@@ -15,6 +15,23 @@ Vehicle2: {
   VIN: 1B3BA46K4KF440231
 }
 
+#---- NY ----
+
+TestData_NY: {
+  VehicleTab: ['@Vehicle1_NY', '@Vehicle2'],
+  PremiumAndCoveragesTab: {
+    Payment Plan: Quarterly
+  }
+}
+
+Vehicle1_NY: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273,
+  "Less Than 3,000 Miles": 'No'
+}
+
+#---- Endorsement ----
+
 TestData_EndorsementRP: {
   GeneralTab: {},
   DriverTab: {},
@@ -25,6 +42,27 @@ TestData_EndorsementRP: {
       Confirm Remove: click
     }]
   },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+#---- Endorsement NY ----
+
+TestData_EndorsementRP_NY: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {
+    List of Vehicle: [{}, {
+      'column=5': Remove,
+      Confirm Remove: click
+    }]
+  },
+  AssignmentTab: {},  
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},

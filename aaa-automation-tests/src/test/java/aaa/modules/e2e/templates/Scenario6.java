@@ -7,6 +7,7 @@ import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
+import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -49,6 +50,7 @@ public class Scenario6 extends ScenarioBaseTest {
 
 	protected LocalDateTime policyEffectiveDate;
 	protected LocalDateTime policyExpirationDate;
+	protected LocalDateTime pligaOrMvleFeeLastTransactionDate;
 
 	protected List<LocalDateTime> installmentDueDates;
 	protected List<Dollar> installmentsAmounts;
@@ -61,6 +63,9 @@ public class Scenario6 extends ScenarioBaseTest {
 	protected String[] endorsementReasonDataKeys;
 	protected int installmentsCount = 4;
 
+	protected String policyTerm;
+	protected Integer totalVehiclesNumber;
+
 	protected void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();
 
@@ -70,6 +75,10 @@ public class Scenario6 extends ScenarioBaseTest {
 		if (getPolicyType().equals(PolicyType.PUP)) {
 			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
 		}
+
+		policyTerm = getPolicyTerm(policyCreationTD);
+		totalVehiclesNumber = getVehiclesNumber(policyCreationTD);
+
 		policyNum = createPolicy(policyCreationTD);
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
@@ -81,6 +90,8 @@ public class Scenario6 extends ScenarioBaseTest {
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
 		CustomAssert.assertEquals("Billing Installments count for Quaterly payment plan", installmentsCount, installmentDueDates.size());
 		installmentAmount = BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(1));
+
+		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}
 
 	protected void generateFirstBill() {
@@ -268,7 +279,8 @@ public class Scenario6 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 
 		Dollar overpayment = new Dollar(200);
-		Dollar renewOfferAmount = BillingHelper.getBillMinDueAmount(policyExpirationDate, BillsAndStatementsType.OFFER).add(overpayment);
+		String billType = getState().equals(States.CA) ? BillsAndStatementsType.OFFER : BillsAndStatementsType.BILL;
+		Dollar renewOfferAmount = BillingHelper.getBillMinDueAmount(policyExpirationDate, billType).add(overpayment);
 
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), renewOfferAmount);
 
@@ -294,7 +306,7 @@ public class Scenario6 extends ScenarioBaseTest {
 
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
-		if (!getPolicyType().equals(PolicyType.PUP) && !getPolicyType().equals(PolicyType.AUTO_SS))
+		if (getPolicyType().equals(PolicyType.HOME_CA_HO3) || getPolicyType().equals(PolicyType.HOME_SS_HO3))
 			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
 	}
 

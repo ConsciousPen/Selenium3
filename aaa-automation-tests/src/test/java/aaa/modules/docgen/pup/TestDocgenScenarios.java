@@ -124,16 +124,19 @@ public class TestDocgenScenarios extends PersonalUmbrellaBaseTest{
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum,PSIQXX,AHPNXX);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.quoteDocGen().start();
 		goddTab.generateDocuments(PS11,AHFMXX);
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum,PS11,AHPNXX,AHFMXX);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.quoteDocGen().start();
 		goddTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"), HSU03XX,HSU04XX,HSU05XX,HSU06XX,HSU08XX);
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum,HSU03XX,HSU04XX,HSU05XX,HSU06XX,HSU08XX);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
 		policy.dataGather().start();
 		NavigationPage.toViewTab(PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
 		NavigationPage.toViewTab(PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
