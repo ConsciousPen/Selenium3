@@ -60,7 +60,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		LocalDateTime endorsePlus2 = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
 		log.info("Endorsement date: " + endorsePlus2);
 		TimeSetterUtil.getInstance().nextPhase(endorsePlus2.plusDays(2)); // check future dated endorsement
-		performAndCheckEndorsement(endorsePlus2.plusDays(2));
+		performAndCheckEndorsement(endorsePlus2.plusDays(2).with(DateTimeUtils.closestFutureWorkingDay));
 		log.info("Endorsment action finished successfully");
 	}
 
@@ -315,11 +315,11 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).verifyRowWithDueDate(date);
 	}
 
-	private void performAndCheckEndorsement(LocalDateTime endorsementDate) {
+	private void performAndCheckEndorsement(LocalDateTime endorsementDueDate) {
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber.get());
 		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementDate.format(DateTimeUtils.MM_DD_YYYY), policyNumber.get()));
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementDueDate.format(DateTimeUtils.MM_DD_YYYY), policyNumber.get()));
 	}
 
 }
