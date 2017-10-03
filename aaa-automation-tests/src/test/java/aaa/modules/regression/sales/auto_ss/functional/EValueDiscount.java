@@ -186,7 +186,7 @@ public class EValueDiscount extends AutoSSBaseTest {
     //epic PAS-1438 eValue - New Business
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-272")
     public void pas272_eValueDiscountApplied(@Optional("VA") String state) {
 
         eValueQuoteCreationVA();
@@ -273,7 +273,7 @@ public class EValueDiscount extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-305")
     public void pas305_eValueNotApplicableForState(@Optional("PA") String state) {
         eValueQuoteCreationVA();
 

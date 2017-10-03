@@ -38,7 +38,7 @@ public class AdditionalTriggersAH35XX extends AutoSSBaseTest {
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2241")
     public void pas2241_AdditionalTriggersAH35XX(@Optional("") String state) {
 
         mainApp().open();

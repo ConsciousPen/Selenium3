@@ -60,4 +60,8 @@ public class DocumentsAndBindTab extends Tab {
 	public AssetList getPaperlessPreferencesAssetList() {
 		return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PAPERLESS_PREFERENCES.getLabel(), AssetList.class);
 	}
+
+	public AssetList getDocumentPrintingDetailsAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENT_PRINTING_DETAILS.getLabel(), AssetList.class);
+	}
 }

@@ -26,6 +26,7 @@ public class PaperlessPreferences extends AutoSSBaseTest {
      * @scenario 1. Create new Paperless Preferences eligible quote but for the not eligible state (PA)
      * 2. Check Enrolled in Paperless? field and Manage Paperless Preferences button are shown in Documents tab
      * 3. Check Manage Paperless Preferences button is enabled
+     * 4. Check Documents Delivery section fields are present
      * 4. Save and Exist
      * 5. Open quote in Inquiry mode
      * 6. Check Manage Paperless Preferences button is disabled
@@ -33,7 +34,7 @@ public class PaperlessPreferences extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-282")
     public void pas282_eValuePaperlessPreferences(@Optional("VA") String state) {
 
         EValueDiscount eValueDiscount = new EValueDiscount();
@@ -48,17 +49,26 @@ public class PaperlessPreferences extends AutoSSBaseTest {
         documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.enabled(false);
         documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.value("Yes");
 
-        documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.MANAGE_PAPERLESS_PREFERENCES).verify.present();
-        documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.MANAGE_PAPERLESS_PREFERENCES).verify.enabled();
-        //PAS-282, PAS-268 end
+        documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES).verify.present();
+        documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES).verify.enabled();
+
+        //left overs of previous functionality. Showing Hiding rules will change with new story
+        documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.SUPPRESS_PRINT).verify.present();
+        documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.ISSUE_DATE).verify.present();
+        documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.METHOD_OF_DELIVERY).verify.present();
+        documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL).verify.present();
+        //PAS-266 start
+        documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES).click();
+        documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.EDIT_PAPERLESS_PREFERENCES_BTN_DONE).click();
+        //PAS-282, PAS-268, PAS-266 end
 
         documentsAndBindTab.saveAndExit();
         policy.quoteInquiry().start();
 
         //PAS-269 start
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.MANAGE_PAPERLESS_PREFERENCES).verify.present();
-        documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.MANAGE_PAPERLESS_PREFERENCES).verify.enabled(false);
+        documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES).verify.present();
+        documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES).verify.enabled(false);
         //PAS-269 end
 
         documentsAndBindTab.cancel();
@@ -71,13 +81,14 @@ public class PaperlessPreferences extends AutoSSBaseTest {
      * @name Test Paperless Preferences not shown for state where it is not configured
      * @scenario 1. Create new Paperless Preferences eligible quote but for the not eligible state (PA)
      * 2. Check Enrolled in Paperless? field and Manage Paperless Preferences button are not shown in Documents tab
+     * 3. Check Document Printing Details section's fields are present
      * @details
      */
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void pas838_eValuePaperlessPreferences(@Optional("PA") String state) {
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-838")
+    public void pas838_eValuePaperlessPreferencesNotConfiguredForState(@Optional("PA") String state) {
 
         EValueDiscount eValueDiscount = new EValueDiscount();
         eValueDiscount.eValueQuoteCreationVA();
@@ -87,7 +98,13 @@ public class PaperlessPreferences extends AutoSSBaseTest {
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
         documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.present(false);
-        documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.MANAGE_PAPERLESS_PREFERENCES).verify.present(false);
+        documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES).verify.present(false);
+
+        documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.SUPPRESS_PRINT).verify.present();
+        documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.ISSUE_DATE).verify.present();
+        documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.METHOD_OF_DELIVERY).verify.present();
+        documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL).verify.present();
+
         documentsAndBindTab.saveAndExit();
 
         CustomAssert.disableSoftMode();
@@ -95,13 +112,13 @@ public class PaperlessPreferences extends AutoSSBaseTest {
     }
 
     //TODO what needs to be automated
-/*PAS-838
+/*PAS-838 - done
     GIVEN that Paperless Preferences have not been enabled for my state/product/effective date
     WHEN I navigate to the Bind tab
     THEN I should not see the Preferences section visible
 */
 
-/*PAS-266
+/*PAS-266 - done
 * GIVEN the agent is creating a new quote/viewing a policy in other than View Only mode
 * WHEN I click on the Paperless Preferences button
 * THEN I see the Preferences UI
@@ -154,7 +171,8 @@ THEN the answer is updated with my new current paperless billing preferences enr
 */
 
 /*
-*  	PAS-282 	Move Paperless Preferences Button from General Info to Bind Info Page
+*  	PAS-282 - done
+*  	Move Paperless Preferences Button from General Info to Bind Info Page
 *
 * */
 
@@ -206,5 +224,7 @@ As an Agent, I do not want to see the document delivery section on the bind page
 Given that I am enrolled in eValueAND at NB + 15 I did not meet the policy paperless preferences CriteriaAND AT NB+ 30 I have still not purchased Membership or I have still not signed up for Paperless Billing and policy PreferencesWHEN the system validates NB + 30THEN the eValue status is updated to show Inactive and a user note is added to show the eValue discount is removed
 * */
 
-
+//TODO PAS-287 - Help text not working
+    //TODO PAS-283 - document Delivery section
+    //TODO Graybox questions
 }
