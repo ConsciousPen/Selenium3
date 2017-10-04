@@ -6,9 +6,9 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.apache.commons.io.output.FileWriterWithEncoding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.ITestContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.utils.logging.CustomLogger;
 import toolkit.verification.CustomAssert;
@@ -33,12 +33,16 @@ public class ConversionUtils {
 	protected static Logger log = LoggerFactory.getLogger(ConversionUtils.class);
 
 	public static String importPolicy(ConversionPolicyData conversionData) {
+		return importPolicy(conversionData, null);
+	}
+
+	public static String importPolicy(ConversionPolicyData conversionData, ITestContext context) {
 		File importFile = prepareXML(conversionData);
 		RemoteHelper.uploadFile(importFile.getAbsolutePath(), conversionData.getConversionType().getRemoteImportFolder() + importFile.getName());
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		JobUtils.executeJob(conversionData.getConversionType().getJob());
-		String policyNum = verifyResponseSuccessAndGetNumber(conversionData.getConversionType(), importFile.getName());
-		log.info(String.format("Conversion policy with type %s imported with number %s"), conversionData.getConversionType().name(), policyNum);
+		String policyNum = verifyResponseSuccessAndGetNumber(conversionData.getConversionType(), importFile.getName(), context);
+		log.info(String.format("Conversion policy with type %s imported with number %s", conversionData.getConversionType().name(), policyNum));
 		return policyNum;
 	}
 
@@ -74,10 +78,13 @@ public class ConversionUtils {
 		return changedFile;
 	}
 
-	protected static String verifyResponseSuccessAndGetNumber(ConversionType conversionType, String fileName) {
+	protected static String verifyResponseSuccessAndGetNumber(ConversionType conversionType, String fileName, ITestContext context) {
 		String responseFilePath = conversionType.getRemoteResponseFolder() + fileName;
 		String downloadTo = CustomLogger.getLogDirectory() + File.separator + "downloaded_files" + File.separator + fileName;
-		RemoteHelper.downloadFile(responseFilePath, downloadTo);
+		RemoteHelper.downloadFileWithWait(responseFilePath, downloadTo, 30000);
+		if (context != null) {
+			context.setAttribute("attachment", downloadTo);
+		}
 
 //		try {
 //			log.debug("Response file data\n" + FileUtils.readFileToString(new File(downloadTo)));
@@ -104,7 +111,6 @@ public class ConversionUtils {
 			//try to find reason of import failure in response file
 			StringBuilder message = new StringBuilder();
 			try {
-
 				NodeList nodes = (NodeList) xpath.compile("//importResponse/message").evaluate(document, XPathConstants.NODESET);
 				message.append(nodes.item(0).getTextContent()).append(": ");
 
