@@ -81,7 +81,6 @@ public class PaperlessPreferences extends AutoSSBaseTest {
         documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES).verify.present();
         documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES).verify.enabled(false);
         //PAS-269 end
-
         documentsAndBindTab.cancel();
 
         //PAS-283 continue
