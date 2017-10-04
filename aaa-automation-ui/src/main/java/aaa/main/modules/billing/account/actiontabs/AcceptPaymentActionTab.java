@@ -40,7 +40,7 @@ public class AcceptPaymentActionTab extends ActionTab {
     }
 
     @Override
-    public Tab submitTab() {
+    public synchronized Tab submitTab() {
         buttonOk.click();
         return this;
     }

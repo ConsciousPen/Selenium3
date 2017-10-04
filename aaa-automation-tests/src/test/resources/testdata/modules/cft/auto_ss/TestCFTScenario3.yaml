@@ -60,3 +60,11 @@ PurchaseTab_DataGather: {
     Cash: 50
   }
 }
+
+PurchaseTab_DataGather_NJ: {
+  Change Minimum Down Payment: true,
+  Minimum Required Down Payment: 50,
+  PaymentAllocation: {
+    Cash: 66
+  }
+}
