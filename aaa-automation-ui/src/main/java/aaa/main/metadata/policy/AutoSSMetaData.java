@@ -569,15 +569,6 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<TextBox> ISSUE_DATE = declare("Issue Date", TextBox.class);
 		public static final AssetDescriptor<ComboBox> METHOD_OF_DELIVERY = declare("Method Of Delivery", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> INCLUDE_WITH_EMAIL = declare("Include with Email", ComboBox.class);
-		public static final AssetDescriptor<ComboBox> SEND_TO = declare("Send To", ComboBox.class);
-		public static final AssetDescriptor<ComboBox> COUNTRY = declare("Country", ComboBox.class);
-		public static final AssetDescriptor<TextBox> ZIP_POSTAL_CODE = declare("Zip/Postal Code", TextBox.class);
-		public static final AssetDescriptor<TextBox> ADDRESS_LINE_1 = declare("Address Line 1", TextBox.class);
-		public static final AssetDescriptor<TextBox> ADDRESS_LINE_2 = declare("Address Line 2", TextBox.class);
-		public static final AssetDescriptor<TextBox> ADDRESS_LINE_3 = declare("Address Line 3", TextBox.class);
-		public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class);
-		public static final AssetDescriptor<TextBox> STATE_PROVINCE = declare("State / Province", TextBox.class);		
-		public static final AssetDescriptor<TextBox> NOTES = declare("Notes", TextBox.class);
 		
 		public static final AssetDescriptor<TextBox> Authorized_By = declare("Authorized By", TextBox.class);
 
