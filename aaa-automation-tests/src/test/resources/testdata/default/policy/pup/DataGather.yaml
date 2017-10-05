@@ -235,10 +235,6 @@ PrefillTab_CA: {
 
 GeneralTab_CA: {
   PolicyInfo: '@PolicyInfo_CA',
-  DwellingAddress: {
-    Validate Address: click,
-    Validate Address Dialog: {}
-  },
   NamedInsuredContactInformation: '@NamedInsuredContactInformation'
 }
 
