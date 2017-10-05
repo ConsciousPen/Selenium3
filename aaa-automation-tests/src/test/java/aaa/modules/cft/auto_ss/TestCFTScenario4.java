@@ -25,9 +25,9 @@ public class TestCFTScenario4 extends ControlledFinancialBaseTest {
 	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
-	public void cftTestScenario4Test(@Optional(StringUtils.EMPTY) String state) {
+	public void cftTestScenario4(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
-		generateFirstInstallmentBill();
+		generateInstallmentBill(1);
 		payInstallmentWithMinDue();
 		endorsePolicyEffDatePlus16Days();
 		acceptPaymentEffDatePlus25();

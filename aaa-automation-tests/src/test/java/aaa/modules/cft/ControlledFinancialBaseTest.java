@@ -59,7 +59,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected void endorsePolicyEffDatePlus2Days() {
 		log.info("Endorsment action started");
 		LocalDateTime endorsePlus2 = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
-		log.info("Endorsement date: " + endorsePlus2);
+		log.info("Endorsement date: {}", endorsePlus2);
 		TimeSetterUtil.getInstance().nextPhase(endorsePlus2);
 		performAndCheckEndorsement(endorsePlus2.plusDays(2)); // future dated endorse +2 d
 		log.info("Endorsment action completed successfully");
@@ -73,7 +73,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected void endorsePolicyEffDatePlus16Days() {
 		log.info("Endorsment action started");
 		LocalDateTime endorsePlus16 = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
-		log.info("Endorsement date: " + endorsePlus16);
+		log.info("Endorsement date: {}", endorsePlus16);
 		TimeSetterUtil.getInstance().nextPhase(endorsePlus16);
 		performAndCheckEndorsement(endorsePlus16);
 		log.info("Endorsment action completed successfully");
@@ -85,7 +85,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected void acceptPaymentEffDatePlus25() {
 		log.info("Accept payment action started");
 		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
-		log.info("Accept payment date: " + paymentDate);
+		log.info("Accept payment date: {}", paymentDate);
 		TimeSetterUtil.getInstance().nextPhase(paymentDate);
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
@@ -114,10 +114,10 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	/**
 	 * Decline Payment on cancellation Notice generation day
 	 */
-	protected void decline10DollarsPayment() {
+	protected void decline10DollarsPaymentOnCancellationNoticeDate() {
 		LocalDateTime cancellationNoticeDate = getTimePoints().getCancellationNoticeDate(installments.get().get(1));
 		log.info("Decline Payment action started");
-		log.info("Decline Payment date: " + cancellationNoticeDate);
+		log.info("Decline Payment date: {}", cancellationNoticeDate);
 		TimeSetterUtil.getInstance().nextPhase(cancellationNoticeDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
@@ -134,24 +134,48 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	/**
-	 * Bill generation for first installment of the policy
+	 * Other Adjustment on cancellation Notice generation day
 	 */
-	protected void generateFirstInstallmentBill() {
-		LocalDateTime billDueDate = getTimePoints().getBillGenerationDate(installments.get().get(1));
-		log.info("Installment generation started");
-		log.info("Installment generation date: " + billDueDate);
+	protected void otherAdjustmentOnCancellationNoticeDate() {
+		LocalDateTime cancellationNoticeDate = getTimePoints().getCancellationNoticeDate(installments.get().get(1));
+		log.info("Other Adjustment action started");
+		log.info("Other Adjustment date: {}", cancellationNoticeDate);
+		TimeSetterUtil.getInstance().nextPhase(cancellationNoticeDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openBilling(policyNumber.get());
+		billingAccount.otherTransactions().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		new BillingPaymentsAndTransactionsVerifier()
+				.setTransactionDate(cancellationNoticeDate)
+				.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
+				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PAYMENT_DECLINED)
+				.setAmount(new Dollar(10))
+				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
+				.verifyPresent();
+		log.info("Decline payment action completed successfully");
+	}
+
+	/**
+	 * Bill generation for provided installment of the policy
+	 *
+	 * @param installmentNumber number of the installment
+	 */
+	protected void generateInstallmentBill(int installmentNumber) {
+		LocalDateTime billDueDate = getTimePoints().getBillGenerationDate(installments.get().get(installmentNumber));
+		log.info("{} Installment generation started", installmentNumber);
+		log.info("{} Installment generation date: {}", installmentNumber, billDueDate);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
 		new BillingBillsAndStatementsVerifier()
 				.setType(BillingConstants.BillsAndStatementsType.BILL)
-				.setDueDate(installments.get().get(1))
+				.setDueDate(installments.get().get(installmentNumber))
 				.setMinDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue()))
 				.setPastDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PAST_DUE).getValue()))
 				.setTotalDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue()))
 				.verifyPresent();
-		log.info("Installment generation completed successfully");
+		log.info("{} Installment generation completed successfully", installmentNumber);
 	}
 
 	/**
@@ -163,7 +187,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected void waiveFee() {
 		log.info("Waive action started");
 		LocalDateTime plus16Days = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
-		log.info("Waive date: " + plus16Days);
+		log.info("Waive date: {}", plus16Days);
 		TimeSetterUtil.getInstance().nextPhase(plus16Days);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
@@ -185,7 +209,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected void manualFutureCancellationEffDatePlus25Days() {
 		log.info("Manual cancellation action started");
 		LocalDateTime plus25Days = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
-		log.info("Manual cancellation date: " + plus25Days);
+		log.info("Manual cancellation date: {}", plus25Days);
 		TimeSetterUtil.getInstance().nextPhase(plus25Days);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
@@ -209,12 +233,12 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected void manualReinstatement() {
 		log.info("Manual reinstatement action started");
 		LocalDateTime reinstatementDate = getTimePoints().getCancellationNoticeDate(installments.get().get(1));
-		log.info("Manual reinstatement date: " + reinstatementDate);
+		log.info("Manual reinstatement date: {}", reinstatementDate);
 		TimeSetterUtil.getInstance().nextPhase(reinstatementDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber.get());
-		policy.reinstate().perform(DataProviderFactory.dataOf(DEFAULT_TEST_DATA_KEY,getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("ReinstatementActionTab")));
+		policy.reinstate().perform(DataProviderFactory.dataOf(DEFAULT_TEST_DATA_KEY, getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("ReinstatementActionTab")));
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Reinstatement for Policy %1$s", policyNumber.get()));
 		log.info("Manual reinstatement action completed successfully");
 	}
@@ -225,7 +249,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected void automaticCancellationNotice() {
 		LocalDateTime cancellationNoticeDate = getTimePoints().getCancellationNoticeDate(installments.get().get(1));
 		log.info("Cancellation Notice action started");
-		log.info("Cancellation Notice date: " + cancellationNoticeDate);
+		log.info("Cancellation Notice date: {}", cancellationNoticeDate);
 		LocalDateTime expCancellationDate = getTimePoints().getCancellationTransactionDate(installments.get().get(1));
 		TimeSetterUtil.getInstance().nextPhase(cancellationNoticeDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
@@ -239,12 +263,12 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	/**
-	 * Endorsement of the policy
+	 * Cancellation of the policy
 	 */
 	protected void automaticCancellation() {
 		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(installments.get().get(1));
 		log.info("Cancellation action started");
-		log.info("Cancellation date: " + cancellationDate);
+		log.info("Cancellation date: {}", cancellationDate);
 		TimeSetterUtil.getInstance().nextPhase(cancellationDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
@@ -259,7 +283,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected void generateFirstEarnedPremiumBill() {
 		LocalDateTime firstEPBillDate = getTimePoints().getEarnedPremiumBillFirst(installments.get().get(1));
 		log.info("First EP bill generation started");
-		log.info("First EP bill generated date: " + firstEPBillDate);
+		log.info("First EP bill generated date: {}", firstEPBillDate);
 		generateAndCheckEarnedPremiumBill(firstEPBillDate);
 		log.info("First EP bill generated successfully");
 	}
@@ -270,7 +294,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected void generateSecondEarnedPremiumBill() {
 		LocalDateTime secondEPBillDate = getTimePoints().getEarnedPremiumBillSecond(installments.get().get(1));
 		log.info("Second EP bill generation started");
-		log.info("Second EP bill generated date: " + secondEPBillDate);
+		log.info("Second EP bill generated date: {}", secondEPBillDate);
 		generateAndCheckEarnedPremiumBill(secondEPBillDate);
 		log.info("Second EP bill generated successfully");
 	}
@@ -281,7 +305,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected void generateThirdEarnedPremiumBill() {
 		LocalDateTime thirdEPBillDate = getTimePoints().getEarnedPremiumBillThird(installments.get().get(1));
 		log.info("Third EP bill generation started");
-		log.info("Third EP bill generated date: " + thirdEPBillDate);
+		log.info("Third EP bill generated date: {}", thirdEPBillDate);
 		generateAndCheckEarnedPremiumBill(thirdEPBillDate);
 		log.info("Third EP bill generated successfully");
 	}

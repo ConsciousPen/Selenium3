@@ -3,8 +3,7 @@ PremiumAndCoveragesTab_DataGather: {
   Policy Term: 'Annual',
   Bodily Injury Liability: 'contains=$100,000/$300,000',
   Comprehensive Deductible: 'contains=$750',
-  Collision Deductible: 'contains=$500',
-  Special Equipment Coverage: '1100'
+  Collision Deductible: 'contains=$500'
 }
 
 PremiumAndCoveragesTab_DataGather_MD: {
@@ -12,8 +11,7 @@ PremiumAndCoveragesTab_DataGather_MD: {
   Policy Term: 'Annual',
   Bodily Injury Liability: 'contains=$100,000/$300,000',
   Comprehensive Deductible: 'contains=$750',
-  Collision Deductible: 'contains=$500',
-  Special Equipment: '1100'
+  Collision Deductible: 'contains=$500'
 }
 
 PurchaseTab_DataGather: {
