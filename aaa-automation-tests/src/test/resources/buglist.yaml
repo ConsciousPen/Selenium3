@@ -104,3 +104,9 @@ QC-44752:
       messages: ['Cannot get value of StaticElement', 'Errors: MES-DR-0138_CA; Error; Current CLUE must be ordered']
     - tests: [aaa.modules.regression.sales.auto_ca.select.TestPolicyNano.testPolicyNano]
       messages: ['Cannot get value of StaticElement', 'Errors: MES-DR-0138_CA; Error; Current CLUE must be ordered']
+QC-44846:
+  summary: "DB Lookup 'cancellationConfirmationDays' is set to19 days instead of 15 for AAA_HO_SS_NJ in Admin application"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.pup.TestScenario3.TC03_Generate_Cancelation_Notice, aaa.modules.e2e.home_ss.ho3.TestScenario3.TC03_Generate_Cancelation_Notice]
+      messages: ['Row with values {Type=Cancellation Notice']

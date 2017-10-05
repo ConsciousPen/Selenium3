@@ -4,3 +4,10 @@ TestData: {
     Supporting Data: Test,
   }
 }
+
+TestData_CO: {
+  DoNotRenewActionTab: {
+    Reason: 'Unacceptable License Status',
+    Supporting Data: Test,
+  }
+}

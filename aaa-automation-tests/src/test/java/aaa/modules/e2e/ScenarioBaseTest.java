@@ -153,7 +153,7 @@ public class ScenarioBaseTest extends BaseTest {
 	}
 
 	protected boolean verifyPligaOrMvleFee(LocalDateTime transactionDate, String policyTerm, int numberOfVehiclesExceptTrailers) {
-		Dollar expectedFee = getPligaOrMvleFee(transactionDate, policyTerm, numberOfVehiclesExceptTrailers);
+		Dollar expectedFee = getPligaOrMvleFee(null, transactionDate, policyTerm, numberOfVehiclesExceptTrailers);
 		boolean isFeePresent = false;
 
 		if (!expectedFee.isZero()) {
@@ -173,18 +173,24 @@ public class ScenarioBaseTest extends BaseTest {
 	}
 
 	protected Dollar getPligaOrMvleFee(LocalDateTime transactionDate) {
-		return getPligaOrMvleFee(transactionDate, BillingConstants.PolicyTerm.ANNUAL, 1);
+		return getPligaOrMvleFee(null, transactionDate);
 	}
 
-	protected Dollar getPligaOrMvleFee(LocalDateTime transactionDate, String policyTerm, int numberOfVehiclesExceptTrailers) {
+	protected Dollar getPligaOrMvleFee(String policyNumber, LocalDateTime transactionDate) {
+		return getPligaOrMvleFee(policyNumber, transactionDate, BillingConstants.PolicyTerm.ANNUAL, 1);
+	}
+
+	protected Dollar getPligaOrMvleFee(String policyNumber, LocalDateTime transactionDate, String policyTerm, int numberOfVehiclesExceptTrailers) {
 		Dollar expectedPligaOrMvleFee = BillingHelper.DZERO;
 		if (transactionDate == null) {
 			log.warn("Premium transaction date is null, assume PLIGA or MVLE Fee should be $0");
 			return expectedPligaOrMvleFee;
 		}
 		if (getState().equals(Constants.States.NJ)) {
+			goToBillingPage(policyNumber);
 			expectedPligaOrMvleFee = BillingHelper.calculatePligaFee(transactionDate);
 		} else if (isMvleFeeApplicable()) {
+			goToBillingPage(policyNumber);
 			expectedPligaOrMvleFee = BillingHelper.calculateMvleFee(policyTerm, numberOfVehiclesExceptTrailers);
 		}
 		return expectedPligaOrMvleFee;
@@ -207,5 +213,12 @@ public class ScenarioBaseTest extends BaseTest {
 
 	protected boolean isMvleFeeApplicable() {
 		return getState().equals(Constants.States.NY) && getPolicyType().equals(PolicyType.AUTO_SS);
+	}
+
+	private void goToBillingPage(String policyNumber) {
+		if (policyNumber != null && !BillingSummaryPage.isVisible()) {
+			mainApp().open();
+			SearchPage.openBilling(policyNumber);
+		}
 	}
 }

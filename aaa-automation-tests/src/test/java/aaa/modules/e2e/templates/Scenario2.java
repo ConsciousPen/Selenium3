@@ -260,7 +260,7 @@ public class Scenario2 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 
-		Dollar pligaOrMvleFee = getPligaOrMvleFee(pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
+		Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
 
 		// TODO Renew premium verification was excluded, due to unexpected installment calculations
 //		if (!getState().equals(States.KY) && !getState().equals(States.WV)) {
@@ -271,14 +271,12 @@ public class Scenario2 extends ScenarioBaseTest {
 	}
 
 	protected void verifyDocGenForms() {
+		verifyDocGenForms(new DocGenEnum.Documents[]{DocGenEnum.Documents.AH35XX, DocGenEnum.Documents.AHRBXX});
+	}
+
+	protected void verifyDocGenForms(DocGenEnum.Documents[] documents) {
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
-		DocGenEnum.Documents[] documents;
-		if (getState().equals(Constants.States.CA)) {
-			documents = new DocGenEnum.Documents[]{DocGenEnum.Documents._61_3026, DocGenEnum.Documents.AHRBXX, DocGenEnum.Documents._61_3000, DocGenEnum.Documents._61_5121, DocGenEnum.Documents._61_6530};
-		} else {
-			documents = new DocGenEnum.Documents[]{DocGenEnum.Documents.AH35XX, DocGenEnum.Documents.AHRBXX};
-		}
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, documents);
 	}
 
