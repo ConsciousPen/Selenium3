@@ -42,6 +42,7 @@ public class PremiumAndCoveragesTab extends Tab {
     public static Table tablefeesSummary = new Table(By.id("policyDataGatherForm:feesSummaryTable"));
     public static Table tableTermPremiumbyVehicle = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table"));
     public static Table tablePolicyLevelLiabilityCoveragesPremium = new Table (By.xpath("//table[@id='policyDataGatherForm:policyTableTotalVehiclePremium']"));
+    public static Table tableGreyBox = new Table (By.xpath("//div[@id='policyDataGatherForm:componentView_AAAEMemberDetailMVOComponent']//table"));
 
     public static Button buttonCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalc"));
     public static Button buttonViewRatingDetails = new Button(By.id("policyDataGatherForm:viewRatingDetails_Link_1"));
