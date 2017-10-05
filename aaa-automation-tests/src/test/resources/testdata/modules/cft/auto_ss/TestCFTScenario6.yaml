@@ -1,0 +1,72 @@
+TestData: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+EndorsementActionTab: {
+    Endorsement Date: /today+2d,
+    Endorsement Reason: Maintain Vehicle(s)
+}
+
+TestData_OOS: {
+  EndorsementActionTab: '@EndorsementActionTab_OOS',
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+EndorsementActionTab_OOS: {
+    Endorsement Date: /startTime+1d,
+    Endorsement Reason: Maintain Vehicle(s)
+}
+
+DriverTab_DataGather: {
+    Financial Responsibility Filing Needed: 'Yes'
+}
+
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: 'Quarterly',
+  Policy Term: 'Annual',
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750',
+  Collision Deductible: 'contains=$500',
+  Special Equipment Coverage: '1100'
+}
+
+PremiumAndCoveragesTab_DataGather_MD: {
+  Payment Plan: 'Quarterly',
+  Policy Term: 'Annual',
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750',
+  Collision Deductible: 'contains=$500',
+  Special Equipment: '1100'
+}
+
+PurchaseTab_DataGather: {
+  PaymentMethods: ['@ACH'],
+  PaymentAllocation: {
+    ACH: '/rest'
+  }
+}
+
+ACH: {
+ Payment Method: 'Checking/Savings (ACH)',
+  'Transit #': '011104209',
+  'Account #': '1234567890'
+}
