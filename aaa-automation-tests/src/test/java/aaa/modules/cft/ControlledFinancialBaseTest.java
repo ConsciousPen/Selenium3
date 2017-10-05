@@ -22,6 +22,7 @@ import aaa.modules.policy.PolicyBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.apache.commons.lang3.StringUtils;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -59,9 +60,9 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Endorsment action started");
 		LocalDateTime endorsePlus2 = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
 		log.info("Endorsement date: " + endorsePlus2);
-		TimeSetterUtil.getInstance().nextPhase(endorsePlus2.plusDays(2)); // check future dated endorsement
-		performAndCheckEndorsement(endorsePlus2.plusDays(2).with(DateTimeUtils.closestFutureWorkingDay));
-		log.info("Endorsment action finished successfully");
+		TimeSetterUtil.getInstance().nextPhase(endorsePlus2);
+		performAndCheckEndorsement(endorsePlus2.plusDays(2)); // future dated endorse +2 d
+		log.info("Endorsment action completed successfully");
 	}
 
 
@@ -75,7 +76,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Endorsement date: " + endorsePlus16);
 		TimeSetterUtil.getInstance().nextPhase(endorsePlus16);
 		performAndCheckEndorsement(endorsePlus16);
-		log.info("Endorsment action finished successfully");
+		log.info("Endorsment action completed successfully");
 	}
 
 	/**
@@ -98,7 +99,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
 				.setAmount(new Dollar(expValue).negate())
 				.verifyPresent();
-		log.info("Accept payment action finished successfully");
+		log.info("Accept payment action completed successfully");
 	}
 
 	/**
@@ -107,7 +108,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected void payInstallmentWithMinDue() {
 		log.info("Accept payment action started");
 		billingAccount.acceptPayment().perform(getTestSpecificTD("AcceptPayment"), BillingSummaryPage.getMinimumDue());
-		log.info("Accept payment action finished successfully");
+		log.info("Accept payment action completed successfully");
 	}
 
 	/**
@@ -129,7 +130,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 				.setAmount(new Dollar(10))
 				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
 				.verifyPresent();
-		log.info("Decline payment action finished successfully");
+		log.info("Decline payment action completed successfully");
 	}
 
 	/**
@@ -150,7 +151,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 				.setPastDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PAST_DUE).getValue()))
 				.setTotalDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue()))
 				.verifyPresent();
-		log.info("Installment generation finished successfully");
+		log.info("Installment generation completed successfully");
 	}
 
 	/**
@@ -178,7 +179,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED)
 				.setTransactionDate(plus16Days)
 				.verifyPresent();
-		log.info("Waive action comleted successfully");
+		log.info("Waive action completed successfully");
 	}
 
 	protected void manualFutureCancellationEffDatePlus25Days() {
@@ -191,17 +192,18 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openPolicy(policyNumber.get());
 		policy.cancel().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
+		log.info("Manual cancellation action completed successfully");
 	}
 
 	protected void updatePolicyStatusForPendedCancellation() {
 		log.info("Policy status update job action started");
 		LocalDateTime plus25Days = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
 		TimeSetterUtil.getInstance().nextPhase(plus25Days.plusDays(2));
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber.get());
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-		log.info("Policy status update job finished successfully");
+		log.info("Policy status update job completed successfully");
 	}
 
 	protected void manualReinstatement() {
@@ -212,7 +214,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber.get());
-		policy.reinstate().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		policy.reinstate().perform(DataProviderFactory.dataOf(DEFAULT_TEST_DATA_KEY,getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("ReinstatementActionTab")));
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Reinstatement for Policy %1$s", policyNumber.get()));
 		log.info("Manual reinstatement action completed successfully");
 	}
@@ -224,16 +226,16 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		LocalDateTime cancellationNoticeDate = getTimePoints().getCancellationNoticeDate(installments.get().get(1));
 		log.info("Cancellation Notice action started");
 		log.info("Cancellation Notice date: " + cancellationNoticeDate);
-		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(installments.get().get(1));
+		LocalDateTime expCancellationDate = getTimePoints().getCancellationTransactionDate(installments.get().get(1));
 		TimeSetterUtil.getInstance().nextPhase(cancellationNoticeDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
 		new BillingBillsAndStatementsVerifier()
-				.setDueDate(cancellationDate)
+				.setDueDate(expCancellationDate)
 				.setType(BillingConstants.BillsAndStatementsType.CANCELLATION_NOTICE)
 				.verifyPresent();
-		log.info("Cancellation Notice action finished successfully");
+		log.info("Cancellation Notice action completed successfully");
 	}
 
 	/**
@@ -248,7 +250,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber.get());
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-		log.info("Cancellation action finished successfully");
+		log.info("Cancellation action completed successfully");
 	}
 
 	/**

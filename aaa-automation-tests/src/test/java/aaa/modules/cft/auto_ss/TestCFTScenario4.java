@@ -25,30 +25,12 @@ public class TestCFTScenario4 extends ControlledFinancialBaseTest {
 	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
-	public void createPolicy(@Optional(StringUtils.EMPTY) String state) {
-		super.createPolicyForTest();
-	}
-
-	@Test(groups = {Groups.CFT}, dependsOnMethods = "createPolicy")
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void generateBillForFirstInstallment(@Optional(StringUtils.EMPTY) String state) {
-		super.generateFirstInstallmentBill();
-		super.payInstallmentWithMinDue();
-	}
-
-	@Test(groups = {Groups.CFT}, dependsOnMethods = "generateBillForFirstInstallment")
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void endorsePolicy(@Optional(StringUtils.EMPTY) String state) {
-		super.endorsePolicyEffDatePlus16Days();
-	}
-
-	@Test(groups = {Groups.CFT}, dependsOnMethods = "endorsePolicy")
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void acceptPayment(@Optional(StringUtils.EMPTY) String state) {
-		super.acceptPaymentEffDatePlus25();
+	public void cftTestScenario4Test(@Optional(StringUtils.EMPTY) String state) {
+		createPolicyForTest();
+		generateFirstInstallmentBill();
+		payInstallmentWithMinDue();
+		endorsePolicyEffDatePlus16Days();
+		acceptPaymentEffDatePlus25();
 	}
 
 	@Override

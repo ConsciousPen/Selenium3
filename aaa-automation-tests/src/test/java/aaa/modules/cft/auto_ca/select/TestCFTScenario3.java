@@ -1,9 +1,7 @@
-package aaa.modules.cft.auto_ss;
+package aaa.modules.cft.auto_ca.select;
 
 import aaa.helpers.constants.Groups;
-import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
@@ -15,31 +13,33 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 /**
- * Controlled Financial Testing Scenario 2
+ * Controlled Financial Testing Scenario 3
  * For any product and any defined state from params
- * NB With Emp Ben
- * Down pay_ Check
- * Cancel
- * waive fee
+ * NB_Down_Cash
+ * Policy Write off
+
  */
-public class TestCFTScenario2 extends ControlledFinancialBaseTest {
+public class TestCFTScenario3 extends ControlledFinancialBaseTest {
 
 	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
-	public void cftTestScenario2Test(@Optional(StringUtils.EMPTY) String state) {
+	public void cftTestScenario3Test(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
-		endorsePolicyEffDatePlus2Days();
 		generateFirstInstallmentBill();
-		waiveFee();
-		manualFutureCancellationEffDatePlus25Days();
-		updatePolicyStatusForPendedCancellation();
-		manualReinstatement();
+		endorsePolicyEffDatePlus16Days();
+		acceptPaymentEffDatePlus25();
+		decline10DollarsPayment();
+		automaticCancellation();
+		generateFirstEarnedPremiumBill();
+		generateSecondEarnedPremiumBill();
+		generateThirdEarnedPremiumBill();
+		writeOff();
 	}
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_SS;
+		return PolicyType.AUTO_CA_SELECT;
 	}
 
 	@Override
@@ -47,8 +47,6 @@ public class TestCFTScenario2 extends ControlledFinancialBaseTest {
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", DEFAULT_TEST_DATA_KEY);
 		td.adjust(PremiumAndCoveragesTab.class.getSimpleName(), getTestSpecificTD("PremiumAndCoveragesTab_DataGather"));
 		td.adjust(PurchaseTab.class.getSimpleName(), getTestSpecificTD("PurchaseTab_DataGather"));
-		td.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel()),
-				getTestSpecificTD("DriverTab_DataGather").getValue(AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel()));
 		return td.resolveLinks();
 	}
 
