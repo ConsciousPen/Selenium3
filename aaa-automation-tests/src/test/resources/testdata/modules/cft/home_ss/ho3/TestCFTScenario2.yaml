@@ -10,7 +10,8 @@ TestData: {
   MortgageesTab: {},
   UnderwritingAndApprovalTab: {},
   DocumentsTab: {},
-  BindTab: {}
+  BindTab: {},
+  CancellationActionTab: '@CancellationActionTab'
 }
 
 EndorsementActionTab: {
@@ -32,9 +33,8 @@ PremiumsAndCoveragesQuoteTab: {
 
 CancellationActionTab: {
   Cancel Date: "/today+2d",
-  Cancellation Reason: "Insured's Request - Other",
-  Description: "CFT test scenario 2",
-  Authorized By: QA
+  Cancellation reason: "Insured's Request - Other",
+  Description: "CFT test scenario 2"
 }
 
 ReinstatementActionTab: {

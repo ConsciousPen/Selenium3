@@ -162,8 +162,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void generateInstallmentBill(int installmentNumber) {
 		LocalDateTime billDueDate = getTimePoints().getBillGenerationDate(installments.get().get(installmentNumber));
-		log.info("{} Installment generation started", installmentNumber);
-		log.info("{} Installment generation date: {}", installmentNumber, billDueDate);
+		log.info("{} Installment bill generation started", installmentNumber);
+		log.info("{} Installment bill generation date: {}", installmentNumber, billDueDate);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
@@ -175,7 +175,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 				.setPastDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PAST_DUE).getValue()))
 				.setTotalDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue()))
 				.verifyPresent();
-		log.info("{} Installment generation completed successfully", installmentNumber);
+		log.info("{} Installment bill generation completed successfully", installmentNumber);
 	}
 
 	/**
