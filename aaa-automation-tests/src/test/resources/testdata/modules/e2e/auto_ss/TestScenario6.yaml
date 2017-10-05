@@ -70,3 +70,24 @@ TestData_EndorsementRP_NY: {
     Authorized By: qa
   }
 }
+
+#---- Endorsement VA ----
+
+TestData_EndorsementRP_VA: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {
+    List of Vehicle: [{}, {
+      'column=5': Remove,
+      Confirm Remove: click
+    }]
+  },
+  AssignmentTab: {},  
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}

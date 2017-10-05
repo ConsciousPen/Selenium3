@@ -57,7 +57,7 @@ public class TestScenario8 extends Scenario8 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC07_Generate_Forth_Monthly_Bill(@Optional("") String state) {
-		generateAndCheckBill(installmentDueDates.get(4), policyEffectiveDate, getPligaOrMvleFee(pligaOrMvleFeeLastTransactionDate));
+		generateAndCheckBill(installmentDueDates.get(4), policyEffectiveDate, getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate));
 	}
 
 	@Parameters({"state"})

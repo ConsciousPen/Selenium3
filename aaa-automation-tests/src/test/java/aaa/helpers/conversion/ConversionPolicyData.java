@@ -2,6 +2,7 @@ package aaa.helpers.conversion;
 
 import aaa.helpers.jobs.Job;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.mifmif.common.regex.Generex;
 
 import java.io.File;
 import java.time.format.DateTimeFormatter;
@@ -22,6 +23,16 @@ public class ConversionPolicyData {
 
 		values.put("//effective", TimeSetterUtil.getInstance().getCurrentTime().plusDays(58).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "T00:00:00");
 		values.put("//expiration", TimeSetterUtil.getInstance().getCurrentTime().plusDays(58).plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "T00:00:00");
+
+		String randomNum = new Generex("\\d{9}").random();
+		if (type.equals(ConversionType.MAIG)) {
+			values.put("//sourcePolicyNum", randomNum);
+		} else if (type.equals(ConversionType.FOXPRO)) {
+			values.put("//preConversionPolicyNumber", "ICAH"+randomNum);
+			values.put("//sourcePolicyNum", "ICAH"+randomNum);
+		} else {
+			values.put("//preConversionPolicyNumber", randomNum);
+		}
 	}
 
 	public ConversionType getConversionType() {
