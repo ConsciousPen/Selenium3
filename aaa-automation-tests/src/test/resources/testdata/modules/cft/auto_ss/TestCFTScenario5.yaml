@@ -1,3 +1,10 @@
+TestData: {
+AcceptPaymentActionTab: {
+    Payment Method: 'Cash',
+    Amount: 50,
+  }
+}
+
 PremiumAndCoveragesTab_DataGather: {
   Payment Plan: 'Quarterly',
   Policy Term: 'Annual',
