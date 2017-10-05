@@ -173,6 +173,10 @@ public class Scenario3 extends ScenarioBaseTest {
 		if (getState().equals(Constants.States.CA)) {
 			verifyCaRenewalOfferPaymentAmount(policyExpirationDate,getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
 		}
+
+		if (verifyPligaOrMvleFee(renewDateOffer, policyTerm, totalVehiclesNumber)) {
+			pligaOrMvleFeeLastTransactionDate = renewDateOffer;
+		}
 	}
 
 	//Skip this step for CA

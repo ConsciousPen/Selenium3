@@ -210,10 +210,7 @@ public final class BillingHelper {
 		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
 		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.PREMIUM);
 		if (!BillingSummaryPage.tablePaymentsOtherTransactions.getRow(premiumRowSearchQuery).isPresent()) {
-			// TODO-dchubkov: should be deleted after investigation
-			ScreenshotManager.getInstance().makeScreenshot(BillingHelper.class.getSimpleName(), "calculatePligaFee", null, new IstfException("MissedPremiumTransaction"));
 			log.warn(String.format("There is no Premium transaction with query %s, assume PLIGA Fee should be $0", premiumRowSearchQuery.entrySet()));
-
 			return DZERO;
 		}
 
@@ -225,7 +222,7 @@ public final class BillingHelper {
 	public static Dollar calculatePligaFee(LocalDateTime transactionDate, Dollar totalPremiumAmount) {
 		final double pligaFeePercentage;
 		switch (transactionDate.getYear()) {
-		// PAS12: PLIGAFEE is configured as 0.7% of the premium for 1-Jan-2017 to 31-Dec-2017
+		    // PAS12: PLIGAFEE is configured as 0.7% of the premium for 1-Jan-2017 to 31-Dec-2017
 			case 2017 :
 				pligaFeePercentage = 0.7;
 				break;
