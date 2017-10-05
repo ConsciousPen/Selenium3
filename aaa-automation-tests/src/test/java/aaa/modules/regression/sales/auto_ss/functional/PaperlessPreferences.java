@@ -9,9 +9,8 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -24,6 +23,7 @@ import java.util.List;
 public class PaperlessPreferences extends AutoSSBaseTest {
 
     private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+    private InquiryAssetList inquiryAssetList = new InquiryAssetList(new DocumentsAndBindTab().getAssetList().getLocator(), AutoSSMetaData.DocumentsAndBindTab.class);
 
     /**
      * @author Oleg Stasyuk
@@ -32,6 +32,7 @@ public class PaperlessPreferences extends AutoSSBaseTest {
      * 2. Check Enrolled in Paperless? field and Manage Paperless Preferences button are shown in Documents tab
      * 3. Check Manage Paperless Preferences button is enabled
      * 4. Check Documents Delivery section fields are present
+     * 4. Check Help text for Paperless option
      * 4. Save and Exist
      * 5. Open quote in Inquiry mode
      * 6. Check Manage Paperless Preferences button is disabled
@@ -50,6 +51,8 @@ public class PaperlessPreferences extends AutoSSBaseTest {
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
         //PAS-282, PAS-268 start
+        inquiryAssetList.assetSectionPresence("Paperless Preferences");
+        inquiryAssetList.assetSectionPresence("Document Delivery Details", false);
         documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.present();
         documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.enabled(false);
         documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.value("Yes");
@@ -73,23 +76,33 @@ public class PaperlessPreferences extends AutoSSBaseTest {
         documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.EDIT_PAPERLESS_PREFERENCES_BTN_DONE).click();
         //PAS-282, PAS-268, PAS-266 end
 
+        //PAS-287 start
+        String helpMessageHT10001 = "Indicates the customer's paperless notifications enrollment status. If \"Pending\", advise the customer to accept the terms and conditions. During mid-term, you may not be able to complete the endorsement until the status has changed to \"Yes\".";
+        CustomAssert.assertTrue(DocumentsAndBindTab.helpIconPaperlessPreferences.getAttribute("title").equals(helpMessageHT10001));
+        //PAS-287 end
+
+        //PAS-277 start
+        inquiryAssetList.assetSectionPresence("Document Delivery Details", false);
+        inquiryAssetList.assetFieldsAbsence("Send To", "Country", "Zip/Postal Code", "Address Line 1", "Address Line 2", "Address Line 3", "City", "State / Province", "Notes");
+        //PAS-277 end
+
         documentsAndBindTab.saveAndExit();
         policy.quoteInquiry().start();
 
         //PAS-269 start
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        inquiryAssetList.assetSectionPresence("Paperless Preferences");
         documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES).verify.present();
         documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES).verify.enabled(false);
-        //PAS-269 end
+        inquiryAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS.getLabel()).verify.present();
+        inquiryAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.ISSUE_DATE.getLabel()).verify.present(); //will be removed in future stories
+        inquiryAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.METHOD_OF_DELIVERY.getLabel()).verify.present();
+        inquiryAssetList.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL.getLabel()).verify.present();//will change based on View/Hide rules
         documentsAndBindTab.cancel();
+        //PAS-269 end
 
         //PAS-283 continue
-        policy.bind().start();
-        DocumentsAndBindTab.btnPurchase.click();
-        ErrorTab errorTab = new ErrorTab();
-        errorTab.overrideAllErrors();
-        policy.bind().submit();
-        new PurchaseTab().fillTab(getPolicyTD("DataGather", "TestData")).submitTab();
+        eValueDiscount.simplifiedQuoteIssue();
 
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
@@ -102,10 +115,10 @@ public class PaperlessPreferences extends AutoSSBaseTest {
         documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES).verify.enabled();
 
         documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.SUPPRESS_PRINT).verify.present();
-        //TODO OSI: Confirm with Karen if the below fields should be visible
-        documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.ISSUE_DATE).verify.present(false);
-        documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.METHOD_OF_DELIVERY).verify.present(false);
-        documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL).verify.present(false);
+
+        documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.ISSUE_DATE).verify.present();
+        documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.METHOD_OF_DELIVERY).verify.present();
+        documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL).verify.present();
         //PAS-283 continue end
 
         CustomAssert.disableSoftMode();
@@ -118,6 +131,7 @@ public class PaperlessPreferences extends AutoSSBaseTest {
      * @scenario 1. Create new Paperless Preferences eligible quote but for the not eligible state (PA)
      * 2. Check Enrolled in Paperless? field and Manage Paperless Preferences button are not shown in Documents tab
      * 3. Check Document Printing Details section's fields are present
+     * 4. Check Document Delivery related Address fields are removed
      * @details
      */
     @Parameters({"state"})
@@ -132,14 +146,20 @@ public class PaperlessPreferences extends AutoSSBaseTest {
         policy.dataGather().start();
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
+        inquiryAssetList.assetSectionPresence("Paperless Preferences", false);
         documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.present(false);
         documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES).verify.present(false);
 
+        inquiryAssetList.assetSectionPresence("Document Print Details", true);
         documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.SUPPRESS_PRINT).verify.present();
         documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.ISSUE_DATE).verify.present();
         documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.METHOD_OF_DELIVERY).verify.present();
         documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL).verify.present();
 
+        //PAS-277 start
+        inquiryAssetList.assetSectionPresence("Document Delivery Details", false);
+        inquiryAssetList.assetFieldsAbsence("Send To", "Country", "Zip/Postal Code", "Address Line 1", "Address Line 2", "Address Line 3", "City", "State / Province", "Notes");
+        //PAS-277 end
         documentsAndBindTab.saveAndExit();
 
         CustomAssert.disableSoftMode();
