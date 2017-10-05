@@ -157,7 +157,6 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual:  {
 AgentInfo: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA NCNU - 500001005',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'Draper - 500005417 - Draper',
   Agent: 'House Account Draper',
   TollFree Number: 1
@@ -241,7 +240,6 @@ DwellingAddress_AZ: {
 AgentInfo_AZ: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Arizona - 500001004',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'Chandler - 500005091 - Chandler',
   Agent: 'House Agent Mesa'
 }
@@ -314,7 +312,6 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_CO:  {
 AgentInfo_CO: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Colorado - 500001007',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'Denver - 500005106 - Denver',
   Agent: 'House Agent Boulder'
 }
@@ -469,7 +466,6 @@ DwellingAddress_DC: {
 AgentInfo_DC: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
   Agent: 'House Agent Mid-Atlantic'
 }
@@ -533,7 +529,6 @@ DwellingAddress_DE: {
 AgentInfo_DE: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
   Agent: 'House Agent Mid-Atlantic'
 }
@@ -598,7 +593,6 @@ DwellingAddress_ID: {
 AgentInfo_ID: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Oregon - 500001021',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'Beaverton - 500005277 - Portland',
   Agent: 'House Agent Pocatello'
 }
@@ -671,7 +665,6 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_IN:  {
 AgentInfo_IN: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA INDIANA HOOSIER MOTOR CLUB - 500001023',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'Allisonville Branch - 500017062 - Indianapolis',
   Agent: 'House Agent AAA Hoosier Headquarters'
 }
@@ -782,7 +775,6 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_KS:  {
 AgentInfo_KS: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'Cromwell - 500005129 - Cromwell',
   Agent: 'House Agent Allied Club'
 }
@@ -874,7 +866,6 @@ DwellingAddress_KY: {
 AgentInfo_KY: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'Lexington - Atkinson Ave - 500005154 - Lexington',
   Agent: 'House Agent Allied Club',
   TollFree Number: 1
@@ -992,7 +983,6 @@ DwellingAddress_MD: {
 AgentInfo_MD: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'Annapolis CCIT - 500017191 - Annapolis',
   Agent: 'House Agent Annapolis CCIT'
 }
@@ -1065,7 +1055,6 @@ DwellingAddress_MT: {
 AgentInfo_MT: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mountain West - 500001006',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'Great Falls - 500005162 - Great Falls',
   Agent: 'House Agent Great Falls'
 }
@@ -1129,7 +1118,6 @@ DwellingAddress_NJ: {
 AgentInfo_NJ: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'Newton - 500017271 - Newton',
   Agent: 'House Agent Mid-Atlantic'
 }
@@ -1194,7 +1182,6 @@ DwellingAddress_NV: {
 AgentInfo_NV: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA NCNU - 500001005',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'Las Vegas - 500005369 - Las Vegas',
   Agent: 'House Account Las Vegas'
 }
@@ -1258,7 +1245,6 @@ DwellingAddress_NY: {
 AgentInfo_NY: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA NORTHWAY NEW YORK - 500001009',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'QUEENSBURY - 500005187 - QUEENSBURY',
   Agent: 'House Agent QUEENSBURY'
 }
@@ -1340,7 +1326,6 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_OH:  {
 AgentInfo_OH: {
   Channel Type: 'AAA Agent',
   Agency: 'Ohio Findlay Club - 500001015',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'Findlay Hq - 500005196 - Findlay',
   Agent: 'HOUSE AGENT Ohio Findlay Club',
   TollFree Number: 1
@@ -1451,7 +1436,6 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_OK:  {
 AgentInfo_OK: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA OKLAHOMA INSURANCE - 500001020',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'AAA Tulsa Training Center - 500005226 - Tulsa',
   Agent: 'House Agent AAA W Oklahoma'
 }
@@ -1543,7 +1527,6 @@ DwellingAddress_OR: {
 AgentInfo_OR: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Oregon - 500001021',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'Portland - 500005275 - Portland',
   Agent: 'House Agent Portland'
 }
@@ -1606,7 +1589,6 @@ DwellingAddress_PA: {
 AgentInfo_PA: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Southern Penn - 500017173',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'Bedford - 500017241 - Bedford',
   Agent: 'House Agent AAA Southern Penn'
 }
@@ -1670,7 +1652,6 @@ DwellingAddress_SD: {
 AgentInfo_SD: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA SOUTH DAKOTA - 500001022',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'Sioux Falls HQ - 500005294 - Tulsa',
   Agent: 'House Agent AAA SD',
   TollFree Number: 1
@@ -1763,7 +1744,6 @@ DwellingAddress_VA: {
 AgentInfo_VA: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'CHANTILLY VA - 500016414 - Chantilly',
   Agent: 'House Agent Mid-Atlantic'
 }
@@ -1828,7 +1808,6 @@ DwellingAddress_WV: {
 AgentInfo_WV: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'Charleston - 500005295 - Charleston',
   Agent: 'House Agent Charleston'
 }
@@ -1920,7 +1899,6 @@ DwellingAddress_WY: {
 AgentInfo_WY: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mountain West - 500001006',
-  Sales Channel: 'Captive Branch Agents',
   Agency Location: 'Bozeman - 500005161 - Bozeman',
   Agent: 'House Agent AK Diamond Blvd'
 }
