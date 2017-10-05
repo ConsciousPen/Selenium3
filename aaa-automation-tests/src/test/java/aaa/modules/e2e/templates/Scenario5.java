@@ -6,7 +6,6 @@ import java.util.List;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
-import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -130,8 +129,8 @@ public class Scenario5 extends ScenarioBaseTest {
 	public void generateCancellNoticeOneDayBefore() {
 		LocalDateTime cnDate = getOneDayBefore(installmentDueDates.get(2), TimepointsList.CANCELLATION_NOTICE);
 		// TODO Why?
-		if (getState().equals(Constants.States.AZ))
-			cnDate.minusHours(1);
+		// if (getState().equals(Constants.States.AZ))
+		// cnDate.minusHours(1);
 		TimeSetterUtil.getInstance().nextPhase(cnDate);
 		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
 
@@ -151,8 +150,8 @@ public class Scenario5 extends ScenarioBaseTest {
 	public void generateCancellNotice() {
 		LocalDateTime cnDate = getTimePoints().getCancellationNoticeDate(installmentDueDates.get(2));
 		// TODO Why?
-		if (getState().equals(Constants.States.AZ))
-			cnDate.minusHours(1);
+		// if (getState().equals(Constants.States.AZ))
+		// cnDate.minusHours(1);
 		TimeSetterUtil.getInstance().nextPhase(cnDate);
 		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
 

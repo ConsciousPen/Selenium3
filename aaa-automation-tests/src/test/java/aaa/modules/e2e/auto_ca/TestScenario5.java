@@ -151,5 +151,4 @@ public class TestScenario5 extends Scenario5 {
 	public void TC15_Renewal_Offer_Generation(@Optional("CA") String state) {
 		super.renewalOfferGeneration();
 	}
-
 }
