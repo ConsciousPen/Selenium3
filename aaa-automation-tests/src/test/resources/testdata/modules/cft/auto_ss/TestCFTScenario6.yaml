@@ -8,7 +8,8 @@ TestData: {
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
-    Authorized By: qa
+    Authorized By: qa,
+    Case Number: 123
   }
 }
 
@@ -36,7 +37,7 @@ EndorsementActionTab_OOS: {
     Endorsement Reason: Maintain Vehicle(s)
 }
 
-DriverTab_DataGather: {
+DriverTab: {
     Financial Responsibility Filing Needed: 'Yes'
 }
 
