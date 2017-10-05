@@ -128,7 +128,8 @@ public class Scenario1 extends ScenarioBaseTest {
 	}
 
 	protected void generateSecondBill() {
-		generateAndCheckBill(installmentDueDates.get(2), policyEffectiveDate, getPligaOrMvleFee(pligaOrMvleFeeLastTransactionDate, policyTerm, 0));
+		Dollar getPligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, 0);
+		generateAndCheckBill(installmentDueDates.get(2), policyEffectiveDate, getPligaOrMvleFee);
 	}
 
 	protected void paySecondBill() {
@@ -223,7 +224,7 @@ public class Scenario1 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 
-		Dollar pligaOrMvleFee = getPligaOrMvleFee(pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
+		Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
 
 		// TODO Renew premium verification was excluded, due to unexpected installment calculations
 //		if (!getState().equals(Constants.States.KY) && !getState().equals(Constants.States.WV)) {

@@ -2,8 +2,9 @@ TestData: {
   EndorsementActionTab: '@EndorsementActionTab',
   GeneralTab: {},
   DriverTab: {},
-  RatingDetailReportsTab: {},
+  MembershipTab: {},
   VehicleTab: {},
+  AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: {},
@@ -31,13 +32,12 @@ PremiumAndCoveragesTab : {
 
 CancellationActionTab: {
   Cancel Date: "/today+2d",
-  Cancellation Reason: "Insured's Request - Other",
-  Description: "CFT test scenario 2",
+  Cancellation Reason: "Other",
+  Other reason: "CFT test scenario 2",
   Authorized By: QA
 }
 
 ReinstatementActionTab: {
-   Reinstate Date: /today,
    Authorized By: 'QA'
  }
 
@@ -46,21 +46,10 @@ DriverTab_DataGather: {
 }
 
 PremiumAndCoveragesTab_DataGather: {
-  Payment Plan: Eleven Pay - Standard,
-  Policy Term: Annual,
+  Payment Plan: Standard Monthly,
   Bodily Injury Liability: 'contains=$100,000/$300,000',
   Comprehensive Deductible: 'contains=$750',
-  Collision Deductible: 'contains=$500',
-  Special Equipment Coverage: 1100
-}
-
-PremiumAndCoveragesTab_DataGather_MD: {
-  Payment Plan: Eleven Pay - Standard,
-  Policy Term: Annual,
-  Bodily Injury Liability: 'contains=$100,000/$300,000',
-  Comprehensive Deductible: 'contains=$750',
-  Collision Deductible: 'contains=$500',
-  Special Equipment: 1100
+  Collision Deductible: 'contains=$500'
 }
 
 PurchaseTab_DataGather: {

@@ -1,4 +1,4 @@
-package aaa.modules.cft.auto_ss;
+package aaa.modules.cft.auto_ca.select;
 
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
@@ -39,7 +39,7 @@ public class TestCFTScenario3 extends ControlledFinancialBaseTest {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_SS;
+		return PolicyType.AUTO_CA_SELECT;
 	}
 
 	@Override

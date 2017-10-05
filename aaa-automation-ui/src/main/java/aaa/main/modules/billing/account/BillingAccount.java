@@ -43,7 +43,7 @@ public class BillingAccount implements IBillingAccount {
     }
 
     @Override
-    public AcceptPayment acceptPayment() {
+    public synchronized AcceptPayment acceptPayment() {
         return new BillingAccountActions.AcceptPayment();
     }
 

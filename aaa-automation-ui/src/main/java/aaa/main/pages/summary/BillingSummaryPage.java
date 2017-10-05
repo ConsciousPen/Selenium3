@@ -13,7 +13,6 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.openqa.selenium.By;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
@@ -22,8 +21,6 @@ import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 public class BillingSummaryPage extends SummaryPage {
 	private static final ByT PAGINATION_LOCATOR = ByT.xpath("//table[@id='%s']/ancestor::tr[1]/following-sibling::tr[1]/descendant::span[1]");
@@ -52,6 +49,10 @@ public class BillingSummaryPage extends SummaryPage {
 	public static Button buttonPaymentsBillingMaintenance = new Button(By.id("billingInfoForm:backOffice"));
 	public static Button buttonTasks = new Button(By.xpath("//*[contains(@id,'tasksList') and text()='Tasks']"));
 	protected static Logger log = LoggerFactory.getLogger(BillingSummaryPage.class);
+
+	public static boolean isVisible() {
+		return tableBillingGeneralInformation.isPresent() && tableBillingGeneralInformation.isVisible();
+	}
 
 	public static void open() {
 		NavigationPage.toMainTab(AppMainTabs.BILLING.get());
@@ -93,13 +94,5 @@ public class BillingSummaryPage extends SummaryPage {
 
 	public static LocalDateTime getInstallmentDueDate(int index) {
 		return TimeSetterUtil.getInstance().parse(tableInstallmentSchedule.getRow(index).getCell(BillingConstants.BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
-	}
-
-	public static Dollar getPligaFee(LocalDateTime transactionDate) {
-		Map<String, String> pligaFeeRowSearchQuery = new HashMap<>(3);
-		pligaFeeRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
-		pligaFeeRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.FEE);
-		pligaFeeRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PLIGA_FEE);
-		return new Dollar(tablePaymentsOtherTransactions.getRow(pligaFeeRowSearchQuery).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
 	}
 }
