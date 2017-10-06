@@ -1,7 +1,11 @@
 package aaa.helpers;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +32,7 @@ public class TimePoints {
 		if (timepoint.size() > 2) {
 			throw new IllegalArgumentException("Wrong timepoint entry, please check testdata");
 		}
-		returnDate = returnDate.plusDays(Integer.parseInt(timepoint.get(0)));
+		returnDate = parseDate(returnDate, timepoint.get(0));
 		if (applyShift) {
 			switch (timepoint.get(1).toUpperCase()) {
 				case "PREVIOUS":
@@ -44,6 +48,29 @@ public class TimePoints {
 			}
 		}
 
+		return returnDate;
+	}
+
+	private LocalDateTime parseDate(LocalDateTime date, String timepoint){
+		LocalDateTime returnDate = date;
+		Matcher m = Pattern.compile("([-+]?)(\\d{1,3})(\\w?)").matcher(timepoint);
+
+		while (m.find()) {
+			int signum = m.group(1).isEmpty() || m.group(1).equals("+") ? 1 : -1;
+			long val = Long.parseLong(m.group(2));
+			String strUnit = m.group(3).isEmpty() ? "d": m.group(3);
+			TemporalUnit unit;
+			switch (strUnit) {
+				case "m": unit = ChronoUnit.MINUTES; break;
+				case "H": unit = ChronoUnit.HOURS; break;
+				case "d": unit = ChronoUnit.DAYS; break;
+				case "M": unit = ChronoUnit.MONTHS; break;
+				case "y": unit = ChronoUnit.YEARS; break;
+				default:
+					throw new IllegalArgumentException("Cannot parse " + m.group(3) + " in " + timepoint + " as temporal unit");
+			}
+			returnDate = returnDate.plus(val * signum, unit);
+		}
 		return returnDate;
 	}
 
