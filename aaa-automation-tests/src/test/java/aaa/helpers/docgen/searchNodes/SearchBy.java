@@ -2,7 +2,7 @@ package aaa.helpers.docgen.searchNodes;
 
 import aaa.helpers.AaaMarkupParser;
 import aaa.helpers.xml.models.StandardDocumentRequest;
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
 import java.util.function.Function;
@@ -19,7 +19,7 @@ public abstract class SearchBy<N, D> {
 	@SuppressWarnings("unchecked")
 	protected final N addCondition(String conditionName, Function<D, String> conditionFunction, String expectedValue) {
 		String searchCriteriaPath = getNodePath() + "\\" + conditionName;
-		conditionsMap.get().put(searchCriteriaPath, new Pair<>(conditionFunction, expectedValue));
+		conditionsMap.get().put(searchCriteriaPath, Pair.of(conditionFunction, expectedValue));
 		commonSearchCriteriaMap.get().put(searchCriteriaPath, expectedValue);
 		return (N) this;
 	}
