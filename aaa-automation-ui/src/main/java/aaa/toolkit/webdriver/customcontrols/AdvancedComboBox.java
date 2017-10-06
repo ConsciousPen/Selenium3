@@ -111,7 +111,12 @@ public class AdvancedComboBox extends ComboBox {
 	}
 
 	/**
-	 * Set random option from list of existing options including selected one but excluding options which contains substring values
+	 * Sets random value to the ComboBox.
+	 *
+	 * List of random values selects from list of comboBox values
+	 * And will not include current value if exceptCurrentValue is true
+	 * Additionally excludes from list of possible values Strings which contains substings from exceptSubstrings array
+	 *
 	 *
 	 * @param exceptCurrentValue if true then exclude selected option from random selection
 	 * @param exceptSubstrings   parts of strings which should be excluded
@@ -132,7 +137,8 @@ public class AdvancedComboBox extends ComboBox {
 
 
 	/**
-	 * Set random option from list of existing options including selected one but excluding options which contains substring values
+	 * Overload {@link aaa.toolkit.webdriver.customcontrols.AdvancedComboBox#setAnyValueExceptContains(boolean, java.lang.String...)}
+	 * with excluding current value from list of possible values
 	 *
 	 *  @param exceptSubstrings   parts of strings which should be excluded
 	 */
