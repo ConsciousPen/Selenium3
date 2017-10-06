@@ -8,7 +8,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 
 public final class DialogsMetaData {
     public static final class AddressValidationMetaData extends MetaData {
-		public static final AssetDescriptor<StaticElement> YOU_ENTERED = declare("You entered", StaticElement.class, By.xpath(".//span[contains(@id, ':notSamePrimartAddressLabel')]"));
+		public static final AssetDescriptor<StaticElement> YOU_ENTERED = declare("You entered", StaticElement.class, By.xpath(".//span[contains(@id, ':notSamePrimartAddressLabel') or contains(@id, ':notSamePrimaryAddressLabel')]"));
     	public static final AssetDescriptor<RadioGroup> RADIOGROUP_SELECT = declare("Select Address", RadioGroup.class, Waiters.AJAX, By.xpath(".//table[@id = 'addressValidationFormAAAPrefillAddressValidation:primaryAddressSelectAAAPrefillAddressValidation' or @id = 'addressValidationFormAAAHODwellAddressValidationComp:primaryAddressSelectAAAHODwellAddressValidationComp']"));
 		public static final AssetDescriptor<CheckBox> ADDRESS_IS_PO_BOX = declare("Address is PO Box", CheckBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> PO_BOX_NUM = declare("PO Box #", TextBox.class, Waiters.AJAX);

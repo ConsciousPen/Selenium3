@@ -134,12 +134,7 @@ AAAMembership: {
   Last name: Test,
 }
 
-DwellingAddress: {
- Zip code: '84003',
- Street address 1: 265 CHIPMAN AVE,
- Validate Address: true,
- Validate Address Dialog: {}
-}
+DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress'
 
 PreviousDwellingAddress: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
@@ -202,9 +197,7 @@ AdditionalAddress: {
   Zip code: '84003', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 PropertyValue: {
@@ -410,9 +403,7 @@ PreviousDwellingAddress_AZ: {
   Zip code: '85003', 
   Street address 1: '112 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Previous Address: 'Override and use original address' 
-  }
+  Validate Address Dialog: {}
 }
 
 MailingAddress_AZ: {
@@ -420,9 +411,7 @@ MailingAddress_AZ: {
   Zip code: '85003', 
   Street address 1: '111 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Mailing Address: 'Override and use original address' 
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- AZ: PropertyInfo Tab ----------
@@ -431,9 +420,7 @@ AdditionalAddress_AZ: {
   Zip code: '85001', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- AZ: Mortgagees Tab ----------
@@ -591,9 +578,7 @@ AdditionalAddress_CO: {
   Zip code: '80004', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 Construction_CO: {
@@ -723,21 +708,14 @@ UnderwritingAndApprovalTab_CT: {
 }
 
 # --------- CT: Applicant Tab ----------
-DwellingAddress_CT: {
-  Zip code: '06519',
-  Street address 1: 265 CHIPMAN AVE,
-  Validate Address: true,
-  Validate Address Dialog: {}
-}  
+DwellingAddress_CT: '@<home_ss_ho3>@DataGather@DwellingAddress_CT'  
 
 PreviousDwellingAddress_CT: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
   Zip code: '06010', 
   Street address 1: '112 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Previous Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 MailingAddress_CT: {
@@ -745,9 +723,7 @@ MailingAddress_CT: {
   Zip code: '06010', 
   Street address 1: '111 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- CT: PropertyInfo Tab ----------
@@ -756,9 +732,7 @@ AdditionalAddress_CT: {
   Zip code: '06519', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- CT: Mortgagees Tab ----------
@@ -1039,12 +1013,7 @@ MortgageesTab_DE: {
 }
 
 # --------- DE: Applicant Tab ----------
-DwellingAddress_DE: {
-  Zip code: '19802',
-  Street address 1: 265 CHIPMAN AVE,
-  Validate Address: true,
-  Validate Address Dialog: {}
-}  
+DwellingAddress_DE: '@<home_ss_ho3>@DataGather@DwellingAddress_DE'  
 
 PreviousDwellingAddress_DE: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
@@ -1074,9 +1043,7 @@ AdditionalAddress_DE: {
   Zip code: '19802', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- DE: Mortgagees Tab ----------
@@ -1181,21 +1148,14 @@ MortgageesTab_ID: {
 } 
 
 # --------- ID: Applicant Tab ----------
-DwellingAddress_ID: {
-  Zip code: '83212',
-  Street address 1: 265 CHIPMAN AVE,
-  Validate Address: true,
-  Validate Address Dialog: {}
-}  
+DwellingAddress_ID: '@<home_ss_ho3>@DataGather@DwellingAddress_ID'  
 
 PreviousDwellingAddress_ID: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
   Zip code: '83220', 
   Street address 1: '112 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Previous Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 MailingAddress_ID: {
@@ -1203,9 +1163,7 @@ MailingAddress_ID: {
   Zip code: '83220', 
   Street address 1: '111 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- ID: PropertyInfo Tab ----------
@@ -1214,9 +1172,7 @@ AdditionalAddress_ID: {
   Zip code: '83212', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- ID: Mortgagees Tab ----------
@@ -1330,12 +1286,7 @@ MortgageesTab_IN: {
 } 
 
 # --------- IN: Applicant Tab ----------
-DwellingAddress_IN: {
-  Zip code: '46064',
-  Street address 1: 265 CHIPMAN AVE,
-  Validate Address: true,
-  Validate Address Dialog: {}
-} 
+DwellingAddress_IN: '@<home_ss_ho3>@DataGather@DwellingAddress_IN' 
 
 PreviousDwellingAddress_IN: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
@@ -1384,9 +1335,7 @@ AdditionalAddress_IN: {
   Zip code: '46064', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 Construction_IN: {
@@ -1510,12 +1459,7 @@ MortgageesTab_KS: {
 } 
 
 # --------- KS: Applicant Tab ----------
-DwellingAddress_KS: {
-  Zip code: '66006',
-  Street address 1: 265 CHIPMAN AVE,
-  Validate Address: true,
-  Validate Address Dialog: {}
-} 
+DwellingAddress_KS: '@<home_ss_ho3>@DataGather@DwellingAddress_KS' 
 
 PreviousDwellingAddress_KS: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
@@ -1563,9 +1507,7 @@ AdditionalAddress_KS: {
   Zip code: '66006', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 Construction_KS: {
@@ -1696,12 +1638,7 @@ UnderwritingAndApprovalTab_KY: {
 }
 
 # --------- KY: Applicant Tab ----------
-DwellingAddress_KY: {
-  Zip code: '40006',
-  Street address 1: 265 CHIPMAN AVE,
-  Validate Address: true,
-  Validate Address Dialog: {}
-} 
+DwellingAddress_KY: '@<home_ss_ho3>@DataGather@DwellingAddress_KY' 
 
 PreviousDwellingAddress_KY: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
@@ -1749,9 +1686,7 @@ AdditionalAddress_KY: {
   Zip code: '40006', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 Construction_KY: {
@@ -1884,21 +1819,14 @@ UnderwritingAndApprovalTab_MD: {
 }
 
 # --------- MD: Applicant Tab ----------
-DwellingAddress_MD: {
-  Zip code: '21217',
-  Street address 1: 265 CHIPMAN AVE,
-  Validate Address: true,
-  Validate Address Dialog: {}
-}
+DwellingAddress_MD: '@<home_ss_ho3>@DataGather@DwellingAddress_MD'
 
 PreviousDwellingAddress_MD: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
   Zip code: '21218', 
   Street address 1: '112 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Previous Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 MailingAddress_MD: {
@@ -1906,9 +1834,7 @@ MailingAddress_MD: {
   Zip code: '21218', 
   Street address 1: '111 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- MD: PropertyInfo Tab ----------
@@ -1917,9 +1843,7 @@ AdditionalAddress_MD: {
   Zip code: '21217', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- MD: Mortgagees Tab ----------
@@ -2034,21 +1958,14 @@ MortgageesTab_MT: {
 }  
 
 # --------- MT: Applicant Tab ----------
-DwellingAddress_MT: {
-  Zip code: '59003',
-  Street address 1: 265 CHIPMAN AVE,
-  Validate Address: true,
-  Validate Address Dialog: {}
-}
+DwellingAddress_MT: '@<home_ss_ho3>@DataGather@DwellingAddress_MT'
 
 PreviousDwellingAddress_MT: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
   Zip code: '59024', 
   Street address 1: '112 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Previous Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 MailingAddress_MT: {
@@ -2056,9 +1973,7 @@ MailingAddress_MT: {
   Zip code: '59024', 
   Street address 1: '111 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- MT: PropertyInfo Tab ----------
@@ -2067,9 +1982,7 @@ AdditionalAddress_MT: {
   Zip code: '59003', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- MT: Mortgagees Tab ----------
@@ -2185,21 +2098,14 @@ MortgageesTab_NJ: {
 }  
  
 # --------- NJ: Applicant Tab ----------
-DwellingAddress_NJ: {
-  Zip code: '07005',
-  Street address 1: 265 CHIPMAN AVE,
-  Validate Address: true,
-  Validate Address Dialog: {}
-} 
+DwellingAddress_NJ: '@<home_ss_ho3>@DataGather@DwellingAddress_NJ' 
 
 PreviousDwellingAddress_NJ: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
   Zip code: '07005', 
   Street address 1: '112 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Previous Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 MailingAddress_NJ: {
@@ -2207,9 +2113,7 @@ MailingAddress_NJ: {
   Zip code: '07005', 
   Street address 1: '111 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- NJ: PropertyInfo Tab ----------
@@ -2218,9 +2122,7 @@ AdditionalAddress_NJ: {
   Zip code: '07005', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- NJ: Mortgagees Tab ----------
@@ -2335,12 +2237,7 @@ UnderwritingAndApprovalTab_NV: {
 }
 
 # --------- NV: Applicant Tab ----------
-DwellingAddress_NV: {
-  Zip code: '89010',
-  Street address 1: 265 CHIPMAN AVE,
-  Validate Address: true,
-  Validate Address Dialog: {}
-} 
+DwellingAddress_NV: '@<home_ss_ho3>@DataGather@DwellingAddress_NV' 
 
 PreviousDwellingAddress_NV: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
@@ -2370,9 +2267,7 @@ AdditionalAddress_NV: {
   Zip code: '89010', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- NV: Mortgagees Tab ----------
@@ -2486,21 +2381,14 @@ MortgageesTab_NY: {
 }  
 
 # --------- NY: Applicant Tab ----------
-DwellingAddress_NY: {
-  Zip code: '10451',
-  Street address 1: 265 CHIPMAN AVE,
-  Validate Address: true,
-  Validate Address Dialog: {}
-}
+DwellingAddress_NY: '@<home_ss_ho3>@DataGather@DwellingAddress_NY'
 
 PreviousDwellingAddress_NY: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
   Zip code: '10502', 
   Street address 1: '112 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Previous Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 MailingAddress_NY: {
@@ -2508,9 +2396,7 @@ MailingAddress_NY: {
   Zip code: '10502', 
   Street address 1: '111 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- NY: PropertyInfo Tab ----------
@@ -2519,9 +2405,7 @@ AdditionalAddress_NY: {
   Zip code: '10451', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- NY: Mortgagees Tab ----------
@@ -2635,21 +2519,14 @@ MortgageesTab_OH: {
 } 
 
 # --------- OH: Applicant Tab ----------  
-DwellingAddress_OH: {
-  Zip code: '43202',
-  Street address 1: 265 CHIPMAN AVE,
-  Validate Address: true,
-  Validate Address Dialog: {}
-}
+DwellingAddress_OH: '@<home_ss_ho3>@DataGather@DwellingAddress_OH'
 
 PreviousDwellingAddress_OH: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
   Zip code: '43609', 
   Street address 1: '112 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Previous Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 MailingAddress_OH: {
@@ -2657,9 +2534,7 @@ MailingAddress_OH: {
   Zip code: '43609', 
   Street address 1: '111 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 OtherActiveAAAPolicies_OH: {
@@ -2686,9 +2561,7 @@ AdditionalAddress_OH: {
   Zip code: '43202', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 Construction_OH: {
@@ -2813,21 +2686,14 @@ MortgageesTab_OK: {
 } 
 
 # --------- OK: Applicant Tab ----------  
-DwellingAddress_OK: {
-  Zip code: '73099',
-  Street address 1: 265 CHIPMAN AVE,
-  Validate Address: true,
-  Validate Address Dialog: {}
-}
+DwellingAddress_OK: '@<home_ss_ho3>@DataGather@DwellingAddress_OK'
 
 PreviousDwellingAddress_OK: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
   Zip code: '73073', 
   Street address 1: '112 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Previous Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 MailingAddress_OK: {
@@ -2835,9 +2701,7 @@ MailingAddress_OK: {
   Zip code: '73073', 
   Street address 1: '111 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 OtherActiveAAAPolicies_OK: {
@@ -2864,9 +2728,7 @@ AdditionalAddress_OK: {
   Zip code: '73099', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 Construction_OK: {
@@ -2989,21 +2851,14 @@ UnderwritingAndApprovalTab_OR: {
 }
 
 # --------- OR: Applicant Tab ----------  
-DwellingAddress_OR: {
-  Zip code: '97017',
-  Street address 1: 265 CHIPMAN AVE,
-  Validate Address: true,
-  Validate Address Dialog: {}
-}
+DwellingAddress_OR: '@<home_ss_ho3>@DataGather@DwellingAddress_OR'
 
 PreviousDwellingAddress_OR: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
   Zip code: '97020', 
   Street address 1: '112 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Previous Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 MailingAddress_OR: {
@@ -3011,9 +2866,7 @@ MailingAddress_OR: {
   Zip code: '97020', 
   Street address 1: '111 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- OR: PropertyInfo Tab ----------
@@ -3022,9 +2875,7 @@ AdditionalAddress_OR: {
   Zip code: '97017', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- OR: Mortgagees Tab ----------
@@ -3140,21 +2991,14 @@ MortgageesTab_PA: {
 } 
 
 # --------- PA: Applicant Tab ----------  
-DwellingAddress_PA: {
-  Zip code: '15001',
-  Street address 1: 265 CHIPMAN AVE,
-  Validate Address: true,
-  Validate Address Dialog: {}
-}
+DwellingAddress_PA: '@<home_ss_ho3>@DataGather@DwellingAddress_PA'
 
 PreviousDwellingAddress_PA: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
   Zip code: '15001', 
   Street address 1: '112 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Previous Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 MailingAddress_PA: {
@@ -3162,9 +3006,7 @@ MailingAddress_PA: {
   Zip code: '15001', 
   Street address 1: '111 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- PA: PropertyInfo Tab ----------
@@ -3173,9 +3015,7 @@ AdditionalAddress_PA: {
   Zip code: '15001', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- PA: Mortgagees Tab ----------
@@ -3290,12 +3130,7 @@ MortgageesTab_SD: {
 } 
 
 # --------- SD: Applicant Tab ----------
-DwellingAddress_SD: {
-  Zip code: '57010',
-  Street address 1: 265 CHIPMAN AVE,
-  Validate Address: true,
-  Validate Address Dialog: {}
-}
+DwellingAddress_SD: '@<home_ss_ho3>@DataGather@DwellingAddress_SD'
 
 PreviousDwellingAddress_SD: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
@@ -3325,9 +3160,7 @@ AdditionalAddress_SD: {
   Zip code: '57010', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 Construction_SD: {
@@ -3452,21 +3285,14 @@ MortgageesTab_VA: {
 } 
 
 # --------- VA: Applicant Tab ----------
-DwellingAddress_VA: {
-  Zip code: '20105',
-  Street address 1: 265 CHIPMAN AVE,
-  Validate Address: true,
-  Validate Address Dialog: {}
-}
+DwellingAddress_VA: '@<home_ss_ho3>@DataGather@DwellingAddress_VA'
 
 PreviousDwellingAddress_VA: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
   Zip code: '20105', 
   Street address 1: '112 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Previous Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 MailingAddress_VA: {
@@ -3474,9 +3300,7 @@ MailingAddress_VA: {
   Zip code: '20105', 
   Street address 1: '111 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- VA: PropertyInfo Tab ----------
@@ -3485,9 +3309,7 @@ AdditionalAddress_VA: {
   Zip code: '20105', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- VA: Mortgagees Tab ----------
@@ -3602,12 +3424,7 @@ MortgageesTab_WV: {
 } 
 
 # --------- WV: Applicant Tab ----------
-DwellingAddress_WV: {
-  Zip code: '24714',
-  Street address 1: 265 CHIPMAN AVE,
-  Validate Address: true,
-  Validate Address Dialog: {}
-}
+DwellingAddress_WV: '@<home_ss_ho3>@DataGather@DwellingAddress_WV'
 
 PreviousDwellingAddress_WV: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
@@ -3637,9 +3454,7 @@ AdditionalAddress_WV: {
   Zip code: '24714', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 Construction_WV: {
     Year built: 2009,
@@ -3762,21 +3577,14 @@ MortgageesTab_WY: {
 } 
 
 # --------- WY: Applicant Tab ----------
-DwellingAddress_WY: {
-  Zip code: '82081',
-  Street address 1: 265 CHIPMAN AVE,
-  Validate Address: true,
-  Validate Address Dialog: {}
-}
+DwellingAddress_WY: '@<home_ss_ho3>@DataGather@DwellingAddress_WY'
 
 PreviousDwellingAddress_WY: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
   Zip code: '82213', 
   Street address 1: '112 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Previous Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 MailingAddress_WY: {
@@ -3784,9 +3592,7 @@ MailingAddress_WY: {
   Zip code: '82213', 
   Street address 1: '111 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- WY: PropertyInfo Tab ----------
@@ -3795,9 +3601,7 @@ AdditionalAddress_WY: {
   Zip code: '82081', 
   Street address 1: '266 Chipman Ave', 
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 # --------- WY: Mortgagees Tab ----------
