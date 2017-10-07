@@ -36,7 +36,7 @@ public class TestScenario5 extends Scenario5 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC03_Pay_First_Bill_One_Day_Before(@Optional("CA") String state) {
+	public void TC03_0_Pay_First_Bill_One_Day_Before(@Optional("CA") String state) {
 		super.payFirstBillOneDayBefore();
 	}
 
@@ -151,5 +151,4 @@ public class TestScenario5 extends Scenario5 {
 	public void TC15_Renewal_Offer_Generation(@Optional("CA") String state) {
 		super.renewalOfferGeneration();
 	}
-
 }

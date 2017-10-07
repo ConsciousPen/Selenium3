@@ -1,4 +1,4 @@
-package aaa.modules.cft.auto_ss;
+package aaa.modules.cft.auto_ca.select;
 
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
@@ -13,33 +13,25 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 /**
- * Controlled Financial Testing Scenario 3
- * For any product and any defined state from params
- * NB_Down_Cash
- * Policy Write off
-
+ * Controlled Financial Testing Scenario 5
+ * NB W/O Emp Ben_Quarterly
+ * _1st Installment Bill Mat
  */
-public class TestCFTScenario3 extends ControlledFinancialBaseTest {
+public class TestCFTScenario5 extends ControlledFinancialBaseTest {
 
 	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
-	public void cftTestScenario3(@Optional(StringUtils.EMPTY) String state) {
+	public void cftTestScenario5(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
-		generateInstallmentBill(1);
-		endorsePolicyEffDatePlus16Days();
 		acceptPaymentEffDatePlus25();
-		decline10DollarsPaymentOnCancellationNoticeDate();
-		automaticCancellation();
-		generateFirstEarnedPremiumBill();
-		generateSecondEarnedPremiumBill();
-		generateThirdEarnedPremiumBill();
-		writeOff();
+		otherAdjustmentOnCancellationNoticeDate();
+		generateInstallmentBill(3);
 	}
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_SS;
+		return PolicyType.AUTO_CA_SELECT;
 	}
 
 	@Override
