@@ -61,9 +61,9 @@ public class RemoteHelper {
 		log.info(String.format("SSH: File '%s' uploading to '%s' destination folder has been started.", source, destination));
 		File destinationFile = new File(destination);
 		if (!isPathExist(destinationFile.getParent())) {
-			executeCommand("mkdir -p -m 777 " + destinationFile.getParent());
+			executeCommand("mkdir -p -m 777 " + ssh.parseFileName(destinationFile.getParent()));
 			if (destinationFile.getParentFile().getParentFile() != null) {
-				executeCommand("chmod -R 777 " + destinationFile.getParentFile().getParent());
+				executeCommand("chmod -R 777 " + ssh.parseFileName(destinationFile.getParentFile().getParent()));
 			}
 		}
 		ssh.putFile(source, destination);

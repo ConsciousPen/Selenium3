@@ -67,7 +67,7 @@ public final class BillingAccountActions {
 			return this;
 		}
 
-		public AbstractAction perform(TestData td, Dollar amount) {
+		public synchronized AbstractAction perform(TestData td, Dollar amount) {
 			td.adjust(TestData.makeKeyPath(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName(), BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()), amount.toString());
 			return super.perform(td);
 		}

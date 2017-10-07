@@ -82,9 +82,6 @@ public class SearchPage extends MainPage {
 
 	public static void openBilling(String policyNum) {
 		search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
-		if (!BillingSummaryPage.isVisible()) {
-			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		}
 	}
 
 	public static void clear() {

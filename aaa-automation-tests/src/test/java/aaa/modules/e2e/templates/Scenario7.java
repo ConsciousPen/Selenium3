@@ -68,6 +68,7 @@ public class Scenario7 extends ScenarioBaseTest {
 	protected Integer totalVehiclesNumber;
 
 	protected void createTestPolicy(TestData policyCreationTD) {
+		// TimeSetterUtil.getInstance().adjustTime(); // Debug
 		policy = getPolicyType().get();
 
 		mainApp().open();
@@ -361,9 +362,8 @@ public class Scenario7 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		// TODO should be added Endorsement's delta
 		verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, installmentsCount);
-		new BillingBillsAndStatementsVerifier().setDueDate(policyExpirationDate).setType(BillsAndStatementsType.BILL).verifyPresent();
+		// new BillingBillsAndStatementsVerifier().setDueDate(policyExpirationDate).setType(BillsAndStatementsType.BILL).verifyPresent();
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE).verifyPresent();
 		if (getState().equals(States.NY))
 			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate)).setSubtypeReason(
@@ -462,18 +462,18 @@ public class Scenario7 extends ScenarioBaseTest {
 
 		BillingSummaryPage.openPolicy(policyExpirationDate);
 		PolicySummaryPage.buttonTasks.click();
-		MyWorkSummaryPage.tableTasks.getRow(MyWorkConstants.MyWorkTasksTable.TASK_NAME, "Qualify for manual renewal").verify.present(false);
+		MyWorkSummaryPage.tableTasks.getRow(MyWorkConstants.MyWorkTasksTable.TASK_NAME, "Qualify for manual Renewal").verify.present(false);
 	}
 
 	protected void qualifyForManualRenewalTaskCreated() {
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 
 		PolicySummaryPage.buttonTasks.click();
-		MyWorkSummaryPage.tableTasks.getRow(MyWorkConstants.MyWorkTasksTable.TASK_NAME, "Qualify for manual renewal").verify.present();
+		MyWorkSummaryPage.tableTasks.getRow(MyWorkConstants.MyWorkTasksTable.TASK_NAME, "Qualify for manual Renewal").verify.present();
 
 		// TODO ? verify all task info
 	}
