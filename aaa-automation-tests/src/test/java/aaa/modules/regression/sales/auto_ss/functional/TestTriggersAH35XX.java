@@ -8,8 +8,10 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.BillingAccountMetaData;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -34,20 +36,22 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NA
  * 5. Set Autopay to CC_Master, run DocGenJob, check AH35XX generated and contains EFT data
  * @details
  */
-public class AdditionalTriggersAH35XX extends AutoSSBaseTest {
+public class TestTriggersAH35XX extends AutoSSBaseTest {
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2241")
-    public void pas2241_AdditionalTriggersAH35XX(@Optional("") String state) {
+    public void pas2241_TriggersUiAH35XX(@Optional("") String state) {
+
+        String paymentPlan = "Eleven Pay - Standard";
+        String premiumCoverageTabMetaKey = TestData.makeKeyPath(new PremiumAndCoveragesTab().getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel());
+        TestData generalTabAdjusted = getPolicyTD().getTestData("GeneralTab").adjust("PolicyInformation", getTestSpecificTD("PolicyInformation"));
+        TestData policyTdAdjusted = getPolicyTD().adjust("GeneralTab", generalTabAdjusted).adjust(premiumCoverageTabMetaKey, paymentPlan);
 
         mainApp().open();
         createCustomerIndividual();
 
-        String paymentPlan = "Eleven Pay - Standard";
-        TestData premiumCoveragesAdjusted = getTestSpecificTD("TestData").getTestData("PremiumAndCoveragesTab").adjust("Payment Plan", paymentPlan);
-        TestData bigPolicy_td = getTestSpecificTD("TestData").adjust("PremiumAndCoveragesTab", premiumCoveragesAdjusted);
-        getPolicyType().get().createPolicy(bigPolicy_td);
+        getPolicyType().get().createPolicy(policyTdAdjusted);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         String policyNum = PolicySummaryPage.getPolicyNumber();
 
@@ -66,6 +70,7 @@ public class AdditionalTriggersAH35XX extends AutoSSBaseTest {
         String numberMaster = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2).getValue("Number"); //Master
         documentCheckInDb(policyNum, numberMaster);
         CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
     }
 
     private void documentCheckInDb(String policyNum, String numberCCACH) {

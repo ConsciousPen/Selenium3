@@ -20,7 +20,7 @@ import toolkit.verification.CustomAssert;
 import java.util.Arrays;
 import java.util.List;
 
-public class PaperlessPreferences extends AutoSSBaseTest {
+public class TestPaperlessPreferences extends AutoSSBaseTest {
 
     private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
     private InquiryAssetList inquiryAssetList = new InquiryAssetList(new DocumentsAndBindTab().getAssetList().getLocator(), AutoSSMetaData.DocumentsAndBindTab.class);
@@ -43,8 +43,8 @@ public class PaperlessPreferences extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-283")
     public void pas283_eValuePaperlessPreferences(@Optional("VA") String state) {
 
-        EValueDiscount eValueDiscount = new EValueDiscount();
-        eValueDiscount.eValueQuoteCreationVA();
+        TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+        testEValueDiscount.eValueQuoteCreationVA();
 
         CustomAssert.enableSoftMode();
         policy.dataGather().start();
@@ -102,7 +102,7 @@ public class PaperlessPreferences extends AutoSSBaseTest {
         //PAS-269 end
 
         //PAS-283 continue
-        eValueDiscount.simplifiedQuoteIssue();
+        testEValueDiscount.simplifiedQuoteIssue();
 
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
@@ -139,8 +139,8 @@ public class PaperlessPreferences extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-838")
     public void pas838_eValuePaperlessPreferencesNotConfiguredForState(@Optional("PA") String state) {
 
-        EValueDiscount eValueDiscount = new EValueDiscount();
-        eValueDiscount.eValueQuoteCreationVA();
+        TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+        testEValueDiscount.eValueQuoteCreationVA();
 
         CustomAssert.enableSoftMode();
         policy.dataGather().start();

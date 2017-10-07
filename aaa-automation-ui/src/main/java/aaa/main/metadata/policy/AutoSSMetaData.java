@@ -191,7 +191,8 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<ComboBox> AGENT = declare("Agent", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> AGENT_OF_RECORD = declare("Agent of Record", ComboBox.class);
 			public static final AssetDescriptor<TextBox> AGENT_NUMBER = declare("Agent Number", TextBox.class);
-			public static final AssetDescriptor<ComboBox> COMISSION_TYPE = declare("Commission Type", ComboBox.class);
+			public static final AssetDescriptor<RadioGroup> HAS_THE_INSURED_EVER_BEEN_ENROLLED_IN_EVALUE = declare("Has the insured ever been enrolled in eValue?", RadioGroup.class);
+			public static final AssetDescriptor<ComboBox> COMMISSION_TYPE = declare("Commission Type", ComboBox.class);
 			public static final AssetDescriptor<TextBox> AUTHORIZED_BY = declare("Authorized by", TextBox.class);
 			public static final AssetDescriptor<TextBox> TOLLFREE_NUMBER = declare("TollFree Number", TextBox.class);
 			public static final AssetDescriptor<ComboBox> LEAD_SOURCE = declare("Lead Source", ComboBox.class);
@@ -584,6 +585,27 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION = declare("Uninsured and Underinsured Motorist Coverage Selection", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> NAMED_DRIVER_EXCLUSION = declare("Named Driver Exclusion", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> CRITICAL_INFORMATION_FOR_TEENAGE_DRIVERS_AND_THEIR_PARENTS = declare("Critical Information for Teenage Drivers and Their Parents", RadioGroup.class, Waiters.AJAX);
+			//VA
+			public static final AssetDescriptor<RadioGroup> EVALUE_ACKNOWLEDGEMENT = declare("eValue Acknowledgement", RadioGroup.class, Waiters.NONE);
+
+			public static final AssetDescriptor<Link> BTN_GENERATE_DOCUMENTS = declare("Generate Documents", Link.class, Waiters.NONE, By.xpath("//a[@id='policyDataGatherForm:generate_link']"));
+			public static final AssetDescriptor<Link> BTN_GENERATE_ESIGNATURE_DOCUMENTS = declare("Generate eSignature Documents", Link.class, Waiters.NONE, By.xpath("//a[@id='policyDataGatherForm:generate_link_esign']"));
+			public static final AssetDescriptor<AssetList> ENTER_RECIPIENT_EMAIL_ADDRESS_DIALOG = declare("EnterRecipientEmailAddress", AssetList.class, EnterRecipientEmailAddressDialog.class, By.xpath("//div[@id='errorDialog1_content_scroller']"));
+
+			public static final class EnterRecipientEmailAddressDialog extends MetaData {
+				public static final AssetDescriptor<TextBox> RECIPIENT_EMAIL_ADDRESS = declare("Recipient Email Address", TextBox.class, Waiters.NONE, By.id("recipientEmailAddressForm:recpEmail"));
+				public static final AssetDescriptor<Button> BTN_OK = declare("OK", Button.class, Waiters.AJAX, By.id("recipientEmailAddressForm:okButton"));
+
+				public static final AssetDescriptor<Link> LINK_CANCEL = declare("Cancel", Link.class, Waiters.AJAX, By.id("recipientEmailAddressForm:cancelBtn1"));
+			}
+
+		}
+
+		public static final class EnterRecipientEmailAddressDialog extends MetaData {
+			public static final AssetDescriptor<TextBox> RECIPIENT_EMAIL_ADDRESS = declare("Recipient Email Address", TextBox.class, Waiters.NONE, By.id("recipientEmailAddressForm:recpEmail"));
+			public static final AssetDescriptor<Button> BTN_OK = declare("OK", Button.class, Waiters.AJAX, By.id("recipientEmailAddressForm:okButton"));
+
+			public static final AssetDescriptor<Link> LINK_CANCEL = declare("Cancel", Link.class, Waiters.AJAX, By.id("recipientEmailAddressForm:cancelBtn1"));
 		}
 
 		public static final class RequiredToBind extends MetaData {

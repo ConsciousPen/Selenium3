@@ -52,6 +52,9 @@ public class DocumentsAndBindTab extends Tab {
 	public AssetList getDocumentsForPrintingAssetList() {
     	return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING.getLabel(), AssetList.class);
 	}
+	public AssetList getEnterRecipientEmailAddressDialogAssetList() {
+		return getDocumentsForPrintingAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.ENTER_RECIPIENT_EMAIL_ADDRESS_DIALOG.getLabel(), AssetList.class);
+	}
 	public AssetList getRequiredToBindAssetList() {
     	return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(), AssetList.class);
 	}

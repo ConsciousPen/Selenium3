@@ -49,6 +49,7 @@ public abstract class Tab {
 
 	public static Dialog dialogCancelAction = new Dialog(By.id("cancelConfirmDialogDialog_container"));
 
+	public static StaticElement labelPolicyNumber = new StaticElement(By.xpath("//span[@id = 'policyDataGatherForm:dataGatherHeaderSectionInfo']//td[2]//span"));
 	public static StaticElement labelLoggedUser = new StaticElement(By.id("logoutForm:userDetails"));
 
 	protected AbstractContainer<?, ?> assetList;
@@ -169,7 +170,7 @@ public abstract class Tab {
 	}
 
 	public Tab verifyFieldHasMessage(String label, String expectedValue) {
-		String actualValue = assetList.getWarning(label).getValue().toString();
+		String actualValue = assetList.getWarning(label).getValue();
 		String errorMessage = String.format("'%s' field's actual warning '%s' is not equal to the expected warning of '%s'", label, actualValue, expectedValue);
 		CustomAssert.assertEquals(errorMessage, expectedValue, actualValue);
 		return this;
@@ -192,5 +193,9 @@ public abstract class Tab {
 	public Tab saveAndExit() {
 		buttonSaveAndExit.click();
 		return this;
+	}
+
+	public String getPolicyNumber(){
+		return labelPolicyNumber.getValue();
 	}
 }
