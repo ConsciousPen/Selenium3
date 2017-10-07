@@ -15,6 +15,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
+import aaa.main.modules.billing.account.actiontabs.OtherTransactionsActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -22,7 +23,6 @@ import aaa.modules.policy.PolicyBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.apache.commons.lang3.StringUtils;
-import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -155,6 +155,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	/**
 	 * Other Adjustment on cancellation Notice generation day
+	 * decrease for 30$  (i.e. -30)
 	 */
 	protected void otherAdjustmentOnCancellationNoticeDate() {
 		LocalDateTime cancellationNoticeDate = getTimePoints().getCancellationNoticeDate(installments.get().get(1));
@@ -168,8 +169,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		new BillingPaymentsAndTransactionsVerifier()
 				.setTransactionDate(cancellationNoticeDate)
 				.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
-				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PAYMENT_DECLINED)
-				.setAmount(new Dollar(10))
+				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.OTHER)
+				.setAmount(new Dollar(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData(OtherTransactionsActionTab.class.getSimpleName()).getValue(BillingAccountMetaData.OtherTransactionsActionTab.AMOUNT.getLabel())))
 				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
 				.verifyPresent();
 		log.info("Decline payment action completed successfully");
@@ -258,7 +259,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber.get());
-		policy.reinstate().perform(DataProviderFactory.dataOf(DEFAULT_TEST_DATA_KEY, getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("ReinstatementActionTab")));
+		policy.reinstate().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Reinstatement for Policy %1$s", policyNumber.get()));
 		log.info("Manual reinstatement action completed successfully");
 	}

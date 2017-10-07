@@ -11,12 +11,18 @@ TestData: {
   UnderwritingAndApprovalTab: {},
   DocumentsTab: {},
   BindTab: {},
-  CancellationActionTab: '@CancellationActionTab'
+  CancellationActionTab: '@CancellationActionTab',
+  ReinstatementActionTab: '@ReinstatementActionTab'
 }
 
 EndorsementActionTab: {
   Endorsement Date: /today+2d,
   Endorsement Reason: 'Other Interest(s)/Mortgagees'
+}
+
+ValidateAddressDialog_DataGather: {
+    Street Number: 265,
+    Street Name: CHIPMAN AVE,
 }
 
 PremiumsAndCoveragesQuoteTab: {
@@ -38,8 +44,7 @@ CancellationActionTab: {
 }
 
 ReinstatementActionTab: {
-   Reinstate Date: /today,
-   Authorized By: 'QA'
+   Reinstate Date: /today
 }
 
 PremiumsAndCoveragesQuoteTab_DataGather: {
@@ -53,6 +58,14 @@ PurchaseTab_DataGather: {
     Check: /rest,
     Check Number Check: '123456'
  }
+}
+
+PublicProtectionClass_DataGather_CT: {
+  Fire department type: 'S - Subscription based',
+  Subscription to fire department/station: 'No',
+  Public protection class: '1',
+  Distance to fire hydrant: '<=1000ft',
+  Fire protection area: '100'
 }
 
 ApplicantTab_DataGather: {
