@@ -17,6 +17,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import org.openqa.selenium.By;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -49,6 +50,58 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	private InquiryAssetList inquiryAssetListGeneralTab = new InquiryAssetList(By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER), AutoSSMetaData.GeneralTab.PolicyInformation.class);
 	private InquiryAssetList inquiryAssetListPremiumAndCoveragesTab = new InquiryAssetList(By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER), AutoSSMetaData.PremiumAndCoveragesTab.class);
 
+	private static final String EVALUE_CONFIGURATION_PER_STATE_CHECK = "select dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id from LOOKUPVALUE\n" +
+			" where lookuplist_id = \n" +
+			" (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup')\n" +
+			" and CODE = 'eMember'\n" +
+			" and RISKSTATECD = '%s'";
+
+	private static final String PAPERLESS_PREFRENCES_CONFIGURATION_PER_STATE_CHECK = "select dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id from LOOKUPVALUE\n" +
+			" where lookuplist_id = \n" +
+			" (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup')\n" +
+			" and CODE = 'PaperlessPreferences'\n" +
+			" and RISKSTATECD = '%s'";
+
+	private static final String EVALUE_CONFIGURATION_PER_STATE_INSERT = "INSERT INTO LOOKUPVALUE\n" +
+			" (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id)\n" +
+			" values\n" +
+			" ('AAARolloutEligibilityLookupValue', 'eMember', 'TRUE', 'AAA_SS', '%s', null, null, null,\n" +
+			" (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
+
+	private static final String PAPERLESS_PREFRENCES_CONFIGURATION_PER_STATE_INSERT = "INSERT INTO LOOKUPVALUE\n" +
+			" (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id)\n" +
+			" values\n" +
+			" ('AAARolloutEligibilityLookupValue', 'PaperlessPreferences', 'TRUE', 'AAA_SS', '%s', null, null, null,\n" +
+			" (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
+
+	@BeforeClass //comment when running locally
+	//@Test() //uncomment when running locally
+	public static void eValueConfigCheck() {
+		CustomAssert.enableSoftMode();
+		List<String> configForStates = Arrays.asList("VA", "MD", "DC");
+		for (String configForState : configForStates) {
+			CustomAssert.assertTrue("eValue is not configured for " + configForState + ". Insert configuration (run eValueConfigInsert) and restart the env", DBService.get().getValue(String.format(EVALUE_CONFIGURATION_PER_STATE_CHECK, configForState)).isPresent());
+			CustomAssert.assertTrue("Paperless Preferences is not configured for " + configForState + ". Insert configuration (run eValueConfigInsert) and restart the env", DBService.get().getValue(String.format(PAPERLESS_PREFRENCES_CONFIGURATION_PER_STATE_CHECK, configForState)).isPresent());
+		}
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	//@Test() //uncomment when running locally
+	public static void eValueConfigInsert() {
+		List<String> configForStates = Arrays.asList("VA"  //for Paperless Preferences = Yes
+				, "MD"  //for Paperless Preferences = Yes
+				, "DC"); //for Paperless Preferences = No
+		//PA should not have eValue or Paperless Preferences Configuration
+		for (String configForState : configForStates) {
+			insertConfigForRegularStates(configForState);
+		}
+	}
+
+	private static void insertConfigForRegularStates(String state) {
+		DBService.get().executeUpdate(String.format(EVALUE_CONFIGURATION_PER_STATE_INSERT, state));
+		DBService.get().executeUpdate(String.format(PAPERLESS_PREFRENCES_CONFIGURATION_PER_STATE_INSERT, state));
+	}
 
 	//TODO Replace below TCs with DataProvider when the Optional parameter State will be removed
 

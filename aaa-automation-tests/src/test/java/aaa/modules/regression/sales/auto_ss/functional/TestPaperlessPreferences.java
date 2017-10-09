@@ -11,6 +11,7 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -24,6 +25,12 @@ public class TestPaperlessPreferences extends AutoSSBaseTest {
 
     private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
     private InquiryAssetList inquiryAssetList = new InquiryAssetList(new DocumentsAndBindTab().getAssetList().getLocator(), AutoSSMetaData.DocumentsAndBindTab.class);
+
+    @BeforeClass
+    //@Test
+    public static void eValueConfigCheck(){
+        TestEValueDiscount.eValueConfigCheck();
+    }
 
     /**
      * @author Oleg Stasyuk
