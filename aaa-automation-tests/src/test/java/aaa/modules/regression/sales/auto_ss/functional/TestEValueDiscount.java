@@ -357,7 +357,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-325")
-	public void pas325_hasTheInsuredEverBeenEnrolledIneValue(@Optional("VA") String state) {
+	public void pas325_eValueCommissionRelatedFields(@Optional("VA") String state) {
 		List<String> expectedNonEvalueCommissionTypeOptions = Arrays.asList("New Business", "Renewal");
 		List<String> expectedEvalueCommissionTypeOptions = Arrays.asList("eValue New Business", "eValue Renewal");
 
@@ -416,11 +416,15 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		//There might be a new requirement to default the field to yes for the rewrite and Split in case if original policy had eValue Discount=true
 		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.HAS_THE_INSURED_EVER_BEEN_ENROLLED_IN_EVALUE).verify.value("No");
 		//PAS-306, PAS-320, PAS-323 start
-		//TODO check with Karen if the existence of Renewal Image with Commission Type = eValue Renewal should be carried over to Rewritten Quote
-		//TODO check with Karen if Original policy had eValue equal to yes, than if Rewritten quote should have evalue = yes and commission indicator = eValue New Business
 		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.COMMISSION_TYPE).verify.optionsContain(expectedNonEvalueCommissionTypeOptions);
-		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.COMMISSION_TYPE).verify.value("eValue New Business");
+		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.COMMISSION_TYPE).verify.value("Renewal");
 		//PAS-306, PAS-320, PAS-323 end
+
+		//Logic requested by business - not to carry over eValue from Original Policy and to have Commission Type dependent on HAS_THE_INSURED_EVER_BEEN_ENROLLED_IN_EVALUE value which is set by Agent
+		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.HAS_THE_INSURED_EVER_BEEN_ENROLLED_IN_EVALUE).setValue("Yes");
+		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.COMMISSION_TYPE).verify.value("eValue Renewal");
+		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.HAS_THE_INSURED_EVER_BEEN_ENROLLED_IN_EVALUE).setValue("No");
+		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.COMMISSION_TYPE).verify.value("Renewal");
 		generalTab.cancel();
 
 		//PAS-302 start
@@ -430,8 +434,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData").adjust("EndorsementActionTab", adjustedEndorsementActionData));
 
 		//PAS-306, PAS-320, PAS-323 start
-		//TODO check with Karen if after Policy reinstatement the commision = eValue New Business even if we set eValue Discount = false
-		CommissionTypeCheck(expectedEvalueCommissionTypeOptions, "No", "eValue New Business");//because the Issue Action happened with eValue Discount = True
+		CommissionTypeCheck(expectedEvalueCommissionTypeOptions, "No", "eValue New Business");//because the Issue Action happened with eValue Discount = True, and the agent is locked in eValue commissions forever
 		CommissionTypeCheck(expectedEvalueCommissionTypeOptions, "Yes", "eValue New Business");
 		//PAS-306, PAS-320, PAS-323 end
 
