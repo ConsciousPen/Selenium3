@@ -26,7 +26,7 @@ public class TestScenario3 extends Scenario3 {
 		super.createTestPolicy(policyCreationTD);
 	}
 
-/*	@Parameters({"state"})
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC02_Generate_First_Bill(@Optional("") String state) {
 		super.generateFirstBill();
@@ -54,7 +54,7 @@ public class TestScenario3 extends Scenario3 {
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC06_Pay_Cancellation_Notice_By_Remittance(@Optional("") String state) {
 		super.payCancellationNoticeByRemittance();
-	}*/
+	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
@@ -73,7 +73,6 @@ public class TestScenario3 extends Scenario3 {
 	public void TC09_Renewal_Offer_Generation(@Optional("") String state) {
 		super.renewalOfferGeneration();
 	}
-/*
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC10_Renewal_Premium_Notice(@Optional("") String state) {
@@ -92,7 +91,7 @@ public class TestScenario3 extends Scenario3 {
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC12_Customer_Decline_Renewal(@Optional("") String state) {
 		super.customerDeclineRenewal();
-	}*/
+	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
