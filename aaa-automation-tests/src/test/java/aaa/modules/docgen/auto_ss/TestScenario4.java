@@ -308,6 +308,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 //				.adjust(TestData.makeKeyPath("AH64XX", "form", "PlcyEffDt", "DateTimeField"), plcyEffDt) //TODO the field is absent, defect 44754
 //				.adjust(TestData.makeKeyPath("AH64XX", "form", "PlcyExprDt", "DateTimeField"), plcyExprDt) //TODO the field is incorrect, defect 44754
 				.adjust(TestData.makeKeyPath("AH64XX", "form", "CancEffDt", "DateTimeField"), cancEffDt)
+				.adjust(TestData.makeKeyPath("AH64XX", "form", "PlcyRnwlExprDt", "DateTimeField"), plcyRnwlExprDt)
 				.adjust(TestData.makeKeyPath("AH64XX", "PaymentDetails", "RnwlDnPayAmt", "TextField"), rnwlDnPayAmt)
 				.adjust(TestData.makeKeyPath("AH64XX", "PaymentDetails", "PlcyPayFullAmt", "TextField"), plcyPayFullAmt),
 				policyNumber);
