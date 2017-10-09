@@ -804,6 +804,7 @@ public final class AutoSSMetaData {
 	public static final class CancellationActionTab extends MetaData {
 		public static final AssetDescriptor<TextBox> CANCELLATION_EFFECTIVE_DATE = declare("Cancel Date", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> CANCELLATION_REASON = declare("Cancellation Reason", ComboBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<TextBox> OTHER_REASON = declare("Other reason", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> AUTHORIZED_BY = declare("Authorized By", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> DESCRIPTION = declare("Description", TextBox.class);
 	}

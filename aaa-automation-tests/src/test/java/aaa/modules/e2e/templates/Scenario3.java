@@ -173,6 +173,10 @@ public class Scenario3 extends ScenarioBaseTest {
 		if (getState().equals(Constants.States.CA)) {
 			verifyCaRenewalOfferPaymentAmount(policyExpirationDate,getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
 		}
+
+		if (verifyPligaOrMvleFee(renewDateOffer, policyTerm, totalVehiclesNumber)) {
+			pligaOrMvleFeeLastTransactionDate = renewDateOffer;
+		}
 	}
 
 	//Skip this step for CA
@@ -185,9 +189,9 @@ public class Scenario3 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		verifyRenewPremiumNotice(policyExpirationDate, billDate);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate)
-				.setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
+		Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
+		verifyRenewPremiumNotice(policyExpirationDate, billDate, pligaOrMvleFee);
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
 	public void expirePolicy() {
@@ -219,6 +223,7 @@ public class Scenario3 extends ScenarioBaseTest {
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.CUSTOMER_DECLINED).verify(1);
 
+		//((AutoSSPolicyActions.ManualRenewalWithOrWithoutLapse) policy.manualRenewalWithOrWithoutLapse()).perform();
 		policy.manualRenewalWithOrWithoutLapse().perform(getStateTestData(tdPolicy, "ManualRenewalWithOrWithoutLapse", "TestData"));
 
 		if (PolicySummaryPage.labelPolicyStatus.getValue().equals(PolicyStatus.POLICY_EXPIRED)) {

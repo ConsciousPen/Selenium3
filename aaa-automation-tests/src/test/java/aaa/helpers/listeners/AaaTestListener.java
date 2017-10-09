@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriverException;
 import org.testng.ITestResult;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.teststoragex.listeners.TestngTestListener2;
+import toolkit.utils.teststoragex.models.Attachment;
 import toolkit.webdriver.BrowserController;
 
 public class AaaTestListener extends TestngTestListener2 {
@@ -31,6 +32,13 @@ public class AaaTestListener extends TestngTestListener2 {
 			BrowserController.get().executeScript("$('#headerForm').show();");
 		} catch (IstfException | WebDriverException e) {
 			log.debug("Error execute script for show footer: ", e);
+		}
+	}
+
+	@Override
+	protected void createAuxAttachments(ITestResult result){
+		if (result.getTestContext().getAttribute("attachment") != null) {
+			createAttachment(result, result.getTestContext().getAttribute("attachment").toString(), Attachment.Type.OTHER);
 		}
 	}
 }

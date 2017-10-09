@@ -62,11 +62,12 @@ public final class BillingAccountActions {
 
 		@Override
 		public AbstractAction start() {
+			log.info(getName() + " action initiated.");
 			new Link(By.linkText("Accept Payment")).click();
 			return this;
 		}
 
-		public AbstractAction perform(TestData td, Dollar amount) {
+		public synchronized AbstractAction perform(TestData td, Dollar amount) {
 			td.adjust(TestData.makeKeyPath(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName(), BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()), amount.toString());
 			return super.perform(td);
 		}
@@ -113,6 +114,7 @@ public final class BillingAccountActions {
 
 		@Override
 		public AbstractAction submit() {
+			log.info(getName() + " action has been finished.");
 			return this;
 		}
 	}

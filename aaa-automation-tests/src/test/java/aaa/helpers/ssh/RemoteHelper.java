@@ -36,18 +36,34 @@ public class RemoteHelper {
 			log.warn("SSH: Folder '" + folder + "' doesn't exist.");
 	}
 
+	public static synchronized void downloadFileWithWait(String source, String destination, long timeout) {
+		log.info(String.format("SSH: File '%s' downloading to '%s' destination folder has been started.", source, destination));
+		long endTime = System.currentTimeMillis() + timeout;
+		while(!isPathExist(source)) {
+			if (endTime < System.currentTimeMillis()) {
+				throw new AssertionError(String.format("File '%s' wasn't found after %s ms of wait", source, timeout));
+			}
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				throw new IstfException(e);
+			}
+		}
+		ssh.downloadFile(source, destination);
+	}
+
 	public static void downloadFile(String source, String destination) {
 		log.info(String.format("SSH: File '%s' downloading to '%s' destination folder has been started.", source, destination));
 		ssh.downloadFile(source, destination);
 	}
 
-	public static void uploadFile(String source, String destination) {
+	public static synchronized void uploadFile(String source, String destination) {
 		log.info(String.format("SSH: File '%s' uploading to '%s' destination folder has been started.", source, destination));
-		String folderPath = destination.substring(0, destination.lastIndexOf("/"));
-		if (!isPathExist(folderPath)) {
-			executeCommand("mkdir -p -m 777 " + folderPath);
-			if (folderPath.contains("/")) {
-				executeCommand("chmod -R 777 " + folderPath.substring(0, folderPath.lastIndexOf("/")));
+		File destinationFile = new File(destination);
+		if (!isPathExist(destinationFile.getParent())) {
+			executeCommand("mkdir -p -m 777 " + ssh.parseFileName(destinationFile.getParent()));
+			if (destinationFile.getParentFile().getParentFile() != null) {
+				executeCommand("chmod -R 777 " + ssh.parseFileName(destinationFile.getParentFile().getParent()));
 			}
 		}
 		ssh.putFile(source, destination);

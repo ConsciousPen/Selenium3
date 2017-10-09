@@ -67,8 +67,8 @@ public class Scenario6 extends ScenarioBaseTest {
 	protected Integer totalVehiclesNumber;
 
 	protected void createTestPolicy(TestData policyCreationTD) {
-		policy = getPolicyType().get();
 
+		policy = getPolicyType().get();
 		mainApp().open();
 		createCustomerIndividual();
 

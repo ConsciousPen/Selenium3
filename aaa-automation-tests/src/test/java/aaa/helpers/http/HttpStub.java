@@ -43,11 +43,11 @@ public class HttpStub {
 			LocalDateTime phaseTime = TimeSetterUtil.getInstance().getPhaseStartTime();
 
 			if (!phaseTime.equals(currentPhase)) {
-				stubs = new HashMap<HttpStubBatch, StubState>();
+				stubs = new HashMap<>();
 				currentPhase = phaseTime;
 			}
 		} else
-			stubs = new HashMap<HttpStubBatch, StubState>();
+			stubs = new HashMap<>();
 		synchronized (stubs) {
 			switch (getStubState(stubName)) {
 			case FALSE:

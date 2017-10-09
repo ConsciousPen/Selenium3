@@ -125,3 +125,54 @@ TestData_EndorsementAP_NY: {
     Authorized By: qa
   }
 }
+
+#---- Endorsement VA ----
+
+TestData_EndorsementPlan_VA: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Payment Plan: Annual
+  }
+}
+  
+TestData_EndorsementRP_VA: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {
+    List of Vehicle: [{}, {
+      'column=5': Remove,
+      Confirm Remove: click
+    }]
+  },
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+TestData_EndorsementAP_VA: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 1B3BA46K4KF440231
+  },
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}

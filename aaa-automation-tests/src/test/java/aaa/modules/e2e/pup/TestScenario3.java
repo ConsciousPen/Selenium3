@@ -73,7 +73,6 @@ public class TestScenario3 extends Scenario3 {
 	public void TC09_Renewal_Offer_Generation(@Optional("") String state) {
 		super.renewalOfferGeneration();
 	}
-
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC10_Renewal_Premium_Notice(@Optional("") String state) {

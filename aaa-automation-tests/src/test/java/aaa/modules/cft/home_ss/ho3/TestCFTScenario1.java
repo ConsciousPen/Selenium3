@@ -18,64 +18,16 @@ public class TestCFTScenario1 extends ControlledFinancialBaseTest {
 	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
-	public void createPolicy(@Optional(StringUtils.EMPTY) String state) {
-		super.createPolicyForTest();
-	}
-
-	@Test(groups = {Groups.CFT}, dependsOnMethods = "createPolicy")
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void endorsePolicy(@Optional(StringUtils.EMPTY) String state) {
-		super.endorsePolicyEffDatePlus2Days();
-	}
-
-	@Test(groups = {Groups.CFT},dependsOnMethods = "endorsePolicy")
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void generateBillForFirstInstallment(@Optional(StringUtils.EMPTY) String state) {
-		super.generateFirstInstallmentBill();
-	}
-
-	@Test(groups = {Groups.CFT},dependsOnMethods = "generateBillForFirstInstallment")
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void generateCancellationNotice(@Optional(StringUtils.EMPTY) String state) {
-		super.automaticCancellationNotice();
-	}
-
-	@Test(groups = {Groups.CFT},dependsOnMethods = "generateCancellationNotice")
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void cancelPolicy(@Optional(StringUtils.EMPTY) String state) {
-		super.automaticCancellation();
-	}
-
-	@Test(groups = {Groups.CFT},dependsOnMethods = "cancelPolicy")
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void generateFirstEPBill(@Optional(StringUtils.EMPTY) String state) {
-		super.generateFirstEarnedPremiumBill();
-	}
-
-	@Test(groups = {Groups.CFT},dependsOnMethods = "generateFirstEPBill")
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void generateSecondEPBill(@Optional(StringUtils.EMPTY) String state) {
-		super.generateSecondEarnedPremiumBill();
-	}
-
-	@Test(groups = {Groups.CFT},dependsOnMethods = "generateSecondEPBill")
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void generateThirdEPBill(@Optional(StringUtils.EMPTY) String state) {
-		super.generateThirdEarnedPremiumBill();
-	}
-
-	@Test(groups = {Groups.CFT},dependsOnMethods = "generateThirdEPBill")
-	@TestInfo(component = Groups.CFT)
-	@Parameters({STATE_PARAM})
-	public void testCFTScenario1WriteOff(@Optional(StringUtils.EMPTY) String state) {
-		super.writeOff();
+	public void cftTestScenario1(@Optional(StringUtils.EMPTY) String state) {
+		createPolicyForTest();
+		endorsePolicyEffDatePlus2Days();
+		generateInstallmentBill(1);
+		automaticCancellationNotice();
+		automaticCancellation();
+		generateFirstEarnedPremiumBill();
+		generateSecondEarnedPremiumBill();
+		generateThirdEarnedPremiumBill();
+		writeOff();
 	}
 
 	@Override
