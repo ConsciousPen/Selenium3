@@ -123,6 +123,7 @@ public class TestScenario5 extends Scenario5 {
 		super.generateThirdEPBill();
 	}
 
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC12_0_Generate_EP_Write_Off_One_Day_Before(@Optional("CA") String state) {
 		super.generateEPWriteOffOneDayBefore();
