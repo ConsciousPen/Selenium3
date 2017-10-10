@@ -122,17 +122,18 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	 * 5. Verify that 'eEvalue Status' = 'Pending' (for TS1 and TS4) and 'eEvalue Status' is empty (for TS2, TS3, TS5, TS6 and TS7) on Consolidated page.
 	 * @details
 	 */
+
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-305")
-	public void eValueDiscount_1(@Optional("VA") String state) {
+	public void eValueDiscountVariations(@Optional("VA") String state) {
 		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", true, true, "Pending");
-		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", true, true, "Pending");
-		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", true, true, "Pending");
-		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", true, true, "Pending");
-		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", true, true, "Pending");
-		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", true, true, "Pending");
-		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", true, true, "Pending");
+		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", false, false, "");
+		testEvalueDiscount("AAAProductOwned_No", "CurrentCarrierInformation", false, false, "");
+		testEvalueDiscount("AAAProductOwned_Pending", "CurrentCarrierInformation", true, true, "Pending");
+		testEvalueDiscount("AAAProductOwned_Pending", "CurrentCarrierInformation", false, false, "");
+		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation_DayLapsedMore4", false, false, "");
+		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation_BILimitLess", false, false, "");
 	}
 
 
@@ -388,7 +389,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 
 		eValueQuoteCreationVA();
 
-		//CustomAssert.enableSoftMode();
+		CustomAssert.enableSoftMode();
 		policy.dataGather().start();
 
 		//PAS-264 start
