@@ -70,6 +70,7 @@ public final class DocGenEnum {
 		HS0477("HS 04 77", "Building Code Upgrade endorsement"),
 		AH60XXA("Rescission Notice"),
 		AA41XX("Non-Owners Endorsement"),
+		AA10OK(""),
 		HS0988("HS 09 88","Additional Insured - Special Event"),
 		_60_5000("60 5000", "Fee + Restriction Form"),
 		_60_5001("60 5001", "Fee + No Restriction Form"),
