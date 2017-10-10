@@ -20,11 +20,6 @@ EndorsementActionTab: {
   Endorsement Reason: 'Other Interest(s)/Mortgagees'
 }
 
-ValidateAddressDialog_DataGather: {
-    Street Number: 265,
-    Street Name: CHIPMAN AVE,
-}
-
 PremiumsAndCoveragesQuoteTab: {
   Coverage E - Personal Liability Each Occurrence: 'contains=$700,000',
   Calculate Premium: 'click',
@@ -71,3 +66,8 @@ PublicProtectionClass_DataGather_CT: {
 ApplicantTab_DataGather: {
   AAA employee: 'Yes'
 }
+
+#ValidateAddressDialog_DataGather: {
+#    Street Number: 265,
+#    Street Name: CHIPMAN AVE,
+#}

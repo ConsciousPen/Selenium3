@@ -1,4 +1,4 @@
-package aaa.modules.cft.auto_ss;
+package aaa.modules.cft.auto_ca.select;
 
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
@@ -13,28 +13,22 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 /**
- * Controlled Financial Testing Scenario 6
- * NB With EMP BEN_Quarterly
- * Down pay_ACH
- * Pending_OOSE
- * EFT _W/OFF
- * SR22 (SR22 only applies to auto)
- *
+ * Controlled Financial Testing Scenario 7
+ * Existing policy - installment payment cash
  */
-public class TestCFTScenario6 extends ControlledFinancialBaseTest {
+public class TestCFTScenario7 extends ControlledFinancialBaseTest {
 
 	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
-	public void cftTestScenario6(@Optional(StringUtils.EMPTY) String state) {
+	public void cftTestScenario1(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
-		endorsePolicyEffDatePlus2Days();
-		endorseOOSPolicyEffDatePlus16Days();
+		generateInstallmentBill(1);
 	}
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_SS;
+		return PolicyType.AUTO_CA_SELECT;
 	}
 
 	@Override
@@ -44,4 +38,5 @@ public class TestCFTScenario6 extends ControlledFinancialBaseTest {
 		td.adjust(PurchaseTab.class.getSimpleName(), getTestSpecificTD("PurchaseTab_DataGather"));
 		return td.resolveLinks();
 	}
+
 }

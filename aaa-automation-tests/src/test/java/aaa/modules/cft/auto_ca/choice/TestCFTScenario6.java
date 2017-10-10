@@ -1,4 +1,4 @@
-package aaa.modules.cft.auto_ss;
+package aaa.modules.cft.auto_ca.choice;
 
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;

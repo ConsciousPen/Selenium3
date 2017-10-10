@@ -1,20 +1,16 @@
 package aaa.modules.cft.home_ss.ho3;
 
-import aaa.common.enums.Constants;
 import aaa.helpers.constants.Groups;
-import aaa.main.metadata.DialogsMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -53,7 +49,7 @@ public class TestCFTScenario2 extends ControlledFinancialBaseTest {
 		td.adjust(PurchaseTab.class.getSimpleName(), getTestSpecificTD("PurchaseTab_DataGather"));
 		td.adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.AAA_EMPLOYEE.getLabel()),
 				getTestSpecificTD("ApplicantTab_DataGather").getValue(HomeSSMetaData.ApplicantTab.NamedInsured.AAA_EMPLOYEE.getLabel()));
-		if (getState().equals(Constants.States.CT)) {
+		/*if (getState().equals(Constants.States.CT)) {
 			TestData data = DataProviderFactory.dataOf(DialogsMetaData.AddressValidationMetaData.STREET_NUMBER.getLabel(),
 					getTestSpecificTD("ValidateAddressDialog_DataGather").getValue(DialogsMetaData.AddressValidationMetaData.STREET_NUMBER.getLabel()),
 					DialogsMetaData.AddressValidationMetaData.STREET_NAME.getLabel(),
@@ -62,7 +58,7 @@ public class TestCFTScenario2 extends ControlledFinancialBaseTest {
 					data);
 			td.adjust(TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.class.getSimpleName()),
 					getTestSpecificTD("PublicProtectionClass_DataGather"));
-		}
+		}*/
 		return td.resolveLinks();
 	}
 
