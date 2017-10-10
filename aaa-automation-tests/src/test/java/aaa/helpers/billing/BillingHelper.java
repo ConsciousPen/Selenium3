@@ -160,19 +160,17 @@ public final class BillingHelper {
 		return amount;
 	}
 
-	public static Dollar getPolicyRenewalProposalSum() {
-		Dollar summ = new Dollar(0);
-		Dollar fees = new Dollar(0);
-		int rowNumber = 1;
+	public static Dollar getPolicyRenewalProposalSum(LocalDateTime renewDate, String policyNum) {
+		HashMap<String, String> query = new HashMap<>();
+		query.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, renewDate.format(DateTimeUtils.MM_DD_YYYY));
+		query.put(BillingPaymentsAndOtherTransactionsTable.POLICY, policyNum);
+		query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PREMIUM);
 
-		for (String amount : BillingSummaryPage.tablePaymentsOtherTransactions.getValuesFromRows(BillingPaymentsAndOtherTransactionsTable.AMOUNT)) {
+		Dollar summ = new Dollar(0);
+		for (String amount : BillingSummaryPage.tablePaymentsOtherTransactions.getValuesFromRows(query, BillingPaymentsAndOtherTransactionsTable.AMOUNT)) {
 			summ = summ.add(new Dollar(amount));
 		}
-		while (BillingSummaryPage.tablePaymentsOtherTransactions.getRow(rowNumber).getCell(BillingPaymentsAndOtherTransactionsTable.TYPE).getValue().equals(PaymentsAndOtherTransactionType.FEE)) {
-			fees = fees.add(new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(rowNumber).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()));
-			rowNumber++;
-		}
-		return summ.subtract(fees);
+		return summ;
 	}
 
 	public static void declinePayment(LocalDateTime transactionDate) {
