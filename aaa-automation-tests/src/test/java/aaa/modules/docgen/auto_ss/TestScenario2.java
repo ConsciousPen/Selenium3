@@ -614,7 +614,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 
 	private void storeBillingData() {
 		BillingSummaryPage.open();
-		for (int i = 1; i <= BillingSummaryPage.tableInstallmentSchedule.getRowsCount(); i++) {
+		for (int i = 1; i <= BillingSummaryPage.tableInstallmentSchedule.getAllRowsCount(); i++) {
 			if ("Installment".equals(BillingSummaryPage.tableInstallmentSchedule.getRow(i).getCell(BillingInstallmentScheduleTable.DESCRIPTION).getValue()) && "Unbilled".equals(BillingSummaryPage.tableInstallmentSchedule.getRow(i).getCell(BillingInstallmentScheduleTable.BILLED_STATUS).getValue())) {
 				dueAmount.add(DataProviderFactory.dataOf("TextField", formatValue(BillingSummaryPage.getInstallmentAmount(i).add(2).toString())));
 				String _installmentDueDate = BillingSummaryPage.getInstallmentDueDate(i).toString();
