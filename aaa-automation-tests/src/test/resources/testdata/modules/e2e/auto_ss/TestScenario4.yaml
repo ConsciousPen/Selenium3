@@ -37,6 +37,20 @@ TestData_Endorsement_NY: {
   DocumentsAndBindTab: '@DocumentsAndBindTab_NY'
 }
 
+TestData_Endorsement_VA: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleTab',
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
 VehicleTab_NY: {
   Add Vehicle: Click,
   Usage: Pleasure,

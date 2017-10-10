@@ -23,7 +23,7 @@ public class BillGenerationTest extends BackwardCompatibilityBaseTest {
 		SearchPage.openBilling(policyNumber);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
 		Dollar initialMinDue = BillingSummaryPage.getMinimumDue();
-		int initialBillsCount = BillingSummaryPage.tableBillsStatements.getRowsCount();
+		int initialBillsCount = BillingSummaryPage.tableBillsStatements.getAllRowsCount();
 
 		new BillingAccount().generateFutureStatement().perform();
 

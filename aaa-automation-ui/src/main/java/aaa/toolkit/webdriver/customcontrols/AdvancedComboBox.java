@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.mortbay.log.Log;
 import org.openqa.selenium.By;
+import toolkit.exceptions.IstfException;
 import toolkit.utils.meters.WaitMeters;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.BaseElement;
@@ -106,5 +108,41 @@ public class AdvancedComboBox extends ComboBox {
 			String randomValue = optionsList.get(random.nextInt(optionsList.size()));
 			setValue(randomValue);
 		}
+	}
+
+	/**
+	 * Sets random value to the ComboBox.
+	 *
+	 * List of random values selects from list of comboBox values
+	 * And will not include current value if exceptCurrentValue is true
+	 * Additionally excludes from list of possible values Strings which contains substings from exceptSubstrings array
+	 *
+	 *
+	 * @param exceptCurrentValue if true then exclude selected option from random selection
+	 * @param exceptSubstrings   parts of strings which should be excluded
+	 */
+	public void setAnyValueExceptContains(boolean exceptCurrentValue, String... exceptSubstrings) {
+		List<String> allValues = getAllValues();
+		if (exceptCurrentValue) allValues.remove(getRawValue());
+
+		allValues.removeIf(v -> Arrays.stream(exceptSubstrings).anyMatch(v::contains));
+
+		if (allValues.isEmpty()) {
+			throw new IstfException(name + " " + this.getClass().getSimpleName() + " " +
+					"doesn't contains values which not contains " + exceptCurrentValue);
+		}
+
+		setValue(allValues.get(random.nextInt(allValues.size())));
+	}
+
+
+	/**
+	 * Overload {@link aaa.toolkit.webdriver.customcontrols.AdvancedComboBox#setAnyValueExceptContains(boolean, java.lang.String...)}
+	 * with excluding current value from list of possible values
+	 *
+	 *  @param exceptSubstrings   parts of strings which should be excluded
+	 */
+	public void setAnyValueExceptContains(String... exceptSubstrings) {
+		setAnyValueExceptContains(true,exceptSubstrings);
 	}
 }
