@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.utils.screenshots.ScreenshotManager;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.table.Row;
 import aaa.main.enums.BillingConstants;
@@ -161,15 +160,19 @@ public final class BillingHelper {
 		return amount;
 	}
 
-	public static Dollar getPolicyRenewalProposalSum(LocalDateTime renewDate) {
-		HashMap<String, String> query = new HashMap<>();
-		query.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, renewDate.format(DateTimeUtils.MM_DD_YYYY));
-
+	public static Dollar getPolicyRenewalProposalSum() {
 		Dollar summ = new Dollar(0);
-		for (String amount : BillingSummaryPage.tablePaymentsOtherTransactions.getValuesFromRows(query, BillingPaymentsAndOtherTransactionsTable.AMOUNT)) {
+		Dollar fees = new Dollar(0);
+		int rowNumber = 1;
+
+		for (String amount : BillingSummaryPage.tablePaymentsOtherTransactions.getValuesFromRows(BillingPaymentsAndOtherTransactionsTable.AMOUNT)) {
 			summ = summ.add(new Dollar(amount));
 		}
-		return summ;
+		while (BillingSummaryPage.tablePaymentsOtherTransactions.getRow(rowNumber).getCell(BillingPaymentsAndOtherTransactionsTable.TYPE).getValue().equals(PaymentsAndOtherTransactionType.FEE)) {
+			fees = fees.add(new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(rowNumber).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()));
+			rowNumber++;
+		}
+		return summ.subtract(fees);
 	}
 
 	public static void declinePayment(LocalDateTime transactionDate) {
@@ -222,7 +225,7 @@ public final class BillingHelper {
 	public static Dollar calculatePligaFee(LocalDateTime transactionDate, Dollar totalPremiumAmount) {
 		final double pligaFeePercentage;
 		switch (transactionDate.getYear()) {
-		    // PAS12: PLIGAFEE is configured as 0.7% of the premium for 1-Jan-2017 to 31-Dec-2017
+		// PAS12: PLIGAFEE is configured as 0.7% of the premium for 1-Jan-2017 to 31-Dec-2017
 			case 2017 :
 				pligaFeePercentage = 0.7;
 				break;
