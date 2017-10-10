@@ -18,6 +18,7 @@ PremiumAndCoveragesTab_DataGather_MD: {
 
 PurchaseTab_DataGather: {
   PaymentAllocation: {
-    Check: /rest
+    Check: /rest,
+    Check Number Check: '123456'
   }
 }

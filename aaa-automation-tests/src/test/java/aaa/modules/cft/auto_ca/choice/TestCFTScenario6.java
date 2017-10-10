@@ -34,7 +34,7 @@ public class TestCFTScenario6 extends ControlledFinancialBaseTest {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_SS;
+		return PolicyType.AUTO_CA_CHOICE;
 	}
 
 	@Override
