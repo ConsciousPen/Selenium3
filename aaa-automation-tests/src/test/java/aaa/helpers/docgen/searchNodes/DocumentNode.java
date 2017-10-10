@@ -9,6 +9,10 @@ import java.util.List;
 public final class DocumentNode extends SearchBy<DocumentNode, Document> {
 	public DocumentDataSectionNode documentDataSection = new DocumentDataSectionNode();
 
+	public DocumentNode documentsData(String value) {
+		return addCondition("DocumentsData", Document::getDocumentsData, value);
+	}
+
 	public DocumentNode sequence(String value) {
 		return addCondition("Sequence", Document::getSequence, value);
 	}

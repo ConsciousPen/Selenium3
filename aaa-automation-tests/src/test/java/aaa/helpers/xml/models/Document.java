@@ -14,6 +14,9 @@ public class Document {
 	@XmlElement(name = "DocumentDataSection", namespace = DocGenEnum.XmlnsNamespaces.AAAN_URI)
 	private List<DocumentDataSection> documentDataSections = new ArrayList<>();
 
+	@XmlElement(name = "DocumentsData")
+	private String documentsData;
+
 	@XmlElement(name = "Sequence")
 	private String sequence;
 
@@ -32,6 +35,14 @@ public class Document {
 
 	public void setDocumentDataSections(List<DocumentDataSection> documentDataSections) {
 		this.documentDataSections = documentDataSections;
+	}
+
+	public String getDocumentsData() {
+		return documentsData;
+	}
+
+	public void setDocumentsData(String documentsData) {
+		this.documentsData = documentsData;
 	}
 
 	public String getSequence() {
@@ -70,6 +81,7 @@ public class Document {
 	public String toString() {
 		return "Document{" +
 				"documentDataSections=" + documentDataSections +
+				", documentsData='" + documentsData + '\'' +
 				", sequence='" + sequence + '\'' +
 				", templateId='" + templateId + '\'' +
 				", xPathInfo='" + xPathInfo + '\'' +
