@@ -291,11 +291,15 @@ DriverInformation2_PA: {
 PremiumAndCoveragesTab_PA: {
   Payment Plan: 'Eleven Pay - Standard',
   Policy Term: Annual,
+  Tort Threshold: 'Limited Tort',
   Bodily Injury Liability: 'contains=$100,000/$300,000',
   Uninsured Motorists Bodily Injury: 'contains=$50,000/$100,000',
   'Uninsured Motorist Stacked/Unstacked': 'Stacked',
   Underinsured Motorists Bodily Injury: 'contains=$50,000/$100,000',
   'Underinsured Motorist Stacked/Unstacked': 'Stacked',
+  First Party Benefits: 'Added',
+  Medical Expenses: 'contains=$5,000',
+  Funeral Benefits: 'contains=$1,500',
   Comprehensive Deductible: 'contains=$750',
   Collision Deductible: 'contains=$500'
 }
@@ -1672,7 +1676,7 @@ AA02IN: {
 
 # ------------- Documents Verification for New Business PA State----------
 
-TestData_VerificationNB_IN: {
+TestData_VerificationNB_PA: {
   AA43PA: '@AA43PA',
   AH35XX: '@AH35XX_PA',
   AA59XX: '@AA59XX_PA',
@@ -1682,7 +1686,7 @@ TestData_VerificationNB_IN: {
   AHNBXX: '@AHNBXX_PA',
   AA10PA: '@AA10PA',
   AA02PA: '@AA02PA',
-  AASDPA: '@AASDOA',
+  AASDPA: '@AASDPA',
   AADNPAC: '@AADNPAC',
   AADNPAD: '@AADNPAD',
   AADNPAE: '@AADNPAE',
@@ -1693,7 +1697,7 @@ AHNBXX_PA: {
   CompanyDetails: {
     CoNm: {TextField: 'underwritten by Western United Insurance Company'},
     CoBrandNm: {TextField: 'AAA Insurance'},
-    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
+    CoStrPobAddr1: {TextField: 'P.O. Box 24511'},
     CoAddlAddr2: {TextField: ''},
     CoCityNm: {TextField: 'Oakland'},
     CoStAbrv: {TextField: 'CA'},
@@ -1726,7 +1730,7 @@ AH35XX_PA: {
  CompanyDetails: {
     CoBrandNm: {TextField: 'AAA Insurance'},
     CoNm: {TextField: 'underwritten by Western United Insurance Company'},
-    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
+    CoStrPobAddr1: {TextField: 'P.O. Box 24511'},
     CoAddlAddr2: {TextField: ''},
     CoCityNm: {TextField: 'Oakland'},
     CoStAbrv: {TextField: 'CA'},
@@ -1769,7 +1773,7 @@ AA59XX_PA: {
   CompanyDetails: {
     CoNm: {TextField: 'underwritten by Western United Insurance Company'},
     CoBrandNm: {TextField: 'AAA Insurance'},
-    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
+    CoStrPobAddr1: {TextField: 'P.O. Box 24511'},
     CoAddlAddr2: {TextField: ''},
     CoCityNm: {TextField: 'Oakland'},
     CoStAbrv: {TextField: 'CA'},
@@ -1832,7 +1836,7 @@ AA10PA: {
   form: {
     PlcyNum: {TextField: ''},
     PlcyPrfx: {TextField: 'PASS'},
-    TermExprDt: {DateTimeField: ''},
+#    TermExprDt: {DateTimeField: ''},
     TermEffDt: {DateTimeField: ''},
     EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
     PlcyTransCd: {TextField: '0040'},
@@ -1844,7 +1848,7 @@ AARFIXX_PA: {
   CompanyDetails: {
     CoNm: {TextField: 'underwritten by Western United Insurance Company'},
     CoBrandNm: {TextField: 'AAA Insurance'},
-    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
+    CoStrPobAddr1: {TextField: 'P.O. Box 24511'},
     CoAddlAddr2: {TextField: ''},
     CoCityNm: {TextField: 'Oakland'},
     CoStAbrv: {TextField: 'CA'},
@@ -1883,7 +1887,7 @@ AARFIXX_PA: {
     CurInsDrvrYN: {TextField: 'N'},
     AntiThftRecDevYN: {TextField: 'N'},
     SmrtTrkTrmCndYN: {TextField: 'N'},
-    RegTortOptYN: {TextField: 'N'}
+    RegTortOptYN: {TextField: 'Y'}
   },
   PaymentDetails: {
     PayByEFT: {TextField: ''}
@@ -1913,7 +1917,7 @@ AA43PA: {
  CompanyDetails: {
     CoBrandNm: {TextField: 'AAA Insurance'},
     CoNm: {TextField: 'underwritten by Western United Insurance Company'},
-    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
+    CoStrPobAddr1: {TextField: 'P.O. Box 24511'},
     CoAddlAddr2: {TextField: ''},
     CoCityNm: {TextField: 'Oakland'},
     CoStAbrv: {TextField: 'CA'},
@@ -1943,6 +1947,342 @@ AA43PA: {
     EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
     SgntrOnFile: {TextField: ''}
   }
+}
+
+AA52UPAC: {
+  CompanyDetails: {
+    CoBrandNm: {TextField: 'AAA Insurance'},
+    CoNm: {TextField: 'underwritten by Western United Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. Box 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(888) 222-0094'}
+  },
+  AgentDetails: {
+    AgntNum: {TextField: '400018581'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Steve'},
+    NmdInsrdLstNm: {TextField: 'Jobsik'}
+  },
+ form: {
+  PlcyNum: {TextField: ''},
+  EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+  TermEffDt: {DateTimeField: ''},
+  PlcyTransCd: {TextField: '0040'},
+  PlcyStAbrv: {TextField: 'PA'}
+ }
+}
+
+AA52IPAC: {
+ CompanyDetails: {
+    CoBrandNm: {TextField: 'AAA Insurance'},
+    CoNm: {TextField: 'underwritten by Western United Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. Box 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(888) 222-0094'}
+  },
+  AgentDetails: {
+    AgntNum: {TextField: '400018581'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Steve'},
+    NmdInsrdLstNm: {TextField: 'Jobsik'}
+  },
+ form: {
+  PlcyNum: {TextField: ''},
+  EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+  TermEffDt: {DateTimeField: ''},
+  PlcyTransCd: {TextField: '0040'},
+  PlcyStAbrv: {TextField: 'PA'}
+ }
+}
+
+AASDPA: {
+ CompanyDetails: {
+    CoBrandNm: {TextField: 'AAA Insurance'},
+    CoNm: {TextField: 'underwritten by Western United Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. Box 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(888) 222-0094'}
+  },
+  AgentDetails: {
+    AgntNum: {TextField: '400018581'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Steve'},
+    NmdInsrdLstNm: {TextField: 'Jobsik'}
+  },
+ form: {
+  PlcyNum: {TextField: ''},
+  RnwlTrmEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+  TermEffDt: {DateTimeField: ''},
+  PlcyTransCd: {TextField: '0040'},
+  PlcyStAbrv: {TextField: 'PA'}
+ }
+}
+
+AADNPAC: {
+ CompanyDetails: {
+    CoBrandNm: {TextField: 'AAA Insurance'},
+    CoNm: {TextField: 'underwritten by Western United Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. Box 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(888) 222-0094'}
+  },
+  AgentDetails: {
+    AgntNum: {TextField: '400001650'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Steve'},
+    NmdInsrdLstNm: {TextField: 'Jobsik'}
+  },
+ form: {
+  PlcyNum: {TextField: ''},
+  EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+  TermEffDt: {DateTimeField: ''},
+  PlcyTransCd: {TextField: '0040'},
+  PlcyStAbrv: {TextField: 'PA'}
+ }
+}
+
+AADNPAD: {
+ CompanyDetails: {
+    CoBrandNm: {TextField: 'AAA Insurance'},
+    CoNm: {TextField: 'underwritten by Western United Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. Box 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(888) 222-0094'}
+  },
+  AgentDetails: {
+    AgntNum: {TextField: '400018581'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Steve'},
+    NmdInsrdLstNm: {TextField: 'Jobsik'}
+  },
+ form: {
+  PlcyNum: {TextField: ''},
+  RnwlTrmEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+  TermEffDt: {DateTimeField: ''},
+  PlcyTransCd: {TextField: '0040'},
+  PlcyStAbrv: {TextField: 'PA'}
+ }
+}
+
+AADNPAE: {
+ CompanyDetails: {
+    CoBrandNm: {TextField: 'AAA Insurance'},
+    CoNm: {TextField: 'underwritten by Western United Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. Box 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(888) 222-0094'}
+  },
+  AgentDetails: {
+    AgntNum: {TextField: '400018581'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Steve'},
+    NmdInsrdLstNm: {TextField: 'Jobsik'}
+  },
+ form: {
+  PlcyNum: {TextField: ''},
+  RnwlTrmEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+  TermEffDt: {DateTimeField: ''},
+  PlcyTransCd: {TextField: '0040'},
+  PlcyStAbrv: {TextField: 'PA'}
+ }
+}
+
+AALTPA: {
+ CompanyDetails: {
+    CoBrandNm: {TextField: 'AAA Insurance'},
+    CoNm: {TextField: 'underwritten by Western United Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. Box 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(888) 222-0094'}
+  },
+  AgentDetails: {
+    AgntNum: {TextField: '400018581'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Steve'},
+    NmdInsrdLstNm: {TextField: 'Jobsik'}
+  },
+ form: {
+  PlcyNum: {TextField: ''},
+  TermEffDt: {DateTimeField: ''},
+  PlcyTransCd: {TextField: '0040'},
+  PlcyStAbrv: {TextField: 'PA'}
+ }
+}
+
+AA02PA: {
+ CompanyDetails: {
+    CoBrandNm: {TextField: 'AAA Insurance'},
+    CoNm: {TextField: 'underwritten by Western United Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. Box 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(888) 222-0094'}
+  },
+ NamedInsuredDetails: {
+  NmdInsrdFrstNm: {TextField: 'Steve'},
+  NmdInsrdLstNm: {TextField: 'Jobsik'},
+  NmdInsrdStrPobAddr1: {TextField: '265 CHIPMAN AVE'},
+  NmdInsrdAddlAddr2: {TextField: ''},
+  NmdInsrdCityNm: {TextField: 'Aliquippa'},
+  NmdInsrdZipPls4: {TextField: '15001'},
+  NmdInsrdStAbrv: {TextField: 'PA'},
+  AddlNmdInsrdFrstNm: {TextField: ''},
+  AddlNmdInsrdLstNm: {TextField: ''},
+ },
+ AgentDetails: {
+  AgntIdString: {TextField: "SMTestIA/400018581/House Agent SMTestIA"},
+  AgntAddr1: {TextField: '132 E Illinois St'},
+  AgntCityNm: {TextField: 'Spearfish'},
+  AgntStAbrv: {TextField: 'SD'},
+  AgntZipPls4: {TextField: '57783'},
+  AgntPhnNum: {TextField: ''},
+  AgntNum: {TextField: '400018581'},
+ },
+ VehicleDetails: {
+  VehTyp: {TextField: 'PPA'},
+  VehManufactureYear: {TextField: '2011'},
+  VehManfrNm: {TextField: 'CHEVROLET'},
+  VehMdelNm: {TextField: 'EXPRESS VAN SPORT VAN'},
+  VehIdNum: {TextField: '1GNWGPFG8B6548273'},
+  VehUnitNum: {TextField: '1'},
+  VehDiscDesc: {TextField: 'Hybrid Discount; Passive Restraint Discount'},
+  VehDiscNum: {TextField: '1'},
+  VehGarZipPls4: {TextField: '15001'},
+ },
+ CoverageDetails: {
+# TortTrshldTyp: {TextField: ''},
+# UMStckTyp: {TextField: ''},
+# UIMStckTyp: {TextField: ''},
+ UMBIRjctFlg: {TextField: 'N'},
+ UIMBIRjctFlg: {TextField: 'N'},
+# FPBCovTyp: {TextField: ''},
+ PlcyBdyInjEaOcc: {TextField: '300000'},
+ PlcyBdyInjEaPers: {TextField: '100000'},
+# PlcyPdEaOcc: {TextField: ''},
+ PlcyFPBEaPers: {TextField: '0.00'},
+# PlcyMedBenEaPers: {TextField: ''},
+# VehMedBenPrem: {TextField: ''} ,
+  PlcyWrkLossBenMax: {TextField: '0.00'},
+  PlcyWrkLossBenMon: {TextField: '0.00'},
+  VehWrkLossBenPrem: {TextField: '0.00'},
+#  PlcyFnrlExpBenEaOcc: {TextField: ''},
+#  VehFnrlExpBenPrem: {TextField: ''},
+#  PlcyAcdntDeadBenEaOcc: {TextField: ''},
+#  VehAcdntDeadBenPrem: {TextField: ''},
+#  PlcyExtrMedBenEaPers: {TextField: ''},
+#  VehExtrMedBenPrem: {TextField: ''},
+   PlcyUmNonStckEaOcc: {TextField: '0.00'},
+   PlcyUmNonStckEaPers: {TextField: '0.00'},
+   PlcyUIMBNonStckEaOcc: {TextField: '0.00'},
+   PlcyUIMBNonStckEaPers: {TextField: '0.00'},
+   PlcyUmStckEaOcc: {TextField: '100000.00'},
+   PlcyUmStckEaPers: {TextField: '50000.00'},
+   PlcyUIMBStckEaOcc: {TextField: '100000.00'},
+   PlcyUIMBStckEaPers: {TextField: '50000.00'},
+#   PlcySpclEqpmtTotAmt: {TextField: ''},
+#   VehBdyInjPrem: {TextField: ''},
+#   VehPDPrem: {TextField: ''},
+   VehUMNonStckPrem: {TextField: '0.00'},
+   VehUIMBNonStckPrem: {TextField: '0.00'},
+#   VehUMStckPrem: {TextField: ''},
+#   VehUIMBStckPrem: {TextField: ''},
+#   VehCompPrem: {TextField: ''},
+#   VehClsnPrem: {TextField: ''},
+   VehSpclEqpmtPrem: {TextField: '1'},
+   VehSftyGlsprem: {TextField: '0'},
+#   VehRntlReimbsPrem: {TextField: ''},    
+#   VehTwgLbrPrem: {TextField: ''},  
+   VehLnPrtcPrem: {TextField: '0.00'},
+   VehNwAddPrtcPrem: {TextField: '0'},
+#   VehClsnDed: {TextField: ''},
+#   VehCompDed: {TextField: ''},
+   VehTrailerYN: {TextField: 'N'},
+   VehCamprTrailerYN: {TextField: 'N'},
+   VehStatedAmt: {TextField: '0.00'},
+#   VehTotPrem: {TextField: ''},
+   AllVehTotPrem: {TextField: ''},
+   NetWrtPrem: {TextField: ''},
+ },
+ PaymentDetails: {
+ PlcyTotPrem: {TextField: ''},
+ },
+ DriverDetails: [
+  {
+   DrvrTyp: {TextField: 'A'},
+   DrvrFrstNm: {TextField: 'Steve'},
+   DrvrLstNm: {TextField: 'Jobsik'},
+   DrvrSeqNum: {TextField: '1'},
+   DrvrDOB: {DateTimeField: '1962-12-04T22:00:00.000Z'},
+   DrvrmrtlSts: {TextField: 'Married'},
+   DrvrGender: {TextField: 'Male'},
+   DrvrDiscDesc: {TextField: ''},
+   DrvrDiscNum: {TextField: '1'},
+  },
+  {
+   DrvrTyp: {TextField: 'E'},
+   DrvrFrstNm: {TextField: 'Julia'},
+   DrvrLstNm: {TextField: 'Woodman'},
+   DrvrSeqNum: {TextField: '2'},
+   DrvrDOB: {DateTimeField: '1986-11-11T22:00:00.000Z'},
+   DrvrmrtlSts: {TextField: 'Single'},
+   DrvrGender: {TextField: 'Female'},
+   DrvrDiscDesc: {TextField: ''},
+   DrvrDiscNum: {TextField: '2'},
+  }
+ ],
+ form: {
+  PlcyInsrdSnc: {TextField: '2017'},
+  PlcyProgDesc: {TextField: 'AAA Select'},
+  PlcyTransCd: {TextField: '0040'},
+  PlcyNum: {TextField: ''},
+  FrmEndrDetl: [
+   {TextField: 'AA59XX'},
+   {TextField: 'AA43PA'},
+   {TextField: 'AA09XX'},
+   {TextField: 'AADNPAD'},
+   {TextField: 'AA52UPAC'},
+   {TextField: 'AA52IPAC'},
+   {TextField: 'AALTPA'},
+   {TextField: 'AA01PA'},
+   {TextField: 'AA11PA'},
+  ],
+  PlcyStAbrv: {TextField: 'PA'},
+  PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount'},
+  TermExprDt: {DateTimeField: ''},
+  TermEffDt: {DateTimeField: ''},
+  EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+#  PlcyEndrRsn: {TextField: ''},
+ }
 }
 
 # ------------- Documents Verification for Endorsement----------
