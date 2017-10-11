@@ -197,7 +197,6 @@ public class Scenario3 extends ScenarioBaseTest {
 	public void expirePolicy() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-		//JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();

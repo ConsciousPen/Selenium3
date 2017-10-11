@@ -70,6 +70,7 @@ public final class DocGenEnum {
 		HS0477("HS 04 77", "Building Code Upgrade endorsement"),
 		AH60XXA("Rescission Notice"),
 		AA41XX("Non-Owners Endorsement"),
+		AA10OK(""),
 		HS0988("HS 09 88","Additional Insured - Special Event"),
 		_60_5000("60 5000", "Fee + Restriction Form"),
 		_60_5001("60 5001", "Fee + No Restriction Form"),
@@ -82,6 +83,7 @@ public final class DocGenEnum {
 		AHRBXX("AHRBXX", "Insurance Renewal Bill"),
 		AA43AZ("Named Driver Exclusion Election"),
 		AA43IN("Named Driver Exclusion Election"),
+		AA43PA("Named Driver Exclusion Election"),
 		AASR22("Financial Responsibility"),
 		AA59XX("EXISTING DAMAGE ENDORSEMENT"),
 		DS02("Rental Property Policy Declaration"),
@@ -103,8 +105,10 @@ public final class DocGenEnum {
 		AA53IN("Rejection of Uninsured Motorist Property Damage Coverage"),
 		AARFIXX("Request for Information"),
 		AA10XX("Insurance Identification Card"),
+		AA10PA("Insurance Identification Card"),
 		AA02AZ("Declaration page"),
 		AA02IN("Declaration page"),
+		AA02PA("Declaration page"),
 		AHCWXX("AHCWXX", "Cancellation Notice Withdrawn"),
 		AH34XX("AH34XX","AH34XX","Cancellation Notice Document (NonPayment)"),
 		_55_6101("55 6101", "Earned Premium Bill 1"),
@@ -174,7 +178,12 @@ public final class DocGenEnum {
         AA52UPAB(""),
         AA52IPAB(""),
         AA52UPAC(""),
-        AA52IPAC("")
+        AA52IPAC(""),
+        AASDPA(""),
+        AADNPAC(""),
+        AADNPAD(""),
+        AADNPAE(""),
+        AALTPA(""),
 		;
 
 		private String id;
