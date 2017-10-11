@@ -105,9 +105,9 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Image Generation Date" + renewImageGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1, true);
 		HttpStub.executeAllBatches();
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);	
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2, true);	
 		
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -120,7 +120,7 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 		LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Preview Generation Date" + renewPreviewGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2, true);
 		
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -137,8 +137,8 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Offer Generation Date" + renewOfferGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2, true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
 
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -159,8 +159,8 @@ public class TestScenario4_PA extends AutoSSBaseTest {
 		LocalDateTime renewOfferBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Offer Bill Generation Date" + renewOfferBillGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferBillGenDate);
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob, true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
 
 		CustomAssert.enableSoftMode();	
 		mainApp().open();

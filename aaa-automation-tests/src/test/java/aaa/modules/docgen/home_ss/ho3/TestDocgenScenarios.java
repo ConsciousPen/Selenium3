@@ -366,7 +366,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		String policyNum = getCopiedPolicy();
 		
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData_NewBusinessRescissionNSF"));
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob); 
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true); 
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents.AH60XXA); 
 	}
 	
@@ -589,7 +589,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		verifyPaymentDeclinedTransactionPresent("17");
 		verifyFeeTransaction("NSF fee - with restriction");
 		verifyPaymentTransactionBecameDeclined("-17");
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob); 
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true); 
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents._60_5000);
 
 		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_FeeRestriction"), "($16.00)");
@@ -637,7 +637,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 
 		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData"));
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
 		if (getState().equals(States.PA)) {
 			DocGenHelper.verifyDocumentsGenerated(false, true, policyNum, Documents.AH61XX);
 			DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents.HS61PA);
@@ -683,7 +683,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		billing.issueRefund().perform(amount);
 		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Issued").verifyPresent();
 
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents._55_3500);
 		
 		BillingSummaryPage.openPolicy(1);
