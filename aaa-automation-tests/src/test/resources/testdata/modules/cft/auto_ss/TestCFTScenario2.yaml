@@ -1,0 +1,71 @@
+TestData: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  },
+  CancellationActionTab: '@CancellationActionTab',
+  ReinstatementActionTab: '@ReinstatementActionTab'
+}
+
+EndorsementActionTab: {
+    Endorsement Date: /today+2d,
+    Endorsement Reason: Maintain Vehicle(s)
+}
+
+PremiumAndCoveragesTab : {
+    Bodily Injury Liability: 'contains=$1,000,000/$1,000,000',
+    Calculate Premium: 'click',
+    Override Premium: {
+    Bodily Injury Liability By Flat Amount: '200',
+    Reason for Override: 'OTHER',
+    Other Reason: 'CFT tests'
+    }
+}
+
+CancellationActionTab: {
+  Cancel Date: "/today+2d",
+  Cancellation Reason: "Insured's Request - Other",
+  Description: "CFT test scenario 2",
+  Authorized By: QA
+}
+
+ReinstatementActionTab: {
+   Reinstate Date: /today,
+   Authorized By: 'QA'
+ }
+
+DriverTab_DataGather: {
+    Affinity Group: 'AAA Employee'
+}
+
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Eleven Pay - Standard,
+  Policy Term: Annual,
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750',
+  Collision Deductible: 'contains=$500',
+  Special Equipment Coverage: 1100
+}
+
+PremiumAndCoveragesTab_DataGather_MD: {
+  Payment Plan: Eleven Pay - Standard,
+  Policy Term: Annual,
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750',
+  Collision Deductible: 'contains=$500',
+  Special Equipment: 1100
+}
+
+PurchaseTab_DataGather: {
+  PaymentAllocation: {
+    Check: /rest,
+    Check Number Check: '123456'
+  }
+}

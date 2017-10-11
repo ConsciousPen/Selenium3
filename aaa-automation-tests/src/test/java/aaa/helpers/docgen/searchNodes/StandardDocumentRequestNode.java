@@ -39,7 +39,7 @@ public class StandardDocumentRequestNode extends SearchBy<StandardDocumentReques
 	@Override
 	public List<StandardDocumentRequest> search(StandardDocumentRequest standardDocumentRequest) {
 		List<StandardDocumentRequest> filteredList = filter(standardDocumentRequest);
-		conditionsMap.clear();
+		clearConditions();
 		return filteredList;
 	}
 

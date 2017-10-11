@@ -5,13 +5,9 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
-import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.actiontabs.EndorsementActionTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.e2e.templates.Scenario6;
 
 public class TestScenario6 extends Scenario6 {
@@ -38,8 +34,8 @@ public class TestScenario6 extends Scenario6 {
 		super.generateFirstBill();
 	}
 
-	// @Parameters({"state"})
-	// @Test(dependsOnMethods = "TC01_createPolicy")
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC03_Verify_Form_AHIBXX(@Optional("") String state) {
 		super.verifyFormAHIBXX();
 	}

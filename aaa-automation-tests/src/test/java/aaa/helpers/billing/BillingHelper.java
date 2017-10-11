@@ -11,9 +11,12 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.utils.screenshots.ScreenshotManager;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.table.Row;
+import aaa.main.enums.BillingConstants;
 import aaa.main.enums.BillingConstants.BillingAccountPoliciesTable;
 import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
 import aaa.main.enums.BillingConstants.BillingInstallmentScheduleTable;
@@ -21,7 +24,6 @@ import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
 import aaa.main.enums.BillingConstants.BillingPendingTransactionsActions;
 import aaa.main.enums.BillingConstants.BillingPendingTransactionsTable;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionAction;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.actiontabs.DeclinePaymentActionTab;
@@ -160,11 +162,14 @@ public final class BillingHelper {
 	}
 
 	public static Dollar getPolicyRenewalProposalSum(LocalDateTime renewDate) {
-		HashMap<String, String> values = new HashMap<>();
-		values.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, renewDate.format(DateTimeUtils.MM_DD_YYYY));
-		values.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PREMIUM);
-		values.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL);
-		return new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(values).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
+		HashMap<String, String> query = new HashMap<>();
+		query.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, renewDate.format(DateTimeUtils.MM_DD_YYYY));
+
+		Dollar summ = new Dollar(0);
+		for (String amount : BillingSummaryPage.tablePaymentsOtherTransactions.getValuesFromRows(query, BillingPaymentsAndOtherTransactionsTable.AMOUNT)) {
+			summ = summ.add(new Dollar(amount));
+		}
+		return summ;
 	}
 
 	public static void declinePayment(LocalDateTime transactionDate) {
@@ -198,5 +203,58 @@ public final class BillingHelper {
 
 	public static Dollar calculateLastInstallmentAmount(Dollar totalAmount, Integer installmentsCount) {
 		return totalAmount.divide(installmentsCount);
+	}
+
+	public static Dollar calculatePligaFee(LocalDateTime transactionDate) {
+		Map<String, String> premiumRowSearchQuery = new HashMap<>();
+		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
+		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.PREMIUM);
+		if (!BillingSummaryPage.tablePaymentsOtherTransactions.getRow(premiumRowSearchQuery).isPresent()) {
+			log.warn(String.format("There is no Premium transaction with query %s, assume PLIGA Fee should be $0", premiumRowSearchQuery.entrySet()));
+			return DZERO;
+		}
+
+		Dollar totalPremiumAmount = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(premiumRowSearchQuery)
+			.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
+		return calculatePligaFee(transactionDate, totalPremiumAmount);
+	}
+
+	public static Dollar calculatePligaFee(LocalDateTime transactionDate, Dollar totalPremiumAmount) {
+		final double pligaFeePercentage;
+		switch (transactionDate.getYear()) {
+		    // PAS12: PLIGAFEE is configured as 0.7% of the premium for 1-Jan-2017 to 31-Dec-2017
+			case 2017 :
+				pligaFeePercentage = 0.7;
+				break;
+			// PAS13 ER: PLIGAFEE is configured as 0.6% of the premium for 1-Jan-2018 to 31-Dec-2019
+			case 2018 :
+			case 2019 :
+				pligaFeePercentage = 0.6;
+				break;
+			default :
+				pligaFeePercentage = 0.7;
+				log.warn(String.format("PLIGA Fee charge percent for %s year is unknown, default %s charge percent will be used for calculation.", transactionDate.getYear(), pligaFeePercentage));
+		}
+		return new Dollar(Math.round(Double.valueOf(totalPremiumAmount.getPercentage(pligaFeePercentage).toPlaingString())));
+	}
+
+	/**
+	 * Applicable only for NY state and AutoSS product
+	 */
+	public static Dollar calculateMvleFee(String policyTerm, int numberOfVehiclesExceptTrailers) {
+		Dollar termFee;
+		if (BillingConstants.PolicyTerm.SEMI_ANNUAL.equals(policyTerm)) {
+			termFee = new Dollar(5);
+		} else if (BillingConstants.PolicyTerm.ANNUAL.equals(policyTerm)) {
+			termFee = new Dollar(10);
+		} else {
+			throw new IstfException(String.format("Unable to calculate MVLE Fee for unknown policy term \"%1$s\", only \"%2$s\" and \"%3$s\" are allowed.",
+				policyTerm, BillingConstants.PolicyTerm.ANNUAL, BillingConstants.PolicyTerm.SEMI_ANNUAL));
+		}
+
+		if (numberOfVehiclesExceptTrailers > 0) {
+			termFee = termFee.multiply(numberOfVehiclesExceptTrailers);
+		}
+		return termFee;
 	}
 }

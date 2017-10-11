@@ -179,7 +179,10 @@ LegalPropetyAddress: {
 
 AdditionalInsured: {
   Interest: Trust, 
-  Name: Pasha Ulybasha
+  Name: Pasha Ulybasha,
+  "Same as insured mailing address?": "No",
+  Zip code: 86021,
+  Street address 1: Test
 }
 
 AdditionalInterest: {

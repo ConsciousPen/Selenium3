@@ -1,0 +1,58 @@
+TestData: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+  AcceptPaymentActionTab: {
+    Payment Method: 'Cash',
+    Amount: 10,
+  },
+  DeclinePaymentActionTab: {
+  }
+}
+
+EndorsementActionTab: {
+    Endorsement Date: /today,
+    Endorsement Reason: 'Other Interest(s)/Mortgagees'
+}
+
+PremiumsAndCoveragesQuoteTab : {
+    Calculate Premium: 'click',
+    Override Premium: {
+    Remarks: 'Only Erich Maria Remarque',
+        Override Premium By Flat Amount: '-20',
+        Additional Popup Submit: {
+          Submit Popup: 'click'
+        }
+    }
+}
+
+PremiumsAndCoveragesQuoteTab_DataGather: {
+  Payment plan: Eleven Pay Standard,
+  Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+  Coverage E - Personal Liability Each Occurrence: '$300,000'
+}
+
+PurchaseTab_DataGather: {
+  Change Minimum Down Payment: true,
+  Minimum Required Down Payment: 50,
+  PaymentAllocation: {
+    Cash: 50
+  }
+}
+
+PurchaseTab_DataGather_NJ: {
+  Change Minimum Down Payment: true,
+  Minimum Required Down Payment: 50,
+  PaymentAllocation: {
+    Cash: 54
+  }
+}

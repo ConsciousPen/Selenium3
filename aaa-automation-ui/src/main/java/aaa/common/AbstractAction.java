@@ -4,6 +4,8 @@ package aaa.common;
 
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import toolkit.datax.TestData;
 
 /**
@@ -11,6 +13,8 @@ import toolkit.datax.TestData;
  * @category Static
  */
 public abstract class AbstractAction {
+    protected static Logger log = LoggerFactory.getLogger(AbstractAction.class);
+
     /**
      * Get action label (for "Select Action" combobox)
      * @return action label
@@ -28,6 +32,7 @@ public abstract class AbstractAction {
      * Override if action is initiated in non-standard manner.
      */
     public AbstractAction start() {
+        log.info(getName() + " action initiated.");
         NavigationPage.setActionAndGo(getName());
         return this;
     }
@@ -50,6 +55,7 @@ public abstract class AbstractAction {
     public AbstractAction submit() {
         Tab.buttonOk.click();
         Page.dialogConfirmation.confirm();
+        log.info(getName() + " action has been finished.");
         return this;
     }
 }

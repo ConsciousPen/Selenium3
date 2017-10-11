@@ -4,6 +4,7 @@ package aaa.helpers.billing;
 
 import java.time.LocalDateTime;
 
+import aaa.main.enums.BillingConstants;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.composite.table.Table;
 import aaa.helpers.TableVerifier;
@@ -89,6 +90,26 @@ public class BillingPaymentsAndTransactionsVerifier extends TableVerifier {
 		setTransactionDate(transactionDate);
 		setType(PaymentsAndOtherTransactionType.PAYMENT);
 		setStatus(PaymentsAndOtherTransactionStatus.DECLINED);
+		verifyPresent();
+	}
+
+	public void verifyPligaFee(LocalDateTime transactionDate) {
+		verifyPligaFee(transactionDate, BillingHelper.calculatePligaFee(transactionDate));
+	}
+
+	public void verifyPligaFee(LocalDateTime transactionDate, Dollar expectedPligaFee) {
+		verifyFee(PaymentsAndOtherTransactionSubtypeReason.PLIGA_FEE, transactionDate, expectedPligaFee);
+	}
+
+	public void verifyMVLEFee(LocalDateTime transactionDate, Dollar expectedMVLEFee) {
+		verifyFee(PaymentsAndOtherTransactionSubtypeReason.MVLE_FEE, transactionDate, expectedMVLEFee);
+	}
+
+	public void verifyFee(String subtypeReason, LocalDateTime transactionDate, Dollar expectedAmount) {
+		setTransactionDate(transactionDate);
+		setType(BillingConstants.PaymentsAndOtherTransactionType.FEE);
+		setSubtypeReason(subtypeReason);
+		setAmount(expectedAmount);
 		verifyPresent();
 	}
 }

@@ -1,0 +1,15 @@
+########################## testDeltaPolicyDocuments #########################
+TestData_DeltaPolicyDocuments: {
+  ApplicantTab: {
+    NamedInsured: {
+      Date of birth: '12/05/1942'
+    },
+    AAAMembership: '@home_ss_ho3@DataGather@AAAMembership',
+    DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress_NJ',
+    PreviousDwellingAddress: {},
+    MailingAddress: {},
+    NamedInsuredInformation: '@home_ss_ho3@DataGather@NamedInsuredInformation',
+    OtherActiveAAAPolicies: '@home_ss_ho3@DataGather@OtherActiveAAAPolicies',
+    AgentInfo: '@home_ss_ho3@DataGather@AgentInfo'
+  }
+}

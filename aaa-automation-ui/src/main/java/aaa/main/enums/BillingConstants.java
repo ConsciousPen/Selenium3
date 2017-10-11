@@ -29,6 +29,11 @@ public final class BillingConstants {
 		public static final String ANNUAL = "Annual";
 	}
 
+	public static final class PolicyTerm {
+		public static final String ANNUAL = "Annual";
+		public static final String SEMI_ANNUAL = "Semi-Annual";
+	}
+
 	public static final class BillingAccountPoliciesBillingStatus {
 		public static final String ACTIVE = "Active";
 		public static final String HOLD = "On Hold";
@@ -94,6 +99,7 @@ public final class BillingConstants {
 		public static final String REALLOCATED_PAYMENT = "Reallocated Payment";
 		public static final String REALLOCATE_PAYMENT = "Reallocate Payment";
 		public static final String RENEWAL_POLICY_RENEWAL_PROPOSAL = "Renewal - Policy Renewal Proposal";
+		public static final String RENEWAL_POLICY_RENEWAL_PROPOSAL_REVERSAL = "Renewal - Policy Renewal Proposal Reversal";
 		public static final String REINSTATEMENT = "Reinstatement";
 		public static final String REINSTATEMENT_FEE = "Reinstatement Fee";
 		public static final String REINSTATEMENT_FEE_WITH_LAPSE = "Reinstatement with Lapse";
@@ -106,9 +112,13 @@ public final class BillingConstants {
 		public static final String NSF_FEE__WITH_RESTRICTION = "NSF fee - with restriction";
 		public static final String NSF_FEE__WITHOUT_RESTRICTION = "NSF fee - without restriction";
 		public static final String DEPOSIT_PAYMENT = "Deposit Payment";
+		public static final String PLIGA_FEE = "PLIGA Fee";
+		public static final String MVLE_FEE = "MVLE Fee";
 		public static final String RECURRING_PAYMENT = "Recurring Payment";
 		public static final String REGULUS_LOCKBOX = "Regulus LockBox";
 		public static final String REGULUS_ONLINE = "Regulus Online";
+		public static final String NON_EFT_INSTALLMENT_FEE = "Non EFT Installment Fee";
+		public static final String NON_EFT_INSTALLMENT_FEE_WAIVED = "Non EFT Installment Fee Waived";
 	}
 
 	public static final class PaymentsAndOtherTransactionReason {
@@ -133,16 +143,19 @@ public final class BillingConstants {
 	public static final class PaymentsAndOtherTransactionAction {
 		public static final String DECLINE = "Decline";
 		public static final String TRANSFER = "Transfer";
+		public static final String WAIVE = "Waive";
 	}
 
 	public static final class AcceptPaymentMethod {
 		public static final String CASH = "Cash";
 		public static final String CHECK = "Check";
+		public static final String VISA = "Visa";
 	}
 
 	public static final class RefundPaymentMethod {
 		public static final String CASH = "Cash";
 		public static final String CHECK = "Check";
+		public static final String VISA = "Visa";
 	}
 
 	public static final class ModalPremiumTransactionType {

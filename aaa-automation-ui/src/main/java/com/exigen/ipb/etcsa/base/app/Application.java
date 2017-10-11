@@ -58,7 +58,7 @@ public abstract class Application {
         }
         switchPanel();
     }
-    
+
     public void open(TestData td) {
         if (!isApplicationOpened) {
             openSession();
@@ -135,23 +135,23 @@ public abstract class Application {
         return result + host + addTemplate(type);
     }
 
-	private static String addTemplate(AppType type) {
-		String result = "";
-		switch (type) {
-		case ADMIN:
-			result += PropertyProvider.getProperty(TestProperties.AD_URL_TEMPLATE).split("/login.xhtml")[0];
-			result += "/admin";
-			break;
-		case EU:
-			result += PropertyProvider.getProperty(TestProperties.EU_URL_TEMPLATE).split("/login.xhtml")[0];
-			result += "/";
-		case OPERATIONAL_REPORT:
-			result += PropertyProvider.getProperty(CustomTestProperties.OR_URL_TEMPLATE);
-			break;
-		default:
-			break;
-		}
-		return result;
+    private static String addTemplate(AppType type) {
+        String result = "";
+        switch (type) {
+            case ADMIN:
+                result += PropertyProvider.getProperty(TestProperties.AD_URL_TEMPLATE).split("/login.xhtml")[0];
+                result += "/admin";
+                break;
+            case EU:
+                result += PropertyProvider.getProperty(TestProperties.EU_URL_TEMPLATE).split("/login.xhtml")[0];
+                result += "/";
+            case OPERATIONAL_REPORT:
+                result += PropertyProvider.getProperty(CustomTestProperties.OR_URL_TEMPLATE);
+                break;
+            default:
+                break;
+        }
+        return result;
       /*  String result = "";
         String mainServerURLendpoint = PropertyProvider.getProperty(TestProperties.EU_URL_TEMPLATE).split("/login.xhtml")[0];
         switch (type) {

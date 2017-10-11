@@ -23,10 +23,9 @@ public class TestScenario1 extends Scenario1 {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
 		endorsementReasonDataKeys = new String[] {new EndorsementActionTab().getMetaKey(), 
 				HomeSSMetaData.EndorsementActionTab.ENDORSEMENT_REASON.getLabel()};
-		
-		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData")
-				.adjust(getTestSpecificTD("TestData").resolveLinks());
-		
+
+		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
+
 		super.createTestPolicy(policyCreationTD);
 	}
 	

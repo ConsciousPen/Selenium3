@@ -5,12 +5,15 @@
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
 import aaa.common.Tab;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.AutoSSMetaData;
 
 import org.openqa.selenium.By;
 
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.utils.Dollar;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
@@ -19,7 +22,10 @@ import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -37,7 +43,11 @@ public class PremiumAndCoveragesTab extends Tab {
     public static Table tableFormsSummary = new Table(By.id("policyDataGatherForm:formSummaryTable"));
     public static Table tablefeesSummary = new Table(By.id("policyDataGatherForm:feesSummaryTable"));
     public static Table tableTermPremiumbyVehicle = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table"));
-    
+    public static Table tableInstallmenFee = new Table(By.id("policyDataGatherForm:installmentFeeDetailsTable"));
+
+    public static Table tablePolicyLevelLiabilityCoveragesPremium = new Table(By.xpath("//table[@id='policyDataGatherForm:policyTableTotalVehiclePremium']"));
+    public static Table tableGreyBox = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAEMemberDetailMVOComponent']//table"));
+
     public static Button buttonCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalc"));
     public static Button buttonViewRatingDetails = new Button(By.id("policyDataGatherForm:viewRatingDetails_Link_1"));
     public static Button buttonContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
@@ -49,10 +59,12 @@ public class PremiumAndCoveragesTab extends Tab {
 
     public static Link linkPaymentPlan = new Link(By.id("policyDataGatherForm:paymentPlansTogglePanel:header"), Waiters.AJAX);
     public static Link linkViewApplicableFeeSchedule = new Link(By.id("policyDataGatherForm:installmentFeeDetails"), Waiters.AJAX);
-    public static Table tableInstallmenFee = new Table(By.id("policyDataGatherForm:installmentFeeDetailsTable"));
-    public PremiumAndCoveragesTab() {
-        super(AutoSSMetaData.PremiumAndCoveragesTab.class);
-    }
+
+	public static ByT tableVehicleCoveragePremium = ByT.xpath("//table[@id='policyDataGatherForm:subtotalVehiclePremium_%s']");
+
+	public PremiumAndCoveragesTab() {
+		super(AutoSSMetaData.PremiumAndCoveragesTab.class);
+	}
 
     @Override
     public Tab fillTab(TestData td) {
@@ -183,5 +195,23 @@ public class PremiumAndCoveragesTab extends Tab {
             map.replaceAll((k, v) -> null);
 		}
 		return testDataList;
+	}
+
+	public static void calculatePremium() {
+		if (!buttonCalculatePremium.isPresent()) {
+			NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+		}
+		buttonCalculatePremium.click();
+	}
+
+	public Dollar getPolicyLevelLiabilityCoveragesPremium() {
+		Dollar policyLevelLiabilityCoveragesPremium = new Dollar(tablePolicyLevelLiabilityCoveragesPremium.getRow(1).getCell(3).getValue());
+		return policyLevelLiabilityCoveragesPremium;
+	}
+
+	public Dollar getVehicleCoveragePremiumByVehicle1(int index) {
+		Table vehiclePremiumTable = new Table(tableVehicleCoveragePremium.format(index));
+		Dollar policyLevelLiabilityCoveragesPremium = new Dollar(vehiclePremiumTable.getRow(1).getCell(3).getValue());
+		return policyLevelLiabilityCoveragesPremium;
 	}
 }
