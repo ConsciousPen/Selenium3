@@ -149,13 +149,13 @@ public class Scenario4 extends ScenarioBaseTest {
 
 		TestData endorsementTD = getStateTestData(tdPolicy, "Endorsement", "TestData");
 		policy.endorse().performAndFill(getTestSpecificTD("TestData_Endorsement").adjust(endorsementTD));
+		LocalDateTime transactionDate = TimeSetterUtil.getInstance().getCurrentTime();
 		PolicyHelper.verifyEndorsementIsCreated();
 
 		// Endorsement transaction displaing on billing in Payments & Other transactions section
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String reason = "Endorsement - " + endorsementTD.getValue(endorsementReasonDataKeys);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(TimeSetterUtil.getInstance().getPhaseStartTime())
-				.setPolicy(policyNum).setType(PaymentsAndOtherTransactionType.PREMIUM)
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(transactionDate).setPolicy(policyNum).setType(PaymentsAndOtherTransactionType.PREMIUM)
 				.setSubtypeReason(reason).verifyPresent();
 	}
 

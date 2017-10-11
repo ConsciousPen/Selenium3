@@ -65,7 +65,7 @@ public class TestDocgenScenarios extends HomeCaDP3BaseTest {
 				Documents._61_3026
 				);
 		documentActionTab.verify.documentsEnabled(false,
-//				Documents._62_6500, //TODO enabled on the page, need to confirm the request
+				Documents._62_6500,
 				Documents.WURFICA,
 				Documents.HSU01CA,
 				Documents.HSU02XX,
@@ -83,7 +83,6 @@ public class TestDocgenScenarios extends HomeCaDP3BaseTest {
 		documentActionTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"), 
 				Documents._61_6528_DP3,
 				Documents.WUAUCA,
-				Documents._62_6500,
 				Documents._61_6530,
 				Documents.HSU03XX,
 				Documents.HSU04XX,
@@ -97,7 +96,6 @@ public class TestDocgenScenarios extends HomeCaDP3BaseTest {
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, 
 				Documents._61_6528_DP3,
 				Documents.WUAUCA,
-				Documents._62_6500,
 				Documents._61_6530,
 				Documents.HSU03XX,
 				Documents.HSU04XX,

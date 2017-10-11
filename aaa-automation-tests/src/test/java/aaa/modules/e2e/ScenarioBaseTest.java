@@ -3,12 +3,9 @@ package aaa.modules.e2e;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
@@ -21,7 +18,12 @@ import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
+import aaa.main.enums.BillingConstants.BillingAccountPoliciesTable;
 import aaa.main.enums.ProductConstants.PolicyStatus;
+import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
@@ -79,7 +81,7 @@ public class ScenarioBaseTest extends BaseTest {
 		for (int i = 1; i < installmentDates.size(); i++) { // Do not include
 															// Deposit bill
 			new BillingInstallmentsScheduleVerifier().setDescription(BillingConstants.InstallmentDescription.INSTALLMENT)
-					.setInstallmentDueDate(installmentDates.get(i).plusYears(1)).verifyPresent();
+				.setInstallmentDueDate(installmentDates.get(i).plusYears(1)).verifyPresent();
 		}
 		if (!getState().equals(Constants.States.CA)) {
 			new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.OFFER).verifyPresent(false);
@@ -107,9 +109,10 @@ public class ScenarioBaseTest extends BaseTest {
 	 *            ANNUAL: 1 installment
 	 */
 	protected void verifyRenewalOfferPaymentAmount(LocalDateTime expirationDate, LocalDateTime renewOfferDate, LocalDateTime billGenDate, Dollar pligaOrMvleFee,
-			Integer installmentsCount) {
+		Integer installmentsCount) {
 		BillingSummaryPage.showPriorTerms();
-		Dollar fullAmount = BillingHelper.getPolicyRenewalProposalSum(renewOfferDate);
+		String policyNum = BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingAccountPoliciesTable.POLICY_NUM).getValue();
+		Dollar fullAmount = BillingHelper.getPolicyRenewalProposalSum(renewOfferDate, policyNum);
 		Dollar fee = BillingHelper.getFeesValue(billGenDate);
 
 		Dollar expOffer = BillingHelper.calculateFirstInstallmentAmount(fullAmount, installmentsCount).add(fee).add(pligaOrMvleFee);
@@ -123,14 +126,15 @@ public class ScenarioBaseTest extends BaseTest {
 	protected void verifyCaRenewalOfferPaymentAmount(LocalDateTime expirationDate, LocalDateTime renewOfferDate, Integer installmentsCount) {
 		BillingSummaryPage.showPriorTerms();
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
-				.verifyPresent();
+			.verifyPresent();
 
-		Dollar fullAmount = BillingHelper.getPolicyRenewalProposalSum(renewOfferDate);
+		String policyNum = BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingAccountPoliciesTable.POLICY_NUM).getValue();
+		Dollar fullAmount = BillingHelper.getPolicyRenewalProposalSum(renewOfferDate, policyNum);
 		Dollar fee = BillingHelper.getFeesValue(renewOfferDate);
 
 		Dollar expOffer = BillingHelper.calculateFirstInstallmentAmount(fullAmount, installmentsCount).add(fee);
 		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.OFFER).setDueDate(expirationDate).setMinDue(expOffer)
-				.verifyPresent();
+			.verifyPresent();
 	}
 
 	protected void verifyRenewPremiumNotice(LocalDateTime renewDate, LocalDateTime billGenerationDate) {
@@ -205,7 +209,7 @@ public class ScenarioBaseTest extends BaseTest {
 
 	protected int getVehiclesNumber(TestData td) {
 		if (isMvleFeeApplicable()) {
-			//TODO-dchubkov: exclude trailers from list of vehicles
+			// TODO-dchubkov: exclude trailers from list of vehicles
 			return td.getTestDataList(new VehicleTab().getMetaKey()).size();
 		}
 		return 0;

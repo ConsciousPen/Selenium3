@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.utils.screenshots.ScreenshotManager;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.table.Row;
 import aaa.main.enums.BillingConstants;
@@ -161,9 +160,11 @@ public final class BillingHelper {
 		return amount;
 	}
 
-	public static Dollar getPolicyRenewalProposalSum(LocalDateTime renewDate) {
+	public static Dollar getPolicyRenewalProposalSum(LocalDateTime renewDate, String policyNum) {
 		HashMap<String, String> query = new HashMap<>();
 		query.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, renewDate.format(DateTimeUtils.MM_DD_YYYY));
+		query.put(BillingPaymentsAndOtherTransactionsTable.POLICY, policyNum);
+		query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PREMIUM);
 
 		Dollar summ = new Dollar(0);
 		for (String amount : BillingSummaryPage.tablePaymentsOtherTransactions.getValuesFromRows(query, BillingPaymentsAndOtherTransactionsTable.AMOUNT)) {
@@ -222,7 +223,7 @@ public final class BillingHelper {
 	public static Dollar calculatePligaFee(LocalDateTime transactionDate, Dollar totalPremiumAmount) {
 		final double pligaFeePercentage;
 		switch (transactionDate.getYear()) {
-		    // PAS12: PLIGAFEE is configured as 0.7% of the premium for 1-Jan-2017 to 31-Dec-2017
+		// PAS12: PLIGAFEE is configured as 0.7% of the premium for 1-Jan-2017 to 31-Dec-2017
 			case 2017 :
 				pligaFeePercentage = 0.7;
 				break;

@@ -82,9 +82,9 @@ public class AdvancedTable extends TableWithPages {
 	}
 
 	@Override
-	public int getRowsCount() {
+	public int getAllRowsCount() {
 		resetAllFilters();
-		return super.getRowsCount();
+		return super.getAllRowsCount();
 	}
 
 	@Override

@@ -197,7 +197,6 @@ public class Scenario3 extends ScenarioBaseTest {
 	public void expirePolicy() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-		//JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();
@@ -223,6 +222,7 @@ public class Scenario3 extends ScenarioBaseTest {
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.CUSTOMER_DECLINED).verify(1);
 
+		//((AutoSSPolicyActions.ManualRenewalWithOrWithoutLapse) policy.manualRenewalWithOrWithoutLapse()).perform();
 		policy.manualRenewalWithOrWithoutLapse().perform(getStateTestData(tdPolicy, "ManualRenewalWithOrWithoutLapse", "TestData"));
 
 		if (PolicySummaryPage.labelPolicyStatus.getValue().equals(PolicyStatus.POLICY_EXPIRED)) {

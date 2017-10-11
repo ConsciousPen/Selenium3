@@ -296,6 +296,7 @@ AH64XX: {
 #    PlcyNum: {TextField: ''},
 #    PlcyEffDt: {DateTimeField: ''},
 #    PlcyExprDt: {DateTimeField: ''},
+    PlcyRnwlExprDt: {DateTimeField: ''},
     NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"}
   },
   PaymentDetails: {

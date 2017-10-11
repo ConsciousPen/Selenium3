@@ -228,7 +228,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 		priorReinEffDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "Reinstatement").getCell(BillingPaymentsAndOtherTransactionsTable.EFF_DATE).getValue(), DateTimeUtils.MM_DD_YYYY).minusDays(1));
 
 		Dollar fee = new Dollar(0);
-		for (int i = 1; i <= BillingSummaryPage.tablePaymentsOtherTransactions.getRowsCount(); i++) {
+		for (int i = 1; i <= BillingSummaryPage.tablePaymentsOtherTransactions.getAllRowsCount(); i++) {
 			if (BillingSummaryPage.tablePaymentsOtherTransactions.getRow(i).getCell(BillingPaymentsAndOtherTransactionsTable.TYPE).getValue().equals("Fee")) {
 
 				fee = fee.add(new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(i).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()));

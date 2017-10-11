@@ -45,7 +45,7 @@ TestData_EndorsementAP: {
   ReportsTab: {},
   PropertyInfoTab: {
     PropertyValue: {
-      Coverage A - Dwelling limit: 174000
+      Coverage A - Dwelling limit: 150000
     }
   },
   ProductOfferingTab: {},

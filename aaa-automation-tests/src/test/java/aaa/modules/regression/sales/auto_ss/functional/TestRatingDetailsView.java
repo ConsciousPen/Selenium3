@@ -33,7 +33,7 @@ public class TestRatingDetailsView extends AutoSSBaseTest {
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-535")
 	public void testQuoteRatingViewDetailsCompCollSymbolsArePresentAndNotEmpty(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();

@@ -406,18 +406,4 @@ public final class AutoSSPolicyActions {
             return new RescindCancellationView();
         }
     }
-
-	public static class ManualRenewalWithOrWithoutLapse extends PolicyActions.ManualRenewalWithOrWithoutLapse {
-        @Override
-        public Workspace getView() {
-            return new DefaultView();
-        }
-
-        @Override
-        public AbstractAction start() {
-            log.info(getName() + " action initiated.");
-            new DataGather().start();
-            return this;
-        }
-	}
 }
