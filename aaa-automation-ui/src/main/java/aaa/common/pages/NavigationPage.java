@@ -6,6 +6,8 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.exigen.ipb.etcsa.base.app.Application;
@@ -38,6 +40,15 @@ public class NavigationPage extends Page {
 
     public static void toMainTab(String tab) {
         new Link(By.xpath(String.format(LABEL_NAVIGATION_MAIN_TAB, tab))).click();
+    }
+
+    public static void toMainAdminTab(String tab) {
+        //This perfect code is placed here to work around base bug that some tabs of Admin App are not displayed on the
+        //screen if your monitor size is lower than 67 inch.
+        WebDriver driver = BrowserController.get().driver();
+        WebElement element = new Link(By.xpath(String.format(LABEL_NAVIGATION_MAIN_TAB, tab))).getWebElement();
+        JavascriptExecutor executor = (JavascriptExecutor)driver;
+        executor.executeScript("arguments[0].click();", element);
     }
 
     public static void toViewTab(String tab) {
