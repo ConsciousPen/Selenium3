@@ -4,6 +4,7 @@ package aaa.common;
 
 import aaa.common.components.Dialog;
 import aaa.common.pages.Page;
+import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
@@ -53,11 +54,14 @@ public abstract class Tab {
 	public static StaticElement labelLoggedUser = new StaticElement(By.id("logoutForm:userDetails"));
 
 	protected AbstractContainer<?, ?> assetList;
+	protected InquiryAssetList inquiryAssetList;
+
 	protected Class<? extends MetaData> metaDataClass;
 
 	protected Tab(Class<? extends MetaData> mdClass) {
 		metaDataClass = mdClass;
 		assetList = new AssetList(By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER), metaDataClass);
+		inquiryAssetList = new InquiryAssetList(By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER), metaDataClass);
 	}
 
 	/**
@@ -70,8 +74,17 @@ public abstract class Tab {
 	}
 
 	/**
-	 * Get default asset list of this tab
+	 * Get asset list of this tab in Inquiry Mode
 	 * 
+	 * @return inquiry asset list
+	 */
+	public InquiryAssetList getInquiryAssetList() {
+		return inquiryAssetList;
+	}
+
+	/**
+	 * Get default asset list of this tab
+	 *
 	 * @return asset list
 	 */
 	public AbstractContainer<?, ?> getAssetList() {
