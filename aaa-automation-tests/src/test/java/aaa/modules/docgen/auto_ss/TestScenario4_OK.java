@@ -1,18 +1,19 @@
 package aaa.modules.docgen.auto_ss;
 
-import static aaa.main.enums.DocGenEnum.Documents.*;
-
-import java.time.LocalDateTime;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import toolkit.datax.TestData;
+import toolkit.verification.CustomAssert;
+
+import java.time.LocalDateTime;
+
+import static aaa.main.enums.DocGenEnum.Documents.*;
 
 public class TestScenario4_OK extends AutoSSBaseTest {
 

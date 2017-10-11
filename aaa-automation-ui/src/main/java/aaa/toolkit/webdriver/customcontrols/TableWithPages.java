@@ -1,19 +1,19 @@
 package aaa.toolkit.webdriver.customcontrols;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-
+import aaa.common.components.Pagination;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
-import aaa.common.components.Pagination;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.composite.table.NoRow;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * Custom control for table with pagination

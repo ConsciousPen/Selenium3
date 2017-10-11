@@ -1,24 +1,22 @@
 package aaa.helpers.jobs;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.concurrent.Callable;
-import java.util.concurrent.atomic.AtomicReference;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.exigen.istf.exec.core.TimedTestContext;
-import com.exigen.istf.exec.testng.TimeShiftTestUtil;
-
 import aaa.helpers.http.HttpJob;
 import aaa.helpers.jobs.Jobs.JobState;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.modules.BaseTest;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.istf.exec.core.TimedTestContext;
+import com.exigen.istf.exec.testng.TimeShiftTestUtil;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class JobUtils {
 	

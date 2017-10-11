@@ -2,34 +2,25 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.helpers.billing;
 
+import aaa.main.enums.BillingConstants;
+import aaa.main.enums.BillingConstants.*;
+import aaa.main.metadata.BillingAccountMetaData;
+import aaa.main.modules.billing.account.actiontabs.DeclinePaymentActionTab;
+import aaa.main.pages.summary.BillingSummaryPage;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import toolkit.exceptions.IstfException;
+import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.composite.table.Row;
+
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import toolkit.exceptions.IstfException;
-import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.composite.table.Row;
-import aaa.main.enums.BillingConstants;
-import aaa.main.enums.BillingConstants.BillingAccountPoliciesTable;
-import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
-import aaa.main.enums.BillingConstants.BillingInstallmentScheduleTable;
-import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
-import aaa.main.enums.BillingConstants.BillingPendingTransactionsActions;
-import aaa.main.enums.BillingConstants.BillingPendingTransactionsTable;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionAction;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
-import aaa.main.metadata.BillingAccountMetaData;
-import aaa.main.modules.billing.account.actiontabs.DeclinePaymentActionTab;
-import aaa.main.pages.summary.BillingSummaryPage;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 public final class BillingHelper {
 
