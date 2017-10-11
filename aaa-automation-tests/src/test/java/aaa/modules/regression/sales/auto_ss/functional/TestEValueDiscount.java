@@ -95,7 +95,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	@TestInfo(isAuxiliary = true)
 	public static void eValueConfigInsert() {
 		List<String> configForStates = Arrays.asList("VA"  //for Paperless Preferences = Yes
-				, "MD"  //for Paperless Preferences = Yes
+				, "MD"  //for Paperless Preferences = Pending
 				, "DC"); //for Paperless Preferences = No
 		//PA should not have eValue or Paperless Preferences Configuration
 		for (String configForState : configForStates) {
@@ -260,7 +260,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-300")
 	public void pas300_eValueStatusConsViewPaperPrefYes(@Optional("VA") String state){
 		eValueQuoteCreationVA();
@@ -286,20 +286,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("Active");
 	}
 
-	public void simplifiedPendedEndorsementIssue() {
-		policy.dataGather().start();
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		//documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY).setValue("Megha");
 
-		documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.Authorized_By).setValue("Baddesign");
-		DocumentsAndBindTab.btnPurchase.click();
-		Page.dialogConfirmation.confirm();
-
-		ErrorTab errorTab = new ErrorTab();
-		errorTab.overrideAllErrors();
-		DocumentsAndBindTab.btnPurchase.click();
-		Page.dialogConfirmation.confirm();
-	}
 
 
 	/**
@@ -309,10 +296,8 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	 * 2. Check policy consolidated view.
 	 * 3. See if eMember status = Pending
 	 * @details**/
-
-
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-300")
 	public void pas300_eValueStatusConsViewPaperPrefPending(@Optional("MD") String state){
 		eValueQuoteCreationVA();
@@ -435,16 +420,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		CustomAssert.assertAll();
 	}
 
-	private void CommissionTypeCheck(List<String> expectedCommissionTypeOptions, String eValueValue, String defaultCommissionTypeValue) {
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue(eValueValue);
-		if (Page.dialogConfirmation.isPresent()) {
-			Page.dialogConfirmation.confirm();
-		}
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.COMMISSION_TYPE).verify.optionsContain(expectedCommissionTypeOptions);
-		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.COMMISSION_TYPE).verify.value(defaultCommissionTypeValue);
-	}
 
 	/**
 	 * @author Oleg Stasyuk
@@ -861,8 +836,16 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		new PurchaseTab().fillTab(getPolicyTD("DataGather", "TestData")).submitTab();
 	}
 
-	private static void insertConfigForRegularStates(String state) {
-		DBService.get().executeUpdate(String.format(EVALUE_CONFIGURATION_PER_STATE_INSERT, state));
-		DBService.get().executeUpdate(String.format(PAPERLESS_PREFRENCES_CONFIGURATION_PER_STATE_INSERT, state));
+	public void simplifiedPendedEndorsementIssue() {
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY).setValue("Megha");
+		DocumentsAndBindTab.btnPurchase.click();
+		Page.dialogConfirmation.confirm();
+
+		ErrorTab errorTab = new ErrorTab();
+		errorTab.overrideAllErrors();
+		DocumentsAndBindTab.btnPurchase.click();
+		Page.dialogConfirmation.confirm();
 	}
 }
