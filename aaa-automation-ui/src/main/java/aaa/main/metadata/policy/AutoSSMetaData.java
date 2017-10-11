@@ -216,6 +216,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<ComboBox> NAMED_INSURED = declare("Named Insured", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> DRIVER_TYPE = declare("Driver Type", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> REASON = declare("Reason", ComboBox.class, By.id("policyDataGatherForm:driverMVOInformation_driver_nonDriverReason"));
+		public static final AssetDescriptor<ComboBox> CARRIER = declare("Carrier", ComboBox.class, By.id("policyDataGatherForm:driverMVOInformation_driver_carrierName"));
 		public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class);
 		public static final AssetDescriptor<ComboBox> REL_TO_FIRST_NAMED_INSURED = declare("Rel. to First Named Insured", ComboBox.class);
 		public static final AssetDescriptor<TextBox> FIRST_NAME = declare("First Name", TextBox.class);
@@ -469,6 +470,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<ComboBox> FIRST_PARTY_BENEFITS = declare("First Party Benefits", ComboBox.class, By.xpath(".//table[@id='policyDataGatherForm:policy_vehicle_detail_coverage']//span[normalize-space(.)='First Party Benefits']/ancestor::tr[1]//select"));	
 		public static final AssetDescriptor<ComboBox> MEDICAL_EXPENSES = declare("Medical Expenses", ComboBox.class, By.xpath(".//table[@id='policyDataGatherForm:policy_vehicle_detail_coverage']//span[normalize-space(.)='Medical Expenses']/ancestor::tr[1]//select"));	
 		public static final AssetDescriptor<ComboBox> FUNERAL_BENEFITS = declare("Funeral Benefits", ComboBox.class, By.xpath(".//table[@id='policyDataGatherForm:policy_vehicle_detail_coverage']//span[normalize-space(.)='Funeral Benefits']/ancestor::tr[1]//select"));	
+		  public static final AssetDescriptor<RadioGroup> EXTRAORDINARY_MEDICAL_EXPENSE_BENEFITS = declare("Extraordinary Medical Expense Benefits", RadioGroup.class, Waiters.AJAX, false, By.xpath(".//table[@id='policyDataGatherForm:policy_vehicle_detail_coverage']/tbody/tr[13]/td[2]"));
 		public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_PROPERTY_DAMAGE_LIMIT = declare("Uninsured Motorist Property Damage Limit", ComboBox.class, By.xpath(".//table[@id='policyDataGatherForm:policy_vehicle_detail_coverage']//span[normalize-space(.)='Uninsured Motorist Property Damage Limit']/ancestor::tr[1]//select"));	
 		public static final AssetDescriptor<ComboBox> UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY =
 				declare("Uninsured/Underinsured Motorist Bodily Injury", ComboBox.class, By.xpath(".//table[@id='policyDataGatherForm:policy_vehicle_detail_coverage']//span[normalize-space(.)='Uninsured/Underinsured Motorist Bodily Injury']/ancestor::tr[1]//select"));
@@ -656,6 +658,8 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> SEPARATE_VEHICLE_2 = declare("Separate Vehicle 2", RadioGroup.class, By.xpath("//table[@id='policyDataGatherForm:driverName_1']"));
 			//OK
 			public static final AssetDescriptor<RadioGroup> COVERAGE_SELECTION_FORM = declare("Coverage Selection Form", RadioGroup.class, Waiters.NONE);
+            //PA	
+			public static final AssetDescriptor<RadioGroup> PROOF_OF_CURRENT_INSURANCE_FOR = declare("Proof of Current Insurance for", RadioGroup.class, Waiters.NONE);
 		}
 
 		public static final class GeneralInformation extends MetaData {

@@ -71,8 +71,6 @@ public class TestScenario2 extends AutoSSBaseTest {
 	private List<TestData> vehRntlReimbsPrem = new ArrayList<TestData>();
 	private List<TestData> vehTwgLbrPrem = new ArrayList<TestData>();
 	private List<TestData> vehTotPrem = new ArrayList<TestData>();
-	private List<TestData> uMStckTyp = new ArrayList<TestData>();
-	private List<TestData> uIMStckTyp = new ArrayList<TestData>();
 	private List<TestData> fPBCovTyp = new ArrayList<TestData>();
 	private List<TestData> tortTrshldTyp = new ArrayList<TestData>();
 	private List<TestData> plcyMedBenEaPers = new ArrayList<TestData>();
@@ -81,11 +79,12 @@ public class TestScenario2 extends AutoSSBaseTest {
 	private List<TestData> vehFnrlExpBenPrem = new ArrayList<TestData>();
 	private List<TestData> plcyAcdntDeadBenEaOcc = new ArrayList<TestData>();
 	private List<TestData> vehAcdntDeadBenPrem = new ArrayList<TestData>();
-	private List<TestData> plcyExtrMedBenEaPers = new ArrayList<TestData>();
 	private List<TestData> vehExtrMedBenPrem = new ArrayList<TestData>();
 	private List<TestData> plcySpclEqpmtTotAmt = new ArrayList<TestData>();
 	private List<TestData> vehUMStckPrem = new ArrayList<TestData>();
 	private List<TestData> vehUIMBStckPrem = new ArrayList<TestData>();
+	private List<TestData> vehUMNonStckPrem = new ArrayList<TestData>();
+	private List<TestData> vehUIMBNonStckPrem = new ArrayList<TestData>();
 	private String plcyTotPrem;
 	private String netWrtPrem;
 	private String plcyTotFee;
@@ -96,6 +95,8 @@ public class TestScenario2 extends AutoSSBaseTest {
 	private String plcyPayMinAmt;
 	private String plcyDueDt;
 	private String allVehTotPrem;
+	private String rnwlTrmEffDt;
+	private String rnwlTrmDt;
 	private List<TestData> dueAmount = new ArrayList<TestData>();
 	private List<TestData> installmentDueDate = new ArrayList<TestData>();
 
@@ -289,8 +290,6 @@ public class TestScenario2 extends AutoSSBaseTest {
 //							.adjust(TestData.makeKeyPath("AA10PA", "form", "TermExprDt","DateTimeField"), termExprDt)//TODO defect 44879 the value of TermExprDt incorrect
 							.adjust(TestData.makeKeyPath("AA02PA", "form", "PlcyNum", "TextField"), policyNumber)
 							.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "TortTrshldTyp"), tortTrshldTyp)
-							.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "UMStckTyp"), uMStckTyp)
-							.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "UIMStckTyp"), uIMStckTyp)
 							.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "PlcyPdEaOcc"), plcyPdEaOcc)
 							.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "PlcyMedBenEaPers"), plcyMedBenEaPers)
 							.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehMedBenPrem"), vehMedBenPrem)
@@ -298,7 +297,6 @@ public class TestScenario2 extends AutoSSBaseTest {
 							.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehFnrlExpBenPrem"), vehFnrlExpBenPrem)
 							.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "PlcyAcdntDeadBenEaOcc"), plcyAcdntDeadBenEaOcc)
 							.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehAcdntDeadBenPrem"), vehAcdntDeadBenPrem)
-							.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "PlcyExtrMedBenEaPers"), plcyExtrMedBenEaPers)
 							.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehExtrMedBenPrem"), vehExtrMedBenPrem)
 							.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "PlcySpclEqpmtTotAmt"), plcySpclEqpmtTotAmt)
 							.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehBdyInjPrem"), vehBdyInjPrem)
@@ -329,7 +327,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 	}
 
 	@Parameters({ "state" })
-//	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")	
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")	
 	public void TC02_EndorsePolicy(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -343,15 +341,10 @@ public class TestScenario2 extends AutoSSBaseTest {
 		storeBillingData();
 
 		endrEffDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "Endorsement - Maintain Vehicle(s)").getCell(BillingPaymentsAndOtherTransactionsTable.EFF_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
-				
-		DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR26).verify.mapping(getTestSpecificTD("TestData_AASR26")
-				.adjust(TestData.makeKeyPath("AASR26", "form", "PlcyNum", "TextField"), policyNumber)
-				.adjust(TestData.makeKeyPath("AASR26", "form", "TermEffDt","DateTimeField"), termEffDt)
-				.adjust(TestData.makeKeyPath("AASR26", "form", "TermExprDt","DateTimeField"), termExprDt),
-				policyNumber);
+					
 		switch (getState()) {
 		case "AZ":
-			/* verify the xml file for AZ
+		/* verify the xml file for AZ
 			AASR26
 			AH35XX
 			AA02AZ
@@ -361,6 +354,12 @@ public class TestScenario2 extends AutoSSBaseTest {
 			AA59XX
 			AAPDXX*/
 			
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR26).verify.mapping(getTestSpecificTD("TestData_AASR26")
+				.adjust(TestData.makeKeyPath("AASR26", "form", "PlcyNum", "TextField"), policyNumber)
+				.adjust(TestData.makeKeyPath("AASR26", "form", "TermEffDt","DateTimeField"), termEffDt)
+				.adjust(TestData.makeKeyPath("AASR26", "form", "TermExprDt","DateTimeField"), termExprDt),
+				policyNumber);
+				
 			DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43AZ,AH35XX,AA59XX,AA52AZ,AA10XX,AAPDXX,AA02AZ).verify.mapping(getTestSpecificTD("TestData_VerificationED")			
 					.adjust(TestData.makeKeyPath("AA43AZ", "form", "PlcyNum","TextField"), policyNumber)
 					.adjust(TestData.makeKeyPath("AA43AZ", "form", "TermEffDt","DateTimeField"), termEffDt)
@@ -407,7 +406,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 			policyNumber);
 		break;
 		case "IN":
-			/* verify the xml file 
+        /* verify the xml file 
 			AASR26
 			AH35XX
 			AA02IN
@@ -416,6 +415,13 @@ public class TestScenario2 extends AutoSSBaseTest {
 			AA52IN
 			AA59XX
 			AAPDXX*/
+			
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR26).verify.mapping(getTestSpecificTD("TestData_AASR26")
+				.adjust(TestData.makeKeyPath("AASR26", "form", "PlcyNum", "TextField"), policyNumber)
+				.adjust(TestData.makeKeyPath("AASR26", "form", "TermEffDt","DateTimeField"), termEffDt)
+				.adjust(TestData.makeKeyPath("AASR26", "form", "TermExprDt","DateTimeField"), termExprDt),
+				policyNumber);
+			
 			DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43IN,AH35XX,AA59XX,AA52IN,AA53IN,AA10XX,AAPDXX,AA02IN).verify.mapping(getTestSpecificTD("TestData_VerificationED")			
 					.adjust(TestData.makeKeyPath("AA43IN", "form", "PlcyNum","TextField"), policyNumber)
 					.adjust(TestData.makeKeyPath("AA43IN", "form", "TermEffDt","DateTimeField"), termEffDt)
@@ -463,6 +469,71 @@ public class TestScenario2 extends AutoSSBaseTest {
 					.adjust(TestData.makeKeyPath("AA02IN", "form", "EndrEffDt","DateTimeField"), endrEffDt),
 			policyNumber);
 		break;
+		case "PA":
+			/* verify the xml file 
+			AH35XX
+			AA02PA
+			AA10PA
+			AA43PA
+			AA52IPAB
+			AA52UPAB
+			AA59XX
+			AAPDXX
+			AAFPPA*/
+						
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43PA,AH35XX,AA59XX,AA52IPAB,AA52UPAB,AA10PA,AAPDXX,AA02PA,AAFPPA).verify.mapping(getTestSpecificTD("TestData_VerificationED")			
+					.adjust(TestData.makeKeyPath("AA43PA", "form", "PlcyNum","TextField"), policyNumber)
+					.adjust(TestData.makeKeyPath("AA43PA", "form", "TermEffDt","DateTimeField"), termEffDt)
+					.adjust(TestData.makeKeyPath("AA43PA", "form", "EndrEffDt","DateTimeField"), endrEffDt)
+					.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
+					.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
+					.adjust(TestData.makeKeyPath("AH35XX", "form", "FutInstlDueDt"), installmentDueDate)
+					.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyEffDt","DateTimeField"), plcyEffDt)
+					.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyExprDt","DateTimeField"), plcyExprDt)
+					.adjust(TestData.makeKeyPath("AA59XX", "form", "PlcyNum", "TextField"), policyNumber)
+					.adjust(TestData.makeKeyPath("AA52IPAB", "form", "PlcyNum", "TextField"), policyNumber)
+					.adjust(TestData.makeKeyPath("AA52IPAB", "form", "TermEffDt","DateTimeField"), termEffDt)
+					.adjust(TestData.makeKeyPath("AA52IPAB", "form", "EndrEffDt","DateTimeField"), endrEffDt)
+					.adjust(TestData.makeKeyPath("AA52UPAB", "form", "PlcyNum", "TextField"), policyNumber)
+					.adjust(TestData.makeKeyPath("AA52UPAB", "form", "TermEffDt","DateTimeField"), termEffDt)
+					.adjust(TestData.makeKeyPath("AA52UPAB", "form", "EndrEffDt","DateTimeField"), endrEffDt)
+					.adjust(TestData.makeKeyPath("AA10PA", "form", "PlcyNum", "TextField"), policyNumber)
+					.adjust(TestData.makeKeyPath("AA10PA", "form", "TermEffDt","DateTimeField"), termEffDt)
+//					.adjust(TestData.makeKeyPath("AA10PA", "form", "TermExprDt","DateTimeField"), termExprDt) //TODO defect 44879 the value of TermExprDt incorrect
+					.adjust(TestData.makeKeyPath("AA10PA", "form", "EndrEffDt","DateTimeField"), endrEffDt)
+					.adjust(TestData.makeKeyPath("AA02PA", "form", "PlcyNum", "TextField"), policyNumber)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "TortTrshldTyp"), tortTrshldTyp)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "PlcyPdEaOcc"), plcyPdEaOcc)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "PlcyMedBenEaPers"), plcyMedBenEaPers)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehMedBenPrem"), vehMedBenPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "PlcyFnrlExpBenEaOcc"), plcyFnrlExpBenEaOcc)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehFnrlExpBenPrem"), vehFnrlExpBenPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "PlcyAcdntDeadBenEaOcc"), plcyAcdntDeadBenEaOcc)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehAcdntDeadBenPrem"), vehAcdntDeadBenPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehExtrMedBenPrem"), vehExtrMedBenPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "PlcySpclEqpmtTotAmt"), plcySpclEqpmtTotAmt)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehBdyInjPrem"), vehBdyInjPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehPDPrem"), vehPDPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehUMNonStckPrem"), vehUMNonStckPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehUIMBNonStckPrem"), vehUIMBNonStckPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehCompPrem"), vehCompPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehClsnPrem"), vehClsnPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehRntlReimbsPrem"), vehRntlReimbsPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehTwgLbrPrem"), vehTwgLbrPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehClsnDed"), vehClsnDed)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehCompDed"), vehCompDed)							
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "FPBCovTyp"), fPBCovTyp)							
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "NetWrtPrem", "TextField"), netWrtPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehTotPrem"), vehTotPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "AllVehTotPrem","TextField"), allVehTotPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "PaymentDetails", "PlcyTotPrem", "TextField"), plcyTotPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "form", "TermEffDt","DateTimeField"), termEffDt)
+					.adjust(TestData.makeKeyPath("AA02PA", "form", "TermExprDt","DateTimeField"), termExprDt)
+					.adjust(TestData.makeKeyPath("AA02PA", "form", "EndrEffDt","DateTimeField"), endrEffDt)
+					.adjust(TestData.makeKeyPath("AAFPPA", "form", "PlcyNum","TextField"), policyNumber)
+					.adjust(TestData.makeKeyPath("AAFPPA", "form", "EndrEffDt","DateTimeField"), endrEffDt),
+					policyNumber);
+			break;
 		}		
 		clearList();
 		CustomAssert.disableSoftMode();
@@ -471,14 +542,14 @@ public class TestScenario2 extends AutoSSBaseTest {
 	}
 
 	@Parameters({ "state" })
-//	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC03_RenewalImageGeneration(@Optional("") String state) {
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate_CurrentTerm);
 		Log.info("Policy Renewal Image Generation Date" + renewImageGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1,true);
 		HttpStub.executeAllBatches();
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2,true);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -486,13 +557,13 @@ public class TestScenario2 extends AutoSSBaseTest {
 	}
 
 	@Parameters({ "state" })
-//	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC04_RenewaPreviewGeneration(@Optional("") String state) {
 
 		LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate_CurrentTerm);
 		Log.info("Policy Renewal Preview Generation Date" + renewPreviewGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2,true);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -507,13 +578,13 @@ public class TestScenario2 extends AutoSSBaseTest {
 	}
 
 	@Parameters({ "state" })
-//	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC05_RenewaOfferGeneration(@Optional("") String state) {
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate_CurrentTerm);
 		Log.info("Policy Renewal Offer Generation Date" + renewOfferGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2,true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob,true);
 
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -605,6 +676,88 @@ public class TestScenario2 extends AutoSSBaseTest {
 					.adjust(TestData.makeKeyPath("AA02IN", "form", "TermExprDt","DateTimeField"), termExprDt),
 					policyNumber);
 		break;
+		case "PA":
+			/* verify the xml file 	
+				AA02PA
+				AA10PA
+				AHAUXX
+				AHPNXX
+				F122G
+				AASDPA
+				AADNPAD
+				AADNPAE
+				AADNPAC*/
+			DocGenHelper.verifyDocumentsGenerated(true,true,policyNumber, AHAUXX,AHPNXX,AA10PA,AA02PA,F122G,AASDPA,AADNPAD,AADNPAE,AADNPAC).verify.mapping(getTestSpecificTD("TestData_VerificationRenewal")
+					.adjust(TestData.makeKeyPath("AHAUXX", "form", "PlcyNum", "TextField"), policyNumber)
+					.adjust(TestData.makeKeyPath("AA10PA", "form", "PlcyNum", "TextField"), policyNumber)
+					.adjust(TestData.makeKeyPath("AA10PA", "form", "TermEffDt","DateTimeField"), termEffDt)
+//					.adjust(TestData.makeKeyPath("AA10PA", "form", "TermExprDt","DateTimeField"), termExprDt) //TODO defect 44879 the value of TermExprDt incorrect
+					.adjust(TestData.makeKeyPath("AA02PA", "form", "PlcyNum", "TextField"), policyNumber)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "TortTrshldTyp"), tortTrshldTyp)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "PlcyPdEaOcc"), plcyPdEaOcc)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "PlcyMedBenEaPers"), plcyMedBenEaPers)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehMedBenPrem"), vehMedBenPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "PlcyFnrlExpBenEaOcc"), plcyFnrlExpBenEaOcc)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehFnrlExpBenPrem"), vehFnrlExpBenPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "PlcyAcdntDeadBenEaOcc"), plcyAcdntDeadBenEaOcc)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehAcdntDeadBenPrem"), vehAcdntDeadBenPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehExtrMedBenPrem"), vehExtrMedBenPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "PlcySpclEqpmtTotAmt"), plcySpclEqpmtTotAmt)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehBdyInjPrem"), vehBdyInjPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehPDPrem"), vehPDPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehUMNonStckPrem"), vehUMNonStckPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehUIMBNonStckPrem"), vehUIMBNonStckPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehCompPrem"), vehCompPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehClsnPrem"), vehClsnPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehRntlReimbsPrem"), vehRntlReimbsPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehTwgLbrPrem"), vehTwgLbrPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehClsnDed"), vehClsnDed)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehCompDed"), vehCompDed)							
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "FPBCovTyp"), fPBCovTyp)							
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "NetWrtPrem", "TextField"), netWrtPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehTotPrem"), vehTotPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "AllVehTotPrem","TextField"), allVehTotPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "PaymentDetails", "PlcyTotPrem", "TextField"), plcyTotPrem)
+					.adjust(TestData.makeKeyPath("AA02PA", "form", "TermEffDt","DateTimeField"), termEffDt)
+					.adjust(TestData.makeKeyPath("AA02PA", "form", "TermExprDt","DateTimeField"), termExprDt)
+					.adjust(TestData.makeKeyPath("F122G", "form", "PlcyNum", "TextField"), policyNumber)
+					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "TortTrshldTyp"), tortTrshldTyp)
+					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "PlcyMedBenEaPers"), plcyMedBenEaPers)
+					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehMedBenPrem"), vehMedBenPrem)
+					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "PlcyFnrlExpBenEaOcc"), plcyFnrlExpBenEaOcc)
+					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehFnrlExpBenPrem"), vehFnrlExpBenPrem)
+					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "PlcyAcdntDeadBenEaOcc"), plcyAcdntDeadBenEaOcc)
+					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehAcdntDeadBenPrem"), vehAcdntDeadBenPrem)
+					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehExtrMedBenPrem"), vehExtrMedBenPrem)
+//					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "PlcySpclEqpmtTotAmt"), plcySpclEqpmtTotAmt) //TODO defect_44888 the field was missed in xml file
+					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehBdyInjPrem"), vehBdyInjPrem)
+					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehPDPrem"), vehPDPrem)
+					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehUMNonStckPrem"), vehUMNonStckPrem)
+					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehUIMBNonStckPrem"), vehUIMBNonStckPrem)
+					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehCompPrem"), vehCompPrem)
+					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehClsnPrem"), vehClsnPrem)
+					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehRntlReimbsPrem"), vehRntlReimbsPrem)
+					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehTwgLbrPrem"), vehTwgLbrPrem)
+					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehClsnDed"), vehClsnDed)
+					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehCompDed"), vehCompDed)							
+					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "FPBCovTyp"), fPBCovTyp)							
+					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "VehTotPrem"), vehTotPrem)
+					.adjust(TestData.makeKeyPath("F122G", "CoverageDetails", "AllVehTotPrem","TextField"), allVehTotPrem)
+//					.adjust(TestData.makeKeyPath("F122G", "PaymentDetails", "PlcyTotPrem", "TextField"), plcyTotPrem)
+					.adjust(TestData.makeKeyPath("F122G", "form", "RnwlTrmDt","DateTimeField"), rnwlTrmDt)
+					.adjust(TestData.makeKeyPath("AASDPA", "form", "PlcyNum", "TextField"), policyNumber)
+					.adjust(TestData.makeKeyPath("AASDPA", "form", "TermEffDt","DateTimeField"), termEffDt)
+					.adjust(TestData.makeKeyPath("AASDPA", "form", "RnwlTrmEffDt","DateTimeField"), rnwlTrmEffDt)
+					.adjust(TestData.makeKeyPath("AADNPAD", "form", "PlcyNum", "TextField"), policyNumber)
+					.adjust(TestData.makeKeyPath("AADNPAD", "form", "TermEffDt","DateTimeField"), termEffDt)
+					.adjust(TestData.makeKeyPath("AADNPAD", "form", "RnwlTrmEffDt","DateTimeField"), rnwlTrmEffDt)
+					.adjust(TestData.makeKeyPath("AADNPAE", "form", "PlcyNum", "TextField"), policyNumber)
+					.adjust(TestData.makeKeyPath("AADNPAE", "form", "TermEffDt","DateTimeField"), termEffDt)
+					.adjust(TestData.makeKeyPath("AADNPAE", "form", "RnwlTrmEffDt","DateTimeField"), rnwlTrmEffDt)
+					.adjust(TestData.makeKeyPath("AADNPAC", "form", "PlcyNum", "TextField"), policyNumber)
+					.adjust(TestData.makeKeyPath("AADNPAC", "form", "TermEffDt","DateTimeField"), termEffDt),
+					policyNumber);
+			break;
 		}
 		
 		clearList();
@@ -618,8 +771,8 @@ public class TestScenario2 extends AutoSSBaseTest {
 		LocalDateTime renewOfferBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate_CurrentTerm);
 		Log.info("Policy Renewal Offer Bill Generation Date" + renewOfferBillGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferBillGenDate);
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob,true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob,true);
 		
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -651,7 +804,6 @@ public class TestScenario2 extends AutoSSBaseTest {
 
 			DocGenHelper.verifyDocumentsGenerated(true,true,policyNumber, AH35XX,AHRBXX).verify.mapping(getTestSpecificTD("TestData_VerificationRenewalBill")
 					.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
-					.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "InstlFee","TextField"), instlFee)
 					.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
 					.adjust(TestData.makeKeyPath("AH35XX", "form", "FutInstlDueDt"), installmentDueDate)
 					.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyEffDt","DateTimeField"), plcyEffDt)
@@ -682,6 +834,8 @@ public class TestScenario2 extends AutoSSBaseTest {
 		String _plcyExprDt = policyExpirationDate.toString();
 		String _termExprDt = policyExpirationDate.toString();
 		termEffDt = "contains=" + _termEffDt.substring(0, _termEffDt.indexOf("T"));
+		rnwlTrmEffDt = "contains=" + _termEffDt.substring(0, _termEffDt.indexOf("T"));
+		rnwlTrmDt = "contains=" + _termEffDt.substring(0, _termEffDt.indexOf("T"));
 		plcyEffDt = "contains=" + _plcyEffDt.substring(0, _plcyEffDt.indexOf("T"));
 		plcyExprDt = "contains=" + _plcyExprDt.substring(0, _plcyExprDt.indexOf("T"));
 		termExprDt = "contains=" + _termExprDt.substring(0, _termExprDt.indexOf("T"));
@@ -702,10 +856,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 				plcyMedBenEaPers.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Medical Expenses"))));
 				plcyFnrlExpBenEaOcc.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Funeral Expenses"))));
 				plcyAcdntDeadBenEaOcc.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Accidental Death Benefits"))));
-				plcyExtrMedBenEaPers.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Extraordinary Medical Benefits"))));
 				plcySpclEqpmtTotAmt.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Special Equipment Limit"))));
-				uMStckTyp.add(DataProviderFactory.dataOf("TextField", td.getValue("Uninsured Motorist Stacked/Unstacked").toUpperCase()));
-				uIMStckTyp.add(DataProviderFactory.dataOf("TextField", td.getValue("Underinsured Motorist Stacked/Unstacked").toUpperCase()));
 				fPBCovTyp.add(DataProviderFactory.dataOf("TextField", td.getValue("First Party Benefit").toUpperCase()));
 				tortTrshldTyp.add(DataProviderFactory.dataOf("TextField", td.getValue("Tort Threshold").substring(0,td.getValue("Tort Threshold").indexOf(" T")).toUpperCase()));
 			}
@@ -762,7 +913,9 @@ public class TestScenario2 extends AutoSSBaseTest {
 				vehBdyInjPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Bodily Injury Liability"))));
 				vehPDPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Property Damage Liability"))));
 				vehUMStckPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Uninsured Motorists Bodily Injury"))));
+				vehUMNonStckPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Uninsured Motorists Bodily Injury"))));
 				vehUIMBStckPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Underinsured Motorists Bodily Injury"))));
+				vehUIMBNonStckPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Underinsured Motorists Bodily Injury"))));
 				vehClsnPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Collision Deductible"))));
 				vehCompPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Comprehensive Deductible"))));
 				vehRntlReimbsPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Rental Reimbursement"))));
@@ -809,7 +962,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 	}
 
 	private String formatValue(String value) {
-		return value.contains("No Coverage") ? "0.00" : value.contains("No")? "0.00" : new Dollar(value.replace("\n", "")).toString().replace("$", "").replace(",", "");
+		return value.contains("No Coverage") ? "0.00"  : new Dollar(value.replace("\n", "")).toString().replace("$", "").replace(",", "");
 	}
 	
 //	Clear all the list value
@@ -836,6 +989,13 @@ public class TestScenario2 extends AutoSSBaseTest {
 		installmentDueDate.clear();
 		vehTotPrem.clear();
 		vehUMUIMBPrem.clear();
+		vehMedBenPrem.clear();
+		vehExtrMedBenPrem.clear();
+		vehUMNonStckPrem.clear();
+		vehUIMBNonStckPrem.clear();
+		vehUMStckPrem.clear();
+		vehUIMBStckPrem.clear();
+		plcySpclEqpmtTotAmt.clear();
 	}
 
 }

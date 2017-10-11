@@ -184,6 +184,8 @@ public final class DocGenEnum {
         AADNPAD(""),
         AADNPAE(""),
         AALTPA(""),
+        AAFPPA(""),
+        F122G(""),
 		;
 
 		private String id;
