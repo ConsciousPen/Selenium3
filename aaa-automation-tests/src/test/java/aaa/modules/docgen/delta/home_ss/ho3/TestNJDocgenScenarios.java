@@ -80,7 +80,7 @@ public class TestNJDocgenScenarios extends HomeSSHO3BaseTest{
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSEQNJ, Documents.HS11);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
 		policy.getDefaultView().fillFromTo(getPolicyTD().adjust(getTestSpecificTD("TestData_DeltaPolicyDocuments")), BindTab.class, PurchaseTab.class, true);

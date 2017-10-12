@@ -1,5 +1,6 @@
 package com.exigen.ipb.etcsa.utils;
 
+import java.lang.reflect.Constructor;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -45,8 +46,16 @@ public class TimeSetterUtil {
 		if (instance == null) {
 			instance = new TimeSetterUtil();
 		}
-		if (!isPEF && timeSetterClient == null)
-			timeSetterClient = new TimeSetterClient(PropertyProvider.getProperty("app.host"));
+		if (!isPEF && timeSetterClient == null) {
+			try {
+				Class clazz = Class.forName(PropertyProvider.getProperty("time.service.class"));
+				Constructor<? extends TimeSetter> ctor = clazz.getConstructor(String.class);
+				timeSetterClient = ctor.newInstance(new Object[]{PropertyProvider.getProperty("app.host")});
+			} catch (ReflectiveOperationException e) {
+				log.error("Can't instatiate TimeSetter from class: " + PropertyProvider.getProperty("time.service.class"), e);
+				timeSetterClient = new TimeSetterClient(PropertyProvider.getProperty("app.host"));
+			}
+		}
 		return instance;
 	}
 

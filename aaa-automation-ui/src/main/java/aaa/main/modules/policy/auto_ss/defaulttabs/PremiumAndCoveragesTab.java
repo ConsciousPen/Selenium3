@@ -41,6 +41,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Table tableDiscounts = new Table(By.id("policyDataGatherForm:discountSurchargeSummaryTable"));
 	public static Table tableFormsSummary = new Table(By.id("policyDataGatherForm:formSummaryTable"));
 	public static Table tablefeesSummary = new Table(By.id("policyDataGatherForm:feesSummaryTable"));
+	public static Table tableAAAPremiumSummary = new Table(By.id("policyDataGatherForm:AAAPremiumSummary"));
 	public static Table tableTermPremiumbyVehicle = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table"));
 	public static Table tablePolicyLevelLiabilityCoveragesPremium = new Table(By.xpath("//table[@id='policyDataGatherForm:policyTableTotalVehiclePremium']"));
 	public static Table tableGreyBox = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAEMemberDetailMVOComponent']//table"));
@@ -134,6 +135,8 @@ public class PremiumAndCoveragesTab extends Tab {
 				List<String> _values = new ArrayList<String>();
 				_values.addAll(values);
 				_values.removeIf(s -> "No Coverage".equals(s));
+				_values.removeIf(s -> "Unstacked".equals(s));			
+				_values.removeIf(s -> "Yes".equals(s));			
 				if (_values.stream().allMatch(String::isEmpty)) {
 					continue; // skip column with only "No Coverage"
 				}
