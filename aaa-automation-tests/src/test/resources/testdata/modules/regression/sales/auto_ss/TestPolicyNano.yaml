@@ -195,9 +195,7 @@ TestData_DC: {
 
 PrefillTab_DC: {
   Validate Address: click,
-  Validate Address Dialog: { 
-      Street Name: 265 CHIPMAN AVE
-     },
+  Validate Address Dialog: {},
   Order Prefill: click
 }
 

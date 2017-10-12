@@ -96,9 +96,7 @@ PrefillTab_DC: {
   First Name: Chad,
   Last Name: Black,
   Validate Address: click,
-  Validate Address Dialog: { 
-      Street Name: 265 CHIPMAN AVE
-     },
+  Validate Address Dialog: {},
   Order Prefill: click
 }
 
