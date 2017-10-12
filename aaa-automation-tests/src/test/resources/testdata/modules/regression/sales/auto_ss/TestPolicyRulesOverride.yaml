@@ -92,7 +92,7 @@ TestData_CO: {
 # ------- CT ------
 
 TestData_CT: {
-  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab_CT',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_CT',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_CT',
   RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
@@ -387,7 +387,7 @@ DocumentsAndBindTab_OK: {
 # ------- OR ------
 
 TestData_OR: {
-  PrefillTab: '@PrefillTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_OR',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_OR',
   RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
@@ -403,7 +403,7 @@ TestData_OR: {
 # ------- PA ------
 
 TestData_PA: {
-  PrefillTab: '@PrefillTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_PA',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_PA',
   RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
@@ -432,7 +432,7 @@ DocumentsAndBindTab_PA: {
 # ------- SD ------
 
 TestData_SD: {
-  PrefillTab: '@PrefillTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_SD',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_SD',
   RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
@@ -448,7 +448,7 @@ TestData_SD: {
 # ------- VA ------
 
 TestData_VA: {
-  PrefillTab: '@PrefillTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_VA',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_VA',
   RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',

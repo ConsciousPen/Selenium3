@@ -91,7 +91,7 @@ PrefillTab_CT: {
 #-------- DC -----
 
 TestData_DC: {
-  PrefillTab: '@PrefillTab_DC',
+  PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab_DC',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_DC',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
@@ -99,14 +99,6 @@ TestData_DC: {
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab'
-}
-
-PrefillTab_DC: {
-  First Name: Chad,
-  Last Name: Black,
-  Validate Address: click,
-  Validate Address Dialog: {},
-  Order Prefill: click
 }
 
 #-------- DE -----

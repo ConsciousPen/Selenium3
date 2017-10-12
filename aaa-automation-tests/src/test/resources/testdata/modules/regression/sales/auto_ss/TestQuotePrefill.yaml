@@ -1197,7 +1197,6 @@ PrefillTab1_PA: {
   Date of Birth: '05/05/1982',
   Validate Address: click,
   Validate Address Dialog: {
-    Select Address: override,
     Street Name: 300 Born St},
   Order Prefill: click
 }
