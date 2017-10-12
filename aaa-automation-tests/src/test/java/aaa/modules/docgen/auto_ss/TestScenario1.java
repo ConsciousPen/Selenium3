@@ -180,7 +180,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		BillingSummaryPage.open();
-		cancEffDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(BillingBillsAndStatmentsTable.TYPE, "Cancellation").getCell(BillingBillsAndStatmentsTable.DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
+		cancEffDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(BillingBillsAndStatmentsTable.TYPE, "Cancellation Notice").getCell(BillingBillsAndStatmentsTable.DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
 
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, AH67XX).verify.mapping(getTestSpecificTD("TestData_AH67XX_Verification")
 								.adjust(TestData.makeKeyPath("AH67XX", "form","PlcyNum", "TextField"), policyNumber)
