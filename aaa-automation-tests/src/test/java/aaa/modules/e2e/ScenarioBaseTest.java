@@ -219,7 +219,7 @@ public class ScenarioBaseTest extends BaseTest {
 		return getState().equals(Constants.States.NY) && getPolicyType().equals(PolicyType.AUTO_SS);
 	}
 
-	private void goToBillingPage(String policyNumber) {
+	protected void goToBillingPage(String policyNumber) {
 		if (policyNumber != null && !BillingSummaryPage.isVisible()) {
 			mainApp().open();
 			SearchPage.openBilling(policyNumber);
