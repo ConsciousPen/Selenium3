@@ -506,7 +506,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
      * DS 04 71  15222: US CL GD-08 Generate DS 04 71 Endorsement
      * DS 04 73  15223: US CL GD-09 Generate DS 04 73 Endorsement
      * DS 04 95  15228: US CL GD-10 Generate DS 04 95 Endorsement
-     * DS 09 26  15229: US CL GD-11 Generate DS 09 26 Endorsement
+     * DS 09 26  15229: US CL GD-11 Generate DS 09 26 Endorsement (There is no DS 09 26, is it DS 09 29?)
      * DS 09 34  15230: US CL GD-12 Generate DS 09 34 Endorsement
      * DS 24 82  15231: US CL GD-12 Generate DS 24 82 Endorsement
      */
@@ -528,7 +528,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
 				Documents.DS0471,
 				Documents.DS0473,
 				Documents.DS0495,
-				Documents.DS0926,
+				Documents.DS0929,
 				Documents.DS0934,
 				Documents.DS2482);
 		documentActionTab.buttonCancel.click();
@@ -543,7 +543,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
 				Documents.DS0471,
 				Documents.DS0473,
 				Documents.DS0495,
-				Documents.DS0926,
+				Documents.DS0929,
 				Documents.DS0934,
 				Documents.DS2482);
 		CustomAssert.disableSoftMode();

@@ -1,6 +1,7 @@
 TestData: {
   CC_Visa: '@CC_Visa',
   CC_MasterCard: '@CC_MasterCard',
+  EFT: '@EFT',
 }
 
 CC_Visa: {
@@ -15,4 +16,10 @@ CC_MasterCard: {
   Type: 'Master Card',
   Number: '5447720793964498',
   'Expiration Month/Year': ['/today:M', '/today+4y:yyyy']
+}
+
+EFT: {
+  Payment Method: 'Checking/Savings (ACH)',
+  "Transit #": '011104209',
+  "Account #": '1234567890'
 }

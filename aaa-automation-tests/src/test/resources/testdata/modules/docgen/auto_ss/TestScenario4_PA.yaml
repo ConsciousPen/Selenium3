@@ -1,0 +1,149 @@
+TestData: {
+    PrefillTab: {
+      First Name: Fernando,
+      Last Name: Alonso,
+      Validate Address: click,
+      Validate Address Dialog: {},
+      Order Prefill: click  
+    },
+    DriverTab: [
+      {
+        Occupation: Self-Employed,
+        Age First Licensed: 18,
+        License Type: 'Licensed (US)',
+        License Number: 83127880
+      },
+      {
+        DriverSearchDialog: {},
+        'Rel. to First Named Insured': 'Spouse',
+        First Name: Linda,
+        Last Name: Alonso,
+        Date of Birth: /today-20y,
+        Gender: Female,
+        Marital Status: Married,
+        Occupation: Self-Employed,
+        License Type: 'Licensed (US)',
+        License Number: 83127881,
+        Age First Licensed: 18
+      }
+    ],
+    PremiumAndCoveragesTab: {
+      Payment Plan: 'Eleven Pay - Standard',
+      Policy Term: Annual,
+      Bodily Injury Liability: 'contains=$100,000/$300,000',
+      Comprehensive Deductible: 'contains=$750',
+      Collision Deductible: 'contains=$500',
+      Special Equipment Coverage: 1100
+    }
+}
+
+TestData_EndorsementOne: {
+    GeneralTab: {
+      PolicyInformation: {
+        Authorized by: QA,
+        Policy Type: Named Non Owner,
+        Change Policy Type Confirmation: 'Continue'
+      }
+    },
+    DriverTab: {},
+    RatingDetailReportsTab: {},
+    VehicleTab: {},
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+    DriverActivityReportsTab: {},
+    DocumentsAndBindTab: {}
+}
+
+# ------------- Documents Verification ----------
+TestData_VerificationEDOne: {
+   AA41PA: '@AA41PA'
+}
+
+AA41PA: {
+  CompanyDetails: {
+    CoNm: {TextField: 'underwritten by Western United Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. Box 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(888) 222-0094'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdStAbrv: {TextField: PA}
+  },
+  AgentDetails: {
+    GenlAgntNum: {TextField: 400001650},
+    SubAgntNum: {TextField: 400018581}
+  },
+  VehicleDetails: {
+    VehTyp: {TextField: 'NO'}
+  },
+  form: {
+    PlcyStAbrv: {TextField: PA},
+    PlcyTransCd: {TextField: '0100'},
+    PlcyPrfx: {TextField: PASS},
+    PlcyGrp: {TextField: PERSONAL AUTO},
+    SpseExclNOPlcyYN: {TextField: Y},
+    PlcyNum: {TextField: ''},
+    TermEffDt: {DateTimeField: ''},
+    SgntrOnFile: {TextField: ''}
+  }
+}
+
+TestData_VerificationRenewal: {
+  AHRBXX: '@AHRBXX'
+}
+
+AHRBXX: {
+  form: { 
+   PlcyGrp: {TextField: 'AUTO'},
+   PlcyNum: {TextField: ''},
+   PlcyEffDt: {DateTimeField: ''},
+   PlcyExprDt: {DateTimeField: ''},
+   TermEffDt: {DateTimeField: ''},
+   PlcyStAbrv: {TextField: 'PA'},
+   PlcyTransCd: {TextField: 'STMT'},
+   AutoPayYN: {TextField: 'N'},
+   SR22Fee: {TextField: ''},
+   NSFFee: {TextField: '0.00'},
+   MVLEFee: {TextField: '0.00'},
+ },
+ PaymentDetails: {
+   PayTyp: {TextField: 'INSTALLMENT PAYMENT'},
+   PayPln: {TextField: 'Monthly'},
+   CurRnwlAmt: {TextField: ''},
+   InstlFee: {TextField: ''},
+#   OthrFee: {TextField: '0.00'},
+   TotNwCrgAmt: {TextField: ''},
+   PlcyPayMinAmt: {TextField: ''},
+   PlcyDueDt: {DateTimeField: ''},
+#   PlcyPayFullAmt: {TextField: ''},
+   NSFPayRstrYN: {TextField: 'N'},
+   PlcyPastDueBal: {TextField: '0.00'},
+   PlcyTotRnwlPrem: {TextField: ''},
+   PayMeth: {TextField: ''},
+   PLIGAFee: {TextField: '0.00'}
+ },
+ NamedInsuredDetails: {
+   NmdInsrdFrstNm: {TextField: 'Fernando'},
+   NmdInsrdMidNm: {TextField: ''},
+   NmdInsrdLstNm: {TextField: 'Alonso'},
+   NmdInsrdStrPobAddr1:  {TextField: '265 CHIPMAN AVE'},
+   NmdInsrdAddlAddr2: {TextField: ''},
+   NmdInsrdCityNm: {TextField: 'Aliquippa'},
+   NmdInsrdStAbrv: {TextField: 'PA'},
+   NmdInsrdZipPls4: {TextField: '15001'}
+ },
+ VehicleDetails: {
+   PlcyVehInfo: {TextField: '2000 NANO NANO'},
+ },
+ AccountDetails: {
+   AcctTyp: {TextField: ''}
+ },
+ CreditCardDetails: {
+   CrCrdTyp: {TextField: ''},
+ }
+}
