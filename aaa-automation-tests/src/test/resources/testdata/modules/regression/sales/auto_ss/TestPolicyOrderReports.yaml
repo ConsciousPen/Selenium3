@@ -44,20 +44,20 @@ DriverActivityReportsTab: {
 
 TestData_AZ: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_AZ',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_AZ',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab'
+  DriverActivityReportsTab: '@DriverActivityyReportsTab'
 }
 
 #-------- CO -----
 
 TestData_CO: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_CO',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_CO',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
@@ -69,8 +69,8 @@ TestData_CO: {
 #-------- CT -----
 
 TestData_CT: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  PrefillTab: '@PrefillTab_CT',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_CT',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_CT',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
@@ -79,11 +79,20 @@ TestData_CT: {
   DriverActivityReportsTab: '@DriverActivityReportsTab'
 }
 
+PrefillTab_CT: {
+  First Name: Chad,
+  Last Name: Black,
+  "County / Township": 'New Haven / Middlebury',
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
 #-------- DC -----
 
 TestData_DC: {
   PrefillTab: '@PrefillTab_DC',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_DC',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_DC',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
@@ -104,7 +113,7 @@ PrefillTab_DC: {
 
 TestData_DE: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_DE',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_DE',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
@@ -117,7 +126,7 @@ TestData_DE: {
 
 TestData_ID: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_ID',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_ID',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
@@ -130,7 +139,7 @@ TestData_ID: {
 
 TestData_IN: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_IN',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_IN',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
@@ -143,7 +152,7 @@ TestData_IN: {
 
 TestData_KS: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_KS',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_KS',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
@@ -156,7 +165,7 @@ TestData_KS: {
 
 TestData_KY: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_KY',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_KY',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
@@ -169,7 +178,7 @@ TestData_KY: {
 
 TestData_MD: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_MD',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_MD',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
@@ -182,7 +191,7 @@ TestData_MD: {
 
 TestData_MT: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_MT',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_MT',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
@@ -195,7 +204,7 @@ TestData_MT: {
 
 TestData_NJ: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_NJ',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_NJ',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
@@ -208,7 +217,7 @@ TestData_NJ: {
 
 TestData_NV: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_NV',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_NV',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
@@ -221,7 +230,7 @@ TestData_NV: {
 
 TestData_NY: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_NY',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_NY',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab_NY',
@@ -235,7 +244,7 @@ TestData_NY: {
 
 TestData_OH: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_OH',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_OH',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
@@ -248,7 +257,7 @@ TestData_OH: {
 
 TestData_OK: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_OK',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_OK',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
@@ -261,7 +270,7 @@ TestData_OK: {
 
 TestData_OR: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_OR',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_OR',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
@@ -274,7 +283,7 @@ TestData_OR: {
 
 TestData_PA: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_PA',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_PA',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
@@ -287,7 +296,7 @@ TestData_PA: {
 
 TestData_SD: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_SD',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_SD',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
@@ -321,7 +330,7 @@ DriverTab_VA: {
 
 TestData_WV: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_WV',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_WV',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
@@ -334,7 +343,7 @@ TestData_WV: {
 
 TestData_WY: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_WY',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_WY',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
