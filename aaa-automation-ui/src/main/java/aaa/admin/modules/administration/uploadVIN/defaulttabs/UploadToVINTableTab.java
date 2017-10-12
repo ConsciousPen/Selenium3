@@ -4,10 +4,37 @@ package aaa.admin.modules.administration.uploadVIN.defaulttabs;
 
 import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.common.DefaultTab;
+import org.openqa.selenium.By;
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.RadioButton;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+
+import java.io.File;
 
 public class UploadToVINTableTab extends DefaultTab {
 
     public UploadToVINTableTab() {
         super(AdministrationMetaData.VinTableTab.class);
+    }
+
+
+    public static Button BTN_UPLOAD = new Button(By.id("uploadToVINTableForm:uploadBtn"));
+
+    protected final static String defaultpath = "src/test/resources/uploadingfiles/vinUploadFiles/";
+
+
+    public void uploadExcel(String fileName){
+        UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
+
+        UploadToVINTableTab.BTN_UPLOAD.click();
+        uploadToVINTableTab.getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
+                .getAsset(AdministrationMetaData.VinTableTab.UploadDialog.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(defaultpath+fileName));
+
+        uploadToVINTableTab.getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
+                .getAsset(AdministrationMetaData.VinTableTab.UploadDialog.BUTTON_SUBMIT_POPUP).click();
+    }
+
+    public void switchUploadOptionTo(AssetDescriptor<RadioButton> buttonAssetDescriptor) {
+        new UploadToVINTableTab().getAssetList().getAsset(buttonAssetDescriptor).setValue(true);
     }
 }

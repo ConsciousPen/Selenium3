@@ -2,7 +2,6 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
-import aaa.admin.pages.administration.UploadToVINTablePage;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -27,6 +26,9 @@ import java.util.NoSuchElementException;
 
 public class TestVINUpload extends AutoSSBaseTest {
 
+    VehicleTab vehicleTab = new VehicleTab();
+    UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
+
     /**
      * @author Lev Kazarnovskiy
      *
@@ -47,10 +49,8 @@ public class TestVINUpload extends AutoSSBaseTest {
     public void testVINUpload_NewVINAdded(@Optional("UT") String state) {
 
         String vinNumber = "BBBKN3DD0E0344466";
-        TestData testData = getPolicyTD("DataGather", "TestData_UnmatchedVIN")
+        TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
                 .adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
-        VehicleTab vehicleTab = new VehicleTab();
-        UploadToVINTablePage uploadToVINTablePage = new UploadToVINTablePage();
 
         mainApp().open();
         createCustomerIndividual();
@@ -58,7 +58,7 @@ public class TestVINUpload extends AutoSSBaseTest {
         policy.getDefaultView().fillUpTo(testData, VehicleTab.class, true);
 
         //Verify that VIN which will be uploaded is not exist yet in the system
-        vehicleTab.verifyFieldHasValue("VIN Matched", "No" );
+        vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No" );
         VehicleTab.buttonSaveAndExit.click();
 
         //save quote number to open it later
@@ -66,26 +66,26 @@ public class TestVINUpload extends AutoSSBaseTest {
         log.info("Quote " + quoteNumber + " is successfully saved for further use");
 
         //open Admin application and navigate to Administration tab
-        adminApp().switchPanel();
+        adminApp().open();
         NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 
         //Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-        uploadToVINTablePage.uploadExcel("VINupload_UT_SS.xlsx");
-        new UploadToVINTableTab().getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION).setValue(true);
-        uploadToVINTablePage.uploadExcel("VINconfig_UT_SS.xlsx");
+        uploadToVINTableTab.uploadExcel("VINupload_UT_SS.xlsx");
+        uploadToVINTableTab.switchUploadOptionTo(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION);
+        uploadToVINTableTab.uploadExcel("VINconfig_UT_SS.xlsx");
 
         //Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
-        mainApp().switchPanel();
+        mainApp().open();
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.QUOTE.get());
         QuoteSummaryPage.tableQuoteList.getRow(1).getCell("Quote #").click();
         policy.dataGather().start();
-        NavigationPage.toViewTab("Forms");
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
 
         policy.getDefaultView().fillFromTo(testData, FormsTab.class, PremiumAndCoveragesTab.class, true);
-        NavigationPage.toViewTab("Vehicle");
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
-        vehicleTab.verifyFieldHasValue("Model", "Gt");
-        vehicleTab.verifyFieldIsNotDisplayed("Other Model");
+        vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.MODEL.getLabel(), "Gt");
+        vehicleTab.verifyFieldIsNotDisplayed(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel());
         VehicleTab.buttonSaveAndExit.click();
 
         log.info("Quote " + quoteNumber + " was successfully saved " +
@@ -113,10 +113,8 @@ public class TestVINUpload extends AutoSSBaseTest {
     public void testVINUpload_NewVINAdded_Renewal(@Optional("UT") String state) {
 
         String vinNumber = "BBBKN3DD0E0344466";
-        TestData testData = getPolicyTD("DataGather", "TestData_UnmatchedVIN")
+        TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
                 .adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
-        VehicleTab vehicleTab = new VehicleTab();
-        UploadToVINTablePage uploadToVINTablePage = new UploadToVINTablePage();
 
         mainApp().open();
         createCustomerIndividual();
@@ -124,7 +122,7 @@ public class TestVINUpload extends AutoSSBaseTest {
         policy.getDefaultView().fillUpTo(testData, VehicleTab.class, true);
 
         //Verify that VIN which will be uploaded is not exist yet in the system
-        vehicleTab.verifyFieldHasValue("VIN Matched", "No" );
+        vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No" );
         vehicleTab.submitTab();
 
         policy.getDefaultView().fillFromTo(testData, FormsTab.class, PurchaseTab.class, true);
@@ -135,24 +133,24 @@ public class TestVINUpload extends AutoSSBaseTest {
         log.info("Policy " + policyNumber + " is successfully saved for further use");
 
         //open Admin application and navigate to Administration tab
-        adminApp().switchPanel();
+        adminApp().open();
         NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 
         //Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-        uploadToVINTablePage.uploadExcel("VINupload_UT_SS.xlsx");
-        new UploadToVINTableTab().getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION).setValue(true);
-        uploadToVINTablePage.uploadExcel("VINconfig_UT_SS.xlsx");
+        uploadToVINTableTab.uploadExcel("VINupload_UT_SS.xlsx");
+        uploadToVINTableTab.switchUploadOptionTo(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION);
+        uploadToVINTableTab.uploadExcel("VINconfig_UT_SS.xlsx");
 
         //Go back to MainApp, initiate Renewal, verify if VIN value is applied
-        mainApp().switchPanel();
+        mainApp().open();
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
         PolicySummaryPage.tablePolicyList.getRow(1).getCell("Policy #").controls.links.get(1).click();
         policy.renew().start();
-        NavigationPage.toViewTab("Vehicle");
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
-        vehicleTab.verifyFieldHasValue("Model", "Gt");
-        vehicleTab.verifyFieldHasValue("Body Style", "UT_SS");
-        vehicleTab.verifyFieldIsNotDisplayed("Other Model");
+        vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.MODEL.getLabel(), "Gt");
+        vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel(), "UT_SS");
+        vehicleTab.verifyFieldIsNotDisplayed(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel());
         VehicleTab.buttonSaveAndExit.click();
 
         log.info("Renewal image for policy " + policyNumber + " was successfully saved " +
@@ -180,8 +178,6 @@ public class TestVINUpload extends AutoSSBaseTest {
 
         String vinNumber = "1HGEM215140028445";
         TestData testData = getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
-        VehicleTab vehicleTab = new VehicleTab();
-        UploadToVINTablePage uploadToVINTablePage = new UploadToVINTablePage();
 
         mainApp().open();
         createCustomerIndividual();
@@ -190,7 +186,7 @@ public class TestVINUpload extends AutoSSBaseTest {
         policy.getDefaultView().fillUpTo(testData, VehicleTab.class, true);
 
         //Verify that VIN which will be updated exists in the system, save value that will be updated
-        vehicleTab.verifyFieldHasValue("VIN Matched", "Yes" );
+        vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "Yes" );
         String oldModelValue = vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE).getValue();
 
         vehicleTab.submitTab();
@@ -198,26 +194,26 @@ public class TestVINUpload extends AutoSSBaseTest {
         new PurchaseTab().submitTab();
 
         //open Admin application and navigate to Administration tab
-        adminApp().switchPanel();
+        adminApp().open();
         NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 
         //Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-        uploadToVINTablePage.uploadExcel("VINupload_UT_SS_UPDATE.xlsx");
-        new UploadToVINTableTab().getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION).setValue(true);
-        uploadToVINTablePage.uploadExcel("VINconfig_UT_SS.xlsx");
+        uploadToVINTableTab.uploadExcel("VINupload_UT_SS_UPDATE.xlsx");
+        uploadToVINTableTab.switchUploadOptionTo(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION);
+        uploadToVINTableTab.uploadExcel("VINconfig_UT_SS.xlsx");
 
         //Go back to MainApp, create Renewal image and verify if VIN was updated and new values are applied
-        mainApp().switchPanel();
+        mainApp().open();
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
         PolicySummaryPage.tablePolicyList.getRow(1).getCell("Policy #").controls.links.get(1).click();
         policy.renew().start();
-        NavigationPage.toViewTab("Vehicle");
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
         //Verify that fields are updated
-        vehicleTab.verifyFieldHasValue("VIN Matched", "Yes" );
-        vehicleTab.verifyFieldHasNotValue("Make", oldModelValue);
-        vehicleTab.verifyFieldHasValue("Model", "TEST");
-        vehicleTab.verifyFieldHasValue("Body Style", "TEST");
+        vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "Yes" );
+        vehicleTab.verifyFieldHasNotValue(AutoSSMetaData.VehicleTab.MAKE.getLabel(), oldModelValue);
+        vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.MODEL.getLabel(), "TEST");
+        vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel(), "TEST");
         VehicleTab.buttonSaveAndExit.click();
 
         log.info("Renewal image for policy " + PolicySummaryPage.labelPolicyNumber.getValue() + " was successfully created. \n" +

@@ -38,6 +38,6 @@ public class TestVINUpload extends TestVINUploadTemplate {
     @Test(groups = { Groups.FUNCTIONAL, Groups.MEDIUM })
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE)
     public void testVINUpload_UpdatedVIN_Renewal(@Optional("CA") String state) {
-        super.testVINUpload_UpdatedVIN_Renewal("VINconfig_CA_CHOICE.xlsx", "VINupload_CA_CHOICE_UPDATE.xlsx", "1HGEM215140028445");
+        super.testVINUpload_UpdatedVIN_Renewal("VINconfig_CA_CHOICE.xlsx", "VINupload_CA_CHOICE_UPDATE.xlsx", "4T1BE30K46U656311");
     }
 }

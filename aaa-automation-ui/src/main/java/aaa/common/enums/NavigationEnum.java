@@ -105,8 +105,8 @@ public class NavigationEnum {
 	        TAXES_FEES_FEE_AND_TAX_STRATEGY("Fee and Tax Strategy", ""),
 	        TAXES_FEES_FEE_GROUP("Fee Group", ""),
 	        WORK_FLOW_PROCESS_MANAGEMENT("Process Management", ""),
-			UPLOAD_TO_VIN_TABLE("UPLOAD_BUTTON to VIN table", ""),
-			UPLOAD_TO_VIN_CONTROL_TABLE("Generate Product Schema", "");
+			UPLOAD_TO_VIN_TABLE("Upload to VIN table", ""),
+			GENERATE_PRODUCT_SCHEMA("Generate Product Schema", "");
 
 	        String id;
 	        String flow;

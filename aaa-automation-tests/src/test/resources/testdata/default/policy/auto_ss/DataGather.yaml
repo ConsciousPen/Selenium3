@@ -761,29 +761,3 @@ VehicleTab_2: {
   Usage: Pleasure,
   VIN: WDCYC7BB0B6729451
 }
-
-TestData_UnmatchedVIN: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab_UnmatchedVIN',
-  AssignmentTab: '@AssignmentTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-VehicleTab_UnmatchedVIN: {
-  Usage: Pleasure,
-  VIN: 2GNWGPFG9B2222222,
-  Make: 'OTHER',
-  Other Make: 'Other Make',
-  Other Model: 'Model',
-  Other Series: 'Series',
-  'Other Body Style': 'Sedan',
-  Stat Code: 'AC - Small SUV',
-  'Stated Amount': '10000',
-}
