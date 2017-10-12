@@ -48,9 +48,12 @@ PolicyInformation: {
   Policy Type: Named Non Owner,
   Effective Date: '/today:MM/dd/yyyy',
   Policy Term: Annual,
-  Channel Type: Independent Agent,
-  Agency: SMTestIA - 400001650,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'Draper - 500005417 - Draper',
+  Agent: 'House Account Draper',
   Authorized by: QA,
+  TollFree Number: 1,
   Lead Source: AAA Magazines
 }
 
@@ -108,7 +111,7 @@ PurchaseTab: {
 
 TestData_AZ: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_AZ',
   DriverTab: '@DriverTab_AZ',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
@@ -117,6 +120,27 @@ TestData_AZ: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_with_NANO',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_AZ: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation_AZ'
+}
+
+PolicyInformation_AZ: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Arizona - 500001004',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Chandler - 500005091 - Chandler',
+  Agent: 'House Agent Mesa',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 DriverTab_AZ: {
@@ -130,7 +154,7 @@ DriverTab_AZ: {
 
 TestData_CO: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_CO',
   DriverTab: '@DriverTab_CO',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
@@ -139,6 +163,27 @@ TestData_CO: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_without_NANO',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_CO: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation_CO'
+}
+
+PolicyInformation_CO: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Colorado - 500001007',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Denver - 500005106 - Denver',
+  Agent: 'House Agent Boulder',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 DriverTab_CO: {
@@ -151,8 +196,8 @@ DriverTab_CO: {
 # ------- CT ------
 
 TestData_CT: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  PrefillTab: '@PrefillTab_CT',
+  GeneralTab: '@GeneralTab_CT',
   DriverTab: '@DriverTab_CT',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
@@ -161,6 +206,34 @@ TestData_CT: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_CT',
   PurchaseTab: '@PurchaseTab'
+}
+
+PrefillTab_CT: {
+  "County / Township": 'New Haven / Middlebury',
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+GeneralTab_CT: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation_CT'
+}
+
+PolicyInformation_CT: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Allied Club - 500001019',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Lexington - 500005154 - Lexington',
+  Agent: 'House Agent Allied Club',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 DriverTab_CT: {
@@ -181,8 +254,8 @@ DocumentsAndBindTab_CT: {
 # ------- DC ------
 
 TestData_DC: {
-  PrefillTab: '@PrefillTab_DC',
-  GeneralTab: '@GeneralTab',
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab_DC',
   DriverTab: '@DriverTab_DC',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
@@ -193,10 +266,25 @@ TestData_DC: {
   PurchaseTab: '@PurchaseTab'
 }
 
-PrefillTab_DC: {
-  Validate Address: click,
-  Validate Address Dialog: {},
-  Order Prefill: click
+GeneralTab_DC: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation_DC'
+}
+
+PolicyInformation_DC: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
+  Agent: 'House Agent Mid-Atlantic',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 DriverTab_DC: {
@@ -218,7 +306,7 @@ DocumentsAndBindTab_DC: {
 
 TestData_DE: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_DE',
   DriverTab: '@DriverTab_DE',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
@@ -227,6 +315,27 @@ TestData_DE: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_DE',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_DE: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation_DE'
+}
+
+PolicyInformation_DE: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
+  Agent: 'House Agent Mid-Atlantic',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 DriverTab_DE: {
@@ -250,7 +359,7 @@ DocumentsAndBindTab_DE: {
 
 TestData_ID: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_ID',
   DriverTab: '@DriverTab_ID',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
@@ -259,6 +368,27 @@ TestData_ID: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_without_NANO',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_ID: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation_ID'
+}
+
+PolicyInformation_ID: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Oregon - 500001021',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Beaverton - 500005277 - Portland',
+  Agent: 'House Agent Pocatello',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 DriverTab_ID: {
@@ -273,7 +403,7 @@ DriverTab_ID: {
 
 TestData_IN: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_IN',
   DriverTab: '@DriverTab_IN',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
@@ -282,6 +412,27 @@ TestData_IN: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_with_NANO',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_IN: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation_IN'
+}
+
+PolicyInformation_IN: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA INDIANA HOOSIER MOTOR CLUB - 500001023',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Allisonville Branch - 500017062 - Indianapolis',
+  Agent: 'House Agent AAA Hoosier Headquarters',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 DriverTab_IN: {
@@ -295,7 +446,7 @@ DriverTab_IN: {
 
 TestData_KS: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_KS',
   DriverTab: '@DriverTab_KS',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
@@ -304,6 +455,27 @@ TestData_KS: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_KS',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_KS: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation_KS'
+}
+
+PolicyInformation_KS: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Allied Club - 500001019',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Cromwell - 500005129 - Cromwell',
+  Agent: 'House Agent Allied Club',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 DriverTab_KS: {
@@ -325,7 +497,7 @@ DocumentsAndBindTab_KS: {
 
 TestData_KY: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_KY',
   DriverTab: '@DriverTab_KY',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
@@ -336,9 +508,31 @@ TestData_KY: {
   PurchaseTab: '@PurchaseTab'
 }
 
+GeneralTab_KY: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation_KY'
+}
+
+PolicyInformation_KY: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Allied Club - 500001019',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Lexington - 500005154 - Lexington',
+  Agent: 'House Agent Allied Club',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
+}
+
 DriverTab_KY: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
+  License Type: 'Licensed (US)',
   License Number: A12121215
 }
 
@@ -346,7 +540,7 @@ DriverTab_KY: {
 
 TestData_MD: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_MD',
   DriverTab: '@DriverTab_MD',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
@@ -355,6 +549,27 @@ TestData_MD: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_MD',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_MD: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation_MD'
+}
+
+PolicyInformation_MD: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Annapolis CCIT - 500017191 - Annapolis',
+  Agent: 'House Agent Annapolis CCIT',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 DriverTab_MD: {
@@ -377,7 +592,7 @@ DocumentsAndBindTab_MD: {
 
 TestData_MT: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_MT',
   DriverTab: '@DriverTab_MT',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
@@ -386,6 +601,27 @@ TestData_MT: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_with_NANO',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_MT: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation_MT'
+}
+
+PolicyInformation_MT: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mountain West - 500001006',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Great Falls - 500005162 - Great Falls',
+  Agent: 'House Agent Great Falls',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 DriverTab_MT: {
@@ -407,7 +643,7 @@ DocumentsAndBindTab_MT: {
 
 TestData_NJ: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_NJ',
   DriverTab: '@DriverTab_NJ',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
@@ -416,6 +652,27 @@ TestData_NJ: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_NJ',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_NJ: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation_NJ'
+}
+
+PolicyInformation_NJ: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Newton - 500017271 - Newton',
+  Agent: 'House Agent Mid-Atlantic',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 DriverTab_NJ: {
@@ -441,7 +698,7 @@ DocumentsAndBindTab_NJ: {
 
 TestData_NV: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_NV',
   DriverTab: '@DriverTab_NV',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
@@ -450,6 +707,26 @@ TestData_NV: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_with_NANO',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_NV: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation_NV'
+}
+
+PolicyInformation_NV: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'Las Vegas - 500005369 - Las Vegas',
+  Agent: 'House Account Las Vegas',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 DriverTab_NV: {
@@ -463,7 +740,7 @@ DriverTab_NV: {
 
 TestData_OH: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_OH',
   DriverTab: '@DriverTab_OH',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
@@ -472,6 +749,27 @@ TestData_OH: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_with_NANO',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_OH: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation_OH'
+}
+
+PolicyInformation_OH: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'Ohio Findlay Club - 500001015',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Findlay Hq - 500005196 - Findlay',
+  Agent: 'HOUSE AGENT Ohio Findlay Club',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 DriverTab_OH: {
@@ -485,7 +783,7 @@ DriverTab_OH: {
 
 TestData_OK: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_OK',
   DriverTab: '@DriverTab_OK',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
@@ -494,6 +792,27 @@ TestData_OK: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_OK',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_OK: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation_OK'
+}
+
+PolicyInformation_OK: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA OKLAHOMA INSURANCE - 500001020',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'AAA Tulsa Training Center - 500005226 - Tulsa',
+  Agent: 'House Agent AAA W Oklahoma',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 DriverTab_OK: {
@@ -518,7 +837,7 @@ DocumentsAndBindTab_OK: {
 
 TestData_OR: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_OR',
   DriverTab: '@DriverTab_OR',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
@@ -527,6 +846,27 @@ TestData_OR: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_without_NANO',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_OR: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation_OR'
+}
+
+PolicyInformation_OR: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Oregon - 500001021',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Portland - 500005275 - Portland',
+  Agent: 'House Agent Portland',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 DriverTab_OR: {
@@ -540,7 +880,7 @@ DriverTab_OR: {
 
 TestData_PA: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_PA',
   DriverTab: '@DriverTab_PA',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
@@ -549,6 +889,27 @@ TestData_PA: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_PA',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_PA: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation_PA'
+}
+
+PolicyInformation_PA: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Southern Penn - 500017173',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Bedford - 500017241 - Bedford',
+  Agent: 'House Agent AAA Southern Penn',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 DriverTab_PA: {
@@ -575,7 +936,7 @@ DocumentsAndBindTab_PA: {
 
 TestData_SD: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_SD',
   DriverTab: '@DriverTab_SD',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
@@ -584,6 +945,27 @@ TestData_SD: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_without_NANO',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_SD: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation_SD'
+}
+
+PolicyInformation_SD: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA SOUTH DAKOTA - 500001022',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Sioux Falls HQ - 500005294 - Tulsa',
+  Agent: 'House Agent AAA SD',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 DriverTab_SD: {
@@ -597,7 +979,7 @@ DriverTab_SD: {
 
 TestData_VA: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_VA',
   DriverTab: '@DriverTab_VA',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
@@ -607,6 +989,27 @@ TestData_VA: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_without_NANO',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_VA: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation_VA'
+}
+
+PolicyInformation_VA: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'CHANTILLY VA - 500016414 - Chantilly',
+  Agent: 'House Agent Mid-Atlantic',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 DriverTab_VA: {
@@ -620,7 +1023,7 @@ DriverTab_VA: {
 
 TestData_WV: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_WV',
   DriverTab: '@DriverTab_WV',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
@@ -629,6 +1032,27 @@ TestData_WV: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_WV',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_WV: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation_WV'
+}
+
+PolicyInformation_WV: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Allied Club - 500001019',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Charleston - 500005295 - Charleston',
+  Agent: 'House Agent Charleston',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 DriverTab_WV: {
@@ -650,7 +1074,7 @@ DocumentsAndBindTab_WV: {
 
 TestData_WY: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_WY',
   DriverTab: '@DriverTab_WY',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: {},
@@ -659,6 +1083,27 @@ TestData_WY: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_without_NANO',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_WY: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation_WY'
+}
+
+PolicyInformation_WY: {
+  Policy Type: Named Non Owner,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mountain West - 500001006',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Bozeman - 500005161 - Bozeman',
+  Agent: 'House Agent AK Diamond Blvd',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
 }
 
 DriverTab_WY: {

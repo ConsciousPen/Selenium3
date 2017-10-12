@@ -25,103 +25,21 @@ UpdateRulesTestData_2: {
 # -- Default test data for UT state ---
 
 TestData: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  AssignmentTab: '@AssignmentTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 # ------------- Tabs ----------
-
-PrefillTab: {
-  Validate Address: click,
-  Validate Address Dialog: {},
-  Order Prefill: click
-}
-
-GeneralTab: {
-  NamedInsuredInformation: ['@NamedInsuredInformation'],
-  AAAProductOwned: '@AAAProductOwned',
-  ContactInformation: '@ContactInformation',
-  PolicyInformation: '@PolicyInformation'
-}
-
-NamedInsuredInformation: {
-  Social Security Number: 123456789,
-  "Has lived here for less than three years?": 'No',
-  Residence: Own Home,
-}
-
-AAAProductOwned: {
-  Membership Number: 4290023667710001,
-  Last name: Test,
-}
-
-ContactInformation: {
-   Home Phone Number: 1234567890
-}
-
-PolicyInformation: {
-  Policy Type: Standard,
-  Effective Date: '/today:MM/dd/yyyy',
-  Policy Term: Annual,
-  Channel Type: Independent Agent,
-  Agency: SMTestIA - 400001650,
-  Authorized by: QA,
-  Lead Source: AAA Magazines
-}
-
-DriverTab: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: 400064773
-}
-
-RatingDetailReportsTab: {
-  Customer Agreement: Customer Agrees,
-  Sales Agent Agreement: I Agree,
-  Order Report: click,
-  AAAMembershipReport: [{}],
-  OrderInsuranceScoreReport: [{}]
-}
-
-VehicleTab: {
-  Usage: Pleasure,
-  VIN: 1GNWGPFG8B6548273,
-}
-
-AssignmentTab: {
-  DriverVehicleRelationshipTable: [{}],
-  ExcessVehiclesTable: [{}]
-}
-
-FormsTab: {}
-
-PremiumAndCoveragesTab: {
-  Payment Plan: Annual,
-  Policy Term: Annual,
-  Bodily Injury Liability: 'contains=$100,000/$300,000',
-  Comprehensive Deductible: 'contains=$750',
-  Collision Deductible: 'contains=$500',
-  Special Equipment Coverage: 1100
-}
-
-DriverActivityReportsTab: {
-  "Has the customer expressed interest in purchasing the quote?": 'Yes',
-  Validate Driving History: click,
-  OrderCLUEReport: [{}],
-  OrderMVRReport: [{}],
-  OrderInternalClaimsReport: [{}]
-}
 
 DocumentsAndBindTab: {
   Agreement: I agree
@@ -136,82 +54,55 @@ ErrorTab: {
     Reason for override: 'Other'
    }]
 }
-   
-PurchaseTab: {
-  PaymentAllocation: {
-    Cash: /rest
-  }
-}
 
 # ------- Test Data for custom states ------
 
 # ------- AZ ------
 
 TestData_AZ: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_AZ',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_AZ',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_AZ',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-DriverTab_AZ: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: A12345678
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 # ------- CO ------
 
 TestData_CO: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_CO',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_CO',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_CO',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-DriverTab_CO: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: A552183
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 # ------- CT ------
 
 TestData_CT: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_CT',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_CT',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_CT',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_CT',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-DriverTab_CT: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: 156773434
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 DocumentsAndBindTab_CT: {
@@ -225,30 +116,17 @@ DocumentsAndBindTab_CT: {
 # ------- DC ------
 
 TestData_DC: {
-  PrefillTab: '@PrefillTab_DC',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_DC',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_DC',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_DC',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_DC',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-PrefillTab_DC: {
-  Validate Address: click,
-  Validate Address Dialog: {},
-  Order Prefill: click
-}
-
-DriverTab_DC: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: 9992617
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 DocumentsAndBindTab_DC: {
@@ -262,24 +140,17 @@ DocumentsAndBindTab_DC: {
 # ------- DE ------
 
 TestData_DE: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_DE',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_DE',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_DE',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_DE',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-DriverTab_DE: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: 7135439
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 DocumentsAndBindTab_DE: {
@@ -295,132 +166,82 @@ DocumentsAndBindTab_DE: {
 # ------- ID ------
 
 TestData_ID: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_ID',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_ID',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_ID',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-DriverTab_ID: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: AA223456A
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 # ------- IN ------
 
 TestData_IN: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_IN',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_IN',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_IN',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-DriverTab_IN: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: 154673421
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 # ------- KS ------
 
 TestData_KS: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_KS',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_KS',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_KS',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-DriverTab_KS: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: B54673421
-}
-
-DocumentsAndBindTab_KS: {
-  RequiredToBind: {
-    Personal Auto Application: Physically Signed
-  },
-  Agreement: I agree
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 
 # ------- KY ------
 
 TestData_KY: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_KY',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_KY',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_KY',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-DriverTab_KY: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Number: A12121215
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 # ------- MD ------
 
 TestData_MD: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_MD',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_MD',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_MD',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_MD',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab_MD',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_MD',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-DriverTab_MD: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: S123456789999
-}
-
-PremiumAndCoveragesTab_MD: {
-  Payment Plan: Annual,
-  Policy Term: Annual,
-  Bodily Injury Liability: 'contains=$100,000/$300,000',
-  Comprehensive Deductible: 'contains=$750',
-  Collision Deductible: 'contains=$500',
-  Special Equipment: 1100
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 DocumentsAndBindTab_MD: {
@@ -435,47 +256,33 @@ DocumentsAndBindTab_MD: {
 # ------- MT ------
 
 TestData_MT: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_MT',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_MT',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_MT',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-DriverTab_MT: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: 212790136
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 # ------- NJ ------
 
 TestData_NJ: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_NJ',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_NJ',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_NJ',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_NJ',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-DriverTab_NJ: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: A12345678987657
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 DocumentsAndBindTab_NJ: {
@@ -494,54 +301,34 @@ DocumentsAndBindTab_NJ: {
 # ------- NV ------
 
 TestData_NV: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_NV',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_NV',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_NV',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-DriverTab_NV: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: 2127901365
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 # ------- NY ------
 
 TestData_NY: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_NY',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab_NY',
-  AssignmentTab: '@AssignmentTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_NY',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_NY',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab_NY',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_NY',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-DriverTab_NY: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: A5467342112658242
-}
-
-VehicleTab_NY: {
-  Usage: Pleasure,
-  VIN: 1GNWGPFG8B6548273,
-  "Less Than 3,000 Miles": 'No'
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 DocumentsAndBindTab_NY: {
@@ -558,47 +345,33 @@ DocumentsAndBindTab_NY: {
 # ------- OH ------
 
 TestData_OH: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_OH',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_OH',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_OH',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-DriverTab_OH: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: AB546734
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 # ------- OK ------
 
 TestData_OK: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_OK',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_OK',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_OK',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_OK',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-DriverTab_OK: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: 123123121
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 DocumentsAndBindTab_OK: {
@@ -615,46 +388,32 @@ DocumentsAndBindTab_OK: {
 
 TestData_OR: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_OR',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_OR',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_OR',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-DriverTab_OR: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: '/rx:001234567'
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 # ------- PA ------
 
 TestData_PA: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_PA',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_PA',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_PA',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_PA',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-DriverTab_PA: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: 83127880
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 DocumentsAndBindTab_PA: {
@@ -674,78 +433,49 @@ DocumentsAndBindTab_PA: {
 
 TestData_SD: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_SD',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_SD',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_SD',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-DriverTab_SD: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: 112345678
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 # ------- VA ------
 
 TestData_VA: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_VA',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  AssignmentTab: '@AssignmentTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_VA',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_VA',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_VA',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab_VA',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-DriverTab_VA: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: 831278809
-}
-
-PremiumAndCoveragesTab_VA: {
-  Payment Plan: Annual,
-  Policy Term: Annual,
-  Bodily Injury Liability: 'contains=$100,000/$300,000',
-  Comprehensive Deductible: 'contains=$750',
-  Collision Deductible: 'contains=$500'
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 # ------- WV ------
 
 TestData_WV: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_WV',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_WV',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_WV',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_WV',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-DriverTab_WV: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: S123456
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 DocumentsAndBindTab_WV: {
@@ -759,22 +489,16 @@ DocumentsAndBindTab_WV: {
 # ------- WY ------
 
 TestData_WY: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab_WY',
-  RatingDetailReportsTab: '@RatingDetailReportsTab',
-  VehicleTab: '@VehicleTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab_WY',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_WY',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   ErrorTab: '@ErrorTab',
-  PurchaseTab: '@PurchaseTab'
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
-DriverTab_WY: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: 4000647712
-}
