@@ -71,7 +71,7 @@ public class TestDocgenScenarios extends HomeCaHO6BaseTest {
 				Documents.HSU02XX,
 				Documents.HSU07CA,
 				Documents.HSU09XX,
-//				Documents._62_6500, //TODO enabled on the page, need to confirm the request
+				Documents._62_6500,
 				Documents.WURFICA,
 				Documents.AHPNCA
 		);
@@ -86,7 +86,6 @@ public class TestDocgenScenarios extends HomeCaHO6BaseTest {
 				Documents._61_6528_HO6,
 				Documents.F1122,
 				Documents.WUAUCA,
-				Documents._62_6500,
 				Documents._61_6530,
 				Documents._60_5019,
 				Documents.HSU03XX,
@@ -102,7 +101,6 @@ public class TestDocgenScenarios extends HomeCaHO6BaseTest {
 				Documents._61_6528_HO6,
 				Documents.F1122,
 				Documents.WUAUCA,
-				Documents._62_6500,
 				Documents._61_6530,
 				Documents._60_5019,
 				Documents.HSU03XX,
