@@ -87,8 +87,8 @@ public class TestScenario1 extends AutoSSBaseTest {
 		LocalDateTime billingGenerationDate = getTimePoints().getBillGenerationDate(installmentDD1);
 		TimeSetterUtil.getInstance().nextPhase(billingGenerationDate);
 		log.info("Installment Generatetion Date" + billingGenerationDate);
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob,true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob,true);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
@@ -132,8 +132,8 @@ public class TestScenario1 extends AutoSSBaseTest {
 		LocalDateTime cancelNoticeDate = getTimePoints().getCancellationNoticeDate(installmentDD1);
 		log.info("Cancel Notice Generatetion Date" + cancelNoticeDate);
 		TimeSetterUtil.getInstance().nextPhase(cancelNoticeDate);
-		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob,true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob,true);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -173,8 +173,8 @@ public class TestScenario1 extends AutoSSBaseTest {
 		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(installmentDD1);
 		log.info("Cancellation Generatetion Date" + cancellationDate);
 		TimeSetterUtil.getInstance().nextPhase(cancellationDate);
-		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob,true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob,true);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -218,7 +218,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 		policy.reinstate().perform(getTestSpecificTD("TestData_Reinstate"));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob,true);
 				
 		BillingSummaryPage.open();
 
