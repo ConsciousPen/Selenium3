@@ -12,7 +12,7 @@ public class AdministrationMetaData {
     public static final class VinTableTab extends MetaData {
         public static final AssetDescriptor<DialogAssetList> UPLOAD_DIALOG = declare("Upload Dialog", DialogAssetList.class, UploadDialog.class, By.id("uploadToVINTablePopup_container"));
 
-        public static final AssetDescriptor<Button> UPLOAD_BUTTON = declare("UPLOAD_BUTTON", Button.class, Waiters.AJAX, By.id("uploadToVINTableForm:uploadBtn"));
+        public static final AssetDescriptor<Button> UPLOAD_BUTTON = declare("Upload Button", Button.class, Waiters.AJAX, By.id("uploadToVINTableForm:uploadBtn"));
         public static final AssetDescriptor<RadioButton> UPLOAD_TO_VIN_TABLE_OPTION = declare("Upload to VIN table", RadioButton.class, Waiters.DEFAULT, By.xpath("//table[@class='ui-selectoneradio ui-widget ']//td[1]"));
         public static final AssetDescriptor<RadioButton> UPLOAD_TO_VIN_CONTROL_TABLE_OPTION = declare("Upload to VIN control table", RadioButton.class, Waiters.DEFAULT, By.xpath("//table[@class='ui-selectoneradio ui-widget ']//td[3]"));
 
