@@ -55,6 +55,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 	@Parameters({ "state" })
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	public void TC01_CreatePolicy(@Optional("") String state) {
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
 		mainApp().open();
 
 		createCustomerIndividual();
