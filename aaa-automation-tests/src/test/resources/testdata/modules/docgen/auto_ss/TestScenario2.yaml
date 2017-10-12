@@ -5937,7 +5937,7 @@ AA02OK_Renewal: {
     PlcyNum: {TextField: ''},
     PlcyPrfx: {TextField: 'OKSS'},
     TermEffDt: {DateTimeField: ''},
-    PlcyTransCd: {TextField: '0100'},
+    PlcyTransCd: {TextField: '0210'},
     PlcyStAbrv: {TextField: 'OK'},
     PlcyInsrdSnc: {TextField: '2017'},
     PlcyProgDesc: {TextField: 'AAA Select'},
