@@ -400,9 +400,9 @@ PrefillTab_OK: {
 
 GeneralTab_OK: {
   NamedInsuredInformation: ['@NamedInsuredInformation_OK'],
-  AAAProductOwned: '@AAAProductOwned',
-  ContactInformation: '@ContactInformation',
-  PolicyInformation: '@PolicyInformation'
+  AAAProductOwned: '@AAAProductOwned_OK',
+  ContactInformation: '@ContactInformation_OK',
+  PolicyInformation: '@PolicyInformation_OK'
 }
 
 NamedInsuredInformation_OK: {
