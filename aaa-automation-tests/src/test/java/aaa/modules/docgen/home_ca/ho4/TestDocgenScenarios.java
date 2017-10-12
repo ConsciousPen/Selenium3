@@ -73,7 +73,7 @@ public class TestDocgenScenarios extends HomeCaHO4BaseTest {
 				Documents._61_3026
 				);
 		documentActionTab.verify.documentsEnabled(false,
-//				Documents._62_6500, // TODO enabled on the page, need to confirm the request
+				Documents._62_6500,
 				Documents.WURFICA,
 				Documents.HSU01CA,
 				Documents.HSU02XX,
@@ -92,17 +92,16 @@ public class TestDocgenScenarios extends HomeCaHO4BaseTest {
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents._61_4003, Documents.AHPNCA, Documents._60_5019);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.quoteDocGen().start();
 		documentActionTab.generateDocuments(Documents._61_6528_HO4); 
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents._61_6528_HO4, Documents.AHPNCA);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.quoteDocGen().start();
 		documentActionTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"), 
 				Documents.WUAUCA, 
-				Documents._62_6500, 
 				Documents.F1122,
 				Documents._60_5019,
 				Documents.HSU03XX,
@@ -115,7 +114,6 @@ public class TestDocgenScenarios extends HomeCaHO4BaseTest {
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, 
 				Documents.WUAUCA, 
-				Documents._62_6500, 
 				Documents.F1122,
 				Documents._60_5019,
 				Documents.HSU03XX,
@@ -207,7 +205,7 @@ public class TestDocgenScenarios extends HomeCaHO4BaseTest {
 				Documents._60_5019,
 				Documents.AHPNCA);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.policyDocGen().start();
 		documentActionTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"),
 				Documents.WUAUCA, 

@@ -81,7 +81,7 @@ public class TestVADocgenScenarios extends HomeSSHO3BaseTest{
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSAUDVA);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.purchase(getPolicyTD());
 		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.HSHUVA, Documents.HS_03_30, Documents.HSVAAD, Documents.HSINVAP, Documents.HSINVA);

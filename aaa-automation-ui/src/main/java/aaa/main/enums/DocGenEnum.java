@@ -84,6 +84,7 @@ public final class DocGenEnum {
 		AA43AZ("Named Driver Exclusion Election"),
 		AA43IN("Named Driver Exclusion Election"),
 		AA43PA("Named Driver Exclusion Election"),
+		AA43OK("Named Driver Exclusion Election"),
 		AASR22("Financial Responsibility"),
 		AA59XX("EXISTING DAMAGE ENDORSEMENT"),
 		DS02("Rental Property Policy Declaration"),
@@ -109,6 +110,7 @@ public final class DocGenEnum {
 		AA02AZ("Declaration page"),
 		AA02IN("Declaration page"),
 		AA02PA("Declaration page"),
+		AA02OK("Declaration page"),
 		AHCWXX("AHCWXX", "Cancellation Notice Withdrawn"),
 		AH34XX("AH34XX","AH34XX","Cancellation Notice Document (NonPayment)"),
 		_55_6101("55 6101", "Earned Premium Bill 1"),
@@ -184,6 +186,10 @@ public final class DocGenEnum {
         AADNPAD(""),
         AADNPAE(""),
         AALTPA(""),
+        AAFPPA(""),
+        F122G(""),
+        AAAEOK(""),
+        AA52OK(""),
 		;
 
 		private String id;

@@ -99,6 +99,8 @@ public class AlterSuiteListener implements IAlterSuiteListener {
 						xmlTest.getClasses().add(xmlClass);
 					} else if (isCAProduct(xmlClass) && !states.contains(Constants.States.CA)) {
 						newCATest.getClasses().add(xmlClass);
+					} else {
+						xmlTest.getClasses().add(xmlClass);
 					}
 				}
 				if (!xmlTest.getClasses().isEmpty())
