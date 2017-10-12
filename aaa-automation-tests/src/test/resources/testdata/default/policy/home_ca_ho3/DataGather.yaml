@@ -37,7 +37,7 @@ GeneralTab: {
     Carrier name: 'AAA - NCNU',
     Policy type: 'HO3',
     Continuous years with HO insurance: '5',
-    Base date with AAA: '/today:MM/dd/yyyy',
+    Base date with AAA: '/today:MM/dd/yyyy'
     }
 }
 
@@ -49,12 +49,12 @@ ApplicantTab: {
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
   AgentInfo: '@AgentInfo',
-  OtherActiveAAAPolicies: {},
+  OtherActiveAAAPolicies: {}
 }
 
-NamedInsured: [{
-  Relationship to primary named insured:  Primary Insured,
-}]
+NamedInsured: {
+  Relationship to primary named insured: Primary Insured
+}
 
 AAAMembership: {
   Membership number: '4290023667710001',
@@ -85,7 +85,7 @@ ReportsTab: {
   AAAMembershipReport: [{Report: 'Order report'}],
   FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
-  CLUEreport: [{Report: 'Order report'}],
+  CLUEreport: [{Report: 'Order report'}]
 #  Description of interest:
   #ISO360Report: [{Report: 'Order report'}]
 }
@@ -100,7 +100,7 @@ PropertyInfoTab: {
    PropertyValue: {
     Coverage A - Dwelling limit: 75000,
     ISO replacement cost: 70000,
-    Reason replacement cost differs from the tool value: 'index=1',
+    Reason replacement cost differs from the tool value: 'index=1'
    },
    Construction: {
     Year built: 2009,
@@ -129,7 +129,7 @@ PropertyInfoTab: {
   PetsOrAnimals: {},
   Stoves: {},
   RecreationalEquipment: {},
-  ClaimHistory: {},
+  ClaimHistory: {}
 }
 
 EndorsementTab: {}
@@ -156,7 +156,7 @@ DocumentsTab: {
   DocumentsToIssue: {
   #CEA Offer Declination: Physically Signed,
     California Residential Property Insurance Disclosure: Physically Signed,
-    Signed policy application: Physically Signed,
+    Signed policy application: Physically Signed
   }
 }
 
@@ -190,7 +190,7 @@ Adjustment_CEA: {
   DocumentsTab: {
     DocumentsToIssue: {
       California Residential Property Insurance Disclosure: Physically Signed,
-      Signed policy application: Physically Signed,
+      Signed policy application: Physically Signed
     }
   }
 }
