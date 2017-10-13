@@ -41,7 +41,7 @@ public abstract class Application {
         return login;
     }
 
-    public abstract void switchPanel();
+    protected abstract void switchPanel();
 
     public void open() {
         if (!isApplicationOpened) {
@@ -139,12 +139,10 @@ public abstract class Application {
         String result = "";
         switch (type) {
             case ADMIN:
-                result += PropertyProvider.getProperty(TestProperties.AD_URL_TEMPLATE).split("/login.xhtml")[0];
-                result += "/admin";
+                result += PropertyProvider.getProperty(TestProperties.AD_URL_TEMPLATE);
                 break;
             case EU:
-                result += PropertyProvider.getProperty(TestProperties.EU_URL_TEMPLATE).split("/login.xhtml")[0];
-                result += "/";
+                result += PropertyProvider.getProperty(TestProperties.EU_URL_TEMPLATE);
             case OPERATIONAL_REPORT:
                 result += PropertyProvider.getProperty(CustomTestProperties.OR_URL_TEMPLATE);
                 break;
