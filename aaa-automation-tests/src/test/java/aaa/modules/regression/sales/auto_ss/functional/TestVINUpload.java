@@ -4,15 +4,16 @@ import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.main.pages.summary.QuoteSummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Optional;
@@ -45,10 +46,12 @@ public class TestVINUpload extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-533")
     public void testVINUpload_NewVINAdded(@Optional("UT") String state) {
 
         String vinNumber = "BBBKN3DD0E0344466";
+        String uploadExcelName = "VINupload_UT_SS.xlsx";
+        String configExcelName = "VINconfig_UT_SS.xlsx";
         TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
                 .adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
@@ -70,14 +73,12 @@ public class TestVINUpload extends AutoSSBaseTest {
         NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 
         //Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-        uploadToVINTableTab.uploadExcel("VINupload_UT_SS.xlsx");
-        uploadToVINTableTab.switchUploadOptionTo(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION);
-        uploadToVINTableTab.uploadExcel("VINconfig_UT_SS.xlsx");
+        uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, uploadExcelName);
+        uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, configExcelName);
 
         //Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
         mainApp().open();
-        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.QUOTE.get());
-        QuoteSummaryPage.tableQuoteList.getRow(1).getCell("Quote #").click();
+        SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
 
@@ -109,10 +110,12 @@ public class TestVINUpload extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-527")
     public void testVINUpload_NewVINAdded_Renewal(@Optional("UT") String state) {
 
         String vinNumber = "BBBKN3DD0E0344466";
+        String uploadExcelName = "VINupload_UT_SS.xlsx";
+        String configExcelName = "VINconfig_UT_SS.xlsx";
         TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
                 .adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
@@ -137,14 +140,12 @@ public class TestVINUpload extends AutoSSBaseTest {
         NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 
         //Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-        uploadToVINTableTab.uploadExcel("VINupload_UT_SS.xlsx");
-        uploadToVINTableTab.switchUploadOptionTo(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION);
-        uploadToVINTableTab.uploadExcel("VINconfig_UT_SS.xlsx");
+        uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, uploadExcelName);
+        uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, configExcelName);
 
-        //Go back to MainApp, initiate Renewal, verify if VIN value is applied
+        //Go back to MainApp, find created policy, initiate Renewal, verify if VIN value is applied
         mainApp().open();
-        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
-        PolicySummaryPage.tablePolicyList.getRow(1).getCell("Policy #").controls.links.get(1).click();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         policy.renew().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
@@ -173,10 +174,12 @@ public class TestVINUpload extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-527")
     public void testVINUpload_UpdatedVIN_Renewal(@Optional("UT") String state) {
 
         String vinNumber = "1HGEM215140028445";
+        String uploadExcelName = "VINupload_UT_SS_UPDATE.xlsx";
+        String configExcelName = "VINconfig_UT_SS.xlsx";
         TestData testData = getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
         mainApp().open();
@@ -193,19 +196,21 @@ public class TestVINUpload extends AutoSSBaseTest {
         policy.getDefaultView().fillFromTo(testData, FormsTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
 
+        //save policy number to open it later
+        String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+        log.info("Policy " + policyNumber + " is successfully saved for further use");
+
         //open Admin application and navigate to Administration tab
         adminApp().open();
         NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 
         //Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-        uploadToVINTableTab.uploadExcel("VINupload_UT_SS_UPDATE.xlsx");
-        uploadToVINTableTab.switchUploadOptionTo(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION);
-        uploadToVINTableTab.uploadExcel("VINconfig_UT_SS.xlsx");
+        uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, uploadExcelName);
+        uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, configExcelName);
 
-        //Go back to MainApp, create Renewal image and verify if VIN was updated and new values are applied
+        //Go back to MainApp, find created policy, create Renewal image and verify if VIN was updated and new values are applied
         mainApp().open();
-        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
-        PolicySummaryPage.tablePolicyList.getRow(1).getCell("Policy #").controls.links.get(1).click();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         policy.renew().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 

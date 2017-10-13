@@ -23,18 +23,14 @@ public class UploadToVINTableTab extends DefaultTab {
     protected final static String defaultpath = "src/test/resources/uploadingfiles/vinUploadFiles/";
 
 
-    public void uploadExcel(String fileName){
-        UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
+    public void uploadExcel(AssetDescriptor<RadioButton> buttonAssetDescriptor, String fileName){
 
-        UploadToVINTableTab.BTN_UPLOAD.click();
-        uploadToVINTableTab.getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
+        getAssetList().getAsset(buttonAssetDescriptor).setValue(true);
+        BTN_UPLOAD.click();
+        getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
                 .getAsset(AdministrationMetaData.VinTableTab.UploadDialog.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(defaultpath+fileName));
 
-        uploadToVINTableTab.getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
+        getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
                 .getAsset(AdministrationMetaData.VinTableTab.UploadDialog.BUTTON_SUBMIT_POPUP).click();
-    }
-
-    public void switchUploadOptionTo(AssetDescriptor<RadioButton> buttonAssetDescriptor) {
-        new UploadToVINTableTab().getAssetList().getAsset(buttonAssetDescriptor).setValue(true);
     }
 }

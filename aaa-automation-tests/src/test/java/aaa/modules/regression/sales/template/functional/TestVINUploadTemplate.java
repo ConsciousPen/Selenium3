@@ -7,10 +7,8 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.main.pages.summary.QuoteSummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import org.testng.annotations.AfterMethod;
 import toolkit.datax.TestData;
@@ -61,20 +59,12 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
         NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 
         //Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-        uploadToVINTableTab.uploadExcel(uploadExcelName);
-        uploadToVINTableTab.switchUploadOptionTo(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION);
-        uploadToVINTableTab.uploadExcel(configExcelName);
+        uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, uploadExcelName);
+        uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, configExcelName);
 
         //Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
         mainApp().open();
-        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.QUOTE.get());
-        QuoteSummaryPage.tableQuoteList.getRow(1).getCell("Quote #").controls.links.get(1).click();
-
-
         SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
-
-
-
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
 
@@ -110,7 +100,6 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
         TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
                 .adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
-
         mainApp().open();
         createCustomerIndividual();
         policy.initiate();
@@ -132,14 +121,12 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
         NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 
         //Uploading of VinUpload info, then uploading of the updates for VIN_Control table (configExcel)
-        uploadToVINTableTab.uploadExcel(uploadExcelName);
-        uploadToVINTableTab.switchUploadOptionTo(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION);
-        uploadToVINTableTab.uploadExcel(configExcelName);
+        uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, uploadExcelName);
+        uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, configExcelName);
 
-        //Go back to MainApp, initiate Renewal, verify if VIN value is applied
+        //Go back to MainApp, find created policy, initiate Renewal, verify if VIN value is applied
         mainApp().open();
-        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
-        PolicySummaryPage.tablePolicyList.getRow(1).getCell("Policy #").controls.links.get(1).click();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         policy.renew().start();
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 
@@ -183,19 +170,21 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
         policy.getDefaultView().fillFromTo(testData, AssignmentTab.class, PurchaseTab.class, true);
         purchaseTab.submitTab();
 
+        //save policy number to open it later
+        String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+        log.info("Policy " + policyNumber + " is successfully saved for further use");
+
         //open Admin application and navigate to Administration tab
         adminApp().open();
         NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 
         //Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-        uploadToVINTableTab.uploadExcel(uploadExcelName);
-        uploadToVINTableTab.switchUploadOptionTo(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION);
-        uploadToVINTableTab.uploadExcel(configExcelName);
+        uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, uploadExcelName);
+        uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, configExcelName);
 
-        //Go back to MainApp, create Renewal image and verify if VIN was updated and new values are applied
+        //Go back to MainApp, find created policy, create Renewal image and verify if VIN was updated and new values are applied
         mainApp().open();
-        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
-        PolicySummaryPage.tablePolicyList.getRow(1).getCell("Policy #").controls.links.get(1).click();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         policy.renew().start();
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 
