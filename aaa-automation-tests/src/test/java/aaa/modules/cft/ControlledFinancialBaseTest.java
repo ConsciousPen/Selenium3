@@ -132,7 +132,9 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Accept payment date: {}", paymentDate);
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
-		Dollar minDue = new Dollar(BillingSummaryPage.getMinimumDue());
+		Dollar minDue = new Dollar(BillingSummaryPage.tableBillsStatements
+				.getRowContains(BillingConstants.BillingBillsAndStatmentsTable.TYPE,BillingConstants.BillsAndStatementsType.BILL)
+				.getCell(BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
 		billingAccount.acceptPayment().perform(getTestSpecificTD("AcceptPayment"), minDue);
 		new BillingPaymentsAndTransactionsVerifier()
 			.setTransactionDate(paymentDate)
@@ -390,10 +392,16 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		throw new IstfException("Please override method in appropriate child class with relevant test data preparation");
 	}
 
+	protected void runCFTJobs(){
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		JobUtils.executeJob(Jobs.policyTransactionLedgerJob);
+	}
+
 	private void generateAndCheckEarnedPremiumBill(LocalDateTime date) {
 		TimeSetterUtil.getInstance().nextPhase(date);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
-		mainApp().open();
+		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
 		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).verifyRowWithDueDate(date);
 	}

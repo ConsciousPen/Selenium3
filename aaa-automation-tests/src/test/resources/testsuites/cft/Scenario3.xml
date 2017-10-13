@@ -7,7 +7,7 @@
     <parameter name="timeshift-scenario-mode" value="test"/>
 
     <test name="AutoSS Scenario 3 CFT" parallel="none">
-        <parameter name="state" value="AZ, CA, MD, KY" />
+        <parameter name="state" value="AZ, MD, KY" />
         <classes>
             <class name="aaa.modules.cft.auto_ss.TestCFTScenario3" />
         </classes>

@@ -30,10 +30,11 @@ public class TestCFTScenario10 extends ControlledFinancialBaseTest {
 		automaticCancellationNotice(1);
 		automaticCancellation(1);
 		acceptMinDuePaymentDD1plus30();
-		// // automaticCancellation(2);
+/*		// // automaticCancellation(2);
 		generateFirstEarnedPremiumBill(1);
 		generateSecondEarnedPremiumBill(1);
-		generateThirdEarnedPremiumBill(1);
+		generateThirdEarnedPremiumBill(1);*/
+		//TODO move to EP3 generation date and acceptPayment -> wrap in method to Parent class
 		billingAccount.acceptPayment().perform(getTestSpecificTD("AcceptPayment50"));
 
 	}
