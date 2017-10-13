@@ -69,7 +69,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 	 * @details
 	 */	
 	@Parameters({"state"})
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
+	@Test(groups = { Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL })
 	public void TC01_EndorsementOne(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -110,7 +110,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 	 */	
 	
 	@Parameters({"state"})
-    @Test(groups = { Groups.DOCGEN, Groups.CRITICAL },dependsOnMethods = "TC01_EndorsementOne")
+    @Test(groups = { Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL },dependsOnMethods = "TC01_EndorsementOne")
 	public void TC02_EndorsementTwo(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -144,7 +144,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 	 */	
 	
 	@Parameters({ "state" })
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_EndorsementOne")
+	@Test(groups = { Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL }, dependsOnMethods = "TC01_EndorsementOne")
 	public void TC03_RenewalImageGeneration(@Optional("") String state) {
 
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
@@ -165,7 +165,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 	}
 	
 	@Parameters({ "state" })
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_EndorsementOne")
+	@Test(groups = { Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL }, dependsOnMethods = "TC01_EndorsementOne")
 	public void TC04_RenewaPreviewGeneration(@Optional("") String state) {
 
 		LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
@@ -187,7 +187,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 	}
 	
 	@Parameters({ "state" })
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_EndorsementOne")
+	@Test(groups = { Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL }, dependsOnMethods = "TC01_EndorsementOne")
 	public void TC05_RenewaOfferGeneration(@Optional("") String state) {
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Offer Generation Date" + renewOfferGenDate);
@@ -211,7 +211,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 	}
 	
 	@Parameters({ "state" })
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_EndorsementOne")
+	@Test(groups = { Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL }, dependsOnMethods = "TC01_EndorsementOne")
 	public void TC06_RenewaOfferBillGeneration(@Optional("") String state) {
 		LocalDateTime renewOfferBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
 		Log.info("Policy Renewal Offer Bill Generation Date" + renewOfferBillGenDate);
@@ -264,7 +264,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 	}
 	
 	@Parameters({ "state" })
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_EndorsementOne")
+	@Test(groups = { Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL }, dependsOnMethods = "TC01_EndorsementOne")
 	public void TC07_UpdatePolicyStatus(@Optional("") String state) {
 		LocalDateTime updatePolicyStatusDate = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
 		Log.info("Policy Update Status Date" + updatePolicyStatusDate);
@@ -281,7 +281,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 	}
 	
 	@Parameters({ "state" })
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_EndorsementOne")
+	@Test(groups = { Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL }, dependsOnMethods = "TC01_EndorsementOne")
 	public void TC08_InsuranceRenewalReminder(@Optional("") String state) {
 		 LocalDateTime insuranceRenewalReminderDate =
 		 getTimePoints().getInsuranceRenewalReminderDate(policyExpirationDate);
