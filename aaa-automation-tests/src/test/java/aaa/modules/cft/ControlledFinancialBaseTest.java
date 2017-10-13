@@ -2,6 +2,14 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.cft;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
+import toolkit.datax.TestData;
+import toolkit.exceptions.IstfException;
+import toolkit.utils.datetime.DateTimeUtils;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -20,15 +28,9 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.apache.commons.lang3.StringUtils;
-import toolkit.datax.TestData;
-import toolkit.exceptions.IstfException;
-import toolkit.utils.datetime.DateTimeUtils;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
@@ -64,7 +66,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		performAndCheckEndorsement(endorsePlus2.plusDays(2)); // future dated endorse +2 d
 		log.info("Endorsment action completed successfully");
 	}
-
 
 	/**
 	 * Endorsement of the policy
@@ -111,14 +112,35 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openBilling(policyNumber.get());
 		billingAccount.acceptPayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		String expValue = getTestSpecificTD(DEFAULT_TEST_DATA_KEY)
-				.getTestData(AcceptPaymentActionTab.class.getSimpleName())
-				.getValue(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel());
+			.getTestData(AcceptPaymentActionTab.class.getSimpleName())
+			.getValue(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel());
 		new BillingPaymentsAndTransactionsVerifier()
-				.setTransactionDate(paymentDate)
-				.setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
-				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
-				.setAmount(new Dollar(expValue).negate())
-				.verifyPresent();
+			.setTransactionDate(paymentDate)
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
+			.setAmount(new Dollar(expValue).negate())
+			.verifyPresent();
+		log.info("Accept payment action completed successfully");
+	}
+
+	/**
+	 * Accept Min Due payment on DD1 + 30 days
+	 */
+	protected void acceptMinDuePaymentDD1plus30() {
+		LocalDateTime paymentDate = getTimePoints().getBillDueDate(installments.get().get(1)).plusDays(30);
+		TimeSetterUtil.getInstance().nextPhase(paymentDate);
+		log.info("Accept payment action started");
+		log.info("Accept payment date: {}", paymentDate);
+		mainApp().reopen();
+		SearchPage.openBilling(policyNumber.get());
+		Dollar minDue = new Dollar(BillingSummaryPage.getMinimumDue());
+		billingAccount.acceptPayment().perform(getTestSpecificTD("AcceptPayment"), minDue);
+		new BillingPaymentsAndTransactionsVerifier()
+			.setTransactionDate(paymentDate)
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
+			.setAmount(minDue.negate())
+			.verifyPresent();
 		log.info("Accept payment action completed successfully");
 	}
 
@@ -144,12 +166,12 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openBilling(policyNumber.get());
 		billingAccount.declinePayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY), new Dollar(-10).toString());
 		new BillingPaymentsAndTransactionsVerifier()
-				.setTransactionDate(cancellationNoticeDate)
-				.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
-				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PAYMENT_DECLINED)
-				.setAmount(new Dollar(10))
-				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
-				.verifyPresent();
+			.setTransactionDate(cancellationNoticeDate)
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PAYMENT_DECLINED)
+			.setAmount(new Dollar(10))
+			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
+			.verifyPresent();
 		log.info("Decline payment action completed successfully");
 	}
 
@@ -167,12 +189,14 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openBilling(policyNumber.get());
 		billingAccount.otherTransactions().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		new BillingPaymentsAndTransactionsVerifier()
-				.setTransactionDate(cancellationNoticeDate)
-				.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
-				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.OTHER)
-				.setAmount(new Dollar(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData(OtherTransactionsActionTab.class.getSimpleName()).getValue(BillingAccountMetaData.OtherTransactionsActionTab.AMOUNT.getLabel())))
-				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
-				.verifyPresent();
+			.setTransactionDate(cancellationNoticeDate)
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.OTHER)
+			.setAmount(
+				new Dollar(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData(OtherTransactionsActionTab.class.getSimpleName()).getValue(
+					BillingAccountMetaData.OtherTransactionsActionTab.AMOUNT.getLabel())))
+			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
+			.verifyPresent();
 		log.info("Decline payment action completed successfully");
 	}
 
@@ -190,12 +214,12 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
 		new BillingBillsAndStatementsVerifier()
-				.setType(BillingConstants.BillsAndStatementsType.BILL)
-				.setDueDate(installments.get().get(installmentNumber))
-				.setMinDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue()))
-				.setPastDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PAST_DUE).getValue()))
-				.setTotalDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue()))
-				.verifyPresent();
+			.setType(BillingConstants.BillsAndStatementsType.BILL)
+			.setDueDate(installments.get().get(installmentNumber))
+			.setMinDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue()))
+			.setPastDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PAST_DUE).getValue()))
+			.setTotalDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue()))
+			.verifyPresent();
 		log.info("{} Installment bill generation completed successfully", installmentNumber);
 	}
 
@@ -214,16 +238,15 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
 		BillingSummaryPage.tablePaymentsOtherTransactions
-				.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
-						BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE)
-				.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION)
-				.controls.links.get(BillingConstants.PaymentsAndOtherTransactionAction.WAIVE).click();
+			.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
+				BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE)
+			.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(BillingConstants.PaymentsAndOtherTransactionAction.WAIVE).click();
 		BillingSummaryPage.dialogConfirmation.confirm();
 		new BillingPaymentsAndTransactionsVerifier()
-				.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
-				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED)
-				.setTransactionDate(plus16Days)
-				.verifyPresent();
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED)
+			.setTransactionDate(plus16Days)
+			.verifyPresent();
 		log.info("Waive action completed successfully");
 	}
 
@@ -267,9 +290,9 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	/**
 	 * Cancellation Notice for the policy
 	 */
-	protected void automaticCancellationNotice() {
-		LocalDateTime cancellationNoticeDate = getTimePoints().getCancellationNoticeDate(installments.get().get(1));
-		LocalDateTime expCancellationDate = getTimePoints().getCancellationTransactionDate(installments.get().get(1));
+	protected void automaticCancellationNotice(int installmentNumber) {
+		LocalDateTime cancellationNoticeDate = getTimePoints().getCancellationNoticeDate(installments.get().get(installmentNumber));
+		LocalDateTime expCancellationDate = getTimePoints().getCancellationTransactionDate(installments.get().get(installmentNumber));
 		TimeSetterUtil.getInstance().nextPhase(cancellationNoticeDate);
 		log.info("Cancellation Notice action started");
 		log.info("Cancellation Notice date: {}", cancellationNoticeDate);
@@ -277,17 +300,17 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
 		new BillingBillsAndStatementsVerifier()
-				.setDueDate(expCancellationDate)
-				.setType(BillingConstants.BillsAndStatementsType.CANCELLATION_NOTICE)
-				.verifyPresent();
+			.setDueDate(expCancellationDate)
+			.setType(BillingConstants.BillsAndStatementsType.CANCELLATION_NOTICE)
+			.verifyPresent();
 		log.info("Cancellation Notice action completed successfully");
 	}
 
 	/**
 	 * Cancellation of the policy
 	 */
-	protected void automaticCancellation() {
-		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(installments.get().get(1));
+	protected void automaticCancellation(int installmentNumber) {
+		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(installments.get().get(installmentNumber));
 		TimeSetterUtil.getInstance().nextPhase(cancellationDate);
 		log.info("Cancellation action started");
 		log.info("Cancellation date: {}", cancellationDate);
@@ -301,8 +324,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	/**
 	 * Generate 1st EP bill
 	 */
-	protected void generateFirstEarnedPremiumBill() {
-		LocalDateTime firstEPBillDate = getTimePoints().getEarnedPremiumBillFirst(installments.get().get(1));
+	protected void generateFirstEarnedPremiumBill(int installmentNumber) {
+		LocalDateTime firstEPBillDate = getTimePoints().getEarnedPremiumBillFirst(installments.get().get(installmentNumber));
 		log.info("First EP bill generation started");
 		log.info("First EP bill generated date: {}", firstEPBillDate);
 		generateAndCheckEarnedPremiumBill(firstEPBillDate);
@@ -312,8 +335,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	/**
 	 * Generate 2st EP bill
 	 */
-	protected void generateSecondEarnedPremiumBill() {
-		LocalDateTime secondEPBillDate = getTimePoints().getEarnedPremiumBillSecond(installments.get().get(1));
+	protected void generateSecondEarnedPremiumBill(int installmentNumber) {
+		LocalDateTime secondEPBillDate = getTimePoints().getEarnedPremiumBillSecond(installments.get().get(installmentNumber));
 		log.info("Second EP bill generation started");
 		log.info("Second EP bill generated date: {}", secondEPBillDate);
 		generateAndCheckEarnedPremiumBill(secondEPBillDate);
@@ -323,8 +346,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	/**
 	 * Generate 3st EP bill
 	 */
-	protected void generateThirdEarnedPremiumBill() {
-		LocalDateTime thirdEPBillDate = getTimePoints().getEarnedPremiumBillThird(installments.get().get(1));
+	protected void generateThirdEarnedPremiumBill(int installmentNumber) {
+		LocalDateTime thirdEPBillDate = getTimePoints().getEarnedPremiumBillThird(installments.get().get(installmentNumber));
 		log.info("Third EP bill generation started");
 		log.info("Third EP bill generated date: {}", thirdEPBillDate);
 		generateAndCheckEarnedPremiumBill(thirdEPBillDate);
@@ -334,19 +357,19 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	/**
 	 * Generate EP write off
 	 */
-	protected void writeOff() {
-		LocalDateTime writeOffDate = getTimePoints().getEarnedPremiumWriteOff(installments.get().get(1));
+	protected void writeOff(int installmentNumber) {
+		LocalDateTime writeOffDate = getTimePoints().getEarnedPremiumWriteOff(installments.get().get(installmentNumber));
 		TimeSetterUtil.getInstance().nextPhase(writeOffDate);
 		log.info("EP Write off generation action started");
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
 		new BillingPaymentsAndTransactionsVerifier()
-				.setTransactionDate(writeOffDate)
-				.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
-				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF)
-				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
-				.verifyPresent();
+			.setTransactionDate(writeOffDate)
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF)
+			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
+			.verifyPresent();
 		log.info("EP Write off generated successfully");
 	}
 
@@ -366,7 +389,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber.get());
 		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementDueDate.format(DateTimeUtils.MM_DD_YYYY), policyNumber.get()));
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementDueDate.format(DateTimeUtils.MM_DD_YYYY),
+			policyNumber.get()));
 	}
 
 }
