@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -188,6 +189,15 @@ public class TimePoints {
 
 	public LocalDateTime getInsuranceRenewalReminderDate(LocalDateTime date) {
 		return getTimepoint(date, TimepointsList.INSURANCE_RENEWAL_REMINDER, true);
+	}
+
+	public LocalDateTime getConversionEffectiveDate() {
+		return getConversionEffectiveDate(TimeSetterUtil.getInstance().getCurrentTime());
+	}
+
+	public LocalDateTime getConversionEffectiveDate(LocalDateTime date) {
+		List<String> timepoint = td.getList(TimepointsList.RENEW_GENERATE_PREVIEW.get());
+		return date.with(DateTimeUtils.closestPastWorkingDay).minusDays(Integer.parseInt(timepoint.get(0)));
 	}
 
 	public enum TimepointsList {
