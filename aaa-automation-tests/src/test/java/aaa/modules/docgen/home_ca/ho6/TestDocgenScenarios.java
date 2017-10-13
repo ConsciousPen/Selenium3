@@ -47,7 +47,7 @@ public class TestDocgenScenarios extends HomeCaHO6BaseTest {
      * Verify that all enabled documents can be generated
      */
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testQuoteDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -71,7 +71,7 @@ public class TestDocgenScenarios extends HomeCaHO6BaseTest {
 				Documents.HSU02XX,
 				Documents.HSU07CA,
 				Documents.HSU09XX,
-//				Documents._62_6500, //TODO enabled on the page, need to confirm the request
+				Documents._62_6500,
 				Documents.WURFICA,
 				Documents.AHPNCA
 		);
@@ -80,13 +80,12 @@ public class TestDocgenScenarios extends HomeCaHO6BaseTest {
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents._61_4002, Documents.AHPNCA);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.quoteDocGen().start();
 		documentActionTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"), 
 				Documents._61_6528_HO6,
 				Documents.F1122,
 				Documents.WUAUCA,
-				Documents._62_6500,
 				Documents._61_6530,
 				Documents._60_5019,
 				Documents.HSU03XX,
@@ -102,7 +101,6 @@ public class TestDocgenScenarios extends HomeCaHO6BaseTest {
 				Documents._61_6528_HO6,
 				Documents.F1122,
 				Documents.WUAUCA,
-				Documents._62_6500,
 				Documents._61_6530,
 				Documents._60_5019,
 				Documents.HSU03XX,
@@ -154,7 +152,7 @@ public class TestDocgenScenarios extends HomeCaHO6BaseTest {
      * Verify that AHPNCA must be generated with 61_4002 (Application documents)
      */
 	@Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testPolicyDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();

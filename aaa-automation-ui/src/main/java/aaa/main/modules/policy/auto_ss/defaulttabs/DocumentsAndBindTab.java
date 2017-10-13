@@ -4,12 +4,12 @@
  */
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
-import org.openqa.selenium.By;
-
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import org.openqa.selenium.By;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -33,6 +33,7 @@ public class DocumentsAndBindTab extends Tab {
 	public static Dialog confirmPurchase = new Dialog("//div[@id='policyDataGatherForm:confirmPurchaseDialog_container']");
 	public static Dialog confirmEndorsementPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialogA_container']");
 	public static Dialog confirmRenewal = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialog-1_content']");
+	public static StaticElement helpIconPaperlessPreferences = new StaticElement(By.xpath("//label[@id='policyDataGatherForm:paperlessPreferences_enrolledInPaperless_helpText']"));
 
 	@Override
 	public Tab submitTab() {
@@ -51,10 +52,21 @@ public class DocumentsAndBindTab extends Tab {
 	public AssetList getDocumentsForPrintingAssetList() {
     	return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING.getLabel(), AssetList.class);
 	}
+	public AssetList getEnterRecipientEmailAddressDialogAssetList() {
+		return getDocumentsForPrintingAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.ENTER_RECIPIENT_EMAIL_ADDRESS_DIALOG.getLabel(), AssetList.class);
+	}
 	public AssetList getRequiredToBindAssetList() {
     	return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(), AssetList.class);
 	}
 	public AssetList getRequiredToIssueAssetList() {
     	return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel(), AssetList.class);
+	}
+
+	public AssetList getPaperlessPreferencesAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PAPERLESS_PREFERENCES.getLabel(), AssetList.class);
+	}
+
+	public AssetList getDocumentPrintingDetailsAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENT_PRINTING_DETAILS.getLabel(), AssetList.class);
 	}
 }

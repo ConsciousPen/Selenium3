@@ -1,9 +1,4 @@
 TestData: {
-  PropertyInfoTab: {
-    PropertyValue: {
-        Coverage A - Dwelling limit: 174000
-    }
-  },
   PremiumsAndCoveragesQuoteTab: {
     Payment plan: Eleven Pay Standard,
     Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
@@ -50,7 +45,7 @@ TestData_EndorsementAP: {
   ReportsTab: {},
   PropertyInfoTab: {
     PropertyValue: {
-      Coverage A - Dwelling limit: 174000
+      Coverage A - Dwelling limit: 150000
     }
   },
   ProductOfferingTab: {},

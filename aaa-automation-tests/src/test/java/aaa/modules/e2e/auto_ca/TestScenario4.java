@@ -72,7 +72,7 @@ public class TestScenario4 extends Scenario4 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC08_Generate_CancellNotice(@Optional("CA") String state) {
-		super.generateCancellNotice();
+		super.generateCancelNotice();
 	}
 
 	@Parameters({"state"})
@@ -122,6 +122,7 @@ public class TestScenario4 extends Scenario4 {
 	public void TC16_Pay_Renew_Offer(@Optional("CA") String state) {
 		super.payRenewOffer();
 	}
+
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")

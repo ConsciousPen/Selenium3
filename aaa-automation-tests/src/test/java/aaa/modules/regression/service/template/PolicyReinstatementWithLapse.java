@@ -44,7 +44,7 @@ public abstract class PolicyReinstatementWithLapse extends PolicyBaseTest {
         log.info("TEST: Reinstate Policy With Lapse #" + policyNumber);
         policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData_Plus14Days"));
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present();
+        PolicySummaryPage.labelLapseExist.verify.present();
         
 		CustomAssert.assertAll();
 

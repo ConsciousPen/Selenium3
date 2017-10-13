@@ -72,7 +72,7 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest{
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC01_Quote_Documents(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -94,19 +94,19 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest{
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNumber, HSU03XX, HSU04XX, HSU06XX, HSU08XX);
 
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.quoteDocGen().start();
 		goddTab.generateDocuments(HSIQXX4);
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNumber, HSIQXX4, AHPNXX);
 
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.quoteDocGen().start();
 		goddTab.generateDocuments(HS11_4.setState(String.format("%s4", getState())), AHFMXX, HSILXX);
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNumber, HS11_4, AHFMXX, HSILXX);
 
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.dataGather().start();
 		NavigationPage.toViewTab(HomeSSTab.REPORTS.get());
 		policy.getDefaultView().fillFromTo(getTestSpecificTD("InsuranceScoreOverride926"), ReportsTab.class, PropertyInfoTab.class, true);
@@ -184,7 +184,7 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest{
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_Quote_Documents")
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_Quote_Documents")
 	public void TC02_Policy_Documents(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -207,7 +207,7 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest{
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, HS11_4, AHPNXX);
 
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.policyDocGen().start();
 		goddTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"), AHRCTXX, HSEIXX, HSILXX, HSU01XX, HSU09XX);
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, AHRCTXX, HSEIXX, HSILXX, HSU01XX, HSU09XX);

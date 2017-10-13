@@ -1,5 +1,11 @@
 package aaa.modules.e2e.templates;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import toolkit.datax.TestData;
+import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomAssert;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -30,14 +36,9 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
+
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import toolkit.datax.TestData;
-import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 public class Scenario2 extends ScenarioBaseTest {
 
@@ -115,7 +116,7 @@ public class Scenario2 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(2), secondBillGenDate);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(secondBillGenDate)
-				.setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
+			.setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
 	protected void paySecondBill() {
@@ -189,7 +190,7 @@ public class Scenario2 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(10), getTimePoints().getBillGenerationDate(installmentDueDates.get(10)));
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillGenerationDate(installmentDueDates.get(10)))
-				.setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
+			.setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
 	protected void renewalImageGeneration() {
@@ -238,7 +239,7 @@ public class Scenario2 extends ScenarioBaseTest {
 
 		verifyRenewOfferGenerated(policyExpirationDate, installmentDueDates);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferGenDate)
-				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
+			.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
 
 		if (getState().equals(Constants.States.CA)) {
 			verifyCaRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
@@ -249,7 +250,7 @@ public class Scenario2 extends ScenarioBaseTest {
 		}
 	}
 
-	//Skip this step for CA
+	// Skip this step for CA
 	protected void renewalPremiumNotice() {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
@@ -263,9 +264,9 @@ public class Scenario2 extends ScenarioBaseTest {
 		Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
 
 		// TODO Renew premium verification was excluded, due to unexpected installment calculations
-//		if (!getState().equals(States.KY) && !getState().equals(States.WV)) {
+		// if (!getState().equals(States.KY) && !getState().equals(States.WV)) {
 		verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billGenDate, pligaOrMvleFee, installmentsCount);
-//		}
+		// }
 		verifyRenewPremiumNotice(policyExpirationDate, billGenDate, pligaOrMvleFee);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
@@ -297,7 +298,7 @@ public class Scenario2 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDueDate).setType(PaymentsAndOtherTransactionType.PAYMENT)
-				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RECURRING_PAYMENT).verifyPresent(false);
+			.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RECURRING_PAYMENT).verifyPresent(false);
 	}
 
 	protected void updatePolicyStatus() {
@@ -317,7 +318,8 @@ public class Scenario2 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		Dollar sum = BillingHelper.getPolicyRenewalProposalSum(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
+		// Dollar sum = BillingHelper.getPolicyRenewalProposalSum(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
+		Dollar sum = BillingHelper.getPolicyRenewalProposalSum(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), policyNum);
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_CC"), sum);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
 	}

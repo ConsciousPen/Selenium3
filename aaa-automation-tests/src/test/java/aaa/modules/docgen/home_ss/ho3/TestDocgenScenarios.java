@@ -14,6 +14,7 @@ import aaa.common.enums.NavigationEnum.HomeSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.billing.BillingPendingTransactionsVerifier;
+import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
@@ -116,7 +117,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 */
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testQuoteDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -159,7 +160,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSIQXX, Documents.AHPNXX);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.quoteDocGen().start();
 		if(getState().equals(States.VA))
 			documentActionTab.selectDocuments(Documents.HSAUDVA);
@@ -178,7 +179,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		if(getState().equals(States.VA))
 			DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.HSAUDVA);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.quoteDocGen().start();
 		documentActionTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"), 
 				Documents.HSU03XX, 
@@ -196,7 +197,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 				Documents.HSU08XX
 				);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.dataGather().start();
 		NavigationPage.toViewTab(HomeSSTab.REPORTS.get());
 		policy.getDefaultView().fillFromTo(getTestSpecificTD("InsuranceScoreOverride926"), ReportsTab.class, PropertyInfoTab.class, true);
@@ -285,7 +286,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * Generate Returning Payment Form
 	 */
 	@Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testPolicyDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -326,7 +327,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.HS11, Documents.AHPNXX);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.policyDocGen().start();
 		documentActionTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"),
 				Documents.AHRCTXX, 
@@ -360,13 +361,13 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * </pre>
 	 */
 	@Parameters({"state"})
-	@Test()
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testPolicyRescissionNoticeDocument(@Optional("") String state) {
 		mainApp().open();
 		String policyNum = getCopiedPolicy();
 		
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData_NewBusinessRescissionNSF"));
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob); 
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true); 
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents.AH60XXA); 
 	}
 	
@@ -443,7 +444,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * Generate HS 04 77 Endorsement For Bundles new stories :
 	 */
 	@Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testMortgagePolicyDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -578,7 +579,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * </pre>
 	 */
 	@Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testReturnPaymentDocuments(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -589,24 +590,24 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		verifyPaymentDeclinedTransactionPresent("17");
 		verifyFeeTransaction("NSF fee - with restriction");
 		verifyPaymentTransactionBecameDeclined("-17");
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob); 
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true); 
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents._60_5000);
 
 		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_FeeRestriction"), "($16.00)");
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents._60_5003);
 		
 		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_FeeNoRestriction"), "($18.00)");
 		verifyPaymentDeclinedTransactionPresent("18");
 		verifyFeeTransaction("NSF fee - without restriction");
 		verifyPaymentTransactionBecameDeclined("-18");
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents._60_5001);
 		
 		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_NoFeeNoRestriction"), "($19.00)");
 		verifyPaymentDeclinedTransactionPresent("19");
 		verifyPaymentTransactionBecameDeclined("-19");
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents._60_5002);
 
 
@@ -629,7 +630,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * </pre>
 	 */
 	@Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testCancellationNoticeDocument(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -637,7 +638,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 
 		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData"));
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
 		if (getState().equals(States.PA)) {
 			DocGenHelper.verifyDocumentsGenerated(false, true, policyNum, Documents.AH61XX);
 			DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents.HS61PA);
@@ -667,7 +668,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * </pre>
 	 */
 	@Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testRefundCheckDocument(String state) throws Exception {
 		Dollar amount = new Dollar(1234);
 
@@ -683,7 +684,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		billing.issueRefund().perform(amount);
 		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Issued").verifyPresent();
 
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents._55_3500);
 		
 		BillingSummaryPage.openPolicy(1);
