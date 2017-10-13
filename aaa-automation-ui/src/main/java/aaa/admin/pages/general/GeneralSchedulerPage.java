@@ -142,7 +142,7 @@ public class GeneralSchedulerPage extends AdminPage {
     }
 
     private static void waitForJob() {
-        Application.wait(JOB_RUN_RETRIES_SLEEP * 1000);
+        Application.wait(JOB_RUN_RETRIES_SLEEP);
         try {
             NavigationPage.toViewLeftMenu(AdminAppLeftMenu.GENERAL_SCHEDULER.get());
         } catch (Exception e) {

@@ -118,8 +118,6 @@ public class LoginPage extends Page implements ILogin {
 
 	@Override
 	public void login(String username, String password, Boolean loginThroughURL) {
-		String serverUrl = Application.formatURL(ApplicationFactory.get().getAppType());
-		BrowserController.get().open(serverUrl);
 		fillLogin(username, password);
 		// TODO Workaround: Sometimes system throws out with timeout
 		if (!(lnkLogout.isPresent() && lnkLogout.isVisible())) {
@@ -158,8 +156,6 @@ public class LoginPage extends Page implements ILogin {
 
 	@Override
 	public void login(TestData td, Boolean loginViaURL) {
-/*		String serverUrl = Application.formatURL(ApplicationFactory.get().getAppType());
-		BrowserController.get().open(serverUrl);*/
 		fillLogin(td);
 		// TODO Workaround: Sometimes system throws out with timeout
 		if (!(lnkLogout.isPresent() && lnkLogout.isVisible())) {
