@@ -55,7 +55,8 @@ public class TestScenario1 extends AutoSSBaseTest {
 	@Parameters({ "state" })
 	@Test(groups = { Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL })
 	public void TC01_CreatePolicy(@Optional("") String state) {
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
+		String currentDate = DateTimeUtils.getCurrentDateTime().format(DateTimeUtils.MM_DD_YYYY);
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().parse(currentDate, DateTimeUtils.MM_DD_YYYY).plusYears(1));
 		mainApp().open();
 
 		createCustomerIndividual();
