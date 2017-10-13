@@ -33,5 +33,4 @@ public class Dashboard implements IDashboard {
                     PropertyProvider.getProperty(TestProperties.EU_PASSWORD))).getLogin().login();
         }
     }
-
 }

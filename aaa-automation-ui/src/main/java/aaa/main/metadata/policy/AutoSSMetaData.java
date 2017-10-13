@@ -685,6 +685,8 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<TextBox> WORK_PHONE_NUMBER = declare("Work Phone #", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> MOBILE_PHONE_NUMBER = declare("Mobile Phone #", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> EMAIL = declare("Email", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> AUTHORIZED_BY = declare("Authorized By", TextBox.class, Waiters.AJAX);
+
 		}
 
 		public static final class PaperlessPreferences extends MetaData {

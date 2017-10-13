@@ -109,6 +109,10 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		}
 	}
 
+	private static void insertConfigForRegularStates(String state) {
+		DBService.get().executeUpdate(String.format(EVALUE_CONFIGURATION_PER_STATE_INSERT, state));
+		DBService.get().executeUpdate(String.format(PAPERLESS_PREFRENCES_CONFIGURATION_PER_STATE_INSERT, state));
+	}
 
 	//TODO Replace below TCs with DataProvider when the Optional parameter State will be removed
 
@@ -131,7 +135,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	 * 5. Verify that 'eEvalue Status' = 'Pending' (for TS1 and TS4) and 'eEvalue Status' is empty (for TS2, TS3, TS5, TS6 and TS7) on Consolidated page.
 	 * @details
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-436")
@@ -249,6 +252,76 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
+	}
+
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Test eValue Status
+	 * @scenario 1. Create new eValue eligible policy with membership pending and paperless preferences yes
+	 * 2. Check policy consolidated view.
+	 * 3. See if eMember status = Pending
+	 * @details
+	 *  @scenario 1. Create new eValue eligible policy with membership yes and paperless preferences yes
+	 * 2. Check policy consolidated view.
+	 * 3. See if eMember status = active
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-300")
+	public void pas300_eValueStatusConsViewPaperPrefYes(@Optional("VA") String state){
+		eValueQuoteCreationVA();
+
+		CustomAssert.enableSoftMode();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Membership Pending");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		PremiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("");
+		simplifiedQuoteIssue();
+		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("Pending");
+
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
+		PremiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		simplifiedPendedEndorsementIssue();
+		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("Active");
+	}
+
+
+
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Test eValue Status
+	 * @scenario 1. Create new eValue eligible policy with membership pending and paperless preferences Pending
+	 * 2. Check policy consolidated view.
+	 * 3. See if eMember status = Pending
+	 * @details**/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-300")
+	public void pas300_eValueStatusConsViewPaperPrefPending(@Optional("MD") String state){
+		eValueQuoteCreationVA();
+
+		CustomAssert.enableSoftMode();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		PremiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("");
+		simplifiedQuoteIssue();
+		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("Pending");
 	}
 
 	/**
@@ -427,12 +500,9 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-278")
 	public void pas278_eValueeSignedPledgeDocumentAHEVAXX(@Optional("VA") String state) {
 
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, "QVASS900031747");
+		eValueQuoteCreationVA();
 
-		//eValueQuoteCreationVA();
-
-		//CustomAssert.enableSoftMode();
+		CustomAssert.enableSoftMode();
 		policy.dataGather().start();
 
 		//PAS-264 start
@@ -617,7 +687,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		CustomAssert.assertFalse(PremiumAndCoveragesTab.tableGreyBox.getRow(2).getCell(1).getValue().contains(messageBullet9));
 		eValueDiscountEligibleGreyBoxCheck();
 
-		//eValue Acknowledgement related GreyBox message
+		//eValue Aknowldgement related GreyBox message
 		eValueAcknowledgementMessagesGreyBoxCheck();
 
 		CustomAssert.disableSoftMode();
@@ -915,8 +985,16 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		new PurchaseTab().fillTab(getPolicyTD("DataGather", "TestData")).submitTab();
 	}
 
-	private static void insertConfigForRegularStates(String state) {
-		DBService.get().executeUpdate(String.format(EVALUE_CONFIGURATION_PER_STATE_INSERT, state));
-		DBService.get().executeUpdate(String.format(PAPERLESS_PREFRENCES_CONFIGURATION_PER_STATE_INSERT, state));
+	public void simplifiedPendedEndorsementIssue() {
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY).setValue("Megha");
+		DocumentsAndBindTab.btnPurchase.click();
+		Page.dialogConfirmation.confirm();
+
+		ErrorTab errorTab = new ErrorTab();
+		errorTab.overrideAllErrors();
+		DocumentsAndBindTab.btnPurchase.click();
+		Page.dialogConfirmation.confirm();
 	}
 }

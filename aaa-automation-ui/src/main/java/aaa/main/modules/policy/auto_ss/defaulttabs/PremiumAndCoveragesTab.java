@@ -41,7 +41,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Table tableDiscounts = new Table(By.id("policyDataGatherForm:discountSurchargeSummaryTable"));
 	public static Table tableFormsSummary = new Table(By.id("policyDataGatherForm:formSummaryTable"));
 	public static Table tablefeesSummary = new Table(By.id("policyDataGatherForm:feesSummaryTable"));
-	public static Table tableAAAPremiumSummary = new Table(By.id("policyDataGatherForm:AAAPremiumSummary"));
+    public static Table tableAAAPremiumSummary = new Table(By.id("policyDataGatherForm:AAAPremiumSummary"));
 	public static Table tableTermPremiumbyVehicle = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table"));
 	public static Table tablePolicyLevelLiabilityCoveragesPremium = new Table(By.xpath("//table[@id='policyDataGatherForm:policyTableTotalVehiclePremium']"));
 	public static Table tableGreyBox = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAEMemberDetailMVOComponent']//table"));
@@ -54,6 +54,9 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static StaticElement totalTermPremium = new StaticElement(By.xpath("//span[@class='TOTAL_TERM_PREMIUM']"));
 	public static StaticElement totalActualPremium = new StaticElement(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAPremiumSummary_body']/table/tbody/tr/td[2]/span"));
 	public static StaticElement discountsAndSurcharges = new StaticElement(By.id("policyDataGatherForm:discountSurchargeSummaryTable"));
+
+    public static Link linkPaymentPlan = new Link(By.id("policyDataGatherForm:paymentPlansTogglePanel:header"), Waiters.AJAX);
+    public static Link linkViewApplicableFeeSchedule = new Link(By.id("policyDataGatherForm:installmentFeeDetails"), Waiters.AJAX);
 
 	public static ByT tableVehicleCoveragePremium = ByT.xpath("//table[@id='policyDataGatherForm:subtotalVehiclePremium_%s']");
 
@@ -135,8 +138,8 @@ public class PremiumAndCoveragesTab extends Tab {
 				List<String> _values = new ArrayList<String>();
 				_values.addAll(values);
 				_values.removeIf(s -> "No Coverage".equals(s));
-				_values.removeIf(s -> "Unstacked".equals(s));			
-				_values.removeIf(s -> "Yes".equals(s));			
+				_values.removeIf(s -> "Unstacked".equals(s));
+				_values.removeIf(s -> "Yes".equals(s));
 				if (_values.stream().allMatch(String::isEmpty)) {
 					continue; // skip column with only "No Coverage"
 				}

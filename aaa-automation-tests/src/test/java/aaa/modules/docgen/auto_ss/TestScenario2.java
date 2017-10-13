@@ -1,5 +1,23 @@
 package aaa.modules.docgen.auto_ss;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.mortbay.log.Log;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+
+import static aaa.main.enums.DocGenEnum.Documents.*;
+import toolkit.datax.DataProviderFactory;
+import toolkit.datax.TestData;
+import toolkit.utils.Dollar;
+import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.TextBox;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -11,10 +29,11 @@ import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
+import aaa.main.enums.BillingConstants.BillingAccountPoliciesTable;
 import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
 import aaa.main.enums.BillingConstants.BillingInstallmentScheduleTable;
-import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
 import aaa.main.enums.ProductConstants;
+import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.PolicyInformation;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
@@ -22,23 +41,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.mortbay.log.Log;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import toolkit.datax.DataProviderFactory;
-import toolkit.datax.TestData;
-import toolkit.utils.Dollar;
-import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.TextBox;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import static aaa.main.enums.DocGenEnum.Documents.*;
 
 public class TestScenario2 extends AutoSSBaseTest {
 	
@@ -101,6 +103,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 	private String rnwlTrmEffDt;
 	private String rnwlTrmDt;
 	private String vehCovPrem;
+	private String plcyPastDueBal;
 	private List<TestData> dueAmount = new ArrayList<TestData>();
 	private List<TestData> installmentDueDate = new ArrayList<TestData>();
 
@@ -942,6 +945,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 		plcyPayMinAmt = formatValue(BillingSummaryPage.getMinimumDue().toString());
 		plcyDueDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(BillingBillsAndStatmentsTable.TYPE, "Bill").getCell(BillingBillsAndStatmentsTable.DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
 		instlFee = formatValue(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "EFT Installment Fee").getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
+		plcyPastDueBal = formatValue(BillingSummaryPage.tableBillingAccountPolicies.getRow(2).getCell(BillingAccountPoliciesTable.PAST_DUE).getValue());
 	
 		/*verify the xml file 
 		AH35XX
@@ -962,6 +966,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 					.adjust(TestData.makeKeyPath("AHRBXX", "PaymentDetails", "TotNwCrgAmt","TextField"), totNwCrgAmt)
 					.adjust(TestData.makeKeyPath("AHRBXX", "PaymentDetails", "PlcyPayMinAmt","TextField"), plcyPayMinAmt)
 					.adjust(TestData.makeKeyPath("AHRBXX", "PaymentDetails", "PlcyTotRnwlPrem","TextField"), plcyTotRnwlPrem)
+					.adjust(TestData.makeKeyPath("AHRBXX", "PaymentDetails", "PlcyPastDueBal","TextField"), plcyPastDueBal)
 					.adjust(TestData.makeKeyPath("AHRBXX", "PaymentDetails", "PlcyDueDt","DateTimeField"), plcyDueDt),
 					policyNumber);
 		
