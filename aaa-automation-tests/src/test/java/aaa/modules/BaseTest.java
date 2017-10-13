@@ -130,7 +130,6 @@ public class BaseTest {
 		}
 	}
 
-
 	/**
 	 * Create individual customer using default TestData
 	 */
