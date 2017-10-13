@@ -11,6 +11,8 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.DbAwaitHelper;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -18,6 +20,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.openqa.selenium.By;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -27,12 +30,14 @@ import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.Dollar;
 import toolkit.utils.TestInfo;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -399,6 +404,9 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		DocumentsAndBindTab.btnPurchase.click();
 		errorTab.getErrorsControl().getTable().getRowContains("Code", "AAA_SS6591343").verify.present(false);
 		//PAS-276 end
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
 
 	/**
@@ -489,9 +497,9 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		CustomAssert.assertAll();
 	}
 
-	/**
+	 /**
 	 * @author Oleg Stasyuk
-	 * @name Test eValue Discount not shown for state where it is not configured
+	 * @name Test eValue Discount related Grey Box messages are shown correctly
 	 * @scenario 1. Create new eValue eligible quote
 	 * 2. Check Grey Box messages when eValue Discount can be selected
 	 * 3. Check Grey Box messages when eValue Discount can't be selected
@@ -531,13 +539,22 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		String oldAgentEnteredBiLimitsValue = generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_BI_LIMITS).getValue();
 		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_BI_LIMITS).setValue("contains=15,000");
 		eValueDiscountNotEligibleGreyBoxCheck();
-
-
 		PremiumAndCoveragesTab.tableGreyBox.getRow(1).getCell(1).verify.value(messageInfo1);
 		PremiumAndCoveragesTab.tableGreyBox.getRow(2).getCell(1).verify.contains(messageBullet9);
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_BI_LIMITS).setValue(oldAgentEnteredBiLimitsValue);
+		eValueDiscountEligibleGreyBoxCheck();
+
+		//Prior BI Limit Continuous Insured (Prior Carrier Expiration Date) greyBox message
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(4).format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+		eValueDiscountNotEligibleGreyBoxCheck();
+		PremiumAndCoveragesTab.tableGreyBox.getRow(1).getCell(1).verify.value(messageInfo1);
+		PremiumAndCoveragesTab.tableGreyBox.getRow(2).getCell(1).verify.contains(messageBullet9);
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(3).format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
 		eValueDiscountEligibleGreyBoxCheck();
 
 		//membership related greyBox
@@ -561,8 +578,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		PremiumAndCoveragesTab.tableGreyBox.getRow(2).getCell(1).verify.contains(messageBullet1);
 		premiumAndCoveragesTab.getAssetList().getAsset("Payment Plan", ComboBox.class).setValue("Annual");
 		CustomAssert.assertFalse(PremiumAndCoveragesTab.tableGreyBox.getRow(2).getCell(1).getValue().contains(messageBullet1));
-
-		//TODO Add bullet3 verification once stub returns Paperless Preferences = No
+		//Because paperless preferences = Yes for VA
 		CustomAssert.assertFalse(PremiumAndCoveragesTab.tableGreyBox.getRow(2).getCell(1).getValue().contains(messageBullet3));
 
 		//Check No Prior Carrier greyBox
@@ -600,6 +616,114 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 
 		//eValue Acknowledgement related GreyBox message
 		eValueAcknowledgementMessagesGreyBoxCheck();
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	 /**
+	 * @author Oleg Stasyuk
+	 * @name Test eValue Discount Paper;less Preference related GreyBox message is shown correctly
+	 * @scenario 1. Create new eValue eligible quote for DC state with Paperless Preferences = Pending
+	 * 2. Check Grey Box messages when eValue Discount can be selected
+	 * 3. Check Grey Box messages when eValue Discount can not be selected
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-309")
+	public void pas309_eValueGreyBoxPaperlessPendingDC(@Optional("DC") String state) {
+
+		pas309_eValueGreyBoxPaperlessCheck("Pending");
+	}
+
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test eValue Discount Paper;less Preference related GreyBox message is shown correctly
+	 * @scenario 1. Create new eValue eligible quote for MD state with Paperless Preferences = No
+	 * 2. Check Grey Box messages when eValue Discount can be selected
+	 * 3. Check Grey Box messages when eValue Discount can not be selected
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-309")
+	public void pas309_eValueGreyBoxPaperlessNoMD(@Optional("MD") String state) {
+
+		pas309_eValueGreyBoxPaperlessCheck("No");
+	}
+
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test eValue Discount not shown for state where it is not configured
+	 * @scenario 1. Create new eValue eligible quote but for the not eligible state (PA)
+	 * 1.1. Check "Has the insured ever been enrolled in eValue?" is not shown for Non-Applicable state
+	 * 2. Check eValue Discount field is not shown in P&C
+	 * 3. Check eValue Discount field is not shown in Rating Details
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-XXX")
+	public void pasXXX_eValueNotApplicableForState(@Optional("VA") String state) {
+		//mainApp().open();
+		//SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, "QVASS926232055");
+
+		eValueQuoteCreationVA();
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		//CustomAssert.enableSoftMode();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Membership Pending");
+		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("4382122719291009"); //4382122719291009 - cancelled memembrship in SOA3
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		premiumAndCoveragesTab.saveAndExit();
+
+		simplifiedQuoteIssue();
+
+		//NB+15 jobs
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
+		JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
+		JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
+
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		//NB+30 jobs
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
+		JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
+		JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
+
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+	}
+
+	private void pas309_eValueGreyBoxPaperlessCheck(String paperlessPreferenceValue) {
+		String messageBullet3 = "Enrollment in paperless notifications for policy and billing documents";
+
+		eValueQuoteCreationVA();
+
+		CustomAssert.enableSoftMode();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		//paperlessPreferenceValue is state dependent in Stub
+		documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.value(paperlessPreferenceValue);
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		eValueDiscountEligibleGreyBoxCheck();
+		CustomAssert.assertTrue(PremiumAndCoveragesTab.tableGreyBox.getRow(2).getCell(1).getValue().contains(messageBullet3));
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_BI_LIMITS).setValue("contains=15,000");
+		eValueDiscountNotEligibleGreyBoxCheck();
+		CustomAssert.assertFalse(PremiumAndCoveragesTab.tableGreyBox.getRow(2).getCell(1).getValue().contains(messageBullet3));
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
