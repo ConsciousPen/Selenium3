@@ -9,6 +9,7 @@ import aaa.common.Tab;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.HomeSSTab;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
@@ -143,7 +144,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
      * */
 
     @Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
     public void testPolicyDocuments(@Optional("") String state) {
     	CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -370,7 +371,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
      */
 
     @Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
     public void testMortgagePolicyDocuments(@Optional("") String state) {
     	CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -513,7 +514,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
      */
 
     @Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
     public void testEndorsementsForms(@Optional("") String state) {
     	CustomAssert.enableSoftMode();
 		mainApp().open();

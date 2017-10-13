@@ -8,10 +8,7 @@ import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.BaseElement;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
@@ -205,6 +202,10 @@ public abstract class Tab {
 
 	public Tab saveAndExit() {
 		buttonSaveAndExit.click();
+		if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
+			new TextBox(By.xpath("//textarea[@id='policyDataGatherForm:newbusinessnotes']")).setValue("save as incomplete");
+			Page.dialogConfirmation.confirm();
+		}
 		return this;
 	}
 

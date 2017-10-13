@@ -8,7 +8,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 import aaa.common.pages.LoginPage;
-import com.exigen.ipb.etcsa.base.app.ApplicationFactory;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import org.joda.time.DateTime;
 
 import com.exigen.istf.exec.core.TimedTestContext;
@@ -100,7 +100,7 @@ public class TimeSetterUtil {
 
 	public void nextPhase(LocalDateTime time) {
 		if (time == null)
-			throw new NullPointerException();
+			throw new IstfException("Provided time to shift is null");
 		LocalDateTime adjDate = time;
 
 		if (adjDate.format(DateTimeFormatter.ofPattern(TIME_FORMAT)).contains("00:00") || adjDate.format(DateTimeFormatter.ofPattern("HH:ss")).equals("00:00")) {
@@ -166,8 +166,8 @@ public class TimeSetterUtil {
 	}
 
 	private void closeAllApps() {
-		ApplicationFactory.get().mainApp(new LoginPage(new SimpleDataProvider())).close();
-		ApplicationFactory.get().adminApp(new LoginPage(new SimpleDataProvider())).close();
-		ApplicationFactory.get().opReportApp(new LoginPage(new SimpleDataProvider())).close();
+		CSAAApplicationFactory.get().mainApp(new LoginPage(new SimpleDataProvider())).close();
+		CSAAApplicationFactory.get().adminApp(new LoginPage(new SimpleDataProvider())).close();
+		CSAAApplicationFactory.get().opReportApp(new LoginPage(new SimpleDataProvider())).close();
 	}
 }

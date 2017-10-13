@@ -67,7 +67,7 @@ public class TestScenario5 extends AutoSSBaseTest {
 	 */
 
 	@Parameters({ "state" })
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC01_GenerateQuoteDocuments(@Optional("") String state) {
 
 		CustomAssert.enableSoftMode();

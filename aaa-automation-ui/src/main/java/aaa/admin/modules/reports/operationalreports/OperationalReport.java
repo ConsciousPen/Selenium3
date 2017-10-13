@@ -1,8 +1,8 @@
 package aaa.admin.modules.reports.operationalreports;
 
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import org.openqa.selenium.By;
 
-import com.exigen.ipb.etcsa.base.app.ApplicationFactory;
 import com.exigen.ipb.etcsa.base.app.LoginPage;
 import com.exigen.ipb.etcsa.base.config.CustomTestProperties;
 
@@ -67,7 +67,7 @@ public class OperationalReport implements IOperationalReport {
                 LoginPage.textBoxPassword.setValue(PropertyProvider.getProperty(TestProperties.EU_PASSWORD));
                 LoginPage.buttonLogin.click();
             } else {
-                ApplicationFactory.get().opReportApp(new LoginPage(
+                CSAAApplicationFactory.get().opReportApp(new LoginPage(
                         PropertyProvider.getProperty(TestProperties.EU_USER),
                         PropertyProvider.getProperty(TestProperties.EU_PASSWORD))).getLogin().login();
             }

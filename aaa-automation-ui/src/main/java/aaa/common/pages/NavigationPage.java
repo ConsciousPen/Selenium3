@@ -75,14 +75,14 @@ public class NavigationPage extends Page {
     }
 
     public static void toFlow(AppType appType, String flow) {
-        String serverUrl = Application.formatURL(appType);
+        String serverUrl = Application.getURL(appType);
         String flowNavigate = MessageFormat.format(FLOW_NAVIGATE_TEMPLATE, flow, resolveWindowId());
         BrowserController.get().open(serverUrl + flowNavigate);
         log.info("[navigateToFlow] {}{}", serverUrl, flowNavigate);
     }
 
     public static void toFlow(AppType appType, String flow, String flowParameter) {
-        String serverUrl = Application.formatURL(appType);
+        String serverUrl = Application.getURL(appType);
         String flowNavigate = MessageFormat.format(FLOW_NAVIGATE_TEMPLATE, flow, resolveWindowId());
         BrowserController.get().open(serverUrl + flowNavigate + flowParameter);
         log.info("[navigateToFlow] {}{}{}", serverUrl, flowNavigate, flowParameter);

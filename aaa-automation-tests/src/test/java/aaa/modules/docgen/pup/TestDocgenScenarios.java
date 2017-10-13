@@ -104,7 +104,7 @@ public class TestDocgenScenarios extends PersonalUmbrellaBaseTest{
 	 */
 	
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testPUPDocgenScenarios(@Optional("") String state){
 		CustomAssert.enableSoftMode();
 		mainApp().open();
