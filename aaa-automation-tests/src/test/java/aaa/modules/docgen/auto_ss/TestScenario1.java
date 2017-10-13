@@ -53,7 +53,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 	private String priorReinEffDt;
 
 	@Parameters({ "state" })
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC01_CreatePolicy(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
 		mainApp().open();
@@ -82,7 +82,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 	 */
 
 	@Parameters({ "state" })
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC02_GenerateBillingInvoice(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		LocalDateTime billingGenerationDate = getTimePoints().getBillGenerationDate(installmentDD1);
@@ -126,7 +126,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 	 */
 
 	@Parameters({ "state" })
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC03_GenerateCancelNotice(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 
@@ -167,7 +167,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 	 */
 
 	@Parameters({ "state" })
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC04_GenerateCancellation(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 
@@ -205,7 +205,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 	 */
 
 	@Parameters({ "state" })
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC05_ReinstatementPolicy(@Optional("") String state) {
 		
 		LocalDateTime reinstateDate = getTimePoints().getCancellationDate(installmentDD1).plusDays(13);
