@@ -210,6 +210,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 	@Test(groups = { Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC05_ReinstatementPolicy(@Optional("") String state) {
 		
+		currentDate = DateTimeUtils.getCurrentDateTime().format(DateTimeUtils.MM_DD_YYYY);
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().parse(currentDate, DateTimeUtils.MM_DD_YYYY).plusDays(13));
 		
 		CustomAssert.enableSoftMode();
