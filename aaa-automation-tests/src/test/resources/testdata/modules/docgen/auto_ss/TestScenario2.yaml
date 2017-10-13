@@ -1767,8 +1767,7 @@ AA02IN: {
   VehStatedAmt: {TextField: '0.00'},
   },
   PaymentDetails: {
-    PlcyTotPrem: {TextField: ''},
-    PlcyTotFee: {TextField: ''}
+    PlcyTotPrem: {TextField: ''}
   },
   DriverDetails: [
   {
@@ -5574,8 +5573,7 @@ AA02IN_Renewal: {
   ],
   },
   PaymentDetails: {
-    PlcyTotPrem: {TextField: ''},
-    #PlcyTotFee: {TextField: ''}
+    PlcyTotPrem: {TextField: ''}
   },
   DriverDetails: [
   {
