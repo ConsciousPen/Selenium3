@@ -17,6 +17,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
@@ -111,7 +112,9 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 
 	//TODO Replace below TCs with DataProvider when the Optional parameter State will be removed
 
-	/**PAS-436
+	/**
+	 * PAS-436
+	 *
 	 * @author Viktoriia Lutsenko
 	 * @name Test presence/status of eValue discount on P&C and consolidated pages(Membership = Active, Evalue = Yes)
 	 * @scenario 1. Create customer
@@ -497,7 +500,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		CustomAssert.assertAll();
 	}
 
-	 /**
+	/**
 	 * @author Oleg Stasyuk
 	 * @name Test eValue Discount related Grey Box messages are shown correctly
 	 * @scenario 1. Create new eValue eligible quote
@@ -621,7 +624,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		CustomAssert.assertAll();
 	}
 
-	 /**
+	/**
 	 * @author Oleg Stasyuk
 	 * @name Test eValue Discount Paper;less Preference related GreyBox message is shown correctly
 	 * @scenario 1. Create new eValue eligible quote for DC state with Paperless Preferences = Pending
@@ -672,7 +675,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		//SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, "QVASS926232055");
 
 		eValueQuoteCreationVA();
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
 		//CustomAssert.enableSoftMode();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
@@ -681,10 +684,11 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		PremiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
 
 		simplifiedQuoteIssue();
-
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		//NB+15 jobs
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
@@ -698,11 +702,32 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
+
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+		String descriptionTask1 = "Task Created Complete or Cancel Pended Endorsement";
+		String descriptionNote1 = "No message [automatedEndorsementInit]";
+		CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(2).getCell("Description").getValue().contains(descriptionTask1));
+		CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(1).getCell("Description").getValue().contains(descriptionNote1));
+
+
 		JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+		String descriptionNote2 = "No message [automatedEndorsementRate]";
+		CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(1).getCell("Description").getValue().contains(descriptionNote2));
+
 		JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+		String descriptionTask3 = "Complete Task Complete or Cancel Pended Endorsement";
+		String descriptionNote3 = "Bind Endorsement effective " + TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")) + " for Policy " + policyNumber;
+		CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(2).getCell("Description").getValue().contains(descriptionTask3));
+		CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(1).getCell("Description").getValue().contains(descriptionNote3));
 
 	}
 
