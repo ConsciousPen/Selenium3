@@ -46,7 +46,7 @@ public class TestDocgenScenarios extends HomeCaDP3BaseTest {
      * Verify that all enabled documents can be generated
      */
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testQuoteDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -143,7 +143,7 @@ public class TestDocgenScenarios extends HomeCaDP3BaseTest {
      *
      */
 	@Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testPolicyDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();

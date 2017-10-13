@@ -6918,7 +6918,7 @@ form: {
    PlcyDueDt: {DateTimeField: ''},
 #   PlcyPayFullAmt: {TextField: ''},
    NSFPayRstrYN: {TextField: 'N'},
-   PlcyPastDueBal: {TextField: '0.00'},
+   PlcyPastDueBal: {TextField: ''},
    PlcyTotRnwlPrem: {TextField: ''},
    PayMeth: {TextField: 'Credit Card'},
    PLIGAFee: {TextField: '0.00'}

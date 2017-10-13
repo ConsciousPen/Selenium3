@@ -72,7 +72,7 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest{
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC01_Quote_Documents(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -184,7 +184,7 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest{
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_Quote_Documents")
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_Quote_Documents")
 	public void TC02_Policy_Documents(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
