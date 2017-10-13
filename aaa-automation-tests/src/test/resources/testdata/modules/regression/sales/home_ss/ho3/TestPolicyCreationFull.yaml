@@ -182,11 +182,6 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual:  {
   Occupancy type: Owner occupied
 }
 
-AgentInfo: {
-  Channel Type: Independent Agent,
-  Agency: SMTestIA - 400001650
-}
-
 # ------------- PropertyInfo Tab -------------
 DwellingAddress_PropertyInfoTab: {
   Number of family units: 2-Duplex

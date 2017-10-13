@@ -58,12 +58,7 @@ ApplicantTab: {
 #    Preferred Phone: 'index=1',
     Email: 'test@esigroup.com'
   },
-  AgentInfo: {
-    Channel Type: AAA Agent,
-    Agency: 'SMTestNCNU - 400001005',
-    Agency Location: 'SMTestNCNU LOCATION - 400001105 - Emeryville',
-    TollFree Number: 500001002
-  },
+  AgentInfo: '@<home_ca_ho3>@DataGather@AgentInfo',
   OtherActiveAAAPolicies: {},
 }
 
