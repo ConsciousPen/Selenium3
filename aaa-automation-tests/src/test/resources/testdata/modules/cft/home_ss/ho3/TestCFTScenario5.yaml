@@ -1,3 +1,16 @@
+TestData: {
+AcceptPaymentActionTab: {
+    Payment Method: 'Cash',
+    Amount: 50,
+  },
+  OtherTransactionsActionTab: {
+      Transaction Type: 'Adjustment',
+      Transaction Subtype: 'Other',
+      Additional Info: 'CFT Test',
+      Amount: -30
+  }
+}
+
 PremiumsAndCoveragesQuoteTab_DataGather: {
   Payment plan: Quarterly,
   Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
