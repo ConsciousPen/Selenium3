@@ -3927,8 +3927,7 @@ AA02IN_ED: {
   VehStatedAmt: {TextField: '0.00'},
   },
   PaymentDetails: {
-    PlcyTotPrem: {TextField: ''},
-    PlcyTotFee: {TextField: ''}
+    PlcyTotPrem: {TextField: ''}
   },
   DriverDetails: [
   {
