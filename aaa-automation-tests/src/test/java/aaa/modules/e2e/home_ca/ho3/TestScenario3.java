@@ -34,7 +34,7 @@ public class TestScenario3 extends Scenario3 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC03_Generate_Cancelation_Notice(@Optional("CA") String state) {
-		super.generateCancelationNotice();
+		super.generateCancellationNotice();
 	}
 
 	@Parameters({"state"})

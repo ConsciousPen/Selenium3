@@ -1,6 +1,6 @@
 package aaa.admin.modules.reports.dashboard;
 
-import com.exigen.ipb.etcsa.base.app.ApplicationFactory;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import com.exigen.ipb.etcsa.base.app.LoginPage;
 
 import aaa.common.Tab;
@@ -28,7 +28,7 @@ public class Dashboard implements IDashboard {
 
     private void loginToReports() {
         if (!Tab.labelLoggedUser.isPresent()) {
-            ApplicationFactory.get().adminApp(new LoginPage(
+            CSAAApplicationFactory.get().adminApp(new LoginPage(
                     PropertyProvider.getProperty(TestProperties.EU_USER),
                     PropertyProvider.getProperty(TestProperties.EU_PASSWORD))).getLogin().login();
         }

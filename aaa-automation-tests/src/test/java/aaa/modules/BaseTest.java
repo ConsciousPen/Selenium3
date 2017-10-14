@@ -113,7 +113,7 @@ public class BaseTest {
 	 * Login to the application and open reports app
 	 */
 	protected OperationalReportApplication opReportApp() {
-		return ApplicationFactory.get().opReportApp(new LoginPage(initiateLoginTD()));
+		return CSAAApplicationFactory.get().opReportApp(new LoginPage(initiateLoginTD()));
 	}
 
 	@AfterMethod(alwaysRun = true)
