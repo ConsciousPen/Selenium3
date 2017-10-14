@@ -18,5 +18,12 @@ public class AaaTestListener extends TestngTestListener2 {
 		if (result.getTestContext().getAttribute("attachment") != null) {
 			createAttachment(result, result.getTestContext().getAttribute("attachment").toString(), Attachment.Type.OTHER);
 		}
+
+		if (!result.isSuccess()) {
+			String appLogPath = new AppLogGrabber().grabAppLog(result);
+			if (appLogPath != null) {
+				createAttachment(result, appLogPath, Attachment.Type.APP_LOG);
+			}
+		}
 	}
 }
