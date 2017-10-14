@@ -57,7 +57,7 @@ GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   #CurrentCarrierInformation: '@CurrentCarrierInformation',
-  PolicyInformation: '@<home_ca_ho3>@DataGather@PolicyInformation'
+  PolicyInformation: '@<auto_ca_select>@DataGather@PolicyInformation'
 }
 
 NamedInsuredInformation: {

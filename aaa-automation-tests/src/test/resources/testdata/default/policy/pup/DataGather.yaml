@@ -40,19 +40,19 @@ GeneralTab: {
 }
 
 PolicyInfo_UT: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: 'AAA Agent',
-    Agency: 'AAA NCNU - 500001005',
-    Agency Location: 'Draper - 500005417 - Draper',
-    Agent: 'House Account Draper',
-    TollFree Number: 1,
-    Commission Type: New Business,
-    Lead source: Yellow Pages
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'Draper - 500005417 - Draper',
+  Agent: 'House Account Draper',
+  TollFree Number: 1,
+  Commission Type: New Business,
+  Lead source: Yellow Pages
 }
 
 NamedInsuredContactInformation: {
-    Home phone: 1234567890
+  Home phone: 1234567890
 }
 
 UnderlyingRisksPropertyTab: {}
@@ -321,14 +321,14 @@ GeneralTab_CO: {
 }
 
 PolicyInfo_CO: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: 'AAA Agent',
-    Agency: 'AAA Colorado - 500001007',
-    Agency Location: 'Denver - 500005106 - Denver',
-    Agent: 'House Agent Boulder',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Colorado - 500001007',
+  Agency Location: 'Denver - 500005106 - Denver',
+  Agent: 'House Agent Boulder',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
 }
 
 UnderlyingRisksAutoTab_CO: {
@@ -375,15 +375,15 @@ GeneralTab_CT: {
 }
 
 PolicyInfo_CT: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: 'AAA Agent',
-    Agency: 'AAA Allied Club - 500001019',
-    Sales Channel: 'Captive Branch Agents',
-    Agency Location: 'Lexington - 500005154 - Lexington',
-    Agent: 'House Agent Allied Club',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Allied Club - 500001019',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Lexington - 500005154 - Lexington',
+  Agent: 'House Agent Allied Club',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
 }
 
 UnderlyingRisksAutoTab_CT: {
@@ -443,14 +443,14 @@ GeneralTab_DC: {
 }
 
 PolicyInfo_DC: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: 'AAA Agent',
-    Agency: 'AAA Mid-Atlantic - 500016292',
-    Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
-    Agent: 'House Agent Mid-Atlantic',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
+  Agent: 'House Agent Mid-Atlantic',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
 }
 
 UnderlyingRisksAutoTab_DC: {
@@ -497,14 +497,14 @@ GeneralTab_DE: {
 }
 
 PolicyInfo_DE: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: 'AAA Agent',
-    Agency: 'AAA Mid-Atlantic - 500016292',
-    Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
-    Agent: 'House Agent Mid-Atlantic',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Agency Location: 'A Schoolcraft Insurance Agency - 500017269 - Manassas',
+  Agent: 'House Agent Mid-Atlantic',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
 }
 
 UnderlyingRisksAutoTab_DE: {
@@ -659,14 +659,14 @@ GeneralTab_KS: {
 }
 
 PolicyInfo_KS: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: 'AAA Agent',
-    Agency: 'AAA Allied Club - 500001019',
-    Agency Location: 'Cromwell - 500005129 - Cromwell',
-    Agent: 'House Agent Allied Club',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Allied Club - 500001019',
+  Agency Location: 'Cromwell - 500005129 - Cromwell',
+  Agent: 'House Agent Allied Club',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
 }
 
 UnderlyingRisksAutoTab_KS: {
@@ -713,14 +713,14 @@ GeneralTab_KY: {
 }
 
 PolicyInfo_KY: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: 'AAA Agent',
-    Agency: 'AAA Allied Club - 500001019',
-    Agency Location: 'Lexington - Atkinson Ave - 500005154 - Lexington',
-    Agent: 'House Agent Allied Club',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Allied Club - 500001019',
+  Agency Location: 'Lexington - Atkinson Ave - 500005154 - Lexington',
+  Agent: 'House Agent Allied Club',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
 }
 
 UnderlyingRisksAutoTab_KY: {
@@ -780,14 +780,14 @@ GeneralTab_MD: {
 }
 
 PolicyInfo_MD: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: 'AAA Agent',
-    Agency: 'AAA Mid-Atlantic - 500016292',
-    Agency Location: 'Annapolis CCIT - 500017191 - Annapolis',
-    Agent: 'House Agent Annapolis CCIT',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Agency Location: 'Annapolis CCIT - 500017191 - Annapolis',
+  Agent: 'House Agent Annapolis CCIT',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
 }
 
 UnderlyingRisksAutoTab_MD: {
@@ -848,14 +848,14 @@ GeneralTab_MT: {
 }
 
 PolicyInfo_MT: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: 'AAA Agent',
-    Agency: 'AAA Mountain West - 500001006',
-    Agency Location: 'Great Falls - 500005162 - Great Falls',
-    Agent: 'House Agent Great Falls',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mountain West - 500001006',
+  Agency Location: 'Great Falls - 500005162 - Great Falls',
+  Agent: 'House Agent Great Falls',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
 }
 
 UnderlyingRisksAutoTab_MT: {
@@ -902,14 +902,14 @@ GeneralTab_NJ: {
 }
 
 PolicyInfo_NJ: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: 'AAA Agent',
-    Agency: 'AAA Mid-Atlantic - 500016292',
-    Agency Location: 'Newton - 500017271 - Newton',
-    Agent: 'House Agent Mid-Atlantic',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Agency Location: 'Newton - 500017271 - Newton',
+  Agent: 'House Agent Mid-Atlantic',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
 }
 
 UnderlyingRisksAutoTab_NJ: {
@@ -956,14 +956,14 @@ GeneralTab_NV: {
 }
 
 PolicyInfo_NV: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: 'AAA Agent',
-    Agency: 'AAA NCNU - 500001005',
-    Agency Location: 'Las Vegas - 500005369 - Las Vegas',
-    Agent: 'House Account Las Vegas',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'Las Vegas - 500005369 - Las Vegas',
+  Agent: 'House Account Las Vegas',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
 }
 
 UnderlyingRisksAutoTab_NV: {
@@ -1017,14 +1017,14 @@ GeneralTab_NY: {
 }
 
 PolicyInfo_NY: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: 'AAA Agent',
-    Agency: 'AAA NORTHWAY NEW YORK - 500001009',
-    Agency Location: 'QUEENSBURY - 500005187 - QUEENSBURY',
-    Agent: 'House Agent QUEENSBURY',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NORTHWAY NEW YORK - 500001009',
+  Agency Location: 'QUEENSBURY - 500005187 - QUEENSBURY',
+  Agent: 'House Agent QUEENSBURY',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
 }
 
 UnderlyingRisksAutoTab_NY: {
@@ -1071,14 +1071,14 @@ GeneralTab_OH: {
 }
 
 PolicyInfo_OH: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: 'AAA Agent',
-    Agency: 'Ohio Findlay Club - 500001015',
-    Agency Location: 'Findlay Hq - 500005196 - Findlay',
-    Agent: 'HOUSE AGENT Ohio Findlay Club',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'Ohio Findlay Club - 500001015',
+  Agency Location: 'Findlay Hq - 500005196 - Findlay',
+  Agent: 'HOUSE AGENT Ohio Findlay Club',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
 }
 
 UnderlyingRisksAutoTab_OH: {
@@ -1125,14 +1125,14 @@ GeneralTab_OK: {
 }
 
 PolicyInfo_OK: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: 'AAA Agent',
-    Agency: 'AAA OKLAHOMA INSURANCE - 500001020',
-    Agency Location: 'AAA Tulsa Training Center - 500005226 - Tulsa',
-    Agent: 'House Agent AAA W Oklahoma',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA OKLAHOMA INSURANCE - 500001020',
+  Agency Location: 'AAA Tulsa Training Center - 500005226 - Tulsa',
+  Agent: 'House Agent AAA W Oklahoma',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
 }
 
 UnderlyingRisksAutoTab_OK: {
@@ -1179,14 +1179,14 @@ GeneralTab_OR: {
 }
 
 PolicyInfo_OR: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: 'AAA Agent',
-    Agency: 'AAA Oregon - 500001021',
-    Agency Location: 'Portland - 500005275 - Portland',
-    Agent: 'House Agent Portland',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Oregon - 500001021',
+  Agency Location: 'Portland - 500005275 - Portland',
+  Agent: 'House Agent Portland',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
 }
 
 UnderlyingRisksAutoTab_OR: {
@@ -1247,14 +1247,14 @@ GeneralTab_PA: {
 }
 
 PolicyInfo_PA: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: 'AAA Agent',
-    Agency: 'AAA Southern Penn - 500017173',
-    Agency Location: 'Bedford - 500017241 - Bedford',
-    Agent: 'House Agent AAA Southern Penn',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Southern Penn - 500017173',
+  Agency Location: 'Bedford - 500017241 - Bedford',
+  Agent: 'House Agent AAA Southern Penn',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
 }
 
 UnderlyingRisksAutoTab_PA: {
@@ -1301,14 +1301,14 @@ GeneralTab_SD: {
 }
 
 PolicyInfo_SD: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: 'AAA Agent',
-    Agency: 'AAA SOUTH DAKOTA - 500001022',
-    Agency Location: 'Sioux Falls HQ - 500005294 - Tulsa',
-    Agent: 'House Agent AAA SD',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA SOUTH DAKOTA - 500001022',
+  Agency Location: 'Sioux Falls HQ - 500005294 - Tulsa',
+  Agent: 'House Agent AAA SD',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
 }
 
 UnderlyingRisksAutoTab_SD: {
@@ -1355,14 +1355,14 @@ GeneralTab_VA: {
 }
 
 PolicyInfo_VA: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: 'AAA Agent',
-    Agency: 'AAA Mid-Atlantic - 500016292',
-    Agency Location: 'CHANTILLY VA - 500016414 - Chantilly',
-    Agent: 'House Agent Mid-Atlantic',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mid-Atlantic - 500016292',
+  Agency Location: 'CHANTILLY VA - 500016414 - Chantilly',
+  Agent: 'House Agent Mid-Atlantic',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
 }
 
 UnderlyingRisksAutoTab_VA: {
@@ -1409,14 +1409,14 @@ GeneralTab_WV: {
 }
 
 PolicyInfo_WV: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: 'AAA Agent',
-    Agency: 'AAA Allied Club - 500001019',
-    Agency Location: 'Charleston - 500005295 - Charleston',
-    Agent: 'House Agent Charleston',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Allied Club - 500001019',
+  Agency Location: 'Charleston - 500005295 - Charleston',
+  Agent: 'House Agent Charleston',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
 }
 
 UnderlyingRisksAutoTab_WV: {
@@ -1471,14 +1471,14 @@ GeneralTab_WY: {
 }
 
 PolicyInfo_WY: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: 'AAA Agent',
-    Agency: 'AAA Mountain West - 500001006',
-    Agency Location: 'Bozeman - 500005161 - Bozeman',
-    Agent: 'House Agent AK Diamond Blvd',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
+  Effective date: '/today:MM/dd/yyyy',
+  Application type: New,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA Mountain West - 500001006',
+  Agency Location: 'Bozeman - 500005161 - Bozeman',
+  Agent: 'House Agent AK Diamond Blvd',
+  Commission Type: New Business,
+  Lead source: Yellow Pages
 }
 
 UnderlyingRisksAutoTab_WY: {
