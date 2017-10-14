@@ -168,18 +168,13 @@ public class LoginPage extends Page implements ILogin {
 		setApplicationLogFileName(td.getValue(LoginPageMeta.STATES.getLabel()));
 	}
 
-	private String getTestClassName() {
-		StackTraceElement result = Arrays.stream(Thread.currentThread().getStackTrace()).filter(s -> s.getClassName().contains("modules") && !s.getClassName().contains("scenario")).findFirst().orElse(null);
-
-		if (result == null) {
-			return "TestNameWasNotFound";
-		} else
-			return result.getClassName();
-	}
-
 	private void setApplicationLogFileName(String state) {
-		String className = getTestClassName();
-		BrowserController.get().open(BrowserController.get().driver().getCurrentUrl().replace("#noback", "") + "&scenarioName=" + className+"_"+ state);
+		String metghodName =  "TestNameWasNotFound";
+		StackTraceElement result = Arrays.stream(Thread.currentThread().getStackTrace()).filter(s -> s.getClassName().startsWith("aaa.modules")).reduce((a, b) -> b).orElse(null);
+		if (result != null) {
+			metghodName = result.getClassName() + "." + result.getMethodName();
+		}
+		BrowserController.get().open(BrowserController.get().driver().getCurrentUrl().replace("#noback", "") + "&scenarioName=" + metghodName + "_" + state);
 	}
 
 }
