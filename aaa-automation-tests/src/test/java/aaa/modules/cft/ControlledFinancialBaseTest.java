@@ -38,8 +38,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected BillingAccount billingAccount = new BillingAccount();
 
-	private ThreadLocal<List<LocalDateTime>> installments = new ThreadLocal<>();
-	private ThreadLocal<String> policyNumber = ThreadLocal.withInitial(() -> StringUtils.EMPTY);
+	protected ThreadLocal<List<LocalDateTime>> installments = new ThreadLocal<>();
+	protected ThreadLocal<String> policyNumber = ThreadLocal.withInitial(() -> StringUtils.EMPTY);
 
 	/**
 	 * Creating of the policy for test
