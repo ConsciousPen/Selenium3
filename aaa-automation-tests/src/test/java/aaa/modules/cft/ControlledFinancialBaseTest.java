@@ -2,6 +2,14 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.cft;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
+import toolkit.datax.TestData;
+import toolkit.exceptions.IstfException;
+import toolkit.utils.datetime.DateTimeUtils;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -21,15 +29,9 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.apache.commons.lang3.StringUtils;
-import toolkit.datax.TestData;
-import toolkit.exceptions.IstfException;
-import toolkit.utils.datetime.DateTimeUtils;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
@@ -133,14 +135,37 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
 		Dollar minDue = new Dollar(BillingSummaryPage.tableBillsStatements
-				.getRowContains(BillingConstants.BillingBillsAndStatmentsTable.TYPE,BillingConstants.BillsAndStatementsType.BILL)
-				.getCell(BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
+			.getRowContains(BillingConstants.BillingBillsAndStatmentsTable.TYPE, BillingConstants.BillsAndStatementsType.BILL)
+			.getCell(BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
 		billingAccount.acceptPayment().perform(getTestSpecificTD("AcceptPayment"), minDue);
 		new BillingPaymentsAndTransactionsVerifier()
 			.setTransactionDate(paymentDate)
 			.setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
 			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
 			.setAmount(minDue.negate())
+			.verifyPresent();
+		log.info("Accept payment action completed successfully");
+	}
+
+	/**
+	 * Accept payment on EP3 date 
+	 */
+	protected void acceptPaymentEP3(int installmentNumber) {
+		LocalDateTime paymentDate = getTimePoints().getEarnedPremiumBillThird(installments.get().get(installmentNumber));
+		TimeSetterUtil.getInstance().nextPhase(paymentDate);
+		log.info("Accept payment action started");
+		log.info("Accept payment date: {}", paymentDate);
+		mainApp().reopen();
+		SearchPage.openBilling(policyNumber.get());
+		billingAccount.acceptPayment().perform(getTestSpecificTD("AcceptPayment50"));
+		String expValue = getTestSpecificTD("AcceptPayment50")
+			.getTestData(AcceptPaymentActionTab.class.getSimpleName())
+			.getValue(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel());
+		new BillingPaymentsAndTransactionsVerifier()
+			.setTransactionDate(paymentDate)
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
+			.setAmount(new Dollar(expValue).negate())
 			.verifyPresent();
 		log.info("Accept payment action completed successfully");
 	}
@@ -232,9 +257,10 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber.get());
 		policy.endorse().performAndFill(getTestSpecificTD("Endorsement"));
-		//split policy
+		// split policy
 		policy.policySplit().perform(getTestSpecificTD("SplitTestData"));
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION, String.format("Policy %1$s has been split to a new quote", policyNumber.get())).verify.present();
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION, String.format(
+			"Policy %1$s has been split to a new quote", policyNumber.get())).verify.present();
 		log.info("Split policy action completed successfully");
 	}
 
@@ -275,6 +301,19 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openPolicy(policyNumber.get());
 		policy.cancel().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
+		log.info("Manual cancellation action completed successfully");
+	}
+
+	protected void manualCancellationDD1Plus5(String keyPath) {
+		LocalDateTime cancellationDate = getTimePoints().getBillDueDate(installments.get().get(1)).plusDays(5);
+		TimeSetterUtil.getInstance().nextPhase(cancellationDate);
+		log.info("Manual cancellation action started");
+		log.info("Manual cancellation date: {}", cancellationDate);
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber.get());
+		String effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue();
+		policy.cancel().perform(getTestSpecificTD("Cancellation").adjust(keyPath, effectiveDate));
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		log.info("Manual cancellation action completed successfully");
 	}
 
@@ -392,7 +431,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		throw new IstfException("Please override method in appropriate child class with relevant test data preparation");
 	}
 
-	protected void runCFTJobs(){
+	protected void runCFTJobs() {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		JobUtils.executeJob(Jobs.policyTransactionLedgerJob);

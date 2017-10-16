@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
@@ -29,11 +28,7 @@ public class TestCFTScenario10 extends ControlledFinancialBaseTest {
 		createPolicyForTest();
 		generateInstallmentBill(1);
 		acceptMinDuePaymentDD1plus30();
-		// TODO move to EP3 generation date and acceptPayment -> wrap in method to Parent class
-		mainApp().reopen();
-		SearchPage.openBilling(policyNumber.get());
-		billingAccount.acceptPayment().perform(getTestSpecificTD("AcceptPayment50"));
-
+		acceptPaymentEP3(1);
 	}
 
 	@Override
@@ -44,8 +39,8 @@ public class TestCFTScenario10 extends ControlledFinancialBaseTest {
 	@Override
 	protected TestData getPolicyTestData() {
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", DEFAULT_TEST_DATA_KEY);
+		// TODO adjust testdata for ENOC policy
 		td.adjust(GeneralTab.class.getSimpleName(), getTestSpecificTD("GeneralTab_DataGather"));
-		// td.adjust(VehicleTab.class.getSimpleName(), getTestSpecificTD("VehicleTab_DataGather"));
 		td.adjust(PremiumAndCoveragesTab.class.getSimpleName(), getTestSpecificTD("PremiumAndCoveragesTab_DataGather"));
 		td.adjust(PurchaseTab.class.getSimpleName(), getTestSpecificTD("PurchaseTab_DataGather"));
 		return td.resolveLinks();
