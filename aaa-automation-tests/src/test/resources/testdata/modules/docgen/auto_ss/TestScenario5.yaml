@@ -170,7 +170,7 @@ AAIQAZ: {
     DnPayReq: {TextField: ''},
     NumPayReq: {TextField: '0'},
     InstlPay: {TextField: '0.00'},
-    InstlFee: {TextField: '2.00'},
+    InstlFee: {TextField: '0.00'},
     PlcyTotPrem: {TextField: ''},
   },
   form: {

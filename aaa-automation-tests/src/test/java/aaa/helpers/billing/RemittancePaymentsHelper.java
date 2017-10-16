@@ -7,10 +7,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.ssh.RemoteHelper;
 import com.exigen.ipb.etcsa.utils.Dollar;
-import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.utils.logging.CustomLogger;
@@ -42,15 +40,13 @@ public class RemittancePaymentsHelper {
 		} while (file.exists());
 		file.getParentFile().mkdir();
 
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
-
-			bw.write("HDR|DEV|PMTCTRL|PMT_E_PMTCTRL_PASSYS_7001_D|P01AWU410|0c131710-a94c-404f-850d-2a86ab3e0fd7\n");
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+			bw.write("HDR|QA|PMTCTRL|PMT_E_PMTCTRL_PASSYS_7001_D|P01AWU410|0c131710-a94c-404f-850d-2a86ab3e0fd7\n");
 			bw.write("DTL|" + Math.round(999999 * Math.random()) + "|PMT|" + date.format(DATE_PATTERN) + "|" + date.format(TIME_PATTERN) + "|" + paymentSystem
-					+ "||55031|47204|CL0|USER0|CSIIB|PA|" + state + "SS|" + policyNo + "|600010703|" + state + "|" + date.format(DATE_PATTERN) + "|612284964181078|" + amount.toString().substring(1)
+					+ "||55031|47204|CL0|USER0|CSIIB|PA|" + state + "SS|" + policyNo + "|600010703|" + state + "|" + date.format(DATE_PATTERN) + "|612284964181078|" + amount.toPlaingString()
 					+ "|CHCK||||||||1813|Y\n");
-			bw.write("TRL|" + file.getName() + "|" + date.format(DATE_TIME_PATTERN) + "|20204d22-0905-4a25-bef3-9d0094fdd342|1|1|" + amount.toString().substring(1) + "\n");
+			bw.write("TRL|" + file.getName() + "|" + date.format(DATE_TIME_PATTERN) + "|20204d22-0905-4a25-bef3-9d0094fdd342|1|1|" + amount.toPlaingString() + "\n");
 			bw.flush();
-
 		} catch (IOException e) {
 			throw new IstfException(e);
 		}

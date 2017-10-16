@@ -2,14 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.cft;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-
-import toolkit.datax.TestData;
-import toolkit.exceptions.IstfException;
-import toolkit.utils.datetime.DateTimeUtils;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -18,6 +10,7 @@ import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.main.enums.ActivitiesAndUserNotesConstants;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.BillingAccountMetaData;
@@ -28,9 +21,15 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.apache.commons.lang3.StringUtils;
+import toolkit.datax.TestData;
+import toolkit.exceptions.IstfException;
+import toolkit.utils.datetime.DateTimeUtils;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
@@ -39,8 +38,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected BillingAccount billingAccount = new BillingAccount();
 
-	private ThreadLocal<List<LocalDateTime>> installments = new ThreadLocal<>();
-	private ThreadLocal<String> policyNumber = ThreadLocal.withInitial(() -> StringUtils.EMPTY);
+	protected ThreadLocal<List<LocalDateTime>> installments = new ThreadLocal<>();
+	protected ThreadLocal<String> policyNumber = ThreadLocal.withInitial(() -> StringUtils.EMPTY);
 
 	/**
 	 * Creating of the policy for test
@@ -133,7 +132,9 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Accept payment date: {}", paymentDate);
 		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
-		Dollar minDue = new Dollar(BillingSummaryPage.getMinimumDue());
+		Dollar minDue = new Dollar(BillingSummaryPage.tableBillsStatements
+				.getRowContains(BillingConstants.BillingBillsAndStatmentsTable.TYPE,BillingConstants.BillsAndStatementsType.BILL)
+				.getCell(BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
 		billingAccount.acceptPayment().perform(getTestSpecificTD("AcceptPayment"), minDue);
 		new BillingPaymentsAndTransactionsVerifier()
 			.setTransactionDate(paymentDate)
@@ -221,6 +222,20 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 			.setTotalDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue()))
 			.verifyPresent();
 		log.info("{} Installment bill generation completed successfully", installmentNumber);
+	}
+
+	protected void splitPolicyOnFirstDueDate() {
+		TimeSetterUtil.getInstance().nextPhase(installments.get().get(1));
+		log.info("Split policy action started");
+		log.info("Split policy action date: {}", installments.get().get(1));
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber.get());
+		policy.endorse().performAndFill(getTestSpecificTD("Endorsement"));
+		//split policy
+		policy.policySplit().perform(getTestSpecificTD("SplitTestData"));
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION, String.format("Policy %1$s has been split to a new quote", policyNumber.get())).verify.present();
+		log.info("Split policy action completed successfully");
 	}
 
 	/**
@@ -377,10 +392,16 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		throw new IstfException("Please override method in appropriate child class with relevant test data preparation");
 	}
 
+	protected void runCFTJobs(){
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		JobUtils.executeJob(Jobs.policyTransactionLedgerJob);
+	}
+
 	private void generateAndCheckEarnedPremiumBill(LocalDateTime date) {
 		TimeSetterUtil.getInstance().nextPhase(date);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
-		mainApp().open();
+		mainApp().reopen();
 		SearchPage.openBilling(policyNumber.get());
 		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).verifyRowWithDueDate(date);
 	}

@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
@@ -27,13 +28,10 @@ public class TestCFTScenario10 extends ControlledFinancialBaseTest {
 	public void cftTestScenario10(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		generateInstallmentBill(1);
-		// automaticCancellationNotice(1);
-		// automaticCancellation(1);
 		acceptMinDuePaymentDD1plus30();
-		// // automaticCancellation(2);
-		// generateFirstEarnedPremiumBill(1);
-		// generateSecondEarnedPremiumBill(1);
-		// generateThirdEarnedPremiumBill(1);
+		// TODO move to EP3 generation date and acceptPayment -> wrap in method to Parent class
+		mainApp().reopen();
+		SearchPage.openBilling(policyNumber.get());
 		billingAccount.acceptPayment().perform(getTestSpecificTD("AcceptPayment50"));
 
 	}

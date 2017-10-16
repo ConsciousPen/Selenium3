@@ -1,0 +1,1753 @@
+# ----------- Data Gather data ----------------
+TestData_DataGather: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab: {
+  State: 'UT',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy', 
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AgentInfo: '@AgentInfo',
+  OtherActiveAAAPolicies: {},
+}
+
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+  #ISO360Report: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction',
+  AdditionalQuestions: {},
+  Interior: '@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: {}
+}
+
+ProductOfferingTab: {}
+EndorsementTab: {}
+PremiumsAndCoveragesQuoteTab: {
+  Payment plan: Eleven Pay Standard,
+  Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+  Coverage E - Personal Liability Each Occurrence: '$300,000'
+}
+ 
+MortgageesTab: {}
+ 
+UnderwritingAndApprovalTab: {
+  #Underwriter-selected inspection type: 'index=1',
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No"
+}
+
+DocumentsTab: {
+  DocumentsToIssue: {
+  Signed policy application: Physically Signed
+  }
+}
+  
+BindTab: {}
+
+PurchaseTab: {
+ PaymentAllocation: {
+  Cash: /rest
+ }
+}
+
+# ApplicantTab
+NamedInsured: {
+  Relationship to primary named insured:  Primary Insured,
+  Social security number: 1234567890,
+  Employer: '1234567890',
+}
+
+NamedInsured2: {
+  First name: '/rx:CFTTestFN\d{5}',
+  Last name: '/rx:CFTTestFN\d{5}',
+  Relationship to primary named insured:  Other,
+  Marital status: Single,
+  Social security number: 1234567899,
+  Date of birth: '/today-40y:MM/dd/yyyy'
+}
+
+AAAMembership: {
+  Membership number: '4290023667710001',
+  Last name: Test,
+}
+
+DwellingAddress: {
+ Zip code: '84003',
+ Street address 1: 265 CHIPMAN AVE,
+ Validate Address: true,
+ Validate Address Dialog: {
+ #Street number: 265,
+ #Street name: CHIPMAN AVE,
+ #Select Address: "/default"
+ }
+}
+
+NamedInsuredInformation: {
+  Home Phone Number: '1234567890'
+}
+
+OtherActiveAAAPolicies: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual'
+}
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual:  {
+ Policy type: HO3,
+ Policy number: '345345345',
+ Coverage E: '1000',
+ Deductible: '1000',
+ Dwelling usage: Primary,
+ Occupancy type: Owner occupied
+}
+
+AgentInfo: {
+  Channel Type: Independent Agent,
+  Agency: SMTestIA - 400001650
+}
+
+#PropertyInfoTab
+PropertyValue: {
+  Coverage A - Dwelling limit: 150000,
+  ISO replacement cost: 145000,
+  Reason replacement cost differs from the tool value: 'index=1',
+  Purchase date of home: '/today-1y:MM/dd/yyyy'
+}
+
+DwellingAddress_PropertyInfoTab: {
+  Number of family units: 'index=1'
+}
+
+HomeRenovation: {
+    Green Home discount: "No"
+}
+
+Construction: {
+  Year built: 2009,
+  Square footage: 1,
+  Roof type: Laminate / Architectural,
+  Roof shape: 'index=1',
+  Construction type: 'index=1'
+}
+
+Interior: {
+  Number of residents: 3,
+  Number of stories: 'index=1'
+}
+
+# --------- TestData AZ -----------
+TestData_DataGather_AZ: {
+  GeneralTab: '@GeneralTab_AZ',
+  ApplicantTab: '@ApplicantTab_AZ',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_AZ: {
+  State: 'AZ',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_AZ: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_AZ',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}
+
+DwellingAddress_AZ: {
+ Zip code: '85003',
+ Street address 1: 265 CHIPMAN AVE,
+ Validate Address: true,
+ Validate Address Dialog: {}
+}
+
+# --------- TestData CO ------------
+
+TestData_DataGather_CO: {
+  GeneralTab: '@GeneralTab_CO',
+  ApplicantTab: '@ApplicantTab_CO',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab_CO',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_CO: {
+  State: 'CO',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_CO: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_CO',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_CO',
+  AgentInfo: '@AgentInfo'
+}
+
+DwellingAddress_CO: {
+ Zip code: '80004',
+ Street address 1: 265 CHIPMAN AVE,
+ Validate Address: true,
+ Validate Address Dialog: {}
+}
+
+OtherActiveAAAPolicies_CO: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_CO', 
+}
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_CO:  {
+  Policy type: Auto,
+  "Companion Auto Pending with Discount?": 'No',
+  Auto policy state: CO, 
+  Policy number: '345345345',
+  Effective date: '/today:MM/dd/yyyy',
+  Policy tier: 'index=1',
+  Auto policy BI limit: 'index=1',
+  Auto Insurance Persistency: '21'
+}
+
+
+PropertyInfoTab_CO: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction_CO',
+  Interior: '@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: {}
+}
+
+Construction_CO: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: 'index=1',
+    Construction type: 'index=1',
+    Hail-resistance rating: 'index=1'
+  }
+
+# --------- TestData CT ------------
+
+TestData_DataGather_CT: {
+  GeneralTab: '@GeneralTab_CT',
+  ApplicantTab: '@ApplicantTab_CT',
+  ReportsTab: '@ReportsTab_CT',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_CT',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_CT: {
+  State: 'CT',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_CT: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_CT',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}
+
+DwellingAddress_CT: {
+ Zip code: '06519',
+ Street address 1: 265 CHIPMAN AVE,
+ Validate Address: true,
+ Validate Address Dialog: {}
+}  
+
+ReportsTab_CT: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  RiskMeterReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+  #ISO360Report: [{Report: 'Order report'}]
+}
+
+UnderwritingAndApprovalTab_CT: {
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Do employees of any resident or applicant reside in the dwelling?": 'No',
+  "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No'
+}
+
+# --------- TestData DC ------------
+
+TestData_DataGather_DC: {
+  GeneralTab: '@GeneralTab_DC',
+  ApplicantTab: '@ApplicantTab_DC',
+  ReportsTab: '@ReportsTab_DC',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_DC: {
+  State: 'DC',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_DC: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_DC',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+  
+DwellingAddress_DC: {
+  Zip code: '20004',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {
+   Street number: '265',
+   Street Name: CHIPMAN AVE,
+   #Select Address: "/default" 
+   }
+} 
+
+ReportsTab_DC: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+# --------- TestData DE ------------
+
+TestData_DataGather_DE: {
+  GeneralTab: '@GeneralTab_DE',
+  ApplicantTab: '@ApplicantTab_DE',
+  ReportsTab: '@ReportsTab_DE',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_DE: {
+  State: 'DE',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_DE: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_DE',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+  
+DwellingAddress_DE: {
+  Zip code: '19802',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+} 
+
+ReportsTab_DE: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  RiskMeterReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+  #ISO360Report: [{Report: 'Order report'}]
+}
+
+# --------- TestData ID ------------
+
+TestData_DataGather_ID: {
+  GeneralTab: '@GeneralTab_ID',
+  ApplicantTab: '@ApplicantTab_ID',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_ID: {
+  State: 'ID',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_ID: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_ID',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+  
+DwellingAddress_ID: {
+  Zip code: '83212',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+} 
+
+# --------- TestData IN ------------
+
+TestData_DataGather_IN: {
+  GeneralTab: '@GeneralTab_IN',
+  ApplicantTab: '@ApplicantTab_IN',
+  ReportsTab: '@ReportsTab_IN',
+  PropertyInfoTab: '@PropertyInfoTab_IN',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_IN: {
+  State: 'IN',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_IN: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_IN',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_IN',
+  AgentInfo: '@AgentInfo'
+}  
+  
+DwellingAddress_IN: {
+  Zip code: '46064',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+} 
+
+OtherActiveAAAPolicies_IN: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_IN', 
+}
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_IN:  {
+  Policy type: Auto,
+  "Companion Auto Pending with Discount?": 'No',
+  Auto policy state: IN, 
+  Policy number: '345345345',
+  Effective date: '/today:MM/dd/yyyy',
+  Policy tier: 'index=1',
+  Auto policy BI limit: 'index=1',
+  Auto Insurance Persistency: '21'
+}
+
+ReportsTab_IN: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+
+PropertyInfoTab_IN: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction_IN',
+  Interior: '@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: {}
+}
+
+Construction_IN: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: 'index=1',
+    Construction type: 'index=1',
+    Hail-resistance rating: 'index=1'
+}
+  
+# --------- TestData KS ------------
+
+TestData_DataGather_KS: {
+  GeneralTab: '@GeneralTab_KS',
+  ApplicantTab: '@ApplicantTab_KS',
+  ReportsTab: '@ReportsTab_KS',
+  PropertyInfoTab: '@PropertyInfoTab_KS',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_KS: {
+  State: 'KS',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_KS: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_KS',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_KS',
+  AgentInfo: '@AgentInfo'
+}  
+  
+DwellingAddress_KS: {
+  Zip code: '66006',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {Select Address: override}
+} 
+
+OtherActiveAAAPolicies_KS: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_KS', 
+}
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_KS:  {
+  Policy type: Auto,
+  "Companion Auto Pending with Discount?": 'No',
+  Auto policy state: KS, 
+  Policy number: '345345345',
+  Effective date: '/today:MM/dd/yyyy',
+  Policy tier: 'index=1',
+  Auto policy BI limit: 'index=1',
+  Auto Insurance Persistency: '21'
+}
+
+ReportsTab_KS: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab_KS: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction_KS',
+  Interior: '@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: {}
+}
+
+Construction_KS: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: 'index=1',
+    Construction type: 'index=1',
+    Hail-resistance rating: 'index=1'
+}
+
+# --------- TestData KY ------------
+
+TestData_DataGather_KY: {
+  GeneralTab: '@GeneralTab_KY',
+  ApplicantTab: '@ApplicantTab_KY',
+  ReportsTab: '@ReportsTab_KY',
+  PropertyInfoTab: '@PropertyInfoTab_KY',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_KY',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_KY: {
+  State: 'KY',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_KY: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_KY',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_KY',
+  AgentInfo: '@AgentInfo'
+}  
+  
+DwellingAddress_KY: {
+  Zip code: '40006',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+} 
+
+OtherActiveAAAPolicies_KY: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_KY', 
+}
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_KY:  {
+  Policy type: Auto,
+  "Companion Auto Pending with Discount?": 'No',
+  Auto policy state: KY, 
+  Policy number: '345345345',
+  Effective date: '/today:MM/dd/yyyy',
+  Policy tier: 'index=1',
+  Auto policy BI limit: 'index=1',
+  Auto Insurance Persistency: '21'
+}
+
+ReportsTab_KY: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab_KY: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction_KY',
+  Interior: '@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: {}
+}
+
+Construction_KY: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: 'index=1',
+    Construction type: 'index=1',
+    Hail-resistance rating: 'index=1'
+}
+
+UnderwritingAndApprovalTab_KY: {
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No", 
+  "Do employees of any resident or applicant reside in the dwelling?": "No", 
+  "Is any business or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No"
+}
+
+# --------- TestData MD ------------
+
+TestData_DataGather_MD: {
+  GeneralTab: '@GeneralTab_MD',
+  ApplicantTab: '@ApplicantTab_MD',
+  ReportsTab: '@ReportsTab_MD',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_MD',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_MD: {
+  State: 'MD',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_MD: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_MD',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+  
+DwellingAddress_MD: {
+  Zip code: '21217',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+} 
+
+ReportsTab_MD: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  #InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  RiskMeterReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+UnderwritingAndApprovalTab_MD: {
+  "Applicant(s), who have been cancelled, refused insurance or non-renewed in the past 3 years are ineligible if based on any of the following reasons: Fraud or Material Misrepresentation, Substantial Increase in Hazard, or Claims.": "No",
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No", 
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No", 
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is any business or farming activity conducted on the premises?": "No"
+}
+
+# --------- TestData MT ------------
+
+TestData_DataGather_MT: {
+  GeneralTab: '@GeneralTab_MT',
+  ApplicantTab: '@ApplicantTab_MT',
+  ReportsTab: '@ReportsTab_MT',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_MT: {
+  State: 'MT',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_MT: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_MT',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+  
+DwellingAddress_MT: {
+  Zip code: '59003',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+ReportsTab_MT: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+} 
+
+# --------- TestData NJ ------------
+
+TestData_DataGather_NJ: {
+  GeneralTab: '@GeneralTab_NJ',
+  ApplicantTab: '@ApplicantTab_NJ',
+  ReportsTab: '@ReportsTab_NJ',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_NJ: {
+  State: 'NJ',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_NJ: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_NJ',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+  
+DwellingAddress_NJ: {
+  Zip code: '07005',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+} 
+
+ReportsTab_NJ: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+# --------- TestData NV ------------
+
+TestData_DataGather_NV: {
+  GeneralTab: '@GeneralTab_NV',
+  ApplicantTab: '@ApplicantTab_NV',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_NV',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_NV: {
+  State: 'NV',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_NV: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_NV',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+  
+DwellingAddress_NV: {
+  Zip code: '89010',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+} 
+
+UnderwritingAndApprovalTab_NV: {
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No", 
+  "Are all water heaters (except tankless and electric heaters) strapped to the wall with at least one strap and if located in the garage, raised at least 18 inches from the floor?": "No"
+}
+
+# --------- TestData NY ------------
+
+TestData_DataGather_NY: {
+  GeneralTab: '@GeneralTab_NY',
+  ApplicantTab: '@ApplicantTab_NY',
+  ReportsTab: '@ReportsTab_NY',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_NY: {
+  State: 'NY',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_NY: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_NY',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+  
+DwellingAddress_NY: {
+  Zip code: '10451',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+ReportsTab_NY: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+# --------- TestData OH ------------
+
+TestData_DataGather_OH: {
+  GeneralTab: '@GeneralTab_OH',
+  ApplicantTab: '@ApplicantTab_OH',
+  ReportsTab: '@ReportsTab_OH',
+  PropertyInfoTab: '@PropertyInfoTab_OH',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_OH: {
+  State: 'OH',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_OH: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_OH',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_OH',
+  AgentInfo: '@AgentInfo'
+}  
+  
+DwellingAddress_OH: {
+  Zip code: '43202',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+OtherActiveAAAPolicies_OH: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_OH', 
+}
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_OH:  {
+  Policy type: Auto,
+  "Companion Auto Pending with Discount?": 'No',
+  Auto policy state: OH, 
+  Policy number: '345345345',
+  Effective date: '/today:MM/dd/yyyy',
+  Policy tier: 'index=1',
+  Auto policy BI limit: 'index=1',
+  Auto Insurance Persistency: '21'
+}
+
+ReportsTab_OH: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab_OH: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction_OH',
+  Interior: '@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: {}
+}
+
+Construction_OH: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: 'index=1',
+    Construction type: 'index=1',
+    Hail-resistance rating: 'index=1'
+}
+
+# --------- TestData OK ------------
+
+TestData_DataGather_OK: {
+  GeneralTab: '@GeneralTab_OK',
+  ApplicantTab: '@ApplicantTab_OK',
+  ReportsTab: '@ReportsTab_OK',
+  PropertyInfoTab: '@PropertyInfoTab_OK',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_OK: {
+  State: 'OK',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_OK: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_OK',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_OK',
+  AgentInfo: '@AgentInfo'
+}  
+  
+DwellingAddress_OK: {
+  Zip code: '73099',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+OtherActiveAAAPolicies_OK: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_OK', 
+}
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_OK:  {
+  Policy type: Auto,
+  "Companion Auto Pending with Discount?": 'No',
+  Auto policy state: OK, 
+  Policy number: '345345345',
+  Effective date: '/today:MM/dd/yyyy',
+  Policy tier: 'index=1',
+  Auto policy BI limit: 'index=1',
+  Auto Insurance Persistency: '21'
+}
+
+ReportsTab_OK: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab_OK: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction_OK',
+  Interior: '@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: {}
+}
+
+Construction_OK: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: 'index=1',
+    Construction type: 'index=1',
+    Hail-resistance rating: 'index=1'
+}
+
+# --------- TestData OR ------------
+
+TestData_DataGather_OR: {
+  GeneralTab: '@GeneralTab_OR',
+  ApplicantTab: '@ApplicantTab_OR',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_OR',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_OR: {
+  State: 'OR',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_OR: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_OR',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+  
+DwellingAddress_OR: {
+  Zip code: '97017',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+UnderwritingAndApprovalTab_OR: {
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is any business, adult day care, pet day care or farming activity conducted on the premises?": "No"
+}
+
+# --------- TestData PA ------------
+
+TestData_DataGather_PA: {
+  GeneralTab: '@GeneralTab_PA',
+  ApplicantTab: '@ApplicantTab_PA',
+  ReportsTab: '@ReportsTab_PA',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_PA: {
+  State: 'PA',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_PA: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_PA',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+  
+DwellingAddress_PA: {
+  Zip code: '15001',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+ReportsTab_PA: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+# --------- TestData SD ------------
+
+TestData_DataGather_SD: {
+  GeneralTab: '@GeneralTab_SD',
+  ApplicantTab: '@ApplicantTab_SD',
+  ReportsTab: '@ReportsTab_SD',
+  PropertyInfoTab: '@PropertyInfoTab_SD',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_SD: {
+  State: 'SD',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_SD: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_SD',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+  
+DwellingAddress_SD: {
+  Zip code: '57010',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+ReportsTab_SD: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab_SD: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction_SD',
+  Interior: '@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: {}
+}
+
+Construction_SD: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: 'index=1',
+    Construction type: 'index=1',
+    Hail-resistance rating: 'index=1'
+}
+
+# --------- TestData VA ------------
+
+TestData_DataGather_VA: {
+  GeneralTab: '@GeneralTab_VA',
+  ApplicantTab: '@ApplicantTab_VA',
+  ReportsTab: '@ReportsTab_VA',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_VA: {
+  State: 'VA',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_VA: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_VA',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+  
+DwellingAddress_VA: {
+  Zip code: '20105',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+ReportsTab_VA: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  RiskMeterReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+# --------- TestData WV ------------
+
+TestData_DataGather_WV: {
+  GeneralTab: '@GeneralTab_WV',
+  ApplicantTab: '@ApplicantTab_WV',
+  ReportsTab: '@ReportsTab_WV',
+  PropertyInfoTab: '@PropertyInfoTab_WV',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_WV: {
+  State: 'WV',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_WV: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_WV',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+  
+DwellingAddress_WV: {
+  Zip code: '24714',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+ReportsTab_WV: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+
+PropertyInfoTab_WV: {
+  DwellingAddress: '@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@Construction_WV',
+  Interior: '@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: {}
+}
+
+Construction_WV: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: 'index=1',
+    Construction type: 'index=1',
+    Hail-resistance rating: 'index=1'
+}
+
+# --------- TestData WY ------------
+
+TestData_DataGather_WY: {
+  GeneralTab: '@GeneralTab_WY',
+  ApplicantTab: '@ApplicantTab_WY',
+  ReportsTab: '@ReportsTab_WY',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab',
+}
+
+GeneralTab_WY: {
+  State: 'WY',
+  Policy type: 'HO3',
+  Effective date: '/today+2d:MM/dd/yyyy',
+  Lead source: 'Book Roll',
+  CalVet: null,
+  Extraordinary Life Circumstance: null,
+  Immediate prior carrier: 'index=2',
+  Continuous years with immediate prior carrier: '5',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+ApplicantTab_WY: {
+  NamedInsured: ['@NamedInsured','@NamedInsured2'],
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress_WY',
+  PreviousDwellingAddress: {},
+  MailingAddress: {},
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@AgentInfo'
+}  
+  
+DwellingAddress_WY: {
+  Zip code: '82081',
+  Street address 1: 265 CHIPMAN AVE,
+  Validate Address: true,
+  Validate Address Dialog: {}
+}
+
+ReportsTab_WY: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+}
+

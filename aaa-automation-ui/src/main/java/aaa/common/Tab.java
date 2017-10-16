@@ -2,20 +2,17 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common;
 
+import aaa.common.components.Dialog;
+import aaa.common.pages.Page;
+import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import org.openqa.selenium.By;
-
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.BaseElement;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
-import aaa.common.components.Dialog;
-import aaa.common.pages.Page;
 
 /**
  * Abstract tab class.
@@ -50,14 +47,18 @@ public abstract class Tab {
 
 	public static Dialog dialogCancelAction = new Dialog(By.id("cancelConfirmDialogDialog_container"));
 
+	public static StaticElement labelPolicyNumber = new StaticElement(By.xpath("//span[@id = 'policyDataGatherForm:dataGatherHeaderSectionInfo']//td[2]//span"));
 	public static StaticElement labelLoggedUser = new StaticElement(By.id("logoutForm:userDetails"));
 
 	protected AbstractContainer<?, ?> assetList;
+	protected InquiryAssetList inquiryAssetList;
+
 	protected Class<? extends MetaData> metaDataClass;
 
 	protected Tab(Class<? extends MetaData> mdClass) {
 		metaDataClass = mdClass;
 		assetList = new AssetList(By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER), metaDataClass);
+		inquiryAssetList = new InquiryAssetList(By.xpath(Page.DEFAULT_ASSETLIST_CONTAINER), metaDataClass);
 	}
 
 	/**
@@ -70,8 +71,17 @@ public abstract class Tab {
 	}
 
 	/**
-	 * Get default asset list of this tab
+	 * Get asset list of this tab in Inquiry Mode
 	 * 
+	 * @return inquiry asset list
+	 */
+	public InquiryAssetList getInquiryAssetList() {
+		return inquiryAssetList;
+	}
+
+	/**
+	 * Get default asset list of this tab
+	 *
 	 * @return asset list
 	 */
 	public AbstractContainer<?, ?> getAssetList() {
@@ -170,7 +180,7 @@ public abstract class Tab {
 	}
 
 	public Tab verifyFieldHasMessage(String label, String expectedValue) {
-		String actualValue = assetList.getWarning(label).getValue().toString();
+		String actualValue = assetList.getWarning(label).getValue();
 		String errorMessage = String.format("'%s' field's actual warning '%s' is not equal to the expected warning of '%s'", label, actualValue, expectedValue);
 		CustomAssert.assertEquals(errorMessage, expectedValue, actualValue);
 		return this;
@@ -192,6 +202,14 @@ public abstract class Tab {
 
 	public Tab saveAndExit() {
 		buttonSaveAndExit.click();
+		if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
+			new TextBox(By.xpath("//textarea[@id='policyDataGatherForm:newbusinessnotes']")).setValue("save as incomplete");
+			Page.dialogConfirmation.confirm();
+		}
 		return this;
+	}
+
+	public String getPolicyNumber(){
+		return labelPolicyNumber.getValue();
 	}
 }

@@ -6,8 +6,10 @@ import org.testng.annotations.Test;
 
 import toolkit.verification.CustomAssert;
 import aaa.common.Tab;
+import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.HomeSSTab;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
@@ -142,7 +144,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
      * */
 
     @Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
     public void testPolicyDocuments(@Optional("") String state) {
     	CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -182,13 +184,13 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.DSIQXX, Documents.AHPNXX);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.quoteDocGen().start();
 		documentActionTab.generateDocuments(Documents.DS11.setState(getState()), Documents.AHFMXX, Documents.HSILXX);
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents.DS11, Documents.AHFMXX, Documents.HSILXX, Documents.AHPNXX);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.dataGather().start();
 		NavigationPage.toViewTab(HomeSSTab.PROPERTY_INFO.get());
 		policy.getDefaultView().getTab(PropertyInfoTab.class).fillTab(getTestSpecificTD("PropertyInfoTab_1000"));
@@ -232,7 +234,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.DS11, Documents.AHPNXX);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.policyDocGen().start();
 		documentActionTab.generateDocuments(
 				Documents.AHRCTXX, 
@@ -369,7 +371,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
      */
 
     @Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
     public void testMortgagePolicyDocuments(@Optional("") String state) {
     	CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -422,7 +424,7 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
 				Documents.HSU08XX
 				);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.purchase(getPolicyTD());
 		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.DS02, Documents.AHNBXX, Documents._438BFUNS);
@@ -506,13 +508,13 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
      * DS 04 71  15222: US CL GD-08 Generate DS 04 71 Endorsement
      * DS 04 73  15223: US CL GD-09 Generate DS 04 73 Endorsement
      * DS 04 95  15228: US CL GD-10 Generate DS 04 95 Endorsement
-     * DS 09 26  15229: US CL GD-11 Generate DS 09 26 Endorsement
+     * DS 09 26  15229: US CL GD-11 Generate DS 09 26 Endorsement (There is no DS 09 26 for NJ)
      * DS 09 34  15230: US CL GD-12 Generate DS 09 34 Endorsement
      * DS 24 82  15231: US CL GD-12 Generate DS 24 82 Endorsement
      */
 
     @Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
     public void testEndorsementsForms(@Optional("") String state) {
     	CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -535,17 +537,33 @@ public class TestDocgenScenarios extends HomeSSDP3BaseTest{
 		
 		policy.purchase(getPolicyTD());
 		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
-		DocGenHelper.verifyDocumentsGenerated(policyNum, 
-				Documents.DS0420,
-				Documents.DS0463,
-				Documents.DS0468,
-				Documents.DS0469,
-				Documents.DS0471,
-				Documents.DS0473,
-				Documents.DS0495,
-				Documents.DS0926,
-				Documents.DS0934,
-				Documents.DS2482);
+		switch(state){
+		case States.NJ:
+			DocGenHelper.verifyDocumentsGenerated(policyNum, 
+					Documents.DS0420,
+					Documents.DS0463,
+					Documents.DS0468,
+					Documents.DS0469,
+					Documents.DS0471,
+					Documents.DS0473,
+					Documents.DS0495,
+					Documents.DS0934,
+					Documents.DS2482);
+			break;
+		default:
+			DocGenHelper.verifyDocumentsGenerated(policyNum, 
+					Documents.DS0420,
+					Documents.DS0463,
+					Documents.DS0468,
+					Documents.DS0469,
+					Documents.DS0471,
+					Documents.DS0473,
+					Documents.DS0495,
+					Documents.DS0926,
+					Documents.DS0934,
+					Documents.DS2482);
+			break;
+		}
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
     }

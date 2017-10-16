@@ -12,7 +12,7 @@ PrefillTab_AZ: {
 }
 
 PremiumAndCoveragesTab: {
-  Payment Plan: 'Eleven Pay - Standard',
+  Payment Plan: 'Monthly',
   Policy Term: Annual,
   Bodily Injury Liability: 'contains=$100,000/$300,000',
   Comprehensive Deductible: 'contains=$750',
@@ -387,7 +387,22 @@ AH62XX_IN: {
 TestData_OK: {
   PrefillTab: '@PrefillTab_OK',
   GeneralTab: '@GeneralTab_OK',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab'
+  VehicleTab: {},
+  PremiumAndCoveragesTab: {
+   Payment Plan: 'Monthly',
+   Policy Term: Annual,
+   Bodily Injury Liability: 'contains=$100,000/$300,000'
+  },
+  DocumentsAndBindTab: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    'Non-Owner Automobile Endorsement': Physically Signed,
+  },
+  RequiredToIssue: {
+   Coverage Selection Form: 'Yes'
+  },
+  Agreement: I agree,
+}
 }
 
 PrefillTab_OK: {
@@ -400,9 +415,9 @@ PrefillTab_OK: {
 
 GeneralTab_OK: {
   NamedInsuredInformation: ['@NamedInsuredInformation_OK'],
-  AAAProductOwned: '@AAAProductOwned',
-  ContactInformation: '@ContactInformation',
-  PolicyInformation: '@PolicyInformation'
+  AAAProductOwned: '@AAAProductOwned_OK',
+  ContactInformation: '@ContactInformation_OK',
+  PolicyInformation: '@PolicyInformation_OK'
 }
 
 NamedInsuredInformation_OK: {
@@ -480,7 +495,7 @@ AHIBXX_OK: {
    NmdInsrdZipPls4: {TextField: '73099'}
  },
  VehicleDetails: {
-   PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
+   PlcyVehInfo: {TextField: '2000 OTHER OTHER'},
  },
 }
 
@@ -520,7 +535,7 @@ AH34XX_OK: {
     MrtGgeYN: {TextField: 'N'},
   },
   VehicleDetails: {
-   PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
+   PlcyVehInfo: {TextField: '2000 NANO NANO'},
  }
 }
 
@@ -550,7 +565,7 @@ AH67XX_OK: {
     CancEffDt: {DateTimeField: ''},
   },
   VehicleDetails: {
-   PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
+   PlcyVehInfo: {TextField: '2000 NANO NANO'},
  }
 }
 
@@ -590,7 +605,7 @@ AH62XX_OK: {
     ReinstmtFee: {TextField: ''}
   },
   VehicleDetails: {
-   PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
+   PlcyVehInfo: {TextField: '2000 NANO NANO'},
  },
  PaymentDetails: {
   PlcyPayFullAmt: {TextField: ''},

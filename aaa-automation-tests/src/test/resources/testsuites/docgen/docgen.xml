@@ -8,6 +8,7 @@
 
     <suite-files>
         <suite-file path="./property_docgen.xml" />
+        <suite-file path="./auto_docgen.xml" />
     </suite-files>
 
 </suite>
