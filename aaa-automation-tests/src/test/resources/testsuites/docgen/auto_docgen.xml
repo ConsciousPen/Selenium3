@@ -13,14 +13,12 @@
         </classes>
     </test>
     
-	<!-- 
 	<test name="TestScenario2">
         <parameter name="state" value="AZ, IN, OK, PA" />
         <classes>
             <class name="aaa.modules.docgen.auto_ss.TestScenario2" />
         </classes>
     </test>
-	 -->
 	 
 	<test name="TestScenario3">
         <parameter name="state" value="AZ, IN, OK, PA" />

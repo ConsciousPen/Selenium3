@@ -72,7 +72,7 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest{
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC01_Quote_Documents(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -184,7 +184,7 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest{
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_Quote_Documents")
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_Quote_Documents")
 	public void TC02_Policy_Documents(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -210,10 +210,12 @@ public class TestDocgenScenarios extends HomeSSHO4BaseTest{
 		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.policyDocGen().start();
 		goddTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"), AHRCTXX, HSEIXX, HSILXX, HSU01XX, HSU09XX);
+		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, AHRCTXX, HSEIXX, HSILXX, HSU01XX, HSU09XX);
 
 		// when the policy with cancel notice flag, HSU02XX will display as
 		// enable
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.cancelNotice().perform(getTestSpecificTD("TestData_CancelNotice"));
 		PolicySummaryPage.labelCancelNotice.verify.present();
 		policy.policyDocGen().start();

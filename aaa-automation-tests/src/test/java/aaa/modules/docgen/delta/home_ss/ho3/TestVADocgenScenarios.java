@@ -3,7 +3,9 @@ package aaa.modules.docgen.delta.home_ss.ho3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
 import toolkit.verification.CustomAssert;
+import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
@@ -66,7 +68,7 @@ public class TestVADocgenScenarios extends HomeSSHO3BaseTest{
      * 15687:US SCL Hurricane Deductible Endorsement
      */
     @Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
     public void testDeltaPolicyDocuments(@Optional("") String state) {
     	CustomAssert.enableSoftMode();
 		mainApp().open();

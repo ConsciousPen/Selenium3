@@ -119,7 +119,7 @@ public class PlatformRestServiceUtils {
     private String generateEndpoint() {
         String endpoint = PropertyProvider.getProperty(String.format("rest.%1$s.endpoint", "platform-rs"));
         if (endpoint.isEmpty()) {
-            String[] slitURL = Application.formatURL(Application.AppType.EU).split(":");
+            String[] slitURL = Application.getURL(Application.AppType.EU).split(":");
             endpoint = slitURL[0] + ":" + slitURL[1] + ":8020/ipb-testsupport-app-mssql/services/platform-rs/dev/v1/persistence/entity";
         }
         return endpoint;

@@ -51,11 +51,14 @@ public class TestScenario1 extends AutoSSBaseTest {
 	private String reCalcTotFee;
 	private String reinEffDt;
 	private String priorReinEffDt;
+	private String currentDate;
+	private LocalDateTime cancellationDate;
 
 	@Parameters({ "state" })
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@Test(groups = { Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL })
 	public void TC01_CreatePolicy(@Optional("") String state) {
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
+		currentDate = DateTimeUtils.getCurrentDateTime().format(DateTimeUtils.MM_DD_YYYY);
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().parse(currentDate, DateTimeUtils.MM_DD_YYYY).plusYears(1));
 		mainApp().open();
 
 		createCustomerIndividual();
@@ -82,7 +85,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 	 */
 
 	@Parameters({ "state" })
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
+	@Test(groups = { Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC02_GenerateBillingInvoice(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		LocalDateTime billingGenerationDate = getTimePoints().getBillGenerationDate(installmentDD1);
@@ -126,7 +129,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 	 */
 
 	@Parameters({ "state" })
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
+	@Test(groups = { Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC03_GenerateCancelNotice(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 
@@ -142,7 +145,8 @@ public class TestScenario1 extends AutoSSBaseTest {
 		BillingSummaryPage.open();
 		plcyPayMinAmt = formatValue(BillingSummaryPage.getMinimumDue().toString());
 		plcyPayFullAmt = formatValue(BillingSummaryPage.getTotalDue().toString().replace("$", ""));
-		plcyDueDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(BillingBillsAndStatmentsTable.TYPE, "Cancellation Notice").getCell(BillingBillsAndStatmentsTable.DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
+		plcyDueDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(BillingBillsAndStatmentsTable.TYPE, "Cancellation Notice").getCell(BillingBillsAndStatmentsTable.DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));		
+		cancellationDate = TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(BillingBillsAndStatmentsTable.TYPE, "Cancellation Notice").getCell(BillingBillsAndStatmentsTable.DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
 
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, AH34XX).verify.mapping(getTestSpecificTD("TestData_AH34XX_Verification")
 								.adjust(TestData.makeKeyPath("AH34XX", "form","PlcyNum", "TextField"), policyNumber)
@@ -167,11 +171,9 @@ public class TestScenario1 extends AutoSSBaseTest {
 	 */
 
 	@Parameters({ "state" })
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
+	@Test(groups = { Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC04_GenerateCancellation(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
-
-		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(installmentDD1);
 		log.info("Cancellation Generatetion Date" + cancellationDate);
 		TimeSetterUtil.getInstance().nextPhase(cancellationDate);
 		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob,true);
@@ -205,12 +207,11 @@ public class TestScenario1 extends AutoSSBaseTest {
 	 */
 
 	@Parameters({ "state" })
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
+	@Test(groups = { Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC05_ReinstatementPolicy(@Optional("") String state) {
 		
-		LocalDateTime reinstateDate = getTimePoints().getCancellationDate(installmentDD1).plusDays(13);
-		TimeSetterUtil.getInstance().nextPhase(reinstateDate);
-		log.info("Reinstatement Date"+reinstateDate);
+		currentDate = DateTimeUtils.getCurrentDateTime().format(DateTimeUtils.MM_DD_YYYY);
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().parse(currentDate, DateTimeUtils.MM_DD_YYYY).plusDays(13));
 		
 		CustomAssert.enableSoftMode();
 

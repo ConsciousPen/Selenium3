@@ -28,7 +28,6 @@ public class PolicySummaryPage extends SummaryPage {
 	public static StaticElement labelRenewals = new StaticElement(By.id("productContextInfoForm:lnkRenewals"));
 	public static StaticElement labelCancelNotice = new StaticElement(By.id("productContextInfoForm:cancelNoticeFlag"));
 	public static StaticElement labelDoNotRenew = new StaticElement(By.id("productContextInfoForm:doNotRenewFlag"));
-	public static StaticElement labelTermIncludesLapsePeriod = new StaticElement(By.id("productContextInfoForm:lapseExistsFlag"));
 	public static StaticElement labelManualRenew = new StaticElement(By.id("productContextInfoForm:manualRenewFlag"));
 	public static StaticElement labelPremiumWaived = new StaticElement(By.id("productContextInfoForm:premiumWaivedFlag"));
 	public static StaticElement labelLapseExist = new StaticElement(By.id("productContextInfoForm:lapseExistsFlag"));

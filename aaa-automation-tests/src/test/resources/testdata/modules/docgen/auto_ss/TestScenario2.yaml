@@ -208,7 +208,7 @@ DocumentsAndBindTab_IN: {
     Auto Insurance Application: Not Signed,
    'Uninsured/Underinsured Coverage - Rejection or Election of Lower Limits': Not Signed,
    Rejection of UMPD Coverage: Not Signed,
-    Named Driver Exclusion: Not Signed
+   Named Driver Exclusion Election: Not Signed
   },
   Agreement: I agree
 }
@@ -1073,7 +1073,7 @@ AA10XX_AZ: {
     VehAddFlg: {TextField: 'Y'},
     VehManfrNm: {TextField: 'KIA'},
     VehMdelNm: {TextField: 'SOUL'},
-    VehBdyTyp: {TextField: 'WAGON 4 DOOR'},
+    VehBdyTyp: {TextField: ''},
     VehIdNum: {TextField: 'KNDJT2A2XA7038383'}
   }
   ], 
@@ -1136,7 +1136,7 @@ AA02AZ: {
     VehTyp: {TextField: 'Golf'},
     VehManufactureYear: {TextField: '2010'},
     VehManfrNm: {TextField: 'KIA'},
-    VehMdelNm: {TextField: 'SOUL WAGON 4 DOOR'},
+    VehMdelNm: {TextField: 'SOUL'},
     VehIdNum: {TextField: 'KNDJT2A2XA7038383'},
     VehUnitNum: {TextField: '2'},
     VehDiscDesc: {TextField: ''},
@@ -1767,8 +1767,7 @@ AA02IN: {
   VehStatedAmt: {TextField: '0.00'},
   },
   PaymentDetails: {
-    PlcyTotPrem: {TextField: ''},
-    PlcyTotFee: {TextField: ''}
+    PlcyTotPrem: {TextField: ''}
   },
   DriverDetails: [
   {
@@ -3307,7 +3306,7 @@ AA02AZ_ED: {
     VehTyp: {TextField: 'Golf'},
     VehManufactureYear: {TextField: '2010'},
     VehManfrNm: {TextField: 'KIA'},
-    VehMdelNm: {TextField: 'SOUL WAGON 4 DOOR'},
+    VehMdelNm: {TextField: 'SOUL'},
     VehIdNum: {TextField: 'KNDJT2A2XA7038383'},
     VehUnitNum: {TextField: '2'},
     VehDiscDesc: {TextField: ''},
@@ -3348,7 +3347,7 @@ AA02AZ_ED: {
   ],
   PlcyAutoDeadBenPrem: {TextField: '0.00'},
   PlcyAutoDeadBenDed: {TextField: '0.00'}, 
-  NetWrtPrem: {TextField: ''},
+#  NetWrtPrem: {TextField: ''},
 #  PlcyMpEaPers: {},
 #  VehBdyInjPrem: {},
 #  VehPDPrem: {},
@@ -3899,7 +3898,7 @@ AA02IN_ED: {
   PlcyAutoDeadBenPrem: {TextField: '0.00'},
   PlcyAutoDeadBenDed: {TextField: '0.00'}, 
   PlcyUMPDEaOcc: {TextField: '0'}, 
-  NetWrtPrem: {TextField: ''},
+#  NetWrtPrem: {TextField: ''},
 #  PlcyMpEaPers: {},
 #  VehBdyInjPrem: {},
 #  VehPDPrem: {},
@@ -3928,8 +3927,7 @@ AA02IN_ED: {
   VehStatedAmt: {TextField: '0.00'},
   },
   PaymentDetails: {
-    PlcyTotPrem: {TextField: ''},
-    PlcyTotFee: {TextField: ''}
+    PlcyTotPrem: {TextField: ''}
   },
   DriverDetails: [
   {
@@ -4884,7 +4882,7 @@ AA02PA_ED: {
    ],
 #   VehTotPrem: {TextField: ''},
    AllVehTotPrem: {TextField: ''},
-   NetWrtPrem: {TextField: ''},
+#   NetWrtPrem: {TextField: ''},
  },
  PaymentDetails: {
  PlcyTotPrem: {TextField: ''},
@@ -5065,7 +5063,7 @@ AA10XX_Renewal_AZ: {
     VehAddFlg: {TextField: ''},
     VehManfrNm: {TextField: 'KIA'},
     VehMdelNm: {TextField: 'SOUL'},
-    VehBdyTyp: {TextField: 'WAGON 4 DOOR'},
+    VehBdyTyp: {TextField: ''},
     VehIdNum: {TextField: 'KNDJT2A2XA7038383'}
   },
   {
@@ -5136,7 +5134,7 @@ AA02AZ_Renewal: {
     VehTyp: {TextField: 'Golf'},
     VehManufactureYear: {TextField: '2010'},
     VehManfrNm: {TextField: 'KIA'},
-    VehMdelNm: {TextField: 'SOUL WAGON 4 DOOR'},
+    VehMdelNm: {TextField: 'SOUL'},
     VehIdNum: {TextField: 'KNDJT2A2XA7038383'},
     VehUnitNum: {TextField: '2'},
     VehDiscDesc: {TextField: ''},
@@ -5268,7 +5266,7 @@ AA02AZ_Renewal: {
   },
   PaymentDetails: {
     PlcyTotPrem: {TextField: ''},
-    PlcyTotFee: {TextField: ''}
+    #PlcyTotFee: {TextField: ''}
   },
   DriverDetails: [
   {
@@ -5574,8 +5572,7 @@ AA02IN_Renewal: {
   ],
   },
   PaymentDetails: {
-    PlcyTotPrem: {TextField: ''},
-    PlcyTotFee: {TextField: ''}
+    PlcyTotPrem: {TextField: ''}
   },
   DriverDetails: [
   {
@@ -6918,7 +6915,7 @@ form: {
    PlcyDueDt: {DateTimeField: ''},
 #   PlcyPayFullAmt: {TextField: ''},
    NSFPayRstrYN: {TextField: 'N'},
-   PlcyPastDueBal: {TextField: '0.00'},
+   PlcyPastDueBal: {TextField: ''},
    PlcyTotRnwlPrem: {TextField: ''},
    PayMeth: {TextField: 'Credit Card'},
    PLIGAFee: {TextField: '0.00'}

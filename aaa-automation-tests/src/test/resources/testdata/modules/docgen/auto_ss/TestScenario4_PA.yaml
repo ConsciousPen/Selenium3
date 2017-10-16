@@ -122,7 +122,7 @@ AHRBXX: {
    PlcyDueDt: {DateTimeField: ''},
 #   PlcyPayFullAmt: {TextField: ''},
    NSFPayRstrYN: {TextField: 'N'},
-   PlcyPastDueBal: {TextField: '0.00'},
+   PlcyPastDueBal: {TextField: '89.00'},
    PlcyTotRnwlPrem: {TextField: ''},
    PayMeth: {TextField: ''},
    PLIGAFee: {TextField: '0.00'}

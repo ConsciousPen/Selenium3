@@ -47,7 +47,7 @@ public class TestDocgenScenarios extends HomeCaHO6BaseTest {
      * Verify that all enabled documents can be generated
      */
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testQuoteDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -152,7 +152,7 @@ public class TestDocgenScenarios extends HomeCaHO6BaseTest {
      * Verify that AHPNCA must be generated with 61_4002 (Application documents)
      */
 	@Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testPolicyDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
