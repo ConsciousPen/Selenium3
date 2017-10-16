@@ -41,13 +41,13 @@ State: NJ
 
 ChnagePersonalUmbrellaLimit2000: {
   PremiumAndCoveragesQuoteTab: {
-  Personal Umbrella: '$2,000,000'
+  Personal Umbrella: 'contains=$2,000,000'
   }
 }
 
 ChnagePersonalUmbrellaLimit1000: {
   PremiumAndCoveragesQuoteTab: {
-  Personal Umbrella: '$1,000,000'
+  Personal Umbrella: 'contains=$1,000,000'
   },
   UnderwritingAndApprovalTab: {},
   DocumentsTab: {},
