@@ -2,13 +2,12 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.helpers;
 
+import com.exigen.ipb.etcsa.utils.Dollar;
+import toolkit.webdriver.controls.composite.table.Table;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
-
-import toolkit.webdriver.controls.composite.table.Table;
 
 public abstract class TableVerifier {
 
@@ -25,11 +24,16 @@ public abstract class TableVerifier {
     public TableVerifier verifyPresent(boolean expectedValue) {
         String message;
         if (expectedValue) {
-            message = String.format("Row with values %s in table '%s' is present", values, getTableName());
+            message = String.format("Row with values %s in table '%s' is present.", values, getTableName());
         } else {
-            message = String.format("Row with values %s in table '%s' is absent", values, getTableName());
+            message = String.format("Row with values %s in table '%s' is absent.", values, getTableName());
         }
         getTable().getRow(values).verify.present(message, expectedValue);
+        return this;
+    }
+
+    public TableVerifier verifyCount(int count) {
+        getTable().verify.rowsCount(count, values);
         return this;
     }
 
@@ -58,4 +62,5 @@ public abstract class TableVerifier {
         values.put(columnName, expectedValue);
         return this;
     }
+
 }

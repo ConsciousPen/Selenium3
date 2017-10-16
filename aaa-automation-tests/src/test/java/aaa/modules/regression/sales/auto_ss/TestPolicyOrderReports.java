@@ -2,6 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -25,9 +27,10 @@ import toolkit.utils.datetime.DateTimeUtils;
  */
 public class TestPolicyOrderReports extends AutoSSBaseTest {
 
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testPolicyOrderReports() {
+	public void testPolicyOrderReports(@Optional("") String state) {
 
 		TestData class_td = getTestSpecificTD("TestData");
 		MultiInstanceBeforeAssetList aiAssetList = new DriverTab().getActivityInformationAssetList();
@@ -40,7 +43,12 @@ public class TestPolicyOrderReports extends AutoSSBaseTest {
 
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(class_td, DriverActivityReportsTab.class, true);
-			
+		
+		DriverActivityReportsTab driverActivityReportTab = new DriverActivityReportsTab();
+		if (driverActivityReportTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).isPresent()) {
+			driverActivityReportTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).setValue("I Agree");
+			driverActivityReportTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY).click();
+		}
 		
 		DriverActivityReportsTab.tableCLUEReports.getRow(1).getCell("Response").verify.value("processing complete, with results information");
 		
@@ -110,9 +118,13 @@ public class TestPolicyOrderReports extends AutoSSBaseTest {
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.TYPE).setValue("At-Fault Accident");
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION).setValue("Accident (Property Damage Only)");
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE).setValue(DateTimeUtils.getCurrentDateTime().minusDays(30).format(DateTimeUtils.MM_DD_YYYY));
-		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).setValue("1500");
+		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).setValue("1600");
 		
-		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_POINTS).verify.value("6");
+		//030-144-19CT Driver can not be charged for the first Property Damage Claim > $1000
+		//030-144-15NY Points are applied for Property Damage accidents with amount > 2001
+		if (!(getState().equals("NY") || getState().equals("CT"))){
+		   aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_POINTS).verify.value("6");
+		}
 		
 	}
 

@@ -2,27 +2,9 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import aaa.helpers.AaaTestListener;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.Assert;
-import org.testng.annotations.*;
-
-import com.exigen.ipb.etcsa.base.app.ApplicationFactory;
-import com.exigen.ipb.etcsa.base.app.MainApplication;
-import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
-
 import aaa.EntityLogger;
 import aaa.common.enums.Constants;
 import aaa.common.enums.Constants.States;
-import aaa.main.enums.SearchEnum;
-import aaa.main.enums.SearchEnum.SearchBy;
-import aaa.main.enums.SearchEnum.SearchFor;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.metadata.LoginPageMeta;
 import aaa.common.pages.LoginPage;
@@ -32,19 +14,32 @@ import aaa.helpers.EntitiesHolder;
 import aaa.helpers.TestDataManager;
 import aaa.helpers.TimePoints;
 import aaa.helpers.config.CustomTestProperties;
+import aaa.helpers.listeners.AaaTestListener;
+import aaa.main.enums.SearchEnum;
+import aaa.main.enums.SearchEnum.SearchBy;
+import aaa.main.enums.SearchEnum.SearchFor;
 import aaa.main.modules.customer.Customer;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.rest.policy.PolicyRestImpl;
+import com.exigen.ipb.etcsa.base.app.*;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import org.testng.annotations.*;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.verification.CustomAssert;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Listeners({AaaTestListener.class})
 public class BaseTest {
@@ -57,7 +52,6 @@ public class BaseTest {
 	protected Customer customer = new Customer();
 	private TestData tdSpecific;
 	protected TestDataManager testDataManager;
-	private String quoteNumber;
 	private static ThreadLocal<String> state = new ThreadLocal<>();
 	private static String usState = PropertyProvider.getProperty("test.usstate");
 	private static Map<String, Integer> policyCount = new HashMap<>();
@@ -78,10 +72,6 @@ public class BaseTest {
 		return null;
 	}
 
-	protected PolicyRestImpl getPolicyRest() {
-		return getPolicyType().getPolicyRest().createInstance(customerNumber, quoteNumber);
-	}
-
 	public static String getState() {
 		return state.get();
 	}
@@ -94,32 +84,36 @@ public class BaseTest {
 		return new TimePoints(testDataManager.timepoint.get(getPolicyType()).getTestData(getStateTestDataName("TestData")));
 	}
 
-	@Parameters({"state"})
 	@BeforeMethod(alwaysRun = true)
-	public void beforeMethodStateConfiguration(@Optional("") String state) {
-		if (isStateCA()) {
+	public void beforeMethodStateConfiguration(Object[] parameters) {
+		if (parameters != null && parameters.length != 0 && StringUtils.isNotBlank(parameters[0].toString()))
+			setState(parameters[0].toString());
+		else if (isStateCA())
 			setState(Constants.States.CA);
-		} else if (StringUtils.isNotBlank(usState) && StringUtils.isBlank(state)) {
+		else if (StringUtils.isNotBlank(usState))
 			setState(usState);
-		} else if (StringUtils.isNotBlank(state)) {
-			setState(state);
-		} else {
-			setState(States.UT);
-		}
+		else setState(States.UT);
 	}
 
 	/**
 	 * Login to the application
 	 */
 	public MainApplication mainApp() {
-		return ApplicationFactory.get().mainApp(new LoginPage(initiateLoginTD()));
+		return CSAAApplicationFactory.get().mainApp(new LoginPage(initiateLoginTD()));
 	}
 
 	/**
 	 * Login to the application and open admin page
 	 */
-	public MainApplication adminApp() {
-		return ApplicationFactory.get().adminApp(new LoginPage(initiateLoginTD()));
+	public AdminApplication adminApp() {
+		return CSAAApplicationFactory.get().adminApp(new LoginPage(initiateLoginTD()));
+	}
+
+	/**
+	 * Login to the application and open reports app
+	 */
+	protected OperationalReportApplication opReportApp() {
+		return CSAAApplicationFactory.get().opReportApp(new LoginPage(initiateLoginTD()));
 	}
 
 	@AfterMethod(alwaysRun = true)
@@ -129,20 +123,12 @@ public class BaseTest {
 		}
 	}
 
-	/*@AfterClass(alwaysRun = true)
-	public void closeBrowser() {
-		if (isCiModeEnabled) {
-			closeAllApps();
-		}
-	}*/
-
 	@AfterSuite(alwaysRun = true)
 	public void afterSuite() {
 		if (isCiModeEnabled) {
 			closeAllApps();
 		}
 	}
-
 
 	/**
 	 * Create individual customer using default TestData
@@ -188,6 +174,7 @@ public class BaseTest {
 		}
 		return createQuote(td);
 	}
+
 
 	/**
 	 * Create quote using provided TestData</br>
@@ -297,7 +284,7 @@ public class BaseTest {
 		}
 		//remember customer that was created in test
 		String customerNum = CustomerSummaryPage.labelCustomerNumber.getValue();
-		Map<String, String> returnValue = new LinkedHashMap<String, String>();
+		Map<String, String> returnValue = new LinkedHashMap<>();
 		String state = getState().intern();
 		synchronized (state) {
 			PolicyType type;
@@ -337,7 +324,7 @@ public class BaseTest {
 	}
 
 	/**
-	 * Should be used for creation of custom policies to use them durring PUP policy creation.\
+	 * Should be used for creation of custom Underlying Home or Auto policies to use them durring PUP policy creation.\
 	 *
 	 * @param tdHomeAdjustment - TestData adjustment for creation of Home HO3 policy (use state specific test data for HOME_CA product)
 	 * @param tdAutoAdjustment - TestData adjustment for creation of AUTO_CA policy
@@ -351,10 +338,12 @@ public class BaseTest {
 			PolicyType.HOME_CA_HO3.get().createPolicy(tdHomeData);
 			policies.put("Primary_HO3", PolicySummaryPage.labelPolicyNumber.getValue());
 
-			TestData tdAuto = testDataManager.policy.get(PolicyType.AUTO_CA_SELECT);
-			TestData tdAutoData = getStateTestData(tdAuto, "DataGather", "TestData").adjust(tdAutoAdjustment);
-			PolicyType.AUTO_CA_SELECT.get().createPolicy(tdAutoData);
-			policies.put("Primary_Auto", PolicySummaryPage.labelPolicyNumber.getValue());
+			if (tdAutoAdjustment != null) {
+				TestData tdAuto = testDataManager.policy.get(PolicyType.AUTO_CA_SELECT);
+				TestData tdAutoData = getStateTestData(tdAuto, "DataGather", "TestData").adjust(tdAutoAdjustment);
+				PolicyType.AUTO_CA_SELECT.get().createPolicy(tdAutoData);
+				policies.put("Primary_Auto", PolicySummaryPage.labelPolicyNumber.getValue());
+			}
 		} else {
 			TestData tdHome = testDataManager.policy.get(PolicyType.HOME_SS_HO3);
 			TestData tdHomeData = getStateTestData(tdHome, "DataGather", "TestData").adjust(tdHomeAdjustment);
@@ -362,13 +351,6 @@ public class BaseTest {
 			policies.put("Primary_HO3", PolicySummaryPage.labelPolicyNumber.getValue());
 		}
 		return policies;
-	}
-
-	/**
-	 * Login to the application and open reports app
-	 */
-	protected OperationalReportApplication opReportApp() {
-		return ApplicationFactory.get().opReportApp(new LoginPage(initiateLoginTD()));
 	}
 
 	protected TestData getCustomerIndividualTD(String fileName, String tdName) {
@@ -397,7 +379,7 @@ public class BaseTest {
 		} else {
 			td = td.getTestData(tdName);
 			if (getState().equals(States.CA))
-				log.info(String.format("==== CA Test Data is used: %s ====", getState(), getStateTestDataName(tdName)));
+				log.info(String.format("==== CA Test Data is used: %s ====", getStateTestDataName(tdName)));
 			else
 				log.info(String.format("==== Default state UT Test Data is used. Requested Test Data: %s is missing ====", getStateTestDataName(tdName)));
 		}

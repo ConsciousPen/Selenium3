@@ -4,29 +4,31 @@ package aaa.common.components;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
-import aaa.common.metadata.SearchMetaData;
+
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.collection.Controls;
 import toolkit.webdriver.controls.composite.assets.AssetList;
+import aaa.common.metadata.SearchMetaData;
 
 public class Dialog {
 
-    public Button buttonYes;
-    public Button buttonNo;
-    public Button buttonOk;
-    public Button buttonCancel;
-    public Button buttonNext;
-    public Button buttonProceed;
-    public StaticElement labelHeader;
-    public StaticElement labelMessage;
-    public Controls controls;
+	public Button buttonYes;
+	public Button buttonNo;
+	public Button buttonOk;
+	public Button buttonCancel;
+	public Button buttonNext;
+	public Button buttonProceed;
+	public StaticElement labelHeader;
+	public StaticElement labelMessage;
+	public Controls controls;
+	public Button buttonDeleteEndorsement;
 	private By locator;
 
-    public Dialog(String dialogLocator) {
-        this(By.xpath(dialogLocator));
-    }
+	public Dialog(String dialogLocator) {
+		this(By.xpath(dialogLocator));
+	}
 
 	public Dialog(By dialogLocator) {
 		locator = dialogLocator;
@@ -38,32 +40,34 @@ public class Dialog {
 		buttonCancel = new Button(new ByChained(locator, By.xpath(".//*[@value='Cancel' or @value='CANCEL' or text()='Cancel' or text()='CANCEL']")));
 		buttonNext = new Button(new ByChained(locator, By.xpath(".//*[@value='Next' or text()='Next']")));
 		buttonProceed = new Button(new ByChained(locator, By.xpath(".//*[@value='Proceed' or text()='Proceed']")));
+		buttonDeleteEndorsement = new Button(new ByChained(locator, By.xpath(".//*[@value='Delete Endorsement']")));
 
 		labelHeader = new StaticElement(new ByChained(locator, By.xpath(".//div[contains(@id, '_header_content')]")));
 		labelMessage = new StaticElement(new ByChained(locator, By.xpath(".//div[contains(@id, '_content_scroller') or contains(@class,'content')]"
-				+ "//*[contains(@id, 'Message') or contains(@class, 'textBold') or contains(@class, 'message')]")));
+			+ "//*[contains(@id, 'Message') or contains(@class, 'textBold') or contains(@class, 'message')]")));
 
 	}
 
-    public boolean isPresent() {
-        return new StaticElement(locator).isPresent();
-    }
+	public boolean isPresent() {
+		return new StaticElement(locator).isPresent();
+	}
 
-    public boolean isVisible() {
-        return new StaticElement(locator).isVisible();
-    }
+	public boolean isVisible() {
+		return new StaticElement(locator).isVisible();
+	}
 
-    public By getLocator() {
-        return locator;
-    }
+	public By getLocator() {
+		return locator;
+	}
 
 	public void confirm() {
 		new Button(new ByChained(locator, By.xpath(".//*[text()='Yes' or text()='YES' or text()='Ok' or text()='OK' or text()='Confirm' or text()='Proceed' or text()='PROCEED' "
-				+ "or @value='Yes' or @value='YES' or @value='Ok' or @value='OK' or @value='Confirm' or @value='CONFIRM' or @value='Proceed' or @value='PROCEED']"))).click();
+			+ "or @value='Yes' or @value='YES' or @value='Ok' or @value='OK' or @value='Confirm' or @value='CONFIRM' or @value='Proceed' or @value='PROCEED' or @value='Accept & continue']"))).click();
 	}
 
 	public void reject() {
-		new Button(new ByChained(locator, By.xpath(".//*[@value='Cancel' or @value='CANCEL' or @value='No' or @value='NO' or text()='Cancel' or text()='CANCEL' or text()='No' or text()='NO']"))).click();
+		new Button(new ByChained(locator, By.xpath(".//*[@value='Cancel' or @value='CANCEL' or @value='No' or @value='NO' or text()='Cancel' or text()='CANCEL' or text()='No' or text()='NO']")))
+			.click();
 	}
 
 	public void fillAssetList(TestData testData, String nameOfAssetTypeRange) {

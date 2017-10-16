@@ -1,10 +1,11 @@
 package aaa.modules.regression.sales.pup;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.ErrorPage;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -45,9 +46,10 @@ public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest {
 	private UnderwritingAndApprovalTab underwritingTab = policy.getDefaultView().getTab(UnderwritingAndApprovalTab.class);
 	private ErrorTab errorTab = policy.getDefaultView().getTab(ErrorTab.class);
 	
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Sales.PUP)
-	public void testQuoteUnderwritingRules() {
+	public void testQuoteUnderwritingRules(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		
@@ -108,7 +110,7 @@ public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest {
 	
 	private void checkBottomError(TestData td) {
 		for (String error : td.getList(BOTTOM_ERROR_KEY)) {
-			ErrorPage.provideLabelErrorMessage(error).verify.present();
+			underwritingTab.verifyTabHasBottomMessage(error);
 		}
 	}
 	

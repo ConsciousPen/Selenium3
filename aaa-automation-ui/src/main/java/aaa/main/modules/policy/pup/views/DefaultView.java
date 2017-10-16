@@ -11,7 +11,6 @@ import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.pup.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
-import aaa.main.modules.policy.pup.defaulttabs.PurchasePaymentMethodTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAllResidentsTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
@@ -43,6 +42,5 @@ public class DefaultView extends Workspace {
         registerTab(BindTab.class);
         registerTab(ErrorTab.class);
         registerTab(PurchaseTab.class);
-        registerTab(PurchasePaymentMethodTab.class);
     }
 }

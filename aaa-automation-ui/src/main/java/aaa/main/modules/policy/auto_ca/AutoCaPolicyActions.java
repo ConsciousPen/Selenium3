@@ -4,6 +4,9 @@
  */
 package aaa.main.modules.policy.auto_ca;
 
+import aaa.common.pages.NavigationPage;
+import aaa.main.modules.policy.auto_ca.defaulttabs.CreateQuoteVersionTab;
+
 import org.openqa.selenium.By;
 
 import aaa.common.AbstractAction;
@@ -26,6 +29,7 @@ import aaa.main.modules.policy.auto_ca.views.DoNotRenewView;
 import aaa.main.modules.policy.auto_ca.views.EndorseView;
 import aaa.main.modules.policy.auto_ca.views.ManualRenewFlagView;
 import aaa.main.modules.policy.auto_ca.views.NonPremiumBearingEndorsementView;
+import aaa.main.modules.policy.auto_ca.views.PolicyDocGenView;
 import aaa.main.modules.policy.auto_ca.views.ProposeView;
 import aaa.main.modules.policy.auto_ca.views.ReinstateView;
 import aaa.main.modules.policy.auto_ca.views.RemoveDoNotRenewView;
@@ -155,6 +159,21 @@ public final class AutoCaPolicyActions {
         @Override
         public Workspace getView() {
             return new DefaultView();
+        }
+
+        @Override
+        public AbstractAction start() {
+            NavigationPage.setActionAndGo(getName());
+            new CreateQuoteVersionTab().submitIfPresent();
+            return this;
+        }
+
+        public AbstractAction start(TestData td) {
+            NavigationPage.setActionAndGo(getName());
+            CreateQuoteVersionTab versionTab = new CreateQuoteVersionTab();
+            versionTab.fillTab(td);
+            versionTab.submitTab();
+            return this;
         }
     }
 
@@ -339,4 +358,18 @@ public final class AutoCaPolicyActions {
             return new RollOnChangesView();
         }
     }
+    
+	public static class QuoteDocGen extends PolicyActions.QuoteDocGen {
+		@Override
+		public Workspace getView() {
+			return new PolicyDocGenView();
+		}
+	}
+
+	public static class PolicyDocGen extends PolicyActions.PolicyDocGen {
+		@Override
+		public Workspace getView() {
+			return new PolicyDocGenView();
+		}
+	}
 }

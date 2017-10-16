@@ -12,14 +12,14 @@ import aaa.rest.policy.personallines.PersonalLinesPolicyRest;
 
 /**
  * Single-root product (actually, entity) enum/factory.
- * 
+ *
  * @category Generated
  */
 public class PolicyType {
 
-	public static final PolicyType AUTO_CA_SELECT = new PolicyType("AutoCA", "California Auto", new AutoCaPolicy());
-	public static final PolicyType AUTO_CA_CHOICE = new PolicyType("AutoCAC", "California Auto", new AutoCaPolicy());
-	public static final PolicyType AUTO_SS = new PolicyType("AutoSS", "Auto Signature Series", new AutoSSPolicy());
+	public static final PolicyType AUTO_CA_SELECT = new PolicyType("AutoCA", "California Auto", true, new AutoCaPolicy());
+	public static final PolicyType AUTO_CA_CHOICE = new PolicyType("AutoCAC", "California Auto", true, new AutoCaPolicy());
+	public static final PolicyType AUTO_SS = new PolicyType("AutoSS", "Auto Signature Series", true, new AutoSSPolicy());
 	public static final PolicyType HOME_SS_HO3 = new PolicyType("HomeSS", "Homeowners Signature Series", new HomeSSPolicy());
 	public static final PolicyType HOME_SS_HO4 = new PolicyType("HomeSS_HO4", "Homeowners Signature Series", new HomeSSPolicy());
 	public static final PolicyType HOME_SS_HO6 = new PolicyType("HomeSS_HO6", "Homeowners Signature Series", new HomeSSPolicy());
@@ -33,12 +33,18 @@ public class PolicyType {
 	protected String shortName;
 	protected String fullName;
 	protected PolicyRest policyRest;
+	protected boolean isAutoPolicy;
 
 	public PolicyType(String shortName, String fullName, IPolicy policy) {
+		this(shortName, fullName, false, policy);
+	}
+
+	public PolicyType(String shortName, String fullName, boolean isAutoPolicy, IPolicy policy) {
 		this.shortName = shortName;
 		this.fullName = fullName;
 		this.policy = policy;
 		policyRest = new PersonalLinesPolicyRest(this);
+		this.isAutoPolicy = isAutoPolicy;
 	}
 
 	public String getName() {
@@ -55,6 +61,10 @@ public class PolicyType {
 
 	public PolicyRest getPolicyRest() {
 		return policyRest;
+	}
+
+	public boolean isAutoPolicy() {
+		return isAutoPolicy;
 	}
 
 	@Override

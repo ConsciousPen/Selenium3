@@ -2,6 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.pup;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -30,11 +32,13 @@ import toolkit.verification.CustomAssert;
  */
 public class TestPolicyEndorsementOos extends PersonalUmbrellaBaseTest {
 	
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.PUP )
-    public void testPolicyEndorsementOos() {
+    public void testPolicyEndorsementOos(@Optional("") String state) {
         mainApp().open();
         getCopiedPolicy();
+        
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
@@ -45,7 +49,7 @@ public class TestPolicyEndorsementOos extends PersonalUmbrellaBaseTest {
 
         log.info("OOS Endorsement for Policy #" + policyNumber);
         TestData endorsement_td1 = getStateTestData(testDataManager.getDefault(TestPolicyEndorsement.class), "TestData");
-        policy.createEndorsement(endorsement_td1.adjust(getPolicyTD("Endorsement", "TestData")));
+        policy.createEndorsement(endorsement_td1.adjust(getPolicyTD("Endorsement", "TestData_Plus10Day")));
 
         PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);

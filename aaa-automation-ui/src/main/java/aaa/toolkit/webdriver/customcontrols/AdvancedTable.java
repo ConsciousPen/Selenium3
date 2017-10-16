@@ -82,9 +82,9 @@ public class AdvancedTable extends TableWithPages {
 	}
 
 	@Override
-	public int getRowsCount() {
+	public int getAllRowsCount() {
 		resetAllFilters();
-		return super.getRowsCount();
+		return super.getAllRowsCount();
 	}
 
 	@Override
@@ -238,7 +238,7 @@ public class AdvancedTable extends TableWithPages {
 	}
 
 	private TextBox getFilterTextBoxByHeadersCell(Cell cell) {
-		return new TextBox(new ByChained(getLocator(), cell.getLocator(), By.xpath(".//input")), Waiters.AJAX);
+		return new TextBox(new ByChained(getLocator(), cell.getLocator(), By.xpath(".//input")), Waiters.SLEEP(500).then(Waiters.AJAX));
 	}
 
 	public class TableState {

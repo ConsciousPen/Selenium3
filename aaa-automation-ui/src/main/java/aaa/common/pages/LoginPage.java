@@ -118,8 +118,6 @@ public class LoginPage extends Page implements ILogin {
 
 	@Override
 	public void login(String username, String password, Boolean loginThroughURL) {
-		String serverUrl = Application.formatURL(ApplicationFactory.get().getAppType());
-		BrowserController.get().open(serverUrl);
 		fillLogin(username, password);
 		// TODO Workaround: Sometimes system throws out with timeout
 		if (!(lnkLogout.isPresent() && lnkLogout.isVisible())) {
@@ -158,8 +156,6 @@ public class LoginPage extends Page implements ILogin {
 
 	@Override
 	public void login(TestData td, Boolean loginViaURL) {
-/*		String serverUrl = Application.formatURL(ApplicationFactory.get().getAppType());
-		BrowserController.get().open(serverUrl);*/
 		fillLogin(td);
 		// TODO Workaround: Sometimes system throws out with timeout
 		if (!(lnkLogout.isPresent() && lnkLogout.isVisible())) {
@@ -172,18 +168,13 @@ public class LoginPage extends Page implements ILogin {
 		setApplicationLogFileName(td.getValue(LoginPageMeta.STATES.getLabel()));
 	}
 
-	private String getTestClassName() {
-		StackTraceElement result = Arrays.stream(Thread.currentThread().getStackTrace()).filter(s -> s.getClassName().contains("modules") && !s.getClassName().contains("scenario")).findFirst().orElse(null);
-
-		if (result == null) {
-			return "TestNameWasNotFound";
-		} else
-			return result.getClassName();
-	}
-
 	private void setApplicationLogFileName(String state) {
-		String className = getTestClassName();
-		BrowserController.get().open(BrowserController.get().driver().getCurrentUrl().replace("#noback", "") + "&scenarioName=" + className+"_"+ state);
+		String metghodName =  "TestNameWasNotFound";
+		StackTraceElement result = Arrays.stream(Thread.currentThread().getStackTrace()).filter(s -> s.getClassName().startsWith("aaa.modules")).reduce((a, b) -> b).orElse(null);
+		if (result != null) {
+			metghodName = result.getClassName() + "." + result.getMethodName();
+		}
+		BrowserController.get().open(BrowserController.get().driver().getCurrentUrl().replace("#noback", "") + "&scenarioName=" + metghodName + "_" + state);
 	}
 
 }

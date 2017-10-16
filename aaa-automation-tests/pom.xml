@@ -7,13 +7,13 @@
     <parent>
         <groupId>com.exigen.etcs</groupId>
         <artifactId>aaa</artifactId>
-        <version>1.2-SNAPSHOT</version>
+        <version>1.3-SNAPSHOT</version>
     </parent>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!--<browser.pool.config>${browser.pool.path}/${browser.pool.name}</browser.pool.config>-->
-        <browser.pool.name>1ThBrowserPool.xml</browser.pool.name>
+        <browser.pool.name>4ThBrowserPool.xml</browser.pool.name>
         <browser.pool.path>src/test/resources/config/browserpools</browser.pool.path>
         <timeshift.report.dir>target/test-output/timeshift-report</timeshift.report.dir>
         <dependency.locations.enabled>true</dependency.locations.enabled>
@@ -29,7 +29,7 @@
         <dependency>
             <groupId>com.exigen.etcs</groupId>
             <artifactId>aaa-automation-ui</artifactId>
-            <version>1.2-SNAPSHOT</version>
+            <version>1.3-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
@@ -42,8 +42,6 @@
                     <version>2.19.1</version>
                     <configuration>
                         <systemPropertyVariables>
-                            <browser.pool.name>${browser.pool.name}</browser.pool.name>
-                            <browser.pool.path>${browser.pool.path}</browser.pool.path>
                             <browser.pool.config>${browser.pool.path}/${browser.pool.name}</browser.pool.config>
                             <timeshift.report.dir>${timeshift.report.dir}</timeshift.report.dir>
                         </systemPropertyVariables>
@@ -98,16 +96,16 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
-                            <parallel>methods</parallel>
+                            <parallel>tests</parallel>
                             <threadCount>1024</threadCount>
                             <properties>
                                 <property>
                                     <name>listener</name>
-                                    <value>com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener</value>
+                                    <value>aaa.helpers.listeners.AlterSuiteListener,com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener</value>
                                 </property>
                             </properties>
                             <systemPropertyVariables>
-                                <timeshift-scenario-mode>method</timeshift-scenario-mode>
+                                <timeshift-scenario-mode>test</timeshift-scenario-mode>
                             </systemPropertyVariables>
                             <groups>${groups}</groups>
                             <excludedGroups>${excludedgroups}</excludedGroups>
@@ -127,8 +125,13 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.19.1</version>
                         <configuration>
+                            <properties>
+                                <property>
+                                    <name>listener</name>
+                                    <value>aaa.helpers.listeners.AlterSuiteListener</value>
+                                </property>
+                            </properties>
                             <groups>${groups}</groups>
                             <excludedGroups>${excludedgroups}</excludedGroups>
                             <includes>

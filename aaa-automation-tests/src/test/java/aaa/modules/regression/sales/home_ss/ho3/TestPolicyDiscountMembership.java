@@ -3,6 +3,8 @@ package aaa.modules.regression.sales.home_ss.ho3;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -64,9 +66,10 @@ public class TestPolicyDiscountMembership extends HomeSSHO3BaseTest {
 	private String policyNumber4; 
 	private Dollar origPolicyTermPremium;
 	
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-    public void testPolicyMembershipDiscount() {
+    public void testPolicyMembershipDiscount(@Optional("") String state) {
         mainApp().open();
         
         TestData td_MembershipPending = getTestSpecificTD("TestData_MembershipPending"); 

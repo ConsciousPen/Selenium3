@@ -74,6 +74,17 @@ public final class PolicyConstants {
         public static final String ANNUAL_PREMIUM = "Annual Premium";
     }
 
+
+
+    public static final class PolicyCoverageInstallmentFeeTable {
+        public static final String PAYMENT_METHOD = "Payment Method";
+        public static final String ENROLLED_IN_AUTO_PAY = "Enrolled in Auto Pay";
+        public static final String INSTALLMENT_FEE = "Installment Fee";
+    }
+
+
+
+
     public static final class PolicyCoveragePremiumSummaryTable {
         public static final String BILLABLE_PREMIUM = "Billable Premium";
     }
@@ -83,6 +94,7 @@ public final class PolicyConstants {
         public static final String AGENCY_PRODUCER = "Agency / Producer";
         public static final String EFFECTIVE_DATE = "Effective Date";
         public static final String EXPIRATION_DATE = "Expiration Date";
+        public static final String CANCELLATION_EFF_DATE = "Cancellation Eff. Date";
     }
 
     public static final class PolicyClassInformationTable {

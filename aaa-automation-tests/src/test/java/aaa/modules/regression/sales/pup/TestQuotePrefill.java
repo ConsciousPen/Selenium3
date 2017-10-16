@@ -2,6 +2,8 @@ package aaa.modules.regression.sales.pup;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -41,9 +43,10 @@ public class TestQuotePrefill extends PersonalUmbrellaBaseTest {
 	private String lastName;
 	private String zipCode;
 
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.HIGH })
 	@TestInfo(component = ComponentConstant.Sales.PUP)
-	public void testQuotePrefill() {
+	public void testQuotePrefill(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		storeCustomerInfo();

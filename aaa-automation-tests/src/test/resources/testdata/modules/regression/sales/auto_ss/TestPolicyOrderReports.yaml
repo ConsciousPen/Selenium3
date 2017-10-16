@@ -82,7 +82,7 @@ TestData_CT: {
 #-------- DC -----
 
 TestData_DC: {
-  PrefillTab: '@PrefillTab',
+  PrefillTab: '@PrefillTab_DC',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
   DriverTab: '@<auto_ss>@DataGather@DriverTab_DC',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
@@ -90,6 +90,16 @@ TestData_DC: {
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+PrefillTab_DC: {
+  First Name: Chad,
+  Last Name: Black,
+  Validate Address: click,
+  Validate Address Dialog: { 
+      Street Name: 265 CHIPMAN AVE
+     },
+  Order Prefill: click
 }
 
 #-------- DE -----
@@ -293,13 +303,20 @@ TestData_SD: {
 TestData_VA: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
-  DriverTab: '@<auto_ss>@DataGather@DriverTab_VA',
+  DriverTab: '@DriverTab_VA',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab'
+}
+
+DriverTab_VA: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 517788642
 }
 
 #-------- WV -----

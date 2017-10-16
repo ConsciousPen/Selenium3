@@ -1,6 +1,8 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
 import aaa.main.enums.ErrorEnum;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.common.enums.NavigationEnum;
@@ -48,9 +50,10 @@ import toolkit.utils.TestInfo;
  **/
 public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
 	
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
-    public void testPolicyFuturedated() {
+    public void testPolicyFuturedated(@Optional("") String state) {
         mainApp().open();
         
         createCustomerIndividual();
@@ -73,13 +76,13 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         policy.getDefaultView().fillFromTo(td, ApplicantTab.class, PurchaseTab.class, true);  
         new PurchaseTab().submitTab();
                 
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);        
-        
+        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_PENDING);                
 	}
 
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
-	public void testBackdatedPolicy() {
+	public void testBackdatedPolicy(@Optional("") String state) {
 		mainApp().open();
         
         createCustomerIndividual();
@@ -98,7 +101,7 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         new BindTab().btnPurchase.click();
         
         ErrorTab errorTab = new ErrorTab();
-        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_CA3230672);
+        errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3230000);
         errorTab.cancel();
         
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get());
@@ -112,8 +115,7 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);  
         new PurchaseTab().submitTab();
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);     
-        
+        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);             
 	}
 	
 }

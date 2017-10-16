@@ -3,6 +3,8 @@
 package aaa.modules.regression.sales.auto_ss;
 
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -27,9 +29,10 @@ import toolkit.webdriver.controls.composite.assets.MultiAssetList;
  */
 public class TestQuotePrefill extends AutoSSBaseTest {
 
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testPolicyPrefill1() {
+	public void testPolicyPrefill1(@Optional("") String state) {
 
 		mainApp().open();
 
@@ -63,6 +66,7 @@ public class TestQuotePrefill extends AutoSSBaseTest {
 		PrefillTab.tableDrivers.getRow(1).getCell("Last Name").verify.value(expectedLN);
 		PrefillTab.tableDrivers.getRow(1).getCell("Date of Birth").verify.value(expectedBirthDay);
 
+		if (!getState().equals("IN")) //additional vehicle is returned from stub for IN
 		CustomAssert.assertEquals("No vehicles should be returned from stub", 0, PrefillTab.tableVehicles.getRowsCount());
 
 		prefillTab.submitTab();
@@ -94,9 +98,10 @@ public class TestQuotePrefill extends AutoSSBaseTest {
 
 	}
 
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testPolicyPrefill2() {
+	public void testPolicyPrefill2(@Optional("") String state) {
 
 		mainApp().open();
 

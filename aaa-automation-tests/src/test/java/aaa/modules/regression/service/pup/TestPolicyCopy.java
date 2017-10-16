@@ -1,5 +1,7 @@
 package aaa.modules.regression.service.pup;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import aaa.helpers.constants.ComponentConstant;
@@ -24,9 +26,10 @@ public class TestPolicyCopy  extends PolicyCopy {
     * 4. Select "Data Gather" action and click Go button. Fill all mandatory fields and issue quote. Verify new policy is in Active satus. Verify new generated policy number.;
     * 
     **/
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.PUP )
-    public void testPolicyCopy() {
+    public void testPolicyCopy(@Optional("") String state) {
 		super.testPolicyCopy();
     }
 }

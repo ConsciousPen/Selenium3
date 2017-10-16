@@ -1,19 +1,19 @@
 package aaa.helpers.ssh;
 
-import java.io.File;
-import java.util.List;
-import java.util.Vector;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.SftpATTRS;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Vector;
+import java.util.concurrent.TimeUnit;
 
 public class RemoteHelper {
 
@@ -30,10 +30,26 @@ public class RemoteHelper {
 	}
 
 	public static void clearFolder(String folder) {
-		if (isFolderExist(folder))
+		if (isPathExist(folder))
 			ssh.removeFiles(folder);
 		else
 			log.warn("SSH: Folder '" + folder + "' doesn't exist.");
+	}
+
+	public static synchronized void downloadFileWithWait(String source, String destination, long timeout) {
+		log.info(String.format("SSH: File '%s' downloading to '%s' destination folder has been started.", source, destination));
+		long endTime = System.currentTimeMillis() + timeout;
+		while(!isPathExist(source)) {
+			if (endTime < System.currentTimeMillis()) {
+				throw new AssertionError(String.format("File '%s' wasn't found after %s ms of wait", source, timeout));
+			}
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				throw new IstfException(e);
+			}
+		}
+		ssh.downloadFile(source, destination);
 	}
 
 	public static void downloadFile(String source, String destination) {
@@ -41,8 +57,15 @@ public class RemoteHelper {
 		ssh.downloadFile(source, destination);
 	}
 
-	public static void uploadFile(String source, String destination) {
+	public static synchronized void uploadFile(String source, String destination) {
 		log.info(String.format("SSH: File '%s' uploading to '%s' destination folder has been started.", source, destination));
+		File destinationFile = new File(destination);
+		if (!isPathExist(destinationFile.getParent())) {
+			executeCommand("mkdir -p -m 777 " + ssh.parseFileName(destinationFile.getParent()));
+			if (destinationFile.getParentFile().getParentFile() != null) {
+				executeCommand("chmod -R 777 " + ssh.parseFileName(destinationFile.getParentFile().getParent()));
+			}
+		}
 		ssh.putFile(source, destination);
 	}
 
@@ -64,21 +87,21 @@ public class RemoteHelper {
 	}
 
 	public static String executeCommand(String command) {
-		log.info(String.format("SSH: Executing on host '%s' shell command: '%s'", hostName, command));
+		log.info(String.format("SSH: Executing on host \"%s\" shell command: \"%s\"", hostName, command));
 		String result = ssh.executeCommand(command);
-		log.info("SSH: Result of shell cmd: " + result);
+		log.info(String.format("SSH: command output is: \"%s\"", result));
 		return result;
 	}
 
-	public static Boolean isFolderExist(String source) {
+	public static boolean isPathExist(String path) {
 		SftpATTRS attrs = null;
-		source = ssh.parseFileName(source);
+		path = ssh.parseFileName(path);
 
 		try {
 			ChannelSftp channel = ssh.getSftpChannel();
-			attrs = channel.stat(source);
+			attrs = channel.stat(path);
 		} catch (Exception e) {
-			log.debug("SSH: Folder '" + source + "' doesn't exist.", e);
+			log.debug("SSH: File/folder '" + path + "' doesn't exist.", e);
 		}
 		return attrs != null;
 	}
@@ -96,6 +119,62 @@ public class RemoteHelper {
 		log.info(String.format("SSH: Folder '%s' was created", source));
 	}
 
+	public static void closeSession() {
+		ssh.closeSession();
+	}
+
+	public static String getFileContent(String filePath) {
+		log.info(String.format("SSH: Getting content from \"%s\" file", filePath));
+		return ssh.getFileContent(filePath);
+	}
+
+	public static List<String> waitForFilesAppearance(String sourceFolder, int timeout, String... textsToSearchPatterns) {
+		return waitForFilesAppearance(sourceFolder, null, timeout, textsToSearchPatterns);
+	}
+
+	/**
+	 * Wait for file(s) appearance with <b>fileExtension</b> containing all text patterns from <b>textsToSearchPatterns</b> array and sorted by modification date (latest one comes first)
+	 *
+	 * @param sourceFolder          folder where file(s) search will be performed
+	 * @param fileExtension         file extension filter, no filter will be used if value is null
+	 * @param textsToSearchPatterns texts to be searched patterns. If array is empty then search by file extension only.
+	 *                              If <b>fileExtension</b> is also not provided (value is null) then method will return all existing files from <b>sourceFolder</b> sorted by modification date
+	 * @param timeoutInSeconds      timeout in seconds
+	 * @return list of absolute paths of found files in chronological order (latest one comes first)
+	 * @throws AssertionError if no files where found within provided timeout
+	 */
+	public static List<String> waitForFilesAppearance(String sourceFolder, String fileExtension, int timeoutInSeconds, String... textsToSearchPatterns) {
+		final long conditionCheckPoolingIntervalInSeconds = 1;
+		StringBuilder grepCmd = new StringBuilder();
+		for (String textToSearch : textsToSearchPatterns) {
+			grepCmd.append(" | xargs -r grep -li '").append(textToSearch).append("'");
+		}
+		String cmd = String.format("cd %1$s; find . -type f -iname '*.%2$s' -print%3$s | xargs -r ls -t | xargs -r readlink -f", sourceFolder, fileExtension == null ? "*" : fileExtension, grepCmd.toString());
+		String searchParams = String.format("%1$s%2$s in \"%3$s\" folder with %4$s seconds timeout.",
+				fileExtension != null ? String.format(" with file extension \"%s\"", fileExtension) : "",
+				textsToSearchPatterns.length > 0 ? String.format(" containing text pattern(s): %s", Arrays.asList(textsToSearchPatterns)) : "",
+				sourceFolder, timeoutInSeconds);
+
+		log.info("Searching for file(s)" + searchParams);
+		long searchStart = System.currentTimeMillis();
+		long timeout = searchStart + timeoutInSeconds * 1000;
+		String commandOutput = "";
+		do {
+			if (!(commandOutput = executeCommand(cmd)).isEmpty()) break;
+			try {
+				TimeUnit.SECONDS.sleep(conditionCheckPoolingIntervalInSeconds);
+			} catch (InterruptedException e) {
+				log.debug(e.getMessage());
+			}
+		} while (timeout > System.currentTimeMillis());
+		long searchTime = System.currentTimeMillis() - searchStart;
+
+		CustomAssert.assertTrue("No files have been found" + searchParams, !commandOutput.isEmpty());
+		List<String> foundFiles = Arrays.asList(commandOutput.split("\n"));
+		log.info(String.format("Found file(s): %1$s after %2$s milliseconds", foundFiles, searchTime));
+		return foundFiles;
+	}
+
 	@SuppressWarnings("unchecked")
 	public synchronized void verifyFolderIsEmpty(String source) {
 		source = ssh.parseFileName(source);
@@ -107,8 +186,8 @@ public class RemoteHelper {
 		}
 	}
 
-	public static void closeSession() {
-		ssh.closeSession();
+	public static String getServerTimeZone() {
+		String cmd = "timedatectl | grep -oP 'Time zone: \\K.*(?= \\()'";
+		return executeCommand(cmd).trim();
 	}
-
 }

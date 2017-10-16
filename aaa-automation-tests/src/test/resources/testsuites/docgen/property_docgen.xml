@@ -1,0 +1,93 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Property Docgen Tests" verbose="1" parallel="tests" thread-count="1024">
+	<listeners>
+		<listener class-name="aaa.helpers.listeners.AlterSuiteListener" />
+		<listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
+	</listeners>
+	<parameter name="timeshift-scenario-mode" value="test" />
+	
+	<test name="Docgen Scenarios of Home_SS_HO3">
+        <parameter name="state" value="UT, AZ, NJ, PA" />
+        <classes>
+            <class name="aaa.modules.docgen.home_ss.ho3.TestDocgenScenarios" />
+        </classes>
+    </test>
+
+	<test name="Docgen Scenarios of Home_SS_HO4">
+        <parameter name="state" value="UT, AZ, NJ, PA" />
+        <classes>
+            <class name="aaa.modules.docgen.home_ss.ho4.TestDocgenScenarios" />
+        </classes>
+    </test>
+    
+	<test name="Docgen Scenarios of Home_SS_HO6">
+        <parameter name="state" value="UT, AZ, NJ, PA" />
+        <classes>
+            <class name="aaa.modules.docgen.home_ss.ho6.TestDocgenScenarios" />
+        </classes>
+    </test>
+    
+	<test name="Docgen Scenarios of Home_SS_DP3">
+        <parameter name="state" value="UT, AZ, NJ, PA" />
+        <classes>
+            <class name="aaa.modules.docgen.home_ss.dp3.TestDocgenScenarios" />
+        </classes>
+    </test>
+    
+	<test name="Docgen Scenarios of PUP">
+        <parameter name="state" value="UT, AZ, NJ, PA" />
+        <classes>
+            <class name="aaa.modules.docgen.pup.TestDocgenScenarios" />
+        </classes>
+    </test>
+    
+	<test name="Docgen Scenarios of Home_CA_HO3">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.docgen.home_ca.ho3.TestDocgenScenarios" />
+        </classes>
+    </test>
+    
+	<test name="Docgen Scenarios of Home_CA_HO4">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.docgen.home_ca.ho4.TestDocgenScenarios" />
+        </classes>
+    </test>
+    
+	<test name="Docgen Scenarios of Home_CA_HO6">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.docgen.home_ca.ho6.TestDocgenScenarios" />
+        </classes>
+    </test>
+    
+	<test name="Docgen Scenarios of Home_CA_DP3">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.docgen.home_ca.dp3.TestDocgenScenarios" />
+        </classes>
+    </test>
+    
+	<test name="Docgen Scenarios of PUP CA">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.docgen.pup.TestDocgenScenariosCA" />
+        </classes>
+    </test>
+    
+	<test name="Docgen Delta Scenarios - NJ">
+        <parameter name="state" value="NJ" />
+        <classes>
+            <class name="aaa.modules.docgen.delta.home_ss.dp3.TestNJDocgenScenarios" />
+            <class name="aaa.modules.docgen.delta.home_ss.ho3.TestNJDocgenScenarios" />
+        </classes>
+    </test>
+    
+	<test name="Docgen Delta Scenarios - VA">
+        <parameter name="state" value="VA" />
+        <classes>
+            <class name="aaa.modules.docgen.delta.home_ss.ho3.TestVADocgenScenarios" />
+        </classes>
+    </test>
+</suite>

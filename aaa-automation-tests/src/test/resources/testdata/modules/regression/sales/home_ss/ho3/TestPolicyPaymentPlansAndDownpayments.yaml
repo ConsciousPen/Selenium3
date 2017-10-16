@@ -12,7 +12,33 @@ TestData: {
   }
 }
 
+TestData_IncorrectValue: {
+  PurchaseTab: '@DownPayment_MoreThenRest'
+}
+
+TestData_CorrectValue: {
+  PurchaseTab: '@DownPayment_EqualsToRest'
+}
+
+DownPayment_MoreThenRest: {
+  Change Minimum Down Payment: true,
+  Minimum Required Down Payment: 0,
+  Reason for Changing: 'Companion Property Policy',
+  PaymentAllocation: {
+    Cash: 0
+  }
+}
+
+DownPayment_EqualsToRest: {
+  Change Minimum Down Payment: false,
+  PaymentAllocation: {
+    Cash: 0
+  }
+}
+
 # =============== TestData for custom states ===============
+
+# --- MortgageesTab ---
 
 TestData_AZ: {
   MortgageesTab: {

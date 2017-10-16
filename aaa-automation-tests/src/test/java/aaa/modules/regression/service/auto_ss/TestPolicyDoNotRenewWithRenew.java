@@ -1,5 +1,7 @@
 package aaa.modules.regression.service.auto_ss;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.utils.TestInfo;
@@ -28,17 +30,19 @@ public class TestPolicyDoNotRenewWithRenew extends PolicyDoNotRenewWithRenew{
         return PolicyType.AUTO_SS;
     }
     
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-    public void TC01_CreatePolicyAddDoNotRenew() {
+    public void TC01_CreatePolicyAddDoNotRenew(@Optional("") String state) {
 
         super.TC01_CreatePolicyAddDoNotRenew();
     }
     
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_CreatePolicyAddDoNotRenew",
 			groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
-	public void TC02_RenewPolicy() {
+	public void TC02_RenewPolicy(@Optional("") String state) {
 		super.TC02_RenewPolicy();
 	}
 }

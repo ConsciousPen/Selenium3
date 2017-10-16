@@ -29,6 +29,10 @@ public interface IBillingAccount {
     BillingAccountActions.WaiveFee waiveFee();
 
     BillingAccountActions.Refund refund();
+    
+    BillingAccountActions.ApproveRefund approveRefund();
+    
+    BillingAccountActions.IssueRefund issueRefund();
 
     BillingAccountActions.Update update();
 
@@ -39,4 +43,6 @@ public interface IBillingAccount {
     BillingAccountActions.ViewModalPremium viewModalPremium();
 
     BillingAccountActions.UnallocatePayment unallocatePayment();
+
+    BillingAccountActions.ChangePaymentPlan changePaymentPlan();
 }

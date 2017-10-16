@@ -2,6 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.home_ca.ho4;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.helpers.constants.ComponentConstant;
@@ -22,9 +24,10 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyCreation extends HomeCaHO4BaseTest {
 
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4) 
-    public void testPolicyCreation() {
+    public void testPolicyCreation(@Optional("CA") String state) {
         mainApp().open();
         createCustomerIndividual();
         policy.createPolicy(getPolicyTD("DataGather", "TestData"));

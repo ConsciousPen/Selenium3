@@ -108,6 +108,14 @@ PurchaseTab_WithAutopay: {
   }
 }
 
+PurchaseTab_AddCard_NoAutopay: {
+  PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa'],
+  Activate Autopay: false,
+  PaymentAllocation: {
+    Cash: /rest
+  }
+}
+
 # ApplicantTab
 NamedInsured: {
   Relationship to primary named insured:  Primary Insured,
@@ -698,7 +706,7 @@ DwellingAddress_KS: {
   Zip code: '66006',
   Street address 1: 265 CHIPMAN AVE,
   Validate Address: true,
-  Validate Address Dialog: {}
+  Validate Address Dialog: {Select Address: override}
 } 
 
 OtherActiveAAAPolicies_KS: {

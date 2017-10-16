@@ -32,6 +32,28 @@ TestData_AZ: {
   Cancellation notice: [8, NEXT],
   Cancellation: [8, NEXT],
   Renew customer decline: [15, NEXT],
+  Insurance renewal reminder: [10, NEXT],
+  Pay Lapsed Renew short: [2, NEXT],
+  Pay Lapsed Renew long: [16, NEXT],
+  Earned premium bill first: [15, NONE],
+  Earned premium bill second: [30, NONE],
+  Earned premium bill third: [45, NONE],
+  Earned premium write off: [60, NEXT]
+}
+
+TestData_CA: {
+  Renew generate image: [-96, NONE],
+  Renew check uw rules: [-57, NONE],
+  Renew generate preview: [-45, NONE],
+  Renew generate offer: [-35, PREVIOUS],
+  Bill generation: [-20, PREVIOUS],
+  Offcycle bill generation: [-20, NEXT],
+  Bill payment: [0, NEXT],
+  Update policy status: [1, NEXT],
+  Refund: [1, NONE],
+  Cancellation notice: [5, PREVIOUS],
+  Cancellation: [13, NEXT],
+  Renew customer decline: [15, NEXT],
   Pay Lapsed Renew short: [2, NEXT],
   Pay Lapsed Renew long: [16, NEXT],
   Earned premium bill first: [15, NONE],
@@ -190,7 +212,7 @@ TestData_KS: {
 TestData_KY: {
   Renew generate image: [-96, NONE],
   Renew check uw rules: [-92, NONE],
-  Renew generate preview: [-80, NONE],
+  Renew generate preview: [-84, NONE],
   Renew generate offer: [-35, PREVIOUS],
   Bill generation: [-20, PREVIOUS],
   Offcycle bill generation: [-20, NEXT],
@@ -253,7 +275,7 @@ TestData_MT: {
 TestData_NJ: {
   Renew generate image: [-96, NONE],
   Renew check uw rules: [-57, NONE],
-  Renew generate preview: [-45, NONE],
+  Renew generate preview: [-69, NONE],
   Renew generate offer: [-35, PREVIOUS],
   Bill generation: [-20, PREVIOUS],
   Offcycle bill generation: [-20, NEXT],
@@ -379,7 +401,7 @@ TestData_OR: {
 TestData_PA: {
   Renew generate image: [-96, NONE],
   Renew check uw rules: [-57, NONE],
-  Renew generate preview: [-45, NONE],
+  Renew generate preview: [-69, NONE],
   Renew generate offer: [-35, PREVIOUS],
   Bill generation: [-20, PREVIOUS],
   Offcycle bill generation: [-20, NEXT],
@@ -400,7 +422,7 @@ TestData_PA: {
 TestData_SD: {
   Renew generate image: [-96, NONE],
   Renew check uw rules: [-57, NONE],
-  Renew generate preview: [-45, NONE],
+  Renew generate preview: [-69, NONE],
   Renew generate offer: [-35, PREVIOUS],
   Bill generation: [-20, PREVIOUS],
   Offcycle bill generation: [-20, NEXT],
@@ -421,7 +443,7 @@ TestData_SD: {
 TestData_VA: {
   Renew generate image: [-96, NONE],
   Renew check uw rules: [-57, NONE],
-  Renew generate preview: [-45, NONE],
+  Renew generate preview: [-52, NONE],
   Renew generate offer: [-35, PREVIOUS],
   Bill generation: [-20, PREVIOUS],
   Offcycle bill generation: [-20, NEXT],

@@ -51,8 +51,10 @@ public final class BillingAccountMetaData {
         public static final AssetDescriptor<ComboBox> STATE_PROVINCE = declare("State / Province", ComboBox.class, Waiters.NONE);
         public static final AssetDescriptor<TextBox> PHONE = declare("Phone #", TextBox.class, Waiters.AJAX);
 
+        public static final AssetDescriptor<AddPaymentMethodsMultiAssetList> PAYMENT_METHODS = declare("PaymentMethods", AddPaymentMethodsMultiAssetList.class, BillingAccountMetaData.AddPaymentMethodTab.class);
         public static final AssetDescriptor<CheckBox> ACTIVATE_AUTOPAY = declare("Activate Autopay", CheckBox.class, Waiters.AJAX(120000));
         public static final AssetDescriptor<ComboBox> AUTOPAY_SELECTION = declare("Autopay Selection", ComboBox.class);
+        public static final AssetDescriptor<RadioGroup> SIGNATURE_ON_FILE_INDICATOR = declare("Signature on File Indicator", RadioGroup.class);
     }
 
     public static final class InvoicingCalendarTab extends MetaData {
@@ -216,5 +218,10 @@ public final class BillingAccountMetaData {
         public static final AssetDescriptor<TextBox> TOTAL_AMOUNT = declare("Total Amount", TextBox.class);
         public static final AssetDescriptor<TextBox> PRODUCT_SUB_TOTAL = declare("Total Amount", TextBox.class);
         public static final AssetDescriptor<TextBox> OTHER = declare("Other", TextBox.class);
+    }
+
+    public static final class ChangePaymentPlanActionTab extends MetaData {
+        public static final AssetDescriptor<StaticElement> PRODUCT_NUM = declare("Product #", StaticElement.class);
+        public static final AssetDescriptor<ComboBox> PAYMENT_PLAN = declare("Payment Plan:", ComboBox.class);
     }
 }

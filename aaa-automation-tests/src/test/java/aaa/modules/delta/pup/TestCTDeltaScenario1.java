@@ -1,15 +1,19 @@
 package aaa.modules.delta.pup;
 
 import java.util.ArrayList;
+
+
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.common.Tab;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.NavigationEnum.PersonalUmbrellaTab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.actiontabs.CancelNoticeActionTab;
@@ -29,12 +33,12 @@ import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.TextBox;
-
 import static aaa.main.enums.DocGenEnum.Documents.*;
 import static aaa.main.enums.DocGenConstants.OnDemandDocumentsTable.*;
 
 
-@Test(groups = {Groups.DELTA, Groups.HIGH})
+@Parameters({"state"})
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
 public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 	
 	private String quoteNumber;
@@ -67,7 +71,7 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 	
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.PUP)
-	public void TC01_createQuote(){		
+	public void TC01_createQuote(@Optional("") String state) {		
 		mainApp().open();		
         createCustomerIndividual();
         TestData td = getTestSpecificTD("TestData");
@@ -94,9 +98,10 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 	 * @details
 	 */
 	
+	@Parameters({"state"})
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.PUP)
-	public void TC02_currentcarrierLOVs(){
+	public void TC02_currentcarrierLOVs(@Optional("") String state) {
 		mainApp().open();
 		CustomAssert.enableSoftMode();
 		SearchPage.openQuote(quoteNumber);
@@ -133,9 +138,10 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 	 * @details
 	 */
 	
+	@Parameters({"state"})
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.PUP)
-	public void TC03_BindPolicy(){
+	public void TC03_BindPolicy(@Optional("") String state) {
 		mainApp().open();
 		SearchPage.openQuote(quoteNumber);
 
@@ -153,8 +159,8 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("DELTA CT SC1: PUP policy bound with #" + policyNumber);
-		
-		//TODO verify PS02 generate on DB
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, PS02);
+
 	}
 	
 	/**
@@ -170,19 +176,21 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 	 * @details
 	 */
 	
+	@Parameters({"state"})
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.PUP)
-	public void TC04_verifyODDPolicy() {
+	public void TC04_verifyODDPolicy(@Optional("") String state) {
 		GenerateOnDemandDocumentActionTab goddTab = new GenerateOnDemandDocumentActionTab();
 		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
+    	SearchPage.openPolicy(policyNumber);
+//    	SearchPage.openQuote(quoteNumber);
+//    	policy.quoteDocGen().start();
 		policy.policyDocGen().start();
 
-		goddTab.verify.documentsPresent(HSU01XX, HSU02XX, HSU03XX, HSU04XX, HSU05XX, HSU06XX, HSU07XX, HSU08XX, HSU09XX, F605005, PS0922, HSRFIXX, AHRCTXX, AHFMXX, PSIQXX, PS11, AHAUXX, AHCDCT);
+		goddTab.verify.documentsPresent(PS11);
 		goddTab.getDocumentsControl().getTable().getRow(DOCUMENT_NUM, PS11.getId()).getCell(SELECT).controls.checkBoxes.getFirst().verify.enabled(true);
-
 		goddTab.generateDocuments(PS11);
-		NavigationPage.Verify.mainTabSelected(NavigationEnum.AppMainTabs.POLICY.get());
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, PS11);
 	}
 	
 	/**
@@ -190,7 +198,7 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 	 * @name Verify Cancel Notice, CT state [TC05]
 	 * @scenario 
 	 * 1. Open Policy Consolidated screen. 
-	 * 2. Select Cancel Notice in Move To dropdow 
+	 * 2. Select Cancel Notice in Move To drop down 
 	 * 3. Verify values of prefilled "Cancellation effective date" and "Days of notice".  
 	 * 4. Set "Cancellation effective date" to current date + 48 days and verify error message. 
 	 * 5. Set "Cancellation effective date" to date after policy expiration date and verify error message. 
@@ -199,9 +207,10 @@ public class TestCTDeltaScenario1 extends PersonalUmbrellaBaseTest{
 	 * @details
 	 */
 	
+	@Parameters({"state"})
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.PUP)
-	public void TC05_verifyCancelNoticeTab(){
+	public void TC05_verifyCancelNoticeTab(@Optional("") String state) {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		policy.cancelNotice().start(); 

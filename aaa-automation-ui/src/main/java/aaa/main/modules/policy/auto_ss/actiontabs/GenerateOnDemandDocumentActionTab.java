@@ -5,7 +5,6 @@
 package aaa.main.modules.policy.auto_ss.actiontabs;
 
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.abstract_tabs.CommonDocumentActionTab;
 import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 

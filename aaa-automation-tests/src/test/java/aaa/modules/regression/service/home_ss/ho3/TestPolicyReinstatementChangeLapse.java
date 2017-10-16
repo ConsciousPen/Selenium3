@@ -2,6 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.home_ss.ho3;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.helpers.constants.ComponentConstant;
@@ -29,9 +31,10 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyReinstatementChangeLapse extends HomeSSHO3BaseTest {
 
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
-	public void testPolicyReinstatementChangeLapse() {
+	public void testPolicyReinstatementChangeLapse(@Optional("") String state) {
 		mainApp().open();
 
 		createCustomerIndividual();
@@ -44,18 +47,18 @@ public class TestPolicyReinstatementChangeLapse extends HomeSSHO3BaseTest {
 
 		log.info("Reinstate Policy #" + policyNumber);
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
-		PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present(false);
+		PolicySummaryPage.labelLapseExist.verify.present(false);
 
 		log.info("TEST: Add Lapse Period for Policy #" + policyNumber);
 		policy.changeReinstatementLapse().perform(getPolicyTD("ReinstatementChangeLapse", "TestData_Plus10Days"));
-		PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present();
+		PolicySummaryPage.labelLapseExist.verify.present();
 
 		log.info("TEST: Change Lapse Period for Policy #" + policyNumber);
 		policy.changeReinstatementLapse().perform(getPolicyTD("ReinstatementChangeLapse", "TestData_Plus5Days"));
-		PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present();
+		PolicySummaryPage.labelLapseExist.verify.present();
 
 		log.info("TEST: Remove Lapse Period for Policy #" + policyNumber);
 		policy.changeReinstatementLapse().perform(getPolicyTD("ReinstatementChangeLapse", "TestData"));
-		PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present(false);
+		PolicySummaryPage.labelLapseExist.verify.present(false);
 	}
 }

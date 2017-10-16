@@ -10,6 +10,7 @@ import aaa.helpers.http.impl.HttpHelper;
 import aaa.helpers.http.impl.HttpQueryBuilder;
 import aaa.helpers.http.impl.HttpRequestor.HttpHeaders;
 import aaa.modules.BaseTest;
+import org.apache.commons.lang.StringUtils;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.exceptions.IstfException;
@@ -59,9 +60,13 @@ public class HttpLogin {
 		httpRequestor.setAdminSessionCookie(sessionCookieAdmin);
 
 		httpRequestor.sendGetRequest("/aaa-admin/flow?_flowId=ipb-entry-flow&_parentWindowId=");
+		String stubLocation = httpRequestor.getReponseHeader(HttpHeaders.LOCATION);
 		httpRequestor.sendGetRequest(httpRequestor.getReponseHeader(HttpHeaders.LOCATION));
 
-		String sessionCookieStub = HttpHelper.find(httpRequestor.getReponseHeader(HttpHeaders.SET_COOKIE), HttpConstants.REGEX_SESSION_COOKIE_STUB);
+		String sessionCookieStub = HttpHelper.find(httpRequestor.getReponseHeader(HttpHeaders.SET_COOKIE), HttpConstants.REGEX_SESSION_COOKIE_STUB, 2);
+		if (StringUtils.isEmpty(HttpHelper.find(httpRequestor.getReponseHeader(HttpHeaders.SET_COOKIE), HttpConstants.REGEX_SESSION_COOKIE_STUB, 1))) {
+			httpRequestor.setCookieStubHeaderName(HttpConstants.COOKIE_STUB2);
+		}
 		httpRequestor.setStubSessionCookie(sessionCookieStub);
 		
 		if (state == null) state = "UT";
@@ -71,7 +76,8 @@ public class HttpLogin {
 		mapping.put("states", state);
 		mapping.put("password", password);
 
-		httpRequestor.sendPostRequest(HttpConstants.URL_PROTOCOL + HttpHelper.getHost() + ":9083/aaa-external-stub-services-app/authentification?", queryBuilder.buildQueryString(0, mapping));
+		httpRequestor.setDomain(stubLocation);
+		httpRequestor.sendPostRequest(stubLocation.split("\\?")[0]+"?", queryBuilder.buildQueryString(0, mapping));
 
 		String token = HttpHelper.find(httpRequestor.getResponse(), HttpConstants.REGEX_OPEN_TOKEN);
 
@@ -79,6 +85,7 @@ public class HttpLogin {
 		mapping.put("username", login);
 		mapping.put("opentoken", token);
 
+		httpRequestor.setDomain(HttpHelper.getAdDomain());
 		httpRequestor.sendPostRequest("/aaa-admin/do_auth", queryBuilder.buildQueryString(1, mapping));
 
 		httpRequestor.sendGetRequest(httpRequestor.getReponseHeader(HttpHeaders.LOCATION));

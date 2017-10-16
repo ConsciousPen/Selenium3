@@ -1,12 +1,14 @@
 package aaa.modules.regression.sales.pup;
 
-import org.testng.annotations.Test;
 
+import aaa.helpers.constants.Groups;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
@@ -37,9 +39,12 @@ public class TestQuoteAdvancedRater extends PersonalUmbrellaBaseTest {
      * 14. Issue quote. Check Total Premium Summary
      */
 
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	//TODO jdemb: feature of the original test was checking if premium deltas are added to calculated premium correctly
+	//as I can see in old project - deltas are removed. So this test has no meaning. Temporary removed from run, probably need to be removed completely.
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, enabled = false)
 	@TestInfo(component = ComponentConstant.Sales.PUP )
-    public void testQuoteAdvancedRater() {
+    public void testQuoteAdvancedRater(@Optional("") String state) {
         String expectedPersonalUmbrellaValue = "$1,000,000";
         mainApp().open();
         createCustomerIndividual();

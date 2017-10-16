@@ -1461,8 +1461,8 @@ Drivers_WY: {
 TestData_UpdateCovE: {
    PremiumsAndCoveragesQuoteTab: {
        Payment plan: Pay in Full,
-       Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
-       Coverage E - Personal Liability Each Occurrence: '$600,000'
+       Coverage C - Personal Property limit: '80|Coverage A - Dwelling limit',
+       Coverage E - Personal Liability Each Occurrence: '$500,000'
    }
 }
 

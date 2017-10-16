@@ -1,0 +1,97 @@
+########################## testQuoteDocuments ######################### 
+
+InsuranceScoreOverride926: {
+  ReportsTab: {
+    InsuranceScoreOverride: {
+      Action: '',
+      EditInsuranceScoreDialog: {
+        Score after override: '926',
+        Reason for override: 'Fair Credit Reporting Act Dispute',
+        Save: ''
+      }
+    }
+  },
+  PropertyInfoTab: {
+    PropertyValue: {
+      'Coverage A - Dwelling limit': '77500'
+    }
+  }
+}
+
+InsuranceScoreOverride920: {
+  ReportsTab: {
+    InsuranceScoreOverride: {
+      Action: '',
+      EditInsuranceScoreDialog: {
+        Score after override: '920',
+        Reason for override: 'Fair Credit Reporting Act Dispute',
+        Save: ''
+      }
+    }
+  },
+  PropertyInfoTab: {
+    PropertyValue: {
+      'Coverage A - Dwelling limit': '150000'
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+}
+
+QuoteGenerateHSU: {
+  Decision based on CLUE HSU03: 'true'
+}
+
+########################## testPolicyDocuments #########################
+PolicyGenerateHSU: {
+  Decision based on CLUE HSU09: 'true'
+}
+
+TestData_PolicyDocuments: {
+  EndorsementTab: {
+    'HS 06 14': {
+      Zip code: '84003',
+      Street address 1: '265 CHIPMAN AVE',
+      City: 'American Fork',
+      State: 'UT',
+      Coverage limit: '20000'
+    }
+  }
+}
+
+TestData_PolicyDocuments_AZ: {
+  EndorsementTab: {
+    'HS 06 14': {
+      Zip code: '85003',
+      Street address 1: '265 CHIPMAN AVE',
+      City: 'Phoenix',
+      State: 'AZ',
+      Coverage limit: '20000'
+    }
+  }
+}
+
+TestData_PolicyDocuments_PA: {
+  EndorsementTab: {
+    'HS 06 14': {
+      Zip code: '15001',
+      Street address 1: '265 CHIPMAN AVE',
+      City: 'Aliquippa',
+      State: 'PA',
+      Coverage limit: '20000'
+    }
+  }
+}
+
+TestData_PolicyDocuments_NJ: {
+  EndorsementTab: {
+    'HS 06 14': {
+      Zip code: '07005',
+      Street address 1: '265 CHIPMAN AVE',
+      City: 'Boonton',
+      State: 'NJ',
+      Coverage limit: '20000'
+    }
+  }
+}

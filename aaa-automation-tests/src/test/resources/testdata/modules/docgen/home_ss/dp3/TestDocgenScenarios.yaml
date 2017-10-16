@@ -1,0 +1,223 @@
+########################## testPolicyDocuments #########################
+TestData_PolicyDocuments: {
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@EndorsementTab',
+  DocumentsTab: '@DocumentsTab'
+}
+
+TestData_PolicyDocuments_NJ: {
+  ReportsTab: '@ReportsTab_NJ',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@EndorsementTab',
+  DocumentsTab: '@DocumentsTab'
+}
+
+TestData_PolicyDocuments_PA: {
+  ReportsTab: '@ReportsTab_PA',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@EndorsementTab',
+  DocumentsTab: '@DocumentsTab'
+}
+
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  InsuranceScoreOverride: {
+    Action: '',
+    EditInsuranceScoreDialog: {
+      Score after override: '925',
+      Reason for override: 'Fair Credit Reporting Act Dispute',
+      Save: ''
+    }
+  }
+}
+
+ReportsTab_NJ: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+    InsuranceScoreOverride: {
+    Action: '',
+    EditInsuranceScoreDialog: {
+      Score after override: '925',
+      Reason for override: 'Fair Credit Reporting Act Dispute',
+      Save: ''
+    }
+  }
+}
+
+ReportsTab_PA: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}],
+  InsuranceScoreOverride: {
+    Action: '',
+    EditInsuranceScoreDialog: {
+      Score after override: '925',
+      Reason for override: 'Fair Credit Reporting Act Dispute',
+      Save: ''
+    }
+  }
+}
+
+PropertyInfoTab: {
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@<home_ss_ho3>@DataGather@PropertyValue',
+  Construction: '@<home_ss_ho3>@DataGather@Construction',
+  AdditionalQuestions: {},
+  Interior: '@<home_ss_ho3>@DataGather@Interior',
+  DetachedStructures: [
+    {
+      'Are there any detached structures on the property?': 'Yes',
+      Rented to others: 'No',
+      Description: Test,
+      Limit of liability: '$100,000.00'
+    }
+  ],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@<home_ss_ho3>@DataGather@HomeRenovation',
+  PetsOrAnimals: {
+    'Are any insured-owned pets or animals kept on the property?': 'No'
+  },
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: '@<home_ss_dp3>@DataGather@RentalInformation'
+}
+  
+EndorsementTab: {
+  'DS 04 69': {}
+}
+  
+DocumentsTab: {
+  DocumentsToIssue: {
+    Signed policy application: Not Signed
+  }
+}
+
+PropertyInfoTab_1000: {
+  PropertyInfoTab: {
+    DetachedStructures: {
+      Limit of liability: '$1,000.00'
+    }
+  } 
+}
+########################## testMortgagePolicyDocuments ###################
+TestData_MortgagePolicy: {
+  PropertyInfoTab: {
+    DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_PropertyInfoTab',
+    AdditionalAddress: [{}],
+    PublicProtectionClass: {
+      Fire department type: 'S - Subscription based',
+      'Subscription to fire department/station': 'Yes',
+      Public protection class: 5
+    },
+    FireReport: {},
+    PropertyValue: '@<home_ss_ho3>@DataGather@PropertyValue',
+    Construction: {
+      Year built: 2009,
+      Square footage: 1,
+      Roof type: Laminate / Architectural,
+      Roof shape: 'index=1',
+      Construction type: Frame
+    },
+    AdditionalQuestions: {},
+    Interior: '@<home_ss_ho3>@DataGather@Interior',
+    DetachedStructures: [{}],
+    FireProtectiveDD: {},
+    TheftProtectiveTPDD: {},
+    HomeRenovation: '@<home_ss_ho3>@DataGather@HomeRenovation',
+    PetsOrAnimals: {},
+    Stoves: {},
+    RecreationalEquipment: {},
+    ClaimHistory: {},
+    RentalInformation: '@RentalInformation'
+  },
+  MortgageesTab: {
+    Mortgagee: 'Yes',
+    MortgageeInformation: {
+      Name: Louie Espinoza,
+      Zip code: 85003,
+      Street address 1: 265 CHIPMAN AVE,
+      Loan number: 12345678,
+      Validate Address: '',
+      Validate Address Dialog: {}
+    }
+  },
+  DocumentsTab: {
+    DocumentsToBind: {
+      Proof of subscription to fire department: 'No'
+    },
+    DocumentsToIssue: {
+      Signed policy application: Physically Signed
+    }
+  }
+}
+
+QuoteGenerateHSU: {
+  Decision based on CLUE HSU03: 'true',
+  First name: Tim,
+  Last name: Cook,
+  Zip code: 85003,
+  Street address 1: address 1,
+  City: citytest,
+  State: AZ
+}
+
+PolicyGenerateHSU: {
+  Decision based on CLUE HSU09: 'true'
+}
+########################## testEndorsementsForms #########################
+TestData_EndorsementsForms: {
+  EndorsementTab: {
+    'DS 04 20': {},
+    'DS 04 63': {
+      Location type: 'Described Location',
+      Coverage limit: '$5000'
+    },
+    'DS 04 68': {
+      Location type: 'Described Location',
+      Construction type: Frame
+    },
+    'DS 04 69': {},
+    'DS 04 71': {},
+    'DS 04 73': {},
+    'DS 04 95': {},
+    'DS 09 26': {},
+    'DS 09 34': {},
+    'DS 24 82': {}
+  }
+}
+
+TestData_EndorsementsForms_NJ: {
+  EndorsementTab: {
+    'DS 04 20': {},
+    'DS 04 63': {
+      Location type: 'Described Location',
+      Coverage limit: '$5000'
+    },
+    'DS 04 68': {
+      Location type: 'Described Location',
+      Construction type: Frame
+    },
+    'DS 04 69': {},
+    'DS 04 71': {},
+    'DS 04 73': {},
+    'DS 04 95': {},
+    'DS 09 34': {},
+    'DS 24 82': {}
+  }
+}

@@ -12,7 +12,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 
 public final class DialogsMetaData {
     public static final class AddressValidationMetaData extends MetaData {
-	    public static final AssetDescriptor<RadioGroup> RADIOGROUP_SELECT = declare("Select Address", RadioGroup.class, Waiters.AJAX, By.id("addressValidationFormAAAPrefillAddressValidation:primaryAddressSelectAAAPrefillAddressValidation"));
+    	public static final AssetDescriptor<RadioGroup> RADIOGROUP_SELECT = declare("Select Address", RadioGroup.class, Waiters.AJAX, By.xpath(".//table[@id = 'addressValidationFormAAAPrefillAddressValidation:primaryAddressSelectAAAPrefillAddressValidation' or @id = 'addressValidationFormAAAHODwellAddressValidationComp:primaryAddressSelectAAAHODwellAddressValidationComp']"));
 		public static final AssetDescriptor<CheckBox> ADDRESS_IS_PO_BOX = declare("Address is PO Box", CheckBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> STREET_NUMBER = declare("Street number", TextBox.class, Waiters.AJAX, By.xpath(".//input[contains(@id, ':primaryStreetNumberInput')]"));
 		public static final AssetDescriptor<TextBox> STREET_NAME = declare("Street Name", TextBox.class, Waiters.AJAX, By.xpath(".//input[contains(@id, ':primaryStreetNameInput')]"));

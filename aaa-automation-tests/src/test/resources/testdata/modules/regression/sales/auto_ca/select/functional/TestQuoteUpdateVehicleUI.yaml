@@ -1,0 +1,81 @@
+TestCase_1: {
+  VehicleTab: ['@Vehicle_1','@Vehicle_2'],
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: ['@Assignment', '@Assignment'],
+  }
+}
+
+TestCase_1_Renewal: {
+  VehicleTab: ['@','@','@Vehicle_3'],
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: ['@','@','@Assignment'],
+  },
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+}
+
+Assignment: {
+  'Primary Driver': 'index=1',
+  'Manually Rated Driver': 'index=1'
+}
+
+Vehicle_1: {
+  Usage: Pleasure,
+  VIN: 2GNWGPFG9B1111111,
+  Make: 'OTHER',
+  Other Make: 'Other Make',
+  Model: 'OTHER',
+  Other Model: 'Model',
+  Series: 'OTHER',
+  Other Series: 'Series',
+  Body Style: 'OTHER',
+  Other Body Style: 'Body Style',
+  'Value($)': '10000',
+  Stat Code: 'index=1',
+  Primary Use: 'index=1',
+  'Miles One-way to Work or School': '500',
+  Odometer Reading: 1
+}
+
+Vehicle_2: {
+  Usage: Pleasure,
+  VIN: 2GNWGPFG9B2222222,
+  Make: 'OTHER',
+  Other Make: 'Other Make',
+  Model: 'OTHER',
+  Other Model: 'Model',
+  Series: 'OTHER',
+  Other Series: 'Series',
+  Body Style: 'OTHER',
+  Other Body Style: 'Body Style',
+  'Value($)': '10000',
+  Stat Code: 'index=1',
+  Primary Use: 'index=1',
+  'Miles One-way to Work or School': '500',
+  Odometer Reading: 1
+}
+
+Vehicle_3: {
+  Type: 'index=2',
+  VIN: 3GNWGPFG9B3333333,
+  Make: 'OTHER',
+  Other Make: 'Other Make',
+  Model: 'OTHER',
+  Other Model: 'Model',
+  Series: 'OTHER',
+  Other Series: 'Series',
+  Body Style: 'OTHER',
+  Other Body Style: 'Body Style',
+  Stat Code: 'index=1',
+  'Value($)': 10000,
+  Stat Code: 'Cargo Van',
+  Primary Use: 'index=1',
+  'Miles One-way to Work or School': '500',
+  Odometer Reading: 1,
+  Odometer Reading Date: '/today'
+}
+
+PremiumAndCoveragesTab: {
+  Bodily Injury Liability: 'contains=$500,000/$500,000',
+  Property Damage Liability: 'contains=$100,000'
+}
+

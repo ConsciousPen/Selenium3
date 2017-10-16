@@ -8,19 +8,32 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import toolkit.exceptions.IstfException;
+import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.composite.table.Row;
+import aaa.main.enums.BillingConstants;
+import aaa.main.enums.BillingConstants.BillingAccountPoliciesTable;
+import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
+import aaa.main.enums.BillingConstants.BillingInstallmentScheduleTable;
+import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
+import aaa.main.enums.BillingConstants.BillingPendingTransactionsActions;
+import aaa.main.enums.BillingConstants.BillingPendingTransactionsTable;
+import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionAction;
+import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
+import aaa.main.metadata.BillingAccountMetaData;
+import aaa.main.modules.billing.account.actiontabs.DeclinePaymentActionTab;
+import aaa.main.pages.summary.BillingSummaryPage;
+
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
-import aaa.main.enums.BillingConstants.*;
-import aaa.main.pages.summary.BillingSummaryPage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.webdriver.controls.composite.table.Row;
-
 public final class BillingHelper {
 
-	//TODO remove after "base" tests adaptation
+	// TODO remove after "base" tests adaptation
 	public static final String ZERO = new Dollar(0).toString();
 	public static final Dollar DZERO = new Dollar(0);
 	public static final Dollar INSTALLMENT_FEE = new Dollar(5);
@@ -58,31 +71,44 @@ public final class BillingHelper {
 		return value.replace(" (Renewal)", "");
 	}
 
+	public static Dollar getPolicyMinimumDueAmount(String policyNumber) {
+		String value = BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingAccountPoliciesTable.POLICY_NUM, policyNumber).getCell(BillingAccountPoliciesTable.MIN_DUE).getValue();
+		return new Dollar(value);
+	}
+
+	public static Dollar getPolicyTotalDueAmount(String policyNumber) {
+		String value = BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingAccountPoliciesTable.POLICY_NUM, policyNumber).getCell(BillingAccountPoliciesTable.TOTAL_DUE).getValue();
+		return new Dollar(value);
+	}
+
 	// ------- Installments table-------
 
 	/**
 	 * Get all Due Dates from Installments table
-	 * @return - list of dates including Deposit payments, so index of first Installment is usualy 1
+	 * 
+	 * @return - list of dates including Deposit payments, so index of first
+	 *         Installment is usualy 1
 	 */
 	public static List<LocalDateTime> getInstallmentDueDates() {
-		List<LocalDateTime> installments =  BillingSummaryPage.tableInstallmentSchedule.getValuesFromRows(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE)
-				.stream().map(value -> TimeSetterUtil.getInstance().parse(value, DateTimeUtils.MM_DD_YYYY)).collect(Collectors.toList());
+		List<LocalDateTime> installments = BillingSummaryPage.tableInstallmentSchedule.getValuesFromRows(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).stream().map(
+			value -> TimeSetterUtil.getInstance().parse(value, DateTimeUtils.MM_DD_YYYY)).collect(Collectors.toList());
 		log.info("Billing installments due dates: " + installments.stream().map(date -> date.format(DateTimeUtils.MM_DD_YYYY)).collect(Collectors.joining(", ")));
 		return installments;
 	}
 
 	/**
 	 * Get all Dues from Installments table
-	 * @return - list of Dollar including Deposit payments, so index of first Installment is usualy 1
+	 * 
+	 * @return - list of Dollar including Deposit payments, so index of first
+	 *         Installment is usualy 1
 	 */
 	public static List<Dollar> getInstallmentDues() {
-		return BillingSummaryPage.tableInstallmentSchedule.getValuesFromRows(BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT)
-				.stream().map(Dollar::new).collect(Collectors.toList());
+		return BillingSummaryPage.tableInstallmentSchedule.getValuesFromRows(BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT).stream().map(Dollar::new).collect(Collectors.toList());
 	}
 
 	public static Dollar getInstallmentDueByDueDate(LocalDateTime date) {
-		String value = BillingSummaryPage.tableInstallmentSchedule.getRow(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE,
-				date.format(DateTimeUtils.MM_DD_YYYY)).getCell(BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT).getValue();
+		String value = BillingSummaryPage.tableInstallmentSchedule.getRow(BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE, date.format(DateTimeUtils.MM_DD_YYYY)).getCell(
+			BillingInstallmentScheduleTable.SCHEDULE_DUE_AMOUNT).getValue();
 		return new Dollar(value);
 	}
 
@@ -103,6 +129,20 @@ public final class BillingHelper {
 		return new Dollar(BillingSummaryPage.tableBillsStatements.getRow(values).getCell(BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
 	}
 
+	public static Dollar getBillMinDueAmount(LocalDateTime billDueDate, String billType) {
+		Map<String, String> values = new HashMap<>();
+		values.put(BillingBillsAndStatmentsTable.DUE_DATE, billDueDate.format(DateTimeUtils.MM_DD_YYYY));
+		values.put(BillingBillsAndStatmentsTable.TYPE, billType);
+		return new Dollar(BillingSummaryPage.tableBillsStatements.getRow(values).getCell(BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
+	}
+
+	public static Dollar getBillTotalDueAmount(LocalDateTime billDueDate, String billType) {
+		Map<String, String> values = new HashMap<>();
+		values.put(BillingBillsAndStatmentsTable.DUE_DATE, billDueDate.format(DateTimeUtils.MM_DD_YYYY));
+		values.put(BillingBillsAndStatmentsTable.TYPE, billType);
+		return new Dollar(BillingSummaryPage.tableBillsStatements.getRow(values).getCell(BillingBillsAndStatmentsTable.TOTAL_DUE).getValue());
+	}
+
 	// ------- Payments & Other Transactions table -------
 
 	/**
@@ -120,12 +160,29 @@ public final class BillingHelper {
 		return amount;
 	}
 
-	public static Dollar getPolicyRenewalProposalSum(LocalDateTime renewDate) {
+	public static Dollar getPolicyRenewalProposalSum(LocalDateTime renewDate, String policyNum) {
+		HashMap<String, String> query = new HashMap<>();
+		query.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, renewDate.format(DateTimeUtils.MM_DD_YYYY));
+		query.put(BillingPaymentsAndOtherTransactionsTable.POLICY, policyNum);
+		query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PREMIUM);
+
+		Dollar summ = new Dollar(0);
+		for (String amount : BillingSummaryPage.tablePaymentsOtherTransactions.getValuesFromRows(query, BillingPaymentsAndOtherTransactionsTable.AMOUNT)) {
+			summ = summ.add(new Dollar(amount));
+		}
+		return summ;
+	}
+
+	public static void declinePayment(LocalDateTime transactionDate) {
 		HashMap<String, String> values = new HashMap<>();
-		values.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, renewDate.format(DateTimeUtils.MM_DD_YYYY));
-		values.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PREMIUM);
-		values.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL);
-		return new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(values).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
+		values.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
+		values.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PAYMENT);
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(values).getCell(BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(PaymentsAndOtherTransactionAction.DECLINE).click();
+		DeclinePaymentActionTab declinePaymentActionTab = new DeclinePaymentActionTab();
+		if (declinePaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.DeclinePaymentActionTab.DECLINE_REASON.getLabel()).isPresent()) {
+			declinePaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.DeclinePaymentActionTab.DECLINE_REASON.getLabel(), ComboBox.class).setValue("index=1");
+			DeclinePaymentActionTab.buttonOk.click();
+		}
 	}
 
 	// ------- Pending Transactions table -------
@@ -134,8 +191,7 @@ public final class BillingHelper {
 		HashMap<String, String> values = new HashMap<>();
 		values.put(BillingPendingTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
 		values.put(BillingPendingTransactionsTable.TYPE, type);
-		BillingSummaryPage.tablePendingTransactions.getRow(values).getCell(BillingPendingTransactionsTable.ACTION)
-				.controls.links.get(BillingPendingTransactionsActions.APPROVE).click();
+		BillingSummaryPage.tablePendingTransactions.getRow(values).getCell(BillingPendingTransactionsTable.ACTION).controls.links.get(BillingPendingTransactionsActions.APPROVE).click();
 		BillingSummaryPage.dialogApprovePendingTransaction.confirm();
 	}
 
@@ -148,5 +204,58 @@ public final class BillingHelper {
 
 	public static Dollar calculateLastInstallmentAmount(Dollar totalAmount, Integer installmentsCount) {
 		return totalAmount.divide(installmentsCount);
+	}
+
+	public static Dollar calculatePligaFee(LocalDateTime transactionDate) {
+		Map<String, String> premiumRowSearchQuery = new HashMap<>();
+		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
+		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.PREMIUM);
+		if (!BillingSummaryPage.tablePaymentsOtherTransactions.getRow(premiumRowSearchQuery).isPresent()) {
+			log.warn(String.format("There is no Premium transaction with query %s, assume PLIGA Fee should be $0", premiumRowSearchQuery.entrySet()));
+			return DZERO;
+		}
+
+		Dollar totalPremiumAmount = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(premiumRowSearchQuery)
+			.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
+		return calculatePligaFee(transactionDate, totalPremiumAmount);
+	}
+
+	public static Dollar calculatePligaFee(LocalDateTime transactionDate, Dollar totalPremiumAmount) {
+		final double pligaFeePercentage;
+		switch (transactionDate.getYear()) {
+		// PAS12: PLIGAFEE is configured as 0.7% of the premium for 1-Jan-2017 to 31-Dec-2017
+			case 2017 :
+				pligaFeePercentage = 0.7;
+				break;
+			// PAS13 ER: PLIGAFEE is configured as 0.6% of the premium for 1-Jan-2018 to 31-Dec-2019
+			case 2018 :
+			case 2019 :
+				pligaFeePercentage = 0.6;
+				break;
+			default :
+				pligaFeePercentage = 0.7;
+				log.warn(String.format("PLIGA Fee charge percent for %s year is unknown, default %s charge percent will be used for calculation.", transactionDate.getYear(), pligaFeePercentage));
+		}
+		return new Dollar(Math.round(Double.valueOf(totalPremiumAmount.getPercentage(pligaFeePercentage).toPlaingString())));
+	}
+
+	/**
+	 * Applicable only for NY state and AutoSS product
+	 */
+	public static Dollar calculateMvleFee(String policyTerm, int numberOfVehiclesExceptTrailers) {
+		Dollar termFee;
+		if (BillingConstants.PolicyTerm.SEMI_ANNUAL.equals(policyTerm)) {
+			termFee = new Dollar(5);
+		} else if (BillingConstants.PolicyTerm.ANNUAL.equals(policyTerm)) {
+			termFee = new Dollar(10);
+		} else {
+			throw new IstfException(String.format("Unable to calculate MVLE Fee for unknown policy term \"%1$s\", only \"%2$s\" and \"%3$s\" are allowed.",
+				policyTerm, BillingConstants.PolicyTerm.ANNUAL, BillingConstants.PolicyTerm.SEMI_ANNUAL));
+		}
+
+		if (numberOfVehiclesExceptTrailers > 0) {
+			termFee = termFee.multiply(numberOfVehiclesExceptTrailers);
+		}
+		return termFee;
 	}
 }

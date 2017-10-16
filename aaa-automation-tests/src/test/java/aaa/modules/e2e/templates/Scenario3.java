@@ -11,11 +11,16 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants.*;
+import aaa.main.enums.MyWorkConstants;
 import aaa.main.enums.ProductConstants.PolicyStatus;
+import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
+import aaa.main.pages.summary.MyWorkSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -32,12 +37,18 @@ public class Scenario3 extends ScenarioBaseTest {
 
 	protected IPolicy policy;
 	protected TestData tdPolicy;
+	protected BillingAccount billingAccount = new BillingAccount();
+	protected TestData tdBilling = testDataManager.billingAccount;
 
 	protected LocalDateTime policyEffectiveDate;
 	protected LocalDateTime policyExpirationDate;
+	protected LocalDateTime pligaOrMvleFeeLastTransactionDate;
 
 	protected List<LocalDateTime> installmentDueDates;
 	protected int installmentsCount = 2;
+
+	protected String policyTerm;
+	protected Integer totalVehiclesNumber;
 
 	public void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();
@@ -48,6 +59,10 @@ public class Scenario3 extends ScenarioBaseTest {
 		if (getPolicyType().equals(PolicyType.PUP)) {
 			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
 		}
+
+		policyTerm = getPolicyTerm(policyCreationTD);
+		totalVehiclesNumber = getVehiclesNumber(policyCreationTD);
+
 		policyNum = createPolicy(policyCreationTD);
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
@@ -57,13 +72,15 @@ public class Scenario3 extends ScenarioBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
 		CustomAssert.assertEquals("Billing Installments count for Semi-Annual payment plan", installmentsCount, installmentDueDates.size());
+
+		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}
 
 	public void generateFirstBill() {
 		generateAndCheckBill(installmentDueDates.get(1));
 	}
 
-	public void generateCancelationNotice() {
+	public void generateCancellationNotice() {
 		LocalDateTime cancNoticeDate = getTimePoints().getCancellationNoticeDate(installmentDueDates.get(1));
 		TimeSetterUtil.getInstance().nextPhase(cancNoticeDate);
 		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
@@ -88,7 +105,7 @@ public class Scenario3 extends ScenarioBaseTest {
 
 	public void createRemittanceFile() {
 		LocalDateTime date = getTimePoints().getCancellationDate(installmentDueDates.get(1));
-		TimeSetterUtil.getInstance().nextPhase(date.plusDays(5).with(DateTimeUtils.closestWorkingDay));
+		TimeSetterUtil.getInstance().nextPhase(date.plusDays(5).with(DateTimeUtils.closestFutureWorkingDay));
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		Dollar cnAmount = BillingHelper.getBillDueAmount(getTimePoints().getCancellationTransactionDate(installmentDueDates.get(1)),
@@ -163,6 +180,10 @@ public class Scenario3 extends ScenarioBaseTest {
 		if (getState().equals(Constants.States.CA)) {
 			verifyCaRenewalOfferPaymentAmount(policyExpirationDate,getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
 		}
+
+		if (verifyPligaOrMvleFee(renewDateOffer, policyTerm, totalVehiclesNumber)) {
+			pligaOrMvleFeeLastTransactionDate = renewDateOffer;
+		}
 	}
 
 	//Skip this step for CA
@@ -175,15 +196,14 @@ public class Scenario3 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		verifyRenewPremiumNotice(policyExpirationDate, billDate);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate)
-				.setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
+		Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
+		verifyRenewPremiumNotice(policyExpirationDate, billDate, pligaOrMvleFee);
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
 	public void expirePolicy() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-		//JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();
@@ -201,28 +221,52 @@ public class Scenario3 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
 	}
 
+	public void payRenewOffer() {
+		goToBillingPage(policyNum);
+
+		String billType = getState().equals(Constants.States.CA) ? BillsAndStatementsType.OFFER : BillsAndStatementsType.BILL;
+		Dollar sum = BillingHelper.getBillMinDueAmount(policyExpirationDate, billType);
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_CC"), sum);
+
+		SearchPage.openPolicy(policyNum);
+		PolicySummaryPage.buttonTasks.click();
+		MyWorkSummaryPage.tableTasks.getRow(MyWorkConstants.MyWorkTasksTable.TASK_NAME, "Qualify for manual Renewal").verify.present();
+	}
+
 	public void bindRenew() {
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getPayLapsedRenewShort(policyExpirationDate).plusHours(1));
+		LocalDateTime lapsedRenewShort = getTimePoints().getPayLapsedRenewShort(policyExpirationDate).plusHours(1);
+		TimeSetterUtil.getInstance().nextPhase(lapsedRenewShort);
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.CUSTOMER_DECLINED).verify(1);
-
-		policy.manualRenewalWithOrWithoutLapse().perform(getStateTestData(tdPolicy, "ManualRenewalWithOrWithoutLapse", "TestData"));
+		if (getPolicyType().isAutoPolicy()) {
+			policy.dataGather().start();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			PremiumAndCoveragesTab.calculatePremium();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+			new DocumentsAndBindTab().submitTab();
+		} else {
+			policy.manualRenewalWithOrWithoutLapse().perform(getStateTestData(tdPolicy, "ManualRenewalWithOrWithoutLapse", "TestData"));
+		}
 
 		if (PolicySummaryPage.labelPolicyStatus.getValue().equals(PolicyStatus.POLICY_EXPIRED)) {
 			PolicySummaryPage.buttonRenewals.click();
 		}
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.verifyLapseExistFlagPresent();
+
+		if (!getPolicyType().isAutoPolicy()) {
+			PolicySummaryPage.verifyLapseExistFlagPresent();
+		}
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
-		//TODO Possible problems with MD state, See QC 35220 for details.
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getPayLapsedRenewShort(policyExpirationDate))
-				.setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
+		if (!getPolicyType().isAutoPolicy()) {
+			//TODO Possible problems with MD state, See QC 35220 for details.
+			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(lapsedRenewShort).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
+		}
 	}
 }

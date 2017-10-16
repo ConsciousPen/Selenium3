@@ -3,6 +3,8 @@
 package aaa.modules.regression.sales.auto_ss;
 
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.helpers.constants.ComponentConstant;
@@ -23,9 +25,10 @@ public class TestPolicyFuturedated extends PolicyFuturedated {
 		return PolicyType.AUTO_SS;
 	}
 
-    @Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
+    @Parameters({"state"})
+	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void testPolicyFuturedated() {
+    public void testPolicyFuturedated(@Optional("") String state) {
     	
     	super.testPolicyFuturedated();
         

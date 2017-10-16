@@ -7,6 +7,8 @@ import aaa.helpers.constants.Groups;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.service.template.PolicyRenewFlatCancellation;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.main.modules.policy.PolicyType;
@@ -34,9 +36,10 @@ public class TestPolicyRenewFlatCancellation extends PolicyRenewFlatCancellation
 	protected TestData getBackDatedPolicyTD() {
 		return new AutoSSBaseTest().getBackDatedPolicyTD();
 	}
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS )
-    public void testPolicyRenewFlatCancellation() {
+    public void testPolicyRenewFlatCancellation(@Optional("") String state) {
         super.testPolicyRenewFlatCancellation();
     }
 }

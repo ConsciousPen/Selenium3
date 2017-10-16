@@ -1,0 +1,124 @@
+TestData: {
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Eleven Pay Standard,
+    Coverage E - Personal Liability Each Occurrence: '$300,000'
+  },
+  PropertyInfoTab: {
+    DwellingAddress: {
+      Number of family units: 'index=1'
+    },
+    PropertyValue: {
+      Personal property value: 25000
+    },
+    Construction: {
+      Year built: 2009,
+      Square footage: 1,
+      Roof type: index=1,
+      Construction type: index=1
+    },
+    Interior: {
+      Number of residents: 3,
+      Number of stories: index=1
+    },
+    PublicProtectionClass: {
+      Fire department type: 'index=1',
+      Public protection class: 'index=1',
+      Distance to fire hydrant: 'index=1',
+      Fire protection area: '7'
+    },
+    HomeRenovation: {
+      Green Home discount: "No"
+    }
+  },
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab_WithAutopay'   
+}
+
+TestData_Endorsement: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Quarterly,
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_Endorsement2: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+      Personal property value: 35000
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Eleven Pay Standard
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_Endorsement3: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+      Personal property value: 45000
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Semi-Annual
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_Endorsement4: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Eleven Pay Standard (Renewal),
+    Payment plan at renewal: Eleven Pay Standard (Renewal)
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_Endorsement5: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Quarterly (Renewal),
+    Payment plan at renewal: Quarterly (Renewal)
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}

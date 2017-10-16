@@ -1,5 +1,7 @@
 package aaa.modules.regression.service.home_ca.ho3;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.utils.TestInfo;
@@ -24,9 +26,10 @@ public class TestPolicyCopy extends PolicyCopy {
     * 4. Copy policy and purchase;
     * 5. Verify that new policy number is not the same as initial policy number;
     **/
+	@Parameters({"state"})
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
 	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3)
-    public void testPolicyCopy() {
+    public void testPolicyCopy(@Optional("CA") String state) {
     	super.testPolicyCopy();
     }
 

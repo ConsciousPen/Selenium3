@@ -8,16 +8,20 @@ import toolkit.datax.TestData;
 import toolkit.webdriver.controls.AbstractClickableStringElement;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 public class SingleSelectSearchDialog extends AbstractDialogSingleSearch {
 
-	private static final By RESULT_TABLE_LOCATOR = By.xpath(".//table[contains(@id,'SearchTabel') or contains(@id, 'SearchTable')]");
+	private static final By RESULT_TABLE_LOCATOR = By.xpath(".//table[contains(@id,'SearchTabel') or contains(@id, 'SearchTable') or (contains(@id, 'SearchFrom') and not(contains(@id, 'birthDate')))]");
+	private static final By ERROR_MESSAGE_LOCATOR = By.xpath(".//form[@id='customerSearchFrom']/span[2]");
 	public ResultTable tableSearchResults = new ResultTable(POPUP_PARENT, RESULT_TABLE_LOCATOR);
 	Button buttonSearch = new Button(POPUP_PARENT, By.xpath(".//input[@value = 'Search'] | .//button[contains(. , 'Search')]"), Waiters.AJAX);
 	Button buttonCancel = new Button(POPUP_PARENT, By.xpath(".//input[@value = 'cancel' or @value = 'Cancel']"), Waiters.AJAX.then(Waiters.AJAX));
+	Button buttonClear = new Button(POPUP_PARENT, By.xpath(".//input[@value = 'Clear' or @value = 'clear']"), Waiters.SLEEP(1000));
+	public StaticElement labelErrorMessage = new StaticElement(POPUP_PARENT,ERROR_MESSAGE_LOCATOR);
 
 	public SingleSelectSearchDialog(By locator) {
 		super(locator);
@@ -44,6 +48,13 @@ public class SingleSelectSearchDialog extends AbstractDialogSingleSearch {
 		AbstractClickableStringElement selectControl = getSelectControl();
 		if (selectControl != null) {
 			selectControl.click();
+		}
+	}
+
+	@Override
+	public void clear(){
+		if (buttonClear.isPresent() && buttonClear.isVisible()) {
+			buttonClear.click();
 		}
 	}
 

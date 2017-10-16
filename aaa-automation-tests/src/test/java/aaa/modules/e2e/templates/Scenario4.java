@@ -1,20 +1,25 @@
 package aaa.modules.e2e.templates;
 
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.*;
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants.*;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.MyWorkConstants;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.MyWorkSummaryPage;
@@ -39,6 +44,7 @@ public class Scenario4 extends ScenarioBaseTest {
 
 	protected LocalDateTime policyEffectiveDate;
 	protected LocalDateTime policyExpirationDate;
+	protected LocalDateTime pligaOrMvleFeeLastTransactionDate;
 
 	protected List<LocalDateTime> installmentDueDates;
 	protected LocalDateTime endorsementInstallmentDueDate;
@@ -47,6 +53,9 @@ public class Scenario4 extends ScenarioBaseTest {
 	protected int installmentsCount = 1;
 	protected Dollar cashOverpaymentLow = new Dollar(999.99);
 	protected Dollar cashOverpaymentHigh = new Dollar(1000);
+
+	protected String policyTerm;
+	protected Integer totalVehiclesNumber;
 
 	protected void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();
@@ -57,6 +66,10 @@ public class Scenario4 extends ScenarioBaseTest {
 		if (getPolicyType().equals(PolicyType.PUP)) {
 			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
 		}
+
+		policyTerm = getPolicyTerm(policyCreationTD);
+		totalVehiclesNumber = getVehiclesNumber(policyCreationTD);
+
 		policyNum = createPolicy(policyCreationTD);
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
@@ -66,6 +79,8 @@ public class Scenario4 extends ScenarioBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
 		CustomAssert.assertEquals("Billing Installments count for Pay in Full payment plan", installmentsCount, installmentDueDates.size());
+
+		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 
 		//TODO Get 6th installment due date
 		endorsementInstallmentDueDate = policyEffectiveDate.plusMonths(6);
@@ -129,20 +144,20 @@ public class Scenario4 extends ScenarioBaseTest {
 
 	protected void endorsePolicy() {
 		// Set Date before BillGenerationDate
-		TimeSetterUtil.getInstance().nextPhase(endorsementInstallmentDueDate.minusDays(28).with(DateTimeUtils.closestWorkingDay));
+		TimeSetterUtil.getInstance().nextPhase(endorsementInstallmentDueDate.minusDays(28).with(DateTimeUtils.closestFutureWorkingDay));
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 
 		TestData endorsementTD = getStateTestData(tdPolicy, "Endorsement", "TestData");
 		policy.endorse().performAndFill(getTestSpecificTD("TestData_Endorsement").adjust(endorsementTD));
+		LocalDateTime transactionDate = TimeSetterUtil.getInstance().getCurrentTime();
 		PolicyHelper.verifyEndorsementIsCreated();
 
 		// Endorsement transaction displaing on billing in Payments & Other transactions section
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		String reason = "Endorsement - " + endorsementTD.getValue(endorsementReasonDataKeys);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(TimeSetterUtil.getInstance().getPhaseStartTime())
-				.setPolicy(policyNum).setType(PaymentsAndOtherTransactionType.PREMIUM)
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(transactionDate).setPolicy(policyNum).setType(PaymentsAndOtherTransactionType.PREMIUM)
 				.setSubtypeReason(reason).verifyPresent();
 	}
 
@@ -158,7 +173,7 @@ public class Scenario4 extends ScenarioBaseTest {
 				.setPastDueZero().verifyRowWithDueDate(endorsementInstallmentDueDate);
 	}
 
-	protected void generateCancellNotice() {
+	protected void generateCancelNotice() {
 		LocalDateTime cnDate = getTimePoints().getCancellationNoticeDate(endorsementInstallmentDueDate);
 		TimeSetterUtil.getInstance().nextPhase(cnDate);
 		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
@@ -177,7 +192,7 @@ public class Scenario4 extends ScenarioBaseTest {
 
 	protected void paymentInFullCancellNoticeAmount() {
 		// Set any date prior to Cancelation date
-		LocalDateTime cnDate = getTimePoints().getCancellationDate(endorsementInstallmentDueDate).minusDays(5).with(DateTimeUtils.closestWorkingDay);
+		LocalDateTime cnDate = getTimePoints().getCancellationDate(endorsementInstallmentDueDate).minusDays(5).with(DateTimeUtils.closestFutureWorkingDay);
 		TimeSetterUtil.getInstance().nextPhase(cnDate);
 
 		mainApp().open();
@@ -194,7 +209,9 @@ public class Scenario4 extends ScenarioBaseTest {
 	}
 
 	protected void verifyFormAHCWXX() {
-		//TODO DocGen utils
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHCWXX);
 //		DocGenHelper.verifyDocumentsGeneratedByJob(TimeSetterUtil.getInstance().getCurrentTime(), policyNum, OnDemandDocuments.AHCWXX);
 	}
 
@@ -253,7 +270,8 @@ public class Scenario4 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		verifyRenewPremiumNotice(policyExpirationDate, billDate);
+		Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
+		verifyRenewPremiumNotice(policyExpirationDate, billDate, pligaOrMvleFee);
 	}
 
 	protected void expirePolicy() {
@@ -286,7 +304,9 @@ public class Scenario4 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
 
-		Dollar rAmount = BillingHelper.getBillDueAmount(policyExpirationDate, "Bill");
+		String billType = getState().equals(Constants.States.CA) ? BillsAndStatementsType.OFFER : BillsAndStatementsType.BILL;
+		Dollar rAmount = BillingHelper.getBillMinDueAmount(policyExpirationDate, billType);
+
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), rAmount);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
 	}
@@ -303,18 +323,31 @@ public class Scenario4 extends ScenarioBaseTest {
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.CUSTOMER_DECLINED).verify(1);
 
-		policy.manualRenewalWithOrWithoutLapse().perform(getStateTestData(tdPolicy, "ManualRenewalWithOrWithoutLapse", "TestData"));
+		if (getPolicyType().isAutoPolicy()) {
+			policy.dataGather().start();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			PremiumAndCoveragesTab.calculatePremium();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+			new DocumentsAndBindTab().submitTab();
+		} else {
+			policy.manualRenewalWithOrWithoutLapse().perform(getStateTestData(tdPolicy, "ManualRenewalWithOrWithoutLapse", "TestData"));
+		}
 
 		SearchPage.openPolicy(policyNum);
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
-		PolicySummaryPage.verifyLapseExistFlagPresent();
+
+		if (!getPolicyType().isAutoPolicy()) {
+			PolicySummaryPage.verifyLapseExistFlagPresent();
+		}
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
-		// TODO Possible problems with MD and MT state. See QC 35220 for details.
-		//if (!getState().equals(Constants.States.MD) && !getState().equals(Constants.States.MT)) {
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getPayLapsedRenewShort(policyExpirationDate))
-				.setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
+
+		if (!getPolicyType().isAutoPolicy()) {
+			// TODO Possible problems with MD and MT state. See QC 35220 for details.
+			//if (!getState().equals(Constants.States.MD) && !getState().equals(Constants.States.MT)) {
+			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getPayLapsedRenewShort(policyExpirationDate)).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
+		}
 	}
 }

@@ -88,12 +88,22 @@ public class PrefillTab extends Tab {
 		String pathToList = TestData.makeKeyPath(getMetaKey(), PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel());
 		String pathToValue = PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ACTIVE_UNDERLYING_POLICIES_SEARCH.getLabel();
 		String modifiedValueKey = PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesSearch.POLICY_NUMBER.getLabel();
+		String manualValueKey = PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesManual.POLICY_NUMBER.getLabel();
 		List<TestData> tdl = td.getTestData(getMetaKey()).getTestDataList(PersonalUmbrellaMetaData.PrefillTab.ACTIVE_UNDERLYING_POLICIES.getLabel());
 		for(TestData tempTD : tdl){
-				String key = tempTD.getTestData(pathToValue).getValue(modifiedValueKey);
-			if(policies.containsKey(key)) {
-				tempTD.adjust(TestData.makeKeyPath(pathToValue, modifiedValueKey), policies.get(key));
+			String key = null;
+			if (tempTD.getTestData(pathToValue) != null) {
+				key = tempTD.getTestData(pathToValue).getValue(modifiedValueKey);
+				if(policies.containsKey(key)) {
+					tempTD.adjust(TestData.makeKeyPath(pathToValue, modifiedValueKey), policies.get(key));
+				}
+			} else { 
+				key = tempTD.getTestData("ActiveUnderlyingPoliciesManual").getValue(manualValueKey);
+				if(policies.containsKey(key)) {
+					tempTD.adjust(TestData.makeKeyPath("ActiveUnderlyingPoliciesManual", manualValueKey), policies.get(key));
+				}
 			}
+
 		}
 		td.adjust(pathToList, tdl);
 		return td;

@@ -1,6 +1,8 @@
 package aaa.modules.regression.sales.pup;
 
 import org.testng.Assert;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import aaa.helpers.constants.ComponentConstant;
@@ -22,9 +24,10 @@ import aaa.modules.policy.PersonalUmbrellaBaseTest;
  */
 public class TestPolicyCreationFull extends PersonalUmbrellaBaseTest {
 
-    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+    @Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.PUP)
-    public void testPolicyCreation() {
+    public void testPolicyCreation(@Optional("") String state) {
 
         mainApp().open();
         createCustomerIndividual();

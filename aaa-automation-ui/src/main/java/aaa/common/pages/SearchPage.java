@@ -8,6 +8,7 @@ import java.util.List;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.main.enums.ProductConstants;
+import aaa.main.pages.summary.BillingSummaryPage;
 import org.apache.commons.collections4.CollectionUtils;
 import org.openqa.selenium.By;
 import aaa.main.enums.SearchEnum;
@@ -65,9 +66,13 @@ public class SearchPage extends MainPage {
 	}
 
 	public static void openPolicy(String policyNum) {
+		openPolicy(policyNum, ProductConstants.PolicyStatus.POLICY_ACTIVE);
+	}
+
+	public static void openPolicy(String policyNum, String status) {
 		search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
 		if (tableSearchResults.isPresent()) {
-			tableSearchResults.getRow("Status", ProductConstants.PolicyStatus.POLICY_ACTIVE).getCell(1).controls.links.getFirst().click();
+			tableSearchResults.getRow("Status", status).getCell(1).controls.links.getFirst().click();
 		}
 	}
 
@@ -76,8 +81,7 @@ public class SearchPage extends MainPage {
 	}
 
 	public static void openBilling(String policyNum) {
-		openPolicy(policyNum);
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
 	}
 
 	public static void clear() {

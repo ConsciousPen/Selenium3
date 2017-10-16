@@ -71,10 +71,10 @@ public class JobUtils {
 		executeJob(job, false);
 	}
 
-	public static void executeJob(Job job, long timeout) {
+	public static void executeJob(Job job, long pauseBefore) {
 		try {
 			log.info("Pause before " + job.getJobName() + " job execution is called");
-			Thread.sleep(timeout);
+			Thread.sleep(pauseBefore);
 		} catch (InterruptedException e) {
 			log.info("Pause before job execution is failed: ", e);
 		}
@@ -89,7 +89,7 @@ public class JobUtils {
 			} catch (Exception ioe) {
 				// Workaround of HTTP 502 error
 				if (ioe instanceof IOException || ioe.getCause() instanceof IOException) {
-					log.info("Failed durring run of " + jobName + ". Trying to rerun.", ioe);
+					log.info("Failed during run of " + jobName + ". Trying to rerun.", ioe);
 					HttpJob.executeJob(jobName);
 				} else {
 					throw ioe;

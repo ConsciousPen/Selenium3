@@ -6,6 +6,8 @@ import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.template.PolicyCancelReinstate;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
@@ -23,9 +25,10 @@ public class TestPolicyCancelReinstate extends PolicyCancelReinstate {
         return PolicyType.AUTO_SS;
     }
     
-    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+    @Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
-    public void testPolicyCancelReinstate() {
+    public void testPolicyCancelReinstate(@Optional("") String state) {
         
     	super.testPolicyCancelReinstate();
         

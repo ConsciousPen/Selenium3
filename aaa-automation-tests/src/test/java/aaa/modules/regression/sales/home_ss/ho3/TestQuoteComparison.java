@@ -9,6 +9,8 @@ import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -116,9 +118,10 @@ import static aaa.main.metadata.policy.HomeSSMetaData.ProductOfferingTab.Variati
 public class TestQuoteComparison extends HomeSSHO3BaseTest {
 
 
+	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-	public void TestQuoteComparison() {
+	public void testQuoteComparison(@Optional("") String state) {
 
 		TestData td = getPolicyTD();
 		ProductOfferingTab productOfferingTab = new ProductOfferingTab();
@@ -332,7 +335,7 @@ public class TestQuoteComparison extends HomeSSHO3BaseTest {
 				(productOfferingTab.getAssetList().getAsset(HERITAGE).isPresent());
 
 		policy.getDefaultView().fillFromTo(td, ProductOfferingTab.class, PurchaseTab.class, true);
-		endorsementTab.submitTab();
+		new PurchaseTab().submitTab();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info("TestQuoteComparison is passed with policy#" + PolicySummaryPage.labelPolicyNumber.getValue());
 	}
