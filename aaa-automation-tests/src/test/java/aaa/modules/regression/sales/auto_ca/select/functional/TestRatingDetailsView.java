@@ -3,13 +3,13 @@ package aaa.modules.regression.sales.auto_ca.select.functional;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.regression.sales.template.functional.RatingDetailsCompCollSymbolsPresence;
+import aaa.modules.regression.sales.template.functional.CompCollSymbolsPresence;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
-public class TestRatingDetailsView extends RatingDetailsCompCollSymbolsPresence {
+public class TestRatingDetailsView extends CompCollSymbolsPresence {
 
     @Override
     protected PolicyType getPolicyType() {

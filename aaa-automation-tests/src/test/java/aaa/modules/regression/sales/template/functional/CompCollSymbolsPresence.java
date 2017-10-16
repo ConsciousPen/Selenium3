@@ -9,7 +9,7 @@ import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.waiters.Waiters;
 
-public class RatingDetailsCompCollSymbolsPresence extends PolicyBaseTest {
+public class CompCollSymbolsPresence extends PolicyBaseTest {
     public void verifyCompCollSymbolsOnRatingDetails() {
         //Adjust default Data with modified VehicleTab Data
         TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
