@@ -27,13 +27,13 @@ public class TestCFTScenario10 extends ControlledFinancialBaseTest {
 	public void cftTestScenario10(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		generateInstallmentBill(1);
-		automaticCancellationNotice(1);
-		automaticCancellation(1);
+		// automaticCancellationNotice(1);
+		// automaticCancellation(1);
 		acceptMinDuePaymentDD1plus30();
 		// // automaticCancellation(2);
-		generateFirstEarnedPremiumBill(1);
-		generateSecondEarnedPremiumBill(1);
-		generateThirdEarnedPremiumBill(1);
+		// generateFirstEarnedPremiumBill(1);
+		// generateSecondEarnedPremiumBill(1);
+		// generateThirdEarnedPremiumBill(1);
 		billingAccount.acceptPayment().perform(getTestSpecificTD("AcceptPayment50"));
 
 	}
