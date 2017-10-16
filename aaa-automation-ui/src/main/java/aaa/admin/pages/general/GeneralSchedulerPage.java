@@ -2,10 +2,10 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.admin.pages.general;
 
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import org.openqa.selenium.By;
 
 import com.exigen.ipb.etcsa.base.app.Application;
-import com.exigen.ipb.etcsa.base.app.ApplicationFactory;
 import com.exigen.ipb.etcsa.base.app.LoginPage;
 
 import aaa.JobRunner;
@@ -142,7 +142,7 @@ public class GeneralSchedulerPage extends AdminPage {
     }
 
     private static void waitForJob() {
-        Application.wait(JOB_RUN_RETRIES_SLEEP * 1000);
+        Application.wait(JOB_RUN_RETRIES_SLEEP);
         try {
             NavigationPage.toViewLeftMenu(AdminAppLeftMenu.GENERAL_SCHEDULER.get());
         } catch (Exception e) {
@@ -168,7 +168,7 @@ public class GeneralSchedulerPage extends AdminPage {
 
     //TODO(vmarkouski): workaround for EISDEV-119304
     public static void reopenGeneralScheduler() {
-        ApplicationFactory.get().adminApp(new LoginPage(
+        CSAAApplicationFactory.get().adminApp(new LoginPage(
                 PropertyProvider.getProperty(TestProperties.EU_USER),
                 PropertyProvider.getProperty(TestProperties.EU_PASSWORD))).open();
         NavigationPage.toViewLeftMenu(AdminAppLeftMenu.GENERAL_SCHEDULER.get());

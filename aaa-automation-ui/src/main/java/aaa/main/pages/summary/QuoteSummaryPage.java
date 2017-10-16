@@ -17,6 +17,6 @@ public class QuoteSummaryPage extends MainPage {
     public static ComboBox comboBoxProduct = new ComboBox(By.id("quoteForm:selectedProduct"));
     public static Dialog dialogSelectProduct = new Dialog("//div[@id='quoteForm:quotePreCreationPopup_container']");
     public static Table tablePremiumSummary = new Table(By.xpath("//table[contains(@id,'productConsolidatedViewForm')]"));
-
+    public static Table tableQuoteList = new Table(By.id("quotePageContents:body_quote_list_table"));
 
 }

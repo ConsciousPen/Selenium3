@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
+import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.enums.ProductConstants;
@@ -26,7 +27,7 @@ public class TestScenario3 extends AutoSSBaseTest {
 	private String policyNumber;
 	
 	@Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testPolicyCreation(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();

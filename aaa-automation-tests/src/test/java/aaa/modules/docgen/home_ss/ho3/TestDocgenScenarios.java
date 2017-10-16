@@ -14,6 +14,7 @@ import aaa.common.enums.NavigationEnum.HomeSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.billing.BillingPendingTransactionsVerifier;
+import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
@@ -116,7 +117,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 */
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testQuoteDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -285,7 +286,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * Generate Returning Payment Form
 	 */
 	@Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testPolicyDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -360,7 +361,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * </pre>
 	 */
 	@Parameters({"state"})
-	@Test()
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testPolicyRescissionNoticeDocument(@Optional("") String state) {
 		mainApp().open();
 		String policyNum = getCopiedPolicy();
@@ -443,7 +444,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * Generate HS 04 77 Endorsement For Bundles new stories :
 	 */
 	@Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testMortgagePolicyDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -578,7 +579,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * </pre>
 	 */
 	@Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testReturnPaymentDocuments(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -629,7 +630,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * </pre>
 	 */
 	@Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testCancellationNoticeDocument(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -667,7 +668,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	 * </pre>
 	 */
 	@Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testRefundCheckDocument(String state) throws Exception {
 		Dollar amount = new Dollar(1234);
 

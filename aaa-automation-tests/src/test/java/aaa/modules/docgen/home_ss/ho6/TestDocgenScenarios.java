@@ -8,6 +8,7 @@ import toolkit.verification.CustomAssert;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.HomeSSTab;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
@@ -101,7 +102,7 @@ public class TestDocgenScenarios extends HomeSSHO6BaseTest{
      */
 
     @Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
     public void testQuoteDocuments(@Optional("") String state) {
     	CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -260,7 +261,7 @@ public class TestDocgenScenarios extends HomeSSHO6BaseTest{
      */
 
     @Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
     public void ho6PolicyDocuments(@Optional("") String state) {
     	CustomAssert.enableSoftMode();
 		mainApp().open();

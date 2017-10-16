@@ -61,7 +61,7 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest{
      *  Check that all enabled documents can be generated
      */
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testPUPDocgenScenarios(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
