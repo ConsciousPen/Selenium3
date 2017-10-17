@@ -3,6 +3,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 
+import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.components.Efolder;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -31,6 +32,7 @@ import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.Dollar;
 import toolkit.utils.TestInfo;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
@@ -111,7 +113,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		CustomAssert.assertAll();
 	}
 
-	@Test(enabled = false)
+	@Test(enabled = true)
 	@TestInfo(isAuxiliary = true)
 	public static void eValueConfigInsert() {
 		List<String> configForStates = Arrays.asList("VA"  //for Paperless Preferences = Yes
@@ -128,6 +130,17 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		for (String configForStatesLimit : configForStatesLimits) {
 			insertConfigForLimitsRegularStates(configForStatesLimit);
 		}
+	}
+
+	@Test
+	@TestInfo(isAuxiliary = true)
+	public void precondJobAdding() {
+		adminApp().open();
+		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
+		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_BATCH_MARKER_JOB);
+		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_AUTOMATED_PROCESSING_INITIATION_JOB);
+		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AUTOMATED_PROCESSING_RATING_JOB);
+		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AUTOMATED_PROCESSING_ISSUING_OR_PROPOSING_JOB);
 	}
 
 	private static void insertConfigForRegularStates(String state) {
@@ -848,7 +861,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		//NB+30 jobs
-		//TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 
 
@@ -881,6 +894,8 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		//CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(2).getCell("Description").getValue().contains(descriptionTask3));
 		//CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(1).getCell("Description").getValue().contains(descriptionNote3));
 	}
+
+
 
 	private void pas309_eValueGreyBoxPaperlessCheck(String paperlessPreferenceValue) {
 		String messageBullet3 = "Enrollment in paperless notifications for policy and billing documents";

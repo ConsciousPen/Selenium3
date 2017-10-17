@@ -2,30 +2,22 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common.pages;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import org.openqa.selenium.By;
-
-import com.exigen.ipb.etcsa.base.app.Application;
-import com.exigen.ipb.etcsa.base.app.ApplicationFactory;
-import com.exigen.ipb.etcsa.base.app.ILogin;
-
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.common.metadata.LoginPageMeta;
+import com.exigen.ipb.etcsa.base.app.ILogin;
+import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.ListBox;
-import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.TextBox;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
+
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class LoginPage extends Page implements ILogin {
 

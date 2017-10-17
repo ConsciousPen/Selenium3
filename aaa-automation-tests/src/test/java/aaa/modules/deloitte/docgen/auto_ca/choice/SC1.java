@@ -1,13 +1,12 @@
 package aaa.modules.deloitte.docgen.auto_ca.choice;
 
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.modules.policy.auto_ca.actiontabs.PolicyDocGenActionTab;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 
 public class SC1 extends AutoCaChoiceBaseTest {
 	PolicyDocGenActionTab docgenActionTab = policy.quoteDocGen().getView().getTab(PolicyDocGenActionTab.class);
