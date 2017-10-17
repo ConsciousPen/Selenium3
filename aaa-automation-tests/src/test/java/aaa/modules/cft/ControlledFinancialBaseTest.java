@@ -326,11 +326,11 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	protected void rewritePolicyOnCancellationDate() {
-		LocalDateTime cDate = getTimePoints().getCancellationDate(installments.get().get(1));
+		LocalDateTime cDate = getTimePoints().getCancellationDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
 		TimeSetterUtil.getInstance().nextPhase(cDate);
 
 		mainApp().reopen();
-		SearchPage.openPolicy(policyNumber.get());
+		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.DATA_GATHERING);
 
