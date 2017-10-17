@@ -94,15 +94,6 @@ public class Scenario3 extends ScenarioBaseTest {
 				.setType(BillsAndStatementsType.CANCELLATION_NOTICE).verifyPresent();
 	}
 
-	public void cancelPolicy() {
-		LocalDateTime cDate = getTimePoints().getCancellationDate(installmentDueDates.get(1));
-		TimeSetterUtil.getInstance().nextPhase(cDate);
-		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
-		mainApp().open();
-		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_CANCELLED);
-	}
-
 	public void createRemittanceFile() {
 		LocalDateTime date = getTimePoints().getCancellationDate(installmentDueDates.get(1));
 		TimeSetterUtil.getInstance().nextPhase(date.plusDays(5).with(DateTimeUtils.closestFutureWorkingDay));

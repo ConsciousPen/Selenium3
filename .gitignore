@@ -35,3 +35,4 @@ aaa-automation-tests/src/test/java/aaa/helpers/FileUtils.java
 aaa-automation-tests/src/test/resources/config/browserpools/CustomBrowserPool.xml
 aaa-automation-tests/src/test/resources/testsuites/debug_suite.xml
 aaa-automation-tests/src/test/resources/testsuites/e2e_debug_suite.xml
+aaa-automation-tests/src/test/resources/config/app/aws2aaawas26.properties
