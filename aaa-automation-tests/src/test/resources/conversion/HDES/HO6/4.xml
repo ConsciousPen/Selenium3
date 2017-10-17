@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
+<!-- Original file name: 20170914_041400_CNV_B_HDESPROP_EXGPAS_8435_D_20171219_30000811_WK20155 -->
+  <AAAHOPolicy state="Created">
+    <agencyCd>500001005</agencyCd>
+    <agencyLocation>500005379</agencyLocation>
+    <agentCd>42161986</agentCd>
+    <agentGeneralNumber>003</agentGeneralNumber>
+    <doNotRenewInd>false</doNotRenewInd>
+    <effective>2017-10-20T00:00:00</effective>
+    <expiration>2018-10-20T00:00:00</expiration>
+    <imported>CONV</imported>
+    <importedFrom>HDES</importedFrom>
+    <isAdditionalPolicy>true</isAdditionalPolicy>
+    <leadSourceCd>25</leadSourceCd>
+    <officeType>AZ Club Agent</officeType>
+    <policyFormCd>HO6</policyFormCd>
+    <preConversionPolicyNumber>WK20155</preConversionPolicyNumber>
+    <preConversionPolicyPremium>300</preConversionPolicyPremium>
+    <producerCd>500001005</producerCd>
+    <productCd>AAA_HO_CA</productCd>
+    <riskStateCd>CA</riskStateCd>
+    <sourcePolicyNum>WK20155</sourcePolicyNum>
+    <subProducerCd>42161986</subProducerCd>
+    <tollNumberCd>xxx</tollNumberCd>
+    <underwriterCd>CSAAIB</underwriterCd>
+    <AAACeaDetailsComponent state="Created">
+      <acceptCeaOffer>false</acceptCeaOffer>
+      <policyType>BASIC</policyType>
+    </AAACeaDetailsComponent>
+    <AAAFirelineReportComponent state="Created">
+      <dwellAddressCity>FOLSOM</dwellAddressCity>
+      <dwellAddressLine1>2706 ESPLANADE CIR</dwellAddressLine1>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>95630</dwellAddressZip>
+      <expirationDate>2018-03-19T00:00:00</expirationDate>
+      <orderDate>2017-12-19T00:00:00</orderDate>
+      <status>Valid</status>
+    </AAAFirelineReportComponent>
+    <AAAHOCommunicationInfo state="Created">
+      <phoneNumber>9163703763</phoneNumber>
+      <preferredContact>homePhone</preferredContact>
+    </AAAHOCommunicationInfo>
+    <AAAHOMembership state="Created">
+      <insurerCd>No</insurerCd>
+    </AAAHOMembership>
+    <AAAHONamedInsured state="Created">
+      <aaaLegalNameIND>false</aaaLegalNameIND>
+      <dateOfBirth>1982-05-14T00:00:00</dateOfBirth>
+      <employeeType>false</employeeType>
+      <firstName>ERIK</firstName>
+      <lastName>DALLOSTA</lastName>
+      <occupationDesc>Office_Clerical</occupationDesc>
+      <principalRoleCd>policyHolder</principalRoleCd>
+      <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+      <trusteeIndicator>false</trusteeIndicator>
+      <AAAHOOrderClueReport state="Created">
+        <addressLine1>2706 ESPLANADE CIR</addressLine1>
+        <city>FOLSOM</city>
+        <dateOfBirth>1982-05-14T00:00:00</dateOfBirth>
+        <expirationDt>2018-02-17T00:00:00</expirationDt>
+        <firstName>ERIK</firstName>
+        <lastName>DALLOSTA</lastName>
+        <noOfClaims>0</noOfClaims>
+        <orderDate>2017-12-19T00:00:00</orderDate>
+        <postalCode>95630</postalCode>
+        <reportExpired>false</reportExpired>
+        <status>Valid</status>
+      </AAAHOOrderClueReport>
+      <AAAInsuredPrimaryAddress state="Created">
+        <addressLine1>2706 ESPLANADE CIR</addressLine1>
+        <city>FOLSOM</city>
+        <countryCd>US</countryCd>
+        <postalCode>95630</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAInsuredPrimaryAddress>
+    </AAAHONamedInsured>
+    <AAAHOOtherOrPriorPolicyComponent state="Created">
+      <autoBILimit>$500,000/$500,000</autoBILimit>
+      <autoPolicyPending>false</autoPolicyPending>
+      <policyEffectiveDate>2017-10-20T00:00:00</policyEffectiveDate>
+      <policyNumber>On File- Conversion</policyNumber>
+      <productCd>Auto</productCd>
+      <stateCd>CA</stateCd>
+    </AAAHOOtherOrPriorPolicyComponent>
+    <AAAHOPaymentOption state="Created">
+      <billToAtRenewal>Insured</billToAtRenewal>
+      <paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+      <paymentPlanCd>standardHO_CA</paymentPlanCd>
+      <recurringPayment>true</recurringPayment>
+    </AAAHOPaymentOption>
+    <AAAHOPolicyPriorCarrier state="Created">
+      <baseDate>2013-01-01T00:00:00</baseDate>
+      <carrierCd>1</carrierCd>
+      <noOfYearsWithHO>5</noOfYearsWithHO>
+      <policyType>HO6</policyType>
+    </AAAHOPolicyPriorCarrier>
+    <AAAHOPreDwellingAddrExists state="Created">
+      <yesNoAnswer>false</yesNoAnswer>
+    </AAAHOPreDwellingAddrExists>
+    <AAAIso360ReportComponent state="Created">
+      <constructionTypeCd>Frame</constructionTypeCd>
+      <dwellAddressCity>FOLSOM</dwellAddressCity>
+      <dwellAddressLine1>2706 ESPLANADE CIR</dwellAddressLine1>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>95630</dwellAddressZip>
+      <expirationDate>2018-02-17T00:00:00</expirationDate>
+      <isoReplacementCost>101200</isoReplacementCost>
+      <livingArea>9999</livingArea>
+      <numberOfFamilies>1</numberOfFamilies>
+      <numberOfStories>1</numberOfStories>
+      <orderDate>2017-12-19T00:00:00</orderDate>
+      <roofShape>Complex/Custom</roofShape>
+      <roofType>Builtup Tar &amp; Gravel</roofType>
+      <status>Valid</status>
+      <yearBuilt>2005</yearBuilt>
+    </AAAIso360ReportComponent>
+    <AAAPolicyPrintingInfoComponent state="Created">
+      <suppressPrint>PD</suppressPrint>
+    </AAAPolicyPrintingInfoComponent>
+    <AAAPpcReportComponent state="Created">
+      <dwellAddressCity>FOLSOM</dwellAddressCity>
+      <dwellAddressLine1>2706 ESPLANADE CIR</dwellAddressLine1>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>95630</dwellAddressZip>
+      <expirationDate>2018-02-17T00:00:00</expirationDate>
+      <orderDate>2017-12-19T00:00:00</orderDate>
+      <ppcValue>3</ppcValue>
+      <status>Valid</status>
+    </AAAPpcReportComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>1POSOA</documentCd>
+      <documentText>Signed policy application</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>616530</documentCd>
+      <documentText>California Residential Property Insurance Disclosure</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>AHAPXX</documentCd>
+      <documentText>AutoPay Authorization Form</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>CEAOD</documentCd>
+      <documentText>CEA Offer Declination</documentText>
+    </AAASupportingDocComponent>
+    <AAAUnderwritingQuestionaireComponent state="Created">
+      <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+      <DwellLocatedInd>false</DwellLocatedInd>
+      <EmployeesResidentsInd>false</EmployeesResidentsInd>
+      <ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+      <GasWaterInGarageInd>false</GasWaterInGarageInd>
+      <PremisesEndrosInd>false</PremisesEndrosInd>
+      <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+    </AAAUnderwritingQuestionaireComponent>
+    <Commissions state="Created">
+      <commissionTypeCd>R</commissionTypeCd>
+    </Commissions>
+    <AAADwellEntityComponent state="Created">
+      <aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+      <aaaDwellingUsage>1</aaaDwellingUsage>
+      <aaaFirelineScore>0</aaaFirelineScore>
+      <aaaInsuredTenantDiscountInfo>false</aaaInsuredTenantDiscountInfo>
+      <aaanumberofResidents>9999</aaanumberofResidents>
+      <addressLine1>2706 ESPLANADE CIR</addressLine1>
+      <city>FOLSOM</city>
+      <firelineMatchType>Address</firelineMatchType>
+      <localFireAlarmInd>true</localFireAlarmInd>
+      <numberOfFamilies>1</numberOfFamilies>
+      <placementOrMatchType>Address</placementOrMatchType>
+      <postalCode>95630</postalCode>
+      <spaTubType>None</spaTubType>
+      <stateProvCd>CA</stateProvCd>
+      <swimPoolType>None</swimPoolType>
+      <trampolineType>None</trampolineType>
+      <woodStoveInd>false</woodStoveInd>
+      <AAACoverageA state="Created">
+        <coverageCd>CovA</coverageCd>
+        <limitAmount>101200</limitAmount>
+      </AAACoverageA>
+      <AAACoverageC state="Created">
+        <coverageCd>CovC</coverageCd>
+        <limitAmount>5800</limitAmount>
+      </AAACoverageC>
+      <AAACoverageD state="Created">
+        <coverageCd>CovD</coverageCd>
+        <limitAmount>18000</limitAmount>
+      </AAACoverageD>
+      <AAACoverageE state="Created">
+        <coverageCd>CovE</coverageCd>
+        <limitAmount>300000</limitAmount>
+      </AAACoverageE>
+      <AAACoverageF state="Created">
+        <coverageCd>CovF</coverageCd>
+        <limitAmount>1000</limitAmount>
+      </AAACoverageF>
+      <AAAHOConstructionInfo state="Created">
+        <condomCoverageADwellingRequested>Interior</condomCoverageADwellingRequested>
+        <constructionTypeCd>Frame</constructionTypeCd>
+        <isoReplacementCost>101200</isoReplacementCost>
+        <livingArea>9999</livingArea>
+        <numberOfStories>1</numberOfStories>
+        <replacementCost>101200</replacementCost>
+        <roofShape>Complex/Custom</roofShape>
+        <roofType>Builtup Tar &amp; Gravel</roofType>
+        <yearBuilt>2005</yearBuilt>
+      </AAAHOConstructionInfo>
+      <AAAPpcDetailsInfo state="Created">
+        <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+        <fireDepartmentType>T</fireDepartmentType>
+        <fireDistrict>FOLSOM</fireDistrict>
+        <oldPpcValue>3</oldPpcValue>
+        <ppcValue>3</ppcValue>
+      </AAAPpcDetailsInfo>
+      <AAAPropertyDeductible state="Created">
+        <coverageCd>DEDUCTIBLE</coverageCd>
+        <limitAmount>3000</limitAmount>
+      </AAAPropertyDeductible>
+      <PreconfigLocation state="Created">
+        <AAAHODwellAddress state="Created">
+          <addressLine1>2706 ESPLANADE CIR</addressLine1>
+          <addressValidatedInd>Yes</addressValidatedInd>
+          <city>FOLSOM</city>
+          <county>Sacramento</county>
+          <postalCode>95630</postalCode>
+          <stateProvCd>CA</stateProvCd>
+        </AAAHODwellAddress>
+      </PreconfigLocation>
+    </AAADwellEntityComponent>
+    <HO0496EndorsementForm state="Created"/>
+    <HW0915EndorsementForm state="Created"/>
+    <HO1733EndorsementForm state="Created"/>
+    <HO28EndorsementForm state="Created"/>
+    <HO29EndorsementForm state="Created"/>
+    <HO79CEndorsementForm state="Created"/>
+    <HO90EndorsementForm state="Created"/>
+    <HW0104EndorsementForm state="Created"/>
+    <HW0495EndorsementForm state="Created">
+      <coverageLimit>10000</coverageLimit>
+      <deductible>1000</deductible>
+    </HW0495EndorsementForm>
+    <HW2482EndorsementForm state="Created"/>
+    <PreconfigPersonInfo state="Created">
+      <AAAHOMailingAddressComponent state="Created">
+        <addressLine1>1116 SANDY CREEK DR</addressLine1>
+        <addressValidatedInd>Yes</addressValidatedInd>
+        <city>FOLSOM</city>
+        <countryCd>US</countryCd>
+        <county>Sacramento</county>
+        <postalCode>95630</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAHOMailingAddressComponent>
+    </PreconfigPersonInfo>
+  </AAAHOPolicy>
+  <personalBillingAccount>
+    <paymentDetailsPCICreditCard id="1">
+      <profileId>17ADA617-0E14-DFFF-2B6D-DBDDFDC5D792</profileId>
+      <expirationDate>2019-01-31T00:00:00</expirationDate>
+      <fullName>JAKE BBLACKBERRY</fullName>
+      <number>4595</number>
+      <type>VISA</type>
+      <recurringEffectiveDate>2017-12-19T00:00:00</recurringEffectiveDate>
+    </paymentDetailsPCICreditCard>
+    <billingInfo>
+      <defaultPaymentMethod>1</defaultPaymentMethod>
+    </billingInfo>
+    <enableRecurringPayments>true</enableRecurringPayments>
+    <overpaidAmountOption>nextInstallments</overpaidAmountOption>
+  </personalBillingAccount>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: Dwelling address validated and standardized</title>
+    <updatedOn>2017-12-19T00:00:00</updatedOn>
+    <userText>Dwelling Address was validated and standardized during Conversion. Address was standardized from 2706 ESPLANADE CIR  FOLSOM CA 95630 to 2706 ESPLANADE CIR  FOLSOM CA 95630</userText>
+  </userNote>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: Mailing address validated and standardized</title>
+    <updatedOn>2017-12-19T00:00:00</updatedOn>
+    <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 1116 SANDY CREEK DR  FOLSOM CA 95630 to 1116 SANDY CREEK DR  FOLSOM CA 95630</userText>
+  </userNote>
+</Policy>

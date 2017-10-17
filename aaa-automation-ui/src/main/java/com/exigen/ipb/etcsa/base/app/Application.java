@@ -10,175 +10,174 @@ import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.Button;
 import com.exigen.ipb.etcsa.base.config.CustomTestProperties;
 import com.exigen.istf.exec.testng.TimeShiftTestUtil;
-import toolkit.webdriver.controls.StaticElement;
 
 public abstract class Application {
 
-    protected static Logger log = LoggerFactory.getLogger(Application.class);
+	protected static Logger log = LoggerFactory.getLogger(Application.class);
 
-    protected boolean isApplicationOpened = false;
+	protected boolean isApplicationOpened = false;
 
-    protected String url = "";
-    protected String name = "";
+	protected String url = "";
+	protected String name = "";
 
-    public ILogin login;
+	protected ILogin login;
 
-    public enum AppType {
-        ADMIN,
-        OPERATIONAL_REPORT,
-        EU
-    }
+	public enum AppType {
+		ADMIN,
+		OPERATIONAL_REPORT,
+		EU
+	}
 
-    protected Application(String name, String url) {
-        this.name = name;
-        this.url = url;
-    }
+	protected Application(String name, String url) {
+		this.name = name;
+		this.url = url;
+	}
 
-    public void setLogin(ILogin login) {
-        this.login = login;
-    }
+	protected void setLogin(ILogin login) {
+		this.login = login;
+	}
 
-    public ILogin getLogin() {
-        return login;
-    }
+	public ILogin getLogin() {
+		return login;
+	}
 
-    public abstract void switchPanel();
+	protected abstract void switchPanel();
 
-    public void open() {
-        if (!isApplicationOpened) {
-            openSession();
-            getLogin().login();
-        }
-        switchPanel();
-    }
+	public void open() {
+		if (!isApplicationOpened) {
+			openSession();
+			getLogin().login();
+		}
+		switchPanel();
+	}
 
-    public void open(String username, String password) {
-        if (!isApplicationOpened) {
-            openSession();
-            getLogin().login(username, password);
-        }
-        switchPanel();
-    }
+	public void open(String username, String password) {
+		if (!isApplicationOpened) {
+			openSession();
+			getLogin().login(username, password);
+		}
+		switchPanel();
+	}
 
-    public void open(TestData td) {
-        if (!isApplicationOpened) {
-            openSession();
-            getLogin().login(td);
-        }
-        switchPanel();
-    }
+	public void open(TestData td) {
+		if (!isApplicationOpened) {
+			openSession();
+			getLogin().login(td);
+		}
+		switchPanel();
+	}
 
-    public void reopen() {
-        close();
-        open();
-    }
+	public void reopen() {
+		close();
+		open();
+	}
 
-    public void reopen(String username, String password) {
-        close();
-        open(username, password);
-    }
+	public void reopen(String username, String password) {
+		close();
+		open(username, password);
+	}
 
-    public void close() {
-        if (isApplicationOpened) {
-            setApplicationOpened(false);
-            try {
-                Button buttonSaveAndExit = new Button(By.id("topSaveAndExitLink"));
-                if (buttonSaveAndExit.isPresent() && buttonSaveAndExit.isVisible()) {
-                    buttonSaveAndExit.click();
-                    StaticElement policyNum = new StaticElement(By.id("productContextInfoForm:grid"));
-                    if(policyNum.isPresent() && policyNum.isVisible()){
-						log.info("Policy/Quote is saved with num: " + policyNum.getValue());
-					}
-                }
-                getLogin().logout();
-            } catch (Exception e) {
-                log.info("Cannot close application: " + e);
-            }
-            if (!TimeShiftTestUtil.isContextAvailable()) {
-                closeSession();
-            }
-        }
-    }
+	public void close() {
+		if (isApplicationOpened) {
+			setApplicationOpened(false);
+			try {
+				Button buttonSaveAndExit = new Button(By.id("topSaveAndExitLink"));
+				if (buttonSaveAndExit.isPresent() && buttonSaveAndExit.isVisible()) {
+					buttonSaveAndExit.click();
+				}
+				getLogin().logout();
+			} catch (Exception e) {
+				log.info("Cannot close application: " + e);
+			}
+			if (!TimeShiftTestUtil.isContextAvailable()) {
+				closeSession();
+			}
+		}
+	}
 
-    public static void wait(int n) {
-        try {
-            Thread.sleep(n);
-        } catch (InterruptedException e) {
-            log.warn("", e);
-        }
-    }
+	/**
+	 * Waiter
+	 *
+	 * @param seconds - secods amount to wait.
+	 */
+	public static void wait(int seconds) {
+		try {
+			Thread.sleep(seconds * 1000);
+		} catch (InterruptedException e) {
+			log.warn("", e);
+		}
+	}
 
-    private void openSession() {
-        if (TimeShiftTestUtil.isContextAvailable()) {
-            if (TimeShiftTestUtil.getContext().getPhaseUrls().length == 0) {
-                TimeShiftTestUtil.getContext().setPhaseStartUrls(url);
-            }
-            BrowserController.initBrowser(TimeShiftTestUtil.getContext().getBrowser(0).getWebDriver());
-        } else {
-            BrowserController.initBrowser();
-        }
+	private void openSession() {
+		CSAAApplicationFactory.get().adminApp(getLogin()).close();
+		CSAAApplicationFactory.get().mainApp(getLogin()).close();
+		CSAAApplicationFactory.get().opReportApp(getLogin()).close();
+		if (TimeShiftTestUtil.isContextAvailable()) {
+			if (TimeShiftTestUtil.getContext().getPhaseUrls().length == 0) {
+				TimeShiftTestUtil.getContext().setPhaseStartUrls(url);
+			}
+			BrowserController.initBrowser(TimeShiftTestUtil.getContext().getBrowser(0).getWebDriver());
+		} else {
+			BrowserController.initBrowser();
+		}
 
-        BrowserController.get().open(url);
-        BrowserController.get().maximize();
-        setApplicationOpened(true);
-    }
+		BrowserController.get().open(url);
+		BrowserController.get().maximize();
+		setApplicationOpened(true);
+	}
 
-    private void closeSession() {
-        BrowserController.get().driver().quit();
-    }
+	private void closeSession() {
+		BrowserController.get().driver().quit();
+	}
 
-    private void setApplicationOpened(boolean status) {
-        isApplicationOpened = status;
-    }
+	private void setApplicationOpened(boolean status) {
+		isApplicationOpened = status;
+	}
 
-    public static String formatURL(AppType type) {
-        String result = "http://";
-        String host = PropertyProvider.getProperty(TestProperties.APP_HOST);
-        if ((AppType.EU.equals(type) || AppType.ADMIN.equals(type)) && !PropertyProvider.getProperty(TestProperties.APP_EU_HOST).isEmpty()) {
-            host = PropertyProvider.getProperty(TestProperties.APP_EU_HOST);
-        }
-        return result + host + addTemplate(type);
-    }
+	public static String getURL(AppType type) {
+		String result = "http://" + getHost(type);
+		switch (type) {
+			case ADMIN:
+				result += PropertyProvider.getProperty(TestProperties.AD_URL_TEMPLATE).split("/login.xhtml")[0];
+				result += "/admin";
+				break;
+			case EU:
+				result += PropertyProvider.getProperty(TestProperties.EU_URL_TEMPLATE).split("/login.xhtml")[0];
+				result += "/";
+			case OPERATIONAL_REPORT:
+				result += PropertyProvider.getProperty(CustomTestProperties.OR_URL_TEMPLATE);
+				break;
+			default:
+				break;
+		}
 
-    private static String addTemplate(AppType type) {
-        String result = "";
-        switch (type) {
-            case ADMIN:
-                result += PropertyProvider.getProperty(TestProperties.AD_URL_TEMPLATE).split("/login.xhtml")[0];
-                result += "/admin";
-                break;
-            case EU:
-                result += PropertyProvider.getProperty(TestProperties.EU_URL_TEMPLATE).split("/login.xhtml")[0];
-                result += "/";
-            case OPERATIONAL_REPORT:
-                result += PropertyProvider.getProperty(CustomTestProperties.OR_URL_TEMPLATE);
-                break;
-            default:
-                break;
-        }
-        return result;
-      /*  String result = "";
-        String mainServerURLendpoint = PropertyProvider.getProperty(TestProperties.EU_URL_TEMPLATE).split("/login.xhtml")[0];
-        switch (type) {
-            case ADMIN:
-                result += PropertyProvider.getProperty(TestProperties.AD_URL_TEMPLATE);
-                if (!mainServerURLendpoint.endsWith("/")) {
-                    result += "/";
-                }
-                result += "admin";
-                break;
-            case EU:
-                result += mainServerURLendpoint + "/";
-                break;
-            case OPERATIONAL_REPORT:
-                if (PropertyProvider.getProperty(CustomTestProperties.OR_URL_TEMPLATE).isEmpty()) {
-                    log.warn("Property '" + CustomTestProperties.OR_URL_TEMPLATE + "' is missing.");
-                    result += mainServerURLendpoint;
-                } else {
-                    result += PropertyProvider.getProperty(CustomTestProperties.OR_URL_TEMPLATE);
-                }
-            default:
-        }
-        return result;*/
-    }
+		return result;
+	}
+
+	protected static String formatURL(AppType type) {
+		String result = "http://" + getHost(type);
+
+		switch (type) {
+			case ADMIN:
+				result += PropertyProvider.getProperty(TestProperties.AD_URL_TEMPLATE);
+				break;
+			case EU:
+				result += PropertyProvider.getProperty(TestProperties.EU_URL_TEMPLATE);
+				break;
+			case OPERATIONAL_REPORT:
+				result += PropertyProvider.getProperty(CustomTestProperties.OR_URL_TEMPLATE);
+				break;
+			default:
+				break;
+		}
+		return result;
+	}
+
+	private static String getHost(AppType type) {
+		String host = PropertyProvider.getProperty(TestProperties.APP_HOST);
+		if ((AppType.EU.equals(type) || AppType.ADMIN.equals(type)) && !PropertyProvider.getProperty(TestProperties.APP_EU_HOST).isEmpty()) {
+			host = PropertyProvider.getProperty(TestProperties.APP_EU_HOST);
+		}
+		return host;
+	}
 }

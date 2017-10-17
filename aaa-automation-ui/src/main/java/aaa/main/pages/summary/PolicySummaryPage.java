@@ -2,22 +2,20 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.pages.summary;
 
-import java.time.LocalDateTime;
-
+import aaa.common.Tab;
+import aaa.common.components.Dialog;
+import aaa.main.enums.PolicyConstants;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.openqa.selenium.By;
-
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Table;
-import aaa.common.Tab;
-import aaa.common.components.Dialog;
-import aaa.main.enums.PolicyConstants;
 
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import java.time.LocalDateTime;
 
 public class PolicySummaryPage extends SummaryPage {
 
@@ -30,7 +28,6 @@ public class PolicySummaryPage extends SummaryPage {
 	public static StaticElement labelRenewals = new StaticElement(By.id("productContextInfoForm:lnkRenewals"));
 	public static StaticElement labelCancelNotice = new StaticElement(By.id("productContextInfoForm:cancelNoticeFlag"));
 	public static StaticElement labelDoNotRenew = new StaticElement(By.id("productContextInfoForm:doNotRenewFlag"));
-	public static StaticElement labelTermIncludesLapsePeriod = new StaticElement(By.id("productContextInfoForm:lapseExistsFlag"));
 	public static StaticElement labelManualRenew = new StaticElement(By.id("productContextInfoForm:manualRenewFlag"));
 	public static StaticElement labelPremiumWaived = new StaticElement(By.id("productContextInfoForm:premiumWaivedFlag"));
 	public static StaticElement labelLapseExist = new StaticElement(By.id("productContextInfoForm:lapseExistsFlag"));
@@ -81,6 +78,10 @@ public class PolicySummaryPage extends SummaryPage {
 	public static Table tablePaymentSummary = new Table(By.xpath("//table[@id='productConsolidatedViewForm:billing_transactions_active']"));
 	public static Table tableTransactionSummary = new Table(By.xpath("//table[@id='productConsolidatedViewForm:billing_transactions_active2']"));
 
+	public static Table tableAppliedDiscountsPolicy = new Table(By.xpath("//table[@id='productConsolidatedViewForm:policyDiscountsTable']"));
+	public static Table tableAppliedDiscountsDriver = new Table(By.xpath("//table[@id='productConsolidatedViewForm:driverDiscountsTable']"));
+	public static Table tableAppliedDiscountsVehicle = new Table(By.xpath("//table[@id='productConsolidatedViewForm:vehicleDiscountsTable']"));
+
 	public static Dialog dialogRemoveSuspense = new Dialog("//div[@id='validateActionPopup_container']");
 
 	public static Dollar getTotalPremiumSummaryForProperty() {
@@ -109,6 +110,11 @@ public class PolicySummaryPage extends SummaryPage {
 		}
 
 		return dateEffective;
+	}
+
+	public static String getPolicyNumber() {
+		String policyNumber = labelPolicyNumber.getValue();
+		return policyNumber;
 	}
 
 	public static void verifyCancelNoticeFlagPresent() {

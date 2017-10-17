@@ -2,6 +2,7 @@ package aaa.modules.regression.sales.auto_ca.select;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
@@ -127,7 +128,7 @@ public class TestQuoteGeneralTab extends AutoCaSelectBaseTest {
 		CustomAssert.assertTrue(documentsAndBindTab.getAssetList().getAsset(MOTORCYCLE_POLICY_NUM).getAttribute("class").contains("required")); // verification that field is mandatory
 		documentsAndBindTab.fillTab(td).submitTab();
 
-		new ErrorTab().verify.errorsPresent("Motorcycle policy is indicated but motorcycle policy # doesn't exist");
+		new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_CSA3081512);
 		ErrorTab.buttonCancel.click();
 
 		documentsAndBindTab.getAssetList().getAsset(MOTORCYCLE_POLICY_NUM).setValue("12345678");

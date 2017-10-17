@@ -5,6 +5,7 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.mifmif.common.regex.Generex;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,14 +16,13 @@ public class ConversionPolicyData {
 
 	protected File file;
 	protected HashMap<String, String> values;
-
-	public ConversionPolicyData(ConversionType type, String fileName) {
+	public ConversionPolicyData(ConversionType type, String fileName, LocalDateTime effectiveDate) {
 		this.conversionType = type;
 		this.file = new File(type.getLocalTemplatesFolder(), fileName);
 		values = new HashMap<>();
 
-		values.put("//effective", TimeSetterUtil.getInstance().getCurrentTime().plusDays(58).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "T00:00:00");
-		values.put("//expiration", TimeSetterUtil.getInstance().getCurrentTime().plusDays(58).plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "T00:00:00");
+		values.put("//effective", effectiveDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "T00:00:00");
+		values.put("//expiration", effectiveDate.plusYears(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "T00:00:00");
 
 		String randomNum = new Generex("\\d{9}").random();
 		if (type.equals(ConversionType.MAIG)) {

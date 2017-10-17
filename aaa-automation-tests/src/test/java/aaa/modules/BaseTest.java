@@ -24,10 +24,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.rest.policy.PolicyRestImpl;
-import com.exigen.ipb.etcsa.base.app.ApplicationFactory;
-import com.exigen.ipb.etcsa.base.app.MainApplication;
-import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
+import com.exigen.ipb.etcsa.base.app.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,9 +52,7 @@ public class BaseTest {
 	protected Customer customer = new Customer();
 	private TestData tdSpecific;
 	protected TestDataManager testDataManager;
-	private String quoteNumber;
 	private static ThreadLocal<String> state = new ThreadLocal<>();
-	private static ThreadLocal<String[]> states = new ThreadLocal<>();
 	private static String usState = PropertyProvider.getProperty("test.usstate");
 	private static Map<String, Integer> policyCount = new HashMap<>();
 	private boolean isCiModeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.IS_CI_MODE, "true"));
@@ -75,10 +70,6 @@ public class BaseTest {
 
 	protected PolicyType getPolicyType() {
 		return null;
-	}
-
-	protected PolicyRestImpl getPolicyRest() {
-		return getPolicyType().getPolicyRest().createInstance(customerNumber, quoteNumber);
 	}
 
 	public static String getState() {
@@ -108,14 +99,21 @@ public class BaseTest {
 	 * Login to the application
 	 */
 	public MainApplication mainApp() {
-		return ApplicationFactory.get().mainApp(new LoginPage(initiateLoginTD()));
+		return CSAAApplicationFactory.get().mainApp(new LoginPage(initiateLoginTD()));
 	}
 
 	/**
 	 * Login to the application and open admin page
 	 */
-	public MainApplication adminApp() {
-		return ApplicationFactory.get().adminApp(new LoginPage(initiateLoginTD()));
+	public AdminApplication adminApp() {
+		return CSAAApplicationFactory.get().adminApp(new LoginPage(initiateLoginTD()));
+	}
+
+	/**
+	 * Login to the application and open reports app
+	 */
+	protected OperationalReportApplication opReportApp() {
+		return CSAAApplicationFactory.get().opReportApp(new LoginPage(initiateLoginTD()));
 	}
 
 	@AfterMethod(alwaysRun = true)
@@ -131,7 +129,6 @@ public class BaseTest {
 			closeAllApps();
 		}
 	}
-
 
 	/**
 	 * Create individual customer using default TestData
@@ -356,19 +353,20 @@ public class BaseTest {
 		return policies;
 	}
 
-	/**
-	 * Login to the application and open reports app
-	 */
-	protected OperationalReportApplication opReportApp() {
-		return ApplicationFactory.get().opReportApp(new LoginPage(initiateLoginTD()));
-	}
-
 	protected TestData getCustomerIndividualTD(String fileName, String tdName) {
 		return getStateTestData(tdCustomerIndividual, fileName, tdName);
 	}
 
 	protected TestData getCustomerNonIndividualTD(String fileName, String tdName) {
 		return getStateTestData(tdCustomerNonIndividual, fileName, tdName);
+	}
+
+	protected TestData getPolicyDefaultTD() {
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
+		}
+		return td;
 	}
 
 	protected TestData getTestSpecificTD(String tdName) {

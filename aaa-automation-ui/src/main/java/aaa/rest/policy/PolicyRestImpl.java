@@ -5,12 +5,11 @@ package aaa.rest.policy;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.exigen.ipb.etcsa.base.app.ApplicationFactory;
 import com.exigen.ipb.etcsa.base.app.LoginPage;
-import com.exigen.ipb.etcsa.utils.DBManager;
 
 import aaa.common.pages.MainPage;
 import aaa.main.enums.ProductConstants;
@@ -48,7 +47,7 @@ public class PolicyRestImpl {
         calculatePremium();
 
         propose();
-        ApplicationFactory.get().mainApp(new LoginPage(
+        CSAAApplicationFactory.get().mainApp(new LoginPage(
                 PropertyProvider.getProperty(TestProperties.EU_USER),
                 PropertyProvider.getProperty(TestProperties.EU_PASSWORD))).open();
         MainPage.QuickSearch.search(quoteNumber);
@@ -63,7 +62,7 @@ public class PolicyRestImpl {
         if (!PolicyType.PUP.equals(policyType)) {
             calculatePremiumAPI();
         } else {
-            ApplicationFactory.get().mainApp(new LoginPage(
+            CSAAApplicationFactory.get().mainApp(new LoginPage(
                     PropertyProvider.getProperty(TestProperties.EU_USER),
                     PropertyProvider.getProperty(TestProperties.EU_PASSWORD))).open();
             MainPage.QuickSearch.search(quoteNumber);

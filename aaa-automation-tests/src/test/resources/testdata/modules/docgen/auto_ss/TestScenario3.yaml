@@ -30,7 +30,6 @@ TestData_PA: {
   GeneralTab: '@GeneralTab',
   VehicleTab: '@VehicleTab',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_PA',
-  ErrorTab: '@ErrorTab_PA',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -118,13 +117,7 @@ DocumentsAndBindTab: {
 }
 
 ErrorTab: {
-  ErrorsOverride: [{
-    Message: "contains=Current CLUE must be ordered",
-    Override: 'true',
-    Approval: 'true',
-    Duration: Life,
-    Reason for override: index=1
-   },
+  ErrorsOverride: [
    {
     Message: "contains=A signed Non-Owners Automobile Endorsement must be received prior to issuing",
     Override: 'true',
@@ -142,13 +135,7 @@ ErrorTab: {
 }
 
 ErrorTab_IN: {
-  ErrorsOverride: [{
-    Message: "contains=Current CLUE must be ordered",
-    Override: 'true',
-    Approval: 'true',
-    Duration: Life,
-    Reason for override: index=1
-   },
+  ErrorsOverride: [
    {
     Message: "contains=A signed Non-Owners Automobile Endorsement must be received prior to issuing",
     Override: 'true',
@@ -166,13 +153,7 @@ ErrorTab_IN: {
 }
 
 ErrorTab_OK: {
-  ErrorsOverride: [{
-    Message: "contains=Current CLUE must be ordered",
-    Override: 'true',
-    Approval: 'true',
-    Duration: Life,
-    Reason for override: index=1
-   },
+  ErrorsOverride: [
    {
     Message: "contains=A signed Non-Owners Automobile Endorsement must be received prior to issuing",
     Override: 'true',
@@ -189,16 +170,6 @@ ErrorTab_OK: {
    },
    {
     Message: "contains=Oklahoma Auto Insurance Application",
-    Override: 'true',
-    Approval: 'true',
-    Duration: Life,
-    Reason for override: index=1
-   }]
-}
-
-ErrorTab_PA: {
-  ErrorsOverride: [{
-    Message: "contains=Current CLUE must be ordered",
     Override: 'true',
     Approval: 'true',
     Duration: Life,

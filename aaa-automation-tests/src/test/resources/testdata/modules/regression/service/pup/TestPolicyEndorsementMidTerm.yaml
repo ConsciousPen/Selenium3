@@ -1,38 +1,18 @@
-#TestData: {
-#  PolicyTab: {},
-#  InsuredTab: {},
-#  UnderlyingRisksPropertyTab: {},
-#  UnderlyingRisksAutoTab: {},
-#  UnderlyingRisksOtherVehiclesTab: {},
-#  ClaimsTab: {},
-#  EndorsementsTab: {},
-#  PremiumAndCoveragesQuoteTab: {
-#    Personal Umbrella: '$2,000,000'
-#  },
-#  UnderwritingAndApprovalTab: {},
-#  DocumentsTab: {},
-#  BindTab: {}
-#}
-
-
 TestData: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab',
-  UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
-  ClaimsTab: '@ClaimsTab',
-  EndorsementsTab: '@EndorsementsTab',
-  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
-  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
-  DocumentsTab: '@DocumentsTab',
-  BindTab: '@BindTab'
+  UnderlyingRisksOtherVehiclesTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
 }
 
 # ----------------- Tabs -----------------
-PrefillTab: {}
-GeneralTab: {} 
-UnderlyingRisksPropertyTab: {} 
 
 UnderlyingRisksAutoTab: {
  Automobiles: [{
@@ -40,14 +20,6 @@ UnderlyingRisksAutoTab: {
     PD Limits: 200000
   }]
 } 
-
-UnderlyingRisksOtherVehiclesTab: {} 
-ClaimsTab: {} 
-EndorsementsTab: {}
-PremiumAndCoveragesQuoteTab: {}
-UnderwritingAndApprovalTab: {}
-DocumentsTab: {}
-BindTab: {}
 
 
 TestData_CA: {
@@ -60,7 +32,7 @@ TestData_CA: {
   ClaimsTab: {},
   EndorsementsTab: {},
   PremiumAndCoveragesQuoteTab: {
-      Personal Umbrella: '$2,000,000'
+      Personal Umbrella: '$2,000,000 (+$100.00)'
    },
   UnderwritingAndApprovalTab: {},
   DocumentsTab: {},
