@@ -3,6 +3,7 @@ package aaa.helpers.conversion;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.ssh.RemoteHelper;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.mifmif.common.regex.Generex;
 import org.apache.commons.io.output.FileWriterWithEncoding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +40,7 @@ public class ConversionUtils {
 	public static String importPolicy(ConversionPolicyData conversionData, ITestContext context) {
 		File importFile = prepareXML(conversionData);
 		RemoteHelper.uploadFile(importFile.getAbsolutePath(), conversionData.getConversionType().getRemoteImportFolder() + importFile.getName());
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(4));
+//		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(4));
 		JobUtils.executeJob(conversionData.getConversionType().getJob());
 		String policyNum = verifyResponseSuccessAndGetNumber(conversionData.getConversionType(), importFile.getName(), context);
 		log.info(String.format("Conversion policy with type %s imported with number %s", conversionData.getConversionType().name(), policyNum));
@@ -47,8 +48,10 @@ public class ConversionUtils {
 	}
 
 	protected static File prepareXML(ConversionPolicyData conversionData) {
-		File changedFile = new File(CustomLogger.getLogDirectory() + File.separator + "uploded_files",
-				conversionData.getFile().getName().replaceFirst("\\.", "_" + LocalDateTime.now().format(DateTimeUtils.TIME_STAMP_WITH_MS)+"."));
+		String newName = String.format("%s_%s_%s-%s.xml", conversionData.getConversionType().name(),
+				conversionData.getFile().getName().substring(0, conversionData.getFile().getName().lastIndexOf(".")),
+				LocalDateTime.now().format(DateTimeUtils.TIME_STAMP), new Generex("\\d{3}").random());
+		File changedFile = new File(CustomLogger.getLogDirectory() + File.separator + "uploded_files", newName);
 		changedFile.getAbsoluteFile().getParentFile().mkdir();
 
 		try {

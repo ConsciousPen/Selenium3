@@ -40,7 +40,7 @@ public class TestScenario3 extends Scenario3 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC04_Cancel_Policy(@Optional("CA") String state) {
-		super.cancelPolicy();
+		super.cancelPolicy(installmentDueDates.get(1));
 	}
 
 	@Parameters({"state"})

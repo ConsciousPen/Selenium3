@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" version="1" name="AAA_PUP_SS">
+<!-- Original file name: 20170824_233714_CNV_B_CAPUP_EXGPAS_8435_D_20170705_30000798_0209635 -->
+  <AAAPupPolicy state="Created">
+    <agencyCd>500001005</agencyCd>
+    <agencyLocation>500005361</agencyLocation>
+    <agentCd>11729101</agentCd>
+    <effective>2017-10-20T00:00:00</effective>
+    <expiration>2018-10-20T00:00:00</expiration>
+    <importedFrom>PUPSYS</importedFrom>
+    <officeType>AZ Club Agent</officeType>
+    <preConversionPolicyNumber>0209635</preConversionPolicyNumber>
+    <preConversionPolicyPremium>643</preConversionPolicyPremium>
+    <producerCd>500001005</producerCd>
+    <productCd>AAA_PUP_SS</productCd>
+    <riskStateCd>CA</riskStateCd>
+    <sourcePolicyNum>0209635</sourcePolicyNum>
+    <subProducerCd>11729101</subProducerCd>
+    <underwriterCd>CSAAIB</underwriterCd>
+    <AAAHOMembership state="Created">
+      <aaaMemberSinceDate>2001-01-01T00:00:00</aaaMemberSinceDate>
+      <insurerCd>Yes</insurerCd>
+      <insurerName>CHANG</insurerName>
+    </AAAHOMembership>
+    <AAAInsured oid="86082" state="Created">
+      <firstName>TSUN</firstName>
+      <lastName>CHANG</lastName>
+      <middleName>CYNTHIA</middleName>
+      <relToPrimNamedInsured>PI</relToPrimNamedInsured>
+      <AAAInsuredPrimaryAddress state="Created">
+        <addressLine1>13527 TONI ANN PL</addressLine1>
+        <city>SARATOGA</city>
+        <countryCd>US</countryCd>
+        <postalCode>95070</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAInsuredPrimaryAddress>
+    </AAAInsured>
+    <AAAPaymentOption state="Created">
+      <paymentPlanAtRenewal>annualPUP_CA_R</paymentPlanAtRenewal>
+      <paymentPlanCd>annualPUP_CA</paymentPlanCd>
+    </AAAPaymentOption>
+    <AAAPupPrefill state="Created">
+      <policyNumber>CAH3105165967</policyNumber>
+      <policyType>HO3</policyType>
+      <primaryPolicyInd>true</primaryPolicyInd>
+      <source>EXIGEN</source>
+    </AAAPupPrefill>
+    <AAAPupPrefill state="Created">
+      <policyNumber>CAAS100162085</policyNumber>
+      <policyType>Auto</policyType>
+      <primaryPolicyInd>false</primaryPolicyInd>
+      <source>EXIGEN</source>
+    </AAAPupPrefill>
+  </AAAPupPolicy>
+  <userNote>
+    <confidential>false</confidential>
+    <title>Conversion:PUPNARRAT1</title>
+    <updatedOn>2017-07-05T00:00:00</updatedOn>
+    <userText>1ST $295, 2ND $148, 3RD $100, 4TH $100</userText>
+  </userNote>
+</Policy>

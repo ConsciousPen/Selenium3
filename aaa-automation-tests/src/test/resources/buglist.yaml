@@ -57,6 +57,8 @@ QC-44331:
               aaa.modules.regression.service.pup.TestPolicyReinstatementWithLapse.testPolicyReinstatementWithLapse,
               aaa.modules.regression.service.pup.TestPolicyRenewFlatCancellation.testPolicyRenewFlatCancellation]
       messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}', 'Errors: Time out. No session available.']
+    - tests: [aaa.modules.e2e.pup.TestScenario3.TC04_Cancel_Policy, aaa.modules.e2e.pup.TestScenario5.TC09_1_Cancel_Policy]
+      messages: ['Value in control {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText} expected [Policy Cancelled] but found [Policy Active]']
 QC-44491:
   summary: "Regression: Sales: System logs out after Propose action was performed for saved quote"
   reason: PROD
@@ -107,5 +109,38 @@ QC-44890:
   summary: "DB Lookup 'cancellationConfirmationDays' is set to 15 days instead of 18 for AAA_SS_PA in Admin application"
   reason: PROD
   failures:
-    - tests: [aaa.modules.e2e.auto_ss.TestScenario5.TC07_1_Generate_CancellNotice (PA)]
+    - tests: [aaa.modules.e2e.auto_ss.TestScenario5.TC07_1_Generate_CancellNotice]
       messages: ["Cannot get value of Cell {<unnamed>: <Non-existent row (Can't find row by specified parameters: {Due Date"]
+QC-44911:
+  summary: "Regression: Auto: Exception occurs on reports ordering trying to access rating"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.auto_ss.TestScenario1.TC01_createPolicy,
+              aaa.modules.e2e.auto_ss.TestScenario2.TC01_createPolicy,
+              aaa.modules.e2e.auto_ss.TestScenario3.TC01_createPolicy,
+              aaa.modules.e2e.auto_ss.TestScenario4.TC01_createPolicy,
+              aaa.modules.e2e.auto_ss.TestScenario5.TC01_createPolicy,
+              aaa.modules.e2e.auto_ss.TestScenario6.TC01_createPolicy,
+              aaa.modules.e2e.auto_ss.TestScenario7.TC01_createPolicy]
+      messages: ["Unable to locate element: {\"method\":\"xpath\",\"selector\":\"//input[@id='policyDataGatherForm:next_footer' or @id='crmForm:nextBtn_footer' or @id='policyDataGatherForm:next' or @id='policyDataGatherForm:nextButton_footer'",
+                 "Errors: Time out. No session available."]
+QC-44919:
+  summary: "Regression: Payment plan dropdown contains incorrect values"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.home_ss.dp3.TestScenario1.TC01_createPolicy,
+              aaa.modules.e2e.home_ss.ho3.TestScenario1.TC01_createPolicy,
+              aaa.modules.e2e.home_ss.ho4.TestScenario1.TC01_createPolicy,
+              aaa.modules.e2e.home_ss.ho6.TestScenario1.TC01_createPolicy]
+      messages: ["Billing Installments count for Quarterly payment plan expected [4] but found [1]"]
+    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario2.TC01_createPolicy,
+              aaa.modules.e2e.home_ss.ho3.TestScenario5.TC01_createPolicy,
+              aaa.modules.e2e.home_ss.ho3.TestScenario6.TC01_createPolicy,
+              aaa.modules.e2e.home_ss.dp3.TestScenario8.TC01_createPolicy,
+              aaa.modules.e2e.home_ss.ho3.TestScenario8.TC01_createPolicy,
+              aaa.modules.e2e.home_ss.ho4.TestScenario8.TC01_createPolicy,
+              aaa.modules.e2e.home_ss.ho6.TestScenario8.TC01_createPolicy]
+      messages: ["Billing Installments count for Monthly (Eleven Pay) payment plan expected [11] but found [1]"]
+    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario3.TC01_createPolicy,
+              aaa.modules.e2e.home_ss.ho3.TestScenario7.TC01_createPolicy]
+      messages: ["Billing Installments count for Semi-Annual payment plan expected [2] but found [1]"]
