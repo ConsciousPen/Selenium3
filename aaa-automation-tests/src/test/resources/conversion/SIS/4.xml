@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy  name="AAA_HO_CA" version="1.0" rootEntityType="policy">
+<!-- Original file name: 20170824_024327_CNV_B_CADP3_EXGPAS_8435_D_20170822_30000518_2995889 -->
+    <AAAHOPolicy state="Created">
+        <agencyCd>500001005</agencyCd>
+        <agencyLocation>500005334</agencyLocation>
+        <agentCd>7362287</agentCd>
+        <agentGeneralNumber>003</agentGeneralNumber>
+        <countryCd>US</countryCd>
+        <doNotRenewInd>false</doNotRenewInd>
+        <effective>2017-10-05T00:00:00</effective>
+        <expiration>2018-10-05T00:00:00</expiration>
+        <imported>CONV</imported>
+        <importedFrom>SIS</importedFrom>
+        <isAdditionalPolicy>true</isAdditionalPolicy>
+        <isAdditionalProppolicy>true</isAdditionalProppolicy>
+        <leadSourceCd>25</leadSourceCd>
+        <officeType>AZ Club Agent</officeType>
+        <policyFormCd>DP3</policyFormCd>
+        <preConversionPolicyNumber>DP3 2995889</preConversionPolicyNumber>
+        <preConversionPolicyPremium>1438</preConversionPolicyPremium>
+        <producerCd>500001005</producerCd>
+        <productCd>AAA_HO_CA</productCd>
+        <riskStateCd>CA</riskStateCd>
+        <sourcePolicyNum>DP3 2995889</sourcePolicyNum>
+        <subProducerCd>7362287</subProducerCd>
+        <tollNumberCd>1111111111</tollNumberCd>
+        <underwriterCd>ACAIC</underwriterCd>
+        <AAACeaDetailsComponent state="Created">
+            <acceptCeaOffer>false</acceptCeaOffer>
+        </AAACeaDetailsComponent>
+        <AAAFirelineReportComponent state="Created">
+            <dwellAddressCity>SAN LEANDRO</dwellAddressCity>
+            <dwellAddressLine1>1703 164TH AVE</dwellAddressLine1>
+            <dwellAddressState>CA</dwellAddressState>
+            <dwellAddressZip>94578</dwellAddressZip>
+            <expirationDate>2017-11-20T00:00:00</expirationDate>
+            <orderDate>2017-08-22T00:00:00</orderDate>
+            <status>Valid</status>
+        </AAAFirelineReportComponent>
+        <AAAHOCommunicationInfo state="Created">
+            <phoneNumber>5106087676</phoneNumber>
+            <preferredContact>homePhone</preferredContact>
+        </AAAHOCommunicationInfo>
+        <AAAHOMembership state="Created">
+            <insurerCd>No</insurerCd>
+        </AAAHOMembership>
+        <AAAHOMortgageeExists state="Created">
+            <yesNoAnswer>false</yesNoAnswer>
+        </AAAHOMortgageeExists>
+        <AAAHONamedInsured state="Created">
+            <aaaLegalNameIND>false</aaaLegalNameIND>
+            <dateOfBirth>1946-12-01T00:00:00</dateOfBirth>
+            <employeeType>false</employeeType>
+            <firstName>BARRY</firstName>
+            <lastName>WALLACE</lastName>
+            <occupationDesc>Unknown</occupationDesc>
+            <principalRoleCd>policyHolder</principalRoleCd>
+            <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+            <trusteeIndicator>false</trusteeIndicator>
+            <AAAHOOrderClueReport state="Created">
+                <addressLine1>1703 164TH AVE</addressLine1>
+                <city>SAN LEANDRO</city>
+                <dateOfBirth>1946-12-01T00:00:00</dateOfBirth>
+                <expirationDt>2017-10-21T00:00:00</expirationDt>
+                <firstName>BARRY</firstName>
+                <lastName>WALLACE</lastName>
+                <noOfClaims>0</noOfClaims>
+                <orderDate>2017-08-22T00:00:00</orderDate>
+                <postalCode>94578</postalCode>
+                <reportExpired>false</reportExpired>
+                <status>Valid</status>
+            </AAAHOOrderClueReport>
+            <AAAInsuredPrimaryAddress state="Created">
+                <addressLine1>1703 164TH AVE</addressLine1>
+                <city>SAN LEANDRO</city>
+                <countryCd>US</countryCd>
+                <postalCode>94578</postalCode>
+                <stateProvCd>CA</stateProvCd>
+            </AAAInsuredPrimaryAddress>
+        </AAAHONamedInsured>
+        <AAAHONamedInsured state="Created">
+            <aaaLegalNameIND>false</aaaLegalNameIND>
+            <dateOfBirth>1946-11-19T00:00:00</dateOfBirth>
+            <employeeType>false</employeeType>
+            <firstName>CAROL</firstName>
+            <lastName>WALLACE</lastName>
+            <occupationDesc>Unknown</occupationDesc>
+            <relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+            <trusteeIndicator>false</trusteeIndicator>
+            <AAAHOOrderClueReport state="Created">
+                <addressLine1>1703 164TH AVE</addressLine1>
+                <city>SAN LEANDRO</city>
+                <dateOfBirth>1946-11-19T00:00:00</dateOfBirth>
+                <expirationDt>2017-10-21T00:00:00</expirationDt>
+                <firstName>CAROL</firstName>
+                <lastName>WALLACE</lastName>
+                <noOfClaims>0</noOfClaims>
+                <orderDate>2017-08-22T00:00:00</orderDate>
+                <postalCode>94578</postalCode>
+                <reportExpired>false</reportExpired>
+                <status>Valid</status>
+            </AAAHOOrderClueReport>
+            <AAAInsuredPrimaryAddress state="Created">
+                <addressLine1>1703 164TH AVE</addressLine1>
+                <city>SAN LEANDRO</city>
+                <countryCd>US</countryCd>
+                <postalCode>94578</postalCode>
+                <stateProvCd>CA</stateProvCd>
+            </AAAInsuredPrimaryAddress>
+        </AAAHONamedInsured>
+        <AAAHOOtherOrPriorDP3PolicyComponent state="Created">
+            <aaaPolicy>true</aaaPolicy>
+            <aaaPolicyActive>true</aaaPolicyActive>
+            <addressLine1>4623 JEAN CT</addressLine1>
+            <city>UNION CITY</city>
+            <effective>2017-03-08T00:00:00</effective>
+            <expiration>2018-03-08T00:00:00</expiration>
+            <policyNumber>3864853</policyNumber>
+            <postalCode>94587</postalCode>
+            <stateProvCd>CA</stateProvCd>
+            <yearFirstRented>1989</yearFirstRented>
+        </AAAHOOtherOrPriorDP3PolicyComponent>
+        <AAAHOOtherOrPriorPolicyComponent state="Created">
+            <coverageE>1000000</coverageE>
+            <deductible>1000</deductible>
+            <dwellingUsage>Primary</dwellingUsage>
+            <occupancyType>Tenant</occupancyType>
+            <policyEffectiveDate>2017-03-08T00:00:00</policyEffectiveDate>
+            <policyNumber>3864853</policyNumber>
+            <productCd>DP3</productCd>
+            <status>inForce</status>
+        </AAAHOOtherOrPriorPolicyComponent>
+        <AAAHOPaymentOption state="Created">
+            <billToAtRenewal>Insured</billToAtRenewal>
+            <paymentPlanAtRenewal>quarterlyHO_CA_R</paymentPlanAtRenewal>
+            <paymentPlanCd>quarterlyHO_CA</paymentPlanCd>
+            <recurringPayment>false</recurringPayment>
+        </AAAHOPaymentOption>
+        <AAAHOPolicyPriorCarrier state="Created">
+            <baseDate>2007-11-17T00:00:00</baseDate>
+            <carrierCd>1</carrierCd>
+            <noOfYearsWithHO>10</noOfYearsWithHO>
+            <policyType>DP3</policyType>
+        </AAAHOPolicyPriorCarrier>
+        <AAAHOPreDwellingAddrExists state="Created">
+            <yesNoAnswer>false</yesNoAnswer>
+        </AAAHOPreDwellingAddrExists>
+        <AAAIso360ReportComponent state="Created">
+            <constructionTypeCd>Frame</constructionTypeCd>
+            <dwellAddressCity>SAN LEANDRO</dwellAddressCity>
+            <dwellAddressLine1>1703 164TH AVE</dwellAddressLine1>
+            <dwellAddressState>CA</dwellAddressState>
+            <dwellAddressZip>94578</dwellAddressZip>
+            <expirationDate>2017-11-20T00:00:00</expirationDate>
+            <isoReplacementCost>482794</isoReplacementCost>
+            <livingArea>2284</livingArea>
+            <numberOfFamilies>3</numberOfFamilies>
+            <numberOfStories>1</numberOfStories>
+            <orderDate>2017-08-22T00:00:00</orderDate>
+            <roofShape>Complex/Custom</roofShape>
+            <roofType>Builtup Tar &amp; Gravel</roofType>
+            <status>Valid</status>
+            <yearBuilt>1965</yearBuilt>
+        </AAAIso360ReportComponent>
+        <AAAPolicyPrintingInfoComponent state="Created">
+            <suppressPrint>PD</suppressPrint>
+        </AAAPolicyPrintingInfoComponent>
+        <AAAPpcReportComponent state="Created">
+            <dwellAddressCity>SAN LEANDRO</dwellAddressCity>
+            <dwellAddressLine1>1703 164TH AVE</dwellAddressLine1>
+            <dwellAddressState>CA</dwellAddressState>
+            <dwellAddressZip>94578</dwellAddressZip>
+            <expirationDate>2017-10-21T00:00:00</expirationDate>
+            <orderDate>2017-08-22T00:00:00</orderDate>
+            <ppcValue>1</ppcValue>
+            <status>Valid</status>
+        </AAAPpcReportComponent>
+        <AAASupportingDocComponent state="Created">
+            <docDisplayInd>true</docDisplayInd>
+            <docReceivedInd>PS</docReceivedInd>
+            <documentCd>1POSOA</documentCd>
+            <documentText>Signed policy application</documentText>
+        </AAASupportingDocComponent>
+        <AAASupportingDocComponent state="Created">
+            <docDisplayInd>true</docDisplayInd>
+            <docReceivedInd>PS</docReceivedInd>
+            <documentCd>616530</documentCd>
+            <documentText>California Residential Property Insurance Disclosure</documentText>
+        </AAASupportingDocComponent>
+        <AAASupportingDocComponent state="Created">
+            <docDisplayInd>true</docDisplayInd>
+            <docReceivedInd>PS</docReceivedInd>
+            <documentCd>CEAOD</documentCd>
+            <documentText>CEA Offer Declination</documentText>
+        </AAASupportingDocComponent>
+        <AAAUnderwritingQuestionaireComponent state="Created">
+            <AlternativeWaterSrcAnsInd>true</AlternativeWaterSrcAnsInd>
+            <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+            <DwellLocatedInd>false</DwellLocatedInd>
+            <EmployeesResidentsInd>false</EmployeesResidentsInd>
+            <ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+            <GasWaterInGarageInd>false</GasWaterInGarageInd>
+            <LengthDrivewayAnsInd>true</LengthDrivewayAnsInd>
+            <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+            <RdToHomeNDrivewayPavedAnsInd>true</RdToHomeNDrivewayPavedAnsInd>
+            <WaterHeaterHeightInd>false</WaterHeaterHeightInd>
+        </AAAUnderwritingQuestionaireComponent>
+        <Commissions state="Created">
+            <commissionTypeCd>R</commissionTypeCd>
+        </Commissions>
+        <DL0104EndorsementForm state="Created"/>
+        <DL2402EndorsementForm state="Created"/>
+        <DL2411EndorsementForm state="Created"/>
+        <DL2433EndorsementForm state="Created"/>
+        <DL2482EndorsementForm state="Created"/>
+        <DP0422EndorsementForm state="Created">
+            <coverageLimit>10000</coverageLimit>
+        </DP0422EndorsementForm>
+        <DW0420EndorsementForm state="Created">
+            <coverageLimit>50</coverageLimit>
+        </DW0420EndorsementForm>
+        <AAADwellEntityComponent state="Created">
+            <aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+            <aaaDwellingUsage>1</aaaDwellingUsage>
+            <aaaFirelineScore>30</aaaFirelineScore>
+            <aaanumberofResidents>2</aaanumberofResidents>
+            <aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
+            <addressLine1>1703 164TH AVE</addressLine1>
+            <city>SAN LEANDRO</city>
+            <countryCd>US</countryCd>
+            <county>ALAMEDA</county>
+            <crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
+            <dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
+            <dwellingCrippleWallInd>false</dwellingCrippleWallInd>
+            <dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
+            <dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
+            <firelineMatchType>Address</firelineMatchType>
+            <numberOfFamilies>3</numberOfFamilies>
+            <overrideInspectionInd>true</overrideInspectionInd>
+            <placementOrMatchType>Address</placementOrMatchType>
+            <postalCode>94578</postalCode>
+            <propMgrOccupation>1</propMgrOccupation>
+            <protectionClassCd>1</protectionClassCd>
+            <spaTubType>None</spaTubType>
+            <stateProvCd>CA</stateProvCd>
+            <swimPoolType>None</swimPoolType>
+            <trampolineType>None</trampolineType>
+            <waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
+            <woodStoveInd>false</woodStoveInd>
+            <yearFirstRented>2009</yearFirstRented>
+            <AAACoverageA state="Created">
+                <coverageCd>CovA</coverageCd>
+                <limitAmount>482794</limitAmount>
+            </AAACoverageA>
+            <AAACoverageB state="Created">
+                <coverageCd>CovB</coverageCd>
+                <limitAmount>24140</limitAmount>
+            </AAACoverageB>
+            <AAACoverageC state="Created">
+                <coverageCd>CovC</coverageCd>
+                <limitAmount>24140</limitAmount>
+            </AAACoverageC>
+            <AAACoverageD state="Created">
+                <coverageCd>CovD</coverageCd>
+                <limitAmount>96559</limitAmount>
+            </AAACoverageD>
+            <AAACoverageE state="Created">
+                <coverageCd>CovE</coverageCd>
+                <limitAmount>1000000</limitAmount>
+            </AAACoverageE>
+            <AAACoverageF state="Created">
+                <coverageCd>CovF</coverageCd>
+                <limitAmount>1000</limitAmount>
+            </AAACoverageF>
+            <AAAHOBuildingImprovementsInfo state="Created">
+                <roofPercentComplete>100</roofPercentComplete>
+                <roofRenovationMonth>0</roofRenovationMonth>
+                <roofRenovationType>Total_Replace</roofRenovationType>
+                <roofRenovationYear>2004</roofRenovationYear>
+            </AAAHOBuildingImprovementsInfo>
+            <AAAHOConstructionInfo state="Created">
+                <aaaFoundationType>Raised</aaaFoundationType>
+                <constructionTypeCd>Frame</constructionTypeCd>
+                <isoReplacementCost>482794</isoReplacementCost>
+                <livingArea>2284</livingArea>
+                <masonryVeneer>false</masonryVeneer>
+                <numberOfStories>1</numberOfStories>
+                <replacementCost>482794</replacementCost>
+                <roofShape>Complex/Custom</roofShape>
+                <roofType>Builtup Tar &amp; Gravel</roofType>
+                <yearBuilt>1965</yearBuilt>
+            </AAAHOConstructionInfo>
+            <AAAPpcDetailsInfo state="Created">
+                <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+                <fireDepartmentType>T</fireDepartmentType>
+                <fireDistrict>On File Conversion</fireDistrict>
+                <fireStationDistRange>1</fireStationDistRange>
+                <ppcValue>1</ppcValue>
+            </AAAPpcDetailsInfo>
+            <AAAPropertyDeductible state="Created">
+                <coverageCd>DEDUCTIBLE</coverageCd>
+                <limitAmount>1000</limitAmount>
+            </AAAPropertyDeductible>
+            <PreconfigLocation state="Created">
+                <AAAHODwellAddress state="Created">
+                    <addressLine1>1703 164TH AVE</addressLine1>
+                    <addressValidatedInd>Yes</addressValidatedInd>
+                    <city>SAN LEANDRO</city>
+                    <countryCd>US</countryCd>
+                    <county>Alameda</county>
+                    <poBoxInd>false</poBoxInd>
+                    <postalCode>94578</postalCode>
+                    <stateProvCd>CA</stateProvCd>
+                </AAAHODwellAddress>
+            </PreconfigLocation>
+        </AAADwellEntityComponent>
+        <PreconfigPersonInfo state="Created">
+            <AAAHOMailingAddressComponent state="Created">
+                <addressLine1>34262 ARIZONA ST</addressLine1>
+                <addressValidatedInd>Yes</addressValidatedInd>
+                <city>UNION CITY</city>
+                <countryCd>US</countryCd>
+                <county>Alameda</county>
+                <postalCode>94587</postalCode>
+                <stateProvCd>CA</stateProvCd>
+            </AAAHOMailingAddressComponent>
+        </PreconfigPersonInfo>
+    </AAAHOPolicy>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Conversion: Title/Header info is blank in Legacy system</title>
+        <updatedOn>2009-11-18T00:00:00</updatedOn>
+        <userText>*** Backyard Access *** If necessary, contact me at (510) 608-7676 No special instructions</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>**RE: ONLINE 11/1/10 PYMT**</title>
+        <updatedOn>2010-10-26T00:00:00</updatedOn>
+        <userText>FROM DINA CHASTAIN E-MAIL TO $ DISC REQUESTED TO HAVE A PAYMENT STOPPED OR DELETED THAT OUR INSURED SCHEDULED ON OUR WEBSITE CSAA.COM FOR 11/1/10. HOWEVER, THIS IS NOT POSSIBLE.  OUR WEBSITE IS A SELF-SERVICE WEBSITE.  ONCE OUR INSURED CONFIRMED THAT THEY WANTED TO MAKE/SCHEDULE THE PAYMENT, THERE IS NO POSSIBILITY OF STOPPING THE PAYMENT. SEE WORKDESK $ DISC CLOSED</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>ADDITIONAL INSURED CURRENT</title>
+        <updatedOn>2015-02-11T00:00:00</updatedOn>
+        <userText>NO ACTION</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>POL INQ...</title>
+        <updatedOn>2010-10-25T00:00:00</updatedOn>
+        <userText>OI SCHEDULED A PAYMENT ON CSAA.COM FOR 11/01 ENTERED INCORRECT CARD NUMBER CALLED TO TRY TO CHANGE CARD NUMBER CALLED WEB AND BILLING DEPTS UNABLE TO CHANGE A FUTURE DATED PAYMENT EMAILED CPU TO SEE IF THEY HAVE ACCESS BUT LET OI KNOW NOT LIKELY FOLLOW UP TO MAKE SURE NO FEE IS CHARGED IF PYMT IS DECLINED EMAILED OI TO LET HIM KNOW UNABLE TO STOP CHARGE</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>****CALL LOG****</title>
+        <updatedOn>2010-09-30T00:00:00</updatedOn>
+        <userText>PER OI CALLED INQ ABOUT PAYMETN</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2010-09-23T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2011-09-26T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2011-09-26T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2012-09-23T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2012-09-23T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2013-09-23T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2013-09-23T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Free Form Underwriting Letter</title>
+        <updatedOn>2014-08-31T00:00:00</updatedOn>
+        <userText>Free Form Underwriting Letter</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2014-09-23T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2014-09-23T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Free Form Underwriting Letter</title>
+        <updatedOn>2015-08-31T00:00:00</updatedOn>
+        <userText>Free Form Underwriting Letter</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2015-09-23T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2015-09-23T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Free Form Underwriting Letter</title>
+        <updatedOn>2016-08-29T00:00:00</updatedOn>
+        <userText>Free Form Underwriting Letter</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2016-09-25T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2016-09-25T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Conversion: Fireline score defaulted.</title>
+        <updatedOn>2017-08-24T01:19:01</updatedOn>
+        <userText>Fireline score defaulted to '30'  since it's not available in SIS but required for PAS.</userText>
+    </userNote>
+</Policy>
