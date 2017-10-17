@@ -317,6 +317,24 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Manual cancellation action completed successfully");
 	}
 
+	protected void rewritePolicyOnCancellationDate() {
+		LocalDateTime cDate = getTimePoints().getCancellationDate(installments.get().get(1));
+		TimeSetterUtil.getInstance().nextPhase(cDate);
+
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber.get());
+		policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.DATA_GATHERING);
+
+		String rewritePolicyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		log.info("TEST: Rewriting Policy #" + rewritePolicyNumber);
+
+		policy.dataGather().start();
+		policy.getDefaultView().fill(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy"));
+
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+	}
+
 	protected void updatePolicyStatusForPendedCancellation() {
 		LocalDateTime plus25Days = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
 		TimeSetterUtil.getInstance().nextPhase(plus25Days.plusDays(2));
