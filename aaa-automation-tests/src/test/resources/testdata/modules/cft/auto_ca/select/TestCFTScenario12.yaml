@@ -1,0 +1,13 @@
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Standard Monthly,
+  Policy Term: Annual,
+  Bodily Injury Liability: 'contains=$500,000/$500,000', 
+  Property Damage Liability: 'contains=$100,000'
+}
+
+Cancellation: {
+  CancellationActionTab: {
+    Cancellation Reason: 'Accomodation - Miscellaneous',
+    Authorized By: QA
+  }
+}

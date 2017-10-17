@@ -1,0 +1,15 @@
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Monthly,
+  Policy Term: Annual,
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750',
+  Collision Deductible: 'contains=$500',
+  Special Equipment Coverage: 1100
+}
+
+Cancellation: {
+  CancellationActionTab: {
+    Cancellation Reason: 'Rewrite Accommodation',
+    Authorized By: QA
+  }
+}
