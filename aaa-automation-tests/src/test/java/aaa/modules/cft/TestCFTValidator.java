@@ -34,7 +34,7 @@ import java.util.Map;
 
 public class TestCFTValidator extends ControlledFinancialBaseTest {
 
-	private static final String DOWNLOAD_DIR = "src/test/resources/cft";
+	private static final String DOWNLOAD_DIR = PropertyProvider.getProperty("test.downloadfiles.location");
 	private static final String SOURCE_DIR = "/home/mp2/pas/sit/FIN_E_EXGPAS_PSFTGL_7000_D/outbound";
 	private static final String SQL_GET_LEDGER_DATA = "select le.LEDGERACCOUNTNO, sum (case when le.entrytype = 'CREDIT' then (to_number(le.entryamt) * -1) else to_number(le.entryamt) end) as AMOUNT from ledgertransaction lt, ledgerentry le where lt.id = le.ledgertransaction_id group by  le.LEDGERACCOUNTNO";
 
@@ -50,6 +50,8 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 		//get map from OR reports
 		opReportApp().open();
+		File downloadDir = new File(System.getProperty("user.dir") + DOWNLOAD_DIR);
+		downloadDir.mkdirs();
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
 		log.info("");

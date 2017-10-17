@@ -339,7 +339,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Manual cancellation action started");
 		log.info("Manual cancellation date: {}", cancellationDate);
 		mainApp().reopen();
-		SearchPage.openPolicy(policyNumber.get());
+		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		String effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue();
 		policy.cancel().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).adjust(keyPath, effectiveDate));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
@@ -510,7 +510,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Accept payment action started");
 		log.info("Accept payment date: {}", paymentDate);
 		mainApp().reopen();
-		SearchPage.openBilling(policyNumber.get());
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		billingAccount.acceptPayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		String expValue = getTestSpecificTD(DEFAULT_TEST_DATA_KEY)
 			.getTestData(AcceptPaymentActionTab.class.getSimpleName())
@@ -530,9 +530,9 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Manual reinstatement date: {}", reinstatementDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
-		SearchPage.openPolicy(policyNumber.get());
+		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		policy.reinstate().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Reinstatement for Policy %1$s", policyNumber.get()));
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Reinstatement for Policy %1$s", BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber()));
 		log.info("Manual reinstatement action completed successfully");
 	}
 }
