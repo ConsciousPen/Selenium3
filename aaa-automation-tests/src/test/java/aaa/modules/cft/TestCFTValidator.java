@@ -47,6 +47,13 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	public void validate(@Optional(StringUtils.EMPTY) String state) throws SftpException, JSchException, IOException {
+
+		//get map from OR reports
+		opReportApp().open();
+		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
+		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
+		log.info("");
+
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusYears(1).plusDays(25).plusMonths(13));
 		runCFTJobs();
 		//Remote path from server -
@@ -80,7 +87,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		for (Map<String, String> dbEntry : dbResult) {
 			accountsMapSummaryFromDB.put(dbEntry.get("LEDGERACCOUNTNO"), Double.parseDouble(dbEntry.get("AMOUNT")));
 		}
-		log.info("");
+
 	}
 
 	private List<FinancialPSFTGLObject> transformToObject(String fileContent) throws IOException {
