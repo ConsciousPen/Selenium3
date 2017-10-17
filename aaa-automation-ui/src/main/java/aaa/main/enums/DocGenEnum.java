@@ -190,6 +190,16 @@ public final class DocGenEnum {
         F122G(""),
         AAAEOK(""),
         AA52OK(""),
+        
+        AA11CA("California Choice Auto Insurance Application"),
+        AA41CA("Non-Owner Automobile Endorsement"),
+        AA52CA("Agreement Deleting Uninsured/ Underinsured Motorist Bodily Injury Coverage"),
+        AA53CA("Agreement Deleting Uninsured Motorist Property Damage Coverage"),
+        CAU01("Notice of Cancellation"),
+        CAU04("Request for Information"),
+        CAU08("Notice of Non-Renewal"),
+        CAU09("Uprate Notice"),
+        AAIQCA("Auto Insurance Quote")
 		;
 
 		private String id;

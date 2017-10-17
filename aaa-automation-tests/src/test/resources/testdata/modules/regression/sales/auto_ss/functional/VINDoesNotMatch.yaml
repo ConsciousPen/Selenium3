@@ -1,0 +1,11 @@
+VehicleTab_UnmatchedVIN: {
+    Usage: Pleasure,
+    VIN: 2GNWGPFG9B2222222,
+    Make: 'OTHER',
+    Other Make: 'Other Make',
+    Other Model: 'Model',
+    Other Series: 'Series',
+    'Other Body Style': 'Sedan',
+    Stat Code: 'AC - Small SUV',
+    'Stated Amount': '10000',
+}

@@ -113,7 +113,7 @@ public class BaseTest {
 	 * Login to the application and open reports app
 	 */
 	protected OperationalReportApplication opReportApp() {
-		return ApplicationFactory.get().opReportApp(new LoginPage(initiateLoginTD()));
+		return CSAAApplicationFactory.get().opReportApp(new LoginPage(initiateLoginTD()));
 	}
 
 	@AfterMethod(alwaysRun = true)
@@ -359,6 +359,14 @@ public class BaseTest {
 
 	protected TestData getCustomerNonIndividualTD(String fileName, String tdName) {
 		return getStateTestData(tdCustomerNonIndividual, fileName, tdName);
+	}
+
+	protected TestData getPolicyDefaultTD() {
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
+		}
+		return td;
 	}
 
 	protected TestData getTestSpecificTD(String tdName) {

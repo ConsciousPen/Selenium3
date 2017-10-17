@@ -80,7 +80,7 @@ public class Scenario3 extends ScenarioBaseTest {
 		generateAndCheckBill(installmentDueDates.get(1));
 	}
 
-	public void generateCancelationNotice() {
+	public void generateCancellationNotice() {
 		LocalDateTime cancNoticeDate = getTimePoints().getCancellationNoticeDate(installmentDueDates.get(1));
 		TimeSetterUtil.getInstance().nextPhase(cancNoticeDate);
 		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
