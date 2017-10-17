@@ -31,7 +31,6 @@ import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.Dollar;
 import toolkit.utils.TestInfo;
-import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
@@ -262,7 +261,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	 * 2. Check policy consolidated view.
 	 * 3. See if eMember status = Pending
 	 * @details
-	 *  @scenario 1. Create new eValue eligible policy with membership yes and paperless preferences yes
+	 * @scenario 1. Create new eValue eligible policy with membership yes and paperless preferences yes
 	 * 2. Check policy consolidated view.
 	 * 3. See if eMember status = active
 	 * @details
@@ -270,7 +269,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-300")
-	public void pas300_eValueStatusConsViewPaperPrefYes(@Optional("VA") String state){
+	public void pas300_eValueStatusConsViewPaperPrefYes(@Optional("VA") String state) {
 		eValueQuoteCreationVA();
 
 		CustomAssert.enableSoftMode();
@@ -295,19 +294,18 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	}
 
 
-
-
 	/**
 	 * @author Megha Gubbala
 	 * @name Test eValue Status
 	 * @scenario 1. Create new eValue eligible policy with membership pending and paperless preferences Pending
 	 * 2. Check policy consolidated view.
 	 * 3. See if eMember status = Pending
-	 * @details**/
+	 * @details
+	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-300")
-	public void pas300_eValueStatusConsViewPaperPrefPending(@Optional("MD") String state){
+	public void pas300_eValueStatusConsViewPaperPrefPending(@Optional("MD") String state) {
 		eValueQuoteCreationVA();
 
 		CustomAssert.enableSoftMode();
@@ -741,12 +739,10 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-XXX")
 	public void pasXXX_eValueNotApplicableForState(@Optional("VA") String state) {
-		//mainApp().open();
-		//SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, "QVASS926232055");
 
 		eValueQuoteCreationVA();
 
-		//CustomAssert.enableSoftMode();
+		CustomAssert.enableSoftMode();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Membership Pending");
@@ -758,47 +754,50 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		premiumAndCoveragesTab.saveAndExit();
 
 		simplifiedQuoteIssue();
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		//NB+15 jobs
-		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
-		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-		JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
-		JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
-		JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
 
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		NB_15jobs(policyNumber);
+
+		NB_15jobs(policyNumber);
+
+	}
+
+	private void NB_15jobs(String policyNumber) {
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		//NB+30 jobs
-		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
+		//TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-		JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
 
+
+		JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+		String membershipLogicNote = "Membership information was updated for the policy based on best membership logic.";
 		String descriptionTask1 = "Task Created Complete or Cancel Pended Endorsement";
 		String descriptionNote1 = "No message [automatedEndorsementInit]";
+		CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(3).getCell("Description").getValue().contains(membershipLogicNote));
 		CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(2).getCell("Description").getValue().contains(descriptionTask1));
 		CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(1).getCell("Description").getValue().contains(descriptionNote1));
 
-
+		PolicySummaryPage.buttonPendedEndorsement.verify.present();
 		JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
 		String descriptionNote2 = "No message [automatedEndorsementRate]";
-		CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(1).getCell("Description").getValue().contains(descriptionNote2));
+		//CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(1).getCell("Description").getValue().contains(descriptionNote2));
+
 
 		JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
-
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
 		String descriptionTask3 = "Complete Task Complete or Cancel Pended Endorsement";
 		String descriptionNote3 = "Bind Endorsement effective " + TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")) + " for Policy " + policyNumber;
-		CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(2).getCell("Description").getValue().contains(descriptionTask3));
-		CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(1).getCell("Description").getValue().contains(descriptionNote3));
-
+		//CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(2).getCell("Description").getValue().contains(descriptionTask3));
+		//CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(1).getCell("Description").getValue().contains(descriptionNote3));
 	}
 
 	private void pas309_eValueGreyBoxPaperlessCheck(String paperlessPreferenceValue) {
@@ -979,8 +978,15 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 
 	void simplifiedQuoteIssue() {
 		policy.bind().start();
-		DocumentsAndBindTab.btnPurchase.click();
-		errorTab.overrideAllErrors();
+		for (int i = 0; i < 2; i++) {
+			DocumentsAndBindTab.btnPurchase.click();
+			if (errorTab.getErrorsControl().getTable().isPresent()) {
+				errorTab.overrideAllErrors();
+			}
+			if (Page.dialogConfirmation.isPresent()) {
+				Page.dialogConfirmation.buttonNo.click();
+			}
+		}
 		policy.bind().submit();
 		new PurchaseTab().fillTab(getPolicyTD("DataGather", "TestData")).submitTab();
 	}
