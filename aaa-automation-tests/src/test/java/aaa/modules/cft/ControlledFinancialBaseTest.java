@@ -125,6 +125,14 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	/**
+	 * Accept 100$ cash payment on startDate + 2 days
+	 */
+	protected void acceptPaymentStartDatePlus2() {
+		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
+		acceptManualPaymentOnDate(paymentDate);
+	}
+
+	/**
 	 * Accept Min Due payment on DD1 + 30 days
 	 */
 	protected void acceptMinDuePaymentDD1plus30() {
@@ -317,6 +325,19 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Manual cancellation action completed successfully");
 	}
 
+	protected void manualCancellationStartDatePlus16(String keyPath) {
+		LocalDateTime cancellationDate = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
+		TimeSetterUtil.getInstance().nextPhase(cancellationDate);
+		log.info("Manual cancellation action started");
+		log.info("Manual cancellation date: {}", cancellationDate);
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber.get());
+		String effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue();
+		policy.cancel().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).adjust(keyPath, effectiveDate));
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		log.info("Manual cancellation action completed successfully");
+	}
+
 	protected void rewritePolicyOnCancellationDate() {
 		LocalDateTime cDate = getTimePoints().getCancellationDate(installments.get().get(1));
 		TimeSetterUtil.getInstance().nextPhase(cDate);
@@ -357,6 +378,11 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		policy.reinstate().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Reinstatement for Policy %1$s", policyNumber.get()));
 		log.info("Manual reinstatement action completed successfully");
+	}
+
+	protected void manualReinstatementStartDatePlus25() {
+		LocalDateTime reinstatementDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
+		manualReinstatementOnDate(reinstatementDate);
 	}
 
 	/**
@@ -471,4 +497,34 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 			policyNumber.get()));
 	}
 
+	private void acceptManualPaymentOnDate(LocalDateTime paymentDate) {
+		TimeSetterUtil.getInstance().nextPhase(paymentDate);
+		log.info("Accept payment action started");
+		log.info("Accept payment date: {}", paymentDate);
+		mainApp().reopen();
+		SearchPage.openBilling(policyNumber.get());
+		billingAccount.acceptPayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		String expValue = getTestSpecificTD(DEFAULT_TEST_DATA_KEY)
+			.getTestData(AcceptPaymentActionTab.class.getSimpleName())
+			.getValue(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel());
+		new BillingPaymentsAndTransactionsVerifier()
+			.setTransactionDate(paymentDate)
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
+			.setAmount(new Dollar(expValue).negate())
+			.verifyPresent();
+		log.info("Accept payment action completed successfully");
+	}
+
+	private void manualReinstatementOnDate(LocalDateTime reinstatementDate) {
+		TimeSetterUtil.getInstance().nextPhase(reinstatementDate);
+		log.info("Manual reinstatement action started");
+		log.info("Manual reinstatement date: {}", reinstatementDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber.get());
+		policy.reinstate().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Reinstatement for Policy %1$s", policyNumber.get()));
+		log.info("Manual reinstatement action completed successfully");
+	}
 }
