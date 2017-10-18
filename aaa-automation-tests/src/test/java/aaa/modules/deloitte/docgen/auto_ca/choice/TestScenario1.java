@@ -17,7 +17,12 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
 
-public class SC1 extends AutoCaChoiceBaseTest {
+/**
+ *
+ * @author Ryan Yu
+ *
+ */
+public class TestScenario1 extends AutoCaChoiceBaseTest {
 	private PolicyDocGenActionTab docgenActionTab = policy.quoteDocGen().getView().getTab(PolicyDocGenActionTab.class);
 	
 	/** 
