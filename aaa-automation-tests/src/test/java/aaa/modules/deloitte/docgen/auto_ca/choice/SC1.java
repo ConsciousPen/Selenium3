@@ -9,13 +9,16 @@ import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.AutoCaTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.docgen.DocGenHelper;
+import aaa.main.enums.ProductConstants;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.modules.policy.auto_ca.actiontabs.PolicyDocGenActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
 
 public class SC1 extends AutoCaChoiceBaseTest {
-	PolicyDocGenActionTab docgenActionTab = policy.quoteDocGen().getView().getTab(PolicyDocGenActionTab.class);
+	private PolicyDocGenActionTab docgenActionTab = policy.quoteDocGen().getView().getTab(PolicyDocGenActionTab.class);
 	
 	/** 
 	 * 1. Create CA Choice Quote
@@ -33,11 +36,13 @@ public class SC1 extends AutoCaChoiceBaseTest {
 	 *    To get AA02CA (Declaration page) document: Always generated at NB - US 21194
 	 *    To get AA59XX (Existing Damage Endorsement) document: Damage to Vehicle was added (not GOOD) - US 21219
 	 * 4. Check Documents on GODD: documents are enabled
-	 * 
+	 * 5. Issue CA Choice Quote
+	 * 6. Check xml file
+	 * 7. Check Documents on GODD for Policy: displayed, enable/disable
 	*/
 	@Parameters({"state"})
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void TC01(@Optional("") String state){
+	public void testPolicyDocuments(@Optional("") String state){
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 
@@ -62,7 +67,7 @@ public class SC1 extends AutoCaChoiceBaseTest {
 				Documents.CAU08,
 				Documents.CAU09
 				);
-		docgenActionTab.buttonCancel.click();
+		docgenActionTab.cancel();
 		
 		// 3
 		policy.dataGather().start();
@@ -94,12 +99,57 @@ public class SC1 extends AutoCaChoiceBaseTest {
 				Documents.AA49CA,
 				Documents.AA59CA,
 				Documents.AADDCA);
-		docgenActionTab.buttonCancel.click();
+		docgenActionTab.cancel();
 		
 		// 5
 		policy.calculatePremiumAndPurchase(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase")));
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 		
+		// 6
+		DocGenHelper.verifyDocumentsGenerated(policyNum, 
+				Documents.AA74CAA,
+				Documents.AADDCA,
+				Documents.AA43CA,
+				Documents.AA43CAB,
+				Documents.WUAECA,
+				Documents.AA10XX,
+				Documents.AA09CA,
+				Documents.AA47CA,
+				Documents.AA49CA,
+				Documents.AA02CA,
+				Documents.AA59XX
+				);
 		
+		// 7
+		policy.policyDocGen().start();
+		docgenActionTab.verify.documentsEnabled(
+				Documents.AA11CA,
+				Documents.AA43CA,
+				Documents.AHRCTXX,
+				Documents.AAVICA,
+				Documents.CAU01,
+				Documents.CAU02,
+				Documents.CAU04,
+				Documents.CAU07,
+				Documents.CAU08,
+				Documents.CAU09,
+				Documents.SR22SR1P,
+				Documents._605005,
+				Documents.AA06XX,
+				Documents.AA10XX
+				);
+		docgenActionTab.verify.documentsEnabled(false, 
+				Documents.AA41CA,
+				Documents.AA52CA,
+				Documents.AA53CA
+				);
+		docgenActionTab.verify.documentsPresent(false, 
+				Documents.AA09CA,
+				Documents.AA47CA,
+				Documents.AA49CA,
+				Documents.AADDCA);
+		docgenActionTab.cancel();
 		
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();

@@ -198,7 +198,9 @@ public final class DocGenEnum {
         AA52CA("Agreement Deleting Uninsured/ Underinsured Motorist Bodily Injury Coverage"),
         AA53CA("Agreement Deleting Uninsured Motorist Property Damage Coverage"),
         CAU01("Notice of Cancellation"),
+        CAU02("Notice of Cancellation"),
         CAU04("Request for Information"),
+        CAU07("Notice of Non-Renewal with Exclusion"),
         CAU08("Notice of Non-Renewal"),
         CAU09("Uprate Notice"),
         AAIQCA("Auto Insurance Quote"),
@@ -207,6 +209,14 @@ public final class DocGenEnum {
         AA49CA(""),
         AA59CA(""),
         AADDCA(""),
+        AA74CAA(""),
+        AA43CAB(""),
+        WUAECA(""),
+        AA02CA(""),
+        AAVICA("Community Service Survey"),
+        SR22SR1P("California Insurance Proof Certificate"),
+        _605005("605005", "Returning Enclosed Check"),
+        AA06XX("Agent Advice Memo"),
 		;
 
 		private String id;
