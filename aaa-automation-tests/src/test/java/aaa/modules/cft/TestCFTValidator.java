@@ -5,6 +5,7 @@ import aaa.modules.cft.csv.model.FinancialPSFTGLObject;
 import aaa.modules.cft.csv.model.Footer;
 import aaa.modules.cft.csv.model.Header;
 import aaa.modules.cft.csv.model.Record;
+import com.exigen.ipb.etcsa.utils.ExcelUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
@@ -13,6 +14,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -34,9 +36,11 @@ import java.util.Map;
 
 public class TestCFTValidator extends ControlledFinancialBaseTest {
 
-	private static final String DOWNLOAD_DIR = "src/test/resources/cft";
+	private static final String DOWNLOAD_DIR = PropertyProvider.getProperty("test.downloadfiles.location");
 	private static final String SOURCE_DIR = "/home/mp2/pas/sit/FIN_E_EXGPAS_PSFTGL_7000_D/outbound";
 	private static final String SQL_GET_LEDGER_DATA = "select le.LEDGERACCOUNTNO, sum (case when le.entrytype = 'CREDIT' then (to_number(le.entryamt) * -1) else to_number(le.entryamt) end) as AMOUNT from ledgertransaction lt, ledgerentry le where lt.id = le.ledgertransaction_id group by  le.LEDGERACCOUNTNO";
+	private static final String EXCEL_FILE_EXTENSION = "xlsx";
+	private static final String FEED_FILE_EXTENSION = "fix";
 
 	private SSHController sshController = new SSHController(
 			PropertyProvider.getProperty(TestProperties.APP_HOST),
@@ -48,46 +52,37 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	@Parameters({STATE_PARAM})
 	public void validate(@Optional(StringUtils.EMPTY) String state) throws SftpException, JSchException, IOException {
 
+		File downloadDir = new File(System.getProperty("user.dir") + DOWNLOAD_DIR);
+		checkDownloadDirectory(downloadDir);
+
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusYears(1).plusDays(25).plusMonths(13));
+		runCFTJobs();
 		//get map from OR reports
 		opReportApp().open();
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
-		log.info("");
-
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusYears(1).plusDays(25).plusMonths(13));
-		runCFTJobs();
+		Map<String, Double> accountsMapSummaryFromOR = getExcelValues();
 		//Remote path from server -
-		sshController.downloadFolder(new File(SOURCE_DIR), new File(DOWNLOAD_DIR));
-		List<FinancialPSFTGLObject> allEntries = new ArrayList<>();
-		for (File file : new File(DOWNLOAD_DIR).listFiles()) {
-			allEntries.addAll(transformToObject(FileUtils.readFileToString(file, Charset.defaultCharset())));
-		}
-
-		Map<String, Double> accountsMapSummaryFromFeedFile = new HashMap<>();
-		for (FinancialPSFTGLObject entry : allEntries) {
-			for (Record record : entry.getRecords()) {
-				if (accountsMapSummaryFromFeedFile.containsKey(record.getBillingAccountNumber())) {
-					double amount = accountsMapSummaryFromFeedFile.get(record.getBillingAccountNumber()) + record.getAmountDoubleValue();
-					accountsMapSummaryFromFeedFile.put(record.getBillingAccountNumber(), amount);
-				} else {
-					accountsMapSummaryFromFeedFile.put(record.getBillingAccountNumber(), record.getAmountDoubleValue());
-				}
-			}
-		}
-		// Rounding values to 2
-		for (Map.Entry<String, Double> stringDoubleEntry : accountsMapSummaryFromFeedFile.entrySet()) {
-			accountsMapSummaryFromFeedFile.put(stringDoubleEntry.getKey(), BigDecimal.valueOf(stringDoubleEntry.getValue())
-					.setScale(2, RoundingMode.HALF_UP)
-					.doubleValue());
-		}
-
+		sshController.downloadFolder(new File(SOURCE_DIR), downloadDir);
+		Map<String, Double> accountsMapSummaryFromFeedFile = getFeedFilesValues();
 		// get Map from DB
-		Map<String, Double> accountsMapSummaryFromDB = new HashMap<>();
-		List<Map<String, String>> dbResult = DBService.get().getRows(SQL_GET_LEDGER_DATA);
-		for (Map<String, String> dbEntry : dbResult) {
-			accountsMapSummaryFromDB.put(dbEntry.get("LEDGERACCOUNTNO"), Double.parseDouble(dbEntry.get("AMOUNT")));
-		}
+		Map<String, Double> accountsMapSummaryFromDB = getDataBaseValues();
+		//Round all values to 2
+		roundValuesToTwo(accountsMapSummaryFromFeedFile);
+		roundValuesToTwo(accountsMapSummaryFromDB);
+		roundValuesToTwo(accountsMapSummaryFromOR);
 
+		// add comparison logic here
+
+		// ad report generation process
+	}
+
+	private void checkDownloadDirectory(File downloadDir) throws IOException {
+		if (downloadDir.mkdirs()) {
+			log.info("\"{}\" folder was created", downloadDir.getAbsolutePath());
+		} else {
+			FileUtils.cleanDirectory(downloadDir);
+		}
 	}
 
 	private List<FinancialPSFTGLObject> transformToObject(String fileContent) throws IOException {
@@ -140,6 +135,77 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 			}
 		}
 		return objectsFromCSV;
+	}
+
+	private Map<String, Double> getExcelValues() {
+		Map<String, Double> accountsMapSummaryFromOR = new HashMap<>();
+		for (File reportFile : new File(System.getProperty("user.dir") + DOWNLOAD_DIR).listFiles()) {
+			if (!reportFile.getName().contains(EXCEL_FILE_EXTENSION)) {
+				continue;
+			}
+			Sheet sheet = ExcelUtils.getSheet(reportFile.getAbsolutePath());
+			for (int i = 0; i < sheet.getPhysicalNumberOfRows(); i++) {
+				if (null == sheet.getRow(i)) {
+					continue;
+				}
+				String cellValue = ExcelUtils.getCellValue(sheet.getRow(i).getCell(3));
+				if (StringUtils.isEmpty(cellValue) || !cellValue.matches("\\d+")) {
+					continue;
+				}
+				if (accountsMapSummaryFromOR.containsKey(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)))) {
+					double amount = accountsMapSummaryFromOR.get(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)))
+							+ Double.parseDouble(ExcelUtils.getCellValue(sheet.getRow(i).getCell(15)));
+					accountsMapSummaryFromOR.put(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)), amount);
+				} else {
+					accountsMapSummaryFromOR.put(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)), Double.parseDouble(ExcelUtils.getCellValue(sheet.getRow(i).getCell(15))));
+				}
+			}
+		}
+		return accountsMapSummaryFromOR;
+	}
+
+	private Map<String, Double> getDataBaseValues() {
+		Map<String, Double> accountsMapSummaryFromDB = new HashMap<>();
+		List<Map<String, String>> dbResult = DBService.get().getRows(SQL_GET_LEDGER_DATA);
+		for (Map<String, String> dbEntry : dbResult) {
+			accountsMapSummaryFromDB.put(dbEntry.get("LEDGERACCOUNTNO"), Double.parseDouble(dbEntry.get("AMOUNT")));
+		}
+		return accountsMapSummaryFromDB;
+	}
+
+	private Map<String, Double> getFeedFilesValues() {
+		Map<String, Double> accountsMapSummaryFromFeedFile = new HashMap<>();
+
+		List<FinancialPSFTGLObject> allEntries = new ArrayList<>();
+		for (File file : new File(System.getProperty("user.dir") + DOWNLOAD_DIR).listFiles()) {
+			if (file.getName().contains(FEED_FILE_EXTENSION)) {
+				try {
+					allEntries.addAll(transformToObject(FileUtils.readFileToString(file, Charset.defaultCharset())));
+				} catch (IOException e) {
+					log.error("Unable to get objects from file \"{}\"", file.getAbsolutePath());
+				}
+			}
+		}
+		for (FinancialPSFTGLObject entry : allEntries) {
+			for (Record record : entry.getRecords()) {
+				if (accountsMapSummaryFromFeedFile.containsKey(record.getBillingAccountNumber())) {
+					double amount = accountsMapSummaryFromFeedFile.get(record.getBillingAccountNumber()) + record.getAmountDoubleValue();
+					accountsMapSummaryFromFeedFile.put(record.getBillingAccountNumber(), amount);
+				} else {
+					accountsMapSummaryFromFeedFile.put(record.getBillingAccountNumber(), record.getAmountDoubleValue());
+				}
+			}
+		}
+		return accountsMapSummaryFromFeedFile;
+	}
+
+	private void roundValuesToTwo(Map<String, Double> stringDoubleMap) {
+		// Rounding values to 2
+		for (Map.Entry<String, Double> stringDoubleEntry : stringDoubleMap.entrySet()) {
+			stringDoubleMap.put(stringDoubleEntry.getKey(), BigDecimal.valueOf(stringDoubleEntry.getValue())
+					.setScale(2, RoundingMode.HALF_UP)
+					.doubleValue());
+		}
 	}
 
 }
