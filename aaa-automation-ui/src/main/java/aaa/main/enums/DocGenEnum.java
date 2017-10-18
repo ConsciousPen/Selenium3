@@ -34,6 +34,7 @@ public final class DocGenEnum {
 		PS11("Application for Personal Umbrella Liability Insurance"),
 		AHCDCT("Credit Disclosure Notice And Summary of Consumer Protections"),
 		AHAPXX("AutoPay Authorization Form"),
+		AHAPXX_CA_CHOICE("AHAPXX", "Automatic Payment Authorization"),
 		HSAUDVA("Virginia Adverse Action Underwriting Decision Notice"),
 		HS11("Application for Homeowners Insurance"),
 		HS11_4("HS11","HS11_4","Application for Renters Insurance"),
@@ -193,13 +194,19 @@ public final class DocGenEnum {
         
         AA11CA("California Choice Auto Insurance Application"),
         AA41CA("Non-Owner Automobile Endorsement"),
+        AA43CA("Named Driver(s) Exclusion"),
         AA52CA("Agreement Deleting Uninsured/ Underinsured Motorist Bodily Injury Coverage"),
         AA53CA("Agreement Deleting Uninsured Motorist Property Damage Coverage"),
         CAU01("Notice of Cancellation"),
         CAU04("Request for Information"),
         CAU08("Notice of Non-Renewal"),
         CAU09("Uprate Notice"),
-        AAIQCA("Auto Insurance Quote")
+        AAIQCA("Auto Insurance Quote"),
+        AA09CA(""),
+        AA47CA(""),
+        AA49CA(""),
+        AA59CA(""),
+        AADDCA(""),
 		;
 
 		private String id;

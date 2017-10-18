@@ -4,9 +4,14 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import toolkit.verification.CustomAssert;
+import aaa.common.Tab;
+import aaa.common.enums.NavigationEnum.AutoCaTab;
+import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.modules.policy.auto_ca.actiontabs.PolicyDocGenActionTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
 
 public class SC1 extends AutoCaChoiceBaseTest {
@@ -27,21 +32,24 @@ public class SC1 extends AutoCaChoiceBaseTest {
 	 *    To get AA49CA (Rental Car Benefit): set Rental Reimbursement Coverage (not GOOD) - US 21231
 	 *    To get AA02CA (Declaration page) document: Always generated at NB - US 21194
 	 *    To get AA59XX (Existing Damage Endorsement) document: Damage to Vehicle was added (not GOOD) - US 21219
+	 * 4. Check Documents on GODD: documents are enabled
+	 * 
 	*/
 	@Parameters({"state"})
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC01(@Optional("") String state){
+		CustomAssert.enableSoftMode();
 		mainApp().open();
 
 		// 1
 		createCustomerIndividual();
-		createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData")));
+		createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_QuoteCreation")));
 		
 		// 2
 		policy.quoteDocGen().start();
 		docgenActionTab.verify.documentsEnabled(
 				Documents.AA11CA,
-				Documents.AHAPXX,
+				Documents.AHAPXX_CA_CHOICE,
 				Documents.AA53CA,
 				Documents.AHFMXX,
 				Documents.AAIQCA
@@ -58,6 +66,42 @@ public class SC1 extends AutoCaChoiceBaseTest {
 		
 		// 3
 		policy.dataGather().start();
+		NavigationPage.toViewTab(AutoCaTab.DRIVER.get());
+		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData_QuoteUpdate"), PremiumAndCoveragesTab.class, true);
+		Tab.buttonSaveAndExit.click();
 		
+		// 4
+		policy.quoteDocGen().start();
+		docgenActionTab.verify.documentsEnabled(
+				Documents.AA11CA,
+				Documents.AA43CA,
+				Documents.AHAPXX_CA_CHOICE,
+				Documents.AA53CA,
+				Documents.AHFMXX,
+				Documents.AAIQCA
+				);
+		docgenActionTab.verify.documentsEnabled(false, 
+				Documents.AA41CA,
+				Documents.AA52CA,
+				Documents.CAU01,
+				Documents.CAU04,
+				Documents.CAU08,
+				Documents.CAU09
+				);
+		docgenActionTab.verify.documentsPresent(false, 
+				Documents.AA09CA,
+				Documents.AA47CA,
+				Documents.AA49CA,
+				Documents.AA59CA,
+				Documents.AADDCA);
+		docgenActionTab.buttonCancel.click();
+		
+		// 5
+		policy.purchase(getPolicyTD());
+		
+		
+		
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
 }

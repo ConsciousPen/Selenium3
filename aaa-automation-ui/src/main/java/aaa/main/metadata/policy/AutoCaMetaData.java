@@ -198,6 +198,7 @@ public final class AutoCaMetaData {
 
 		public static final AssetDescriptor<ComboBox> NAMED_INSURED = declare("Named Insured", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> DRIVER_TYPE = declare("Driver Type", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> REASON = declare("Reason", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> REL_TO_FIRST_NAMED_INSURED = declare("Rel. to First Named Insured", ComboBox.class);
 		public static final AssetDescriptor<TextBox> TITLE = declare("Title", TextBox.class);
 		public static final AssetDescriptor<TextBox> FIRST_NAME = declare("First Name", TextBox.class);
@@ -216,7 +217,9 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<RadioGroup> LICENSED_IN_US_CANADA_FOR_18_OR_MORE_MONTHS = declare("Licensed in US/Canada for 18 or More Months?", RadioGroup.class);
 		public static final AssetDescriptor<ComboBox> LICENSE_STATE = declare("License State", ComboBox.class);
 		public static final AssetDescriptor<TextBox> LICENSE_NUMBER = declare("License #", TextBox.class);
-
+		public static final AssetDescriptor<RadioGroup> FINANCIAL_RESPONSIBILITY_FILLING_NEEDED = declare("Financial Responsibility Filling Needed", RadioGroup.class);
+		public static final AssetDescriptor<ComboBox> FILLING_TYPE = declare("Filling Type", ComboBox.class);
+		
 		public static final AssetDescriptor<ComboBox> EMPLOYEE_BENEFIT_TYPE = declare("Employee Benefit Type", ComboBox.class);
 		public static final AssetDescriptor<TextBox> EMPLOYEE_ID = declare("Employee ID", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> ADB_COVERAGE = declare("ADB Coverage", RadioGroup.class);
@@ -389,11 +392,17 @@ public final class AutoCaMetaData {
 		
 		public static final class DriverForms extends MetaData {
 //			formAssetLocator = By.id("addComponentPopup_DriverEndorsementFormsManager_container");
+			public static final AssetDescriptor<AssetList> CIPCSR22 = declare("CIPCSR22", AssetList.class, CIPCSR22FormMeta.class, false, By.id("addComponentPopup_DriverEndorsementFormsManager_container"));
 		}
 		
 		public static final class CommonFormMeta extends MetaData {
 			public static final AssetDescriptor<TextBox> FORM_CODE = declare("Form Code", TextBox.class);
 			public static final AssetDescriptor<TextBox> FORM_DESCRIPTION = declare("Form Description", TextBox.class);
+		}
+		
+		public static final class CIPCSR22FormMeta extends MetaData {
+			public static final AssetDescriptor<TextBox> CASE_NUMBER = declare("Case Number", TextBox.class);
+			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class);
 		}
 	}
 
@@ -451,7 +460,7 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_PROPERTY_DAMEGE =
 				declare("Uninsured Motorist Property Damage", ComboBox.class, By.xpath("./*//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Uninsured Motorist Property Damage']/ancestor::tr[1]//select"));
 		public static final AssetDescriptor<ComboBox> COLLISION_DEDUCTIBLE_WAIVER = declare("Collision Deductible Waiver", ComboBox.class, By.xpath("./*//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Collision Deductible Waiver']/ancestor::tr[1]//select"));
-		public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_DESCRIPTION = declare("Special Equipment Description", TextBox.class, By.xpath("./*//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Special Equipment Description']/ancestor::tr[1]//select"));
+		public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_DESCRIPTION = declare("Special Equipment Description", TextBox.class, By.xpath("./*//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Special Equipment Description']/ancestor::tr[1]//input"));
 		public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_COVERAGE = declare("Special Equipment Coverage", TextBox.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Special Equipment Coverage']/ancestor::tr[1]//input"));
 		public static final AssetDescriptor<ComboBox> RENTAL_REIMBURSEMENT = declare("Rental Reimbursement", ComboBox.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Rental Reimbursement']/ancestor::tr[1]//select"));
 		public static final AssetDescriptor<ComboBox> TOWING_AND_LABOR_COVERAGE = declare("Towing and Labor Coverage", ComboBox.class, By.xpath("./[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Towing and Labor Coverage']/ancestor::tr[1]//select"));
