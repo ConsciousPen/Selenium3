@@ -66,6 +66,9 @@ public abstract class PropertyQuoteTab extends Tab {
 		return new Dollar(tableTotalPremiumSummary.getRow(1).getCell(tableTotalPremiumSummary.getColumnsCount() - 2).getValue());
 	}
 
+	public static Dollar getPreEndorsementPremium() {
+		return new Dollar(tableTotalPremiumSummary.getRow(1).getCell(tableTotalPremiumSummary.getColumnsCount() - 3).getValue());
+	}
 	public static Dollar getOverridenPremiumFlatAmount() {
 		return new Dollar(textBoxOverrideFlatAmount.getValue());
 	}
