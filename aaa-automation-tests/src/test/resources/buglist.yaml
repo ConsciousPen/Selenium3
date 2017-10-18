@@ -144,3 +144,13 @@ QC-44919:
     - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario3.TC01_createPolicy,
               aaa.modules.e2e.home_ss.ho3.TestScenario7.TC01_createPolicy]
       messages: ["Billing Installments count for Semi-Annual payment plan expected [2] but found [1]"]
+    - tests: [aaa.modules.e2e.auto_ss.TestScenario1.TC01_createPolicy,
+              aaa.modules.e2e.auto_ss.TestScenario2.TC01_createPolicy,
+              aaa.modules.e2e.auto_ss.TestScenario3.TC01_createPolicy,
+              aaa.modules.e2e.auto_ss.TestScenario4.TC01_createPolicy,
+              aaa.modules.e2e.auto_ss.TestScenario5.TC01_createPolicy,
+              aaa.modules.e2e.auto_ss.TestScenario6.TC01_createPolicy,
+              aaa.modules.e2e.auto_ss.TestScenario7.TC01_createPolicy]
+      messages: ["Cannot set value of AssetList {PremiumAndCoveragesTab: By.xpath: //div[@id='contentWrapper']} to '{Payment Plan="]
+    - tests: [aaa.modules.e2e.*]
+      messages: ["depends on not successfully finished methods"]

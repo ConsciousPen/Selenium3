@@ -34,23 +34,11 @@ ApplicantTab: {
     Membership number: '4290023667710001',
     Last name: Test,
     },
-  DwellingAddress: {
-    Zip code: '90201',
-    Street address 1: 265 CHIPMAN AVE,
-    Validate Address: true,
-    Validate Address Dialog: {}
-    },
+  DwellingAddress: '@<home_ca_ho3>@DataGather@DwellingAddress',
   PreviousDwellingAddress: {},
   MailingAddress: {},
-  NamedInsuredInformation: {
-    Home Phone Number: '1234567890'
-    },
-  AgentInfo: {
-    Channel Type: AAA Agent,
-    Agency: 'SMTestNCNU - 400001005',
-    Agency Location: 'SMTestNCNU LOCATION - 400001105 - Emeryville',
-    TollFree Number: 500001002
-    },
+  NamedInsuredInformation: '@<home_ca_ho3>@DataGather@NamedInsuredInformation',
+  AgentInfo: '@<home_ca_ho3>@DataGather@AgentInfo',
   OtherActiveAAAPolicies: {},
 }
 

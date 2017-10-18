@@ -15,8 +15,8 @@ TestData_CA: {
 PrefillTab: {
   First Name: Sansa,
   Last Name: Stark,
-  Zip Code: 94544,
-  Address Line 1: 8416 Briggs Drive,
+  Zip Code: 90255,
+  Address Line 1: 6586 PORCUPINE WAY,
   Date of Birth: '/today-38y:MM/dd/yyyy',
   Validate Address: click,
   Validate Address Dialog: {
@@ -44,9 +44,10 @@ AAAProductOwned: {
 PolicyInformation: {
   Policy Type: Standard,
   Effective Date: '/today:MM/dd/yyyy',
-  Channel Type: Phone (Direct Sales Unit),
-  Agency: SMTestCC - 400000092,
-  Sales Channel: Online,
+  Channel Type: AAA Agent,
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'Los Gatos - 500005341 - Los Gatos',
+  Agent: 'House Agent Los Gatos',
   Authorized by: QA,
   TollFree Number: 1
 }
@@ -131,34 +132,3 @@ PurchaseTab_WithAutopay: {
   }
 }
 
-TestData_TwoVehicles: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
-  DriverTab: '@DriverTab',
-  MembershipTab: '@MembershipTab',
-  VehicleTab: ['@VehicleTab_1', '@VehicleTab_2'],
-  AssignmentTab: '@AssignmentTab',
-  FormsTab: '@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab',
-  PurchaseTab: '@PurchaseTab'
-}
-
-VehicleTab_1: {
-  VIN: 1GNWGPFG8B6548273,
-   Primary Use: Pleasure (recreational driving only),
-   Existing Damage: None,
-   "Salvaged?": 'No',
-   Miles One-way to Work or School: 10,
-   Odometer Reading: 3000
-}
-
-VehicleTab_2: {
-  VIN: WDCYC7BB0B6729451,
-  Primary Use: Pleasure (recreational driving only),
-  Existing Damage: None,
-  "Salvaged?": 'No',
-  Miles One-way to Work or School: 10,
-  Odometer Reading: 3000
-}

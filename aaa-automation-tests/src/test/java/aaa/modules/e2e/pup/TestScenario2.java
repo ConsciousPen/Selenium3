@@ -1,6 +1,7 @@
 package aaa.modules.e2e.pup;
 
 import aaa.common.enums.Constants;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.e2e.templates.Scenario2;
 import org.testng.annotations.Optional;
@@ -187,7 +188,7 @@ public class TestScenario2 extends Scenario2 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC28_Verify_DocGen_Forms(@Optional("") String state) {
-		super.verifyDocGenForms();
+		super.verifyDocGenForms(new DocGenEnum.Documents[]{DocGenEnum.Documents.AHIBXX, DocGenEnum.Documents.AHRBXX});
 	}
 
 	@Parameters({"state"})
