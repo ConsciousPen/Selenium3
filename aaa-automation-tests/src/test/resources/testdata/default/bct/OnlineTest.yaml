@@ -6,6 +6,10 @@ BCT_AUDIT_ONL_AUTO_BLANK_Renewal_Endorsement: {
   SelectPolicy: "select policynumber from (select A.policynumber from pasadm.policysummary A, pasadm.riskitem B, pasadm.vehiclebaseinfo C where A.policydetail_id = B.policydetail_id and B.baseinfo_id = C.id and C.vehtypecd = 'PPA' and A.policynumber not like 'Q%' and A.LOB = 'AUTO' and A.riskstatecd = '/STATE/' and A.policystatuscd = 'issued' and A.timedpolicystatuscd = 'inForce' and currentrevisionind = 1 and A.expiration = to_date('/EXECDATE/') + 55 and A.txtype in ('policy', 'renewal', 'endorsement', 'reinstatement') group by A.policynumber having count(A.policynumber) = 1) where rownum = 1"
 }
 
+BCT_AUDIT_ONL_HOME_BLANK_Endorsement: {
+  SelectPolicy: "select DISTINCT A.policynumber from pasadm.policysummary A, pasadm.riskitem B where A.policydetail_id = B.policydetail_id  and A.policynumber not like 'Q%' and A.LOB = 'HOME' and A.riskstatecd = '/STATE/' and A.expiration > to_date('/EXECDATE/') + 63 and A.policystatuscd = 'issued' and  A.policynumber like '%H6%' and A.currentrevisionind = 1 and A.timedpolicystatuscd = 'inForce'and  A.txtype in ('policy', 'renewal', 'endorsement', 'reinstatement') and rownum = 1"
+}
+
 BCT_ONL_001_ManualRenewal: {
   SelectPolicy: "select p.policynumber from pasadm.policysummary p , pasadm.quoteversion q where p.id = q.policyid and p.txtype = 'renewal'and policystatuscd = 'rated'and timedpolicystatuscd = 'rated'and trunc(effective - 37) >= '/EXECDATE/'  and trunc(effective - 40) <= '/EXECDATE/' and p.riskstatecd ='/STATE/'and p.LOB='AUTO' and p.imported = 'NEW'  and rownum = 1"
 }
