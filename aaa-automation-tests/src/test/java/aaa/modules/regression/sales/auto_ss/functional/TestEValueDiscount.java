@@ -820,7 +820,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		pas309_eValueGreyBoxPaperlessCheck("No");
 	}
 
-
+	//TODO OSI: Blocked by Membership discount and eValue discount not resetting on NB+30
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Test eValue Discount not shown for state where it is not configured
@@ -851,13 +851,13 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		simplifiedQuoteIssue();
 
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		NB_15jobs(policyNumber);
+		NB_15_30jobs(policyNumber);
 
-		NB_15jobs(policyNumber);
+		NB_15_30jobs(policyNumber);
 
 	}
 
-	private void NB_15jobs(String policyNumber) {
+	private void NB_15_30jobs(String policyNumber) {
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		//NB+30 jobs

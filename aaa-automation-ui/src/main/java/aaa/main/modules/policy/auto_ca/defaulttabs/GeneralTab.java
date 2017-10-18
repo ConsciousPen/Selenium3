@@ -4,13 +4,10 @@
  */
 package aaa.main.modules.policy.auto_ca.defaulttabs;
 
-import org.openqa.selenium.By;
-
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedTable;
-import toolkit.datax.TestData;
-import toolkit.webdriver.controls.ComboBox;
+import org.openqa.selenium.By;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
 /**
