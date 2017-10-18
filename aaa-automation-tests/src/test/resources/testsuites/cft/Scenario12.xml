@@ -20,10 +20,10 @@
         </classes>
     </test>
 
-    <test name="AutoCA Choice Scenario 12 CFT" parallel="none">
+    <test name="AutoCA Select Scenario 12 CFT" parallel="none">
         <parameter name="state" value="CA" />
         <classes>
-            <class name="aaa.modules.cft.auto_ca.choice.TestCFTScenario12" />
+            <class name="aaa.modules.cft.auto_ca.select.TestCFTScenario12" />
         </classes>
     </test>
 
