@@ -126,7 +126,7 @@ public class SC1 extends AutoCaChoiceBaseTest {
 		docgenActionTab.verify.documentsEnabled(
 				Documents.AA11CA,
 				Documents.AA43CA,
-				Documents.AHRCTXX,
+				Documents.AHRCTXXPUP,
 				Documents.AAVICA,
 				Documents.CAU01,
 				Documents.CAU02,

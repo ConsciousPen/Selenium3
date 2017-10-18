@@ -198,7 +198,7 @@ public final class DocGenEnum {
         AA52CA("Agreement Deleting Uninsured/ Underinsured Motorist Bodily Injury Coverage"),
         AA53CA("Agreement Deleting Uninsured Motorist Property Damage Coverage"),
         CAU01("Notice of Cancellation"),
-        CAU02("Notice of Cancellation"),
+        CAU02("Notice of Cancellation with Exclusion"),
         CAU04("Request for Information"),
         CAU07("Notice of Non-Renewal with Exclusion"),
         CAU08("Notice of Non-Renewal"),
