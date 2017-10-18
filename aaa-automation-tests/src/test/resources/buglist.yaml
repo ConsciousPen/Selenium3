@@ -152,5 +152,5 @@ QC-44919:
               aaa.modules.e2e.auto_ss.TestScenario6.TC01_createPolicy,
               aaa.modules.e2e.auto_ss.TestScenario7.TC01_createPolicy]
       messages: ["Cannot set value of AssetList {PremiumAndCoveragesTab: By.xpath: //div[@id='contentWrapper']} to '{Payment Plan="]
-      - tests: [aaa.modules.e2e.*]
+    - tests: [aaa.modules.e2e.*]
       messages: ["depends on not successfully finished methods"]
