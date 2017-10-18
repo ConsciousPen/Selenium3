@@ -82,11 +82,12 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void endorsePolicyEffDatePlus16Days() {
 		LocalDateTime endorsePlus16 = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
-		TimeSetterUtil.getInstance().nextPhase(endorsePlus16);
-		log.info("Endorsment action started");
-		log.info("Endorsement date: {}", endorsePlus16);
-		performAndCheckEndorsement(endorsePlus16);
-		log.info("Endorsment action completed successfully");
+		performEndorsementOnDate(endorsePlus16);
+		// TimeSetterUtil.getInstance().nextPhase(endorsePlus16);
+		// log.info("Endorsment action started");
+		// log.info("Endorsement date: {}", endorsePlus16);
+		// performAndCheckEndorsement(endorsePlus16);
+		// log.info("Endorsment action completed successfully");
 	}
 
 	/**
@@ -120,22 +121,23 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void acceptPaymentEffDatePlus25() {
 		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
-		TimeSetterUtil.getInstance().nextPhase(paymentDate);
-		log.info("Accept payment action started");
-		log.info("Accept payment date: {}", paymentDate);
-		mainApp().reopen();
-		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		billingAccount.acceptPayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		String expValue = getTestSpecificTD(DEFAULT_TEST_DATA_KEY)
-			.getTestData(AcceptPaymentActionTab.class.getSimpleName())
-			.getValue(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel());
-		new BillingPaymentsAndTransactionsVerifier()
-			.setTransactionDate(paymentDate)
-			.setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
-			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
-			.setAmount(new Dollar(expValue).negate())
-			.verifyPresent();
-		log.info("Accept payment action completed successfully");
+		acceptManualPaymentOnDate(paymentDate);
+		// TimeSetterUtil.getInstance().nextPhase(paymentDate);
+		// log.info("Accept payment action started");
+		// log.info("Accept payment date: {}", paymentDate);
+		// mainApp().reopen();
+		// SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		// billingAccount.acceptPayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		// String expValue = getTestSpecificTD(DEFAULT_TEST_DATA_KEY)
+		// .getTestData(AcceptPaymentActionTab.class.getSimpleName())
+		// .getValue(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel());
+		// new BillingPaymentsAndTransactionsVerifier()
+		// .setTransactionDate(paymentDate)
+		// .setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
+		// .setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
+		// .setAmount(new Dollar(expValue).negate())
+		// .verifyPresent();
+		// log.info("Accept payment action completed successfully");
 	}
 
 	/**
@@ -552,7 +554,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementDate.format(DateTimeUtils.MM_DD_YYYY),
 			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber()));
-
 		log.info("Endorsment action completed successfully");
 	}
 
