@@ -113,7 +113,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		CustomAssert.assertAll();
 	}
 
-	@Test(enabled = true)
+	@Test(enabled = false)
 	@TestInfo(isAuxiliary = true)
 	public static void eValueConfigInsert() {
 		List<String> configForStates = Arrays.asList("VA"  //for Paperless Preferences = Yes
