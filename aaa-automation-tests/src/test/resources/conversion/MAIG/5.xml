@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy name="AAA_SS" version="1">
+<!-- Original file name: 20170913_111143_CNV_B_MAIGHYB_EXGPAS_8320_D_20170913_30000810_001244746 -->
+    <AAACSAAutoPolicy state="Created">
+        <aaaInceptionDate>2009-08-21T00:00:00</aaaInceptionDate>
+        <aaaProgramCode>LegacyConv</aaaProgramCode>
+        <agentCd>500017338</agentCd>
+        <effective>2017-10-20T00:00:00</effective>
+        <expiration>2018-10-20T00:00:00</expiration>
+        <importedFrom>MAIG</importedFrom>
+        <preConversionPolicyPremium>1197</preConversionPolicyPremium>
+        <producerCd>500016292</producerCd>
+        <productCd>AAA_SS</productCd>
+        <riskStateCd>NJ</riskStateCd>
+        <sourcePolicyNum>001244746</sourcePolicyNum>
+        <subProducerCd>500017338</subProducerCd>
+        <OtherOrPriorPolicy state="Created">
+            <productCd>membership</productCd>
+        </OtherOrPriorPolicy>
+        <AAAPaymentOption state="Created">
+            <paymentPlanCd>standartSS_R</paymentPlanCd>
+        </AAAPaymentOption>
+        <AAAInsured oid="78015" state="Created">
+            <firstName>DAVID</firstName>
+            <lastName>LIPMAN</lastName>
+            <mainInsured>true</mainInsured>
+            <AAAInsuredPrimaryAddress state="Created">
+                <addressDisplayValue>84 ATLANTIC AVE # B , LONG BRANCH, NJ, 07740</addressDisplayValue>
+                <addressLine1>84 ATLANTIC AVE # B</addressLine1>
+                <city>LONG BRANCH</city>
+                <countryCd>US</countryCd>
+                <postalCode>07740</postalCode>
+                <stateProvCd>NJ</stateProvCd>
+                <usageType>mailing</usageType>
+            </AAAInsuredPrimaryAddress>
+        </AAAInsured>
+    </AAACSAAutoPolicy>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2009-08-27T00:00:00</updatedOn>
+        <userText>ACC/VIO:N/A HH RES:N/A NO LAPSE EFF DATE: 8/21/09 EXP DATE: 2/1/10 PHONE#732-571-5195 TERR#227 NO VARIANCE Q AND P 969  SENT TO UNDERWRITING CARCO FORM:  YES CARCO IS REQUIRED</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2010-07-12T00:00:00</updatedOn>
+        <userText>MR CALLING TO SEE IF HE NEEDS TO FILL OUT CSF ADVISED NO 432PM</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2010-10-07T00:00:00</updatedOn>
+        <userText>8;06 ORD DUP ID CARD TYPE EOI AND FAX  732-532-0833</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2011-07-13T00:00:00</updatedOn>
+        <userText>AUTHORIZATION CODE:  01354P RECEIPT NUMBER:  596360-69305-76 MESSAGE FROM BANK:  APPROVAL POLICY ID:  01244746 CUSTOMER NAME:  LIPMAN,                732-571-5195 CHARGE DATE:  7/13/2011 3:23:59 PM    DLIPMAN@VERIZON.NET CREDIT CARD TYPE:  DISCOVER CREDIT CARD EXPIRATION:  09/1/2014 CREDIT CARD:  ****-1620 AMOUNT:  $1,008.00</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2012-07-16T00:00:00</updatedOn>
+        <userText>732-571-5195: DLIPMAN@VERIZON.NET  DECLINED HO AUTHORIZATION CODE:  01627P RECEIPT NUMBER:  707616-58391-76 MESSAGE FROM BANK:  APPROVAL POLICY ID:  01244746 CUSTOMER NAME:  LIPMAN, DAVID CHARGE DATE:  7/16/2012 11:23:20 AM CREDIT CARD TYPE:  DISCOVER CREDIT CARD EXPIRATION:  09/1/2014 CREDIT CARD:  ****-1620 AMOUNT:  $1,049.00</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2013-07-12T00:00:00</updatedOn>
+        <userText>AUTHORIZATION CODE:  01254P RECEIPT NUMBER:  829693-52217-108 MESSAGE FROM BANK:  APPROVAL POLICY ID:  01244746                  732-571-5195: DLIPMAN@VERIZON.NE CUSTOMER NAME:  LIPMAN, CHARGE DATE:  7/12/2013 11:05:16 AM CREDIT CARD TYPE:  DISCOVER CREDIT CARD EXPIRATION:  09/1/2014 CREDIT CARD:  ****-1620 AMOUNT:  $1,121.00</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2014-07-15T00:00:00</updatedOn>
+        <userText>732-571-5195              AUTHORIZATION CODE:  01591P DLIPMAN@VERIZON.NET       RECEIPT NUMBER:  958226-38550-76 MESSAGE FROM BANK:  APPROVAL POLICY ID:  01244746 CUSTOMER NAME:  LIPMAN, CHARGE DATE:  7/15/2014 4:29:52 PM CREDIT CARD TYPE:  DISCOVER CREDIT CARD EXPIRATION:  09/1/2018 CREDIT CARD:  ****-1620 AMOUNT:  $1,121.00</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2015-07-13T00:00:00</updatedOn>
+        <userText>TOTAL PAID    $1,121.00 RECEIPT NUMBER  30704589 PAYMENT METHOD CREDIT CARD CREDIT CARD TYPE DISC CREDIT CARD NUMBER XXXXXXXXXXXX1620    732-571-5195 DLIPMAN@VERIZON.NET</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2016-07-14T00:00:00</updatedOn>
+        <userText>1148A SW INR TO MAKE A PMT $1,191  AMOUNT WAS SUCCESSFULLY PROCESSED AND OUR CONFIRMATION NUMBER 44461113     732-571-5195 DLIPMAN@VERIZON.NET</userText>
+    </userNote>
+</Policy>

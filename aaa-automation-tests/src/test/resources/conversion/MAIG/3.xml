@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy name="AAA_SS" version="1">
+<!-- Original file name: 20170913_111115_CNV_B_MAIGHYB_EXGPAS_8320_D_20170913_30000810_031103893 -->
+    <AAACSAAutoPolicy state="Created">
+        <aaaInceptionDate>1989-08-05T00:00:00</aaaInceptionDate>
+        <aaaProgramCode>LegacyConv</aaaProgramCode>
+        <agentCd>500017298</agentCd>
+        <effective>2017-10-20T00:00:00</effective>
+        <expiration>2018-10-20T00:00:00</expiration>
+        <importedFrom>MAIG</importedFrom>
+        <preConversionPolicyPremium>2053</preConversionPolicyPremium>
+        <producerCd>500016292</producerCd>
+        <productCd>AAA_SS</productCd>
+        <riskStateCd>PA</riskStateCd>
+        <sourcePolicyNum>031103893</sourcePolicyNum>
+        <subProducerCd>500017298</subProducerCd>
+        <OtherOrPriorPolicy state="Created">
+            <productCd>membership</productCd>
+        </OtherOrPriorPolicy>
+        <AAAPaymentOption state="Created">
+            <paymentPlanCd>standartSS_R</paymentPlanCd>
+        </AAAPaymentOption>
+        <AAAInsured oid="77942" state="Created">
+            <firstName>JEAN</firstName>
+            <lastName>FRITZ</lastName>
+            <mainInsured>true</mainInsured>
+            <middleName>N</middleName>
+            <AAAInsuredPrimaryAddress state="Created">
+                <addressDisplayValue>531 PENNBROOK AVENUE , LANSDALE, PA, 19446</addressDisplayValue>
+                <addressLine1>531 PENNBROOK AVENUE</addressLine1>
+                <city>LANSDALE</city>
+                <countryCd>US</countryCd>
+                <postalCode>19446</postalCode>
+                <stateProvCd>PA</stateProvCd>
+                <usageType>mailing</usageType>
+            </AAAInsuredPrimaryAddress>
+        </AAAInsured>
+    </AAACSAAutoPolicy>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>1998-07-07T00:00:00</updatedOn>
+        <userText>RENEWAL REVIEW - 1987 OLDSMOBILE, DELETE COMP/COLL &amp; LOU? - OBTAIN LICENSE # FOR JEAN.</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>1998-08-18T00:00:00</updatedOn>
+        <userText>RENEWAL RETENTION: CALLED 610 272 0924 AT 4:09 P.M. - SPOKE WITH MR. FRITZ - EVERYTHING O.K. - WILL ASK MRS WHEN SHE RETURNS HOME IF ANY ?'S - I THANKED HIM AGAIN FOR RENEWING WITH KEYSTONE.</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>1999-04-17T00:00:00</updatedOn>
+        <userText>SPOKE TO DEALER AND INSURED-INSRUED TRADED IN 1987 CAR AND REPLACED WITH 1999 SAME COVERAGES- PROCESSED ON LINE EFF TODAY 9:30 AM INSURED DECIDED TO KEEP THE 87 OLDS W/LIAB ONLY. ADD 99 FORD CANGE USE ON 87 TO PLEASURE AND USE ON 99 WILL BE TO WORK, 42 MILES ONE WAY.  I NSURED HAS BEEN TRANSFERRED TO ALLENTOWN. ADD LOSS PAYEE.  ALARM FORM SENT</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>1999-04-27T00:00:00</updatedOn>
+        <userText>REC'D ALARM FORM BACK FROM INSURED.  PROCESSED 15% ALARM DISCOUNT ON L INE.</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>1999-08-12T00:00:00</updatedOn>
+        <userText>I LEFT A MESSAGE WITH THE INSURED,AS I WAS COMPLETING A RENEWAL REVIEW INSURED MAY BE CONTACTED AT (610)272-0924.</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>1999-11-20T00:00:00</updatedOn>
+        <userText>INSD CALLED DELETE 1987 OLDS VEHICLE SOLD.  INS PH#610-272-0927</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2000-05-05T00:00:00</updatedOn>
+        <userText>INSURED CALLED TO HAVE HER CITY CHANGED TO PLYMOUTH MEETING - 19462 THIS WAS REQUESTED BY THE POST OFFICE.</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2000-07-07T00:00:00</updatedOn>
+        <userText>INSURED CALLED TO GET QUOTE TO INCREASE BI,UM,UIM TO 100/300 AND PD TO 50.I ADVISED THAT RATE WOULD BE $1,692.SHE SAID TO MAKE THESE CHANGES EFFECTIVE ON 8/5,WHICH I MADE ON-LINE. INSURED MAY BE CONTACTED AT (610)272-0924.</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2001-05-10T00:00:00</updatedOn>
+        <userText>LTR SENT TO OBTAIN LICENSE NO. FOR JEAN &amp; HENRY FRITZ ONCE INFORMATION RECEIVED PROCESS CHANGE AND EMAL ME WITH CORRECT LICENSE # SO I CAN ORDER MVR.</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2001-06-12T00:00:00</updatedOn>
+        <userText>INS'D RETURNED LUCILLE REQ LIC #  FOR JEAN.  LIC # 12763813 SENT TO FILE. E MAILED LUCILLE.  CC</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2004-02-12T00:00:00</updatedOn>
+        <userText>MRS FRITZ CAME INTO THE K OF P OFFICE TO SEE WHY THE PREMIUM ON THE POLICY HAS NOT BEEN REDUCED YET.  SHE RETIRED 11/21/03 AND CALLED TO REQUEST THE USAGE BE CHANGED ON HER POLICY.  SHE WAS TOLD SHE NEEDED TO SEND A LETTER REQUESTING THE CHANGE.  SHE SENT THE LETTER TO 2040 MARKET ST.  THERE IS NO DOC. REGARDING THIS.  SHE COMPLETED ANOTHER LETTER AND I CHANGED THE USAGE TO PLEASURE EFF. 11/21/03.  DOC TO IMAGING.</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2006-06-07T00:00:00</updatedOn>
+        <userText>MS FRITZ CALLED TO DELETE HUSBAND (HENRY) WHO HAS ALSO HAD OWN INS ADVISED TO FAX PROOF OF INS TO HAVE HIM DELETED 12:17 PM **************** REC'D COPY OF ID CARD FOR HUSBAND (HENRY FRITZ) HARLEYSVILLE PERFERRED INS CO #PAA 02 42 31 EFF 5/15/06  (02 FORD EXPLORER) DELETING HUSBAND EFF 5/15/06 4:55 PM</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2007-11-08T00:00:00</updatedOn>
+        <userText>1:13PM...REV'D.BILLING...VERIFIED BAL.$0...</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2008-03-24T00:00:00</updatedOn>
+        <userText>INSURED CALLED TO ADD 02 FORD EXPLORER XLT REG TO JEAN COM $100 COLL $500 NO LEINHOLDER</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2008-06-30T00:00:00</updatedOn>
+        <userText>12:54 SPOKE TO JEAN. DISCUSSED WAGE LOSS. SHE IS RETIRED. ADVSD WILL FORWRD DOCS SHE NEEDS TO SIGN TO DELETE COVG. MAILED REQUEST LTR TO DEL WAGE LOSS. ADVS IN PROCESS OF MOVING TO LANSDDALE, PA BUT NO SPECIFIC DATE OF MOVE, ADVSD WILL NOT BE MOVING IN FOR APPROX 3 WEEKS: 531 PENNBROOK AVE, LANSDALE PA 19446. ADVSD TO CALL BACK ONCE IN NEW HOME TO CHANGE OF ADDY. TRANS TO SALES FOR HO QUOTE. REQD QUOTE FOR AUTO CHANGE OF ADDY 610 272 0924. 4:03 WORKED UP QUOTE WORK ESTIMATE FOR MOVE TO LANSDALE OF $2297 (2097 QUOTE + 200 ADD PREM FOR DIFF IN AB/QUOTE WORK FOR CURRENT ADDY) INQUIRED ABOUT HO4 POLICY FOR THE NEW LOCATION SHE IS MOVING INTO BUT WAS UNAWARE OF THE INFO THAT I NEEDED TO PROCESS A QUOTE. I HAVE EMAILED HER AN HO RFQ FOR HER TO COMPLETE AND RETURN TO ME. SENT TO HENRYJEAN@VERIZON.NET</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2008-07-08T00:00:00</updatedOn>
+        <userText>1:53 RECVD JEAN'S SIGNED REQ TO DELETE WAGE LOSS COVG, SHE IS RETIRED FORM TO FILE</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2008-07-29T00:00:00</updatedOn>
+        <userText>MS FRITZ CALLED TO CONFIRM PAYMENT REC'D ADVISED REC'D $1000 7/18/08 ALSO INSURED IN PROCESS OF MOVING.... OK TO PROCESS CHANGE OF ADDRESS EFF 8/5/08 531 PENNBROOK AVENUE LANSDALE PA 19446 12:48 PM</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2008-09-04T00:00:00</updatedOn>
+        <userText>2:11 ADDED MP DISCOUNT EFF 09/02/08 TENNAT POL# 3623 9797</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2010-06-30T00:00:00</updatedOn>
+        <userText>HENRYJEAN@VERIZON.NET 215 362 2264 JEAN CALLED. HUSBAND PASSED AWAY MANY YEARS AGO .NO WIDOWED/SINGLE 2:19   INSURED WANTED A QUOTE W/ INCREASE LIAB TO 250/500 APPROX 160.00 RETENTION TO QUOTE REWRITE WILL CALL HER BACK DUE TO KEYSTONE MANUAL POLICY</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2010-07-02T00:00:00</updatedOn>
+        <userText>10:30 CALLED BACK INSURED.  ADVSD 160/YR MORE APPROX TO INCREASE COVERAGE. TRANSFERRED HER TO T CARLISI RE: QUOTE FOR REWRITE</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2010-08-10T00:00:00</updatedOn>
+        <userText>MS FRITZ CALLED SHE WILL KEEP KEYSTONE POLICY FOR THIS YEAR EMAIL TO TCARLISI TO ADVISE OF SAME 328</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2011-07-11T00:00:00</updatedOn>
+        <userText>INSURED CALLED REGUARDING COVERAGE</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2014-03-03T00:00:00</updatedOn>
+        <userText>2:27 PM 3/3/2014               YOUR CONFIRMATION NUMBER IS 062237 S/W JEAN                       AUTO OR HOME INSURANCE POLICY NUMBER 31 PMT - 200.00                   CHECKING ACCOUNT NAME JEAN FRITZ PAYMENT METHOD ACH PAYMENT ACCOUNT NUMBER ******5150 HENRYJEAN@VERIZON.NET 215 362 2264                   PAYMENT AMOUNT $200.00</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2015-01-31T00:00:00</updatedOn>
+        <userText>3:43 SPOKE WITH JEAN WHO ASKED IF WE COULD SEND HER A COPY OF THE CURRENT ID CARD, AS THE ONE SHE HAS EXPIRES ON 2/5/15.I SENT HER A COPY FROM FASTLANE WHICH LISTS A 8/5/14-8/5/15 EXPIRATION DATE. ALSO, I ORDERED THE ID CARD ON ACRP WITH A 2/5/15-8/5/15 DATE, SINCE PA ONLY PERMITS ID CARDS AT SIX MONTH INTERVALS.     (215)362-2264,HENRYJEAN@VERIZON.NET</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2016-02-05T00:00:00</updatedOn>
+        <userText>12:58 SPOKE WITH JEAN WHO ADVISED THAT SHE MADE AN ON-LINE PAYMENT TODAY OF $400, CONFIRMATION # 38340133.SHE ASKED IF THE POLICY IS STILL ACTIVE AS THE BILL WAS DUE ON 2/1/16.I TOLD HER THAT IT IS ACTIVE.INSURED HAS HO.     (215)362-2264 HENRYJEAN@VERIZON.NET</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2017-03-02T00:00:00</updatedOn>
+        <userText>RECEIPT NUMBER: 53252340 PAYMENT AMOUNT: $130.51    HENRYJEAN@VERIZON.NET 215-362-2264</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2017-05-02T00:00:00</updatedOn>
+        <userText>MCAMPBELL 5/2/17 801AM  RECEIPT NUMBER: 55588063 PAYMENT AMOUNT: $161.01     HENRYJEAN@VERIZON.NET 215-362-2264  HOME 3623 9797</userText>
+    </userNote>
+</Policy>

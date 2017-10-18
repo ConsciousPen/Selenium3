@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy  name="AAA_HO_CA" version="1.0" rootEntityType="policy">
+<!-- Original file name: 20170824_024326_CNV_B_CADP3_EXGPAS_8435_D_20170822_30000518_2995380 -->
+    <AAAHOPolicy state="Created">
+        <agencyCd>500001005</agencyCd>
+        <agencyLocation>500005397</agencyLocation>
+        <agentCd>18932576</agentCd>
+        <agentGeneralNumber>003</agentGeneralNumber>
+        <countryCd>US</countryCd>
+        <doNotRenewInd>false</doNotRenewInd>
+        <effective>2017-10-20T00:00:00</effective>
+        <expiration>2018-10-20T00:00:00</expiration>
+        <imported>CONV</imported>
+        <importedFrom>SIS</importedFrom>
+        <isAdditionalPolicy>false</isAdditionalPolicy>
+        <isAdditionalProppolicy>false</isAdditionalProppolicy>
+        <leadSourceCd>25</leadSourceCd>
+        <officeType>AZ Club Agent</officeType>
+        <policyFormCd>DP3</policyFormCd>
+        <preConversionPolicyNumber>DP3 2995380</preConversionPolicyNumber>
+        <preConversionPolicyPremium>1044</preConversionPolicyPremium>
+        <producerCd>500001005</producerCd>
+        <productCd>AAA_HO_CA</productCd>
+        <riskStateCd>CA</riskStateCd>
+        <sourcePolicyNum>DP3 2995380</sourcePolicyNum>
+        <subProducerCd>18932576</subProducerCd>
+        <tollNumberCd>1111111111</tollNumberCd>
+        <underwriterCd>ACAIC</underwriterCd>
+        <AAACeaDetailsComponent state="Created">
+            <acceptCeaOffer>false</acceptCeaOffer>
+        </AAACeaDetailsComponent>
+        <AAAFirelineReportComponent state="Created">
+            <dwellAddressCity>SACRAMENTO</dwellAddressCity>
+            <dwellAddressLine1>6725 RIVERSIDE BLVD</dwellAddressLine1>
+            <dwellAddressState>CA</dwellAddressState>
+            <dwellAddressZip>95831</dwellAddressZip>
+            <expirationDate>2017-11-20T00:00:00</expirationDate>
+            <orderDate>2017-08-22T00:00:00</orderDate>
+            <status>Valid</status>
+        </AAAFirelineReportComponent>
+        <AAAHOCommunicationInfo state="Created">
+            <phoneNumber>9168333015</phoneNumber>
+            <preferredContact>homePhone</preferredContact>
+        </AAAHOCommunicationInfo>
+        <AAAHOMembership state="Created">
+            <insurerCd>Yes</insurerCd>
+            <insurerName>WONG</insurerName>
+            <policyNumber>4290058928218022</policyNumber>
+        </AAAHOMembership>
+        <AAAHOMortgageeExists state="Created">
+            <yesNoAnswer>false</yesNoAnswer>
+        </AAAHOMortgageeExists>
+        <AAAHONamedInsured state="Created">
+            <aaaLegalNameIND>false</aaaLegalNameIND>
+            <dateOfBirth>1954-10-23T00:00:00</dateOfBirth>
+            <employeeType>false</employeeType>
+            <firstName>JICKMON</firstName>
+            <lastName>WONG</lastName>
+            <middleName>X</middleName>
+            <occupationDesc>Unknown</occupationDesc>
+            <principalRoleCd>policyHolder</principalRoleCd>
+            <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+            <trusteeIndicator>false</trusteeIndicator>
+            <AAAHOOrderClueReport state="Created">
+                <addressLine1>6725 RIVERSIDE BLVD</addressLine1>
+                <city>SACRAMENTO</city>
+                <dateOfBirth>1954-10-23T00:00:00</dateOfBirth>
+                <expirationDt>2017-10-21T00:00:00</expirationDt>
+                <firstName>JICKMON</firstName>
+                <lastName>WONG</lastName>
+                <noOfClaims>0</noOfClaims>
+                <orderDate>2017-08-22T00:00:00</orderDate>
+                <postalCode>95831</postalCode>
+                <reportExpired>false</reportExpired>
+                <status>Valid</status>
+            </AAAHOOrderClueReport>
+            <AAAInsuredPrimaryAddress state="Created">
+                <addressLine1>6725 RIVERSIDE BLVD</addressLine1>
+                <city>SACRAMENTO</city>
+                <countryCd>US</countryCd>
+                <postalCode>95831</postalCode>
+                <stateProvCd>CA</stateProvCd>
+            </AAAInsuredPrimaryAddress>
+        </AAAHONamedInsured>
+        <AAAHONamedInsured state="Created">
+            <aaaLegalNameIND>false</aaaLegalNameIND>
+            <dateOfBirth>1958-10-17T00:00:00</dateOfBirth>
+            <employeeType>false</employeeType>
+            <firstName>MARILYN</firstName>
+            <lastName>WONG</lastName>
+            <occupationDesc>Unknown</occupationDesc>
+            <relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+            <trusteeIndicator>false</trusteeIndicator>
+            <AAAHOOrderClueReport state="Created">
+                <addressLine1>6725 RIVERSIDE BLVD</addressLine1>
+                <city>SACRAMENTO</city>
+                <dateOfBirth>1958-10-17T00:00:00</dateOfBirth>
+                <expirationDt>2017-10-21T00:00:00</expirationDt>
+                <firstName>MARILYN</firstName>
+                <lastName>WONG</lastName>
+                <noOfClaims>0</noOfClaims>
+                <orderDate>2017-08-22T00:00:00</orderDate>
+                <postalCode>95831</postalCode>
+                <reportExpired>false</reportExpired>
+                <status>Valid</status>
+            </AAAHOOrderClueReport>
+            <AAAInsuredPrimaryAddress state="Created">
+                <addressLine1>6725 RIVERSIDE BLVD</addressLine1>
+                <city>SACRAMENTO</city>
+                <countryCd>US</countryCd>
+                <postalCode>95831</postalCode>
+                <stateProvCd>CA</stateProvCd>
+            </AAAInsuredPrimaryAddress>
+        </AAAHONamedInsured>
+        <AAAHOPaymentOption state="Created">
+            <billToAtRenewal>Insured</billToAtRenewal>
+            <paymentPlanAtRenewal>quarterlyHO_CA_R</paymentPlanAtRenewal>
+            <paymentPlanCd>quarterlyHO_CA</paymentPlanCd>
+            <recurringPayment>false</recurringPayment>
+        </AAAHOPaymentOption>
+        <AAAHOPolicyPriorCarrier state="Created">
+            <baseDate>2009-11-16T00:00:00</baseDate>
+            <carrierCd>1</carrierCd>
+            <noOfYearsWithHO>8</noOfYearsWithHO>
+            <policyType>DP3</policyType>
+        </AAAHOPolicyPriorCarrier>
+        <AAAHOPreDwellingAddrExists state="Created">
+            <yesNoAnswer>false</yesNoAnswer>
+        </AAAHOPreDwellingAddrExists>
+        <AAAIso360ReportComponent state="Created">
+            <constructionTypeCd>Frame</constructionTypeCd>
+            <dwellAddressCity>SACRAMENTO</dwellAddressCity>
+            <dwellAddressLine1>6725 RIVERSIDE BLVD</dwellAddressLine1>
+            <dwellAddressState>CA</dwellAddressState>
+            <dwellAddressZip>95831</dwellAddressZip>
+            <expirationDate>2017-11-20T00:00:00</expirationDate>
+            <isoReplacementCost>385265</isoReplacementCost>
+            <livingArea>1683</livingArea>
+            <numberOfFamilies>1</numberOfFamilies>
+            <numberOfStories>1</numberOfStories>
+            <orderDate>2017-08-22T00:00:00</orderDate>
+            <roofShape>Complex/Custom</roofShape>
+            <roofType>Asphalt / Fiberglass</roofType>
+            <status>Valid</status>
+            <yearBuilt>1984</yearBuilt>
+        </AAAIso360ReportComponent>
+        <AAAMembershipOrder state="Created">
+            <lastName>WONG</lastName>
+            <membershipNumber>4290058928218022</membershipNumber>
+            <memberSince>1985-01-01T00:00:00</memberSince>
+            <orderDate>2017-08-22T00:00:00</orderDate>
+            <receiptDate>2017-08-22T00:00:00</receiptDate>
+            <status>Active</status>
+        </AAAMembershipOrder>
+        <AAAPolicyPrintingInfoComponent state="Created">
+            <suppressPrint>PD</suppressPrint>
+        </AAAPolicyPrintingInfoComponent>
+        <AAAPpcReportComponent state="Created">
+            <dwellAddressCity>SACRAMENTO</dwellAddressCity>
+            <dwellAddressLine1>6725 RIVERSIDE BLVD</dwellAddressLine1>
+            <dwellAddressState>CA</dwellAddressState>
+            <dwellAddressZip>95831</dwellAddressZip>
+            <expirationDate>2017-10-21T00:00:00</expirationDate>
+            <orderDate>2017-08-22T00:00:00</orderDate>
+            <ppcValue>2</ppcValue>
+            <status>Valid</status>
+        </AAAPpcReportComponent>
+        <AAASupportingDocComponent state="Created">
+            <docDisplayInd>true</docDisplayInd>
+            <docReceivedInd>PS</docReceivedInd>
+            <documentCd>1POSOA</documentCd>
+            <documentText>Signed policy application</documentText>
+        </AAASupportingDocComponent>
+        <AAASupportingDocComponent state="Created">
+            <docDisplayInd>true</docDisplayInd>
+            <docReceivedInd>PS</docReceivedInd>
+            <documentCd>616530</documentCd>
+            <documentText>California Residential Property Insurance Disclosure</documentText>
+        </AAASupportingDocComponent>
+        <AAASupportingDocComponent state="Created">
+            <docDisplayInd>true</docDisplayInd>
+            <docReceivedInd>PS</docReceivedInd>
+            <documentCd>CEAOD</documentCd>
+            <documentText>CEA Offer Declination</documentText>
+        </AAASupportingDocComponent>
+        <AAAUnderwritingQuestionaireComponent state="Created">
+            <AlternativeWaterSrcAnsInd>true</AlternativeWaterSrcAnsInd>
+            <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+            <DwellLocatedInd>false</DwellLocatedInd>
+            <EmployeesResidentsInd>false</EmployeesResidentsInd>
+            <ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+            <GasWaterInGarageInd>false</GasWaterInGarageInd>
+            <LengthDrivewayAnsInd>true</LengthDrivewayAnsInd>
+            <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+            <RdToHomeNDrivewayPavedAnsInd>true</RdToHomeNDrivewayPavedAnsInd>
+            <WaterHeaterHeightInd>false</WaterHeaterHeightInd>
+        </AAAUnderwritingQuestionaireComponent>
+        <Commissions state="Created">
+            <commissionTypeCd>R</commissionTypeCd>
+        </Commissions>
+        <DL0104EndorsementForm state="Created"/>
+        <DL2402EndorsementForm state="Created"/>
+        <DL2411EndorsementForm state="Created"/>
+        <DL2433EndorsementForm state="Created"/>
+        <DL2482EndorsementForm state="Created"/>
+        <DP0422EndorsementForm state="Created">
+            <coverageLimit>10000</coverageLimit>
+        </DP0422EndorsementForm>
+        <DP0475EndorsementForm state="Created"/>
+        <DW0420EndorsementForm state="Created">
+            <coverageLimit>50</coverageLimit>
+        </DW0420EndorsementForm>
+        <AAADwellEntityComponent state="Created">
+            <aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+            <aaaDwellingUsage>1</aaaDwellingUsage>
+            <aaaFirelineScore>30</aaaFirelineScore>
+            <aaanumberofResidents>2</aaanumberofResidents>
+            <aaaPolicyInspectionType>No Inspection Required</aaaPolicyInspectionType>
+            <addressLine1>6725 RIVERSIDE BLVD</addressLine1>
+            <city>SACRAMENTO</city>
+            <countryCd>US</countryCd>
+            <county>SACRAMENTO</county>
+            <crippleWallsBracedPlywoodInd>2</crippleWallsBracedPlywoodInd>
+            <dwellingAnchoredFoundationInd>true</dwellingAnchoredFoundationInd>
+            <dwellingCrippleWallInd>false</dwellingCrippleWallInd>
+            <dwellingFoundationModifiedInd>2</dwellingFoundationModifiedInd>
+            <dwellingPierBeamFoundationInd>false</dwellingPierBeamFoundationInd>
+            <firelineMatchType>Address</firelineMatchType>
+            <localAlarmInd>true</localAlarmInd>
+            <numberOfFamilies>1</numberOfFamilies>
+            <overrideInspectionInd>true</overrideInspectionInd>
+            <placementOrMatchType>Address</placementOrMatchType>
+            <postalCode>95831</postalCode>
+            <propMgrOccupation>3</propMgrOccupation>
+            <protectionClassCd>2</protectionClassCd>
+            <spaTubType>None</spaTubType>
+            <stateProvCd>CA</stateProvCd>
+            <swimPoolType>None</swimPoolType>
+            <trampolineType>None</trampolineType>
+            <waterHeaterSecuredBracingInd>true</waterHeaterSecuredBracingInd>
+            <woodStoveInd>false</woodStoveInd>
+            <yearFirstRented>2009</yearFirstRented>
+            <AAACoverageA state="Created">
+                <coverageCd>CovA</coverageCd>
+                <limitAmount>385265</limitAmount>
+            </AAACoverageA>
+            <AAACoverageB state="Created">
+                <coverageCd>CovB</coverageCd>
+                <limitAmount>38527</limitAmount>
+            </AAACoverageB>
+            <AAACoverageC state="Created">
+                <coverageCd>CovC</coverageCd>
+                <limitAmount>19264</limitAmount>
+            </AAACoverageC>
+            <AAACoverageD state="Created">
+                <coverageCd>CovD</coverageCd>
+                <limitAmount>77053</limitAmount>
+            </AAACoverageD>
+            <AAACoverageE state="Created">
+                <coverageCd>CovE</coverageCd>
+                <limitAmount>500000</limitAmount>
+            </AAACoverageE>
+            <AAACoverageF state="Created">
+                <coverageCd>CovF</coverageCd>
+                <limitAmount>1000</limitAmount>
+            </AAACoverageF>
+            <AAAHOConstructionInfo state="Created">
+                <aaaFoundationType>Other</aaaFoundationType>
+                <constructionTypeCd>Frame</constructionTypeCd>
+                <isoReplacementCost>385265</isoReplacementCost>
+                <livingArea>1683</livingArea>
+                <masonryVeneer>false</masonryVeneer>
+                <numberOfStories>1</numberOfStories>
+                <replacementCost>385265</replacementCost>
+                <roofShape>Complex/Custom</roofShape>
+                <roofType>Asphalt / Fiberglass</roofType>
+                <yearBuilt>1984</yearBuilt>
+            </AAAHOConstructionInfo>
+            <AAAPpcDetailsInfo state="Created">
+                <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+                <fireDepartmentType>T</fireDepartmentType>
+                <fireDistrict>On File Conversion</fireDistrict>
+                <fireStationDistRange>1</fireStationDistRange>
+                <ppcValue>2</ppcValue>
+            </AAAPpcDetailsInfo>
+            <AAAPropertyDeductible state="Created">
+                <coverageCd>DEDUCTIBLE</coverageCd>
+                <limitAmount>1000</limitAmount>
+            </AAAPropertyDeductible>
+            <PreconfigLocation state="Created">
+                <AAAHODwellAddress state="Created">
+                    <addressLine1>6725 RIVERSIDE BLVD</addressLine1>
+                    <addressValidatedInd>Yes</addressValidatedInd>
+                    <city>SACRAMENTO</city>
+                    <countryCd>US</countryCd>
+                    <county>Sacramento</county>
+                    <poBoxInd>false</poBoxInd>
+                    <postalCode>95831</postalCode>
+                    <stateProvCd>CA</stateProvCd>
+                </AAAHODwellAddress>
+            </PreconfigLocation>
+        </AAADwellEntityComponent>
+        <PreconfigPersonInfo state="Created">
+            <AAAHOMailingAddressComponent state="Created">
+                <addressLine1>2317 AVOCET CT</addressLine1>
+                <addressValidatedInd>Yes</addressValidatedInd>
+                <city>ELK GROVE</city>
+                <countryCd>US</countryCd>
+                <county>Sacramento</county>
+                <postalCode>95757</postalCode>
+                <stateProvCd>CA</stateProvCd>
+            </AAAHOMailingAddressComponent>
+        </PreconfigPersonInfo>
+    </AAAHOPolicy>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Conversion: Title/Header info is blank in Legacy system</title>
+        <updatedOn>2009-11-17T00:00:00</updatedOn>
+        <userText>*** Backyard Access *** If necessary, contact me at (916) 833-3015 No special instructions</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2010-09-22T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2011-09-22T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2011-09-22T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Expiration Notice</title>
+        <updatedOn>2011-11-21T00:00:00</updatedOn>
+        <userText>Policy Expiration Notice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2012-09-23T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2012-09-23T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2013-09-22T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2013-09-22T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2014-09-22T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2014-09-22T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2015-09-22T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2015-09-22T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Renewal Invoice</title>
+        <updatedOn>2016-09-22T00:00:00</updatedOn>
+        <userText>Renewal Invoice</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Policy Declaration Page</title>
+        <updatedOn>2016-09-22T00:00:00</updatedOn>
+        <userText>Policy Declaration Page</userText>
+    </userNote>
+    <userNote>
+        <category>Other</category>
+        <confidential>false</confidential>
+        <title>Conversion: Fireline score defaulted.</title>
+        <updatedOn>2017-08-24T01:19:01</updatedOn>
+        <userText>Fireline score defaulted to '30'  since it's not available in SIS but required for PAS.</userText>
+    </userNote>
+</Policy>
