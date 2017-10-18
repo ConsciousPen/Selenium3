@@ -373,6 +373,11 @@ public final class AutoCaPolicyActions {
 
 	public static class PolicyDocGen extends PolicyActions.PolicyDocGen {
 		@Override
+        public String getName() {
+            return "Generate On Demand Document";
+        }
+		
+		@Override
 		public Workspace getView() {
 			return new PolicyDocGenView();
 		}
