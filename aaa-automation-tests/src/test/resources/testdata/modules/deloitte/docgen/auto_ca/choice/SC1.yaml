@@ -24,7 +24,7 @@ TestData_QuoteUpdate: {
       Occupation: Driver,
       Age First Licensed: 18,
       Permit Before License: 'Yes',
-      'License #': B1234000,
+      'License #': C1234000,
       Financial Responsibility Filling Needed: 'Yes',
       Filling Type: SR-22
     },
@@ -38,7 +38,8 @@ TestData_QuoteUpdate: {
       Date of Birth: 10/17/1973,
       Gender: Male,
       Marital Status: Married,
-      Occupation: Fire Fighter
+      Occupation: Fire Fighter,
+      'License #': C1234001,
     }
   ],
   MembershipTab: {},
@@ -64,4 +65,20 @@ TestData_QuoteUpdate: {
     Special Equipment Coverage: '$3,000.00',
     Special Equipment Description: special camera
   },
+}
+
+TestData_Purchase: {
+  DriverActivityReportsTab: {
+    Sales Agent Agreement: I Agree,
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Personal Auto Application: Physically Signed,
+      'Named Driver(s) Exclusion': Physically Signed
+    },
+    VehicleInformation: {
+      "Are there any additional interest(s)?": 'No'
+    }
+  }
 }

@@ -76,13 +76,13 @@ public class SC1 extends AutoCaChoiceBaseTest {
 				Documents.AA11CA,
 				Documents.AA43CA,
 				Documents.AHAPXX_CA_CHOICE,
-				Documents.AA53CA,
 				Documents.AHFMXX,
 				Documents.AAIQCA
 				);
 		docgenActionTab.verify.documentsEnabled(false, 
 				Documents.AA41CA,
 				Documents.AA52CA,
+				Documents.AA53CA,
 				Documents.CAU01,
 				Documents.CAU04,
 				Documents.CAU08,
@@ -97,7 +97,7 @@ public class SC1 extends AutoCaChoiceBaseTest {
 		docgenActionTab.buttonCancel.click();
 		
 		// 5
-		policy.purchase(getPolicyTD());
+		policy.calculatePremiumAndPurchase(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase")));
 		
 		
 		
