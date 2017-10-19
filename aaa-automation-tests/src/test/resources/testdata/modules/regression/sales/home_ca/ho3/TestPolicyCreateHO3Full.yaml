@@ -123,14 +123,7 @@ AAAMembership: {
   Last name: Test,
 }
 
-DwellingAddress: {
- Zip code: '90201',
- Street address 1: 265 CHIPMAN AVE,
- City: Bell,
- County: Los Angeles,
- Validate Address: true,
- Validate Address Dialog: {}
-}
+DwellingAddress: '@<home_ca_ho3>@DataGather@DwellingAddress'
 
 PreviousDwellingAddress: {
   "Has there been another dwelling address within the last 3 consecutive years?": 'Yes', 
@@ -138,9 +131,7 @@ PreviousDwellingAddress: {
   Street address 1: '112 Test street',
   County: Los Angeles,
   Validate Address: true,
-  Validate Address Dialog: {
-    Previous Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 MailingAddress: {
@@ -149,9 +140,7 @@ MailingAddress: {
   Street address 1: '111 Test street',
   County: Los Angeles,
   Validate Address: true,
-  Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 NamedInsuredInformation: {
@@ -178,11 +167,7 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual:  {
   Occupancy type: Owner occupied
 }
 
-AgentInfo: {
-  Channel Type: 'AAA Agent',
-  Agency: 'SMTestNCNU - 400001005',
-  TollFree Number: 500001002
-}
+AgentInfo: '@<home_ca_ho3>@DataGather@AgentInfo'
 
 # ------------- PropertyInfo Tab -------------
 DwellingAddress_PropertyInfoTab: {
@@ -197,9 +182,7 @@ AdditionalAddress: {
   City: Bell,
   State: CA,
   Validate Address: true, 
-  Validate Address Dialog: {
-    Additional Dwelling Address: 'Override and use original address'
-  }
+  Validate Address Dialog: {}
 }
 
 PropertyValue: {

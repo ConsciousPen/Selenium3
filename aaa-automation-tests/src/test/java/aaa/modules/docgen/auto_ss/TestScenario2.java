@@ -454,7 +454,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 					.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehRntlReimbsDed"), vehRntlReimbsDed)	
 					.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehTwgLbrDed"), vehTwgLbrDed)
 					.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehLnPrtcDed"), vehLnPrtcDed)						
-//					.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "NetWrtPrem", "TextField"), netWrtPrem) //TODO defect_44898 the value of "NetWrtPrem" incorrect 
+					.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "NetWrtPrem", "TextField"), netWrtPrem)
 					.adjust(TestData.makeKeyPath("AA02AZ", "CoverageDetails", "VehTotPrem"), vehTotPrem)
 					.adjust(TestData.makeKeyPath("AA02AZ", "PaymentDetails", "PlcyTotFee", "TextField"), plcyTotFee)
 					.adjust(TestData.makeKeyPath("AA02AZ", "PaymentDetails", "PlcyTotPrem", "TextField"), plcyTotPrem)
@@ -515,7 +515,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 					.adjust(TestData.makeKeyPath("AA02IN", "CoverageDetails", "VehRntlReimbsDed"), vehRntlReimbsDed)	
 					.adjust(TestData.makeKeyPath("AA02IN", "CoverageDetails", "VehTwgLbrDed"), vehTwgLbrDed)
 					.adjust(TestData.makeKeyPath("AA02IN", "CoverageDetails", "VehLnPrtcDed"), vehLnPrtcDed)						
-//					.adjust(TestData.makeKeyPath("AA02IN", "CoverageDetails", "NetWrtPrem", "TextField"), netWrtPrem)//TODO defect_44898 the value of "NetWrtPrem" incorrect
+					.adjust(TestData.makeKeyPath("AA02IN", "CoverageDetails", "NetWrtPrem", "TextField"), netWrtPrem)
 					.adjust(TestData.makeKeyPath("AA02IN", "CoverageDetails", "VehTotPrem"), vehTotPrem)
 					.adjust(TestData.makeKeyPath("AA02IN", "CoverageDetails", "AllVehTotPrem","TextField"), allVehTotPrem)
 					.adjust(TestData.makeKeyPath("AA02IN", "PaymentDetails", "PlcyTotFee", "TextField"), plcyTotFee)
@@ -571,7 +571,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 					.adjust(TestData.makeKeyPath("AA02OK", "CoverageDetails", "VehClsnDed"), vehClsnDed)
 					.adjust(TestData.makeKeyPath("AA02OK", "CoverageDetails", "VehCompDed"), vehCompDed)					
 					.adjust(TestData.makeKeyPath("AA02OK", "CoverageDetails", "PlcySpclEqpmtTotAmt"), plcySpclEqpmtTotAmt)					
-					.adjust(TestData.makeKeyPath("AA02OK", "CoverageDetails", "NetWrtPrem", "TextField"), netWrtPrem)
+//					.adjust(TestData.makeKeyPath("AA02OK", "CoverageDetails", "NetWrtPrem", "TextField"), netWrtPrem) //TODO defect_44924 the value of netWrtPrem is incorrect
 					.adjust(TestData.makeKeyPath("AA02OK", "CoverageDetails", "VehTotPrem"), vehTotPrem)
 					.adjust(TestData.makeKeyPath("AA02OK", "CoverageDetails", "VehCovPrem", "TextField"), vehCovPrem)
 					.adjust(TestData.makeKeyPath("AA02OK", "CoverageDetails", "AllVehTotPrem","TextField"), allVehTotPrem)
@@ -635,7 +635,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehClsnDed"), vehClsnDed)
 					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehCompDed"), vehCompDed)							
 					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "FPBCovTyp"), fPBCovTyp)							
-//					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "NetWrtPrem", "TextField"), netWrtPrem)//TODO defect_44898 the value of "NetWrtPrem" incorrect
+					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "NetWrtPrem", "TextField"), netWrtPrem)
 					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "VehTotPrem"), vehTotPrem)
 					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "AllVehTotPrem","TextField"), allVehTotPrem)
 					.adjust(TestData.makeKeyPath("AA02PA", "PaymentDetails", "PlcyTotPrem", "TextField"), plcyTotPrem)
@@ -1025,7 +1025,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		
-		netWrtPrem = formatValue(PremiumAndCoveragesTab.tableAAAPremiumSummary.getRow(1).getCell("AP/RP").getValue());
+		netWrtPrem = formatValue(PremiumAndCoveragesTab.tableAAAPremiumSummary.getRow(1).getCell("Actual Premium").getValue());
 		allVehTotPrem = formatValue(PremiumAndCoveragesTab.totalTermPremium.getValue());
 		
 		switch(getState()){

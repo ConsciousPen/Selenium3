@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy name="AAA_SS" version="1">
+<!-- Original file name: 20170913_111106_CNV_B_MAIGHYB_EXGPAS_8320_D_20170913_30000810_022345994 -->
+    <AAACSAAutoPolicy state="Created">
+        <aaaInceptionDate>2008-08-06T00:00:00</aaaInceptionDate>
+        <aaaProgramCode>LegacyConv</aaaProgramCode>
+        <agentCd>500016582</agentCd>
+        <effective>2017-10-20T00:00:00</effective>
+        <expiration>2018-10-20T00:00:00</expiration>
+        <importedFrom>MAIG</importedFrom>
+        <preConversionPolicyPremium>1470</preConversionPolicyPremium>
+        <producerCd>500016292</producerCd>
+        <productCd>AAA_SS</productCd>
+        <riskStateCd>VA</riskStateCd>
+        <sourcePolicyNum>022345994</sourcePolicyNum>
+        <subProducerCd>500016582</subProducerCd>
+        <OtherOrPriorPolicy state="Created">
+            <productCd>membership</productCd>
+        </OtherOrPriorPolicy>
+        <AAAPaymentOption state="Created">
+            <paymentPlanCd>standartSS_R</paymentPlanCd>
+        </AAAPaymentOption>
+        <AAAInsured oid="78012" state="Created">
+            <firstName>LEONARD</firstName>
+            <lastName>CASCIO</lastName>
+            <mainInsured>true</mainInsured>
+            <middleName>A</middleName>
+            <AAAInsuredPrimaryAddress state="Created">
+                <addressDisplayValue>17 AIKEN ROAD , FREDERICKSBURG, VA, 22405</addressDisplayValue>
+                <addressLine1>17 AIKEN ROAD</addressLine1>
+                <city>FREDERICKSBURG</city>
+                <countryCd>US</countryCd>
+                <postalCode>22405</postalCode>
+                <stateProvCd>VA</stateProvCd>
+                <usageType>mailing</usageType>
+            </AAAInsuredPrimaryAddress>
+        </AAAInsured>
+    </AAACSAAutoPolicy>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2008-07-15T00:00:00</updatedOn>
+        <userText>540-371-3746 HO-3 #28359010</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2008-07-30T00:00:00</updatedOn>
+        <userText>RECVD SIGNED APP KIC HOME 2835-9010 RECVD MVR/CLUE/ADD SIGNED ANTI THEFT MEMBER 0537143 1/93</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2009-06-01T00:00:00</updatedOn>
+        <userText>OK TO RENEW</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2010-03-31T00:00:00</updatedOn>
+        <userText>540-371-3746 / 3:48PM HO-3 #28359010 LEONARD CALLD TO SAY HE REPLACED 2007 PONTIAC EFF 3/30/10 WITH A 2010 TOYOTA RAV 4 VIN# JTMWF4DV3A5024335. $24800. 60 MILES. HAS ALARM. FINANCED W/ TOYOTA MOTOR CREDIT, PO BOX 3025, CORAOPOLIS, PA 15108. REGISTRD TO MR &amp; MRS. LEONARD PRINC OPER. SAME USAGE. COMP/COLL$500. COMPLTD CHANGE EMAILD PCR-MAIG SERVICE TO SEND REQUEST FOR REGISTRATION - VA</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2010-04-02T00:00:00</updatedOn>
+        <userText>RECD PCR REQ FOR REGISTRATION FOR 2010 TOYOTA RAV4 MAILED LETTER</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2010-04-06T00:00:00</updatedOn>
+        <userText>4:36 PM PROCESSED ONLINE EFF 3/30/10 TO ENDORSE VA GUAR RENEWAL CODED ENDORSEMENT ON 2010 TOYOTA MEMBER 15 YR PLUS</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2010-04-16T00:00:00</updatedOn>
+        <userText>RECD COPY OF REGISTRATIONS FOR 05 HIGHLANDER, 2010 RAV4 AND 96 TOYOTA PICKUP. SNT DOCS TO SCAN</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2010-06-03T00:00:00</updatedOn>
+        <userText>OK TO RENEW</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2010-07-02T00:00:00</updatedOn>
+        <userText>1144AM RECVD CALL FROM INSD REGARDING 9 PAY PLAN CC PAY PLAN SOUTH FOR REVISE BILL PLAN 540-371-3746</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2011-04-27T00:00:00</updatedOn>
+        <userText>INSR SCORE ORDERED &amp; UPDATED. NCF# 11517103922162</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2011-06-07T00:00:00</updatedOn>
+        <userText>OK TO RENEW</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2012-07-09T00:00:00</updatedOn>
+        <userText>3:44 LEONAD CALLED TO REPLACE 00 TO RAV 4 W\ 12 TO CAMRY 4T4BF1FK7CR217646 SAME COVERAGE REG TO INSURED LEINHOLDER TOYOTA MOTOR CREDIT</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2013-07-01T00:00:00</updatedOn>
+        <userText>RECD CALL FTOM LEONARD CALLED IN REF TO CHANGEING PAYPLAN QUOTED 4 VS 9 UDPATED TO 4PP  540 371 3746</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2013-08-12T00:00:00</updatedOn>
+        <userText>5:20 / DLR MIKE CALL 2 REPL 96 TOY W. 13 FORD F150 V# 1FTEX1CMXDFC85637 / ODO-100 / COST-28K / REG TO INSD / EFF 8/09/2013 / INSD ALREADY LEFT WITH VEH / F/C 500 C/C DEDS/ FINANCE BANK OF SOUTHSIDE VA P.O. BOX 608 COLONIAL HEIGHTS, VA 23834 PROCESSED REQ</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2013-08-13T00:00:00</updatedOn>
+        <userText>S/W LEONARD, 540-371-3746 HOLLYCAZ@AOL.COM 9:54 HAS H/O WITH AAA  ADV THAT POLICY WAS UPDATED TO SHOW REMOVE OF 96 TOYOTA REPLACE WITH 2013 FORD F150</userText>
+    </userNote>
+    <userNote>
+        <version>0</version>
+        <title>Conversion</title>
+        <updatedOn>2016-06-03T00:00:00</updatedOn>
+        <userText>2016 RENEWAL REVIEW AS REQUIRED BY VA REG 38.2-2234, THREE YEAR CREDIT REPORT ORDER ON RENEWAL POLICY HAS RESULTED IN LOWER TIER DUE TO CREDIT SCORE TIER CHANGED EFFECTIVE RENEWAL NCF #16138123000920 CODE 0137, 0117, 0907, 0116</userText>
+    </userNote>
+</Policy>

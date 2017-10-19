@@ -25,7 +25,7 @@ GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
-  PolicyInformation: '@PolicyInformation'
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
 }
 
 NamedInsuredInformation1: {
@@ -44,24 +44,9 @@ NamedInsuredInformation2: {
   Residence: Own Home,
 }
 
-AAAProductOwned: {
-  Membership Number: 4290023667710001,
-  Last name: Test,
-}
+AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned'
 
-ContactInformation: {
-   Home Phone Number: 1234567890
-}
-
-PolicyInformation: {
-  Policy Type: Standard,
-  Effective Date: '/today:MM/dd/yyyy',
-  Policy Term: Annual,
-  Channel Type: Independent Agent,
-  Agency: SMTestIA - 400001650,
-  Authorized by: QA,
-  Lead Source: AAA Magazines
-}
+ContactInformation: '@<auto_ss>@DataGather@ContactInformation'
 
 DriverTab1: {
   Occupation: Self-Employed,
@@ -127,7 +112,7 @@ PurchaseTab: {
 
 TestData_AZ: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_AZ',
   DriverTab: ['@DriverTab1_AZ', '@DriverTab2_AZ'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
@@ -136,6 +121,13 @@ TestData_AZ: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_AZ: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
 }
 
 DriverTab1_AZ: {
@@ -163,7 +155,7 @@ DriverTab2_AZ: {
 
 TestData_CO: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_CO',
   DriverTab: ['@DriverTab1_CO', '@DriverTab2_CO'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
@@ -172,6 +164,13 @@ TestData_CO: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_CO: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_CO'
 }
 
 DriverTab1_CO: {
@@ -197,8 +196,8 @@ DriverTab2_CO: {
 # ------- CT ------
 
 TestData_CT: {
-  PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  PrefillTab: '@PrefillTab_CT',
+  GeneralTab: '@GeneralTab_CT',
   DriverTab: ['@DriverTab1_CT', '@DriverTab2_CT'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
@@ -207,6 +206,38 @@ TestData_CT: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_CT',
   PurchaseTab: '@PurchaseTab'
+}
+
+PrefillTab_CT: {
+  "County / Township": 'New Haven / Middlebury',
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+GeneralTab_CT: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1_CT', '@NamedInsuredInformation2_CT'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_CT'
+}
+
+NamedInsuredInformation1_CT: {
+  Social Security Number: 123456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home
+}
+
+NamedInsuredInformation2_CT: {
+  InsuredSearchDialog: {},
+  First Name: Jenny,
+  Last Name: Smith,
+  Base Date: /today,
+  Social Security Number: 223456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
 }
 
 DriverTab1_CT: {
@@ -241,7 +272,7 @@ DocumentsAndBindTab_CT: {
 
 TestData_DC: {
   PrefillTab: '@PrefillTab_DC',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_DC',
   DriverTab: ['@DriverTab1_DC', '@DriverTab2_DC'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
@@ -252,11 +283,16 @@ TestData_DC: {
   PurchaseTab: '@PurchaseTab'
 }
 
+GeneralTab_DC: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_DC'
+}
+
 PrefillTab_DC: {
   Validate Address: click,
-  Validate Address Dialog: { 
-      Street Name: 265 CHIPMAN AVE
-     },
+  Validate Address Dialog: {},
   Order Prefill: click
 }
 
@@ -292,7 +328,7 @@ DocumentsAndBindTab_DC: {
 
 TestData_DE: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_DE',
   DriverTab: ['@DriverTab1_DE', '@DriverTab2_DE'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
@@ -301,6 +337,13 @@ TestData_DE: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_DE',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_DE: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_DE'
 }
 
 DriverTab1_DE: {
@@ -373,7 +416,7 @@ DriverTab2_ID: {
 
 TestData_IN: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_IN',
   DriverTab: ['@DriverTab1_IN', '@DriverTab2_IN'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
@@ -382,6 +425,13 @@ TestData_IN: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_IN: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_IN'
 }
 
 DriverTab1_IN: {
@@ -408,7 +458,7 @@ DriverTab2_IN: {
 
 TestData_KS: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_KS',
   DriverTab: ['@DriverTab1_KS', '@DriverTab2_KS'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
@@ -417,6 +467,13 @@ TestData_KS: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_KS',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_KS: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_KS'
 }
 
 DriverTab1_KS: {
@@ -450,7 +507,7 @@ DocumentsAndBindTab_KS: {
 
 TestData_KY: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_KY',
   DriverTab: ['@DriverTab1_KY', '@DriverTab2_KY'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
@@ -459,6 +516,13 @@ TestData_KY: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_KY: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_KY'
 }
 
 DriverTab1_KY: {
@@ -485,7 +549,7 @@ DriverTab2_KY: {
 
 TestData_MD: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_MD',
   DriverTab: ['@DriverTab1_MD', '@DriverTab2_MD'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
@@ -494,6 +558,13 @@ TestData_MD: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_MD',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_MD: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_MD'
 }
 
 DriverTab1_MD: {
@@ -538,7 +609,7 @@ DocumentsAndBindTab_MD: {
 
 TestData_MT: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_MT',
   DriverTab: ['@DriverTab1_MT', '@DriverTab2_MT'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
@@ -547,6 +618,13 @@ TestData_MT: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_MT: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_MT'
 }
 
 DriverTab1_MT: {
@@ -573,7 +651,7 @@ DriverTab2_MT: {
 
 TestData_NJ: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_NJ',
   DriverTab: ['@DriverTab1_NJ', '@DriverTab2_NJ'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
@@ -582,6 +660,13 @@ TestData_NJ: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_NJ',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_NJ: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_NJ'
 }
 
 DriverTab1_NJ: {
@@ -622,7 +707,7 @@ DocumentsAndBindTab_NJ: {
 
 TestData_NV: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_NV',
   DriverTab: ['@DriverTab1_NV', '@DriverTab2_NV'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
@@ -631,6 +716,13 @@ TestData_NV: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_NV: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_NV'
 }
 
 DriverTab1_NV: {
@@ -657,7 +749,7 @@ DriverTab2_NV: {
 
 TestData_NY: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_NY',
   DriverTab: ['@DriverTab1_NY', '@DriverTab2_NY'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1_NY', '@VehicleTab2_NY'],
@@ -667,6 +759,13 @@ TestData_NY: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_NY',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_NY: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_NY'
 }
 
 DriverTab1_NY: {
@@ -732,7 +831,7 @@ DocumentsAndBindTab_NY: {
 
 TestData_OH: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_OH',
   DriverTab: ['@DriverTab1_OH', '@DriverTab2_OH'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
@@ -741,6 +840,13 @@ TestData_OH: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_OH: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_OH'
 }
 
 DriverTab1_OH: {
@@ -767,7 +873,7 @@ DriverTab2_OH: {
 
 TestData_OK: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_OK',
   DriverTab: ['@DriverTab1_OK', '@DriverTab2_OK'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
@@ -776,6 +882,13 @@ TestData_OK: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_OK',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_OK: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_OK'
 }
 
 DriverTab1_OK: {
@@ -812,7 +925,7 @@ DocumentsAndBindTab_OK: {
 
 TestData_OR: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_OR',
   DriverTab: ['@DriverTab1_OR', '@DriverTab2_OR'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
@@ -821,6 +934,13 @@ TestData_OR: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_OR: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_OR'
 }
 
 DriverTab1_OR: {
@@ -847,7 +967,7 @@ DriverTab2_OR: {
 
 TestData_PA: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_PA',
   DriverTab: ['@DriverTab1_PA', '@DriverTab2_PA'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
@@ -856,6 +976,13 @@ TestData_PA: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_PA',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_PA: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_PA'
 }
 
 DriverTab1_PA: {
@@ -896,7 +1023,7 @@ DocumentsAndBindTab_PA: {
 
 TestData_SD: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_SD',
   DriverTab: ['@DriverTab1_SD', '@DriverTab2_SD'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
@@ -905,6 +1032,13 @@ TestData_SD: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_SD: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_SD'
 }
 
 DriverTab1_SD: {
@@ -931,7 +1065,7 @@ DriverTab2_SD: {
 
 TestData_VA: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_VA',
   DriverTab: ['@DriverTab1_VA', '@DriverTab2_VA'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
@@ -941,6 +1075,13 @@ TestData_VA: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_VA: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA'
 }
 
 DriverTab1_VA: {
@@ -985,7 +1126,7 @@ PremiumAndCoveragesTab_VA: {
 
 TestData_WV: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_WV',
   DriverTab: ['@DriverTab1_WV', '@DriverTab2_WV'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
@@ -994,6 +1135,13 @@ TestData_WV: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab_WV',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_WV: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_WV'
 }
 
 DriverTab1_WV: {
@@ -1029,7 +1177,7 @@ DocumentsAndBindTab_WV: {
 
 TestData_WY: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_WY',
   DriverTab: ['@DriverTab1_WY', '@DriverTab2_WY'],
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
@@ -1038,6 +1186,13 @@ TestData_WY: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_WY: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_WY'
 }
 
 DriverTab1_WY: {

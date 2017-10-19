@@ -361,6 +361,14 @@ public class BaseTest {
 		return getStateTestData(tdCustomerNonIndividual, fileName, tdName);
 	}
 
+	protected TestData getPolicyDefaultTD() {
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
+		}
+		return td;
+	}
+
 	protected TestData getTestSpecificTD(String tdName) {
 		return getStateTestData(tdSpecific, tdName);
 	}
