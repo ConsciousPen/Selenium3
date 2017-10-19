@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" version="1" name="AAA_PUP_SS">
+<!-- Original file name: 20170824_233714_CNV_B_CAPUP_EXGPAS_8435_D_20170705_30000798_0086298 -->
+  <AAAPupPolicy state="Created">
+    <agencyCd>500001005</agencyCd>
+    <agencyLocation>500005304</agencyLocation>
+    <agentCd>24331084</agentCd>
+    <effective>2017-10-20T00:00:00</effective>
+    <expiration>2018-10-20T00:00:00</expiration>
+    <importedFrom>PUPSYS</importedFrom>
+    <officeType>AZ Club Agent</officeType>
+    <preConversionPolicyNumber>0086298</preConversionPolicyNumber>
+    <preConversionPolicyPremium>235</preConversionPolicyPremium>
+    <producerCd>500001005</producerCd>
+    <productCd>AAA_PUP_SS</productCd>
+    <riskStateCd>CA</riskStateCd>
+    <sourcePolicyNum>0086298</sourcePolicyNum>
+    <subProducerCd>24331084</subProducerCd>
+    <underwriterCd>CSAAIB</underwriterCd>
+    <AAAHOMembership state="Created">
+      <aaaMemberSinceDate>2001-01-01T00:00:00</aaaMemberSinceDate>
+      <insurerCd>Yes</insurerCd>
+      <insurerName>KOVAC</insurerName>
+    </AAAHOMembership>
+    <AAAInsured oid="86292" state="Created">
+      <firstName>MICHAEL</firstName>
+      <lastName>KOVAC</lastName>
+      <middleName>B</middleName>
+      <relToPrimNamedInsured>PI</relToPrimNamedInsured>
+      <AAAInsuredPrimaryAddress state="Created">
+        <addressLine1>654 ALVARADO ROAD</addressLine1>
+        <city>BERKELEY</city>
+        <countryCd>US</countryCd>
+        <postalCode>94705</postalCode>
+        <stateProvCd>AK</stateProvCd>
+      </AAAInsuredPrimaryAddress>
+    </AAAInsured>
+    <AAAPaymentOption state="Created">
+      <paymentPlanAtRenewal>annualPUP_CA_R</paymentPlanAtRenewal>
+      <paymentPlanCd>annualPUP_CA</paymentPlanCd>
+    </AAAPaymentOption>
+    <AAAPupPrefill state="Created">
+      <policyNumber>CAH3105185692</policyNumber>
+      <policyType>HO3</policyType>
+      <primaryPolicyInd>true</primaryPolicyInd>
+      <source>EXIGEN</source>
+    </AAAPupPrefill>
+    <AAAPupPrefill state="Created">
+      <policyNumber>CAAS100502432</policyNumber>
+      <policyType>Auto</policyType>
+      <primaryPolicyInd>false</primaryPolicyInd>
+      <source>EXIGEN</source>
+    </AAAPupPrefill>
+  </AAAPupPolicy>
+  <userNote>
+    <confidential>false</confidential>
+    <title>Conversion:PUPNARRAT1</title>
+    <updatedOn>2017-07-05T00:00:00</updatedOn>
+    <userText>Excl x 1:1 Auto</userText>
+  </userNote>
+</Policy>

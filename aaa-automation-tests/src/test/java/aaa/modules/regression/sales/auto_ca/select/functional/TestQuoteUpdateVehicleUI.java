@@ -38,7 +38,7 @@ public class TestQuoteUpdateVehicleUI extends AutoCaSelectBaseTest {
      * @details
      */
     @Test(groups = {Groups.MEDIUM, Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-535")
     public void TestCase1() {
         InquiryAssetList inquiryAssetList = new InquiryAssetList(new VehicleTab().getAssetList().getLocator(), AutoCaMetaData.VehicleTab.class);
         TestData td = getPolicyTD();

@@ -72,11 +72,29 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 			" ('AAARolloutEligibilityLookupValue', 'eMember', 'TRUE', 'AAA_SS', '%s', null, null, null,\n" +
 			" (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
+
+
+
 	private static final String PAPERLESS_PREFRENCES_CONFIGURATION_PER_STATE_INSERT = "INSERT INTO LOOKUPVALUE\n" +
 			" (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id)\n" +
 			" values\n" +
 			" ('AAARolloutEligibilityLookupValue', 'PaperlessPreferences', 'TRUE', 'AAA_SS', '%s', null, null, null,\n" +
 			" (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
+
+
+
+	private static final String EVALUE_CURRENT_BI_LIMIT_CONFIGURATION_INSERT = "INSERT INTO LOOKUPVALUE\n" +
+			"(DTYPE, CODE, DISPLAYVALUE, PRODUCTCD, RISKSTATECD, EFFECTIVE, EXPIRATION, LOOKUPLIST_ID)\n" +
+	"values\n" +
+			"('BaseProductLookupValue', 'currentBILimits', '50000/100000', 'AAA_SS', '%s', TO_DATE('1-MAY-2017'), TO_DATE('1-MAY-2018'),\n" +
+			"(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))";
+
+	private static final String EVALUE_PRIOR_BI_LIMIT_CONFIGURATION_INSERT =	"INSERT INTO LOOKUPVALUE\n" +
+		"(DTYPE, CODE, DISPLAYVALUE, PRODUCTCD, RISKSTATECD, EFFECTIVE, EXPIRATION, LOOKUPLIST_ID)\n" +
+	"values\n" +
+			"('BaseProductLookupValue', 'priorBILimits', '25000/50000', 'AAA_SS', '%s', TO_DATE('1-MAY-2017'), TO_DATE('1-MAY-2018'),\n" +
+			"(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))";
+
 
 	@Test
 	@TestInfo(isAuxiliary = true)
@@ -101,11 +119,23 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		for (String configForState : configForStates) {
 			insertConfigForRegularStates(configForState);
 		}
+
+		List<String> configForStatesLimits = Arrays.asList(
+				"MD"
+				, "DC");
+		for (String configForStatesLimit : configForStatesLimits) {
+			insertConfigForLimitsRegularStates(configForStatesLimit);
+		}
 	}
 
 	private static void insertConfigForRegularStates(String state) {
 		DBService.get().executeUpdate(String.format(EVALUE_CONFIGURATION_PER_STATE_INSERT, state));
 		DBService.get().executeUpdate(String.format(PAPERLESS_PREFRENCES_CONFIGURATION_PER_STATE_INSERT, state));
+	}
+
+	private static void insertConfigForLimitsRegularStates(String state) {
+		DBService.get().executeUpdate(String.format(EVALUE_CURRENT_BI_LIMIT_CONFIGURATION_INSERT, state));
+		DBService.get().executeUpdate(String.format(EVALUE_PRIOR_BI_LIMIT_CONFIGURATION_INSERT, state));
 	}
 
 	//TODO Replace below TCs with DataProvider when the Optional parameter State will be removed
@@ -285,10 +315,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		simplifiedPendedEndorsementIssue();
 		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("Active");
 	}
-
-
-
-
 	/**
 	 * @author Megha Gubbala
 	 * @name Test eValue Status
@@ -314,6 +340,30 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("");
 		simplifiedQuoteIssue();
 		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("Pending");
+	}
+
+	/**new feature
+	 * @author Megha Gubbala
+	 * @name Test eValue Status
+	 * @scenario 1. Create new eligible policy for the state  where eValue has not yet been rolled out
+	 * 2. Check policy consolidated view.
+	 * 3.should not  see eValue Status in the General Info section.
+	 * @details**/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3708")
+	public void pas3708_eValueStatusConsViewNotConfigured(@Optional("PA") String state){
+		eValueQuoteCreationVA();
+
+		CustomAssert.enableSoftMode();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.present(false);
+		PremiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.present(false);
+		simplifiedQuoteIssue();
+		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.present(false);
 	}
 
 	/**

@@ -5,6 +5,7 @@ import aaa.modules.cft.csv.model.FinancialPSFTGLObject;
 import aaa.modules.cft.csv.model.Footer;
 import aaa.modules.cft.csv.model.Header;
 import aaa.modules.cft.csv.model.Record;
+import aaa.modules.cft.report.ReportGeneratorService;
 import com.exigen.ipb.etcsa.utils.ExcelUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.jcraft.jsch.JSchException;
@@ -29,6 +30,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.charset.Charset;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +58,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		File downloadDir = new File(System.getProperty("user.dir") + DOWNLOAD_DIR);
 		checkDownloadDirectory(downloadDir);
 
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusYears(1).plusDays(25).plusMonths(13));
+		TimeSetterUtil.getInstance().nextPhase(LocalDate.parse("10/18/2017", DateTimeFormatter.ofPattern("MM/dd/yyyy")).atStartOfDay().plusYears(1).plusMonths(13).plusDays(25));
 		runCFTJobs();
 		//get map from OR reports
 		opReportApp().open();
@@ -72,9 +75,10 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		roundValuesToTwo(accountsMapSummaryFromDB);
 		roundValuesToTwo(accountsMapSummaryFromOR);
 
-		// add comparison logic here
+		ReportGeneratorService
+				.generateReport(ReportGeneratorService
+						.generateReportObjects(accountsMapSummaryFromDB, accountsMapSummaryFromFeedFile, accountsMapSummaryFromOR));
 
-		// ad report generation process
 	}
 
 	private void checkDownloadDirectory(File downloadDir) throws IOException {

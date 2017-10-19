@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
+<!-- Original file name: 20170914_041400_CNV_B_HDESPROP_EXGPAS_8435_D_20171219_30000811_GD88033 -->
+  <AAAHOPolicy state="Created">
+    <agencyCd>500001005</agencyCd>
+    <agencyLocation>500005301</agencyLocation>
+    <agentCd>70683577</agentCd>
+    <agentGeneralNumber>003</agentGeneralNumber>
+    <CaliforniaVeterans>false</CaliforniaVeterans>
+    <doNotRenewInd>false</doNotRenewInd>
+    <effective>2017-11-12T00:00:00</effective>
+    <expiration>2018-11-12T00:00:00</expiration>
+    <imported>CONV</imported>
+    <importedFrom>HDES</importedFrom>
+    <leadSourceCd>25</leadSourceCd>
+    <officeType>AZ Club Agent</officeType>
+    <policyFormCd>HO4</policyFormCd>
+    <preConversionPolicyNumber>GD88033</preConversionPolicyNumber>
+    <preConversionPolicyPremium>269</preConversionPolicyPremium>
+    <producerCd>500001005</producerCd>
+    <productCd>AAA_HO_CA</productCd>
+    <riskStateCd>CA</riskStateCd>
+    <sourcePolicyNum>GD88033</sourcePolicyNum>
+    <subProducerCd>70683577</subProducerCd>
+    <tollNumberCd>xxx</tollNumberCd>
+    <underwriterCd>CSAAIB</underwriterCd>
+    <AAACeaDetailsComponent state="Created">
+      <acceptCeaOffer>false</acceptCeaOffer>
+      <policyType>BASIC</policyType>
+    </AAACeaDetailsComponent>
+    <AAAFirelineReportComponent state="Created">
+      <dwellAddressCity>FRESNO</dwellAddressCity>
+      <dwellAddressLine1>1313 E SIMPSON AVE</dwellAddressLine1>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>93704</dwellAddressZip>
+      <expirationDate>2018-03-19T00:00:00</expirationDate>
+      <orderDate>2017-12-19T00:00:00</orderDate>
+      <status>Valid</status>
+    </AAAFirelineReportComponent>
+    <AAAHOCommunicationInfo state="Created">
+      <phoneNumber>5594928424</phoneNumber>
+      <preferredContact>homePhone</preferredContact>
+    </AAAHOCommunicationInfo>
+    <AAAHOMembership state="Created">
+      <insurerCd>Yes</insurerCd>
+      <insurerName>GONZALEZ</insurerName>
+      <policyNumber>4290050981378611</policyNumber>
+    </AAAHOMembership>
+    <AAAHONamedInsured state="Created">
+      <aaaLegalNameIND>false</aaaLegalNameIND>
+      <dateOfBirth>1979-11-22T00:00:00</dateOfBirth>
+      <employeeType>false</employeeType>
+      <firstName>ALBERTO</firstName>
+      <lastName>GONZALEZ</lastName>
+      <occupationDesc>Unknown</occupationDesc>
+      <principalRoleCd>policyHolder</principalRoleCd>
+      <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+      <trusteeIndicator>false</trusteeIndicator>
+      <AAAHOOrderClueReport state="Created">
+        <addressLine1>1313 E SIMPSON AVE</addressLine1>
+        <city>FRESNO</city>
+        <dateOfBirth>1979-11-22T00:00:00</dateOfBirth>
+        <expirationDt>2018-02-17T00:00:00</expirationDt>
+        <firstName>ALBERTO</firstName>
+        <lastName>GONZALEZ</lastName>
+        <noOfClaims>0</noOfClaims>
+        <orderDate>2017-12-19T00:00:00</orderDate>
+        <postalCode>93704</postalCode>
+        <reportExpired>false</reportExpired>
+        <status>Valid</status>
+      </AAAHOOrderClueReport>
+      <AAAInsuredPrimaryAddress state="Created">
+        <addressLine1>1313 E SIMPSON AVE</addressLine1>
+        <city>FRESNO</city>
+        <countryCd>US</countryCd>
+        <postalCode>93704</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAInsuredPrimaryAddress>
+    </AAAHONamedInsured>
+    <AAAHOPaymentOption state="Created">
+      <billToAtRenewal>Insured</billToAtRenewal>
+      <paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+      <paymentPlanCd>standardHO_CA</paymentPlanCd>
+      <recurringPayment>false</recurringPayment>
+    </AAAHOPaymentOption>
+    <AAAHOPolicyPriorCarrier state="Created">
+      <baseDate>2015-01-01T00:00:00</baseDate>
+      <carrierCd>1</carrierCd>
+      <noOfYearsWithHO>3</noOfYearsWithHO>
+      <policyType>HO4</policyType>
+    </AAAHOPolicyPriorCarrier>
+    <AAAHOPreDwellingAddrExists state="Created">
+      <yesNoAnswer>false</yesNoAnswer>
+    </AAAHOPreDwellingAddrExists>
+    <AAAMembershipOrder state="Created">
+      <lastName>GONZALEZ</lastName>
+      <membershipNumber>4290050981378611</membershipNumber>
+      <orderDate>2017-12-19T00:00:00</orderDate>
+      <receiptDate>2017-12-19T00:00:00</receiptDate>
+      <status>Active</status>
+    </AAAMembershipOrder>
+    <AAAPolicyPrintingInfoComponent state="Created">
+      <suppressPrint>PD</suppressPrint>
+    </AAAPolicyPrintingInfoComponent>
+    <AAAPpcReportComponent state="Created">
+      <dwellAddressCity>FRESNO</dwellAddressCity>
+      <dwellAddressLine1>1313 E SIMPSON AVE</dwellAddressLine1>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>93704</dwellAddressZip>
+      <expirationDate>2018-02-17T00:00:00</expirationDate>
+      <orderDate>2017-12-19T00:00:00</orderDate>
+      <ppcValue>2</ppcValue>
+      <status>Valid</status>
+    </AAAPpcReportComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>1POSOA</documentCd>
+      <documentText>Signed policy application</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>CEAOD</documentCd>
+      <documentText>CEA Offer Declination</documentText>
+    </AAASupportingDocComponent>
+    <AAAUnderwritingQuestionaireComponent state="Created">
+      <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+      <EmployeesResidentsInd>false</EmployeesResidentsInd>
+      <PremisesEndrosInd>false</PremisesEndrosInd>
+      <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+    </AAAUnderwritingQuestionaireComponent>
+    <Commissions state="Created">
+      <commissionTypeCd>R</commissionTypeCd>
+    </Commissions>
+    <AAADwellEntityComponent state="Created">
+      <aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+      <aaaDwellingUsage>1</aaaDwellingUsage>
+      <aaaFirelineScore>0</aaaFirelineScore>
+      <aaanumberofResidents>9999</aaanumberofResidents>
+      <addressLine1>1313 E SIMPSON AVE</addressLine1>
+      <city>FRESNO</city>
+      <numberOfFamilies>1</numberOfFamilies>
+      <postalCode>93704</postalCode>
+      <spaTubType>None</spaTubType>
+      <stateProvCd>CA</stateProvCd>
+      <swimPoolType>None</swimPoolType>
+      <trampolineType>None</trampolineType>
+      <woodStoveInd>false</woodStoveInd>
+      <AAACoverageC state="Created">
+        <coverageCd>CovC</coverageCd>
+        <limitAmount>22200</limitAmount>
+      </AAACoverageC>
+      <AAACoverageD state="Created">
+        <coverageCd>CovD</coverageCd>
+        <limitAmount>4600</limitAmount>
+      </AAACoverageD>
+      <AAACoverageE state="Created">
+        <coverageCd>CovE</coverageCd>
+        <limitAmount>300000</limitAmount>
+      </AAACoverageE>
+      <AAACoverageF state="Created">
+        <coverageCd>CovF</coverageCd>
+        <limitAmount>1000</limitAmount>
+      </AAACoverageF>
+      <AAAHOConstructionInfo state="Created">
+        <constructionTypeCd>Frame</constructionTypeCd>
+        <livingArea>9999</livingArea>
+        <numberOfStories>1</numberOfStories>
+        <personalPropertyValue>22200</personalPropertyValue>
+        <roofType>Other</roofType>
+        <yearBuilt>1995</yearBuilt>
+      </AAAHOConstructionInfo>
+      <AAAPpcDetailsInfo state="Created">
+        <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+        <fireDepartmentType>T</fireDepartmentType>
+        <fireDistrict>FIG GARDEN FD</fireDistrict>
+        <oldPpcValue>2</oldPpcValue>
+        <ppcValue>2</ppcValue>
+      </AAAPpcDetailsInfo>
+      <AAAPropertyDeductible state="Created">
+        <coverageCd>DEDUCTIBLE</coverageCd>
+        <limitAmount>100250</limitAmount>
+      </AAAPropertyDeductible>
+      <PreconfigLocation state="Created">
+        <AAAHODwellAddress state="Created">
+          <addressLine1>1313 E SIMPSON AVE</addressLine1>
+          <addressValidatedInd>Yes</addressValidatedInd>
+          <city>FRESNO</city>
+          <county>Fresno</county>
+          <postalCode>93704</postalCode>
+          <stateProvCd>CA</stateProvCd>
+        </AAAHODwellAddress>
+      </PreconfigLocation>
+    </AAADwellEntityComponent>
+    <HO177EndorsementForm state="Created"/>
+    <HO29EndorsementForm state="Created"/>
+    <HO90EndorsementForm state="Created"/>
+  </AAAHOPolicy>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: Mailing address validated and standardized</title>
+    <updatedOn>2017-12-19T00:00:00</updatedOn>
+    <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 1313 E SIMPSON AVE  FRESNO CA 93704 to 1313 E SIMPSON AVE  FRESNO CA 93704</userText>
+  </userNote>
+</Policy>
