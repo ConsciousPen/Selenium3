@@ -3,10 +3,17 @@
 package aaa.main.modules.billing.paymentsmaintenance.actiontabs;
 
 import aaa.common.ActionTab;
+import aaa.common.Tab;
 import aaa.main.metadata.PaymentsMaintenanceMetaData;
 
 public class AddSuspenseActionTab extends ActionTab {
-    public AddSuspenseActionTab() {
-        super(PaymentsMaintenanceMetaData.AddSuspenseActionTab.class);
-    }
+	public AddSuspenseActionTab() {
+		super(PaymentsMaintenanceMetaData.AddSuspenseActionTab.class);
+	}
+
+	@Override
+	public Tab submitTab() {
+		buttonOk.click();
+		return this;
+	}
 }

@@ -297,7 +297,7 @@ public final class BillingConstants {
 	}
 
 	public static final class BillingSuspenseSearchResultsTable {
-		public static final String ACTION = "Action";
+		public static final String ACTION = "Missing [action]";
 	}
 
 	public static final class BillingAddOnHoldPoliciesTable {

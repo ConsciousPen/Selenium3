@@ -23,6 +23,7 @@ import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.OtherTransactionsActionTab;
+import aaa.main.modules.billing.paymentsmaintenance.PaymentsMaintenance;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -499,6 +500,29 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
 			.verifyPresent();
 		log.info("EP Write off generated successfully");
+	}
+
+	protected void addSuspenseEffDatePlus2() {
+		LocalDateTime suspenseDate = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
+		TimeSetterUtil.getInstance().nextPhase(suspenseDate);
+		log.info("Add Suspense action started");
+		log.info("Suspense date: {}", suspenseDate);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		new PaymentsMaintenance().addSuspense().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		log.info("Suspense added successfully");
+	}
+
+	protected void clearSuspenseEffDatePlus16() {
+		LocalDateTime suspenseDate = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
+		TimeSetterUtil.getInstance().nextPhase(suspenseDate);
+		log.info("Clear Suspense action started");
+		log.info("Action date: {}", suspenseDate);
+		mainApp().reopen();
+		String policyNumber = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
+		SearchPage.openBilling(policyNumber);
+		new PaymentsMaintenance().clearSuspense().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY), policyNumber);
+		log.info("Suspense cleared successfully");
 	}
 
 	protected TestData getPolicyTestData() {
