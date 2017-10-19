@@ -147,6 +147,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 			if (!reportFile.getName().contains(EXCEL_FILE_EXTENSION)) {
 				continue;
 			}
+			int totalBalanceCell = reportFile.getName().contains("Policy") ? 14 : 15;
 			Sheet sheet = ExcelUtils.getSheet(reportFile.getAbsolutePath());
 			for (int i = 0; i < sheet.getPhysicalNumberOfRows(); i++) {
 				if (null == sheet.getRow(i)) {
@@ -158,10 +159,10 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 				}
 				if (accountsMapSummaryFromOR.containsKey(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)))) {
 					double amount = accountsMapSummaryFromOR.get(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)))
-							+ Double.parseDouble(ExcelUtils.getCellValue(sheet.getRow(i).getCell(15)));
+							+ Double.parseDouble(ExcelUtils.getCellValue(sheet.getRow(i).getCell(totalBalanceCell)));
 					accountsMapSummaryFromOR.put(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)), amount);
 				} else {
-					accountsMapSummaryFromOR.put(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)), Double.parseDouble(ExcelUtils.getCellValue(sheet.getRow(i).getCell(15))));
+					accountsMapSummaryFromOR.put(ExcelUtils.getCellValue(sheet.getRow(i).getCell(3)), Double.parseDouble(ExcelUtils.getCellValue(sheet.getRow(i).getCell(totalBalanceCell))));
 				}
 			}
 		}
