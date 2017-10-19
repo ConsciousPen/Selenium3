@@ -188,7 +188,7 @@ public class TestScenario2 extends Scenario2 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC28_Verify_DocGen_Forms(@Optional("") String state) {
-		super.verifyDocGenForms(new DocGenEnum.Documents[]{DocGenEnum.Documents.AHIBXX, DocGenEnum.Documents.AHRBXX});
+		super.verifyDocGenForms();
 	}
 
 	@Parameters({"state"})

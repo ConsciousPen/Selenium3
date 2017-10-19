@@ -272,7 +272,10 @@ public class Scenario2 extends ScenarioBaseTest {
 	}
 
 	protected void verifyDocGenForms() {
-		verifyDocGenForms(new DocGenEnum.Documents[]{DocGenEnum.Documents.AH35XX, DocGenEnum.Documents.AHRBXX});
+		DocGenEnum.Documents[] documents = new DocGenEnum.Documents[2];
+		documents[0] = DocGenEnum.Documents.AHRBXX;
+		documents[1] = getState().equals(Constants.States.CA) ? DocGenEnum.Documents.AHIBXX : DocGenEnum.Documents.AH35XX;
+		verifyDocGenForms(documents);
 	}
 
 	protected void verifyDocGenForms(DocGenEnum.Documents[] documents) {
