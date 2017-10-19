@@ -223,4 +223,12 @@ public class PremiumAndCoveragesTab extends Tab {
 		Dollar policyLevelLiabilityCoveragesPremium = new Dollar(vehiclePremiumTable.getRow(1).getCell(3).getValue());
 		return policyLevelLiabilityCoveragesPremium;
 	}
+
+	public static Dollar getPreEndorsementPremium() {
+		return new Dollar(tableAAAPremiumSummary.getRow(1).getCell(tableAAAPremiumSummary.getColumnsCount() - 2).getValue());
+	}
+
+	public static Dollar getActualPremium() {
+		return new Dollar(tableAAAPremiumSummary.getRow(1).getCell(tableAAAPremiumSummary.getColumnsCount()).getValue());
+	}
 }

@@ -101,7 +101,7 @@ public class RemoteHelper {
 			ChannelSftp channel = ssh.getSftpChannel();
 			attrs = channel.stat(path);
 		} catch (Exception e) {
-			log.debug("SSH: File/folder '" + path + "' doesn't exist.", e);
+			log.debug("SSH: File/folder '" + path + "' doesn't exist.");
 		}
 		return attrs != null;
 	}

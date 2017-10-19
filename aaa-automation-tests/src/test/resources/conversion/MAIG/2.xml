@@ -1,18 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Policy name="AAA_SS" version="1">
+<?xml version="1.0" encoding="UTF-8"?><Policy name="AAA_SS" version="1">
 <!-- Original file name: 20170913_111114_CNV_B_MAIGHYB_EXGPAS_8320_D_20170913_30000810_031455014 -->
     <AAACSAAutoPolicy state="Created">
         <aaaInceptionDate>2013-08-04T00:00:00</aaaInceptionDate>
         <aaaProgramCode>LegacyConv</aaaProgramCode>
         <agentCd>500017508</agentCd>
-        <effective>2017-10-20T00:00:00</effective>
-        <expiration>2018-10-20T00:00:00</expiration>
+        <effective>2017-12-15T00:00:00</effective>
+        <expiration>2018-12-15T00:00:00</expiration>
         <importedFrom>MAIG</importedFrom>
         <preConversionPolicyPremium>3550</preConversionPolicyPremium>
         <producerCd>500016292</producerCd>
         <productCd>AAA_SS</productCd>
         <riskStateCd>DE</riskStateCd>
-        <sourcePolicyNum>031455014</sourcePolicyNum>
+        <sourcePolicyNum>666493032</sourcePolicyNum>
         <subProducerCd>500017508</subProducerCd>
         <OtherOrPriorPolicy state="Created">
             <productCd>membership</productCd>
@@ -45,7 +44,6 @@
             <fullName>CHRISTOPHER FEAGAN</fullName>
             <number>1376</number>
             <type>AMEX</type>
-            <creditCardInd>false</creditCardInd>
         </paymentDetailsPCICreditCard>
     </personalBillingAccount>
     <userNote>

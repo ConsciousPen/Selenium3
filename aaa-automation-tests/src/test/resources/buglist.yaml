@@ -124,23 +124,3 @@ QC-44911:
               aaa.modules.e2e.auto_ss.TestScenario7.TC01_createPolicy]
       messages: ["Unable to locate element: {\"method\":\"xpath\",\"selector\":\"//input[@id='policyDataGatherForm:next_footer' or @id='crmForm:nextBtn_footer' or @id='policyDataGatherForm:next' or @id='policyDataGatherForm:nextButton_footer'",
                  "Errors: Time out. No session available."]
-QC-44919:
-  summary: "Regression: Payment plan dropdown contains incorrect values"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.e2e.home_ss.dp3.TestScenario1.TC01_createPolicy,
-              aaa.modules.e2e.home_ss.ho3.TestScenario1.TC01_createPolicy,
-              aaa.modules.e2e.home_ss.ho4.TestScenario1.TC01_createPolicy,
-              aaa.modules.e2e.home_ss.ho6.TestScenario1.TC01_createPolicy]
-      messages: ["Billing Installments count for Quarterly payment plan expected [4] but found [1]"]
-    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario2.TC01_createPolicy,
-              aaa.modules.e2e.home_ss.ho3.TestScenario5.TC01_createPolicy,
-              aaa.modules.e2e.home_ss.ho3.TestScenario6.TC01_createPolicy,
-              aaa.modules.e2e.home_ss.dp3.TestScenario8.TC01_createPolicy,
-              aaa.modules.e2e.home_ss.ho3.TestScenario8.TC01_createPolicy,
-              aaa.modules.e2e.home_ss.ho4.TestScenario8.TC01_createPolicy,
-              aaa.modules.e2e.home_ss.ho6.TestScenario8.TC01_createPolicy]
-      messages: ["Billing Installments count for Monthly (Eleven Pay) payment plan expected [11] but found [1]"]
-    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario3.TC01_createPolicy,
-              aaa.modules.e2e.home_ss.ho3.TestScenario7.TC01_createPolicy]
-      messages: ["Billing Installments count for Semi-Annual payment plan expected [2] but found [1]"]

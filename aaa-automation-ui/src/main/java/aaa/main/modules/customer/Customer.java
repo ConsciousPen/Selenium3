@@ -15,56 +15,7 @@ import aaa.common.Workspace;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.SearchPage;
 import aaa.main.metadata.CustomerMetaData.GeneralTab;
-import aaa.main.modules.customer.CustomerActions.AddAgency;
-import aaa.main.modules.customer.CustomerActions.AddAssociateCampaignOnOpportunity;
-import aaa.main.modules.customer.CustomerActions.AddAssociatePolicyOnOpportunity;
-import aaa.main.modules.customer.CustomerActions.AddAssociateQuoteOnOpportunity;
-import aaa.main.modules.customer.CustomerActions.AddCommunication;
-import aaa.main.modules.customer.CustomerActions.AddCommunicationThread;
-import aaa.main.modules.customer.CustomerActions.AddCustomerAdditionalNames;
-import aaa.main.modules.customer.CustomerActions.AddNewContactsDetails;
-import aaa.main.modules.customer.CustomerActions.AddNewRelationshipContacts;
-import aaa.main.modules.customer.CustomerActions.AddOpportunity;
-import aaa.main.modules.customer.CustomerActions.AddParticipant;
-import aaa.main.modules.customer.CustomerActions.AddRelationshipContact;
-import aaa.main.modules.customer.CustomerActions.AssociateDivisions;
-import aaa.main.modules.customer.CustomerActions.AssociateExistingCustomer;
-import aaa.main.modules.customer.CustomerActions.DeleteCustomer;
-import aaa.main.modules.customer.CustomerActions.DeletePendingUpdates;
-import aaa.main.modules.customer.CustomerActions.Inquiry;
-import aaa.main.modules.customer.CustomerActions.MakeInvalid;
-import aaa.main.modules.customer.CustomerActions.MergeCustomer;
-import aaa.main.modules.customer.CustomerActions.Qualify;
-import aaa.main.modules.customer.CustomerActions.RemoveAgency;
-import aaa.main.modules.customer.CustomerActions.RemoveAssociateCampaignOnOpportunity;
-import aaa.main.modules.customer.CustomerActions.RemoveAssociatePolicyOnOpportunity;
-import aaa.main.modules.customer.CustomerActions.RemoveAssociateQuoteOnOpportunity;
-import aaa.main.modules.customer.CustomerActions.RemoveBusinessEntity;
-import aaa.main.modules.customer.CustomerActions.RemoveCommunication;
-import aaa.main.modules.customer.CustomerActions.RemoveDivisions;
-import aaa.main.modules.customer.CustomerActions.RemoveGroup;
-import aaa.main.modules.customer.CustomerActions.RemoveNewContactsDetails;
-import aaa.main.modules.customer.CustomerActions.RemoveNewProductDetails;
-import aaa.main.modules.customer.CustomerActions.RemoveNewRelationshipContacts;
-import aaa.main.modules.customer.CustomerActions.RemoveOpportunity;
-import aaa.main.modules.customer.CustomerActions.RemoveParticipantEmployment;
-import aaa.main.modules.customer.CustomerActions.RemoveParticipantMembership;
-import aaa.main.modules.customer.CustomerActions.RemoveParticipantStudent;
-import aaa.main.modules.customer.CustomerActions.RemoveRelationshipContact;
-import aaa.main.modules.customer.CustomerActions.ScheduledUpdate;
-import aaa.main.modules.customer.CustomerActions.StartNewQuoteInOpportunity;
-import aaa.main.modules.customer.CustomerActions.StartNewQuoteInOpportunityPreview;
-import aaa.main.modules.customer.CustomerActions.StartNewQuoteInOpportunityUpdate;
-import aaa.main.modules.customer.CustomerActions.UndoInvalid;
-import aaa.main.modules.customer.CustomerActions.Update;
-import aaa.main.modules.customer.CustomerActions.UpdateCommunication;
-import aaa.main.modules.customer.CustomerActions.UpdateContactsDetails;
-import aaa.main.modules.customer.CustomerActions.UpdateOpportunity;
-import aaa.main.modules.customer.CustomerActions.UpdateParticipantEmployment;
-import aaa.main.modules.customer.CustomerActions.UpdateParticipantMembership;
-import aaa.main.modules.customer.CustomerActions.UpdateParticipantStudent;
-import aaa.main.modules.customer.CustomerActions.UpdateRelationshipContact;
-import aaa.main.modules.customer.CustomerActions.ViewHistory;
+import aaa.main.modules.customer.CustomerActions.*;
 import aaa.main.modules.customer.views.DefaultView;
 import aaa.rest.customer.CustomerCoreRESTMethods;
 import toolkit.config.PropertyProvider;
@@ -374,5 +325,10 @@ public class Customer implements ICustomer {
     @Override
     public AddCustomerAdditionalNames addCustomerAdditionalNames() {
         return new AddCustomerAdditionalNames();
+    }
+
+    @Override
+    public InitiateRenewalEntry initiateRenewalEntry() {
+        return new InitiateRenewalEntry();
     }
 }

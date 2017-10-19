@@ -115,4 +115,6 @@ public interface ICustomer {
     CustomerActions.MergeCustomer mergeCustomer();
 
     CustomerActions.AddCustomerAdditionalNames addCustomerAdditionalNames();
+
+    CustomerActions.InitiateRenewalEntry initiateRenewalEntry();
 }

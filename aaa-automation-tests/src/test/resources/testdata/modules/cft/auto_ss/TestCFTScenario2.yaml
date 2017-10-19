@@ -32,8 +32,8 @@ PremiumAndCoveragesTab : {
 CancellationActionTab: {
   Cancel Date: "/today+2d",
   Cancellation Reason: "Insured's Request - Other",
-  Description: "CFT test scenario 2",
-  Authorized By: QA
+  Other reason: "CFT test scenario 2",
+  Authorized By: 'QA'
 }
 
 ReinstatementActionTab: {

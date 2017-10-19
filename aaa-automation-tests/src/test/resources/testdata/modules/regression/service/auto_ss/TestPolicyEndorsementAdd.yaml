@@ -126,7 +126,7 @@ DriverTab_CO: {
 # ------- CT ------
 
 TestData_CT: {
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@GeneralTab_CT',
   DriverTab: '@DriverTab_CT',
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: '@VehicleTab',
@@ -134,6 +134,24 @@ TestData_CT: {
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: {}
+}
+
+GeneralTab_CT: {
+  NamedInsuredInformation: ['@NamedInsuredInformation_CT'],
+  AAAProductOwned: {},
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation'
+}
+
+NamedInsuredInformation_CT: {
+  Add: Click,
+  InsuredSearchDialog: {},
+  First Name: Jenny,
+  Last Name: Smith,
+  Social Security Number: 223456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
 }
 
 DriverTab_CT: {

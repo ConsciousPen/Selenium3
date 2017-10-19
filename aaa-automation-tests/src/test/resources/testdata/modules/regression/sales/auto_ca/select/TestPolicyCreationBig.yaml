@@ -12,19 +12,7 @@ TestData: {
   PurchaseTab: '@PurchaseTab'
 }
 
-PrefillTab: {
-  First Name: Susie,
-  Last Name: Jones20,
-  Zip Code: 94544,
-  Address Line 1: 8416 Briggs Drive,
-  #City:  Fruitland,
-  #State: UT,
-  Date of Birth: '07/08/1976',
-  Validate Address: click,
-  Validate Address Dialog: {
-    },
-  Order Prefill: click
-}
+PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab'
 
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation', '@NamedInsuredInformation2'],
@@ -51,15 +39,7 @@ AAAProductOwned: {
   Member Last Name: Test,
 }
 
-PolicyInformation: {
-  Policy Type: Standard,
-  Effective Date: '/today:MM/dd/yyyy',
-  Channel Type: Phone (Direct Sales Unit),
-  Agency: SMTestCC - 400000092,
-  Sales Channel: Online,
-  Authorized by: QA,
-  TollFree Number: 1
-}
+PolicyInformation: '@<auto_ca_select>@DataGather@PolicyInformation'
 
 DriverTab: {
   Occupation: Self Employed,

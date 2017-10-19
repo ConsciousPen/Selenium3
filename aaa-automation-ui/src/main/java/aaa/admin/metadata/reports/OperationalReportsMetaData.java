@@ -19,6 +19,8 @@ public final class OperationalReportsMetaData {
 		public static final AssetDescriptor<ComboBox> NAME = declare("Name", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> LANGUAGE = declare("Name", ComboBox.class);
 		public static final AssetDescriptor<TextBox> ACTIVITY_DATE_FROM = declare("Activity Date From", TextBox.class);
+		public static final AssetDescriptor<TextBox> ACCOUNTING_DATE_FROM = declare("Accounting Date From", TextBox.class);
+		public static final AssetDescriptor<TextBox> ACCOUNTING_DATE_TO = declare("Accounting Date To", TextBox.class);
 		public static final AssetDescriptor<TextBox> ACTIVITY_DATE_TO = declare("Activity Date To", TextBox.class);
 		public static final AssetDescriptor<AdvancedSelector> CHANNEL = declare("Channel", AdvancedSelector.class);
 		public static final AssetDescriptor<AdvancedSelector> LOCATION_TYPE = declare("Location Type", AdvancedSelector.class);

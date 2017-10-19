@@ -139,7 +139,7 @@ ApplicantTab_CO: {
   MailingAddress: {},
   NamedInsuredInformation: '@home_ss_ho3@DataGather@NamedInsuredInformation',
   OtherActiveAAAPolicies: ['@home_ss_ho3@DataGather@OtherActiveAAAPolicies_CO','@OtherActiveAAAPolicies'],
-  AgentInfo: '@home_ss_ho3@DataGather@AgentInfo'
+  AgentInfo: '@home_ss_ho3@DataGather@AgentInfo_CO'
 }
 
 OtherActiveAAAPolicies: {
@@ -326,7 +326,7 @@ ApplicantTab_IN: {
   MailingAddress: {},
   NamedInsuredInformation: '@home_ss_ho3@DataGather@NamedInsuredInformation',
   OtherActiveAAAPolicies: ['@home_ss_ho3@DataGather@OtherActiveAAAPolicies_IN','@OtherActiveAAAPolicies'],
-  AgentInfo: '@home_ss_ho3@DataGather@AgentInfo'
+  AgentInfo: '@home_ss_ho3@DataGather@AgentInfo_IN'
 }
 
 PropertyInfoTab_IN: {
@@ -385,7 +385,7 @@ ApplicantTab_KS: {
   MailingAddress: {},
   NamedInsuredInformation: '@home_ss_ho3@DataGather@NamedInsuredInformation',
   OtherActiveAAAPolicies: ['@home_ss_ho3@DataGather@OtherActiveAAAPolicies_KS','@OtherActiveAAAPolicies'],
-  AgentInfo: '@home_ss_ho3@DataGather@AgentInfo'
+  AgentInfo: '@home_ss_ho3@DataGather@AgentInfo_KS'
 }
 
 PropertyInfoTab_KS: {
@@ -444,7 +444,7 @@ ApplicantTab_KY: {
   MailingAddress: {},
   NamedInsuredInformation: '@home_ss_ho3@DataGather@NamedInsuredInformation',
   OtherActiveAAAPolicies: ['@home_ss_ho3@DataGather@OtherActiveAAAPolicies_KY','@OtherActiveAAAPolicies'],
-  AgentInfo: '@home_ss_ho3@DataGather@AgentInfo'
+  AgentInfo: '@home_ss_ho3@DataGather@AgentInfo_KY'
 }
 
 PropertyInfoTab_KY: {
@@ -664,7 +664,7 @@ ApplicantTab_OH: {
   MailingAddress: {},
   NamedInsuredInformation: '@home_ss_ho3@DataGather@NamedInsuredInformation',
   OtherActiveAAAPolicies: ['@home_ss_ho3@DataGather@OtherActiveAAAPolicies_OH','@OtherActiveAAAPolicies'],
-  AgentInfo: '@home_ss_ho3@DataGather@AgentInfo'
+  AgentInfo: '@home_ss_ho3@DataGather@AgentInfo_OH'
 }
 
 PropertyInfoTab_OH: {
@@ -723,7 +723,7 @@ ApplicantTab_OK: {
   MailingAddress: {},
   NamedInsuredInformation: '@home_ss_ho3@DataGather@NamedInsuredInformation',
   OtherActiveAAAPolicies: ['@home_ss_ho3@DataGather@OtherActiveAAAPolicies_OK','@OtherActiveAAAPolicies'],
-  AgentInfo: '@home_ss_ho3@DataGather@AgentInfo'
+  AgentInfo: '@home_ss_ho3@DataGather@AgentInfo_OK'
 }
 
 PropertyInfoTab_OK: {

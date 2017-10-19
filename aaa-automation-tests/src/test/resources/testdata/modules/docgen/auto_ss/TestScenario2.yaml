@@ -3347,7 +3347,7 @@ AA02AZ_ED: {
   ],
   PlcyAutoDeadBenPrem: {TextField: '0.00'},
   PlcyAutoDeadBenDed: {TextField: '0.00'}, 
-#  NetWrtPrem: {TextField: ''},
+  NetWrtPrem: {TextField: ''},
 #  PlcyMpEaPers: {},
 #  VehBdyInjPrem: {},
 #  VehPDPrem: {},
@@ -3898,7 +3898,7 @@ AA02IN_ED: {
   PlcyAutoDeadBenPrem: {TextField: '0.00'},
   PlcyAutoDeadBenDed: {TextField: '0.00'}, 
   PlcyUMPDEaOcc: {TextField: '0'}, 
-#  NetWrtPrem: {TextField: ''},
+  NetWrtPrem: {TextField: ''},
 #  PlcyMpEaPers: {},
 #  VehBdyInjPrem: {},
 #  VehPDPrem: {},
@@ -4397,7 +4397,7 @@ AA02OK_ED: {
      VehCovPrem: {TextField: ''},
 #     GenPlcyCovPrem: {TextField: ''},
      AllVehTotPrem: {TextField: ''},
-     NetWrtPrem: {TextField: ''},
+#     NetWrtPrem: {TextField: ''},
   },
   PaymentDetails: {
     PlcyTotPrem: {TextField: ''}
@@ -4882,7 +4882,7 @@ AA02PA_ED: {
    ],
 #   VehTotPrem: {TextField: ''},
    AllVehTotPrem: {TextField: ''},
-#   NetWrtPrem: {TextField: ''},
+   NetWrtPrem: {TextField: ''},
  },
  PaymentDetails: {
  PlcyTotPrem: {TextField: ''},

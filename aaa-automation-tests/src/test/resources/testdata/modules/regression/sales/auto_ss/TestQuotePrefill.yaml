@@ -538,8 +538,8 @@ PrefillTab1_KS: {
   Date of Birth: '05/05/1982',
   Validate Address: click,
   Validate Address Dialog: {
-   Select Address: override,
-   Street Name: 300 High St},
+   Street Name: 300 High St
+   },
   Order Prefill: click
 }
 
@@ -572,8 +572,8 @@ PrefillTab2_KS: {
   Date of Birth: '09/17/1988',
   Validate Address: click,
   Validate Address Dialog: {
-    Select Address: override,
-    Street Name: 200 Dorman Ave},
+    Street Name: 200 Dorman Ave
+    },
   Order Prefill: click
 }
 
@@ -640,8 +640,8 @@ PrefillTab2_KY: {
   Date of Birth: '09/17/1988',
   Validate Address: click,
   Validate Address Dialog: {
-    Select Address: override,
-    Street Name: 200 Johnson Rd},
+    Street Name: 200 Johnson Rd
+    },
   Order Prefill: click
 }
 
@@ -1197,7 +1197,6 @@ PrefillTab1_PA: {
   Date of Birth: '05/05/1982',
   Validate Address: click,
   Validate Address Dialog: {
-    Select Address: override,
     Street Name: 300 Born St},
   Order Prefill: click
 }
