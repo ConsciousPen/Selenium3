@@ -27,15 +27,8 @@ public class TestCFTScenario10 extends ControlledFinancialBaseTest {
 	public void cftTestScenario10(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		generateInstallmentBill(1);
-		automaticCancellationNotice(1);
-		automaticCancellation(1);
 		acceptMinDuePaymentDD1plus30();
-		// // automaticCancellation(2);
-		generateFirstEarnedPremiumBill(1);
-		generateSecondEarnedPremiumBill(1);
-		generateThirdEarnedPremiumBill(1);
-		billingAccount.acceptPayment().perform(getTestSpecificTD("AcceptPayment50"));
-
+		acceptPaymentEP3(1);
 	}
 
 	@Override
@@ -46,8 +39,8 @@ public class TestCFTScenario10 extends ControlledFinancialBaseTest {
 	@Override
 	protected TestData getPolicyTestData() {
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", DEFAULT_TEST_DATA_KEY);
+		// TODO adjust testdata for ENOC policy
 		td.adjust(GeneralTab.class.getSimpleName(), getTestSpecificTD("GeneralTab_DataGather"));
-		// td.adjust(VehicleTab.class.getSimpleName(), getTestSpecificTD("VehicleTab_DataGather"));
 		td.adjust(PremiumAndCoveragesTab.class.getSimpleName(), getTestSpecificTD("PremiumAndCoveragesTab_DataGather"));
 		td.adjust(PurchaseTab.class.getSimpleName(), getTestSpecificTD("PurchaseTab_DataGather"));
 		return td.resolveLinks();
