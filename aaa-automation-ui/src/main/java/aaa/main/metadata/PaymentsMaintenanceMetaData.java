@@ -62,7 +62,6 @@ public class PaymentsMaintenanceMetaData {
 	public static final class ClearSuspenseActionTab extends MetaData {
 		public static final AssetDescriptor<DialogMultiSelector> ALLOCATION = declare("Allocation", DialogMultiSelector.class,
 			AllocationMultiSelector.class);
-		public static final AssetDescriptor<TextBox> PAYMENT_AMOUNT = declare("Payment Amount", TextBox.class);
 
 		public static final class AllocationMultiSelector extends MetaData {
 			public static final AssetDescriptor<TextBox> BILLING_ACCOUNT_NUMBER = declare("Billing Account #", TextBox.class);
