@@ -334,15 +334,15 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	protected void manualCancellationDD1Plus5(String keyPath) {
-		LocalDateTime cancellationDate = getTimePoints().getBillDueDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1)).plusDays(
-			5);
+		LocalDateTime cancellationDate = getTimePoints().getBillDueDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails()
+			.getInstallments().get(1)).plusDays(5);
 		TimeSetterUtil.getInstance().nextPhase(cancellationDate);
 		log.info("Manual cancellation action started");
 		log.info("Manual cancellation date: {}", cancellationDate);
 		mainApp().reopen();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		String effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue();
-		policy.cancel().perform(getTestSpecificTD("Cancellation").adjust(keyPath, effectiveDate));
+		policy.cancel().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).adjust(keyPath, effectiveDate));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		log.info("Manual cancellation action completed successfully");
 	}

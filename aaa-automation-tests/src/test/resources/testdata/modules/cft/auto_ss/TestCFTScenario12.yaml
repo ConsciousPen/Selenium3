@@ -1,3 +1,7 @@
+TestData: {
+  CancellationActionTab: '@CancellationActionTab'
+}
+
 PremiumAndCoveragesTab_DataGather: {
   Payment Plan: Monthly,
   Policy Term: Annual,
@@ -7,9 +11,7 @@ PremiumAndCoveragesTab_DataGather: {
   Special Equipment Coverage: 1100
 }
 
-Cancellation: {
-  CancellationActionTab: {
-    Cancellation Reason: 'Rewrite Accommodation',
-    Authorized By: QA
-  }
+CancellationActionTab: {
+  Cancellation Reason: 'Rewrite Accommodation',
+  Authorized By: QA
 }

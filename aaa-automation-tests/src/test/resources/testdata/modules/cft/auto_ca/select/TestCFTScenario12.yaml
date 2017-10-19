@@ -1,3 +1,7 @@
+TestData: {
+  CancellationActionTab: '@CancellationActionTab'
+}
+
 PremiumAndCoveragesTab_DataGather: {
   Payment Plan: Standard Monthly,
   Policy Term: Annual,
@@ -5,9 +9,7 @@ PremiumAndCoveragesTab_DataGather: {
   Property Damage Liability: 'contains=$100,000'
 }
 
-Cancellation: {
-  CancellationActionTab: {
-    Cancellation Reason: 'Accomodation - Miscellaneous',
-    Authorized By: QA
-  }
+CancellationActionTab: {
+  Cancellation Reason: 'Accomodation - Miscellaneous',
+  Authorized By: QA
 }
