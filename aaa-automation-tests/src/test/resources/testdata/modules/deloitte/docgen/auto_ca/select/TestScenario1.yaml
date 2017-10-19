@@ -1,0 +1,92 @@
+TestData_QuoteUpdate: {
+  DriverTab: [
+    {
+      ActivityInformation: {
+        Activity Source: Customer Input,
+        Type: Minor Violation,
+        Occurrence Date: /today,
+        Description: Speeding,
+        'Include in Points and/or YAF?': 'No',
+        'Not Included in Points and/or YAF - Reason Codes': Penalty of Perjury,
+        'Was the minor moving violation obtained during the hours of employment?': 'Yes',
+        "Was the driver operating their employer's vehicle for compensation?": 'Yes',
+        "Did the driver's specific duties include operating as a Public Utility Commission-authorized highway carrier and is the driver a registered owner/lessor of the vehicle?": 'Yes'
+      }
+    },
+    {
+      DriverSearchDialog: {},
+      Driver Type: Available for Rating,
+      'Rel. to First Named Insured': Spouse,
+      First Name: Mary,
+      Last Name: Jones20,
+      Date of Birth: 10/18/1993,
+      Gender: Female,
+      Marital Status: Married,
+      Occupation: Driver,
+      Age First Licensed: 18,
+      Permit Before License: 'Yes',
+      'License #': C1234000,
+      Financial Responsibility Filling Needed: 'Yes',
+      Filling Type: SR-22
+    },
+    {
+      DriverSearchDialog: {},
+      Driver Type: Excluded,
+      Reason: "Insured Requested - never drives insured's car",
+      'Rel. to First Named Insured': Father,
+      First Name: Ryan,
+      Last Name: Jones20,
+      Date of Birth: 10/17/1973,
+      Gender: Male,
+      Marital Status: Married,
+      Occupation: Fire Fighter,
+      'License #': C1234001,
+    }
+  ],
+  MembershipTab: {},
+  VehicleTab: {
+    Ownership: {
+      Ownership Type: Leased,
+      First Name: BANK OF AMERICA
+    }
+  },
+  AssignmentTab: {},
+  FormsTab: {
+   Vehicle Forms: {
+        LSOPCE: {
+          Name: Bank Of America
+        }
+    },
+    Driver Forms: {
+      Forms Subject: 'Mary Jones20',
+      CIPCSR22: {
+        Action: Edit,
+        Case Number: 22,
+        State: CA
+      }
+    }
+  },
+  PremiumAndCoveragesTab: {
+    Uninsured Motorists Bodily Injury: 'contains=$25,000/$50,000'
+  },
+}
+
+TestData_Purchase: {
+  DriverActivityReportsTab: {
+    Sales Agent Agreement: I Agree,
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      California Car Policy Application: Physically Signed,
+      Operator Exclusion Endorsement and Uninsured Motorist Coverage Deletion Endorsement: Physically Signed,
+      Uninsured Motorist Coverage Deletion or Selection of Limits Agreement: Physically Signed,
+      Declaration Under Penalty of Perjury: Physically Signed,
+      Subscriber Agreement: Physically Signed
+    },
+    RequiredToIssue: {
+      Policy Application: 'Yes',
+      Auto Billing Plan Explanation: 'Yes'
+    }
+  }
+}

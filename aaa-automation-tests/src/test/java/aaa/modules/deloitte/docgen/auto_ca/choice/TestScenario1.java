@@ -45,9 +45,9 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 	 * 6. Check xml file
 	 * 7. Check Documents on GODD for Policy: displayed, enable/disable
 	*/
-	@Parameters({"state"})
+	@Parameters({ "state" })
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void testPolicyDocuments(@Optional("") String state){
+	public void testPolicyDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 
@@ -59,7 +59,7 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 		policy.quoteDocGen().start();
 		docgenActionTab.verify.documentsEnabled(
 				Documents.AA11CA,
-				Documents.AHAPXX_CA_CHOICE,
+				Documents.AHAPXX_CA,
 				Documents.AA53CA,
 				Documents.AHFMXX,
 				Documents.AAIQCA
@@ -85,7 +85,7 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 		docgenActionTab.verify.documentsEnabled(
 				Documents.AA11CA,
 				Documents.AA43CA,
-				Documents.AHAPXX_CA_CHOICE,
+				Documents.AHAPXX_CA,
 				Documents.AHFMXX,
 				Documents.AAIQCA
 				);

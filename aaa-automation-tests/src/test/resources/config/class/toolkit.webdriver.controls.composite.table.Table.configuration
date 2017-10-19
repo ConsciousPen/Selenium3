@@ -1,3 +1,3 @@
 {
-  "cellByIndexHasValueDefault": "td[position()=%1$s and (normalize-space(.)='%2$s' or normalize-space(*/text())='%2$s')]"
+  "cellByIndexHasValueDefault": "td[position()=%1$s and (normalize-space(.)=\"%2$s\" or normalize-space(*/text())=\"%2$s\")]"
 }

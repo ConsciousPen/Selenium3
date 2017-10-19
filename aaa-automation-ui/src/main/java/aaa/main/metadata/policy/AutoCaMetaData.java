@@ -246,6 +246,11 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<TextBox> CLAIM_NUMBER = declare("Claim Number", TextBox.class);
 			public static final AssetDescriptor<RadioGroup> INCLUDE_IN_RATING = declare("Include in Rating?", RadioGroup.class);
 			public static final AssetDescriptor<ComboBox> NOT_INCLUDED_IN_RATING_REASON = declare("Not Included in Rating Reasons", ComboBox.class);
+			public static final AssetDescriptor<RadioGroup> INCLUDE_IN_POINTS_AND_OR_YAF = declare("Include in Points and/or YAF?", RadioGroup.class);
+			public static final AssetDescriptor<ComboBox> NOT_INCLUDED_IN_POINTS_AND_OR_YAF_REASON_CODES = declare("Not Included in Points and/or YAF - Reason Codes", ComboBox.class);
+			public static final AssetDescriptor<RadioGroup> WAS_THE_MINOR_MOVING_VIOLATION_OBTAINED_DURING_THE_HOURS_OF_EMPLOYMENT = declare("Was the minor moving violation obtained during the hours of employment?", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> WAS_THE_DRIVER_OPERATING_THEIR_EMPLOYERS_VEHICLE_FOR_COMPENSATION = declare("Was the driver operating their employer's vehicle for compensation?", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> DID_THE_DRIVERS_SPECIFIC_DUTIES = declare("Did the driver's specific duties include operating as a Public Utility Commission-authorized highway carrier and is the driver a registered owner/lessor of the vehicle?", RadioGroup.class);
 			public static final AssetDescriptor<AssetListConfirmationDialog> ACTIVITY_REMOVE_CONFIRMATION = declare("Activity remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmEliminateInstance_Dialog_container"));
 		}
 
@@ -388,6 +393,8 @@ public final class AutoCaMetaData {
 		
 		public static final class VehicleForms extends MetaData {
 //			formAssetLocator = By.id("addComponentPopup_VehicleEndorsementFormsManager_container");
+			public static final AssetDescriptor<AssetList> LSOPCE = declare("LSOPCE", AssetList.class, LSOPCEMeta.class, false, By.id("addComponentPopup_VehicleEndorsementFormsManager_container"));
+			
 		}
 		
 		public static final class DriverForms extends MetaData {
@@ -403,6 +410,10 @@ public final class AutoCaMetaData {
 		public static final class CIPCSR22FormMeta extends MetaData {
 			public static final AssetDescriptor<TextBox> CASE_NUMBER = declare("Case Number", TextBox.class);
 			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class);
+		}
+		
+		public static final class LSOPCEMeta extends MetaData {
+			public static final AssetDescriptor<ComboBox> NAME = declare("Name", ComboBox.class);
 		}
 	}
 
@@ -587,7 +598,10 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<RadioGroup> DELETING_UNINSURED_MOTORIST_PROPERTY_DAMAGE_COVERAGE = declare("Deleting Uninsured Motorist Property Damage Coverage", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> NON_OWNER_AUTOMOBILE_ENDORSEMENT = declare("Non-Owner Automobile Endorsement", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> NAMED_DRIVER_EXCLUSION = declare("Named Driver(s) Exclusion", RadioGroup.class);
-			
+			public static final AssetDescriptor<RadioGroup> OPERATOR_EXCLUSION_ENDORSEMENT_AND_UNINSURED_MOTORIST_COVERAGE_DELETION_ENDORSEMENT = declare("Operator Exclusion Endorsement and Uninsured Motorist Coverage Deletion Endorsement", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> UNINSURED_MOTORIST_COVERAGE_DELETION_OR_SELECTION_OF_LIMITS_AGREEMENT = declare("Uninsured Motorist Coverage Deletion or Selection of Limits Agreement", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> DECLARATION_UNDER_PENALTY_OF_PERJURY = declare("Declaration Under Penalty of Perjury", RadioGroup.class);
+		
 		}
 
 		public static final class RequiredToIssue extends MetaData {
