@@ -1,4 +1,4 @@
-package aaa.modules.cft.auto_ss;
+package aaa.modules.cft.auto_ca.select;
 
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Optional;
@@ -9,7 +9,7 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
 
 /**
@@ -28,7 +28,7 @@ public class TestCFTScenario15 extends ControlledFinancialBaseTest {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_SS;
+		return PolicyType.AUTO_CA_SELECT;
 	}
 
 	@Override
