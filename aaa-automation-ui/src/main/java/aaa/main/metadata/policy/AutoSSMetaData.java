@@ -311,9 +311,10 @@ public final class AutoSSMetaData {
 		}
 
 		public static final class EditInsuranceScoreDialog extends MetaData {
-			public static final AssetDescriptor<TextBox> SCORE_AFTER_OVERRIDE = declare("Score after override", TextBox.class, By.xpath("//input[@id='editInsuranceScoreFrom:newScore']"));
-			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class, By.xpath("//select[@id='editInsuranceScoreFrom:billingType_billing']"));
+			public static final AssetDescriptor<TextBox> NEW_SCORE = declare("New Score", TextBox.class, By.xpath("//input[@id='editInsuranceScoreFrom:popupInsuranceScore_newScore']"));
+			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class, By.xpath("//select[@id='editInsuranceScoreFrom:popupInsuranceScore_reasonForOverride']"));
 			public static final AssetDescriptor<Button> BTN_SAVE = declare("Save", Button.class, By.xpath("//input[@id='editInsuranceScoreFrom:saveButton']"));
+			public static final AssetDescriptor<Button> BTN_CANCEL = declare("Cancel", Button.class, By.xpath("//input[@id='editInsuranceScoreFrom:cancelEditButton']"));
 		}
 
 	}
@@ -381,6 +382,10 @@ public final class AutoSSMetaData {
 		}
 
 		public static final class Ownership extends MetaData {
+			public static final AssetDescriptor<RadioGroup> IS_REGISTERED_OWNER_DIFFERENT_THAN_NAMED_INSURED = declare("Is Registered Owner Different than Named Insured", RadioGroup.class);
+            public static final AssetDescriptor<TextBox> PRIMARY_OWNER_FIRST_LAST_NAME = declare("Primary Owner First, Last Name", TextBox.class);
+            public static final AssetDescriptor<TextBox> ADDITIONAL_OWNER_FIRST_LAST_NAME = declare("Additional Owner First, Last Name", TextBox.class);
+
 			public static final AssetDescriptor<ComboBox> OWNERSHIP_TYPE = declare("Ownership Type", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> FIRST_NAME = declare("First Name", ComboBox.class);
 			public static final AssetDescriptor<TextBox> SECOND_NAME = declare("Second Name", TextBox.class);

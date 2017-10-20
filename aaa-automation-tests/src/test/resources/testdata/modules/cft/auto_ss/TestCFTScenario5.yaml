@@ -1,3 +1,16 @@
+TestData: {
+AcceptPaymentActionTab: {
+    Payment Method: 'Cash',
+    Amount: 50,
+  },
+  OtherTransactionsActionTab: {
+      Transaction Type: 'Adjustment',
+      Transaction Subtype: 'Other',
+      Additional Info: 'CFT Test',
+      Amount: -30
+  }
+}
+
 PremiumAndCoveragesTab_DataGather: {
   Payment Plan: 'Quarterly',
   Policy Term: 'Annual',

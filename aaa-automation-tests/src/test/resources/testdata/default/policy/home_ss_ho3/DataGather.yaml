@@ -87,7 +87,7 @@ UnderwritingAndApprovalTab: {
 
 DocumentsTab: {
   DocumentsToIssue: {
-  Signed policy application: Physically Signed
+    Signed policy application: Physically Signed
   }
 }
   
@@ -145,13 +145,27 @@ OtherActiveAAAPolicies: {
   ActiveUnderlyingPoliciesSearch: {},
   ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual'
 }
-OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual:  {
- Policy type: HO3,
- Policy number: '345345345',
- Coverage E: '1000',
- Deductible: '1000',
- Dwelling usage: Primary,
- Occupancy type: Owner occupied
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual: {
+  Policy type: HO3,
+  Policy number: '345345345',
+  Coverage E: '1000',
+  Deductible: '1000',
+  Dwelling usage: Primary,
+  Occupancy type: Owner occupied
+}
+
+OtherCompanionAutoPolicy: {
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: {
+    Policy type: Auto,
+    "Companion Auto Pending with Discount?": 'No',
+    Auto policy state: UT,
+    Policy number: '345345345',
+    Effective date: '/today:MM/dd/yyyy',
+    Policy tier: 'index=1',
+    Auto policy BI limit: 'index=1',
+    Auto Insurance Persistency: '21'
+  }
 }
 
 AgentInfo: {
@@ -216,7 +230,7 @@ GeneralTab_AZ: {
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy'
 }
 
 ApplicantTab_AZ: {
@@ -226,7 +240,7 @@ ApplicantTab_AZ: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_AZ'
 }
 
@@ -280,7 +294,7 @@ ApplicantTab_CO: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_CO',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies_CO', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_CO'
 }
 
@@ -381,7 +395,7 @@ ApplicantTab_CT: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_CT'
 }
 
@@ -452,7 +466,7 @@ ApplicantTab_DC: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_DC'
 }  
   
@@ -515,7 +529,7 @@ ApplicantTab_DE: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_DE'
 }  
   
@@ -579,7 +593,7 @@ ApplicantTab_ID: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_ID'
 }  
   
@@ -633,7 +647,7 @@ ApplicantTab_IN: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_IN',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies_IN', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_IN'
 }  
   
@@ -743,7 +757,7 @@ ApplicantTab_KS: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_KS',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies_KS', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_KS'
 }  
   
@@ -852,7 +866,7 @@ ApplicantTab_KY: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_KY',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies_KY', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_KY'
 }  
   
@@ -969,7 +983,7 @@ ApplicantTab_MD: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_MD'
 }  
   
@@ -1041,7 +1055,7 @@ ApplicantTab_MT: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_MT'
 }  
   
@@ -1104,7 +1118,7 @@ ApplicantTab_NJ: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_NJ'
 }  
   
@@ -1168,7 +1182,7 @@ ApplicantTab_NV: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_NV'
 }  
   
@@ -1231,7 +1245,7 @@ ApplicantTab_NY: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_NY'
 }  
   
@@ -1294,7 +1308,7 @@ ApplicantTab_OH: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_OH',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies_OH', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_OH'
 }  
   
@@ -1404,7 +1418,7 @@ ApplicantTab_OK: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies_OK',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies_OK', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_OK'
 }  
   
@@ -1513,7 +1527,7 @@ ApplicantTab_OR: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_OR'
 }  
   
@@ -1575,7 +1589,7 @@ ApplicantTab_PA: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_PA'
 }  
   
@@ -1638,7 +1652,7 @@ ApplicantTab_SD: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_SD'
 }  
   
@@ -1730,7 +1744,7 @@ ApplicantTab_VA: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_VA'
 }  
   
@@ -1794,7 +1808,7 @@ ApplicantTab_WV: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_WV'
 }  
   
@@ -1885,7 +1899,7 @@ ApplicantTab_WY: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherCompanionAutoPolicy'],
   AgentInfo: '@AgentInfo_WY'
 }  
   

@@ -68,3 +68,21 @@ InsuranceScoreOverride_OverrideTo645: {
     Save: 'click'
   }
 }
+
+TestData_CT10: {
+  #VehicleTab: ['@<auto_ss>@DataGather@VehicleTab','@VehicleTab2_CT10']
+  VehicleTab: '@VehicleTab2_CT10'
+}
+
+VehicleTab2_CT10: {
+  Usage: Pleasure,
+  VIN: WDCYC7BB0B6729451,
+  Ownership: '@Ownership_CT10'
+}
+
+Ownership_CT10: {
+  Is Registered Owner Different than Named Insured : Yes,
+  'Primary Owner First, Last Name': '/rx:Lora \d{5}',
+  'Additional Owner First, Last Name': '/rx:Nick \d{5}'
+}
+

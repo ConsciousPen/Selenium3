@@ -26,6 +26,7 @@ GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation'
 }
 
@@ -43,6 +44,14 @@ AAAProductOwned: {
 ContactInformation: {
    Home Phone Number: 1234567890,
    Email: 'test@gmail.com'
+}
+
+CurrentCarrierInformation: {
+  "Override Prefilled Current Carrier?": 'Yes',
+  Agent Entered Current/Prior Carrier: 'AAA-SoCal (ACSC)',
+  Agent Entered Inception Date: /today-1y,
+  Agent Entered Expiration Date: /today-1d,
+  Agent Entered BI Limits: '$300,000/$500,000',
 }
 
 PolicyInformation: {
@@ -107,7 +116,9 @@ DocumentsAndBindTab: {
     Auto Insurance Application: Physically Signed
   },
   Agreement: I agree,
-  RequiredToIssue: {},
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
 }
 
 PurchaseTab: {
@@ -146,6 +157,7 @@ GeneralTab_AZ: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_AZ'
 }
 
@@ -189,6 +201,7 @@ GeneralTab_CO: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_CO'
 }
 
@@ -239,6 +252,7 @@ GeneralTab_CT: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_CT'
 }
 
@@ -268,6 +282,9 @@ DocumentsAndBindTab_CT: {
     Auto Insurance Application: Physically Signed,
     Informed Consent Form - Uninsured Motorist Coverage: Physically Signed
   },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  },
   Agreement: I agree
 }
 
@@ -296,6 +313,7 @@ GeneralTab_DC: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_DC'
 }
 
@@ -325,6 +343,9 @@ DocumentsAndBindTab_DC: {
     Auto Insurance Application: Physically Signed,
     District of Columbia Coverage Selection/Rejection Form: Physically Signed
   },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  },
   Agreement: I agree
 }
 
@@ -347,6 +368,7 @@ GeneralTab_DE: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_DE'
 }
 
@@ -378,6 +400,9 @@ DocumentsAndBindTab_DE: {
     Important Information Personal Injury Protection (PIP) - Delaware Understanding (PIP) Deductibles: Physically Signed,
     Acknowledgement of Deductible Selections: Physically Signed
   },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  },
   Agreement: I agree
 }
 
@@ -400,6 +425,7 @@ GeneralTab_ID: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_ID'
 }
 
@@ -443,6 +469,7 @@ GeneralTab_IN: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_IN'
 }
 
@@ -486,6 +513,7 @@ GeneralTab_KS: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_KS'
 }
 
@@ -514,6 +542,9 @@ DocumentsAndBindTab_KS: {
   RequiredToBind: {
     Personal Auto Application: Physically Signed
   },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  },
   Agreement: I agree
 }
 
@@ -537,6 +568,7 @@ GeneralTab_KY: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_KY'
 }
 
@@ -580,6 +612,7 @@ GeneralTab_MD: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_MD'
 }
 
@@ -619,6 +652,9 @@ DocumentsAndBindTab_MD: {
     Maryland Notice And Waiver Of Personal Injury Protection (PIP) Coverage: Physically Signed,
     Maryland Auto Insurance Application: Physically Signed
   },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  },
   Agreement: I agree
 }
 
@@ -641,6 +677,7 @@ GeneralTab_MT: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_MT'
 }
 
@@ -684,6 +721,7 @@ GeneralTab_NJ: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_NJ'
 }
 
@@ -716,7 +754,8 @@ DocumentsAndBindTab_NJ: {
   },
   RequiredToIssue: {
     CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver: 'Yes',
-    Separate Vehicle 1: 'Yes'
+    Separate Vehicle 1: 'Yes',
+    Proof of Prior Insurance: 'Yes'
   },
   Agreement: I agree
 }
@@ -740,6 +779,7 @@ GeneralTab_NV: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_NV'
 }
 
@@ -783,6 +823,7 @@ GeneralTab_NY: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_NY'
 }
 
@@ -819,7 +860,8 @@ DocumentsAndBindTab_NY: {
     New York Auto Insurance Application: Physically Signed
   },
   RequiredToIssue: {
-    Separate Vehicle 1: 'Yes'
+    Separate Vehicle 1: 'Yes',
+    Proof of Prior Insurance: 'Yes'
   },
   Agreement: I agree
 }
@@ -843,6 +885,7 @@ GeneralTab_OH: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_OH'
 }
 
@@ -886,6 +929,7 @@ GeneralTab_OK: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_OK'
 }
 
@@ -915,7 +959,8 @@ DocumentsAndBindTab_OK: {
     Auto Insurance Application: Physically Signed,
   },
   RequiredToIssue: {
-    Coverage Selection Form: 'Yes'
+    Coverage Selection Form: 'Yes',
+    Proof of Prior Insurance: 'Yes'
   },
   Agreement: I agree
 }
@@ -939,6 +984,7 @@ GeneralTab_OR: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_OR'
 }
 
@@ -982,6 +1028,7 @@ GeneralTab_PA: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_PA'
 }
 
@@ -1016,6 +1063,9 @@ DocumentsAndBindTab_PA: {
     Pennsylvania Notice to Named Insured Regarding Tort Options: Physically Signed,
     Invoice-Minimum Coverages: Physically Signed
   },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  },
   Agreement: I agree
 }
 
@@ -1045,6 +1095,7 @@ GeneralTab_SD: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_SD'
 }
 
@@ -1082,6 +1133,7 @@ GeneralTab_VA: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_VA'
 }
 
@@ -1133,6 +1185,7 @@ GeneralTab_WV: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_WV'
 }
 
@@ -1162,6 +1215,9 @@ DocumentsAndBindTab_WV: {
     Auto Insurance Application: Physically Signed,
     Uninsured/Underinsured Motorists Coverage Offer: Physically Signed
   },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  },
   Agreement: I agree
 }
 
@@ -1184,6 +1240,7 @@ GeneralTab_WY: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_WY'
 }
 

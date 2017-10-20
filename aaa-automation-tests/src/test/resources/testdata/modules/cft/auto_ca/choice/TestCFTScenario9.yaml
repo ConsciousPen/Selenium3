@@ -1,0 +1,185 @@
+# ------------ Endorsement data ---------------
+Endorsement: {
+  EndorsementActionTab: '@EndorsementActionTab_Endorse',
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab_Endorse',
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+EndorsementActionTab_Endorse: {
+  Endorsement Date: /today,
+  Endorsement Reason: Maintain Vehicle(s)
+}
+
+DriverActivityReportsTab_Endorse: {
+  Sales Agent Agreement: I Agree,
+  Validate Driving History: click
+}
+
+# ------------ Split data ---------------
+SplitTestData: {
+  SplitActionTab: {
+  Transaction Effective Date: /today,
+    Insureds: '2',
+    Vehicles : '2'
+    }
+}
+
+# ------------ Data Gathering data ---------------
+TestData_DataGather: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab', '@DriverTab2'],
+  MembershipTab: '@MembershipTab',
+  VehicleTab: ['@VehicleTab', '@VehicleTab2'],
+  AssignmentTab: '@AssignmentTab',
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+PrefillTab: {
+  First Name: Sansa,
+  Last Name: Stark,
+  Zip Code: 94544,
+  Address Line 1: 8416 Briggs Drive,
+  Date of Birth: '/today-38y:MM/dd/yyyy',
+  Validate Address: click,
+  Validate Address Dialog: {
+    },
+  Order Prefill: click
+}
+
+GeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  PolicyInformation: '@PolicyInformation'
+}
+
+NamedInsuredInformation: {
+  "Home Phone #": 1234567890 
+}
+
+NamedInsuredInformation2: {
+  InsuredSearchDialog: {},
+  First Name: Diego,
+  Last Name: Maradona,
+  Base Date: '/today:MM/dd/yyyy',
+  "Home Phone #": 5554567890, 
+}
+
+AAAProductOwned: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001,
+  Member Last Name: Test,
+}
+
+PolicyInformation: {
+  Policy Type: Standard,
+  Effective Date: '/today+2d:MM/dd/yyyy',
+  Channel Type: Phone (Direct Sales Unit),
+  Agency: SMTestCC - 400000092,
+  Sales Channel: Online,
+  Authorized by: QA,
+  TollFree Number: 1
+}
+
+DriverTab: {
+  Occupation: Self Employed,
+  Age First Licensed: 37,
+  Permit Before License: 'No',
+  License State: CA,
+  "License #": C1234567,
+  Employee Benefit Type: 'Active employee',
+  Employee ID: '12345678'
+}
+
+DriverTab2: {
+  DriverSearchDialog: {},
+  Named Insured: 'Diego Maradona',
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
+  Date of Birth: '/today-37y:MM/dd/yyyy',
+  Occupation: Self Employed,
+  Gender: Male,
+  Marital Status: Single,
+  Age First Licensed: 36,
+  Permit Before License: 'No',
+  License State: CA,
+  "License #": C1234500,
+  Employee Benefit Type: 'Active employee',
+  Employee ID: '12345679'
+}
+
+MembershipTab: {
+  Order Report: click
+}
+
+VehicleTab: {
+  VIN: 1GNWGPFG8B6548273,
+  Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 10,
+  Odometer Reading: 3000,
+}
+
+VehicleTab2: {
+  VIN: WAUKJAFM8C6314628,
+  Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Odometer Reading: 5000,
+}
+
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [{
+    Primary Driver: index=1
+  },
+  {
+    Primary Driver: index=2
+  }]
+}
+
+FormsTab: {}
+PremiumAndCoveragesTab: {
+  Payment Plan: Standard Monthly,
+}
+
+DriverActivityReportsTab: {
+  "Has the customer expressed interest in purchasing the policy?": 'Yes',
+  Sales Agent Agreement: I Agree,
+  Validate Driving History: click
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    Personal Auto Application: Physically Signed,
+    Deleting Uninsured Motorist Property Damage Coverage: Physically Signed
+  },
+  VehicleInformation: ['@Vehicle1', '@Vehicle2']
+}
+
+Vehicle1: {
+  "Are there any additional interest(s)?": 'No'
+}
+
+Vehicle2: {
+  "Are there any additional interest(s)?": 'No'
+}
+
+PurchaseTab: {
+  PaymentAllocation: {
+    Cash: /rest
+  }
+}
