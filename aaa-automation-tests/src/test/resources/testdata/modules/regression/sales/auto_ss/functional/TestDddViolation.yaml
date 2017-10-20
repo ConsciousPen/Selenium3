@@ -1,0 +1,62 @@
+TestData: {
+  DriverTab: ['@<auto_ss>@DataGather@DriverTab_PA','@DriverInformationMinor1']
+}
+
+#Drivers for Minor Violation
+DriverInformationMinor1: {
+  DriverSearchDialog: {},
+  First Name: Paul,
+  Last Name: Magic,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: '10/17/1950',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License State: PA,
+  License Number: 10144433,
+  Age First Licensed: 18,
+  'Defensive Driver Course Completed?': 'Yes',
+  'Defensive Driver Course Completion Date': '10/10/2016'
+}
+
+DriverInformationMinor2: {
+   First Name: Curry,
+   Last Name: King,
+   License Number: 10144434,
+   'Defensive Driver Course Completion Date': '4/11/2016'
+}
+
+#Drivers for Major Violation
+DriverInformationMajor1: {
+   First Name: Paul1,
+   Last Name: Magic,
+   License Number: 10144435,
+   'Defensive Driver Course Completion Date': '10/10/2016'
+}
+DriverInformationMajor2: {
+   First Name: Curry1,
+   Last Name: King,
+   License Number: 10144436,
+   'Defensive Driver Course Completion Date': '4/11/2016'
+}
+
+#Drivers for alcohol Violation
+DriverInformationAlcohol1: {
+   First Name: Paul2,
+   Last Name: Magic,
+   License Number: 10144437,
+   'Defensive Driver Course Completion Date': '10/10/2016'
+}
+DriverInformationAlcohol2: {
+   First Name: Curry2,
+   Last Name: King,
+   License Number: 10144438,
+   'Defensive Driver Course Completion Date': '4/11/2016'
+}
+
+DriverActivityReportsTab: {
+  "Has the customer expressed interest in purchasing the quote?": 'Yes',
+  Validate Driving History: click
+}
+
