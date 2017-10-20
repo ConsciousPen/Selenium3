@@ -28,22 +28,14 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 
 	protected void executeBatchTest(String name, Job job) {
 		List<String> preKey = Collections.unmodifiableList(Arrays.asList(name, "PreValidation"));
-		synchronized (name) {
-			if (!queryResult.containsKey(preKey)) {
-				queryResult.put(preKey, getQueryResult(name, "PreValidation"));
-			}
-		}
+		getQueryOnce(preKey);
 		List<String> foundPolicies = getPoliciesFromQuery(queryResult.get(preKey), "PreValidation");
 
 //		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		JobUtils.executeJob(job);
 
 		List<String> postKey = Collections.unmodifiableList(Arrays.asList(name, "PostValidation"));
-		synchronized (name) {
-			if (!queryResult.containsKey(postKey)) {
-				queryResult.put(postKey, getQueryResult(name, "PostValidation"));
-			}
-		}
+		getQueryOnce(postKey);
 		List<String> processedPolicies = getPoliciesFromQuery(queryResult.get(postKey), "PostValidation");
 
 		CustomAssert.enableSoftMode();
@@ -77,5 +69,14 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 		log.info("Policies found by '" + queryName + "' query: " + policies.toString());
 
 		return policies;
+	}
+
+	private synchronized void getQueryOnce(List<String> key) {
+		log.info(String.format("Query verification started for test %s query %s state %s", key.get(0), key.get(1), getState()));
+		if (!queryResult.containsKey(key)) {
+			log.info(String.format("Query requestingstarted for test %s query %s state %s", key.get(0), key.get(1), getState()));
+			queryResult.put(key, getQueryResult(key.get(0), key.get(1)));
+		}
+		log.info(String.format("Query verification completed for test %s query %s state %s", key.get(0), key.get(1), getState()));
 	}
 }
