@@ -112,4 +112,5 @@ public class BillingPaymentsAndTransactionsVerifier extends TableVerifier {
 		setAmount(expectedAmount);
 		verifyPresent();
 	}
+	
 }
