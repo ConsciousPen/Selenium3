@@ -20,23 +20,21 @@ import java.util.stream.Collectors;
 
 public class BackwardCompatibilityBaseTest extends BaseTest {
 
-	protected static ConcurrentHashMap<List<String>, List<Map<String, String>>> queryResult = new ConcurrentHashMap<>();
+	protected static ConcurrentHashMap<String, List<Map<String, String>>> queryResult = new ConcurrentHashMap<>();
 
 	protected BctType getBctType() {
 		return BctType.ONLINE_TEST;
 	}
 
 	protected void executeBatchTest(String name, Job job) {
-		List<String> preKey = Collections.unmodifiableList(Arrays.asList(name, "PreValidation"));
-		getQueryOnce(preKey);
-		List<String> foundPolicies = getPoliciesFromQuery(queryResult.get(preKey), "PreValidation");
+		getQueryOnce(name, "PreValidation");
+		List<String> foundPolicies = getPoliciesFromQuery(queryResult.get(name+"PreValidation"), "PreValidation");
 
 //		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		JobUtils.executeJob(job);
 
-		List<String> postKey = Collections.unmodifiableList(Arrays.asList(name, "PostValidation"));
-		getQueryOnce(postKey);
-		List<String> processedPolicies = getPoliciesFromQuery(queryResult.get(postKey), "PostValidation");
+		getQueryOnce(name, "PostValidation");
+		List<String> processedPolicies = getPoliciesFromQuery(queryResult.get(name+"PreValidation"), "PostValidation");
 
 		CustomAssert.enableSoftMode();
 		foundPolicies.forEach(policy -> CustomAssert.assertTrue("Policy " + policy + " was processed by " + job.getJobName(), processedPolicies.contains(policy)));
@@ -71,12 +69,12 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 		return policies;
 	}
 
-	private synchronized void getQueryOnce(List<String> key) {
-		log.info(String.format("Query verification started for test %s query %s state %s", key.get(0), key.get(1), getState()));
-		if (!queryResult.containsKey(key)) {
-			log.info(String.format("Query requestingstarted for test %s query %s state %s", key.get(0), key.get(1), getState()));
-			queryResult.put(key, getQueryResult(key.get(0), key.get(1)));
+	private void getQueryOnce(String testName, String queryName) {
+		log.info(String.format("Query verification started for test %s query %s state %s", testName, queryName, getState()));
+		if (!queryResult.containsKey(testName+queryName)) {
+			log.info(String.format("Query requestingstarted for test %s query %s state %s", testName, queryName, getState()));
+			queryResult.put(testName+queryName, getQueryResult(testName, queryName));
 		}
-		log.info(String.format("Query verification completed for test %s query %s state %s", key.get(0), key.get(1), getState()));
+		log.info(String.format("Query verification completed for test %s query %s state %s", testName, queryName, getState()));
 	}
 }
