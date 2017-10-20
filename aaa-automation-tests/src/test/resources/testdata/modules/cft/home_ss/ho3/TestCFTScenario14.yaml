@@ -1,0 +1,19 @@
+TestData: {
+  CancellationActionTab: '@CancellationActionTab',
+}  
+
+GeneralTab_DataGather: {
+  Effective date: '/today+2d'
+}
+
+ApplicantTab_DataGather: {
+  AAA employee: 'Yes'
+}
+
+PremiumsAndCoveragesQuoteTab_DataGather: {
+  Payment plan: Eleven Pay Standard,
+}
+
+CancellationActionTab: {
+  Cancellation reason: 'Rewrite Accommodation',
+}
