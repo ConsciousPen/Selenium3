@@ -1,0 +1,27 @@
+TestData: {
+  CancellationActionTab: '@CancellationActionTab'
+}
+GeneralTab_DataGather: {
+  PolicyInformation: {
+    Effective Date: '/today+2d',
+  }
+}
+
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Standard Monthly,
+}
+
+DriverTab_DataGather: {
+  Occupation: Self Employed,
+  Age First Licensed: 37,
+  Permit Before License: 'No',
+  License State: CA,
+  "License #": C1234567,
+  Employee Benefit Type: 'Active employee',
+  Employee ID: '12345678'
+}
+
+CancellationActionTab: {
+  Cancellation Reason: 'Accomodation - Miscellaneous',
+  Authorized By: QA
+}
