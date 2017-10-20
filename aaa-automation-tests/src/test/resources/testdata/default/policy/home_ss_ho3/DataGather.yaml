@@ -32,8 +32,8 @@ ApplicantTab: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  AgentInfo: '@AgentInfo',
-  OtherActiveAAAPolicies: {},
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherCompanionAutoPolicy'],
+  AgentInfo: '@AgentInfo'
 }
 
 ReportsTab: {
@@ -116,7 +116,6 @@ PurchaseTab_AddCard_NoAutopay: {
   }
 }
 
-# ApplicantTab
 NamedInsured: {
   Relationship to primary named insured:  Primary Insured,
   Social security number: 1234567890,
