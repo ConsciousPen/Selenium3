@@ -251,6 +251,7 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<RadioGroup> WAS_THE_MINOR_MOVING_VIOLATION_OBTAINED_DURING_THE_HOURS_OF_EMPLOYMENT = declare("Was the minor moving violation obtained during the hours of employment?", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> WAS_THE_DRIVER_OPERATING_THEIR_EMPLOYERS_VEHICLE_FOR_COMPENSATION = declare("Was the driver operating their employer's vehicle for compensation?", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> DID_THE_DRIVERS_SPECIFIC_DUTIES = declare("Did the driver's specific duties include operating as a Public Utility Commission-authorized highway carrier and is the driver a registered owner/lessor of the vehicle?", RadioGroup.class);
+			public static final AssetDescriptor<ComboBox> LIABILITY_CODE = declare("Liability Code", ComboBox.class);
 			public static final AssetDescriptor<AssetListConfirmationDialog> ACTIVITY_REMOVE_CONFIRMATION = declare("Activity remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmEliminateInstance_Dialog_container"));
 		}
 
@@ -306,6 +307,9 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<TextBox> ODOMETER_READING_DATE = declare("Odometer Reading Date", TextBox.class);
 		public static final AssetDescriptor<TextBox> CUSTOMER_DECLARED_ANNUAL_MILES = declare("Customer Declared Annual Miles", TextBox.class);
 		public static final AssetDescriptor<TextBox> SOURCE = declare("Source", TextBox.class);
+		public static final AssetDescriptor<RadioGroup> IS_THE_VEHICLE_USED_IN_ANY_COMMERCIAL_BUSINESS_OPERATIONS = declare("Is the vehicle used in any commercial business operations?", RadioGroup.class);
+		public static final AssetDescriptor<TextBox> BUSINESS_USE_DESCRIPTION = declare("Business Use Description", TextBox.class);
+		
 		public static final AssetDescriptor<Button> CALCULATE_MILEAGE = declare("Calculate Mileage", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:calculateMileage"));
 
 		/*public static final AssetDescriptor<RadioGroup> ENROLL_IN_USAGE_BASED_INSURANCE = declare("Enroll in Usage Based Insurance?", RadioGroup.class);
@@ -394,7 +398,8 @@ public final class AutoCaMetaData {
 		public static final class VehicleForms extends MetaData {
 //			formAssetLocator = By.id("addComponentPopup_VehicleEndorsementFormsManager_container");
 			public static final AssetDescriptor<AssetList> LSOPCE = declare("LSOPCE", AssetList.class, LSOPCEMeta.class, false, By.id("addComponentPopup_VehicleEndorsementFormsManager_container"));
-			
+			public static final AssetDescriptor<AssetList> CRCE = declare("CRCE", AssetList.class, CommonFormMeta.class, false, By.id("addComponentPopup_VehicleEndorsementFormsManager_container"));
+			public static final AssetDescriptor<AssetList> GEE = declare("GEE", AssetList.class, GEEMeta.class, false, By.id("addComponentPopup_VehicleEndorsementFormsManager_container"));
 		}
 		
 		public static final class DriverForms extends MetaData {
@@ -414,6 +419,15 @@ public final class AutoCaMetaData {
 		
 		public static final class LSOPCEMeta extends MetaData {
 			public static final AssetDescriptor<ComboBox> NAME = declare("Name", ComboBox.class);
+		}
+		
+		public static final class GEEMeta extends MetaData {
+			public static final AssetDescriptor<TextBox> NAME = declare("Name", TextBox.class);
+			public static final AssetDescriptor<TextBox> SECOND_NAME = declare("Second Name", TextBox.class);
+			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip Code", TextBox.class);
+			public static final AssetDescriptor<TextBox> ADDRESS_LINE_1 = declare("Address Line 1", TextBox.class);
+			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class);
+			public static final AssetDescriptor<TextBox> STATE = declare("State", TextBox.class);
 		}
 	}
 
