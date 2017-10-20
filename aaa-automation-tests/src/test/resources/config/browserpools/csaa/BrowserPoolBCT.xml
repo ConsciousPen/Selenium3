@@ -1,0 +1,22 @@
+<browsers>
+	<properties>
+		<name>WEBDRIVER</name>
+		<seleniumType>WEBDRIVER</seleniumType>
+		<browserProfile>firefox</browserProfile>
+		<useXpathLibrary>true</useXpathLibrary>
+		<allowNativeXPath>true</allowNativeXPath>
+		<browserLifetime>0</browserLifetime>
+		<timeout>200000</timeout>
+		<capability name="unexpectedAlertBehaviour">ignore</capability>
+	</properties>
+	
+	<hub>
+		<url>http://n01apl4364.tent.trt.csaa.pri:9999</url>
+		<min>1</min>
+		<max>1</max>
+		<keywords>
+			<keyword>OPT</keyword>
+		</keywords>
+	</hub>
+	
+</browsers>
