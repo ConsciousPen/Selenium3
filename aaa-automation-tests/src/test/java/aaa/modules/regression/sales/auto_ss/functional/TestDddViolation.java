@@ -29,27 +29,11 @@ import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.LAST_NAME;
 public class TestDddViolation extends AutoSSBaseTest {
     private static final List<String> DRIVERS_WITHOUT_DISCOUNT = Arrays.asList("DriverInformationMinor2", "DriverInformationMajor2", "DriverInformationAlcohol2");
     private static final List<String> DRIVERS_WITH_DISCOUNT = new ArrayList<>(Arrays.asList("DriverInformationMajor1", "DriverInformationAlcohol1"));
-    private List<TestData> drivers;
-
-
-    @BeforeMethod
-    public void getDriversTd() {
-        drivers = new ArrayList<>();
-        getTestSpecificTD("TestData").
-                getTestDataList(DriverTab.class.getSimpleName()).forEach(v ->
-                drivers.add(DataProviderFactory.emptyData().adjust(v).resolveLinks()));
-
-        DRIVERS_WITH_DISCOUNT.forEach(v -> prepareData(drivers, v));
-        DRIVERS_WITHOUT_DISCOUNT.forEach(v -> prepareData(drivers, v));
-        DRIVERS_WITH_DISCOUNT.add(0, "DriverInformationMinor1");
-    }
-
 
     /**
      * @author Igor Garkusha
      * @name Test Paperless Preferences properties and Inquiry mode
-     * @scenario
-     * 1. Create Customer1.
+     * @scenario 1. Create Customer1.
      * 2. Create Auto SS PA Quote.
      * 3. Add driverA and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
      * 4. Add driverB and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
@@ -64,13 +48,12 @@ public class TestDddViolation extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "also includes PAS-3822(Major and Alcohol Violation)")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3663")
     public void pas3663_DddForDriverWithMinorViolationCheckNb(@Optional("") String state) {
-
         mainApp().open();
         createCustomerIndividual();
 
 
         TestData testData = getPolicyTD();
-        testData.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), drivers).
+        testData.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), getDriversTd()).
                 adjust(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName()),
                         getTestSpecificTD(DriverActivityReportsTab.class.getSimpleName()));
 
@@ -79,9 +62,7 @@ public class TestDddViolation extends AutoSSBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
         CustomAssert.enableSoftMode();
-
         verifyDrivers();
-
         CustomAssert.assertAll();
 
     }
@@ -90,8 +71,7 @@ public class TestDddViolation extends AutoSSBaseTest {
     /**
      * @author Igor Garkusha
      * @name Test Endorsement - Defensive Driver Discount, Minor Violation
-     * @scenario
-     * 1. Create Auto SS PA policy1.
+     * @scenario 1. Create Auto SS PA policy1.
      * 2. Endorse policy1.
      * 3. Add driverA and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
      * 4. Add driverB and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
@@ -106,8 +86,6 @@ public class TestDddViolation extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "also includes PAS-3822(Major and Alcohol Violation)")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3663")
     public void pas3663_DddForDriverWithMinorViolationCheckEndorsement(@Optional("") String state) {
-
-
         mainApp().open();
         createCustomerIndividual();
         createPolicy();
@@ -122,8 +100,7 @@ public class TestDddViolation extends AutoSSBaseTest {
     /**
      * @author Igor Garkusha
      * @name Test Renewal- Defensive Driver Discount, Minor Violation
-     * @scenario
-     * 1. Create Auto SS PA policy1.
+     * @scenario 1. Create Auto SS PA policy1.
      * 2. Renew policy1.
      * 3. Add driverA and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
      * 4. Add driverB and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
@@ -138,7 +115,6 @@ public class TestDddViolation extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "also includes PAS-3822(Major and Alcohol Violation)")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3663")
     public void pas3663_DddForDriverWithMinorViolationCheckRenewal(@Optional("") String state) {
-
         mainApp().open();
         createCustomerIndividual();
         createPolicy(getBackDatedPolicyTD());
@@ -153,7 +129,7 @@ public class TestDddViolation extends AutoSSBaseTest {
     private void renewAndEndorsementSteps() {
         TestData testData = getPolicyTD();
         testData.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()),
-                getTestSpecificTD("TestData").getTestDataList(DriverTab.class.getSimpleName()));
+                getDriversTd());
 
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         new DriverTab().fillTab(testData).submitTab();
@@ -192,6 +168,18 @@ public class TestDddViolation extends AutoSSBaseTest {
 
     private String getDriverFullName(TestData driverTD) {
         return driverTD.getValue(FIRST_NAME.getLabel()) + " " + driverTD.getValue(LAST_NAME.getLabel());
+    }
+
+    private List<TestData> getDriversTd() {
+        List<TestData> drivers = new ArrayList<>();
+        getTestSpecificTD("TestData").
+                getTestDataList(DriverTab.class.getSimpleName()).forEach(v ->
+                drivers.add(DataProviderFactory.emptyData().adjust(v).resolveLinks()));
+
+        DRIVERS_WITH_DISCOUNT.forEach(v -> prepareData(drivers, v));
+        DRIVERS_WITHOUT_DISCOUNT.forEach(v -> prepareData(drivers, v));
+        DRIVERS_WITH_DISCOUNT.add(0, "DriverInformationMinor1");
+        return drivers;
     }
 
 
