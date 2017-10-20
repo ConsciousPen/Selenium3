@@ -135,6 +135,9 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 	 *    To get 55 0001 document: Change ownership from Financed to Owned for third Vehicle  
 	 *    To get 55 6109 document: Remove vehicle with Lessor Form (first)   	
 	 * 4. Check xml file
+	 * 5. Check documents generation on GOOD:
+	 *    Get AHRCTXX document: US 20986
+	 * 6. Check AHRCTXX is generated
 	*/
 	@Parameters({ "state" })
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_PolicyDocuments")
@@ -173,6 +176,13 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 				Documents._55_6109
 				);
 		DocGenHelper.verifyDocumentsGenerated(false, policyNum, Documents._55_3333);
+		
+		// 5
+		policy.policyDocGen().start();
+		docgenActionTab.generateDocuments(Documents.AHRCTXXPUP);
+		
+		// 6
+		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.AHRCTXXPUP);
 		
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
