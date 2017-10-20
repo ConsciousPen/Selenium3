@@ -26,262 +26,220 @@ import java.util.Objects;
 
 public class ReportGeneratorService {
 
-	private static final String CFT_VALIDATION_REPORT = "D:\\CSAA\\CFT_Validations_v2.xlsx";
+    public static void generateReport(Map<String, ReportEntry> reportObjects, String filePath) {
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Result");
+        StylesTable stylesTable = workbook.getStylesSource();
+        //create rows with color scheme explanation
+        XSSFCellStyle xssfCellExp1 = stylesTable.createCellStyle();
+        xssfCellExp1.setFillForegroundColor(new XSSFColor(new Color(196, 215, 155)));
+        xssfCellExp1.setFillPattern(CellStyle.SOLID_FOREGROUND);
+        XSSFCellStyle xssfCellExp2 = stylesTable.createCellStyle();
+        xssfCellExp2.setFillForegroundColor(new XSSFColor(new Color(192, 0, 0)));
+        xssfCellExp2.setFillPattern(CellStyle.SOLID_FOREGROUND);
+        XSSFCellStyle xssfCellExp3 = stylesTable.createCellStyle();
+        xssfCellExp3.setFillForegroundColor(new XSSFColor(new Color(246, 142, 56)));
+        xssfCellExp3.setFillPattern(CellStyle.SOLID_FOREGROUND);
+        Row expRow1 = sheet.createRow(1);
+        CellUtil.createCell(expRow1, 1, StringUtils.EMPTY, xssfCellExp1);
+        CellUtil.createCell(expRow1, 2, "- Matched");
+        Row expRow2 = sheet.createRow(3);
+        CellUtil.createCell(expRow2, 1, StringUtils.EMPTY, xssfCellExp2);
+        CellUtil.createCell(expRow2, 2, "- Missed");
+        Row expRow3 = sheet.createRow(5);
+        CellUtil.createCell(expRow3, 1, StringUtils.EMPTY, xssfCellExp3);
+        CellUtil.createCell(expRow3, 2, "- Collision");
 
-	public static void generateReport(Map<String, ReportEntry> reportObjects) {
-		XSSFWorkbook workbook = new XSSFWorkbook();
-		XSSFSheet sheet = workbook.createSheet("Result");
-		CreationHelper factory = workbook.getCreationHelper();
-		//create rows with color scheme explanation
-		Row headerRow = sheet.createRow(4);
-		sheet.addMergedRegion(new CellRangeAddress(4, 4, 1, 2));
-		sheet.addMergedRegion(new CellRangeAddress(4, 4, 4, 5));
-		sheet.addMergedRegion(new CellRangeAddress(4, 4, 7, 8));
-		StylesTable stylesTable = workbook.getStylesSource();
-		XSSFCellStyle xssfCellStyle = stylesTable.createCellStyle();
-		setBorderToCellStyle(xssfCellStyle);
-		xssfCellStyle.setFillForegroundColor(new XSSFColor(new Color(149, 179, 215)));
-		xssfCellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
-		CellUtil.createCell(headerRow, 1, "Feed Files Data", xssfCellStyle);
-		CellUtil.createCell(headerRow, 2, StringUtils.EMPTY, xssfCellStyle);
-		CellUtil.createCell(headerRow, 4, "Operational Report's Subledger Data", xssfCellStyle);
-		CellUtil.createCell(headerRow, 5, StringUtils.EMPTY, xssfCellStyle);
-		CellUtil.createCell(headerRow, 7, "DB Subledger Data", xssfCellStyle);
-		CellUtil.createCell(headerRow, 8, StringUtils.EMPTY, xssfCellStyle);
+        Row headerRow = sheet.createRow(7);
+        sheet.addMergedRegion(new CellRangeAddress(7, 7, 1, 2));
+        sheet.addMergedRegion(new CellRangeAddress(7, 7, 6, 7));
+        sheet.addMergedRegion(new CellRangeAddress(7, 7, 11, 12));
 
-		Drawing drawing = sheet.createDrawingPatriarch();
+        XSSFCellStyle xssfCellStyle = stylesTable.createCellStyle();
+        setBorderToCellStyle(xssfCellStyle);
+        xssfCellStyle.setFillForegroundColor(new XSSFColor(new Color(231, 235, 247)));
+        xssfCellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+        xssfCellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+        CellUtil.createCell(headerRow, 1, "ETL", xssfCellStyle);
+        CellUtil.createCell(headerRow, 2, StringUtils.EMPTY, xssfCellStyle);
+        CellUtil.createCell(headerRow, 4, "ETL vs TBR", xssfCellStyle);
+        CellUtil.createCell(headerRow, 6, "TBR", xssfCellStyle);
+        CellUtil.createCell(headerRow, 7, StringUtils.EMPTY, xssfCellStyle);
+        CellUtil.createCell(headerRow, 9, "TBR vs DB", xssfCellStyle);
+        CellUtil.createCell(headerRow, 11, "DB", xssfCellStyle);
+        CellUtil.createCell(headerRow, 12, StringUtils.EMPTY, xssfCellStyle);
+        CellUtil.createCell(headerRow, 14, "ETL vs DB", xssfCellStyle);
 
-		BigDecimal ffdTotal = new BigDecimal(0);
-		BigDecimal ordTotal = new BigDecimal(0);
-		BigDecimal dbdTotal = new BigDecimal(0);
+        Row subHeaderRow = sheet.createRow(8);
+        CellUtil.createCell(subHeaderRow, 1, "Row Labels", xssfCellStyle);
+        CellUtil.createCell(subHeaderRow, 2, "Sum of Corrected Sign", xssfCellStyle);
+        CellUtil.createCell(subHeaderRow, 4, "Variance", xssfCellStyle);
+        CellUtil.createCell(subHeaderRow, 6, "Row Labels", xssfCellStyle);
+        CellUtil.createCell(subHeaderRow, 7, "Sum of Corrected Sign", xssfCellStyle);
+        CellUtil.createCell(subHeaderRow, 9, "Variance", xssfCellStyle);
+        CellUtil.createCell(subHeaderRow, 11, "Row Labels", xssfCellStyle);
+        CellUtil.createCell(subHeaderRow, 12, "Sum of Corrected Sign", xssfCellStyle);
+        CellUtil.createCell(subHeaderRow, 14, "Variance", xssfCellStyle);
 
-		int rowNumber = 5;
-		for (String reportEntry : reportObjects.keySet()) {
-			// Feed files table preparation
-			Double feedFilesEntryAmount = reportObjects.get(reportEntry).getAmount().get(DataSourceKey.FFD_KEY);
-			Row entryRow = sheet.createRow(rowNumber);
-			XSSFCellStyle entryCellStyle = stylesTable.createCellStyle();
-			prepareCellEntryStyle(reportObjects.get(reportEntry).getEntryStatus(),
-					entryCellStyle);
-			if (Objects.isNull(feedFilesEntryAmount)) {
-				sheet.addMergedRegion(new CellRangeAddress(rowNumber, rowNumber, 1, 2));
-			}
-			Cell ffEntryCell1 = CellUtil.createCell(entryRow, 1, Objects.isNull(feedFilesEntryAmount) ? EntryStatus.MISSED.name() : reportEntry, entryCellStyle);
-			CellUtil.createCell(entryRow, 2, Objects.isNull(feedFilesEntryAmount) ? StringUtils.EMPTY : String.valueOf(feedFilesEntryAmount), entryCellStyle);
-			if (Objects.nonNull(feedFilesEntryAmount)) {
-				Double fddOrDelta = reportObjects.get(reportEntry).getDelta(DataSourceKey.FFD_KEY, DataSourceKey.ORD_KEY);
-				Double fddDBDelta = reportObjects.get(reportEntry).getDelta(DataSourceKey.FFD_KEY, DataSourceKey.DBD_KEY);
-				if (Objects.nonNull(fddOrDelta) || Objects.nonNull(fddDBDelta)) {
-					ClientAnchor anchor = factory.createClientAnchor();
-					anchor.setCol1(ffEntryCell1.getColumnIndex());
-					anchor.setCol2(ffEntryCell1.getColumnIndex() + 7);
-					anchor.setRow1(entryRow.getRowNum());
-					anchor.setRow2(entryRow.getRowNum() + 2);
-					Comment comment = drawing.createCellComment(anchor);
-					String commentString = "Delta between OR Subledger Data:" + fddOrDelta + "\nDelta between DB Subledger Data:" + fddDBDelta;
-					RichTextString str = factory.createRichTextString(commentString);
-					comment.setString(str);
-					ffEntryCell1.setCellComment(comment);
-				}
-			}
+        BigDecimal ffdTotal = new BigDecimal(0);
+        BigDecimal ordTotal = new BigDecimal(0);
+        BigDecimal dbdTotal = new BigDecimal(0);
 
-			//OR results table
-			Double orEntryAmount = reportObjects.get(reportEntry).getAmount().get(DataSourceKey.ORD_KEY);
-			if (Objects.isNull(orEntryAmount)) {
-				sheet.addMergedRegion(new CellRangeAddress(rowNumber, rowNumber, 4, 5));
-			}
-			Cell orEntryCell1 = CellUtil.createCell(entryRow, 4, Objects.isNull(orEntryAmount) ? EntryStatus.MISSED.name() : reportEntry, entryCellStyle);
-			CellUtil.createCell(entryRow, 5, Objects.isNull(orEntryAmount) ? StringUtils.EMPTY : String.valueOf(orEntryAmount), entryCellStyle);
+        int rowNumber = 9;
+        for (String reportEntry : reportObjects.keySet()) {
+            // Feed files table preparation
+            Double feedFilesEntryAmount = reportObjects.get(reportEntry).getAmount().get(DataSourceKey.FFD_KEY);
+            Row entryRow = sheet.createRow(rowNumber);
+            XSSFCellStyle entryCellStyle = stylesTable.createCellStyle();
+            prepareCellEntryStyle(reportObjects.get(reportEntry).getEntryStatus(),
+                    entryCellStyle);
+            if (Objects.isNull(feedFilesEntryAmount)) {
+                sheet.addMergedRegion(new CellRangeAddress(rowNumber, rowNumber, 1, 2));
+            }
+            CellUtil.createCell(entryRow, 1, Objects.isNull(feedFilesEntryAmount) ? EntryStatus.MISSED.name() : reportEntry, entryCellStyle);
+            CellUtil.createCell(entryRow, 2, Objects.isNull(feedFilesEntryAmount) ? StringUtils.EMPTY : String.valueOf(feedFilesEntryAmount), entryCellStyle);
+            Double fddOrDelta = reportObjects.get(reportEntry).getDelta(DataSourceKey.FFD_KEY, DataSourceKey.ORD_KEY);
+            Double fddDBDelta = reportObjects.get(reportEntry).getDelta(DataSourceKey.FFD_KEY, DataSourceKey.DBD_KEY);
+            CellUtil.createCell(entryRow, 4, Objects.isNull(fddOrDelta) ? EntryStatus.MISSED.name() : fddOrDelta.toString(), entryCellStyle);
+            CellUtil.createCell(entryRow, 14, Objects.isNull(fddDBDelta) ? EntryStatus.MISSED.name() : fddDBDelta.toString(), entryCellStyle);
+            //OR results table
+            Double orEntryAmount = reportObjects.get(reportEntry).getAmount().get(DataSourceKey.ORD_KEY);
+            if (Objects.isNull(orEntryAmount)) {
+                sheet.addMergedRegion(new CellRangeAddress(rowNumber, rowNumber, 6, 7));
+            }
+            CellUtil.createCell(entryRow, 6, Objects.isNull(orEntryAmount) ? EntryStatus.MISSED.name() : reportEntry, entryCellStyle);
+            CellUtil.createCell(entryRow, 7, Objects.isNull(orEntryAmount) ? StringUtils.EMPTY : String.valueOf(orEntryAmount), entryCellStyle);
+            Double orDBDelta = reportObjects.get(reportEntry).getDelta(DataSourceKey.ORD_KEY, DataSourceKey.DBD_KEY);
+            CellUtil.createCell(entryRow, 9, Objects.isNull(orDBDelta) ? EntryStatus.MISSED.name() : orDBDelta.toString(), entryCellStyle);
+            //DB results table
+            Double dbEntryAmount = reportObjects.get(reportEntry).getAmount().get(DataSourceKey.DBD_KEY);
+            if (Objects.isNull(dbEntryAmount)) {
+                sheet.addMergedRegion(new CellRangeAddress(rowNumber, rowNumber, 13, 14));
+            }
+            CellUtil.createCell(entryRow, 11, Objects.isNull(dbEntryAmount) ? EntryStatus.MISSED.name() : reportEntry, entryCellStyle);
+            CellUtil.createCell(entryRow, 12, Objects.isNull(dbEntryAmount) ? StringUtils.EMPTY : String.valueOf(dbEntryAmount), entryCellStyle);
+            if (Objects.nonNull(feedFilesEntryAmount)) {
+                ffdTotal = ffdTotal.add(new BigDecimal(feedFilesEntryAmount).setScale(2, BigDecimal.ROUND_HALF_UP));
+            }
+            if (Objects.nonNull(orEntryAmount)) {
+                ordTotal = ordTotal.add(new BigDecimal(orEntryAmount).setScale(2, BigDecimal.ROUND_HALF_UP));
+            }
+            if (Objects.nonNull(dbEntryAmount)) {
+                dbdTotal = dbdTotal.add(new BigDecimal(dbEntryAmount).setScale(2, BigDecimal.ROUND_HALF_UP));
+            }
+            rowNumber++;
+        }
 
-			if (Objects.nonNull(orEntryAmount)) {
-				Double fddOrDelta = reportObjects.get(reportEntry).getDelta(DataSourceKey.ORD_KEY, DataSourceKey.FFD_KEY);
-				Double orDBDelta = reportObjects.get(reportEntry).getDelta(DataSourceKey.ORD_KEY, DataSourceKey.DBD_KEY);
-				if (Objects.nonNull(fddOrDelta) || Objects.nonNull(orDBDelta)) {
-					ClientAnchor anchor = factory.createClientAnchor();
-					anchor.setCol1(orEntryCell1.getColumnIndex());
-					anchor.setCol2(orEntryCell1.getColumnIndex() + 7);
-					anchor.setRow1(entryRow.getRowNum());
-					anchor.setRow2(entryRow.getRowNum() + 2);
-					Comment comment = drawing.createCellComment(anchor);
-					String commentString = "Delta between Feed Files Subledger Data:" + fddOrDelta + "\nDelta between DB Subledger Data:" + orDBDelta;
-					RichTextString str = factory.createRichTextString(commentString);
-					comment.setString(str);
-					orEntryCell1.setCellComment(comment);
-				}
-			}
-			//DB results table
-			Double dbEntryAmount = reportObjects.get(reportEntry).getAmount().get(DataSourceKey.DBD_KEY);
-			if (Objects.isNull(dbEntryAmount)) {
-				sheet.addMergedRegion(new CellRangeAddress(rowNumber, rowNumber, 7, 8));
-			}
-			Cell dbEntryCell1 = CellUtil.createCell(entryRow, 7, Objects.isNull(dbEntryAmount) ? EntryStatus.MISSED.name() : reportEntry, entryCellStyle);
-			CellUtil.createCell(entryRow, 8, Objects.isNull(dbEntryAmount) ? StringUtils.EMPTY : String.valueOf(dbEntryAmount), entryCellStyle);
-			if (Objects.nonNull(dbEntryAmount)) {
-				Double dbOrDelta = reportObjects.get(reportEntry).getDelta(DataSourceKey.DBD_KEY, DataSourceKey.ORD_KEY);
-				Double ffDBDelta = reportObjects.get(reportEntry).getDelta(DataSourceKey.DBD_KEY, DataSourceKey.FFD_KEY);
-				if (Objects.nonNull(dbOrDelta) || Objects.nonNull(ffDBDelta)) {
-					ClientAnchor anchor = factory.createClientAnchor();
-					anchor.setCol1(dbEntryCell1.getColumnIndex());
-					anchor.setCol2(dbEntryCell1.getColumnIndex() + 7);
-					anchor.setRow1(entryRow.getRowNum());
-					anchor.setRow2(entryRow.getRowNum() + 2);
-					Comment comment = drawing.createCellComment(anchor);
-					String commentString = "Delta between OR Subledger Data:" + dbOrDelta + "\nDelta between Feed Files Subledger Data:" + ffDBDelta;
-					RichTextString str = factory.createRichTextString(commentString);
-					comment.setString(str);
-					dbEntryCell1.setCellComment(comment);
-				}
-			}
-			if (Objects.nonNull(feedFilesEntryAmount)) {
-				ffdTotal = ffdTotal.add(new BigDecimal(feedFilesEntryAmount));
-			}
-			if (Objects.nonNull(orEntryAmount)) {
-				ordTotal = ordTotal.add(new BigDecimal(orEntryAmount));
-			}
-			if (Objects.nonNull(dbEntryAmount)) {
-				dbdTotal = dbdTotal.add(new BigDecimal(dbEntryAmount));
-			}
-			rowNumber++;
-		}
+        Row totalRow = sheet.createRow(rowNumber);
+        XSSFCellStyle totalCellStyle = stylesTable.createCellStyle();
+        setBorderToCellStyle(totalCellStyle);
+        CellUtil.createCell(totalRow, 1, "Total", totalCellStyle);
+        CellUtil.createCell(totalRow, 2, ffdTotal.toString(), totalCellStyle);
+        CellUtil.createCell(totalRow, 4, ffdTotal.subtract(ordTotal).toString(), totalCellStyle);
+        CellUtil.createCell(totalRow, 6, "Total", totalCellStyle);
+        CellUtil.createCell(totalRow, 7, ordTotal.toString(), totalCellStyle);
+        CellUtil.createCell(totalRow, 9, ordTotal.subtract(dbdTotal).toString(), totalCellStyle);
+        CellUtil.createCell(totalRow, 11, "Total", totalCellStyle);
+        CellUtil.createCell(totalRow, 12, dbdTotal.toString(), totalCellStyle);
+        CellUtil.createCell(totalRow, 14, ffdTotal.subtract(dbdTotal).toString(), totalCellStyle);
 
-		Row totalRow = sheet.createRow(rowNumber);
-		XSSFCellStyle totalCellStyle = stylesTable.createCellStyle();
-		setBorderToCellStyle(totalCellStyle);
-		Cell ffdTotalCell = CellUtil.createCell(totalRow, 1, "Total", totalCellStyle);
-		CellUtil.createCell(totalRow, 2, ffdTotal.toString(), totalCellStyle);
+        FileOutputStream outputStream = null;
+        try {
+            outputStream = new FileOutputStream(filePath);
+            workbook.write(outputStream);
 
-		Cell ordTotalCell = CellUtil.createCell(totalRow, 4, "Total", totalCellStyle);
-		CellUtil.createCell(totalRow, 5, ordTotal.toString(), totalCellStyle);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                outputStream.flush();
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        // auto size for all involved cells
+        Workbook formatCellsWorkbook = ExcelUtils.getWorkbook(filePath);
+        Sheet resultSheet = formatCellsWorkbook.getSheet("Result");
+        resultSheet.autoSizeColumn(1, true);
+        resultSheet.autoSizeColumn(2, true);
+        resultSheet.autoSizeColumn(4, true);
+        resultSheet.autoSizeColumn(6, true);
+        resultSheet.autoSizeColumn(7, true);
+        resultSheet.autoSizeColumn(9, true);
+        resultSheet.autoSizeColumn(11, true);
+        resultSheet.autoSizeColumn(12, true);
+        resultSheet.autoSizeColumn(14, true);
+        FileOutputStream outputStream2 = null;
+        try {
+            outputStream2 = new FileOutputStream(filePath);
+            formatCellsWorkbook.write(outputStream2);
 
-		Cell dbdTotalCell = CellUtil.createCell(totalRow, 7, "Total", totalCellStyle);
-		CellUtil.createCell(totalRow, 8, dbdTotal.toString(), totalCellStyle);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                outputStream2.flush();
+                outputStream2.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
+    public static Map<String, ReportEntry> generateReportObjects(Map<String, Double> dbData, Map<String, Double> feedFilesData, Map<String, Double> orData) {
 
-		ClientAnchor ffAnchor = factory.createClientAnchor();
-		ffAnchor.setCol1(ffdTotalCell.getColumnIndex());
-		ffAnchor.setCol2(ffdTotalCell.getColumnIndex() + 7);
-		ffAnchor.setRow1(totalRow.getRowNum());
-		ffAnchor.setRow2(totalRow.getRowNum() + 2);
-		Comment ffComment = drawing.createCellComment(ffAnchor);
-		String commentString = "Delta between OR Subledger Data:" + ffdTotal.subtract(ordTotal) + "\nDelta between DB Subledger Data:" + ffdTotal.subtract(dbdTotal);
-		RichTextString str = factory.createRichTextString(commentString);
-		ffComment.setString(str);
-		ffdTotalCell.setCellComment(ffComment);
+        Map<String, ReportEntry> entries = new HashMap<>();
+        populateEntriesData(dbData, DataSourceKey.DBD_KEY, entries);
+        populateEntriesData(feedFilesData, DataSourceKey.FFD_KEY, entries);
+        populateEntriesData(orData, DataSourceKey.ORD_KEY, entries);
 
-		ClientAnchor orAnchor = factory.createClientAnchor();
-		orAnchor.setCol1(ordTotalCell.getColumnIndex());
-		orAnchor.setCol2(ordTotalCell.getColumnIndex() + 7);
-		orAnchor.setRow1(totalRow.getRowNum());
-		orAnchor.setRow2(totalRow.getRowNum() + 2);
-		Comment orComment = drawing.createCellComment(orAnchor);
-		commentString = "Delta between Feed Files Subledger Data:" + ordTotal.subtract(ffdTotal) + "\nDelta between DB Subledger Data:" + ordTotal.subtract(dbdTotal);
-		str = factory.createRichTextString(commentString);
-		orComment.setString(str);
-		ordTotalCell.setCellComment(orComment);
+        return entries;
+    }
 
-		ClientAnchor dbAnchor = factory.createClientAnchor();
-		dbAnchor.setCol1(dbdTotalCell.getColumnIndex());
-		dbAnchor.setCol2(dbdTotalCell.getColumnIndex() + 7);
-		dbAnchor.setRow1(totalRow.getRowNum());
-		dbAnchor.setRow2(totalRow.getRowNum() + 2);
-		Comment dbComment = drawing.createCellComment(dbAnchor);
-		commentString = "Delta between OR Subledger Data:" + dbdTotal.subtract(ordTotal) + "\nDelta between Feed Files Subledger Data:" + dbdTotal.subtract(ffdTotal);
-		str = factory.createRichTextString(commentString);
-		dbComment.setString(str);
-		dbdTotalCell.setCellComment(dbComment);
+    private static void populateEntriesData(Map<String, Double> entriesData, DataSourceKey dataSourceKey, Map<String, ReportEntry> resultMap) {
+        for (String entryKey : entriesData.keySet()) {
+            if (Objects.isNull(resultMap.get(entryKey))) {
+                ReportEntry reportEntry = new ReportEntry();
+                reportEntry.addAmount(dataSourceKey, entriesData.get(entryKey));
+                resultMap.put(entryKey, reportEntry);
+            } else {
+                resultMap.get(entryKey).addAmount(dataSourceKey, entriesData.get(entryKey));
+            }
+        }
+    }
 
-		FileOutputStream outputStream = null;
-		try {
-			outputStream = new FileOutputStream(CFT_VALIDATION_REPORT);
-			workbook.write(outputStream);
+    private static void prepareCellEntryStyle(EntryStatus status, XSSFCellStyle style) {
+        setBorderToCellStyle(style);
+        switch (status) {
+            case MATCHED: {
+                style.setFillForegroundColor(new XSSFColor(new Color(196, 215, 155)));
+                style.setFillPattern(CellStyle.SOLID_FOREGROUND);
+                break;
+            }
+            case MISSED: {
+                style.setFillForegroundColor(new XSSFColor(new Color(192, 0, 0)));
+                style.setFillPattern(CellStyle.SOLID_FOREGROUND);
+                break;
+            }
+            case COLLISION: {
+                style.setFillForegroundColor(new XSSFColor(new Color(246, 142, 56)));
+                style.setFillPattern(CellStyle.SOLID_FOREGROUND);
+                break;
+            }
+        }
+        style.setAlignment(CellStyle.ALIGN_CENTER);
+    }
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				outputStream.flush();
-				outputStream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		// auto size for all cells
-		Workbook formatCellsWorkbook = ExcelUtils.getWorkbook(CFT_VALIDATION_REPORT);
-		Sheet resultSheet = formatCellsWorkbook.getSheet("Result");
-		Row headerRowFormatted = resultSheet.getRow(4);
-		for (int i = 0; i < headerRowFormatted.getPhysicalNumberOfCells(); i++) {
-			resultSheet.autoSizeColumn(i, true);
-		}
-		FileOutputStream outputStream2 = null;
-		try {
-			outputStream2 = new FileOutputStream(CFT_VALIDATION_REPORT);
-			formatCellsWorkbook.write(outputStream2);
+    private static void setBorderToCellStyle(XSSFCellStyle style) {
+        style.setBorderBottom(BorderStyle.MEDIUM);
+        style.setBorderLeft(BorderStyle.MEDIUM);
+        style.setBorderRight(BorderStyle.MEDIUM);
+        style.setBorderTop(BorderStyle.MEDIUM);
+    }
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				outputStream2.flush();
-				outputStream2.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-
-	}
-
-	public static Map<String, ReportEntry> generateReportObjects(Map<String, Double> dbData, Map<String, Double> feedFilesData, Map<String, Double> orData) {
-
-		Map<String, ReportEntry> entries = new HashMap<>();
-		populateEntriesData(dbData, DataSourceKey.DBD_KEY, entries);
-		populateEntriesData(feedFilesData, DataSourceKey.FFD_KEY, entries);
-		populateEntriesData(orData, DataSourceKey.ORD_KEY, entries);
-
-		return entries;
-	}
-
-	private static void populateEntriesData(Map<String, Double> entriesData, DataSourceKey dataSourceKey, Map<String, ReportEntry> resultMap) {
-		for (String entryKey : entriesData.keySet()) {
-			if (Objects.isNull(resultMap.get(entryKey))) {
-				ReportEntry reportEntry = new ReportEntry();
-				reportEntry.addAmount(dataSourceKey, entriesData.get(entryKey));
-				resultMap.put(entryKey, reportEntry);
-			} else {
-				resultMap.get(entryKey).addAmount(dataSourceKey, entriesData.get(entryKey));
-			}
-		}
-	}
-
-	private static void prepareCellEntryStyle(EntryStatus status, XSSFCellStyle style) {
-		setBorderToCellStyle(style);
-		switch (status) {
-			case MATCHED: {
-				style.setFillForegroundColor(new XSSFColor(new Color(196, 215, 155)));
-				style.setFillPattern(CellStyle.SOLID_FOREGROUND);
-				break;
-			}
-			case MISSED: {
-				style.setFillForegroundColor(new XSSFColor(new Color(218, 150, 148)));
-				style.setFillPattern(CellStyle.SOLID_FOREGROUND);
-				break;
-			}
-			case COLLISION: {
-				style.setFillForegroundColor(new XSSFColor(new Color(250, 191, 143)));
-				style.setFillPattern(CellStyle.SOLID_FOREGROUND);
-				break;
-			}
-		}
-	}
-
-	private static void setBorderToCellStyle(XSSFCellStyle style) {
-		style.setBorderBottom(BorderStyle.MEDIUM);
-		style.setBorderLeft(BorderStyle.MEDIUM);
-		style.setBorderRight(BorderStyle.MEDIUM);
-		style.setBorderTop(BorderStyle.MEDIUM);
-	}
 }
