@@ -322,6 +322,11 @@ public final class HomeSSMetaData {
 		public static final AssetDescriptor<AssetList> OIL_FUEL_OR_PROPANE_STORAGE_TANK = declare("OilFuelOrPropaneStorageTank", AssetList.class, OilPropaneStorageTank.class);
 		public static final AssetDescriptor<MultiInstanceAfterAssetList> CLAIM_HISTORY = declare("ClaimHistory", MultiInstanceAfterAssetList.class, ClaimHistory.class);
 		public static final AssetDescriptor<AssetList> RENTAL_INFORMATION = declare("RentalInformation", AssetList.class, RentalInformation.class);
+		public static final AssetDescriptor<TextBox> COVERAGE_A_DWELLING_LIMIT = declare("Coverage A - Dwelling limit", TextBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<ComboBox> PLUMBING_RENOVATION = declare("Plumbing renovation", ComboBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<ComboBox> ELECTRICAL_RENOVATION = declare("Electrical renovation", ComboBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<ComboBox> ROOF_RENOVATION = declare("Roof renovation", ComboBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<ComboBox> HEATING_COOLING_RENOVATION = declare("Heating/cooling renovation", ComboBox.class, Waiters.AJAX);
 
 		public static final class DwellingAddress extends MetaData {
 			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip code", TextBox.class);
