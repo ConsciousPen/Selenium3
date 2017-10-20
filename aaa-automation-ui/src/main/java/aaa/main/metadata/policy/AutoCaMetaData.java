@@ -398,8 +398,8 @@ public final class AutoCaMetaData {
 		public static final class VehicleForms extends MetaData {
 //			formAssetLocator = By.id("addComponentPopup_VehicleEndorsementFormsManager_container");
 			public static final AssetDescriptor<AssetList> LSOPCE = declare("LSOPCE", AssetList.class, LSOPCEMeta.class, false, By.id("addComponentPopup_VehicleEndorsementFormsManager_container"));
-			public static final AssetDescriptor<AssetList> CRCE = declare("CRCE", AssetList.class, CommonFormMeta.class, false, By.id("addComponentPopup_VehicleEndorsementFormsManager_container"));
 			public static final AssetDescriptor<AssetList> GEE = declare("GEE", AssetList.class, GEEMeta.class, false, By.id("addComponentPopup_VehicleEndorsementFormsManager_container"));
+			public static final AssetDescriptor<AssetList> CRCE = declare("CRCE", AssetList.class, CommonFormMeta.class, false, By.id("addComponentPopup_VehicleEndorsementFormsManager_container"));
 		}
 		
 		public static final class DriverForms extends MetaData {

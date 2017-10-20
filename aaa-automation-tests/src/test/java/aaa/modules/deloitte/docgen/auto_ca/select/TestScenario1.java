@@ -4,10 +4,12 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.AutoCaTab;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.ProductConstants;
@@ -24,6 +26,7 @@ import aaa.modules.policy.AutoCaSelectBaseTest;
  */
 public class TestScenario1 extends AutoCaSelectBaseTest {
 	private PolicyDocGenActionTab docgenActionTab = policy.quoteDocGen().getView().getTab(PolicyDocGenActionTab.class);
+	private String policyNum;
 	
 	/** 
 	 * 1. Create CA Select Quote
@@ -41,7 +44,7 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 	*/
 	@Parameters({ "state" })
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void testPolicyDocuments(@Optional("") String state) {
+	public void TC01_PolicyDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 
@@ -102,7 +105,7 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 		// 5
 		policy.calculatePremiumAndPurchase(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase")));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
+		policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 		
 		// 6
 		DocGenHelper.verifyDocumentsGenerated(policyNum, 
@@ -114,6 +117,63 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 				Documents._55_1006
 				);
 				
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+	
+	/** 
+	 * 1. Do Mid-term Endorsement:
+	 *    To get 55 1005 document: Change Employee Benefit Type to other than None for first driver
+	 *    To get 55 1004 document: Set ADB = yes for first driver 
+	 *    To get 55 1007 document: Add Trailer vehicle with business usage
+	 *    To get 55 0038, 55 1001, 55 1000 document: Add vehicle with business usage. Add General Endorsement. 
+	 *    To get 55 1000 document: Set add Co-Registered Car Endorsement (2 D for 1 Vehicle: must be registered domestic partners; must be US Citizen and have Drivers License in state that insured). US FR430-047
+	 *    To get 55 5086 document: Add driver with chargeable activity 
+	 *    To get 55 5002 document: Remove LSOPCE (Lienholder Statement Of Policy Coverage) form from first vehicle and Change ownership from Owned to Financed for third Vehicle
+	 * 2. Check xml file
+	 * 3. Do Mid-term Endorsement:
+	 *    To get 55 0001 document: Change ownership from Financed to Owned for third Vehicle  
+	 *    To get 55 6109 document: Remove vehicle with Lessor Form (first)   	
+	 * 4. Check xml file
+	*/
+	@Parameters({ "state" })
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_PolicyDocuments")
+	public void TC02_EndorsementDocuments(@Optional("") String state) {
+		CustomAssert.enableSoftMode();
+		mainApp().open();
+		SearchPage.openPolicy(policyNum);
+		
+		// 1
+		TestData endorsementTd1 = getTestSpecificTD("TestData_Endorsement1");
+		policy.createEndorsement(endorsementTd1.adjust(getPolicyTD("Endorsement", "TestData_Plus5Day")));
+		
+		// 2
+		DocGenHelper.verifyDocumentsGenerated(policyNum, 
+				Documents._55_1500,
+				Documents._55_1000,
+				Documents._55_1001,
+				Documents._55_1005,
+				Documents._55_0038,
+				Documents._55_0002,
+				Documents._55_1004,
+//				Documents._55_5086, // TODO not generated in xml
+				Documents._55_1007
+				);
+		DocGenHelper.verifyDocumentsGenerated(false, policyNum, Documents._55_3333);
+		
+		// 3
+		TestData endorsementTd2 = getTestSpecificTD("TestData_Endorsement2");
+		policy.createEndorsement(endorsementTd2.adjust(getPolicyTD("Endorsement", "TestData_Plus10Day")));
+		
+		// 4
+		DocGenHelper.verifyDocumentsGenerated(policyNum, 
+				Documents._55_1500,
+				Documents._55_1001,
+				Documents._55_0001,
+				Documents._55_6109
+				);
+		DocGenHelper.verifyDocumentsGenerated(false, policyNum, Documents._55_3333);
+		
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
