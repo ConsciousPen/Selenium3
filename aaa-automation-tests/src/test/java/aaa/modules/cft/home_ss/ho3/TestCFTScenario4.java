@@ -50,6 +50,8 @@ public class TestCFTScenario4 extends ControlledFinancialBaseTest {
 				getTestSpecificTD("PublicProtectionClass_DataGather"));
 		td.adjust(TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.Riskmeter.class.getSimpleName()),
 				getTestSpecificTD("Riskmeter_DataGather"));
+		td.adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.AgentInfo.class.getSimpleName(),
+				HomeSSMetaData.ApplicantTab.AgentInfo.AGENCY_LOCATION.getLabel()), "index=1");
 		return td.resolveLinks();
 	}
 
