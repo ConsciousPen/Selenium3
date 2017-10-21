@@ -1,0 +1,15 @@
+TestData_UpdateBilling: {
+  UpdateBillingAccountActionTab: {
+    PaymentMethods: ['@CC_Visa', '@<billing>@PaymentMethods@EFT', '@<billing>@PaymentMethods@CC_MasterCard'],
+    Activate Autopay: true,
+    Autopay Selection: 'contains=ACH',
+    Signature on File Indicator: 'Yes'
+  }
+}
+
+CC_Visa: {
+  Payment Method: 'Credit/Debit Card',
+  Type: 'Visa',
+  Number: '4539343326426984',
+  'Expiration Month/Year': ['/today:M', '/today+4y:yyyy']
+}
