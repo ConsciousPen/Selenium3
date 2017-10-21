@@ -24,6 +24,7 @@ import toolkit.config.TestProperties;
 import toolkit.db.DBService;
 import toolkit.utils.SSHController;
 import toolkit.utils.TestInfo;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,7 +66,9 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
         //get map from OR reports
         opReportApp().open();
         operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
+        Waiters.SLEEP(15000).go(); // add agile wait till file occurs
         operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
+        Waiters.SLEEP(15000).go(); // add agile wait till file occurs
         Map<String, Double> accountsMapSummaryFromOR = getExcelValues();
         //Remote path from server -
         sshController.downloadFolder(new File(SOURCE_DIR), downloadDir);
@@ -80,7 +83,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
         ReportGeneratorService
                 .generateReport(ReportGeneratorService
                                 .generateReportObjects(accountsMapSummaryFromDB, accountsMapSummaryFromFeedFile, accountsMapSummaryFromOR)
-                        , CFT_VALIDATION_REPORT + CFT_VALIDATION_REPORT);
+                        , CFT_VALIDATION_DIRECTORY + CFT_VALIDATION_REPORT);
 
     }
 

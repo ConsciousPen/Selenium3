@@ -72,13 +72,13 @@ public class ReportGeneratorService {
 
         Row subHeaderRow = sheet.createRow(8);
         CellUtil.createCell(subHeaderRow, 1, "Row Labels", xssfCellStyle);
-        CellUtil.createCell(subHeaderRow, 2, "Sum of Corrected Sign", xssfCellStyle);
+        CellUtil.createCell(subHeaderRow, 2, "Amount", xssfCellStyle);
         CellUtil.createCell(subHeaderRow, 4, "Variance", xssfCellStyle);
         CellUtil.createCell(subHeaderRow, 6, "Row Labels", xssfCellStyle);
-        CellUtil.createCell(subHeaderRow, 7, "Sum of Corrected Sign", xssfCellStyle);
+        CellUtil.createCell(subHeaderRow, 7, "Amount", xssfCellStyle);
         CellUtil.createCell(subHeaderRow, 9, "Variance", xssfCellStyle);
         CellUtil.createCell(subHeaderRow, 11, "Row Labels", xssfCellStyle);
-        CellUtil.createCell(subHeaderRow, 12, "Sum of Corrected Sign", xssfCellStyle);
+        CellUtil.createCell(subHeaderRow, 12, "Amount", xssfCellStyle);
         CellUtil.createCell(subHeaderRow, 14, "Variance", xssfCellStyle);
 
         BigDecimal ffdTotal = new BigDecimal(0);
