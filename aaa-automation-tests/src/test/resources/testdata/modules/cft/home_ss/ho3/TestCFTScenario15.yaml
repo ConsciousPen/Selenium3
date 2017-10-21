@@ -1,0 +1,26 @@
+TestData: {
+  AddSuspenseActionTab: '@AddSuspenseActionTab',
+  ClearSuspenseActionTab: '@ClearSuspenseActionTab',
+  SearchSuspenseActionTab: '@SearchSuspenseActionTab'
+}
+
+PremiumsAndCoveragesQuoteTab_DataGather: {
+  Payment plan: Eleven Pay Standard,
+  Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+  Coverage E - Personal Liability Each Occurrence: '$300,000'
+}
+
+AddSuspenseActionTab: {
+  'Suspense Reference #': 123456,
+  Suspense Amount: 50
+}  
+
+ClearSuspenseActionTab: {
+  Allocation: {},
+  Payment Amount: 50,
+}
+
+SearchSuspenseActionTab: {
+  'Suspense Reference #': 123456,
+  'Missing [status]': Outstanding
+}

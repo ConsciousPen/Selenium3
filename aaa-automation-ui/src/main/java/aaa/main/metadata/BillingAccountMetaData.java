@@ -82,6 +82,7 @@ public final class BillingAccountMetaData {
     public static final class OtherTransactionsActionTab extends MetaData {
         public static final AssetDescriptor<ComboBox> TRANSACTION_TYPE = declare("Transaction Type", ComboBox.class);
         public static final AssetDescriptor<ComboBox> TRANSACTION_SUBTYPE = declare("Transaction Subtype", ComboBox.class);
+        public static final AssetDescriptor<TextBox> ADDITIONAL_INFO = declare("Additional Info", TextBox.class);
         public static final AssetDescriptor<TextBox> AMOUNT = declare("Amount", TextBox.class);
     }
 

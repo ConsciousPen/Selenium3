@@ -33,7 +33,7 @@ ApplicantTab: {
   MailingAddress: {},
   NamedInsuredInformation: '@home_ss_ho3@DataGather@NamedInsuredInformation',
   AgentInfo: '@home_ss_ho3@DataGather@AgentInfo',
-  OtherActiveAAAPolicies: '@home_ss_ho3@DataGather@OtherActiveAAAPolicies',
+  OtherActiveAAAPolicies: ['@home_ss_ho3@DataGather@OtherActiveAAAPolicies', '@home_ss_ho3@DataGather@OtherCompanionAutoPolicy']
 }
 
 PropertyInfoTab: {

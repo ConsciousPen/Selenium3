@@ -1,16 +1,17 @@
 package aaa.modules.cft.auto_ca.select;
 
+import org.apache.commons.lang3.StringUtils;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+import toolkit.datax.TestData;
+import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
-import org.apache.commons.lang3.StringUtils;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import toolkit.datax.TestData;
-import toolkit.utils.TestInfo;
 
 /**
  * Controlled Financial Testing Scenario 1
@@ -30,12 +31,12 @@ public class TestCFTScenario1 extends ControlledFinancialBaseTest {
 		createPolicyForTest();
 		endorsePolicyEffDatePlus2Days();
 		generateInstallmentBill(1);
-		automaticCancellationNotice();
-		automaticCancellation();
-		generateFirstEarnedPremiumBill();
-		generateSecondEarnedPremiumBill();
-		generateThirdEarnedPremiumBill();
-		writeOff();
+		automaticCancellationNotice(1);
+		automaticCancellation(1);
+		generateFirstEarnedPremiumBill(1);
+		generateSecondEarnedPremiumBill(1);
+		generateThirdEarnedPremiumBill(1);
+		writeOff(1);
 	}
 
 	@Override

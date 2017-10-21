@@ -35,7 +35,7 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 		}
 		List<String> foundPolicies = getPoliciesFromQuery(queryResult.get(preKey), "PreValidation");
 
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
+//		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		JobUtils.executeJob(job);
 
 		List<String> postKey = Collections.unmodifiableList(Arrays.asList(name, "PostValidation"));

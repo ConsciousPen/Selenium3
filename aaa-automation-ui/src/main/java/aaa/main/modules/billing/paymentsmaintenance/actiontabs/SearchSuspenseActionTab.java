@@ -4,28 +4,28 @@ package aaa.main.modules.billing.paymentsmaintenance.actiontabs;
 
 import org.openqa.selenium.By;
 
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.table.Table;
 import aaa.common.ActionTab;
 import aaa.common.Tab;
 import aaa.main.enums.ActionConstants;
 import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.PaymentsMaintenanceMetaData;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.composite.table.Table;
 
 public class SearchSuspenseActionTab extends ActionTab {
 
-    public static Table tableSuspenseSearchResults = new Table(By.xpath("//div[@id='suspenseSearch:suspenseSearchResults']//table"));
+	public static Table tableSuspenseSearchResults = new Table(By.xpath("//div[@id='suspenseSearch:suspenseSearchResults']//table"));
 
-    public SearchSuspenseActionTab() {
-        super(PaymentsMaintenanceMetaData.SearchSuspenseActionTab.class);
-    }
+	public SearchSuspenseActionTab() {
+		super(PaymentsMaintenanceMetaData.SearchSuspenseActionTab.class);
+	}
 
-    @Override
-    public Tab submitTab() {
-        new Button(By.id("suspenseSearch:searchBtn")).click();
-        if (tableSuspenseSearchResults.getRow(1).getCell(BillingConstants.BillingSuspenseSearchResultsTable.ACTION).getValue().contains("Clear")) {
-            tableSuspenseSearchResults.getRow(1).getCell(BillingConstants.BillingSuspenseSearchResultsTable.ACTION).controls.links.get(ActionConstants.CLEAR).click();
-        }
-        return this;
-    }
+	@Override
+	public Tab submitTab() {
+		new Button(By.id("suspenseSearch:searchBtn")).click();
+		if (tableSuspenseSearchResults.getRow(1).getCell(BillingConstants.BillingSuspenseSearchResultsTable.ACTION).getValue().contains("Clear")) {
+			tableSuspenseSearchResults.getRow(1).getCell(BillingConstants.BillingSuspenseSearchResultsTable.ACTION).controls.links.get(ActionConstants.CLEAR).click();
+		}
+		return this;
+	}
 }

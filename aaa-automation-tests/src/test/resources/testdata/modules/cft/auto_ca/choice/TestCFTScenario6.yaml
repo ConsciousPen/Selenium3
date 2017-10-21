@@ -1,0 +1,59 @@
+TestData: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  DriverTab: '@DriverTab',
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+EndorsementActionTab: {
+    Endorsement Date: /today+2d,
+    Endorsement Reason: Maintain Vehicle(s)
+}
+
+TestData_OOS: {
+  EndorsementActionTab: '@EndorsementActionTab_OOS',
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+EndorsementActionTab_OOS: {
+    Endorsement Date: /startTime+1d,
+    Endorsement Reason: Maintain Vehicle(s)
+}
+
+DriverTab: {
+   Financial Responsibility Filing Needed: 'Yes'
+}
+
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: 'Quarterly'
+}
+
+PurchaseTab_DataGather: {
+ PaymentMethods: ['@ACH'],
+  PaymentAllocation: {
+    ACH: '/rest'
+  }
+}
+
+ACH: {
+ Payment Method: 'Checking/Savings (ACH)',
+  'Transit #': '011104209',
+  'Account #': '1234567890'
+}

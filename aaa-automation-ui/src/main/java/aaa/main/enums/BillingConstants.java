@@ -120,6 +120,7 @@ public final class BillingConstants {
 		public static final String REGULUS_ONLINE = "Regulus Online";
 		public static final String NON_EFT_INSTALLMENT_FEE = "Non EFT Installment Fee";
 		public static final String NON_EFT_INSTALLMENT_FEE_WAIVED = "Non EFT Installment Fee Waived";
+		public static final String OTHER = "Other";
 	}
 
 	public static final class PaymentsAndOtherTransactionReason {
@@ -297,7 +298,7 @@ public final class BillingConstants {
 	}
 
 	public static final class BillingSuspenseSearchResultsTable {
-		public static final String ACTION = "Action";
+		public static final String ACTION = "Missing [action]";
 	}
 
 	public static final class BillingAddOnHoldPoliciesTable {
