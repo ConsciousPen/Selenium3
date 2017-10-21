@@ -1,5 +1,6 @@
 package aaa.modules.cft.auto_ss;
 
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -43,6 +44,7 @@ public class TestCFTScenario10 extends ControlledFinancialBaseTest {
 		td.adjust(GeneralTab.class.getSimpleName(), getTestSpecificTD("GeneralTab_DataGather"));
 		td.adjust(PremiumAndCoveragesTab.class.getSimpleName(), getTestSpecificTD("PremiumAndCoveragesTab_DataGather"));
 		td.adjust(PurchaseTab.class.getSimpleName(), getTestSpecificTD("PurchaseTab_DataGather"));
+		td.adjust(DocumentsAndBindTab.class.getSimpleName(),getTestSpecificTD("DocumentsAndBindTab_DataGather"));
 		return td.resolveLinks();
 	}
 
