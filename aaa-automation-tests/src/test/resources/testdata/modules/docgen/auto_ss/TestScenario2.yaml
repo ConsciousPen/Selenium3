@@ -2502,14 +2502,14 @@ AH35XX_OK: {
     NmdInsrdFrstNm: {TextField: 'Phil'},
     NmdInsrdMidNm: {TextField: ''},
     NmdInsrdLstNm: {TextField: 'Jones'},
-    NmdInsrdStrPobAddr1: {TextField: '715 Oak Ave'},
+    NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
-    NmdInsrdCityNm: {TextField: 'Yukon'},
+    NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
     NmdInsrdStAbrv: {TextField: 'OK'},
-    NmdInsrdZipPls4: {TextField: '73099'},
+    NmdInsrdZipPls4: {TextField: '73118'},
   },  
   AgentDetails: {
-    AgntCo: {TextField: 'AAA Southern Penn'}
+    AgntCo: {TextField: 'AAA OKLAHOMA INSURANCE'}
   },
   PaymentDetails: {
     PlcyTotWdrlAmt: {}
@@ -2538,11 +2538,11 @@ AASR22_OK: {
     NmdInsrdFrstNm: {TextField: 'Phil'},
 #    NmdInsrdMidNm: {TextField: ''},
     NmdInsrdLstNm: {TextField: 'Jones'},
-    NmdInsrdStrPobAddr1: {TextField: '715 Oak Ave'},
+    NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
 #    NmdInsrdAddlAddr2: {TextField: ''},
-    NmdInsrdCityNm: {'Yukon'},
+    NmdInsrdCityNm: {'OKLAHOMA CITY'},
     NmdInsrdStAbrv: {TextField: 'OK'},
-    NmdInsrdZipPls4: {TextField: '73099'}
+    NmdInsrdZipPls4: {TextField: '73118'}
   },  
   VehicleDetails:  {
    VehItemNum: {TextField: '1'},
@@ -2590,10 +2590,10 @@ AHNBXX_OK: {
     NmdInsrdStAbrv: {TextField: 'OK'},
     AddlNmdInsrdFrstNm: {TextField: ''},
     AddlNmdInsrdLstNm: {TextField: ''},
-    NmdInsrdStrPobAddr1: {TextField: '715 Oak Ave'},
+    NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
-    NmdInsrdCityNm: {TextField: 'Yukon'},
-    NmdInsrdZipPls4: {TextField: '73099'}
+    NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
+    NmdInsrdZipPls4: {TextField: '73118'}
   }, 
   form: {
     PlcyNum: {TextField: ''},
@@ -2624,7 +2624,7 @@ AA59XX_OK: {
     NmdInsrdStAbrv: {TextField: 'OK'},
   },  
   AgentDetails: {
-    AgntNum: {TextField: '400018581'}
+    AgntNum: {TextField: '500005452'}
   },
   VehicleDetails: {
     VehManfrNm: {TextField: 'CHEVROLET'},
@@ -2656,17 +2656,17 @@ AARFIXX_OK: {
     NmdInsrdFrstNm: {TextField: 'Phil'},
     NmdInsrdLstNm: {TextField: 'Jones'},
     NmdInsrdStAbrv: {TextField: 'OK'},
-    NmdInsrdStrPobAddr1: {TextField: '715 Oak Ave'},
+    NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
-    NmdInsrdCityNm: {TextField: 'Yukon'},
-    NmdInsrdZipPls4: {TextField: '73099'}
+    NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
+    NmdInsrdZipPls4: {TextField: '73118'}
   }, 
   VehicleDetails: {
     VehTyp: {TextField: ''}
   },
   CoverageDetails: {
   InclRFIYN: {TextField: 'Y'},
-  CpsReqdYN: {TextField: 'N'},
+  CpsReqdYN: {TextField: 'Y'},
   UMUIMRjctFlg: {TextField: 'N'},
   ElctLwrLmtsUMUIM: {TextField: 'Y'},
   PrevInsDiscYN: {TextField: 'Y'},
@@ -2699,7 +2699,7 @@ AARFIXX_OK: {
     PlcyNum: {TextField: ''},
     PlcyPrfx: {TextField: 'OKSS'},
     PlcyGrp: {TextField: 'AUTO'},
-    PrdcrFullNm: {TextField: 'House Agent SMTestIA'},
+    PrdcrFullNm: {TextField: 'House Agent AAA W Oklahoma'},
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'OK'}
   }
@@ -2723,7 +2723,7 @@ AA43OK: {
     NmdInsrdStAbrv: {TextField: 'OK'}
   },
   AgentDetails: {
-    AgntNum: {TextField: '400001650'}
+    AgntNum: {TextField: '500001020'}
   },
   DriverDetails: {
     DrvrTyp: {TextField: 'E'},
@@ -2753,17 +2753,17 @@ AA52OK: {
    CoPhnNum: {TextField: '(800) 259-8008'}
   },
   AgentDetails: {
-    SubAgntNum: {TextField: '400018581'}
+    SubAgntNum: {TextField: '500005452'}
   },
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'Phil'},
     NmdInsrdLstNm: {TextField: 'Jones'},
     NmdInsrdAge: {TextField: '54'},
     NmdInsrdStAbrv: {TextField: 'OK'},
-    NmdInsrdStrPobAddr1: {TextField: '715 Oak Ave'},
+    NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
-    NmdInsrdZipPls4: {TextField: '73099'},
-    NmdInsrdCityNm: {TextField: 'Yukon'},
+    NmdInsrdZipPls4: {TextField: '73118'},
+    NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
     AddlNmdInsrdFrstNm: {TextField: ''},
     AddlNmdInsrdLstNm: {TextField: ''}
   },
@@ -2796,15 +2796,15 @@ AA10OK: {
     NmdInsrdFrstNm: {TextField: 'Phil'},
     NmdInsrdLstNm: {TextField: 'Jones'},
     NmdInsrdStAbrv: {TextField: 'OK'},
-    NmdInsrdStrPobAddr1: {TextField: '715 Oak Ave'},
-    NmdInsrdCityNm: {TextField: 'Yukon'},
-    NmdInsrdZipPls4: {TextField: '73099'}
+    NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
+    NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
+    NmdInsrdZipPls4: {TextField: '73118'}
   },
   AgentDetails: {
-    GenlAgntNum: {TextField: '400001650'},
-    SubAgntNum: {TextField: '400018581'},
-    AgntNum: {TextField: '400018581'},
-    AgntIdString: {TextField: 'SMTestIA /400/House Agen'}
+    GenlAgntNum: {TextField: '500001020'},
+    SubAgntNum: {TextField: '500005452'},
+    AgntNum: {TextField: '500005452'},
+    AgntIdString: {TextField: 'AAA OKLAHOMA IN /500/House Agen'}
   },
   DriverDetails: {
     DrvrTyp: {TextField: 'E'},
@@ -2847,7 +2847,7 @@ AAAEOK: {
    NmdInsrdLstNm: {TextField: 'Jones'}
   },
   AgentDetails: {
-    AgntNum: {TextField: '400018581'}
+    AgntNum: {TextField: '500005452'}
   },
   form: {
     PlcyNum: {TextField: ''},
@@ -2873,21 +2873,21 @@ AA02OK: {
     NmdInsrdFrstNm: {TextField: 'Phil'},
     NmdInsrdLstNm: {TextField: 'Jones'},
     NmdInsrdStAbrv: {TextField: 'OK'},
-    NmdInsrdStrPobAddr1: {TextField: '715 Oak Ave'},
+    NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
-    NmdInsrdCityNm: {TextField: 'Yukon'},
-    NmdInsrdZipPls4: {TextField: '73099'},
+    NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
+    NmdInsrdZipPls4: {TextField: '73118'},
     AddlNmdInsrdFrstNm: {TextField: ''},
     AddlNmdInsrdLstNm: {TextField: ''}
   },
   AgentDetails: {
-    GenlAgntNum: {TextField: '400001650'},
-    SubAgntNum: {TextField: '400018581'},
-    AgntAddr1: {TextField: '132 E Illinois St'},
-    AgntIdString: {TextField: 'SMTestIA/400018581/House Agent SMTestIA'},
-    AgntCityNm: {TextField: 'Spearfish'},
-    AgntStAbrv: {TextField: 'SD'},
-    AgntZipPls4: {TextField: '57783'},
+    GenlAgntNum: {TextField: '500001020'},
+    SubAgntNum: {TextField: '500005452'},
+    AgntAddr1: {TextField: '4135 S 100th East Ave'},
+    AgntIdString: {TextField: 'AAA OKLAHOMA INSURANCE/500005452/House Agent AAA W Oklahoma'},
+    AgntCityNm: {TextField: 'Tulsa'},
+    AgntStAbrv: {TextField: 'OK'},
+    AgntZipPls4: {TextField: '74146'},
     AgntPhnNum: {TextField: ''}
  },
  VehicleDetails: {
@@ -2899,7 +2899,7 @@ AA02OK: {
     VehUnitNum: {TextField: '1'},
     VehDiscDesc: {TextField: 'Hybrid Discount; Passive Restraint Discount'},
     VehDiscNum: {TextField: '1'},
-    VehGarZipPls4: {TextField: '73099'}
+    VehGarZipPls4: {TextField: '73118'}
    },
   CoverageDetails: {
     VehCovKey: {TextField: '1'},
@@ -4077,10 +4077,10 @@ AASR26_OK: {
     NmdInsrdLstNm: {TextField: 'Jones'},
     NmdInsrdMidNm: {TextField: ''},
     NmdInsrdStAbrv: {TextField: 'OK'},
-    NmdInsrdStrPobAddr1: {TextField: '715 Oak Ave'},
+    NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
-    NmdInsrdZipPls4: {TextField: '73099'},
-    NmdInsrdCityNm: {TextField: 'Yukon'}
+    NmdInsrdZipPls4: {TextField: '73118'},
+    NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'}
   },
   DriverDetails: {
     DrvrLicNum: {TextField: '123123123'},
@@ -4119,14 +4119,14 @@ AH35XX_ED_OK: {
     NmdInsrdFrstNm: {TextField: 'Phil'},
     NmdInsrdMidNm: {TextField: ''},
     NmdInsrdLstNm: {TextField: 'Jones'},
-    NmdInsrdStrPobAddr1: {TextField: '715 Oak Ave'},
+    NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
-    NmdInsrdCityNm: {TextField: 'Yukon'},
+    NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
     NmdInsrdStAbrv: {TextField: 'OK'},
-    NmdInsrdZipPls4: {TextField: '73099'},
+    NmdInsrdZipPls4: {TextField: '73118'},
   },  
   AgentDetails: {
-    AgntCo: {TextField: 'AAA Southern Penn'}
+    AgntCo: {TextField: 'AAA OKLAHOMA INSURANCE'}
   },
   PaymentDetails: {
 #    PlcyTotWdrlAmt: {}
@@ -4165,7 +4165,7 @@ AA59XX_ED_OK: {
     NmdInsrdStAbrv: {TextField: 'OK'},
   },  
   AgentDetails: {
-    AgntNum: {TextField: '400018581'}
+    AgntNum: {TextField: '500005452'}
   },
   VehicleDetails: {
     VehManfrNm: {TextField: 'MERCEDES-BENZ'},
@@ -4224,7 +4224,7 @@ AA43OK_ED: {
     NmdInsrdStAbrv: {TextField: 'OK'}
   },
   AgentDetails: {
-    AgntNum: {TextField: '400001650'}
+    AgntNum: {TextField: '500001020'}
   },
   DriverDetails: {
     DrvrTyp: {TextField: 'E'},
@@ -4254,17 +4254,17 @@ AA52OK_ED: {
    CoPhnNum: {TextField: '(800) 259-8008'}
   },
   AgentDetails: {
-    SubAgntNum: {TextField: '400018581'}
+    SubAgntNum: {TextField: '500005452'}
   },
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'Phil'},
     NmdInsrdLstNm: {TextField: 'Jones'},
     NmdInsrdAge: {TextField: '54'},
     NmdInsrdStAbrv: {TextField: 'OK'},
-    NmdInsrdStrPobAddr1: {TextField: '715 Oak Ave'},
+    NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
-    NmdInsrdZipPls4: {TextField: '73099'},
-    NmdInsrdCityNm: {TextField: 'Yukon'},
+    NmdInsrdZipPls4: {TextField: '73118'},
+    NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
     AddlNmdInsrdFrstNm: {TextField: ''},
     AddlNmdInsrdLstNm: {TextField: ''}
   },
@@ -4297,15 +4297,15 @@ AA10OK_ED: {
     NmdInsrdFrstNm: {TextField: 'Phil'},
     NmdInsrdLstNm: {TextField: 'Jones'},
     NmdInsrdStAbrv: {TextField: 'OK'},
-    NmdInsrdStrPobAddr1: {TextField: '715 Oak Ave'},
-    NmdInsrdCityNm: {TextField: 'Yukon'},
-    NmdInsrdZipPls4: {TextField: '73099'}
+    NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
+    NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
+    NmdInsrdZipPls4: {TextField: '73118'}
   },
   AgentDetails: {
-    GenlAgntNum: {TextField: '400001650'},
-    SubAgntNum: {TextField: '400018581'},
-    AgntNum: {TextField: '400018581'},
-    AgntIdString: {TextField: 'SMTestIA /400/House Agen'}
+    GenlAgntNum: {TextField: '500001020'},
+    SubAgntNum: {TextField: '500005452'},
+    AgntNum: {TextField: '500005452'},
+    AgntIdString: {TextField: 'AAA OKLAHOMA IN /500/House Agen'}
   },
   DriverDetails: {
     DrvrTyp: {TextField: 'E'},
@@ -4347,21 +4347,21 @@ AA02OK_ED: {
     NmdInsrdFrstNm: {TextField: 'Phil'},
     NmdInsrdLstNm: {TextField: 'Jones'},
     NmdInsrdStAbrv: {TextField: 'OK'},
-    NmdInsrdStrPobAddr1: {TextField: '715 Oak Ave'},
+    NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
-    NmdInsrdCityNm: {TextField: 'Yukon'},
-    NmdInsrdZipPls4: {TextField: '73099'},
+    NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
+    NmdInsrdZipPls4: {TextField: '73118'},
     AddlNmdInsrdFrstNm: {TextField: ''},
     AddlNmdInsrdLstNm: {TextField: ''}
   },
   AgentDetails: {
-    GenlAgntNum: {TextField: '400001650'},
-    SubAgntNum: {TextField: '400018581'},
-    AgntAddr1: {TextField: '132 E Illinois St'},
-    AgntIdString: {TextField: 'SMTestIA/400018581/House Agent SMTestIA'},
-    AgntCityNm: {TextField: 'Spearfish'},
-    AgntStAbrv: {TextField: 'SD'},
-    AgntZipPls4: {TextField: '57783'},
+    GenlAgntNum: {TextField: '500001020'},
+    SubAgntNum: {TextField: '500005452'},
+    AgntAddr1: {TextField: '4135 S 100th East Ave'},
+    AgntIdString: {TextField: 'AAA OKLAHOMA INSURANCE/500005452/House Agent AAA W Oklahoma'},
+    AgntCityNm: {TextField: 'Tulsa'},
+    AgntStAbrv: {TextField: 'OK'},
+    AgntZipPls4: {TextField: '74146'},
     AgntPhnNum: {TextField: ''}
  },
  VehicleDetails: [
@@ -4374,7 +4374,7 @@ AA02OK_ED: {
     VehUnitNum: {TextField: '1'},
     VehDiscDesc: {TextField: 'Hybrid Discount; Multi-Vehicle Discount; Passive Restraint Discount'},
     VehDiscNum: {TextField: '1'},
-    VehGarZipPls4: {TextField: '73099'}
+    VehGarZipPls4: {TextField: '73118'}
    },
   {
     VehTyp: {TextField: 'PPA'},
@@ -4385,7 +4385,7 @@ AA02OK_ED: {
     VehUnitNum: {TextField: '2'},
     VehDiscDesc: {TextField: 'Multi-Vehicle Discount; Passive Restraint Discount'},
     VehDiscNum: {TextField: '2'},
-    VehGarZipPls4: {TextField: '73099'}
+    VehGarZipPls4: {TextField: '73118'}
    }
  ],
   CoverageDetails: {
@@ -5723,9 +5723,9 @@ AHAUXX_Renewal_OK: {
     NmdInsrdMidNm: {TextField: ''},
     NmdInsrdLstNm: {TextField: 'Jones'},
     NmdInsrdStAbrv: {TextField: 'OK'},
-    NmdInsrdStrPobAddr1: {TextField: '715 Oak Ave'},
-    NmdInsrdCityNm: {TextField: 'Yukon'},
-    NmdInsrdZipPls4: {TextField: '73099'},
+    NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
+    NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
+    NmdInsrdZipPls4: {TextField: '73118'},
   },
   form: {
     PlcyNum: {TextField: ''},
@@ -5777,15 +5777,15 @@ AA10OK_Renewal: {
     NmdInsrdFrstNm: {TextField: 'Phil'},
     NmdInsrdLstNm: {TextField: 'Jones'},
     NmdInsrdStAbrv: {TextField: 'OK'},
-    NmdInsrdStrPobAddr1: {TextField: '715 Oak Ave'},
-    NmdInsrdCityNm: {TextField: 'Yukon'},
-    NmdInsrdZipPls4: {TextField: '73099'}
+    NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
+    NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
+    NmdInsrdZipPls4: {TextField: '73118'}
   },
   AgentDetails: {
-    GenlAgntNum: {TextField: '400001650'},
-    SubAgntNum: {TextField: '400018581'},
-    AgntNum: {TextField: '400018581'},
-    AgntIdString: {TextField: 'SMTestIA /400/House Agen'}
+    GenlAgntNum: {TextField: '500001020'},
+    SubAgntNum: {TextField: '500005452'},
+    AgntNum: {TextField: '500005452'},
+    AgntIdString: {TextField: 'AAA OKLAHOMA IN /500/House Agen'}
   },
   DriverDetails: {
     DrvrTyp: {TextField: 'E'},
@@ -5837,21 +5837,21 @@ AA02OK_Renewal: {
     NmdInsrdFrstNm: {TextField: 'Phil'},
     NmdInsrdLstNm: {TextField: 'Jones'},
     NmdInsrdStAbrv: {TextField: 'OK'},
-    NmdInsrdStrPobAddr1: {TextField: '715 Oak Ave'},
+    NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
-    NmdInsrdCityNm: {TextField: 'Yukon'},
-    NmdInsrdZipPls4: {TextField: '73099'},
+    NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
+    NmdInsrdZipPls4: {TextField: '73118'},
     AddlNmdInsrdFrstNm: {TextField: ''},
     AddlNmdInsrdLstNm: {TextField: ''}
   },
   AgentDetails: {
-    GenlAgntNum: {TextField: '400001650'},
-    SubAgntNum: {TextField: '400018581'},
-    AgntAddr1: {TextField: '132 E Illinois St'},
-    AgntIdString: {TextField: 'SMTestIA/400018581/House Agent SMTestIA'},
-    AgntCityNm: {TextField: 'Spearfish'},
-    AgntStAbrv: {TextField: 'SD'},
-    AgntZipPls4: {TextField: '57783'},
+    GenlAgntNum: {TextField: '500001020'},
+    SubAgntNum: {TextField: '500005452'},
+    AgntAddr1: {TextField: '4135 S 100th East Ave'},
+    AgntIdString: {TextField: 'AAA OKLAHOMA INSURANCE/500005452/House Agent AAA W Oklahoma'},
+    AgntCityNm: {TextField: 'Tulsa'},
+    AgntStAbrv: {TextField: 'OK'},
+    AgntZipPls4: {TextField: '74146'},
     AgntPhnNum: {TextField: ''}
  },
  VehicleDetails: [
@@ -5864,7 +5864,7 @@ AA02OK_Renewal: {
     VehUnitNum: {TextField: '1'},
     VehDiscDesc: {TextField: 'Hybrid Discount; Multi-Vehicle Discount; Passive Restraint Discount'},
     VehDiscNum: {TextField: '1'},
-    VehGarZipPls4: {TextField: '73099'}
+    VehGarZipPls4: {TextField: '73118'}
    },
   {
     VehTyp: {TextField: 'PPA'},
@@ -5875,7 +5875,7 @@ AA02OK_Renewal: {
     VehUnitNum: {TextField: '2'},
     VehDiscDesc: {TextField: 'Multi-Vehicle Discount; Passive Restraint Discount'},
     VehDiscNum: {TextField: '2'},
-    VehGarZipPls4: {TextField: '73099'}
+    VehGarZipPls4: {TextField: '73118'}
    }
  ],
   CoverageDetails: {
@@ -6139,7 +6139,7 @@ AADNPAD_Renewal: {
     CoPhnNum: {TextField: '(888) 222-0094'}
   },
   AgentDetails: {
-    AgntNum: {TextField: '400018581'}
+    AgntNum: {TextField: '500017389'}
   },
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'Steve'},
@@ -6389,7 +6389,7 @@ AA02PA_Renewal: {
  AgentDetails: {
   AgntIdString: {TextField: "AAA Southern Penn/500017389/House Agent AAA Southern Penn"},
   AgntAddr1: {TextField: '2840 Eastern Blvd'},
-  AgntCityNm: {TextField: '2840 Eastern Blvd'},
+  AgntCityNm: {TextField: 'York'},
   AgntStAbrv: {TextField: 'PA'},
   AgntZipPls4: {TextField: '17402'},
   AgntPhnNum: {TextField: ''},
@@ -6808,14 +6808,14 @@ AH35XX_Renewal_OK: {
     NmdInsrdFrstNm: {TextField: 'Phil'},
     NmdInsrdMidNm: {TextField: ''},
     NmdInsrdLstNm: {TextField: 'Jones'},
-    NmdInsrdStrPobAddr1: {TextField: '715 Oak Ave'},
+    NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
-    NmdInsrdCityNm: {TextField: 'Yukon'},
+    NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
     NmdInsrdStAbrv: {TextField: 'OK'},
-    NmdInsrdZipPls4: {TextField: '73099'},
+    NmdInsrdZipPls4: {TextField: '73118'},
   },  
   AgentDetails: {
-    AgntCo: {TextField: 'AAA Southern Penn'}
+    AgntCo: {TextField: 'AAA OKLAHOMA INSURANCE'}
   },
   PaymentDetails: {
 #    PlcyTotWdrlAmt: {}
@@ -6869,11 +6869,11 @@ form: {
    NmdInsrdFrstNm: {TextField: 'Phil'},
    NmdInsrdMidNm: {TextField: ''},
    NmdInsrdLstNm: {TextField: 'Jones'},
-   NmdInsrdStrPobAddr1:  {TextField: '715 Oak Ave'},
+   NmdInsrdStrPobAddr1:  {TextField: '4417 N GEORGIA AVE'},
    NmdInsrdAddlAddr2: {TextField: ''},
-   NmdInsrdCityNm: {TextField: 'Yukon'},
+   NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
    NmdInsrdStAbrv: {TextField: 'OK'},
-   NmdInsrdZipPls4: {TextField: '73099'}
+   NmdInsrdZipPls4: {TextField: '73118'}
  },
  VehicleDetails: [
    PlcyVehInfo: {TextField: '2011 CHEVROLET EXPRESS VAN'},
