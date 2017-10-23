@@ -15,23 +15,8 @@ TestData: {
   }
 }  
 
-GeneralTab_DataGather: {
-  NamedInsuredInformation: '@<auto_ss>@DataGather@NamedInsuredInformation',
-  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
-  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
-  PolicyInformation: {
-    Policy Type: Standard,
-    Effective Date: '/today+2d',
-    Policy Term: Annual,
-    Channel Type: Independent Agent,
-    Agency: SMTestIA - 400001650,
-    Authorized by: QA,
-    Lead Source: AAA Magazines
-  }
-}
-
 PremiumAndCoveragesTab_DataGather: {
-  Payment Plan: Monthly,
+  Payment Plan: Eleven Pay - Standard,
   Policy Term: Annual,
   Bodily Injury Liability: 'contains=$100,000/$300,000',
   Comprehensive Deductible: 'contains=$750',
@@ -64,21 +49,3 @@ VehicleTab: {
   Usage: Pleasure,
   VIN: 1B3BA46K4KF440231
 }
-
-#TestData_Endorsement: {
-#  EndorsementActionTab: '@EndorsementActionTab',
-#  GeneralTab: {},
-#  DriverTab: {},
-#  RatingDetailReportsTab: {},
-#  VehicleTab: {
-#    Add Vehicle: Click,
-#    Usage: Pleasure,
-#    VIN: 1B3BA46K4KF440231
-#  },
-#  FormsTab: {},
-#  PremiumAndCoveragesTab: {},
-#  DriverActivityReportsTab: {},
-#  DocumentsAndBindTab: {
-#    Authorized By: qa
-#  }
-#}

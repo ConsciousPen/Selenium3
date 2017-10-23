@@ -4,6 +4,10 @@ TestData: {
   ReinstatementActionTab: '@ReinstatementActionTab'
 }  
 
+GeneralTab_DataGather: {
+  Effective date: '/today+2d'
+}
+
 PremiumsAndCoveragesQuoteTab_DataGather: {
   Payment plan: Eleven Pay Standard,
   Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
