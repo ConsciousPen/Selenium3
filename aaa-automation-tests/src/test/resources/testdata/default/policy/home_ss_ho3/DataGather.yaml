@@ -872,6 +872,7 @@ ApplicantTab_KY: {
 DwellingAddress_KY: {
   Zip code: '41180',
   Street address 1: 30 STATE HIGHWAY 486,
+  County: Lawrence,
   Validate Address: true,
   Validate Address Dialog: {}
 }
