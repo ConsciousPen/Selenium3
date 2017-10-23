@@ -1,19 +1,33 @@
 package aaa.modules.deloitte.docgen.auto_ca.select;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import com.exigen.ipb.etcsa.utils.Dollar;
+
+import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.AutoCaTab;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
+import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ProductConstants;
+import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
 import aaa.main.enums.DocGenEnum.Documents;
+import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.billing.account.IBillingAccount;
 import aaa.main.modules.policy.auto_ca.actiontabs.PolicyDocGenActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
 
@@ -24,6 +38,10 @@ import aaa.modules.policy.AutoCaSelectBaseTest;
  */
 public class TestScenario1 extends AutoCaSelectBaseTest {
 	private PolicyDocGenActionTab docgenActionTab = policy.quoteDocGen().getView().getTab(PolicyDocGenActionTab.class);
+	private IBillingAccount billing = new BillingAccount();
+	private TestData tdBilling = testDataManager.billingAccount;
+	private TestData check_payment = tdBilling.getTestData("AcceptPayment", "TestData_Check");
+	private String policyNum;
 	
 	/** 
 	 * 1. Create CA Select Quote
@@ -41,7 +59,7 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 	*/
 	@Parameters({ "state" })
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void testPolicyDocuments(@Optional("") String state) {
+	public void TC01_PolicyDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 
@@ -102,7 +120,7 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 		// 5
 		policy.calculatePremiumAndPurchase(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase")));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
+		policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 		
 		// 6
 		DocGenHelper.verifyDocumentsGenerated(policyNum, 
@@ -116,5 +134,118 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 				
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
+	}
+	
+	/** 
+	 * 1. Do Mid-term Endorsement:
+	 *    To get 55 1005 document: Change Employee Benefit Type to other than None for first driver
+	 *    To get 55 1004 document: Set ADB = yes for first driver 
+	 *    To get 55 1007 document: Add Trailer vehicle with business usage
+	 *    To get 55 0038, 55 1001, 55 1000 document: Add vehicle with business usage. Add General Endorsement. 
+	 *    To get 55 1000 document: Set add Co-Registered Car Endorsement (2 D for 1 Vehicle: must be registered domestic partners; must be US Citizen and have Drivers License in state that insured). US FR430-047
+	 *    To get 55 5086 document: Add driver with chargeable activity 
+	 *    To get 55 5002 document: Remove LSOPCE (Lienholder Statement Of Policy Coverage) form from first vehicle and Change ownership from Owned to Financed for third Vehicle
+	 * 2. Check xml file
+	 * 3. Do Mid-term Endorsement:
+	 *    To get 55 0001 document: Change ownership from Financed to Owned for third Vehicle  
+	 *    To get 55 6109 document: Remove vehicle with Lessor Form (first)   	
+	 * 4. Check xml file
+	 * 5. Check documents generation on GOOD:
+	 *    Get AHRCTXX document: US 20986
+	 * 6. Check AHRCTXX is generated
+	*/
+	@Parameters({ "state" })
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_PolicyDocuments")
+	public void TC02_EndorsementDocuments(@Optional("") String state) {
+		CustomAssert.enableSoftMode();
+		mainApp().open();
+		SearchPage.openPolicy(policyNum);
+		
+		// 1
+		TestData endorsementTd1 = getTestSpecificTD("TestData_Endorsement1");
+		policy.createEndorsement(endorsementTd1.adjust(getPolicyTD("Endorsement", "TestData_Plus5Day")));
+		
+		// 2
+		DocGenHelper.verifyDocumentsGenerated(policyNum, 
+				Documents._55_1500,
+				Documents._55_1000,
+				Documents._55_1001,
+				Documents._55_1005,
+				Documents._55_0038,
+				Documents._55_0002,
+				Documents._55_1004,
+//				Documents._55_5086, // TODO not generated in xml
+				Documents._55_1007
+				);
+		DocGenHelper.verifyDocumentsGenerated(false, policyNum, Documents._55_3333);
+		
+		// 3
+		TestData endorsementTd2 = getTestSpecificTD("TestData_Endorsement2");
+		policy.createEndorsement(endorsementTd2.adjust(getPolicyTD("Endorsement", "TestData_Plus10Day")));
+		
+		// 4
+		DocGenHelper.verifyDocumentsGenerated(policyNum, 
+				Documents._55_1500,
+				Documents._55_1001,
+				Documents._55_0001,
+				Documents._55_6109
+				);
+		DocGenHelper.verifyDocumentsGenerated(false, policyNum, Documents._55_3333);
+		
+		// 5
+		policy.policyDocGen().start();
+		docgenActionTab.generateDocuments(Documents.AHRCTXXPUP);
+		
+		// 6
+		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.AHRCTXXPUP);
+		
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+	
+	/** 
+	 * 1. Billing Account:
+	 *    To get 60 5001 document: decline deposit payment (done by check) with reason: "Fee + No Restriction"
+	 *    To get 60 5000 document: decline payment with Reason: "Fee + Restriction"
+	 *    To get 60 5002 document: decline payment with Reason: "No Fee + No Restriction"
+	 *    To get 60 5003 document: decline payment with Reason "Fee + Restriction" (previous 60 5000 letter was generated within past 12 months)
+	*/
+	@Parameters({ "state" })
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_PolicyDocuments")
+	public void TC03_BillingDocuments(@Optional("") String state) {
+		CustomAssert.enableSoftMode();
+		mainApp().open();
+		SearchPage.openPolicy(policyNum);
+		
+		BillingSummaryPage.open();
+		billing.generateFutureStatement().perform();
+		new BillingBillsAndStatementsVerifier().setType("Bill").verify(1).verifyPresent();
+		
+		// Decline deposit payment with reason "Fee + No Restriction" (to get 605001)
+		Map<String, String> map = new HashMap<String, String>();
+		map.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "Deposit Payment");
+		map.put(BillingPaymentsAndOtherTransactionsTable.STATUS, "Issued");
+		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_FeeNoRestriction"), map);
+		
+		// Decline previous manual payment with reason "Fee + Restriction" (to get 60 5000)
+		billing.acceptPayment().perform(check_payment, new Dollar(200));
+		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_FeeRestriction"), "($200.00)");
+		
+		// Decline previous manual payment with reason "No Fee + No Restriction" (to get 60 5002)
+		billing.acceptPayment().perform(check_payment, new Dollar(300));
+		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_NoFeeNoRestriction"), "($300.00)");
+
+		// Decline previous manual payment with reason "Fee + Restriction" (to get 60 5003)
+		billing.acceptPayment().perform(check_payment, new Dollar(400));
+		billing.declinePayment().perform(tdBilling.getTestData("DeclinePayment", "TestData_FeeRestriction"), "($400.00)");
+		
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum,
+				Documents._60_5000,
+				Documents._60_5001,
+				Documents._60_5002,
+				Documents._60_5003
+				);
 	}
 }

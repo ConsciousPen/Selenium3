@@ -1,6 +1,6 @@
 TestData_UT: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@<pup>@DataGather@GeneralTab_UT',
+  GeneralTab: '@<pup>@DataGather@GeneralTab',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',

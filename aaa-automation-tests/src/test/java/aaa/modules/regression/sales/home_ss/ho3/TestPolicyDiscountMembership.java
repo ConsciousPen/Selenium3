@@ -155,7 +155,7 @@ public class TestPolicyDiscountMembership extends HomeSSHO3BaseTest {
         policy.getDefaultView().fillFromTo(td_MembershipYes, ApplicantTab.class, PremiumsAndCoveragesQuoteTab.class, true);
         
         origPolicyTermPremium = PremiumsAndCoveragesQuoteTab.getEndorsedPolicyTermPremium();
-        
+
         PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipAndLoyaltyDiscounts_dataRow).verify.present();
         
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();

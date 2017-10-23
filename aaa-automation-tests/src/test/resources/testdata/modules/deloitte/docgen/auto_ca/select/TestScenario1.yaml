@@ -1,3 +1,4 @@
+####################### TC01_PolicyDocuments #########################
 TestData_QuoteUpdate: {
   DriverTab: [
     {
@@ -88,5 +89,152 @@ TestData_Purchase: {
       Policy Application: 'Yes',
       Auto Billing Plan Explanation: 'Yes'
     }
+  },
+  PurchaseTab: '@PurchaseTab_WithAutopay'
+}
+
+####################### TC02_EndorsementDocuments #########################
+
+TestData_Endorsement1: {
+  GeneralTab: {
+    NamedInsuredInformation: {},
+    AAAProductOwned: {},
+    PolicyInformation: {
+      Authorized by: QA
+    }
+  },
+  DriverTab: [
+    {
+      Employee Benefit Type: Surviving spouse,
+      ADB Coverage: 'Yes'
+    },
+    {
+      DriverSearchDialog: {},
+      Driver Type: Available for Rating,
+      'Rel. to First Named Insured': Other,
+      First Name: Linda,
+      Last Name: Jones20,
+      Date of Birth: 10/18/1993,
+      Gender: Female,
+      Marital Status: Married,
+      Occupation: Driver,
+      Age First Licensed: 18,
+      Permit Before License: 'Yes',
+      'License #': C1234002,
+      ActivityInformation: {
+        Activity Source: Customer Input,
+        Type: Accident,
+        Occurrence Date: 01/01/2015,
+        Description: Fault accident with injury,
+        Loss Payment Amount: 2000,
+        Liability Code: 'DRIVER 51% OR GREATER AT FAULT',
+        'Include in Points and/or YAF?': 'Yes',
+      }
+    }
+  ],  
+  MembershipTab: {},
+  VehicleTab: [
+    {},
+    {
+      Type: Trailer,
+      VIN: 1GNWGPFG8B6548266,
+      Make: OTHER,
+      Other Make: MHT,
+      Other Model: 456,
+      Other Series: BTV,
+      Other Body Style: Trailer Box,
+      Value: 10000,
+      Primary Use: Pleasure (recreational driving only),
+      'Value($)': 1000
+    },
+    {
+      VIN: WDCYC7BB0B6729451,
+      Primary Use: Business (small business non-commercial),
+      "Is the vehicle used in any commercial business operations?": 'No',
+      Business Use Description: test,
+      Odometer Reading: 14000,
+      Ownership: {
+        Ownership Type: Financed,
+        First Name: BANK OF AMERICA
+      }
+    }
+  ],  
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: [
+      {
+        Vehicle: '2017, MHT, 456',
+        Primary Driver: index=1,
+        Manually Rated Driver: index=2
+      },
+      {
+        Vehicle: '2011, MERCEDES-BENZ, G55AMG',
+        Primary Driver: index=1,
+        Manually Rated Driver: index=3
+      }
+    ]
+  },
+  FormsTab: {
+    Vehicle Forms: [
+      {
+        Forms Subject: '2011, CHEVROLET, EXPRESS VAN',
+        LSOPCE: {
+          Action: Remove
+        }
+      },
+      {
+        Forms Subject: '2011, MERCEDES-BENZ, G55AMG',
+        GEE: {
+          Name: John,
+          Second Name: Malder,
+          Zip Code: 90006,
+          Address Line 1: 212 Pacific Bell,
+          City: Los Angeles,
+          State: CA
+        },
+        CRCE: {}
+      }
+    ],
+  },
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    Sales Agent Agreement: I Agree,
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {}
+}
+
+TestData_Endorsement2: {
+  GeneralTab: {},
+  DriverTab: {},  
+  MembershipTab: {},
+  VehicleTab: {
+    List of Vehicle: [
+      {
+        Make: CHEVROLET,
+        Model: EXPRESS VAN,
+        Year: 2011,
+        'column=5': 'Remove',
+        Confirm Remove: ''
+      },
+      {
+        Make: MERCEDES-BENZ,
+        Model: G55AMG,
+        Year: 2011,
+        'column=5': 'View/Edit',
+      }      
+    ],
+    Ownership: {
+      Ownership Type: Owned
+    }
+  },
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    Sales Agent Agreement: I Agree,
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    Authorized By: Test
   }
 }
