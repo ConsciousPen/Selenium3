@@ -1,12 +1,20 @@
 TestData: {
   AcceptPaymentActionTab: '@AcceptPaymentActionTab',
+  AddSuspenseActionTab: '@AddSuspenseActionTab',
   CancellationActionTab: '@CancellationActionTab',
+  ClearSuspenseActionTab: '@ClearSuspenseActionTab',
+  SearchSuspenseActionTab: '@SearchSuspenseActionTab',
   ReinstatementActionTab: '@ReinstatementActionTab',
   EndorsementActionTab: '@EndorsementActionTab',
   GeneralTab: {},
   DriverTab: {},
-  RatingDetailReportsTab: {},
+  MembershipTab: {},
   VehicleTab: '@VehicleTab',
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: [{}, {
+      Primary Driver: index=1
+    }] 
+  },
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
@@ -14,6 +22,29 @@ TestData: {
     Authorized By: qa
   }
 }  
+
+
+
+# VehicleTab: {
+#    List of Vehicle: [{}, {
+#      'column=5': Remove,
+#      Confirm Remove: click
+#    }]
+#  },
+
+
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@GeneralTab',
+#  DriverTab: '@DriverTab',
+#  MembershipTab: '@MembershipTab',
+#  VehicleTab: '@VehicleTab',
+#  AssignmentTab: '@AssignmentTab',
+#  FormsTab: '@FormsTab',
+#  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+#  DriverActivityReportsTab: '@DriverActivityReportsTab',
+#  DocumentsAndBindTab: '@DocumentsAndBindTab',
+#  PurchaseTab: '@PurchaseTab'
+
 
 GeneralTab_DataGather: {
   NamedInsuredInformation: '@<auto_ca_choice>@DataGather@NamedInsuredInformation',
@@ -56,6 +87,25 @@ EndorsementActionTab: {
 
 VehicleTab: {
   Add Vehicle: Click,
-  Usage: Pleasure,
-  VIN: 1B3BA46K4KF440231
+  VIN: 1B3BA46K4KF440231,
+  Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  "Are there any additional interest(s)?": 'No',
+  Odometer Reading: 3000
+}
+
+AddSuspenseActionTab: {
+  'Suspense Reference #': 123456,
+  Suspense Amount: 50
+}  
+
+ClearSuspenseActionTab: {
+  Allocation: {},
+  Payment Amount: 50,
+}
+
+SearchSuspenseActionTab: {
+  'Suspense Reference #': 123456,
+  'Missing [status]': Outstanding
 }
