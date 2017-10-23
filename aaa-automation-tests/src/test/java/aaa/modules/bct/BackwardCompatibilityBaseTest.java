@@ -35,7 +35,7 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 		}
 		List<String> foundPolicies = getPoliciesFromQuery(queryResult.get(preKey), "PreValidation");
 
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
+//		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		JobUtils.executeJob(job);
 
 		List<String> postKey = Collections.unmodifiableList(Arrays.asList(name, "PostValidation"));
@@ -68,7 +68,7 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 
 	private List<String> getPoliciesFromQuery(List<Map<String, String>> queryResult, String queryName) {
 		List<String> policies = queryResult.stream()
-				.filter(map -> (!map.containsKey("RISKSTATECD") || map.get("RISKSTATECD").equals(getState())) || (!map.containsKey("RISKSTATE") || map.get("RISKSTATE").equals(getState())))
+				.filter(map -> (!map.containsKey("RISKSTATECD") || map.get("RISKSTATECD").equals(getState())) && (!map.containsKey("RISKSTATE") || map.get("RISKSTATE").equals(getState())))
 				.map(map -> map.get("POLICYNUMBER")).collect(Collectors.toList());
 		if (policies.size()==0) {
 			log.error("No policies found by '" + queryName + "' query");

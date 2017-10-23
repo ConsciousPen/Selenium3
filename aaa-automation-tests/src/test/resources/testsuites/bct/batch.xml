@@ -1,0 +1,30 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="BCT Batch Tests" verbose="1" parallel="tests" thread-count="1024">
+	<listeners>
+		<listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+		<listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
+	</listeners>
+	<parameter name="timeshift-scenario-mode" value="test" />
+
+	<test name="BCT Batch Tests" preserve-order="true">
+		<parameter name="state" value="AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
+		<classes>
+			<class name="aaa.modules.bct.batch.BatchTest">
+				<methods>
+					<exclude name="BCT_BTCH_Automated_Renewal_General_Renewal_Reminder_Notices_020"/>
+				</methods>
+			</class>
+		</classes>
+	</test>
+	<test name="BCT Batch Tests (only for CA)" preserve-order="true">
+		<parameter name="state" value="CA" />
+		<classes>
+			<class name="aaa.modules.bct.batch.BatchTest">
+				<methods>
+					<include name="BCT_BTCH_Automated_Renewal_General_Renewal_Reminder_Notices_020"/>
+				</methods>
+			</class>
+		</classes>
+	</test>
+
+</suite>

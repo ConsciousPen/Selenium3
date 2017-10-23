@@ -278,7 +278,7 @@ public class AutoCaPolicy implements IPolicy {
 
 	@Override
 	public PolicyActions.PolicyDocGen policyDocGen() {
-		return null;
+		return new AutoCaPolicyActions.PolicyDocGen();
 	}
 
 	@Override
@@ -288,7 +288,7 @@ public class AutoCaPolicy implements IPolicy {
 
 	@Override
 	public PolicyActions.QuoteDocGen quoteDocGen() {
-		return null;
+		return new AutoCaPolicyActions.QuoteDocGen();
 	}
 
 	@Override

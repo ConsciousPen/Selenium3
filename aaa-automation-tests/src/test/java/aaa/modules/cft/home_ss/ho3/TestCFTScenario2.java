@@ -47,8 +47,18 @@ public class TestCFTScenario2 extends ControlledFinancialBaseTest {
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", DEFAULT_TEST_DATA_KEY);
 		td.adjust(PremiumsAndCoveragesQuoteTab.class.getSimpleName(), getTestSpecificTD("PremiumsAndCoveragesQuoteTab_DataGather"));
 		td.adjust(PurchaseTab.class.getSimpleName(), getTestSpecificTD("PurchaseTab_DataGather"));
-		td.adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(),HomeSSMetaData.ApplicantTab.NamedInsured.AAA_EMPLOYEE.getLabel()),
+		td.adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.AAA_EMPLOYEE.getLabel()),
 				getTestSpecificTD("ApplicantTab_DataGather").getValue(HomeSSMetaData.ApplicantTab.NamedInsured.AAA_EMPLOYEE.getLabel()));
+		/*if (getState().equals(Constants.States.CT)) {
+			TestData data = DataProviderFactory.dataOf(DialogsMetaData.AddressValidationMetaData.STREET_NUMBER.getLabel(),
+					getTestSpecificTD("ValidateAddressDialog_DataGather").getValue(DialogsMetaData.AddressValidationMetaData.STREET_NUMBER.getLabel()),
+					DialogsMetaData.AddressValidationMetaData.STREET_NAME.getLabel(),
+					getTestSpecificTD("ValidateAddressDialog_DataGather").getValue(DialogsMetaData.AddressValidationMetaData.STREET_NAME.getLabel()));
+			td.adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(), HomeSSMetaData.ApplicantTab.DwellingAddress.VALIDATE_ADDRESS_DIALOG.getLabel()),
+					data);
+			td.adjust(TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.class.getSimpleName()),
+					getTestSpecificTD("PublicProtectionClass_DataGather"));
+		}*/
 		return td.resolveLinks();
 	}
 

@@ -30,15 +30,18 @@ TestDataForBindRewrittenPolicy: {
       Validate Driving History: click
   },
   DocumentsAndBindTab: {
-     RequiredToBind: {
-       Auto Insurance Application: 'Physically Signed'
-      },
+    RequiredToBind: {
+      Auto Insurance Application: 'Physically Signed'
+    },
+    RequiredToIssue: {
+      Proof of Prior Insurance: 'Yes'
+    },
    },
-  PurchaseTab: {
-  PaymentAllocation: {
-    Cash: /rest
-  }
- }
+   PurchaseTab: {
+     PaymentAllocation: {
+       Cash: /rest
+     }
+   }
 }
 
 TestDataNewNumber: {
@@ -76,14 +79,17 @@ TestDataForBindRewrittenPolicy_NY: {
       Validate Driving History: click
   },
   DocumentsAndBindTab: {
-     RequiredToBind: {
-       Acknowledgement of Requirement for Photo Inspection: Physically Signed,
-       New York Auto Insurance Application: Physically Signed,
-      },
-   },
+    RequiredToBind: {
+      Acknowledgement of Requirement for Photo Inspection: Physically Signed,
+      New York Auto Insurance Application: Physically Signed,
+    },
+    RequiredToIssue: {
+      Proof of Prior Insurance: 'Yes'
+    },
+  },
   PurchaseTab: {
-  PaymentAllocation: {
-    Cash: /rest
+    PaymentAllocation: {
+      Cash: /rest
+    }
   }
- }
 }

@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.modules.customer;
 
+import aaa.main.modules.customer.views.*;
 import org.openqa.selenium.By;
 
 import aaa.common.AbstractAction;
@@ -17,26 +18,6 @@ import aaa.main.modules.customer.defaulttabs.CustomerTypeTab;
 import aaa.main.modules.customer.defaulttabs.DivisionsTab;
 import aaa.main.modules.customer.defaulttabs.GeneralTab;
 import aaa.main.modules.customer.defaulttabs.RelationshipTab;
-import aaa.main.modules.customer.views.AddAgencyView;
-import aaa.main.modules.customer.views.AddParticipantView;
-import aaa.main.modules.customer.views.AssociateExistingCustomerView;
-import aaa.main.modules.customer.views.CommunicationView;
-import aaa.main.modules.customer.views.DefaultView;
-import aaa.main.modules.customer.views.DeletePendingUpdatesView;
-import aaa.main.modules.customer.views.DetailsContactView;
-import aaa.main.modules.customer.views.InquiryView;
-import aaa.main.modules.customer.views.MakeInvalidView;
-import aaa.main.modules.customer.views.MergeView;
-import aaa.main.modules.customer.views.OpportunityView;
-import aaa.main.modules.customer.views.QualifyView;
-import aaa.main.modules.customer.views.RelationshipContactView;
-import aaa.main.modules.customer.views.RemoveAgencyView;
-import aaa.main.modules.customer.views.RemoveParticipantView;
-import aaa.main.modules.customer.views.ScheduledUpdateView;
-import aaa.main.modules.customer.views.UndoInvalidView;
-import aaa.main.modules.customer.views.UpdateParticipantView;
-import aaa.main.modules.customer.views.UpdateView;
-import aaa.main.modules.customer.views.ViewHistoryView;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
@@ -1669,4 +1650,18 @@ public final class CustomerActions {
             return this;
         }
     }
+
+    public static class InitiateRenewalEntry extends AbstractAction {
+
+        @Override
+        public String getName() {
+            return "Initiate Renewal Entry";
+        }
+
+        @Override
+        public Workspace getView() {
+            return new InitiateRenewalEntryView();
+        }
+    }
+
 }

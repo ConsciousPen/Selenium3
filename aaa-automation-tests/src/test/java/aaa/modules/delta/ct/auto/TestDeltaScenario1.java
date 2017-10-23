@@ -11,15 +11,14 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.StaticElement;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,12 +42,14 @@ import java.util.List;
 @Test(groups = {Groups.DELTA, Groups.HIGH})
 public class TestDeltaScenario1 extends AutoSSBaseTest {
     //todo make it empty
-    private String quoteNumber;
+    private String quoteNumber = "QCTSS926254975";
 
     private DriverTab driverTab = new DriverTab();
+    private VehicleTab vehicleTab = new VehicleTab();
     private PrefillTab prefillTab = new PrefillTab();
     private GeneralTab generalTab = new GeneralTab();
     private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
+    private ErrorTab errorTab = new ErrorTab();
 
     public String scenarioPolicyType = "Auto SS";
 
@@ -200,9 +201,9 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
         driverTab.fillTab(getPolicyTD());
         driverTab.fillTab(getTestSpecificTD("TestData_CT567"));
         //violation points should be = 0
-        DriverTab.tableActivityInformationList.getRow("Description","Improper Turn").getCell("Points").verify.value("0");
-        DriverTab.tableActivityInformationList.getRow("Description","Speeding").getCell("Points").verify.value("0");
-        DriverTab.tableActivityInformationList.getRow("Description","Accident (Property Damage Only)").getCell("Points").verify.value("0");
+        DriverTab.tableActivityInformationList.getRow("Description", "Improper Turn").getCell("Points").verify.value("0");
+        DriverTab.tableActivityInformationList.getRow("Description", "Speeding").getCell("Points").verify.value("0");
+        DriverTab.tableActivityInformationList.getRow("Description", "Accident (Property Damage Only)").getCell("Points").verify.value("0");
     }
 
     @Test
@@ -214,11 +215,11 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
         driverTab.fillTab(getTestSpecificTD("TestData_CT8"));
 
         //violation points should be = 7
-        DriverTab.tableActivityInformationList.getRow("Description","Accident (Resulting in Bodily Injury)").getCell("Points").verify.value("7");
+        DriverTab.tableActivityInformationList.getRow("Description", "Accident (Resulting in Bodily Injury)").getCell("Points").verify.value("7");
         //violation points should be = 4
-        DriverTab.tableActivityInformationList.getRow("Description","Hit and Run").getCell("Points").verify.value("4");
+        DriverTab.tableActivityInformationList.getRow("Description", "Hit and Run").getCell("Points").verify.value("4");
         //go to Major accident, points for the same day should be = 0
-        DriverTab.tableActivityInformationList.getRow("Description","Hit and Run").getCell(8).controls.links.getFirst().click();
+        DriverTab.tableActivityInformationList.getRow("Description", "Hit and Run").getCell(8).controls.links.getFirst().click();
         driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER).setValue("No");
         driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.VIOLATION_POINTS).verify.value("0");
         // Prep step for 9 case as i understood.
@@ -231,11 +232,38 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
     public void testSC1_TC09() {
         preconditions(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS);
 
-        //ratingDetailReportsTab.fillTab(getTestSpecificTD("RatingDetailReportsTab_TC9"));
-        /*toolkit.exceptions.IstfException: Cannot set value of AssetList {RatingDetailReportsTab: By.xpath: //div[@id='contentWrapper']} to '{Customer Agreement=Customer Agrees, Sales Agent Agreement=I Agree, Order Report=click, InsuranceScoreOverride=@InsuranceScoreOverride_OverrideTo645}'
-        Caused by: toolkit.exceptions.IstfException: Cannot set value of AssetList {EditInsuranceScoreDialog: By.xpath: //table[@id='policyDataGatherForm:creditScoreOverride']} to '{New Score=645, Reason for override=Fair Credit Reporting Act Dispute, Save=click}'
-        Caused by: org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {"method":"xpath","selector":"//select[@id='editInsuranceScoreFrom:billingType_billing']"}
-    */}
+        ratingDetailReportsTab.fillTab(getTestSpecificTD("RatingDetailReportsTab_TC9"));
+        String errorMessage = "Extraordinary Life Circumstance was applied to the policy";
+        //todo check that it is correct error check
+        new StaticElement(By.xpath("//*[contains(.,'" + errorMessage + "')]")).verify.present(false);
+        Tab.buttonSaveAndExit.click();
+
+    }
+
+    @Test
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS)
+    public void testSC1_TC10() {
+        preconditions(NavigationEnum.AutoSSTab.VEHICLE);
+
+        List<String> expectedValuesOfVehicleType = Arrays.asList("Private Passenger Auto", "Limited Production/Antique", "Trailer", "Motor Home", "Conversion Van");
+        vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.TYPE).verify.optionsContain(expectedValuesOfVehicleType);
+
+        List<String> expectedValuesOfVehicleUsage = Arrays.asList("Pleasure", "Commute", "Business", "Artisan", "Farm");
+        vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.USAGE).verify.optionsContain(expectedValuesOfVehicleUsage);
+
+        vehicleTab.fillTab(getTestSpecificTD("TestData_CT10"));
+        //assVehicleTabFilling.vehicleFilling(getDataSet(), "Vehicle_01");
+
+        //assVehicleTabFilling.addVehicle();
+
+        //assVehicleTabFilling.vehicleFilling(getDataSet(), "Vehicle_02");
+
+        //verifyTextNotPresent("is required");
+
+        //checkForVerificationErrors();
+
+        Tab.buttonSaveAndExit.click();
+    }
 
     private void preconditions(NavigationEnum.AutoSSTab navigateTo) {
         initiateQuote();

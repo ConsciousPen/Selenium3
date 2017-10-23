@@ -28,11 +28,11 @@ GeneralTab: {
 ApplicantTab: {
   NamedInsured: '@NamedInsured',
   AAAMembership: '@AAAMembership',
-  DwellingAddress: '@DwellingAddress',
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress',
   PreviousDwellingAddress: '@PreviousDwellingAddress',
   MailingAddress: '@MailingAddress',
   NamedInsuredInformation: '@NamedInsuredInformation',
-  AgentInfo: '@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
   OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
 }
 
@@ -121,13 +121,6 @@ AAAMembership: {
   Last name: Test,
 }
 
-DwellingAddress: {
-  Zip code: '84003',
-  Street address 1: 265 CHIPMAN AVE,
-  Validate Address: true,
-  Validate Address Dialog: {}
-}
-
 PreviousDwellingAddress: {
   'Has there been another dwelling address within the last 3 consecutive years?': 'Yes',
   Zip code: '84003',
@@ -166,11 +159,6 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual: {
   Deductible: '1000',
   Dwelling usage: Primary,
   Occupancy type: Owner occupied
-}
-
-AgentInfo: {
-  Channel Type: Independent Agent,
-  Agency: SMTestIA - 400001650
 }
 
 #PropertyInfoTab

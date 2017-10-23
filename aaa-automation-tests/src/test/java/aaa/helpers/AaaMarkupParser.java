@@ -1,12 +1,18 @@
 package aaa.helpers;
 
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.DefaultMarkupParser;
 
 public class AaaMarkupParser extends DefaultMarkupParser {
 	public final static String CONTAINS_PREFIX = "contains=";
 
+
 	static {
 		expressionRegexp = String.format("(?:%s)?/(\\w+)\\s*(.*)", CONTAINS_PREFIX);
+	}
+
+	public AaaMarkupParser() {
+		registerProcessor("startTime", args -> processDateTime(TimeSetterUtil.getInstance().getStartTime(), args));
 	}
 
 	@Override
