@@ -12,6 +12,7 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.actiontabs.CancellationActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.DocumentsTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
@@ -40,6 +41,7 @@ public class TestCFTScenario12 extends ControlledFinancialBaseTest {
 			HomeSSMetaData.ApplicantTab.AgentInfo.AGENCY_LOCATION.getLabel()), "index=1");
 		td.adjust(TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.class.getSimpleName()),
 			getTestSpecificTD("PublicProtectionClass_DataGather"));
+		td.adjust(TestData.makeKeyPath(DocumentsTab.class.getSimpleName()), getTestSpecificTD("DocumentsTab_DataGather"));
 		// td.adjust(TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.Riskmeter.class.getSimpleName()),
 		// getTestSpecificTD("Riskmeter_DataGather"));
 

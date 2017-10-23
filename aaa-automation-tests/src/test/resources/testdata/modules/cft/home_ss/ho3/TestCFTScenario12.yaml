@@ -11,6 +11,15 @@ PremiumsAndCoveragesQuoteTab_DataGather: {
   Coverage E - Personal Liability Each Occurrence: '$300,000'
 }
 
+DocumentsTab_DataGather: '@<home_ss_ho3>@DataGather@DocumentsTab'
+
+DocumentsTab_DataGather_KY: {
+  DocumentsToIssue: {
+    Kentucky Mine Subsidence Insurance Fund Waiver Form: Physically Signed,
+    Signed policy application: Physically Signed
+  }
+}
+
 PublicProtectionClass_DataGather: {
   Fire department type: 'S - Subscription based',
   Subscription to fire department/station: 'No',
