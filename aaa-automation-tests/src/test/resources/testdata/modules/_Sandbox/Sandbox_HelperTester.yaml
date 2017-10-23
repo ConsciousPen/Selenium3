@@ -1,0 +1,495 @@
+TestData_WithoutBusinessEntityTab: {
+  CustomerType: '@CustomerType',
+  CustomerGeneralTabAgency: '@CustomerGeneralTabAgency',
+  GeneralTab: '@Adjustment_WithoutAssociateBusinessEntities',
+  RelationshipTab: {}
+}
+
+CustomerType: {
+  Customer Type: Individual
+}
+
+CustomerGeneralTabAgency: {
+  Agency Name: QA Agency
+}
+
+DriverSearchDialog: {
+  Cancel: Click
+}
+
+GeneralTab_Add: {
+
+}
+DriverInformationED1: {
+
+}
+DriverInformationED2: {
+  DriverSearchDialog: {},
+  First Name: John,
+  Last Name: Doe1,
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '01/01/1955',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License Number: D09999601,
+  Age First Licensed: 16
+}
+DriverInformationED3: {
+  DriverSearchDialog: {},
+  First Name: John,
+  Last Name: Doe2,
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '01/01/1955',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License Number: D09999602,
+  Age First Licensed: 16
+}
+DriverInformationED4: {
+  DriverSearchDialog: {},
+  First Name: John,
+  Last Name: Doe3,
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '01/01/1955',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License Number: D09999603,
+  Age First Licensed: 16
+}
+DriverInformationED5: {
+  DriverSearchDialog: {},
+  First Name: John,
+  Last Name: Doe4,
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '01/01/1955',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License Number: D09999604,
+  Age First Licensed: 16
+}
+DriverInformationED6: {
+  DriverSearchDialog: {},
+  First Name: John,
+  Last Name: Doe5,
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '01/01/1955',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License Number: D09999605,
+  Age First Licensed: 16
+}
+DriverInformationED7: {
+  DriverSearchDialog: {},
+  First Name: John,
+  Last Name: Doe6,
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '01/01/1955',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License Number: D09999606,
+  Age First Licensed: 16
+}
+# ------ Test Data for custom states --------
+
+# ---------- Test Data for AZ ---------------
+
+TestData_AZ: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_AZ',
+  RelationshipTab: {},
+  PrefillTab: '@PrefillTab',
+  DriverTab: '@DriverTab1',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab1',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_AZ: {
+  First Name: PASxxxx,
+  Last Name: Endorsement Test,
+  Date of Birth: 01/01/1955,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '85083',
+  Address Line 1: 26205 N 49TH LN,
+  NamedInsuredInformation: '@NamedInsuredInformation1',
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation'
+}
+
+EndorsementTestData_AZ: {
+  GeneralTab: {},
+  DriverTab: ['@DriverInformationED1','@DriverInformationED2', '@DriverInformationED3',
+  '@DriverInformationED4', '@DriverInformationED5', '@DriverInformationED6', '@DriverInformationED7'],
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+DriverInformationED1_AZ: {
+
+}
+DriverInformationED2_AZ: {
+  DriverSearchDialog: {},
+  First Name: Bob,
+  Last Name: Dole1,
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '01/01/1950',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License Number: H1127DAM1,
+  Age First Licensed: 16
+}
+DriverInformationED3_AZ: {
+  DriverSearchDialog: {},
+  First Name: Bob,
+  Last Name: Dole2,
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '01/01/1950',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License Number: H1127DAM2,
+  Age First Licensed: 16
+}
+DriverInformationED4_AZ: {
+  DriverSearchDialog: {},
+  First Name: Bob,
+  Last Name: Dole3,
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '01/01/1950',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License Number: H1127DAM3,
+  Age First Licensed: 16
+}
+DriverInformationED5_AZ: {
+  DriverSearchDialog: {},
+  First Name: Bob,
+  Last Name: Dole4,
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '01/01/1950',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License Number: H1127DAM4,
+  Age First Licensed: 16
+}
+DriverInformationED6_AZ: {
+  DriverSearchDialog: {},
+  First Name: Bob,
+  Last Name: Dole5,
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '01/01/1950',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License Number: H1127DAM5,
+  Age First Licensed: 16
+}
+DriverInformationED7_AZ: {
+  DriverSearchDialog: {},
+  First Name: Bob,
+  Last Name: Dole6,
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '01/01/1950',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License Number: H1127DAM6,
+  Age First Licensed: 16
+}
+DriverInformationED8_AZ: {
+  DriverSearchDialog: {},
+  First Name: Bob,
+  Last Name: Dole7,
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '01/01/1950',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License Number: H1127DAM7,
+  Age First Licensed: 16
+}
+
+# ---------- Test Data for MT ---------------
+
+TestData_MT: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_MT',
+  RelationshipTab: {},
+  PrefillTab: '@PrefillTab',
+  DriverTab: '@DriverTab1',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab1',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
+GeneralTab_MT: {
+  First Name: PAS3518,
+  Last Name: AC3 TC06,
+  Date of Birth: 01/01/1988,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '59421',
+  Address Line 1: 3416 Arrow Dr,
+  NamedInsuredInformation: '@NamedInsuredInformation1',
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation'
+}
+
+EndorsementTestData_MT: {
+  GeneralTab: {},
+  DriverTab: ['@DriverInformationED1_MT','@DriverInformationED2_MT', '@DriverInformationED3_MT',
+  '@DriverInformationED4_MT', '@DriverInformationED5_MT', '@DriverInformationED6_MT', '@DriverInformationED7_MT'],
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+DriverInformationED1_MT: {
+
+}
+DriverInformationED2_MT: {
+  DriverSearchDialog: {},
+  First Name: Bob,
+  Last Name: Dole1,
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '01/01/1950',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License Number: H1127DAM1,
+  Age First Licensed: 16
+}
+DriverInformationED3_MT: {
+  DriverSearchDialog: {},
+  First Name: Bob,
+  Last Name: Dole2,
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '01/01/1950',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License Number: H1127DAM2,
+  Age First Licensed: 16
+}
+DriverInformationED4_MT: {
+  DriverSearchDialog: {},
+  First Name: Bob,
+  Last Name: Dole3,
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '01/01/1950',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License Number: H1127DAM3,
+  Age First Licensed: 16
+}
+DriverInformationED5_MT: {
+  DriverSearchDialog: {},
+  First Name: Bob,
+  Last Name: Dole4,
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '01/01/1950',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License Number: H1127DAM4,
+  Age First Licensed: 16
+}
+DriverInformationED6_MT: {
+  DriverSearchDialog: {},
+  First Name: Bob,
+  Last Name: Dole5,
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '01/01/1950',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License Number: H1127DAM5,
+  Age First Licensed: 16
+}
+DriverInformationED7_MT: {
+  DriverSearchDialog: {},
+  First Name: Bob,
+  Last Name: Dole6,
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '01/01/1950',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License Number: H1127DAM6,
+  Age First Licensed: 16
+}
+DriverInformationED8_MT: {
+  DriverSearchDialog: {},
+  First Name: Bob,
+  Last Name: Dole7,
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: '01/01/1950',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License Number: H1127DAM6,
+  Age First Licensed: 16
+}
+# ------------- Tabs ----------
+
+PrefillTab: {
+  Validate Address: click,
+  Validate Address Dialog: {},
+  Order Prefill: click
+}
+
+GeneralTab: {
+  First Name: '/rx:Default\d{5}',
+  Last Name: '/rx:Name\d{5}',
+  Date of Birth: 12/05/1962,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '84003',
+  Address Line 1: 262 UNIVERSAL AVE,
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation'
+}
+
+NamedInsuredInformation1: {
+  Social Security Number: 123456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+NamedInsuredInformation2: {
+  InsuredSearchDialog: {},
+  First Name: Gwen,
+  Last Name: Stacey,
+  Base Date: /today,
+  Social Security Number: 223456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+AAAProductOwned: {
+  Membership Number: 4290023667710001,
+  Last name: QATest,
+}
+
+ContactInformation: {
+   Home Phone Number: 1234567890
+}
+
+PolicyInformation: {
+  Policy Type: Standard,
+  Effective Date: '/today:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: AAA Agent,
+  Agency: SMTestNCNU - 400001005,
+  Agency Location: SMTestNCNU LOCATION - 400001105 - Emeryville,
+  Authorized by: QA Automation,
+  Lead Source: AAA Magazines
+}
+
+DriverTab1: {
+  Occupation: Self-Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 400064773
+}
+
+DriverTab2: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 17,
+  License Type: 'Licensed (US)',
+  License Number: 400064774
+}
+
+RatingDetailReportsTab: {
+  Customer Agreement: Customer Agrees,
+  Sales Agent Agreement: I Agree,
+  Order Report: click
+}
+
+VehicleTab1: {
+  Usage: Pleasure,
+  VIN: 1HGEM21504L055795,
+}
+
+VehicleTab2: {
+  Usage: Pleasure,
+  VIN: WDCYC7BB0B6729451,
+}
+
+PremiumAndCoveragesTab: {
+  Payment Plan: Annual
+}
+
+DriverActivityReportsTab: {
+  "Has the customer expressed interest in purchasing the quote?": 'Yes',
+  Validate Driving History: click
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed
+  },
+  Agreement: I agree
+}
+
+PurchaseTab: {
+  PaymentAllocation: {
+    Cash: /rest
+  }
+}
