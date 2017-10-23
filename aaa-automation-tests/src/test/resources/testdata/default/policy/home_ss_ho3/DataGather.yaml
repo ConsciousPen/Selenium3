@@ -879,7 +879,7 @@ DwellingAddress_KY: {
 AgentInfo_KY: {
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
-  Agency Location: 'Lexington - Atkinson Ave - 500005154 - Lexington',
+  Agency Location: 'Lexington - 500005154 - Lexington',
   Agent: 'House Agent Allied Club',
   TollFree Number: 1
 }
