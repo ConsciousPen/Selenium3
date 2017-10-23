@@ -138,11 +138,14 @@ public class TestScenario2 extends AutoSSBaseTest {
 			AASR22 
 			AHNBXX	*/		
 			
-			DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR22,AA43AZ, AH35XX, AA59XX, AAGCAZ, AA52AZ, AARFIXX, AHNBXX, AA10XX, AA02AZ).verify.mapping(getTestSpecificTD("TestData_VerificationNB")
+		   DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR22).verify.mapping(getTestSpecificTD("TestData_AASR22")
+					.adjust(TestData.makeKeyPath("AASR22", "form", "PlcyNum", "TextField"), policyNumber)
+			        .adjust(TestData.makeKeyPath("AASR22", "form", "TermEffDt","DateTimeField"), termEffDt),
+			        policyNumber);
+			
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43AZ, AH35XX, AA59XX, AAGCAZ, AA52AZ, AARFIXX, AHNBXX, AA10XX, AA02AZ).verify.mapping(getTestSpecificTD("TestData_VerificationNB")
 							.adjust(TestData.makeKeyPath("AA43AZ", "form", "PlcyNum", "TextField"), policyNumber)
-							.adjust(TestData.makeKeyPath("AA43AZ", "form", "TermEffDt","DateTimeField"), termEffDt)
-							.adjust(TestData.makeKeyPath("AASR22", "form", "PlcyNum", "TextField"), policyNumber)
-					        .adjust(TestData.makeKeyPath("AASR22", "form", "TermEffDt","DateTimeField"), termEffDt)
+							.adjust(TestData.makeKeyPath("AA43AZ", "form", "TermEffDt","DateTimeField"), termEffDt)						
 							.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
 							.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
 							.adjust(TestData.makeKeyPath("AH35XX", "form", "FutInstlDueDt"), installmentDueDate)
@@ -198,11 +201,14 @@ public class TestScenario2 extends AutoSSBaseTest {
 			AHNBXX
 			AARFIXX*/
 			
-			DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR22,AA43IN, AH35XX, AA59XX, AA53IN, AA52IN, AARFIXX, AHNBXX, AA10XX, AA02IN).verify.mapping(getTestSpecificTD("TestData_VerificationNB")
+		   DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR22).verify.mapping(getTestSpecificTD("TestData_AASR22")
+						.adjust(TestData.makeKeyPath("AASR22", "form", "PlcyNum", "TextField"), policyNumber)
+				        .adjust(TestData.makeKeyPath("AASR22", "form", "TermEffDt","DateTimeField"), termEffDt),
+				        policyNumber);
+			
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43IN, AH35XX, AA59XX, AA53IN, AA52IN, AARFIXX, AHNBXX, AA10XX, AA02IN).verify.mapping(getTestSpecificTD("TestData_VerificationNB")
 							.adjust(TestData.makeKeyPath("AA43IN", "form", "PlcyNum", "TextField"), policyNumber)
 							.adjust(TestData.makeKeyPath("AA43IN", "form", "TermEffDt","DateTimeField"), termEffDt)
-							.adjust(TestData.makeKeyPath("AASR22", "form", "PlcyNum", "TextField"), policyNumber)
-					        .adjust(TestData.makeKeyPath("AASR22", "form", "TermEffDt","DateTimeField"), termEffDt)
 							.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
 							.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
 							.adjust(TestData.makeKeyPath("AH35XX", "form", "FutInstlDueDt"), installmentDueDate)
@@ -258,7 +264,12 @@ public class TestScenario2 extends AutoSSBaseTest {
 			AHNBXX
 			AARFIXX*/
 			
-			DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR22,AA43OK, AH35XX, AA59XX, AAAEOK, AA52OK, AARFIXX, AHNBXX, AA10OK, AA02OK).verify.mapping(getTestSpecificTD("TestData_VerificationNB")
+		   DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR22).verify.mapping(getTestSpecificTD("TestData_AASR22")
+						.adjust(TestData.makeKeyPath("AASR22", "form", "PlcyNum", "TextField"), policyNumber)
+				        .adjust(TestData.makeKeyPath("AASR22", "form", "TermEffDt","DateTimeField"), termEffDt),
+				        policyNumber);
+			
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43OK, AH35XX, AA59XX, AAAEOK, AA52OK, AARFIXX, AHNBXX, AA10OK, AA02OK).verify.mapping(getTestSpecificTD("TestData_VerificationNB")
 					.adjust(TestData.makeKeyPath("AA43OK", "form", "PlcyNum", "TextField"), policyNumber)
 					.adjust(TestData.makeKeyPath("AA43OK", "form", "TermEffDt","DateTimeField"), termEffDt)
 					.adjust(TestData.makeKeyPath("AASR22", "form", "PlcyNum", "TextField"), policyNumber)
@@ -415,14 +426,17 @@ public class TestScenario2 extends AutoSSBaseTest {
 			AA52AZ
 			AA59XX
 			AAPDXX*/
+			
+		   DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR26).verify.mapping(getTestSpecificTD("TestData_AASR26")
+				    .adjust(TestData.makeKeyPath("AASR26", "form", "PlcyNum", "TextField"), policyNumber)
+				    .adjust(TestData.makeKeyPath("AASR26", "form", "TermEffDt","DateTimeField"), termEffDt)
+				    .adjust(TestData.makeKeyPath("AASR26", "form", "TermExprDt","DateTimeField"), termExprDt),
+				   policyNumber);
 							
-			DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR26,AA43AZ,AH35XX,AA59XX,AA52AZ,AA10XX,AAPDXX,AA02AZ).verify.mapping(getTestSpecificTD("TestData_VerificationED")			
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43AZ,AH35XX,AA59XX,AA52AZ,AA10XX,AAPDXX,AA02AZ).verify.mapping(getTestSpecificTD("TestData_VerificationED")			
 					.adjust(TestData.makeKeyPath("AA43AZ", "form", "PlcyNum","TextField"), policyNumber)
 					.adjust(TestData.makeKeyPath("AA43AZ", "form", "TermEffDt","DateTimeField"), termEffDt)
-					.adjust(TestData.makeKeyPath("AA43AZ", "form", "EndrEffDt","DateTimeField"), endrEffDt)
-					.adjust(TestData.makeKeyPath("AASR26", "form", "PlcyNum", "TextField"), policyNumber)
-				    .adjust(TestData.makeKeyPath("AASR26", "form", "TermEffDt","DateTimeField"), termEffDt)
-				    .adjust(TestData.makeKeyPath("AASR26", "form", "TermExprDt","DateTimeField"), termExprDt)
+					.adjust(TestData.makeKeyPath("AA43AZ", "form", "EndrEffDt","DateTimeField"), endrEffDt)				
 					.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
 					.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
 					.adjust(TestData.makeKeyPath("AH35XX", "form", "FutInstlDueDt"), installmentDueDate)
@@ -476,13 +490,16 @@ public class TestScenario2 extends AutoSSBaseTest {
 			AA59XX
 			AAPDXX*/
 			
-			DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR26,AA43IN,AH35XX,AA59XX,AA52IN,AA53IN,AA10XX,AAPDXX,AA02IN).verify.mapping(getTestSpecificTD("TestData_VerificationED")			
+		   DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR26).verify.mapping(getTestSpecificTD("TestData_AASR26")
+					    .adjust(TestData.makeKeyPath("AASR26", "form", "PlcyNum", "TextField"), policyNumber)
+					    .adjust(TestData.makeKeyPath("AASR26", "form", "TermEffDt","DateTimeField"), termEffDt)
+					    .adjust(TestData.makeKeyPath("AASR26", "form", "TermExprDt","DateTimeField"), termExprDt),
+					   policyNumber);
+			
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43IN,AH35XX,AA59XX,AA52IN,AA53IN,AA10XX,AAPDXX,AA02IN).verify.mapping(getTestSpecificTD("TestData_VerificationED")			
 					.adjust(TestData.makeKeyPath("AA43IN", "form", "PlcyNum","TextField"), policyNumber)
 					.adjust(TestData.makeKeyPath("AA43IN", "form", "TermEffDt","DateTimeField"), termEffDt)
 					.adjust(TestData.makeKeyPath("AA43IN", "form", "EndrEffDt","DateTimeField"), endrEffDt)
-					.adjust(TestData.makeKeyPath("AASR26", "form", "PlcyNum", "TextField"), policyNumber)
-				    .adjust(TestData.makeKeyPath("AASR26", "form", "TermEffDt","DateTimeField"), termEffDt)
-				    .adjust(TestData.makeKeyPath("AASR26", "form", "TermExprDt","DateTimeField"), termExprDt)
 					.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
 					.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
 					.adjust(TestData.makeKeyPath("AH35XX", "form", "FutInstlDueDt"), installmentDueDate)
@@ -519,7 +536,6 @@ public class TestScenario2 extends AutoSSBaseTest {
 					.adjust(TestData.makeKeyPath("AA02IN", "CoverageDetails", "NetWrtPrem", "TextField"), netWrtPrem)
 					.adjust(TestData.makeKeyPath("AA02IN", "CoverageDetails", "VehTotPrem"), vehTotPrem)
 					.adjust(TestData.makeKeyPath("AA02IN", "CoverageDetails", "AllVehTotPrem","TextField"), allVehTotPrem)
-					.adjust(TestData.makeKeyPath("AA02IN", "PaymentDetails", "PlcyTotFee", "TextField"), plcyTotFee)
 					.adjust(TestData.makeKeyPath("AA02IN", "form", "TermEffDt","DateTimeField"), termEffDt)
 					.adjust(TestData.makeKeyPath("AA02IN", "form", "TermExprDt","DateTimeField"), termExprDt)
 					.adjust(TestData.makeKeyPath("AA02IN", "form", "EndrEffDt","DateTimeField"), endrEffDt),
@@ -536,13 +552,16 @@ public class TestScenario2 extends AutoSSBaseTest {
 			AA59XX
 			AAPDXX*/
 			
-			DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR26,AA43OK,AH35XX,AA59XX,AA52OK,AA10OK,AAPDXX,AA02OK).verify.mapping(getTestSpecificTD("TestData_VerificationED")			
+		  DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR26).verify.mapping(getTestSpecificTD("TestData_AASR26")
+					    .adjust(TestData.makeKeyPath("AASR26", "form", "PlcyNum", "TextField"), policyNumber)
+					    .adjust(TestData.makeKeyPath("AASR26", "form", "TermEffDt","DateTimeField"), termEffDt)
+					    .adjust(TestData.makeKeyPath("AASR26", "form", "TermExprDt","DateTimeField"), termExprDt),
+					   policyNumber);
+			
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43OK,AH35XX,AA59XX,AA52OK,AA10OK,AAPDXX,AA02OK).verify.mapping(getTestSpecificTD("TestData_VerificationED")			
 					.adjust(TestData.makeKeyPath("AA43OK", "form", "PlcyNum","TextField"), policyNumber)
 					.adjust(TestData.makeKeyPath("AA43OK", "form", "TermEffDt","DateTimeField"), termEffDt)
 					.adjust(TestData.makeKeyPath("AA43OK", "form", "EndrEffDt","DateTimeField"), endrEffDt)
-					.adjust(TestData.makeKeyPath("AASR26", "form", "PlcyNum", "TextField"), policyNumber)
-					.adjust(TestData.makeKeyPath("AASR26", "form", "TermEffDt","DateTimeField"), termEffDt)
-					.adjust(TestData.makeKeyPath("AASR26", "form", "TermExprDt","DateTimeField"), termExprDt)
 					.adjust(TestData.makeKeyPath("AH35XX", "PaymentDetails", "PlcyTotWdrlAmt"), dueAmount)
 					.adjust(TestData.makeKeyPath("AH35XX", "form", "PlcyNum", "TextField"), policyNumber)
 					.adjust(TestData.makeKeyPath("AH35XX", "form", "FutInstlDueDt"), installmentDueDate)
