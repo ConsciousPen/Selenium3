@@ -111,6 +111,13 @@ ErrorTab_AZ: {
     Approval: 'true',
     Duration: Life,
     Reason for override: index=1
+   },
+   {
+    Code: '200041',
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
    }]  
 }
 
@@ -241,7 +248,15 @@ ErrorTab_IN: {
     Approval: 'true',
     Duration: Life,
     Reason for override: index=1
-   }]  
+   },
+   {
+    Code: '200041',
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   }
+   ]  
 }
 
 # ------------- New Business for PA State----------
@@ -491,6 +506,13 @@ ErrorTab_OK: {
    },
    {
     Code: '200044',
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   },
+   {
+    Code: '200041',
     Override: 'true',
     Approval: 'true',
     Duration: Life,
