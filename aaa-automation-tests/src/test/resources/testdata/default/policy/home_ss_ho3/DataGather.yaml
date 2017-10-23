@@ -1588,10 +1588,24 @@ ApplicantTab_PA: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherCompanionAutoPolicy'],
+  OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherCompanionAutoPolicy_PA'],
   AgentInfo: '@AgentInfo_PA'
 }  
   
+OtherCompanionAutoPolicy_PA: {
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: {
+    Policy type: Auto,
+    "Companion Auto Pending with Discount?": 'No',
+    Auto policy state: UT,
+    Policy number: '345345345',
+    Effective date: '/today:MM/dd/yyyy',
+    #Policy tier: 'index=1',
+    Auto policy BI limit: 'index=1',
+    Auto Insurance Persistency: '21'
+  }
+}
+
 DwellingAddress_PA: {
   Zip code: '19121',
   Street address 1: 2302 W GLENWOOD AVE,
