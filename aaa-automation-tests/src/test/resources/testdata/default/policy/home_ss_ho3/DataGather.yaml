@@ -841,7 +841,7 @@ TestData_KY: {
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_KY',
-  DocumentsTab: '@DocumentsTab',
+  DocumentsTab: '@DocumentsTab_KY',
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab',
 }
@@ -937,6 +937,14 @@ Construction_KY: {
     Roof shape: 'index=1',
     Construction type: 'index=1',
     Hail-resistance rating: 'index=1'
+}
+
+DocumentsTab_KY: {
+  DocumentsToIssue: {
+    Coverage Acceptance Statement: Physically Signed,
+    Kentucky Mine Subsidence Insurance Fund Waiver Form: Physically Signed,
+    Signed policy application: Physically Signed
+  }
 }
 
 UnderwritingAndApprovalTab_KY: {
