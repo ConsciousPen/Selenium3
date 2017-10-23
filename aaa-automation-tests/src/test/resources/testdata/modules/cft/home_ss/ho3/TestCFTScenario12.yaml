@@ -1,5 +1,8 @@
 TestData: {
-  CancellationActionTab: '@CancellationActionTab'
+  CancellationActionTab: '@CancellationActionTab',
+  GeneralTab: {
+    Immediate prior carrier: 'No Prior'
+  }
 }
 
 PremiumsAndCoveragesQuoteTab_DataGather: {
@@ -22,6 +25,6 @@ Riskmeter_DataGather: {
 }
 
 CancellationActionTab: {
-  Cancellation Reason: 'Rewrite Accommodation',
-  Authorized By: QA
+  Cancellation reason: 'Rewrite Accommodation',
+#  Authorized By: QA
 }
