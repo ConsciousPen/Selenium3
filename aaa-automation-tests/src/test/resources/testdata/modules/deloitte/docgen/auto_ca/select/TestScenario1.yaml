@@ -89,7 +89,8 @@ TestData_Purchase: {
       Policy Application: 'Yes',
       Auto Billing Plan Explanation: 'Yes'
     }
-  }
+  },
+  PurchaseTab: '@PurchaseTab_WithAutopay'
 }
 
 ####################### TC02_EndorsementDocuments #########################
