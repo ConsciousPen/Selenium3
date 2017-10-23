@@ -53,6 +53,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 	private String plcyEffDt;
 	private String plcyExprDt;
 	private String endrEffDt;
+	private String termExprDtPA;
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = policy.getDefaultView().getTab(PremiumAndCoveragesTab.class);
 	private List<TestData> vehClsnDed = new ArrayList<TestData>();
 	private List<TestData> vehCompDed = new ArrayList<TestData>();
@@ -348,7 +349,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 							.adjust(TestData.makeKeyPath("AALTPA", "form", "TermEffDt","DateTimeField"), termEffDt)
 							.adjust(TestData.makeKeyPath("AA10PA", "form", "PlcyNum", "TextField"), policyNumber)
 							.adjust(TestData.makeKeyPath("AA10PA", "form", "TermEffDt","DateTimeField"), termEffDt)
-//							.adjust(TestData.makeKeyPath("AA10PA", "form", "TermExprDt","DateTimeField"), termExprDt)//TODO defect 44879 the value of TermExprDt incorrect
+							.adjust(TestData.makeKeyPath("AA10PA", "form", "TermExprDt","DateTimeField"), termExprDtPA)
 							.adjust(TestData.makeKeyPath("AA02PA", "form", "PlcyNum", "TextField"), policyNumber)
 							.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "TortTrshldTyp"), tortTrshldTyp)
 							.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "PlcyPdEaOcc"), plcyPdEaOcc)
@@ -611,7 +612,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 					.adjust(TestData.makeKeyPath("AA52UPAB", "form", "EndrEffDt","DateTimeField"), endrEffDt)
 					.adjust(TestData.makeKeyPath("AA10PA", "form", "PlcyNum", "TextField"), policyNumber)
 					.adjust(TestData.makeKeyPath("AA10PA", "form", "TermEffDt","DateTimeField"), termEffDt)
-//					.adjust(TestData.makeKeyPath("AA10PA", "form", "TermExprDt","DateTimeField"), termExprDt) //TODO defect 44879 the value of TermExprDt incorrect
+					.adjust(TestData.makeKeyPath("AA10PA", "form", "TermExprDt","DateTimeField"), termExprDtPA) 
 					.adjust(TestData.makeKeyPath("AA10PA", "form", "EndrEffDt","DateTimeField"), endrEffDt)
 					.adjust(TestData.makeKeyPath("AA02PA", "form", "PlcyNum", "TextField"), policyNumber)
 					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "TortTrshldTyp"), tortTrshldTyp)
@@ -837,7 +838,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 					.adjust(TestData.makeKeyPath("AHAUXX", "form", "PlcyNum", "TextField"), policyNumber)
 					.adjust(TestData.makeKeyPath("AA10PA", "form", "PlcyNum", "TextField"), policyNumber)
 					.adjust(TestData.makeKeyPath("AA10PA", "form", "TermEffDt","DateTimeField"), termEffDt)
-//					.adjust(TestData.makeKeyPath("AA10PA", "form", "TermExprDt","DateTimeField"), termExprDt) //TODO defect 44879 the value of TermExprDt incorrect
+					.adjust(TestData.makeKeyPath("AA10PA", "form", "TermExprDt","DateTimeField"), termExprDtPA) 
 					.adjust(TestData.makeKeyPath("AA02PA", "form", "PlcyNum", "TextField"), policyNumber)
 					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "TortTrshldTyp"), tortTrshldTyp)
 					.adjust(TestData.makeKeyPath("AA02PA", "CoverageDetails", "PlcyPdEaOcc"), plcyPdEaOcc)
@@ -979,13 +980,15 @@ public class TestScenario2 extends AutoSSBaseTest {
 		String _termEffDt = policyEffectiveDate.toString();
 		String _plcyEffDt = policyEffectiveDate.toString();
 		String _plcyExprDt = policyExpirationDate.toString();
-		String _termExprDt = policyExpirationDate.toString();
+		String _termExprDt = policyExpirationDate.toString(); 
+		String _termExprDtPA = policyEffectiveDate.plusDays(182).toString(); 
 		termEffDt = "contains=" + _termEffDt.substring(0, _termEffDt.indexOf("T"));
 		rnwlTrmEffDt = "contains=" + _termEffDt.substring(0, _termEffDt.indexOf("T"));
 		rnwlTrmDt = "contains=" + _termEffDt.substring(0, _termEffDt.indexOf("T"));
 		plcyEffDt = "contains=" + _plcyEffDt.substring(0, _plcyEffDt.indexOf("T"));
 		plcyExprDt = "contains=" + _plcyExprDt.substring(0, _plcyExprDt.indexOf("T"));
 		termExprDt = "contains=" + _termExprDt.substring(0, _termExprDt.indexOf("T"));
+	    termExprDtPA = "contains="+_termExprDtPA.substring(0, _termExprDtPA.indexOf("T"));
 
 		// Get the coverage information from premium and coverage page
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
