@@ -20,21 +20,31 @@ import java.util.stream.Collectors;
 
 public class BackwardCompatibilityBaseTest extends BaseTest {
 
-	protected static ConcurrentHashMap<String, List<Map<String, String>>> queryResult = new ConcurrentHashMap<>();
+	protected static ConcurrentHashMap<List<String>, List<Map<String, String>>> queryResult = new ConcurrentHashMap<>();
 
 	protected BctType getBctType() {
 		return BctType.ONLINE_TEST;
 	}
 
 	protected void executeBatchTest(String name, Job job) {
-		getQueryOnce(name, "PreValidation");
-		List<String> foundPolicies = getPoliciesFromQuery(queryResult.get(name+"PreValidation"), "PreValidation");
+		List<String> preKey = Collections.unmodifiableList(Arrays.asList(name, "PreValidation"));
+		synchronized (name) {
+			if (!queryResult.containsKey(preKey)) {
+				queryResult.put(preKey, getQueryResult(name, "PreValidation"));
+			}
+		}
+		List<String> foundPolicies = getPoliciesFromQuery(queryResult.get(preKey), "PreValidation");
 
 //		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
 		JobUtils.executeJob(job);
 
-		getQueryOnce(name, "PostValidation");
-		List<String> processedPolicies = getPoliciesFromQuery(queryResult.get(name+"PreValidation"), "PostValidation");
+		List<String> postKey = Collections.unmodifiableList(Arrays.asList(name, "PostValidation"));
+		synchronized (name) {
+			if (!queryResult.containsKey(postKey)) {
+				queryResult.put(postKey, getQueryResult(name, "PostValidation"));
+			}
+		}
+		List<String> processedPolicies = getPoliciesFromQuery(queryResult.get(postKey), "PostValidation");
 
 		CustomAssert.enableSoftMode();
 		foundPolicies.forEach(policy -> CustomAssert.assertTrue("Policy " + policy + " was processed by " + job.getJobName(), processedPolicies.contains(policy)));
@@ -67,14 +77,5 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 		log.info("Policies found by '" + queryName + "' query: " + policies.toString());
 
 		return policies;
-	}
-
-	private void getQueryOnce(String testName, String queryName) {
-		log.info(String.format("Query verification started for test %s query %s state %s", testName, queryName, getState()));
-		if (!queryResult.containsKey(testName+queryName)) {
-			log.info(String.format("Query requestingstarted for test %s query %s state %s", testName, queryName, getState()));
-			queryResult.put(testName+queryName, getQueryResult(testName, queryName));
-		}
-		log.info(String.format("Query verification completed for test %s query %s state %s", testName, queryName, getState()));
 	}
 }
