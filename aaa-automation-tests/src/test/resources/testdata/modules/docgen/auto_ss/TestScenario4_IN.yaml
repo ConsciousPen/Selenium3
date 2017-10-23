@@ -105,10 +105,10 @@ AASR22_EDOne_IN: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'Fernando'},
     NmdInsrdLstNm: {TextField: 'Alonso'},
-    NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
-    NmdInsrdCityNm: {'OKLAHOMA CITY'},
+    NmdInsrdStrPobAddr1: {TextField: '22616 ROCKVILLE RD'},
+    NmdInsrdCityNm: {'EVANSVILLE'},
     NmdInsrdStAbrv: {TextField: 'IN'},
-    NmdInsrdZipPls4: {TextField: '73118'},
+    NmdInsrdZipPls4: {TextField: '47714'},
   },  
   VehicleDetails: [
   {
@@ -167,8 +167,8 @@ AA41XX_EDTWO_IN: {
     NmdInsrdStAbrv: {TextField: IN}
   },
   AgentDetails: {
-    GenlAgntNum: {TextField: 500001020},
-    SubAgntNum: {TextField: 500005452}
+    GenlAgntNum: {TextField: 500001023},
+    SubAgntNum: {TextField: 500010068}
   },
   VehicleDetails: {
     VehTyp: {TextField: 'NO'}
@@ -221,11 +221,11 @@ AHRBXX_IN: {
     NmdInsrdFrstNm: {TextField: 'Fernando'},
     NmdInsrdMidNm: {TextField: ''},
     NmdInsrdLstNm: {TextField: 'Alonso'},
-    NmdInsrdStrPobAddr1:  {TextField: '4417 N GEORGIA AVE'},
+    NmdInsrdStrPobAddr1:  {TextField: '22616 ROCKVILLE RD'},
     NmdInsrdAddlAddr2: {TextField: ''},
-    NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
+    NmdInsrdCityNm: {TextField: 'EVANSVILLE'},
     NmdInsrdStAbrv: {TextField: 'IN'},
-    NmdInsrdZipPls4: {TextField: '73118'}
+    NmdInsrdZipPls4: {TextField: '47714'}
   },
   VehicleDetails: {
     PlcyVehInfo: {TextField: '2000 NANO NANO'},
