@@ -59,7 +59,7 @@ public class JobUtils {
 				log.info(String.format("Job '%s' has been already executed", job.getJobName()));
 				break;
 			case FAILED:
-				log.info(String.format("Job " + job.getJobName() + " execution is FAILED"));
+				log.error(String.format("Job " + job.getJobName() + " execution is FAILED"));
 				//throw new CustomTestException("Job " + job.getJobName() + " execution is FAILED");
 			default:
 				break;
