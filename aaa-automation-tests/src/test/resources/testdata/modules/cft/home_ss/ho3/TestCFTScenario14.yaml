@@ -17,11 +17,11 @@ PublicProtectionClass_DataGather: {
   Distance to fire hydrant: '<=1000ft',
   Fire protection area: '100'
 }
-
-Riskmeter_DataGather: {
-  Distance to Coast(miles): '1',
-  Elevation(feet): '2'
-}
+#
+#Riskmeter_DataGather: {
+#  Distance to Coast(miles): '1',
+#  Elevation(feet): '2'
+#}
 
 PremiumsAndCoveragesQuoteTab_DataGather: {
   Payment plan: Eleven Pay Standard,
