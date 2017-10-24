@@ -56,7 +56,8 @@ public final class BillingConstants {
 		public static final String DISCARDED_CANCELLATION_NOTICE = "Discarded Cancellation Notice";
 		public static final String CANCELLATION_NOTICE = "Cancellation Notice";
 		public static final String CANCELLATION = "Cancellation";
-		public static final String OFFER = "Offer";
+		public static final String OFFER = "Offer"; 
+		public static final String DISCARDED_OFFER = "Discarded Offer";
 	}
 
 	public static final class PaymentsAndOtherTransactionType {

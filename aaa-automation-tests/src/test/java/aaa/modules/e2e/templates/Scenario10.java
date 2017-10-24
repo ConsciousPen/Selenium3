@@ -12,6 +12,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
+import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.http.HttpStub;
@@ -19,6 +20,7 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
+import aaa.main.enums.BillingConstants;
 import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
@@ -58,10 +60,6 @@ public class Scenario10 extends ScenarioBaseTest {
 		policy = getPolicyType().get();
 		
 		mainApp().open();
-		
-		//temp workaround
-		//policyNum = "AZSS952951503";
-		//SearchPage.openPolicy(policyNum);
 		
 		createCustomerIndividual();	
 		policyNum = createPolicy(policyCreationTD); 
@@ -174,6 +172,7 @@ public class Scenario10 extends ScenarioBaseTest {
 		Tab.buttonCancel.click();
 	}
 	
+	//For AutoSS
 	protected void changePaymentPlan() {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -199,8 +198,46 @@ public class Scenario10 extends ScenarioBaseTest {
 		
 	}
 	
+	//For AutoCA
+	protected void changePaymentPlanForCA() {
+		LocalDateTime renewOfferDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+		
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
+		
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Quarterly (Renewal)").verifyPresent();
+		
+		billingAccount.changePaymentPlan().perform("Standard Monthly (Renewal)");
+		
+		BillingSummaryPage.showPriorTerms();		
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setPaymentPlan("Quarterly").verifyPresent();
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Standard Monthly (Renewal)").verifyPresent(); 
+		
+		BillingSummaryPage.buttonHidePriorTerms.click();
+		installmentDueDatesOfRenewal = BillingHelper.getInstallmentDueDates();
+		CustomAssert.assertEquals("Billing Installments count for Standard Monthly (Renewal) payment plan", 
+				installmentsCountOfRenewal, installmentDueDatesOfRenewal.size()); 
+		
+		new BillingBillsAndStatementsVerifier().setDueDate(policyExpirationDate).setType(BillingConstants.BillsAndStatementsType.OFFER).verifyPresent();
+		new BillingBillsAndStatementsVerifier().setDueDate(policyExpirationDate).setType(BillingConstants.BillsAndStatementsType.DISCARDED_OFFER).verifyPresent();
+		
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
+		.setSubtypeReason("EFT Installment Fee").verifyPresent(); 
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
+		.setSubtypeReason("Non EFT Installment Fee Waived").verifyPresent(); 
+		
+		verifyCaRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCountOfRenewal);
+		
+	}
+	
+	//For AutoSS
 	protected void payRenewalBill() {
 		payCashAndCheckBill(policyExpirationDate);
+	}
+	
+	//For AutoCA
+	protected void payRenewalOffer() {
+		payAndCheckBill(policyExpirationDate);
 	}
 	
 	protected void updatePolicyStatus() {

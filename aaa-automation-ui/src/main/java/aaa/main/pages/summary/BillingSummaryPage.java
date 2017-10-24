@@ -42,6 +42,7 @@ public class BillingSummaryPage extends SummaryPage {
 	public static Table tableModalPremiums = new Table(By.xpath("//div[@id='modalPremiumForm:billing_modal_premium']//table"));
 	public static Table tableBillingAccounts = new Table(By.xpath("//div[@id='billingAccountListForm:billing_account_list_table']//table"));
 	public static Link linkUpdateBillingAccount = new Link(By.id("billingDetailedForm:updateBillingAccount"));
+	//public static Link linkChangePaymentPlan = new Link(By.id("billingDetailedForm:billing_policies_info_table:0:changePaymentPlan"));
 	public static Link linkAcceptPayment = new Link(By.id("billingDetailedForm:acceptPayment"));
 	public static Link linkOtherTransactions = new Link(By.id("billingDetailedForm:otherTransactions"));
 	public static Link linkAdvancedAllocation = new Link(By.id("paymentForm:openAdvAllocationLnk"));

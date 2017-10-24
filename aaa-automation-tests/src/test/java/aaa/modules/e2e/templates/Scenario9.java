@@ -8,6 +8,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -58,10 +59,6 @@ public class Scenario9 extends ScenarioBaseTest {
 		policy = getPolicyType().get();
 		
 		mainApp().open();
-		
-		//temp workaround
-		//policyNum = "AZSS952951504";
-		//SearchPage.openPolicy(policyNum);
 		
 		createCustomerIndividual();	
 		policyNum = createPolicy(policyCreationTD); 
@@ -204,10 +201,11 @@ public class Scenario9 extends ScenarioBaseTest {
 		verifyRenewOfferGenerated(policyExpirationDate, installmentDueDates);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferGenDate)
 			.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
-		/*
+		
 		if (getState().equals(Constants.States.CA)) {
 			verifyCaRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
-		}		
+		}
+		/*
 		if (verifyPligaOrMvleFee(renewOfferGenDate, policyTerm, totalVehiclesNumber)) {
 			pligaOrMvleFeeLastTransactionDate = renewOfferGenDate;
 		}
@@ -225,9 +223,7 @@ public class Scenario9 extends ScenarioBaseTest {
 		
 		currentTermDueAmount = PolicySummaryPage.TransactionHistory.getTranPremium();
 		
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		//new BillingAccountPoliciesVerifier().setBillingStatus("On Hold").setTotalDue(currentTermDueAmount).verifyPresent();
-		
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());		
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setTotalDue(currentTermDueAmount).verifyPresent();
 		
 		// Endorsement transaction displayed on billing in Payments & Other transactions section
