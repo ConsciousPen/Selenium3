@@ -151,7 +151,7 @@
 			<class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
-   <!-- 	
+
 	<test name="KY HSS Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="KY"/>
     	<classes>
@@ -159,12 +159,12 @@
    			<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
    		</classes>
     </test>
--->
+
 	<test name="KY PUP Smoke Tests" preserve-order="true">
 	    <parameter name="state" value="KY"/>
     	<classes>
-   		<!-- temp remove due to defect 44323	<class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
-		  <class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/> -->
+   		  <class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+		  <class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
    		</classes>
     </test>
     	

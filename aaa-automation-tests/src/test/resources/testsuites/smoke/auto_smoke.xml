@@ -79,7 +79,7 @@
 			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
-<!--
+
 	<test name="KY Auto Smoke Tests" preserve-order="true">
 		<parameter name="state" value="KY" />
 		<classes>
@@ -87,7 +87,7 @@
 			<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd" />
 		</classes>
 	</test>
--->
+
 	<test name="MD Auto Smoke Tests" preserve-order="true">
 		<parameter name="state" value="MD" />
 		<classes>
