@@ -30,7 +30,7 @@ TestData_PA: {
   GeneralTab: '@GeneralTab',
   VehicleTab: '@VehicleTab',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_PA',
-  DocumentsAndBindTab: 'DocumentsAndBindTab_PA',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_PA',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -241,8 +241,8 @@ AA41XX_AZ: {
     NmdInsrdStAbrv: {TextField: AZ}
   },
   AgentDetails: {
-    GenlAgntNum: {TextField: 500001004},
-    SubAgntNum: {TextField: 500010032}
+    GenlAgntNum: {TextField: 400001650},
+    SubAgntNum: {TextField: 400018581}
   },
   VehicleDetails: {
     VehTyp: {TextField: 'NO'}
@@ -275,8 +275,8 @@ AA41XX_IN: {
     NmdInsrdStAbrv: {TextField: IN}
   },
   AgentDetails: {
-    GenlAgntNum: {TextField: 500001004},
-    SubAgntNum: {TextField: 500010032}
+    GenlAgntNum: {TextField: 400001650},
+    SubAgntNum: {TextField: 400018581}
   },
   VehicleDetails: {
     VehTyp: {TextField: 'NO'}
@@ -309,8 +309,8 @@ AA41XX_OK: {
     NmdInsrdStAbrv: {TextField: OK}
   },
   AgentDetails: {
-    GenlAgntNum: {TextField: 500001020},
-    SubAgntNum: {TextField: 500005452}
+    GenlAgntNum: {TextField: 400001650},
+    SubAgntNum: {TextField: 400018581}
   },
   VehicleDetails: {
     VehTyp: {TextField: 'NO'}
@@ -406,7 +406,7 @@ AARFIXX_AZ: {
     PlcyPrfx: {TextField: AZSS},
     PlcyGrp: {TextField: AUTO},
     PlcyStAbrv: {TextField: AZ},
-    PrdcrFullNm: {TextField: House Agent Mesa},
+    PrdcrFullNm: {TextField: House Agent SMTestIA},
     PlcyTransCd: {TextField: '0040'}
   }
 }
