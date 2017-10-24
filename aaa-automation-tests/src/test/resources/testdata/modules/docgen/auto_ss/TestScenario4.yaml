@@ -86,8 +86,11 @@ TestData_EndorsementTwo: {
 
 # ------------- Documents Verification ----------
 TestData_VerificationEDOne: {
-   AASR22: '@AASR22_EDOne',
    AAGCAZ: '@AAGCAZ_EDOne'
+}
+
+TestData_AASR22: {
+  AASR22: '@AASR22_EDOne'
 }
 
 AASR22_EDOne: {
