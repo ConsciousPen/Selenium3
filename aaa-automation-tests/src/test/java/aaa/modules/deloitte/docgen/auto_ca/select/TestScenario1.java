@@ -247,5 +247,9 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 				Documents._60_5002,
 				Documents._60_5003
 				);
+		DocGenHelper.verifyDocumentsGenerated(policyNum, Documents.AHIBXX);
+		
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
 }
