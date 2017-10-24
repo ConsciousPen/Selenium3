@@ -30,6 +30,7 @@ TestData_PA: {
   GeneralTab: '@GeneralTab',
   VehicleTab: '@VehicleTab',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_PA',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_PA',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -112,6 +113,19 @@ DocumentsAndBindTab: {
   RequiredToBind: {
     Auto Insurance Application: Not Signed,
     Non-Owner Automobile Endorsement: Not Signed
+  },
+  Agreement: I agree
+}
+
+DocumentsAndBindTab_PA: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    'Uninsured Motorists Coverage Selection/Rejection': Physically Signed,
+    'Underinsured Motorists Coverage Selection/Rejection': Physically Signed,
+    First Party Benefits Coverage and Limits Selection Form: Physically Signed,
+    Pennsylvania Important Notice: Physically Signed,
+    Pennsylvania Notice to Named Insured Regarding Tort Options: Physically Signed,
+    Invoice-Minimum Coverages: Physically Signed
   },
   Agreement: I agree
 }
@@ -354,10 +368,10 @@ AARFIXX_AZ: {
     NmdInsrdFrstNm: {TextField: 'Fernando'},
     NmdInsrdLstNm: {TextField: 'Alonso'},
     NmdInsrdStAbrv: {TextField: AZ},
-    NmdInsrdStrPobAddr1: {TextField: 265 CHIPMAN AVE},
+    NmdInsrdStrPobAddr1: {TextField: 4101 S LAST CHANCE TRL},
     NmdInsrdAddlAddr2: {TextField: ''},
-    NmdInsrdCityNm: {TextField: 'Phoenix'},
-    NmdInsrdZipPls4: {TextField: '85003'}
+    NmdInsrdCityNm: {TextField: 'GOLD CANYON'},
+    NmdInsrdZipPls4: {TextField: '85118'}
   },
   VehicleDetails: {
     VehTyp: {TextField: 'NO'}

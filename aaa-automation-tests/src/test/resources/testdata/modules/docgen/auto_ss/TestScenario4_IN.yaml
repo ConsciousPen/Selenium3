@@ -105,10 +105,10 @@ AASR22_EDOne_IN: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'Fernando'},
     NmdInsrdLstNm: {TextField: 'Alonso'},
-    NmdInsrdStrPobAddr1: {TextField: '265 CHIPMAN AVE'},
-    NmdInsrdCityNm: {'Phoenix'},
+    NmdInsrdStrPobAddr1: {TextField: '22616 ROCKVILLE RD'},
+    NmdInsrdCityNm: {'EVANSVILLE'},
     NmdInsrdStAbrv: {TextField: 'IN'},
-    NmdInsrdZipPls4: {TextField: '46064'},
+    NmdInsrdZipPls4: {TextField: '47714'},
   },  
   VehicleDetails: [
   {
@@ -130,7 +130,7 @@ AASR22_EDOne_IN: {
   ],
   DriverDetails: {
    DrvrLicNum: {TextField: '154673421'},
-   DrvrDOB: {DateTimeField: '1962-12-04T22:00:00.000Z'},
+   DrvrDOB: {DateTimeField: "contains=1962-12-04"},
   },
   form: {
     PlcyNum: {TextField: ''},
@@ -167,8 +167,8 @@ AA41XX_EDTWO_IN: {
     NmdInsrdStAbrv: {TextField: IN}
   },
   AgentDetails: {
-    GenlAgntNum: {TextField: 400001650},
-    SubAgntNum: {TextField: 400018581}
+    GenlAgntNum: {TextField: 500001023},
+    SubAgntNum: {TextField: 500010068}
   },
   VehicleDetails: {
     VehTyp: {TextField: 'NO'}
@@ -221,11 +221,11 @@ AHRBXX_IN: {
     NmdInsrdFrstNm: {TextField: 'Fernando'},
     NmdInsrdMidNm: {TextField: ''},
     NmdInsrdLstNm: {TextField: 'Alonso'},
-    NmdInsrdStrPobAddr1:  {TextField: '265 CHIPMAN AVE'},
+    NmdInsrdStrPobAddr1:  {TextField: '22616 ROCKVILLE RD'},
     NmdInsrdAddlAddr2: {TextField: ''},
-    NmdInsrdCityNm: {TextField: 'Pendleton'},
+    NmdInsrdCityNm: {TextField: 'EVANSVILLE'},
     NmdInsrdStAbrv: {TextField: 'IN'},
-    NmdInsrdZipPls4: {TextField: '46064'}
+    NmdInsrdZipPls4: {TextField: '47714'}
   },
   VehicleDetails: {
     PlcyVehInfo: {TextField: '2000 NANO NANO'},

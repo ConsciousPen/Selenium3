@@ -78,8 +78,7 @@ public class ScenarioBaseTest extends BaseTest {
 		BillingSummaryPage.showPriorTerms();
 
 		CustomAssert.enableSoftMode();
-		for (int i = 1; i < installmentDates.size(); i++) { // Do not include
-															// Deposit bill
+		for (int i = 1; i < installmentDates.size(); i++) { // Do not include Deposit bill
 			new BillingInstallmentsScheduleVerifier().setDescription(BillingConstants.InstallmentDescription.INSTALLMENT)
 				.setInstallmentDueDate(installmentDates.get(i).plusYears(1)).verifyPresent();
 		}

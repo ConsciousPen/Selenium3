@@ -91,7 +91,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 				Documents.F1076B
 				);
 		documentActionTab.verify.documentsEnabled(false,
-//				Documents._62_6500, // TODO enabled on the page, need to confirm the request
+				Documents._62_6500,
 				Documents.WURFICA,
 				Documents.HSU01CA,
 				Documents.HSU02XX,

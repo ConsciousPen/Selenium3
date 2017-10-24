@@ -1,0 +1,21 @@
+TestData: {
+  CancellationActionTab: '@CancellationActionTab'
+}
+GeneralTab_DataGather: {
+  PolicyInformation: {
+    Effective Date: '/today+2d',
+  }
+}
+
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Eleven Pay - Standard,
+}
+
+DriverTab_DataGather: {
+  Affinity Group: 'AAA Employee'
+}
+
+CancellationActionTab: {
+  Cancellation Reason: 'Rewrite Accommodation',
+  Authorized By: QA
+}
