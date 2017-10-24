@@ -100,6 +100,7 @@ public class TestRefundProcess extends PolicyBilling {
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).verify.enabled();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).verify.value("");
 		AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.verify.present(false);
+		acceptPaymentActionTab.cancel();
 		//PAS-1462 end
 
 		billingAccount.refund().perform(tdRefund, new Dollar(amount));
@@ -114,6 +115,7 @@ public class TestRefundProcess extends PolicyBilling {
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(TYPE).controls.links.get(1).click();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_NUMBER.getLabel(), TextBox.class).verify.value("Processing");
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_DATE.getLabel(), TextBox.class).verify.value(checkDate);
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYEE_NAME.getLabel(), TextBox.class).verify.present();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).verify.value(amount.toString());
 
 
