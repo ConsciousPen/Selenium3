@@ -22,6 +22,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
+import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
@@ -34,10 +35,13 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.TextBox;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static aaa.main.enums.BillingConstants.BillingAccountPoliciesTable.MIN_DUE;
 import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.INSTALLMENT_FEE;
 import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.PAYMENT_METHOD;
+
 
 public class TestInstallmentFees extends PolicyBilling {
 
@@ -49,6 +53,9 @@ public class TestInstallmentFees extends PolicyBilling {
 	private TestData refund = tdBilling.getTestData("Refund", "TestData_Cash");
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private BillingAccount billingAccount = new BillingAccount();
+	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
+	private UpdateBillingAccountActionTab updateBillingAccountActionTab = new UpdateBillingAccountActionTab();
+
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -71,7 +78,7 @@ public class TestInstallmentFees extends PolicyBilling {
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-1943")
 	public void pas1943_InstallmentFeeCreditDebitCardSplit(@Optional("") String state) {
 
-		String paymentPlan = "Monthly";
+		String paymentPlan = "contains=Standard"; //"Monthly"
 		String premiumCoverageTabMetaKey = TestData.makeKeyPath(new PremiumAndCoveragesTab().getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel());
 		TestData policyTdAdjusted = getPolicyTD().adjust(premiumCoverageTabMetaKey, paymentPlan);
 
@@ -99,7 +106,19 @@ public class TestInstallmentFees extends PolicyBilling {
 		billingAccount.update().start();
 		String installmentSavingInfo = String.format("This customer can save %s per installment if enrolled into AutoPay with a checking/savings account.", nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString().replace(".00", ""));
 		CustomAssert.assertTrue(BillingAccount.tableInstallmentSavingInfo.getRow(1).getCell(2).getValue().equals(installmentSavingInfo));
+
+		//PAS-3846 start - will change in future
+		AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("contains=Card");
+		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.CARD_TYPE).verify.value("Credit Card");
+		List<String> cardType = new ArrayList<>();
+		cardType.add("Credit Card");
+		cardType.add("Debit Card");
+		CustomAssert.assertTrue(updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.CARD_TYPE).getAllValues().containsAll(cardType));
+		CustomAssert.assertFalse(updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.CARD_TYPE).isEnabled());
+		Tab.buttonBack.click();
 		Tab.buttonCancel.click();
+		//PAS-3846 end
 
 		//check Non-EFT fee
 		feeSubtypeCheck(policyNumber, 2, "Non EFT Installment Fee", nonEftInstallmentFee);

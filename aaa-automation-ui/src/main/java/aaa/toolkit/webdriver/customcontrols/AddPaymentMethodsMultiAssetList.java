@@ -1,6 +1,5 @@
 package aaa.toolkit.webdriver.customcontrols;
 
-import java.util.List;
 import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.BaseElement;
@@ -10,11 +9,13 @@ import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
+import java.util.List;
+
 public class AddPaymentMethodsMultiAssetList extends MultiAssetList {
-	private Button buttonAddUpdateCreditCard = new Button(By.xpath("//a[@id='purchaseForm:addPaymentMethodBtn' or @id='updateForm:addPaymentMethodBtn' or @id='paymentForm:addPaymentMethodButton']"));
-	private Button buttonAddUpdatePaymentMethod = new Button(By.xpath("//input[@id='paymentMethodForm:pciSaveBtn' or @id='paymentMethodEFTForm:eftSaveBtn']"));
-	private Button buttonBack = new Button(By.id("primaryButtonsForm:backButton_footer"), Waiters.AJAX.then(Waiters.SLEEP(1000)).then(Waiters.AJAX));
-	private Table tablePaymentMethods = new Table(By.id("paymentMethodListTable:paymentMethodDataTable"));
+	public static Button buttonAddUpdateCreditCard = new Button(By.xpath("//a[@id='purchaseForm:addPaymentMethodBtn' or @id='updateForm:addPaymentMethodBtn' or @id='paymentForm:addPaymentMethodButton']"));
+	private static Button buttonAddUpdatePaymentMethod = new Button(By.xpath("//input[@id='paymentMethodForm:pciSaveBtn' or @id='paymentMethodEFTForm:eftSaveBtn']"));
+	private static Button buttonBack = new Button(By.id("primaryButtonsForm:backButton_footer"), Waiters.AJAX.then(Waiters.SLEEP(1000)).then(Waiters.AJAX));
+	private static Table tablePaymentMethods = new Table(By.id("paymentMethodListTable:paymentMethodDataTable"));
 
 	public AddPaymentMethodsMultiAssetList(By locator, Class<? extends MetaData> metaDataClass) {
 		super(locator, metaDataClass);
