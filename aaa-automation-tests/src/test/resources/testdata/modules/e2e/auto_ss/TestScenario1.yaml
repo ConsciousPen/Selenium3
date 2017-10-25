@@ -50,7 +50,9 @@ TestData_Endorsement_NY: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: '@DocumentsAndBindTab_NY'
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
 }
 
 VehicleTab_NY: {
@@ -59,12 +61,4 @@ VehicleTab_NY: {
   VIN: WDCYC7BB0B6729451,
   "Less Than 3,000 Miles": 'No',
   'Is this a Replacement Vehicle?': 'No'
-}
-
-DocumentsAndBindTab_NY: {
-  RequiredToIssue: {
-    Separate Vehicle 1: 'Yes',
-    Separate Vehicle 2: 'Yes'
-  },
-  Authorized By: qa
 }

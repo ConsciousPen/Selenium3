@@ -209,7 +209,8 @@ public class Scenario2 extends ScenarioBaseTest {
 
 	protected void renewalPreviewGeneration() {
 		LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
-		if (getState().equals(Constants.States.MD) && DateTimeUtils.getCurrentDateTime().isAfter(renewPreviewGenDate)) {
+		if ((getState().equals(Constants.States.MD) || getState().equals(Constants.States.NJ) || getState().equals(Constants.States.PA) || getState().equals(Constants.States.SD))
+				&& DateTimeUtils.getCurrentDateTime().isAfter(renewPreviewGenDate)) {
 			renewPreviewGenDate = DateTimeUtils.getCurrentDateTime();
 		}
 		TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);

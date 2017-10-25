@@ -34,24 +34,51 @@ DocumentsAndBindTab: {
   }, 
 }
 
-# ----- Endorsement -----
+# ----- Endorsement ----- 
 TestData_Endorsement: {
   GeneralTab: {},
   DriverTab: {},
   RatingDetailReportsTab: {},
-  VehicleTab: {},
+  VehicleTab: '@VehicleTab',
+  AssignmentTab: {},
   FormsTab: {},
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
     Authorized By: qa
   }
 }
 
+VehicleTab: {
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: WDCYC7BB0B6729451
+}
+
 PremiumAndCoveragesTab: {
   Bodily Injury Liability: 'contains=$500,000/$500,000', 
   Property Damage Liability: 'contains=$500,000', 
-  Uninsured Motorists Bodily Injury: 'contains=$500,000/$500,000',
-  Underinsured Motorists Bodily Injury: 'contains=$500,000/$500,000', 
+  Personal Injury Protection: 'contains=$5,000'
+}
+
+# ----------- AZ -------------
+TestData_Endorsement_AZ: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_AZ',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+PremiumAndCoveragesTab_AZ: {
+  Bodily Injury Liability: 'contains=$500,000/$500,000', 
+  Property Damage Liability: 'contains=$500,000',  
   Medical Payments: 'contains=$5,000'
 }
+
+

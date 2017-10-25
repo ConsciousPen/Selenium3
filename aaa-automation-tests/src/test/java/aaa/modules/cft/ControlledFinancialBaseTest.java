@@ -2,11 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.cft;
 
-import java.time.LocalDateTime;
-
-import toolkit.datax.TestData;
-import toolkit.exceptions.IstfException;
-import toolkit.utils.datetime.DateTimeUtils;
 import aaa.admin.modules.reports.operationalreports.OperationalReport;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -18,10 +13,12 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ActivitiesAndUserNotesConstants;
 import aaa.main.enums.BillingConstants;
+import aaa.main.enums.BillingConstants.*;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
+import aaa.main.modules.billing.account.actiontabs.DeclinePaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.OtherTransactionsActionTab;
 import aaa.main.modules.billing.paymentsmaintenance.PaymentsMaintenance;
 import aaa.main.pages.summary.BillingSummaryPage;
@@ -31,9 +28,15 @@ import aaa.modules.cft.details.BillingAccountDetails;
 import aaa.modules.cft.details.BillingAccountInformationHolder;
 import aaa.modules.cft.details.PolicyDetails;
 import aaa.modules.policy.PolicyBaseTest;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import toolkit.datax.TestData;
+import toolkit.exceptions.IstfException;
+import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.webdriver.controls.ComboBox;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
 
 public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
@@ -115,6 +118,33 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected void endorsePolicyCancellationNoticeDate() {
 		LocalDateTime endorsementDate = getTimePoints().getCancellationNoticeDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
 		performEndorsementOnDate(endorsementDate);
+	}
+
+	protected void declineSuspensePaymentCancellationDate() {
+		LocalDateTime declineDate = getTimePoints().getCancellationDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
+		TimeSetterUtil.getInstance().nextPhase(declineDate);
+		log.info("Decline Suspense Payment action started");
+		log.info("Action date: {}", declineDate);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		LocalDateTime suspenseDate = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
+		HashMap<String, String> values = new HashMap<>();
+		values.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, suspenseDate.format(DateTimeUtils.MM_DD_YYYY));
+		values.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PAYMENT);
+		values.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.SUSPENSE);
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(values).getCell(BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(PaymentsAndOtherTransactionAction.DECLINE).click();
+		DeclinePaymentActionTab declinePaymentActionTab = new DeclinePaymentActionTab();
+		if (declinePaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.DeclinePaymentActionTab.DECLINE_REASON.getLabel()).isPresent()) {
+			declinePaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.DeclinePaymentActionTab.DECLINE_REASON.getLabel(), ComboBox.class).setValue("index=1");
+		}
+		DeclinePaymentActionTab.buttonOk.click();
+		new BillingPaymentsAndTransactionsVerifier()
+			.setTransactionDate(suspenseDate)
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.SUSPENSE)
+			.setStatus(PaymentsAndOtherTransactionStatus.DECLINED)
+			.verifyPresent();
+		log.info("Decline Suspense Payment action completed successfully");
 	}
 
 	/**
@@ -341,8 +371,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Manual cancellation date: {}", cancellationDate);
 		mainApp().reopen();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		String effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue();
-		policy.cancel().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).adjust(keyPath, effectiveDate));
+		LocalDateTime effectiveDate = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyEffDate();
+		policy.cancel().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).adjust(keyPath, effectiveDate.format(DateTimeUtils.MM_DD_YYYY)));
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		log.info("Manual cancellation action completed successfully");
 	}
@@ -373,7 +403,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("TEST: Rewriting Policy #" + rewritePolicyNumber);
 
 		policy.dataGather().start();
-		policy.getDefaultView().fill(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy"));
+		policy.getDefaultView().fill(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy").adjust(getTestSpecificTD(DEFAULT_TEST_DATA_KEY)));
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
@@ -585,7 +615,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(reinstatementDate);
 		log.info("Manual reinstatement action started");
 		log.info("Manual reinstatement date: {}", reinstatementDate);
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		// JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		policy.reinstate().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));

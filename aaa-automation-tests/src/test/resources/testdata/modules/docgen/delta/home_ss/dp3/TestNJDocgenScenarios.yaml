@@ -10,6 +10,6 @@ TestData_DeltaPolicyDocuments: {
     MailingAddress: {},
     NamedInsuredInformation: '@home_ss_ho3@DataGather@NamedInsuredInformation',
     OtherActiveAAAPolicies: '@home_ss_ho3@DataGather@OtherActiveAAAPolicies',
-    AgentInfo: '@home_ss_ho3@DataGather@AgentInfo'
+    AgentInfo: '@home_ss_ho3@DataGather@AgentInfo_NJ'
   }
 }

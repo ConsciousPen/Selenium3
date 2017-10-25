@@ -23,6 +23,7 @@ import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.table.Table;
 
 import java.util.List;
+import java.util.Map;
 
 public final class BillingAccountActions {
 
@@ -325,6 +326,12 @@ public final class BillingAccountActions {
 			return this;
 		}
 
+		public AbstractAction start(Map<String, String> map) {
+			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(map).getCell(BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(
+					ActionConstants.BillingPaymentsAndOtherTransactionAction.DECLINE).click();
+			return this;
+		}
+		
 		public AbstractAction perform(TestData td, int rowNumber) {
 			start(rowNumber);
 			getView().fill(td);
@@ -333,6 +340,12 @@ public final class BillingAccountActions {
 
 		public AbstractAction perform(TestData td, String amount) {
 			start(amount);
+			getView().fill(td);
+			return submit();
+		}
+		
+		public AbstractAction perform(TestData td, Map<String, String> map) {
+			start(map);
 			getView().fill(td);
 			return submit();
 		}

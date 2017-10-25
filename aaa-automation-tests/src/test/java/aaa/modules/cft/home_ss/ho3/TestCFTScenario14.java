@@ -1,12 +1,5 @@
 package aaa.modules.cft.home_ss.ho3;
 
-import org.apache.commons.lang3.StringUtils;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-
-import toolkit.datax.TestData;
-import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
@@ -14,7 +7,14 @@ import aaa.main.modules.policy.home_ss.actiontabs.CancellationActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
+import org.apache.commons.lang3.StringUtils;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import toolkit.datax.TestData;
+import toolkit.utils.TestInfo;
 
 public class TestCFTScenario14 extends ControlledFinancialBaseTest {
 	@Test(groups = {Groups.CFT})
@@ -40,6 +40,12 @@ public class TestCFTScenario14 extends ControlledFinancialBaseTest {
 			getTestSpecificTD("ApplicantTab_DataGather").getValue(HomeSSMetaData.ApplicantTab.NamedInsured.AAA_EMPLOYEE.getLabel()));
 		td.adjust(TestData.makeKeyPath(PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), getTestSpecificTD(
 			"PremiumsAndCoveragesQuoteTab_DataGather").getValue(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()));
+		td.adjust(TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.class.getSimpleName()),
+				getTestSpecificTD("PublicProtectionClass_DataGather"));
+		td.adjust(TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.Riskmeter.class.getSimpleName()),
+				getTestSpecificTD("Riskmeter_DataGather"));
+		td.adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.AgentInfo.class.getSimpleName(),
+				HomeSSMetaData.ApplicantTab.AgentInfo.AGENCY_LOCATION.getLabel()), "index=1");
 		return td.resolveLinks();
 	}
 }

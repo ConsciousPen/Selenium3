@@ -26,6 +26,8 @@ public class Jobs {
 
 	public static Job aaaCancellationConfirmationAsyncJob = new Job("aaaCancellationConfirmationAsyncJob");
 
+	public static Job aaaRefundDisbursementAsyncJob = new Job("aaaRefundDisbursementAsyncJob");
+
 	public static Job earnedPremiumBillGenerationJob = new Job("earnedPremiumBillGenerationJob");
 
 	public static Job offCycleBillingInvoiceAsyncJob = new Job("aaaOffCycleBillingInvoiceAsyncJob");
