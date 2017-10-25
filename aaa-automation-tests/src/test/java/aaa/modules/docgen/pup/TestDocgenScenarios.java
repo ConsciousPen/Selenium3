@@ -1,11 +1,5 @@
 package aaa.modules.docgen.pup;
 
-import static aaa.main.enums.DocGenEnum.Documents.*;
-
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import toolkit.verification.CustomAssert;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.PersonalUmbrellaTab;
 import aaa.common.pages.NavigationPage;
@@ -16,6 +10,12 @@ import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import toolkit.verification.CustomAssert;
+
+import static aaa.main.enums.DocGenEnum.Documents.*;
 
 public class TestDocgenScenarios extends PersonalUmbrellaBaseTest{
 	/**
@@ -104,7 +104,7 @@ public class TestDocgenScenarios extends PersonalUmbrellaBaseTest{
 	 */
 	
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testPUPDocgenScenarios(@Optional("") String state){
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -124,16 +124,19 @@ public class TestDocgenScenarios extends PersonalUmbrellaBaseTest{
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum,PSIQXX,AHPNXX);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.quoteDocGen().start();
 		goddTab.generateDocuments(PS11,AHFMXX);
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum,PS11,AHPNXX,AHFMXX);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.quoteDocGen().start();
 		goddTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"), HSU03XX,HSU04XX,HSU05XX,HSU06XX,HSU08XX);
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum,HSU03XX,HSU04XX,HSU05XX,HSU06XX,HSU08XX);
 		
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.dataGather().start();
 		NavigationPage.toViewTab(PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
 		NavigationPage.toViewTab(PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());

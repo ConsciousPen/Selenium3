@@ -15,6 +15,7 @@ import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.composite.table.Table;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * Control for filling Forms for Policy, Vehicle or Driver on Forms tab for Auto products.</br>
@@ -121,7 +122,7 @@ public abstract class AutoFormsController extends AbstractContainer<List<TestDat
 	public void addAndFillForm(String formName, TestData td) {
 		getAddLink(formName).click();
 		((AssetList)getAssetCollection().get(formName)).setValue(td);
-		new Button(getAssetCollection().get(formName), By.xpath(".//input[@value='OK']")).click();
+		new Button(getAssetCollection().get(formName), By.xpath(".//input[@value='OK']")).click(Waiters.DEFAULT.then(Waiters.SLEEP(2000)));
 	}
 	
 	/**
@@ -132,7 +133,7 @@ public abstract class AutoFormsController extends AbstractContainer<List<TestDat
 	public void openAndFillForm(String formName, TestData td) {
 		getOpenLink(formName).click();
 		((AssetList)getAssetCollection().get(formName)).setValue(td);
-		new Button(getAssetCollection().get(formName), By.xpath(".//input[@value='OK']")).click();
+		new Button(getAssetCollection().get(formName), By.xpath(".//input[@value='OK']")).click(Waiters.DEFAULT.then(Waiters.SLEEP(2000)));
 	}
 
 	@Override

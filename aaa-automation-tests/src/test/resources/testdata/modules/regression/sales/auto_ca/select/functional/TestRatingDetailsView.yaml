@@ -1,0 +1,11 @@
+TestData: {
+  VehicleTab: ['@<auto_ca_select>@DataGather@VehicleTab_1','@VINDoesNotMatch@VehicleTab_UnmatchedVIN'],
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: ['@Assignment', '@Assignment'],
+    }
+}
+
+Assignment: {
+  'Primary Driver': 'index=1',
+  'Manually Rated Driver': 'index=1'
+}

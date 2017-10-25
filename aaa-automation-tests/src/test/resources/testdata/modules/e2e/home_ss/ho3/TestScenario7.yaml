@@ -6,19 +6,6 @@ TestData: {
   },
 }
 
-TestData_EnableAutopay: {
-  UpdateBillingAccountActionTab: {
-    Activate Autopay: true,
-    Autopay Selection: 'index=1'
-  }
-}
-
-TestData_DisableAutopay: {
-  UpdateBillingAccountActionTab: {
-    Activate Autopay: false
-  }
-}
-
 # ----- Endorsement -----
 TestData_EndorsementPlan: {
   GeneralTab: {},
@@ -58,7 +45,7 @@ TestData_EndorsementAP: {
   ReportsTab: {},
   PropertyInfoTab: {
     PropertyValue: {
-      Coverage A - Dwelling limit: 174000
+      Coverage A - Dwelling limit: 150000
     }
   },
   ProductOfferingTab: {},

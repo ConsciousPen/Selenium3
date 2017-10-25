@@ -2,28 +2,19 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.metadata.policy;
 
-import aaa.main.enums.DocGenConstants;
-import aaa.toolkit.webdriver.customcontrols.*;
-import org.openqa.selenium.By;
-
-import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
-import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
-
 import aaa.common.pages.Page;
+import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
+import aaa.toolkit.webdriver.customcontrols.*;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import aaa.toolkit.webdriver.customcontrols.endorsements.PupEndorsementsMultiAssetList;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.CheckBox;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.DoubleTextBox;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.TextBox;
+import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
+import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
+import org.openqa.selenium.By;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
@@ -118,23 +109,23 @@ public final class PersonalUmbrellaMetaData {
 			public static final AssetDescriptor<ComboBox> APPLICATION_TYPE = declare("Application type", ComboBox.class, Waiters.NONE);
 			public static final AssetDescriptor<TextBox> UNDERWRITING_COMPANY = declare("Underwriting Company", TextBox.class, Waiters.NONE);
 			public static final AssetDescriptor<ComboBox> CHANNEL_TYPE = declare("Channel Type", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> LOCATION = declare("Location", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> LOCATION = declare("Location", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> AGENCY = declare("Agency", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> AGENCY_OF_RECORD = declare("Agency of Record", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> AGENT_OF_RECORD = declare("Agent of Record", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> AGENCY_OF_RECORD = declare("Agency of Record", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> AGENT_OF_RECORD = declare("Agent of Record", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<StaticElement> AGENT_NUMBER = declare("Agent Number", StaticElement.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> SALES_CHANNEL = declare("Sales Channel", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<ComboBox> AGENCY_LOCATION = declare("Agency Location", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> SALES_CHANNEL = declare("Sales Channel", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> AGENCY_LOCATION = declare("Agency Location", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> AGENT = declare("Agent", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> COMMISSION_TYPE = declare("Commission Type", ComboBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> COMMISSION_TYPE = declare("Commission Type", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> LEAD_SOURCE = declare("Lead source", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<ComboBox> SUPPRESS_PRINT = declare("Suppress Print", ComboBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> POLICY_INSURANCE_SCORE = declare("Policy insurance score", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<ComboBox> SUPPRESS_PRINT = declare("Suppress Print", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> POLICY_INSURANCE_SCORE = declare("Policy insurance score", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> OVERRIDE_POLICY_INSURANCE_SCORE = declare("Override policy insurance score", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> OVERRIDE_SCORE = declare("Override score", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class, Waiters.AJAX);
-			public static final AssetDescriptor<TextBox> OVERRIDEN_BY = declare("Overriden by", TextBox.class, Waiters.NONE);
-			public static final AssetDescriptor<TextBox> TOLLFREE_NUMBER = declare("TollFree Number", TextBox.class, Waiters.NONE);
+			public static final AssetDescriptor<TextBox> OVERRIDEN_BY = declare("Overriden by", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<TextBox> TOLLFREE_NUMBER = declare("TollFree Number", TextBox.class, Waiters.AJAX);
 		}
 
 		public static final class AAAMembership extends MetaData {
@@ -154,8 +145,7 @@ public final class PersonalUmbrellaMetaData {
 			public static final AssetDescriptor<TextBox> COUNTY = declare("County", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.NONE);
 			public static final AssetDescriptor<Button> VALIDATE_ADDRESS_DWELLING_ADDRESS = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateAdditionalDwellingAddressButton"));
-			public static final AssetDescriptor<AddressValidationDialog> VALIDATE_ADDRESS_DIALOG_DWELLING_ADDRESS
- = declare("Validate Address Dialog", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class,
+			public static final AssetDescriptor<AddressValidationDialog> VALIDATE_ADDRESS_DIALOG_DWELLING_ADDRESS = declare("Validate Address Dialog", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class,
 					By.id(" .//form[@id='addressValidationFormAAAHODwellAddressValidationComp']"));
 		}
 

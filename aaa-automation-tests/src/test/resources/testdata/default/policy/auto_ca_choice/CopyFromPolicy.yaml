@@ -3,8 +3,13 @@ TestData: {
     Quote Effective Date: /today
   },
   MembershipTab: '@DataGather@MembershipTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DataGather@DriverActivityReportsTab',
   PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+PremiumAndCoveragesTab: {
+   Calculate Premium: 'click',
 }
 
 TestData_BackDated: {

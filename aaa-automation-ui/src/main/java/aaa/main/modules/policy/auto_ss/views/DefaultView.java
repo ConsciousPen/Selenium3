@@ -10,6 +10,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTabCalculatePremium;
 import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
@@ -35,6 +36,7 @@ public class DefaultView extends Workspace {
 		registerTab(AssignmentTab.class);
 		registerTab(FormsTab.class);
 		registerTab(PremiumAndCoveragesTab.class);
+		registerTab(ErrorTabCalculatePremium.class);
 		registerTab(DriverActivityReportsTab.class);
 		registerTab(DocumentsAndBindTab.class);
 		registerTab(ErrorTab.class);

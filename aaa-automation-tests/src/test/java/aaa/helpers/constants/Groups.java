@@ -7,6 +7,9 @@ public class Groups {
 	public static final String FUNCTIONAL     = "Functional";
 	public static final String DELTA          = "Delta";
 	public static final String PRECONDITION   = "Precondition";
+	public static final String CFT   = "CFT";
+	public static final String DOCGEN = "DocGen";
+	public static final String TIMEPOINT = "Timepoint";
 
 	public static final String BLOCKER        = "Blocker";
 	public static final String CRITICAL       = "Critical";
@@ -16,5 +19,5 @@ public class Groups {
 
 
 
-	
+
 }

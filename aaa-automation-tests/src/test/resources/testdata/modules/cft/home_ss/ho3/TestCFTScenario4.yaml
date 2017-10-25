@@ -1,0 +1,70 @@
+TestData: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+  AcceptPaymentActionTab: {
+    Payment Method: 'Check',
+    Amount: 50,
+    Check Number: 123456
+  }
+}
+
+EndorsementActionTab: {
+    Endorsement Date: /today,
+    Endorsement Reason: 'Other Interest(s)/Mortgagees'
+}
+
+ApplicantTab: {
+  AAA employee: 'No'
+}
+
+ApplicantTab_DataGather: {
+  AAA employee: 'Yes'
+}
+
+PremiumsAndCoveragesQuoteTab_DataGather: {
+  Payment plan: Eleven Pay Standard,
+  Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+  Coverage E - Personal Liability Each Occurrence: '$300,000'
+}
+
+PurchaseTab_DataGather: {
+  PaymentMethods: ['@CC_Visa'],
+  PaymentAllocation: {
+    Visa: /rest
+  }
+}
+
+PublicProtectionClass_DataGather: {
+  Fire department type: 'S - Subscription based',
+  Subscription to fire department/station: 'No',
+  Public protection class: '1',
+  Distance to fire hydrant: '<=1000ft',
+  Fire protection area: '100'
+}
+
+Riskmeter_DataGather: {
+  Distance to Coast(miles): '1',
+  Elevation(feet): '2'
+}
+
+CC_Visa: {
+  Payment Method: 'Credit/Debit Card',
+  Type: 'Visa',
+  Number: '4111111111111111'
+}
+
+AcceptPayment: {
+  AcceptPaymentActionTab: {
+      Payment Method: 'Cash'
+  }
+}

@@ -1,9 +1,5 @@
 package aaa.modules.docgen.home_ca.ho3;
 
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import toolkit.verification.CustomAssert;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum.Documents;
@@ -11,6 +7,10 @@ import aaa.main.modules.policy.home_ca.actiontabs.PolicyDocGenActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import toolkit.verification.CustomAssert;
 
 /**
  * 
@@ -71,7 +71,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
      */
 
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testQuoteDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -91,7 +91,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 				Documents.F1076B
 				);
 		documentActionTab.verify.documentsEnabled(false,
-//				Documents._62_6500, // TODO enabled on the page, need to confirm the request
+				Documents._62_6500,
 				Documents.WURFICA,
 				Documents.HSU01CA,
 				Documents.HSU02XX,
@@ -108,7 +108,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 		WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNum, Documents._61_6528_HO3, Documents.HSU03XX, Documents.WUAUCA, Documents.AHPNCA);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.quoteDocGen().start();
 		documentActionTab.generateDocuments(
 				Documents.F1122, 
@@ -122,7 +122,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 				Documents.HSU04XX
 				);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.quoteDocGen().start();
 		documentActionTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU05"), 
 				Documents._61_3000, 
@@ -136,7 +136,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 				Documents.HSU05XX
 				);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.quoteDocGen().start();
 		documentActionTab.generateDocuments( 
 				Documents.F1076B, 
@@ -150,7 +150,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 				Documents.HSU08XX
 				);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.purchase(getPolicyTD());
 		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 		policy.policyDocGen().start();
@@ -202,7 +202,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
      * 10. Verify that all enabled documents are generated
      */
 	@Parameters({"state"})
-	@Test
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void testPolicyDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -245,7 +245,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 //				Documents._61_2006,  // TODO Not persent, need to confirm the request
 				Documents.AHPNCA);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.policyDocGen().start();
 		documentActionTab.generateDocuments(
 				Documents.WUAUCA, 
@@ -261,7 +261,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 				Documents.F1122
 				);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.policyDocGen().start();
 		documentActionTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU05"),
 				Documents._60_5019, 
@@ -279,7 +279,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 				Documents.HSU06CA
 				);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.policyDocGen().start();
 		documentActionTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU09"),
 				Documents.HSU07CA, 
@@ -293,7 +293,7 @@ public class TestDocgenScenarios extends HomeCaHO3BaseTest {
 				Documents.HSU09XX
 				);
 		
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
 		policy.policyDocGen().start();
 		documentActionTab.generateDocuments(
 				Documents._61_3000, 

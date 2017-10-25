@@ -1,6 +1,5 @@
 package aaa.modules.e2e.templates;
 
-import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -22,7 +21,6 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
@@ -59,11 +57,7 @@ public class Scenario8 extends ScenarioBaseTest {
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
 		CustomAssert.assertEquals("Billing Installments count for Monthly (Eleven Pay) payment plan", 11, installmentDueDates.size());
 
-		if (getState().equals(Constants.States.NJ)) {
-			new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(TimeSetterUtil.getInstance().getPhaseStartTime());
-		} else if (getState().equals(Constants.States.NY)) {
-			new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(TimeSetterUtil.getInstance().getPhaseStartTime());
-		}
+		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime());
 	}
 
 	protected void generateFirstBill() {
@@ -110,13 +104,8 @@ public class Scenario8 extends ScenarioBaseTest {
 
 		/** TODO Why 9??? */
 		new BillingInstallmentsScheduleVerifier().setDescription(BillingConstants.InstallmentDescription.INSTALLMENT).verifyCount(9);
-
-		if (getState().equals(Constants.States.NJ)) {
+		if (verifyPligaOrMvleFee(policyExpirationDateOffer)) {
 			pligaOrMvleFeeLastTransactionDate = policyExpirationDateOffer;
-			new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(pligaOrMvleFeeLastTransactionDate);
-		} else if (getState().equals(Constants.States.NY)) {
-			pligaOrMvleFeeLastTransactionDate = policyExpirationDateOffer;
-			new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(pligaOrMvleFeeLastTransactionDate);
 		}
 	}
 
@@ -128,18 +117,11 @@ public class Scenario8 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();
 
-		Dollar pligaOrMvleFee = BillingHelper.DZERO;
-		if (getState().equals(Constants.States.NJ)) {
-			pligaOrMvleFee = BillingSummaryPage.getPligaFee(pligaOrMvleFeeLastTransactionDate);
-		} else if (getState().equals(Constants.States.NY)) {
-			pligaOrMvleFee = BillingSummaryPage.calculateNonAutoMvleFee();
-		}
-
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).setPaymentPlan(BillingConstants.PaymentPlan.QUARTERLY)
 				.verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).setPaymentPlan(BillingConstants.PaymentPlan.QUARTERLY_RENEWAL)
 				.verifyRowWithEffectiveDate(policyExpirationDate);
-		verifyRenewPremiumNotice(policyExpirationDate, billDate, pligaOrMvleFee);
+		verifyRenewPremiumNotice(policyExpirationDate, billDate, getPligaOrMvleFee(pligaOrMvleFeeLastTransactionDate));
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 
 		BillingSummaryPage.showPriorTerms();
@@ -180,15 +162,8 @@ public class Scenario8 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPaymentPlan(paymentPlan).verifyRowWithEffectiveDate(expectedEffectiveDate);
 		new BillingInstallmentsScheduleVerifier().setDescription(BillingConstants.InstallmentDescription.INSTALLMENT).verifyCount(expectedInstallmentsNumber);
 
-		if (getState().equals(Constants.States.NJ)) {
-			Dollar expectedPligaFee = BillingSummaryPage.calculatePligaFee(transactionDate);
-			if (!expectedPligaFee.isZero()) {
-				pligaOrMvleFeeLastTransactionDate = transactionDate;
-				new BillingPaymentsAndTransactionsVerifier().verifyPligaFee(expectedPligaFee, pligaOrMvleFeeLastTransactionDate);
-			}
-		} else if (getState().equals(Constants.States.NY)) {
+		if (verifyPligaOrMvleFee(transactionDate)) {
 			pligaOrMvleFeeLastTransactionDate = transactionDate;
-			new BillingPaymentsAndTransactionsVerifier().verifyMVLEFee(pligaOrMvleFeeLastTransactionDate);
 		}
 	}
 

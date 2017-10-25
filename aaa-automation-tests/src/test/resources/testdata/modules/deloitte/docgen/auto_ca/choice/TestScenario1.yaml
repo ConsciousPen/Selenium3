@@ -1,0 +1,84 @@
+TestData_QuoteCreation: {
+  VehicleTab: {
+    VIN: 1GNWGPFG8B6548273,
+    Primary Use: Pleasure (recreational driving only),
+    Existing Damage: Rust,
+    "Salvaged?": 'No',
+    Miles One-way to Work or School: 10,
+    Odometer Reading: 3000
+  }
+}
+
+TestData_QuoteUpdate: {
+  DriverTab: [
+    {},
+    {
+      DriverSearchDialog: {},
+      Driver Type: Available for Rating,
+      'Rel. to First Named Insured': Spouse,
+      First Name: Mary,
+      Last Name: Stark,
+      Date of Birth: 10/18/1993,
+      Gender: Female,
+      Marital Status: Married,
+      Occupation: Driver,
+      Age First Licensed: 18,
+      Permit Before License: 'Yes',
+      'License #': C1234000,
+      Financial Responsibility Filling Needed: 'Yes',
+      Filling Type: SR-22
+    },
+    {
+      DriverSearchDialog: {},
+      Driver Type: Excluded,
+      Reason: "Insured Requested - never drives insured's car",
+      'Rel. to First Named Insured': Father,
+      First Name: Ryan,
+      Last Name: Stark,
+      Date of Birth: 10/17/1973,
+      Gender: Male,
+      Marital Status: Married,
+      Occupation: Fire Fighter,
+      'License #': C1234001,
+    }
+  ],
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {
+    Policy Forms: {
+        APPAE: {}
+    },
+    Driver Forms: {
+      Forms Subject: 'Mary Stark',
+      CIPCSR22: {
+        Action: Edit,
+        Case Number: 22,
+        State: CA
+      }
+    }
+  },
+  PremiumAndCoveragesTab: {
+    Collision Deductible Waiver: 'contains=$500',
+    Rental Reimbursement: 'contains=Yes',
+    Towing and Labor Coverage: 'contains=Yes',
+    Special Equipment Coverage: '$3,000.00',
+    Special Equipment Description: special camera
+  },
+}
+
+TestData_Purchase: {
+  DriverActivityReportsTab: {
+    Sales Agent Agreement: I Agree,
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Personal Auto Application: Physically Signed,
+      'Named Driver(s) Exclusion': Physically Signed
+    },
+    VehicleInformation: {
+      "Are there any additional interest(s)?": 'No'
+    }
+  }
+}

@@ -1,0 +1,84 @@
+TestData: {
+  GeneralTab: '@GeneralTab', 
+  PremiumAndCoveragesTab: {
+    Payment Plan: Eleven Pay - Standard, 
+    Recurring Payment: true,
+    #Personal Umbrella: '$1,000,000'
+  }, 
+  DocumentsAndBindTab: '@DocumentsAndBindTab', 
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab_WithAutopay'
+}
+
+GeneralTab: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation', 
+  CurrentCarrierInformation: {
+    'Override Prefilled Current Carrier?': 'Yes', 
+    'Agent Entered Current/Prior Carrier': 'AAA Insurance', 
+    Agent Entered Inception Date: '/today-1y:MM/dd/yyyy', 
+    Agent Entered Expiration Date: '/today:MM/dd/yyyy', 
+    Agent Entered Policy Number: '12345678', 
+    Agent Entered BI Limits: '$50,000/$100,000'
+  }, 
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation',
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed
+  }, 
+  Agreement: I agree, 
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes', 
+  }, 
+}
+
+# ----- Endorsement ----- 
+TestData_Endorsement: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleTab',
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+VehicleTab: {
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: WDCYC7BB0B6729451
+}
+
+PremiumAndCoveragesTab: {
+  Bodily Injury Liability: 'contains=$500,000/$500,000', 
+  Property Damage Liability: 'contains=$500,000', 
+  Personal Injury Protection: 'contains=$5,000'
+}
+
+# ----------- AZ -------------
+TestData_Endorsement_AZ: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_AZ',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+PremiumAndCoveragesTab_AZ: {
+  Bodily Injury Liability: 'contains=$500,000/$500,000', 
+  Property Damage Liability: 'contains=$500,000',  
+  Medical Payments: 'contains=$5,000'
+}
+
+

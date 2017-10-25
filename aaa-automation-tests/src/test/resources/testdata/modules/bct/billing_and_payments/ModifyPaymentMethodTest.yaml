@@ -1,0 +1,27 @@
+TestData: {
+  EndorsementActionTab: {
+    Endorsement Reason: 'Maintain Driver(s)'
+  },
+   GeneralTab: {
+    PolicyInformation: {Authorized by: QA}
+  },
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+     Payment Plan: 'Monthly'
+  },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_Override: {
+  ErrorTab: {
+    ErrorsOverride: {
+    Override: 'true',
+    Duration: 'Life',
+    'Reason for override': 'index=1'
+    }
+  }
+}

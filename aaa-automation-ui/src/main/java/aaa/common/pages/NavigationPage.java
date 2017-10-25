@@ -2,21 +2,21 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common.pages;
 
-import java.text.MessageFormat;
-import java.util.List;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
+import aaa.common.Tab;
 import com.exigen.ipb.etcsa.base.app.Application;
 import com.exigen.ipb.etcsa.base.app.Application.AppType;
-
-import aaa.common.Tab;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
+
+import java.text.MessageFormat;
+import java.util.List;
 
 public class NavigationPage extends Page {
 
@@ -38,6 +38,15 @@ public class NavigationPage extends Page {
 
     public static void toMainTab(String tab) {
         new Link(By.xpath(String.format(LABEL_NAVIGATION_MAIN_TAB, tab))).click();
+    }
+
+    public static void toMainAdminTab(String tab) {
+        //This perfect code is placed here to work around base bug that some tabs of Admin App are not displayed on the
+        //screen if your monitor size is lower than 67 inch.
+        WebDriver driver = BrowserController.get().driver();
+        WebElement element = new Link(By.xpath(String.format(LABEL_NAVIGATION_MAIN_TAB, tab))).getWebElement();
+        JavascriptExecutor executor = (JavascriptExecutor)driver;
+        executor.executeScript("arguments[0].click();", element);
     }
 
     public static void toViewTab(String tab) {
@@ -64,14 +73,14 @@ public class NavigationPage extends Page {
     }
 
     public static void toFlow(AppType appType, String flow) {
-        String serverUrl = Application.formatURL(appType);
+        String serverUrl = Application.getURL(appType);
         String flowNavigate = MessageFormat.format(FLOW_NAVIGATE_TEMPLATE, flow, resolveWindowId());
         BrowserController.get().open(serverUrl + flowNavigate);
         log.info("[navigateToFlow] {}{}", serverUrl, flowNavigate);
     }
 
     public static void toFlow(AppType appType, String flow, String flowParameter) {
-        String serverUrl = Application.formatURL(appType);
+        String serverUrl = Application.getURL(appType);
         String flowNavigate = MessageFormat.format(FLOW_NAVIGATE_TEMPLATE, flow, resolveWindowId());
         BrowserController.get().open(serverUrl + flowNavigate + flowParameter);
         log.info("[navigateToFlow] {}{}{}", serverUrl, flowNavigate, flowParameter);

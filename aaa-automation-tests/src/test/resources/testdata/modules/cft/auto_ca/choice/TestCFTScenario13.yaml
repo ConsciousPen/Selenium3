@@ -1,0 +1,111 @@
+TestData: {
+  AcceptPaymentActionTab: '@AcceptPaymentActionTab',
+  AddSuspenseActionTab: '@AddSuspenseActionTab',
+  CancellationActionTab: '@CancellationActionTab',
+  ClearSuspenseActionTab: '@ClearSuspenseActionTab',
+  SearchSuspenseActionTab: '@SearchSuspenseActionTab',
+  ReinstatementActionTab: '@ReinstatementActionTab',
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: '@VehicleTab',
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: [{}, {
+      Primary Driver: index=1
+    }] 
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}  
+
+
+
+# VehicleTab: {
+#    List of Vehicle: [{}, {
+#      'column=5': Remove,
+#      Confirm Remove: click
+#    }]
+#  },
+
+
+#  PrefillTab: '@PrefillTab',
+#  GeneralTab: '@GeneralTab',
+#  DriverTab: '@DriverTab',
+#  MembershipTab: '@MembershipTab',
+#  VehicleTab: '@VehicleTab',
+#  AssignmentTab: '@AssignmentTab',
+#  FormsTab: '@FormsTab',
+#  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+#  DriverActivityReportsTab: '@DriverActivityReportsTab',
+#  DocumentsAndBindTab: '@DocumentsAndBindTab',
+#  PurchaseTab: '@PurchaseTab'
+
+
+GeneralTab_DataGather: {
+  NamedInsuredInformation: '@<auto_ca_choice>@DataGather@NamedInsuredInformation',
+  AAAProductOwned: '@<auto_ca_choice>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation',
+  PolicyInformation: {
+    Policy Type: Standard,
+    Effective Date: '/today+2d',
+    Channel Type: Phone (Direct Sales Unit),
+    Agency: SMTestCC - 400000092,
+    Sales Channel: Online,
+    Authorized by: QA,
+    TollFree Number: 1
+  }
+}
+
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Standard Monthly
+}
+
+AcceptPaymentActionTab: {
+  Payment Method: 'Cash',
+  Amount: 100,
+}
+
+CancellationActionTab: {
+  Cancellation Reason: 'Rewrite Accommodation',
+  Authorized By: QA
+}
+
+ReinstatementActionTab: {
+  Reinstate Date: /today,
+  Authorized By: 'QA'
+}
+
+EndorsementActionTab: {
+  Endorsement Date: /today,
+  Endorsement Reason: Maintain Vehicle(s)
+}
+
+VehicleTab: {
+  Add Vehicle: Click,
+  VIN: 1B3BA46K4KF440231,
+  Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  "Are there any additional interest(s)?": 'No',
+  Odometer Reading: 3000
+}
+
+AddSuspenseActionTab: {
+  'Suspense Reference #': 123456,
+  Suspense Amount: 50
+}  
+
+ClearSuspenseActionTab: {
+  Allocation: {},
+  Payment Amount: 50,
+}
+
+SearchSuspenseActionTab: {
+  'Suspense Reference #': 123456,
+  'Missing [status]': Outstanding
+}

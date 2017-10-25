@@ -9,6 +9,10 @@ import java.util.List;
 public final class DocumentNode extends SearchBy<DocumentNode, Document> {
 	public DocumentDataSectionNode documentDataSection = new DocumentDataSectionNode();
 
+	public DocumentNode documentsData(String value) {
+		return addCondition("DocumentsData", Document::getDocumentsData, value);
+	}
+
 	public DocumentNode sequence(String value) {
 		return addCondition("Sequence", Document::getSequence, value);
 	}
@@ -29,7 +33,7 @@ public final class DocumentNode extends SearchBy<DocumentNode, Document> {
 	public List<Document> search(StandardDocumentRequest sDocumentRequest) {
 		List<Document> filteredDocs = new ArrayList<>();
 		standardDocumentRequest.documentPackage.search(sDocumentRequest).forEach(l -> filteredDocs.addAll(filter(l.getDocuments())));
-		conditionsMap.clear();
+		clearConditions();
 		return filteredDocs;
 	}
 

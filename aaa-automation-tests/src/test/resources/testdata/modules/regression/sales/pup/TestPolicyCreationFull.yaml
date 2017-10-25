@@ -1,6 +1,6 @@
 TestData_UT: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -32,21 +32,6 @@ PrefillTab: {
       Primary policy: 'Yes'
     }
   }]
-}
-
-GeneralTab: {
-  PolicyInfo: {
-    Effective date: '/today:MM/dd/yyyy',
-    Application type: New,
-    Channel Type: Independent Agent,
-    Agency: 'SMTestIA - 400001650',
-    Commission Type: New Business,
-    Lead source: Yellow Pages
-  },
-  
-  NamedInsuredContactInformation: {
-    Home phone: 1234567890
-  },
 }
 
 UnderlyingRisksPropertyTab: {
@@ -166,7 +151,7 @@ PurchaseTab: {
 # --------------------- AZ ---------------------
 TestData_AZ: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_AZ',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_AZ',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -205,7 +190,7 @@ UnderlyingRisksAutoTab_AZ: {
 # --------------------- CA ---------------------
 TestData_CA: {
   PrefillTab: '@PrefillTab_CA',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_CA',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_CA',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -291,7 +276,7 @@ UnderwritingAndApprovalTab_CA: {
 # --------------------- CO ---------------------
 TestData_CO: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_CO',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_CO',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -330,7 +315,7 @@ UnderlyingRisksAutoTab_CO: {
 # --------------------- CT ---------------------
 TestData_CT: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_CT',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_CT',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -382,7 +367,7 @@ UnderwritingAndApprovalTab_CT: {
 # --------------------- DC ---------------------
 TestData_DC: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_DC',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_DC',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -421,7 +406,7 @@ UnderlyingRisksAutoTab_DC: {
 # --------------------- DE ---------------------
 TestData_DE: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_DE',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_DE',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -460,7 +445,7 @@ UnderlyingRisksAutoTab_DE: {
 # --------------------- ID ---------------------
 TestData_ID: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_ID',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_ID',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -499,7 +484,7 @@ UnderlyingRisksAutoTab_ID: {
 # --------------------- IN ---------------------
 TestData_IN: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_IN',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_IN',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -538,7 +523,7 @@ UnderlyingRisksAutoTab_IN: {
 # --------------------- KS ---------------------
 TestData_KS: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_KS',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_KS',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -577,7 +562,7 @@ UnderlyingRisksAutoTab_KS: {
 # --------------------- KY ---------------------
 TestData_KY: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_KY',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_KY',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -629,7 +614,7 @@ UnderwritingAndApprovalTab_KY: {
 # --------------------- MD ---------------------
 TestData_MD: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_MD',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_MD',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -682,7 +667,7 @@ UnderwritingAndApprovalTab_MD: {
 # --------------------- MT ---------------------
 TestData_MT: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_MT',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_MT',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -721,7 +706,7 @@ UnderlyingRisksAutoTab_MT: {
 # --------------------- NJ ---------------------
 TestData_NJ: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_NJ',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_NJ',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -760,7 +745,7 @@ UnderlyingRisksAutoTab_NJ: {
 # --------------------- NV ---------------------
 TestData_NV: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_NV',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_NV',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -809,7 +794,7 @@ DocumentsTab_NV: {
 # --------------------- NY ---------------------
 TestData_NY: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_NY',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_NY',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -848,7 +833,7 @@ UnderlyingRisksAutoTab_NY: {
 # --------------------- OH ---------------------
 TestData_OH: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_OH',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_OH',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -887,7 +872,7 @@ UnderlyingRisksAutoTab_OH: {
 # --------------------- OK ---------------------
 TestData_OK: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_OK',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_OK',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -926,7 +911,7 @@ UnderlyingRisksAutoTab_OK: {
 # --------------------- OR ---------------------
 TestData_OR: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_OR',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_OR',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -979,7 +964,7 @@ UnderwritingAndApprovalTab_OR: {
 # --------------------- PA ---------------------
 TestData_PA: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_PA',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_PA',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -1018,7 +1003,7 @@ UnderlyingRisksAutoTab_PA: {
 # --------------------- SD ---------------------
 TestData_SD: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_SD',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_SD',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -1057,7 +1042,7 @@ UnderlyingRisksAutoTab_SD: {
 # --------------------- VA ---------------------
 TestData_VA: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_VA',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_VA',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -1096,7 +1081,7 @@ UnderlyingRisksAutoTab_VA: {
 # --------------------- WV ---------------------
 TestData_WV: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_WV',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_WV',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
@@ -1146,7 +1131,7 @@ DocumentsTab_WV: {
 # --------------------- WY ---------------------
 TestData_WY: {
   PrefillTab: '@PrefillTab',
-  GeneralTab: '@GeneralTab',
+  GeneralTab: '@<pup>@DataGather@GeneralTab_WY',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
   UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_WY',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',

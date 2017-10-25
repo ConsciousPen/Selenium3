@@ -6,7 +6,9 @@ TestData: {
   UnderlyingRisksOtherVehiclesTab: {},
   ClaimsTab: {},
   EndorsementsTab: {},
-  PremiumAndCoveragesQuoteTab: {Personal Umbrella: '$1,000,000'},
+  PremiumAndCoveragesQuoteTab: {
+      Personal Umbrella: '$2,000,000 (+$130.00)'
+     },
   UnderwritingAndApprovalTab: {},
   DocumentsTab: {},
   BindTab: {}
@@ -30,7 +32,7 @@ TestData_CA: {
   ClaimsTab: {},
   EndorsementsTab: {},
   PremiumAndCoveragesQuoteTab: {
-      Personal Umbrella: '$2,000,000'
+      Personal Umbrella: '$2,000,000 (+$100.00)'
    },
   UnderwritingAndApprovalTab: {},
   DocumentsTab: {},

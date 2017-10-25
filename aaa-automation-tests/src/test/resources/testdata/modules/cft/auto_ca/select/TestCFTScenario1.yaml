@@ -1,0 +1,43 @@
+TestData: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  DriverTab: '@DriverTab',
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+EndorsementActionTab: {
+    Endorsement Date: /today+2d,
+    Endorsement Reason: Maintain Vehicle(s)
+}
+
+DriverTab: {
+    ADB Coverage: 'Yes'
+}
+
+PremiumAndCoveragesTab : {
+    Bodily Injury Liability: 'contains=$1,000,000/$1,000,000',
+    Calculate Premium: 'click',
+    Override Premium: {
+    Bodily Injury Liability By Flat Amount: '200',
+    Reason for Override: 'OTHER',
+    Other Reason: 'CFT tests'
+    }
+}
+
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Standard Monthly
+}
+
+PurchaseTab_DataGather: {
+  PaymentAllocation: {
+    Cash: /rest
+  }
+}

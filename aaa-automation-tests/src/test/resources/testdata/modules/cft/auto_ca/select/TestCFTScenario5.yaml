@@ -1,0 +1,34 @@
+TestData: {
+AcceptPaymentActionTab: {
+    Payment Method: 'Cash',
+    Amount: 50,
+  },
+  OtherTransactionsActionTab: {
+      Transaction Type: 'Adjustment',
+      Transaction Subtype: 'Other',
+      Additional Info: 'CFT Test',
+      Amount: -30
+  }
+}
+
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: 'Quarterly',
+  Policy Term: 'Annual',
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750',
+  Collision Deductible: 'contains=$500'
+}
+
+PremiumAndCoveragesTab_DataGather_MD: {
+  Payment Plan: 'Quarterly',
+  Policy Term: 'Annual',
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750',
+  Collision Deductible: 'contains=$500'
+}
+
+PurchaseTab_DataGather: {
+  PaymentAllocation: {
+    Cash: '/rest'
+  }
+}

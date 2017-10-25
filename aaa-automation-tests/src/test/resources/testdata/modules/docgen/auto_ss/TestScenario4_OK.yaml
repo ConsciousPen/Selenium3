@@ -1,0 +1,178 @@
+TestData: {
+  PrefillTab: {
+    First Name: Fernando,
+    Last Name: Alonso,
+    Validate Address: click,
+    Validate Address Dialog: {},
+    Order Prefill: click  
+  },  
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab_WithAutopay'
+}
+
+PremiumAndCoveragesTab: {
+  Policy Term: Annual,
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750',
+  Collision Deductible: 'contains=$500',
+  Special Equipment Coverage: 1100
+}
+
+TestData_EndorsementOne: {
+  GeneralTab: {
+    PolicyInformation: {
+      Authorized by: QA,
+      Policy Type: Named Non Owner,
+      Change Policy Type Confirmation: 'Continue'
+    }
+  },
+  DriverTab: '@DriverInformation',
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: '@FormsTab',
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: '@DocumentsAndBindTab'
+}
+
+DriverInformation: {
+  Financial Responsibility Filing Needed: 'Yes',
+  Filling State: Arizona
+}
+
+FormsTab: { 
+  Driver Forms: {
+    SR22: {
+      Action: Edit,
+      Case Number: 123,
+      State: OK
+    }
+  }
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+     Non-Owner Automobile Endorsement: Physically Signed
+  }  
+}
+
+# ------------- Documents Verification ----------
+TestData_Verification1: {
+  AASR22: '@AASR22'
+}
+
+TestData_Verification2: {
+  AA41XX: '@AA41XX',
+  AA10OK: '@AA10OK'
+}
+
+AASR22: {
+  CompanyDetails: {
+    CoNm: {TextField: 'AAA Insurance Company'},
+    CoNum: {TextField: '01'},
+    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(800) 259-8008'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
+    NmdInsrdCityNm: {'OKLAHOMA CITY'},
+    NmdInsrdStAbrv: {TextField: 'OK'},
+    NmdInsrdZipPls4: {TextField: '73118'},
+  },  
+  VehicleDetails: {
+   VehItemNum: {TextField: '1'},
+   VehManufactureYear: {TextField: '2000'},
+   VehMdelNm: {TextField: 'NANO'},
+   VehManfrNm: {TextField: 'NANO'},
+   VehTyp: {TextField: 'NO'},
+   VehIdNum: {TextField: 'null'}
+  },
+  DriverDetails: {
+   DrvrLicNum: {TextField: '123123121'},
+   DrvrDOB: {DateTimeField: "contains=1962-12-04"},
+  },
+  form: {
+    PlcyNum: {TextField: ''},
+    PlcyPrfx: {TextField: 'OKSS'},
+    TermEffDt: {DateTimeField: ''},
+    SR22FeeFlg: {TextField: 'N'},
+    PlcyTransCd: {TextField: '0100'},
+    PlcyStAbrv: {TextField: 'OK'},
+    SR22CseNum: {TextField: '123'},
+    SgnDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SR22CertEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SR22CertReqSt: {TextField: 'Oklahoma'},
+    SSNum: {TextField: '6789'}
+  }
+}
+
+AA41XX: {
+  CompanyDetails: {
+    CoNm: {TextField: 'AAA Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(800) 259-8008'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdStAbrv: {TextField: OK}
+  },
+  AgentDetails: {
+    GenlAgntNum: {TextField: 500001020},
+    SubAgntNum: {TextField: 500005452}
+  },
+  VehicleDetails: {
+    VehTyp: {TextField: 'NO'}
+  },
+  form: {
+    PlcyStAbrv: {TextField: OK},
+    PlcyTransCd: {TextField: '0100'},
+    PlcyPrfx: {TextField: OKSS},
+    PlcyGrp: {TextField: PERSONAL AUTO},
+    SpseExclNOPlcyYN: {TextField: Y},
+    PlcyNum: {TextField: ''},
+    TermEffDt: {DateTimeField: ''},
+    SgntrOnFile: {TextField: SIGNATURE ON FILE}
+  }
+}
+
+AA10OK: {
+  CompanyDetails: {
+    CoNm: {TextField: 'AAA Insurance Company'},
+    CoStrPobAddr1: {TextField: 'P.O. BOX 24511'},
+    CoAddlAddr2: {TextField: ''},
+    CoCityNm: {TextField: 'Oakland'},
+    CoStAbrv: {TextField: 'CA'},
+    CoZipPls4: {TextField: '946239865'},
+    CoPhnNum: {TextField: '(800) 259-8008'}
+  },
+  NamedInsuredDetails: {
+    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdStAbrv: {TextField: OK}
+  },
+  AgentDetails: {
+    GenlAgntNum: {TextField: 500001020},
+    SubAgntNum: {TextField: 500005452}
+  },
+  VehicleDetails: {
+    VehTyp: {TextField: 'NANO'}
+  },
+  form: {
+    PlcyStAbrv: {TextField: OK},
+    PlcyTransCd: {TextField: '0100'},
+    PlcyPrfx: {TextField: OKSS},
+    PlcyNum: {TextField: ''},
+    TermEffDt: {DateTimeField: ''}
+  }
+}

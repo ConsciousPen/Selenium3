@@ -36,7 +36,62 @@ PropertyValue: {
   Purchase date of home: '/today-1y:MM/dd/yyyy'
 }
 
-#--- Endorsement ---  
+#---- OH ----
+
+TestData_OH: {
+  PropertyInfoTab: '@PropertyInfoTab_OH',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+}
+
+PropertyInfoTab_OH: {
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@<home_ss_ho3>@DataGather@Construction_OH',
+  AdditionalQuestions: {},
+  Interior: '@<home_ss_ho3>@DataGather@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@<home_ss_ho3>@DataGather@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: {}
+}
+
+#---- OK ----
+
+TestData_OK: {
+  PropertyInfoTab: '@PropertyInfoTab_OK',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+}
+
+PropertyInfoTab_OK: {
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@PropertyValue',
+  Construction: '@<home_ss_ho3>@DataGather@Construction_OK',
+  AdditionalQuestions: {},
+  Interior: '@<home_ss_ho3>@DataGather@Interior',
+  DetachedStructures: [{}],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: '@<home_ss_ho3>@DataGather@HomeRenovation',
+  PetsOrAnimals: {},
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: {}
+}
+
+#---- Endorsement ----
+
 TestData_EndorsementRP: {
   GeneralTab: {},
   ApplicantTab: {},

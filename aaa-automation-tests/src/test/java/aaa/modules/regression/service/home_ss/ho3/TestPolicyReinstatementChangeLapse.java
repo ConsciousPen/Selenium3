@@ -47,18 +47,18 @@ public class TestPolicyReinstatementChangeLapse extends HomeSSHO3BaseTest {
 
 		log.info("Reinstate Policy #" + policyNumber);
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
-		PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present(false);
+		PolicySummaryPage.labelLapseExist.verify.present(false);
 
 		log.info("TEST: Add Lapse Period for Policy #" + policyNumber);
 		policy.changeReinstatementLapse().perform(getPolicyTD("ReinstatementChangeLapse", "TestData_Plus10Days"));
-		PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present();
+		PolicySummaryPage.labelLapseExist.verify.present();
 
 		log.info("TEST: Change Lapse Period for Policy #" + policyNumber);
 		policy.changeReinstatementLapse().perform(getPolicyTD("ReinstatementChangeLapse", "TestData_Plus5Days"));
-		PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present();
+		PolicySummaryPage.labelLapseExist.verify.present();
 
 		log.info("TEST: Remove Lapse Period for Policy #" + policyNumber);
 		policy.changeReinstatementLapse().perform(getPolicyTD("ReinstatementChangeLapse", "TestData"));
-		PolicySummaryPage.labelTermIncludesLapsePeriod.verify.present(false);
+		PolicySummaryPage.labelLapseExist.verify.present(false);
 	}
 }

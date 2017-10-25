@@ -36,13 +36,36 @@ public class RemoteHelper {
 			log.warn("SSH: Folder '" + folder + "' doesn't exist.");
 	}
 
+	public static synchronized void downloadFileWithWait(String source, String destination, long timeout) {
+		log.info(String.format("SSH: File '%s' downloading to '%s' destination folder has been started.", source, destination));
+		long endTime = System.currentTimeMillis() + timeout;
+		while(!isPathExist(source)) {
+			if (endTime < System.currentTimeMillis()) {
+				throw new AssertionError(String.format("File '%s' wasn't found after %s ms of wait", source, timeout));
+			}
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				throw new IstfException(e);
+			}
+		}
+		ssh.downloadFile(source, destination);
+	}
+
 	public static void downloadFile(String source, String destination) {
 		log.info(String.format("SSH: File '%s' downloading to '%s' destination folder has been started.", source, destination));
 		ssh.downloadFile(source, destination);
 	}
 
-	public static void uploadFile(String source, String destination) {
+	public static synchronized void uploadFile(String source, String destination) {
 		log.info(String.format("SSH: File '%s' uploading to '%s' destination folder has been started.", source, destination));
+		File destinationFile = new File(destination);
+		if (!isPathExist(destinationFile.getParent())) {
+			executeCommand("mkdir -p -m 777 " + ssh.parseFileName(destinationFile.getParent()));
+			if (destinationFile.getParentFile().getParentFile() != null) {
+				executeCommand("chmod -R 777 " + ssh.parseFileName(destinationFile.getParentFile().getParent()));
+			}
+		}
 		ssh.putFile(source, destination);
 	}
 
@@ -78,7 +101,7 @@ public class RemoteHelper {
 			ChannelSftp channel = ssh.getSftpChannel();
 			attrs = channel.stat(path);
 		} catch (Exception e) {
-			log.debug("SSH: File/folder '" + path + "' doesn't exist.", e);
+			log.debug("SSH: File/folder '" + path + "' doesn't exist.");
 		}
 		return attrs != null;
 	}
@@ -127,12 +150,12 @@ public class RemoteHelper {
 			grepCmd.append(" | xargs -r grep -li '").append(textToSearch).append("'");
 		}
 		String cmd = String.format("cd %1$s; find . -type f -iname '*.%2$s' -print%3$s | xargs -r ls -t | xargs -r readlink -f", sourceFolder, fileExtension == null ? "*" : fileExtension, grepCmd.toString());
-
-		log.info(String.format("Searching for file(s)%1$s%2$s in \"%3$s\" folder with %4$s seconds timeout.",
+		String searchParams = String.format("%1$s%2$s in \"%3$s\" folder with %4$s seconds timeout.",
 				fileExtension != null ? String.format(" with file extension \"%s\"", fileExtension) : "",
 				textsToSearchPatterns.length > 0 ? String.format(" containing text pattern(s): %s", Arrays.asList(textsToSearchPatterns)) : "",
-				sourceFolder, timeoutInSeconds));
+				sourceFolder, timeoutInSeconds);
 
+		log.info("Searching for file(s)" + searchParams);
 		long searchStart = System.currentTimeMillis();
 		long timeout = searchStart + timeoutInSeconds * 1000;
 		String commandOutput = "";
@@ -146,7 +169,7 @@ public class RemoteHelper {
 		} while (timeout > System.currentTimeMillis());
 		long searchTime = System.currentTimeMillis() - searchStart;
 
-		CustomAssert.assertTrue("No files have been found.", !commandOutput.isEmpty());
+		CustomAssert.assertTrue("No files have been found" + searchParams, !commandOutput.isEmpty());
 		List<String> foundFiles = Arrays.asList(commandOutput.split("\n"));
 		log.info(String.format("Found file(s): %1$s after %2$s milliseconds", foundFiles, searchTime));
 		return foundFiles;

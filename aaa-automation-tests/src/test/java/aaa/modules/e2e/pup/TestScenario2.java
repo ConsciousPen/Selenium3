@@ -1,6 +1,7 @@
 package aaa.modules.e2e.pup;
 
 import aaa.common.enums.Constants;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.e2e.templates.Scenario2;
 import org.testng.annotations.Optional;
@@ -148,14 +149,14 @@ public class TestScenario2 extends Scenario2 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC22_Generate_Tenth_Bill(@Optional("") String state) {
-		super.generateTenthBill();
+	public void TC22_Renewal_Image_Generation(@Optional("") String state) {
+		super.renewalImageGeneration();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC23_Renewal_Image_Generation(@Optional("") String state) {
-		super.renewalImageGeneration();
+	public void TC23_Generate_Tenth_Bill(@Optional("") String state) {
+		super.generateTenthBill();
 	}
 
 	@Parameters({"state"})

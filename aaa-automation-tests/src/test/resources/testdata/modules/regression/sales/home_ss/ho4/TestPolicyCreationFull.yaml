@@ -31,7 +31,7 @@ ApplicantTab: {
   PreviousDwellingAddress: '@PreviousDwellingAddress',
   MailingAddress: '@MailingAddress',
   NamedInsuredInformation: '@NamedInsuredInformation',
-  AgentInfo: '@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
   OtherActiveAAAPolicies: {},
 }
 
@@ -161,15 +161,6 @@ NamedInsuredInformation: {
   Mobile Phone Number: '1234567892',
   'Preferred Phone #': 'index=1',
   Email: 'test@esigroup.com' ,
-}
-
-AgentInfo: {
-  Channel Type: 'AAA Agent',
-  Agency: 'SMTestNCNU - 400001005',
-  Sales Channel: 'Online',
-  Agency Location: 'SMTestNCNU LOCATION - 400001105 - Emeryville',
-  Agent: 'index=1',
-  TollFree Number: '500001002',
 }
 
 #-------------PropertyInfoTab-------------------------------------------------------------------------

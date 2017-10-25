@@ -6,10 +6,11 @@ import java.util.List;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
-import aaa.common.enums.Constants;
+import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.TimePoints.TimepointsList;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
@@ -38,17 +39,26 @@ public class Scenario5 extends ScenarioBaseTest {
 
 	protected LocalDateTime policyEffectiveDate;
 	protected LocalDateTime policyExpirationDate;
+	protected LocalDateTime pligaOrMvleFeeLastTransactionDate;
 
 	protected List<LocalDateTime> installmentDueDates;
 	protected int installmentsCount = 11;
 
+	protected String policyTerm;
+	protected Integer totalVehiclesNumber;
+
 	public void createTestPolicy(TestData policyCreationTD) {
+
 		mainApp().open();
 		createCustomerIndividual();
 
 		if (getPolicyType().equals(PolicyType.PUP)) {
 			policyCreationTD = new PrefillTab().adjustWithRealPolicies(policyCreationTD, getPrimaryPoliciesForPup());
 		}
+
+		policyTerm = getPolicyTerm(policyCreationTD);
+		totalVehiclesNumber = getVehiclesNumber(policyCreationTD);
+
 		policyNum = createPolicy(policyCreationTD);
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
@@ -58,17 +68,19 @@ public class Scenario5 extends ScenarioBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
 		CustomAssert.assertEquals("Billing Installments count for Monthly (Eleven Pay) payment plan", installmentsCount, installmentDueDates.size());
+
+		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}
 
 	public void generateFirstBillOneDayBefore() {
-		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(1)).minusDays(1);
+		LocalDateTime billGenDate = getOneDayBefore(installmentDueDates.get(1), TimepointsList.BILL_GENERATION);
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
 		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 
-		new BillingBillsAndStatementsVerifier().setDueDate(installmentDueDates.get(1).minusDays(1)).setType(BillingConstants.BillsAndStatementsType.BILL).verifyPresent(false);
+		new BillingBillsAndStatementsVerifier().setDueDate(installmentDueDates.get(1)).setType(BillingConstants.BillsAndStatementsType.BILL).verifyPresent(false);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent(false);
 	}
 
@@ -77,7 +89,7 @@ public class Scenario5 extends ScenarioBaseTest {
 	}
 
 	public void payFirstBillOneDayBefore() {
-		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDates.get(1)).minusDays(1);
+		LocalDateTime billDueDate = getOneDayBefore(installmentDueDates.get(1), TimepointsList.BILL_PAYMENT);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
 		JobUtils.executeJob(Jobs.recurringPaymentsJob);
 
@@ -116,10 +128,7 @@ public class Scenario5 extends ScenarioBaseTest {
 	}
 
 	public void generateCancellNoticeOneDayBefore() {
-		LocalDateTime cnDate = getTimePoints().getCancellationNoticeDate(installmentDueDates.get(2)).minusDays(1);
-		// TODO Why?
-		if (getState().equals(Constants.States.AZ))
-			cnDate.minusHours(1);
+		LocalDateTime cnDate = getOneDayBefore(installmentDueDates.get(2), TimepointsList.CANCELLATION_NOTICE);
 		TimeSetterUtil.getInstance().nextPhase(cnDate);
 		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
 
@@ -132,15 +141,15 @@ public class Scenario5 extends ScenarioBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 
 		new BillingAccountPoliciesVerifier().setPolicyFlag(BillingConstants.PolicyFlag.DEFAULT).verifyRowWithEffectiveDate(policyEffectiveDate);
-		new BillingBillsAndStatementsVerifier().setDueDate(getTimePoints().getCancellationTransactionDate(installmentDueDates.get(2).minusDays(1))).setType(
+		new BillingBillsAndStatementsVerifier().setDueDate(getTimePoints().getCancellationTransactionDate(installmentDueDates.get(2))).setType(
 			BillingConstants.BillsAndStatementsType.CANCELLATION_NOTICE).verifyPresent(false);
 	}
 
 	public void generateCancellNotice() {
 		LocalDateTime cnDate = getTimePoints().getCancellationNoticeDate(installmentDueDates.get(2));
 		// TODO Why?
-		if (getState().equals(Constants.States.AZ))
-			cnDate.minusHours(1);
+		if (getState().equals(States.AZ))
+			cnDate = cnDate.minusHours(1);
 		TimeSetterUtil.getInstance().nextPhase(cnDate);
 		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
 
@@ -158,15 +167,13 @@ public class Scenario5 extends ScenarioBaseTest {
 	}
 
 	public void verifyFormAH34XX() {
-		// DocGenHelper.verifyDocumentsGeneratedByJob(TimeSetterUtil.getInstance().getCurrentTime(),
-		// policyNum, OnDemandDocuments.AH34XX);
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH34XX);
 	}
 
 	public void cancelPolicyOneDayBefore() {
-		LocalDateTime cDate = getTimePoints().getCancellationDate(installmentDueDates.get(2)).minusDays(1);
+		LocalDateTime cDate = getOneDayBefore(getTimePoints().getCancellationNoticeDate(installmentDueDates.get(2)), TimepointsList.CANCELLATION);
 		TimeSetterUtil.getInstance().nextPhase(cDate);
 		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
 
@@ -177,10 +184,6 @@ public class Scenario5 extends ScenarioBaseTest {
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
 	}
 
-	public void cancelPolicy() {
-		cancelPolicy(installmentDueDates.get(2));
-	}
-
 	public void verifyFormAH67XX() {
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
@@ -188,7 +191,7 @@ public class Scenario5 extends ScenarioBaseTest {
 	}
 
 	public void generateFirstEPBillOneDayBefore() {
-		LocalDateTime epDate = getTimePoints().getEarnedPremiumBillFirst(installmentDueDates.get(2)).minusDays(1);
+		LocalDateTime epDate = getOneDayBefore(getTimePoints().getCancellationDate(installmentDueDates.get(2)), TimepointsList.EARNED_PREMIUM_BILL_FIRST);
 		TimeSetterUtil.getInstance().nextPhase(epDate);
 		JobUtils.executeJob(Jobs.earnedPremiumBillGenerationJob);
 
@@ -200,27 +203,21 @@ public class Scenario5 extends ScenarioBaseTest {
 
 	public void generateFirstEPBill() {
 		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillFirst(installmentDueDates.get(2)));
-		// DocGenHelper.verifyDocumentsGeneratedByJob(policyNum,
-		// OnDemandDocuments._55_6101, XPathInfo.INVOICE_BILLS_STATEMENTS);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._55_6101);
 	}
 
 	public void generateSecondEPBill() {
 		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillSecond(installmentDueDates.get(2)));
-		// DocGenHelper.verifyDocumentsGeneratedByJob(policyNum,
-		// OnDemandDocuments._55_6102, XPathInfo.INVOICE_BILLS_STATEMENTS);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._55_6102);
 	}
 
 	public void generateThirdEPBill() {
 		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillThird(installmentDueDates.get(2)));
-		// DocGenHelper.verifyDocumentsGeneratedByJob(policyNum,
-		// OnDemandDocuments._55_6103, XPathInfo.INVOICE_BILLS_STATEMENTS);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._55_6103);
 	}
 
 	public void generateEPWriteOffOneDayBefore() {
-		LocalDateTime date = getTimePoints().getEarnedPremiumWriteOff(installmentDueDates.get(2)).minusDays(1);
+		LocalDateTime date = getOneDayBefore(getTimePoints().getCancellationDate(installmentDueDates.get(2)), TimepointsList.EARNED_PREMIUM_WRITE_OFF);
 		TimeSetterUtil.getInstance().nextPhase(date);
 		JobUtils.executeJob(Jobs.collectionFeedBatch_earnedPremiumWriteOff);
 
@@ -290,5 +287,14 @@ public class Scenario5 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).verifyRowWithDueDate(date);
+	}
+
+	protected LocalDateTime getOneDayBefore(LocalDateTime date, TimepointsList timePointName) {
+		TestData td = testDataManager.timepoint.get(getPolicyType()).getTestData("TestData" + "_" + getState());
+
+		if (td.getList(timePointName.get()).get(1).toUpperCase().equals("PREVIOUS")) {
+			return getTimePoints().getTimepoint(date, timePointName, true).minusDays(1);
+		}
+		return getTimePoints().getTimepoint(date, timePointName, false).minusDays(1);
 	}
 }

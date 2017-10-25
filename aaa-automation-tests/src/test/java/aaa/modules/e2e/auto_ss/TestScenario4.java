@@ -72,7 +72,7 @@ public class TestScenario4 extends Scenario4 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC08_Generate_CancellNotice(@Optional("") String state) {
-		super.generateCancellNotice();
+		super.generateCancelNotice();
 	}
 
 	@Parameters({"state"})
@@ -129,9 +129,12 @@ public class TestScenario4 extends Scenario4 {
 		super.payRenewOffer();
 	}
 
+	/* TODO-dchubkov: uncomment/modify if needed after reading US:
+	https://rtc-web1.ent.rt.csaa.com/rm/web#action=com.ibm.rdm.web.pages.showArtifact&artifactURI=https%3A%2F%2Frtc-web1.ent.rt.csaa.com%2Frm%2Fresources%2F_c4Rxk27BEeO2ctb6wTwGxQ
+
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC18_Bind_Renew(@Optional("") String state) {
 		super.bindRenew();
-	}
+	}*/
 }

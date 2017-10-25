@@ -19,7 +19,7 @@ public final class DataElementChoiceADNode extends SearchBy<DataElementChoiceADN
 	public List<DataElementChoice> search(StandardDocumentRequest sDocumentRequest) {
 		List<DataElementChoice> filteredDec = new ArrayList<>();
 		standardDocumentRequest.documentPackage.archiveData.documentDataElement.search(sDocumentRequest).forEach(l -> filteredDec.addAll(filter(l.getDataElementChoice())));
-		conditionsMap.clear();
+		clearConditions();
 		return filteredDec;
 	}
 

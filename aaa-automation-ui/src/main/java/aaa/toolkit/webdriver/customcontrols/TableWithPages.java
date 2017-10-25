@@ -1,19 +1,19 @@
 package aaa.toolkit.webdriver.customcontrols;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-
+import aaa.common.components.Pagination;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
-import aaa.common.components.Pagination;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.composite.table.NoRow;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * Custom control for table with pagination
@@ -46,11 +46,8 @@ public class TableWithPages extends Table {
 
 	@Override
 	protected List<TestData> getRawValue() {
-		if (pagination.getPagesCount() > 1) {
-			pagination.setMaxRowsPerPage();
-			pagination.goToFirstPage();
-		}
 		List<TestData> data = new ArrayList<>();
+		maximizeTableAndGoToFirstPage();
 		do {
 			data.addAll(super.getRawValue());
 		} while (pagination.goToNextPage());
@@ -63,13 +60,8 @@ public class TableWithPages extends Table {
 		return super.getRow(rowOnPageIndex);
 	}
 
-	@Override
-	public int getRowsCount() {
-		if (pagination.getPagesCount() > 1) {
-			pagination.setMaxRowsPerPage();
-			pagination.goToFirstPage();
-		}
-
+	public int getAllRowsCount() {
+		maximizeTableAndGoToFirstPage();
 		int rowsCount = super.getRowsCount();
 		while (pagination.goToNextPage()) {
 			rowsCount += super.getRowsCount();
@@ -153,10 +145,7 @@ public class TableWithPages extends Table {
 	}
 
 	protected Row getRowWithNavigation(Supplier<Row> getRowSupplier) {
-		if (pagination.getPagesCount() > 1) {
-			pagination.setMaxRowsPerPage();
-			pagination.goToFirstPage();
-		}
+		maximizeTableAndGoToFirstPage();
 		Row row = getRowSupplier.get();
 		while (row instanceof NoRow && pagination.goToNextPage()) {
 			row = getRowSupplier.get();
@@ -165,28 +154,27 @@ public class TableWithPages extends Table {
 	}
 
 	protected List<Row> getRowsWithNavigation(Supplier<List<Row>> getRowsSupplier) {
-		if (pagination.getPagesCount() > 1) {
-			pagination.setMaxRowsPerPage();
-			pagination.goToFirstPage();
-		}
-
-		List<Row> rows = new ArrayList<>(getRowsSupplier.get());
-		while (pagination.goToNextPage()) {
+		List<Row> rows = new ArrayList<>();
+		maximizeTableAndGoToFirstPage();
+		do {
 			rows.addAll(getRowsSupplier.get());
-		}
+		} while (pagination.goToNextPage());
 		return rows;
 	}
 
 	protected List<String> getValuesWithNavigation(Supplier<List<Row>> getRowsSupplier, String columnName) {
-		if (pagination.getPagesCount() > 1) {
-			pagination.setMaxRowsPerPage();
-			pagination.goToFirstPage();
-		}
-
 		List<String> result = new ArrayList<>();
+		maximizeTableAndGoToFirstPage();
 		do {
 			result.addAll(getRowsSupplier.get().stream().map(row -> row.getCell(columnName).getValue()).collect(Collectors.toList()));
 		} while (pagination.goToNextPage());
 		return result;
+	}
+
+	private void maximizeTableAndGoToFirstPage() {
+		if (pagination.getPagesCount() > 1) {
+			pagination.setMaxRowsPerPage();
+			pagination.goToFirstPage();
+		}
 	}
 }

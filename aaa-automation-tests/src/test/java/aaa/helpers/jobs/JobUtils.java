@@ -1,24 +1,22 @@
 package aaa.helpers.jobs;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.concurrent.Callable;
-import java.util.concurrent.atomic.AtomicReference;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.exigen.istf.exec.core.TimedTestContext;
-import com.exigen.istf.exec.testng.TimeShiftTestUtil;
-
 import aaa.helpers.http.HttpJob;
 import aaa.helpers.jobs.Jobs.JobState;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.modules.BaseTest;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.istf.exec.core.TimedTestContext;
+import com.exigen.istf.exec.testng.TimeShiftTestUtil;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class JobUtils {
 	
@@ -59,7 +57,7 @@ public class JobUtils {
 				log.info(String.format("Job '%s' has been already executed", job.getJobName()));
 				break;
 			case FAILED:
-				log.info(String.format("Job " + job.getJobName() + " execution is FAILED"));
+				log.error(String.format("Job " + job.getJobName() + " execution is FAILED"));
 				//throw new CustomTestException("Job " + job.getJobName() + " execution is FAILED");
 			default:
 				break;
@@ -89,7 +87,7 @@ public class JobUtils {
 			} catch (Exception ioe) {
 				// Workaround of HTTP 502 error
 				if (ioe instanceof IOException || ioe.getCause() instanceof IOException) {
-					log.info("Failed durring run of " + jobName + ". Trying to rerun.", ioe);
+					log.info("Failed during run of " + jobName + ". Trying to rerun.", ioe);
 					HttpJob.executeJob(jobName);
 				} else {
 					throw ioe;

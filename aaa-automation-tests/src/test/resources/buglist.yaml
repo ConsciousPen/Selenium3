@@ -14,25 +14,19 @@ EISDEV-XXXXX3:
   summary: "[TO_BE_CREATED] Internal rating engine error during Premium Calculation for DP3 product"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.sales.home_ca.dp3.TestPolicyCreation]
-      messages: ['Unable to locate element: {"method":"id","selector":"policyDataGatherForm:premiumRecalcCov"']
-    - tests: [aaa.modules.regression.sales.home_ca.dp3.TestPolicyCreationFull]
+    - tests: [aaa.modules.regression.sales.home_ca.dp3.TestPolicyCreation, aaa.modules.regression.sales.home_ca.dp3.TestPolicyCreationFull]
       messages: ['Unable to locate element: {"method":"id","selector":"policyDataGatherForm:premiumRecalcCov"']
 QC-44225:
   summary: "Regression: Auto: NPE on rate Pended Endorsement after Spin/Split"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.TestPolicySplit.testPolicySplit]
-      messages: ['Unable to locate element', 'Errors: Time out. No session available.']
-    - tests: [aaa.modules.regression.sales.auto_ss.TestPolicySpin.testPolicySpin]
+    - tests: [aaa.modules.regression.sales.auto_ss.TestPolicySplit.testPolicySplit, aaa.modules.regression.sales.auto_ss.TestPolicySpin.testPolicySpin]
       messages: ['Unable to locate element', 'Errors: Time out. No session available.']
 QC-44023:
   summary: "Error code AAA_CLUE_order_validation appears while trying to bind a split quote"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.TestPolicySpin.testPolicySpin]
-      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: purchaseForm:downpaymentComponent_remainingBalanceValue}', 'Errors: AAA_CLUE_order_validation; Error; CLUE reports should be reordered, because answer has no info or order data ha...']
-    - tests: [aaa.modules.regression.sales.auto_ss.TestPolicySplit.testPolicySplit]
+    - tests: [aaa.modules.regression.sales.auto_ss.TestPolicySpin.testPolicySpin, aaa.modules.regression.sales.auto_ss.TestPolicySplit.testPolicySplit]
       messages: ['Cannot get value of StaticElement {<unnamed>: By.id: purchaseForm:downpaymentComponent_remainingBalanceValue}', 'Errors: AAA_CLUE_order_validation; Error; CLUE reports should be reordered, because answer has no info or order data ha...']
 QC-44194:
   summary: "Error code AAA_CLUE_order_validation appears while trying to bind a split quote"
@@ -44,9 +38,7 @@ QC-44220:
   summary: "Failed to rate policy QAZSS953305611,1528211031,quote"
   reason: PROD
   failures:
-    - tests: [aaa.modules.policy.auto_ss.TestPolicyBilling.testBilling]
-      messages: ['Unable to locate element: {"method":"xpath","selector":"//div[@id=''policyDataGatherForm:tabTree'']/div/div[@title=''Driver Activity Reports'']|//div[@title=''Driver Activity Reports'']/span[2]/span[2]"}']
-    - tests: [aaa.modules.policy.auto_ss.TestPolicyOose]
+    - tests: [aaa.modules.policy.auto_ss.TestPolicyBilling.testBilling, aaa.modules.policy.auto_ss.TestPolicyOose]
       messages: ['Unable to locate element: {"method":"xpath","selector":"//div[@id=''policyDataGatherForm:tabTree'']/div/div[@title=''Driver Activity Reports'']|//div[@title=''Driver Activity Reports'']/span[2]/span[2]"}']
 QC-44326:
   summary: "Regression: IN AutoSS: The UW rule is appears wrongly for UMPD coverage of NANO policy"
@@ -58,18 +50,15 @@ QC-44331:
   summary: "Policy isn't cancelled after run 'aaaCancellationConfirmationAsyncJob' job"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.service.pup.TestPolicyCancelRewrite.testPolicyCancelRewrite]
+    - tests: [aaa.modules.regression.service.pup.TestPolicyCancelRewrite.testPolicyCancelRewrite,
+              aaa.modules.regression.service.pup.TestPolicyCancelReinstate.testPolicyCancelReinstate,
+              aaa.modules.regression.service.pup.TestPolicyCancellation.testPolicyCancellationFlat,
+              aaa.modules.regression.service.pup.TestPolicyCancellation.testPolicyCancellationMidTerm,
+              aaa.modules.regression.service.pup.TestPolicyReinstatementWithLapse.testPolicyReinstatementWithLapse,
+              aaa.modules.regression.service.pup.TestPolicyRenewFlatCancellation.testPolicyRenewFlatCancellation]
       messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}', 'Errors: Time out. No session available.']
-    - tests: [aaa.modules.regression.service.pup.TestPolicyCancelReinstate.testPolicyCancelReinstate]
-      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}', 'Errors: Time out. No session available.']
-    - tests: [aaa.modules.regression.service.pup.TestPolicyCancellation.testPolicyCancellationFlat]
-      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}', 'Errors: Time out. No session available.']
-    - tests: [aaa.modules.regression.service.pup.TestPolicyCancellation.testPolicyCancellationMidTerm]
-      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}', 'Errors: Time out. No session available.']
-    - tests: [aaa.modules.regression.service.pup.TestPolicyReinstatementWithLapse.testPolicyReinstatementWithLapse]
-      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}', 'Errors: Time out. No session available.']
-    - tests: [aaa.modules.regression.service.pup.TestPolicyRenewFlatCancellation.testPolicyRenewFlatCancellation]
-      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}', 'Errors: Time out. No session available.']
+    - tests: [aaa.modules.e2e.pup.TestScenario3.TC04_Cancel_Policy, aaa.modules.e2e.pup.TestScenario5.TC09_1_Cancel_Policy]
+      messages: ['Value in control {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText} expected [Policy Cancelled] but found [Policy Active]']
 QC-44491:
   summary: "Regression: Sales: System logs out after Propose action was performed for saved quote"
   reason: PROD
@@ -100,7 +89,49 @@ QC-44752:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.TestPolicyNano.testPolicyNano]
       messages: ['Cannot get value of StaticElement', 'Errors: MES-DR-0138_SS; Error; Current CLUE must be ordered']
-    - tests: [aaa.modules.regression.sales.auto_ca.choice.TestPolicyNano.testPolicyNano]
+    - tests: [aaa.modules.regression.sales.auto_ca.choice.TestPolicyNano.testPolicyNano, aaa.modules.regression.sales.auto_ca.select.TestPolicyNano.testPolicyNano]
       messages: ['Cannot get value of StaticElement', 'Errors: MES-DR-0138_CA; Error; Current CLUE must be ordered']
-    - tests: [aaa.modules.regression.sales.auto_ca.select.TestPolicyNano.testPolicyNano]
-      messages: ['Cannot get value of StaticElement', 'Errors: MES-DR-0138_CA; Error; Current CLUE must be ordered']
+QC-44846:
+  summary: "DB Lookup 'cancellationConfirmationDays' is set to 19 days instead of 15 for AAA_HO_SS_NJ in Admin application"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.pup.TestScenario3.TC03_Generate_Cancelation_Notice, aaa.modules.e2e.home_ss.ho3.TestScenario3.TC03_Generate_Cancelation_Notice]
+      messages: ['Row with values {Type=Cancellation Notice']
+QC-44858:
+  summary: "Error is thrown and session gets destroyed when trying to change or remove renewal lapse period"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario3.TC13_Bind_Renew, aaa.modules.e2e.pup.TestScenario3.TC13_Bind_Renew, aaa.modules.e2e.home_ca.ho3.TestScenario3.TC12_Bind_Renew]
+      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}', "Errors: Time out. No session available."]
+    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario4.TC18_Bind_Renew, aaa.modules.e2e.pup.TestScenario4.TC18_Bind_Renew, aaa.modules.e2e.home_ca.ho3.TestScenario4.TC17_Bind_Renew]
+      messages: ['Unable to locate element: {"method":"id","selector":"aaaSearchForm:searchLink"}', "Errors: Time out. No session available."]
+QC-44890:
+  summary: "DB Lookup 'cancellationConfirmationDays' is set to 15 days instead of 18 for AAA_SS_PA in Admin application"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.auto_ss.TestScenario3.TC03_Generate_Cancelation_Notice]
+      messages: ["Row with values {Type=Cancellation Notice"]
+    - tests: [aaa.modules.e2e.auto_ss.TestScenario5.TC07_1_Generate_CancellNotice]
+      messages: ["Cannot get value of Cell {<unnamed>: <Non-existent row (Can't find row by specified parameters: {Due Date"]
+QC-44911:
+  summary: "Regression: Auto: Exception occurs on reports ordering trying to access rating"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.auto_ss.TestScenario1.TC01_createPolicy,
+              aaa.modules.e2e.auto_ss.TestScenario2.TC01_createPolicy,
+              aaa.modules.e2e.auto_ss.TestScenario3.TC01_createPolicy,
+              aaa.modules.e2e.auto_ss.TestScenario4.TC01_createPolicy,
+              aaa.modules.e2e.auto_ss.TestScenario5.TC01_createPolicy,
+              aaa.modules.e2e.auto_ss.TestScenario6.TC01_createPolicy,
+              aaa.modules.e2e.auto_ss.TestScenario7.TC01_createPolicy]
+      messages: ["Unable to locate element: {\"method\":\"xpath\",\"selector\":\"//input[@id='policyDataGatherForm:next_footer' or @id='crmForm:nextBtn_footer' or @id='policyDataGatherForm:next' or @id='policyDataGatherForm:nextButton_footer'",
+                 "Errors: Time out. No session available."]
+QC-44941:
+  summary: "Regression: 62 6500 is not disabled on 'On-Demand Documents' page after quote creation"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.docgen.home_ca.dp3.TestDocgenScenarios.testQuoteDocuments,
+              aaa.modules.docgen.home_ca.ho3.TestDocgenScenarios.testQuoteDocuments,
+              aaa.modules.docgen.home_ca.ho4.TestDocgenScenarios.testQuoteDocuments,
+              aaa.modules.docgen.home_ca.ho6.TestDocgenScenarios.testQuoteDocuments]
+      messages: ["On demand document Documents{id='62 6500', name='CA Evidence of Property Insurance'}' is not disabled as expected"]

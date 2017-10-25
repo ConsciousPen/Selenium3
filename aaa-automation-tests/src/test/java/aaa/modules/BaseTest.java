@@ -2,27 +2,9 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules;
 
-import java.lang.reflect.Method;
-import java.util.*;
-
-import aaa.helpers.listeners.AaaTestListener;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.Assert;
-import org.testng.ITestContext;
-import org.testng.annotations.*;
-
-import com.exigen.ipb.etcsa.base.app.ApplicationFactory;
-import com.exigen.ipb.etcsa.base.app.MainApplication;
-import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
-
 import aaa.EntityLogger;
 import aaa.common.enums.Constants;
 import aaa.common.enums.Constants.States;
-import aaa.main.enums.SearchEnum;
-import aaa.main.enums.SearchEnum.SearchBy;
-import aaa.main.enums.SearchEnum.SearchFor;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.metadata.LoginPageMeta;
 import aaa.common.pages.LoginPage;
@@ -32,20 +14,38 @@ import aaa.helpers.EntitiesHolder;
 import aaa.helpers.TestDataManager;
 import aaa.helpers.TimePoints;
 import aaa.helpers.config.CustomTestProperties;
+import aaa.helpers.listeners.AaaTestListener;
+import aaa.main.enums.SearchEnum;
+import aaa.main.enums.SearchEnum.SearchBy;
+import aaa.main.enums.SearchEnum.SearchFor;
 import aaa.main.modules.customer.Customer;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.rest.policy.PolicyRestImpl;
-import org.testng.annotations.Optional;
+import com.exigen.ipb.etcsa.base.app.AdminApplication;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.etcsa.base.app.MainApplication;
+import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.verification.CustomAssert;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Listeners({AaaTestListener.class})
 public class BaseTest {
@@ -58,9 +58,7 @@ public class BaseTest {
 	protected Customer customer = new Customer();
 	private TestData tdSpecific;
 	protected TestDataManager testDataManager;
-	private String quoteNumber;
 	private static ThreadLocal<String> state = new ThreadLocal<>();
-	private static ThreadLocal<String[]> states = new ThreadLocal<>();
 	private static String usState = PropertyProvider.getProperty("test.usstate");
 	private static Map<String, Integer> policyCount = new HashMap<>();
 	private boolean isCiModeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.IS_CI_MODE, "true"));
@@ -78,10 +76,6 @@ public class BaseTest {
 
 	protected PolicyType getPolicyType() {
 		return null;
-	}
-
-	protected PolicyRestImpl getPolicyRest() {
-		return getPolicyType().getPolicyRest().createInstance(customerNumber, quoteNumber);
 	}
 
 	public static String getState() {
@@ -111,14 +105,21 @@ public class BaseTest {
 	 * Login to the application
 	 */
 	public MainApplication mainApp() {
-		return ApplicationFactory.get().mainApp(new LoginPage(initiateLoginTD()));
+		return CSAAApplicationFactory.get().mainApp(new LoginPage(initiateLoginTD()));
 	}
 
 	/**
 	 * Login to the application and open admin page
 	 */
-	public MainApplication adminApp() {
-		return ApplicationFactory.get().adminApp(new LoginPage(initiateLoginTD()));
+	public AdminApplication adminApp() {
+		return CSAAApplicationFactory.get().adminApp(new LoginPage(initiateLoginTD()));
+	}
+
+	/**
+	 * Login to the application and open reports app
+	 */
+	protected OperationalReportApplication opReportApp() {
+		return CSAAApplicationFactory.get().opReportApp(new LoginPage(initiateLoginTD()));
 	}
 
 	@AfterMethod(alwaysRun = true)
@@ -134,7 +135,6 @@ public class BaseTest {
 			closeAllApps();
 		}
 	}
-
 
 	/**
 	 * Create individual customer using default TestData
@@ -180,6 +180,7 @@ public class BaseTest {
 		}
 		return createQuote(td);
 	}
+
 
 	/**
 	 * Create quote using provided TestData</br>
@@ -256,7 +257,7 @@ public class BaseTest {
 		Assert.assertNotNull(policyType, "PolicyType is not set");
 		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), state);
 		String policyNumber;
-		synchronized (key.intern()) {
+		synchronized (key) {
 			Integer count = policyCount.get(key);
 			if (count == null)
 				count = 1;
@@ -358,19 +359,20 @@ public class BaseTest {
 		return policies;
 	}
 
-	/**
-	 * Login to the application and open reports app
-	 */
-	protected OperationalReportApplication opReportApp() {
-		return ApplicationFactory.get().opReportApp(new LoginPage(initiateLoginTD()));
-	}
-
 	protected TestData getCustomerIndividualTD(String fileName, String tdName) {
 		return getStateTestData(tdCustomerIndividual, fileName, tdName);
 	}
 
 	protected TestData getCustomerNonIndividualTD(String fileName, String tdName) {
 		return getStateTestData(tdCustomerNonIndividual, fileName, tdName);
+	}
+
+	protected TestData getPolicyDefaultTD() {
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
+		}
+		return td;
 	}
 
 	protected TestData getTestSpecificTD(String tdName) {

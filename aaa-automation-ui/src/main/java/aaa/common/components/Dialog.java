@@ -2,15 +2,14 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common.components;
 
+import aaa.common.metadata.SearchMetaData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
-
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.collection.Controls;
 import toolkit.webdriver.controls.composite.assets.AssetList;
-import aaa.common.metadata.SearchMetaData;
 
 public class Dialog {
 
@@ -24,6 +23,7 @@ public class Dialog {
 	public StaticElement labelMessage;
 	public Controls controls;
 	public Button buttonDeleteEndorsement;
+	public Button buttonCloseWithCross;
 	private By locator;
 
 	public Dialog(String dialogLocator) {
@@ -41,6 +41,7 @@ public class Dialog {
 		buttonNext = new Button(new ByChained(locator, By.xpath(".//*[@value='Next' or text()='Next']")));
 		buttonProceed = new Button(new ByChained(locator, By.xpath(".//*[@value='Proceed' or text()='Proceed']")));
 		buttonDeleteEndorsement = new Button(new ByChained(locator, By.xpath(".//*[@value='Delete Endorsement']")));
+		buttonCloseWithCross = new Button(new ByChained(locator, By.xpath(".//*[@id='policyDataGatherForm:installmentFeeDetailsPopup_header_controls']")));
 
 		labelHeader = new StaticElement(new ByChained(locator, By.xpath(".//div[contains(@id, '_header_content')]")));
 		labelMessage = new StaticElement(new ByChained(locator, By.xpath(".//div[contains(@id, '_content_scroller') or contains(@class,'content')]"
@@ -62,7 +63,7 @@ public class Dialog {
 
 	public void confirm() {
 		new Button(new ByChained(locator, By.xpath(".//*[text()='Yes' or text()='YES' or text()='Ok' or text()='OK' or text()='Confirm' or text()='Proceed' or text()='PROCEED' "
-			+ "or @value='Yes' or @value='YES' or @value='Ok' or @value='OK' or @value='Confirm' or @value='CONFIRM' or @value='Proceed' or @value='PROCEED' or @value='Accept & continue']"))).click();
+			+ "or @value='Yes' or @value='YES' or @value='Ok' or @value='OK' or @value='Confirm' or @value='CONFIRM' or @value='Proceed' or @value='PROCEED' or @value='Accept & continue' or @value='Agree']"))).click();
 	}
 
 	public void reject() {

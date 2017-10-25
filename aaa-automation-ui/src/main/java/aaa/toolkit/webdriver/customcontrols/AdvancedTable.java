@@ -1,16 +1,9 @@
 package aaa.toolkit.webdriver.customcontrols;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.function.BooleanSupplier;
-import java.util.function.Supplier;
+import aaa.common.pages.Page;
 import org.apache.commons.lang3.NotImplementedException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
-import aaa.common.pages.Page;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
@@ -21,6 +14,10 @@ import toolkit.webdriver.controls.composite.table.Cell;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
+
+import java.util.*;
+import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 
 /**
  * Custom control for table with filters/sorting/selecting/removing and pagination
@@ -82,9 +79,9 @@ public class AdvancedTable extends TableWithPages {
 	}
 
 	@Override
-	public int getRowsCount() {
+	public int getAllRowsCount() {
 		resetAllFilters();
-		return super.getRowsCount();
+		return super.getAllRowsCount();
 	}
 
 	@Override

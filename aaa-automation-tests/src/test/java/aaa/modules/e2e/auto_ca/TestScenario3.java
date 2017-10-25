@@ -34,13 +34,13 @@ public class TestScenario3 extends Scenario3 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC03_Generate_Cancelation_Notice(@Optional("CA") String state) {
-		super.generateCancelationNotice();
+		super.generateCancellationNotice();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC04_Cancel_Policy(@Optional("CA") String state) {
-		super.cancelPolicy();
+		super.cancelPolicy(installmentDueDates.get(1));
 	}
 
 	@Parameters({"state"})
@@ -87,7 +87,13 @@ public class TestScenario3 extends Scenario3 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC12_Bind_Renew(@Optional("CA") String state) {
+	public void TC12_Pay_Renew_Offer(@Optional("") String state) {
+		super.payRenewOffer();
+	}
+
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC13_Bind_Renew(@Optional("CA") String state) {
 		super.bindRenew();
 	}
 }

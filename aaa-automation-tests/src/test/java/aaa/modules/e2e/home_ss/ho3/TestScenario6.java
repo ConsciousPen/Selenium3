@@ -33,7 +33,7 @@ public class TestScenario6 extends Scenario6 {
 		super.generateFirstBill();
 	}
 
-	 @Parameters({"state"})
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC03_Verify_Form_AHIBXX(@Optional("") String state) {
 		super.verifyFormAHIBXX();

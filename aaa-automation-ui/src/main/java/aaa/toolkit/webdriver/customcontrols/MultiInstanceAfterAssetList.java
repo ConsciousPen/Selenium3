@@ -1,5 +1,6 @@
 package aaa.toolkit.webdriver.customcontrols;
 
+import aaa.common.pages.Page;
 import org.openqa.selenium.By;
 
 import toolkit.datax.TestData;
@@ -22,11 +23,14 @@ public class MultiInstanceAfterAssetList extends MultiAssetList {
 	protected void addSection(int index, int size) {
 		if (index > 0)
 			((Button) getAssetCollection().get("Add")).click();
-
+		if(Page.dialogConfirmation.isPresent()){
+			Page.dialogConfirmation.reject();
+		}
 	}
 
 	@Override
 	protected void selectSection(int index) {
+		log.info("");
 	}
 
 	@Override

@@ -4,10 +4,12 @@ import aaa.common.Tab;
 import aaa.main.enums.ErrorEnum;
 import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
-import javafx.util.Pair;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
@@ -25,6 +27,8 @@ public abstract class CommonErrorTab extends Tab {
 	public Button buttonOverride = new Button(By.id("errorsForm:overrideRules"));
 	public Button buttonApproval = new Button(By.id("errorsForm:referForApproval"));
 	public Verify verify = new Verify();
+
+	protected static Logger log = LoggerFactory.getLogger(CommonErrorTab.class);
 
 	protected CommonErrorTab(Class<? extends MetaData> mdClass) {
 		super(mdClass);
@@ -119,7 +123,13 @@ public abstract class CommonErrorTab extends Tab {
 		List<String> actualMessagesList = new ArrayList<>();
 		if (getHintMessages) {
 			for (Row row : getErrorsControl().getTable().getRows()) {
-				actualMessagesList.add(WebDriverHelper.getInnerText(new ByChained(getErrorsControl().getTable().getLocator(), row.getLocator(), By.xpath(".//div[contains(@id, 'content')]"))).trim());
+				ByChained hintLocator = new ByChained(getErrorsControl().getTable().getLocator(), row.getLocator(), By.xpath(".//div[contains(@id, 'content')]"));
+				String hintMessage = WebDriverHelper.getInnerText(hintLocator);
+				if (StringUtils.isBlank(hintMessage)) {
+					log.warn(String.format("Unable to get hint message for error message with locator %s. Looks like you are using outdated browser version.", hintLocator));
+					hintMessage = "";
+				}
+				actualMessagesList.add(hintMessage.trim());
 			}
 		} else {
 			actualMessagesList = getErrorsControl().getTable().getColumn(ErrorEnum.ErrorsColumn.MESSAGE.get()).getValue();
@@ -158,7 +168,7 @@ public abstract class CommonErrorTab extends Tab {
 
 		List<Pair<String, String>> tableAndHintErrorMessagePairs = new ArrayList<>(actualMessagesList.size());
 		for (int i = 0; i < actualMessagesList.size(); i++) {
-			tableAndHintErrorMessagePairs.add(new Pair<>(actualMessagesList.get(i), actualHintMessagesList.get(i)));
+			tableAndHintErrorMessagePairs.add(Pair.of(actualMessagesList.get(i), actualHintMessagesList.get(i)));
 		}
 		return tableAndHintErrorMessagePairs;
 	}
@@ -173,7 +183,7 @@ public abstract class CommonErrorTab extends Tab {
 			String expectedTruncatedMessage = StringUtils.removeEnd(expectedMessage, "...").trim();
 			List<Pair<String, String>> actualTruncatedTableAndHintErrorMessagePairs = new ArrayList<>(actualTableAndHintErrorMessagePairs.size());
 			actualTableAndHintErrorMessagePairs.forEach(actualMessagePair -> actualTruncatedTableAndHintErrorMessagePairs.add(
-					new Pair<>(StringUtils.removeEnd(actualMessagePair.getKey(), "...").trim(), StringUtils.removeEnd(actualMessagePair.getValue(), "...").trim())));
+					Pair.of(StringUtils.removeEnd(actualMessagePair.getKey(), "...").trim(), StringUtils.removeEnd(actualMessagePair.getValue(), "...").trim())));
 
 			return actualTruncatedTableAndHintErrorMessagePairs.stream().anyMatch(actualMessagePair ->
 					(expectedTruncatedMessage.equals(actualMessagePair.getKey()) || expectedTruncatedMessage.startsWith(actualMessagePair.getKey())) && actualMessagePair.getValue().startsWith(expectedTruncatedMessage));

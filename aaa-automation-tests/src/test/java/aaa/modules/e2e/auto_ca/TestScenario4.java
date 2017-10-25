@@ -72,7 +72,7 @@ public class TestScenario4 extends Scenario4 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC08_Generate_CancellNotice(@Optional("CA") String state) {
-		super.generateCancellNotice();
+		super.generateCancelNotice();
 	}
 
 	@Parameters({"state"})
@@ -83,49 +83,43 @@ public class TestScenario4 extends Scenario4 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC10_Verify_Form_AHCWXX(@Optional("CA") String state) {
-		super.verifyFormAHCWXX();
-	}
-
-	@Parameters({"state"})
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC11_Renewal_Image_Generation(@Optional("CA") String state) {
+	public void TC10_Renewal_Image_Generation(@Optional("CA") String state) {
 		super.renewalImageGeneration();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC12_Renewal_Preview_Generation(@Optional("CA") String state) {
+	public void TC11_Renewal_Preview_Generation(@Optional("CA") String state) {
 		super.renewalPreviewGeneration();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC13_Renewal_Offer_Generation(@Optional("CA") String state) {
+	public void TC12_Renewal_Offer_Generation(@Optional("CA") String state) {
 		super.renewalOfferGeneration();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC14_Expire_Policy(@Optional("CA") String state) {
+	public void TC13_Expire_Policy(@Optional("CA") String state) {
 		super.expirePolicy();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC15_Customer_Decline_Renewal(@Optional("CA") String state) {
+	public void TC14_Customer_Decline_Renewal(@Optional("CA") String state) {
 		super.customerDeclineRenewal();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC16_Pay_Renew_Offer(@Optional("CA") String state) {
+	public void TC15_Pay_Renew_Offer(@Optional("CA") String state) {
 		super.payRenewOffer();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC17_Bind_Renew(@Optional("CA") String state) {
+	public void TC16_Bind_Renew(@Optional("CA") String state) {
 		super.bindRenew();
 	}
 }

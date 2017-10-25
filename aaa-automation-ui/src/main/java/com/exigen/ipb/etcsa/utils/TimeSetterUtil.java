@@ -1,26 +1,25 @@
 package com.exigen.ipb.etcsa.utils;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-
 import aaa.common.pages.LoginPage;
-import com.exigen.ipb.etcsa.base.app.ApplicationFactory;
-import org.joda.time.DateTime;
-
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import com.exigen.istf.exec.core.TimedTestContext;
 import com.exigen.istf.exec.testng.TimeShiftTestUtil;
 import com.exigen.istf.timesetter.client.TimeSetter;
 import com.exigen.istf.timesetter.client.TimeSetterClient;
-
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
+
+import java.lang.reflect.Constructor;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class TimeSetterUtil {
 
@@ -45,8 +44,16 @@ public class TimeSetterUtil {
 		if (instance == null) {
 			instance = new TimeSetterUtil();
 		}
-		if (!isPEF && timeSetterClient == null)
-			timeSetterClient = new TimeSetterClient(PropertyProvider.getProperty("app.host"));
+		if (!isPEF && timeSetterClient == null) {
+			try {
+				Class clazz = Class.forName(PropertyProvider.getProperty("time.service.class"));
+				Constructor<? extends TimeSetter> ctor = clazz.getConstructor(String.class);
+				timeSetterClient = ctor.newInstance(new Object[]{PropertyProvider.getProperty("app.host")});
+			} catch (ReflectiveOperationException e) {
+				log.error("Can't instatiate TimeSetter from class: " + PropertyProvider.getProperty("time.service.class"), e);
+				timeSetterClient = new TimeSetterClient(PropertyProvider.getProperty("app.host"));
+			}
+		}
 		return instance;
 	}
 
@@ -91,7 +98,7 @@ public class TimeSetterUtil {
 
 	public void nextPhase(LocalDateTime time) {
 		if (time == null)
-			throw new NullPointerException();
+			throw new IstfException("Provided time to shift is null");
 		LocalDateTime adjDate = time;
 
 		if (adjDate.format(DateTimeFormatter.ofPattern(TIME_FORMAT)).contains("00:00") || adjDate.format(DateTimeFormatter.ofPattern("HH:ss")).equals("00:00")) {
@@ -157,8 +164,8 @@ public class TimeSetterUtil {
 	}
 
 	private void closeAllApps() {
-		ApplicationFactory.get().mainApp(new LoginPage(new SimpleDataProvider())).close();
-		ApplicationFactory.get().adminApp(new LoginPage(new SimpleDataProvider())).close();
-		ApplicationFactory.get().opReportApp(new LoginPage(new SimpleDataProvider())).close();
+		CSAAApplicationFactory.get().mainApp(new LoginPage(new SimpleDataProvider())).close();
+		CSAAApplicationFactory.get().adminApp(new LoginPage(new SimpleDataProvider())).close();
+		CSAAApplicationFactory.get().opReportApp(new LoginPage(new SimpleDataProvider())).close();
 	}
 }

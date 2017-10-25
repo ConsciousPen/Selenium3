@@ -27,6 +27,7 @@ public final class BillingConstants {
 		public static final String ELEVEN_PAY = "Eleven Pay Standard";
 		public static final String ELEVEN_PAY_RENEWAL = "Eleven Pay Standard (Renewal)";
 		public static final String ANNUAL = "Annual";
+		public static final String MONTHLY = "Monthly";
 	}
 
 	public static final class PolicyTerm {
@@ -55,7 +56,8 @@ public final class BillingConstants {
 		public static final String DISCARDED_CANCELLATION_NOTICE = "Discarded Cancellation Notice";
 		public static final String CANCELLATION_NOTICE = "Cancellation Notice";
 		public static final String CANCELLATION = "Cancellation";
-		public static final String OFFER = "Offer";
+		public static final String OFFER = "Offer"; 
+		public static final String DISCARDED_OFFER = "Discarded Offer";
 	}
 
 	public static final class PaymentsAndOtherTransactionType {
@@ -99,6 +101,7 @@ public final class BillingConstants {
 		public static final String REALLOCATED_PAYMENT = "Reallocated Payment";
 		public static final String REALLOCATE_PAYMENT = "Reallocate Payment";
 		public static final String RENEWAL_POLICY_RENEWAL_PROPOSAL = "Renewal - Policy Renewal Proposal";
+		public static final String RENEWAL_POLICY_RENEWAL_PROPOSAL_REVERSAL = "Renewal - Policy Renewal Proposal Reversal";
 		public static final String REINSTATEMENT = "Reinstatement";
 		public static final String REINSTATEMENT_FEE = "Reinstatement Fee";
 		public static final String REINSTATEMENT_FEE_WITH_LAPSE = "Reinstatement with Lapse";
@@ -116,6 +119,9 @@ public final class BillingConstants {
 		public static final String RECURRING_PAYMENT = "Recurring Payment";
 		public static final String REGULUS_LOCKBOX = "Regulus LockBox";
 		public static final String REGULUS_ONLINE = "Regulus Online";
+		public static final String NON_EFT_INSTALLMENT_FEE = "Non EFT Installment Fee";
+		public static final String NON_EFT_INSTALLMENT_FEE_WAIVED = "Non EFT Installment Fee Waived";
+		public static final String OTHER = "Other";
 	}
 
 	public static final class PaymentsAndOtherTransactionReason {
@@ -140,6 +146,7 @@ public final class BillingConstants {
 	public static final class PaymentsAndOtherTransactionAction {
 		public static final String DECLINE = "Decline";
 		public static final String TRANSFER = "Transfer";
+		public static final String WAIVE = "Waive";
 	}
 
 	public static final class AcceptPaymentMethod {
@@ -292,7 +299,7 @@ public final class BillingConstants {
 	}
 
 	public static final class BillingSuspenseSearchResultsTable {
-		public static final String ACTION = "Action";
+		public static final String ACTION = "Missing [action]";
 	}
 
 	public static final class BillingAddOnHoldPoliciesTable {

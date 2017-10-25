@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" version="1" name="AAA_PUP_SS">
+<!-- Original file name: 20170824_233714_CNV_B_CAPUP_EXGPAS_8435_D_20170705_30000798_0368035 -->
+  <AAAPupPolicy state="Created">
+    <agencyCd>500001005</agencyCd>
+    <agencyLocation>500005332</agencyLocation>
+    <agentCd>3556007</agentCd>
+    <effective>2017-11-12T00:00:00</effective>
+    <expiration>2018-11-12T00:00:00</expiration>
+    <importedFrom>PUPSYS</importedFrom>
+    <officeType>AZ Club Agent</officeType>
+    <preConversionPolicyNumber>0368035</preConversionPolicyNumber>
+    <preConversionPolicyPremium>135</preConversionPolicyPremium>
+    <producerCd>500001005</producerCd>
+    <productCd>AAA_PUP_SS</productCd>
+    <riskStateCd>CA</riskStateCd>
+    <sourcePolicyNum>0368035</sourcePolicyNum>
+    <subProducerCd>3556007</subProducerCd>
+    <underwriterCd>CSAAIB</underwriterCd>
+    <AAAHOMembership state="Created">
+      <aaaMemberSinceDate>2001-01-01T00:00:00</aaaMemberSinceDate>
+      <insurerCd>Yes</insurerCd>
+      <insurerName>WILSON</insurerName>
+    </AAAHOMembership>
+    <AAAInsured oid="86162" state="Created">
+      <firstName>JOHN</firstName>
+      <lastName>WILSON</lastName>
+      <relToPrimNamedInsured>PI</relToPrimNamedInsured>
+      <AAAInsuredPrimaryAddress state="Created">
+        <addressLine1>80 ELWOOD ST</addressLine1>
+        <city>REDWOOD CITY</city>
+        <countryCd>US</countryCd>
+        <postalCode>94062</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAInsuredPrimaryAddress>
+    </AAAInsured>
+    <AAAPaymentOption state="Created">
+      <paymentPlanAtRenewal>annualPUP_CA_R</paymentPlanAtRenewal>
+      <paymentPlanCd>annualPUP_CA</paymentPlanCd>
+    </AAAPaymentOption>
+    <AAAPupPrefill state="Created">
+      <policyNumber>CAH3105201289</policyNumber>
+      <policyType>HO3</policyType>
+      <primaryPolicyInd>true</primaryPolicyInd>
+      <source>EXIGEN</source>
+    </AAAPupPrefill>
+    <AAAPupPrefill state="Created">
+      <policyNumber>CAAS100063778</policyNumber>
+      <policyType>Auto</policyType>
+      <primaryPolicyInd>false</primaryPolicyInd>
+      <source>EXIGEN</source>
+    </AAAPupPrefill>
+  </AAAPupPolicy>
+  <userNote>
+    <confidential>false</confidential>
+    <title>Conversion:PUPNARRAT1</title>
+    <updatedOn>2017-07-05T00:00:00</updatedOn>
+    <userText>reviewed 06/2006</userText>
+  </userNote>
+</Policy>
