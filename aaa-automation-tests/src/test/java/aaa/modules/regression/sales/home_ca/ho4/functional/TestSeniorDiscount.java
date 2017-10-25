@@ -80,7 +80,7 @@ public class TestSeniorDiscount extends HomeCaHO4BaseTest {
 
 		seniorDiscountDwellingUsageCheck("Primary");
 		PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).verify.contains(SENIOR_DISCOUNT_NAME);
-		//PAS-3712 start
+		//PAS-3712 end
 		premiumsAndCoveragesQuoteTab.saveAndExit();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -108,12 +108,12 @@ public class TestSeniorDiscount extends HomeCaHO4BaseTest {
 		PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).verify.contains(SENIOR_DISCOUNT_NAME);
 	}
 
-	private void seniorDiscountAppliedAndAgeCheck(String policyNumber, Integer seniorDiscountApplicabilityAgeYears, Integer dateOfBirthDaysDelta, Integer ageInDbYears) {
+	private void seniorDiscountAppliedAndAgeCheck(String policyNumber, Integer seniorDiscountApplicabilityAgeYears, int dateOfBirthDaysDelta, int ageInDbYears) {
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.APPLICANT.get());
 		String seniorDiscountApplicabilityAge = TimeSetterUtil.getInstance().getCurrentTime().minusYears(seniorDiscountApplicabilityAgeYears).minusDays(dateOfBirthDaysDelta).format(DateTimeUtils.MM_DD_YYYY);
 		applicantTab.getAssetList().getAsset(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), MultiAssetList.class).getAsset(HomeCaMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH).setValue(seniorDiscountApplicabilityAge);
 		premiumsAndCoveragesQuoteTab.calculatePremium();
-		Integer ageFromDb = Integer.parseInt(DBService.get().getValue(String.format(AGE_VERIFICATION_SQL, policyNumber)).get());
-		CustomAssert.assertTrue(ageFromDb.equals(ageInDbYears));
+		int ageFromDb = Integer.parseInt(DBService.get().getValue(String.format(AGE_VERIFICATION_SQL, policyNumber)).get());
+		CustomAssert.assertEquals(ageFromDb, ageInDbYears);
 	}
 }

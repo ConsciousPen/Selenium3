@@ -38,13 +38,13 @@ public class TestSeniorDiscount extends HomeCaHO6BaseTest {
 	 * @author Oleg Stasyuk
 	 * @name Test HO6 Policy Senior Discounts
 	 * @scenario 1.  Create a quote effective today
-	 * 2.  Set DOB to be 65 years in past from quote Effective date, check Senior Discount is applied
+	 * 2.  Set DOB to be 50 years in past from quote Effective date, check Senior Discount is applied
 	 * 3.  Check Boundary conditions +/-1 day
 	 * 4.  Set Quote effective date to be some days in the past
-	 * 5.  Set DOB to be 65 years in past from quote Effective date, check Senior Discount is applied
+	 * 5.  Set DOB to be 50 years in past from quote Effective date, check Senior Discount is applied
 	 * 6.  Check Boundary conditions +/-1 day
 	 * 7.  Set Quote effective date to be some days in the future
-	 * 8.  Set DOB to be 65 years in past from quote Effective date, check Senior Discount is applied
+	 * 8.  Set DOB to be 50 years in past from quote Effective date, check Senior Discount is applied
 	 * 9.  Check Boundary conditions +/-1 day
 	 * 10.  Set Dwelling usage <> Primary, check discount is not applied
 	 * 11.  Set Dwelling usage = Primary, check discount is applied
@@ -80,7 +80,7 @@ public class TestSeniorDiscount extends HomeCaHO6BaseTest {
 
 		seniorDiscountDwellingUsageCheck("Primary");
 		PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).verify.contains(SENIOR_DISCOUNT_NAME);
-		//PAS-3712 start
+		//PAS-3712 end
 		premiumsAndCoveragesQuoteTab.saveAndExit();
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -108,12 +108,12 @@ public class TestSeniorDiscount extends HomeCaHO6BaseTest {
 		PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).verify.contains(SENIOR_DISCOUNT_NAME);
 	}
 
-	private void seniorDiscountAppliedAndAgeCheck(String policyNumber, Integer seniorDiscountApplicabilityAgeYears, Integer dateOfBirthDaysDelta, Integer ageInDbYears) {
+	private void seniorDiscountAppliedAndAgeCheck(String policyNumber, Integer seniorDiscountApplicabilityAgeYears, int dateOfBirthDaysDelta, int ageInDbYears) {
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.APPLICANT.get());
 		String seniorDiscountApplicabilityAge = TimeSetterUtil.getInstance().getCurrentTime().minusYears(seniorDiscountApplicabilityAgeYears).minusDays(dateOfBirthDaysDelta).format(DateTimeUtils.MM_DD_YYYY);
 		applicantTab.getAssetList().getAsset(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), MultiAssetList.class).getAsset(HomeCaMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH).setValue(seniorDiscountApplicabilityAge);
 		premiumsAndCoveragesQuoteTab.calculatePremium();
-		Integer ageFromDb = Integer.parseInt(DBService.get().getValue(String.format(AGE_VERIFICATION_SQL, policyNumber)).get());
-		CustomAssert.assertTrue(ageFromDb.equals(ageInDbYears));
+		int ageFromDb = Integer.parseInt(DBService.get().getValue(String.format(AGE_VERIFICATION_SQL, policyNumber)).get());
+		CustomAssert.assertEquals(ageFromDb, ageInDbYears);
 	}
 }
