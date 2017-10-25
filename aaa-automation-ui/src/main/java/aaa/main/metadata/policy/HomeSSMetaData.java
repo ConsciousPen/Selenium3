@@ -2,24 +2,38 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.metadata.policy;
 
+import org.openqa.selenium.By;
+
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.CheckBox;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.Link;
+import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.TextBox;
+import toolkit.webdriver.controls.composite.assets.AssetList;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
+import toolkit.webdriver.controls.waiters.Waiters;
 import aaa.common.pages.Page;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
-import aaa.toolkit.webdriver.customcontrols.*;
+import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
+import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
+import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
+import aaa.toolkit.webdriver.customcontrols.FillableTable;
+import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
+import aaa.toolkit.webdriver.customcontrols.PersonalPropertyMultiAssetList;
+import aaa.toolkit.webdriver.customcontrols.ProductOfferingVariationControl;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import aaa.toolkit.webdriver.customcontrols.endorsements.HomeSSEndorsementsMultiAssetList;
+
 import com.exigen.ipb.etcsa.controls.PartySearchTextBox;
 import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
-import org.openqa.selenium.By;
-import toolkit.webdriver.controls.*;
-import toolkit.webdriver.controls.composite.assets.AssetList;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
-import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * Metadata definitions for products. For single-root products the root class

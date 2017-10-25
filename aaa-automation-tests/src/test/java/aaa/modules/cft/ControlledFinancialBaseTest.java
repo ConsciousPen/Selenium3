@@ -2,6 +2,13 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.cft;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
+
+import toolkit.datax.TestData;
+import toolkit.exceptions.IstfException;
+import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.webdriver.controls.ComboBox;
 import aaa.admin.modules.reports.operationalreports.OperationalReport;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -13,7 +20,11 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ActivitiesAndUserNotesConstants;
 import aaa.main.enums.BillingConstants;
-import aaa.main.enums.BillingConstants.*;
+import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
+import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionAction;
+import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionStatus;
+import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
+import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -28,15 +39,9 @@ import aaa.modules.cft.details.BillingAccountDetails;
 import aaa.modules.cft.details.BillingAccountInformationHolder;
 import aaa.modules.cft.details.PolicyDetails;
 import aaa.modules.policy.PolicyBaseTest;
+
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import toolkit.datax.TestData;
-import toolkit.exceptions.IstfException;
-import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.webdriver.controls.ComboBox;
-
-import java.time.LocalDateTime;
-import java.util.HashMap;
 
 public class ControlledFinancialBaseTest extends PolicyBaseTest {
 

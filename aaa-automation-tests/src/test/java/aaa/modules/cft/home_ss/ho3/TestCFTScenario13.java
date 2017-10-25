@@ -1,20 +1,21 @@
 package aaa.modules.cft.home_ss.ho3;
 
-import aaa.helpers.constants.Groups;
-import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ss.actiontabs.CancellationActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
-import aaa.modules.cft.ControlledFinancialBaseTest;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import aaa.helpers.constants.Groups;
+import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ss.actiontabs.CancellationActionTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.modules.cft.ControlledFinancialBaseTest;
 
 /**
  * NB_FD _Flat_cancel

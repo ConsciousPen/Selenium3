@@ -1,5 +1,16 @@
 package aaa.modules.deloitte.docgen.auto_ca.select;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+import com.exigen.ipb.etcsa.utils.Dollar;
+
+import toolkit.datax.TestData;
+import toolkit.verification.CustomAssert;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.AutoCaTab;
 import aaa.common.pages.NavigationPage;
@@ -9,9 +20,9 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.main.enums.ProductConstants;
 import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
 import aaa.main.enums.DocGenEnum.Documents;
-import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.IBillingAccount;
 import aaa.main.modules.policy.auto_ca.actiontabs.PolicyDocGenActionTab;
@@ -19,15 +30,6 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 
