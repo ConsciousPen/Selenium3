@@ -81,11 +81,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void endorsePolicyEffDatePlus2Days() {
 		LocalDateTime endorsePlus2 = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
-		TimeSetterUtil.getInstance().nextPhase(endorsePlus2);
-		log.info("Endorsment action started");
-		log.info("Endorsement date: {}", endorsePlus2);
-		performAndCheckEndorsement(endorsePlus2.plusDays(2)); // future dated endorse +2 d
-		log.info("Endorsment action completed successfully");
+		performEndorsementOnDate(endorsePlus2, endorsePlus2.plusDays(2));
 	}
 
 	/**
@@ -603,14 +599,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).verifyRowWithDueDate(date);
 	}
 
-	private void performAndCheckEndorsement(LocalDateTime endorsementDueDate) {
-		mainApp().reopen();
-		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementDueDate.format(DateTimeUtils.MM_DD_YYYY),
-			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber()));
-	}
-
 	private void acceptManualPaymentOnDate(LocalDateTime paymentDate) {
 		TimeSetterUtil.getInstance().nextPhase(paymentDate);
 		log.info("Accept payment action started");
@@ -629,14 +617,19 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 			.verifyPresent();
 		log.info("Accept payment action completed successfully");
 	}
+
 	private void performEndorsementOnDate(LocalDateTime endorsementDate) {
+		performEndorsementOnDate(endorsementDate, endorsementDate);
+	}
+
+	private void performEndorsementOnDate(LocalDateTime endorsementDate, LocalDateTime endorsementDueDate) {
 		TimeSetterUtil.getInstance().nextPhase(endorsementDate);
 		log.info("Endorsment action started");
 		log.info("Endorsement date: {}", endorsementDate);
 		mainApp().reopen();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementDate.format(DateTimeUtils.MM_DD_YYYY),
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementDueDate.format(DateTimeUtils.MM_DD_YYYY),
 			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber()));
 		log.info("Endorsment action completed successfully");
 	}

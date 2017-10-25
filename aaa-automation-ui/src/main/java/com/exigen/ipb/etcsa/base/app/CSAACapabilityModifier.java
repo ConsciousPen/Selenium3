@@ -19,6 +19,7 @@ public class CSAACapabilityModifier implements Function<DesiredCapabilities, Des
 			options.setExperimentalOption("useAutomationExtension", false);
 			HashMap<String, Object> chromePrefs = new HashMap<>();
 			chromePrefs.put("profile.default_content_settings.popups", 0);
+			// if remote address then we do not need to concatenate System.getProperty("user.dir") + to test.downloadfiles.location defined
 			chromePrefs.put("download.default_directory", System.getProperty("user.dir") + FilenameUtils.separatorsToSystem(PropertyProvider.getProperty("test.downloadfiles.location")));
 			options.setExperimentalOption("prefs", chromePrefs);
 
