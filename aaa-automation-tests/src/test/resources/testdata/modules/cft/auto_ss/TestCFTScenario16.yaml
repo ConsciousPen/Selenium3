@@ -1,0 +1,22 @@
+TestData: {
+  AddSuspenseActionTab: '@AddSuspenseActionTab',
+  SearchSuspenseActionTab: '@SearchSuspenseActionTab',
+  ReverseSuspenseActionTab: '@ReverseSuspenseActionTab'
+  
+}
+
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Eleven Pay - Standard
+}
+
+AddSuspenseActionTab: {
+  'Suspense Reference #': 123456,
+  Suspense Amount: 50
+}  
+
+SearchSuspenseActionTab: {
+  'Suspense Reference #': 123456,
+  'Missing [status]': Outstanding
+}
+
+ReverseSuspenseActionTab: {}

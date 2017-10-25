@@ -9,6 +9,7 @@ import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 import aaa.admin.modules.reports.operationalreports.OperationalReport;
+import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -17,6 +18,7 @@ import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.main.enums.ActionConstants;
 import aaa.main.enums.ActivitiesAndUserNotesConstants;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
@@ -30,9 +32,11 @@ import aaa.main.modules.billing.account.IBillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.OtherTransactionsActionTab;
 import aaa.main.modules.billing.paymentsmaintenance.PaymentsMaintenance;
+import aaa.main.modules.billing.paymentsmaintenance.actiontabs.SearchSuspenseActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.main.pages.summary.billing.PaymentsAndBillingMaintenancePage;
 import aaa.modules.cft.details.BillingAccountDetails;
 import aaa.modules.cft.details.BillingAccountInformationHolder;
 import aaa.modules.cft.details.PolicyDetails;
@@ -57,6 +61,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		createCustomerIndividual();
 		TestData td = getPolicyTestData();
 		String policyN = createPolicy(td);
+
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		BillingAccountInformationHolder.addBillingAccountDetails(
 			new BillingAccountDetails.Builder()
@@ -191,7 +196,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 * Accept Min Due payment on DD1 + 30 days
 	 */
 	protected void acceptMinDuePaymentDD1plus30() {
-		LocalDateTime paymentDate = getTimePoints().getBillDueDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1)).plusDays(30);
+		LocalDateTime paymentDate = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1).plusDays(30);
 		TimeSetterUtil.getInstance().nextPhase(paymentDate);
 		log.info("Accept payment action started");
 		log.info("Accept payment date: {}", paymentDate);
@@ -372,8 +377,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	protected void manualCancellationDD1Plus5(String keyPath) {
-		LocalDateTime cancellationDate = getTimePoints().getBillDueDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails()
-			.getInstallments().get(1)).plusDays(5);
+		LocalDateTime cancellationDate = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1).plusDays(5);
 		TimeSetterUtil.getInstance().nextPhase(cancellationDate);
 		log.info("Manual cancellation action started");
 		log.info("Manual cancellation date: {}", cancellationDate);
@@ -542,13 +546,12 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected void addSuspenseEffDatePlus2() {
 		LocalDateTime suspenseDate = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
-		TimeSetterUtil.getInstance().nextPhase(suspenseDate);
-		log.info("Add Suspense action started");
-		log.info("Suspense date: {}", suspenseDate);
-		mainApp().reopen();
-		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		new PaymentsMaintenance().addSuspense().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		log.info("Suspense added successfully");
+		addSuspenseOnDate(suspenseDate);
+	}
+
+	protected void addSuspenseStartDatePlus25() {
+		LocalDateTime suspenseDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
+		addSuspenseOnDate(suspenseDate);
 	}
 
 	protected void clearSuspenseEffDatePlus16() {
@@ -561,6 +564,25 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openBilling(policyNumber);
 		new PaymentsMaintenance().clearSuspense().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY), policyNumber);
 		log.info("Suspense cleared successfully");
+	}
+
+	protected void refundSuspenseDD1plus5() {
+		LocalDateTime refundDate = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1).plusDays(5);
+		TimeSetterUtil.getInstance().nextPhase(refundDate);
+		log.info("Refund Suspense action started");
+		log.info("Action date: {}", refundDate);
+
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+
+		BillingSummaryPage.buttonPaymentsBillingMaintenance.click();
+		PaymentsAndBillingMaintenancePage.buttonClearSuspense.click();
+		new SearchSuspenseActionTab().fillTab(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		SearchSuspenseActionTab.buttonSearch.click();
+		SearchSuspenseActionTab.tableSuspenseSearchResults.getRow(1).getCell(BillingConstants.BillingSuspenseSearchResultsTable.ACTION).controls.links.get(ActionConstants.REVERSE).click();
+		Tab.buttonOk.click();
+
+		log.info("Suspense refunded successfully");
 	}
 
 	protected TestData getPolicyTestData() {
@@ -630,5 +652,15 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Reinstatement for Policy %1$s", BillingAccountInformationHolder.getCurrentBillingAccountDetails()
 			.getCurrentPolicyDetails().getPolicyNumber()));
 		log.info("Manual reinstatement action completed successfully");
+	}
+
+	private void addSuspenseOnDate(LocalDateTime suspenseDate) {
+		TimeSetterUtil.getInstance().nextPhase(suspenseDate);
+		log.info("Add Suspense action started");
+		log.info("Suspense date: {}", suspenseDate);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		new PaymentsMaintenance().addSuspense().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		log.info("Suspense added successfully");
 	}
 }

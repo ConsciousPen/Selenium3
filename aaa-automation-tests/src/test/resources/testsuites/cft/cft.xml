@@ -20,6 +20,7 @@
         <suite-file path="./Scenario13.xml" />
         <suite-file path="./Scenario14.xml" />
         <suite-file path="./Scenario15.xml" />
+        <suite-file path="./Scenario16.xml" />
     </suite-files>
 
 </suite>
