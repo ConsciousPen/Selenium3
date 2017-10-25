@@ -1,9 +1,5 @@
 package aaa.modules.docgen.home_ca.ho3;
 
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import toolkit.verification.CustomAssert;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum.Documents;
@@ -11,6 +7,10 @@ import aaa.main.modules.policy.home_ca.actiontabs.PolicyDocGenActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import toolkit.verification.CustomAssert;
 
 /**
  * 

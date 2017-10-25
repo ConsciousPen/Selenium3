@@ -220,6 +220,11 @@ public abstract class Tab {
 		return this;
 	}
 
+	public Tab back() {
+		buttonBack.click();
+		return this;
+	}
+
 	public String getPolicyNumber(){
 		return labelPolicyNumber.getValue();
 	}
