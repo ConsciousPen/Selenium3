@@ -2,15 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.rest.policy;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.exigen.ipb.etcsa.base.app.LoginPage;
-
 import aaa.common.pages.MainPage;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.IPolicy;
@@ -18,12 +9,19 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.rest.JsonHelper;
 import aaa.rest.productfactory.ProductFactoryRESTMethods;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.etcsa.base.app.LoginPage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.rest.ResponseWrapper;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PolicyRestImpl {
 

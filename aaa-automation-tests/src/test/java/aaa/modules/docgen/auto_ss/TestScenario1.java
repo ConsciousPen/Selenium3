@@ -1,19 +1,5 @@
 package aaa.modules.docgen.auto_ss;
 
-import static aaa.main.enums.DocGenEnum.Documents.*;
-
-import java.time.LocalDateTime;
-
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-
-import toolkit.datax.TestData;
-import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -27,6 +13,18 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import toolkit.datax.TestData;
+import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomAssert;
+
+import java.time.LocalDateTime;
+
+import static aaa.main.enums.DocGenEnum.Documents.*;
 
 /**
  * @author Lina Li

@@ -29,6 +29,8 @@ public class GeneralSchedulerPage extends AdminPage {
     private static final String JOB_RESULT_XPATH_TEMPLATE = "//table[@id='jobs:jobsTable']/tbody/tr[td[position()=1 and normalize-space(.)='%s']]/td[2]/table";
 
     public enum Job {
+        AAA_BATCH_MARKER_JOB("aaaBatchMarkerJob"),
+        AAA_AUTOMATED_PROCESSING_INITIATION_JOB("aaaAutomatedProcessingInitiationJob"),
         AUTOMATED_PROCESSING_INITIATION_JOB("automatedProcessingInitiationJob"),
         AUTOMATED_PROCESSING_ISSUING_OR_PROPOSING_JOB("automatedProcessingIssuingOrProposingJob"),
         AUTOMATED_PROCESSING_RATING_JOB("automatedProcessingRatingJob"),
@@ -50,6 +52,7 @@ public class GeneralSchedulerPage extends AdminPage {
         CFT_DCS_EOD_JOB("cftDcsEodJob"),
         AAA_REFUND_DISBURSEMENT_ASYNC_JOB("aaaRefundDisbursementAsyncJob"),
         AAA_REFUND_GENERATION_ASYNC_JOB("aaaRefundGenerationAsyncJob");
+
 
         String id;
 

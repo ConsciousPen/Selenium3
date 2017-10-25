@@ -2,23 +2,21 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common.pages;
 
-import java.text.MessageFormat;
-import java.util.List;
-
+import aaa.common.Tab;
+import com.exigen.ipb.etcsa.base.app.Application;
+import com.exigen.ipb.etcsa.base.app.Application.AppType;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import com.exigen.ipb.etcsa.base.app.Application;
-import com.exigen.ipb.etcsa.base.app.Application.AppType;
-
-import aaa.common.Tab;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
+
+import java.text.MessageFormat;
+import java.util.List;
 
 public class NavigationPage extends Page {
 
