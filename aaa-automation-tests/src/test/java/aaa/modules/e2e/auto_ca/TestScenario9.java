@@ -1,13 +1,12 @@
 package aaa.modules.e2e.auto_ca;
 
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.actiontabs.EndorsementActionTab;
 import aaa.modules.e2e.templates.Scenario9;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 
 public class TestScenario9 extends Scenario9 { 
