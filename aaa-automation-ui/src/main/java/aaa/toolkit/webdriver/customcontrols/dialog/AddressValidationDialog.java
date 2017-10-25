@@ -1,30 +1,34 @@
 package aaa.toolkit.webdriver.customcontrols.dialog;
 
 import org.openqa.selenium.By;
-import aaa.main.metadata.DialogsMetaData;
 import toolkit.datax.TestData;
-import toolkit.webdriver.controls.BaseElement;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.RadioGroup;
+import toolkit.exceptions.IstfException;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AddressValidationDialog extends DialogAssetList {
 
 	// public static final String DEFAULT_POPUP_OPENER_NAME = "Validate
 	// Address";
-	public static final String DEFAULT_POPUP_SUBMITTER_NAME = "Ok";
-	public static final String DEFAULT_POPUP_CLOSER_NAME = "Cancel";
-	public static final String DEFAULT_SELECT_ADDRESS_NAME = "Select Address";
-	public static final String OVERRIDE = "Override and use original address";
+	protected static final String YOU_ENTERED = "You entered";
+	protected static final String DEFAULT_POPUP_SUBMITTER_NAME = "Ok";
+	protected static final String DEFAULT_POPUP_CLOSER_NAME = "Cancel";
+	protected static final String DEFAULT_SELECT_ADDRESS_NAME = "Select Address";
+	//protected static final String OVERRIDE = "Override and use original address";
+	protected static final String STREET_NAME = "Street Name";
+	protected static final String STREET_NUMBER = "Street number";
 
 	public AddressValidationDialog(By locator, Class<? extends MetaData> metaDataClass) {
 		super(locator, metaDataClass);
 
 	}
-	
-	 public AddressValidationDialog(BaseElement<?, ?> parent, By locator, Class<? extends MetaData> metaDataClass) {
-	        super(parent, locator, metaDataClass);
-	    }
+
+	public AddressValidationDialog(BaseElement<?, ?> parent, By locator, Class<? extends MetaData> metaDataClass) {
+		super(parent, locator, metaDataClass);
+	}
 
 	@Override
 	protected void openDialog() {
@@ -59,18 +63,26 @@ public class AddressValidationDialog extends DialogAssetList {
 			if (data.containsKey(DEFAULT_SELECT_ADDRESS_NAME)) {
 				switch (data.getValue(DEFAULT_SELECT_ADDRESS_NAME)) {
 					case "default":
-					break;
-					case "override":
-						if (data.containsKey(DialogsMetaData.AddressValidationMetaData.STREET_NAME.getLabel())) {
-							data.adjust(DialogsMetaData.AddressValidationMetaData.RADIOGROUP_SELECT.getLabel(), OVERRIDE);
-							setValue(data);
-						} else {
-							RadioGroup r = (RadioGroup) getAssetCollection().get(DEFAULT_SELECT_ADDRESS_NAME);
-							r.setValue(OVERRIDE);
-						}
-					break;
-				default:
-					break;
+						break;
+					default:
+						break;
+				}
+			} else if (data.getKeys().isEmpty()) {
+				TextBox streetName = (TextBox) getAsset(STREET_NAME);
+				if (streetName.isPresent() && streetName.isVisible()) {
+					log.info("Address Validation failed, starting address override.");
+					try {
+						String address = ((StaticElement) getAsset(YOU_ENTERED)).getValue();
+						Pattern pattern = Pattern.compile("(\\d+)\\s+(.*)");
+						Matcher matcher = pattern.matcher(address.split(",")[0]);
+						if (matcher.matches()) {
+							((TextBox) getAsset(STREET_NUMBER)).setValue(matcher.group(1).trim());
+							((TextBox) getAsset(STREET_NAME)).setValue(matcher.group(2).trim());
+						} else
+							log.info("Unable to parse and fill Address Validation Form");
+					} catch (Exception e) {
+						throw new IstfException("Unable to parse and fill Address Validation Form: ", e);
+					}
 				}
 			} else
 				setValue(data);

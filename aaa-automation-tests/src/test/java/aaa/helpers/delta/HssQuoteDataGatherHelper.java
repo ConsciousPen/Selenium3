@@ -78,11 +78,11 @@ public class HssQuoteDataGatherHelper extends BaseTest {
 		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get()); 
 		if (getState().equals("CO")) {
-			CustomAssert.assertTrue("Adversely Impacted message is not displaing on Reports Tab",
+			CustomAssert.assertTrue("Adversely Impacted message is not displaying on Reports Tab",
 				reportsTab.lblAdversalyImpactedMessage.getValue().equals(messageOnReportsTab));	
 		}
 		else {
-			CustomAssert.assertTrue("Extraordinary life circumstance message is not displaing on Reports Tab",
+			CustomAssert.assertTrue("Extraordinary life circumstance message is not displaying on Reports Tab",
 				reportsTab.lblELCMessage.getValue().equals(messageOnReportsTab));		
 		}		
 	}

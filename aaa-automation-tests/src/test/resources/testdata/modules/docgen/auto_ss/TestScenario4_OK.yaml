@@ -80,10 +80,10 @@ AASR22: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'Fernando'},
     NmdInsrdLstNm: {TextField: 'Alonso'},
-    NmdInsrdStrPobAddr1: {TextField: '715 Oak Ave'},
-    NmdInsrdCityNm: {'Phoenix'},
+    NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
+    NmdInsrdCityNm: {'OKLAHOMA CITY'},
     NmdInsrdStAbrv: {TextField: 'OK'},
-    NmdInsrdZipPls4: {TextField: '73099'},
+    NmdInsrdZipPls4: {TextField: '73118'},
   },  
   VehicleDetails: {
    VehItemNum: {TextField: '1'},
@@ -95,7 +95,7 @@ AASR22: {
   },
   DriverDetails: {
    DrvrLicNum: {TextField: '123123121'},
-   DrvrDOB: {DateTimeField: '1962-12-04T22:00:00.000Z'},
+   DrvrDOB: {DateTimeField: "contains=1962-12-04"},
   },
   form: {
     PlcyNum: {TextField: ''},
@@ -128,8 +128,8 @@ AA41XX: {
     NmdInsrdStAbrv: {TextField: OK}
   },
   AgentDetails: {
-    GenlAgntNum: {TextField: 400001650},
-    SubAgntNum: {TextField: 400018581}
+    GenlAgntNum: {TextField: 500001020},
+    SubAgntNum: {TextField: 500005452}
   },
   VehicleDetails: {
     VehTyp: {TextField: 'NO'}
@@ -162,8 +162,8 @@ AA10OK: {
     NmdInsrdStAbrv: {TextField: OK}
   },
   AgentDetails: {
-    GenlAgntNum: {TextField: 400001650},
-    SubAgntNum: {TextField: 400018581}
+    GenlAgntNum: {TextField: 500001020},
+    SubAgntNum: {TextField: 500005452}
   },
   VehicleDetails: {
     VehTyp: {TextField: 'NANO'}

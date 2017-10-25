@@ -212,7 +212,6 @@ public class Scenario4 extends ScenarioBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHCWXX);
-//		DocGenHelper.verifyDocumentsGeneratedByJob(TimeSetterUtil.getInstance().getCurrentTime(), policyNum, OnDemandDocuments.AHCWXX);
 	}
 
 	protected void renewalImageGeneration() {

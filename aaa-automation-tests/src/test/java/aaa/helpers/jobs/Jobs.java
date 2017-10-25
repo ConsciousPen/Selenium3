@@ -31,6 +31,8 @@ public class Jobs {
 	public static Job offCycleBillingInvoiceAsyncJob = new Job("aaaOffCycleBillingInvoiceAsyncJob");
 
 	public static Job collectionFeedBatch_earnedPremiumWriteOff = new Job("collectionFeedBatch_earnedPremiumWriteOff");
+	
+	public static Job earnedPremiumWriteoffProcessingJob = new Job("earnedPremiumWriteoffProcessingJob");
 
 	public static Job aaaDocGenBatchJob = new Job("aaaDocGenBatchJob");
 

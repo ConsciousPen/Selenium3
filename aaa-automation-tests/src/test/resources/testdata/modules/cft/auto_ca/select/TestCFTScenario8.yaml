@@ -1,0 +1,10 @@
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Standard Monthly
+}
+
+PurchaseTab_DataGather: {
+  PaymentAllocation: {
+    Check: /rest,
+    Check Number Check: '123456'
+  }
+}

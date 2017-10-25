@@ -18,9 +18,9 @@ import java.util.NoSuchElementException;
 
 public class TestVINUploadTemplate extends PolicyBaseTest {
 
-    VehicleTab vehicleTab = new VehicleTab();
-    UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
-    PurchaseTab purchaseTab = new PurchaseTab();
+    private VehicleTab vehicleTab = new VehicleTab();
+    private UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
+    private PurchaseTab purchaseTab = new PurchaseTab();
 
     /**
      * @author Lev Kazarnovskiy
@@ -214,12 +214,12 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
         String configNames = "('SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT', 'SYMBOL_2000_SS_TEST')";
         try {
             String VehiclerefdatamodelID = DBService.get().getValue("SELECT DM.id FROM vehiclerefdatamodel DM " +
-                    "join vehiclerefdatavin DV on DV.vehiclerefdatamodelid=DM.id " +
-                    "WHERE DV.VERSION in " + configNames).get();
-            DBService.get().executeUpdate("delete from Vehiclerefdatavin V Where V.VERSION in " + configNames);
-            DBService.get().executeUpdate("delete from Vehiclerefdatamodel Where ID='" + VehiclerefdatamodelID + "'");
-            DBService.get().executeUpdate("delete from VEHICLEREFDATAVINCONTROL VC Where VC.VERSION in " + configNames);
-            DBService.get().executeUpdate("update VEHICLEREFDATAVINCONTROL set EXPIRATIONDATE='99999999'");
+                    "JOIN vehiclerefdatavin DV ON DV.vehiclerefdatamodelid=DM.id " +
+                    "WHERE DV.version IN " + configNames).get();
+            DBService.get().executeUpdate("DELETE FROM vehiclerefdatavin V WHERE V.VERSION IN " + configNames);
+            DBService.get().executeUpdate("DELETE FROM vehiclerefdatamodel WHERE id='" + VehiclerefdatamodelID + "'");
+            DBService.get().executeUpdate("DELETE FROM vehiclerefdatavincontrol VC WHERE VC.version IN " + configNames);
+            DBService.get().executeUpdate("UPDATE vehiclerefdatavincontrol SET expirationdate='99999999'");
         } catch (NoSuchElementException e){
             log.error("Configurations with names " + configNames + " are not present in DB, after method have'n been executed fully");
         }

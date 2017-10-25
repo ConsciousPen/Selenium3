@@ -18,10 +18,8 @@ public class RatingDetailsCompCollSymbolsPresence extends PolicyBaseTest {
         createCustomerIndividual();
 
         policy.initiate();
-        policy.getDefaultView().fillUpTo(testData, VehicleTab.class, true);
+        policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
 
-        NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        PremiumAndCoveragesTab.buttonCalculatePremium.click(Waiters.AJAX);
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
         CustomAssert.enableSoftMode();

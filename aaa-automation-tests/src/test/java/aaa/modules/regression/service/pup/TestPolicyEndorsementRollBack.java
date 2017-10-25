@@ -36,7 +36,7 @@ public class TestPolicyEndorsementRollBack extends PolicyEndorsementRollBack {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.PUP )
-	public void testPolicyEndormentRollBack(@Optional("") String state) {
+	public void testPolicyEndorsementRollBack(@Optional("") String state) {
 
 		super.testPolicyEndorsementRollBack();
 

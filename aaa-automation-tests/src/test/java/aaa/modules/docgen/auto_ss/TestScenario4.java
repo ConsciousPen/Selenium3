@@ -88,11 +88,13 @@ public class TestScenario4 extends AutoSSBaseTest {
 		termEffDt = DocGenHelper.convertToZonedDateTime(policyEffectiveDate);
 		
 //		verify the xml file AASR22 and AAGCAZ
-		DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR22,AAGCAZ).verify.mapping(getTestSpecificTD("TestData_VerificationEDOne")
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR22).verify.mapping(getTestSpecificTD("TestData_AASR22")
 				.adjust(TestData.makeKeyPath("AASR22", "form", "PlcyNum", "TextField"), policyNumber)
-				.adjust(TestData.makeKeyPath("AASR22", "form", "TermEffDt","DateTimeField"), termEffDt)
-				.adjust(TestData.makeKeyPath("AAGCAZ", "form", "PlcyNum", "TextField"), policyNumber),
+				.adjust(TestData.makeKeyPath("AASR22", "form", "TermEffDt","DateTimeField"), termEffDt),
 				policyNumber);	
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, AAGCAZ).verify.mapping(getTestSpecificTD("TestData_VerificationEDOne")
+				.adjust(TestData.makeKeyPath("AAGCAZ", "form", "PlcyNum", "TextField"), policyNumber),
+				policyNumber);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	 }

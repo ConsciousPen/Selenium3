@@ -265,7 +265,7 @@ public class TestSearchForAllCriteria extends AutoSSBaseTest {
 					SearchMetaData.Search.POLICY_QUOTE.getLabel(), EntitiesHolder.getEntity(policyKey),
 					SearchMetaData.Search.PRODUCT_ID.getLabel(), "Auto",
 					SearchMetaData.Search.CUSTOMER.getLabel(), EntitiesHolder.getEntity(customerKey),
-					SearchMetaData.Search.AGENT_OF_RECORD.getLabel(), "House Agent SMTestIA",
+					SearchMetaData.Search.AGENT_OF_RECORD.getLabel(), "AAA NCNU - 500001005",
 					SearchMetaData.Search.AGENT.getLabel(), "400018581",
 					SearchMetaData.Search.CITY.getLabel(), customerGeneralTabData.getValue(CustomerMetaData.GeneralTab.CITY.getLabel()),
 					SearchMetaData.Search.STATE.getLabel(), customerGeneralTabData.getValue(CustomerMetaData.GeneralTab.STATE.getLabel()),
