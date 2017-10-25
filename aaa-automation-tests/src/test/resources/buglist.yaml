@@ -109,6 +109,8 @@ QC-44890:
   summary: "DB Lookup 'cancellationConfirmationDays' is set to 15 days instead of 18 for AAA_SS_PA in Admin application"
   reason: PROD
   failures:
+    - tests: [aaa.modules.e2e.auto_ss.TestScenario3.TC03_Generate_Cancelation_Notice]
+      messages: ["Row with values {Type=Cancellation Notice"]
     - tests: [aaa.modules.e2e.auto_ss.TestScenario5.TC07_1_Generate_CancellNotice]
       messages: ["Cannot get value of Cell {<unnamed>: <Non-existent row (Can't find row by specified parameters: {Due Date"]
 QC-44911:
