@@ -36,6 +36,7 @@ import toolkit.webdriver.controls.TextBox;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static aaa.main.enums.BillingConstants.BillingAccountPoliciesTable.MIN_DUE;
@@ -111,10 +112,7 @@ public class TestInstallmentFees extends PolicyBilling {
 		AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("contains=Card");
 		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.CARD_TYPE).verify.value("Credit Card");
-		List<String> cardType = new ArrayList<>();
-		cardType.add("Credit Card");
-		cardType.add("Debit Card");
-		CustomAssert.assertTrue(updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.CARD_TYPE).getAllValues().containsAll(cardType));
+		CustomAssert.assertTrue(updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.CARD_TYPE).getAllValues().containsAll(Arrays.asList("Credit Card","Debit Card")));
 		CustomAssert.assertFalse(updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.CARD_TYPE).isEnabled());
 		Tab.buttonBack.click();
 		Tab.buttonCancel.click();
