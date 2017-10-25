@@ -3,8 +3,8 @@ package aaa.soap.getAutoPolicyDetails;
 import aaa.rest.IModel;
 import aaa.rest.IRestClient;
 
-import aaa.soap.getAutoPolicyDetails.aaancnu_common_version2.ApplicationContext;
 import aaa.soap.getAutoPolicyDetails.aaancnu_wsdl_getautopolicydetail_version2.*;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.rest.RestServiceUtil;
@@ -16,8 +16,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.StringWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 
 public class GetAutoPolicyDetailsWSClient implements IRestClient {
     private GetAutoPolicyDetailService service;
@@ -52,12 +51,12 @@ public class GetAutoPolicyDetailsWSClient implements IRestClient {
     }
 
     private GetAutoPolicyDetailRequest getAutoPolicyDetailRequest(TestData testData) throws DatatypeConfigurationException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        String date = sdf.format(new Date());
 
         GetAutoPolicyDetailRequest request = new GetAutoPolicyDetailRequest();
 
-        XMLGregorianCalendar xmlCal = DatatypeFactory.newInstance().newXMLGregorianCalendar(date);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+
+        XMLGregorianCalendar xmlCal = DatatypeFactory.newInstance().newXMLGregorianCalendar(TimeSetterUtil.getInstance().getCurrentTime().format(dateTimeFormatter));
         request.setPolicyNumber(testData.getValue("Policy Number"));
         request.setAsOfDate(xmlCal);
         request.setSourceSystem("PAS");
