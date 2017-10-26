@@ -29,7 +29,7 @@ public class BillingAccount implements IBillingAccount {
     }
 
     @Override
-    public synchronized AcceptPayment acceptPayment() {
+    public AcceptPayment acceptPayment() {
         return new BillingAccountActions.AcceptPayment();
     }
 
