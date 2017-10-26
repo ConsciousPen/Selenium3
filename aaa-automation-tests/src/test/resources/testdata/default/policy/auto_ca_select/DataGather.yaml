@@ -136,6 +136,6 @@ PurchaseTab_WithAutopay_Check: {
   Autopay Selection: 'index=1',
   PaymentAllocation: {
     Check: /rest,
-    Check Number: 123456789
+    Check Number Check: 123456789
   }
 }
