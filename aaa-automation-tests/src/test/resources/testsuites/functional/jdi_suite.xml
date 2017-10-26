@@ -1,0 +1,43 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="JDI Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
+    <!-- Listener commented out for local runs
+    <listeners>
+         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+     </listeners>-->
+    <parameter name="timeshift-scenario-mode" value="test"/>
+
+    <test name="TestRefundProcess">
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess"/>
+        </classes>
+    </test>
+    <test name="TestEValueDiscount">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount"/>
+        </classes>
+    </test>
+    <test name="TestPaperlessPreferences">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences"/>
+        </classes>
+    </test>
+    <test name="TestTriggersAH35XX">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestTriggersAH35XX"/>
+        </classes>
+    </test>
+    <test name="TestInstallmentFees">
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestInstallmentFees"/>
+        </classes>
+    </test>
+
+    <test name="TestInstallmentFees">
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestSeniorDiscount"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestSeniorDiscount"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestSeniorDiscount"/>
+        </classes>
+    </test>
+
+</suite>

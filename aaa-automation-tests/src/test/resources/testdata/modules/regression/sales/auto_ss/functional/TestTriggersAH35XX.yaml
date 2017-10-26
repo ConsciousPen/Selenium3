@@ -1,15 +1,3 @@
-PolicyInformation: {
-  Policy Type: Standard,
-  Effective Date: '/today:MM/dd/yyyy',
-  Policy Term: Annual,
-  Channel Type: AAA Agent,
-  Agency: AAA NCNU - 500001005,
-  Agency Location: 'Fresno - 500005301 - Fresno (0003)',
-  Authorized by: QA,
-  Lead Source: AAA Magazines,
-  TollFree Number: '1'
-}
-
 TestData_UpdateBilling: {
   UpdateBillingAccountActionTab: {
     PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa', '@<billing>@PaymentMethods@EFT', '@<billing>@PaymentMethods@CC_MasterCard'],

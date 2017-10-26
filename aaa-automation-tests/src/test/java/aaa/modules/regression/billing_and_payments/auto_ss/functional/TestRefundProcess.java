@@ -6,6 +6,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.db.DbAwaitHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ProductConstants;
@@ -24,6 +25,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
+import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
@@ -33,6 +35,8 @@ import toolkit.webdriver.controls.TextBox;
 import java.util.HashMap;
 import java.util.Map;
 
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.*;
 
 
@@ -42,6 +46,19 @@ public class TestRefundProcess extends PolicyBilling {
 	private TestData tdRefund = tdBilling.getTestData("Refund", "TestData_Check");
 	private BillingAccount billingAccount = new BillingAccount();
 	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
+
+	private static final String REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL = "select dtype, code, displayValue, productCd, riskStateCd, lookuplist_id from LOOKUPVALUE " +
+			"where lookuplist_ID = (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup') " +
+			"and code = 'pcDisbursementEngine' " +
+			"and RISKSTATECD = 'VA' " +
+			"and DISPLAYVALUE = 'TRUE' ";
+
+	private static final String REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL = "INSERT INTO LOOKUPVALUE\n" +
+			"(dtype, code, displayValue, productCd, riskStateCd, lookuplist_id)\n" +
+			"values\n" +
+			"('AAARolloutEligibilityLookupValue', 'pcDisbursementEngine', 'TRUE', null, 'VA', \n" +
+			"(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
+
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -55,6 +72,18 @@ public class TestRefundProcess extends PolicyBilling {
 		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_GENERATION_ASYNC_JOB);
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_ASYNC_JOB);
+	}
+
+	@Test()
+	@TestInfo(isAuxiliary = true)
+	public static void refundDocumentGenerationConfigCheck() {
+		CustomAssert.assertTrue("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.", DbAwaitHelper.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5));
+	}
+
+	@Test(enabled = false)
+	@TestInfo(isAuxiliary = true)
+	public static void refundDocumentGenerationConfigInsert() {
+		DBService.get().executeUpdate(String.format(REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL));
 	}
 
 
@@ -72,11 +101,13 @@ public class TestRefundProcess extends PolicyBilling {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "precondJobAdding")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")//TODO when running suite, the test which has Depends on is not being executed
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-2186")
 	public void pas2186_ManualRefundProcess(@Optional("") String state) {
-		Dollar amount = new Dollar(25);
+		Dollar refundAmount1 = new Dollar(25);
+		Dollar refundAmount2 = new Dollar(100);
 		String checkDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
+		String checkDate2 = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -103,32 +134,79 @@ public class TestRefundProcess extends PolicyBilling {
 		acceptPaymentActionTab.cancel();
 		//PAS-1462 end
 
-		billingAccount.refund().perform(tdRefund, new Dollar(amount));
+		billingAccount.refund().perform(tdRefund, new Dollar(refundAmount1));
+
 		Map<String, String> refund1 = new HashMap<>();
 		refund1.put(TRANSACTION_DATE, checkDate);
 		refund1.put(TYPE, "Refund");
 		refund1.put(SUBTYPE_REASON, "Manual Refund");
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(STATUS).verify.value("Approved");
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).controls.links.get(1).verify.value("Void");
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).controls.links.get(2).verify.value("Issue");
+		unissuedRefundActionsCheck(refund1);
+		unissuedRefundRecordDetailsCheck(refundAmount1, checkDate, refund1);
 
+		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+		checkRefundDocumentInDb(state, policyNumber, 1);
+		issuedRefundActionsCheck(refund1, policyNumber);
+
+
+		Dollar totalDue = BillingSummaryPage.getTotalDue();
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue.add(refundAmount2));
+
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(1));
+		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+		Map<String, String> refund2 = new HashMap<>();
+		refund2.put(TRANSACTION_DATE, checkDate2);
+		refund2.put(TYPE, "Refund");
+		refund2.put(SUBTYPE_REASON, "Automated Refund");
+		unissuedRefundActionsCheck(refund2);
+		unissuedRefundRecordDetailsCheck(refundAmount2, checkDate2, refund2);
+
+		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+		checkRefundDocumentInDb(state, policyNumber, 2);
+		issuedRefundActionsCheck(refund2, policyNumber);
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	private void unissuedRefundRecordDetailsCheck(Dollar amount, String checkDate, Map<String, String> refund1) {
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(TYPE).controls.links.get(1).click();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_NUMBER.getLabel(), TextBox.class).verify.value("Processing");
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_DATE.getLabel(), TextBox.class).verify.value(checkDate);
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYEE_NAME.getLabel(), TextBox.class).verify.present();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).verify.value(amount.toString());
+	}
 
+	private void unissuedRefundActionsCheck(Map<String, String> refund1) {
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(STATUS).verify.value("Approved");
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).controls.links.get(1).verify.value("Void");
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).controls.links.get(2).verify.value("Issue");
+	}
 
-		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
-
+	private void issuedRefundActionsCheck(Map<String, String> refund1, String policyNumber) {
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(STATUS).verify.value("Issued");
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).controls.links.get(1).verify.value("Void");
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).controls.links.get(2).verify.value("Stop");
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).controls.links.get(3).verify.value("Clear");
+	}
 
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+	private static void checkRefundDocumentInDb(String state, String policyNumber, int numberOfDocuments) {
+		//PAS-443 start
+		if (state.equals("VA")) {
+			if (DbAwaitHelper.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5)){
+				String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "55 3500", "REFUND");
+				CustomAssert.assertFalse(DbAwaitHelper.waitForQueryResult(query, 5));
+			}
+		} else {
+			String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "55 3500", "REFUND");
+			CustomAssert.assertTrue(DbAwaitHelper.waitForQueryResult(query, 5));
+			String query2 = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "55 3500", "REFUND");
+			CustomAssert.assertEquals(Integer.parseInt(DBService.get().getValue(query2).get()), numberOfDocuments);
+		}
+		//PAS-443 end
 	}
 }
