@@ -191,7 +191,7 @@ public class Scenario4 extends ScenarioBaseTest {
 	}
 
 	protected void paymentInFullCancellNoticeAmount() {
-		// Set any date prior to Cancelation date
+		// Set any date prior to Cancellation date
 		LocalDateTime cnDate = getTimePoints().getCancellationDate(endorsementInstallmentDueDate).minusDays(5).with(DateTimeUtils.closestFutureWorkingDay);
 		TimeSetterUtil.getInstance().nextPhase(cnDate);
 

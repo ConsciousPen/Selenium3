@@ -1,11 +1,5 @@
 package aaa.modules.docgen.home_ss.ho4;
 
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-
-import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.HomeSSTab;
 import aaa.common.pages.NavigationPage;
@@ -19,6 +13,12 @@ import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO4BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import toolkit.datax.TestData;
+import toolkit.verification.CustomAssert;
+
 import static aaa.main.enums.DocGenEnum.Documents.*;
 
 
