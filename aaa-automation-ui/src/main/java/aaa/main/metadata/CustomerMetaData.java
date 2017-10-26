@@ -300,4 +300,18 @@ public final class CustomerMetaData {
             public static final AssetDescriptor<TextBox> COUNTRY = declare("Country", TextBox.class);
         }
     }
+
+    public static final class InitiateRenewalEntryActionTab extends MetaData {
+        public static final AssetDescriptor<ComboBox> PRODUCT_NAME = declare("Product Name", ComboBox.class);
+        public static final AssetDescriptor<TextBox> PREVIOUS_POLICY_NUMBER = declare("Previous Policy Number", TextBox.class);
+        public static final AssetDescriptor<ComboBox> PREVIOUS_SOURCE_SYSTEM = declare("Previous Source System", ComboBox.class);
+        public static final AssetDescriptor<ComboBox> RISK_STATE = declare("Risk State", ComboBox.class);
+        public static final AssetDescriptor<ComboBox> UNDERWRITING_COMPANY = declare("Underwriting Company", ComboBox.class);
+        public static final AssetDescriptor<TextBox> RENEWAL_EFFECTIVE_DATE = declare("Renewal Effective Date", TextBox.class);
+        public static final AssetDescriptor<TextBox> INCEPTION_DATE = declare("Inception Date", TextBox.class);
+        public static final AssetDescriptor<TextBox> RENEWAL_POLICY_PREMIUM = declare("Renewal Policy Premium", TextBox.class);
+        public static final AssetDescriptor<ComboBox> POLICY_TERM = declare("Policy Term", ComboBox.class);
+        public static final AssetDescriptor<ComboBox> PROGRAM_CODE = declare("Program Code", ComboBox.class);
+        public static final AssetDescriptor<RadioGroup> ENROLLED_IN_AUTOPAY = declare("Enrolled in Autopay", RadioGroup.class);
+    }
 }

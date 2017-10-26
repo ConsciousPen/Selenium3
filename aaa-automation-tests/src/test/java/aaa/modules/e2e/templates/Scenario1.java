@@ -1,11 +1,5 @@
 package aaa.modules.e2e.templates;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import toolkit.datax.TestData;
-import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -29,9 +23,14 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import toolkit.datax.TestData;
+import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomAssert;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 public class Scenario1 extends ScenarioBaseTest {
 
@@ -73,7 +72,7 @@ public class Scenario1 extends ScenarioBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		totalDue = BillingSummaryPage.getTotalDue();
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		CustomAssert.assertEquals("Billing Installments count for Quaterly payment plan", installmentsCount, installmentDueDates.size());
+		CustomAssert.assertEquals("Billing Installments count for Quarterly payment plan", installmentsCount, installmentDueDates.size());
 		installmentAmount = BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(1));
 
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);

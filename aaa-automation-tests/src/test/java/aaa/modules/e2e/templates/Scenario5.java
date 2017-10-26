@@ -184,10 +184,6 @@ public class Scenario5 extends ScenarioBaseTest {
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
 	}
 
-	public void cancelPolicy() {
-		cancelPolicy(installmentDueDates.get(2));
-	}
-
 	public void verifyFormAH67XX() {
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);

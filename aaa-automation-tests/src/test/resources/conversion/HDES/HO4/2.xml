@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
+<!-- Original file name: 20170914_041400_CNV_B_HDESPROP_EXGPAS_8435_D_20171219_30000811_GD88306 -->
+  <AAAHOPolicy state="Created">
+    <agencyCd>500001005</agencyCd>
+    <agencyLocation>500005314</agencyLocation>
+    <agentCd>70681284</agentCd>
+    <agentGeneralNumber>003</agentGeneralNumber>
+    <CaliforniaVeterans>false</CaliforniaVeterans>
+    <doNotRenewInd>false</doNotRenewInd>
+    <effective>2017-11-12T00:00:00</effective>
+    <expiration>2018-11-12T00:00:00</expiration>
+    <imported>CONV</imported>
+    <importedFrom>HDES</importedFrom>
+    <leadSourceCd>25</leadSourceCd>
+    <officeType>AZ Club Agent</officeType>
+    <policyFormCd>HO4</policyFormCd>
+    <preConversionPolicyNumber>GD88306</preConversionPolicyNumber>
+    <preConversionPolicyPremium>247</preConversionPolicyPremium>
+    <producerCd>500001005</producerCd>
+    <productCd>AAA_HO_CA</productCd>
+    <riskStateCd>CA</riskStateCd>
+    <sourcePolicyNum>GD88306</sourcePolicyNum>
+    <subProducerCd>70681284</subProducerCd>
+    <tollNumberCd>xxx</tollNumberCd>
+    <underwriterCd>CSAAIB</underwriterCd>
+    <AAACeaDetailsComponent state="Created">
+      <acceptCeaOffer>false</acceptCeaOffer>
+      <policyType>BASIC</policyType>
+    </AAACeaDetailsComponent>
+    <AAAFirelineReportComponent state="Created">
+      <dwellAddressCity>SANTA CRUZ</dwellAddressCity>
+      <dwellAddressLine1>3950 BRAMBLE LN</dwellAddressLine1>
+      <dwellAddressLine2>UNIT B</dwellAddressLine2>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>95062</dwellAddressZip>
+      <expirationDate>2018-03-19T00:00:00</expirationDate>
+      <orderDate>2017-12-19T00:00:00</orderDate>
+      <status>Valid</status>
+    </AAAFirelineReportComponent>
+    <AAAHOCommunicationInfo state="Created">
+      <phoneNumber>8314763027</phoneNumber>
+      <preferredContact>homePhone</preferredContact>
+      <workPhone>8313453772</workPhone>
+    </AAAHOCommunicationInfo>
+    <AAAHOMembership state="Created">
+      <insurerCd>Yes</insurerCd>
+      <insurerName>ONG&apos;OREILLY</insurerName>
+      <policyNumber>4290057071419114</policyNumber>
+    </AAAHOMembership>
+    <AAAHONamedInsured state="Created">
+      <aaaLegalNameIND>false</aaaLegalNameIND>
+      <dateOfBirth>1969-11-11T00:00:00</dateOfBirth>
+      <employeeType>false</employeeType>
+      <firstName>ROCHELLA</firstName>
+      <lastName>ONG&apos;OREILLY</lastName>
+      <occupationDesc>Unknown</occupationDesc>
+      <principalRoleCd>policyHolder</principalRoleCd>
+      <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+      <trusteeIndicator>false</trusteeIndicator>
+      <AAAHOOrderClueReport state="Created">
+        <addressLine1>3950 BRAMBLE LN</addressLine1>
+        <addressLine2>UNIT B</addressLine2>
+        <city>SANTA CRUZ</city>
+        <dateOfBirth>1969-11-11T00:00:00</dateOfBirth>
+        <expirationDt>2018-02-17T00:00:00</expirationDt>
+        <firstName>ROCHELLA</firstName>
+        <lastName>ONG&apos;OREILLY</lastName>
+        <noOfClaims>0</noOfClaims>
+        <orderDate>2017-12-19T00:00:00</orderDate>
+        <postalCode>95062</postalCode>
+        <reportExpired>false</reportExpired>
+        <status>Valid</status>
+      </AAAHOOrderClueReport>
+      <AAAInsuredPrimaryAddress state="Created">
+        <addressLine1>3950 BRAMBLE LN</addressLine1>
+        <addressLine2>UNIT B</addressLine2>
+        <city>SANTA CRUZ</city>
+        <countryCd>US</countryCd>
+        <postalCode>95062</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAInsuredPrimaryAddress>
+    </AAAHONamedInsured>
+    <AAAHONamedInsured state="Created">
+      <aaaLegalNameIND>false</aaaLegalNameIND>
+      <dateOfBirth>1998-01-01T00:00:00</dateOfBirth>
+      <employeeType>false</employeeType>
+      <firstName>SHAWN</firstName>
+      <lastName>OREILLY</lastName>
+      <occupationDesc>Unknown</occupationDesc>
+      <relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+      <trusteeIndicator>false</trusteeIndicator>
+      <AAAHOOrderClueReport state="Created">
+        <addressLine1>3950 BRAMBLE LN</addressLine1>
+        <addressLine2>UNIT B</addressLine2>
+        <city>SANTA CRUZ</city>
+        <dateOfBirth>1998-01-01T00:00:00</dateOfBirth>
+        <expirationDt>2018-02-17T00:00:00</expirationDt>
+        <firstName>SHAWN</firstName>
+        <lastName>OREILLY</lastName>
+        <noOfClaims>0</noOfClaims>
+        <orderDate>2017-12-19T00:00:00</orderDate>
+        <postalCode>95062</postalCode>
+        <reportExpired>false</reportExpired>
+        <status>Valid</status>
+      </AAAHOOrderClueReport>
+      <AAAInsuredPrimaryAddress state="Created">
+        <addressLine1>3950 BRAMBLE LN</addressLine1>
+        <addressLine2>UNIT B</addressLine2>
+        <city>SANTA CRUZ</city>
+        <countryCd>US</countryCd>
+        <postalCode>95062</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAInsuredPrimaryAddress>
+    </AAAHONamedInsured>
+    <AAAHOPaymentOption state="Created">
+      <billToAtRenewal>Insured</billToAtRenewal>
+      <paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+      <paymentPlanCd>standardHO_CA</paymentPlanCd>
+      <recurringPayment>false</recurringPayment>
+    </AAAHOPaymentOption>
+    <AAAHOPolicyPriorCarrier state="Created">
+      <baseDate>2015-01-01T00:00:00</baseDate>
+      <carrierCd>1</carrierCd>
+      <noOfYearsWithHO>3</noOfYearsWithHO>
+      <policyType>HO4</policyType>
+    </AAAHOPolicyPriorCarrier>
+    <AAAHOPreDwellingAddrExists state="Created">
+      <yesNoAnswer>false</yesNoAnswer>
+    </AAAHOPreDwellingAddrExists>
+    <AAAMembershipOrder state="Created">
+      <lastName>ONG&apos;OREILLY</lastName>
+      <membershipNumber>4290057071419114</membershipNumber>
+      <orderDate>2017-12-19T00:00:00</orderDate>
+      <receiptDate>2017-12-19T00:00:00</receiptDate>
+      <status>Active</status>
+    </AAAMembershipOrder>
+    <AAAPolicyPrintingInfoComponent state="Created">
+      <suppressPrint>PD</suppressPrint>
+    </AAAPolicyPrintingInfoComponent>
+    <AAAPpcReportComponent state="Created">
+      <dwellAddressCity>SANTA CRUZ</dwellAddressCity>
+      <dwellAddressLine1>3950 BRAMBLE LN</dwellAddressLine1>
+      <dwellAddressLine2>UNIT B</dwellAddressLine2>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>95062</dwellAddressZip>
+      <expirationDate>2018-02-17T00:00:00</expirationDate>
+      <orderDate>2017-12-19T00:00:00</orderDate>
+      <ppcValue>2</ppcValue>
+      <status>Valid</status>
+    </AAAPpcReportComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>1POSOA</documentCd>
+      <documentText>Signed policy application</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>CEAOD</documentCd>
+      <documentText>CEA Offer Declination</documentText>
+    </AAASupportingDocComponent>
+    <AAAUnderwritingQuestionaireComponent state="Created">
+      <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+      <EmployeesResidentsInd>false</EmployeesResidentsInd>
+      <PremisesEndrosInd>false</PremisesEndrosInd>
+      <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+    </AAAUnderwritingQuestionaireComponent>
+    <Commissions state="Created">
+      <commissionTypeCd>R</commissionTypeCd>
+    </Commissions>
+    <AAADwellEntityComponent state="Created">
+      <aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+      <aaaDwellingUsage>1</aaaDwellingUsage>
+      <aaaFirelineScore>0</aaaFirelineScore>
+      <aaanumberofResidents>9999</aaanumberofResidents>
+      <addressLine1>3950 BRAMBLE LN</addressLine1>
+      <addressLine2>UNIT B</addressLine2>
+      <city>SANTA CRUZ</city>
+      <numberOfFamilies>6</numberOfFamilies>
+      <postalCode>95062</postalCode>
+      <spaTubType>None</spaTubType>
+      <stateProvCd>CA</stateProvCd>
+      <swimPoolType>None</swimPoolType>
+      <trampolineType>None</trampolineType>
+      <woodStoveInd>false</woodStoveInd>
+      <AAACoverageC state="Created">
+        <coverageCd>CovC</coverageCd>
+        <limitAmount>44300</limitAmount>
+      </AAACoverageC>
+      <AAACoverageD state="Created">
+        <coverageCd>CovD</coverageCd>
+        <limitAmount>8900</limitAmount>
+      </AAACoverageD>
+      <AAACoverageE state="Created">
+        <coverageCd>CovE</coverageCd>
+        <limitAmount>100000</limitAmount>
+      </AAACoverageE>
+      <AAACoverageF state="Created">
+        <coverageCd>CovF</coverageCd>
+        <limitAmount>1000</limitAmount>
+      </AAACoverageF>
+      <AAAHOConstructionInfo state="Created">
+        <constructionTypeCd>Frame</constructionTypeCd>
+        <livingArea>9999</livingArea>
+        <numberOfStories>1</numberOfStories>
+        <personalPropertyValue>44300</personalPropertyValue>
+        <roofType>Other</roofType>
+        <yearBuilt>1984</yearBuilt>
+      </AAAHOConstructionInfo>
+      <AAAPpcDetailsInfo state="Created">
+        <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+        <fireDepartmentType>T</fireDepartmentType>
+        <fireDistrict>SANTA CRUZ</fireDistrict>
+        <oldPpcValue>2</oldPpcValue>
+        <ppcValue>2</ppcValue>
+      </AAAPpcDetailsInfo>
+      <AAAPropertyDeductible state="Created">
+        <coverageCd>DEDUCTIBLE</coverageCd>
+        <limitAmount>500</limitAmount>
+      </AAAPropertyDeductible>
+      <PreconfigLocation state="Created">
+        <AAAHODwellAddress state="Created">
+          <addressLine1>3950 BRAMBLE LN</addressLine1>
+          <addressLine2>UNIT B</addressLine2>
+          <addressValidatedInd>Yes</addressValidatedInd>
+          <city>SANTA CRUZ</city>
+          <county>Santa Cruz</county>
+          <postalCode>95062</postalCode>
+          <stateProvCd>CA</stateProvCd>
+        </AAAHODwellAddress>
+      </PreconfigLocation>
+    </AAADwellEntityComponent>
+    <HO29EndorsementForm state="Created"/>
+    <HO59EndorsementForm state="Created"/>
+    <HO90EndorsementForm state="Created"/>
+  </AAAHOPolicy>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: Mailing address validated and standardized</title>
+    <updatedOn>2017-12-19T00:00:00</updatedOn>
+    <userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 3950 BRAMBLE LN #B  SANTA CRUZ CA 95062 to 3950 BRAMBLE LN UNIT B SANTA CRUZ CA 95062</userText>
+  </userNote>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: Date of birth defaulted</title>
+    <updatedOn>2017-12-19T00:00:00</updatedOn>
+    <userText>Date of birth defaults were applied to this policy according to the following logic:-  If no date of birth existing in HDES and senior/mature discount applied, DOB was defaulted to 01/01/1901.  If senior/mature discount did not apply, DOB was defaulted to 01/01/1998.If only one DOB existed in HDES, all other DOBs were defaulted to match.</userText>
+  </userNote>
+</Policy>

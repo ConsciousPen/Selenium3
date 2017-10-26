@@ -115,8 +115,9 @@ MailingAddress_AZ: {
   Zip code: '85003', 
   Street address 1: '111 Test street', 
   Validate Address: true,
-  Validate Address Dialog: {
-    Mailing Address: 'Override and use original address' 
+  Validate Address Dialog: { 
+    Street number: '111', 
+    Street Name: Test street,
   }
 }
 
@@ -146,7 +147,8 @@ MailingAddress_CO: {
   Street address 1: '111 Test street', 
   Validate Address: true,
   Validate Address Dialog: {
-    Mailing Address: 'Override and use original address' 
+    Street number: '111',
+    Street Name: Test street,
   }
 }
 
@@ -175,10 +177,11 @@ ApplicantTab_CT: {
 MailingAddress_CT: {
   "Is the mailing address different from the dwelling address?": 'Yes', 
   Zip code: '06010', 
-  Street address 1: '58 Willis St', 
+  Street address 1: '111 Test street',
   Validate Address: true,
   Validate Address Dialog: {
-    Mailing Address: 'Override and use original address' 
+    Street number: '111',
+    Street Name: Test street,
   }
 }
 
@@ -241,7 +244,8 @@ MailingAddress_DE: {
   Street address 1: '111 Test street', 
   Validate Address: true,
   Validate Address Dialog: {
-    Mailing Address: 'Override and use original address' 
+    Street number: '111',
+    Street Name: Test street,
   }
 }
 
@@ -271,7 +275,8 @@ MailingAddress_ID: {
   Street address 1: '111 Test street', 
   Validate Address: true,
   Validate Address Dialog: {
-    Mailing Address: 'Override and use original address' 
+    Street number: '111',
+    Street Name: Test street,
   }
 }
 
@@ -301,7 +306,8 @@ MailingAddress_IN: {
   Street address 1: '111 Test street', 
   Validate Address: true,
   Validate Address Dialog: {
-     Mailing Address: 'Override and use original address' 
+   Street number: '111',
+   Street Name: Test street,
   }
 }
 
@@ -391,10 +397,11 @@ ApplicantTab_MD: {
 MailingAddress_MD: {
   "Is the mailing address different from the dwelling address?": 'Yes', 
   Zip code: '21218', 
-  Street address 1: '1201 Windermere Ave', 
+  Street address 1: '111 Test street',
   Validate Address: true,
   Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
+    Street number: '111', 
+    Street Name: Test street
   }
 }
 
@@ -430,7 +437,8 @@ MailingAddress_MT: {
   Street address 1: '111 Test street', 
   Validate Address: true,
   Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
+    Street number: '111', 
+    Street Name: Test street
   }
 }
 
@@ -460,7 +468,8 @@ MailingAddress_NJ: {
   Street address 1: '111 Test street', 
   Validate Address: true,
   Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
+    Street number: '111', 
+    Street Name: Test street
   }
 }
 
@@ -490,7 +499,8 @@ MailingAddress_NV: {
   Street address 1: '111 Test street', 
   Validate Address: true,
   Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
+    Street number: '111', 
+    Street Name: Test street
   }
 }
 
@@ -520,7 +530,8 @@ MailingAddress_NY: {
   Street address 1: '111 Test street', 
   Validate Address: true,
   Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
+    Street number: '111', 
+    Street Name: Test street
   }
 }
 
@@ -547,10 +558,11 @@ ApplicantTab_OH: {
 MailingAddress_OH: {
   "Is the mailing address different from the dwelling address?": 'Yes', 
   Zip code: '43609', 
-  Street address 1: '708 Spencer St', 
+  Street address 1: '111 Test street',
   Validate Address: true,
   Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
+    Street number: '111', 
+    Street Name: Test street
   }
 }
 
@@ -580,7 +592,8 @@ MailingAddress_OK: {
   Street address 1: '111 Test street', 
   Validate Address: true,
   Validate Address Dialog: {
-     Mailing Address: 'Override and use original address'
+     Street number: '111', 
+    Street Name: Test street
   }
 }
 
@@ -610,7 +623,8 @@ MailingAddress_OR: {
   Street address 1: '111 Test street', 
   Validate Address: true,
   Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
+    Street number: '111', 
+    Street Name: Test street
   }
 }
 
@@ -640,7 +654,8 @@ MailingAddress_PA: {
   Street address 1: '111 Test street', 
   Validate Address: true,
   Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
+    Street number: '111', 
+    Street Name: Test street
   }
 }
 
@@ -670,7 +685,8 @@ MailingAddress_SD: {
   Street address 1: '111 Test street', 
   Validate Address: true,
   Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
+    Street number: '111', 
+    Street Name: Test street
   }
 }
 
@@ -701,7 +717,8 @@ MailingAddress_VA: {
   Street address 1: '111 Test street', 
   Validate Address: true,
   Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
+    Street number: '111', 
+    Street Name: Test street
   }
 }
 
@@ -731,7 +748,8 @@ MailingAddress_WV: {
   Street address 1: '111 Test street', 
   Validate Address: true,
   Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
+    Street number: '111', 
+    Street Name: Test street
   }
 }
 
@@ -761,7 +779,8 @@ MailingAddress_WY: {
   Street address 1: '111 Test street', 
   Validate Address: true,
   Validate Address Dialog: {
-    Mailing Address: 'Override and use original address'
+    Street number: '111', 
+    Street Name: Test street
   }
 }
 

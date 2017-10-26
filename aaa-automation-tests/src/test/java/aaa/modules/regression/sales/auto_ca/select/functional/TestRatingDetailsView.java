@@ -33,7 +33,7 @@ public class TestRatingDetailsView extends CompCollSymbolsPresence {
      */
 	@Parameters({"state"})
 	@Test(groups = { Groups.FUNCTIONAL, Groups.HIGH })
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-1904")
     public void testQuoteRatingViewDetailsCompCollSymbolsArePresentAndNotEmpty(@Optional("CA") String state) {
         super.verifyCompCollSymbolsOnRatingDetails();
     }

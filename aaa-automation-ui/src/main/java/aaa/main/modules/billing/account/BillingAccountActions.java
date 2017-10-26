@@ -23,8 +23,10 @@ import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.table.Table;
 
 import java.util.List;
+import java.util.Map;
 
 public final class BillingAccountActions {
+	private static final Object paymentLock = new Object();
 
 	public static class GenerateFutureStatement extends AbstractAction {
 		@Override
@@ -62,12 +64,14 @@ public final class BillingAccountActions {
 
 		@Override
 		public AbstractAction start() {
-			log.info(getName() + " action initiated.");
-			new Link(By.linkText("Accept Payment")).click();
-			return this;
+			synchronized (paymentLock) {
+				log.info(getName() + " action initiated.");
+				new Link(By.linkText("Accept Payment")).click();
+				return this;
+			}
 		}
 
-		public synchronized AbstractAction perform(TestData td, Dollar amount) {
+		public AbstractAction perform(TestData td, Dollar amount) {
 			td.adjust(TestData.makeKeyPath(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName(), BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()), amount.toString());
 			return super.perform(td);
 		}
@@ -325,6 +329,12 @@ public final class BillingAccountActions {
 			return this;
 		}
 
+		public AbstractAction start(Map<String, String> map) {
+			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(map).getCell(BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(
+					ActionConstants.BillingPaymentsAndOtherTransactionAction.DECLINE).click();
+			return this;
+		}
+		
 		public AbstractAction perform(TestData td, int rowNumber) {
 			start(rowNumber);
 			getView().fill(td);
@@ -333,6 +343,12 @@ public final class BillingAccountActions {
 
 		public AbstractAction perform(TestData td, String amount) {
 			start(amount);
+			getView().fill(td);
+			return submit();
+		}
+		
+		public AbstractAction perform(TestData td, Map<String, String> map) {
+			start(map);
 			getView().fill(td);
 			return submit();
 		}

@@ -29,6 +29,7 @@ ReportsTab: {
   Sales Agent Agreement: 'I Agree',
   #AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  RiskMeterReport: [{Report: 'Order Report'}],
   FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
   CLUEreport: [{Report: 'Order report'}]
@@ -146,7 +147,7 @@ ApplicantTab_AZ: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_AZ',
   OtherActiveAAAPolicies: {}
 }
 
@@ -173,7 +174,7 @@ ApplicantTab_CO: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_CO',
   OtherActiveAAAPolicies: '@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies_CO' 
 }
 
@@ -200,7 +201,7 @@ ApplicantTab_CT: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_CT',
   OtherActiveAAAPolicies: {} 
 }
 
@@ -248,7 +249,7 @@ ApplicantTab_DC: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_DC',
   OtherActiveAAAPolicies: {}
 }
 
@@ -282,7 +283,7 @@ ApplicantTab_DE: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_DE',
   OtherActiveAAAPolicies: {}
 }
 
@@ -317,7 +318,7 @@ ApplicantTab_ID: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_ID',
   OtherActiveAAAPolicies: {}
 }
 
@@ -344,7 +345,7 @@ ApplicantTab_IN: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_IN',
   OtherActiveAAAPolicies: '@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies_IN'
 }
 
@@ -378,7 +379,7 @@ ApplicantTab_KS: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_KS',
   OtherActiveAAAPolicies: '@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies_KS'
 }
 
@@ -412,7 +413,7 @@ ApplicantTab_KY: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_KY',
   OtherActiveAAAPolicies: '@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies_KY'
 }
 
@@ -460,7 +461,7 @@ ApplicantTab_MD: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_MD',
   OtherActiveAAAPolicies: {}
 }
 
@@ -509,7 +510,7 @@ ApplicantTab_MT: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_MT',
   OtherActiveAAAPolicies: {}
 }
 
@@ -543,7 +544,7 @@ ApplicantTab_NJ: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_NJ',
   OtherActiveAAAPolicies: {}
 }
 
@@ -577,7 +578,7 @@ ApplicantTab_NV: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_NV',
   OtherActiveAAAPolicies: {}
 }
 
@@ -620,7 +621,7 @@ ApplicantTab_NY: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_NY',
   OtherActiveAAAPolicies: {}
 }
 
@@ -655,7 +656,7 @@ ApplicantTab_OH: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_OH',
   OtherActiveAAAPolicies: '@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies_OH'
 }
 
@@ -689,7 +690,7 @@ ApplicantTab_OK: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_OK',
   OtherActiveAAAPolicies: '@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies_OK'
 }
 
@@ -723,7 +724,7 @@ ApplicantTab_OR: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_OR',
   OtherActiveAAAPolicies: {}
 }
 
@@ -765,7 +766,7 @@ ApplicantTab_PA: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_PA',
   OtherActiveAAAPolicies: {}
 }
 
@@ -799,7 +800,7 @@ ApplicantTab_SD: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_SD',
   OtherActiveAAAPolicies: {}
 }
 
@@ -833,7 +834,7 @@ ApplicantTab_VA: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_VA',
   OtherActiveAAAPolicies: {}
 }
 
@@ -868,7 +869,7 @@ ApplicantTab_WV: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_WV',
   OtherActiveAAAPolicies: {}
 }
 
@@ -902,7 +903,7 @@ ApplicantTab_WY: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_WY',
   OtherActiveAAAPolicies: {}
 }
 

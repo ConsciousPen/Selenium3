@@ -14,6 +14,9 @@ import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Abstract tab class.
  * 
@@ -140,6 +143,14 @@ public abstract class Tab {
 		return this;
 	}
 
+	public Tab verifyFieldsAreNotDisplayed(String [] labels) {
+		List<String> listOfLabels = Arrays.asList(labels);
+		for (String label : listOfLabels) {
+			verifyFieldIsNotDisplayed(label);
+		}
+		return this;
+	}
+
 	public Tab verifyFieldIsEnabled(String label) {
 		CustomAssert.assertTrue("Field '" + label + "' must be enabled but it is not", assetList.getAsset(label).isEnabled());
 		return this;
@@ -206,6 +217,11 @@ public abstract class Tab {
 			new TextBox(By.xpath("//textarea[@id='policyDataGatherForm:newbusinessnotes']")).setValue("save as incomplete");
 			Page.dialogConfirmation.confirm();
 		}
+		return this;
+	}
+
+	public Tab back() {
+		buttonBack.click();
 		return this;
 	}
 

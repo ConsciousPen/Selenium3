@@ -2,9 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss;
 
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -14,9 +11,15 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Jelena Dembovska
@@ -63,8 +66,28 @@ public class TestPolicyOrderReports extends AutoSSBaseTest {
 		if (!getState().equals("OK")){
 		  DriverTab.tableActivityInformationList.verify.rowsCount(5);
 		}
+	
+		if (!getState().equals("OK")){
+			//check MVR incident
+			DriverTab.tableActivityInformationList.getRow("Source", "MVR").getCell(DriverTab.tableActivityInformationList.getColumnsCount()).controls.links.get("View/Edit").click();
+			
+			aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).verify.value("MVR");
+			aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.TYPE).verify.value("Alcohol-Related Violation");
+			aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION).verify.value("Driving Under the Influence of Alcohol");
+			aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE).verify.value("09/10/2010");
+			aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.SVC_DESCRIPTION).verify.value("DUI, GENERALLY");
+			aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.VIOLATION_POINTS).verify.value("0");
+		}
 		
-		//check 1 incident
+		//CLUE
+		Map<String, String> CLUE = new HashMap<>(); 
+		CLUE.put("Source", "CLUE"); 
+		
+		DriverTab.tableActivityInformationList.getRows(CLUE);
+		
+		//check 1 CLUE incident
+		DriverTab.tableActivityInformationList.selectRow(1);
+		
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).verify.value("CLUE");
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.TYPE).verify.value("At-Fault Accident");
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION).verify.value("Accident (Property Damage Only)");
@@ -72,7 +95,7 @@ public class TestPolicyOrderReports extends AutoSSBaseTest {
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).verify.value("10000");
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_POINTS).verify.value("0");
 		
-		//check 2 incident
+		//check 2 CLUE incident
 		DriverTab.tableActivityInformationList.selectRow(2);
 		
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).verify.value("CLUE");
@@ -82,36 +105,6 @@ public class TestPolicyOrderReports extends AutoSSBaseTest {
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).verify.value("1298");
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_POINTS).verify.value("0");
 		
-		//check 3 incident
-		DriverTab.tableActivityInformationList.selectRow(3);
-		
-		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).verify.value("CLUE");
-		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.TYPE).verify.value("At-Fault Accident");
-		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION).verify.value("Accident (Property Damage Only)");
-		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE).verify.value("09/12/2010");
-		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).verify.value("838");
-		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_POINTS).verify.value("0");
-		
-		//check 4 incident
-		DriverTab.tableActivityInformationList.selectRow(4);
-		
-		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).verify.value("CLUE");
-		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.TYPE).verify.value("Comprehensive Claim");
-		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION).verify.value("Comprehensive Claim");
-		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).verify.value("650");
-		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_POINTS).verify.value("0");
-		
-		if (!getState().equals("OK")){
-			//check 5 incident
-			DriverTab.tableActivityInformationList.selectRow(5);
-			
-			aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE).verify.value("MVR");
-			aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.TYPE).verify.value("Alcohol-Related Violation");
-			aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION).verify.value("Driving Under the Influence of Alcohol");
-			aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE).verify.value("09/10/2010");
-			aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.SVC_DESCRIPTION).verify.value("DUI, GENERALLY");
-			aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.VIOLATION_POINTS).verify.value("0");
-		}
 	
 		//add incident manually
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY).click();

@@ -24,12 +24,18 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import com.exigen.ipb.etcsa.base.app.*;
+import com.exigen.ipb.etcsa.base.app.AdminApplication;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.etcsa.base.app.MainApplication;
+import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
@@ -359,6 +365,14 @@ public class BaseTest {
 
 	protected TestData getCustomerNonIndividualTD(String fileName, String tdName) {
 		return getStateTestData(tdCustomerNonIndividual, fileName, tdName);
+	}
+
+	protected TestData getPolicyDefaultTD() {
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
+		}
+		return td;
 	}
 
 	protected TestData getTestSpecificTD(String tdName) {

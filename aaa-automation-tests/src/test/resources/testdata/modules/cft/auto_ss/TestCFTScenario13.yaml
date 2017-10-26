@@ -1,0 +1,58 @@
+TestData: {
+  AcceptPaymentActionTab: '@AcceptPaymentActionTab',
+  CancellationActionTab: '@CancellationActionTab',
+  ReinstatementActionTab: '@ReinstatementActionTab',
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}  
+
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Eleven Pay - Standard,
+  Policy Term: Annual,
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750',
+  Collision Deductible: 'contains=$500',
+  Special Equipment Coverage: 1100
+}
+
+DocumentsAndBindTab_DataGather: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed
+  },
+  Agreement: I agree
+}
+
+AcceptPaymentActionTab: {
+  Payment Method: 'Cash',
+  Amount: 100,
+}
+
+CancellationActionTab: {
+  Cancellation Reason: 'Rewrite Accommodation',
+  Authorized By: QA
+}
+
+ReinstatementActionTab: {
+  Reinstate Date: /today,
+  Authorized By: 'QA'
+}
+
+EndorsementActionTab: {
+  Endorsement Date: /today,
+  Endorsement Reason: Maintain Vehicle(s)
+}
+
+VehicleTab: {
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: 1B3BA46K4KF440231
+}

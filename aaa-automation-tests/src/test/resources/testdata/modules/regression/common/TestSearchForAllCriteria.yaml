@@ -71,12 +71,6 @@ ApplicantTab: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ca_ho3>@DataGather@NamedInsuredInformation',
-  AgentInfo: '@AgentInfo',
+  AgentInfo: '@<home_ca_ho3>@DataGather@AgentInfo',
   OtherActiveAAAPolicies: {},
-}
-
-AgentInfo: {
-  Channel Type: Independent Agent,
-  Agency: SMTestIA - 400001650,
-  #Agency of Record: 12345
 }

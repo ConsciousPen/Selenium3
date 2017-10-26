@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
+<!-- Original file name: 20170914_041400_CNV_B_HDESPROP_EXGPAS_8435_D_20171219_30000811_WH73860 -->
+  <AAAHOPolicy state="Created">
+    <agencyCd>500001005</agencyCd>
+    <agencyLocation>500005330</agencyLocation>
+    <agentCd>70685074</agentCd>
+    <agentGeneralNumber>003</agentGeneralNumber>
+    <doNotRenewInd>false</doNotRenewInd>
+    <effective>2017-10-05T00:00:00</effective>
+    <expiration>2018-10-05T00:00:00</expiration>
+    <imported>CONV</imported>
+    <importedFrom>HDES</importedFrom>
+    <isAdditionalPolicy>true</isAdditionalPolicy>
+    <leadSourceCd>25</leadSourceCd>
+    <officeType>AZ Club Agent</officeType>
+    <policyFormCd>HO6</policyFormCd>
+    <preConversionPolicyNumber>WH73860</preConversionPolicyNumber>
+    <preConversionPolicyPremium>313</preConversionPolicyPremium>
+    <producerCd>500001005</producerCd>
+    <productCd>AAA_HO_CA</productCd>
+    <riskStateCd>CA</riskStateCd>
+    <sourcePolicyNum>WH73860</sourcePolicyNum>
+    <subProducerCd>70685074</subProducerCd>
+    <tollNumberCd>xxx</tollNumberCd>
+    <underwriterCd>CSAAIB</underwriterCd>
+    <AAACeaDetailsComponent state="Created">
+      <acceptCeaOffer>false</acceptCeaOffer>
+      <policyType>BASIC</policyType>
+    </AAACeaDetailsComponent>
+    <AAAFirelineReportComponent state="Created">
+      <dwellAddressCity>CARMEL</dwellAddressCity>
+      <dwellAddressLine1>9500 CENTER ST</dwellAddressLine1>
+      <dwellAddressLine2>APT 54</dwellAddressLine2>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>93923</dwellAddressZip>
+      <expirationDate>2018-03-19T00:00:00</expirationDate>
+      <orderDate>2017-12-19T00:00:00</orderDate>
+      <status>Valid</status>
+    </AAAFirelineReportComponent>
+    <AAAHOCommunicationInfo state="Created">
+      <phoneNumber>8316439244</phoneNumber>
+      <preferredContact>homePhone</preferredContact>
+    </AAAHOCommunicationInfo>
+    <AAAHOMembership state="Created">
+      <insurerCd>Yes</insurerCd>
+      <insurerName>GREEN</insurerName>
+      <policyNumber>4290059246713314</policyNumber>
+    </AAAHOMembership>
+    <AAAHONamedInsured state="Created">
+      <aaaLegalNameIND>false</aaaLegalNameIND>
+      <dateOfBirth>1964-10-14T00:00:00</dateOfBirth>
+      <employeeType>false</employeeType>
+      <firstName>JENNIFER</firstName>
+      <lastName>GREEN</lastName>
+      <occupationDesc>Other</occupationDesc>
+      <principalRoleCd>policyHolder</principalRoleCd>
+      <relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+      <trusteeIndicator>false</trusteeIndicator>
+      <AAAHOOrderClueReport state="Created">
+        <addressLine1>9500 CENTER ST</addressLine1>
+        <addressLine2>APT 54</addressLine2>
+        <city>CARMEL</city>
+        <dateOfBirth>1964-10-14T00:00:00</dateOfBirth>
+        <expirationDt>2018-02-17T00:00:00</expirationDt>
+        <firstName>JENNIFER</firstName>
+        <lastName>GREEN</lastName>
+        <noOfClaims>0</noOfClaims>
+        <orderDate>2017-12-19T00:00:00</orderDate>
+        <postalCode>93923</postalCode>
+        <reportExpired>false</reportExpired>
+        <status>Valid</status>
+      </AAAHOOrderClueReport>
+      <AAAInsuredPrimaryAddress state="Created">
+        <addressLine1>9500 CENTER ST</addressLine1>
+        <addressLine2>APT 54</addressLine2>
+        <city>CARMEL</city>
+        <countryCd>US</countryCd>
+        <postalCode>93923</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAInsuredPrimaryAddress>
+    </AAAHONamedInsured>
+    <AAAHOOtherOrPriorPolicyComponent state="Created">
+      <autoBILimit>$500,000/$500,000</autoBILimit>
+      <autoPolicyPending>false</autoPolicyPending>
+      <policyEffectiveDate>2017-10-05T00:00:00</policyEffectiveDate>
+      <policyNumber>On File- Conversion</policyNumber>
+      <productCd>Auto</productCd>
+      <stateCd>CA</stateCd>
+    </AAAHOOtherOrPriorPolicyComponent>
+    <AAAHOPaymentOption state="Created">
+      <billToAtRenewal>Insured</billToAtRenewal>
+      <paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+      <paymentPlanCd>standardHO_CA</paymentPlanCd>
+      <recurringPayment>false</recurringPayment>
+    </AAAHOPaymentOption>
+    <AAAHOPolicyPriorCarrier state="Created">
+      <baseDate>1998-01-01T00:00:00</baseDate>
+      <carrierCd>1</carrierCd>
+      <noOfYearsWithHO>20</noOfYearsWithHO>
+      <policyType>HO6</policyType>
+    </AAAHOPolicyPriorCarrier>
+    <AAAHOPreDwellingAddrExists state="Created">
+      <yesNoAnswer>false</yesNoAnswer>
+    </AAAHOPreDwellingAddrExists>
+    <AAAIso360ReportComponent state="Created">
+      <constructionTypeCd>Frame</constructionTypeCd>
+      <dwellAddressCity>CARMEL</dwellAddressCity>
+      <dwellAddressLine1>9500 CENTER ST</dwellAddressLine1>
+      <dwellAddressLine2>APT 54</dwellAddressLine2>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>93923</dwellAddressZip>
+      <expirationDate>2018-02-17T00:00:00</expirationDate>
+      <isoReplacementCost>71400</isoReplacementCost>
+      <livingArea>9999</livingArea>
+      <numberOfFamilies>1</numberOfFamilies>
+      <numberOfStories>1</numberOfStories>
+      <orderDate>2017-12-19T00:00:00</orderDate>
+      <roofShape>Complex/Custom</roofShape>
+      <roofType>Builtup Tar &amp; Gravel</roofType>
+      <status>Valid</status>
+      <yearBuilt>1971</yearBuilt>
+    </AAAIso360ReportComponent>
+    <AAAMembershipOrder state="Created">
+      <lastName>GREEN</lastName>
+      <membershipNumber>4290059246713314</membershipNumber>
+      <orderDate>2017-12-19T00:00:00</orderDate>
+      <receiptDate>2017-12-19T00:00:00</receiptDate>
+      <status>Active</status>
+    </AAAMembershipOrder>
+    <AAAPolicyPrintingInfoComponent state="Created">
+      <suppressPrint>PD</suppressPrint>
+    </AAAPolicyPrintingInfoComponent>
+    <AAAPpcReportComponent state="Created">
+      <dwellAddressCity>CARMEL</dwellAddressCity>
+      <dwellAddressLine1>9500 CENTER ST</dwellAddressLine1>
+      <dwellAddressLine2>APT 54</dwellAddressLine2>
+      <dwellAddressState>CA</dwellAddressState>
+      <dwellAddressZip>93923</dwellAddressZip>
+      <expirationDate>2018-02-17T00:00:00</expirationDate>
+      <orderDate>2017-12-19T00:00:00</orderDate>
+      <ppcValue>2</ppcValue>
+      <status>Valid</status>
+    </AAAPpcReportComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>1POSOA</documentCd>
+      <documentText>Signed policy application</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>616530</documentCd>
+      <documentText>California Residential Property Insurance Disclosure</documentText>
+    </AAASupportingDocComponent>
+    <AAASupportingDocComponent state="Created">
+      <docDisplayInd>true</docDisplayInd>
+      <docReceivedInd>PS</docReceivedInd>
+      <documentCd>CEAOD</documentCd>
+      <documentText>CEA Offer Declination</documentText>
+    </AAASupportingDocComponent>
+    <AAAUnderwritingQuestionaireComponent state="Created">
+      <ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+      <DwellLocatedInd>false</DwellLocatedInd>
+      <EmployeesResidentsInd>false</EmployeesResidentsInd>
+      <ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+      <GasWaterInGarageInd>false</GasWaterInGarageInd>
+      <PremisesEndrosInd>false</PremisesEndrosInd>
+      <PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+    </AAAUnderwritingQuestionaireComponent>
+    <Commissions state="Created">
+      <commissionTypeCd>R</commissionTypeCd>
+    </Commissions>
+    <AAADwellEntityComponent state="Created">
+      <aaaDwellingOccupancyType>Owner occupied</aaaDwellingOccupancyType>
+      <aaaDwellingUsage>1</aaaDwellingUsage>
+      <aaaFirelineScore>1</aaaFirelineScore>
+      <aaaInsuredTenantDiscountInfo>false</aaaInsuredTenantDiscountInfo>
+      <aaanumberofResidents>9999</aaanumberofResidents>
+      <addressLine1>9500 CENTER ST</addressLine1>
+      <addressLine2>APT 54</addressLine2>
+      <city>CARMEL</city>
+      <firelineMatchType>Address</firelineMatchType>
+      <numberOfFamilies>1</numberOfFamilies>
+      <placementOrMatchType>Address</placementOrMatchType>
+      <postalCode>93923</postalCode>
+      <spaTubType>None</spaTubType>
+      <stateProvCd>CA</stateProvCd>
+      <swimPoolType>None</swimPoolType>
+      <trampolineType>None</trampolineType>
+      <woodStoveInd>false</woodStoveInd>
+      <AAACoverageA state="Created">
+        <coverageCd>CovA</coverageCd>
+        <limitAmount>71400</limitAmount>
+      </AAACoverageA>
+      <AAACoverageC state="Created">
+        <coverageCd>CovC</coverageCd>
+        <limitAmount>57700</limitAmount>
+      </AAACoverageC>
+      <AAACoverageD state="Created">
+        <coverageCd>CovD</coverageCd>
+        <limitAmount>11600</limitAmount>
+      </AAACoverageD>
+      <AAACoverageE state="Created">
+        <coverageCd>CovE</coverageCd>
+        <limitAmount>100000</limitAmount>
+      </AAACoverageE>
+      <AAACoverageF state="Created">
+        <coverageCd>CovF</coverageCd>
+        <limitAmount>1000</limitAmount>
+      </AAACoverageF>
+      <AAAHOConstructionInfo state="Created">
+        <condomCoverageADwellingRequested>Interior</condomCoverageADwellingRequested>
+        <constructionTypeCd>Frame</constructionTypeCd>
+        <isoReplacementCost>71400</isoReplacementCost>
+        <livingArea>9999</livingArea>
+        <numberOfStories>1</numberOfStories>
+        <replacementCost>71400</replacementCost>
+        <roofShape>Complex/Custom</roofShape>
+        <roofType>Builtup Tar &amp; Gravel</roofType>
+        <yearBuilt>1971</yearBuilt>
+      </AAAHOConstructionInfo>
+      <AAAPpcDetailsInfo state="Created">
+        <distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+        <fireDepartmentType>T</fireDepartmentType>
+        <fireDistrict>CARMEL BY THE SEA</fireDistrict>
+        <oldPpcValue>2</oldPpcValue>
+        <ppcValue>2</ppcValue>
+      </AAAPpcDetailsInfo>
+      <AAAPropertyDeductible state="Created">
+        <coverageCd>DEDUCTIBLE</coverageCd>
+        <limitAmount>1000</limitAmount>
+      </AAAPropertyDeductible>
+      <PreconfigLocation state="Created">
+        <AAAHODwellAddress state="Created">
+          <addressLine1>9500 CENTER ST</addressLine1>
+          <addressLine2>APT 54</addressLine2>
+          <addressValidatedInd>Yes</addressValidatedInd>
+          <city>CARMEL</city>
+          <county>Monterey</county>
+          <postalCode>93923</postalCode>
+          <stateProvCd>CA</stateProvCd>
+        </AAAHODwellAddress>
+      </PreconfigLocation>
+    </AAADwellEntityComponent>
+    <HO0496EndorsementForm state="Created"/>
+    <HW0915EndorsementForm state="Created"/>
+    <HO28EndorsementForm state="Created"/>
+    <HO29EndorsementForm state="Created"/>
+    <HO60CEndorsementForm state="Created"/>
+    <HO90EndorsementForm state="Created"/>
+    <HW0104EndorsementForm state="Created"/>
+    <HW2482EndorsementForm state="Created"/>
+    <PreconfigPersonInfo state="Created">
+      <AAAHOMailingAddressComponent state="Created">
+        <addressLine1>9196 CARMEL ROAD</addressLine1>
+        <addressValidatedInd>Yes</addressValidatedInd>
+        <city>CARMEL</city>
+        <countryCd>US</countryCd>
+        <county>Monterey</county>
+        <postalCode>93923</postalCode>
+        <stateProvCd>CA</stateProvCd>
+      </AAAHOMailingAddressComponent>
+    </PreconfigPersonInfo>
+  </AAAHOPolicy>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: Dwelling address validated and standardized</title>
+    <updatedOn>2017-12-19T00:00:00</updatedOn>
+    <userText>Dwelling Address was validated and standardized during Conversion. Address was standardized from 9500 CENTER ST #54 CARMEL CA 93923 to 9500 CENTER ST APT 54 CARMEL CA 93923</userText>
+  </userNote>
+  <userNote>
+    <category>Other</category>
+    <confidential>false</confidential>
+    <title>Conversion: Mailing address - Validation Error</title>
+    <updatedOn>2017-12-19T00:00:00</updatedOn>
+    <userText>Mailling Address was not standardized or validated during Conversion due to an invalid element. Please confirm full mailling address with customer to ensure accuracy.</userText>
+  </userNote>
+</Policy>

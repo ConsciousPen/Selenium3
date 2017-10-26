@@ -1,0 +1,19 @@
+TestData: {
+  PremiumAndCoveragesTab: {
+    Payment Plan: Quarterly,  
+  }, 
+  PurchaseTab: '@PurchaseTab'
+} 
+
+PurchaseTab: {
+  PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa'],
+  Activate Autopay: false,
+  #Autopay Selection: 'index=1',
+  PaymentAllocation: {
+    Visa: /rest
+  }
+}
+
+# ----- Renewal -----
+
+

@@ -1,5 +1,6 @@
 package aaa.modules.e2e.auto_ca;
 
+import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.e2e.templates.Scenario2;
 import org.testng.annotations.Optional;
@@ -159,14 +160,14 @@ public class TestScenario2 extends Scenario2 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC24_Renewal_Preview_Generation(@Optional("CA") String state) {
-		super.renewalPreviewGeneration();
+	public void TC24_Pay_Tenth_Bill(@Optional("CA") String state) {
+		super.payTenthBill();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC25_Pay_Tenth_Bill(@Optional("CA") String state) {
-		super.payTenthBill();
+	public void TC25_Renewal_Preview_Generation(@Optional("CA") String state) {
+		super.renewalPreviewGeneration();
 	}
 
 	@Parameters({"state"})

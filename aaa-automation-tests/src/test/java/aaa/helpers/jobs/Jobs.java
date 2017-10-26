@@ -26,11 +26,15 @@ public class Jobs {
 
 	public static Job aaaCancellationConfirmationAsyncJob = new Job("aaaCancellationConfirmationAsyncJob");
 
+	public static Job aaaRefundDisbursementAsyncJob = new Job("aaaRefundDisbursementAsyncJob");
+
 	public static Job earnedPremiumBillGenerationJob = new Job("earnedPremiumBillGenerationJob");
 
 	public static Job offCycleBillingInvoiceAsyncJob = new Job("aaaOffCycleBillingInvoiceAsyncJob");
 
 	public static Job collectionFeedBatch_earnedPremiumWriteOff = new Job("collectionFeedBatch_earnedPremiumWriteOff");
+	
+	public static Job earnedPremiumWriteoffProcessingJob = new Job("earnedPremiumWriteoffProcessingJob");
 
 	public static Job aaaDocGenBatchJob = new Job("aaaDocGenBatchJob");
 
@@ -40,7 +44,7 @@ public class Jobs {
 
 	public static Job refundGenerationJob = new Job("refundGenerationJob");
 
-	public static Job automatedProcessingInitiationJob = new Job("automatedProcessingInitiationJob");
+	//public static Job automatedProcessingInitiationJob = new Job("automatedProcessingInitiationJob"); BASE job not used anymore, aaaAutomatedProcessingInitiationJob is used instead
 
 	public static Job automatedProcessingRunReportsServicesJob = new Job("automatedProcessingRunReportsServicesJob");
 
@@ -89,6 +93,9 @@ public class Jobs {
 	public static Job aaaBatchMarkerJob = new Job("aaaBatchMarkerJob");
 
 	public static Job aaaCollectionCancellDebtBatchJob = new Job("aaaCollectionCancelDebtBatchJob");
+
+	public static Job aaaAutomatedProcessingInitiationJob = new Job("aaaAutomatedProcessingInitiationJob");
+
 	
 	public enum JobState {
 		TRUE, FALSE, FAILED

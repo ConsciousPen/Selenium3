@@ -94,15 +94,6 @@ public class Scenario3 extends ScenarioBaseTest {
 				.setType(BillsAndStatementsType.CANCELLATION_NOTICE).verifyPresent();
 	}
 
-	public void cancelPolicy() {
-		LocalDateTime cDate = getTimePoints().getCancellationDate(installmentDueDates.get(1));
-		TimeSetterUtil.getInstance().nextPhase(cDate);
-		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
-		mainApp().open();
-		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_CANCELLED);
-	}
-
 	public void createRemittanceFile() {
 		LocalDateTime date = getTimePoints().getCancellationDate(installmentDueDates.get(1));
 		TimeSetterUtil.getInstance().nextPhase(date.plusDays(5).with(DateTimeUtils.closestFutureWorkingDay));
@@ -196,8 +187,9 @@ public class Scenario3 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
+
 		Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
-		verifyRenewPremiumNotice(policyExpirationDate, billDate, pligaOrMvleFee);
+		new BillingBillsAndStatementsVerifier().verifyBillGenerated(policyExpirationDate, billDate, policyEffectiveDate, pligaOrMvleFee);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
@@ -223,14 +215,9 @@ public class Scenario3 extends ScenarioBaseTest {
 
 	public void payRenewOffer() {
 		goToBillingPage(policyNum);
-
 		String billType = getState().equals(Constants.States.CA) ? BillsAndStatementsType.OFFER : BillsAndStatementsType.BILL;
 		Dollar sum = BillingHelper.getBillMinDueAmount(policyExpirationDate, billType);
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_CC"), sum);
-
-		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.buttonTasks.click();
-		MyWorkSummaryPage.tableTasks.getRow(MyWorkConstants.MyWorkTasksTable.TASK_NAME, "Qualify for manual Renewal").verify.present();
 	}
 
 	public void bindRenew() {

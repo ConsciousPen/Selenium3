@@ -191,7 +191,7 @@ public class Scenario4 extends ScenarioBaseTest {
 	}
 
 	protected void paymentInFullCancellNoticeAmount() {
-		// Set any date prior to Cancelation date
+		// Set any date prior to Cancellation date
 		LocalDateTime cnDate = getTimePoints().getCancellationDate(endorsementInstallmentDueDate).minusDays(5).with(DateTimeUtils.closestFutureWorkingDay);
 		TimeSetterUtil.getInstance().nextPhase(cnDate);
 
@@ -212,7 +212,6 @@ public class Scenario4 extends ScenarioBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHCWXX);
-//		DocGenHelper.verifyDocumentsGeneratedByJob(TimeSetterUtil.getInstance().getCurrentTime(), policyNum, OnDemandDocuments.AHCWXX);
 	}
 
 	protected void renewalImageGeneration() {

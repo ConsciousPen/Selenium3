@@ -1,0 +1,164 @@
+TestData_QuoteCreation_AZ: {
+  GeneralTab: '@GeneralTab_AZ',
+  DriverTab: ['@Driver1', '@Driver2', '@Driver3', '@Driver4'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@Vehicle1', '@Vehicle2', '@Vehicle3', '@Vehicle4', '@Vehicle5'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab'
+}
+
+GeneralTab_AZ: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
+}
+
+NamedInsuredInformation: {
+  First Name: Sam,
+  Last Name: Alonso,
+  Social Security Number: 123456788,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home
+}
+
+Driver1: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 400064773,
+  ADB Coverage: 'Yes',
+  Financial Responsibility Filing Needed: 'Yes',
+  Filing State: Arizona
+}
+
+Driver2: {
+  DriverSearchDialog: {},
+  Named Insured: Sam Alonso,
+  Rel. to First Named Insured: Other,
+  Date of Birth: 01/01/1992,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Student,
+  License Type: 'Licensed (US)',
+  Age First Licensed: 16,
+  License Number: A74253615,
+  Most Recent GPA: A Student,
+  'Smart Driver Course Completed?': 'Yes',
+  Smart Driver Course Completion Date: 01/01/2008,
+  Smart Driver Course Certificate Number: 12345678
+}
+
+Driver3: {
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Other,
+  First Name: Old,
+  Last Name: Bear,
+  Date of Birth: 01/01/1955,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  License Type: 'Licensed (US)',
+  License Number: A25417865,
+  Age First Licensed: 16,
+  'Defensive Driver Course Completed?': 'Yes',
+  Defensive Driver Course Completion Date: /today-366d,
+  Defensive Driver Course Certificate Number: 12345678
+}
+
+Driver4: {
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Other,
+  Driver Type: Excluded,
+  Reason: Company Request,
+  First Name: Jim,
+  Last Name: Block,
+  Date of Birth: 01/01/1981,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  License Type: 'Licensed (Canadian)',
+  License Number: A54178654,
+  Age First Licensed: 16
+}
+
+RatingDetailReportsTab: {
+  Customer Agreement: Customer Agrees,
+  Sales Agent Agreement: I Agree,
+  Order Report: click,
+  AAAMembershipReport: [{}],
+  OrderInsuranceScoreReport: [
+    {
+      Select: Declined,
+      Name: 'contains=Fernando'
+    },
+    {
+      Select: Declined,
+      Name: 'contains=Sam'
+    }
+  ]
+}
+
+Vehicle1: {
+  Usage: Pleasure,
+  VIN: 5YMGY0C57C1661237
+}
+
+Vehicle2: {
+  Usage: Pleasure,
+  VIN: 5NPEB4AC7C7443856
+}
+
+Vehicle3: {
+  Usage: Pleasure,
+  VIN: 2B3ED46T6RH199391
+}
+
+Vehicle4: {
+  Usage: Pleasure,
+  VIN: 1G1YL2D7XG5100002,
+  Year: 2017,
+  Make: OTHER,
+  Other Make: FORD,
+  Other Model: Model,
+  Other Body Style: Sedan,
+  Stat Code: 'AN - Small car',
+  Stated Amount: 1000
+}
+
+Vehicle5: {
+  Usage: Pleasure,
+  VIN: 1G1YL2D7XG5100001,
+  Year: 2017,
+  Make: OTHER,
+  Other Make: Make,
+  Other Model: Model,
+  Other Body Style: Coupe,
+  Stat Code: 'AC - Small SUV',
+  Stated Amount: 2000
+}
+
+PremiumAndCoveragesTab: {
+  New Car Added Protection: 'Yes',
+  Purchase Date: /today
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Named Driver Exclusion: Physically Signed
+  },
+  Agreement: I agree,
+  RequiredToIssue: {
+    Proof of Defensive Driver course completion: 'Yes',
+    Proof of Good Student Discount: 'Yes',
+    Proof of Smart Driver Course Completion: 'Yes',
+    'Proof of purchase date (bill of sale) for new vehicle(s)': 'Yes',
+    'Canadian MVR for (driver)': 'Yes'
+  },
+  Authorized By: 'Test',
+  GeneralInformation: {
+    'Work Phone #': 1234567890
+  }
+}

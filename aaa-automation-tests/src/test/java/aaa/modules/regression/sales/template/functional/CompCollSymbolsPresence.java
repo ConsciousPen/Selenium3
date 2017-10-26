@@ -1,13 +1,9 @@
 package aaa.modules.regression.sales.template.functional;
 
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
-import toolkit.webdriver.controls.waiters.Waiters;
 
 public class CompCollSymbolsPresence extends PolicyBaseTest {
     public void verifyCompCollSymbolsOnRatingDetails() {
@@ -18,10 +14,8 @@ public class CompCollSymbolsPresence extends PolicyBaseTest {
         createCustomerIndividual();
 
         policy.initiate();
-        policy.getDefaultView().fillUpTo(testData, VehicleTab.class, true);
+        policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
 
-        NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        PremiumAndCoveragesTab.buttonCalculatePremium.click(Waiters.AJAX);
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
         CustomAssert.enableSoftMode();

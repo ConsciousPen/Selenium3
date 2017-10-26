@@ -1,22 +1,11 @@
 TestData: {
-  VehicleTab: ['@<auto_ca_select>@DataGather@VehicleTab_1','@Vehicle_2'],
+  VehicleTab: ['@<auto_ca_select>@DataGather@VehicleTab_1','@VINDoesNotMatch@VehicleTab_UnmatchedVIN'],
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: ['@Assignment', '@Assignment'],
+    }
 }
 
-#VIN that doesn't match any value in DB
-Vehicle_2: {
-  Usage: Pleasure,
-  VIN: 2GNWGPFG9B2222222,
-  Make: 'OTHER',
-  Other Make: 'Other Make',
-  Model: 'OTHER',
-  Other Model: 'Model',
-  Series: 'OTHER',
-  Other Series: 'Series',
-  Body Style: 'OTHER',
-  Other Body Style: 'Body Style',
-  'Value($)': '10000',
-  Stat Code: 'index=1',
-  Primary Use: 'index=1',
-  'Miles One-way to Work or School': '500',
-  Odometer Reading: 1
+Assignment: {
+  'Primary Driver': 'index=1',
+  'Manually Rated Driver': 'index=1'
 }

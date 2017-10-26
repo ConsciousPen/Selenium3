@@ -41,9 +41,8 @@
         </classes>
     </test>
 
-    <!-- TODO add KY state after fixing QC-44688, QC-44699 defects -->
     <test name="Auto SS Scenario 1" parallel="none">
-        <parameter name="state" value="UT, AZ, CO, IN, KS, NJ, NY, OH, OR, PA, SD, VA" />
+        <parameter name="state" value="UT, AZ, CO, IN, KS, NJ, NY, OH, OR, PA, SD, VA, KY" />
         <classes>
             <class name="aaa.modules.e2e.auto_ss.TestScenario1" />
         </classes>

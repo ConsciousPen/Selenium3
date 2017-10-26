@@ -86,8 +86,11 @@ TestData_EndorsementTwo: {
 
 # ------------- Documents Verification ----------
 TestData_VerificationEDOne: {
-   AASR22: '@AASR22_EDOne',
    AAGCAZ: '@AAGCAZ_EDOne'
+}
+
+TestData_AASR22: {
+  AASR22: '@AASR22_EDOne'
 }
 
 AASR22_EDOne: {
@@ -104,10 +107,10 @@ AASR22_EDOne: {
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'Fernando'},
     NmdInsrdLstNm: {TextField: 'Alonso'},
-    NmdInsrdStrPobAddr1: {TextField: '265 CHIPMAN AVE'},
-    NmdInsrdCityNm: {'Phoenix'},
+    NmdInsrdStrPobAddr1: {TextField: '4101 S LAST CHANCE TRL'},
+    NmdInsrdCityNm: {'GOLD CANYON'},
     NmdInsrdStAbrv: {TextField: 'AZ'},
-    NmdInsrdZipPls4: {TextField: '85003'},
+    NmdInsrdZipPls4: {TextField: '85118'},
   },  
   VehicleDetails: [{
     VehItemNum: {TextField: '1'},
@@ -160,8 +163,8 @@ AAGCAZ_EDOne: {
     NmdInsrdLstNm: {TextField: 'Alonso'}
   },  
   AgentDetails: {
-    GenlAgntNum: {TextField: '400001650'},
-    SubAgntNum: {TextField: '400018581'}
+    GenlAgntNum: {TextField: '500001004'},
+    SubAgntNum: {TextField: '500010032'}
   },
   VehicleDetails: {
     VehTyp: {TextField: 'GC'},
@@ -198,8 +201,8 @@ AA41XX_EDTWO: {
     NmdInsrdStAbrv: {TextField: AZ}
   },
   AgentDetails: {
-    GenlAgntNum: {TextField: 400001650},
-    SubAgntNum: {TextField: 400018581}
+    GenlAgntNum: {TextField: 500001004},
+    SubAgntNum: {TextField: 500010032}
   },
   VehicleDetails: {
     VehTyp: {TextField: 'NO'}
@@ -245,7 +248,7 @@ AHRBXX: {
    PlcyDueDt: {DateTimeField: ''},
 #   PlcyPayFullAmt: {TextField: ''},
    NSFPayRstrYN: {TextField: 'N'},
-   PlcyPastDueBal: {TextField: '212.87'},
+   PlcyPastDueBal: {TextField: '0.00'},
    PlcyTotRnwlPrem: {TextField: ''},
    PayMeth: {TextField: ''},
    PLIGAFee: {TextField: '0.00'}
@@ -254,11 +257,11 @@ AHRBXX: {
    NmdInsrdFrstNm: {TextField: 'Fernando'},
    NmdInsrdMidNm: {TextField: ''},
    NmdInsrdLstNm: {TextField: 'Alonso'},
-   NmdInsrdStrPobAddr1:  {TextField: '265 CHIPMAN AVE'},
+   NmdInsrdStrPobAddr1:  {TextField: '4101 S LAST CHANCE TRL'},
    NmdInsrdAddlAddr2: {TextField: ''},
-   NmdInsrdCityNm: {TextField: 'Phoenix'},
+   NmdInsrdCityNm: {TextField: 'GOLD CANYON'},
    NmdInsrdStAbrv: {TextField: 'AZ'},
-   NmdInsrdZipPls4: {TextField: '85003'}
+   NmdInsrdZipPls4: {TextField: '85118'}
  },
  VehicleDetails: {
    PlcyVehInfo: {TextField: '2000 NANO NANO'},
@@ -280,10 +283,10 @@ AH64XX: {
     NmdInsrdFrstNm: {TextField: 'Fernando'},
     NmdInsrdMidNm: {TextField: ''},
     NmdInsrdLstNm: {TextField: 'Alonso'},
-    NmdInsrdStrPobAddr1: {TextField: '265 CHIPMAN AVE'},
+    NmdInsrdStrPobAddr1: {TextField: '4101 S LAST CHANCE TRL'},
     NmdInsrdAddlAddr2: {TextField: ''},
-    NmdInsrdCityNm: {TextField: 'Phoenix'},
-    NmdInsrdZipPls4: {TextField: '85003'},
+    NmdInsrdCityNm: {TextField: 'GOLD CANYON'},
+    NmdInsrdZipPls4: {TextField: '85118'},
     NmdInsrdStAbrv: {TextField: 'AZ'},
   },
   VehicleDetails: {

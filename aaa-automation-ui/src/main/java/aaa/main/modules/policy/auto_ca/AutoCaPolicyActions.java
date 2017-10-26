@@ -4,45 +4,15 @@
  */
 package aaa.main.modules.policy.auto_ca;
 
-import aaa.common.pages.NavigationPage;
-import aaa.main.modules.policy.auto_ca.defaulttabs.CreateQuoteVersionTab;
-
-import org.openqa.selenium.By;
-
 import aaa.common.AbstractAction;
 import aaa.common.Tab;
 import aaa.common.Workspace;
+import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.main.modules.policy.PolicyActions;
-import aaa.main.modules.policy.auto_ca.views.CancelNoticeView;
-import aaa.main.modules.policy.auto_ca.views.CancellationView;
-import aaa.main.modules.policy.auto_ca.views.ChangeBrokerView;
-import aaa.main.modules.policy.auto_ca.views.ChangePendedEndorsementView;
-import aaa.main.modules.policy.auto_ca.views.CopyPolicyView;
-import aaa.main.modules.policy.auto_ca.views.CopyQuoteView;
-import aaa.main.modules.policy.auto_ca.views.DeclineByCompanyView;
-import aaa.main.modules.policy.auto_ca.views.DeclineByCustomerView;
-import aaa.main.modules.policy.auto_ca.views.DefaultView;
-import aaa.main.modules.policy.auto_ca.views.DeleteCancelNoticeView;
-import aaa.main.modules.policy.auto_ca.views.DeletePendedTransactionView;
-import aaa.main.modules.policy.auto_ca.views.DoNotRenewView;
-import aaa.main.modules.policy.auto_ca.views.EndorseView;
-import aaa.main.modules.policy.auto_ca.views.ManualRenewFlagView;
-import aaa.main.modules.policy.auto_ca.views.NonPremiumBearingEndorsementView;
-import aaa.main.modules.policy.auto_ca.views.PolicyDocGenView;
-import aaa.main.modules.policy.auto_ca.views.ProposeView;
-import aaa.main.modules.policy.auto_ca.views.ReinstateView;
-import aaa.main.modules.policy.auto_ca.views.RemoveDoNotRenewView;
-import aaa.main.modules.policy.auto_ca.views.RemoveManualRenewFlagView;
-import aaa.main.modules.policy.auto_ca.views.RenewView;
-import aaa.main.modules.policy.auto_ca.views.RescindCancellationView;
-import aaa.main.modules.policy.auto_ca.views.RewriteView;
-import aaa.main.modules.policy.auto_ca.views.RollBackEndorsementView;
-import aaa.main.modules.policy.auto_ca.views.SpinView;
-import aaa.main.modules.policy.auto_ca.views.SplitView;
-import aaa.main.modules.policy.auto_ca.views.SuspendQuoteView;
-import aaa.main.modules.policy.auto_ca.views.UpdateRulesOverrideView;
-import aaa.main.modules.policy.auto_ca.views.RollOnChangesView;
+import aaa.main.modules.policy.auto_ca.defaulttabs.CreateQuoteVersionTab;
+import aaa.main.modules.policy.auto_ca.views.*;
+import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.TextBox;
 
@@ -361,12 +331,22 @@ public final class AutoCaPolicyActions {
     
 	public static class QuoteDocGen extends PolicyActions.QuoteDocGen {
 		@Override
+		public String getName() {
+			return "Generate On Demand Document";
+		}
+
+		@Override
 		public Workspace getView() {
 			return new PolicyDocGenView();
 		}
 	}
 
 	public static class PolicyDocGen extends PolicyActions.PolicyDocGen {
+		@Override
+        public String getName() {
+            return "Generate On Demand Document";
+        }
+		
 		@Override
 		public Workspace getView() {
 			return new PolicyDocGenView();

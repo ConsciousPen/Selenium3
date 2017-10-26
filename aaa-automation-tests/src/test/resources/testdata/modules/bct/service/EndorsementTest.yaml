@@ -1,0 +1,11 @@
+TestData: {
+  EndorsementActionTab: {
+    Endorsement Reason: 'index=2'
+  },
+  GeneralTab: '',
+  ApplicantTab: '',
+  ReportsTab: '',
+  PropertyInfoTab: '',
+  PremiumsAndCoveragesQuoteTab: '',
+  BindTab: '',
+}
