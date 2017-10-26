@@ -50,7 +50,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 	private String reinEffDt;
 	private String priorReinEffDt;
 	private String currentDate;
-	private LocalDateTime cancellationDate;
+
 
 	@Parameters({ "state" })
 	@Test(groups = { Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL })
@@ -144,7 +144,6 @@ public class TestScenario1 extends AutoSSBaseTest {
 		plcyPayMinAmt = formatValue(BillingSummaryPage.getMinimumDue().toString());
 		plcyPayFullAmt = formatValue(BillingSummaryPage.getTotalDue().toString().replace("$", ""));
 		plcyDueDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(BillingBillsAndStatmentsTable.TYPE, "Cancellation Notice").getCell(BillingBillsAndStatmentsTable.DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));		
-		cancellationDate = TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(BillingBillsAndStatmentsTable.TYPE, "Cancellation Notice").getCell(BillingBillsAndStatmentsTable.DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
 
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, AH34XX).verify.mapping(getTestSpecificTD("TestData_AH34XX_Verification")
 								.adjust(TestData.makeKeyPath("AH34XX", "form","PlcyNum", "TextField"), policyNumber)
@@ -172,6 +171,9 @@ public class TestScenario1 extends AutoSSBaseTest {
 	@Test(groups = { Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC04_GenerateCancellation(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
+		
+		LocalDateTime _cancellationDate = TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillsStatements.getRow(BillingBillsAndStatmentsTable.TYPE, "Cancellation Notice").getCell(BillingBillsAndStatmentsTable.DUE_DATE).getValue(), DateTimeUtils.MM_DD_YYYY);
+		LocalDateTime cancellationDate = _cancellationDate.with(DateTimeUtils.closestFutureWorkingDay);
 		log.info("Cancellation Generatetion Date" + cancellationDate);
 		TimeSetterUtil.getInstance().nextPhase(cancellationDate);
 		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob,true);
