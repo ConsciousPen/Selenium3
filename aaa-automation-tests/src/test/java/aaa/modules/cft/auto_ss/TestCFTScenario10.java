@@ -1,19 +1,18 @@
 package aaa.modules.cft.auto_ss;
 
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import org.apache.commons.lang3.StringUtils;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-
-import toolkit.datax.TestData;
-import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
+import org.apache.commons.lang3.StringUtils;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import toolkit.datax.TestData;
+import toolkit.utils.TestInfo;
 
 /**
  * Controlled Financial Testing Scenario 10
