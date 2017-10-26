@@ -228,6 +228,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<TextBox> AGE_FIRST_LICENSED = declare("Age First Licensed", TextBox.class);
 		public static final AssetDescriptor<TextBox> TOTAL_YEAR_DRIVING_EXPERIENCE = declare("Total Years Driving Experience", TextBox.class);
 		public static final AssetDescriptor<ComboBox> AFFINITY_GROUP = declare("Affinity Group", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> MOST_RECENT_GPA = declare("Most Recent GPA", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> DEFENSIVE_DRIVER_COURSE_COMPLETED = declare("Defensive Driver Course Completed?", ComboBox.class);
 		public static final AssetDescriptor<TextBox> DEFENSIVE_DRIVER_COURSE_COMPLETION_DATE = declare("Defensive Driver Course Completion Date", TextBox.class);
 		public static final AssetDescriptor<TextBox> DEFENSIVE_DRIVER_COURSE_CERTIFICATE_NUMBER = declare("Defensive Driver Course Certificate Number", TextBox.class);
@@ -268,7 +269,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<Button> ORDER_REPORT = declare("Order Report", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:submitReports"));
 
 		public static final AssetDescriptor<FillableTable> AAA_MEMBERSHIP_REPORT = declare("AAAMembershipReport", FillableTable.class, AaaMembershipReportRow.class, By.xpath("//table[@id='policyDataGatherForm:membershipReports']"));
-		public static final AssetDescriptor<FillableTable> ORDER_INSURANCE_SCORE_REPORT = declare("OrderInsuranceScoreReport", FillableTable.class, OrderInsuranceScoreReportRow.class, By.xpath("//table[@id='policyDataGatherForm:membershipReports']"));
+		public static final AssetDescriptor<FillableTable> ORDER_INSURANCE_SCORE_REPORT = declare("OrderInsuranceScoreReport", FillableTable.class, OrderInsuranceScoreReportRow.class, By.xpath("//table[@id='policyDataGatherForm:creditReports']"));
 		public static final AssetDescriptor<FillableTable> INSURANCE_SCORE_OVERRIDE = declare("InsuranceScoreOverride", FillableTable.class, InsuranceScoreOverrideRow.class, By.xpath("//table[@id='policyDataGatherForm:creditScoreOverride']"));
 
 		public static final class AaaMembershipReportRow extends MetaData {
