@@ -296,6 +296,11 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		eValueQuoteCreationVA();
 
 		CustomAssert.enableSoftMode();
+
+		//issue quote evalue no
+		//VC4 DB check
+
+
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Membership Pending");
@@ -306,6 +311,10 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("");
 		simplifiedQuoteIssue();
 		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("Pending");
+//Pas-302 start-
+//VC1
+		//sql query for DB check
+		//Pas-302 end
 
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
@@ -314,6 +323,17 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		simplifiedPendedEndorsementIssue();
 		PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("Active");
+		//Pas-302 start
+		//VC2
+		//sql query for DB check
+		//Pas-302 end
+
+		//Pas-302 start
+		//VC3
+		//endorsment setting evalue discount no issuing.
+		//sql query for DB check -
+		//Pas-302 end
+
 	}
 	/**
 	 * @author Megha Gubbala
