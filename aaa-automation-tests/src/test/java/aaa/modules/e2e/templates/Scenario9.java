@@ -10,6 +10,7 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
@@ -221,8 +222,10 @@ public class Scenario9 extends ScenarioBaseTest {
 		LocalDateTime transactionDate = TimeSetterUtil.getInstance().getCurrentTime();
 		PolicyHelper.verifyEndorsementIsCreated(); 
 		
-		currentTermDueAmount = PolicySummaryPage.TransactionHistory.getTranPremium();
-		
+		currentTermDueAmount = PolicySummaryPage.TransactionHistory.getTranPremium(); 
+		if (getState().equals(States.NY)) {
+			currentTermDueAmount = currentTermDueAmount.add(10);
+		}
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());		
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setTotalDue(currentTermDueAmount).verifyPresent();
 		
@@ -246,15 +249,11 @@ public class Scenario9 extends ScenarioBaseTest {
 		Dollar firstRenewalInstallmentDue = BillingHelper.getInstallmentDueByDueDate(policyExpirationDate);
 		Dollar fee = BillingHelper.getFeesValue(billGenDate);
 		Dollar firstRenewalBillAmount = firstRenewalInstallmentDue.add(fee).add(currentTermDueAmount);
-		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).setDueDate(policyExpirationDate).setMinDue(firstRenewalBillAmount).verifyPresent();
 		
-		//Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
-
-		// Renew premium verification was excluded, due to unexpected installment calculations
-		// if (!getState().equals(States.KY) && !getState().equals(States.WV)) {
-		// verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billGenDate, pligaOrMvleFee, installmentsCount);
-		// }
-		//verifyRenewPremiumNotice(policyExpirationDate, billGenDate, pligaOrMvleFee);
+		if (getState().equals(States.NY)) 
+			firstRenewalBillAmount = firstRenewalBillAmount.add(20);
+		
+		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).setDueDate(policyExpirationDate).setMinDue(firstRenewalBillAmount).verifyPresent();
 		
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
