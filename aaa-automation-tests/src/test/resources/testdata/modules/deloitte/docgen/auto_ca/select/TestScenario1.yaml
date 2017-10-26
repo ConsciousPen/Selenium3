@@ -90,7 +90,7 @@ TestData_Purchase: {
       Auto Billing Plan Explanation: 'Yes'
     }
   },
-  PurchaseTab: '@PurchaseTab_WithAutopay'
+  PurchaseTab: '@PurchaseTab_WithAutopay_Check'
 }
 
 ####################### TC02_EndorsementDocuments #########################

@@ -3,6 +3,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 
+import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.components.Efolder;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -11,13 +12,17 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.DbAwaitHelper;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.openqa.selenium.By;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -27,12 +32,14 @@ import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.Dollar;
 import toolkit.utils.TestInfo;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -71,9 +78,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 			" values\n" +
 			" ('AAARolloutEligibilityLookupValue', 'eMember', 'TRUE', 'AAA_SS', '%s', null, null, null,\n" +
 			" (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
-
-
-
 
 	private static final String PAPERLESS_PREFRENCES_CONFIGURATION_PER_STATE_INSERT = "INSERT INTO LOOKUPVALUE\n" +
 			" (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id)\n" +
@@ -126,6 +130,17 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		for (String configForStatesLimit : configForStatesLimits) {
 			insertConfigForLimitsRegularStates(configForStatesLimit);
 		}
+	}
+
+	@Test
+	@TestInfo(isAuxiliary = true)
+	public void precondJobAdding() {
+		adminApp().open();
+		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
+		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_BATCH_MARKER_JOB);
+		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_AUTOMATED_PROCESSING_INITIATION_JOB);
+		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AUTOMATED_PROCESSING_RATING_JOB);
+		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AUTOMATED_PROCESSING_ISSUING_OR_PROPOSING_JOB);
 	}
 
 	private static void insertConfigForRegularStates(String state) {
@@ -341,7 +356,8 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	 * @scenario 1. Create new eValue eligible policy with membership pending and paperless preferences Pending
 	 * 2. Check policy consolidated view.
 	 * 3. See if eMember status = Pending
-	 * @details**/
+	 * @details
+	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-300")
@@ -786,6 +802,139 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY).verify.noOption(lowerLimit);
 		PremiumAndCoveragesTab.calculatePremium();
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test eValue Discount Paper;less Preference related GreyBox message is shown correctly
+	 * @scenario 1. Create new eValue eligible quote for DC state with Paperless Preferences = Pending
+	 * 2. Check Grey Box messages when eValue Discount can be selected
+	 * 3. Check Grey Box messages when eValue Discount can not be selected
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-309")
+	public void pas309_eValueGreyBoxPaperlessPendingDC(@Optional("DC") String state) {
+
+		pas309_eValueGreyBoxPaperlessCheck("Pending");
+	}
+
+
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test eValue Discount Paper;less Preference related GreyBox message is shown correctly
+	 * @scenario 1. Create new eValue eligible quote for MD state with Paperless Preferences = No
+	 * 2. Check Grey Box messages when eValue Discount can be selected
+	 * 3. Check Grey Box messages when eValue Discount can not be selected
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-309")
+	public void pas309_eValueGreyBoxPaperlessNoMD(@Optional("MD") String state) {
+
+		pas309_eValueGreyBoxPaperlessCheck("No");
+	}
+
+	//TODO OSI: Blocked by Membership discount and eValue discount not resetting on NB+30
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Test eValue Discount not shown for state where it is not configured
+	 * @scenario 1. Create new eValue eligible quote but for the not eligible state (PA)
+	 * 1.1. Check "Has the insured ever been enrolled in eValue?" is not shown for Non-Applicable state
+	 * 2. Check eValue Discount field is not shown in P&C
+	 * 3. Check eValue Discount field is not shown in Rating Details
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-XXX")
+	public void pasXXX_eValueNotApplicableForState(@Optional("VA") String state) {
+
+		eValueQuoteCreationVA();
+
+		CustomAssert.enableSoftMode();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Membership Pending");
+		generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("4382122719291009"); //4382122719291009 - cancelled memembrship in SOA3
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		PremiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+
+		simplifiedQuoteIssue();
+
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		NB_15_30jobs(policyNumber);
+
+		NB_15_30jobs(policyNumber);
+
+	}
+
+	private void NB_15_30jobs(String policyNumber) {
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		//NB+30 jobs
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+
+
+		JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+		String membershipLogicNote = "Membership information was updated for the policy based on best membership logic.";
+		String descriptionTask1 = "Task Created Complete or Cancel Pended Endorsement";
+		String descriptionNote1 = "No message [automatedEndorsementInit]";
+		CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(3).getCell("Description").getValue().contains(membershipLogicNote));
+		CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(2).getCell("Description").getValue().contains(descriptionTask1));
+		CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(1).getCell("Description").getValue().contains(descriptionNote1));
+
+		PolicySummaryPage.buttonPendedEndorsement.verify.present();
+		JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+		String descriptionNote2 = "No message [automatedEndorsementRate]";
+		//CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(1).getCell("Description").getValue().contains(descriptionNote2));
+
+
+		JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+		String descriptionTask3 = "Complete Task Complete or Cancel Pended Endorsement";
+		String descriptionNote3 = "Bind Endorsement effective " + TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")) + " for Policy " + policyNumber;
+		//CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(2).getCell("Description").getValue().contains(descriptionTask3));
+		//CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(1).getCell("Description").getValue().contains(descriptionNote3));
+	}
+
+
+
+	private void pas309_eValueGreyBoxPaperlessCheck(String paperlessPreferenceValue) {
+		String messageBullet3 = "Enrollment in paperless notifications for policy and billing documents";
+
+		eValueQuoteCreationVA();
+
+		CustomAssert.enableSoftMode();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		//paperlessPreferenceValue is state dependent in Stub
+		documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.value(paperlessPreferenceValue);
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		eValueDiscountEligibleGreyBoxCheck();
+		CustomAssert.assertTrue(PremiumAndCoveragesTab.tableGreyBox.getRow(2).getCell(1).getValue().contains(messageBullet3));
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_BI_LIMITS).setValue("contains=15,000");
+		eValueDiscountNotEligibleGreyBoxCheck();
+		CustomAssert.assertFalse(PremiumAndCoveragesTab.tableGreyBox.getRow(2).getCell(1).getValue().contains(messageBullet3));
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();

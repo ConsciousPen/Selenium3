@@ -1,11 +1,5 @@
 package aaa.modules.docgen.pup;
 
-import static aaa.main.enums.DocGenEnum.Documents.*;
-
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import toolkit.verification.CustomAssert;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.PersonalUmbrellaTab;
 import aaa.common.pages.NavigationPage;
@@ -16,6 +10,12 @@ import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import toolkit.verification.CustomAssert;
+
+import static aaa.main.enums.DocGenEnum.Documents.*;
 
 public class TestDocgenScenarios extends PersonalUmbrellaBaseTest{
 	/**
