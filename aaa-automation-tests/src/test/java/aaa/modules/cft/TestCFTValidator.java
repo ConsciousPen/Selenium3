@@ -7,6 +7,7 @@ import aaa.modules.cft.csv.model.Header;
 import aaa.modules.cft.csv.model.Record;
 import aaa.modules.cft.report.ReportGeneratorService;
 import com.exigen.ipb.etcsa.utils.ExcelUtils;
+import com.exigen.istf.exec.testng.TimeShiftTestUtil;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import org.apache.commons.csv.CSVFormat;
@@ -66,10 +67,20 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
         opReportApp().open();
         operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
         Waiters.SLEEP(15000).go(); // add agile wait till file occurs, awaitatility (IGarkusha added dependency, read in www)
-        // condition that download folder listfiles.size==1
+        // condition that download/remote download folder listfiles.size==1
         operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
         Waiters.SLEEP(15000).go(); // add agile wait till file occurs, awaitatility (IGarkusha added dependency, read in www)
-        // condition that download folder listfiles.size==1
+        // condition that download/remote download folder listfiles.size==2
+        //moving data from monitor to download dir
+        String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
+        String monitorAddress = monitorInfo.substring(monitorInfo.indexOf("selenium=") + 9, monitorInfo.indexOf(":"));
+        SSHController sshControllerRemote = new SSHController(
+                monitorAddress,
+                PropertyProvider.getProperty("test.ssh.user"),
+                PropertyProvider.getProperty("test.ssh.password"));
+        sshControllerRemote.downloadFolder(new File(PropertyProvider.getProperty("test.remotefile.location")),downloadDir);
+        //add wait till files will appear in the folder
+
         Map<String, Double> accountsMapSummaryFromOR = getExcelValues();
         //Remote path from server -
         sshController.downloadFolder(new File(SOURCE_DIR), downloadDir);
