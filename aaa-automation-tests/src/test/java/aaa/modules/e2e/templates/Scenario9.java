@@ -1,12 +1,5 @@
 package aaa.modules.e2e.templates;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -35,9 +28,15 @@ import aaa.main.modules.policy.IPolicy;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 
 public class Scenario9 extends ScenarioBaseTest {
 	protected IPolicy policy;

@@ -3,26 +3,18 @@
 package aaa.main.metadata.policy;
 
 import aaa.main.enums.DocGenConstants;
+import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.*;
+import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
+import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
-import org.openqa.selenium.By;
-
+import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
+import aaa.toolkit.webdriver.customcontrols.endorsements.AutoSSForms;
 import com.exigen.ipb.etcsa.controls.PartySearchTextBox;
 import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
-
-import aaa.main.metadata.DialogsMetaData;
-import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
-import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
-import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
-import aaa.toolkit.webdriver.customcontrols.endorsements.AutoSSForms;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.CheckBox;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.TextBox;
+import org.openqa.selenium.By;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
@@ -236,6 +228,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<TextBox> AGE_FIRST_LICENSED = declare("Age First Licensed", TextBox.class);
 		public static final AssetDescriptor<TextBox> TOTAL_YEAR_DRIVING_EXPERIENCE = declare("Total Years Driving Experience", TextBox.class);
 		public static final AssetDescriptor<ComboBox> AFFINITY_GROUP = declare("Affinity Group", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> MOST_RECENT_GPA = declare("Most Recent GPA", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> DEFENSIVE_DRIVER_COURSE_COMPLETED = declare("Defensive Driver Course Completed?", ComboBox.class);
 		public static final AssetDescriptor<TextBox> DEFENSIVE_DRIVER_COURSE_COMPLETION_DATE = declare("Defensive Driver Course Completion Date", TextBox.class);
 		public static final AssetDescriptor<TextBox> DEFENSIVE_DRIVER_COURSE_CERTIFICATE_NUMBER = declare("Defensive Driver Course Certificate Number", TextBox.class);
@@ -276,7 +269,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<Button> ORDER_REPORT = declare("Order Report", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:submitReports"));
 
 		public static final AssetDescriptor<FillableTable> AAA_MEMBERSHIP_REPORT = declare("AAAMembershipReport", FillableTable.class, AaaMembershipReportRow.class, By.xpath("//table[@id='policyDataGatherForm:membershipReports']"));
-		public static final AssetDescriptor<FillableTable> ORDER_INSURANCE_SCORE_REPORT = declare("OrderInsuranceScoreReport", FillableTable.class, OrderInsuranceScoreReportRow.class, By.xpath("//table[@id='policyDataGatherForm:membershipReports']"));
+		public static final AssetDescriptor<FillableTable> ORDER_INSURANCE_SCORE_REPORT = declare("OrderInsuranceScoreReport", FillableTable.class, OrderInsuranceScoreReportRow.class, By.xpath("//table[@id='policyDataGatherForm:creditReports']"));
 		public static final AssetDescriptor<FillableTable> INSURANCE_SCORE_OVERRIDE = declare("InsuranceScoreOverride", FillableTable.class, InsuranceScoreOverrideRow.class, By.xpath("//table[@id='policyDataGatherForm:creditScoreOverride']"));
 
 		public static final class AaaMembershipReportRow extends MetaData {
@@ -499,6 +492,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<ComboBox> RENTAL_REIMBURSEMENT = declare("Rental Reimbursement", ComboBox.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Rental Reimbursement']/ancestor::tr[1]//select"));
 		public static final AssetDescriptor<ComboBox> TOWING_AND_LABOR_COVERAGE = declare("Towing and Labor Coverage", ComboBox.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Towing and Labor Coverage']/ancestor::tr[1]//select"));
 		public static final AssetDescriptor<ComboBox> NEW_CAR_ADDED_PROTECTION = declare("New Car Added Protection", ComboBox.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='New Car Added Protection']/ancestor::tr[1]//select"));
+		public static final AssetDescriptor<TextBox> PURCHASE_DATE = declare("Purchase Date", TextBox.class, By.xpath(".//*[@id='policyDataGatherForm:premiumCoverageDetailPanel']//span[normalize-space(.)='Purchase Date']/ancestor::tr[1]//input"));
 
 		public static final AssetDescriptor<CheckBox> UNACCEPTABLE_RISK_SURCHARGE = declare("Unacceptable Risk Surcharge", CheckBox.class, Waiters.AJAX, By.id("policyDataGatherForm:unacceptableRiskSurchargeCheckbox"));
 		public static final AssetDescriptor<TextBox> REASON = declare("Reason", TextBox.class, Waiters.AJAX, By.id("policyDataGatherForm:unacceptableRiskSurchargeReason"));
@@ -691,6 +685,12 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> PROOF_OF_PRIOR_INSURANCE = declare("Proof of Prior Insurance", RadioGroup.class, Waiters.NONE);
             //PA
 			public static final AssetDescriptor<RadioGroup> PROOF_OF_CURRENT_INSURANCE_FOR = declare("Proof of Current Insurance for", RadioGroup.class, Waiters.NONE);
+		
+			public static final AssetDescriptor<RadioGroup> PROOF_OF_DEFENSIVE_DRIVER_COURSE_COMPLETION = declare("Proof of Defensive Driver course completion", RadioGroup.class, Waiters.NONE);
+			public static final AssetDescriptor<RadioGroup> PROOF_OF_GOOD_STUDENT_DISCOUNT = declare("Proof of Good Student Discount", RadioGroup.class, Waiters.NONE);
+			public static final AssetDescriptor<RadioGroup> PROOF_OF_SMART_DRIVER_COURSE_COMPLETION = declare("Proof of Smart Driver Course Completion", RadioGroup.class, Waiters.NONE);
+			public static final AssetDescriptor<RadioGroup> PROOF_OF_PURCHASE_DATE_BILL_OF_SALE_FOR_NEW_VEHICLES = declare("Proof of purchase date (bill of sale) for new vehicle(s)", RadioGroup.class, Waiters.NONE);
+			public static final AssetDescriptor<RadioGroup> CANADIAN_MVR_FOR_DRIVER = declare("Canadian MVR for (driver)", RadioGroup.class, Waiters.NONE);
 		}
 
 		public static final class GeneralInformation extends MetaData {

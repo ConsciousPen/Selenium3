@@ -2,28 +2,19 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.metadata.policy;
 
-import aaa.main.enums.DocGenConstants;
-import aaa.toolkit.webdriver.customcontrols.*;
-import org.openqa.selenium.By;
-
-import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
-import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
-
 import aaa.common.pages.Page;
+import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
+import aaa.toolkit.webdriver.customcontrols.*;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import aaa.toolkit.webdriver.customcontrols.endorsements.PupEndorsementsMultiAssetList;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.CheckBox;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.DoubleTextBox;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.TextBox;
+import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
+import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
+import org.openqa.selenium.By;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
