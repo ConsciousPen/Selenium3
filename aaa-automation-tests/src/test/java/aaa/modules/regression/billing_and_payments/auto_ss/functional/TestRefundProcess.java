@@ -66,7 +66,7 @@ public class TestRefundProcess extends PolicyBilling {
 	}
 
 	@Test
-	@TestInfo(isAuxiliary = true)
+	@TestInfo()
 	public void precondJobAdding() {
 		adminApp().open();
 		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
@@ -75,13 +75,13 @@ public class TestRefundProcess extends PolicyBilling {
 	}
 
 	@Test()
-	@TestInfo(isAuxiliary = true)
+	@TestInfo()
 	public static void refundDocumentGenerationConfigCheck() {
 		CustomAssert.assertTrue("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.", DbAwaitHelper.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5));
 	}
 
 	@Test(enabled = false)
-	@TestInfo(isAuxiliary = true)
+	@TestInfo()
 	public static void refundDocumentGenerationConfigInsert() {
 		DBService.get().executeUpdate(String.format(REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL));
 	}

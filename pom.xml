@@ -94,12 +94,12 @@
         <dependency>
             <groupId>com.exigen.istf</groupId>
             <artifactId>istf-core</artifactId>
-            <version>3.4.2-01</version>
+            <version>3.6.1</version>
         </dependency>
         <dependency>
             <groupId>com.exigen.istf</groupId>
             <artifactId>test-analytics-listener</artifactId>
-            <version>2.14.1</version>
+            <version>2.15.1</version>
         </dependency>
 
         <dependency>

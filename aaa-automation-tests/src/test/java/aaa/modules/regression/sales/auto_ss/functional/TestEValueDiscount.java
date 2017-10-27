@@ -22,6 +22,7 @@ import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
@@ -31,7 +32,6 @@ import org.testng.annotations.Test;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
-import toolkit.utils.Dollar;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
@@ -101,7 +101,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 
 
 	@Test
-	@TestInfo(isAuxiliary = true)
+	@TestInfo()
 	public static void eValueConfigCheck() {
 		CustomAssert.enableSoftMode();
 		List<String> configForStates = Arrays.asList("VA", "MD", "DC");
@@ -114,7 +114,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	}
 
 	@Test(enabled = false)
-	@TestInfo(isAuxiliary = true)
+	@TestInfo()
 	public static void eValueConfigInsert() {
 		List<String> configForStates = Arrays.asList("VA"  //for Paperless Preferences = Yes
 				, "MD"  //for Paperless Preferences = Pending
@@ -133,7 +133,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	}
 
 	@Test
-	@TestInfo(isAuxiliary = true)
+	@TestInfo()
 	public void precondJobAdding() {
 		adminApp().open();
 		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
