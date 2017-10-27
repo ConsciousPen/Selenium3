@@ -4,13 +4,15 @@
  */
 package aaa.main.modules.policy.home_ca.defaulttabs;
 
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
+import aaa.main.metadata.policy.HomeCaMetaData;
+import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
-import aaa.main.metadata.policy.HomeCaMetaData;
-import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -36,6 +38,10 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 
     @Override
     public void calculatePremium() {
+        if (!btnCalculatePremium().isPresent()) {
+            NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
+            NavigationPage.toViewSubTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+        }
         btnCalculatePremium().click();
     }
 

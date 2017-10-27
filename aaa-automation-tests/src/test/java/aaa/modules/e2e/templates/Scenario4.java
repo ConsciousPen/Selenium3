@@ -346,7 +346,7 @@ public class Scenario4 extends ScenarioBaseTest {
 		if (!getPolicyType().isAutoPolicy()) {
 			// TODO Possible problems with MD and MT state. See QC 35220 for details.
 			//if (!getState().equals(Constants.States.MD) && !getState().equals(Constants.States.MT)) {
-			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getPayLapsedRenewShort(policyExpirationDate)).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
+			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getPayLapsedRenewLong(policyExpirationDate)).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 		}
 	}
 }

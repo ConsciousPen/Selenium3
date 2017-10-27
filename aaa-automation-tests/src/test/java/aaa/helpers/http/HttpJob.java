@@ -221,7 +221,8 @@ public class HttpJob {
 		waiting = HttpHelper.find(httpRequestor2.getResponse(), WAITING_REGEX);
 		processing = HttpHelper.find(httpRequestor2.getResponse(), PROCESSING_REGEX);
 
-		long endTime = System.currentTimeMillis() + ASYNC_TIMEOUT;
+		//TODO Temporary removed Asynk tasks verification. Need to improve verification logic.
+		/*long endTime = System.currentTimeMillis() + ASYNC_TIMEOUT;
 
 		while (!processing.equals("0") || !waiting.equals("0")) {
 			if (endTime < System.currentTimeMillis()) {
@@ -233,7 +234,7 @@ public class HttpJob {
 			httpRequestor2.sendGetRequest(request);
 			waiting = HttpHelper.find(httpRequestor2.getResponse(), WAITING_REGEX);
 			processing = HttpHelper.find(httpRequestor2.getResponse(), PROCESSING_REGEX);
-		}
+		}*/
 
 		log.info("HTTP Job: Waiting async task: " + waiting + ". Processing async task: " + processing);
 
