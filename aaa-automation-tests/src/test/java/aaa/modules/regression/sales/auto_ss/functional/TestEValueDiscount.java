@@ -625,8 +625,11 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		//PAS-264 start
 		String query = (String.format(GET_DOCUMENT_BY_EVENT_NAME + "and data like '%%ESignatureChannel%%'", policyNum, "AHEVAXX", "ADHOC_DOC_GENERATE"));
 		CustomAssert.assertTrue(DbAwaitHelper.waitForQueryResult(query, 60));
-
+		log.info("Delay start");
+		Waiters.SLEEP(60000).go();
+		log.info("Delay end");
 		documentsAndBindTab.saveAndExit();
+		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
 		Efolder.isDocumentExist("Miscellaneous", "ACKNOWLEDGEMENT FORM");
 		//PAS-264 end
 		CustomAssert.disableSoftMode();
@@ -647,7 +650,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	public void pas309_eValueGreyBox(@Optional("VA") String state) {
 		String messageInfo1 = "This customer is not eligible for the eValue discount due to the following reason(s):";
 		String messageBullet1 = "Pay in full with any payment method or enroll in AutoPay with a checking/savings account or debit card";
-		String messageBullet3 = "Enrollment in paperless notifications for policy and billing documents";
 		String messageBullet7 = "Has held CSAA Insurance for less than one term";
 		String messageBullet8 = "Does not have an active AAA membership";
 		String messageBullet9 = "Does not have prior insurance or prior insurance BI limit";
@@ -657,7 +659,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		CustomAssert.enableSoftMode();
 		policy.dataGather().start();
 
-		CustomAssert.enableSoftMode();
 		//precondition Grey Box with eligible for Discount messages
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		eValueDiscountEligibleGreyBoxCheck();
@@ -1108,7 +1109,9 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 
 		ErrorTab errorTab = new ErrorTab();
 		errorTab.overrideAllErrors();
-		DocumentsAndBindTab.btnPurchase.click();
-		Page.dialogConfirmation.confirm();
+		if(DocumentsAndBindTab.btnPurchase.isPresent()) {
+			DocumentsAndBindTab.btnPurchase.click();
+			Page.dialogConfirmation.confirm();
+		}
 	}
 }
