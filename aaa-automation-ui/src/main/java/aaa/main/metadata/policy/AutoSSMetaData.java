@@ -445,6 +445,7 @@ public final class AutoSSMetaData {
 
 	public static final class AssignmentTab extends MetaData {
 		public static final AssetDescriptor<FillableTable> DRIVER_VEHICLE_RELATIONSHIP = declare("DriverVehicleRelationshipTable", FillableTable.class, DriverVehicleRelationshipTableRow.class, By.xpath("//table[contains(@id, 'riverAssignmentTable')]"));
+		public static final AssetDescriptor<Button> ASSIGN = declare("Assign", Button.class, Waiters.AJAX, By.xpath("//input[@value='Assign']"));
 		public static final AssetDescriptor<FillableTable> EXCESS_VEHICLES_TABLE = declare("ExcessVehiclesTable", FillableTable.class, ExcessVehiclesRow.class, By.xpath("//table[contains(@id, 'excessVehiclesTable')]"));
 
 		public static final class DriverVehicleRelationshipTableRow extends MetaData {
