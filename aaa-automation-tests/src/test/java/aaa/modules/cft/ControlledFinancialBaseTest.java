@@ -483,7 +483,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("TEST: Rewriting Policy #" + rewritePolicyNumber);
 
 		policy.dataGather().start();
-		policy.getDefaultView().fill(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy").adjust(getTestSpecificTD(DEFAULT_TEST_DATA_KEY)));
+		policy.getDefaultView().fill(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy"));
 
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}

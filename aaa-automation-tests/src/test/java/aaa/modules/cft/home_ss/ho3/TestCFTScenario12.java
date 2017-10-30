@@ -11,10 +11,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.actiontabs.CancellationActionTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.DocumentsTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
 
 public class TestCFTScenario12 extends ControlledFinancialBaseTest {
@@ -36,15 +33,8 @@ public class TestCFTScenario12 extends ControlledFinancialBaseTest {
 	@Override
 	protected TestData getPolicyTestData() {
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", DEFAULT_TEST_DATA_KEY);
-		td.adjust(PremiumsAndCoveragesQuoteTab.class.getSimpleName(), getTestSpecificTD("PremiumsAndCoveragesQuoteTab_DataGather"));
-		td.adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.AgentInfo.class.getSimpleName(),
-			HomeSSMetaData.ApplicantTab.AgentInfo.AGENCY_LOCATION.getLabel()), "index=1");
-		td.adjust(TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.class.getSimpleName()),
-			getTestSpecificTD("PublicProtectionClass_DataGather"));
-		td.adjust(TestData.makeKeyPath(DocumentsTab.class.getSimpleName()), getTestSpecificTD("DocumentsTab_DataGather"));
-		// td.adjust(TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.Riskmeter.class.getSimpleName()),
-		// getTestSpecificTD("Riskmeter_DataGather"));
-
+		td.adjust(TestData.makeKeyPath(PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), getTestSpecificTD(
+			"PremiumsAndCoveragesQuoteTab_DataGather").getValue(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()));
 		return td.resolveLinks();
 	}
 }
