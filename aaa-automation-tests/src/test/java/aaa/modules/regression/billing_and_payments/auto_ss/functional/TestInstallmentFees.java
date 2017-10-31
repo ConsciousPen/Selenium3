@@ -56,7 +56,7 @@ public class TestInstallmentFees extends PolicyBilling {
 	private BillingAccount billingAccount = new BillingAccount();
 	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
 	private UpdateBillingAccountActionTab updateBillingAccountActionTab = new UpdateBillingAccountActionTab();
-
+	private TestData cc_Visa = tdBilling.getTestData("PaymentMethods", "CC_Visa");
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -114,6 +114,11 @@ public class TestInstallmentFees extends PolicyBilling {
 		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.CARD_TYPE).verify.value("Credit Card");
 		CustomAssert.assertTrue(updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.CARD_TYPE).getAllValues().containsAll(Arrays.asList("Credit Card","Debit Card")));
 		CustomAssert.assertFalse(updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.CARD_TYPE).isEnabled());
+
+		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.TYPE).setValue("Visa");
+		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.NUMBER).setValue("4111111111111111");
+		AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
+
 		Tab.buttonBack.click();
 		Tab.buttonCancel.click();
 		//PAS-3846 end
