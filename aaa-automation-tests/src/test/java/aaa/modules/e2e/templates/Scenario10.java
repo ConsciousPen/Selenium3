@@ -15,6 +15,7 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
+import aaa.main.enums.BillingConstants.BillingAccountPoliciesTable;
 import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
@@ -35,6 +36,7 @@ import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 public class Scenario10 extends ScenarioBaseTest {
@@ -62,6 +64,10 @@ public class Scenario10 extends ScenarioBaseTest {
 		
 		createCustomerIndividual();	
 		policyNum = createPolicy(policyCreationTD); 
+		
+		//policyNum = "CAH3953131992";
+		//SearchPage.openPolicy(policyNum);
+		
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -206,11 +212,20 @@ public class Scenario10 extends ScenarioBaseTest {
 		
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Quarterly (Renewal)").verifyPresent();
 		
-		billingAccount.changePaymentPlan().perform("Standard Monthly (Renewal)");
+		billingAccount.changePaymentPlan().perform(tdBilling.getTestData("ChangePaymentPlan", "TestData_ChangePaymentPlanToMonthly"));
+		
+		//billingAccount.changePaymentPlan().perform("Standard Monthly (Renewal)");
 		
 		BillingSummaryPage.showPriorTerms();		
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setPaymentPlan("Quarterly").verifyPresent();
-		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Standard Monthly (Renewal)").verifyPresent(); 
+		//new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Standard Monthly (Renewal)").verifyPresent(); 
+		
+		HashMap<String, String> query = new HashMap<>();
+		query.put(BillingAccountPoliciesTable.EFF_DATE, policyExpirationDate.format(DateTimeUtils.MM_DD_YYYY));
+		query.put(BillingAccountPoliciesTable.POLICY_STATUS, PolicyStatus.PROPOSED);
+		query.put(BillingAccountPoliciesTable.PAYMENT_PLAN, "Monthly");
+		
+		BillingSummaryPage.tableBillingAccountPolicies.getRowContains(query).verify.present();
 		
 		BillingSummaryPage.buttonHidePriorTerms.click();
 		installmentDueDatesOfRenewal = BillingHelper.getInstallmentDueDates();

@@ -1,9 +1,9 @@
 TestData: {
-  PremiumAndCoveragesTab: {
-    Payment Plan: Quarterly,  
-  }, 
+  PremiumsAndCoveragesQuoteTab: {
+    Payment Plan: Quarterly
+  },
   PurchaseTab: '@PurchaseTab'
-} 
+}
 
 PurchaseTab: {
   PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa'],
