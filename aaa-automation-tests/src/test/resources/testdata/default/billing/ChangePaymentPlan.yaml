@@ -1,0 +1,5 @@
+TestData_ChangePaymentPlanToMonthly: {
+  ChangePaymentPlanActionTab: {
+    "Payment Plan:": 'contains=Monthly'
+  }
+}

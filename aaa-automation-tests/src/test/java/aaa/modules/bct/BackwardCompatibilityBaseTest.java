@@ -70,9 +70,18 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 		List<String> policies = queryResult.stream()
 				.filter(map -> (!map.containsKey("RISKSTATECD") || map.get("RISKSTATECD").equals(getState())) && (!map.containsKey("RISKSTATE") || map.get("RISKSTATE").equals(getState())))
 				.map(map -> map.get("POLICYNUMBER")).collect(Collectors.toList());
-		if (policies.size()==0) {
-			log.error("No policies found by '" + queryName + "' query");
-			throw new SkipException("No policies found by '" + queryName + "' query");
+		switch (queryName) {
+			case "PreValidation":
+				if (policies.size() == 0) {
+					log.error("No policies found by '" + queryName + "' query");
+					throw new SkipException("No policies found by '" + queryName + "' query");
+				}
+				break;
+			case "PostValidation":
+				CustomAssert.assertFalse("No policies found by '" + queryName + "' query", policies.size() == 0);
+				break;
+			default:
+				throw new IllegalArgumentException("Invalid queryName: " + queryName);
 		}
 		log.info("Policies found by '" + queryName + "' query: " + policies.toString());
 
