@@ -40,6 +40,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static aaa.main.enums.BillingConstants.BillingAccountPoliciesTable.MIN_DUE;
+import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE;
 import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.INSTALLMENT_FEE;
 import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.PAYMENT_METHOD;
 
@@ -50,13 +51,14 @@ public class TestInstallmentFees extends PolicyBilling {
 	private TestData cash_payment = tdBilling.getTestData("AcceptPayment", "TestData_Cash");
 	private TestData check_payment = tdBilling.getTestData("AcceptPayment", "TestData_Check");
 	private TestData cc_payment = tdBilling.getTestData("AcceptPayment", "TestData_CC");
+
 	private TestData eft_payment = tdBilling.getTestData("AcceptPayment", "TestData_EFT");
 	private TestData refund = tdBilling.getTestData("Refund", "TestData_Cash");
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private BillingAccount billingAccount = new BillingAccount();
 	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
 	private UpdateBillingAccountActionTab updateBillingAccountActionTab = new UpdateBillingAccountActionTab();
-	private TestData cc_Visa = tdBilling.getTestData("PaymentMethods", "CC_Visa");
+
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -64,7 +66,7 @@ public class TestInstallmentFees extends PolicyBilling {
 	}
 
 
-	 /**
+	/**
 	 * @author Oleg Stasyuk
 	 * @name Test Installment Fee split to Credit Card and Debit Card
 	 * @scenario 1. Create new policy
@@ -77,7 +79,12 @@ public class TestInstallmentFees extends PolicyBilling {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-1943")
-	public void pas1943_InstallmentFeeCreditDebitCardSplit(@Optional("") String state) {
+	public void pas1943_InstallmentFeeCreditDebitCardSplit(@Optional("UT") String state) {
+
+		TestData dc_payment = getTestSpecificTD("TestData_DebitCard");
+		TestData cc_payment = getTestSpecificTD("TestData_CreditCard");
+		TestData dcVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
+		TestData ccMaster = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2);
 
 		String paymentPlan = "contains=Standard"; //"Monthly"
 		String premiumCoverageTabMetaKey = TestData.makeKeyPath(new PremiumAndCoveragesTab().getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel());
@@ -112,13 +119,12 @@ public class TestInstallmentFees extends PolicyBilling {
 		AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("contains=Card");
 		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.CARD_TYPE).verify.value("Credit Card");
-		CustomAssert.assertTrue(updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.CARD_TYPE).getAllValues().containsAll(Arrays.asList("Credit Card","Debit Card")));
+		CustomAssert.assertTrue(updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.CARD_TYPE).getAllValues().containsAll(Arrays.asList("Credit Card", "Debit Card")));
 		CustomAssert.assertFalse(updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.CARD_TYPE).isEnabled());
-
-		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.TYPE).setValue("Visa");
-		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.NUMBER).setValue("4111111111111111");
-		AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
-
+		//PAS-834 start
+		updateBillingAccountCardFormatCheck(dcVisa, "Debit");
+		updateBillingAccountCardFormatCheck(ccMaster, "Credit");
+		//PAS-834 end
 		Tab.buttonBack.click();
 		Tab.buttonCancel.click();
 		//PAS-3846 end
@@ -139,7 +145,11 @@ public class TestInstallmentFees extends PolicyBilling {
 		//TODO visaNumber will be used for Refund check in future
 		String visaNumber = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0).getValue("Number");  //Visa
 		feeSubtypeCheck(policyNumber, 4, "EFT Installment Fee - Debit Card", eftInstallmentFeeDebitCard);
-		billingAccount.acceptPayment().perform(cc_payment, new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(MIN_DUE).getValue()));
+		billingAccount.acceptPayment().perform(dc_payment, new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(MIN_DUE).getValue()));
+		//PAS-834 start
+		completedPaymentCreditDebitCardCheck(dcVisa, "Debit");
+		//PAS-834 end
+
 
 		//check Non-EFT CC fee
 		autopaySelection("contains=Master");
@@ -148,8 +158,33 @@ public class TestInstallmentFees extends PolicyBilling {
 		feeSubtypeCheck(policyNumber, 5, "EFT Installment Fee - Credit Card", eftInstallmentFeeCreditCard);
 		billingAccount.acceptPayment().perform(cc_payment, new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(MIN_DUE).getValue()));
 
+		//PAS-834 start
+		completedPaymentCreditDebitCardCheck(ccMaster, "Credit");
+		//PAS-834 end
+
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
+	}
+
+	private void completedPaymentCreditDebitCardCheck(TestData cardData, String cardType) {
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).controls.links.get("Payment").click();
+		String expectedValueCredit = cardType+" Card " + cardData.getValue("Type").replace(" ", "") + "-" + cardData.getValue("Number").substring(12, 16) + " expiring ";
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.valueContains(expectedValueCredit);
+		Tab.buttonBack.click();
+	}
+
+	private void updateBillingAccountCardFormatCheck(TestData cardData, String cardType) {
+		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.TYPE).fill(cardData);
+		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.NUMBER).fill(cardData);
+		AddPaymentMethodsMultiAssetList.buttonAddUpdatePaymentMethod.click();
+
+		String expectedValueCredit = cardType+" Card " + cardData.getValue("Type").replace(" ", "") + "-" + cardData.getValue("Number").substring(12, 16) + " expiring ";
+		//BUG PAS-4280 Last 4 digits for Card are displayed incorrectly after Updating Billing Account on the Billing Page
+		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method").verify.contains(expectedValueCredit);
+		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Action").controls.links.get("View").click();
+		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method").verify.contains(expectedValueCredit);
+		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Action").controls.links.get("Delete").click();
+		Page.dialogConfirmation.confirm();
 	}
 
 	private void feeSubtypeCheck(String policyNumber, int installmentNumber, String transactionSubtype, Dollar amount) {
@@ -160,7 +195,7 @@ public class TestInstallmentFees extends PolicyBilling {
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON).verify.value(transactionSubtype);
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE).controls.links.get("Fee").click();
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).controls.links.get("Fee").click();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_TYPE.getLabel(), ComboBox.class).verify.value("Fee");
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_SUBTYPE.getLabel(), ComboBox.class).verify.value(transactionSubtype);
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).verify.value(amount.toString());
