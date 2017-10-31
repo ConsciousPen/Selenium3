@@ -43,10 +43,9 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2241")
 	public void pas2241_TriggersUiAH35XX(@Optional("") String state) {
 
-		String paymentPlan = "Monthly";
+		String paymentPlan = "contains=Eleven";
 		String premiumCoverageTabMetaKey = TestData.makeKeyPath(new PremiumAndCoveragesTab().getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel());
-		TestData generalTabAdjusted = getPolicyTD().getTestData("GeneralTab").adjust("PolicyInformation", getTestSpecificTD("PolicyInformation"));
-		TestData policyTdAdjusted = getPolicyTD().adjust("GeneralTab", generalTabAdjusted).adjust(premiumCoverageTabMetaKey, paymentPlan);
+		TestData policyTdAdjusted = getPolicyTD().adjust(premiumCoverageTabMetaKey, paymentPlan);
 
 		mainApp().open();
 		createCustomerIndividual();

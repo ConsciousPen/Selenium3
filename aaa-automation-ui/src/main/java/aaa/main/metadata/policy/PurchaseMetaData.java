@@ -22,6 +22,7 @@ public class PurchaseMetaData {
 
 		public static final AssetDescriptor<CheckBox> ACTIVATE_AUTOPAY = declare("Activate Autopay", CheckBox.class, Waiters.AJAX, By.xpath(".//input[@id='purchaseForm:billingAutomaticRecurring']"));
 		public static final AssetDescriptor<ComboBox> AUTOPAY_SELECTION = declare("Autopay Selection", ComboBox.class, Waiters.AJAX, By.xpath(".//select[@id='purchaseForm:paymentType']"));
+		public static final AssetDescriptor<RadioGroup> SIGNATURE_ON_FILE_INDICATOR = declare("Signature on File Indicator", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> APPLY_OVERPAID_AMOUNT_TO = declare("Apply Overpaid Amount to:", RadioGroup.class, Waiters.AJAX);
 
 		public static final AssetDescriptor<CheckBox> CHANGE_MINIMUM_DOWNPAYMENT = declare("Change Minimum Down Payment", CheckBox.class, Waiters.AJAX);
