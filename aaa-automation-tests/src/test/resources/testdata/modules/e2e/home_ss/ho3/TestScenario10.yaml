@@ -1,0 +1,21 @@
+TestData: {
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Quarterly
+  },
+  PurchaseTab: '@PurchaseTab'
+}
+
+PurchaseTab: {
+  PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa'],
+  Activate Autopay: false,
+  PaymentAllocation: {
+    Visa: /rest
+  }
+}
+
+# ----- Renewal -----
+TestData_Renewal: {
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Eleven Pay Standard (Renewal)
+  }
+}
