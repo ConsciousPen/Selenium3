@@ -25,15 +25,8 @@ GeneralTab_DataGather: {
 }
 
 PremiumAndCoveragesTab_DataGather: {
-  Payment Plan: Eleven Pay - Standard,
+  Payment Plan: Eleven Pay - Standard
 }
-
-#DocumentsAndBindTab_DataGather: {
-#  RequiredToBind: {
-#    Auto Insurance Application: Physically Signed
-#  },
-#  Agreement: I agree
-#}
 
 AcceptPaymentActionTab: {
   Payment Method: 'Cash',
