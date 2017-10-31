@@ -32,9 +32,7 @@ ApplicantTab_DataGather: {
 }
 
 PremiumsAndCoveragesQuoteTab_DataGather: {
-  Payment plan: Eleven Pay Standard,
-  Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
-  Coverage E - Personal Liability Each Occurrence: '$300,000'
+  Payment plan: Eleven Pay Standard
 }
 
 PurchaseTab_DataGather: {
@@ -42,19 +40,6 @@ PurchaseTab_DataGather: {
   PaymentAllocation: {
     Visa: /rest
   }
-}
-
-PublicProtectionClass_DataGather: {
-  Fire department type: 'S - Subscription based',
-  Subscription to fire department/station: 'No',
-  Public protection class: '1',
-  Distance to fire hydrant: '<=1000ft',
-  Fire protection area: '100'
-}
-
-Riskmeter_DataGather: {
-  Distance to Coast(miles): '1',
-  Elevation(feet): '2'
 }
 
 CC_Visa: {
