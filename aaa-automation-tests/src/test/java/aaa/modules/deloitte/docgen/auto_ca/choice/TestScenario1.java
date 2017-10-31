@@ -131,7 +131,7 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 				Documents.AA11CA,
 				Documents.AA43CA,
 				Documents.AHRCTXXPUP,
-				Documents.AAVICA,
+			 // Documents.AAVICA, //784859
 				Documents.CAU01,
 				Documents.CAU02,
 				Documents.CAU04,

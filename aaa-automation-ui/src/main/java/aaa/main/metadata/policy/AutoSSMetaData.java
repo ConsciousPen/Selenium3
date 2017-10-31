@@ -607,6 +607,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> CRITICAL_INFORMATION_FOR_TEENAGE_DRIVERS_AND_THEIR_PARENTS = declare("Critical Information for Teenage Drivers and Their Parents", RadioGroup.class, Waiters.AJAX);
 			//VA
 			public static final AssetDescriptor<RadioGroup> EVALUE_ACKNOWLEDGEMENT = declare("eValue Acknowledgement", RadioGroup.class, Waiters.NONE);
+			public static final AssetDescriptor<RadioGroup> ADVERSE_ACTION_UNDERWRITING_DECISION_NOTICE = declare("Adverse Action Underwriting Decision Notice", RadioGroup.class, Waiters.AJAX);
 
 			public static final AssetDescriptor<Link> BTN_GENERATE_DOCUMENTS = declare("Generate Documents", Link.class, Waiters.NONE, By.xpath("//a[@id='policyDataGatherForm:generate_link']"));
 			public static final AssetDescriptor<Link> BTN_GENERATE_ESIGNATURE_DOCUMENTS = declare("Generate eSignature Documents", Link.class, Waiters.NONE, By.xpath("//a[@id='policyDataGatherForm:generate_link_esign']"));
