@@ -41,14 +41,6 @@ public class TestCFTScenario9 extends ControlledFinancialBaseTest {
 
 	@Override
 	protected TestData getPolicyTestData() {
-		// TestData td = getTestSpecificTD("TestData_DataGather");
-		// td.adjust(TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.PublicProtectionClass.class.getSimpleName()),
-		// getTestSpecificTD("PublicProtectionClass_DataGather"));
-		// td.adjust(TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.Riskmeter.class.getSimpleName()),
-		// getTestSpecificTD("Riskmeter_DataGather"));
-		// td.adjust(TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.AgentInfo.class.getSimpleName(),
-		// HomeSSMetaData.ApplicantTab.AgentInfo.AGENCY_LOCATION.getLabel()), "index=1");
 		return getTestSpecificTD("TestData_DataGather");
 	}
-
 }
