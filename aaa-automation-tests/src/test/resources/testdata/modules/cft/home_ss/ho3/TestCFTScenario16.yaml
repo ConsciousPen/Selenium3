@@ -4,7 +4,7 @@ TestData: {
 }
 
 PremiumsAndCoveragesQuoteTab_DataGather: {
-  Payment plan: Eleven Pay Standard,
+  Payment plan: Eleven Pay Standard
 }
 
 AddSuspenseActionTab: {
