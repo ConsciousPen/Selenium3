@@ -62,6 +62,7 @@ public class Scenario9 extends ScenarioBaseTest {
 		
 		createCustomerIndividual();	
 		policyNum = createPolicy(policyCreationTD); 
+		
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -130,17 +131,11 @@ public class Scenario9 extends ScenarioBaseTest {
 	}
 	
 	protected void generateLastBill() {
-		//temp workaround
-		generateAndCheckBill(installmentDueDates.get(installmentsCount-1)); 
-		
-		//generateAndCheckBill(installmentDueDates.get(installmentsCount)); 
+		generateAndCheckBill(installmentDueDates.get(10)); 
 	}
 	 
 	protected void payLastBill() {
-		//temp workaround
-		payAndCheckBill(installmentDueDates.get(installmentsCount-1)); 
-		
-		//payAndCheckBill(installmentDueDates.get(installmentsCount));
+		payAndCheckBill(installmentDueDates.get(10));
 	}
 	
 	protected void removeAutoPay() {

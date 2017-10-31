@@ -1,19 +1,19 @@
-package aaa.modules.e2e.auto_ca;
+package aaa.modules.e2e.home_ca.ho3;
 
-import aaa.main.modules.policy.PolicyType;
-import aaa.modules.e2e.templates.Scenario10;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.e2e.templates.Scenario10;
 import toolkit.datax.TestData;
 
 public class TestScenario10 extends Scenario10 { 
-	
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_CA_SELECT;
+		return PolicyType.HOME_CA_HO3;
 	}
-	
+
 	@Parameters({"state"})
 	@Test
 	public void TC01_createPolicy(@Optional("CA") String state) {
@@ -115,5 +115,4 @@ public class TestScenario10 extends Scenario10 {
 	public void TC16_Pay_First_Bill_For_Renewal(@Optional("CA") String state) {
 		super.payFirstBillOfRenewal();
 	}
-
 }

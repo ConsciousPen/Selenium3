@@ -20,4 +20,11 @@
         </classes>
     </test>
 
+    <test name="Home CA Scenario 10 with HO3" parallel="none">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ca.ho3.TestScenario10"/>
+        </classes>
+    </test>
+    
 </suite>
