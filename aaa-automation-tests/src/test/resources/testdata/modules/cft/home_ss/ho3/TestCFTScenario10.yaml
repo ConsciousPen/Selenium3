@@ -3,7 +3,7 @@ GeneralTab_DataGather: {
 }
 
 PremiumsAndCoveragesQuoteTab_DataGather: {
-  Payment plan: Eleven Pay Standard,
+  Payment plan: Eleven Pay Standard
 }
 
 PurchaseTab_DataGather: {

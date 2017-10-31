@@ -5,7 +5,7 @@ TestData: {
 }
 
 PremiumAndCoveragesTab_DataGather: {
-  Payment Plan: Standard Monthly,
+  Payment Plan: Standard Monthly
 }
 
 AddSuspenseActionTab: {

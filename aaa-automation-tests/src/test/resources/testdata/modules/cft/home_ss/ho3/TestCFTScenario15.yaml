@@ -5,7 +5,7 @@ TestData: {
 }
 
 PremiumsAndCoveragesQuoteTab_DataGather: {
-  Payment plan: Eleven Pay Standard,
+  Payment plan: Eleven Pay Standard
 }
 
 AddSuspenseActionTab: {
@@ -15,7 +15,7 @@ AddSuspenseActionTab: {
 
 ClearSuspenseActionTab: {
   Allocation: {},
-  Payment Amount: 50,
+  Payment Amount: 50
 }
 
 SearchSuspenseActionTab: {
