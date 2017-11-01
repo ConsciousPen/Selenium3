@@ -6,3 +6,7 @@ TestData_UpdateBilling: {
     Signature on File Indicator: 'Yes'
   }
 }
+VehicleTab: {
+  Usage: Pleasure,
+  VIN: 81N1K36Y191234567
+}
