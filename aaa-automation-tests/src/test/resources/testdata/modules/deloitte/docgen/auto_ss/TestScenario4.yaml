@@ -9,6 +9,108 @@ TestData_QuoteCreation_AZ: {
   DocumentsAndBindTab: '@DocumentsAndBindTab'
 }
 
+TestData_QuoteDataGather1: {
+  RatingDetailReportsTab: '@RatingDetailReportsTab_Update1',
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {}
+}
+
+TestData_QuoteDataGather2: {
+  RatingDetailReportsTab: '@RatingDetailReportsTab_Update2',
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {}
+}
+
+TestData_QuoteDataGather3_AZ: {
+  DriverTab: '@Driver5_AZ',
+  RatingDetailReportsTab: {
+    Order Report: ''
+  },
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+}
+
+TestData_QuoteDataGather3_IN: {
+  DriverTab: '@Driver5_IN',
+  RatingDetailReportsTab: {
+    Order Report: ''
+  },
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+}
+
+TestData_QuoteDataGather3_OH: {
+  DriverTab: '@Driver5_OH',
+  RatingDetailReportsTab: {
+    Order Report: ''
+  },
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+}
+
+TestData_QuoteDataGather3_VA: {
+  DriverTab: '@Driver5_VA',
+  RatingDetailReportsTab: {
+    Order Report: ''
+  },
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+}
+
+RatingDetailReportsTab_Update1: {
+  OrderInsuranceScoreReport: [
+    {
+      Select: 'Yes',
+      Name: 'contains=Fernando'
+    },
+    {
+      Select: 'Yes',
+      Name: 'contains=Sam'
+    },
+  ],
+  Customer Agreement: 'Customer Agrees',
+  Order Report: ''
+}
+
+RatingDetailReportsTab_Update2: {
+  InsuranceScoreOverride: [
+    {
+      Name: 'contains=Fernando',
+      Action: Override Score,
+      EditInsuranceScoreDialog: {
+        New Score: 997,
+        Reason for Override: Fair Credit Reporting Act Dispute,
+        Save: ''
+      }
+    },
+    {
+      Name: 'contains=Sam',
+      Action: Override Score,
+      EditInsuranceScoreDialog: {
+        New Score: 997,
+        Reason for Override: Fair Credit Reporting Act Dispute,
+        Save: ''
+      }
+    },
+  ],
+  Customer Agreement: 'Customer Agrees',
+  Order Report: ''
+}
+
 GeneralTab_AZ: {
   NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation'],
   AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
@@ -85,8 +187,27 @@ Driver4_AZ: {
   Age First Licensed: 16
 }
 
+Driver5_AZ: {
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Other,
+  First Name: Chris,
+  Last Name: Gold,
+  Date of Birth: 01/01/1970,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  License Type: 'Licensed (US)',
+  License Number: A54673422,
+  Age First Licensed: 18,
+  ActivityInformation: {
+    Type: Alcohol-Related Violation,
+    Description: Driving Under the Influence of Alcohol,
+    Occurrence Date: /today-20d,
+    'Include in Points and/or Tier?': 'Yes'
+  }
+}
+
 RatingDetailReportsTab_AZ: {
-  Customer Agreement: Customer Agrees,
   Sales Agent Agreement: I Agree,
   Order Report: click,
   AAAMembershipReport: [{}],
@@ -244,8 +365,27 @@ Driver4_IN: {
   Age First Licensed: 16
 }
 
+Driver5_IN: {
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Other,
+  First Name: Chris,
+  Last Name: Gold,
+  Date of Birth: 01/01/1970,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  License Type: 'Licensed (US)',
+  License Number: 154673425,
+  Age First Licensed: 18,
+  ActivityInformation: {
+    Type: Alcohol-Related Violation,
+    Description: Driving Under the Influence of Alcohol,
+    Occurrence Date: /today-20d,
+    'Include in Points and/or Tier?': 'Yes'
+  }
+}
+
 RatingDetailReportsTab_IN: {
-  Customer Agreement: Customer Agrees,
   Sales Agent Agreement: I Agree,
   Order Report: click,
   AAAMembershipReport: [{}],
@@ -340,8 +480,27 @@ Driver4_OH: {
   Age First Licensed: 16
 }
 
+Driver5_OH: {
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Other,
+  First Name: Chris,
+  Last Name: Gold,
+  Date of Birth: 01/01/1970,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  License Type: 'Licensed (US)',
+  License Number: AB673425,
+  Age First Licensed: 18,
+  ActivityInformation: {
+    Type: Alcohol-Related Violation,
+    Description: Driving Under the Influence of Alcohol,
+    Occurrence Date: /today-20d,
+    'Include in Points and/or Tier?': 'Yes'
+  }
+}
+
 RatingDetailReportsTab_OH: {
-  Customer Agreement: Customer Agrees,
   Sales Agent Agreement: I Agree,
   Order Report: click,
   AAAMembershipReport: [{}],
@@ -420,8 +579,27 @@ Driver3_VA: {
   Defensive Driver Course Certificate Number: 12345678
 }
 
+Driver5_VA: {
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Other,
+  First Name: Chris,
+  Last Name: Gold,
+  Date of Birth: 01/01/1970,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  License Type: 'Licensed (US)',
+  License Number: 154673424,
+  Age First Licensed: 18,
+  ActivityInformation: {
+    Type: Alcohol-Related Violation,
+    Description: Driving Under the Influence of Alcohol,
+    Occurrence Date: /today-20d,
+    'Include in Points and/or Tier?': 'Yes'
+  }
+}
+
 RatingDetailReportsTab_VA: {
-  Customer Agreement: Customer Agrees,
   Sales Agent Agreement: I Agree,
   Order Report: click,
   AAAMembershipReport: [{}],
