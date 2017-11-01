@@ -35,9 +35,7 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.TextBox;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static aaa.main.enums.BillingConstants.BillingAccountPoliciesTable.MIN_DUE;
 import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE;
@@ -168,8 +166,9 @@ public class TestInstallmentFees extends PolicyBilling {
 
 	private void completedPaymentCreditDebitCardCheck(TestData cardData, String cardType) {
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE).controls.links.get("Payment").click();
-		String expectedValueCredit = cardType+" Card " + cardData.getValue("Type").replace(" ", "") + "-" + cardData.getValue("Number").substring(12, 16) + " expiring ";
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.valueContains(expectedValueCredit);
+
+		String expectedValueCard = formattedPaymentMethodValue(cardData, cardType);
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.valueContains(expectedValueCard);
 		Tab.buttonBack.click();
 	}
 
@@ -178,13 +177,17 @@ public class TestInstallmentFees extends PolicyBilling {
 		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.NUMBER).fill(cardData);
 		AddPaymentMethodsMultiAssetList.buttonAddUpdatePaymentMethod.click();
 
-		String expectedValueCredit = cardType+" Card " + cardData.getValue("Type").replace(" ", "") + "-" + cardData.getValue("Number").substring(12, 16) + " expiring ";
+		String expectedValueCard = formattedPaymentMethodValue(cardData, cardType);
 		//BUG PAS-4280 Last 4 digits for Card are displayed incorrectly after Updating Billing Account on the Billing Page
-		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method").verify.contains(expectedValueCredit);
+		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method").verify.contains(expectedValueCard);
 		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Action").controls.links.get("View").click();
-		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method").verify.contains(expectedValueCredit);
+		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method").verify.contains(expectedValueCard);
 		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Action").controls.links.get("Delete").click();
 		Page.dialogConfirmation.confirm();
+	}
+
+	private String formattedPaymentMethodValue(TestData cardData, String cardType) {
+		return cardType+" Card " + cardData.getValue("Type").replace(" ", "") + "-" + cardData.getValue("Number").substring(12, 16) + " expiring ";
 	}
 
 	private void feeSubtypeCheck(String policyNumber, int installmentNumber, String transactionSubtype, Dollar amount) {
