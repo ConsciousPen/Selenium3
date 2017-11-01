@@ -55,10 +55,14 @@ public class TestContactInformation extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-270")
 	public void pas270_contactInformation() {
         initiateQuote();
+
+        CustomAssert.enableSoftMode();
         verifyContactInformationSection();
         changeFNIAndVerifyContactInformationSection();
         bindPolicy();
         verifyPolicyStatus();
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
     }
 
     /**
@@ -68,7 +72,6 @@ public class TestContactInformation extends AutoSSBaseTest {
         mainApp().open();
         createCustomerIndividual();
         policy.initiate();
-        CustomAssert.enableSoftMode();
         policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData"), DocumentsAndBindTab.class, true);
         NavigationPage.toViewSubTab((NavigationEnum.AutoSSTab.GENERAL.get()));
     }
@@ -114,8 +117,6 @@ public class TestContactInformation extends AutoSSBaseTest {
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         String policyNum = PolicySummaryPage.getPolicyNumber();
         log.info("policyNum: " + policyNum);
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
     }
 
     private void assertContactsInformationPresent(boolean firstNIPresent, boolean secondNIPresent, boolean thirdNIPresent) {
@@ -130,7 +131,7 @@ public class TestContactInformation extends AutoSSBaseTest {
     }
 
     private void setRelationshipToNI(int driverNumber, int relationship) {
-        DriverTab.tableDriverList.selectRow(driverNumber);
+        DriverTab.viewDriver(driverNumber);
         driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).setValueByIndex(relationship);
     }
 
@@ -147,6 +148,6 @@ public class TestContactInformation extends AutoSSBaseTest {
 
     private void addPhoneNumberToInsured(int insuredNumber, String phoneNumber){
         generalTab.viewInsured(insuredNumber);
-        generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.CONTACT_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.ContactInformation.HOME_PHONE_NUMBER).setValue(phoneNumber);
+        generalTab.getContactInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.ContactInformation.HOME_PHONE_NUMBER).setValue(phoneNumber);
     }
 }
