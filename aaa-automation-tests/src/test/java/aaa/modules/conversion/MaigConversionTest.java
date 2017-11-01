@@ -27,6 +27,36 @@ public class MaigConversionTest extends AutoSSBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	public void maigConversionTest1(@Optional("VA") String state, ITestContext context) {
+		maigConversion("1.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test
+	public void maigConversionTest2(@Optional("DE") String state, ITestContext context) {
+		maigConversion("2.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test
+	public void maigConversionTest3(@Optional("PA") String state, ITestContext context) {
+		maigConversion("3.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test
+	public void maigConversionTest4(@Optional("MD") String state, ITestContext context) {
+		maigConversion("4.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test
+	public void maigConversionTest5(@Optional("NJ") String state, ITestContext context) {
+		maigConversion("5.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test
 	public void maigConversionTest_customerDeclined1(@Optional("VA") String state, ITestContext context) {
 		maigConversion_customerDeclined("1.xml", context);
 	}

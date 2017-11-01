@@ -27,6 +27,36 @@ public class SisConversionTest extends HomeCaDP3BaseTest {
 
 	@Parameters({"state"})
 	@Test
+	public void sisCADP3ConversionTest1(@Optional("CA") String state, ITestContext context) {
+		sisConversion("1.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test
+	public void sisCADP3ConversionTest2(@Optional("CA") String state, ITestContext context) {
+		sisConversion("2.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test
+	public void sisCADP3ConversionTest3(@Optional("CA") String state, ITestContext context) {
+		sisConversion("3.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test
+	public void sisCADP3ConversionTest4(@Optional("CA") String state, ITestContext context) {
+		sisConversion("4.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test
+	public void sisCADP3ConversionTest5(@Optional("CA") String state, ITestContext context) {
+		sisConversion("5.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test
 	public void sisCADP3ConversionTest_customerDeclined1(@Optional("CA") String state, ITestContext context) {
 		sisConversion_customerDeclined("1.xml", context);
 	}

@@ -27,6 +27,36 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	public void foxProCAPUPConversionTest1(@Optional("CA") String state, ITestContext context) {
+		foxProConversion("1.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test
+	public void foxProCAPUPConversionTest2(@Optional("CA") String state, ITestContext context) {
+		foxProConversion("2.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test
+	public void foxProCAPUPConversionTest3(@Optional("CA") String state, ITestContext context) {
+		foxProConversion("3.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test
+	public void foxProCAPUPConversionTest4(@Optional("CA") String state, ITestContext context) {
+		foxProConversion("4.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test
+	public void foxProCAPUPConversionTest5(@Optional("CA") String state, ITestContext context) {
+		foxProConversion("5.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test
 	public void foxProCAPUPConversionTest_customerDeclined1(@Optional("CA") String state, ITestContext context) {
 		foxProConversion_customerDeclined("1.xml", context);
 	}

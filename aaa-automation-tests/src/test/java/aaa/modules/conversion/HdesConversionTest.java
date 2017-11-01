@@ -27,73 +27,73 @@ public class HdesConversionTest extends HomeCaHO3BaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void hdesCAHO3ConversionTest_manualPayment1(@Optional("CA") String state, ITestContext context) {
+	public void hdesCAHO3ConversionTest1(@Optional("CA") String state, ITestContext context) {
 		hdesCAConversion("HO3/1.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test
-	public void hdesCAHO3ConversionTest_manualPayment2(@Optional("CA") String state, ITestContext context) {
+	public void hdesCAHO3ConversionTest2(@Optional("CA") String state, ITestContext context) {
 		hdesCAConversion("HO3/2.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test
-	public void hdesCAHO3ConversionTest_manualPayment3(@Optional("CA") String state, ITestContext context) {
+	public void hdesCAHO3ConversionTest3(@Optional("CA") String state, ITestContext context) {
 		hdesCAConversion("HO3/3.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test
-	public void hdesCAHO3ConversionTest_manualPayment4(@Optional("CA") String state, ITestContext context) {
+	public void hdesCAHO3ConversionTest4(@Optional("CA") String state, ITestContext context) {
 		hdesCAConversion("HO3/4.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test
-	public void hdesCAHO4ConversionTest_manualPayment1(@Optional("CA") String state, ITestContext context) {
+	public void hdesCAHO4ConversionTest1(@Optional("CA") String state, ITestContext context) {
 		hdesCAConversion("HO4/1.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test
-	public void hdesCAHO4ConversionTest_manualPayment2(@Optional("CA") String state, ITestContext context) {
+	public void hdesCAHO4ConversionTest2(@Optional("CA") String state, ITestContext context) {
 		hdesCAConversion("HO4/2.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test
-	public void hdesCAHO4ConversionTest_manualPayment3(@Optional("CA") String state, ITestContext context) {
+	public void hdesCAHO4ConversionTest3(@Optional("CA") String state, ITestContext context) {
 		hdesCAConversion("HO4/3.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test
-	public void hdesCAHO6ConversionTest_manualPayment1(@Optional("CA") String state, ITestContext context) {
+	public void hdesCAHO6ConversionTest1(@Optional("CA") String state, ITestContext context) {
 		hdesCAConversion("HO6/1.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test
-	public void hdesCAHO6ConversionTest_manualPayment2(@Optional("CA") String state, ITestContext context) {
+	public void hdesCAHO6ConversionTest2(@Optional("CA") String state, ITestContext context) {
 		hdesCAConversion("HO6/2.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test
-	public void hdesCAHO6ConversionTest_manualPayment3(@Optional("CA") String state, ITestContext context) {
+	public void hdesCAHO6ConversionTest3(@Optional("CA") String state, ITestContext context) {
 		hdesCAConversion("HO6/3.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test
-	public void hdesCAHO6ConversionTest_manualPayment4(@Optional("CA") String state, ITestContext context) {
+	public void hdesCAHO6ConversionTest4(@Optional("CA") String state, ITestContext context) {
 		hdesCAConversion("HO6/4.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test
-	public void hdesCAHO6ConversionTest_manualPayment5(@Optional("CA") String state, ITestContext context) {
+	public void hdesCAHO6ConversionTest5(@Optional("CA") String state, ITestContext context) {
 		hdesCAConversion("HO6/5.xml", context);
 	}
 
