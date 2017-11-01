@@ -1,10 +1,10 @@
 package aaa.helpers.soap;
 
 
-import aaa.soap.getAutoPolicyDetails.GetAutoPolicyDetailService;
-import aaa.soap.getAutoPolicyDetails.GetAutoPolicyDetailsWSClient;
-import aaa.soap.getAutoPolicyDetails.aaancnu_wsdl_getautopolicydetail_version2.ErrorInfo;
-import aaa.soap.getAutoPolicyDetails.aaancnu_wsdl_getautopolicydetail_version2.GetAutoPolicyDetailResponse;
+import aaa.soap.autopolicy.GetAutoPolicyDetailService;
+import aaa.soap.autopolicy.GetAutoPolicyDetailsWSClient;
+import aaa.soap.autopolicy.models.aaancnu_wsdl_getautopolicydetail_version2.ErrorInfo;
+import aaa.soap.autopolicy.models.aaancnu_wsdl_getautopolicydetail_version2.GetAutoPolicyDetailResponse;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
