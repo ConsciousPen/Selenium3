@@ -35,4 +35,8 @@ public abstract class ConversionPolicyData {
 	public void setValue(String key, String value) {
 		values.put(key, value);
 	}
+
+	public String getEffectiveDate() {
+		return values.get("//effective");
+	}
 }
