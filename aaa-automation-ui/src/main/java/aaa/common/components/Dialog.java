@@ -62,8 +62,8 @@ public class Dialog {
 	}
 
 	public void confirm() {
-		new Button(new ByChained(locator, By.xpath(".//*[text()='Yes' or text()='YES' or text()='Ok' or text()='OK' or text()='Confirm' or text()='Proceed' or text()='PROCEED' "
-			+ "or @value='Yes' or @value='YES' or @value='Ok' or @value='OK' or @value='Confirm' or @value='CONFIRM' or @value='Proceed' or @value='PROCEED' or @value='Accept & continue' or @value='Agree']"))).click();
+		new Button(new ByChained(locator, By.xpath(".//*[text()='Yes' or text()='YES' or text()='Ok' or text()='OK' or text()='Confirm' or text()='Proceed' or text()='PROCEED' or @text()='Continue'"
+			+ "or @value='Yes' or @value='YES' or @value='Ok' or @value='OK' or @value='Confirm' or @value='CONFIRM' or @value='Proceed' or @value='PROCEED' or @value='Accept & continue' or @value='Agree' or @value='Continue']"))).click();
 	}
 
 	public void reject() {
