@@ -279,7 +279,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 				.setValueByRegex("\\$500,000.*1,000,000.*");
         PremiumAndCoveragesTab.calculatePremium();
         String expected_ER = "UMBI/UIMBI limits may not exceed twice the BI limits";
-        errorTab.tableErrors.getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, expected_ER).verify.present();
+        errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, expected_ER).verify.present();
         errorTab.cancel();
 
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY)

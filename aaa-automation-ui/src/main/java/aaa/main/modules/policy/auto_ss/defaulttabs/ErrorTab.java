@@ -23,8 +23,6 @@ public class ErrorTab extends CommonErrorTab {
 		super(AutoSSMetaData.ErrorTab.class);
 	}
 
-	public Table tableErrors = new Table(By.xpath(".//form[@id='errorsForm']//table"));
-
 	@Override
 	public Tab submitTab() {
 		buttonOverride.click();
