@@ -63,12 +63,13 @@ public class TestScenario4 extends AutoSSBaseTest {
 		 */
 		NavigationPage.toViewTab(AutoSSTab.DRIVER.get());
 		policy.getDefaultView().fillFromTo(getTestSpecificTD("TestData_QuoteDataGather3"), DriverTab.class, DocumentsAndBindTab.class);
-		NavigationPage.toViewTab(AutoSSTab.DRIVER.get());
-		DriverTab.tableDriverList.selectRow(5);
-		driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER).setValue("Yes");
-		policy.getDefaultView().fillFromTo(getTestSpecificTD("TestData_QuoteDataGather4"), DriverTab.class, DocumentsAndBindTab.class);
+		if (!getState().equals(States.VA)) {
+			NavigationPage.toViewTab(AutoSSTab.DRIVER.get());
+			DriverTab.tableDriverList.selectRow(5);
+			driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER).setValue("Yes");
+			policy.getDefaultView().fillFromTo(getTestSpecificTD("TestData_QuoteDataGather4"), DriverTab.class, DocumentsAndBindTab.class);
+		}
 		verifyConsumerInformationNoticeValue();
-		
 		
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();

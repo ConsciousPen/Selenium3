@@ -584,17 +584,6 @@ TestData_QuoteDataGather3_VA: {
   DocumentsAndBindTab: {}
 }
 
-TestData_QuoteDataGather4_VA: {
-  DriverTab: {},
-  RatingDetailReportsTab: {},
-  VehicleTab: {},
-  AssignmentTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {}
-}
-
 GeneralTab_VA: {
   NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation'],
   AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
