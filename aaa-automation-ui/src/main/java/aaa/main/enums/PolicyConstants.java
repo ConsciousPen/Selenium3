@@ -115,6 +115,7 @@ public final class PolicyConstants {
     public static final class PolicyVehiclesTable {
         public static final String MAKE = "Make";
         public static final String YEAR = "Year";
+        public static final String MODEL = "Model";
     }
 
     public static final class PolicyRenewalsTable {
