@@ -103,3 +103,20 @@ DC_Visa: {
   'Expiration Month/Year': ['/today:M', '/today+4y:yyyy']
 }
 
+PolicyInformationForTerritoriesEValueApplicable: {
+  Channel Type: AAA Agent,
+  Agency: AAA Mid-Atlantic - 500016292,
+  Agency Location: Wayne - 500017252 - Wayne,
+}
+
+PolicyInformationForTerritoriesEValueNotApplicable1: {
+  Channel Type: AAA Agent,
+  Agency: 'contains=NORTHWAY NEW YORK',
+  Agency Location: 'contains=QUEENSBURY',
+}
+
+PolicyInformationForTerritoriesEValueNotApplicable2: {
+  Channel Type: Independent Agent,
+  Agency: 'contains=123 Group LLC',
+  Agent: 'Rhonda McAtee',
+}

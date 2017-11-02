@@ -106,6 +106,36 @@ public class TestEValueDiscount extends AutoSSBaseTest {
             "order by ps.id desc)\n" +
             "where rownum=1";
 
+    private static final String EVALUE_TERRITORY_FOR_VA_CONFIG_CHECK = "select TerritoryCD from(\n" +
+            "SELECT code, displayvalue, effective, productCd, riskstatecd, territoryCd, channelCd, underwritercd \n" +
+            "FROM LOOKUPVALUE \n" +
+            "WHERE LOOKUPLIST_ID IN (\n" +
+            "    SELECT ID \n" +
+            "    FROM PASADM.LOOKUPLIST \n" +
+            "    WHERE LOOKUPNAME LIKE '%Rollout%') \n" +
+            "    AND CODE='eMember' \n" +
+            "    and RiskStateCd = 'VA')";
+    private static final String EVALUE_CHANNEL_FOR_VA_CONFIG_CHECK = "select ChannelCd from(\n" +
+            "SELECT code, displayvalue, effective, productCd, riskstatecd, territoryCd, channelCd, underwritercd \n" +
+            "FROM LOOKUPVALUE \n" +
+            "WHERE LOOKUPLIST_ID IN (\n" +
+            "    SELECT ID \n" +
+            "    FROM PASADM.LOOKUPLIST \n" +
+            "    WHERE LOOKUPNAME LIKE '%Rollout%') \n" +
+            "    AND CODE='eMember' \n" +
+            "    and RiskStateCd = 'VA')";
+
+
+    private static final String EVALUE_TERRITORY_CHANNEL_FOR_VA_CONFIG_UPDATE = "update lookupvalue\n" +
+            "set territorycd = '212'\n" +//mid-Atlantic
+            ", channelCd = 'AZ Club Agent'\n" + //AAA Agent
+            "WHERE LOOKUPLIST_ID IN (\n" +
+            "    SELECT ID \n" +
+            "    FROM PASADM.LOOKUPLIST \n" +
+            "    WHERE LOOKUPNAME LIKE '%Rollout%') \n" +
+            "AND CODE='eMember' \n" +
+            "and RiskStateCd = 'VA'";
+
 
     @Test
     @TestInfo(isAuxiliary = true)
@@ -120,7 +150,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         CustomAssert.assertAll();
     }
 
-    @Test(enabled = true)
+    @Test(enabled = false)
     @TestInfo(isAuxiliary = true)
     public static void eValueConfigInsert() {
         List<String> configForStates = Arrays.asList("VA"  //for Paperless Preferences = Yes
@@ -159,6 +189,21 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         DBService.get().executeUpdate(String.format(EVALUE_CURRENT_BI_LIMIT_CONFIGURATION_INSERT, state));
         DBService.get().executeUpdate(String.format(EVALUE_PRIOR_BI_LIMIT_CONFIGURATION_INSERT, state));
     }
+
+
+    @Test
+    @TestInfo (isAuxiliary = true)
+    public static void eValueTerritoryChannelForVAConfigCheck() {
+        CustomAssert.assertEquals("Territory for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_TERRITORY_FOR_VA_CONFIG_CHECK).get(), "212");
+        CustomAssert.assertEquals("Channel for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_CHANNEL_FOR_VA_CONFIG_CHECK).get(), "AZ Club Agent");
+    }
+
+    @Test (enabled = false)
+    @TestInfo(isAuxiliary = true)
+    public static void eValueTerritoryChannelForVAConfigUpdate() {
+        DBService.get().executeUpdate(EVALUE_TERRITORY_CHANNEL_FOR_VA_CONFIG_UPDATE);
+    }
+
 
     //TODO Replace below TCs with DataProvider when the Optional parameter State will be removed
 
@@ -685,6 +730,34 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         //PAS-264 end
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
+    }
+
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueTerritoryChannelForVAConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-233")
+    public void pas233_eValueTerritoryChannelDependency(@Optional("VA") String state) {
+        eValueQuoteCreationVA();
+
+        CustomAssert.enableSoftMode();
+        policy.dataGather().start();
+        eValueDependencyOnTerrirotyChannelCheck(getTestSpecificTD("PolicyInformationForTerritoriesEValueNotApplicable1"), false);
+
+        eValueDependencyOnTerrirotyChannelCheck(getTestSpecificTD("PolicyInformationForTerritoriesEValueApplicable"), true);
+
+        eValueDependencyOnTerrirotyChannelCheck(getTestSpecificTD("PolicyInformationForTerritoriesEValueNotApplicable2"), false);
+
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    private void eValueDependencyOnTerrirotyChannelCheck(TestData territoryChannelData, boolean eValueDiscountPresence) {
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.CHANNEL_TYPE).fill(territoryChannelData);
+        generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.AGENCY).fill(territoryChannelData);
+        generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.AGENCY_LOCATION).fill(territoryChannelData);
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.present(eValueDiscountPresence);
     }
 
     /**
