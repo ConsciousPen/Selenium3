@@ -651,7 +651,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
      * 2. set eValue Discount = true in P&C
      * 3. set eValue Acknowledgement = true in Documents and Bind tab
      * 4. Generate eSignature Documents
-     * 5. heck DB for the form AHEVAXX with tag eSignaturePackage
+     * 5. Check DB for the form AHEVAXX with tag eSignaturePackage
      * @details
      */
     @Parameters({"state"})
@@ -732,7 +732,18 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         CustomAssert.assertAll();
     }
 
-
+    /**
+     * @author Oleg Stasyuk
+     * @name Test Configuration for eValue based on Territory and Channel
+     * @scenario 1. Create new eValue eligible quote for VA
+     * 2. set Territory <> MidAtlantic
+     * 3. Check eValueDiscount field is not available in P&C tab
+     * 4. set Territory = MidAtlantic
+     * 5. Check eValueDiscount field is present in P&C tab
+     * 6. set Channel = Independent Agent
+     * 7. Check eValueDiscount field is not available in P&C tab
+     * @details
+     */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueTerritoryChannelForVAConfigCheck")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-233")
