@@ -309,7 +309,7 @@ public final class AutoSSMetaData {
 
 		public static final class EditInsuranceScoreDialog extends MetaData {
 			public static final AssetDescriptor<TextBox> NEW_SCORE = declare("New Score", TextBox.class, By.xpath("//input[@id='editInsuranceScoreFrom:popupInsuranceScore_newScore']"));
-			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for override", ComboBox.class, By.xpath("//select[@id='editInsuranceScoreFrom:popupInsuranceScore_reasonForOverride']"));
+			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for Override", ComboBox.class, By.xpath("//select[@id='editInsuranceScoreFrom:popupInsuranceScore_reasonForOverride']"));
 			public static final AssetDescriptor<Button> BTN_SAVE = declare("Save", Button.class, By.xpath("//input[@id='editInsuranceScoreFrom:saveButton']"));
 			public static final AssetDescriptor<Button> BTN_CANCEL = declare("Cancel", Button.class, By.xpath("//input[@id='editInsuranceScoreFrom:cancelEditButton']"));
 		}

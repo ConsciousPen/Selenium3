@@ -9,6 +9,7 @@ import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AutoSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
@@ -17,6 +18,7 @@ import aaa.modules.policy.AutoSSBaseTest;
 
 public class TestScenario4 extends AutoSSBaseTest {
 	private DocumentsAndBindTab documentsAndBindTab = policy.getDefaultView().getTab(DocumentsAndBindTab.class);
+	private DriverTab driverTab = policy.getDefaultView().getTab(DriverTab.class);
 
 	@Parameters({ "state" })
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
@@ -61,8 +63,11 @@ public class TestScenario4 extends AutoSSBaseTest {
 		 */
 		NavigationPage.toViewTab(AutoSSTab.DRIVER.get());
 		policy.getDefaultView().fillFromTo(getTestSpecificTD("TestData_QuoteDataGather3"), DriverTab.class, DocumentsAndBindTab.class);
+		NavigationPage.toViewTab(AutoSSTab.DRIVER.get());
+		DriverTab.tableDriverList.selectRow(5);
+		driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER).setValue("Yes");
+		policy.getDefaultView().fillFromTo(getTestSpecificTD("TestData_QuoteDataGather4"), DriverTab.class, DocumentsAndBindTab.class);
 		verifyConsumerInformationNoticeValue();
-
 		
 		
 		CustomAssert.disableSoftMode();
