@@ -1,11 +1,9 @@
 package aaa.helpers.soap;
 
 
-import aaa.soap.autopolicy.GetAutoPolicyDetailService;
 import aaa.soap.autopolicy.GetAutoPolicyDetailsWSClient;
-import aaa.soap.autopolicy.models.aaancnu_wsdl_getautopolicydetail_version2.ErrorInfo;
-import aaa.soap.autopolicy.models.aaancnu_wsdl_getautopolicydetail_version2.GetAutoPolicyDetailResponse;
-import toolkit.config.PropertyProvider;
+import aaa.soap.autopolicy.models.wsdl.ErrorInfo;
+import aaa.soap.autopolicy.models.wsdl.GetAutoPolicyDetailResponse;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 
@@ -19,15 +17,8 @@ public class GetAutoPolicyDetailsHelper {
      * JacksonJsonProvider – additional data read provider to handle JSON format returned from WS,
      */
     public static GetAutoPolicyDetailsWSClient getAutoPolicyDetailsWSClient = new GetAutoPolicyDetailsWSClient();
-    private static GetAutoPolicyDetailService getAutoPolicyDetailService;
-    /**
-     * wsUrl – path to WS created using environment properties file (src\test\resources\config\app\*.*)
-     */
-    private static String wsUrl = "http://" + PropertyProvider.getProperty("app.host") + PropertyProvider.getProperty("test.ws.port");
-
 
     public static GetAutoPolicyDetailResponse getAutoPolicyResponse(String policyNumber) throws ErrorInfo, DatatypeConfigurationException {
-        boolean result = false;
 
         Map<String, Object> testDataReportsTab = new LinkedHashMap<String, Object>();
         testDataReportsTab.put("Policy Number", policyNumber);

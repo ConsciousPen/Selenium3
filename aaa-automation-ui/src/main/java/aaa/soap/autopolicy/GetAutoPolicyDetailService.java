@@ -2,7 +2,7 @@
 package aaa.soap.autopolicy;
 
 import aaa.soap.AAAHTTPConfigurer;
-import aaa.soap.autopolicy.models.aaancnu_wsdl_getautopolicydetail_version2.GetAutoPolicyDetail;
+import aaa.soap.autopolicy.models.wsdl.GetAutoPolicyDetail;
 import org.apache.cxf.Bus;
 import org.apache.cxf.bus.CXFBusFactory;
 import org.apache.cxf.transport.http.HTTPConduitConfigurer;
