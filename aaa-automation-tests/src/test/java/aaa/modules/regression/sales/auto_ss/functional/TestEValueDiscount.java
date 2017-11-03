@@ -137,6 +137,70 @@ public class TestEValueDiscount extends AutoSSBaseTest {
             "and RiskStateCd = 'VA'";
 
 
+    private static final String EVALUE_CURRENT_BI_CONFIG_CHECK = "select effective from (\n" +
+            "SELECT code, displayValue, productCd, riskStateCd, effective, expiration \n" +
+            "FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n" +
+            "    (SELECT ID \n" +
+            "    FROM LOOKUPLIST \n" +
+            "    WHERE LOOKUPNAME='AAAeMemberQualifications')\n" +
+            "and riskstatecd = 'VA'\n" +
+            "and productCD = 'AAA_SS'\n" +
+            "and code = 'currentBILimits'\n" +
+            "and displayvalue = '50000/100000')";
+
+
+    private static final String EVALUE_CURRENT_BI_CONFIG_UPDATE = "update LOOKUPVALUE\n" +
+            "set EFFECTIVE = (select SYSDATE-5 from dual)\n" +
+            "WHERE LOOKUPLIST_ID IN \n" +
+            "    (SELECT ID \n" +
+            "    FROM LOOKUPLIST \n" +
+            "    WHERE LOOKUPNAME='AAAeMemberQualifications')\n" +
+            "and riskstatecd = 'VA'\n" +
+            "and productCD = 'AAA_SS'\n" +
+            "and code = 'currentBILimits'\n" +
+            "and displayvalue = '50000/100000'";
+
+
+    private static final String EVALUE_CURRENT_BI_CONFIG_INSERT = "INSERT INTO LOOKUPVALUE\n" +
+            "(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n" +
+            "values\n" +
+            "('BaseProductLookupValue', 'currentBILimits', '100000/300000', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n";
+
+
+
+
+    private static final String EVALUE_PRIOR_BI_CONFIG_CHECK = "select Effective from (\n" +
+            "SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n" +
+            "FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n" +
+            "    (SELECT ID \n" +
+            "    FROM LOOKUPLIST \n" +
+            "    WHERE LOOKUPNAME='AAAeMemberQualifications')\n" +
+            "and riskstatecd = 'VA'\n" +
+            "and productCD = 'AAA_SS'\n" +
+            "and code = 'priorBILimits'\n" +
+            "and displayvalue = '25000/50000')";
+
+
+    private static final String EVALUE_PRIOR_BI_CONFIG_UPDATE = "update LOOKUPVALUE\n" +
+            "set EFFECTIVE = (select SYSDATE-5 from dual)\n" +
+            "WHERE LOOKUPLIST_ID IN \n" +
+            "    (SELECT ID \n" +
+            "    FROM LOOKUPLIST \n" +
+            "    WHERE LOOKUPNAME='AAAeMemberQualifications')\n" +
+            "and riskstatecd = 'VA'\n" +
+            "and productCD = 'AAA_SS'\n" +
+            "and code = 'priorBILimits'\n" +
+            "and displayvalue = '25000/50000'";
+
+
+    private static final String EVALUE_PRIOR_BI_CONFIG_INSERT = "INSERT INTO LOOKUPVALUE\n" +
+            "(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n" +
+            "values\n" +
+            "('BaseProductLookupValue', 'priorBILimits', '50000/100000', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n";
+
+
+
+
     @Test
     @TestInfo(isAuxiliary = true)
     public static void eValueConfigCheck() {
@@ -167,6 +231,26 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         for (String configForStatesLimit : configForStatesLimits) {
             insertConfigForLimitsRegularStates(configForStatesLimit);
         }
+    }
+
+    @Test
+    @TestInfo(isAuxiliary = true)
+    public static void eValuePriorBiCurrentBiConfigCheck() {
+        CustomAssert.enableSoftMode();
+            CustomAssert.assertTrue("eValue configuration for Prior/Current BI limits is missing. Please run eValuePriorBiCurrentBiConfigUpdateInsert", DBService.get().getValue(EVALUE_PRIOR_BI_CONFIG_CHECK).isPresent());
+            CustomAssert.assertTrue("eValue configuration for Prior/Current BI limits is missing. Please run eValuePriorBiCurrentBiConfigUpdateInsert", DBService.get().getValue(EVALUE_CURRENT_BI_CONFIG_CHECK).isPresent());
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    @Test(enabled = false)
+    @TestInfo(isAuxiliary = true)
+    public static void eValuePriorBiCurrentBiConfigUpdateInsert() {
+
+        DBService.get().executeUpdate(EVALUE_PRIOR_BI_CONFIG_UPDATE);
+        DBService.get().executeUpdate(EVALUE_PRIOR_BI_CONFIG_INSERT);
+        DBService.get().executeUpdate(EVALUE_CURRENT_BI_CONFIG_UPDATE);
+        DBService.get().executeUpdate(EVALUE_CURRENT_BI_CONFIG_INSERT);
     }
 
     @Test
@@ -731,6 +815,59 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
+
+
+    /**
+     * @author Oleg Stasyuk
+     * @name Test Configuration for eValue for CurrentBILimit and PriorBILimit
+     * @scenario 1. Create new eValue eligible quote for VA
+     * 2. set Prior BI Limit to the one that Disables eValue
+     * 3. Check eValueDiscount field is disable in P&C tab
+     * 4. set Prior BI Limit to the one that Enables eValue
+     * 5. Check eValueDiscount field is enabled in P&C tab
+     * 6. set eValue = Yes
+     * 7. Check Current BI limit shows the lowest available value and the same value is shown in GreyBox
+     * 8. Change Effective Date of the Quote to 8 days in the past
+     * 9. Check Different Prior BI Limit enable/disable eValue configuration
+     * 10. Check Different Current BI Limit is shown in BI Limit field in P&C tab and in GreyBox
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValuePriorBiCurrentBiConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-436")
+    public void pas436_eValuePriorBiCurrentBiConfigurationDependency(@Optional("VA") String state) {
+        String lowerBiLimit = "$50,000/$100,000";
+        String upperBiLimit = "$100,000/$300,000";
+        
+        eValueQuoteCreationVA();
+
+        CustomAssert.enableSoftMode();
+        policy.dataGather().start();
+        pas436_eValuePriorBiCurrentBiConfigurationDependencyCheck("$20,000/$40,000", "$25,000/$50,000", lowerBiLimit);
+        
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(8).format(DateTimeUtils.MM_DD_YYYY));
+        pas436_eValuePriorBiCurrentBiConfigurationDependencyCheck("$25,000/$50,000", "$100,000/$300,000", upperBiLimit);
+        
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    private void pas436_eValuePriorBiCurrentBiConfigurationDependencyCheck(String disableEvalueLimit, String enableEvalueLimit, String biLimit) {
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_BI_LIMITS).setValue(disableEvalueLimit);
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled(false);
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_BI_LIMITS).setValue(enableEvalueLimit);
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled(true);
+
+
+        PremiumAndCoveragesTab.tableGreyBox.getRow(2).getCell(1).verify.contains(biLimit);
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY).getAllValues().get(0).concat(biLimit);
+    }
+
 
     /**
      * @author Oleg Stasyuk
