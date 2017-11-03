@@ -5,7 +5,7 @@ import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 
-public class RatingDetailsCompCollSymbolsPresence extends PolicyBaseTest {
+public class CompCollSymbolsPresence extends PolicyBaseTest {
     public void verifyCompCollSymbolsOnRatingDetails() {
         //Adjust default Data with modified VehicleTab Data
         TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks());
