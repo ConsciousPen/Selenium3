@@ -250,7 +250,12 @@ public final class DocGenEnum {
         _55_1007("55 1007", ""),
         _55_5086("55 5086", ""),
         _55_0001("55 0001", ""),
-        _55_6109("55 6109", "")
+        _55_6109("55 6109", ""),
+        
+        AA11VA("Virginia Auto Insurance Application"),
+        AA52VA("IMPORTANT NOTICE - UNINSURED MOTORIST COVERAGE"),
+        AAIQVA("Auto Insurance Quote"),
+        
 		;
 
 		private String id;

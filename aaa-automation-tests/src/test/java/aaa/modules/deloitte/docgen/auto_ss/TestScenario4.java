@@ -9,17 +9,21 @@ import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AutoSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting;
+import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.modules.policy.AutoSSBaseTest;
 
 public class TestScenario4 extends AutoSSBaseTest {
 	private DocumentsAndBindTab documentsAndBindTab = policy.getDefaultView().getTab(DocumentsAndBindTab.class);
 	private DriverTab driverTab = policy.getDefaultView().getTab(DriverTab.class);
-
+	private GenerateOnDemandDocumentActionTab docgenActionTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
+	
 	@Parameters({ "state" })
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC01_CreatePolicy(@Optional("") String state) {
@@ -70,6 +74,24 @@ public class TestScenario4 extends AutoSSBaseTest {
 			policy.getDefaultView().fillFromTo(getTestSpecificTD("TestData_QuoteDataGather4"), DriverTab.class, DocumentsAndBindTab.class);
 		}
 		verifyConsumerInformationNoticeValue();
+		
+		/* Update Premium and Coverages tab
+		 * To get document: Proof of Prior Insurance document, set 'Bodily Injury Liability' = $50,000/$100,000
+		 * To get document: Proof of purchase date (bill of sale) for new vehicle(s), set 'New Car Added Protection' = Yes and 'Purchase Date' = /today-20d for the 4th vehicle
+		 * To get document: Proof of equivalent new car added protection with prior carrier for new vehicle(s), set 'New Car Added Protection' = Yes and 'Purchase Date' = /today-40d for the 5th vehicle
+		 */
+		NavigationPage.toViewTab(AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		policy.getDefaultView().fillFromTo(getTestSpecificTD("TestData_QuoteDataGather5"), PremiumAndCoveragesTab.class, DocumentsAndBindTab.class);
+		documentsAndBindTab.saveAndExit();
+		
+		/* Check Documents in 'Generate on Demand Document' screen for quote */
+		policy.quoteDocGen().start();
+		switch (getState()) {
+		case States.VA:
+			docgenActionTab.verify.documentsEnabled(Documents.AA11VA, Documents.AA52VA, Documents.AAIQVA, Documents.AHFMXX, Documents.AU03);
+			break;
+		}
+		docgenActionTab.verify.documentsPresent(false, Documents.AHPNXX);
 		
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();

@@ -50,6 +50,27 @@ TestData_QuoteDataGather4: {
   DocumentsAndBindTab: {}
 }
 
+TestData_QuoteDataGather5: {
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$50,000/$100,000',
+    DetailedVehicleCoverages: [
+      {},
+      {},
+      {},
+      {
+        New Car Added Protection: 'Yes',
+        Purchase Date: /today-20d
+      },
+      {
+        New Car Added Protection: 'Yes',
+        Purchase Date: /today-40d
+      }
+    ]
+  },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
 Driver_empty: {}
 
 ErrorTabCalculatePremium: {
@@ -253,8 +274,15 @@ Vehicle5: {
 }
 
 PremiumAndCoveragesTab: {
-  New Car Added Protection: 'Yes',
-  Purchase Date: /today
+  DetailedVehicleCoverages: [
+    {},
+    {},
+    {},
+    {
+      New Car Added Protection: 'Yes',
+      Purchase Date: /today
+    }
+  ]
 }
 
 DocumentsAndBindTab: {
