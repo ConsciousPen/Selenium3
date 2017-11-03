@@ -208,10 +208,6 @@ public class Scenario2 extends ScenarioBaseTest {
 
 	protected void renewalPreviewGeneration() {
 		LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
-		if ((getState().equals(Constants.States.MD) || getState().equals(Constants.States.NJ) || getState().equals(Constants.States.PA) || getState().equals(Constants.States.SD))
-				&& DateTimeUtils.getCurrentDateTime().isAfter(renewPreviewGenDate)) {
-			renewPreviewGenDate = DateTimeUtils.getCurrentDateTime();
-		}
 		TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().open();
@@ -321,7 +317,6 @@ public class Scenario2 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		// Dollar sum = BillingHelper.getPolicyRenewalProposalSum(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
 		Dollar sum = BillingHelper.getPolicyRenewalProposalSum(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), policyNum);
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_CC"), sum);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
