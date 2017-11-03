@@ -299,8 +299,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
-
-
     /**
      * @author Megha Gubbala
      * @name Test eValue Status
@@ -309,10 +307,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
      * 3. See if eMember status = No
      * 4. DB check for evalue status in the Database NOTENROLLED
      * @details
-     * @scenario 2. Create new eValue eligible policy with membership pending and paperless preferences yes evalue yes
-     * 2. Check policy consolidated view.
-     * 3. See if eMember status = Pending
-     * 4. DB check for evalue status in the Database Pending
+
      * @scenario 3. Create new eValue eligible policy with membership yes and paperless preferences yes evalue yes
      * 2. Check policy consolidated view.
      * 3. See if eMember status = active
@@ -340,28 +335,14 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 
         //PAS-302 start VC4
         String policyNumber = PolicySummaryPage.getPolicyNumber();
+        PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("");
         CustomAssert.assertEquals(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber)), "NOTENROLLED");
         //PAS-302 end
 
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Membership Pending");
+        generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-        PremiumAndCoveragesTab.calculatePremium();
-        premiumAndCoveragesTab.saveAndExit();
-        PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("");
-        PolicySummaryPage.buttonPendedEndorsement.click();
-        simplifiedPendedEndorsementIssue();
-        //BUG PAS-4279 Evalue status showing wrong
-        PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("Pending");
-
-        //PAS-302 start VC1
-        CustomAssert.assertEquals(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber)).get(), "PENDING");
-        //PAS-302 end
-
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
         PremiumAndCoveragesTab.calculatePremium();
         premiumAndCoveragesTab.saveAndExit();
         PolicySummaryPage.buttonPendedEndorsement.click();
@@ -382,6 +363,46 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         simplifiedPendedEndorsementIssue();
         CustomAssert.assertEquals(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber)).get(), "Inactive");
         //PAS-302 end
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+    /**
+     * @author Megha Gubbala
+     * @name Test eValue Status
+    * @scenario 2. Create new eValue eligible policy with membership pending and paperless preferences yes evalue yes
+     * 2. Check policy consolidated view.
+            * 3. See if eMember status = Pending
+            * 4. DB check for evalue status in the Database Pending
+     * @details
+     * */
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-300")
+    public void pas300_eValueStatusConsViewPaperPrefPendingVa(@Optional("VA") String state) {
+        eValueQuoteCreationVA();
+
+        CustomAssert.enableSoftMode();
+        policy.dataGather().start();
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Membership Pending");
+        generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("");
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.saveAndExit();
+        PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("");
+        simplifiedQuoteIssue();
+
+        //BUG PAS-4279 Evalue status showing wrong
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+        PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("Pending");
+
+        //PAS-302 start VC1
+        CustomAssert.assertEquals(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber)).get(), "PENDING");
+        //PAS-302 end
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
     }
 
     /**
@@ -395,7 +416,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-300")
-    public void pas300_eValueStatusConsViewPaperPrefPending(@Optional("DC") String state) {
+    public void pas300_eValueStatusConsViewPaperPrefPendingDc(@Optional("DC") String state) {
         eValueQuoteCreationVA();
 
         CustomAssert.enableSoftMode();
