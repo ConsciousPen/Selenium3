@@ -57,4 +57,8 @@ public class DriverTab extends Tab {
 		buttonNext.click();
 		return this;
 	}
+
+	public static void viewDriver(int index){
+		tableDriverList.selectRow(index);
+	}
 }
