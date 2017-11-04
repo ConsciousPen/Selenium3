@@ -167,8 +167,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
             "('BaseProductLookupValue', 'currentBILimits', '100000/300000', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n";
 
 
-
-
     private static final String EVALUE_PRIOR_BI_CONFIG_CHECK = "select Effective from (\n" +
             "SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n" +
             "FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n" +
@@ -192,14 +190,26 @@ public class TestEValueDiscount extends AutoSSBaseTest {
             "and code = 'priorBILimits'\n" +
             "and displayvalue = '25000/50000'";
 
-
     private static final String EVALUE_PRIOR_BI_CONFIG_INSERT = "INSERT INTO LOOKUPVALUE\n" +
             "(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n" +
             "values\n" +
             "('BaseProductLookupValue', 'priorBILimits', '50000/100000', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n";
 
+    private static final String EVALUE_MEMBERSHIP_CONFIG_CHECK = "select Effective from (\n" +
+            "SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n" +
+            "FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n" +
+            "    (SELECT ID \n" +
+            "    FROM LOOKUPLIST \n" +
+            "    WHERE LOOKUPNAME='AAAeMemberQualifications')\n" +
+            "and riskstatecd = 'VA'\n" +
+            "and productCD = 'AAA_SS'\n" +
+            "and code = 'membershipEligibility'\n" +
+            "and displayvalue = 'FALSE')";
 
-
+    private static final String EVALUE_MEMBERSHIP_CONFIG_INSERT = "INSERT INTO LOOKUPVALUE\n" +
+            "(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n" +
+            "values\n" +
+            "('BaseProductLookupValue', 'membershipEligibility', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n";
 
     @Test
     @TestInfo(isAuxiliary = true)
@@ -255,6 +265,21 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 
     @Test
     @TestInfo(isAuxiliary = true)
+    public static void eValueMembershipConfigCheck() {
+        CustomAssert.enableSoftMode();
+        CustomAssert.assertTrue("eValue configuration for membership not require. Please run eValueMembershipConfigCheckConfigInsert", DBService.get().getValue(EVALUE_MEMBERSHIP_CONFIG_CHECK).isPresent());
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+
+    @Test(enabled = false)
+    @TestInfo(isAuxiliary = true)
+    public static void eValueMembershipConfigCheckConfigInsert() {
+        DBService.get().executeUpdate(EVALUE_MEMBERSHIP_CONFIG_INSERT);
+    }
+
+    @Test
+    @TestInfo(isAuxiliary = true)
     public void precondJobAdding() {
         adminApp().open();
         NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
@@ -273,7 +298,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         DBService.get().executeUpdate(String.format(EVALUE_CURRENT_BI_LIMIT_CONFIGURATION_INSERT, state));
         DBService.get().executeUpdate(String.format(EVALUE_PRIOR_BI_LIMIT_CONFIGURATION_INSERT, state));
     }
-
 
     @Test
     @TestInfo (isAuxiliary = true)
@@ -322,7 +346,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation_DayLapsedMore4", false, false, "");
         testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation_BILimitLess", false, false, "");
     }
-
 
     /**
      * @author Oleg Stasyuk
@@ -868,6 +891,45 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY).getAllValues().get(0).concat(biLimit);
     }
 
+    /**
+     * @author Megha Gubbala
+     * @name Test Configuration for eValue for Membership eligibility
+     * @scenario 1. Create new eValue eligible quote for VA
+     * 2. set Membership = no
+     * 3. Check eValueDiscount field is disabled in P&C tab
+     * 4. change the effective date when configuration added for membership eligibility
+     * 5. Check eValueDiscount field is enabled in P&C tab
+     * 6. set eValue = Yes in P&C tab
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueMembershipConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3007")
+    public void pas3007_eValueMembershipConfiguration(@Optional("VA") String state) {
+
+        eValueQuoteCreationVA();
+
+        CustomAssert.enableSoftMode();
+
+        policy.dataGather().start();
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("No");
+        generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("");
+
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled(false);
+
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(8).format(DateTimeUtils.MM_DD_YYYY));
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.saveAndExit();
+        simplifiedQuoteIssue();
+
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
 
     /**
      * @author Oleg Stasyuk
