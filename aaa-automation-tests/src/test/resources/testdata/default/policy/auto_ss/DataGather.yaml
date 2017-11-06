@@ -280,6 +280,7 @@ DriverTab_CT: {
 DocumentsAndBindTab_CT: {
   RequiredToBind: {
     Auto Insurance Application: Physically Signed,
+    Coverage Acceptance Statement: Physically Signed,
     Informed Consent Form - Uninsured Motorist Coverage: Physically Signed
   },
   RequiredToIssue: {
