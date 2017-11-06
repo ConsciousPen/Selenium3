@@ -259,7 +259,7 @@ public final class DocGenEnum {
         AA52AZ_UPPERCASE("UNINSURED AND UNDERINSURED MOTORIST COVERAGE SELECTION FORM"),
         AAIQ("Auto Insurance Quote"),
         AA11AZ("Auto Insurance Application"),
-        AA11IN("Auto Insurance Application"),
+        AA11IN("Indiana Auto Insurance Application"),
         AA11OH("Auto Insurance Application"),
         AAAUVA("")
 		;

@@ -308,7 +308,6 @@ DocumentsAndBindTab: {
     'Proof of equivalent new car added protection with prior carrier for new vehicle(s)': 'Yes',
     'Canadian MVR for (driver)': 'Yes'
   },
-  Authorized By: 'Test',
   Case Number: 123456,
   GeneralInformation: {
     'Work Phone #': 1234567890
