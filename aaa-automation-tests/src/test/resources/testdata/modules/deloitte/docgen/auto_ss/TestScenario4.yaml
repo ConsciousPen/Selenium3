@@ -6,7 +6,7 @@ TestData_QuoteCreation_AZ: {
   RatingDetailReportsTab: '@RatingDetailReportsTab_AZ',
   VehicleTab: ['@Vehicle1', '@Vehicle2', '@Vehicle3', '@Vehicle4', '@Vehicle5'],
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab'
+  DocumentsAndBindTab: {}
 }
 
 TestData_QuoteDataGather1: {
@@ -69,6 +69,15 @@ TestData_QuoteDataGather5: {
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {}
+}
+
+TestData_Purchase: {
+  RatingDetailReportsTab: {},
+  DriverActivityReportsTab: {
+    Sales Agent Agreement: 'I Agree',
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: '@DocumentsAndBindTab'
 }
 
 Driver_empty: {}
@@ -288,17 +297,19 @@ PremiumAndCoveragesTab: {
 DocumentsAndBindTab: {
   RequiredToBind: {
     Auto Insurance Application: Physically Signed,
-    Named Driver Exclusion: Physically Signed
+    Named Driver Exclusion Election: Physically Signed
   },
   Agreement: I agree,
   RequiredToIssue: {
     Proof of Defensive Driver course completion: 'Yes',
     Proof of Good Student Discount: 'Yes',
-    Proof of Smart Driver Course Completion: 'Yes',
+    Proof of Prior Insurance: 'Yes',
     'Proof of purchase date (bill of sale) for new vehicle(s)': 'Yes',
+    'Proof of equivalent new car added protection with prior carrier for new vehicle(s)': 'Yes',
     'Canadian MVR for (driver)': 'Yes'
   },
   Authorized By: 'Test',
+  Case Number: 123456,
   GeneralInformation: {
     'Work Phone #': 1234567890
   }
@@ -312,7 +323,7 @@ TestData_QuoteCreation_IN: {
   RatingDetailReportsTab: '@RatingDetailReportsTab_IN',
   VehicleTab: ['@Vehicle1', '@Vehicle2', '@Vehicle3', '@Vehicle4', '@Vehicle5'],
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab'
+  DocumentsAndBindTab: {}
 }
 
 TestData_QuoteDataGather3_IN: {
@@ -440,7 +451,7 @@ TestData_QuoteCreation_OH: {
   RatingDetailReportsTab: '@RatingDetailReportsTab_OH',
   VehicleTab: ['@Vehicle1', '@Vehicle2', '@Vehicle3', '@Vehicle4', '@Vehicle5'],
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab'
+  DocumentsAndBindTab: {}
 }
 
 TestData_QuoteDataGather3_OH: {
@@ -569,7 +580,7 @@ TestData_QuoteCreation_VA: {
   VehicleTab: ['@Vehicle1', '@Vehicle2', '@Vehicle3', '@Vehicle4', '@Vehicle5'],
   AssignmentTab: '@AssignmentTab',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab'
+  DocumentsAndBindTab: {}
 }
 
 TestData_QuoteDataGather1_VA: {
