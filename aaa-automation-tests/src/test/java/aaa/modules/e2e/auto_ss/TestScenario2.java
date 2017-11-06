@@ -176,7 +176,8 @@ public class TestScenario2 extends Scenario2 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC25_Renewal_Preview_Generation(@Optional("") String state) {
-		if (!getState().equals(Constants.States.KY) && !getState().equals(Constants.States.MD) && !getState().equals(Constants.States.NJ) && !getState().equals(Constants.States.PA)) {
+		if (!getState().equals(Constants.States.KY) && !getState().equals(Constants.States.MD) && !getState().equals(Constants.States.NJ)
+				&& !getState().equals(Constants.States.PA) && !getState().equals(Constants.States.SD)) {
 			super.renewalPreviewGeneration();
 		}
 	}
