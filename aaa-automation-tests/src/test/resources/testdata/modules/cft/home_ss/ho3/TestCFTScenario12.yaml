@@ -1,39 +1,11 @@
 TestData: {
   CancellationActionTab: '@CancellationActionTab',
-  GeneralTab: {
-    Immediate prior carrier: 'No Prior'
-  }
 }
 
 PremiumsAndCoveragesQuoteTab_DataGather: {
-  Payment plan: Eleven Pay Standard,
-  Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
-  Coverage E - Personal Liability Each Occurrence: '$300,000'
-}
-
-DocumentsTab_DataGather: '@<home_ss_ho3>@DataGather@DocumentsTab'
-
-DocumentsTab_DataGather_KY: {
-  DocumentsToIssue: {
-    Kentucky Mine Subsidence Insurance Fund Waiver Form: Physically Signed,
-    Signed policy application: Physically Signed
-  }
-}
-
-PublicProtectionClass_DataGather: {
-  Fire department type: 'S - Subscription based',
-  Subscription to fire department/station: 'No',
-  Public protection class: '1',
-  Distance to fire hydrant: '<=1000ft',
-  Fire protection area: '100'
-}
-
-Riskmeter_DataGather: {
-  Distance to Coast(miles): '1',
-  Elevation(feet): '2'
+  Payment plan: Eleven Pay Standard
 }
 
 CancellationActionTab: {
   Cancellation reason: 'Rewrite Accommodation',
-#  Authorized By: QA
 }

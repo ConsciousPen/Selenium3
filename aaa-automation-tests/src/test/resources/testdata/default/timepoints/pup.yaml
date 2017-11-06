@@ -47,7 +47,7 @@ TestData_CA: {
   Bill payment: [0, NEXT],
   Refund: [3, NONE],
   Update policy status: [1, NEXT],
-  Cancellation notice: [30, NEXT],
+  Cancellation notice: [+1M, NEXT],
   Cancellation: [20, NEXT],
   Renew customer decline: [15, NEXT],
   Pay Lapsed Renew short: [2, NEXT],

@@ -103,7 +103,7 @@ public class TestRefundProcess extends PolicyBilling {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")//TODO when running suite, the test which has Depends on is not being executed
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-2186")
-	public void pas2186_ManualRefundProcess(@Optional("") String state) {
+	public void pas2186_RefundProcess(@Optional("") String state) {
 		Dollar refundAmount1 = new Dollar(25);
 		Dollar refundAmount2 = new Dollar(100);
 		String checkDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);

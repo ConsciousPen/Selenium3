@@ -74,31 +74,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
             " and CODE = 'PaperlessPreferences'\n" +
             " and RISKSTATECD = '%s'";
 
-    private static final String EVALUE_CONFIGURATION_PER_STATE_INSERT = "INSERT INTO LOOKUPVALUE\n" +
-            " (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id)\n" +
-            " values\n" +
-            " ('AAARolloutEligibilityLookupValue', 'eMember', 'TRUE', 'AAA_SS', '%s', null, null, null,\n" +
-            " (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
-
-    private static final String PAPERLESS_PREFRENCES_CONFIGURATION_PER_STATE_INSERT = "INSERT INTO LOOKUPVALUE\n" +
-            " (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id)\n" +
-            " values\n" +
-            " ('AAARolloutEligibilityLookupValue', 'PaperlessPreferences', 'TRUE', 'AAA_SS', '%s', null, null, null,\n" +
-            " (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
-
-
-    private static final String EVALUE_CURRENT_BI_LIMIT_CONFIGURATION_INSERT = "INSERT INTO LOOKUPVALUE\n" +
-            "(DTYPE, CODE, DISPLAYVALUE, PRODUCTCD, RISKSTATECD, EFFECTIVE, EXPIRATION, LOOKUPLIST_ID)\n" +
-            "values\n" +
-            "('BaseProductLookupValue', 'currentBILimits', '50000/100000', 'AAA_SS', '%s', TO_DATE('1-MAY-2017'), TO_DATE('1-MAY-2018'),\n" +
-            "(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))";
-
-    private static final String EVALUE_PRIOR_BI_LIMIT_CONFIGURATION_INSERT = "INSERT INTO LOOKUPVALUE\n" +
-            "(DTYPE, CODE, DISPLAYVALUE, PRODUCTCD, RISKSTATECD, EFFECTIVE, EXPIRATION, LOOKUPLIST_ID)\n" +
-            "values\n" +
-            "('BaseProductLookupValue', 'priorBILimits', '25000/50000', 'AAA_SS', '%s', TO_DATE('1-MAY-2017'), TO_DATE('1-MAY-2018'),\n" +
-            "(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))";
-
     private static final String EVALUE_STATUS_CHECK = "select evaluestatus from(\n" +
             "select ps.id, em.EVALUESTATUS  from  policysummary ps\n" +
             "join AAAEMemberDetailsEntity em on em.id = ps.EMEMBERDETAIL_ID\n" +
@@ -115,6 +90,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
             "    WHERE LOOKUPNAME LIKE '%Rollout%') \n" +
             "    AND CODE='eMember' \n" +
             "    and RiskStateCd = 'VA')";
+
     private static final String EVALUE_CHANNEL_FOR_VA_CONFIG_CHECK = "select ChannelCd from(\n" +
             "SELECT code, displayvalue, effective, productCd, riskstatecd, territoryCd, channelCd, underwritercd \n" +
             "FROM LOOKUPVALUE \n" +
@@ -124,18 +100,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
             "    WHERE LOOKUPNAME LIKE '%Rollout%') \n" +
             "    AND CODE='eMember' \n" +
             "    and RiskStateCd = 'VA')";
-
-
-    private static final String EVALUE_TERRITORY_CHANNEL_FOR_VA_CONFIG_UPDATE = "update lookupvalue\n" +
-            "set territorycd = '212'\n" +//mid-Atlantic
-            ", channelCd = 'AZ Club Agent'\n" + //AAA Agent
-            "WHERE LOOKUPLIST_ID IN (\n" +
-            "    SELECT ID \n" +
-            "    FROM PASADM.LOOKUPLIST \n" +
-            "    WHERE LOOKUPNAME LIKE '%Rollout%') \n" +
-            "AND CODE='eMember' \n" +
-            "and RiskStateCd = 'VA'";
-
 
     private static final String EVALUE_CURRENT_BI_CONFIG_CHECK = "select effective from (\n" +
             "SELECT code, displayValue, productCd, riskStateCd, effective, expiration \n" +
@@ -224,24 +188,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         CustomAssert.assertAll();
     }
 
-    @Test(enabled = false)
-    @TestInfo(isAuxiliary = true)
-    public static void eValueConfigInsert() {
-        List<String> configForStates = Arrays.asList("VA"  //for Paperless Preferences = Yes
-                , "MD"  //for Paperless Preferences = Pending
-                , "DC"); //for Paperless Preferences = No
-        //PA should not have eValue or Paperless Preferences Configuration
-        for (String configForState : configForStates) {
-            insertConfigForRegularStates(configForState);
-        }
 
-        List<String> configForStatesLimits = Arrays.asList(
-                "MD"
-                , "DC");
-        for (String configForStatesLimit : configForStatesLimits) {
-            insertConfigForLimitsRegularStates(configForStatesLimit);
-        }
-    }
 
     @Test
     @TestInfo(isAuxiliary = true)
@@ -253,15 +200,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         CustomAssert.assertAll();
     }
 
-    @Test(enabled = false)
-    @TestInfo(isAuxiliary = true)
-    public static void eValuePriorBiCurrentBiConfigUpdateInsert() {
 
-        DBService.get().executeUpdate(EVALUE_PRIOR_BI_CONFIG_UPDATE);
-        DBService.get().executeUpdate(EVALUE_PRIOR_BI_CONFIG_INSERT);
-        DBService.get().executeUpdate(EVALUE_CURRENT_BI_CONFIG_UPDATE);
-        DBService.get().executeUpdate(EVALUE_CURRENT_BI_CONFIG_INSERT);
-    }
 
     @Test
     @TestInfo(isAuxiliary = true)
@@ -289,15 +228,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AUTOMATED_PROCESSING_ISSUING_OR_PROPOSING_JOB);
     }
 
-    private static void insertConfigForRegularStates(String state) {
-        DBService.get().executeUpdate(String.format(EVALUE_CONFIGURATION_PER_STATE_INSERT, state));
-        DBService.get().executeUpdate(String.format(PAPERLESS_PREFRENCES_CONFIGURATION_PER_STATE_INSERT, state));
-    }
 
-    private static void insertConfigForLimitsRegularStates(String state) {
-        DBService.get().executeUpdate(String.format(EVALUE_CURRENT_BI_LIMIT_CONFIGURATION_INSERT, state));
-        DBService.get().executeUpdate(String.format(EVALUE_PRIOR_BI_LIMIT_CONFIGURATION_INSERT, state));
-    }
 
     @Test
     @TestInfo (isAuxiliary = true)
@@ -306,11 +237,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         CustomAssert.assertEquals("Channel for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_CHANNEL_FOR_VA_CONFIG_CHECK).get(), "AZ Club Agent");
     }
 
-    @Test (enabled = false)
-    @TestInfo(isAuxiliary = true)
-    public static void eValueTerritoryChannelForVAConfigUpdate() {
-        DBService.get().executeUpdate(EVALUE_TERRITORY_CHANNEL_FOR_VA_CONFIG_UPDATE);
-    }
+
 
 
     //TODO Replace below TCs with DataProvider when the Optional parameter State will be removed
@@ -364,7 +291,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-305")
     public void pas305_eValueDiscountApplied(@Optional("VA") String state) {
 
-        eValueQuoteCreationVA();
+        eValueQuoteCreation();
 
         CustomAssert.enableSoftMode();
         policy.dataGather().start();
@@ -461,10 +388,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
      * 3. See if eMember status = No
      * 4. DB check for evalue status in the Database NOTENROLLED
      * @details
-     * @scenario 2. Create new eValue eligible policy with membership pending and paperless preferences yes evalue yes
-     * 2. Check policy consolidated view.
-     * 3. See if eMember status = Pending
-     * 4. DB check for evalue status in the Database Pending
+
      * @scenario 3. Create new eValue eligible policy with membership yes and paperless preferences yes evalue yes
      * 2. Check policy consolidated view.
      * 3. See if eMember status = active
@@ -478,7 +402,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-300")
     public void pas300_eValueStatusConsViewPaperPrefYes(@Optional("VA") String state) {
-        eValueQuoteCreationVA();
+        eValueQuoteCreation();
 
         CustomAssert.enableSoftMode();
         policy.dataGather().start();
@@ -492,28 +416,14 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 
         //PAS-302 start VC4
         String policyNumber = PolicySummaryPage.getPolicyNumber();
-        CustomAssert.assertEquals(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber)), "NOTENROLLED");
-        //PAS-302 end
-
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Membership Pending");
-        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-        PremiumAndCoveragesTab.calculatePremium();
-        premiumAndCoveragesTab.saveAndExit();
         PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("");
-        PolicySummaryPage.buttonPendedEndorsement.click();
-        simplifiedPendedEndorsementIssue();
-        //BUG PAS-4279 Evalue status showing wrong
-        PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("Pending");
-
-        //PAS-302 start VC1
-        CustomAssert.assertEquals(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber)).get(), "PENDING");
+        CustomAssert.assertEquals(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber)).get(), "NOTENROLLED");
         //PAS-302 end
 
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
         PremiumAndCoveragesTab.calculatePremium();
         premiumAndCoveragesTab.saveAndExit();
         PolicySummaryPage.buttonPendedEndorsement.click();
@@ -532,8 +442,49 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         premiumAndCoveragesTab.saveAndExit();
         PolicySummaryPage.buttonPendedEndorsement.click();
         simplifiedPendedEndorsementIssue();
-        CustomAssert.assertEquals(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber)).get(), "Inactive");
+        PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("");
+        CustomAssert.assertEquals(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber)).get(), "INACTIVE");
         //PAS-302 end
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
+    /**
+     * @author Megha Gubbala
+     * @name Test eValue Status
+    * @scenario 2. Create new eValue eligible policy with membership pending and paperless preferences yes evalue yes
+     * 2. Check policy consolidated view.
+            * 3. See if eMember status = Pending
+            * 4. DB check for evalue status in the Database Pending
+     * @details
+     * */
+
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-300")
+    public void pas300_eValueStatusConsViewPaperPrefPendingVa(@Optional("VA") String state) {
+        eValueQuoteCreation();
+
+        CustomAssert.enableSoftMode();
+        policy.dataGather().start();
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Membership Pending");
+        generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("");
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.saveAndExit();
+        PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("");
+        simplifiedQuoteIssue();
+
+        //BUG PAS-4279 Evalue status showing wrong
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+        PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("Pending");
+
+        //PAS-302 start VC1
+        CustomAssert.assertEquals(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber)).get(), "PENDING");
+        //PAS-302 end
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
     }
 
     /**
@@ -547,8 +498,8 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-300")
-    public void pas300_eValueStatusConsViewPaperPrefPending(@Optional("DC") String state) {
-        eValueQuoteCreationVA();
+    public void pas300_eValueStatusConsViewPaperPrefPendingDc(@Optional("DC") String state) {
+        eValueQuoteCreation();
 
         CustomAssert.enableSoftMode();
         policy.dataGather().start();
@@ -579,7 +530,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3708")
     public void pas3708_eValueStatusConsViewNotConfigured(@Optional("PA") String state) {
-        eValueQuoteCreationVA();
+        eValueQuoteCreation();
 
         CustomAssert.enableSoftMode();
         policy.dataGather().start();
@@ -614,7 +565,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         List<String> expectedNonEvalueCommissionTypeOptions = Arrays.asList("New Business", "Renewal");
         List<String> expectedEvalueCommissionTypeOptions = Arrays.asList("eValue New Business", "eValue Renewal");
 
-        eValueQuoteCreationVA();
+        eValueQuoteCreation();
 
         CustomAssert.enableSoftMode();
         policy.dataGather().start();
@@ -712,7 +663,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-305")
     public void pas305_eValueNotApplicableForState(@Optional("PA") String state) {
-        eValueQuoteCreationVA();
+        eValueQuoteCreation();
 
         CustomAssert.enableSoftMode();
         policy.dataGather().start();
@@ -766,7 +717,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-278")
     public void pas278_eValueeSignedPledgeDocumentAHEVAXX(@Optional("VA") String state) {
 
-        eValueQuoteCreationVA();
+        eValueQuoteCreation();
 
         CustomAssert.enableSoftMode();
         policy.dataGather().start();
@@ -862,7 +813,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         String lowerBiLimit = "$50,000/$100,000";
         String upperBiLimit = "$100,000/$300,000";
         
-        eValueQuoteCreationVA();
+        eValueQuoteCreation();
 
         CustomAssert.enableSoftMode();
         policy.dataGather().start();
@@ -891,45 +842,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY).getAllValues().get(0).concat(biLimit);
     }
 
-    /**
-     * @author Megha Gubbala
-     * @name Test Configuration for eValue for Membership eligibility
-     * @scenario 1. Create new eValue eligible quote for VA
-     * 2. set Membership = no
-     * 3. Check eValueDiscount field is disabled in P&C tab
-     * 4. change the effective date when configuration added for membership eligibility
-     * 5. Check eValueDiscount field is enabled in P&C tab
-     * 6. set eValue = Yes in P&C tab
-     * @details
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueMembershipConfigCheck")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3007")
-    public void pas3007_eValueMembershipConfiguration(@Optional("VA") String state) {
-
-        eValueQuoteCreationVA();
-
-        CustomAssert.enableSoftMode();
-
-        policy.dataGather().start();
-        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("No");
-        generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("");
-
-        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled(false);
-
-        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(8).format(DateTimeUtils.MM_DD_YYYY));
-        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-        PremiumAndCoveragesTab.calculatePremium();
-        premiumAndCoveragesTab.saveAndExit();
-        simplifiedQuoteIssue();
-
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
-    }
 
     /**
      * @author Oleg Stasyuk
@@ -947,7 +859,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueTerritoryChannelForVAConfigCheck")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-233")
     public void pas233_eValueTerritoryChannelDependency(@Optional("VA") String state) {
-        eValueQuoteCreationVA();
+        eValueQuoteCreation();
 
         CustomAssert.enableSoftMode();
         policy.dataGather().start();
@@ -988,7 +900,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         String messageBullet8 = "Does not have an active AAA membership";
         String messageBullet9 = "Does not have prior insurance or prior insurance BI limit";
 
-        eValueQuoteCreationVA();
+        eValueQuoteCreation();
 
         CustomAssert.enableSoftMode();
         policy.dataGather().start();
@@ -1100,7 +1012,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-265")
     public void pas265_MinimumStateLimitsForBIPreBind(@Optional("VA") String state) {
 
-        eValueQuoteCreationVA();
+        eValueQuoteCreation();
 
         CustomAssert.enableSoftMode();
         policy.dataGather().start();
@@ -1176,7 +1088,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-XXX")
     public void pasXXX_eValueNotApplicableForState(@Optional("VA") String state) {
 
-        eValueQuoteCreationVA();
+        eValueQuoteCreation();
 
         CustomAssert.enableSoftMode();
         policy.dataGather().start();
@@ -1240,7 +1152,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     private void pas309_eValueGreyBoxPaperlessCheck(String paperlessPreferenceValue) {
         String messageBullet3 = "Enrollment in paperless notifications for policy and billing documents";
 
-        eValueQuoteCreationVA();
+        eValueQuoteCreation();
 
         CustomAssert.enableSoftMode();
         policy.dataGather().start();
@@ -1389,7 +1301,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.COMMISSION_TYPE).verify.value(defaultCommissionTypeValue);
     }
 
-    void eValueQuoteCreationVA() {
+    void eValueQuoteCreation() {
         //Default VA test data didn't work, so had to use multiple adjustments
         TestData defaultTestData = getPolicyTD("DataGather", "TestData");
         TestData policyInformationSectionAdjusted = getTestSpecificTD("PolicyInformation").adjust("TollFree Number", "1");

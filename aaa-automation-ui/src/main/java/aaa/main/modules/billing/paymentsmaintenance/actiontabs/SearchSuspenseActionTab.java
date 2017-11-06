@@ -15,6 +15,7 @@ import aaa.main.metadata.PaymentsMaintenanceMetaData;
 public class SearchSuspenseActionTab extends ActionTab {
 
 	public static Table tableSuspenseSearchResults = new Table(By.xpath("//div[@id='suspenseSearch:suspenseSearchResults']//table"));
+	public static Button buttonSearch = new Button(By.id("suspenseSearch:searchBtn"));
 
 	public SearchSuspenseActionTab() {
 		super(PaymentsMaintenanceMetaData.SearchSuspenseActionTab.class);
@@ -22,7 +23,7 @@ public class SearchSuspenseActionTab extends ActionTab {
 
 	@Override
 	public Tab submitTab() {
-		new Button(By.id("suspenseSearch:searchBtn")).click();
+		buttonSearch.click();
 		if (tableSuspenseSearchResults.getRow(1).getCell(BillingConstants.BillingSuspenseSearchResultsTable.ACTION).getValue().contains("Clear")) {
 			tableSuspenseSearchResults.getRow(1).getCell(BillingConstants.BillingSuspenseSearchResultsTable.ACTION).controls.links.get(ActionConstants.CLEAR).click();
 		}

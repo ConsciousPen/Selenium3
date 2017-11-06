@@ -9,6 +9,7 @@ import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AutoSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting;
@@ -18,6 +19,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.toolkit.webdriver.WebDriverHelper;
 
 public class TestScenario4 extends AutoSSBaseTest {
 	private DocumentsAndBindTab documentsAndBindTab = policy.getDefaultView().getTab(DocumentsAndBindTab.class);
@@ -29,10 +31,11 @@ public class TestScenario4 extends AutoSSBaseTest {
 	public void TC01_CreatePolicy(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
+		String currentHandle = WebDriverHelper.getWindowHandle();
 		createCustomerIndividual();
 
 		// Create quote
-		createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_QuoteCreation").resolveLinks()));
+		String quoteNumber = createQuote(getPolicyTD().adjust(getTestSpecificTD("TestData_QuoteCreation").resolveLinks()));
 
 		/*
 		 * Verify: In "Documents Available for Printing" section,
@@ -88,10 +91,44 @@ public class TestScenario4 extends AutoSSBaseTest {
 		policy.quoteDocGen().start();
 		switch (getState()) {
 		case States.VA:
-			docgenActionTab.verify.documentsEnabled(Documents.AA11VA, Documents.AA52VA, Documents.AAIQVA, Documents.AHFMXX, Documents.AU03);
+			docgenActionTab.verify.documentsPresent(Documents.AA11VA, Documents.AA52VA, Documents.AAIQ.setState(getState()), Documents.AHFMXX, Documents.AU03);
+			break;
+		case States.AZ:
+			docgenActionTab.verify.documentsPresent(Documents.AA11AZ, Documents.AA52AZ_UPPERCASE, Documents.AAIQ.setState(getState()), Documents.AHFMXX, Documents.AU03, Documents.AA43AZ);
+			break;
+		case States.IN:
+			docgenActionTab.verify.documentsPresent(Documents.AA11IN, Documents.AA52IN, Documents.AAIQ.setState(getState()), Documents.AHFMXX, Documents.AU03, Documents.AA43IN);
+			break;
+		case States.OH:
+			docgenActionTab.verify.documentsPresent(Documents.AA11OH, Documents.AA52OH, Documents.AAIQ.setState(getState()), Documents.AHFMXX, Documents.AU03, Documents.AA43OH);
 			break;
 		}
 		docgenActionTab.verify.documentsPresent(false, Documents.AHPNXX);
+		docgenActionTab.cancel();
+		
+		/* Generate documents Test */
+		policy.dataGather().start();
+		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
+		documentsAndBindTab.getDocumentsForPrintingAssetList().getAsset(DocumentsForPrinting.BTN_GENERATE_DOCUMENTS).click();
+		WebDriverHelper.switchToWindow(currentHandle);
+		switch(getState()){
+		case States.AZ:
+			DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AA11AZ, Documents.AA43AZ, Documents.AHAUXX, Documents.AHAPXX);
+			break;
+		case States.IN:
+			DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AA11IN, Documents.AA43IN, Documents.AHAUXX, Documents.AHAPXX);
+			break;
+		case States.OH:
+			DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AA11OH, Documents.AA43OH, Documents.AHAUXX, Documents.AHAPXX);
+			break;
+		case States.VA:
+			DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AA11VA, Documents.AHAPXX, Documents.AAAUVA);
+			break;
+		}
+		documentsAndBindTab.cancel();
+		
+		/* Purchase */
+		policy.calculatePremiumAndPurchase(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase").resolveLinks()));
 		
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
