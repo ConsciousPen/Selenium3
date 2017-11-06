@@ -112,25 +112,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
             "and code = 'currentBILimits'\n" +
             "and displayvalue = '50000/100000')";
 
-
-    private static final String EVALUE_CURRENT_BI_CONFIG_UPDATE = "update LOOKUPVALUE\n" +
-            "set EFFECTIVE = (select SYSDATE-5 from dual)\n" +
-            "WHERE LOOKUPLIST_ID IN \n" +
-            "    (SELECT ID \n" +
-            "    FROM LOOKUPLIST \n" +
-            "    WHERE LOOKUPNAME='AAAeMemberQualifications')\n" +
-            "and riskstatecd = 'VA'\n" +
-            "and productCD = 'AAA_SS'\n" +
-            "and code = 'currentBILimits'\n" +
-            "and displayvalue = '50000/100000'";
-
-
-    private static final String EVALUE_CURRENT_BI_CONFIG_INSERT = "INSERT INTO LOOKUPVALUE\n" +
-            "(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n" +
-            "values\n" +
-            "('BaseProductLookupValue', 'currentBILimits', '100000/300000', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n";
-
-
     private static final String EVALUE_PRIOR_BI_CONFIG_CHECK = "select Effective from (\n" +
             "SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n" +
             "FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n" +
@@ -141,23 +122,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
             "and productCD = 'AAA_SS'\n" +
             "and code = 'priorBILimits'\n" +
             "and displayvalue = '25000/50000')";
-
-
-    private static final String EVALUE_PRIOR_BI_CONFIG_UPDATE = "update LOOKUPVALUE\n" +
-            "set EFFECTIVE = (select SYSDATE-5 from dual)\n" +
-            "WHERE LOOKUPLIST_ID IN \n" +
-            "    (SELECT ID \n" +
-            "    FROM LOOKUPLIST \n" +
-            "    WHERE LOOKUPNAME='AAAeMemberQualifications')\n" +
-            "and riskstatecd = 'VA'\n" +
-            "and productCD = 'AAA_SS'\n" +
-            "and code = 'priorBILimits'\n" +
-            "and displayvalue = '25000/50000'";
-
-    private static final String EVALUE_PRIOR_BI_CONFIG_INSERT = "INSERT INTO LOOKUPVALUE\n" +
-            "(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n" +
-            "values\n" +
-            "('BaseProductLookupValue', 'priorBILimits', '50000/100000', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n";
 
     private static final String EVALUE_MEMBERSHIP_CONFIG_CHECK = "select Effective from (\n" +
             "SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n" +
@@ -170,10 +134,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
             "and code = 'membershipEligibility'\n" +
             "and displayvalue = 'FALSE')";
 
-    private static final String EVALUE_MEMBERSHIP_CONFIG_INSERT = "INSERT INTO LOOKUPVALUE\n" +
-            "(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n" +
-            "values\n" +
-            "('BaseProductLookupValue', 'membershipEligibility', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n";
 
     @Test
     @TestInfo(isAuxiliary = true)
@@ -189,7 +149,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     }
 
 
-
     @Test
     @TestInfo(isAuxiliary = true)
     public static void eValuePriorBiCurrentBiConfigCheck() {
@@ -201,7 +160,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     }
 
 
-
     @Test
     @TestInfo(isAuxiliary = true)
     public static void eValueMembershipConfigCheck() {
@@ -209,12 +167,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         CustomAssert.assertTrue("eValue configuration for membership not require. Please run eValueMembershipConfigCheckConfigInsert", DBService.get().getValue(EVALUE_MEMBERSHIP_CONFIG_CHECK).isPresent());
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
-    }
-
-    @Test(enabled = false)
-    @TestInfo(isAuxiliary = true)
-    public static void eValueMembershipConfigCheckConfigInsert() {
-        DBService.get().executeUpdate(EVALUE_MEMBERSHIP_CONFIG_INSERT);
     }
 
     @Test
@@ -229,15 +181,12 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     }
 
 
-
     @Test
     @TestInfo (isAuxiliary = true)
     public static void eValueTerritoryChannelForVAConfigCheck() {
         CustomAssert.assertEquals("Territory for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_TERRITORY_FOR_VA_CONFIG_CHECK).get(), "212");
         CustomAssert.assertEquals("Channel for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_CHANNEL_FOR_VA_CONFIG_CHECK).get(), "AZ Club Agent");
     }
-
-
 
 
     //TODO Replace below TCs with DataProvider when the Optional parameter State will be removed

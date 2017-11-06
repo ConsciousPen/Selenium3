@@ -90,6 +90,11 @@ public class EvalueInsertPreconditions {
 			"('BaseProductLookupValue', 'priorBILimits', '25000/50000', 'AAA_SS', '%s', TO_DATE('1-MAY-2017'), TO_DATE('1-MAY-2018'),\n" +
 			"(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))";
 
+	private static final String EVALUE_MEMBERSHIP_CONFIG_INSERT = "INSERT INTO LOOKUPVALUE\n" +
+			"(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n" +
+			"values\n" +
+			"('BaseProductLookupValue', 'membershipEligibility', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n";
+
 
 	@Test(enabled = false)
 	@TestInfo(isAuxiliary = true)
@@ -144,4 +149,12 @@ public class EvalueInsertPreconditions {
 	public static void eValueTerritoryChannelForVAConfigUpdate() {
 		DBService.get().executeUpdate(EVALUE_TERRITORY_CHANNEL_FOR_VA_CONFIG_UPDATE);
 	}
+
+	@Test(enabled = false)
+	@TestInfo(isAuxiliary = true)
+	public static void eValueMembershipConfigCheckConfigInsert() {
+		DBService.get().executeUpdate(EVALUE_MEMBERSHIP_CONFIG_INSERT);
+	}
+
+
 }
