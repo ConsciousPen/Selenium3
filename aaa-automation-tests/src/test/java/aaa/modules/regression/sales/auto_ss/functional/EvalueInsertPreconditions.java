@@ -95,8 +95,14 @@ public class EvalueInsertPreconditions {
 			"values\n" +
 			"('BaseProductLookupValue', 'membershipEligibility', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n";
 
+	private static final String REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL = "INSERT INTO LOOKUPVALUE\n" +
+			"(dtype, code, displayValue, productCd, riskStateCd, lookuplist_id)\n" +
+			"values\n" +
+			"('AAARolloutEligibilityLookupValue', 'pcDisbursementEngine', 'TRUE', null, 'VA', \n" +
+			"(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
-	@Test(enabled = true)
+
+	@Test()
 	@TestInfo(isAuxiliary = true)
 	public static void eValueDocGenConfigInsert() {
 
@@ -105,7 +111,7 @@ public class EvalueInsertPreconditions {
 		DBService.get().executeUpdate(AAA_RETRIEVE_DOCUMENT_WEB_CLIENT);
 	}
 
-	@Test(enabled = true)
+	@Test()
 	@TestInfo(isAuxiliary = true)
 	public static void eValueConfigInsert() {
 		List<String> configForStates = Arrays.asList("VA"  //for Paperless Preferences = Yes
@@ -124,7 +130,7 @@ public class EvalueInsertPreconditions {
 		}
 	}
 
-	@Test(enabled = true)
+	@Test()
 	@TestInfo(isAuxiliary = true)
 	public static void eValuePriorBiCurrentBiConfigUpdateInsert() {
 
@@ -144,17 +150,21 @@ public class EvalueInsertPreconditions {
 		DBService.get().executeUpdate(String.format(EVALUE_PRIOR_BI_LIMIT_CONFIGURATION_INSERT, state));
 	}
 
-	@Test (enabled = true)
+	@Test ()
 	@TestInfo(isAuxiliary = true)
 	public static void eValueTerritoryChannelForVAConfigUpdate() {
 		DBService.get().executeUpdate(EVALUE_TERRITORY_CHANNEL_FOR_VA_CONFIG_UPDATE);
 	}
 
-	@Test(enabled = true)
+	@Test()
 	@TestInfo(isAuxiliary = true)
-	public static void eValueMembershipConfigCheckConfigInsert() {
+	public static void eValueMembershipConfigInsert() {
 		DBService.get().executeUpdate(EVALUE_MEMBERSHIP_CONFIG_INSERT);
 	}
 
-
+	@Test()
+	@TestInfo(isAuxiliary = true)
+	public static void refundDocumentGenerationConfigInsert() {
+		DBService.get().executeUpdate(String.format(REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL));
+	}
 }

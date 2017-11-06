@@ -164,7 +164,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     @TestInfo(isAuxiliary = true)
     public static void eValueMembershipConfigCheck() {
         CustomAssert.enableSoftMode();
-        CustomAssert.assertTrue("eValue configuration for membership not require. Please run eValueMembershipConfigCheckConfigInsert", DBService.get().getValue(EVALUE_MEMBERSHIP_CONFIG_CHECK).isPresent());
+        CustomAssert.assertTrue("eValue configuration for membership not require. Please run eValueMembershipConfigInsert", DBService.get().getValue(EVALUE_MEMBERSHIP_CONFIG_CHECK).isPresent());
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -829,6 +829,46 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.AGENCY_LOCATION).fill(territoryChannelData);
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.present(eValueDiscountPresence);
+    }
+
+    /**
+     * @author Megha Gubbala
+     * @name Test Configuration for eValue for Membership eligibility
+     * @scenario 1. Create new eValue eligible quote for VA
+     * 2. set Membership = no
+     * 3. Check eValueDiscount field is disabled in P&C tab
+     * 4. change the effective date when configuration added for membership eligibility
+     * 5. Check eValueDiscount field is enabled in P&C tab
+     * 6. set eValue = Yes in P&C tab
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueMembershipConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3007")
+    public void pas3007_eValueMembershipConfiguration(@Optional("VA") String state) {
+
+        eValueQuoteCreation();
+
+        CustomAssert.enableSoftMode();
+
+        policy.dataGather().start();
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("No");
+        generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("");
+
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled(false);
+
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(8).format(DateTimeUtils.MM_DD_YYYY));
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.saveAndExit();
+        simplifiedQuoteIssue();
+
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
     }
 
     /**
