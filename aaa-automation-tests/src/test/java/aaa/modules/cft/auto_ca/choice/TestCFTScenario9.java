@@ -1,14 +1,15 @@
 package aaa.modules.cft.auto_ca.choice;
 
-import aaa.helpers.constants.Groups;
-import aaa.main.modules.policy.PolicyType;
-import aaa.modules.cft.ControlledFinancialBaseTest;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import aaa.helpers.constants.Groups;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.cft.ControlledFinancialBaseTest;
 
 /**
  * Controlled Financial Testing Scenario 9
@@ -42,5 +43,4 @@ public class TestCFTScenario9 extends ControlledFinancialBaseTest {
 	protected TestData getPolicyTestData() {
 		return getTestSpecificTD("TestData_DataGather");
 	}
-
 }

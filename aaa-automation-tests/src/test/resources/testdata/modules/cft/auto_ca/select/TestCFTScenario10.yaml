@@ -1,24 +1,11 @@
 GeneralTab_DataGather: {
-  NamedInsuredInformation: '@<auto_ca_select>@DataGather@NamedInsuredInformation',
-  AAAProductOwned: '@<auto_ca_select>@DataGather@AAAProductOwned',
   PolicyInformation: {
-    Policy Type: Standard,
     Effective Date: '/today+1M',
-    Channel Type: Phone (Direct Sales Unit),
-    Agency: SMTestCC - 400000092,
-    Sales Channel: Online,
-    Authorized by: QA,
-    TollFree Number: 1
   }
 }
 
-VehicleTab_DataGather: {}
-
 PremiumAndCoveragesTab_DataGather: {
-  Payment Plan: Standard Monthly,
-  Policy Term: Annual,
-  Bodily Injury Liability: 'contains=$500,000/$500,000', 
-  Property Damage Liability: 'contains=$100,000'
+  Payment Plan: Standard Monthly
 }
 
 PurchaseTab_DataGather: {

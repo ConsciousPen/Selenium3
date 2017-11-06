@@ -1,0 +1,69 @@
+TestData: {
+  AcceptPaymentActionTab: '@AcceptPaymentActionTab',
+  RefundActionTab: '@RefundActionTab',
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: '@VehicleTab',
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: [{}, {
+      Primary Driver: index=1
+    }] 
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+TestData_OOSEndorsement: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Standard Monthly
+}
+
+PurchaseTab_DataGather: {
+  PaymentAllocation: {
+    Check: /rest,
+    Check Number Check: '123456'
+  }
+}
+
+AcceptPaymentActionTab: {
+  Payment Method: 'Cash'
+}
+
+RefundActionTab: {
+  Payment Method: 'Cash'
+}
+
+EndorsementActionTab: {
+  Endorsement Date: /today,
+  Endorsement Reason: Maintain Vehicle(s)
+}
+
+VehicleTab: {
+  Add Vehicle: Click,
+  VIN: 1B3BA46K4KF440231,
+  Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  "Are there any additional interest(s)?": 'No',
+  Odometer Reading: 3000
+}

@@ -37,10 +37,7 @@ PremiumAndCoveragesTab : {
 }
 
 PremiumAndCoveragesTab_DataGather: {
-  Payment Plan: Standard Monthly,
-  Bodily Injury Liability: 'contains=$100,000/$300,000',
-  Comprehensive Deductible: 'contains=$750',
-  Collision Deductible: 'contains=$500'
+  Payment Plan: Standard Monthly
 }
 
 PurchaseTab_DataGather: {
