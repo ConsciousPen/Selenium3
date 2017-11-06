@@ -15,11 +15,11 @@ public class EvalueInsertPreconditions {
 
 	private static final String AAA_RETRIEVE_AGREEMENT_WEB_CLIENT = "update propertyconfigurerentity\n" +
 			"set value = 'http://soaqa3.tent.trt.csaa.pri/1.1/RetrieveAgreementRelatedDocuments'\n" +
-			"where propertyname = 'aaaRetrieveAgreementWebClient.endpointUri';";
+			"where propertyname = 'aaaRetrieveAgreementWebClient.endpointUri'";
 
 	private static final String AAA_RETRIEVE_DOCUMENT_WEB_CLIENT = "update propertyconfigurerentity\n" +
 			"set value = 'http://soaqa3.tent.trt.csaa.pri/1.1/RetrieveDocument'\n" +
-			"where propertyname = 'aaaRetrieveDocumentWebClient.endpointUri';";
+			"where propertyname = 'aaaRetrieveDocumentWebClient.endpointUri'";
 
 	private static final String EVALUE_PRIOR_BI_CONFIG_UPDATE = "update LOOKUPVALUE\n" +
 			"set EFFECTIVE = (select SYSDATE-5 from dual)\n" +
@@ -90,8 +90,19 @@ public class EvalueInsertPreconditions {
 			"('BaseProductLookupValue', 'priorBILimits', '25000/50000', 'AAA_SS', '%s', TO_DATE('1-MAY-2017'), TO_DATE('1-MAY-2018'),\n" +
 			"(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))";
 
+	private static final String EVALUE_MEMBERSHIP_CONFIG_INSERT = "INSERT INTO LOOKUPVALUE\n" +
+			"(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n" +
+			"values\n" +
+			"('BaseProductLookupValue', 'membershipEligibility', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n";
 
-	@Test(enabled = false)
+	private static final String REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL = "INSERT INTO LOOKUPVALUE\n" +
+			"(dtype, code, displayValue, productCd, riskStateCd, lookuplist_id)\n" +
+			"values\n" +
+			"('AAARolloutEligibilityLookupValue', 'pcDisbursementEngine', 'TRUE', null, 'VA', \n" +
+			"(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
+
+
+	@Test()
 	@TestInfo(isAuxiliary = true)
 	public static void eValueDocGenConfigInsert() {
 
@@ -100,7 +111,7 @@ public class EvalueInsertPreconditions {
 		DBService.get().executeUpdate(AAA_RETRIEVE_DOCUMENT_WEB_CLIENT);
 	}
 
-	@Test(enabled = false)
+	@Test()
 	@TestInfo(isAuxiliary = true)
 	public static void eValueConfigInsert() {
 		List<String> configForStates = Arrays.asList("VA"  //for Paperless Preferences = Yes
@@ -119,7 +130,7 @@ public class EvalueInsertPreconditions {
 		}
 	}
 
-	@Test(enabled = false)
+	@Test()
 	@TestInfo(isAuxiliary = true)
 	public static void eValuePriorBiCurrentBiConfigUpdateInsert() {
 
@@ -139,9 +150,21 @@ public class EvalueInsertPreconditions {
 		DBService.get().executeUpdate(String.format(EVALUE_PRIOR_BI_LIMIT_CONFIGURATION_INSERT, state));
 	}
 
-	@Test (enabled = false)
+	@Test ()
 	@TestInfo(isAuxiliary = true)
 	public static void eValueTerritoryChannelForVAConfigUpdate() {
 		DBService.get().executeUpdate(EVALUE_TERRITORY_CHANNEL_FOR_VA_CONFIG_UPDATE);
+	}
+
+	@Test()
+	@TestInfo(isAuxiliary = true)
+	public static void eValueMembershipConfigInsert() {
+		DBService.get().executeUpdate(EVALUE_MEMBERSHIP_CONFIG_INSERT);
+	}
+
+	@Test()
+	@TestInfo(isAuxiliary = true)
+	public static void refundDocumentGenerationConfigInsert() {
+		DBService.get().executeUpdate(String.format(REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL));
 	}
 }

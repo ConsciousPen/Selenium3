@@ -53,11 +53,6 @@ public class TestRefundProcess extends PolicyBilling {
 			"and RISKSTATECD = 'VA' " +
 			"and DISPLAYVALUE = 'TRUE' ";
 
-	private static final String REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL = "INSERT INTO LOOKUPVALUE\n" +
-			"(dtype, code, displayValue, productCd, riskStateCd, lookuplist_id)\n" +
-			"values\n" +
-			"('AAARolloutEligibilityLookupValue', 'pcDisbursementEngine', 'TRUE', null, 'VA', \n" +
-			"(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
 
 	@Override
@@ -80,11 +75,7 @@ public class TestRefundProcess extends PolicyBilling {
 		CustomAssert.assertTrue("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.", DbAwaitHelper.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5));
 	}
 
-	@Test(enabled = false)
-	@TestInfo(isAuxiliary = true)
-	public static void refundDocumentGenerationConfigInsert() {
-		DBService.get().executeUpdate(String.format(REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL));
-	}
+
 
 
 	/**

@@ -123,8 +123,16 @@ public class TestEValueDiscount extends AutoSSBaseTest {
             "and code = 'priorBILimits'\n" +
             "and displayvalue = '25000/50000')";
 
-
-
+    private static final String EVALUE_MEMBERSHIP_CONFIG_CHECK = "select Effective from (\n" +
+            "SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n" +
+            "FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n" +
+            "    (SELECT ID \n" +
+            "    FROM LOOKUPLIST \n" +
+            "    WHERE LOOKUPNAME='AAAeMemberQualifications')\n" +
+            "and riskstatecd = 'VA'\n" +
+            "and productCD = 'AAA_SS'\n" +
+            "and code = 'membershipEligibility'\n" +
+            "and displayvalue = 'FALSE')";
 
 
     @Test
@@ -141,7 +149,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     }
 
 
-
     @Test
     @TestInfo(isAuxiliary = true)
     public static void eValuePriorBiCurrentBiConfigCheck() {
@@ -153,6 +160,14 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     }
 
 
+    @Test
+    @TestInfo(isAuxiliary = true)
+    public static void eValueMembershipConfigCheck() {
+        CustomAssert.enableSoftMode();
+        CustomAssert.assertTrue("eValue configuration for membership not require. Please run eValueMembershipConfigInsert", DBService.get().getValue(EVALUE_MEMBERSHIP_CONFIG_CHECK).isPresent());
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
+    }
 
     @Test
     @TestInfo(isAuxiliary = true)
@@ -166,16 +181,12 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     }
 
 
-
-
     @Test
     @TestInfo (isAuxiliary = true)
     public static void eValueTerritoryChannelForVAConfigCheck() {
         CustomAssert.assertEquals("Territory for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_TERRITORY_FOR_VA_CONFIG_CHECK).get(), "212");
         CustomAssert.assertEquals("Channel for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_CHANNEL_FOR_VA_CONFIG_CHECK).get(), "AZ Club Agent");
     }
-
-
 
 
     //TODO Replace below TCs with DataProvider when the Optional parameter State will be removed
@@ -211,7 +222,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation_DayLapsedMore4", false, false, "");
         testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation_BILimitLess", false, false, "");
     }
-
 
     /**
      * @author Oleg Stasyuk
@@ -317,6 +327,8 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
+
+
     /**
      * @author Megha Gubbala
      * @name Test eValue Status
@@ -817,6 +829,46 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.AGENCY_LOCATION).fill(territoryChannelData);
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.present(eValueDiscountPresence);
+    }
+
+    /**
+     * @author Megha Gubbala
+     * @name Test Configuration for eValue for Membership eligibility
+     * @scenario 1. Create new eValue eligible quote for VA
+     * 2. set Membership = no
+     * 3. Check eValueDiscount field is disabled in P&C tab
+     * 4. change the effective date when configuration added for membership eligibility
+     * 5. Check eValueDiscount field is enabled in P&C tab
+     * 6. set eValue = Yes in P&C tab
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueMembershipConfigCheck")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3007")
+    public void pas3007_eValueMembershipConfiguration(@Optional("VA") String state) {
+
+        eValueQuoteCreation();
+
+        CustomAssert.enableSoftMode();
+
+        policy.dataGather().start();
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("No");
+        generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("");
+
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled(false);
+
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(8).format(DateTimeUtils.MM_DD_YYYY));
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.saveAndExit();
+        simplifiedQuoteIssue();
+
+        CustomAssert.disableSoftMode();
+        CustomAssert.assertAll();
     }
 
     /**
