@@ -15,4 +15,8 @@ public interface AaaDocGenEntityQueries {
             "and data like '%%%s%%' " +
             "and data like '%%%s%%' " +
             "and eventname = '%s'";
+
+    String getPartOfXmlByXpath = "select EXTRACT(xmltype(DATA), '//doc:TemplateId[contains(text(),\"${DOC_NAME}\")]/..',\n" +
+            "'${NS_VALUES}').getClobVal() value \n" +
+            "from (${GET_DATA})";
 }
