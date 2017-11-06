@@ -208,7 +208,6 @@ public final class BillingAccountMetaData {
         public static final AssetDescriptor<ComboBox> STATE_PROVINCE = declare("State / Province", ComboBox.class, Waiters.AJAX);
         public static final AssetDescriptor<ComboBox> TYPE = declare("Type", ComboBox.class, Waiters.AJAX);
         public static final AssetDescriptor<TextBox> NUMBER = declare("Number", TextBox.class, Waiters.AJAX);
-        public static final AssetDescriptor<RadioGroup> CARD_TYPE = declare("Card Type", RadioGroup.class);
         public static final AssetDescriptor<TextBox> CARD_HOLDER_NAME = declare("Card Holder Name", TextBox.class);
         public static final AssetDescriptor<DoubleComboBox> EXPIRATION_MONTH_YEAR = declare("Expiration Month/Year", DoubleComboBox.class, Waiters.AJAX);
         public static final AssetDescriptor<TextBox> TRANSIT = declare("Transit #", TextBox.class, Waiters.AJAX);

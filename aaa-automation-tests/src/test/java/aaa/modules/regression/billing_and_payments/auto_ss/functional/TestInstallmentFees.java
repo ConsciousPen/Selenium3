@@ -89,6 +89,9 @@ public class TestInstallmentFees extends PolicyBilling {
 		TestData policyTdAdjusted = getPolicyTD().adjust(premiumCoverageTabMetaKey, paymentPlan);
 
 		mainApp().open();
+		//SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "UTSS926232155");
+
+
 		createCustomerIndividual();
 		getPolicyType().get().createPolicy(policyTdAdjusted);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -116,9 +119,10 @@ public class TestInstallmentFees extends PolicyBilling {
 		//PAS-3846 start - will change in future
 		AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD).setValue("contains=Card");
-		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.CARD_TYPE).verify.value("Credit Card");
-		CustomAssert.assertTrue(updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.CARD_TYPE).getAllValues().containsAll(Arrays.asList("Credit Card", "Debit Card")));
-		CustomAssert.assertFalse(updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.PAYMENT_METHODS).getAsset(BillingAccountMetaData.AddPaymentMethodTab.CARD_TYPE).isEnabled());
+		//PAS-4127 start
+		updateBillingAccountActionTab.getInquiryAssetList().assetFieldsAbsence("Card Type");
+
+		//PAS-4127 end
 		//PAS-834 start
 		updateBillingAccountCardFormatCheck(dcVisa, "Debit");
 		updateBillingAccountCardFormatCheck(ccMaster, "Credit");
@@ -181,6 +185,16 @@ public class TestInstallmentFees extends PolicyBilling {
 		//BUG PAS-4280 Last 4 digits for Card are displayed incorrectly after Updating Billing Account on the Billing Page
 		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method").verify.contains(expectedValueCard);
 		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Action").controls.links.get("View").click();
+		//PAS-4127 start
+		updateBillingAccountActionTab.getInquiryAssetList().getStaticElement(BillingAccountMetaData.AddPaymentMethodTab.TYPE.getLabel()).verify.value(cardData.getValue("Type") + " " + cardType + " Card");
+		//PAS-4127 end
+
+		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method").verify.contains(expectedValueCard);
+		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Action").controls.links.get("Edit").click();
+		//PAS-4127 start
+		updateBillingAccountActionTab.getInquiryAssetList().getStaticElement(BillingAccountMetaData.AddPaymentMethodTab.TYPE.getLabel()).verify.value(cardData.getValue("Type") + " " + cardType + " Card");
+		//PAS-4127 end
+
 		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method").verify.contains(expectedValueCard);
 		AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Action").controls.links.get("Delete").click();
 		Page.dialogConfirmation.confirm();
