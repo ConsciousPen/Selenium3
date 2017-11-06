@@ -127,3 +127,11 @@ QC-44941:
               aaa.modules.docgen.home_ca.ho4.TestDocgenScenarios.testQuoteDocuments,
               aaa.modules.docgen.home_ca.ho6.TestDocgenScenarios.testQuoteDocuments]
       messages: ["On demand document Documents{id='62 6500', name='CA Evidence of Property Insurance'}' is not disabled as expected"]
+QC-11111:
+  summary: "OSI: Senior Discount related code is not in Master yet"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.home_ca.ho3.functional.TestSeniorDiscount.pas3717_SeniorDiscountsAgeAndDwellingUsage,
+              aaa.modules.regression.sales.home_ca.ho4.functional.TestSeniorDiscount.pas3717_SeniorDiscountsAgeAndDwellingUsage,
+              aaa.modules.regression.sales.home_ca.ho6.functional.TestSeniorDiscount.pas3717_SeniorDiscountsAgeAndDwellingUsage]
+      messages: [" "]
