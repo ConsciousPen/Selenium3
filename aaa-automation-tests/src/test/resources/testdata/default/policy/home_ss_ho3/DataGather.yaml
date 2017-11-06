@@ -1599,7 +1599,7 @@ ApplicantTab_PA: {
   NamedInsuredInformation: '@NamedInsuredInformation',
   OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies', '@OtherCompanionAutoPolicy_PA'],
   AgentInfo: '@AgentInfo_PA'
-}  
+}
   
 OtherCompanionAutoPolicy_PA: {
   ActiveUnderlyingPoliciesSearch: {},

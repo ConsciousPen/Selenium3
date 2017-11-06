@@ -124,3 +124,12 @@ QC-44911:
               aaa.modules.e2e.auto_ss.TestScenario7.TC01_createPolicy]
       messages: ["Unable to locate element: {\"method\":\"xpath\",\"selector\":\"//input[@id='policyDataGatherForm:next_footer' or @id='crmForm:nextBtn_footer' or @id='policyDataGatherForm:next' or @id='policyDataGatherForm:nextButton_footer'",
                  "Errors: Time out. No session available."]
+QC-44941:
+  summary: "Regression: 62 6500 is not disabled on 'On-Demand Documents' page after quote creation"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.docgen.home_ca.dp3.TestDocgenScenarios.testQuoteDocuments,
+              aaa.modules.docgen.home_ca.ho3.TestDocgenScenarios.testQuoteDocuments,
+              aaa.modules.docgen.home_ca.ho4.TestDocgenScenarios.testQuoteDocuments,
+              aaa.modules.docgen.home_ca.ho6.TestDocgenScenarios.testQuoteDocuments]
+      messages: ["On demand document Documents{id='62 6500', name='CA Evidence of Property Insurance'}' is not disabled as expected"]
