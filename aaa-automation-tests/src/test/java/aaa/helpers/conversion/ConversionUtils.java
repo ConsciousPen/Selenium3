@@ -42,7 +42,8 @@ public class ConversionUtils {
 //		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(4));
 		JobUtils.executeJob(conversionData.getConversionType().getJob());
 		String policyNum = verifyResponseSuccessAndGetNumber(conversionData.getConversionType(), importFile.getName(), context);
-		log.info(String.format("Conversion policy with type %s imported with number %s", conversionData.getConversionType().name(), policyNum));
+		log.info(String.format("Conversion policy with type %s imported with number %s and effective date %s"
+				, conversionData.getConversionType().name(), policyNum, conversionData.getEffectiveDate()));
 		return policyNum;
 	}
 

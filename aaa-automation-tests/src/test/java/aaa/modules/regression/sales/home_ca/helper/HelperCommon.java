@@ -37,13 +37,32 @@ public class HelperCommon {
 
 		seniorDiscountAppliedAndAgeCheck(policyNumber, seniorDiscountApplicabilityAgeYears, effectiveDateDaysDelta, seniorDiscountApplicabilityAgeYears);
 		PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).verify.contains(seniorDiscountName);
+		seniorDiscountViewRatingDetailsCheck(seniorDiscountName, "Yes");
 
 		seniorDiscountAppliedAndAgeCheck(policyNumber, seniorDiscountApplicabilityAgeYears, -1 + effectiveDateDaysDelta, seniorDiscountApplicabilityAgeYears - 1);
 		CustomAssert.assertFalse(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).getValue().contains(seniorDiscountName));
+		seniorDiscountViewRatingDetailsCheck(seniorDiscountName, "No");
 
 		seniorDiscountAppliedAndAgeCheck(policyNumber, seniorDiscountApplicabilityAgeYears, 1 + effectiveDateDaysDelta, seniorDiscountApplicabilityAgeYears);
 		PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).verify.contains(seniorDiscountName);
+		seniorDiscountViewRatingDetailsCheck(seniorDiscountName, "Yes");
 	}
+
+
+	public void seniorDiscountViewRatingDetailsCheck(String seniorDiscountName, String seniorDiscountValue) {
+		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+		//BUG QC 44971 Regression: Senior discount is not displayed in rating details dialog
+		switch(seniorDiscountName) {
+			case "Senior":
+				CustomAssert.assertEquals(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Senior Discount"), seniorDiscountValue);
+				break;
+			case "Mature Policy Holder":
+				CustomAssert.assertEquals(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Mature policy holder"), seniorDiscountValue);
+				break;
+		}
+		PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
+	}
+
 
 	public void seniorDiscountAppliedAndAgeCheck(String policyNumber, int seniorDiscountApplicabilityAgeYears, int dateOfBirthDaysDelta, int ageInDbYears) {
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.APPLICANT.get());

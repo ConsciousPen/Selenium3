@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 
 public final class BillingAccountActions {
-	private static final Object paymentLock = new Object();
 
 	public static class GenerateFutureStatement extends AbstractAction {
 		@Override
@@ -64,11 +63,9 @@ public final class BillingAccountActions {
 
 		@Override
 		public AbstractAction start() {
-			synchronized (paymentLock) {
-				log.info(getName() + " action initiated.");
-				new Link(By.linkText("Accept Payment")).click();
-				return this;
-			}
+			log.info(getName() + " action initiated.");
+			new Link(By.linkText("Accept Payment")).click();
+			return this;
 		}
 
 		public AbstractAction perform(TestData td, Dollar amount) {

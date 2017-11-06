@@ -8,7 +8,7 @@ GeneralTab_DataGather: {
 }
 
 PremiumAndCoveragesTab_DataGather: {
-  Payment Plan: Standard Monthly,
+  Payment Plan: Standard Monthly
 }
 
 DriverTab_DataGather: {

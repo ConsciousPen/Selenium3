@@ -286,7 +286,8 @@ public class Scenario4 extends ScenarioBaseTest {
 	}
 
 	protected void customerDeclineRenewal() {
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate));
+		//added a hour to postpone job execution to avoid conflict with makeManualPaymentInFullRenewalOfferAmount from Scenario2
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate).plusHours(1));
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 
 		mainApp().open();
@@ -297,7 +298,8 @@ public class Scenario4 extends ScenarioBaseTest {
 	}
 
 	protected void payRenewOffer() {
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getPayLapsedRenewLong(policyExpirationDate));
+		//added a hour to postpone job execution to avoid conflict with makeManualPaymentInFullRenewalOfferAmount from Scenario2
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getPayLapsedRenewLong(policyExpirationDate).plusHours(1));
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -311,7 +313,8 @@ public class Scenario4 extends ScenarioBaseTest {
 	}
 
 	protected void bindRenew() {
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime());
+		//added a hour to postpone job execution to avoid conflict with makeManualPaymentInFullRenewalOfferAmount from Scenario2
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);

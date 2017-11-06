@@ -53,11 +53,6 @@ public class TestRefundProcess extends PolicyBilling {
 			"and RISKSTATECD = 'VA' " +
 			"and DISPLAYVALUE = 'TRUE' ";
 
-	private static final String REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL = "INSERT INTO LOOKUPVALUE\n" +
-			"(dtype, code, displayValue, productCd, riskStateCd, lookuplist_id)\n" +
-			"values\n" +
-			"('AAARolloutEligibilityLookupValue', 'pcDisbursementEngine', 'TRUE', null, 'VA', \n" +
-			"(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
 
 	@Override
@@ -80,11 +75,7 @@ public class TestRefundProcess extends PolicyBilling {
 		CustomAssert.assertTrue("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.", DbAwaitHelper.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5));
 	}
 
-	@Test(enabled = false)
-	@TestInfo(isAuxiliary = true)
-	public static void refundDocumentGenerationConfigInsert() {
-		DBService.get().executeUpdate(String.format(REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL));
-	}
+
 
 
 	/**
@@ -103,7 +94,7 @@ public class TestRefundProcess extends PolicyBilling {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")//TODO when running suite, the test which has Depends on is not being executed
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-2186")
-	public void pas2186_ManualRefundProcess(@Optional("") String state) {
+	public void pas2186_RefundProcess(@Optional("") String state) {
 		Dollar refundAmount1 = new Dollar(25);
 		Dollar refundAmount2 = new Dollar(100);
 		String checkDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);

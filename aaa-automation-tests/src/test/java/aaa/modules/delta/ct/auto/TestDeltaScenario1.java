@@ -9,6 +9,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
@@ -42,13 +43,18 @@ import java.util.List;
 @Test(groups = {Groups.DELTA, Groups.HIGH})
 public class TestDeltaScenario1 extends AutoSSBaseTest {
     //todo make it empty
-    private String quoteNumber = "QCTSS926254975";
+    //private String quoteNumber;
+    // aws2aaawas05 private
+	// String quoteNumber = "QCTSS950569077";
+    // aws2aaawas02
+	private String quoteNumber = "QCTSS952154778";
 
     private DriverTab driverTab = new DriverTab();
     private VehicleTab vehicleTab = new VehicleTab();
     private PrefillTab prefillTab = new PrefillTab();
     private GeneralTab generalTab = new GeneralTab();
     private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
+    private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
     private ErrorTab errorTab = new ErrorTab();
 
     public String scenarioPolicyType = "Auto SS";
@@ -76,7 +82,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
         //010-005CT
         //If the zip code is associated with only one county/township, the drop down list contains only that county/township value with default being that value
         prefillTab.getAssetList().getAsset(AutoSSMetaData.PrefillTab.COUNTY_TOWNSHIP).verify.
-                value("New Haven / New Haven");
+                value("New Haven / Middlebury");
         //If the zip code spans across counties/townships, the drop down list will contain the applicable counties/townships that are associated with the zip code; the default value is 'blank'.
 
 
@@ -141,11 +147,15 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
     public void testSC1_TC03() {
         preconditions(NavigationEnum.AutoSSTab.GENERAL);
 
+		//Set zip = 06756 (associated with several county/township)
+		//Check country/township defaulted to blank
         generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ZIP_CODE).setValue("06756");
         generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.COUNTY_TOWNSHIP).verify.
                 value("");
 
-        generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ZIP_CODE).setValue("06519");
+        generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ZIP_CODE)
+				.setValue(getCustomerIndividualTD("DataGather", "GeneralTab_CT").getValue("Zip Code"));
+		generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.COUNTY_TOWNSHIP).setValue("index=1");
 
         generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.VALIDATE_ADDRESS_BTN).click();
         generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.VALIDATE_ADDRESS_DIALOG).submit();
@@ -232,7 +242,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
     public void testSC1_TC09() {
         preconditions(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS);
 
-        ratingDetailReportsTab.fillTab(getTestSpecificTD("RatingDetailReportsTab_TC9"));
+         ratingDetailReportsTab.fillTab(getTestSpecificTD("RatingDetailReportsTab_TC9"));
         String errorMessage = "Extraordinary Life Circumstance was applied to the policy";
         //todo check that it is correct error check
         new StaticElement(By.xpath("//*[contains(.,'" + errorMessage + "')]")).verify.present(false);
@@ -242,7 +252,7 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 
     @Test
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
-    public void testSC1_TC10() {
+    public void testSC1_TC10_11() {
         preconditions(NavigationEnum.AutoSSTab.VEHICLE);
 
         List<String> expectedValuesOfVehicleType = Arrays.asList("Private Passenger Auto", "Limited Production/Antique", "Trailer", "Motor Home", "Conversion Van");
@@ -252,18 +262,72 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
         vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.USAGE).verify.optionsContain(expectedValuesOfVehicleUsage);
 
         vehicleTab.fillTab(getTestSpecificTD("TestData_CT10"));
-        //assVehicleTabFilling.vehicleFilling(getDataSet(), "Vehicle_01");
 
-        //assVehicleTabFilling.addVehicle();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
-        //assVehicleTabFilling.vehicleFilling(getDataSet(), "Vehicle_02");
+		CustomAssert.assertFalse("",PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1)
+				.getValue().contains("Motorcycle Discount"));
 
-        //verifyTextNotPresent("is required");
+		Tab.buttonSaveAndExit.click();
+	}
 
-        //checkForVerificationErrors();
+	@Test
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS)
+    public void testSC1_TC12() {
+		preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY)
+				.setValueByRegex("\\$500,000.*1,000,000.*");
+        PremiumAndCoveragesTab.calculatePremium();
+        String expected_ER = "UMBI/UIMBI limits may not exceed twice the BI limits";
+        errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, expected_ER).verify.present();
+        errorTab.cancel();
 
-        Tab.buttonSaveAndExit.click();
-    }
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY)
+				.setValueByRegex("\\$50,000.*100,000.*");
+        PremiumAndCoveragesTab.calculatePremium();
+
+		Tab.buttonSaveAndExit.click();
+	}
+
+	@Test
+	public void SC1_TC13(){
+		preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
+
+		//workaround for QC 24062 Regression: Auto SS: Navigation from error page doesn't work
+		/*if (isElementPresent(AssPremiumCoveragesUiIds.ERROR_CODE)) {
+			clickAndWait(AssPremiumCoveragesUiIds.CANCEL_ERRORS, getMiddleWaitTime());
+		}*/
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY)
+				.setValueByRegex("\\$200,000.*600,000.*");
+		PremiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_CONVERSION_COVERAGE)
+				.verify.value("No");
+		//default value for "Underinsured Motorist Conversion Coverage" = No
+		/*verifyEquals(assPremiumTabFilling.getUnderinsuredMotoristConversion(), "No");
+
+		verifyTextPresent("UIM Conversion Coverage not selected");
+
+
+		//View rating details
+		click(AssPremiumCoveragesUiIds.VIEW_RATING_DETAILS);
+		waitForAjax(getAjaxWaitTime());
+
+		verifyTextOfElementEquals(AssPremiumCoveragesUiIds.CT_UIM_CONVERSION_COVERAGE, "No");
+
+		verifyTextPresent("ELC");
+		verifyTextOfElementEquals(AssPremiumCoveragesUiIds.CT_ELC_APPLIED_VALUE, "No");
+
+		click(AssPremiumCoveragesUiIds.CLOSE_RATING_DETAILS);
+		waitForAjax(getAjaxWaitTime());
+
+
+		assPremiumTabFilling.setUnderinsuredMotoristConversion("Yes");
+
+		verifyTextPresent("UIM Conversion Coverage selected");*/
+
+
+		//checkForVerificationErrors();
+	}
 
     private void preconditions(NavigationEnum.AutoSSTab navigateTo) {
         initiateQuote();

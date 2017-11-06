@@ -23,7 +23,9 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import toolkit.datax.TestData;
+import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.utils.screenshots.ScreenshotManager;
 import toolkit.verification.CustomAssert;
 
 import java.time.LocalDateTime;
@@ -76,6 +78,12 @@ public class ScenarioBaseTest extends BaseTest {
 		BillingSummaryPage.showPriorTerms();
 
 		CustomAssert.enableSoftMode();
+		// TODO-dchubkov: should be deleted after investigation
+		for (int p = 1; p < BillingSummaryPage.tableInstallmentSchedule.getPagination().getPagesCount(); p++) {
+			BillingSummaryPage.tableInstallmentSchedule.getPagination().goToPage(p);
+			ScreenshotManager.getInstance().makeScreenshot(this.getClass().getSimpleName(), "verifyRenewOfferGenerated", "_page_" + p, new IstfException("InstallmentsScheduleList"));
+		}
+
 		for (int i = 1; i < installmentDates.size(); i++) { // Do not include Deposit bill
 			new BillingInstallmentsScheduleVerifier().setDescription(BillingConstants.InstallmentDescription.INSTALLMENT)
 				.setInstallmentDueDate(installmentDates.get(i).plusYears(1)).verifyPresent();

@@ -72,7 +72,7 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 				Documents._550035,
 				Documents._554000,
 				Documents._605019,
-				Documents._550010,
+			 // Documents._550010, //784859
 				Documents._550016,
 				Documents._550018,
 				Documents._550023,

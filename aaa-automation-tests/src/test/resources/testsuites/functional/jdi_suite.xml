@@ -40,4 +40,10 @@
         </classes>
     </test>
 
+    <test name="TestContactInformation">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestContactInformation"/>
+        </classes>
+    </test>
+
 </suite>

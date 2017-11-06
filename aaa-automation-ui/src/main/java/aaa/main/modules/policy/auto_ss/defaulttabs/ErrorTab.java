@@ -8,6 +8,8 @@ import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
+import org.openqa.selenium.By;
+import toolkit.webdriver.controls.composite.table.Table;
 
 /**
  * Implementation of a specific tab in a workspace.

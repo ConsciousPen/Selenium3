@@ -84,6 +84,7 @@ public final class DocGenEnum {
 		AHRBXX("AHRBXX", "Insurance Renewal Bill"),
 		AA43AZ("Named Driver Exclusion Election"),
 		AA43IN("Named Driver Exclusion Election"),
+		AA43OH("Named Driver Exclusion Election"),
 		AA43PA("Named Driver Exclusion Election"),
 		AA43OK("Named Driver Exclusion Election"),
 		AASR22("Financial Responsibility"),
@@ -103,7 +104,7 @@ public final class DocGenEnum {
 		DS2482("DS 24 82", ""),
 		AAGCAZ("Golf Cart Coverage Endorsement"),
 		AA52AZ("Uninsured and Underinsured Motorist Coverage selection form"),
-		AA52IN("Uninsured/Underinsured Motorist Coverage selection form - Rejection or Election of Lower Limits"),
+		AA52IN("Uninsured/Underinsured Motorist Coverage - Rejection or Election of Lower Limits"),
 		AA53IN("Rejection of Uninsured Motorist Property Damage Coverage"),
 		AARFIXX("Request for Information"),
 		AA10XX("Insurance Identification Card"),
@@ -250,7 +251,17 @@ public final class DocGenEnum {
         _55_1007("55 1007", ""),
         _55_5086("55 5086", ""),
         _55_0001("55 0001", ""),
-        _55_6109("55 6109", "")
+        _55_6109("55 6109", ""),
+        
+        AA11VA("Virginia Auto Insurance Application"),
+        AA52VA("IMPORTANT NOTICE - UNINSURED MOTORIST COVERAGE"),
+        AA52OH("Rejection of Uninsured/Underinsured Motorist Bodily Injury Coverage"),
+        AA52AZ_UPPERCASE("UNINSURED AND UNDERINSURED MOTORIST COVERAGE SELECTION FORM"),
+        AAIQ("Auto Insurance Quote"),
+        AA11AZ("Auto Insurance Application"),
+        AA11IN("Indiana Auto Insurance Application"),
+        AA11OH("Auto Insurance Application"),
+        AAAUVA("")
 		;
 
 		private String id;
