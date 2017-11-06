@@ -16,13 +16,10 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
 
 /**
- * NB_FD _Flat_cancel
- * Reinstatement_Endorse
- * Standard monthly
- * Policy Effective Date (Future Dated) = X+2
- * Cash Down Payment
- * 
- *
+ * Controlled Financial Testing Scenario 17
+ * Authorized Refund - approved Lapse  - Waive fee
+ * Standard Monthly
+ * Check Down Payment
  */
 public class TestCFTScenario17 extends ControlledFinancialBaseTest {
 
@@ -32,7 +29,7 @@ public class TestCFTScenario17 extends ControlledFinancialBaseTest {
 	public void cftTestScenario17(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		acceptTotalDuePlus600StartDatePlus16();
-		refundPaymentStartDatePlus25();
+		refundPaymentAndApproveStartDatePlus25();
 		endorsePolicyCancellationDate();
 		endorseFirstEPBillDate(TestData.makeKeyPath(EndorsementActionTab.class.getSimpleName(), AutoCaMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()));
 	}

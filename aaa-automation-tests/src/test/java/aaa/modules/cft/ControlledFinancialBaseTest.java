@@ -302,17 +302,21 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Accept payment action completed successfully");
 	}
 
+	protected void refundPaymentAndApproveStartDatePlus25() {
+		refundPaymentStartDatePlus25();
+		Dollar refundAmount = new Dollar(600);
+		billingAccount.approveRefund().perform(refundAmount);
+		log.info("Approve refund action completed successfully");
+	}
+
 	protected void refundPaymentStartDatePlus25() {
 		LocalDateTime refundDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25).with(DateTimeUtils.closestFutureWorkingDay);
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
-
 		log.info("Refund payment action started on {}", refundDate);
 		mainApp().reopen();
 		Dollar refundAmount = new Dollar(600);
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		billingAccount.refund().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY), refundAmount);
-		billingAccount.approveRefund().perform(refundAmount);
-
 		log.info("Refund payment action completed successfully");
 	}
 
