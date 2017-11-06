@@ -43,20 +43,6 @@ DriverTab: {
 
 PremiumAndCoveragesTab_DataGather: {
   Payment Plan: 'Quarterly',
-  Policy Term: 'Annual',
-  Bodily Injury Liability: 'contains=$100,000/$300,000',
-  Comprehensive Deductible: 'contains=$750',
-  Collision Deductible: 'contains=$500',
-  Special Equipment Coverage: '1100'
-}
-
-PremiumAndCoveragesTab_DataGather_MD: {
-  Payment Plan: 'Quarterly',
-  Policy Term: 'Annual',
-  Bodily Injury Liability: 'contains=$100,000/$300,000',
-  Comprehensive Deductible: 'contains=$750',
-  Collision Deductible: 'contains=$500',
-  Special Equipment: '1100'
 }
 
 PurchaseTab_DataGather: {
