@@ -7,6 +7,7 @@ import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang.text.StrSubstitutor;
 import toolkit.db.DBService;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,7 +22,7 @@ public class DbXmlHelper implements AaaDocGenEntityQueries {
      * @param xmlns Name Spaces which uses in Xpath
      * @return XML content in String format
      */
-    public static String getXmlByDocName(DocGenEnum.Documents docId, String selectPolicyData, DocGenEnum.XmlnsDbFormat... xmlns) {
+    public static String getXmlByDocName(@Nonnull DocGenEnum.Documents docId, String selectPolicyData, DocGenEnum.XmlnsDbFormat... xmlns) {
         Map<String, String> params = ImmutableMap.of(
                 "DOC_NAME", docId.getId(),
                 "GET_DATA", selectPolicyData,
