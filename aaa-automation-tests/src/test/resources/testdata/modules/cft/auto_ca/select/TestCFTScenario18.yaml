@@ -1,0 +1,12 @@
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Standard Monthly
+}
+
+PurchaseTab_DataGather: {
+  Change Minimum Down Payment: true,
+  Minimum Required Down Payment: 10,
+  PaymentAllocation: {
+    Check: 10,
+    Check Number Check: '123456'
+  }
+}
