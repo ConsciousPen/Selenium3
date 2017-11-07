@@ -10,8 +10,8 @@ import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
 
 /**
@@ -53,5 +53,4 @@ public class TestCFTScenario1 extends ControlledFinancialBaseTest {
 		td.adjust(PurchaseTab.class.getSimpleName(), getTestSpecificTD("PurchaseTab_DataGather"));
 		return td.resolveLinks();
 	}
-
 }
