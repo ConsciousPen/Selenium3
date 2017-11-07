@@ -201,8 +201,8 @@ public class DocGenHelper {
     }
 
     public static Document getDocument(DocGenEnum.Documents value, String query) {
-        String contest = DbXmlHelper.getXmlByDocName(value, query);
-        return XmlHelper.xmlToModelByPartOfXml(contest, Document.class);
+        String xmlDocData = DbXmlHelper.getXmlByDocName(value, query);
+        return XmlHelper.xmlToModelByPartOfXml(xmlDocData, Document.class);
     }
 
 	private static boolean isRequestValid(DocumentWrapper dw, String policyNumber, DocGenEnum.Documents[] documents) {
