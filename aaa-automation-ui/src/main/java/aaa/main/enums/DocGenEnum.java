@@ -398,4 +398,19 @@ public final class DocGenEnum {
 		public final static String XSI_PREFIX = "xsi";
 		public final static String XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
 	}
+
+
+	public enum XmlnsDbFormat{
+		DOC("xmlns:doc=\"http://www.aaancnuie.com/DCS/2012/01/DocumentCreation\""),
+		AAAN("xmlns:aaan=\"http://www.aaancnuit.com.AAANCNU_IDocumentCreation_version1\"");
+
+		private String xmlns;
+		XmlnsDbFormat(String xmlns){
+			this.xmlns = xmlns;
+		}
+
+		public String getXmlns() {
+			return xmlns;
+		}
+	}
 }
