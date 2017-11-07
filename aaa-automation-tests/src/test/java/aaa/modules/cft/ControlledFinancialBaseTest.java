@@ -435,6 +435,12 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Waive action completed successfully");
 	}
 
+	protected void waiveFeeOnCancellationDate(int installmentNumber) {
+		LocalDateTime waiveDate = getTimePoints().getCancellationDate(
+			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
+		waiveFeeOnDate(waiveDate);
+	}
+
 	protected void manualFutureCancellationEffDatePlus25Days() {
 		LocalDateTime plus25Days = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
 		TimeSetterUtil.getInstance().nextPhase(plus25Days);
@@ -731,5 +737,25 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		new PaymentsMaintenance().addSuspense().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		log.info("Suspense added successfully");
+	}
+
+	private void waiveFeeOnDate(LocalDateTime waiveDate) {
+		TimeSetterUtil.getInstance().nextPhase(waiveDate);
+		log.info("Waive action started");
+		log.info("Waive date: {}", waiveDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		BillingSummaryPage.tablePaymentsOtherTransactions
+			.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
+				BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE)
+			.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION).controls.links.get(BillingConstants.PaymentsAndOtherTransactionAction.WAIVE).click();
+		BillingSummaryPage.dialogConfirmation.confirm();
+		new BillingPaymentsAndTransactionsVerifier()
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED)
+			.setTransactionDate(waiveDate)
+			.verifyPresent();
+		log.info("Waive action completed successfully");
 	}
 }
