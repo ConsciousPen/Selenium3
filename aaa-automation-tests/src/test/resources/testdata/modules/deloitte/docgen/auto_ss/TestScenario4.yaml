@@ -71,13 +71,30 @@ TestData_QuoteDataGather5: {
   DocumentsAndBindTab: {}
 }
 
-TestData_Purchase: {
+TestData_Purchase_AZ: {
   RatingDetailReportsTab: {},
   DriverActivityReportsTab: {
-    Sales Agent Agreement: 'I Agree',
     Validate Driving History: click
   },
-  DocumentsAndBindTab: '@DocumentsAndBindTab'
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Auto Insurance Application: Physically Signed,
+      Named Driver Exclusion: Physically Signed
+    },
+    Agreement: I agree,
+    RequiredToIssue: {
+      Proof of Defensive Driver course completion: 'Yes',
+      Proof of Good Student Discount: 'Yes',
+      Proof of Prior Insurance: 'Yes',
+      'Proof of purchase date (bill of sale) for new vehicle(s)': 'Yes',
+      'Proof of equivalent new car added protection with prior carrier for new vehicle(s)': 'Yes',
+      'Canadian MVR for (driver)': 'Yes'
+    },
+    Case Number: 123456,
+    GeneralInformation: {
+      'Work Phone #': 1234567890
+    }
+  }
 }
 
 Driver_empty: {}
@@ -294,26 +311,6 @@ PremiumAndCoveragesTab: {
   ]
 }
 
-DocumentsAndBindTab: {
-  RequiredToBind: {
-    Auto Insurance Application: Physically Signed,
-    Named Driver Exclusion Election: Physically Signed
-  },
-  Agreement: I agree,
-  RequiredToIssue: {
-    Proof of Defensive Driver course completion: 'Yes',
-    Proof of Good Student Discount: 'Yes',
-    Proof of Prior Insurance: 'Yes',
-    'Proof of purchase date (bill of sale) for new vehicle(s)': 'Yes',
-    'Proof of equivalent new car added protection with prior carrier for new vehicle(s)': 'Yes',
-    'Canadian MVR for (driver)': 'Yes'
-  },
-  Case Number: 123456,
-  GeneralInformation: {
-    'Work Phone #': 1234567890
-  }
-}
-
 ############################# IN #########################################
 
 TestData_QuoteCreation_IN: {
@@ -336,6 +333,33 @@ TestData_QuoteDataGather3_IN: {
   ErrorTabCalculatePremium: '@ErrorTabCalculatePremium',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: {}
+}
+
+TestData_Purchase_IN: {
+  RatingDetailReportsTab: {},
+  DriverActivityReportsTab: {
+    Sales Agent Agreement: 'I Agree',
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Auto Insurance Application: Physically Signed,
+      Named Driver Exclusion Election: Physically Signed
+    },
+    Agreement: I agree,
+    RequiredToIssue: {
+      Proof of Defensive Driver course completion: 'Yes',
+      Proof of Good Student Discount: 'Yes',
+      Proof of Prior Insurance: 'Yes',
+      'Proof of purchase date (bill of sale) for new vehicle(s)': 'Yes',
+      'Proof of equivalent new car added protection with prior carrier for new vehicle(s)': 'Yes',
+      'Canadian MVR for (driver)': 'Yes'
+    },
+    Case Number: 123456,
+    GeneralInformation: {
+      'Work Phone #': 1234567890
+    }
+  }
 }
 
 GeneralTab_IN: {

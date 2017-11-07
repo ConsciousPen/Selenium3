@@ -256,7 +256,7 @@ public final class DocGenEnum {
         AA11VA("Virginia Auto Insurance Application"),
         AA52VA("IMPORTANT NOTICE - UNINSURED MOTORIST COVERAGE"),
         AA52OH("Rejection of Uninsured/Underinsured Motorist Bodily Injury Coverage"),
-        AA52AZ_UPPERCASE("UNINSURED AND UNDERINSURED MOTORIST COVERAGE SELECTION FORM"),
+        AA52AZ_UPPERCASE("AA52AZ", "UNINSURED AND UNDERINSURED MOTORIST COVERAGE SELECTION FORM"),
         AAIQ("Auto Insurance Quote"),
         AA11AZ("Auto Insurance Application"),
         AA11IN("Indiana Auto Insurance Application"),
