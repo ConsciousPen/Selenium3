@@ -29,6 +29,7 @@ public final class DocGenEnum {
 		HSRFIXX("Request for Information"),
 		HSRFIXXPUP("HSRFIXX","Request For Information"),
 		AHRCTXX("Insured Receipt For Funds Received By Agent"),
+		AHRCTXXAUTO("AHRCTXX", "Insured Receipt for Funds"),
 		AHRCTXXPUP("AHRCTXX","Insured Receipt for Funds Received by Agent"),
 		PSIQXX("Personal Umbrella Liability Insurance Quote Page"),
 		PS11("Application for Personal Umbrella Liability Insurance"),
@@ -218,7 +219,9 @@ public final class DocGenEnum {
         SR22SR1P("California Insurance Proof Certificate"),
         _605005("605005", "Returning Enclosed Check"),
         _605005_SELECT("605005", "Returning Payment"),
+        _605004("605004", "Remove Recurring Payments"),
         AA06XX("Agent Advice Memo"),
+        AA06XX_AUTOSS("AA06XX", "Agent Advise Memo"),
         
         _550007("550007", "Uninsured Motorist Coverage Deletion or Selection of Limits Agreement"),
         _550011("550011", "Camper Physical Damage Coverage Waiver"),
@@ -261,7 +264,17 @@ public final class DocGenEnum {
         AA11AZ("Auto Insurance Application"),
         AA11IN("Indiana Auto Insurance Application"),
         AA11OH("Auto Insurance Application"),
-        AAAUVA("")
+        AAAUVA(""),
+        AA02VA(""),
+        
+        AU02("Notice of Cancellation"),
+        AU04("Free Form to Insured"),
+        AU05("Premium Misquote Information"),
+        AU06("Free Form to Producer"),
+        AU07("Notice of Non-Renewal"),
+        AU08("Request for Additional Information"),
+        AU09("Uprate Notice"),
+        AU10("Potential Uprate"),
 		;
 
 		private String id;

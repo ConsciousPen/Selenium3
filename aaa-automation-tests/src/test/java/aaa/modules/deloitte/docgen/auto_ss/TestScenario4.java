@@ -3,7 +3,6 @@ package aaa.modules.deloitte.docgen.auto_ss;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import toolkit.verification.CustomAssert;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AutoSSTab;
@@ -11,6 +10,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum.Documents;
+import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting;
 import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentActionTab;
@@ -18,6 +18,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
 
@@ -129,6 +130,50 @@ public class TestScenario4 extends AutoSSBaseTest {
 		
 		/* Purchase */
 		policy.calculatePremiumAndPurchase(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase").resolveLinks()));
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		
+		/*
+		 * Check Documents in 'Generate on Demand Document' screen for policy
+		 */
+		policy.policyDocGen().start();
+		switch(getState()){
+		case States.VA:
+			docgenActionTab.verify.documentsEnabled(Documents.AA11VA, Documents.AA52VA, Documents.AA10XX, Documents.AASR22, Documents.AHAPXX, Documents.AHRCTXXAUTO, Documents.AA06XX_AUTOSS, Documents._605005_SELECT, Documents._605004, Documents.AU02, Documents.AU07, Documents.AU09, Documents.AU10, Documents.AU08, Documents.AU06, Documents.AU04, Documents.AU05);
+			docgenActionTab.verify.documentsEnabled(false, Documents.AHFMXX);
+			break;
+		case States.OH:
+			docgenActionTab.verify.documentsEnabled(Documents.AA11OH, Documents.AA10XX, Documents.AASR22, Documents.AHAPXX, Documents.AHRCTXXAUTO, Documents.AA06XX_AUTOSS, Documents._605004, Documents.AU02, Documents.AU07, Documents.AU09, Documents.AU10, Documents.AU08, Documents.AU06, Documents.AU04, Documents.AU05);
+			docgenActionTab.verify.documentsEnabled(false, Documents.AA52OH, Documents.AHFMXX);
+			break;
+		case States.IN:
+			docgenActionTab.verify.documentsEnabled(Documents.AA11IN, Documents.AA10XX, Documents.AASR22, Documents.AHAPXX, Documents.AHRCTXXAUTO, Documents.AA06XX_AUTOSS, Documents._605004, Documents._605005_SELECT, Documents.AU02, Documents.AU07, Documents.AU09, Documents.AU10, Documents.AU08, Documents.AU06, Documents.AU04, Documents.AU05);
+			docgenActionTab.verify.documentsEnabled(false, Documents.AA52IN, Documents.AHFMXX);
+			break;
+		case States.AZ:
+			docgenActionTab.verify.documentsEnabled(Documents.AA11AZ, Documents.AA10XX, Documents.AASR22, Documents.AHAPXX, Documents.AHRCTXXAUTO, Documents.AA06XX_AUTOSS, Documents._605004, Documents._605005_SELECT, Documents.AU02, Documents.AU07, Documents.AU09, Documents.AU10, Documents.AU08, Documents.AU06, Documents.AU04, Documents.AU05);
+			docgenActionTab.verify.documentsEnabled(false, Documents.AA52AZ_UPPERCASE, Documents.AHFMXX);
+			break;
+		}
+		docgenActionTab.cancel();
+		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
+		
+		/* Check xml */
+		switch(getState()){
+		case States.VA:
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AA02VA, Documents.AHNBXX);
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AASR22);
+			break;
+		case States.OH:
+			
+			break;
+		case States.IN:
+			
+			break;
+		case States.AZ:
+			
+			break;
+		}
 		
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
