@@ -490,6 +490,32 @@ TestData_QuoteDataGather3_OH: {
   DocumentsAndBindTab: {}
 }
 
+TestData_Purchase_OH: {
+  RatingDetailReportsTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Auto Insurance Application: Physically Signed,
+      Named Driver Exclusion Election: Physically Signed
+    },
+    Agreement: I agree,
+    RequiredToIssue: {
+      Proof of Defensive Driver course completion: 'Yes',
+      Proof of Good Student Discount: 'Yes',
+      Proof of Prior Insurance: 'Yes',
+      'Proof of purchase date (bill of sale) for new vehicle(s)': 'Yes',
+      'Proof of equivalent new car added protection with prior carrier for new vehicle(s)': 'Yes',
+      'Canadian MVR for (driver)': 'Yes'
+    },
+    Case Number: 123456,
+    GeneralInformation: {
+      'Work Phone #': 1234567890
+    }
+  }
+}
+
 GeneralTab_OH: {
   NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation'],
   AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
@@ -644,6 +670,31 @@ TestData_QuoteDataGather3_VA: {
   ErrorTabCalculatePremium: '@ErrorTabCalculatePremium',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: {}
+}
+
+TestData_Purchase_VA: {
+  RatingDetailReportsTab: {},
+  DriverActivityReportsTab: {
+    Sales Agent Agreement: 'I Agree',
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Auto Insurance Application: Physically Signed
+    },
+    Agreement: I agree,
+    RequiredToIssue: {
+      Proof of Defensive Driver course completion: 'Yes',
+      Proof of Good Student Discount: 'Yes',
+      Proof of Prior Insurance: 'Yes',
+      'Proof of purchase date (bill of sale) for new vehicle(s)': 'Yes',
+      'Proof of equivalent new car added protection with prior carrier for new vehicle(s)': 'Yes'
+    },
+    Case Number: 123456,
+    GeneralInformation: {
+      'Work Phone #': 1234567890
+    }
+  }
 }
 
 GeneralTab_VA: {
