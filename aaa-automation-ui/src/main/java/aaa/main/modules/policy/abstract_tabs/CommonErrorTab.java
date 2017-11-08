@@ -47,7 +47,9 @@ public abstract class CommonErrorTab extends Tab {
 	}
 
 	public void overrideAllErrors() {
-		overrideAllErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.OTHER);
+		if(getErrorsControl().getTable().isPresent()) {
+			overrideAllErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.OTHER);
+		}
 	}
 
 	public void overrideAllErrors(ErrorEnum.Duration duration, ErrorEnum.ReasonForOverride reason) {

@@ -1,14 +1,11 @@
 TestData: {
-  CancellationActionTab: '@CancellationActionTab'
+  CancellationActionTab: '@CancellationActionTab',
 }
 
 PremiumsAndCoveragesQuoteTab_DataGather: {
-  Payment plan: Eleven Pay Standard,
-  Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
-  Coverage E - Personal Liability Each Occurrence: '$300,000'
+  Payment plan: Eleven Pay Standard
 }
 
 CancellationActionTab: {
-  Cancellation Reason: 'Rewrite Accommodation',
-  Authorized By: QA
+  Cancellation reason: 'Rewrite Accommodation',
 }

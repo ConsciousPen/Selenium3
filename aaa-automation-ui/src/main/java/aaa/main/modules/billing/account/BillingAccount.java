@@ -3,28 +3,14 @@
 package aaa.main.modules.billing.account;
 
 import aaa.common.Workspace;
-import aaa.main.modules.billing.account.BillingAccountActions.AcceptPayment;
-import aaa.main.modules.billing.account.BillingAccountActions.AddHold;
-import aaa.main.modules.billing.account.BillingAccountActions.ApproveRefund;
-import aaa.main.modules.billing.account.BillingAccountActions.DeclinePayment;
-import aaa.main.modules.billing.account.BillingAccountActions.DiscardBill;
-import aaa.main.modules.billing.account.BillingAccountActions.GenerateFutureStatement;
-import aaa.main.modules.billing.account.BillingAccountActions.IssueRefund;
-import aaa.main.modules.billing.account.BillingAccountActions.MovePolicies;
-import aaa.main.modules.billing.account.BillingAccountActions.OtherTransactions;
-import aaa.main.modules.billing.account.BillingAccountActions.Refund;
-import aaa.main.modules.billing.account.BillingAccountActions.RegenerateBill;
-import aaa.main.modules.billing.account.BillingAccountActions.RemoveHold;
-import aaa.main.modules.billing.account.BillingAccountActions.TransferPayment;
-import aaa.main.modules.billing.account.BillingAccountActions.UnallocatePayment;
-import aaa.main.modules.billing.account.BillingAccountActions.Update;
-import aaa.main.modules.billing.account.BillingAccountActions.ViewModalPremium;
-import aaa.main.modules.billing.account.BillingAccountActions.WaiveFee;
-import aaa.main.modules.billing.account.BillingAccountActions.ChangePaymentPlan;
+import aaa.main.modules.billing.account.BillingAccountActions.*;
 import aaa.main.modules.billing.account.views.DefaultView;
+import org.openqa.selenium.By;
 import toolkit.datax.TestData;
+import toolkit.webdriver.controls.composite.table.Table;
 
 public class BillingAccount implements IBillingAccount {
+    public static Table tableInstallmentSavingInfo = new Table(By.id("updateForm:installmentFeeAmountSavedPanel"));
     private Workspace defaultView = new DefaultView();
 
     @Override
@@ -43,7 +29,7 @@ public class BillingAccount implements IBillingAccount {
     }
 
     @Override
-    public synchronized AcceptPayment acceptPayment() {
+    public AcceptPayment acceptPayment() {
         return new BillingAccountActions.AcceptPayment();
     }
 

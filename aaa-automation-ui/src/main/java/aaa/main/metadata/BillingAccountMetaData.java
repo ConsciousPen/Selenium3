@@ -2,16 +2,16 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.metadata;
 
+import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.FillableTable;
+import com.exigen.ipb.etcsa.controls.dialog.DialogMultiSelector;
+import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
+import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import org.openqa.selenium.By;
 import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.waiters.Waiters;
-import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
-import com.exigen.ipb.etcsa.controls.dialog.DialogMultiSelector;
-import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
-import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 
 public final class BillingAccountMetaData {
     public static final class GenerateFutureStatementActionTab extends MetaData {}
@@ -29,6 +29,11 @@ public final class BillingAccountMetaData {
         public static final AssetDescriptor<RadioGroup> SUSPEND_REMAINING = declare("Suspend Remaining?", RadioGroup.class);
         public static final AssetDescriptor<RadioButton> ALLOCATE_EXISTING_SUSPENSE = declare("Allocate existing Suspense", RadioButton.class, By.id("paymentForm:createNewPayment_radio:1"));
         public static final AssetDescriptor<RadioButton> UPDATE_LIVES_VOLUME_NO = declare("Update Lives/Volume? NO", RadioButton.class, By.id("paymentForm:updateLivesVolume_radio:1"));
+
+        //Fee specific fields
+        public static final AssetDescriptor<ComboBox> TRANSACTION_TYPE = declare("Transaction Type", ComboBox.class);
+        public static final AssetDescriptor<ComboBox> TRANSACTION_SUBTYPE = declare("Transaction Subtype", ComboBox.class);
+
     }
 
     public static final class UpdateBillingAccountActionTab extends MetaData {

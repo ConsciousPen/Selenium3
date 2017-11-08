@@ -407,7 +407,7 @@ TestData_PA: {
   Offcycle bill generation: [-20, NEXT],
   Bill payment: [0, NEXT],
   Update policy status: [1, NEXT],
-  Refund: [7, NONE],
+  Refund: [1, NONE],
   Cancellation notice: [5, PREVIOUS],
   Cancellation: [15, NEXT],
   Renew customer decline: [15, NEXT],

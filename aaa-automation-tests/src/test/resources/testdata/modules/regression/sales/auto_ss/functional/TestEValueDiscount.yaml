@@ -1,10 +1,6 @@
-ValidateAddressDialog: {
-  Street Name: 265 CHIPMAN AVE
-}
-
 AAAProductOwned_Active: {
   Current AAA Member: 'Yes',
-  Membership Number: 4382127703153016,
+  Membership Number: 4382124426284004,
   Last name: Test
 }
 
@@ -59,12 +55,68 @@ CurrentCarrierInformation_BILimitLess: {
   Agent Entered BI Limits: '$15,000/$30,000',
 }
 
-PrefillTab_eValue: {
-  Validate Address: click,
-      Validate Address Dialog: {
-        Street number: '265',
-        Street Name: 'CHIPMAN AVE',
-      },
-  Order Prefill: click
+PurchaseTab_ACH: {
+  PaymentMethods: ['@ACH'],
+  Activate Autopay: true,
+  Autopay Selection: 'contains=ACH',
+  PaymentAllocation: {
+    ACH: '/rest'
+  },
+  Signature on File Indicator: 'Yes'
 }
 
+ACH: {
+ Payment Method: 'Checking/Savings (ACH)',
+  'Transit #': '011104209',
+  'Account #': '1234567890'
+}
+
+PurchaseTab_CC: {
+  PaymentMethods: ['@CC_MasterCard'],
+  Activate Autopay: true,
+  Autopay Selection: 'contains=Credit',
+  PaymentAllocation: {
+    Master: '/rest'
+  }
+}
+
+CC_MasterCard: {
+  Payment Method: 'Credit/Debit Card',
+  Type: 'Master Card',
+  Number: '5555555555554444',
+  'Expiration Month/Year': ['/today:M', '/today+4y:yyyy']
+}
+
+PurchaseTab_DC: {
+  PaymentMethods: ['@DC_Visa'],
+  Activate Autopay: true,
+  Autopay Selection: 'contains=Debit',
+  PaymentAllocation: {
+    Visa: '/rest'
+  }
+}
+
+DC_Visa: {
+  Payment Method: 'Credit/Debit Card',
+  Type: 'MasterCard',
+  Number: '4539343326426984',
+  'Expiration Month/Year': ['/today:M', '/today+4y:yyyy']
+}
+
+PolicyInformationForTerritoriesEValueApplicable: {
+  Channel Type: AAA Agent,
+  Agency: AAA Mid-Atlantic - 500016292,
+  Agency Location: Wayne - 500017252 - Wayne,
+}
+
+PolicyInformationForTerritoriesEValueNotApplicable1: {
+  Channel Type: AAA Agent,
+  Agency: 'contains=NORTHWAY NEW YORK',
+  Agency Location: 'contains=QUEENSBURY',
+}
+
+PolicyInformationForTerritoriesEValueNotApplicable2: {
+  Channel Type: Independent Agent,
+  Agency: 'contains=123 Group LLC',
+  Agent: 'Rhonda McAtee',
+}

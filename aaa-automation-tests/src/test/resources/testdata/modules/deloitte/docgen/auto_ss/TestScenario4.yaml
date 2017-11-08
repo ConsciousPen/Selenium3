@@ -1,0 +1,813 @@
+############################# AZ #########################################
+
+TestData_QuoteCreation_AZ: {
+  GeneralTab: '@GeneralTab_AZ',
+  DriverTab: ['@Driver1_AZ', '@Driver2_AZ', '@Driver3_AZ', '@Driver4_AZ'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab_AZ',
+  VehicleTab: ['@Vehicle1', '@Vehicle2', '@Vehicle3', '@Vehicle4', '@Vehicle5'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DocumentsAndBindTab: {}
+}
+
+TestData_QuoteDataGather1: {
+  RatingDetailReportsTab: '@RatingDetailReportsTab_Update1',
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+TestData_QuoteDataGather2: {
+  RatingDetailReportsTab: '@RatingDetailReportsTab_Update2',
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+TestData_QuoteDataGather3_AZ: {
+  DriverTab: ['@Driver_empty','@Driver_empty','@Driver_empty','@Driver_empty','@Driver5_AZ'],
+  RatingDetailReportsTab: {
+    Order Report: ''
+  },
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  ErrorTabCalculatePremium: '@ErrorTabCalculatePremium',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+TestData_QuoteDataGather4: {
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_QuoteDataGather5: {
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$50,000/$100,000',
+    DetailedVehicleCoverages: [
+      {},
+      {},
+      {},
+      {
+        New Car Added Protection: 'Yes',
+        Purchase Date: /today-20d
+      },
+      {
+        New Car Added Protection: 'Yes',
+        Purchase Date: /today-40d
+      }
+    ]
+  },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_Purchase_AZ: {
+  RatingDetailReportsTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Auto Insurance Application: Physically Signed,
+      Named Driver Exclusion: Physically Signed
+    },
+    Agreement: I agree,
+    RequiredToIssue: {
+      Proof of Defensive Driver course completion: 'Yes',
+      Proof of Good Student Discount: 'Yes',
+      Proof of Prior Insurance: 'Yes',
+      'Proof of purchase date (bill of sale) for new vehicle(s)': 'Yes',
+      'Proof of equivalent new car added protection with prior carrier for new vehicle(s)': 'Yes',
+      'Canadian MVR for (driver)': 'Yes'
+    },
+    Case Number: 123456,
+    GeneralInformation: {
+      'Work Phone #': 1234567890
+    }
+  }
+}
+
+Driver_empty: {}
+
+ErrorTabCalculatePremium: {
+  ErrorsOverride: {
+    Override: 'true',
+    Approval: 'true',
+    Message: 'Driver with a Major violation, including a DUI is unacceptable',
+    Duration: Term,
+    Reason for override: index=1
+  }
+}
+
+DriverActivityReportsTab: {
+  Validate Driving History: click
+}
+
+RatingDetailReportsTab_Update1: {
+  OrderInsuranceScoreReport: [
+    {
+      Select: 'Yes'
+    },
+    {
+      Select: 'Yes'
+    },
+  ],
+  Customer Agreement: 'Customer Agrees',
+  Order Report: ''
+}
+
+RatingDetailReportsTab_Update2: {
+  InsuranceScoreOverride: [
+    {
+      Action: Override Score,
+      EditInsuranceScoreDialog: {
+        New Score: 997,
+        Reason for Override: Fair Credit Reporting Act Dispute,
+        Save: ''
+      }
+    },
+    {
+      Action: Override Score,
+      EditInsuranceScoreDialog: {
+        New Score: 997,
+        Reason for Override: Fair Credit Reporting Act Dispute,
+        Save: ''
+      }
+    },
+  ],
+  Order Report: ''
+}
+
+GeneralTab_AZ: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
+}
+
+NamedInsuredInformation: {
+  First Name: Sam,
+  Last Name: Alonso,
+  Social Security Number: 123456788,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home
+}
+
+Driver1_AZ: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 400064773,
+  ADB Coverage: 'Yes',
+  Financial Responsibility Filing Needed: 'Yes',
+  Filing State: Arizona
+}
+
+Driver2_AZ: {
+  DriverSearchDialog: {},
+  Named Insured: Sam Alonso,
+  Rel. to First Named Insured: Other,
+  Date of Birth: 01/01/1992,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Student,
+  License Type: 'Licensed (US)',
+  Age First Licensed: 16,
+  License Number: A74253615,
+  Most Recent GPA: A Student,
+  'Smart Driver Course Completed?': 'Yes',
+  Smart Driver Course Completion Date: 01/01/2008,
+  Smart Driver Course Certificate Number: 12345678
+}
+
+Driver3_AZ: {
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Other,
+  First Name: Old,
+  Last Name: Bear,
+  Date of Birth: 01/01/1955,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  License Type: 'Licensed (US)',
+  License Number: A25417865,
+  Age First Licensed: 16,
+  'Defensive Driver Course Completed?': 'Yes',
+  Defensive Driver Course Completion Date: /today-366d,
+  Defensive Driver Course Certificate Number: 12345678
+}
+
+Driver4_AZ: {
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Other,
+  Driver Type: Excluded,
+  Reason: Company Request,
+  First Name: Jim,
+  Last Name: Block,
+  Date of Birth: 01/01/1981,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  License Type: 'Licensed (Canadian)',
+  License Number: A54178654,
+  Age First Licensed: 16
+}
+
+Driver5_AZ: {
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Other,
+  First Name: Chris,
+  Last Name: Gold,
+  Date of Birth: 01/01/1970,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  License Type: 'Licensed (US)',
+  License Number: A54673422,
+  Age First Licensed: 18,
+  ActivityInformation: {
+    Type: Alcohol-Related Violation,
+    Description: Driving Under the Influence of Alcohol,
+    Occurrence Date: /today-20d,
+    'Include in Points and/or Tier?': 'Yes'
+  }
+}
+
+RatingDetailReportsTab_AZ: {
+  Sales Agent Agreement: I Agree,
+  Order Report: click,
+  AAAMembershipReport: [{}],
+  OrderInsuranceScoreReport: [
+    {
+      Select: Declined,
+      Name: 'contains=Fernando'
+    },
+    {
+      Select: Declined,
+      Name: 'contains=Sam'
+    }
+  ]
+}
+
+Vehicle1: {
+  Usage: Pleasure,
+  VIN: 5YMGY0C57C1661237
+}
+
+Vehicle2: {
+  Usage: Pleasure,
+  VIN: 5NPEB4AC7C7443856
+}
+
+Vehicle3: {
+  Usage: Pleasure,
+  VIN: 2B3ED46T6RH199391
+}
+
+Vehicle4: {
+  Usage: Pleasure,
+  VIN: 1G1YL2D7XG5100002,
+  Year: 2017,
+  Make: OTHER,
+  Other Make: FORD,
+  Other Model: Model,
+  Other Body Style: Sedan,
+  Stat Code: 'AN - Small car',
+  Stated Amount: 1000
+}
+
+Vehicle5: {
+  Usage: Pleasure,
+  VIN: 1G1YL2D7XG5100001,
+  Year: 2017,
+  Make: OTHER,
+  Other Make: Make,
+  Other Model: Model,
+  Other Body Style: Coupe,
+  Stat Code: 'AC - Small SUV',
+  Stated Amount: 2000
+}
+
+PremiumAndCoveragesTab: {
+  DetailedVehicleCoverages: [
+    {},
+    {},
+    {},
+    {
+      New Car Added Protection: 'Yes',
+      Purchase Date: /today
+    }
+  ]
+}
+
+############################# IN #########################################
+
+TestData_QuoteCreation_IN: {
+  GeneralTab: '@GeneralTab_IN',
+  DriverTab: ['@Driver1_IN', '@Driver2_IN', '@Driver3_IN', '@Driver4_IN'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab_IN',
+  VehicleTab: ['@Vehicle1', '@Vehicle2', '@Vehicle3', '@Vehicle4', '@Vehicle5'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DocumentsAndBindTab: {}
+}
+
+TestData_QuoteDataGather3_IN: {
+  DriverTab: ['@Driver_empty','@Driver_empty','@Driver_empty','@Driver_empty','@Driver5_IN'],
+  RatingDetailReportsTab: {
+    Order Report: ''
+  },
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  ErrorTabCalculatePremium: '@ErrorTabCalculatePremium',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+TestData_Purchase_IN: {
+  RatingDetailReportsTab: {},
+  DriverActivityReportsTab: {
+    Sales Agent Agreement: 'I Agree',
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Auto Insurance Application: Physically Signed,
+      Named Driver Exclusion Election: Physically Signed
+    },
+    Agreement: I agree,
+    RequiredToIssue: {
+      Proof of Defensive Driver course completion: 'Yes',
+      Proof of Good Student Discount: 'Yes',
+      Proof of Prior Insurance: 'Yes',
+      'Proof of purchase date (bill of sale) for new vehicle(s)': 'Yes',
+      'Proof of equivalent new car added protection with prior carrier for new vehicle(s)': 'Yes',
+      'Canadian MVR for (driver)': 'Yes'
+    },
+    Case Number: 123456,
+    GeneralInformation: {
+      'Work Phone #': 1234567890
+    }
+  }
+}
+
+GeneralTab_IN: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_IN'
+}
+
+Driver1_IN: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 154673421,
+  ADB Coverage: 'Yes',
+  Financial Responsibility Filing Needed: 'Yes',
+  Filing State: Indiana
+}
+
+Driver2_IN: {
+  DriverSearchDialog: {},
+  Named Insured: Sam Alonso,
+  Rel. to First Named Insured: Other,
+  Date of Birth: 01/01/1992,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Student,
+  License Type: 'Licensed (US)',
+  Age First Licensed: 16,
+  License Number: 154673422,
+  Most Recent GPA: A Student,
+  'Smart Driver Course Completed?': 'Yes',
+  Smart Driver Course Completion Date: 01/01/2008,
+  Smart Driver Course Certificate Number: 12345678
+}
+
+Driver3_IN: {
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Other,
+  First Name: Old,
+  Last Name: Bear,
+  Date of Birth: 01/01/1955,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  License Type: 'Licensed (US)',
+  License Number: 154673423,
+  Age First Licensed: 16,
+  'Defensive Driver Course Completed?': 'Yes',
+  Defensive Driver Course Completion Date: /today-366d,
+  Defensive Driver Course Certificate Number: 12345678
+}
+
+Driver4_IN: {
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Spouse,
+  Driver Type: Excluded,
+  Reason: Company Request,
+  First Name: Jim,
+  Last Name: Block,
+  Date of Birth: 01/01/1981,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  License Type: 'Licensed (Canadian)',
+  License Number: 154673424,
+  Age First Licensed: 16
+}
+
+Driver5_IN: {
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Other,
+  First Name: Chris,
+  Last Name: Gold,
+  Date of Birth: 01/01/1970,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  License Type: 'Licensed (US)',
+  License Number: 154673425,
+  Age First Licensed: 18,
+  ActivityInformation: {
+    Type: Alcohol-Related Violation,
+    Description: Driving Under the Influence of Alcohol,
+    Occurrence Date: /today-20d,
+    'Include in Points and/or Tier?': 'Yes'
+  }
+}
+
+RatingDetailReportsTab_IN: {
+  Sales Agent Agreement: I Agree,
+  Order Report: click,
+  AAAMembershipReport: [{}],
+  OrderInsuranceScoreReport: [
+    {
+      Select: Declined,
+      Name: 'contains=Harry'
+    },
+    {
+      Select: Declined,
+      Name: 'contains=Sam'
+    }
+  ]
+}
+
+############################# OH #########################################
+
+TestData_QuoteCreation_OH: {
+  GeneralTab: '@GeneralTab_OH',
+  DriverTab: ['@Driver1_OH', '@Driver2_OH', '@Driver3_OH', '@Driver4_OH'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab_OH',
+  VehicleTab: ['@Vehicle1', '@Vehicle2', '@Vehicle3', '@Vehicle4', '@Vehicle5'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DocumentsAndBindTab: {}
+}
+
+TestData_QuoteDataGather3_OH: {
+  DriverTab: ['@Driver_empty','@Driver_empty','@Driver_empty','@Driver_empty','@Driver5_OH'],
+  RatingDetailReportsTab: {
+    Order Report: ''
+  },
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  ErrorTabCalculatePremium: '@ErrorTabCalculatePremium',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+TestData_Purchase_OH: {
+  RatingDetailReportsTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Auto Insurance Application: Physically Signed,
+      Named Driver Exclusion Election: Physically Signed
+    },
+    Agreement: I agree,
+    RequiredToIssue: {
+      Proof of Defensive Driver course completion: 'Yes',
+      Proof of Good Student Discount: 'Yes',
+      Proof of Prior Insurance: 'Yes',
+      'Proof of purchase date (bill of sale) for new vehicle(s)': 'Yes',
+      'Proof of equivalent new car added protection with prior carrier for new vehicle(s)': 'Yes',
+      'Canadian MVR for (driver)': 'Yes'
+    },
+    Case Number: 123456,
+    GeneralInformation: {
+      'Work Phone #': 1234567890
+    }
+  }
+}
+
+GeneralTab_OH: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_OH'
+}
+
+Driver1_OH: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: AB546734,
+  ADB Coverage: 'Yes',
+  Financial Responsibility Filing Needed: 'Yes',
+  Filing State: Ohio
+}
+
+Driver2_OH: {
+  DriverSearchDialog: {},
+  Named Insured: Sam Alonso,
+  Rel. to First Named Insured: Other,
+  Date of Birth: 01/01/1992,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Student,
+  License Type: 'Licensed (US)',
+  Age First Licensed: 16,
+  License Number: AB673422,
+  Most Recent GPA: A Student,
+  'Smart Driver Course Completed?': 'Yes',
+  Smart Driver Course Completion Date: 01/01/2008,
+  Smart Driver Course Certificate Number: 12345678
+}
+
+Driver3_OH: {
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Other,
+  First Name: Old,
+  Last Name: Bear,
+  Date of Birth: 01/01/1955,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  License Type: 'Licensed (US)',
+  License Number: AB673423,
+  Age First Licensed: 16,
+  'Defensive Driver Course Completed?': 'Yes',
+  Defensive Driver Course Completion Date: /today-366d,
+  Defensive Driver Course Certificate Number: 12345678
+}
+
+Driver4_OH: {
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Spouse,
+  Driver Type: Excluded,
+  Reason: Company Request,
+  First Name: Jim,
+  Last Name: Block,
+  Date of Birth: 01/01/1981,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  License Type: 'Licensed (Canadian)',
+  License Number: AB673424,
+  Age First Licensed: 16
+}
+
+Driver5_OH: {
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Other,
+  First Name: Chris,
+  Last Name: Gold,
+  Date of Birth: 01/01/1970,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  License Type: 'Licensed (US)',
+  License Number: AB673425,
+  Age First Licensed: 18,
+  ActivityInformation: {
+    Type: Alcohol-Related Violation,
+    Description: Driving Under the Influence of Alcohol,
+    Occurrence Date: /today-20d,
+    'Include in Points and/or Tier?': 'Yes'
+  }
+}
+
+RatingDetailReportsTab_OH: {
+  Sales Agent Agreement: I Agree,
+  Order Report: click,
+  AAAMembershipReport: [{}],
+  OrderInsuranceScoreReport: [
+    {
+      Select: Declined,
+      Name: 'contains=Messi'
+    },
+    {
+      Select: Declined,
+      Name: 'contains=Sam'
+    }
+  ]
+}
+
+############################# VA #########################################
+
+TestData_QuoteCreation_VA: {
+  GeneralTab: '@GeneralTab_VA',
+  DriverTab: ['@Driver1_VA', '@Driver2_VA', '@Driver3_VA'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab_VA',
+  VehicleTab: ['@Vehicle1', '@Vehicle2', '@Vehicle3', '@Vehicle4', '@Vehicle5'],
+  AssignmentTab: '@AssignmentTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DocumentsAndBindTab: {}
+}
+
+TestData_QuoteDataGather1_VA: {
+  RatingDetailReportsTab: '@RatingDetailReportsTab_Update1',
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+TestData_QuoteDataGather2_VA: {
+  RatingDetailReportsTab: '@RatingDetailReportsTab_Update2',
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+TestData_QuoteDataGather3_VA: {
+  DriverTab: ['@Driver_empty','@Driver_empty','@Driver_empty','@Driver5_VA'],
+  RatingDetailReportsTab: {
+    Order Report: ''
+  },
+  VehicleTab: {},
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+      Driver: 'contains=Chris',
+      Select Vehicle: 'index=4'
+    },
+    Assign: '',
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  ErrorTabCalculatePremium: '@ErrorTabCalculatePremium',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: {}
+}
+
+TestData_Purchase_VA: {
+  RatingDetailReportsTab: {},
+  DriverActivityReportsTab: {
+    Sales Agent Agreement: 'I Agree',
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Auto Insurance Application: Physically Signed
+    },
+    Agreement: I agree,
+    RequiredToIssue: {
+      Proof of Defensive Driver course completion: 'Yes',
+      Proof of Good Student Discount: 'Yes',
+      Proof of Prior Insurance: 'Yes',
+      'Proof of purchase date (bill of sale) for new vehicle(s)': 'Yes',
+      'Proof of equivalent new car added protection with prior carrier for new vehicle(s)': 'Yes'
+    },
+    Case Number: 123456,
+    GeneralInformation: {
+      'Work Phone #': 1234567890
+    }
+  }
+}
+
+GeneralTab_VA: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA'
+}
+
+Driver1_VA: {  
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 831278809,
+  Financial Responsibility Filing Needed: 'Yes',
+  Filing State: Virginia
+}
+
+Driver2_VA: {
+  DriverSearchDialog: {},
+  Named Insured: Sam Alonso,
+  Rel. to First Named Insured: Other,
+  Date of Birth: 01/01/1992,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Student,
+  License Type: 'Licensed (US)',
+  Age First Licensed: 16,
+  License Number: 154673422,
+  Most Recent GPA: A Student,
+  'Smart Driver Course Completed?': 'Yes',
+  Smart Driver Course Completion Date: 01/01/2008,
+  Smart Driver Course Certificate Number: 12345678
+}
+
+Driver3_VA: {
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Other,
+  First Name: Old,
+  Last Name: Bear,
+  Date of Birth: 01/01/1955,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  License Type: 'Licensed (US)',
+  License Number: 154673423,
+  Age First Licensed: 16,
+  'Defensive Driver Course Completed?': 'Yes',
+  Defensive Driver Course Completion Date: /today-366d,
+  Defensive Driver Course Certificate Number: 12345678
+}
+
+Driver5_VA: {
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Other,
+  First Name: Chris,
+  Last Name: Gold,
+  Date of Birth: 01/01/1970,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  License Type: 'Licensed (US)',
+  License Number: 154673424,
+  Age First Licensed: 18,
+  ActivityInformation: {
+    Type: Alcohol-Related Violation,
+    Description: Driving Under the Influence of Alcohol,
+    Occurrence Date: /today-20d,
+    'Include in Points and/or Tier?': 'Yes'
+  }
+}
+
+RatingDetailReportsTab_VA: {
+  Sales Agent Agreement: I Agree,
+  Order Report: click,
+  AAAMembershipReport: [{}],
+  OrderInsuranceScoreReport: [
+    {
+      Select: Declined,
+      Name: 'contains=Afflek'
+    },
+    {
+      Select: Declined,
+      Name: 'contains=Sam'
+    }
+  ]
+}
+
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [
+    {
+      Driver: 'contains=Afflek',
+      Select Vehicle: 'index=1'
+    },
+    {
+      Driver: 'contains=Sam',
+      Select Vehicle: 'index=2'
+    },
+    {
+      Driver: 'contains=Old',
+      Select Vehicle: 'index=3'
+    }
+  ],
+  Assign: '',
+  ExcessVehiclesTable: [
+    {
+      'Excess Vehicle(s)': 'contains=FORD',
+      Select Driver: 'index=1'
+    },
+    {
+      'Excess Vehicle(s)': 'contains=Make',
+      Select Driver: 'index=1'
+    }
+  ]
+}

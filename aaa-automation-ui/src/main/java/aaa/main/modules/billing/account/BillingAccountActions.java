@@ -12,11 +12,8 @@ import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.actiontabs.*;
 import aaa.main.modules.billing.account.views.*;
 import aaa.main.pages.summary.BillingSummaryPage;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
-
 import org.openqa.selenium.By;
-
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.Button;
@@ -71,7 +68,7 @@ public final class BillingAccountActions {
 			return this;
 		}
 
-		public synchronized AbstractAction perform(TestData td, Dollar amount) {
+		public AbstractAction perform(TestData td, Dollar amount) {
 			td.adjust(TestData.makeKeyPath(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName(), BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()), amount.toString());
 			return super.perform(td);
 		}

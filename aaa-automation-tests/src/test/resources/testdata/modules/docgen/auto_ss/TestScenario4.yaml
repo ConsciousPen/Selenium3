@@ -86,8 +86,11 @@ TestData_EndorsementTwo: {
 
 # ------------- Documents Verification ----------
 TestData_VerificationEDOne: {
-   AASR22: '@AASR22_EDOne',
    AAGCAZ: '@AAGCAZ_EDOne'
+}
+
+TestData_AASR22: {
+  AASR22: '@AASR22_EDOne'
 }
 
 AASR22_EDOne: {
@@ -245,7 +248,7 @@ AHRBXX: {
    PlcyDueDt: {DateTimeField: ''},
 #   PlcyPayFullAmt: {TextField: ''},
    NSFPayRstrYN: {TextField: 'N'},
-   PlcyPastDueBal: {TextField: '212.87'},
+#   PlcyPastDueBal: {TextField: '98.91'},
    PlcyTotRnwlPrem: {TextField: ''},
    PayMeth: {TextField: ''},
    PLIGAFee: {TextField: '0.00'}

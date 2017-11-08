@@ -1,0 +1,25 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="BCT lapsedRenewalProcessJob suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test" />
+
+    <test name="BCT checks for lapsedRenewalProcessJob" preserve-order="true">
+        <parameter name="state" value="AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
+        <classes>
+            <class name="aaa.modules.bct.batch.BatchTest">
+                <methods>
+                    <include name="BCT_BTCH_Bind_Issue_Renewal_Proposed_Issued_012"/>
+                    <include name="BCT_BTCH_Bind_Issue_Renewal_Proposed_Lapsed_013"/>
+                    <include name="BCT_BTCH_Bind_Issue_Renewal_Lapsed_Issued_014"/>
+                    <include name="BCT_BTCH_Expiration_Lapsed_Customer_Declined_015"/>
+                    <include name="BCT_BTCH_Manual_Renewal_Customer_Declined_Manual_016"/>
+                    <include name="BCT_BTCH_Automated_NonRenewal_CustomerDeclined_Rewrite_017"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>

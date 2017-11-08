@@ -31,9 +31,11 @@ public class TestCFTScenario13 extends ControlledFinancialBaseTest {
 	public void cftTestScenario13(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		acceptPaymentStartDatePlus2();
+		addSuspenseEffDatePlus2();
 		manualCancellationStartDatePlus16(TestData.makeKeyPath(CancellationActionTab.class.getSimpleName(), HomeSSMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()));
+		clearSuspenseEffDatePlus16();
 		manualReinstatementStartDatePlus25();
-
+		declineSuspensePaymentCancellationDate();
 	}
 
 	@Override
@@ -44,8 +46,11 @@ public class TestCFTScenario13 extends ControlledFinancialBaseTest {
 	@Override
 	protected TestData getPolicyTestData() {
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", DEFAULT_TEST_DATA_KEY);
-		td.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), HomeSSMetaData.GeneralTab.EFFECTIVE_DATE.getLabel()), "/today+2d");
-		td.adjust(PremiumsAndCoveragesQuoteTab.class.getSimpleName(), getTestSpecificTD("PremiumsAndCoveragesQuoteTab_DataGather"));
+		td.adjust(TestData
+			.makeKeyPath(GeneralTab.class.getSimpleName(), HomeSSMetaData.GeneralTab.EFFECTIVE_DATE.getLabel()),
+			getTestSpecificTD("GeneralTab_DataGather").getValue(HomeSSMetaData.GeneralTab.EFFECTIVE_DATE.getLabel()));
+		td.adjust(TestData.makeKeyPath(PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), getTestSpecificTD(
+			"PremiumsAndCoveragesQuoteTab_DataGather").getValue(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()));
 		return td.resolveLinks();
 	}
 }

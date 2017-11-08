@@ -55,19 +55,6 @@ PurchaseTab_DataGather: {
  }
 }
 
-PublicProtectionClass_DataGather_CT: {
-  Fire department type: 'S - Subscription based',
-  Subscription to fire department/station: 'No',
-  Public protection class: '1',
-  Distance to fire hydrant: '<=1000ft',
-  Fire protection area: '100'
-}
-
 ApplicantTab_DataGather: {
   AAA employee: 'Yes'
 }
-
-#ValidateAddressDialog_DataGather: {
-#    Street Number: 265,
-#    Street Name: CHIPMAN AVE,
-#}

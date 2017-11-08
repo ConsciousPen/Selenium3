@@ -12,7 +12,7 @@ PrefillTab_AZ: {
 }
 
 PremiumAndCoveragesTab: {
-  Payment Plan: 'Monthly',
+  Payment Plan: 'Eleven Pay - Standard',
   Policy Term: Annual,
   Bodily Injury Liability: 'contains=$100,000/$300,000',
   Comprehensive Deductible: 'contains=$750',

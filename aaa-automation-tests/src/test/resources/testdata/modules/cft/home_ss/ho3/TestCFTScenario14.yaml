@@ -1,5 +1,5 @@
 TestData: {
-  CancellationActionTab: '@CancellationActionTab',
+  CancellationActionTab: '@CancellationActionTab'
 }  
 
 GeneralTab_DataGather: {
@@ -11,9 +11,9 @@ ApplicantTab_DataGather: {
 }
 
 PremiumsAndCoveragesQuoteTab_DataGather: {
-  Payment plan: Eleven Pay Standard,
+  Payment plan: Eleven Pay Standard
 }
 
 CancellationActionTab: {
-  Cancellation reason: 'Rewrite Accommodation',
+  Cancellation reason: 'Rewrite Accommodation'
 }

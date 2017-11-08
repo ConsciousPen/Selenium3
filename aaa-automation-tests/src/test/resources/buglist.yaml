@@ -97,18 +97,12 @@ QC-44846:
   failures:
     - tests: [aaa.modules.e2e.pup.TestScenario3.TC03_Generate_Cancelation_Notice, aaa.modules.e2e.home_ss.ho3.TestScenario3.TC03_Generate_Cancelation_Notice]
       messages: ['Row with values {Type=Cancellation Notice']
-QC-44858:
-  summary: "Error is thrown and session gets destroyed when trying to change or remove renewal lapse period"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario3.TC13_Bind_Renew, aaa.modules.e2e.pup.TestScenario3.TC13_Bind_Renew, aaa.modules.e2e.home_ca.ho3.TestScenario3.TC12_Bind_Renew]
-      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}', "Errors: Time out. No session available."]
-    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario4.TC18_Bind_Renew, aaa.modules.e2e.pup.TestScenario4.TC18_Bind_Renew, aaa.modules.e2e.home_ca.ho3.TestScenario4.TC17_Bind_Renew]
-      messages: ['Unable to locate element: {"method":"id","selector":"aaaSearchForm:searchLink"}', "Errors: Time out. No session available."]
 QC-44890:
   summary: "DB Lookup 'cancellationConfirmationDays' is set to 15 days instead of 18 for AAA_SS_PA in Admin application"
   reason: PROD
   failures:
+    - tests: [aaa.modules.e2e.auto_ss.TestScenario3.TC03_Generate_Cancelation_Notice]
+      messages: ["Row with values {Type=Cancellation Notice"]
     - tests: [aaa.modules.e2e.auto_ss.TestScenario5.TC07_1_Generate_CancellNotice]
       messages: ["Cannot get value of Cell {<unnamed>: <Non-existent row (Can't find row by specified parameters: {Due Date"]
 QC-44911:
@@ -124,3 +118,20 @@ QC-44911:
               aaa.modules.e2e.auto_ss.TestScenario7.TC01_createPolicy]
       messages: ["Unable to locate element: {\"method\":\"xpath\",\"selector\":\"//input[@id='policyDataGatherForm:next_footer' or @id='crmForm:nextBtn_footer' or @id='policyDataGatherForm:next' or @id='policyDataGatherForm:nextButton_footer'",
                  "Errors: Time out. No session available."]
+QC-44941:
+  summary: "Regression: 62 6500 is not disabled on 'On-Demand Documents' page after quote creation"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.docgen.home_ca.dp3.TestDocgenScenarios.testQuoteDocuments,
+              aaa.modules.docgen.home_ca.ho3.TestDocgenScenarios.testQuoteDocuments,
+              aaa.modules.docgen.home_ca.ho4.TestDocgenScenarios.testQuoteDocuments,
+              aaa.modules.docgen.home_ca.ho6.TestDocgenScenarios.testQuoteDocuments]
+      messages: ["On demand document Documents{id='62 6500', name='CA Evidence of Property Insurance'}' is not disabled as expected"]
+QC-11111:
+  summary: "OSI: Senior Discount related code is not in Master yet"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.home_ca.ho3.functional.TestSeniorDiscount.pas3717_SeniorDiscountsAgeAndDwellingUsage,
+              aaa.modules.regression.sales.home_ca.ho4.functional.TestSeniorDiscount.pas3717_SeniorDiscountsAgeAndDwellingUsage,
+              aaa.modules.regression.sales.home_ca.ho6.functional.TestSeniorDiscount.pas3717_SeniorDiscountsAgeAndDwellingUsage]
+      messages: [" "]

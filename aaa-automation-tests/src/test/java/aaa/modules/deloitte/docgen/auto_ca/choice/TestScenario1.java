@@ -1,21 +1,20 @@
 package aaa.modules.deloitte.docgen.auto_ca.choice;
 
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-
-import toolkit.verification.CustomAssert;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.AutoCaTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.main.enums.ProductConstants;
 import aaa.main.enums.DocGenEnum.Documents;
+import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.auto_ca.actiontabs.PolicyDocGenActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import toolkit.verification.CustomAssert;
 
 /**
  *
@@ -132,7 +131,7 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 				Documents.AA11CA,
 				Documents.AA43CA,
 				Documents.AHRCTXXPUP,
-				Documents.AAVICA,
+			 // Documents.AAVICA, //784859
 				Documents.CAU01,
 				Documents.CAU02,
 				Documents.CAU04,

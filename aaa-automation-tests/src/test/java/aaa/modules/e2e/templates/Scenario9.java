@@ -1,14 +1,9 @@
 package aaa.modules.e2e.templates;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
@@ -33,9 +28,15 @@ import aaa.main.modules.policy.IPolicy;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 
 public class Scenario9 extends ScenarioBaseTest {
 	protected IPolicy policy;
@@ -59,12 +60,9 @@ public class Scenario9 extends ScenarioBaseTest {
 		
 		mainApp().open();
 		
-		//temp workaround
-		//policyNum = "AZSS952951504";
-		//SearchPage.openPolicy(policyNum);
-		
 		createCustomerIndividual();	
 		policyNum = createPolicy(policyCreationTD); 
+		
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -133,17 +131,11 @@ public class Scenario9 extends ScenarioBaseTest {
 	}
 	
 	protected void generateLastBill() {
-		//temp workaround
-		generateAndCheckBill(installmentDueDates.get(installmentsCount-1)); 
-		
-		//generateAndCheckBill(installmentDueDates.get(installmentsCount)); 
+		generateAndCheckBill(installmentDueDates.get(10)); 
 	}
 	 
 	protected void payLastBill() {
-		//temp workaround
-		payAndCheckBill(installmentDueDates.get(installmentsCount-1)); 
-		
-		//payAndCheckBill(installmentDueDates.get(installmentsCount));
+		payAndCheckBill(installmentDueDates.get(10));
 	}
 	
 	protected void removeAutoPay() {
@@ -204,10 +196,11 @@ public class Scenario9 extends ScenarioBaseTest {
 		verifyRenewOfferGenerated(policyExpirationDate, installmentDueDates);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferGenDate)
 			.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
-		/*
+		
 		if (getState().equals(Constants.States.CA)) {
 			verifyCaRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
-		}		
+		}
+		/*
 		if (verifyPligaOrMvleFee(renewOfferGenDate, policyTerm, totalVehiclesNumber)) {
 			pligaOrMvleFeeLastTransactionDate = renewOfferGenDate;
 		}
@@ -223,11 +216,11 @@ public class Scenario9 extends ScenarioBaseTest {
 		LocalDateTime transactionDate = TimeSetterUtil.getInstance().getCurrentTime();
 		PolicyHelper.verifyEndorsementIsCreated(); 
 		
-		currentTermDueAmount = PolicySummaryPage.TransactionHistory.getTranPremium();
-		
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		//new BillingAccountPoliciesVerifier().setBillingStatus("On Hold").setTotalDue(currentTermDueAmount).verifyPresent();
-		
+		currentTermDueAmount = PolicySummaryPage.TransactionHistory.getTranPremium(); 
+		if (getState().equals(States.NY)) {
+			currentTermDueAmount = currentTermDueAmount.add(10);
+		}
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());		
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setTotalDue(currentTermDueAmount).verifyPresent();
 		
 		// Endorsement transaction displayed on billing in Payments & Other transactions section
@@ -250,15 +243,11 @@ public class Scenario9 extends ScenarioBaseTest {
 		Dollar firstRenewalInstallmentDue = BillingHelper.getInstallmentDueByDueDate(policyExpirationDate);
 		Dollar fee = BillingHelper.getFeesValue(billGenDate);
 		Dollar firstRenewalBillAmount = firstRenewalInstallmentDue.add(fee).add(currentTermDueAmount);
-		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).setDueDate(policyExpirationDate).setMinDue(firstRenewalBillAmount).verifyPresent();
 		
-		//Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
-
-		// Renew premium verification was excluded, due to unexpected installment calculations
-		// if (!getState().equals(States.KY) && !getState().equals(States.WV)) {
-		// verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billGenDate, pligaOrMvleFee, installmentsCount);
-		// }
-		//verifyRenewPremiumNotice(policyExpirationDate, billGenDate, pligaOrMvleFee);
+		if (getState().equals(States.NY)) 
+			firstRenewalBillAmount = firstRenewalBillAmount.add(20);
+		
+		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).setDueDate(policyExpirationDate).setMinDue(firstRenewalBillAmount).verifyPresent();
 		
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}

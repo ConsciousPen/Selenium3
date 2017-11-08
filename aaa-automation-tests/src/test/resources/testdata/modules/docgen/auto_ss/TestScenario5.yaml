@@ -28,7 +28,7 @@ DriverTab2: {
   Gender: Female,
   Marital Status: Married,
   Occupation: Employed,
-  Most Recent GPA: A Student,
+  #Most Recent GPA: A Student,
   Age First Licensed: 16,
   License Type: 'Licensed (US)',
   License Number: 400064774
@@ -88,7 +88,7 @@ AAIQAZ: {
     NmdInsrdLstNm: {TextField: 'Alonso'},
     NmdInsrdStrPobAddr1: {TextField: '4101 S LAST CHANCE TRL'},
     NmdInsrdAddlAddr2: {TextField: ''},
-    NmdInsrdCityNm: {TextField: 'Phoenix'},
+    NmdInsrdCityNm: {TextField: 'GOLD CANYON'},
     NmdInsrdStAbrv: {TextField: 'AZ'},
     NmdInsrdZipPls4: {TextField: '85118'},
     NmdInsrdPhnNum: {TextField: '(123) 456-7890'},
@@ -170,7 +170,7 @@ AAIQAZ: {
     DnPayReq: {TextField: ''},
     NumPayReq: {TextField: '0'},
     InstlPay: {TextField: '0.00'},
-    InstlFee: {TextField: '0.00'},
+    InstlFee: {TextField: '2.00'},
     PlcyTotPrem: {TextField: ''},
   },
   form: {

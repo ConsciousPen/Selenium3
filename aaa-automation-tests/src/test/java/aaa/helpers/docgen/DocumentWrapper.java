@@ -49,6 +49,10 @@ public class DocumentWrapper {
 		return allDocuments;
 	}
 
+	public List<Document> getAllDocuments(String policyNumber) {
+		return getList(SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber).document);
+	}
+
 	public <D> List<D> getList(SearchBy<?, D> searchFilter) {
 		return searchFilter.search(getStandardDocumentRequest());
 	}
