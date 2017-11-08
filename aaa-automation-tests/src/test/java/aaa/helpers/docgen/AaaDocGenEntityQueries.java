@@ -6,7 +6,7 @@ public interface AaaDocGenEntityQueries {
             "where 1=1 " +
             "and data like '%%%s%%' " +
             "and data like '%%%s%%' " +
-            "and eventname = '%s' " +
+            "and eventname like '%s' " +
             "order by id desc) " +
         "where rownum=1 " ;
 
@@ -14,5 +14,5 @@ public interface AaaDocGenEntityQueries {
             "where 1=1 " +
             "and data like '%%%s%%' " +
             "and data like '%%%s%%' " +
-            "and eventname = '%s'";
+            "and eventname like '%s'";
 }

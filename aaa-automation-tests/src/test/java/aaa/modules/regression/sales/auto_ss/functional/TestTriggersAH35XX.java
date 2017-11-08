@@ -96,7 +96,6 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 		vehicleTab.saveAndExit();
 
 		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-		PolicySummaryPage.buttonPendedEndorsement.click();
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
 		String vehicle2 = getVehicleInfo(2);
 

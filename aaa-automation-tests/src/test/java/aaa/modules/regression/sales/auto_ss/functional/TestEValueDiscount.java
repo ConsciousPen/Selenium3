@@ -375,7 +375,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
         PremiumAndCoveragesTab.calculatePremium();
         premiumAndCoveragesTab.saveAndExit();
-        PolicySummaryPage.buttonPendedEndorsement.click();
         simplifiedPendedEndorsementIssue();
         PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("Active");
         //PAS-302 start VC2
@@ -389,7 +388,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         Page.dialogConfirmation.confirm();
         PremiumAndCoveragesTab.calculatePremium();
         premiumAndCoveragesTab.saveAndExit();
-        PolicySummaryPage.buttonPendedEndorsement.click();
         simplifiedPendedEndorsementIssue();
         PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("");
         CustomAssert.assertEquals(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber)).get(), "INACTIVE");
@@ -761,17 +759,17 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     public void pas436_eValuePriorBiCurrentBiConfigurationDependency(@Optional("VA") String state) {
         String lowerBiLimit = "$50,000/$100,000";
         String upperBiLimit = "$100,000/$300,000";
-        
+
         eValueQuoteCreation();
 
         CustomAssert.enableSoftMode();
         policy.dataGather().start();
         pas436_eValuePriorBiCurrentBiConfigurationDependencyCheck("$20,000/$40,000", "$25,000/$50,000", lowerBiLimit);
-        
+
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
         generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(8).format(DateTimeUtils.MM_DD_YYYY));
         pas436_eValuePriorBiCurrentBiConfigurationDependencyCheck("$25,000/$50,000", "$100,000/$300,000", upperBiLimit);
-        
+
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -1337,6 +1335,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 
 
     public void simplifiedPendedEndorsementIssue() {
+		PolicySummaryPage.buttonPendedEndorsement.click();
         policy.dataGather().start();
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY).setValue("Megha");
