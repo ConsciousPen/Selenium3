@@ -30,10 +30,9 @@ public class HelperAutoSS extends PolicyBaseTest {
 	}
 
 	public void secondEndorsementIssueCheck() {
-		PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		PremiumAndCoveragesTab.calculatePremium();
-		premiumAndCoveragesTab.saveAndExit();
+		new PremiumAndCoveragesTab().saveAndExit();
 
 		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 		testEValueDiscount.simplifiedPendedEndorsementIssue();

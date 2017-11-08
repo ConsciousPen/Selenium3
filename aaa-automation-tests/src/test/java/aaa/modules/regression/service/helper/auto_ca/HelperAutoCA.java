@@ -34,8 +34,7 @@ public class HelperAutoCA extends PolicyBaseTest {
 	public void secondEndorsementIssueCheck() {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		PremiumAndCoveragesTab.calculatePremium();
-		PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
-		premiumAndCoveragesTab.saveAndExit();
+		new PremiumAndCoveragesTab().saveAndExit();
 
 		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
