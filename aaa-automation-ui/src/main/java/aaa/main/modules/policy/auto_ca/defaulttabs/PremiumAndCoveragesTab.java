@@ -5,6 +5,8 @@
 package aaa.main.modules.policy.auto_ca.defaulttabs;
 
 import aaa.common.Tab;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import org.openqa.selenium.By;
 import toolkit.datax.TestData;
@@ -52,5 +54,12 @@ public class PremiumAndCoveragesTab extends Tab {
 	public Tab submitTab() {
 		btnContinue.click();
 		return this;
+	}
+
+	public static void calculatePremium() {
+		if (!buttonCalculatePremium.isPresent()) {
+			NavigationPage.toViewSubTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
+		}
+		buttonCalculatePremium.click();
 	}
 }
