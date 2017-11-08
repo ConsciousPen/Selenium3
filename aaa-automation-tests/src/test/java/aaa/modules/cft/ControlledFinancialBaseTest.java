@@ -648,7 +648,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	private void acceptOverpaymentOnDate(Dollar overpayment, LocalDateTime paymentDate) {
 		TimeSetterUtil.getInstance().nextPhase(paymentDate);
-		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob); // TODO
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		log.info("Accept overpayment action started on {}", paymentDate);
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
