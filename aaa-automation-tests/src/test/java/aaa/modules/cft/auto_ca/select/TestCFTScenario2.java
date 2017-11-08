@@ -32,7 +32,7 @@ public class TestCFTScenario2 extends ControlledFinancialBaseTest {
 		createPolicyForTest();
 		endorsePolicyEffDatePlus2Days();
 		generateInstallmentBill(1);
-		waiveFee();
+		waiveFeeOnStartDatePlus16();
 		manualFutureCancellationEffDatePlus25Days();
 		updatePolicyStatusForPendedCancellation();
 		manualReinstatement();

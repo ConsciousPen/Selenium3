@@ -14,22 +14,21 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
 
-import com.exigen.ipb.etcsa.utils.Dollar;
+public class TestCFTScenario18 extends ControlledFinancialBaseTest {
 
-/**
- * Controlled Financial Testing Scenario 17
- * Authorized Refund - approved Lapse - Waive fee
- * Standard Monthly
- * Check Down Payment
- */
-public class TestCFTScenario17 extends ControlledFinancialBaseTest {
 	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
-	public void cftTestScenario17(@Optional(StringUtils.EMPTY) String state) {
+	public void cftTestScenario18(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
-		acceptOverpaymentOnBillGenDate(new Dollar(600));
-		refundPaymentOnStartDatePlus25(new Dollar(600));
+		generateInstallmentBill(1);
+		automaticCancellationNotice(1);
+		automaticCancellation(1);
+		waiveFeeOnCancellationDate(1);
+		generateFirstEarnedPremiumBill(1);
+		generateSecondEarnedPremiumBill(1);
+		generateThirdEarnedPremiumBill(1);
+		writeOff(1);
 	}
 
 	@Override
