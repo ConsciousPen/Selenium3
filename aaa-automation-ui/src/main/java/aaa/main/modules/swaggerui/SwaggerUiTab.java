@@ -84,7 +84,7 @@ public class SwaggerUiTab extends Tab {
 	public void clickButtonTryIt(By locator) {
 		String xpath0 = getXpath0(locator);
 		Button buttonTryItOut = new Button(By.xpath(xpath0 + BUTTON_TRY_IT_XPATH));
-		buttonTryItOut.waitForAccessible(5000);
+		buttonTryItOut.waitForAccessible(50000);
 		buttonTryItOut.click();
 	}
 

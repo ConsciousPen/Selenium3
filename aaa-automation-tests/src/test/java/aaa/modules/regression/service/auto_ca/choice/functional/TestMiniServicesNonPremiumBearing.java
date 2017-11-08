@@ -10,6 +10,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.service.helper.HelperCommon;
+import aaa.modules.regression.service.helper.Preconditions;
 import aaa.modules.regression.service.helper.auto_ca.HelperAutoCA;
 import aaa.modules.regression.service.helper.auto_ss.HelperAutoSS;
 import org.testng.annotations.Optional;
@@ -23,11 +24,18 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUN
 
 public class TestMiniServicesNonPremiumBearing extends PolicyBaseTest {
 
-
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_CA_CHOICE;
 	}
+
+
+	@Test
+	@TestInfo(isAuxiliary = true)
+	public static void dxpConfigurationCheck() {
+		Preconditions.dxpConfigurationCheck();
+	}
+
 
 	/**
 	 * @author Oleg Stasyuk
@@ -43,7 +51,7 @@ public class TestMiniServicesNonPremiumBearing extends PolicyBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "dxpConfigurationCheck")
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE)
 	public void pas1441_emailChangeOutOfPas(@Optional("CA") String state) {
 		HelperCommon helperCommon = new HelperCommon();
@@ -54,6 +62,8 @@ public class TestMiniServicesNonPremiumBearing extends PolicyBaseTest {
 		getPolicyType().get().createPolicy(getPolicyTD());
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		CustomAssert.enableSoftMode();
 		//BUG PAS-5815 There is an extra Endorse action available for product
 		NavigationPage.comboBoxListAction.verify.noOption("Endorse");
 
@@ -73,13 +83,9 @@ public class TestMiniServicesNonPremiumBearing extends PolicyBaseTest {
 		//PAS-343 end
 
 		helperAutoCA.secondEndorsementIssueCheck();
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
-
-
-
-
-
-
 
 
 }

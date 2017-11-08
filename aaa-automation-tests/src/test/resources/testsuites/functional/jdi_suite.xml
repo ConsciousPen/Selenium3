@@ -46,4 +46,12 @@
         </classes>
     </test>
 
+    <test name="TestNonPremiumBearingEndorsements">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing"/>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing"/>
+        </classes>
+    </test>
+
 </suite>
