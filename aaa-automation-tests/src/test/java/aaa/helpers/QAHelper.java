@@ -46,28 +46,28 @@ public class QAHelper extends BaseTest
         }
     }
 
-    public void quoteBeginFillUntilTab(TestData in_td, Class<? extends Tab> in_tabClass, boolean in_bIsFillTab)
+    public String createPolicy(TestData policyTestData)
     {
-        try {
-            _policy.initiate();
-            _policy.getDefaultView().fillUpTo(in_td, in_tabClass, in_bIsFillTab);
-        }catch(Exception ex)
-        {
-            System.out.println("--DEBUG--");
-            System.out.println("--DEBUG--");
-            System.out.println("Failed quoteBeginFillUntilTab() with parameters: ");
-            System.out.println(String.format("TestData:{0} -- TabClass:{1} -- bIsFillTab:{2}",
-                    in_td.getValue(), in_tabClass.getClass(), in_bIsFillTab));
-        }
+        return createPolicy(policyTestData);
+    }
+
+    public void launchApp()
+    {
+        mainApp().open();
+    }
+
+    public void closeApp()
+    {
+        mainApp().close();
+    }
+
+    public TestData getTestData_BySameClassName(String headerInYaml)
+    {
+        return getTestSpecificTD(headerInYaml);
     }
 
     public void getCreatedPolicy(String in_policyNumber)
     {
         SearchPage.openPolicy(in_policyNumber);
-    }
-
-    public void endorsePolicy(TestData endorsementTD)
-    {
-        //_policy.createEndorsement(endorsementTD.adjust(getPolicyTD("Endorsement", "TestData")));
     }
 }

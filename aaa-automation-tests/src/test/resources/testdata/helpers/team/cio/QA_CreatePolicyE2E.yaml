@@ -15,16 +15,67 @@ TestData: {
   PurchaseTab: '@PurchaseTab'
 }
 
-# ------------- Tabs ----------
+TestData2: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab2',
+  RelationshipTab: {},
+  PrefillTab: '@PrefillTab',
+  DriverTab: ['@DriverTab1b', '@DriverTab2b'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab1',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@PurchaseTab'
+}
 
-GeneralTab: {
+GeneralTab2: {
   First Name: Gwen,
   Last Name: Stacey,
   Date of Birth: 01/01/1960,
-  Gender: Female,
+  Gender: Male,
   Marital Status: Married,
   Zip Code: '85310',
   Address Line 1: 24419 N 46th Dr,
+  NamedInsuredInformation: '@NamedInsuredInformation1',
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@PolicyInformation'
+}
+
+DriverTab1b: {
+  Occupation: Self-Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: D19999601
+}
+
+DriverTab2b: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  First Name: Test,
+  Last Name: Driver2,
+  Date of Birth: 01/01/1960,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 17,
+  License Type: 'Licensed (US)',
+  License Number: D39299601
+}
+
+# ------------- Tabs ----------
+
+GeneralTab: {
+  First Name: Test1,
+  Last Name: Driver1,
+  Date of Birth: 01/01/1955,
+  Gender: Male,
+  Marital Status: Married,
+  Zip Code: '85361',
+  Address Line 1: 23027 W Montgomery Rd,
   NamedInsuredInformation: '@NamedInsuredInformation1',
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
@@ -66,22 +117,22 @@ DriverTab1: {
   Occupation: Self-Employed,
   Age First Licensed: 16,
   License Type: 'Licensed (US)',
-  License Number: D19999601
+  License Number: D29999601
 }
 
 DriverTab2: {
   DriverSearchDialog: {},
   Named Insured: 'index=0',
   'Rel. to First Named Insured': Spouse,
-  First Name: John,
-  Last Name: Doe2,
+  First Name: Test2,
+  Last Name: Driver2,
   Date of Birth: 01/01/1960,
   Gender: Female,
   Marital Status: Married,
   Occupation: Employed,
   Age First Licensed: 17,
   License Type: 'Licensed (US)',
-  License Number: D09999602
+  License Number: D39999601
 }
 
 DriverActivity2: {
