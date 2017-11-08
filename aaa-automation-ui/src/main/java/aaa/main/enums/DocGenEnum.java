@@ -29,6 +29,7 @@ public final class DocGenEnum {
 		HSRFIXX("Request for Information"),
 		HSRFIXXPUP("HSRFIXX","Request For Information"),
 		AHRCTXX("Insured Receipt For Funds Received By Agent"),
+		AHRCTXXAUTO("AHRCTXX", "Insured Receipt for Funds"),
 		AHRCTXXPUP("AHRCTXX","Insured Receipt for Funds Received by Agent"),
 		PSIQXX("Personal Umbrella Liability Insurance Quote Page"),
 		PS11("Application for Personal Umbrella Liability Insurance"),
@@ -84,6 +85,7 @@ public final class DocGenEnum {
 		AHRBXX("AHRBXX", "Insurance Renewal Bill"),
 		AA43AZ("Named Driver Exclusion Election"),
 		AA43IN("Named Driver Exclusion Election"),
+		AA43OH("Named Driver Exclusion Election"),
 		AA43PA("Named Driver Exclusion Election"),
 		AA43OK("Named Driver Exclusion Election"),
 		AASR22("Financial Responsibility"),
@@ -103,7 +105,7 @@ public final class DocGenEnum {
 		DS2482("DS 24 82", ""),
 		AAGCAZ("Golf Cart Coverage Endorsement"),
 		AA52AZ("Uninsured and Underinsured Motorist Coverage selection form"),
-		AA52IN("Uninsured/Underinsured Motorist Coverage selection form - Rejection or Election of Lower Limits"),
+		AA52IN("Uninsured/Underinsured Motorist Coverage - Rejection or Election of Lower Limits"),
 		AA53IN("Rejection of Uninsured Motorist Property Damage Coverage"),
 		AARFIXX("Request for Information"),
 		AA10XX("Insurance Identification Card"),
@@ -217,7 +219,9 @@ public final class DocGenEnum {
         SR22SR1P("California Insurance Proof Certificate"),
         _605005("605005", "Returning Enclosed Check"),
         _605005_SELECT("605005", "Returning Payment"),
+        _605004("605004", "Remove Recurring Payments"),
         AA06XX("Agent Advice Memo"),
+        AA06XX_AUTOSS("AA06XX", "Agent Advise Memo"),
         
         _550007("550007", "Uninsured Motorist Coverage Deletion or Selection of Limits Agreement"),
         _550011("550011", "Camper Physical Damage Coverage Waiver"),
@@ -250,7 +254,27 @@ public final class DocGenEnum {
         _55_1007("55 1007", ""),
         _55_5086("55 5086", ""),
         _55_0001("55 0001", ""),
-        _55_6109("55 6109", "")
+        _55_6109("55 6109", ""),
+        
+        AA11VA("Virginia Auto Insurance Application"),
+        AA52VA("IMPORTANT NOTICE - UNINSURED MOTORIST COVERAGE"),
+        AA52OH("Rejection of Uninsured/Underinsured Motorist Bodily Injury Coverage"),
+        AA52AZ_UPPERCASE("AA52AZ", "UNINSURED AND UNDERINSURED MOTORIST COVERAGE SELECTION FORM"),
+        AAIQ("Auto Insurance Quote"),
+        AA11AZ("Auto Insurance Application"),
+        AA11IN("Indiana Auto Insurance Application"),
+        AA11OH("Auto Insurance Application"),
+        AAAUVA(""),
+        AA02VA(""),
+        
+        AU02("Notice of Cancellation"),
+        AU04("Free Form to Insured"),
+        AU05("Premium Misquote Information"),
+        AU06("Free Form to Producer"),
+        AU07("Notice of Non-Renewal"),
+        AU08("Request for Additional Information"),
+        AU09("Uprate Notice"),
+        AU10("Potential Uprate"),
 		;
 
 		private String id;
@@ -373,5 +397,20 @@ public final class DocGenEnum {
 
 		public final static String XSI_PREFIX = "xsi";
 		public final static String XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
+	}
+
+
+	public enum XmlnsDbFormat{
+		DOC("xmlns:doc=\"http://www.aaancnuie.com/DCS/2012/01/DocumentCreation\""),
+		AAAN("xmlns:aaan=\"http://www.aaancnuit.com.AAANCNU_IDocumentCreation_version1\"");
+
+		private String xmlns;
+		XmlnsDbFormat(String xmlns){
+			this.xmlns = xmlns;
+		}
+
+		public String getXmlns() {
+			return xmlns;
+		}
 	}
 }

@@ -1,5 +1,6 @@
 package aaa.modules.e2e.auto_ss;
 
+import aaa.common.enums.Constants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.e2e.templates.Scenario2;
 import org.testng.annotations.Optional;
@@ -147,26 +148,38 @@ public class TestScenario2 extends Scenario2 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC22_Pay_Ninth_Bill(@Optional("") String state) {
+	public void TC22_Pay_Ninth_Bill_And_Renewal_Preview_Generation(@Optional("") String state) {
 		super.payNinthBill();
+		if (getState().equals(Constants.States.KY)) {
+			super.renewalPreviewGeneration();
+		}
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC23_Generate_Tenth_Bill(@Optional("") String state) {
+	public void TC23_Generate_Tenth_Bill_And_Renewal_Preview_Generation(@Optional("") String state) {
 		super.generateTenthBill();
+		if (getState().equals(Constants.States.NJ) || getState().equals(Constants.States.PA) || getState().equals(Constants.States.SD)) {
+			super.renewalPreviewGeneration();
+		}
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC24_Pay_Tenth_Bill(@Optional("") String state) {
+	public void TC24_Pay_Tenth_Bill_And_Renewal_Preview_Generation(@Optional("") String state) {
 		super.payTenthBill();
+		if (getState().equals(Constants.States.MD)) {
+			super.renewalPreviewGeneration();
+		}
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC25_Renewal_Preview_Generation(@Optional("") String state) {
-		super.renewalPreviewGeneration();
+		if (!getState().equals(Constants.States.KY) && !getState().equals(Constants.States.MD) && !getState().equals(Constants.States.NJ)
+				&& !getState().equals(Constants.States.PA) && !getState().equals(Constants.States.SD)) {
+			super.renewalPreviewGeneration();
+		}
 	}
 
 	@Parameters({"state"})

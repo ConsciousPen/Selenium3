@@ -1,0 +1,42 @@
+TestData: { 
+  PremiumAndCoveragesTab: {
+    Payment Plan: Standard Monthly, 
+    #Recurring Payment: true,
+  }, 
+  PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab_WithAutopay'
+}
+
+# ------- Endorsement --------
+TestData_Endorsement: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: '@VehicleTab',
+  AssignmentTab: '@AssignmentTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+VehicleTab: {
+  Add Vehicle: Click,
+  VIN: 1B3BA46K4KF440231,
+  Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Odometer Reading: 3000
+}
+
+AssignmentTab: {
+  DriverVehicleRelationshipTable: [{},{
+    Primary Driver: 'index=1',
+  }]
+}
+
+PremiumAndCoveragesTab: {
+  Medical Payments: 'contains=$5,000'
+}
+

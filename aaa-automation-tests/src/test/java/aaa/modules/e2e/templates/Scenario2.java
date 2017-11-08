@@ -187,9 +187,8 @@ public class Scenario2 extends ScenarioBaseTest {
 		JobUtils.executeJob(Jobs.billingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(10), getTimePoints().getBillGenerationDate(installmentDueDates.get(10)));
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillGenerationDate(installmentDueDates.get(10)))
-				.setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
+		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(10), billDate);
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
 	protected void renewalImageGeneration() {
@@ -209,10 +208,6 @@ public class Scenario2 extends ScenarioBaseTest {
 
 	protected void renewalPreviewGeneration() {
 		LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
-		if ((getState().equals(Constants.States.MD) || getState().equals(Constants.States.NJ) || getState().equals(Constants.States.PA) || getState().equals(Constants.States.SD))
-				&& DateTimeUtils.getCurrentDateTime().isAfter(renewPreviewGenDate)) {
-			renewPreviewGenDate = DateTimeUtils.getCurrentDateTime();
-		}
 		TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().open();
@@ -272,10 +267,11 @@ public class Scenario2 extends ScenarioBaseTest {
 	}
 
 	protected void verifyDocGenForms() {
-		DocGenEnum.Documents[] documents = new DocGenEnum.Documents[2];
-		documents[0] = DocGenEnum.Documents.AHRBXX;
-		documents[1] = getState().equals(Constants.States.CA) ? DocGenEnum.Documents.AHIBXX : DocGenEnum.Documents.AH35XX;
-		verifyDocGenForms(documents);
+		if (getState().equals(Constants.States.CA)) {
+			verifyDocGenForms(new DocGenEnum.Documents[]{DocGenEnum.Documents.AHRBXX});
+		} else {
+			verifyDocGenForms(new DocGenEnum.Documents[]{DocGenEnum.Documents.AHRBXX, DocGenEnum.Documents.AH35XX});
+		}
 	}
 
 	protected void verifyDocGenForms(DocGenEnum.Documents[] documents) {
@@ -321,7 +317,6 @@ public class Scenario2 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		// Dollar sum = BillingHelper.getPolicyRenewalProposalSum(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
 		Dollar sum = BillingHelper.getPolicyRenewalProposalSum(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), policyNum);
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_CC"), sum);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);

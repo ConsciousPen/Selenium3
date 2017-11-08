@@ -7,10 +7,31 @@
     <parameter name="timeshift-scenario-mode" value="test"/>
 
     <test name="Auto SS Scenario 9" parallel="none">
-        <parameter name="state" value="UT, AZ" />
+        <parameter name="state" value="UT, AZ, CO, CT, DC, DE, ID, IN, KS, NY" />
         <classes>
             <class name="aaa.modules.e2e.auto_ss.TestScenario9"/>
         </classes>
     </test>
+    
+    <test name="Auto CA Scenario 9" parallel="none">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.e2e.auto_ca.TestScenario9"/>
+        </classes>
+    </test>
 
+    <test name="Home SS Scenario 9 with HO3" parallel="none">
+        <parameter name="state" value="UT" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario9"/>
+        </classes>
+    </test>
+    
+    <test name="Home CA Scenario 9 with HO3" parallel="none">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.e2e.home_ca.ho3.TestScenario9"/>
+        </classes>
+    </test>
+    
 </suite>

@@ -717,7 +717,8 @@ PolicyInfo_KY: {
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
-  Agency Location: 'Lexington - Atkinson Ave - 500005154 - Lexington',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'Lexington - 500005154 - Lexington',
   Agent: 'House Agent Allied Club',
   Commission Type: New Business,
   Lead source: Yellow Pages

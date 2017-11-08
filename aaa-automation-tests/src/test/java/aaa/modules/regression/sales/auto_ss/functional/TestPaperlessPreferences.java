@@ -5,10 +5,8 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -52,7 +50,7 @@ public class TestPaperlessPreferences extends AutoSSBaseTest {
 	public void pas283_eValuePaperlessPreferences(@Optional("VA") String state) {
 
 		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-		testEValueDiscount.eValueQuoteCreationVA();
+		testEValueDiscount.eValueQuoteCreation();
 
 		CustomAssert.enableSoftMode();
 		policy.dataGather().start();
@@ -156,7 +154,7 @@ public class TestPaperlessPreferences extends AutoSSBaseTest {
 	public void pas838_eValuePaperlessPreferencesNotConfiguredForState(@Optional("PA") String state) {
 
 		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-		testEValueDiscount.eValueQuoteCreationVA();
+		testEValueDiscount.eValueQuoteCreation();
 
 		CustomAssert.enableSoftMode();
 		policy.dataGather().start();
@@ -228,7 +226,7 @@ public class TestPaperlessPreferences extends AutoSSBaseTest {
 	public void pas3097_PaperlessPreferencesOnBindPageFinalCleanUp(@Optional("MD") String state) {
 
 		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-		testEValueDiscount.eValueQuoteCreationVA();
+		testEValueDiscount.eValueQuoteCreation();
 
 		CustomAssert.enableSoftMode();
 		policy.dataGather().start();

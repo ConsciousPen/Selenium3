@@ -30,11 +30,16 @@ GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   #CurrentCarrierInformation: '@CurrentCarrierInformation',
+  ContactInformation: '@ContactInformation',
   PolicyInformation: '@PolicyInformation'
 }
 
 NamedInsuredInformation: {
-  "Home Phone #": 1234567890 
+}
+
+ContactInformation: {
+  Home Phone Number: 1234567890,
+  Email: temp@gmail.com
 }
 
 AAAProductOwned: {
@@ -136,6 +141,6 @@ PurchaseTab_WithAutopay_Check: {
   Autopay Selection: 'index=1',
   PaymentAllocation: {
     Check: /rest,
-    Check Number: 123456789
+    Check Number Check: 123456789
   }
 }

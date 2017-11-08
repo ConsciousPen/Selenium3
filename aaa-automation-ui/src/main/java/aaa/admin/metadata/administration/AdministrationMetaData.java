@@ -2,7 +2,10 @@ package aaa.admin.metadata.administration;
 
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import org.openqa.selenium.By;
-import toolkit.webdriver.controls.*;
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.FileUpload;
+import toolkit.webdriver.controls.RadioButton;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.waiters.Waiters;

@@ -3,7 +3,10 @@ package aaa.toolkit.webdriver.customcontrols.dialog;
 import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
-import toolkit.webdriver.controls.*;
+import toolkit.webdriver.controls.BaseElement;
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
 import java.util.regex.Matcher;

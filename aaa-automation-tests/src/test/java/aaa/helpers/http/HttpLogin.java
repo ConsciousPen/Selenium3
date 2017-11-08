@@ -11,12 +11,15 @@ import aaa.helpers.http.impl.HttpQueryBuilder;
 import aaa.helpers.http.impl.HttpRequestor.HttpHeaders;
 import aaa.modules.BaseTest;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.exceptions.IstfException;
 
 public class HttpLogin {
 
+	protected static Logger log = LoggerFactory.getLogger(HttpLogin.class);
 	private static final String PARAMS_FILENAME = "login.txt";
 	private static String euUser = PropertyProvider.getProperty(TestProperties.EU_USER);
 	private static String adUser = PropertyProvider.getProperty(TestProperties.AD_USER);
@@ -88,8 +91,18 @@ public class HttpLogin {
 		httpRequestor.setDomain(HttpHelper.getAdDomain());
 		httpRequestor.sendPostRequest("/aaa-admin/do_auth", queryBuilder.buildQueryString(1, mapping));
 
-		httpRequestor.sendGetRequest(httpRequestor.getReponseHeader(HttpHeaders.LOCATION));
-		String sessionWindowId = HttpHelper.find(httpRequestor.getReponseHeader(HttpHeaders.LOCATION), HttpConstants.REGEX_SESSION_WINDOW_ID);
+		String location = httpRequestor.getReponseHeader(HttpHeaders.LOCATION);
+		String sessionWindowId = "";
+		int counter = 0;
+		while (sessionWindowId.isEmpty() && counter<3) {
+			counter++;
+			httpRequestor.sendGetRequest(location);
+			try {
+				sessionWindowId = HttpHelper.find(httpRequestor.getReponseHeader(HttpHeaders.LOCATION), HttpConstants.REGEX_SESSION_WINDOW_ID);
+			} catch (IOException e) {
+				log.error("Can't get windowId");
+			}
+		}
 		httpRequestor.setSessionWindowId(sessionWindowId);
 		httpRequestor.sendGetRequest(httpRequestor.getReponseHeader(HttpHeaders.LOCATION));
 

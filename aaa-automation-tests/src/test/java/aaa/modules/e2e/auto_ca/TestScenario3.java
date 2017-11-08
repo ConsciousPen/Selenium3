@@ -87,7 +87,7 @@ public class TestScenario3 extends Scenario3 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC12_Pay_Renew_Offer(@Optional("") String state) {
+	public void TC12_Pay_Renew_Offer(@Optional("CA") String state) {
 		super.payRenewOffer();
 	}
 

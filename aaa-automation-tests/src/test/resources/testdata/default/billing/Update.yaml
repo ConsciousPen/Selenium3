@@ -6,7 +6,15 @@ TestData_RemoveAutopay: {
 
 TestData_EnableAutopay: {
   UpdateBillingAccountActionTab: {
-    Activate Autopay: 'true', 
+    Activate Autopay: 'true',
+    Autopay Selection: 'index=1'
+  }
+}
+
+TestData_AddAutopay: {
+  UpdateBillingAccountActionTab: {
+    PaymentMethods: ['@PaymentMethods@CC_Visa'],
+    Activate Autopay: 'true',
     Autopay Selection: 'index=1'
   }
 }

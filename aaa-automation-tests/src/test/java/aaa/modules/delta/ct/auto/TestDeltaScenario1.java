@@ -9,16 +9,22 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import org.openqa.selenium.By;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.waiters.Waiter;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,13 +48,14 @@ import java.util.List;
 @Test(groups = {Groups.DELTA, Groups.HIGH})
 public class TestDeltaScenario1 extends AutoSSBaseTest {
     //todo make it empty
-    private String quoteNumber = "QCTSS926254975";
+	String quoteNumber = "QCTSS950574309";
 
     private DriverTab driverTab = new DriverTab();
     private VehicleTab vehicleTab = new VehicleTab();
     private PrefillTab prefillTab = new PrefillTab();
     private GeneralTab generalTab = new GeneralTab();
     private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
+    private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
     private ErrorTab errorTab = new ErrorTab();
 
     public String scenarioPolicyType = "Auto SS";
@@ -67,16 +74,17 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
      * 4. Verify Dropdown Values in Prefill tab
      * @details
      */
+    @Parameters({"state"})
     @Test(groups = {Groups.DELTA, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void testSC1_TC1() {
+    public void testSC1_TC1(@Optional("") String state) {
         initiateQuote();
 
         CustomAssert.enableSoftMode();
         //010-005CT
         //If the zip code is associated with only one county/township, the drop down list contains only that county/township value with default being that value
         prefillTab.getAssetList().getAsset(AutoSSMetaData.PrefillTab.COUNTY_TOWNSHIP).verify.
-                value("New Haven / New Haven");
+                value("New Haven / Middlebury");
         //If the zip code spans across counties/townships, the drop down list will contain the applicable counties/townships that are associated with the zip code; the default value is 'blank'.
 
 
@@ -94,9 +102,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
      * 3. Verify Dropdown Values in General tab
      * @details
      */
-    @Test
+    @Parameters({"state"})
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
-    public void testSC1_TC02() {
+    public void testSC1_TC02(@Optional("") String state) {
         preconditions(NavigationEnum.AutoSSTab.GENERAL);
 
         //Residence
@@ -136,25 +145,31 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
         Tab.buttonSaveAndExit.click();
     }
 
-    @Test
+    @Parameters({"state"})
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
-    public void testSC1_TC03() {
+    public void testSC1_TC03(@Optional("") String state) {
         preconditions(NavigationEnum.AutoSSTab.GENERAL);
 
+		//Set zip = 06756 (associated with several county/township)
+		//Check country/township defaulted to blank
         generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ZIP_CODE).setValue("06756");
         generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.COUNTY_TOWNSHIP).verify.
                 value("");
 
-        generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ZIP_CODE).setValue("06519");
+        generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ZIP_CODE)
+				.setValue(getCustomerIndividualTD("DataGather", "GeneralTab_CT").getValue("Zip Code"));
+		generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.COUNTY_TOWNSHIP).setValue("index=1");
 
         generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.VALIDATE_ADDRESS_BTN).click();
         generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.VALIDATE_ADDRESS_DIALOG).submit();
         Tab.buttonSaveAndExit.click();
     }
 
-    @Test
+    @Parameters({"state"})
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
-    public void testSC1_TC04() {
+    public void testSC1_TC04(@Optional("") String state) {
         preconditions(NavigationEnum.AutoSSTab.DRIVER);
 
         //Driver Type
@@ -193,9 +208,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 
     }
 
-    @Test
+    @Parameters({"state"})
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
-    public void testSC1_TC05_6_7() {
+    public void testSC1_TC05_6_7(@Optional("") String state) {
         preconditions(NavigationEnum.AutoSSTab.DRIVER);
 
         driverTab.fillTab(getPolicyTD());
@@ -206,9 +222,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
         DriverTab.tableActivityInformationList.getRow("Description", "Accident (Property Damage Only)").getCell("Points").verify.value("0");
     }
 
-    @Test
+    @Parameters({"state"})
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
-    public void testSC1_TC08() {
+    public void testSC1_TC08(@Optional("") String state) {
         preconditions(NavigationEnum.AutoSSTab.DRIVER);
 
         driverTab.fillTab(getPolicyTD());
@@ -219,30 +236,29 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
         //violation points should be = 4
         DriverTab.tableActivityInformationList.getRow("Description", "Hit and Run").getCell("Points").verify.value("4");
         //go to Major accident, points for the same day should be = 0
-        DriverTab.tableActivityInformationList.getRow("Description", "Hit and Run").getCell(8).controls.links.getFirst().click();
+        DriverTab.tableActivityInformationList.getRow("Description", "Hit and Run").getCell(8).controls.links.getFirst().click(Waiters.AJAX);
         driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER).setValue("No");
         driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.VIOLATION_POINTS).verify.value("0");
-        // Prep step for 9 case as i understood.
-        // assDriverTabFilling.setIncidentOccurenceDate(addDaysToCurrentDate(-4));
-
     }
 
-    @Test
+    @Parameters({"state"})
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
-    public void testSC1_TC09() {
+    public void testSC1_TC09(@Optional("") String state) {
         preconditions(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS);
 
         ratingDetailReportsTab.fillTab(getTestSpecificTD("RatingDetailReportsTab_TC9"));
         String errorMessage = "Extraordinary Life Circumstance was applied to the policy";
         //todo check that it is correct error check
         new StaticElement(By.xpath("//*[contains(.,'" + errorMessage + "')]")).verify.present(false);
-        Tab.buttonSaveAndExit.click();
+        Tab.buttonSaveAndExit.click(Waiters.AJAX);
 
     }
 
-    @Test
+    @Parameters({"state"})
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
-    public void testSC1_TC10() {
+    public void testSC1_TC10_11(@Optional("") String state) {
         preconditions(NavigationEnum.AutoSSTab.VEHICLE);
 
         List<String> expectedValuesOfVehicleType = Arrays.asList("Private Passenger Auto", "Limited Production/Antique", "Trailer", "Motor Home", "Conversion Van");
@@ -252,18 +268,65 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
         vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.USAGE).verify.optionsContain(expectedValuesOfVehicleUsage);
 
         vehicleTab.fillTab(getTestSpecificTD("TestData_CT10"));
-        //assVehicleTabFilling.vehicleFilling(getDataSet(), "Vehicle_01");
 
-        //assVehicleTabFilling.addVehicle();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
-        //assVehicleTabFilling.vehicleFilling(getDataSet(), "Vehicle_02");
+		CustomAssert.assertFalse("",PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1)
+				.getValue().contains("Motorcycle Discount"));
 
-        //verifyTextNotPresent("is required");
+		Tab.buttonSaveAndExit.click();
+	}
 
-        //checkForVerificationErrors();
+    @Parameters({"state"})
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS)
+    public void testSC1_TC12(@Optional("") String state) {
+		preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY)
+				.setValueByRegex("\\$500,000.*1,000,000.*");
+        PremiumAndCoveragesTab.calculatePremium();
+        String expected_ER = "UMBI/UIMBI limits may not exceed twice the BI limits";
+        errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, expected_ER).verify.present();
+        errorTab.cancel();
 
-        Tab.buttonSaveAndExit.click();
-    }
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY)
+				.setValueByRegex("\\$50,000.*100,000.*");
+        PremiumAndCoveragesTab.calculatePremium();
+
+		Tab.buttonSaveAndExit.click();
+	}
+
+    @Parameters({"state"})
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS)
+	public void SC1_TC13(@Optional("") String state){
+		preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
+
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY)
+				.setValueByRegex("\\$200,000.*600,000.*");
+		PremiumAndCoveragesTab.calculatePremium();
+
+		//default value for "Underinsured Motorist Conversion Coverage" = No
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_CONVERSION_COVERAGE)
+				.verify.value("No");
+
+		PremiumAndCoveragesTab.tableTermPremiumbyVehicle.getColumn(1).getValue().contains("UIM Conversion Coverage not selected");
+
+		List<TestData> testDataRatingDetailsVehicles = premiumAndCoveragesTab.getRatingDetailsVehiclesData();
+		// UIM Conversion Coverage = NO
+		testDataRatingDetailsVehicles.forEach(i -> CustomAssert.assertTrue("UIM Conversion Coverage should be No",i.getValue("UIM Conversion Coverage").contains("No")));
+
+		testDataRatingDetailsVehicles.forEach(i -> CustomAssert.assertTrue("ELC Applied should be No",i.getValue("ELC Applied").contains("No")));
+
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_CONVERSION_COVERAGE)
+				.setValue("Yes");
+
+		PremiumAndCoveragesTab.tableTermPremiumbyVehicle.getColumn(1).getValue().contains("UIM Conversion Coverage selected");
+
+		Tab.buttonSaveAndExit.click();
+	}
 
     private void preconditions(NavigationEnum.AutoSSTab navigateTo) {
         initiateQuote();

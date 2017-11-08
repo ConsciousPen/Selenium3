@@ -42,6 +42,9 @@ TestData: {
 # ------------- Tabs ----------
 
 DocumentsAndBindTab: {
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  },
   Agreement: I agree
 }
 
@@ -110,6 +113,9 @@ DocumentsAndBindTab_CT: {
     #Auto Insurance Application: Physically Signed,
     Informed Consent Form - Uninsured Motorist Coverage: Physically Signed
   },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  },
   Agreement: I agree
 }
 
@@ -133,6 +139,9 @@ DocumentsAndBindTab_DC: {
   RequiredToBind: {
     #Auto Insurance Application: Physically Signed,
     District of Columbia Coverage Selection/Rejection Form: Physically Signed
+  },
+   RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
   },
   Agreement: I agree
 }
@@ -159,6 +168,9 @@ DocumentsAndBindTab_DE: {
     Delaware Motorists Protection Act: Physically Signed,
     Important Information Personal Injury Protection (PIP) - Delaware Understanding (PIP) Deductibles: Physically Signed,
     Acknowledgement of Deductible Selections: Physically Signed
+  },
+   RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
   },
   Agreement: I agree
 }
@@ -250,6 +262,9 @@ DocumentsAndBindTab_MD: {
     Maryland Notice And Waiver Of Personal Injury Protection (PIP) Coverage: Physically Signed,
     #Maryland Auto Insurance Application: Physically Signed
   },
+   RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  },
   Agreement: I agree
 }
 
@@ -292,6 +307,7 @@ DocumentsAndBindTab_NJ: {
     Acknowledgement of Requirement for Insurance Inspection: Physically Signed
   },
   RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes',
     CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver: 'Yes',
     Separate Vehicle 1: 'Yes'
   },
@@ -337,6 +353,7 @@ DocumentsAndBindTab_NY: {
     #New York Auto Insurance Application: Physically Signed
   },
   RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes',
     Separate Vehicle 1: 'Yes'
   },
   Agreement: I agree
@@ -379,6 +396,7 @@ DocumentsAndBindTab_OK: {
     #Auto Insurance Application: Physically Signed,
   },
   RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes',
     Coverage Selection Form: 'Yes'
   },
   Agreement: I agree
@@ -425,6 +443,9 @@ DocumentsAndBindTab_PA: {
     Pennsylvania Important Notice: Physically Signed,
     Pennsylvania Notice to Named Insured Regarding Tort Options: Physically Signed,
     Invoice-Minimum Coverages: Physically Signed
+  },
+   RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
   },
   Agreement: I agree
 }
@@ -482,6 +503,9 @@ DocumentsAndBindTab_WV: {
   RequiredToBind: {
     #Auto Insurance Application: Physically Signed,
     Uninsured/Underinsured Motorists Coverage Offer: Physically Signed
+  },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
   },
   Agreement: I agree
 }

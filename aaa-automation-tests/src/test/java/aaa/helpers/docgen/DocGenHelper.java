@@ -1,9 +1,12 @@
 package aaa.helpers.docgen;
 
+import aaa.helpers.db.DbXmlHelper;
 import aaa.helpers.docgen.searchNodes.SearchBy;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.helpers.xml.XmlHelper;
 import aaa.helpers.xml.models.CreateDocuments;
+import aaa.helpers.xml.models.Document;
+import aaa.helpers.xml.models.DocumentDataSection;
 import aaa.helpers.xml.models.StandardDocumentRequest;
 import aaa.main.enums.DocGenEnum;
 
@@ -19,6 +22,8 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class DocGenHelper {
 	public static final String DOCGEN_SOURCE_FOLDER = "/home/DocGen/";
@@ -73,7 +78,21 @@ public class DocGenHelper {
 				policyNumber, generatedByJob ? " by job" : "",
 				documents.length > 0 ? String.format(" and %1$s documents: %2$s", documentsExistence ? "contains all" : "does not contain", Arrays.asList(documents)) : ""));
 
+
+		final int searchRetryDelay = 5;
+		int searchAttempt = 1;
 		DocumentWrapper documentWrapper = getDocumentRequest(generatedByJob, policyNumber, documentsExistence ? documents : new DocGenEnum.Documents[0]);
+		while (documentsExistence && searchAttempt < 3 && !isRequestValid(documentWrapper, policyNumber, documents)) {
+			searchAttempt++;
+			log.warn(String.format("Found documents are related to other policy number(s), probably desired document is not generated yet, performing search attempt #%1$s after %2$s seconds...", searchAttempt, searchRetryDelay));
+			try {
+				TimeUnit.SECONDS.sleep(searchRetryDelay);
+			} catch (InterruptedException e) {
+				log.debug(e.getMessage());
+			}
+			documentWrapper = getDocumentRequest(generatedByJob, policyNumber, documents);
+		}
+
 		for (DocGenEnum.Documents document : documents) {
 			documentWrapper.verify.exists(documentsExistence, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber).document.templateId(document.getIdInXml()));
 		}
@@ -145,9 +164,53 @@ public class DocGenHelper {
 		}
 		return RemoteHelper.waitForFilesAppearance(docGenSourcePath, "xml", DOCUMENT_GENERATION_TIMEOUT, textsToSearchPatterns);
 	}
-	
+
 	public static String convertToZonedDateTime(LocalDateTime date) {
 		final String zoneId = RemoteHelper.getServerTimeZone();
 		return date.atZone(ZoneId.of(zoneId)).format(DATE_TIME_FIELD_FORMAT);
+	}
+
+
+    /**
+     * Extracts data from Document model
+     * Extract only Data Sections which have corresponding sectionName Tag
+     * @param sectionName section name to select
+     * @param docId generated Document Id
+     * @param selectPolicyData query which returns CLOB data
+     */
+    public static List<DocumentDataSection> getDocumentDataSectionsByName(String sectionName, DocGenEnum.Documents docId, String selectPolicyData) {
+        Document doc = getDocument(docId, selectPolicyData);
+        return doc.getDocumentDataSections().stream().
+                filter(v -> v.getSectionName().equals(sectionName)).collect(Collectors.toList());
+    }
+
+    /**
+     * Extracts data from Document model
+     * Extract only Data Sections which contains dataElemName
+     * Data Section will contains only node with expected dataElemName
+     * @param dataElemName elem Name which will be in the section
+     * @param docId generated Document Id
+     * @param selectPolicyData query which returns CLOB data
+     */
+    public static List<DocumentDataSection> getDocumentDataElemByName(String dataElemName, DocGenEnum.Documents docId, String selectPolicyData) {
+        Document doc = getDocument(docId, selectPolicyData);
+        doc.getDocumentDataSections().forEach(v1 -> v1.setDocumentDataElements(v1.getDocumentDataElements().stream().
+                filter(inner -> inner.getName().equals(dataElemName)).collect(Collectors.toList())));
+        return doc.getDocumentDataSections().stream().filter(list -> !list.getDocumentDataElements().isEmpty()).
+                collect(Collectors.toList());
+    }
+
+    public static Document getDocument(DocGenEnum.Documents value, String query) {
+        String xmlDocData = DbXmlHelper.getXmlByDocName(value, query);
+        return XmlHelper.xmlToModelByPartOfXml(xmlDocData, Document.class);
+    }
+
+	private static boolean isRequestValid(DocumentWrapper dw, String policyNumber, DocGenEnum.Documents[] documents) {
+		if (documents.length > 0) {
+			List<String> expectedDocumentIds = Arrays.stream(documents).map(DocGenEnum.Documents::getIdInXml).collect(Collectors.toList());
+			return dw.getAllDocuments(policyNumber).stream().map(Document::getTemplateId).collect(Collectors.toList()).containsAll(expectedDocumentIds);
+		} else {
+			return dw.getList(SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber)).size() > 0;
+		}
 	}
 }
