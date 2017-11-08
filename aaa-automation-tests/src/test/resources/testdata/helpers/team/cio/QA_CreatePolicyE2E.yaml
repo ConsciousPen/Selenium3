@@ -121,19 +121,19 @@ DriverTab1: {
 }
 
 DriverTab2: {
-  DriverSearchDialog: {},
-  Named Insured: 'index=0',
-  'Rel. to First Named Insured': Spouse,
-  First Name: Test2,
-  Last Name: Driver2,
-  Date of Birth: 01/01/1960,
-  Gender: Female,
-  Marital Status: Married,
-  Occupation: Employed,
-  Age First Licensed: 17,
-  License Type: 'Licensed (US)',
-  License Number: D39999601
-}
+   DriverSearchDialog: {},
+   Named Insured: 'index=0',
+   'Rel. to First Named Insured': Spouse,
+   First Name: Test2,
+   Last Name: Driver2,
+   Date of Birth: 01/01/1960,
+   Gender: Female,
+   Marital Status: Married,
+   Occupation: Employed,
+   Age First Licensed: 17,
+   License Type: 'Licensed (US)',
+   License Number: D39999601
+ }
 
 DriverActivity2: {
   Add: Click
