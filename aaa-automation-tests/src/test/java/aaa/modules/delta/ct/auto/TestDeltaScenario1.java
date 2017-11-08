@@ -16,10 +16,15 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import org.openqa.selenium.By;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.waiters.Waiter;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,11 +48,7 @@ import java.util.List;
 @Test(groups = {Groups.DELTA, Groups.HIGH})
 public class TestDeltaScenario1 extends AutoSSBaseTest {
     //todo make it empty
-    //private String quoteNumber;
-    // aws2aaawas05 private
-	// String quoteNumber = "QCTSS950569077";
-    // aws2aaawas02
-	private String quoteNumber = "QCTSS952154778";
+	String quoteNumber = "QCTSS950574309";
 
     private DriverTab driverTab = new DriverTab();
     private VehicleTab vehicleTab = new VehicleTab();
@@ -73,9 +74,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
      * 4. Verify Dropdown Values in Prefill tab
      * @details
      */
+    @Parameters({"state"})
     @Test(groups = {Groups.DELTA, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void testSC1_TC1() {
+    public void testSC1_TC1(@Optional("") String state) {
         initiateQuote();
 
         CustomAssert.enableSoftMode();
@@ -100,9 +102,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
      * 3. Verify Dropdown Values in General tab
      * @details
      */
-    @Test
+    @Parameters({"state"})
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
-    public void testSC1_TC02() {
+    public void testSC1_TC02(@Optional("") String state) {
         preconditions(NavigationEnum.AutoSSTab.GENERAL);
 
         //Residence
@@ -142,9 +145,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
         Tab.buttonSaveAndExit.click();
     }
 
-    @Test
+    @Parameters({"state"})
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
-    public void testSC1_TC03() {
+    public void testSC1_TC03(@Optional("") String state) {
         preconditions(NavigationEnum.AutoSSTab.GENERAL);
 
 		//Set zip = 06756 (associated with several county/township)
@@ -162,9 +166,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
         Tab.buttonSaveAndExit.click();
     }
 
-    @Test
+    @Parameters({"state"})
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
-    public void testSC1_TC04() {
+    public void testSC1_TC04(@Optional("") String state) {
         preconditions(NavigationEnum.AutoSSTab.DRIVER);
 
         //Driver Type
@@ -203,9 +208,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 
     }
 
-    @Test
+    @Parameters({"state"})
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
-    public void testSC1_TC05_6_7() {
+    public void testSC1_TC05_6_7(@Optional("") String state) {
         preconditions(NavigationEnum.AutoSSTab.DRIVER);
 
         driverTab.fillTab(getPolicyTD());
@@ -216,9 +222,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
         DriverTab.tableActivityInformationList.getRow("Description", "Accident (Property Damage Only)").getCell("Points").verify.value("0");
     }
 
-    @Test
+    @Parameters({"state"})
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
-    public void testSC1_TC08() {
+    public void testSC1_TC08(@Optional("") String state) {
         preconditions(NavigationEnum.AutoSSTab.DRIVER);
 
         driverTab.fillTab(getPolicyTD());
@@ -229,30 +236,29 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
         //violation points should be = 4
         DriverTab.tableActivityInformationList.getRow("Description", "Hit and Run").getCell("Points").verify.value("4");
         //go to Major accident, points for the same day should be = 0
-        DriverTab.tableActivityInformationList.getRow("Description", "Hit and Run").getCell(8).controls.links.getFirst().click();
+        DriverTab.tableActivityInformationList.getRow("Description", "Hit and Run").getCell(8).controls.links.getFirst().click(Waiters.AJAX);
         driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER).setValue("No");
         driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.VIOLATION_POINTS).verify.value("0");
-        // Prep step for 9 case as i understood.
-        // assDriverTabFilling.setIncidentOccurenceDate(addDaysToCurrentDate(-4));
-
     }
 
-    @Test
+    @Parameters({"state"})
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
-    public void testSC1_TC09() {
+    public void testSC1_TC09(@Optional("") String state) {
         preconditions(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS);
 
-         ratingDetailReportsTab.fillTab(getTestSpecificTD("RatingDetailReportsTab_TC9"));
+        ratingDetailReportsTab.fillTab(getTestSpecificTD("RatingDetailReportsTab_TC9"));
         String errorMessage = "Extraordinary Life Circumstance was applied to the policy";
         //todo check that it is correct error check
         new StaticElement(By.xpath("//*[contains(.,'" + errorMessage + "')]")).verify.present(false);
-        Tab.buttonSaveAndExit.click();
+        Tab.buttonSaveAndExit.click(Waiters.AJAX);
 
     }
 
-    @Test
+    @Parameters({"state"})
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
-    public void testSC1_TC10_11() {
+    public void testSC1_TC10_11(@Optional("") String state) {
         preconditions(NavigationEnum.AutoSSTab.VEHICLE);
 
         List<String> expectedValuesOfVehicleType = Arrays.asList("Private Passenger Auto", "Limited Production/Antique", "Trailer", "Motor Home", "Conversion Van");
@@ -271,9 +277,10 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		Tab.buttonSaveAndExit.click();
 	}
 
-	@Test
+    @Parameters({"state"})
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
-    public void testSC1_TC12() {
+    public void testSC1_TC12(@Optional("") String state) {
 		preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY)
 				.setValueByRegex("\\$500,000.*1,000,000.*");
@@ -289,44 +296,36 @@ public class TestDeltaScenario1 extends AutoSSBaseTest {
 		Tab.buttonSaveAndExit.click();
 	}
 
-	@Test
-	public void SC1_TC13(){
+    @Parameters({"state"})
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS)
+	public void SC1_TC13(@Optional("") String state){
 		preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
 
-		//workaround for QC 24062 Regression: Auto SS: Navigation from error page doesn't work
-		/*if (isElementPresent(AssPremiumCoveragesUiIds.ERROR_CODE)) {
-			clickAndWait(AssPremiumCoveragesUiIds.CANCEL_ERRORS, getMiddleWaitTime());
-		}*/
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY)
 				.setValueByRegex("\\$200,000.*600,000.*");
 		PremiumAndCoveragesTab.calculatePremium();
+
+		//default value for "Underinsured Motorist Conversion Coverage" = No
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_CONVERSION_COVERAGE)
 				.verify.value("No");
-		//default value for "Underinsured Motorist Conversion Coverage" = No
-		/*verifyEquals(assPremiumTabFilling.getUnderinsuredMotoristConversion(), "No");
 
-		verifyTextPresent("UIM Conversion Coverage not selected");
+		PremiumAndCoveragesTab.tableTermPremiumbyVehicle.getColumn(1).getValue().contains("UIM Conversion Coverage not selected");
 
+		List<TestData> testDataRatingDetailsVehicles = premiumAndCoveragesTab.getRatingDetailsVehiclesData();
+		// UIM Conversion Coverage = NO
+		testDataRatingDetailsVehicles.forEach(i -> CustomAssert.assertTrue("UIM Conversion Coverage should be No",i.getValue("UIM Conversion Coverage").contains("No")));
 
-		//View rating details
-		click(AssPremiumCoveragesUiIds.VIEW_RATING_DETAILS);
-		waitForAjax(getAjaxWaitTime());
+		testDataRatingDetailsVehicles.forEach(i -> CustomAssert.assertTrue("ELC Applied should be No",i.getValue("ELC Applied").contains("No")));
 
-		verifyTextOfElementEquals(AssPremiumCoveragesUiIds.CT_UIM_CONVERSION_COVERAGE, "No");
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 
-		verifyTextPresent("ELC");
-		verifyTextOfElementEquals(AssPremiumCoveragesUiIds.CT_ELC_APPLIED_VALUE, "No");
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_CONVERSION_COVERAGE)
+				.setValue("Yes");
 
-		click(AssPremiumCoveragesUiIds.CLOSE_RATING_DETAILS);
-		waitForAjax(getAjaxWaitTime());
+		PremiumAndCoveragesTab.tableTermPremiumbyVehicle.getColumn(1).getValue().contains("UIM Conversion Coverage selected");
 
-
-		assPremiumTabFilling.setUnderinsuredMotoristConversion("Yes");
-
-		verifyTextPresent("UIM Conversion Coverage selected");*/
-
-
-		//checkForVerificationErrors();
+		Tab.buttonSaveAndExit.click();
 	}
 
     private void preconditions(NavigationEnum.AutoSSTab navigateTo) {
