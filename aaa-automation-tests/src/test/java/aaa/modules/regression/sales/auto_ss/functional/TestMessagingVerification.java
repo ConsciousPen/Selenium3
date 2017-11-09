@@ -36,7 +36,7 @@ public class TestMessagingVerification extends AutoSSBaseTest {
 
     /**
      * @author Alex Tinkovan
-     * @name Test that limits are greater than or equal to the defined Current BI Threshold
+     * @name Test that Pop-Up with message about removing discount appears when change the eValue policy auto pay selection
      * @scenario 1. Create new eValue eligible quote for VA (Prior BI and Membership Conditions)
      * 2. Set 'Apply eValue Discount' = Yes
      * 3. Bind Quote
@@ -60,8 +60,6 @@ public class TestMessagingVerification extends AutoSSBaseTest {
 
     public void eValuePolicyCreation() {
 
-        TestData eValueTD = getPolicyTD("DataGather", "TestData_VA");
-
         TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 
         testEValueDiscount.eValueQuoteCreation();
@@ -72,8 +70,6 @@ public class TestMessagingVerification extends AutoSSBaseTest {
         documentsAndBindTab.submitTab();
 
         makeDepositPaymentWithDCVisa();
-
-        String policyNum = policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 
     }
 
