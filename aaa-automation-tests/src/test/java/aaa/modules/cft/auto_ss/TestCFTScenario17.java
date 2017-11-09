@@ -29,7 +29,7 @@ public class TestCFTScenario17 extends ControlledFinancialBaseTest {
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario17(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
-		acceptOverpaymentStartDatePlus16(new Dollar(600));
+		acceptTotalDuePlusOverpaymentOnStartDatePlus16(new Dollar(600));
 		refundPaymentAndApproveOnStartDatePlus25();
 		endorsePolicyCancellationDate();
 		endorseFirstEPBillDate(TestData.makeKeyPath(EndorsementActionTab.class.getSimpleName(), AutoSSMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()));
