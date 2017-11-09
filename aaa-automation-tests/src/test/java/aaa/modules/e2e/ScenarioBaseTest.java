@@ -66,7 +66,7 @@ public class ScenarioBaseTest extends BaseTest {
 	}
 
 	protected void cancelPolicy(LocalDateTime installmentDueDate) {
-		LocalDateTime cDate = getTimePoints().getCancellationDate(installmentDueDate);
+		LocalDateTime cDate = getTimePoints().getCancellationDate(installmentDueDate, getPolicyType(), getState());
 		TimeSetterUtil.getInstance().nextPhase(cDate);
 		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
 		mainApp().open();
