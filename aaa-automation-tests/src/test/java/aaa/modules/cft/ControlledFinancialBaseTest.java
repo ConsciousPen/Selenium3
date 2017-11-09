@@ -549,7 +549,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void automaticCancellation(int installmentNumber) {
 		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(
-			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber), getPolicyType(), getState());
+			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
 		TimeSetterUtil.getInstance().nextPhase(cancellationDate);
 		log.info("Cancellation action started");
 		log.info("Cancellation date: {}", cancellationDate);
@@ -565,7 +565,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void generateFirstEarnedPremiumBill(int installmentNumber) {
 		LocalDateTime firstEPBillDate = getTimePoints().getEarnedPremiumBillFirst(
-			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber), getPolicyType(), getState());
+			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
 		log.info("First EP bill generation started");
 		log.info("First EP bill generated date: {}", firstEPBillDate);
 		generateAndCheckEarnedPremiumBill(firstEPBillDate);
@@ -577,7 +577,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void generateSecondEarnedPremiumBill(int installmentNumber) {
 		LocalDateTime secondEPBillDate = getTimePoints().getEarnedPremiumBillSecond(
-			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber), getPolicyType(), getState());
+			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
 		log.info("Second EP bill generation started");
 		log.info("Second EP bill generated date: {}", secondEPBillDate);
 		generateAndCheckEarnedPremiumBill(secondEPBillDate);
@@ -589,7 +589,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void generateThirdEarnedPremiumBill(int installmentNumber) {
 		LocalDateTime thirdEPBillDate = getTimePoints().getEarnedPremiumBillThird(
-			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber), getPolicyType(), getState());
+			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
 		log.info("Third EP bill generation started");
 		log.info("Third EP bill generated date: {}", thirdEPBillDate);
 		generateAndCheckEarnedPremiumBill(thirdEPBillDate);
@@ -601,7 +601,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void writeOff(int installmentNumber) {
 		LocalDateTime writeOffDate = getTimePoints().getEarnedPremiumWriteOff(
-			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber), getPolicyType(), getState());
+			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
 		TimeSetterUtil.getInstance().nextPhase(writeOffDate);
 		log.info("EP Write off generation action started");
 		JobUtils.executeJob(Jobs.cftDcsEodJob);

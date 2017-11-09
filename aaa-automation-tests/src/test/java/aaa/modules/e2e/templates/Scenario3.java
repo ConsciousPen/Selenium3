@@ -90,12 +90,12 @@ public class Scenario3 extends ScenarioBaseTest {
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		new BillingAccountPoliciesVerifier().setPolicyFlag(PolicyFlag.CANCEL_NOTICE).verifyRowWithEffectiveDate(policyEffectiveDate);
-		new BillingBillsAndStatementsVerifier().setDueDate(getTimePoints().getCancellationTransactionDate(installmentDueDates.get(1), getPolicyType(), getState()))
+		new BillingBillsAndStatementsVerifier().setDueDate(getTimePoints().getCancellationTransactionDate(installmentDueDates.get(1)))
 				.setType(BillsAndStatementsType.CANCELLATION_NOTICE).verifyPresent();
 	}
 
 	public void createRemittanceFile() {
-		LocalDateTime date = getTimePoints().getCancellationDate(installmentDueDates.get(1), getPolicyType(), getState());
+		LocalDateTime date = getTimePoints().getCancellationDate(installmentDueDates.get(1));
 		TimeSetterUtil.getInstance().nextPhase(date.plusDays(5).with(DateTimeUtils.closestFutureWorkingDay));
 		mainApp().open();
 		SearchPage.openBilling(policyNum);

@@ -187,12 +187,12 @@ public class Scenario4 extends ScenarioBaseTest {
 
 		new BillingBillsAndStatementsVerifier().setType(BillsAndStatementsType.CANCELLATION_NOTICE)
 				.setMinDue(endorsementDue).setPastDue(endorsementDue).setTotalDue(endorsementDue)
-				.verifyRowWithDueDate(getTimePoints().getCancellationTransactionDate(endorsementInstallmentDueDate, getPolicyType(), getState()));
+				.verifyRowWithDueDate(getTimePoints().getCancellationTransactionDate(endorsementInstallmentDueDate));
 	}
 
 	protected void paymentInFullCancellNoticeAmount() {
 		// Set any date prior to Cancellation date
-		LocalDateTime cnDate = getTimePoints().getCancellationDate(endorsementInstallmentDueDate, getPolicyType(), getState()).minusDays(5).with(DateTimeUtils.closestFutureWorkingDay);
+		LocalDateTime cnDate = getTimePoints().getCancellationDate(endorsementInstallmentDueDate).minusDays(5).with(DateTimeUtils.closestFutureWorkingDay);
 		TimeSetterUtil.getInstance().nextPhase(cnDate);
 
 		mainApp().open();

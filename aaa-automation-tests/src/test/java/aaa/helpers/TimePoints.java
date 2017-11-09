@@ -21,9 +21,17 @@ public class TimePoints {
 	public static final String DATE_FORMAT = "MM/dd/yyyy HH:mm:ss";
 	protected Logger log = LoggerFactory.getLogger(TimePoints.class);
 	protected TestData td;
+	protected PolicyType policyType;
+	protected String state;
 
 	public TimePoints(TestData td) {
+		new TimePoints(td, null,null);
+	}
+
+	public TimePoints(TestData td, PolicyType policyType, String state) {
 		this.td = td;
+		this.policyType = policyType;
+		this.state = state;
 	}
 
 	public LocalDateTime getTimepoint(LocalDateTime date, TimepointsList timePointName, Boolean applyShift) {
@@ -123,7 +131,7 @@ public class TimePoints {
 	}
 
 	public LocalDateTime getCancellationDate(LocalDateTime date) {
-		return getCancellationDate(date, null, null);
+		return getCancellationDate(date, this.policyType, this.state);
 	}
 
 	public LocalDateTime getCancellationDate(LocalDateTime date, PolicyType policyType, String state) {
@@ -135,7 +143,7 @@ public class TimePoints {
 	}
 
 	public LocalDateTime getCancellationTransactionDate(LocalDateTime date) {
-		return getCancellationTransactionDate(date, null, null);
+		return getCancellationTransactionDate(date, this.policyType, this.state);
 	}
 
 	public LocalDateTime getCancellationTransactionDate(LocalDateTime date, PolicyType policyType, String state) {
@@ -155,7 +163,7 @@ public class TimePoints {
 	}
 
 	public LocalDateTime getEarnedPremiumBillFirst(LocalDateTime date) {
-		return getEarnedPremiumBillFirst(date, null, null);
+		return getEarnedPremiumBillFirst(date, this.policyType, this.state);
 	}
 
 	public LocalDateTime getEarnedPremiumBillFirst(LocalDateTime date, PolicyType policyType, String state) {
@@ -163,7 +171,7 @@ public class TimePoints {
 	}
 
 	public LocalDateTime getEarnedPremiumBillSecond(LocalDateTime date) {
-		return getEarnedPremiumBillSecond(date, null, null);
+		return getEarnedPremiumBillSecond(date, this.policyType, this.state);
 	}
 
 	public LocalDateTime getEarnedPremiumBillSecond(LocalDateTime date, PolicyType policyType, String state) {
@@ -171,7 +179,7 @@ public class TimePoints {
 	}
 
 	public LocalDateTime getEarnedPremiumBillThird(LocalDateTime date) {
-		return getEarnedPremiumBillThird(date, null, null);
+		return getEarnedPremiumBillThird(date, this.policyType, this.state);
 	}
 
 	public LocalDateTime getEarnedPremiumBillThird(LocalDateTime date, PolicyType policyType, String state) {
@@ -179,7 +187,7 @@ public class TimePoints {
 	}
 
 	public LocalDateTime getEarnedPremiumWriteOff(LocalDateTime date) {
-		return getEarnedPremiumWriteOff(date, null, null);
+		return getEarnedPremiumWriteOff(date, this.policyType, this.state);
 	}
 
 	public LocalDateTime getEarnedPremiumWriteOff(LocalDateTime date, PolicyType policyType, String state) {
