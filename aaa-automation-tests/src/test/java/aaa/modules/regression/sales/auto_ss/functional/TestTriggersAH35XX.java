@@ -8,6 +8,8 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.DbAwaitHelper;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.xml.models.DocumentDataElement;
+import aaa.helpers.xml.models.DocumentDataSection;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.BillingAccountMetaData;
@@ -150,8 +152,10 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 		CustomAssert.assertEquals(DocGenHelper.getDocumentDataSectionsByName("VehicleDetails", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField(), (vehicleInfos[0]));
 		CustomAssert.assertEquals(DocGenHelper.getDocumentDataElemByName("PlcyVehInfo", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField(), (vehicleInfos[0]));
 
-		for (String vehicleInfo : vehicleInfos) {
-			CustomAssert.assertTrue(DocGenHelper.getDocumentDataSectionsByName("VehicleDetails", DocGenEnum.Documents.AH35XX, query).toString().contains(vehicleInfo));
+		for(int index = 0 ; index < vehicleInfos.length ; index ++){
+			CustomAssert.assertEquals( DocGenHelper.getDocumentDataElemByName("PlcyVehInfo", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().
+					get(index).getDataElementChoice().getTextField(),
+					vehicleInfos[index++]);
 		}
 
 		String query2 = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNum, "AH35XX", eventName);
