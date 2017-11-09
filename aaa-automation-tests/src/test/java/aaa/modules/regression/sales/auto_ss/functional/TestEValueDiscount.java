@@ -163,10 +163,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     @Test
     @TestInfo(isAuxiliary = true)
     public static void eValueMembershipConfigCheck() {
-        CustomAssert.enableSoftMode();
         CustomAssert.assertTrue("eValue configuration for membership not require. Please run eValueMembershipConfigInsert", DBService.get().getValue(EVALUE_MEMBERSHIP_CONFIG_CHECK).isPresent());
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
     }
 
     @Test

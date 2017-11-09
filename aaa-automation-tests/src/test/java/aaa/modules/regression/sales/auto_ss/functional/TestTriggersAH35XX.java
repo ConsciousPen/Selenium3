@@ -7,6 +7,8 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.DbAwaitHelper;
+import aaa.helpers.docgen.DocGenHelper;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -20,11 +22,16 @@ import aaa.modules.policy.AutoSSBaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
@@ -37,6 +44,15 @@ import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.YEAR;
 public class TestTriggersAH35XX extends AutoSSBaseTest {
 	private VehicleTab vehicleTab=new VehicleTab();
 
+	private static final String PAYMENT_CENTRAL_CONFIG_CHECK = "select value from PROPERTYCONFIGURERENTITY\n"+
+			"where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')\n";
+
+	@Test
+	@TestInfo(isAuxiliary = true)
+	private void paymentCentralConfigCheck(){
+		String appHost = PropertyProvider.getProperty("app.host");
+		CustomAssert.assertTrue("Adding Payment methods will not be possible because PaymentCentralEndpoints are looking at real service. Please run paymentCentralConfigUpdate", DBService.get().getValue(PAYMENT_CENTRAL_CONFIG_CHECK).get().contains(appHost));
+	}
 
 	/**
 	 * @author Oleg Stasyuk
@@ -49,7 +65,7 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, dependsOnMethods = "paymentCentralConfigCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2241")
 	public void pas2241_TriggersUiAH35XX(@Optional("") String state) {
 
@@ -119,22 +135,25 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 	}
 
 	private void documentPaymentMethodCheckInDb(String policyNum, String numberCCACH, int numberOfDocuments) {
-		String VisaNumberScreened = "***" + numberCCACH.substring(numberCCACH.length() - 4, numberCCACH.length());
-		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME + " and data like '%%" + VisaNumberScreened + "%%'", policyNum, "AH35XX", "AUTO_PAY_METNOD_CHANGED");
+		String visaNumberScreened = "***" + numberCCACH.substring(numberCCACH.length() - 4, numberCCACH.length());
+		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME + " and data like '%%" + visaNumberScreened + "%%'", policyNum, "AH35XX", "AUTO_PAY_METNOD_CHANGED");
 		CustomAssert.assertTrue(DbAwaitHelper.waitForQueryResult(query, 5));
+		CustomAssert.assertTrue(DocGenHelper.getDocumentDataElemByName("AcctNum", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField().contains(visaNumberScreened));
+
 		String query2 = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNum, "AH35XX", "AUTO_PAY_METNOD_CHANGED");
 		CustomAssert.assertEquals(Integer.parseInt(DBService.get().getValue(query2).get()), numberOfDocuments);
 	}
 
 	private void pas2777_documentContainsVehicleInfoCheckInDb(String policyNum, String eventName, int numberOfDocuments,  String... vehicleInfos) {
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNum, "AH35XX", eventName);
-		String xmlString = DBService.get().getValue(query).get();
-		CustomAssert.assertTrue(xmlString.contains("<aaan:SectionName>VehicleDetails</aaan:SectionName>"));
-		//xmlString.contains("<aaan:TextField>2011 CHEVROLET EXPRESS VAN</aaan:TextField>");
-		CustomAssert.assertTrue(xmlString.contains("<aaan:Name>PlcyVehInfo</aaan:Name>"));
+
+		CustomAssert.assertEquals(DocGenHelper.getDocumentDataSectionsByName("VehicleDetails", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField(), (vehicleInfos[0]));
+		CustomAssert.assertEquals(DocGenHelper.getDocumentDataElemByName("PlcyVehInfo", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField(), (vehicleInfos[0]));
+
 		for (String vehicleInfo : vehicleInfos) {
-			CustomAssert.assertTrue(xmlString.contains("<aaan:TextField>"+vehicleInfo+"</aaan:TextField>"));
+			CustomAssert.assertTrue(DocGenHelper.getDocumentDataSectionsByName("VehicleDetails", DocGenEnum.Documents.AH35XX, query).toString().contains(vehicleInfo));
 		}
+
 		String query2 = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNum, "AH35XX", eventName);
 		CustomAssert.assertEquals(Integer.parseInt(DBService.get().getValue(query2).get()), numberOfDocuments);
 	}

@@ -3,6 +3,7 @@
 package aaa.modules.regression.service.auto_ca.select.functional;
 
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
@@ -11,10 +12,12 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.service.helper.HelperCommon;
 import aaa.modules.regression.service.helper.Preconditions;
+import aaa.modules.regression.service.helper.UpdateEmailRequest;
 import aaa.modules.regression.service.helper.auto_ca.HelperAutoCA;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -53,6 +56,8 @@ public class TestMiniServicesNonPremiumBearing extends PolicyBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "dxpConfigurationCheck")
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT)
 	public void pas1441_emailChangeOutOfPas(@Optional("CA") String state) {
+
+
 		HelperCommon helperCommon = new HelperCommon();
 		HelperAutoCA helperAutoCA = new HelperAutoCA();
 
@@ -72,7 +77,7 @@ public class TestMiniServicesNonPremiumBearing extends PolicyBaseTest {
 		//PAS-343 end
 
 		String emailAddressChanged = "osi.test@email.com";
-		helperCommon.emailUpdateSwaggerUi(policyNumber, emailAddressChanged);
+		helperCommon.executeRequest(policyNumber, emailAddressChanged);
 
 		helperCommon.emailUpdateTransactionHistoryCheck(policyNumber);
 		helperAutoCA.emailAddressChangedInEndorsementCheck(emailAddressChanged);
@@ -85,6 +90,8 @@ public class TestMiniServicesNonPremiumBearing extends PolicyBaseTest {
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
+
+
 
 
 }

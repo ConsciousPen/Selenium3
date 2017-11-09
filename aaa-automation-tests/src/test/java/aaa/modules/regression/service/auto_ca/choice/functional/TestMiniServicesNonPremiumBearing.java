@@ -73,7 +73,7 @@ public class TestMiniServicesNonPremiumBearing extends PolicyBaseTest {
 		//PAS-343 end
 
 		String emailAddressChanged = "osi.test@email.com";
-		helperCommon.emailUpdateSwaggerUi(policyNumber, emailAddressChanged);
+		helperCommon.executeRequest(policyNumber, emailAddressChanged);
 
 		helperCommon.emailUpdateTransactionHistoryCheck(policyNumber);
 		helperAutoCA.emailAddressChangedInEndorsementCheck(emailAddressChanged);

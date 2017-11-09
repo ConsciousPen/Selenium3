@@ -75,7 +75,7 @@ public class TestMiniServicesNonPremiumBearing extends PolicyBaseTest {
 
 
 		String emailAddressChanged = "osi.test@email.com";
-		helperCommon.emailUpdateSwaggerUi(policyNumber, emailAddressChanged);
+		helperCommon.executeRequest(policyNumber, emailAddressChanged);
 
 		helperCommon.emailUpdateTransactionHistoryCheck(policyNumber);
 		helperAutoSS.emailAddressChangedInEndorsementCheck(emailAddressChanged);

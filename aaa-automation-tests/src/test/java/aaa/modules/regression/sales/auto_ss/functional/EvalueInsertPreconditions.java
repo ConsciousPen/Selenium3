@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import org.testng.annotations.Test;
+import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
@@ -101,6 +102,10 @@ public class EvalueInsertPreconditions {
 			"('AAARolloutEligibilityLookupValue', 'pcDisbursementEngine', 'TRUE', null, 'VA', \n" +
 			"(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
+	private static final String PAYMENT_CENTRAL_CONFIG_UPDATE = "update PROPERTYCONFIGURERENTITY\n" +
+			"set value ='http://%s:9098/aaa-external-stub-services-app/recordFinancialAccount.do'\n" +
+			"where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')\n";
+
 
 	@Test()
 	@TestInfo(isAuxiliary = true)
@@ -166,5 +171,12 @@ public class EvalueInsertPreconditions {
 	@TestInfo(isAuxiliary = true)
 	public static void refundDocumentGenerationConfigInsert() {
 		DBService.get().executeUpdate(String.format(REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL));
+	}
+
+	@Test()
+	@TestInfo(isAuxiliary = true)
+	public static void paymentCentralConfigUpdate() {
+		String appHost = PropertyProvider.getProperty("app.host");
+		DBService.get().executeUpdate(String.format(PAYMENT_CENTRAL_CONFIG_UPDATE, appHost));
 	}
 }
