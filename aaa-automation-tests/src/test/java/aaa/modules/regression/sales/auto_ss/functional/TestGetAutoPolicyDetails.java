@@ -6,6 +6,7 @@ import aaa.helpers.soap.GetAutoPolicyDetailsHelper;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.soap.autopolicy.models.wsdl.ErrorInfo;
 import aaa.soap.autopolicy.models.wsdl.GetAutoPolicyDetailResponse;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -13,8 +14,9 @@ import javax.xml.datatype.DatatypeConfigurationException;
 
 public class TestGetAutoPolicyDetails extends AutoSSBaseTest {
 
+    @Parameters({"state"})
     @Test(groups = { Groups.REGRESSION, Groups.HIGH })
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-541")
     public void checkCompCollSymbolPresence() throws ErrorInfo, DatatypeConfigurationException {
         mainApp().open();
         createCustomerIndividual();
