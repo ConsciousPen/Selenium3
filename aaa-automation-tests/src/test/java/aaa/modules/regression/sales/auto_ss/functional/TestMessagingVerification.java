@@ -49,7 +49,7 @@ public class TestMessagingVerification extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-245")
-    public void autoPayModificationMessaging(@Optional("VA") String state) {
+    public void pas245_autoPayModificationMessaging(@Optional("VA") String state) {
 
         TestEValueDiscount.eValueConfigCheck();
         CustomAssert.enableSoftMode();
