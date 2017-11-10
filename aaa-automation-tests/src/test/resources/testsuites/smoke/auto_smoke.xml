@@ -192,7 +192,7 @@
 		</classes>
 	</test>
 
-	<test name="CA Auto Smoke Tests" preserve-order="true">
+	<test name="CA Select Auto Smoke Tests" preserve-order="true">
 		<parameter name="state" value="CA" />
 		<classes>
 			<class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyCreation" />
