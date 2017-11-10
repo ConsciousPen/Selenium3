@@ -277,6 +277,7 @@ public final class DocGenEnum {
         AU08("Request for Additional Information"),
         AU09("Uprate Notice"),
         AU10("Potential Uprate"),
+        AAPNXX("")
 		;
 
 		private String id;
