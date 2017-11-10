@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import org.testng.annotations.Test;
+import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
@@ -101,6 +102,19 @@ public class EvalueInsertPreconditions {
 			"('AAARolloutEligibilityLookupValue', 'pcDisbursementEngine', 'TRUE', null, 'VA', \n" +
 			"(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
+
+	private static final String PAPERLESSPREFRANCE_API_SERVICE = "update propertyconfigurerentity\n" +
+			"set value = 'http://%s:9098/aaa-external-stub-services-app/ws/policy/preferences'\n" +
+			"where propertyname = 'policyPreferenceApiService.policyPreferenceApiUri'";
+
+
+
+	@Test()
+	@TestInfo(isAuxiliary = true)
+	public static void paperlessPreferencesConfigUpdate() {
+		String app_host = PropertyProvider.getProperty("app.host");
+		DBService.get().executeUpdate(String.format(PAPERLESSPREFRANCE_API_SERVICE, app_host));
+	}
 
 	@Test()
 	@TestInfo(isAuxiliary = true)
