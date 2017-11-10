@@ -41,8 +41,8 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2247, PAS-2248")
-    public void TestAIPAndNAFLock(@Optional("CT") String state){
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2247")
+    public void pas2247_pas2248_AipAndNafLock(@Optional("CT") String state){
 
         String driverTabSimpleName = new DriverTab().getMetaKey();
         String generalTabSimpleName = new GeneralTab().getMetaKey();
