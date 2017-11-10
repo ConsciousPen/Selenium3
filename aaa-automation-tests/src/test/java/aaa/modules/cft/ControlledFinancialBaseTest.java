@@ -292,11 +292,21 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Accept payment action completed successfully");
 	}
 
-	protected void refundPaymentAndApproveOnStartDatePlus25() {
+	protected void approveRefundOnStartDatePlus25(Dollar refundAmount) {
 		LocalDateTime refundDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25).with(DateTimeUtils.closestFutureWorkingDay);
-		Dollar refundAmount = new Dollar(600);
-		refundPaymentOnDate(refundAmount, refundDate);
+		TimeSetterUtil.getInstance().nextPhase(refundDate);
+		log.info("Approve refund action started on {}", refundDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		billingAccount.approveRefund().perform(refundAmount);
+		new BillingPaymentsAndTransactionsVerifier()
+			.setTransactionDate(refundDate)
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND)
+			.setAmount(refundAmount)
+			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPROVED)
+			.verifyPresent();
 		log.info("Approve refund action completed successfully");
 	}
 
@@ -312,6 +322,12 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected void rejectRefundOnStartDatePlus25() {
 		LocalDateTime refundDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25).with(DateTimeUtils.closestFutureWorkingDay);
+		rejectRefundOnDate(refundDate);
+	}
+
+	protected void rejectRefundOnCancellationNoticeDate() {
+		LocalDateTime refundDate = getTimePoints().getCancellationNoticeDate(
+			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
 		rejectRefundOnDate(refundDate);
 	}
 
@@ -340,28 +356,22 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	/**
 	 * Other Adjustment on cancellation Notice generation day
-	 * decrease for 30$  (i.e. -30)
+	 * Adjustment amount defined in TestData
 	 */
 	protected void otherAdjustmentOnCancellationNoticeDate() {
 		LocalDateTime cancellationNoticeDate = getTimePoints().getCancellationNoticeDate(
 			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
-		TimeSetterUtil.getInstance().nextPhase(cancellationNoticeDate);
-		log.info("Other Adjustment action started");
-		log.info("Other Adjustment date: {}", cancellationNoticeDate);
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
-		mainApp().reopen();
-		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		billingAccount.otherTransactions().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		new BillingPaymentsAndTransactionsVerifier()
-			.setTransactionDate(cancellationNoticeDate)
-			.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
-			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.OTHER)
-			.setAmount(
-				new Dollar(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData(OtherTransactionsActionTab.class.getSimpleName()).getValue(
-					BillingAccountMetaData.OtherTransactionsActionTab.AMOUNT.getLabel())))
-			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
-			.verifyPresent();
-		log.info("Decline payment action completed successfully");
+		otherAdjustmentOnDate(cancellationNoticeDate);
+	}
+
+	/**
+	 * Other Adjustment on Cancellation day
+	 * Adjustment amount defined in TestData
+	 */
+	protected void otherAdjustmentOnCancellationDate() {
+		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(
+			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
+		otherAdjustmentOnDate(cancellationDate);
 	}
 
 	/**
@@ -373,8 +383,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		LocalDateTime billDueDate = getTimePoints().getBillGenerationDate(
 			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		log.info("{} Installment bill generation started", installmentNumber);
-		log.info("{} Installment bill generation date: {}", installmentNumber, billDueDate);
+		log.info("{} Installment bill generation started on {}", installmentNumber, billDueDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
@@ -733,6 +742,25 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementDueDate.format(DateTimeUtils.MM_DD_YYYY),
 			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber()));
 		log.info("Endorsment action completed successfully");
+	}
+
+	private void otherAdjustmentOnDate(LocalDateTime adjustmentDate) {
+		TimeSetterUtil.getInstance().nextPhase(adjustmentDate);
+		log.info("Other Adjustment action started on {}", adjustmentDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		billingAccount.otherTransactions().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		new BillingPaymentsAndTransactionsVerifier()
+			.setTransactionDate(adjustmentDate)
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.OTHER)
+			.setAmount(
+				new Dollar(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData(OtherTransactionsActionTab.class.getSimpleName()).getValue(
+					BillingAccountMetaData.OtherTransactionsActionTab.AMOUNT.getLabel())))
+			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
+			.verifyPresent();
+		log.info("Other Adjustment action completed successfully");
 	}
 
 	private void manualReinstatementOnDate(LocalDateTime reinstatementDate) {

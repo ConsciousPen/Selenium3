@@ -38,6 +38,8 @@ ContactInformation: {
 }
 
 NamedInsuredInformation: {
+  'Home Phone #': 1234567890,
+  Email: temp@gmail.com
 }
 
 AAAProductOwned: {
