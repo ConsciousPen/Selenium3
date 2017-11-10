@@ -15,9 +15,11 @@ import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting;
+import aaa.main.metadata.policy.AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue;
 import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -29,7 +31,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 	private DriverTab driverTab = policy.getDefaultView().getTab(DriverTab.class);
 	private GenerateOnDemandDocumentActionTab docgenActionTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 	
-	private String policyNumber;
+	private String policyNumber = "AZSS950627642";
 	private String copiedPolicyNumber;
 	
 	@Parameters({ "state" })
@@ -188,7 +190,8 @@ public class TestScenario4 extends AutoSSBaseTest {
 	}
 	
 	@Parameters({ "state" })
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
+//	, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC01_CopyFromPolicy(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -197,7 +200,8 @@ public class TestScenario4 extends AutoSSBaseTest {
 		/* Copy from policy and make some update */
 		policy.policyCopy().perform(getPolicyTD("CopyFromPolicy", "TestData"));
 		policy.dataGather().start();
-		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData_CopyFromPolicy"), DocumentsAndBindTab.class);
+		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData_CopyFromPolicy"), GeneralTab.class, true);
+		policy.getDefaultView().fillFromTo(getTestSpecificTD("TestData_CopyFromPolicy"), DriverTab.class, DocumentsAndBindTab.class);
 		
 		/*
 		 * Consumer Information Notice (not present);
@@ -209,15 +213,12 @@ public class TestScenario4 extends AutoSSBaseTest {
 		 * Proof of Smart Driver 
 		 * Proof of equivalent new car added protection with prior carrier for new vehicle
 		 */
-		verifyConsumerInformationNoticeValue();
-		String[] labelsAreNotDisplayed = {
-				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.NAMED_DRIVER_EXCLUSION.getLabel(),
-				AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_DEFENSIVE_DRIVER_COURSE_COMPLETION.getLabel(),
-				AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT.getLabel(),
-				AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION.getLabel(),
-				AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES.getLabel()
-		};
-		documentsAndBindTab.verifyFieldsAreNotDisplayed(labelsAreNotDisplayed);
+		verifyConsumerInformationNoticeAbsent();
+		documentsAndBindTab.getDocumentsForPrintingAssetList().getAsset(DocumentsForPrinting.NAMED_DRIVER_EXCLUSION).verify.present(false);
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(RequiredToIssue.PROOF_OF_DEFENSIVE_DRIVER_COURSE_COMPLETION).verify.present(false);
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT).verify.present(false);
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION).verify.present(false);
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES).verify.present(false);
 		documentsAndBindTab.saveAndExit();
 		copiedPolicyNumber = PolicySummaryPage.getPolicyNumber();
 		
@@ -226,7 +227,8 @@ public class TestScenario4 extends AutoSSBaseTest {
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.getDocumentsForPrintingAssetList().getAsset(DocumentsForPrinting.BTN_GENERATE_DOCUMENTS).click();
 		
-		
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
 
 	private void verifyConsumerInformationNoticeValue() {
