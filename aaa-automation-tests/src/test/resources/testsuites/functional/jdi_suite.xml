@@ -43,6 +43,8 @@
     <test name="TestContactInformation">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestContactInformation"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestContactInformation"/>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestContactInformation"/>
         </classes>
     </test>
 

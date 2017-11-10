@@ -9,6 +9,7 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedTable;
 import org.openqa.selenium.By;
 import toolkit.webdriver.controls.composite.assets.AssetList;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -49,17 +50,22 @@ public class GeneralTab extends Tab {
     public AssetList getThirdPartyDesigneeInfoAssetList() {
     	return getAssetList().getAsset(AutoCaMetaData.GeneralTab.THIRD_PARTY_DESIGNEE_INFORMATION.getLabel(), AssetList.class);
 	}
-    /*
+
+	public AssetList getContactInfoAssetList() {
+		return getAssetList().getAsset(AutoCaMetaData.GeneralTab.CONTACT_INFORMATION.getLabel(), AssetList.class);
+	}
+
+	/*
 	public void removeInsured(int index) {
 		if (tblInsuredList.isPresent() && tblInsuredList.getRow(index).isPresent()) {
 			tblInsuredList.getRow(index).getCell(4).controls.links.get("Remove").click(Waiters.AJAX);
 			Page.dialogConfirmation.confirm();
 		}
 	}
-
+	*/
 	public void viewInsured(int index) {
-		if (tblInsuredList.isPresent() && tblInsuredList.getRow(index).isPresent()) {
-			tblInsuredList.getRow(index).getCell(4).controls.links.get("View/Edit").click(Waiters.AJAX);
+		if (tableInsuredList.isPresent() && tableInsuredList.getRow(index).isPresent()) {
+			tableInsuredList.getRow(index).getCell(4).controls.links.get("View/Edit").click(Waiters.AJAX);
 		}
-	}*/
+	}
 }
