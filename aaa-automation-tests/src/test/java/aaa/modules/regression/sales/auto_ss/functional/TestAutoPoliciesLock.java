@@ -8,6 +8,7 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.modules.policy.AutoSSBaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -105,7 +106,10 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest {
         CustomAssert.assertAll();
 
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+    }
 
+    @AfterMethod(alwaysRun = true)
+    private void cleanDB(){
         //Restore lock parameters in DB to default values
         deleteLockForTheElement("numberNAFAccident");
         deleteLockForTheElement("autoInsurancePersistency");
