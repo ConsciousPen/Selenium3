@@ -28,6 +28,7 @@ import org.openqa.selenium.By;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import toolkit.config.PropertyProvider;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -134,6 +135,18 @@ public class TestEValueDiscount extends AutoSSBaseTest {
             "and code = 'membershipEligibility'\n" +
             "and displayvalue = 'FALSE')";
 
+    private static final String PAPERLESS_PRFERENCE_STUB_POINT= "select VALUE from " +
+            "PROPERTYCONFIGURERENTITY" +
+            " WHERE propertyname='policyPreferenceApiService.policyPreferenceApiUri' "+
+            " and  VALUE= 'http://%s:9098/aaa-external-stub-services-app/ws/policy/preferences'" ;
+
+
+    @Test
+    @TestInfo(isAuxiliary = true)
+    public static void paperlessPreferencesConfigCheck() {
+        String app_host = PropertyProvider.getProperty("app.host");
+        CustomAssert.assertTrue("paperless preference stub endpoint. Please run paperlessPreferencesConfigUpdate", DBService.get().getValue(String.format(PAPERLESS_PRFERENCE_STUB_POINT,app_host)).get().contains(app_host));
+    }
 
     @Test
     @TestInfo(isAuxiliary = true)
