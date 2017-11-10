@@ -1304,7 +1304,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     }
 
     void eValueQuoteCreation() {
-        //Default VA test data didn't work, so had to use multiple adjustments
+             //Default VA test data didn't work, so had to use multiple adjustments
         TestData defaultTestData = getPolicyTD("DataGather", "TestData");
         TestData policyInformationSectionAdjusted = getTestSpecificTD("PolicyInformation").adjust("TollFree Number", "1");
         TestData currentCarrierSectionTestSpecific = getTestSpecificTD("CurrentCarrierInformation");
