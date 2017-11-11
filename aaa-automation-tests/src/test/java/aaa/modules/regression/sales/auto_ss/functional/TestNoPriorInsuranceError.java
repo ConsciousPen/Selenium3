@@ -1,46 +1,65 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.regression.sales.template.functional.TestNoPriorInsuranceErrorTemplate;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.datax.DataProviderFactory;
-import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-public class TestNoPriorInsuranceError extends AutoSSBaseTest {
-	private GeneralTab generalTab = new GeneralTab();
+public class TestNoPriorInsuranceError extends TestNoPriorInsuranceErrorTemplate {
 
+	/**
+	 * @author Viktor Petrenko
+	 * <p>
+	 * PAS-3805 New Business DE: No Prior Insurance Message
+	 * PAS-4244 New Business DE: No Prior Insurance Error
+	 * @name Test No Prior Insurance Error and Message presence
+	 * @scenario 0. Create customer
+	 * 1. Initiate Auto SS quote creation and make it ready for purchase
+	 * 2. Go to the GeneralTab and Change current carrier section to trigger error
+	 * 3. Verify warning message presence
+	 * 4. Navigate to Driver Activity Reports tab
+	 * 5. Verify Error message presence
+	 * 6. Return current carrier section to the default state
+	 * 7. Purchase Reports at the DAR tab
+	 * 8. Go to the GeneralTab and Change current carrier section to trigger error
+	 * 9. Calculate Premium and purchase quote
+	 * 10. Verify Error message presence
+	 * @details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4244")
 	public void testErrorMessagePresenceDARTabDE(@Optional("DE") String state) {
-		TestData defaultTestData = getPolicyTD("DataGather", "TestData");
-		TestData currentCarrierSectionAdjusted = defaultTestData.getTestData("CurrentCarrierInformation");
-		//TestData generalTabAdjusted = DataProviderFactory.emptyData().adjust("CurrentCarrierInformation", currentCarrierSectionAdjusted);
-		//TestData currentCarrierData = defaultTestData.adjust("GeneralTab", generalTabAdjusted);
-
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy();
-
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-
-		//generalTab.fillTab(currentCarrierData);
+		super.verifyNoPriorInsuranceErrorDARTab();
 	}
 
+	/**
+	 * @author Viktor Petrenko
+	 * <p>
+	 * PAS-3805 New Business NJ: No Prior Insurance Message
+	 * PAS-4244 New Business NJ: No Prior Insurance Error
+	 * @name Test No Prior Insurance Error and Message presence
+	 * @scenario 0. Create customer
+	 * 1. Initiate Auto SS quote creation and make it ready for purchase
+	 * 2. Go to the GeneralTab and Change current carrier section to trigger error
+	 * 3. Verify warning message presence
+	 * 4. Navigate to Driver Activity Reports tab
+	 * 5. Verify Error message presence
+	 * 6. Return current carrier section to the default state
+	 * 7. Purchase Reports at the DAR tab
+	 * 8. Go to the GeneralTab and Change current carrier section to trigger error
+	 * 9. Calculate Premium and purchase quote
+	 * 10. Verify Error message presence
+	 * @details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4244")
 	public void testErrorMessagePresenceDARTabNJ(@Optional("NJ") String state) {
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy();
-
+		super.verifyNoPriorInsuranceErrorDARTab();
 	}
+
 }
