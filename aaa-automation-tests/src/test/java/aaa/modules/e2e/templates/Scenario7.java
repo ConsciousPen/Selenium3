@@ -295,6 +295,10 @@ public class Scenario7 extends ScenarioBaseTest {
 		if (getState().equals(States.CA)) {
 			verifyCaRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
 		}
+
+		if (verifyPligaOrMvleFee(renewOfferGenDate, policyTerm, totalVehiclesNumber)) {
+			pligaOrMvleFeeLastTransactionDate = renewOfferGenDate;
+		}
 	}
 
 	protected void endorsementRPAfterRenewal() {
@@ -362,15 +366,18 @@ public class Scenario7 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, installmentsCount);
-		// new BillingBillsAndStatementsVerifier().setDueDate(policyExpirationDate).setType(BillsAndStatementsType.BILL).verifyPresent();
+
+		//TODO-dchubkov: to be changed PLIGA & Fee calculation...
+		Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
+		verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billDate, pligaOrMvleFee, installmentsCount);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE).verifyPresent();
-		if (getState().equals(States.NY))
+		if (getState().equals(States.NY)) {
 			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate)).setSubtypeReason(
-				PaymentsAndOtherTransactionSubtypeReason.MVLE_FEE).verifyPresent();
-		if (getState().equals(States.NJ))
+					PaymentsAndOtherTransactionSubtypeReason.MVLE_FEE).verifyPresent();
+		} else if (getState().equals(States.NJ)) {
 			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate)).setSubtypeReason(
-				PaymentsAndOtherTransactionSubtypeReason.PLIGA_FEE).verifyPresent();
+					PaymentsAndOtherTransactionSubtypeReason.PLIGA_FEE).verifyPresent();
+		}
 	}
 
 	protected void checkRenewalStatusAndPaymentNotGenerated() {

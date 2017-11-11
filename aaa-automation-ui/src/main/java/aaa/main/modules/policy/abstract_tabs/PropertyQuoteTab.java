@@ -73,19 +73,19 @@ public abstract class PropertyQuoteTab extends Tab {
 		return new Dollar(textBoxOverrideFlatAmount.getValue());
 	}
 
-	public static Double getOverridenPremiumPercentageAmount() {
+	public static int getOverridenPremiumPercentageAmount() {
 		DecimalFormat df = new DecimalFormat("#.##");
-		return new Double(df.format(new Double(textBoxOverridePercentageAmount.getValue())));
+		return (new Double(df.format(new Double(textBoxOverridePercentageAmount.getValue())))).intValue();
 	}
 
 	public static Dollar calculatedOverrideFlatAmount() {
 		return new Dollar(getPolicyDwellingPremium().getPercentage(getOverridenPremiumPercentageAmount()));
 	}
 
-	public static Double calculatedOverridePercentageAmount() {
+	public static int calculatedOverridePercentageAmount() {
 		DecimalFormat df = new DecimalFormat("#.##");
-		return new Double(df.format((new Double(getOverridenPremiumFlatAmount().toPlaingString()) /
-				(new Double(getPolicyDwellingPremium().toPlaingString())) * 100)));
+		return (new Double(df.format((new Double(getOverridenPremiumFlatAmount().toPlaingString()) /
+				(new Double(getPolicyDwellingPremium().toPlaingString())) * 100)))).intValue();
 	}
 
 	public static Dollar getFinalTermPremium() {

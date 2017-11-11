@@ -97,7 +97,7 @@ TestData_Purchase_AZ: {
   }
 }
 
-TestData_CopyFromPolicy: {
+TestData_CopyFromPolicy1: {
   PrefillTab: {},
   GeneralTab: {
     List of Insured Principal: {
@@ -153,6 +153,93 @@ TestData_CopyFromPolicy: {
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {
     "Has the customer expressed interest in purchasing the quote?": 'Yes',
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {}
+}
+
+TestData_CopyFromPolicy21: {
+  PrefillTab: {},
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {
+    Order Report: click
+  },
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  ErrorTabCalculatePremium: {
+    ErrorsOverride: {
+      Code: '200009',
+      Override: 'true',
+      Approval: 'true',
+      Duration: Term,
+      Reason for override: index=1
+    }
+  },
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the quote?": 'Yes',
+    Validate Driving History: click
+  }
+}
+
+TestData_CopyFromPolicy22: {
+  DriverActivityReportsTab: {
+    Sales Agent Agreement: 'I Agree',
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {},
+  ErrorTab: {
+    ErrorsOverride: [
+      {
+        Override: 'true',
+        Approval: 'true',
+        Duration: Term,
+        Reason for override: index=1
+      },
+      {
+        Override: 'true',
+        Approval: 'true',
+        Duration: Term,
+        Reason for override: index=1
+      },
+      {
+        Override: 'true',
+        Approval: 'true',
+        Duration: Term,
+        Reason for override: index=1
+      }
+    ]
+  },
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+TestData_Endorsement: {
+  GeneralTab: {
+    PolicyInformation: {
+      Authorized by: QA
+    }
+  },
+  DriverTab: {
+    List of Driver: {
+      'column=1': '4',
+      'column=5': 'Remove',
+      Confirm Remove: ''  
+    }
+  },
+  RatingDetailReportsTab: {
+    Order Report: click
+  },
+  VehicleTab: {
+    List of Vehicle: {
+      'column=1': '2',
+      'column=5': 'Remove',
+      Confirm Remove: ''
+    }
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
     Validate Driving History: click
   },
   DocumentsAndBindTab: {}

@@ -3,7 +3,6 @@ package aaa.modules.deloitte.docgen.auto_ss;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import toolkit.verification.CustomAssert;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AutoSSTab;
@@ -15,10 +14,14 @@ import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting;
+import aaa.main.metadata.policy.AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue;
 import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -29,8 +32,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 	private DriverTab driverTab = policy.getDefaultView().getTab(DriverTab.class);
 	private GenerateOnDemandDocumentActionTab docgenActionTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 	
-	private String policyNumber;
-	private String copiedPolicyNumber;
+	private String policyNumber = "AZSS950627642";
 	
 	@Parameters({ "state" })
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
@@ -189,7 +191,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 	
 	@Parameters({ "state" })
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC01_CopyFromPolicy(@Optional("") String state) {
+	public void TC02_CopyFromPolicy(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
 		
@@ -197,7 +199,8 @@ public class TestScenario4 extends AutoSSBaseTest {
 		/* Copy from policy and make some update */
 		policy.policyCopy().perform(getPolicyTD("CopyFromPolicy", "TestData"));
 		policy.dataGather().start();
-		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData_CopyFromPolicy"), DocumentsAndBindTab.class);
+		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData_CopyFromPolicy1"), GeneralTab.class, true);
+		policy.getDefaultView().fillFromTo(getTestSpecificTD("TestData_CopyFromPolicy1"), DriverTab.class, DocumentsAndBindTab.class);
 		
 		/*
 		 * Consumer Information Notice (not present);
@@ -209,26 +212,86 @@ public class TestScenario4 extends AutoSSBaseTest {
 		 * Proof of Smart Driver 
 		 * Proof of equivalent new car added protection with prior carrier for new vehicle
 		 */
-		verifyConsumerInformationNoticeValue();
-		String[] labelsAreNotDisplayed = {
-				AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.NAMED_DRIVER_EXCLUSION.getLabel(),
-				AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_DEFENSIVE_DRIVER_COURSE_COMPLETION.getLabel(),
-				AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT.getLabel(),
-				AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION.getLabel(),
-				AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES.getLabel()
-		};
-		documentsAndBindTab.verifyFieldsAreNotDisplayed(labelsAreNotDisplayed);
+		verifyConsumerInformationNoticeAbsent();
+		documentsAndBindTab.getDocumentsForPrintingAssetList().getAsset(DocumentsForPrinting.NAMED_DRIVER_EXCLUSION).verify.present(false);
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(RequiredToIssue.PROOF_OF_DEFENSIVE_DRIVER_COURSE_COMPLETION).verify.present(false);
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT).verify.present(false);
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION).verify.present(false);
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES).verify.present(false);
 		documentsAndBindTab.saveAndExit();
-		copiedPolicyNumber = PolicySummaryPage.getPolicyNumber();
+		String copiedQuoteNumber = PolicySummaryPage.getPolicyNumber();
 		
 		/* Generate documents */
 		policy.dataGather().start();
 		NavigationPage.toViewTab(AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.getDocumentsForPrintingAssetList().getAsset(DocumentsForPrinting.BTN_GENERATE_DOCUMENTS).click();
 		
+		/* Check xml */
+		switch(getState()){
+		case States.AZ:
+			DocGenHelper.verifyDocumentsGenerated(copiedQuoteNumber, Documents.AA11AZ, Documents.AHAPXX);
+			DocGenHelper.verifyDocumentsGenerated(false, copiedQuoteNumber, Documents.AHAUXX, Documents.AA43AZ, Documents.AASR22, Documents.AAPNXX, Documents.AA02AZ);
+			break;
+		case States.IN:
+			DocGenHelper.verifyDocumentsGenerated(copiedQuoteNumber, Documents.AA11IN, Documents.AHAPXX);
+			DocGenHelper.verifyDocumentsGenerated(false, copiedQuoteNumber, Documents.AHAUXX, Documents.AA43IN, Documents.AASR22, Documents.AAPNXX, Documents.AA02IN);
+			break;
+		case States.OH:
+			DocGenHelper.verifyDocumentsGenerated(copiedQuoteNumber, Documents.AA11OH, Documents.AHAPXX);
+			DocGenHelper.verifyDocumentsGenerated(false, copiedQuoteNumber, Documents.AHAUXX, Documents.AA43OH, Documents.AASR22, Documents.AAPNXX, Documents.AA02OH);
+			break;
+		case States.VA:
+			DocGenHelper.verifyDocumentsGenerated(copiedQuoteNumber, Documents.AA11VA, Documents.AHAPXX);
+			DocGenHelper.verifyDocumentsGenerated(false, copiedQuoteNumber, Documents.AHAUXX, Documents.AASR22, Documents.AAPNXX, Documents.AA02VA);
+			break;
+		}
 		
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
 
+	@Parameters({ "state" })
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
+//	, dependsOnMethods = "TC01_CreatePolicy")
+	public void TC03_CopyFromPolicy(@Optional("") String state) {
+		CustomAssert.enableSoftMode();
+		mainApp().open();
+		
+		/* Copy from policy and make some update */
+		SearchPage.openPolicy(policyNumber);
+		policy.policyCopy().perform(getPolicyTD("CopyFromPolicy", "TestData"));
+		policy.dataGather().start();
+		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData_CopyFromPolicy21"), DriverActivityReportsTab.class, true);
+		NavigationPage.toViewTab(AutoSSTab.DRIVER.get());
+		NavigationPage.toViewTab(AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
+		policy.getDefaultView().fillFromTo(getTestSpecificTD("TestData_CopyFromPolicy22"), DriverActivityReportsTab.class, PurchaseTab.class, true);
+		policy.getDefaultView().getTab(PurchaseTab.class).submitTab();
+		String copiedPolicyNumber = PolicySummaryPage.getPolicyNumber();
+		
+		/* Do Endorsement action */
+		policy.createEndorsement(getPolicyTD("Endorsement", "TestData").adjust(getTestSpecificTD("TestData_Endorsement")));
+		
+		/* Check xml */
+		switch(getState()){
+		case States.AZ:
+			DocGenHelper.verifyDocumentsGenerated(copiedPolicyNumber, Documents.AA02AZ);
+			DocGenHelper.verifyDocumentsGenerated(false, copiedPolicyNumber, Documents.AHAUXX, Documents.AHAPXX, Documents.AA43AZ, Documents.AASR22, Documents.AAPNXX);
+			break;
+		case States.IN:
+			DocGenHelper.verifyDocumentsGenerated(copiedPolicyNumber, Documents.AA02IN);
+			DocGenHelper.verifyDocumentsGenerated(false, copiedPolicyNumber, Documents.AHAUXX, Documents.AHAPXX, Documents.AA43IN, Documents.AASR22, Documents.AAPNXX);
+			break;
+		case States.OH:
+			DocGenHelper.verifyDocumentsGenerated(copiedPolicyNumber, Documents.AA02OH);
+			DocGenHelper.verifyDocumentsGenerated(false, copiedPolicyNumber, Documents.AHAUXX, Documents.AHAPXX, Documents.AA43OH, Documents.AASR22, Documents.AAPNXX);
+			break;
+		case States.VA:
+			DocGenHelper.verifyDocumentsGenerated(copiedPolicyNumber, Documents.AA02VA);
+			DocGenHelper.verifyDocumentsGenerated(false, copiedPolicyNumber, Documents.AHAUXX, Documents.AHAPXX, Documents.AASR22, Documents.AAPNXX);
+			break;
+		}
+	}
+	
 	private void verifyConsumerInformationNoticeValue() {
 		switch (getState()) {
 		case States.VA:
