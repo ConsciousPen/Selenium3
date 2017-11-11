@@ -32,7 +32,7 @@ public class TestNoPriorInsuranceError extends TestNoPriorInsuranceErrorTemplate
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4244")
-	public void testErrorMessagePresenceDARTabDE(@Optional("DE") String state) {
+	public void testErrorMessagePresenceDE(@Optional("DE") String state) {
 		super.verifyNoPriorInsuranceErrorDARTab();
 	}
 
@@ -58,7 +58,7 @@ public class TestNoPriorInsuranceError extends TestNoPriorInsuranceErrorTemplate
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4244")
-	public void testErrorMessagePresenceDARTabNJ(@Optional("NJ") String state) {
+	public void testErrorMessagePresenceNJ(@Optional("NJ") String state) {
 		super.verifyNoPriorInsuranceErrorDARTab();
 	}
 

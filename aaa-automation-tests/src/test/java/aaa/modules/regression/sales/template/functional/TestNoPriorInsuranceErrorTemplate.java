@@ -20,7 +20,7 @@ public class TestNoPriorInsuranceErrorTemplate extends AutoSSBaseTest {
 	private final String quoteEffectiveDate = "01/01/2018";
 
 	public void verifyNoPriorInsuranceErrorDARTab() {
-		TestData testdataGeneralTabCurrentCarrierInformation = getAdjustedTestData().getTestData("GeneralTab").ksam("CurrentCarrierInformation").resolveLinks();
+		TestData testDataGeneralTabCurrentCarrierInformation = getAdjustedTestData().getTestData("GeneralTab").ksam("CurrentCarrierInformation").resolveLinks();
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -34,7 +34,7 @@ public class TestNoPriorInsuranceErrorTemplate extends AutoSSBaseTest {
 		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.OVERRIDE_CURRENT_CARRIER).setValue("No");
 		generalTab.verifyFieldHasValue(namedInsuredInfo, AutoSSMetaData.GeneralTab.CurrentCarrierInformation.CURRENT_CARRIER_INFORMATION_WARNING_MESSAGE.getLabel(), ErrorEnum.Errors.ERROR_AAA_SS171019.getMessage());
 		// fill only Current Carrier Information
-		generalTab.getCurrentCarrierInfoAssetList().fill(testdataGeneralTabCurrentCarrierInformation);
+		generalTab.getCurrentCarrierInfoAssetList().fill(testDataGeneralTabCurrentCarrierInformation);
 		generalTab.verifyFieldHasValue(namedInsuredInfo, AutoSSMetaData.GeneralTab.CurrentCarrierInformation.CURRENT_CARRIER_INFORMATION_WARNING_MESSAGE.getLabel(), ErrorEnum.Errors.ERROR_AAA_SS171019.getMessage());
 		// End of PAS-3805 New Business DE & NJ: No Prior Insurance Message
 		// Start PAS-4244 New Business DE & NJ: No Prior Insurance Error
@@ -50,7 +50,7 @@ public class TestNoPriorInsuranceErrorTemplate extends AutoSSBaseTest {
 		// Set trigger data for error
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(quoteEffectiveDate);
-		generalTab.getCurrentCarrierInfoAssetList().fill(testdataGeneralTabCurrentCarrierInformation);
+		generalTab.getCurrentCarrierInfoAssetList().fill(testDataGeneralTabCurrentCarrierInformation);
 		// Calculate Premium
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
