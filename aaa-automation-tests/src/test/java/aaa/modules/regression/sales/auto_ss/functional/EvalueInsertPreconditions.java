@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import org.testng.annotations.Test;
+import aaa.helpers.config.CustomTestProperties;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
@@ -9,6 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class EvalueInsertPreconditions {
+
+	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
 
 	private static final String DOC_GEN_WEB_CLIENT = "update propertyconfigurerentity\n" +
 			"set value = 'http://soaqa3.tent.trt.csaa.pri/3.1/StandardDocumentService'\n" +
@@ -103,23 +106,29 @@ public class EvalueInsertPreconditions {
 			"(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
 
-	private static final String PAPERLESSPREFRANCE_API_SERVICE = "update propertyconfigurerentity\n" +
+	private static final String PAPERLESS_PREFERENCE_API_SERVICE_UPDATE = "update propertyconfigurerentity\n" +
 			"set value = 'http://%s:9098/aaa-external-stub-services-app/ws/policy/preferences'\n" +
 			"where propertyname = 'policyPreferenceApiService.policyPreferenceApiUri'";
 
-
+	private static final String RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE = "update propertyconfigurerentity\n" +
+			"set value = 'http://%s:9098/aaa-external-stub-services-app/ws/membershipsummary'\n" +
+			"where propertyname = 'retrieveMembershipSummaryServiceImpl.endpointRetrieveMembershipSummaryUri'";
 
 	@Test()
 	@TestInfo(isAuxiliary = true)
 	public static void paperlessPreferencesConfigUpdate() {
-		String app_host = PropertyProvider.getProperty("app.host");
-		DBService.get().executeUpdate(String.format(PAPERLESSPREFRANCE_API_SERVICE, app_host));
+		DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE, APP_HOST));
+	}
+
+	@Test()
+	@TestInfo(isAuxiliary = true)
+	public static void retrieveMembershipSummaryUpdate() {
+		DBService.get().executeUpdate(String.format(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE, APP_HOST));
 	}
 
 	@Test()
 	@TestInfo(isAuxiliary = true)
 	public static void eValueDocGenConfigInsert() {
-
 		DBService.get().executeUpdate(DOC_GEN_WEB_CLIENT);
 		DBService.get().executeUpdate(AAA_RETRIEVE_AGREEMENT_WEB_CLIENT);
 		DBService.get().executeUpdate(AAA_RETRIEVE_DOCUMENT_WEB_CLIENT);
@@ -179,6 +188,6 @@ public class EvalueInsertPreconditions {
 	@Test()
 	@TestInfo(isAuxiliary = true)
 	public static void refundDocumentGenerationConfigInsert() {
-		DBService.get().executeUpdate(String.format(REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL));
+		DBService.get().executeUpdate(REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL);
 	}
 }
