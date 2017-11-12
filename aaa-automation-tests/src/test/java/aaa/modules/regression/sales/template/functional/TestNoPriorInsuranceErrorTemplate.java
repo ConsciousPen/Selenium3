@@ -69,11 +69,10 @@ public class TestNoPriorInsuranceErrorTemplate extends AutoSSBaseTest {
 	 */
 	private TestData getAdjustedTestData() {
 		TestData defaultTestData = getPolicyTD();
-		TestData policyInformation = defaultTestData.getTestData("GeneralTab").getTestData("PolicyInformation");
-		TestData currentCarrierSectionAdjusted = defaultTestData.getTestData("GeneralTab").getTestData("CurrentCarrierInformation");
-		policyInformation.adjust("Effective Date", quoteEffectiveDate);
-		currentCarrierSectionAdjusted
-				.adjust("Override Prefilled Current Carrier?", "Yes")
+		TestData policyInformation = defaultTestData.getTestData("GeneralTab").getTestData("PolicyInformation")
+                .adjust("Effective Date", quoteEffectiveDate);
+        TestData currentCarrierSectionAdjusted = defaultTestData.getTestData("GeneralTab").getTestData("CurrentCarrierInformation")
+                .adjust("Override Prefilled Current Carrier?", "Yes")
 				.adjust("Agent Entered Current/Prior Carrier", "index=2")
 				.adjust("Agent Entered Inception Date", TimeSetterUtil.getInstance().parse(quoteEffectiveDate, DateTimeUtils.MM_DD_YYYY).minusDays(2).format(DateTimeUtils.MM_DD_YYYY))
 				.adjust("Agent Entered Expiration Date", TimeSetterUtil.getInstance().parse(quoteEffectiveDate, DateTimeUtils.MM_DD_YYYY).minusDays(2).format(DateTimeUtils.MM_DD_YYYY))
