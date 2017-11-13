@@ -4,10 +4,10 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUN
 import aaa.common.Tab;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.ProductConstants;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
-import aaa.main.modules.policy.PolicyType;
 import toolkit.db.DBService;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
@@ -23,11 +23,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
     protected abstract Tab getPremiumAndCoverageTabElement();
     protected abstract Tab getDocumentsAndBindTabElement();
 
-
-
     protected abstract AssetDescriptor<Button> getCalculatePremium();
-
-
 
 
 
@@ -41,7 +37,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
             getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement("Email").verify.value(emailAddressChanged);
         }
         Tab.buttonCancel.click();
-
     }
 
     private void secondEndorsementIssueCheck() {

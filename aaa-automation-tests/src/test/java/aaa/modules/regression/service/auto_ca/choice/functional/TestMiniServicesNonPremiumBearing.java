@@ -34,7 +34,6 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 		Preconditions.dxpConfigurationCheck();
 	}
 
-
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Test Email change through service
@@ -88,7 +87,6 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	protected Tab getDocumentsAndBindTabElement() {
 		return new DocumentsAndBindTab();
 	}
-
 
 	@Override
 	protected AssetDescriptor<Button> getCalculatePremium() {
