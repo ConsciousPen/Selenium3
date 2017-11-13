@@ -23,13 +23,21 @@ import java.util.List;
 
 public class TestAutoPoliciesLock extends AutoSSBaseTest {
 
-    String currentDate= TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ISO_DATE);
+    private final static String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ISO_DATE);
+    private final static String lookUpId = "(SELECT ll.id FROM lookupList ll WHERE ll.lookupName LIKE '%AAAFactorsLockLookup')";
+    private final static String toCurrentDate = "to_date('" + currentDate + "', 'YYYY-MM-DD')";
+
+    private final static String INSERT_QUERY = "INSERT INTO lookupValue " +
+            "(lookUpList_id,dType,code,displayValue,effective,expiration,productCD,riskStateCD) "+
+            "VALUES (%s,'BaseProductLookupValue','%s','TRUE',%s,null,'AAA_SS','%s')";
+
+    private final static String DELETE_QUERY = "DELETE FROM lookupValue lv " +
+            "WHERE lv.lookupList_id IN %s AND CODE = '%s' AND DISPLAYVALUE='TRUE' AND EFFECTIVE=%s AND RISKSTATECD='%s'";
 
     /**
      * @author Lev Kazarnovskiy
-     *
+     * <p>
      * PAS-2247, PAS-2248 - Lock Membership and Auto Ins Persistency, Not at Fault and Comp Claims
-     *
      * @name Test VINupload 'Update VIN' scenario.
      * @scenario 0. Create customer
      * 1. Configure lock for AIP and NAF  in DB
@@ -42,24 +50,9 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2247")
-    public void pas2247_pas2248_AipAndNafLock(@Optional("CT") String state){
+    public void pas2247_pas2248_AipAndNafLock(@Optional("CT") String state) {
 
-        String driverTabSimpleName = new DriverTab().getMetaKey();
-        String generalTabSimpleName = new GeneralTab().getMetaKey();
-        String namedInsuredInformationSection = AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel();
-
-        //Adjust data for DriverTab.
-        List<TestData> driverTabAdjustment = new ArrayList<>();
-        driverTabAdjustment.add(getPolicyTD().getTestData(driverTabSimpleName)
-                .adjust(getTestSpecificTD("TestData").resolveLinks()));
-
-        //Adjust data for Base Date field on General Tab
-        List<TestData> baseDateAdjustment = new ArrayList<>();
-        baseDateAdjustment.add(getPolicyTD().getTestData(generalTabSimpleName).getTestDataList(namedInsuredInformationSection).
-                get(0).adjust("Base Date", "/today-1y").adjust("First Name", "Derek").adjust("Last Name", "Martin"));
-
-        TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(generalTabSimpleName, namedInsuredInformationSection), baseDateAdjustment)
-                .adjust(driverTabSimpleName, driverTabAdjustment);
+        TestData testData = getAdjustedTD();
 
         setLockForTheElement("numberNAFAccident");
         setLockForTheElement("autoInsurancePersistency");
@@ -95,12 +88,13 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest {
 
         //Verify that values of NAF and AIP are locked and not changed in VRD. Verify that CC values is increased
         CustomAssert.enableSoftMode();
+
+        PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Number of Not-At-Fault Accidents").getCell(5)
+                .verify.value("Number of Not-At-Fault Accidents is not locked on Renewal", previousNAFValue);
+        PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, "AAA Insurance Persistency").getCell("Value")
+                .verify.value("Value for AAA Insurance Persistency is not locked on Renewal", previousAIPValue);
         CustomAssert.assertFalse("Number of Comprehensive Claims is locked on Renewal, but shouldn't",
                 previousCCValue.equals(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Number of Comprehensive Claims").getCell(5).getValue()));
-        CustomAssert.assertTrue("Number of Not-At-Fault Accidents is not locked on Renewal",
-                previousNAFValue.equals(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Number of Not-At-Fault Accidents").getCell(5).getValue()));
-        CustomAssert.assertTrue("Value for AAA Insurance Persistency is not locked on Renewal",
-                previousAIPValue.equals(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, "AAA Insurance Persistency").getCell("Value").getValue()));
         CustomAssert.disableSoftMode();
 
         CustomAssert.assertAll();
@@ -109,13 +103,34 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest {
     }
 
     @AfterMethod(alwaysRun = true)
-    private void cleanDB(){
+    private void cleanDB() {
         //Restore lock parameters in DB to default values
         deleteLockForTheElement("numberNAFAccident");
         deleteLockForTheElement("autoInsurancePersistency");
     }
 
-    private void overrideErrorsAndBind (TestData testData) {
+    private TestData getAdjustedTD() {
+        String driverTabSimpleName = new DriverTab().getMetaKey();
+        String generalTabSimpleName = new GeneralTab().getMetaKey();
+        String namedInsuredInformationSection = AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel();
+
+        //Adjust data for DriverTab.
+        List<TestData> driverTabAdjustment = new ArrayList<>();
+        driverTabAdjustment.add(getPolicyTD().getTestData(driverTabSimpleName)
+                .adjust(getTestSpecificTD("TestData").resolveLinks()));
+
+        //Adjust data for Base Date field on General Tab
+        List<TestData> baseDateAdjustment = new ArrayList<>();
+        baseDateAdjustment.add(getPolicyTD().getTestData(generalTabSimpleName).getTestDataList(namedInsuredInformationSection).get(0)
+                .adjust(AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel(), "/today-1y")
+                .adjust(AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getLabel(), "Derek")
+                .adjust(AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getLabel(), "Martin"));
+
+        return getPolicyTD().adjust(TestData.makeKeyPath(generalTabSimpleName, namedInsuredInformationSection), baseDateAdjustment)
+                .adjust(driverTabSimpleName, driverTabAdjustment);
+    }
+
+    private void overrideErrorsAndBind(TestData testData) {
         DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
         PurchaseTab purchaseTab = new PurchaseTab();
 
@@ -127,17 +142,14 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest {
         purchaseTab.submitTab();
     }
 
-    private void setLockForTheElement (String elementName){
-        DBService.get().executeUpdate("INSERT INTO lookupValue " +
-                "(lookUpList_id,dType,code,displayValue,effective,expiration,productCD,riskStateCD) "+
-                "VALUES ((SELECT ll.id FROM lookupList ll WHERE ll.lookupName LIKE '%AAAFactorsLockLookup'),"+
-                "'BaseProductLookupValue','" + elementName + "','TRUE',to_date('" + currentDate + "', 'YYYY-MM-DD'),null,'AAA_SS','"+ getState() +"')");
+
+    private void setLockForTheElement(String elementName) {
+        int i = DBService.get().executeUpdate(String.format(INSERT_QUERY, lookUpId, elementName, toCurrentDate, getState()));
+        CustomAssert.assertTrue("values should be inserted ", i > 0);
     }
 
-    private void deleteLockForTheElement (String elementName) {
-        DBService.get().executeUpdate("DELETE FROM lookupValue lv " +
-                "WHERE lv.lookupList_id IN (SELECT ll.id FROM lookupList ll WHERE ll.lookupName LIKE '%AAAFactorsLockLookup') " +
-                "AND CODE = '" + elementName + "' AND DISPLAYVALUE='TRUE' AND EFFECTIVE=to_date('" + currentDate + "', 'YYYY-MM-DD') " +
-                "AND RISKSTATECD='"+ getState() +"'");
+    private void deleteLockForTheElement(String elementName) {
+        DBService.get().executeUpdate(String.format(DELETE_QUERY, lookUpId, elementName, toCurrentDate, getState()));
     }
 }
+
