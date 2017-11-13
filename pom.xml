@@ -71,11 +71,11 @@
         <dependency>
             <groupId>com.exigen.eis</groupId>
             <artifactId>etcs-automation-core</artifactId>
-            <version>8.12</version>
+            <version>8.15</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.exigen.istf</groupId>
-                    <artifactId>istf-core</artifactId>
+                    <artifactId>*</artifactId>
                 </exclusion>
 
                 <exclusion>
