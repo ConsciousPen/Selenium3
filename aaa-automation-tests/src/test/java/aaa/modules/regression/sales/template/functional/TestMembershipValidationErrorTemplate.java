@@ -25,6 +25,7 @@ public class TestMembershipValidationErrorTemplate extends AutoSSBaseTest {
             "In (Select Ll.Id From Lookuplist Ll Where Ll.Lookupname like '%AAAFactorsLockLookup') AND CODE = 'compClaims' " +
             "AND DISPLAYVALUE='TRUE' and EFFECTIVE=to_date('02-02-2016', 'MM-DD-YYYY') and RISKSTATECD='CT'";
     // %1$s
+    private String selectMembershipNumber = "SELECT DISTINCT ORDERMEMBERSHIPNUMBER,MEMBERSHIPSTATUS FROM MEMBERSHIPSUMMARYENTITY WHERE (MEMBERSHIPSTATUS != 'Active' OR MEMBERSHIPSTATUS IS NULL) AND ORDERMEMBERSHIPNUMBER IS NOT NULL";
 
 	/*@BeforeMethod(alwaysRun = true)
     protected void insertAAAMembershipConfigurationLookupValue(){
