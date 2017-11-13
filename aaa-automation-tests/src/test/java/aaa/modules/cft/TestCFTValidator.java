@@ -7,7 +7,7 @@ import aaa.modules.cft.csv.model.Header;
 import aaa.modules.cft.csv.model.Record;
 import aaa.modules.cft.report.ReportGeneratorService;
 import com.exigen.ipb.etcsa.utils.ExcelUtils;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.istf.exec.testng.TimeShiftTestUtil;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import org.apache.commons.csv.CSVFormat;
@@ -60,15 +60,27 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
         File cftResultDir = new File(CFT_VALIDATION_DIRECTORY);
         checkDirectory(downloadDir);
         checkDirectory(cftResultDir);
-
-        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusYears(1).plusMonths(13).plusDays(25));
+        // We configured CFT job to stay on the same date when all cft scenarios were finished, so time switching not needed
+        //TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusYears(1).plusMonths(13).plusDays(25));
         runCFTJobs();
         //get map from OR reports
         opReportApp().open();
         operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
-        Waiters.SLEEP(15000).go(); // add agile wait till file occurs
+        Waiters.SLEEP(15000).go(); // add agile wait till file occurs, awaitatility (IGarkusha added dependency, read in www)
+        // condition that download/remote download folder listfiles.size==1
         operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
-        Waiters.SLEEP(15000).go(); // add agile wait till file occurs
+        Waiters.SLEEP(15000).go(); // add agile wait till file occurs, awaitatility (IGarkusha added dependency, read in www)
+        // condition that download/remote download folder listfiles.size==2
+        //moving data from monitor to download dir
+        String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
+        String monitorAddress = monitorInfo.substring(monitorInfo.indexOf("selenium=") + 9, monitorInfo.indexOf(":"));
+        SSHController sshControllerRemote = new SSHController(
+                monitorAddress,
+                PropertyProvider.getProperty("test.ssh.user"),
+                PropertyProvider.getProperty("test.ssh.password"));
+        sshControllerRemote.downloadFolder(new File(PropertyProvider.getProperty("test.remotefile.location")),downloadDir);
+        //add wait till files will appear in the folder
+		Waiters.SLEEP(15000).go(); // add agile wait till file occurs in local folder, awaitatility (IGarkusha added dependency, read in www)
         Map<String, Double> accountsMapSummaryFromOR = getExcelValues();
         //Remote path from server -
         sshController.downloadFolder(new File(SOURCE_DIR), downloadDir);
@@ -87,6 +99,10 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
     }
 
+    //TODO move additional methods defined in TestClass to CFTHelper.class
+    // rename cft->csv package to helper package
+    //move CFTHelper to helper package
+
     private void checkDirectory(File directory) throws IOException {
         if (directory.mkdirs()) {
             log.info("\"{}\" folder was created", directory.getAbsolutePath());
@@ -96,6 +112,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
     }
 
     private List<FinancialPSFTGLObject> transformToObject(String fileContent) throws IOException {
+        // if we fill know approach used in dev application following hardcoded indexes related approach can be changed to used in app
         List<FinancialPSFTGLObject> objectsFromCSV;
         try (CSVParser parser = CSVParser.parse(fileContent, CSVFormat.DEFAULT)) {
             objectsFromCSV = new ArrayList<>();

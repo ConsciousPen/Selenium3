@@ -15,6 +15,7 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
+import aaa.main.enums.BillingConstants.BillingAccountPoliciesTable;
 import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
@@ -25,6 +26,8 @@ import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
@@ -35,6 +38,7 @@ import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 public class Scenario10 extends ScenarioBaseTest {
@@ -62,6 +66,7 @@ public class Scenario10 extends ScenarioBaseTest {
 		
 		createCustomerIndividual();	
 		policyNum = createPolicy(policyCreationTD); 
+		
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -171,7 +176,7 @@ public class Scenario10 extends ScenarioBaseTest {
 		Tab.buttonCancel.click();
 	}
 	
-	//For AutoSS
+	//For Auto SS & Home SS
 	protected void changePaymentPlan() {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -179,16 +184,31 @@ public class Scenario10 extends ScenarioBaseTest {
 		PolicySummaryPage.buttonRenewals.click(); 
 		TestData renewalTD = getTestSpecificTD("TestData_Renewal");
 		policy.dataGather().start(); 
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get()); 
-		new PremiumAndCoveragesTab().fillTab(renewalTD);
-		PremiumAndCoveragesTab.calculatePremium();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		new DocumentsAndBindTab().submitTab();
+		
+		if (getPolicyType().isAutoPolicy()) {
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get()); 
+			new PremiumAndCoveragesTab().fillTab(renewalTD);
+			PremiumAndCoveragesTab.calculatePremium();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+			new DocumentsAndBindTab().submitTab();
+		} 
+		else {
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get()); 
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get()); 
+			new PremiumsAndCoveragesQuoteTab().fillTab(renewalTD, true); 
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get()); 
+			new BindTab().submitTab();
+		}
 		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		BillingSummaryPage.showPriorTerms();		
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setPaymentPlan("Quarterly").verifyPresent();
-		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Eleven Pay - Standard (Renewal)").verifyPresent(); 
+		if (getPolicyType().isAutoPolicy()) {
+			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Eleven Pay - Standard (Renewal)").verifyPresent(); 
+		}
+		else {
+			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Eleven Pay Standard (Renewal)").verifyPresent(); 
+		}
 		
 		BillingSummaryPage.buttonHidePriorTerms.click();
 		installmentDueDatesOfRenewal = BillingHelper.getInstallmentDueDates();
@@ -197,7 +217,7 @@ public class Scenario10 extends ScenarioBaseTest {
 		
 	}
 	
-	//For AutoCA
+	//For Auto CA & Home CA
 	protected void changePaymentPlanForCA() {
 		LocalDateTime renewOfferDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		
@@ -206,11 +226,17 @@ public class Scenario10 extends ScenarioBaseTest {
 		
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Quarterly (Renewal)").verifyPresent();
 		
-		billingAccount.changePaymentPlan().perform("Standard Monthly (Renewal)");
+		billingAccount.changePaymentPlan().perform(tdBilling.getTestData("ChangePaymentPlan", "TestData_ChangePaymentPlanToMonthly"));
 		
 		BillingSummaryPage.showPriorTerms();		
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setPaymentPlan("Quarterly").verifyPresent();
-		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Standard Monthly (Renewal)").verifyPresent(); 
+	
+		HashMap<String, String> query = new HashMap<>();
+		query.put(BillingAccountPoliciesTable.EFF_DATE, policyExpirationDate.format(DateTimeUtils.MM_DD_YYYY));
+		query.put(BillingAccountPoliciesTable.POLICY_STATUS, PolicyStatus.PROPOSED);
+		query.put(BillingAccountPoliciesTable.PAYMENT_PLAN, "Monthly");
+		
+		BillingSummaryPage.tableBillingAccountPolicies.getRowContains(query).verify.present();
 		
 		BillingSummaryPage.buttonHidePriorTerms.click();
 		installmentDueDatesOfRenewal = BillingHelper.getInstallmentDueDates();

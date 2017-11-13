@@ -1,5 +1,6 @@
 package aaa.modules.e2e.home_ss.ho3;
 
+import aaa.common.enums.Constants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.e2e.templates.Scenario2;
 import org.testng.annotations.Optional;
@@ -135,8 +136,11 @@ public class TestScenario2 extends Scenario2 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC20_Generate_Ninth_Bill(@Optional("") String state) {
+	public void TC20_Generate_Ninth_Bill_And_Renewal_Image_Generation(@Optional("") String state) {
 		super.generateNinthBill();
+		if (getState().equals(Constants.States.KY)) {
+			super.renewalImageGeneration();
+		}
 	}
 
 	@Parameters({"state"})
@@ -147,67 +151,75 @@ public class TestScenario2 extends Scenario2 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC22_Renewal_Image_Generation(@Optional("") String state) {
-		super.renewalImageGeneration();
+	public void TC22_Generate_Tenth_Bill_And_Renewal_Image_Generation(@Optional("") String state) {
+		if (getState().equals(Constants.States.MT) || getState().equals(Constants.States.NY)) {
+			super.renewalImageGeneration();
+			super.generateTenthBill();
+		} else {
+			super.generateTenthBill();
+			if (!getState().equals(Constants.States.KY)) {
+				super.renewalImageGeneration();
+			}
+		}
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC23_Generate_Tenth_Bill(@Optional("") String state) {
-		super.generateTenthBill();
-	}
-
-	@Parameters({"state"})
-	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC24_Pay_Tenth_Bill(@Optional("") String state) {
+	public void TC23_Pay_Tenth_Bill_And_Renewal_Preview_Generation(@Optional("") String state) {
+		if (getState().equals(Constants.States.KY)) {
+			super.renewalPreviewGeneration();
+		}
 		super.payTenthBill();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC25_Renewal_Preview_Generation(@Optional("") String state) {
-		super.renewalPreviewGeneration();
+	public void TC24_Renewal_Preview_Generation(@Optional("") String state) {
+		if (!getState().equals(Constants.States.KY)) {
+			super.renewalPreviewGeneration();
+		}
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC26_Renewal_Offer_Generation(@Optional("") String state) {
+	public void TC25_Renewal_Offer_Generation(@Optional("") String state) {
 		super.renewalOfferGeneration();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC27_Renewal_Premium_Notice(@Optional("") String state) {
+	public void TC26_Renewal_Premium_Notice(@Optional("") String state) {
 		super.renewalPremiumNotice();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC28_Verify_DocGen_Forms(@Optional("") String state) {
+	public void TC27_Verify_DocGen_Forms(@Optional("") String state) {
 		super.verifyDocGenForms();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC29_Remove_AutoPay(@Optional("") String state) {
+	public void TC28_Remove_AutoPay(@Optional("") String state) {
 		super.removeAutoPay();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC30_Renewal_Payment_Not_Generated(@Optional("") String state) {
+	public void TC29_Renewal_Payment_Not_Generated(@Optional("") String state) {
 		super.renewalPaymentNotGenerated();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC31_Update_Policy_Status(@Optional("") String state) {
+	public void TC30_Update_Policy_Status(@Optional("") String state) {
 		super.updatePolicyStatus();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC32_Make_Manual_Payment_In_Full_Renewal_Offer_Amount(@Optional("") String state) {
+	public void TC31_Make_Manual_Payment_In_Full_Renewal_Offer_Amount(@Optional("") String state) {
 		super.makeManualPaymentInFullRenewalOfferAmount();
 	}
+
 }

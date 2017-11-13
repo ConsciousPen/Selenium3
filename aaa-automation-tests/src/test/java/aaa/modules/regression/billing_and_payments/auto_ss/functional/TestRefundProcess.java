@@ -53,12 +53,6 @@ public class TestRefundProcess extends PolicyBilling {
 			"and RISKSTATECD = 'VA' " +
 			"and DISPLAYVALUE = 'TRUE' ";
 
-	private static final String REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL = "INSERT INTO LOOKUPVALUE\n" +
-			"(dtype, code, displayValue, productCd, riskStateCd, lookuplist_id)\n" +
-			"values\n" +
-			"('AAARolloutEligibilityLookupValue', 'pcDisbursementEngine', 'TRUE', null, 'VA', \n" +
-			"(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
-
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -66,7 +60,7 @@ public class TestRefundProcess extends PolicyBilling {
 	}
 
 	@Test
-	@TestInfo()
+	@TestInfo(isAuxiliary = true)
 	public void precondJobAdding() {
 		adminApp().open();
 		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
@@ -75,15 +69,9 @@ public class TestRefundProcess extends PolicyBilling {
 	}
 
 	@Test()
-	@TestInfo()
+	@TestInfo(isAuxiliary = true)
 	public static void refundDocumentGenerationConfigCheck() {
 		CustomAssert.assertTrue("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.", DbAwaitHelper.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5));
-	}
-
-	@Test(enabled = false)
-	@TestInfo()
-	public static void refundDocumentGenerationConfigInsert() {
-		DBService.get().executeUpdate(String.format(REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL));
 	}
 
 
@@ -103,18 +91,20 @@ public class TestRefundProcess extends PolicyBilling {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")//TODO when running suite, the test which has Depends on is not being executed
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-2186")
-	public void pas2186_ManualRefundProcess(@Optional("") String state) {
+	public void pas2186_RefundProcess(@Optional("") String state) {
 		Dollar refundAmount1 = new Dollar(25);
 		Dollar refundAmount2 = new Dollar(100);
 		String checkDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String checkDate2 = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
+
+		precondJobAdding();
 
 		mainApp().open();
 		createCustomerIndividual();
 		getPolicyType().get().createPolicy(getPolicyTD());
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		log.info("policyNumber: " + policyNumber);
+		log.info("policyNumber: {}", policyNumber);
 
 		CustomAssert.enableSoftMode();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -196,7 +186,7 @@ public class TestRefundProcess extends PolicyBilling {
 
 	private static void checkRefundDocumentInDb(String state, String policyNumber, int numberOfDocuments) {
 		//PAS-443 start
-		if (state.equals("VA")) {
+		if ("VA".equals(state)) {
 			if (DbAwaitHelper.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5)){
 				String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "55 3500", "REFUND");
 				CustomAssert.assertFalse(DbAwaitHelper.waitForQueryResult(query, 5));

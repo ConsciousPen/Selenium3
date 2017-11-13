@@ -31,12 +31,23 @@
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestInstallmentFees"/>
         </classes>
     </test>
+    <test name="TestMessagingVerification">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMessagingVerification"/>
+        </classes>
+    </test>
 
     <test name="TestSeniorDiscount">
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestSeniorDiscount"/>
             <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestSeniorDiscount"/>
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestSeniorDiscount"/>
+        </classes>
+    </test>
+
+    <test name="TestContactInformation">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestContactInformation"/>
         </classes>
     </test>
 

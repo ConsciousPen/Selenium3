@@ -156,6 +156,16 @@ public class TestQuoteUnderwritingRules extends HomeSSHO3BaseTest {
 				errorTab.getErrorsControl().getTable().getRowContains(err1_dataRow).verify.present();
 				errorTab.getErrorsControl().getTable().getRowContains(err3_dataRow).verify.present();
 				break;
+			case "MD":
+				//TODO check delta US
+				errorTab.getErrorsControl().getTable().getRowContains(err2_dataRow).verify.present();
+				errorTab.getErrorsControl().getTable().getRowContains(err3_dataRow).verify.present();
+				break;
+			case "PA":
+				//TODO check delta US
+				errorTab.getErrorsControl().getTable().getRowContains(err2_dataRow).verify.present();
+				errorTab.getErrorsControl().getTable().getRowContains(err3_dataRow).verify.present();
+				break;		
 			default:
 				//TODO-dchubkov: replace with errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_XXXXXX);
 				errorTab.getErrorsControl().getTable().getRowContains(err1_dataRow).verify.present();

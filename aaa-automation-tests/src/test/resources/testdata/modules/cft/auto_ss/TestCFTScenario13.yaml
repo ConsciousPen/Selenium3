@@ -1,6 +1,9 @@
 TestData: {
   AcceptPaymentActionTab: '@AcceptPaymentActionTab',
+  AddSuspenseActionTab: '@AddSuspenseActionTab',
   CancellationActionTab: '@CancellationActionTab',
+  ClearSuspenseActionTab: '@ClearSuspenseActionTab',
+  SearchSuspenseActionTab: '@SearchSuspenseActionTab',
   ReinstatementActionTab: '@ReinstatementActionTab',
   EndorsementActionTab: '@EndorsementActionTab',
   GeneralTab: {},
@@ -15,20 +18,14 @@ TestData: {
   }
 }  
 
-PremiumAndCoveragesTab_DataGather: {
-  Payment Plan: Eleven Pay - Standard,
-  Policy Term: Annual,
-  Bodily Injury Liability: 'contains=$100,000/$300,000',
-  Comprehensive Deductible: 'contains=$750',
-  Collision Deductible: 'contains=$500',
-  Special Equipment Coverage: 1100
+GeneralTab_DataGather: {
+  PolicyInformation: {
+    Effective Date: '/today+2d',
+  }
 }
 
-DocumentsAndBindTab_DataGather: {
-  RequiredToBind: {
-    Auto Insurance Application: Physically Signed
-  },
-  Agreement: I agree
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Eleven Pay - Standard
 }
 
 AcceptPaymentActionTab: {
@@ -55,4 +52,19 @@ VehicleTab: {
   Add Vehicle: Click,
   Usage: Pleasure,
   VIN: 1B3BA46K4KF440231
+}
+
+AddSuspenseActionTab: {
+  'Suspense Reference #': 123456,
+  Suspense Amount: 50
+}  
+
+ClearSuspenseActionTab: {
+  Allocation: {},
+  Payment Amount: 50,
+}
+
+SearchSuspenseActionTab: {
+  'Suspense Reference #': 123456,
+  'Missing [status]': Outstanding
 }

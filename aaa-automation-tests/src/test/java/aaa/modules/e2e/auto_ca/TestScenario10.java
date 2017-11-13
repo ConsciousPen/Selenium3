@@ -18,8 +18,6 @@ public class TestScenario10 extends Scenario10 {
 	@Test
 	public void TC01_createPolicy(@Optional("CA") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
-		//endorsementReasonDataKeys = new String[] {new EndorsementActionTab().getMetaKey(),
-		//		AutoSSMetaData.EndorsementActionTab.ENDORSEMENT_REASON.getLabel()};
 		
 		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData")
 				.adjust(getTestSpecificTD("TestData").resolveLinks());

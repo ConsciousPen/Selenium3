@@ -48,6 +48,10 @@ public class GeneralTab extends Tab {
     	return getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AssetList.class);
 	}
 
+	public AssetList getContactInfoAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.CONTACT_INFORMATION.getLabel(), AssetList.class);
+	}
+
 	@Override
 	public Tab submitTab() {
 		buttonNext.click();
