@@ -8,7 +8,6 @@ import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.table.Table;
@@ -55,8 +54,6 @@ public class GeneralTab extends Tab {
 
     @Override
     public Tab submitTab() {
-        //BUG PAS-6060 Membership Last name is cleared when changing Agent Entered BI Limits
-        getAAAProductOwnedAssetList().getAsset("Last name", TextBox.class).setValue("test");
         buttonNext.click();
         return this;
     }
