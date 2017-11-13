@@ -2,29 +2,26 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ss.functional;
 
-import aaa.common.pages.NavigationPage;
-import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
-import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.PolicyType;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoSSBaseTest;
-import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.service.helper.HelperCommon;
-import aaa.modules.regression.service.helper.Preconditions;
-import aaa.modules.regression.service.helper.auto_ss.HelperAutoSS;
-import aaa.modules.regression.service.template.PolicyCancellation;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.datax.TestData;
-import toolkit.db.DBService;
+import aaa.common.Tab;
+import aaa.common.enums.NavigationEnum;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
+import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.modules.regression.service.helper.Preconditions;
+import aaa.modules.regression.service.helper.TestMiniServicesNonPremiumBearingAbstract;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-
-public class TestMiniServicesNonPremiumBearing extends PolicyBaseTest {
+public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiumBearingAbstract {
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -53,41 +50,50 @@ public class TestMiniServicesNonPremiumBearing extends PolicyBaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "dxpConfigurationCheck")
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS)
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE)
 	public void pas1441_emailChangeOutOfPas(@Optional("VA") String state) {
-		HelperCommon helperCommon = new HelperCommon();
-		HelperAutoSS helperAutoSS = new HelperAutoSS();
-
-		mainApp().open();
-		createCustomerIndividual();
-		getPolicyType().get().createPolicy(getPolicyTD());
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		CustomAssert.enableSoftMode();
-		//BUG PAS-5815 There is an extra Endorse action available for product
-		NavigationPage.comboBoxListAction.verify.noOption("Endorse");
-
-		//PAS-343 start
-		String numberOfDocumentsRecordsInDbQuery = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "%%", "%%");
-		int numberOfDocumentsRecordsInDb = Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get());
-		//PAS-343 end
-
-
-		String emailAddressChanged = "osi.test@email.com";
-		helperCommon.executeRequest(policyNumber, emailAddressChanged);
-
-		helperCommon.emailUpdateTransactionHistoryCheck(policyNumber);
-		helperAutoSS.emailAddressChangedInEndorsementCheck(emailAddressChanged);
-
-		//PAS-343 start
-		CustomAssert.assertEquals(Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get()), numberOfDocumentsRecordsInDb);
-		//PAS-343 end
-
-		helperAutoSS.secondEndorsementIssueCheck();
+		pas1441_emailChangeOutOfPasTestBody(getPolicyType());
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
 
+
+	@Override
+	protected String getGeneralTab() {
+		return NavigationEnum.AutoSSTab.GENERAL.get();
+	}
+
+	@Override
+	protected String getPremiumAndCoverageTab() {
+		return NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get();
+	}
+
+	@Override
+	protected String getDocumentsAndBindTab() {
+		return NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get();
+	}
+
+	@Override
+	protected Tab getGeneralTabElement() {
+		return new GeneralTab();
+	}
+
+	@Override
+	protected Tab getPremiumAndCoverageTabElement() {
+		return new PremiumAndCoveragesTab();
+	}
+
+	@Override
+	protected Tab getDocumentsAndBindTabElement() {
+		return new DocumentsAndBindTab();
+	}
+
+
+	@Override
+	protected AssetDescriptor<Button> getCalculatePremium() {
+		return AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM;
+	}
 
 }

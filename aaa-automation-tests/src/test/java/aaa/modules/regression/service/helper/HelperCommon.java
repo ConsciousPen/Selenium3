@@ -3,22 +3,17 @@ package aaa.modules.regression.service.helper;
 import aaa.common.Tab;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.config.CustomTestProperties;
-import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
 import aaa.main.enums.SearchEnum;
 import aaa.main.modules.swaggerui.SwaggerUiTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import com.exigen.ipb.etcsa.base.app.Application;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import org.apache.xerces.impl.dv.util.Base64;
-import org.codehaus.jettison.json.JSONException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.Test;
 import toolkit.config.PropertyProvider;
-import toolkit.utils.TestInfo;
+import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.waiters.Waiters;
@@ -34,12 +29,12 @@ import javax.ws.rs.core.Response;
 public class HelperCommon extends BaseTest {
 	private static String swaggerUiUrl = PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + PropertyProvider.getProperty(CustomTestProperties.APP_SWAGGER_URLTEMPLATE);
 
-	public static String urlBuilder(String endpointUrlPart) {
-		String url = "http://".concat(PropertyProvider.getProperty(CustomTestProperties.APP_HOST).concat(PropertyProvider.getProperty(CustomTestProperties.DXP_PORT).toString())).concat(endpointUrlPart);
-		return url;
+
+	private static String urlBuilder(String endpointUrlPart) {
+        return "http://" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
 	}
 
-	public void emailUpdateSwaggerUi(String policyNumber, String emailAddress) {
+	private void emailUpdateSwaggerUi(String policyNumber, String emailAddress) {
 		By customerV1EndorsementsPost = SwaggerUiTab.customerV1EndorsementsPost.getLocator();
 		adminApp().open();
 		Application.open(swaggerUiUrl);
@@ -73,7 +68,7 @@ public class HelperCommon extends BaseTest {
 		Response response = null;
 		try {
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-			final WebTarget target = client.target(url);
+			WebTarget target = client.target(url);
 
 			response = target
 					.request()
@@ -83,7 +78,7 @@ public class HelperCommon extends BaseTest {
 			response.readEntity(String.class);
 			if (response.getStatus() != Response.Status.OK.getStatusCode()) {
 				//handle error
-				throw new RuntimeException(response.readEntity(String.class));
+				throw new IstfException(response.readEntity(String.class));
 			}
 		} finally {
 			if (response != null) {
@@ -95,19 +90,21 @@ public class HelperCommon extends BaseTest {
 		}
 	}
 
-	public void executeRequest(String policyNumber, String emailAddressChanged) {
+	void executeRequest(String policyNumber, String emailAddressChanged) {
 		if (Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.USE_SWAGGER))) {
 			emailUpdateSwaggerUi(policyNumber, emailAddressChanged);
 		} else {
 			UpdateEmailRequest request = new UpdateEmailRequest();
 			request.email = emailAddressChanged;
-			String requestUrl = HelperCommon.urlBuilder(PropertyProvider.getProperty(CustomTestProperties.DXP_EMAIL_UPDATE_ENDPOINT)).toString().concat(policyNumber);
+			String requestUrl = urlBuilder(PropertyProvider.getProperty(CustomTestProperties.DXP_EMAIL_UPDATE_ENDPOINT)) + policyNumber;
 			runJsonRequest(requestUrl, request);
 		}
 	}
 
 
-	public void emailUpdateTransactionHistoryCheck(String policyNumber) {
+
+
+	void emailUpdateTransactionHistoryCheck(String policyNumber) {
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
