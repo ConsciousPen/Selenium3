@@ -1,6 +1,8 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import aaa.helpers.config.CustomTestProperties;
 import org.testng.annotations.Test;
+import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 

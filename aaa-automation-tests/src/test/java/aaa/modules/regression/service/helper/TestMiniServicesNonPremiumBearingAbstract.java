@@ -3,7 +3,9 @@ package aaa.modules.regression.service.helper;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import aaa.common.Tab;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.main.enums.ProductConstants;
+import aaa.main.enums.SearchEnum;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
@@ -23,13 +25,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
     protected abstract Tab getPremiumAndCoverageTabElement();
     protected abstract Tab getDocumentsAndBindTabElement();
 
-
-
     protected abstract AssetDescriptor<Button> getCalculatePremium();
-
-
-
-
 
     private void emailAddressChangedInEndorsementCheck(String emailAddressChanged) {
         policy.policyInquiry().start();
@@ -77,7 +73,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
         String emailAddressChanged = "osi.test@email.com";
         helperCommon.executeRequest(policyNumber, emailAddressChanged);
 
-        helperCommon.emailUpdateTransactionHistoryCheck(policyNumber);
+        emailUpdateTransactionHistoryCheck(policyNumber);
         emailAddressChangedInEndorsementCheck(emailAddressChanged);
 
         //PAS-343 start
@@ -85,6 +81,17 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
         //PAS-343 end
 
         secondEndorsementIssueCheck();
+    }
+
+    private void emailUpdateTransactionHistoryCheck(String policyNumber) {
+        mainApp().reopen();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+        PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+        PolicySummaryPage.buttonTransactionHistory.click();
+        PolicySummaryPage.tableTransactionHistory.getRow(1).verify.present();
+        PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").verify.value("Email Updated - Exte...");
+        Tab.buttonCancel.click();
     }
 
 }

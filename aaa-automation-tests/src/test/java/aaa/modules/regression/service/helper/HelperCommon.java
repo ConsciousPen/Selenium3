@@ -1,11 +1,8 @@
 package aaa.modules.regression.service.helper;
 
-import aaa.common.Tab;
-import aaa.common.pages.SearchPage;
+
 import aaa.helpers.config.CustomTestProperties;
-import aaa.main.enums.SearchEnum;
 import aaa.main.modules.swaggerui.SwaggerUiTab;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import com.exigen.ipb.etcsa.base.app.Application;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
@@ -101,17 +98,4 @@ public class HelperCommon extends BaseTest {
 		}
 	}
 
-
-
-
-	void emailUpdateTransactionHistoryCheck(String policyNumber) {
-		mainApp().reopen();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-		PolicySummaryPage.buttonTransactionHistory.click();
-		PolicySummaryPage.tableTransactionHistory.getRow(1).verify.present();
-		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").verify.value("Email Updated - Exte...");
-		Tab.buttonCancel.click();
-	}
 }
