@@ -897,6 +897,62 @@ TestData_Purchase_VA: {
   }
 }
 
+TestData_CopyFromPolicy1_VA: {
+  PrefillTab: {},
+  GeneralTab: {
+    List of Insured Principal: {
+      'column=1': '2',
+      'column=4': Remove,
+      'Confirm Remove': ''
+    }
+  },
+  DriverTab: {
+    List of Driver: [
+      {
+        'column=1': '3',
+        'column=5': 'Remove',
+        Confirm Remove: ''  
+      },
+      {
+        'column=1': '2',
+        'column=5': 'Remove',
+        Confirm Remove: ''  
+      }
+    ],
+    Financial Responsibility Filing Needed: 'No'
+  },
+  RatingDetailReportsTab: {
+    Order Report: ''
+  },
+  VehicleTab: {
+    List of Vehicle: [
+      {
+        'column=1': '5',
+        'column=5': 'Remove',
+        Confirm Remove: ''
+      },
+      {
+        'column=1': '3',
+        'column=5': 'Remove',
+        Confirm Remove: ''
+      },
+      {
+        'column=1': '2',
+        'column=5': 'Remove',
+        Confirm Remove: ''
+      }
+    ]
+  },
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the quote?": 'Yes',
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {}
+}
+
 TestData_CopyFromPolicy2_VA: {
   PrefillTab: {},
   GeneralTab: {},
