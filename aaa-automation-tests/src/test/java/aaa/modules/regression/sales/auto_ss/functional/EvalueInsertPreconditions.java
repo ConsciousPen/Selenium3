@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import org.testng.annotations.Test;
+import aaa.helpers.config.CustomTestProperties;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
@@ -9,6 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class EvalueInsertPreconditions {
+
+	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
 
 	private static final String DOC_GEN_WEB_CLIENT = "update propertyconfigurerentity\n" +
 			"set value = 'http://soaqa3.tent.trt.csaa.pri/3.1/StandardDocumentService'\n" +
@@ -22,39 +25,21 @@ public class EvalueInsertPreconditions {
 			"set value = 'http://soaqa3.tent.trt.csaa.pri/1.1/RetrieveDocument'\n" +
 			"where propertyname = 'aaaRetrieveDocumentWebClient.endpointUri'";
 
-	private static final String EVALUE_PRIOR_BI_CONFIG_UPDATE = "update LOOKUPVALUE\n" +
-			"set EFFECTIVE = (select SYSDATE-5 from dual)\n" +
-			"WHERE LOOKUPLIST_ID IN \n" +
-			"    (SELECT ID \n" +
-			"    FROM LOOKUPLIST \n" +
-			"    WHERE LOOKUPNAME='AAAeMemberQualifications')\n" +
-			"and riskstatecd = 'VA'\n" +
-			"and productCD = 'AAA_SS'\n" +
-			"and code = 'priorBILimits'\n" +
-			"and displayvalue = '25000/50000'";
+
+	private static final String EVALUE_PRIOR_BI_CONFIG_INSERT = "INSERT ALL\n"
+			+ "    INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
+			+ "        values('BaseProductLookupValue', 'priorBILimits', '25000/50000', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+			+ "    INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
+			+ "        values('BaseProductLookupValue', 'priorBILimits', '50000/100000', 'AAA_SS', 'VA',(select SYSDATE-5 from dual), null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+			+ "Select * from dual";
 
 
-	private static final String EVALUE_PRIOR_BI_CONFIG_INSERT = "INSERT INTO LOOKUPVALUE\n" +
-			"(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n" +
-			"values\n" +
-			"('BaseProductLookupValue', 'priorBILimits', '50000/100000', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n";
-
-	private static final String EVALUE_CURRENT_BI_CONFIG_UPDATE = "update LOOKUPVALUE\n" +
-			"set EFFECTIVE = (select SYSDATE-5 from dual)\n" +
-			"WHERE LOOKUPLIST_ID IN \n" +
-			"    (SELECT ID \n" +
-			"    FROM LOOKUPLIST \n" +
-			"    WHERE LOOKUPNAME='AAAeMemberQualifications')\n" +
-			"and riskstatecd = 'VA'\n" +
-			"and productCD = 'AAA_SS'\n" +
-			"and code = 'currentBILimits'\n" +
-			"and displayvalue = '50000/100000'";
-
-
-	private static final String EVALUE_CURRENT_BI_CONFIG_INSERT = "INSERT INTO LOOKUPVALUE\n" +
-			"(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n" +
-			"values\n" +
-			"('BaseProductLookupValue', 'currentBILimits', '100000/300000', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n";
+	private static final String EVALUE_CURRENT_BI_CONFIG_INSERT = "INSERT ALL\n"
+			+ "    INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id) \n"
+			+ "        values ('BaseProductLookupValue', 'currentBILimits', '50000/100000', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+			+ "    INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
+			+ "        values ('BaseProductLookupValue', 'currentBILimits', '100000/300000', 'AAA_SS', 'VA',(select SYSDATE-5 from dual), null ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+			+ "Select * from dual";
 
 	private static final String EVALUE_TERRITORY_CHANNEL_FOR_VA_CONFIG_UPDATE = "update lookupvalue\n" +
 			"set territorycd = '212'\n" +//mid-Atlantic
@@ -112,8 +97,7 @@ public class EvalueInsertPreconditions {
 	@Test()
 	@TestInfo(isAuxiliary = true)
 	public static void paperlessPreferencesConfigUpdate() {
-		String app_host = PropertyProvider.getProperty("app.host");
-		DBService.get().executeUpdate(String.format(PAPERLESSPREFRANCE_API_SERVICE, app_host));
+		DBService.get().executeUpdate(String.format(PAPERLESSPREFRANCE_API_SERVICE, APP_HOST));
 	}
 
 	@Test()
@@ -147,10 +131,7 @@ public class EvalueInsertPreconditions {
 	@Test()
 	@TestInfo(isAuxiliary = true)
 	public static void eValuePriorBiCurrentBiConfigUpdateInsert() {
-
-		DBService.get().executeUpdate(EVALUE_PRIOR_BI_CONFIG_UPDATE);
 		DBService.get().executeUpdate(EVALUE_PRIOR_BI_CONFIG_INSERT);
-		DBService.get().executeUpdate(EVALUE_CURRENT_BI_CONFIG_UPDATE);
 		DBService.get().executeUpdate(EVALUE_CURRENT_BI_CONFIG_INSERT);
 	}
 
@@ -179,6 +160,8 @@ public class EvalueInsertPreconditions {
 	@Test()
 	@TestInfo(isAuxiliary = true)
 	public static void refundDocumentGenerationConfigInsert() {
-		DBService.get().executeUpdate(String.format(REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL));
+		DBService.get().executeUpdate(REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL);
 	}
+
+
 }
