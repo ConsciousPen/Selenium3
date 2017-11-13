@@ -32,11 +32,6 @@ GeneralTab: {
   PolicyInformation: '@PolicyInformation'
 }
 
-ContactInformation: {
-  Home Phone Number: 1234567890,
-  Email: temp@gmail.com
-}
-
 NamedInsuredInformation: {
   'Home Phone #': 1234567890,
   Email: temp@gmail.com

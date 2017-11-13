@@ -29,7 +29,7 @@ public class TestCFTScenario19 extends ControlledFinancialBaseTest {
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario19(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
-		acceptOverpaymentOnStartDatePlus2(new Dollar(600));
+		acceptTotalDuePlusOverpaymentOnStartDatePlus2(new Dollar(600));
 		refundPaymentOnStartDatePlus16(new Dollar(600));
 		rejectRefundOnStartDatePlus25();
 	}

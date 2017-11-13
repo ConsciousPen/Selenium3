@@ -17,6 +17,7 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
+import aaa.helpers.billing.BillingPendingTransactionsVerifier;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ActionConstants;
@@ -209,31 +210,19 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	/**
+	 * Accept TotalDue + Over payment on start date + 2 days
+	 */
+	protected void acceptTotalDuePlusOverpaymentOnStartDatePlus2(Dollar overpayment) {
+		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
+		acceptTotalDuePlusOverpaymentOnDate(overpayment, paymentDate);
+	}
+
+	/**
 	 * Accept TotalDue + Over payment on start date + 16 days
 	 */
 	protected void acceptTotalDuePlusOverpaymentOnStartDatePlus16(Dollar overpayment) {
 		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
 		acceptTotalDuePlusOverpaymentOnDate(overpayment, paymentDate);
-	}
-
-	/**
-	 * Accept Over payment on start date + 2 days
-	 */
-	protected void acceptOverpaymentOnStartDatePlus2(Dollar overpayment) {
-		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
-		TimeSetterUtil.getInstance().nextPhase(paymentDate);
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
-		log.info("Accept overpayment action started on {}", paymentDate);
-		mainApp().reopen();
-		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		billingAccount.acceptPayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY), overpayment);
-		new BillingPaymentsAndTransactionsVerifier()
-			.setTransactionDate(paymentDate)
-			.setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
-			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
-			.setAmount(overpayment.negate())
-			.verifyPresent();
-		log.info("Accept overpayment action completed successfully");
 	}
 
 	/**
@@ -688,9 +677,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Accept overpayment action started on {}", paymentDate);
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		Dollar amount = new Dollar(BillingSummaryPage.tableBillsStatements
-			.getRowContains(BillingConstants.BillingBillsAndStatmentsTable.TYPE, BillingConstants.BillsAndStatementsType.BILL)
-			.getCell(BillingConstants.BillingBillsAndStatmentsTable.TOTAL_DUE).getValue()).add(overpayment);
+		Dollar amount = BillingSummaryPage.getTotalDue().add(overpayment);
 		billingAccount.acceptPayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY), amount);
 		new BillingPaymentsAndTransactionsVerifier()
 			.setTransactionDate(paymentDate)
@@ -707,12 +694,18 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	private void refundPaymentOnDate(Dollar refundAmount, LocalDateTime refundDate) {
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
-		log.info("Refund payment action started on {}", refundDate);
+		log.info("Verify refund on {}", refundDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		billingAccount.refund().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY), refundAmount);
-		log.info("Refund payment action completed successfully");
+		new BillingPendingTransactionsVerifier()
+			.setTransactionDate(refundDate)
+			.setType(BillingConstants.BillingPendingTransactionsType.REFUND)
+			.setSubtypeReason(BillingConstants.BillingPendingTransactionsSubtype.AUTOMATED_REFUND)
+			.setStatus(BillingConstants.BillingPendingTransactionsStatus.PENDING)
+			.setAmount(refundAmount)
+			.verifyPresent();
+		log.info("Refund present in Pending Transactions Table");
 	}
 
 	private void rejectRefundOnDate(LocalDateTime rejectDate) {

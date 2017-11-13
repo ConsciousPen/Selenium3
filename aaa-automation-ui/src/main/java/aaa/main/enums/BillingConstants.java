@@ -72,6 +72,14 @@ public final class BillingConstants {
 		public static final String REFUND = "Refund";
 	}
 
+	public static final class BillingPendingTransactionsSubtype {
+		public static final String AUTOMATED_REFUND = "Automated Refund";
+	}
+
+	public static final class BillingPendingTransactionsStatus {
+		public static final String PENDING = "Pending";
+	}
+
 	public static final class PaymentsAndOtherTransactionSubtypeReason {
 		public static final String POLICY = "Policy";
 		public static final String RENEWAL = "Renewal";
