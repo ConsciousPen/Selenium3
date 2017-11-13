@@ -17,7 +17,6 @@ import aaa.main.metadata.policy.AutoSSMetaData.DocumentsAndBindTab.DocumentsForP
 import aaa.main.metadata.policy.AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue;
 import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
@@ -32,7 +31,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 	private DriverTab driverTab = policy.getDefaultView().getTab(DriverTab.class);
 	private GenerateOnDemandDocumentActionTab docgenActionTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 	
-	private String policyNumber = "AZSS950627642";
+	private String policyNumber;
 	
 	@Parameters({ "state" })
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
@@ -251,8 +250,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 	}
 
 	@Parameters({ "state" })
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-//	, dependsOnMethods = "TC01_CreatePolicy")
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC03_CopyFromPolicy(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -261,10 +259,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 		SearchPage.openPolicy(policyNumber);
 		policy.policyCopy().perform(getPolicyTD("CopyFromPolicy", "TestData"));
 		policy.dataGather().start();
-		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData_CopyFromPolicy21"), DriverActivityReportsTab.class, true);
-		NavigationPage.toViewTab(AutoSSTab.DRIVER.get());
-		NavigationPage.toViewTab(AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
-		policy.getDefaultView().fillFromTo(getTestSpecificTD("TestData_CopyFromPolicy22"), DriverActivityReportsTab.class, PurchaseTab.class, true);
+		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData_CopyFromPolicy2"), PurchaseTab.class, true);
 		policy.getDefaultView().getTab(PurchaseTab.class).submitTab();
 		String copiedPolicyNumber = PolicySummaryPage.getPolicyNumber();
 		

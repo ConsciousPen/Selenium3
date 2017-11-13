@@ -64,11 +64,8 @@ public class Scenario10 extends ScenarioBaseTest {
 		
 		mainApp().open();
 		
-		//createCustomerIndividual();	
-		//policyNum = createPolicy(policyCreationTD); 
-		
-		policyNum = "UTH3953131997";
-		SearchPage.openPolicy(policyNum);
+		createCustomerIndividual();	
+		policyNum = createPolicy(policyCreationTD); 
 		
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
@@ -231,12 +228,9 @@ public class Scenario10 extends ScenarioBaseTest {
 		
 		billingAccount.changePaymentPlan().perform(tdBilling.getTestData("ChangePaymentPlan", "TestData_ChangePaymentPlanToMonthly"));
 		
-		//billingAccount.changePaymentPlan().perform("Standard Monthly (Renewal)");
-		
 		BillingSummaryPage.showPriorTerms();		
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setPaymentPlan("Quarterly").verifyPresent();
-		//new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Standard Monthly (Renewal)").verifyPresent(); 
-		
+	
 		HashMap<String, String> query = new HashMap<>();
 		query.put(BillingAccountPoliciesTable.EFF_DATE, policyExpirationDate.format(DateTimeUtils.MM_DD_YYYY));
 		query.put(BillingAccountPoliciesTable.POLICY_STATUS, PolicyStatus.PROPOSED);
