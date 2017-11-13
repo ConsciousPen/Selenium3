@@ -87,7 +87,7 @@ public class BaseTest {
 	}
 
 	protected TimePoints getTimePoints() {
-		return new TimePoints(testDataManager.timepoint.get(getPolicyType()).getTestData(getStateTestDataName("TestData")));
+		return new TimePoints(testDataManager.timepoint.get(getPolicyType()).getTestData(getStateTestDataName("TestData")), getPolicyType(), getState());
 	}
 
 	@BeforeMethod(alwaysRun = true)

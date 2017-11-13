@@ -31,6 +31,11 @@
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestInstallmentFees"/>
         </classes>
     </test>
+    <test name="TestMessagingVerification">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMessagingVerification"/>
+        </classes>
+    </test>
 
     <test name="TestSeniorDiscount">
         <classes>

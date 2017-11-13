@@ -1,5 +1,5 @@
 TestData: {
-  PrefillTab: '@PrefillTab',
+  PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
   GeneralTab: '@GeneralTab',
   DriverTab: ['@DriverTab', '@DriverTab2'],
   MembershipTab: '@MembershipTab',
@@ -12,25 +12,22 @@ TestData: {
   PurchaseTab: '@PurchaseTab'
 }
 
-PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab'
-
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation', '@NamedInsuredInformation2'],
   AAAProductOwned: '@AAAProductOwned',
   #CurrentCarrierInformation: '@CurrentCarrierInformation',
-  PolicyInformation: '@PolicyInformation'
+  ContactInformation: '@<auto_ca_select>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ca_select>@DataGather@PolicyInformation'
 }
 
 NamedInsuredInformation: {
-  "Home Phone #": 1234567890 
 }
 
 NamedInsuredInformation2: {
   InsuredSearchDialog: {},
   First Name: Tom,
   Last Name: Harris,
-  Base Date: '/today:MM/dd/yyyy',
-  "Home Phone #": 5554567890, 
+  Base Date: '/today:MM/dd/yyyy'
 }
 
 AAAProductOwned: {
@@ -39,7 +36,6 @@ AAAProductOwned: {
   Member Last Name: Test,
 }
 
-PolicyInformation: '@<auto_ca_select>@DataGather@PolicyInformation'
 
 DriverTab: {
   Occupation: Self Employed,

@@ -34,7 +34,7 @@ public class ModifyPaymentMethodTest extends BackwardCompatibilityBaseTest {
 		}
 		policy.endorse().performAndFill(getTestSpecificTD("TestData"));
 		if (new ErrorTab().buttonOverride.isPresent()) {
-			policy.endorse().getView().fillFromTo(getTestSpecificTD("TestData_Override"), ErrorTab.class, PurchaseTab.class, false);
+			policy.dataGather().getView().fillFromTo(getTestSpecificTD("TestData_Override"), ErrorTab.class, PurchaseTab.class, false);
 		}
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());

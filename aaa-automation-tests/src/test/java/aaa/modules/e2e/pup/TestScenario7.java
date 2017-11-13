@@ -117,8 +117,9 @@ public class TestScenario7 extends Scenario7 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC16_Renewal_Premium_Notice(@Optional("") String state) {
-		if (!getState().equals(States.CA))
+		if (!getState().equals(States.CA)) {
 			super.renewalPremiumNotice();
+		}
 	}
 
 	@Parameters({"state"})

@@ -206,6 +206,8 @@ public final class AutoSSMetaData {
 	}
 
 	public static final class DriverTab extends MetaData {
+		public static final AssetDescriptor<FillableTable> LIST_OF_DRIVER = declare("List of Driver", FillableTable.class, ListOfDriver.class, By.xpath("//div[@id='policyDataGatherForm:dataGatherView_ListDriver']/div/table"));
+		
 		public static final AssetDescriptor<Button> ADD_DRIVER = declare("Add Driver", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addDriver"));
 		public static final AssetDescriptor<SingleSelectSearchDialog> DRIVER_SEARCH_DIALOG = declare("DriverSearchDialog", SingleSelectSearchDialog.class, DialogsMetaData.DialogSearch.class, false, By.id("customerSearchPanel_container"));
 
@@ -244,7 +246,16 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<TextBox> ADDRESS_VALIDATED = declare("Address Validated?", TextBox.class);
 
 		public static final AssetDescriptor<MultiInstanceBeforeAssetList> ACTIVITY_INFORMATION = declare("ActivityInformation", MultiInstanceBeforeAssetList.class, ActivityInformation.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_DrivingRecord']"));
-
+		
+		public static final class ListOfDriver extends MetaData {
+			public static final AssetDescriptor<StaticElement> NUM_COLUMN = declare("column=1", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> FIRST_NAME = declare("First Name", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> LAST_NAME = declare("Last Name", StaticElement.class);
+			public static final AssetDescriptor<StaticElement> BIRTH_DATE = declare("Birth Date", StaticElement.class);
+			public static final AssetDescriptor<Link> ACTION_COLUMN = declare("column=5", Link.class);
+			public static final AssetDescriptor<Button> CONFIRM_REMOVE = declare("Confirm Remove", Button.class, Waiters.AJAX, false, By.id("confirmEliminateInstance_Dialog_form:buttonYes"));
+		}
+		
 		public static final class ActivityInformation extends MetaData {
 			public static final AssetDescriptor<Button> ADD_ACTIVITY = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addDrivingRecord"));
 			public static final AssetDescriptor<ComboBox> ACTIVITY_SOURCE = declare("Activity Source", ComboBox.class);

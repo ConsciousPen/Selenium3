@@ -89,6 +89,7 @@ public final class DocGenEnum {
 		AA43PA("Named Driver Exclusion Election"),
 		AA43OK("Named Driver Exclusion Election"),
 		AASR22("Financial Responsibility"),
+		AASR22OH("AASR22", "SR22 Financial Responsibility Form"),
 		AA59XX("EXISTING DAMAGE ENDORSEMENT"),
 		DS02("Rental Property Policy Declaration"),
 		DS11("Application for Rental Property Insurance"),
@@ -214,7 +215,7 @@ public final class DocGenEnum {
         AA74CAA(""),
         AA43CAB(""),
         WUAECA(""),
-        AA02CA(""),
+        AA02CA("Declaration page"),
         AAVICA("Community Service Survey"),
         SR22SR1P("California Insurance Proof Certificate"),
         _605005("605005", "Returning Enclosed Check"),
@@ -265,7 +266,8 @@ public final class DocGenEnum {
         AA11IN("Indiana Auto Insurance Application"),
         AA11OH("Auto Insurance Application"),
         AAAUVA(""),
-        AA02VA(""),
+        AA02VA("Declaration page"),
+        AA02OH("Declaration page"),
         
         AU02("Notice of Cancellation"),
         AU04("Free Form to Insured"),
@@ -275,6 +277,7 @@ public final class DocGenEnum {
         AU08("Request for Additional Information"),
         AU09("Uprate Notice"),
         AU10("Potential Uprate"),
+        AAPNXX("")
 		;
 
 		private String id;
