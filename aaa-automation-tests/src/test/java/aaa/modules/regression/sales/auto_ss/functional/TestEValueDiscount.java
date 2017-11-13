@@ -3,6 +3,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -23,6 +24,8 @@ import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.DbAwaitHelper;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -32,6 +35,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
+import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
@@ -50,6 +54,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 
 public class TestEValueDiscount extends AutoSSBaseTest {
 
+    private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
     private static final String E_VALUE_DISCOUNT = "eValue Discount"; //PAS-440 - rumors have it, that discount might be renamed
 
     private static String messageInfo2 = "This customer is eligible for the eValue discount, but the following steps must be completed in order to bind.";
@@ -165,8 +170,8 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     @TestInfo(isAuxiliary = true)
     public static void eValuePriorBiCurrentBiConfigCheck() {
         CustomAssert.enableSoftMode();
-            CustomAssert.assertTrue("eValue configuration for Prior/Current BI limits is missing. Please run eValuePriorBiCurrentBiConfigUpdateInsert", DBService.get().getValue(EVALUE_PRIOR_BI_CONFIG_CHECK).isPresent());
-            CustomAssert.assertTrue("eValue configuration for Prior/Current BI limits is missing. Please run eValuePriorBiCurrentBiConfigUpdateInsert", DBService.get().getValue(EVALUE_CURRENT_BI_CONFIG_CHECK).isPresent());
+            CustomAssert.assertTrue("eValue configuration for Prior BI limits is missing. Please run eValuePriorBiCurrentBiConfigUpdateInsert", DBService.get().getValue(EVALUE_PRIOR_BI_CONFIG_CHECK).isPresent());
+            CustomAssert.assertTrue("eValue configuration for Current BI limits is missing. Please run eValuePriorBiCurrentBiConfigUpdateInsert", DBService.get().getValue(EVALUE_CURRENT_BI_CONFIG_CHECK).isPresent());
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
@@ -771,33 +776,34 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     public void pas436_eValuePriorBiCurrentBiConfigurationDependency(@Optional("VA") String state) {
         String lowerBiLimit = "$50,000/$100,000";
         String upperBiLimit = "$100,000/$300,000";
-        
+
         eValueQuoteCreation();
 
         CustomAssert.enableSoftMode();
         policy.dataGather().start();
         pas436_eValuePriorBiCurrentBiConfigurationDependencyCheck("$20,000/$40,000", "$25,000/$50,000", lowerBiLimit);
-        
+
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
         generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(8).format(DateTimeUtils.MM_DD_YYYY));
         pas436_eValuePriorBiCurrentBiConfigurationDependencyCheck("$25,000/$50,000", "$100,000/$300,000", upperBiLimit);
-        
+
         CustomAssert.disableSoftMode();
         CustomAssert.assertAll();
     }
 
-    private void pas436_eValuePriorBiCurrentBiConfigurationDependencyCheck(String disableEvalueLimit, String enableEvalueLimit, String biLimit) {
+    private void pas436_eValuePriorBiCurrentBiConfigurationDependencyCheck(String disableEvaluePriorBiLimit, String enableEvaluePriorBiLimit, String biLimit) {
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_BI_LIMITS).setValue(disableEvalueLimit);
+        generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_BI_LIMITS).setValue(disableEvaluePriorBiLimit);
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled(false);
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_BI_LIMITS).setValue(enableEvalueLimit);
+        generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_BI_LIMITS).setValue(enableEvaluePriorBiLimit);
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled(true);
 
 
         PremiumAndCoveragesTab.tableGreyBox.getRow(2).getCell(1).verify.contains(biLimit);
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
         CustomAssert.assertTrue(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY).getAllValues().get(0).contains(biLimit));
     }
 
@@ -1071,6 +1077,83 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         pas309_eValueGreyBoxPaperlessCheck("No");
     }
 
+    //TODO OSI: Blocked by Membership discount and eValue discount not resetting on NB+30
+
+    /**
+     * @author Oleg Stasyuk
+     * @name Test eValue Discount not shown for state where it is not configured
+     * @scenario 1. Create new eValue eligible quote but for the not eligible state (PA)
+     * 1.1. Check "Has the insured ever been enrolled in eValue?" is not shown for Non-Applicable state
+     * 2. Check eValue Discount field is not shown in P&C
+     * 3. Check eValue Discount field is not shown in Rating Details
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck", enabled = false)
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-XXX")
+    public void pasXXX_eValueNotApplicableForState(@Optional("VA") String state) {
+
+        eValueQuoteCreation();
+
+        CustomAssert.enableSoftMode();
+        policy.dataGather().start();
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Membership Pending");
+        generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("4382122719291009"); //4382122719291009 - cancelled memembrship in SOA3
+
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+        PremiumAndCoveragesTab.calculatePremium();
+        premiumAndCoveragesTab.saveAndExit();
+
+        simplifiedQuoteIssue();
+
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+        NB_15_30jobs(policyNumber);
+
+        NB_15_30jobs(policyNumber);
+
+    }
+
+    private void NB_15_30jobs(String policyNumber) {
+        mainApp().reopen();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        //NB+30 jobs
+        TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
+        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+
+
+        JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
+        mainApp().reopen();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+        String membershipLogicNote = "Membership information was updated for the policy based on best membership logic.";
+        String descriptionTask1 = "Task Created Complete or Cancel Pended Endorsement";
+        String descriptionNote1 = "No message [automatedEndorsementInit]";
+        CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(3).getCell("Description").getValue().contains(membershipLogicNote));
+        CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(2).getCell("Description").getValue().contains(descriptionTask1));
+        CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(1).getCell("Description").getValue().contains(descriptionNote1));
+
+        PolicySummaryPage.buttonPendedEndorsement.verify.present();
+        JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
+        mainApp().reopen();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+        String descriptionNote2 = "No message [automatedEndorsementRate]";
+        //CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(1).getCell("Description").getValue().contains(descriptionNote2));
+
+
+        JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
+        mainApp().reopen();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+        String descriptionTask3 = "Complete Task Complete or Cancel Pended Endorsement";
+        String descriptionNote3 = "Bind Endorsement effective " + TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")) + " for Policy " + policyNumber;
+        //CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(2).getCell("Description").getValue().contains(descriptionTask3));
+        //CustomAssert.assertTrue(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(1).getCell("Description").getValue().contains(descriptionNote3));
+    }
+
+
     private void pas309_eValueGreyBoxPaperlessCheck(String paperlessPreferenceValue) {
         String messageBullet3 = "Enrollment in paperless notifications for policy and billing documents";
 
@@ -1224,7 +1307,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     }
 
     void eValueQuoteCreation() {
-             //Default VA test data didn't work, so had to use multiple adjustments
+        //Default VA test data didn't work, so had to use multiple adjustments
         TestData defaultTestData = getPolicyTD("DataGather", "TestData");
         TestData policyInformationSectionAdjusted = getTestSpecificTD("PolicyInformation").adjust("TollFree Number", "1");
         TestData currentCarrierSectionTestSpecific = getTestSpecificTD("CurrentCarrierInformation");
