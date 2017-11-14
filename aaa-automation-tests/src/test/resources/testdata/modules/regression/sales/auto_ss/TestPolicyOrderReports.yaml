@@ -50,7 +50,7 @@ TestData_AZ: {
   VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@DriverActivityyReportsTab'
+  DriverActivityReportsTab: '@DriverActivityReportsTab'
 }
 
 #-------- CO -----

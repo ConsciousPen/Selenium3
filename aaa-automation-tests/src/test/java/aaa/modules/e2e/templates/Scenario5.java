@@ -202,18 +202,15 @@ public class Scenario5 extends ScenarioBaseTest {
 	}
 
 	public void generateFirstEPBill() {
-		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillFirst(installmentDueDates.get(2)));
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._55_6101);
+		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillFirst(installmentDueDates.get(2)), DocGenEnum.Documents._55_6101);
 	}
 
 	public void generateSecondEPBill() {
-		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillSecond(installmentDueDates.get(2)));
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._55_6102);
+		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillSecond(installmentDueDates.get(2)), DocGenEnum.Documents._55_6102);
 	}
 
 	public void generateThirdEPBill() {
-		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillThird(installmentDueDates.get(2)));
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._55_6103);
+		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillThird(installmentDueDates.get(2)), DocGenEnum.Documents._55_6103);
 	}
 
 	public void generateEPWriteOffOneDayBefore() {
@@ -281,9 +278,10 @@ public class Scenario5 extends ScenarioBaseTest {
 			BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent(false);
 	}
 
-	protected void generateAndCheckEarnedPremiumBill(LocalDateTime date) {
+	protected void generateAndCheckEarnedPremiumBill(LocalDateTime date, DocGenEnum.Documents document) {
 		TimeSetterUtil.getInstance().nextPhase(date);
 		JobUtils.executeJob(Jobs.earnedPremiumBillGenerationJob);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, document);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).verifyRowWithDueDate(date);

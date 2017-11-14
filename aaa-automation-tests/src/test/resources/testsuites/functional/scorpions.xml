@@ -1,0 +1,39 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Scorpions Auto Functional tests" verbose="1" parallel="tests" thread-count="1">
+   <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+
+    <test name="PAS-3805, PAS-4244 DE_NJ No Prior Insurance Message and Error">
+        <parameter name="state" value="DE, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestNoPriorInsuranceError"/>
+        </classes>
+    </test>
+
+    <test name="PAS-541 Symbols in Policy Details Service AZ">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestGetAutoPolicyDetails"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestGetAutoPolicyDetails"/>
+        </classes>
+    </test>
+    <test name="PAS-541 Symbols in Policy Details Service CA">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestGetAutoPolicyDetails"/>
+        </classes>
+    </test>
+
+    <test name="PAS-1904 Adapt MSRP (separate comp/coll to comp and coll - but same value)">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestRatingDetailsView"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestRatingDetailsView"/>
+        </classes>
+    </test>
+
+
+</suite>

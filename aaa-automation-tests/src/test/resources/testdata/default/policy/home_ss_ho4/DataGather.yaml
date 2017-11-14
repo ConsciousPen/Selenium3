@@ -341,7 +341,7 @@ TestData_KY: {
   EndorsementTab: '@home_ss_ho3@DataGather@EndorsementTab',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@home_ss_ho3@DataGather@UnderwritingAndApprovalTab_KY',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_KY',
   DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
   BindTab: '@home_ss_ho3@DataGather@BindTab',
   PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
@@ -357,6 +357,12 @@ GeneralTab_KY: {
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
   Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+}
+
+UnderwritingAndApprovalTab_KY: {
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No", 
+  "Is any business or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No"
 }
 
 # --------- TestData MD ------------

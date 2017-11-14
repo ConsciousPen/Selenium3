@@ -1,5 +1,6 @@
 package aaa.modules.e2e.auto_ss;
 
+import aaa.common.enums.Constants;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -62,8 +63,11 @@ public class TestScenario7 extends Scenario7 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC07_Renewal_Image_Generation(@Optional("") String state) {
+	public void TC07_Renewal_Image_Generation_And_Renewal_Preview_Generation(@Optional("") String state) {
 		super.renewalImageGeneration();
+		if (getState().equals(Constants.States.KY)) {
+			super.renewalPreviewGeneration();
+		}
 	}
 
 	@Parameters({"state"})
@@ -81,7 +85,9 @@ public class TestScenario7 extends Scenario7 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC10_Renewal_Preview_Generation(@Optional("") String state) {
-		super.renewalPreviewGeneration();
+		if (!getState().equals(Constants.States.KY)) {
+			super.renewalPreviewGeneration();
+		}
 	}
 
 	@Parameters({"state"})

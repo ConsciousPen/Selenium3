@@ -56,8 +56,11 @@ public class TestScenario7 extends Scenario7 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC06_Generate_Third_Bill(@Optional("") String state) {
+	public void TC06_Generate_Third_Bill_And_Renewal_Image_Generation(@Optional("") String state) {
 		super.generateThirdBill();
+		if (getState().equals(States.CA)) {
+			super.renewalImageGeneration();
+		}
 	}
 
 	@Parameters({"state"})
@@ -75,7 +78,9 @@ public class TestScenario7 extends Scenario7 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC09_Renewal_Image_Generation(@Optional("") String state) {
-		super.renewalImageGeneration();
+		if (!getState().equals(States.CA)) {
+			super.renewalImageGeneration();
+		}
 	}
 
 	@Parameters({"state"})
@@ -117,8 +122,9 @@ public class TestScenario7 extends Scenario7 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC16_Renewal_Premium_Notice(@Optional("") String state) {
-		if (!getState().equals(States.CA))
+		if (!getState().equals(States.CA)) {
 			super.renewalPremiumNotice();
+		}
 	}
 
 	@Parameters({"state"})
@@ -157,9 +163,10 @@ public class TestScenario7 extends Scenario7 {
 		super.payRenewalBillByRemittance();
 	}
 
+	/* Applicable for AutoSS only
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC23_Qualify_For_Manual_Renewal_Task_Created(@Optional("") String state) {
 		super.qualifyForManualRenewalTaskCreated();
-	}
+	}*/
 }

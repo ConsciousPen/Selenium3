@@ -149,8 +149,8 @@ public class Scenario4 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 
-		TestData endorsementTD = getStateTestData(tdPolicy, "Endorsement", "TestData");
-		policy.endorse().performAndFill(getTestSpecificTD("TestData_Endorsement").adjust(endorsementTD));
+		TestData endorsementTD = getTestSpecificTD("TestData_Endorsement").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
+		policy.endorse().performAndFill(endorsementTD);
 		LocalDateTime transactionDate = TimeSetterUtil.getInstance().getCurrentTime();
 		PolicyHelper.verifyEndorsementIsCreated();
 
@@ -159,6 +159,12 @@ public class Scenario4 extends ScenarioBaseTest {
 		String reason = "Endorsement - " + endorsementTD.getValue(endorsementReasonDataKeys);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(transactionDate).setPolicy(policyNum).setType(PaymentsAndOtherTransactionType.PREMIUM)
 				.setSubtypeReason(reason).verifyPresent();
+
+		int vehiclesNumber = getVehiclesNumber(endorsementTD);
+		if (verifyPligaOrMvleFee(transactionDate, policyTerm, vehiclesNumber)) {
+			pligaOrMvleFeeLastTransactionDate = transactionDate;
+			totalVehiclesNumber += vehiclesNumber;
+		}
 	}
 
 	protected void generateOffCycleBill() {
@@ -254,9 +260,13 @@ public class Scenario4 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		verifyRenewOfferGenerated(policyExpirationDate, installmentDueDates);
+		verifyRenewOfferGenerated(installmentDueDates);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewDateOffer)
 				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
+
+		if (verifyPligaOrMvleFee(renewDateOffer, policyTerm, totalVehiclesNumber)) {
+			pligaOrMvleFeeLastTransactionDate = renewDateOffer;
+		}
 	}
 
 	//Skip this step for CA
@@ -269,6 +279,7 @@ public class Scenario4 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
+
 		Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
 		verifyRenewPremiumNotice(policyExpirationDate, billDate, pligaOrMvleFee);
 	}

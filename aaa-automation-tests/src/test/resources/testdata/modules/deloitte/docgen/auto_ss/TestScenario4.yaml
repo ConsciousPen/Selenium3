@@ -97,6 +97,125 @@ TestData_Purchase_AZ: {
   }
 }
 
+TestData_CopyFromPolicy1: {
+  PrefillTab: {},
+  GeneralTab: {
+    List of Insured Principal: {
+      'column=1': '2',
+      'column=4': Remove,
+      'Confirm Remove': ''
+    }
+  },
+  DriverTab: {
+    List of Driver: [
+      {
+        'column=1': '4',
+        'column=5': 'Remove',
+        Confirm Remove: ''  
+      },
+      {
+        'column=1': '3',
+        'column=5': 'Remove',
+        Confirm Remove: ''  
+      },
+      {
+        'column=1': '2',
+        'column=5': 'Remove',
+        Confirm Remove: ''  
+      }
+    ],
+    ADB Coverage: 'No',
+    Financial Responsibility Filing Needed: 'No'
+  },
+  RatingDetailReportsTab: {
+    Order Report: ''
+  },
+  VehicleTab: {
+    List of Vehicle: [
+      {
+        'column=1': '5',
+        'column=5': 'Remove',
+        Confirm Remove: ''
+      },
+      {
+        'column=1': '3',
+        'column=5': 'Remove',
+        Confirm Remove: ''
+      },
+      {
+        'column=1': '2',
+        'column=5': 'Remove',
+        Confirm Remove: ''
+      }
+    ]
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the quote?": 'Yes',
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {}
+}
+
+TestData_CopyFromPolicy2_AZ: {
+  PrefillTab: {},
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {
+    Order Report: click
+  },
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  ErrorTabCalculatePremium: {
+    ErrorsOverride: {
+      Code: '200009',
+      Override: 'true',
+      Approval: 'true',
+      Duration: Term,
+      Reason for override: index=1
+    }
+  },
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the quote?": 'Yes',
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {},
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+TestData_Endorsement: {
+  GeneralTab: {
+    PolicyInformation: {
+      Authorized by: QA
+    }
+  },
+  DriverTab: {
+    List of Driver: {
+      'column=1': '4',
+      'column=5': 'Remove',
+      Confirm Remove: ''  
+    }
+  },
+  RatingDetailReportsTab: {
+    Order Report: click
+  },
+  VehicleTab: {
+    List of Vehicle: {
+      'column=1': '2',
+      'column=5': 'Remove',
+      Confirm Remove: ''
+    }
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {}
+}
+
 Driver_empty: {}
 
 ErrorTabCalculatePremium: {
@@ -362,6 +481,32 @@ TestData_Purchase_IN: {
   }
 }
 
+TestData_CopyFromPolicy2_IN: {
+  PrefillTab: {},
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {
+    Order Report: click
+  },
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the quote?": 'Yes',
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {},
+  ErrorTab: {
+    ErrorsOverride: {
+      Override: 'true',
+      Approval: 'true',
+      Duration: Term,
+      Reason for override: index=1
+    }
+  },
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
 GeneralTab_IN: {
   NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation'],
   AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
@@ -514,6 +659,61 @@ TestData_Purchase_OH: {
       'Work Phone #': 1234567890
     }
   }
+}
+
+TestData_CopyFromPolicy2_OH: {
+  PrefillTab: {},
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {
+    Order Report: click
+  },
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  ErrorTabCalculatePremium: {
+    ErrorsOverride: {
+      Code: '200009',
+      Override: 'true',
+      Approval: 'true',
+      Duration: Term,
+      Reason for override: index=1
+    }
+  },
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the quote?": 'Yes',
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {},
+  ErrorTab: {
+    ErrorsOverride: [
+      {
+        Override: 'true',
+        Approval: 'true',
+        Duration: Term,
+        Reason for override: index=1
+      },
+      {
+        Override: 'true',
+        Approval: 'true',
+        Duration: Term,
+        Reason for override: index=1
+      },
+      {
+        Override: 'true',
+        Approval: 'true',
+        Duration: Term,
+        Reason for override: index=1
+      },
+      {
+        Override: 'true',
+        Approval: 'true',
+        Duration: Term,
+        Reason for override: index=1
+      }
+    ]
+  },
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 GeneralTab_OH: {
@@ -695,6 +895,137 @@ TestData_Purchase_VA: {
       'Work Phone #': 1234567890
     }
   }
+}
+
+TestData_CopyFromPolicy1_VA: {
+  PrefillTab: {},
+  GeneralTab: {
+    List of Insured Principal: {
+      'column=1': '2',
+      'column=4': Remove,
+      'Confirm Remove': ''
+    }
+  },
+  DriverTab: {
+    List of Driver: [
+      {
+        'column=1': '3',
+        'column=5': 'Remove',
+        Confirm Remove: ''  
+      },
+      {
+        'column=1': '2',
+        'column=5': 'Remove',
+        Confirm Remove: ''  
+      }
+    ],
+    Financial Responsibility Filing Needed: 'No'
+  },
+  RatingDetailReportsTab: {
+    Order Report: ''
+  },
+  VehicleTab: {
+    List of Vehicle: [
+      {
+        'column=1': '5',
+        'column=5': 'Remove',
+        Confirm Remove: ''
+      },
+      {
+        'column=1': '3',
+        'column=5': 'Remove',
+        Confirm Remove: ''
+      },
+      {
+        'column=1': '2',
+        'column=5': 'Remove',
+        Confirm Remove: ''
+      }
+    ]
+  },
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the quote?": 'Yes',
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {}
+}
+
+TestData_CopyFromPolicy2_VA: {
+  PrefillTab: {},
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {
+    Order Report: click
+  },
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the quote?": 'Yes',
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {},
+  ErrorTab: {
+    ErrorsOverride: {
+      Override: 'true',
+      Approval: 'true',
+      Duration: Term,
+      Reason for override: index=1
+    }
+  },
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+TestData_Endorsement_VA: {
+  GeneralTab: {
+    PolicyInformation: {
+      Authorized by: QA
+    }
+  },
+  DriverTab: {
+    List of Driver: {
+      'column=1': '4',
+      'column=5': 'Remove',
+      Confirm Remove: ''  
+    }
+  },
+  RatingDetailReportsTab: {
+    Order Report: click
+  },
+  VehicleTab: {
+    List of Vehicle: {
+      'column=1': '2',
+      'column=5': 'Remove',
+      Confirm Remove: ''
+    }
+  },
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: [
+      {
+        Select Vehicle: 'index=1'
+      },
+      {
+        Select Vehicle: 'index=2'
+      },
+      {
+        Select Vehicle: 'index=3'
+      }
+    ],
+    Assign: '',
+    ExcessVehiclesTable: {
+      Select Driver: 'index=1'
+    }
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {}
 }
 
 GeneralTab_VA: {
