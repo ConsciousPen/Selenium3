@@ -1,22 +1,5 @@
 package aaa.modules.regression.service.helper;
 
-
-import aaa.helpers.config.CustomTestProperties;
-import aaa.main.enums.SearchEnum;
-import aaa.main.modules.swaggerui.SwaggerUiTab;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.BaseTest;
-import com.exigen.ipb.etcsa.base.app.Application;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import org.apache.xerces.impl.dv.util.Base64;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import toolkit.config.PropertyProvider;
-import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssert;
-import toolkit.webdriver.BrowserController;
-import toolkit.webdriver.controls.waiters.Waiters;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -24,8 +7,21 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.apache.xerces.impl.dv.util.Base64;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import com.exigen.ipb.etcsa.base.app.Application;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import aaa.helpers.config.CustomTestProperties;
+import aaa.main.modules.swaggerui.SwaggerUiTab;
+import toolkit.config.PropertyProvider;
+import toolkit.exceptions.IstfException;
+import toolkit.verification.CustomAssert;
+import toolkit.webdriver.BrowserController;
+import toolkit.webdriver.controls.waiters.Waiters;
 
-public class HelperCommon extends BaseTest {
+
+public class HelperCommon{
 	private static String swaggerUiUrl = PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + PropertyProvider
 			.getProperty(CustomTestProperties.APP_SWAGGER_URLTEMPLATE);
 
@@ -35,7 +31,6 @@ public class HelperCommon extends BaseTest {
 
 	private void emailUpdateSwaggerUi(String policyNumber, String emailAddress) {
 		By customerV1EndorsementsPost = SwaggerUiTab.customerV1EndorsementsPost.getLocator();
-		adminApp().open();
 		Application.open(swaggerUiUrl);
 		SwaggerUiTab swaggerUiTab = new SwaggerUiTab();
 
@@ -48,7 +43,7 @@ public class HelperCommon extends BaseTest {
 		swaggerUiTab.clickButtonTryIt(customerV1EndorsementsPost);
 		//TODO get rid of authentication popup, which cant be handled by Chrome of Firefox
 		CustomAssert.assertEquals(swaggerUiTab.getResponseCodeValue(customerV1EndorsementsPost), "200");
-		log.info(swaggerUiTab.getResponseBodyValue(customerV1EndorsementsPost));
+		swaggerUiTab.getResponseBodyValue(customerV1EndorsementsPost);
 	}
 
 	private void authentication() {
