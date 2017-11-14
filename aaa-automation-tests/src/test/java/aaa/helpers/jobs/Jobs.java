@@ -92,11 +92,14 @@ public class Jobs {
 
 	public static Job aaaBatchMarkerJob = new Job("aaaBatchMarkerJob");
 
-	public static Job aaaCollectionCancellDebtBatchJob = new Job("aaaCollectionCancelDebtBatchJob");
+	public static Job aaaCollectionCancelDebtBatchJob = new Job("aaaCollectionCancelDebtBatchJob");
 
 	public static Job aaaAutomatedProcessingInitiationJob = new Job("aaaAutomatedProcessingInitiationJob");
 
-	
+	public static Job automatedProcessingStrategyStatusUpdateJob = new Job("automatedProcessingStrategyStatusUpdateJob");
+
+	public static Job automatedProcessingBypassingAndErrorsReportGenerationJob = new Job("automatedProcessingBypassingAndErrorsReportGenerationJob");
+
 	public enum JobState {
 		TRUE, FALSE, FAILED
 	}
