@@ -69,7 +69,6 @@ public class Scenario7 extends ScenarioBaseTest {
 	protected Integer totalVehiclesNumber;
 
 	protected void createTestPolicy(TestData policyCreationTD) {
-		// TimeSetterUtil.getInstance().adjustTime(); // Debug
 		policy = getPolicyType().get();
 
 		mainApp().open();
@@ -261,8 +260,7 @@ public class Scenario7 extends ScenarioBaseTest {
 		CustomAssert.enableSoftMode();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PREMIUM_CALCULATED).verify(1);
-		Dollar premiumAfterEndorsement = new
-			Dollar(PolicySummaryPage.tableRenewals.getColumn(PolicyRenewalsTable.PREMIUM).getCell(1).getValue());
+		Dollar premiumAfterEndorsement = new Dollar(PolicySummaryPage.tableRenewals.getColumn(PolicyRenewalsTable.PREMIUM).getCell(1).getValue());
 		premiumAfterEndorsement.verify.moreThan(premiumBeforeEndorsement);
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());

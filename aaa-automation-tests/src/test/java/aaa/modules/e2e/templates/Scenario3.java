@@ -11,7 +11,6 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants.*;
-import aaa.main.enums.MyWorkConstants;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.IPolicy;
@@ -20,7 +19,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
-import aaa.main.pages.summary.MyWorkSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -229,14 +227,14 @@ public class Scenario3 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		PolicySummaryPage.buttonRenewals.click();
-		new ProductRenewalsVerifier().setStatus(PolicyStatus.CUSTOMER_DECLINED).verify(1);
-		if (getPolicyType().isAutoPolicy()) {
+		if (PolicyType.AUTO_SS.equals(getPolicyType())) {
+			new ProductRenewalsVerifier().setStatus(PolicyStatus.CUSTOMER_DECLINED).verify(1);
 			policy.dataGather().start();
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			PremiumAndCoveragesTab.calculatePremium();
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 			new DocumentsAndBindTab().submitTab();
-		} else {
+		} else if (!PolicyType.AUTO_CA_SELECT.equals(getPolicyType())) {
 			policy.manualRenewalWithOrWithoutLapse().perform(getStateTestData(tdPolicy, "ManualRenewalWithOrWithoutLapse", "TestData"));
 		}
 
