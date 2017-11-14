@@ -25,9 +25,6 @@ public class TestCFTScenario1 extends ControlledFinancialBaseTest {
 		generateInstallmentBill(1);
 		automaticCancellationNotice(1);
 		automaticCancellation(1);
-		generateFirstEarnedPremiumBill(1);
-		generateSecondEarnedPremiumBill(1);
-		generateThirdEarnedPremiumBill(1);
 		writeOff(1);
 	}
 
