@@ -23,6 +23,7 @@ import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
@@ -33,7 +34,6 @@ import toolkit.config.PropertyProvider;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
-import toolkit.utils.Dollar;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
@@ -143,14 +143,12 @@ public class TestEValueDiscount extends AutoSSBaseTest {
             " and  VALUE= 'http://%s:9098/aaa-external-stub-services-app/ws/policy/preferences'" ;
 
 
-    @Test
-    @TestInfo(isAuxiliary = true)
+    @Test(description = "Precondition")
     public static void paperlessPreferencesConfigCheck() {
         CustomAssert.assertTrue("paperless preference stub endpoint. Please run paperlessPreferencesConfigUpdate", DBService.get().getValue(String.format(PAPERLESS_PRFERENCE_STUB_POINT, APP_HOST)).get().contains(APP_HOST));
     }
 
-    @Test
-    @TestInfo(isAuxiliary = true)
+    @Test(description = "Precondition")
     public static void eValueConfigCheck() {
         CustomAssert.enableSoftMode();
         List<String> configForStates = Arrays.asList("VA", "MD", "DC");
@@ -163,8 +161,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     }
 
 
-    @Test
-    @TestInfo(isAuxiliary = true)
+    @Test(description = "Precondition")
     public static void eValuePriorBiCurrentBiConfigCheck() {
         CustomAssert.enableSoftMode();
             CustomAssert.assertTrue("eValue configuration for Prior BI limits is missing. Please run eValuePriorBiCurrentBiConfigUpdateInsert", DBService.get().getValue(EVALUE_PRIOR_BI_CONFIG_CHECK).isPresent());
@@ -174,8 +171,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     }
 
 
-    @Test
-    @TestInfo(isAuxiliary = true)
+    @Test(description = "Precondition")
     public static void eValueMembershipConfigCheck() {
         CustomAssert.enableSoftMode();
         CustomAssert.assertTrue("eValue configuration for membership not require. Please run eValueMembershipConfigInsert", DBService.get().getValue(EVALUE_MEMBERSHIP_CONFIG_CHECK).isPresent());
@@ -183,8 +179,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         CustomAssert.assertAll();
     }
 
-    @Test
-    @TestInfo(isAuxiliary = true)
+    @Test(description = "Precondition")
     public void precondJobAdding() {
         adminApp().open();
         NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
@@ -195,8 +190,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
     }
 
 
-    @Test
-    @TestInfo (isAuxiliary = true)
+    @Test(description = "Precondition")
     public static void eValueTerritoryChannelForVAConfigCheck() {
         CustomAssert.assertEquals("Territory for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_TERRITORY_FOR_VA_CONFIG_CHECK).get(), "212");
         CustomAssert.assertEquals("Channel for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_CHANNEL_FOR_VA_CONFIG_CHECK).get(), "AZ Club Agent");
