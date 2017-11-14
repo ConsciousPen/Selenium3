@@ -28,19 +28,19 @@ public class TestDddViolation extends AutoSSBaseTest {
 	private static final List<String> DRIVERS_WITH_DISCOUNT = new ArrayList<>(Arrays.asList("DriverInformationMajor1", "DriverInformationAlcohol1"));
 
 	/**
-	 * @author Igor Garkusha
-	 * @name Test Paperless Preferences properties and Inquiry mode
-	 * @scenario 1. Create Customer1.
-	 * 2. Create Auto SS PA Quote.
-	 * 3. Add driverA and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
-	 * 4. Add driverB and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
-	 * 5. Fill All other required data up to Premium&Coverages Tab.
-	 * 6. Verify that Defensive driver Discount is applied.
-	 * 7. Navigate to Driver Activity Reports Tab.
-	 * 8. Order Reports.
-	 * 9. Navigate to P&C Tab.
-	 * @details
-	 */
+	* * @author Igor Garkusha
+	* @name Test Paperless Preferences properties and Inquiry mode
+	* @scenario 1. Create Customer1.
+	* 2. Create Auto SS PA Quote.
+	* 3. Add driverA and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
+	* 4. Add driverB and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
+	* 5. Fill All other required data up to Premium&Coverages Tab.
+	* 6. Verify that Defensive driver Discount is applied.
+	* 7. Navigate to Driver Activity Reports Tab.
+	* 8. Order Reports.
+	* 9. Navigate to P&C Tab.
+	* @details
+	*/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "also includes PAS-3822(Major and Alcohol Violation)")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3663")
@@ -64,19 +64,19 @@ public class TestDddViolation extends AutoSSBaseTest {
 	}
 
 	/**
-	 * @author Igor Garkusha
-	 * @name Test Endorsement - Defensive Driver Discount, Minor Violation
-	 * @scenario 1. Create Auto SS PA policy1.
-	 * 2. Endorse policy1.
-	 * 3. Add driverA and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
-	 * 4. Add driverB and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
-	 * 5. Fill All other required data up to Premium&Coverages Tab.
-	 * 6. Verify that Defensive driver Discount is applied.
-	 * 7. Navigate to Driver Activity Reports Tab.
-	 * 8. Order Reports.
-	 * 9. Navigate to P&C Tab.
-	 * @details
-	 */
+	* @author Igor Garkusha
+	* @name Test Endorsement - Defensive Driver Discount, Minor Violation
+	* @scenario 1. Create Auto SS PA policy1.
+	* 2. Endorse policy1.
+	* 3. Add driverA and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
+	* 4. Add driverB and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
+	* 5. Fill All other required data up to Premium&Coverages Tab.
+	* 6. Verify that Defensive driver Discount is applied.
+	* 7. Navigate to Driver Activity Reports Tab.
+	* 8. Order Reports.
+	* 9. Navigate to P&C Tab.
+	* @details
+	*/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "also includes PAS-3822(Major and Alcohol Violation)")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3663")
@@ -91,20 +91,19 @@ public class TestDddViolation extends AutoSSBaseTest {
 		CustomAssert.assertAll();
 	}
 
-	/**
-	 * @author Igor Garkusha
-	 * @name Test Renewal- Defensive Driver Discount, Minor Violation
-	 * @scenario 1. Create Auto SS PA policy1.
-	 * 2. Renew policy1.
-	 * 3. Add driverA and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
-	 * 4. Add driverB and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
-	 * 5. Fill All other required data up to Premium&Coverages Tab.
-	 * 6. Verify that Defensive driver Discount is applied.
-	 * 7. Navigate to Driver Activity Reports Tab.
-	 * 8. Order Reports.
-	 * 9. Navigate to P&C Tab.
-	 * @details
-	 */
+	/** @author Igor Garkusha
+	* @name Test Renewal- Defensive Driver Discount, Minor Violation
+	* @scenario 1. Create Auto SS PA policy1.
+	* 2. Renew policy1.
+	* 3. Add driverA and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
+	* 4. Add driverB and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1).
+	* 5. Fill All other required data up to Premium&Coverages Tab.
+	* 6. Verify that Defensive driver Discount is applied.
+	* 7. Navigate to Driver Activity Reports Tab.
+	* 8. Order Reports.
+	* 9. Navigate to P&C Tab.
+	* @details
+	*/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "also includes PAS-3822(Major and Alcohol Violation)")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3663")
