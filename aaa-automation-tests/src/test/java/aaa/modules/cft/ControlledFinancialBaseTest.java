@@ -17,7 +17,6 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
-import aaa.helpers.billing.BillingPendingTransactionsVerifier;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ActionConstants;
@@ -119,6 +118,11 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected void endorsePolicyCancellationNoticeDate() {
 		LocalDateTime endorsementDate = getTimePoints().getCancellationNoticeDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
 		performEndorsementOnDate(endorsementDate);
+	}
+
+	protected void futureEndorsePolicyCancellationNoticeDate() {
+		LocalDateTime endorsementDate = getTimePoints().getCancellationNoticeDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
+		performEndorsementOnDate(endorsementDate, endorsementDate.plusDays(2));
 	}
 
 	protected void endorsePolicyCancellationDate() {
@@ -299,14 +303,34 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Approve refund action completed successfully");
 	}
 
-	protected void refundPaymentOnStartDatePlus16(Dollar refundAmount) {
+	protected void pendingRefundOnStartDatePlus16(Dollar refundAmount) {
 		LocalDateTime refundDate = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
-		refundPaymentOnDate(refundAmount, refundDate);
+		pendingRefundOnDate(refundAmount, refundDate);
 	}
 
-	protected void refundPaymentOnStartDatePlus25(Dollar refundAmount) {
+	protected void pendingRefundOnStartDatePlus25(Dollar refundAmount) {
 		LocalDateTime refundDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25).with(DateTimeUtils.closestFutureWorkingDay);
-		refundPaymentOnDate(refundAmount, refundDate);
+		pendingRefundOnDate(refundAmount, refundDate);
+	}
+
+	protected void issuedRefundOnStartDatePlus16(Dollar refundAmount) {
+		LocalDateTime refundDate = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
+		issuedRefundOnDate(refundAmount, refundDate);
+	}
+
+	protected void issuedRefundOnStartDatePlus25(Dollar refundAmount) {
+		LocalDateTime refundDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25).with(DateTimeUtils.closestFutureWorkingDay);
+		issuedRefundOnDate(refundAmount, refundDate);
+	}
+
+	protected void voidRefundOnStartDatePlus25() {
+		LocalDateTime refundDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25).with(DateTimeUtils.closestFutureWorkingDay);
+		TimeSetterUtil.getInstance().nextPhase(refundDate);
+		log.info("Void Refund action started on {}", refundDate);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		// TODO void refund implementation
+		log.info("Void Refund action completed successfully");
 	}
 
 	protected void rejectRefundOnStartDatePlus25() {
@@ -692,13 +716,29 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		performEndorsementOnDate(endorsementDate, endorsementDate);
 	}
 
-	private void refundPaymentOnDate(Dollar refundAmount, LocalDateTime refundDate) {
+	private void issuedRefundOnDate(Dollar refundAmount, LocalDateTime refundDate) {
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
 		log.info("Verify refund on {}", refundDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		new BillingPendingTransactionsVerifier()
+		new BillingPaymentsAndTransactionsVerifier()
+			.setTransactionDate(refundDate)
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND)
+			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.ISSUED)
+			.setAmount(refundAmount)
+			.verifyPresent();
+		log.info("Refund present in Payments & Other Transactions Table");
+	}
+
+	private void pendingRefundOnDate(Dollar refundAmount, LocalDateTime refundDate) {
+		TimeSetterUtil.getInstance().nextPhase(refundDate);
+		log.info("Verify refund on {}", refundDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		new BillingPaymentsAndTransactionsVerifier()
 			.setTransactionDate(refundDate)
 			.setType(BillingConstants.BillingPendingTransactionsType.REFUND)
 			.setSubtypeReason(BillingConstants.BillingPendingTransactionsSubtype.AUTOMATED_REFUND)
