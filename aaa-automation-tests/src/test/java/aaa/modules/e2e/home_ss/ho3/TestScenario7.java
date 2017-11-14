@@ -1,5 +1,6 @@
 package aaa.modules.e2e.home_ss.ho3;
 
+import aaa.common.enums.Constants;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -116,7 +117,9 @@ public class TestScenario7 extends Scenario7 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC16_Renewal_Premium_Notice(@Optional("") String state) {
-		super.renewalPremiumNotice();
+		if (!getState().equals(Constants.States.CA)) {
+			super.renewalPremiumNotice();
+		}
 	}
 
 	@Parameters({"state"})
@@ -155,9 +158,10 @@ public class TestScenario7 extends Scenario7 {
 		super.payRenewalBillByRemittance();
 	}
 
+	/* Applicable for AutoSS only
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC23_Qualify_For_Manual_Renewal_Task_Created(@Optional("") String state) {
 		super.qualifyForManualRenewalTaskCreated();
-	}
+	}*/
 }

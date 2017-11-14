@@ -158,9 +158,10 @@ public class TestScenario7 extends Scenario7 {
 		super.payRenewalBillByRemittance();
 	}
 
+	/* Applicable for AutoSS only
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC23_Qualify_For_Manual_Renewal_Task_Created(@Optional("") String state) {
 		super.qualifyForManualRenewalTaskCreated();
-	}
+	}*/
 }
