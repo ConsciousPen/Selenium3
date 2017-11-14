@@ -29,7 +29,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest {
 
     private final static String INSERT_QUERY = "INSERT INTO lookupValue " +
             "(lookUpList_id,dType,code,displayValue,effective,expiration,productCD,riskStateCD) "+
-            "VALUES (%s,'BaseProductLookupValue','%s','TRUE',%s,null,'AAA_SS','%s')";
+            "VALUES (%s,'AAAFactorsLockLookupValue','%s','TRUE',%s,null,'AAA_SS','%s')";
 
     private final static String DELETE_QUERY = "DELETE FROM lookupValue lv " +
             "WHERE lv.lookupList_id IN %s AND CODE = '%s' AND DISPLAYVALUE='TRUE' AND EFFECTIVE=%s AND RISKSTATECD='%s'";
