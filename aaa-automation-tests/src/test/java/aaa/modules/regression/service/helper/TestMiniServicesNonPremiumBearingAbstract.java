@@ -6,10 +6,10 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
-import aaa.main.modules.policy.PolicyType;
 import toolkit.db.DBService;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
@@ -37,7 +37,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
             getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement("Email").verify.value(emailAddressChanged);
         }
         Tab.buttonCancel.click();
-
     }
 
     private void secondEndorsementIssueCheck() {

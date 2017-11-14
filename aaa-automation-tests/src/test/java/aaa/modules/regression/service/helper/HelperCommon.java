@@ -2,7 +2,9 @@ package aaa.modules.regression.service.helper;
 
 
 import aaa.helpers.config.CustomTestProperties;
+import aaa.main.enums.SearchEnum;
 import aaa.main.modules.swaggerui.SwaggerUiTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import com.exigen.ipb.etcsa.base.app.Application;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
@@ -24,11 +26,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 public class HelperCommon extends BaseTest {
-	private static String swaggerUiUrl = PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + PropertyProvider.getProperty(CustomTestProperties.APP_SWAGGER_URLTEMPLATE);
-
+	private static String swaggerUiUrl = PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + PropertyProvider
+			.getProperty(CustomTestProperties.APP_SWAGGER_URLTEMPLATE);
 
 	private static String urlBuilder(String endpointUrlPart) {
-        return "http://" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
+		return "http://" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
 	}
 
 	private void emailUpdateSwaggerUi(String policyNumber, String emailAddress) {
@@ -58,7 +60,6 @@ public class HelperCommon extends BaseTest {
 		driver.switchTo().alert().accept();
 		driver.switchTo().defaultContent();
 	}
-
 
 	public void runJsonRequest(String url, RestBodyRequest request) {
 		Client client = null;
