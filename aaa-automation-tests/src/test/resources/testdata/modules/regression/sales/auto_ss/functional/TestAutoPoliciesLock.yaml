@@ -1,0 +1,22 @@
+TestData: {
+    Age First Licensed: 18,
+    License Number: A1483465,
+    License State: 'CA',
+    Date of Birth: '01/01/1978',
+    ActivityInformation: ['@ActivityCC', '@ActivityCC', '@ActivityNAF', '@ActivityNAF']
+}
+
+ActivityCC: {
+  'Activity Source': 'index=1',
+  Type: 'Comprehensive Claim',
+  Description: 'Comprehensive Claim',
+  'Occurrence Date': '/today-45d',
+  'Loss Payment Amount': '12000',
+}
+
+ActivityNAF: {
+  'Activity Source': 'Customer Input',
+  Type: 'Non-Fault Accident',
+  Description: 'Accident (Not-At-Fault)',
+  'Occurrence Date': '/today-60d',
+}

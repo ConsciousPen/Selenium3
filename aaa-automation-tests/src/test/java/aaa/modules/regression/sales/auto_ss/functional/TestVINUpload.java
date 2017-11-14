@@ -13,6 +13,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import org.testng.annotations.AfterMethod;
@@ -62,7 +63,6 @@ public class TestVINUpload extends AutoSSBaseTest {
 		precondsTestVINUpload(testData);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
-		CustomAssert.enableSoftMode();
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
 		VehicleTab.buttonSaveAndExit.click();
 
@@ -87,8 +87,10 @@ public class TestVINUpload extends AutoSSBaseTest {
 		policy.getDefaultView().fillFromTo(testData, FormsTab.class, PremiumAndCoveragesTab.class, true);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
+		CustomAssert.enableSoftMode();
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.MODEL.getLabel(), "Gt");
 		vehicleTab.verifyFieldIsNotDisplayed(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel());
+		// PAS-1487  No Match to Match but Year Doesn't Match
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.YEAR.getLabel(), "2005");
 		// PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "Yes");
@@ -96,7 +98,6 @@ public class TestVINUpload extends AutoSSBaseTest {
 
 		CustomAssert.assertAll();
 
-		VehicleTab.buttonSaveAndExit.click();
 		log.info("Quote " + quoteNumber + " was successfully saved " +
 				"'Add new VIN scenario' for NB is passed for VIN UPLOAD tests");
 	}
@@ -106,6 +107,8 @@ public class TestVINUpload extends AutoSSBaseTest {
 	 * <p>
 	 * PAS-1406 - Data Refresh - PAS-527 -Renewal Refresh -Add New VIN & Update Existing
 	 * PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
+	 * PAS-1487  No Match to Match but Year Doesn't Match
+	 * PAS-544 Activities and User Notes
 	 *
 	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
 	 * @scenario 0. Create customer
@@ -131,7 +134,6 @@ public class TestVINUpload extends AutoSSBaseTest {
 		precondsTestVINUpload(testData);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
-		CustomAssert.enableSoftMode();
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
 		vehicleTab.submitTab();
 
@@ -154,7 +156,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 		policy.renew().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
-
+		CustomAssert.enableSoftMode();
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.MODEL.getLabel(), "Gt");
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel(), "UT_SS");
 		vehicleTab.verifyFieldIsNotDisplayed(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel());
@@ -168,6 +170,8 @@ public class TestVINUpload extends AutoSSBaseTest {
 
 		VehicleTab.buttonSaveAndExit.click();
 
+		verifyActivitiesAndUserNotes(vinNumber);
+
 		log.info("Renewal image for policy " + policyNumber + " was successfully saved " +
 				"'Add new VIN scenario' for Renewal is passed for VIN UPLOAD tests");
 	}
@@ -176,6 +180,9 @@ public class TestVINUpload extends AutoSSBaseTest {
 	 * @author Lev Kazarnovskiy
 	 * <p>
 	 * PAS-1406 - Data Refresh - PAS-527 -Renewal Refresh -Add New VIN & Update Existing
+	 * PAS-1487  No Match to Match but Year Doesn't Match
+	 * PAS-544 Activities and User Notes
+	 *
 	 * @name Test VINupload 'Update VIN' scenario.
 	 * @scenario 0. Create customer
 	 * 1. Initiate Auto SS quote creation
@@ -198,7 +205,6 @@ public class TestVINUpload extends AutoSSBaseTest {
 		precondsTestVINUpload(testData);
 
 		//Verify that VIN which will be updated exists in the system, save value that will be updated
-		CustomAssert.enableSoftMode();
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "Yes");
 		String oldModelValue = vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE).getValue();
 		vehicleTab.submitTab();
@@ -223,9 +229,12 @@ public class TestVINUpload extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
 		//Verify that fields are updated
+		CustomAssert.enableSoftMode();
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "Yes");
 		vehicleTab.verifyFieldHasNotValue(AutoSSMetaData.VehicleTab.MAKE.getLabel(), oldModelValue);
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.MODEL.getLabel(), "TEST");
+		// PAS-1487  No Match to Match but Year Doesn't Match
+		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.YEAR.getLabel(), "2005");
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel(), "TEST");
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "Yes");
 		CustomAssert.disableSoftMode();
@@ -233,6 +242,8 @@ public class TestVINUpload extends AutoSSBaseTest {
 		CustomAssert.assertAll();
 
 		VehicleTab.buttonSaveAndExit.click();
+
+		verifyActivitiesAndUserNotes(vinNumber);
 
 		log.info("Renewal image for policy " + PolicySummaryPage.labelPolicyNumber.getValue() + " was successfully created. \n" +
 				"'Update VIN scenario' is passed for VIN UPLOAD tests, Renewal Refresh works fine for Update");
@@ -243,6 +254,14 @@ public class TestVINUpload extends AutoSSBaseTest {
 		createCustomerIndividual();
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(testData, VehicleTab.class, true);
+	}
+
+
+	private void verifyActivitiesAndUserNotes (String vinNumber) {
+		//method added for verification of PAS-544 - Activities and User Notes
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description","VIN data has been updated for the following vehicle(s): " + vinNumber)
+				.verify.present("PAS-544 - Activities and User Notes may be broken: VIN refresh record is missed in Activities and User Notes:");
 	}
 
 	/**
