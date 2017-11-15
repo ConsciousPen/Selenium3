@@ -3,71 +3,9 @@
 TestData_QuoteCreation_AZ: {
   GeneralTab: '@GeneralTab_AZ',
   DriverTab: ['@Driver1_AZ', '@Driver2_AZ', '@Driver3_AZ', '@Driver4_AZ'],
-  RatingDetailReportsTab: '@RatingDetailReportsTab_AZ',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@Vehicle1', '@Vehicle2', '@Vehicle3', '@Vehicle4', '@Vehicle5'],
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DocumentsAndBindTab: {}
-}
-
-TestData_QuoteDataGather1: {
-  RatingDetailReportsTab: '@RatingDetailReportsTab_Update1',
-  VehicleTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: {}
-}
-
-TestData_QuoteDataGather2: {
-  RatingDetailReportsTab: '@RatingDetailReportsTab_Update2',
-  VehicleTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: {}
-}
-
-TestData_QuoteDataGather3_AZ: {
-  DriverTab: ['@Driver_empty','@Driver_empty','@Driver_empty','@Driver_empty','@Driver5_AZ'],
-  RatingDetailReportsTab: {
-    Order Report: ''
-  },
-  VehicleTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  ErrorTabCalculatePremium: '@ErrorTabCalculatePremium',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: {}
-}
-
-TestData_QuoteDataGather4: {
-  DriverTab: {},
-  RatingDetailReportsTab: {},
-  VehicleTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {}
-}
-
-TestData_QuoteDataGather5: {
-  PremiumAndCoveragesTab: {
-    Bodily Injury Liability: 'contains=$50,000/$100,000',
-    DetailedVehicleCoverages: [
-      {},
-      {},
-      {},
-      {
-        New Car Added Protection: 'Yes',
-        Purchase Date: /today-20d
-      },
-      {
-        New Car Added Protection: 'Yes',
-        Purchase Date: /today-40d
-      }
-    ]
-  },
-  DriverActivityReportsTab: {},
   DocumentsAndBindTab: {}
 }
 
@@ -108,11 +46,6 @@ TestData_CopyFromPolicy1: {
   },
   DriverTab: {
     List of Driver: [
-      {
-        'column=1': '4',
-        'column=5': 'Remove',
-        Confirm Remove: ''  
-      },
       {
         'column=1': '3',
         'column=5': 'Remove',
@@ -158,7 +91,7 @@ TestData_CopyFromPolicy1: {
   DocumentsAndBindTab: {}
 }
 
-TestData_CopyFromPolicy21: {
+TestData_CopyFromPolicy2: {
   PrefillTab: {},
   GeneralTab: {},
   DriverTab: {},
@@ -168,49 +101,11 @@ TestData_CopyFromPolicy21: {
   VehicleTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  ErrorTabCalculatePremium: {
-    ErrorsOverride: {
-      Code: '200009',
-      Override: 'true',
-      Approval: 'true',
-      Duration: Term,
-      Reason for override: index=1
-    }
-  },
   DriverActivityReportsTab: {
     "Has the customer expressed interest in purchasing the quote?": 'Yes',
     Validate Driving History: click
-  }
-}
-
-TestData_CopyFromPolicy22: {
-  DriverActivityReportsTab: {
-    Sales Agent Agreement: 'I Agree',
-    Validate Driving History: click
   },
   DocumentsAndBindTab: {},
-  ErrorTab: {
-    ErrorsOverride: [
-      {
-        Override: 'true',
-        Approval: 'true',
-        Duration: Term,
-        Reason for override: index=1
-      },
-      {
-        Override: 'true',
-        Approval: 'true',
-        Duration: Term,
-        Reason for override: index=1
-      },
-      {
-        Override: 'true',
-        Approval: 'true',
-        Duration: Term,
-        Reason for override: index=1
-      }
-    ]
-  },
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
@@ -243,57 +138,6 @@ TestData_Endorsement: {
     Validate Driving History: click
   },
   DocumentsAndBindTab: {}
-}
-
-Driver_empty: {}
-
-ErrorTabCalculatePremium: {
-  ErrorsOverride: {
-    Override: 'true',
-    Approval: 'true',
-    Message: 'Driver with a Major violation, including a DUI is unacceptable',
-    Duration: Term,
-    Reason for override: index=1
-  }
-}
-
-DriverActivityReportsTab: {
-  Validate Driving History: click
-}
-
-RatingDetailReportsTab_Update1: {
-  OrderInsuranceScoreReport: [
-    {
-      Select: 'Yes'
-    },
-    {
-      Select: 'Yes'
-    },
-  ],
-  Customer Agreement: 'Customer Agrees',
-  Order Report: ''
-}
-
-RatingDetailReportsTab_Update2: {
-  InsuranceScoreOverride: [
-    {
-      Action: Override Score,
-      EditInsuranceScoreDialog: {
-        New Score: 997,
-        Reason for Override: Fair Credit Reporting Act Dispute,
-        Save: ''
-      }
-    },
-    {
-      Action: Override Score,
-      EditInsuranceScoreDialog: {
-        New Score: 997,
-        Reason for Override: Fair Credit Reporting Act Dispute,
-        Save: ''
-      }
-    },
-  ],
-  Order Report: ''
 }
 
 GeneralTab_AZ: {
@@ -372,42 +216,6 @@ Driver4_AZ: {
   Age First Licensed: 16
 }
 
-Driver5_AZ: {
-  DriverSearchDialog: {},
-  Rel. to First Named Insured: Other,
-  First Name: Chris,
-  Last Name: Gold,
-  Date of Birth: 01/01/1970,
-  Gender: Male,
-  Marital Status: Married,
-  Occupation: Employed,
-  License Type: 'Licensed (US)',
-  License Number: A54673422,
-  Age First Licensed: 18,
-  ActivityInformation: {
-    Type: Alcohol-Related Violation,
-    Description: Driving Under the Influence of Alcohol,
-    Occurrence Date: /today-20d,
-    'Include in Points and/or Tier?': 'Yes'
-  }
-}
-
-RatingDetailReportsTab_AZ: {
-  Sales Agent Agreement: I Agree,
-  Order Report: click,
-  AAAMembershipReport: [{}],
-  OrderInsuranceScoreReport: [
-    {
-      Select: Declined,
-      Name: 'contains=Fernando'
-    },
-    {
-      Select: Declined,
-      Name: 'contains=Sam'
-    }
-  ]
-}
-
 Vehicle1: {
   Usage: Pleasure,
   VIN: 5YMGY0C57C1661237
@@ -447,14 +255,34 @@ Vehicle5: {
   Stated Amount: 2000
 }
 
+RatingDetailReportsTab: {
+  Sales Agent Agreement: I Agree,
+  Customer Agreement: 'Customer Agrees',
+  Order Report: click,
+  AAAMembershipReport: [{}],
+  OrderInsuranceScoreReport: [
+    {
+      Select: 'Yes'
+    },
+    {
+      Select: 'Yes'
+    }
+  ]
+}
+
 PremiumAndCoveragesTab: {
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
   DetailedVehicleCoverages: [
     {},
     {},
     {},
     {
       New Car Added Protection: 'Yes',
-      Purchase Date: /today
+      Purchase Date: /today-20d
+    },
+    {
+      New Car Added Protection: 'Yes',
+      Purchase Date: /today-40d
     }
   ]
 }
@@ -464,29 +292,15 @@ PremiumAndCoveragesTab: {
 TestData_QuoteCreation_IN: {
   GeneralTab: '@GeneralTab_IN',
   DriverTab: ['@Driver1_IN', '@Driver2_IN', '@Driver3_IN', '@Driver4_IN'],
-  RatingDetailReportsTab: '@RatingDetailReportsTab_IN',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@Vehicle1', '@Vehicle2', '@Vehicle3', '@Vehicle4', '@Vehicle5'],
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DocumentsAndBindTab: {}
-}
-
-TestData_QuoteDataGather3_IN: {
-  DriverTab: ['@Driver_empty','@Driver_empty','@Driver_empty','@Driver_empty','@Driver5_IN'],
-  RatingDetailReportsTab: {
-    Order Report: ''
-  },
-  VehicleTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  ErrorTabCalculatePremium: '@ErrorTabCalculatePremium',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: {}
 }
 
 TestData_Purchase_IN: {
   RatingDetailReportsTab: {},
   DriverActivityReportsTab: {
-    Sales Agent Agreement: 'I Agree',
     Validate Driving History: click
   },
   DocumentsAndBindTab: {
@@ -508,6 +322,24 @@ TestData_Purchase_IN: {
       'Work Phone #': 1234567890
     }
   }
+}
+
+TestData_CopyFromPolicy2_IN: {
+  PrefillTab: {},
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {
+    Order Report: click
+  },
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the quote?": 'Yes',
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {},
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 GeneralTab_IN: {
@@ -578,63 +410,14 @@ Driver4_IN: {
   Age First Licensed: 16
 }
 
-Driver5_IN: {
-  DriverSearchDialog: {},
-  Rel. to First Named Insured: Other,
-  First Name: Chris,
-  Last Name: Gold,
-  Date of Birth: 01/01/1970,
-  Gender: Male,
-  Marital Status: Married,
-  Occupation: Employed,
-  License Type: 'Licensed (US)',
-  License Number: 154673425,
-  Age First Licensed: 18,
-  ActivityInformation: {
-    Type: Alcohol-Related Violation,
-    Description: Driving Under the Influence of Alcohol,
-    Occurrence Date: /today-20d,
-    'Include in Points and/or Tier?': 'Yes'
-  }
-}
-
-RatingDetailReportsTab_IN: {
-  Sales Agent Agreement: I Agree,
-  Order Report: click,
-  AAAMembershipReport: [{}],
-  OrderInsuranceScoreReport: [
-    {
-      Select: Declined,
-      Name: 'contains=Harry'
-    },
-    {
-      Select: Declined,
-      Name: 'contains=Sam'
-    }
-  ]
-}
-
 ############################# OH #########################################
 
 TestData_QuoteCreation_OH: {
   GeneralTab: '@GeneralTab_OH',
   DriverTab: ['@Driver1_OH', '@Driver2_OH', '@Driver3_OH', '@Driver4_OH'],
-  RatingDetailReportsTab: '@RatingDetailReportsTab_OH',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@Vehicle1', '@Vehicle2', '@Vehicle3', '@Vehicle4', '@Vehicle5'],
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DocumentsAndBindTab: {}
-}
-
-TestData_QuoteDataGather3_OH: {
-  DriverTab: ['@Driver_empty','@Driver_empty','@Driver_empty','@Driver_empty','@Driver5_OH'],
-  RatingDetailReportsTab: {
-    Order Report: ''
-  },
-  VehicleTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  ErrorTabCalculatePremium: '@ErrorTabCalculatePremium',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: {}
 }
 
@@ -662,6 +445,24 @@ TestData_Purchase_OH: {
       'Work Phone #': 1234567890
     }
   }
+}
+
+TestData_CopyFromPolicy2_OH: {
+  PrefillTab: {},
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {
+    Order Report: click
+  },
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the quote?": 'Yes',
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {},
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 GeneralTab_OH: {
@@ -732,98 +533,21 @@ Driver4_OH: {
   Age First Licensed: 16
 }
 
-Driver5_OH: {
-  DriverSearchDialog: {},
-  Rel. to First Named Insured: Other,
-  First Name: Chris,
-  Last Name: Gold,
-  Date of Birth: 01/01/1970,
-  Gender: Male,
-  Marital Status: Married,
-  Occupation: Employed,
-  License Type: 'Licensed (US)',
-  License Number: AB673425,
-  Age First Licensed: 18,
-  ActivityInformation: {
-    Type: Alcohol-Related Violation,
-    Description: Driving Under the Influence of Alcohol,
-    Occurrence Date: /today-20d,
-    'Include in Points and/or Tier?': 'Yes'
-  }
-}
-
-RatingDetailReportsTab_OH: {
-  Sales Agent Agreement: I Agree,
-  Order Report: click,
-  AAAMembershipReport: [{}],
-  OrderInsuranceScoreReport: [
-    {
-      Select: Declined,
-      Name: 'contains=Messi'
-    },
-    {
-      Select: Declined,
-      Name: 'contains=Sam'
-    }
-  ]
-}
-
 ############################# VA #########################################
 
 TestData_QuoteCreation_VA: {
   GeneralTab: '@GeneralTab_VA',
   DriverTab: ['@Driver1_VA', '@Driver2_VA', '@Driver3_VA'],
-  RatingDetailReportsTab: '@RatingDetailReportsTab_VA',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
   VehicleTab: ['@Vehicle1', '@Vehicle2', '@Vehicle3', '@Vehicle4', '@Vehicle5'],
   AssignmentTab: '@AssignmentTab',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DocumentsAndBindTab: {}
 }
 
-TestData_QuoteDataGather1_VA: {
-  RatingDetailReportsTab: '@RatingDetailReportsTab_Update1',
-  VehicleTab: {},
-  AssignmentTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: {}
-}
-
-TestData_QuoteDataGather2_VA: {
-  RatingDetailReportsTab: '@RatingDetailReportsTab_Update2',
-  VehicleTab: {},
-  AssignmentTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: {}
-}
-
-TestData_QuoteDataGather3_VA: {
-  DriverTab: ['@Driver_empty','@Driver_empty','@Driver_empty','@Driver5_VA'],
-  RatingDetailReportsTab: {
-    Order Report: ''
-  },
-  VehicleTab: {},
-  AssignmentTab: {
-    DriverVehicleRelationshipTable: {
-      Driver: 'contains=Chris',
-      Select Vehicle: 'index=4'
-    },
-    Assign: '',
-  },
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  ErrorTabCalculatePremium: '@ErrorTabCalculatePremium',
-  DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: {}
-}
-
 TestData_Purchase_VA: {
   RatingDetailReportsTab: {},
   DriverActivityReportsTab: {
-    Sales Agent Agreement: 'I Agree',
     Validate Driving History: click
   },
   DocumentsAndBindTab: {
@@ -843,6 +567,116 @@ TestData_Purchase_VA: {
       'Work Phone #': 1234567890
     }
   }
+}
+
+TestData_CopyFromPolicy1_VA: {
+  PrefillTab: {},
+  GeneralTab: {
+    List of Insured Principal: {
+      'column=1': '2',
+      'column=4': Remove,
+      'Confirm Remove': ''
+    }
+  },
+  DriverTab: {
+    List of Driver: {
+      'column=1': '2',
+      'column=5': 'Remove',
+      Confirm Remove: ''  
+    },
+    Financial Responsibility Filing Needed: 'No'
+  },
+  RatingDetailReportsTab: {
+    Order Report: ''
+  },
+  VehicleTab: {
+    List of Vehicle: [
+      {
+        'column=1': '5',
+        'column=5': 'Remove',
+        Confirm Remove: ''
+      },
+      {
+        'column=1': '3',
+        'column=5': 'Remove',
+        Confirm Remove: ''
+      },
+      {
+        'column=1': '2',
+        'column=5': 'Remove',
+        Confirm Remove: ''
+      }
+    ]
+  },
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the quote?": 'Yes',
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {}
+}
+
+TestData_CopyFromPolicy2_VA: {
+  PrefillTab: {},
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {
+    Order Report: click
+  },
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    "Has the customer expressed interest in purchasing the quote?": 'Yes',
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {},
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+TestData_Endorsement_VA: {
+  GeneralTab: {
+    PolicyInformation: {
+      Authorized by: QA
+    }
+  },
+  DriverTab: {},
+  RatingDetailReportsTab: {
+    Order Report: click
+  },
+  VehicleTab: {
+    List of Vehicle: {
+      'column=1': '2',
+      'column=5': 'Remove',
+      Confirm Remove: ''
+    }
+  },
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: [
+      {
+        Select Vehicle: 'index=1'
+      },
+      {
+        Select Vehicle: 'index=2'
+      },
+      {
+        Select Vehicle: 'index=3'
+      }
+    ],
+    Assign: '',
+    ExcessVehiclesTable: {
+      Select Driver: 'index=1'
+    }
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {}
 }
 
 GeneralTab_VA: {
@@ -894,42 +728,6 @@ Driver3_VA: {
   'Defensive Driver Course Completed?': 'Yes',
   Defensive Driver Course Completion Date: /today-366d,
   Defensive Driver Course Certificate Number: 12345678
-}
-
-Driver5_VA: {
-  DriverSearchDialog: {},
-  Rel. to First Named Insured: Other,
-  First Name: Chris,
-  Last Name: Gold,
-  Date of Birth: 01/01/1970,
-  Gender: Male,
-  Marital Status: Married,
-  Occupation: Employed,
-  License Type: 'Licensed (US)',
-  License Number: 154673424,
-  Age First Licensed: 18,
-  ActivityInformation: {
-    Type: Alcohol-Related Violation,
-    Description: Driving Under the Influence of Alcohol,
-    Occurrence Date: /today-20d,
-    'Include in Points and/or Tier?': 'Yes'
-  }
-}
-
-RatingDetailReportsTab_VA: {
-  Sales Agent Agreement: I Agree,
-  Order Report: click,
-  AAAMembershipReport: [{}],
-  OrderInsuranceScoreReport: [
-    {
-      Select: Declined,
-      Name: 'contains=Afflek'
-    },
-    {
-      Select: Declined,
-      Name: 'contains=Sam'
-    }
-  ]
 }
 
 AssignmentTab: {

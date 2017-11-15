@@ -54,22 +54,11 @@ PrefillTab: {
 }
 
 GeneralTab: {
-  NamedInsuredInformation: ['@NamedInsuredInformation'],
-  AAAProductOwned: '@AAAProductOwned',
-  #CurrentCarrierInformation: '@CurrentCarrierInformation',
+  NamedInsuredInformation: [{}],
+  AAAProductOwned: '@<auto_ca_select>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ca_select>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ca_select>@DataGather@PolicyInformation'
 }
-
-NamedInsuredInformation: {
-  "Home Phone #": 1234567890 
-}
-
-AAAProductOwned: {
-  Current AAA Member: 'Yes',
-  Membership Number: 4290023667710001,
-  Member Last Name: Test,
-}
-
 
 DriverTab: {
   Occupation: Self Employed,
