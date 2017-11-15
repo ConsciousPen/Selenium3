@@ -11,21 +11,21 @@ import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
 
-public class TestCFTScenario1 extends ControlledFinancialBaseTest {
+import com.exigen.ipb.etcsa.utils.Dollar;
+
+public class TestCFTScenario20 extends ControlledFinancialBaseTest {
 
 	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
-	public void cftTestScenario1(@Optional(StringUtils.EMPTY) String state) {
+	public void cftTestScenario20(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
-		endorsePolicyEffDatePlus2Days();
-		generateInstallmentBill(1);
-		automaticCancellationNotice(1);
-		automaticCancellation(1);
-		writeOff(1);
+		acceptTotalDuePlusOverpaymentOnStartDatePlus2(new Dollar(200));
+		issuedRefundOnStartDatePlus16(new Dollar(200));
+		voidRefundOnStartDatePlus25();
+		futureEndorsePolicyCancellationNoticeDate();
 	}
 
 	@Override
@@ -38,7 +38,6 @@ public class TestCFTScenario1 extends ControlledFinancialBaseTest {
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", DEFAULT_TEST_DATA_KEY);
 		td.adjust(TestData.makeKeyPath(PremiumsAndCoveragesQuoteTab.class.getSimpleName(), HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), getTestSpecificTD(
 			"PremiumsAndCoveragesQuoteTab_DataGather").getValue(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()));
-		td.adjust(PurchaseTab.class.getSimpleName(), getTestSpecificTD("PurchaseTab_DataGather"));
 		return td.resolveLinks();
 	}
 }

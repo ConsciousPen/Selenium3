@@ -11,27 +11,28 @@ import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.cft.ControlledFinancialBaseTest;
 
+import com.exigen.ipb.etcsa.utils.Dollar;
+
 /**
- * Controlled Financial Testing Scenario 9
- * NB_FD_Emp Ben
- * NON EFT_W/OFF
- * SPLIT
- * Endorse_ADB (ADB only applies to auto)
- * Standard monthly
- * Policy Effective Date (Future Dated) = X+2
- * Cash Down Payment
- * Add 2I_2D_2V
- * Add Emp Ben
+ * Half yearly Renewal
+ * Authorized Refund
+ * Void Refund
+ * Lapse with Emp Ben
+ * Half yearly 
+ * Add 2V (Auto only)
+ * Cash payment
  */
-public class TestCFTScenario9 extends ControlledFinancialBaseTest {
+public class TestCFTScenario20 extends ControlledFinancialBaseTest {
 
 	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
-	public void cftTestScenario9(@Optional(StringUtils.EMPTY) String state) {
+	public void cftTestScenario20(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
-		generateInstallmentBill(1);
-		splitPolicyOnFirstDueDate();
+		acceptTotalDuePlusOverpaymentOnStartDatePlus2(new Dollar(200));
+		issuedRefundOnStartDatePlus16(new Dollar(200));
+		voidRefundOnStartDatePlus25();
+		futureEndorsePolicyCancellationNoticeDate();
 	}
 
 	@Override
