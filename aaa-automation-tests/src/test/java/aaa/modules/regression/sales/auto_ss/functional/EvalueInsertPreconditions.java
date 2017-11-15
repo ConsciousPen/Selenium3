@@ -100,13 +100,13 @@ public class EvalueInsertPreconditions {
 
 	@Test()
 	@TestInfo(isAuxiliary = true)
-	public static void paperlessPreferencesConfigUpdate() {
+	public static void paperlessPreferencesStubEndpointUpdate() {
 		DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE, APP_HOST));
 	}
 
 	@Test()
 	@TestInfo(isAuxiliary = true)
-	public static void retrieveMembershipSummaryUpdate() {
+	public static void retrieveMembershipSummaryStubEndpointUpdate() {
 		DBService.get().executeUpdate(String.format(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE, APP_HOST));
 	}
 

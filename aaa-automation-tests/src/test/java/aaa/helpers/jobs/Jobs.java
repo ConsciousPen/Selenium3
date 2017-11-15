@@ -64,7 +64,7 @@ public class Jobs {
 
 	public static Job changeCancellationPendingPoliciesStatus = new Job("changeCancellationPendingPoliciesStatus");
 
-	public static Job membershipRenewalBatchOrderJob = new Job("membershipRenewalBatchOrderJob");
+	public static Job aaaMembershipRenewalBatchOrderJob = new Job("aaaMembershipRenewalBatchOrderJob");
 
 	public static Job aaaRenewalReminderGenerationAsyncJob = new Job("aaaRenewalReminderGenerationAsyncJob");
 
@@ -99,6 +99,13 @@ public class Jobs {
 	public static Job automatedProcessingStrategyStatusUpdateJob = new Job("automatedProcessingStrategyStatusUpdateJob");
 
 	public static Job automatedProcessingBypassingAndErrorsReportGenerationJob = new Job("automatedProcessingBypassingAndErrorsReportGenerationJob");
+
+	public static Job policyAutomatedRenewalAsyncTaskGenerationJob = new Job("policyAutomatedRenewalAsyncTaskGenerationJob");
+
+	public static Job aaaMembershipRenewalBatchReceiveAsyncJob = new Job("aaaMembershipRenewalBatchReceiveAsyncJob");
+
+	public static Job renewalImageRatingAsyncTaskJob = new Job("renewalImageRatingAsyncTaskJob");
+
 
 	public enum JobState {
 		TRUE, FALSE, FAILED

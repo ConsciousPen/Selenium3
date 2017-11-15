@@ -54,7 +54,10 @@ public class GeneralSchedulerPage extends AdminPage {
         AAA_REFUND_GENERATION_ASYNC_JOB("aaaRefundGenerationAsyncJob"),
         AUTOMATED_PROCESSING_RUN_REPORTS_SERVICES_JOB("automatedProcessingRunReportsServicesJob"),
         AUTOMATED_PROCESSING_STRATEGY_STATUS_UPDATE_JOB("automatedProcessingStrategyStatusUpdateJob"),
-        AUTOMATED_PROCESSING_BYPASSING_AND_ERRORS_REPORT_GENERATION_JOB("automatedProcessingBypassingAndErrorsReportGenerationJob");
+        AUTOMATED_PROCESSING_BYPASSING_AND_ERRORS_REPORT_GENERATION_JOB("automatedProcessingBypassingAndErrorsReportGenerationJob"),
+        AAA_MEMBERSHIP_RENEWAL_BATCH_RECEIVE_ASYNC_JOB("aaaMembershipRenewalBatchReceiveAsyncJob"),
+        AAA_MEMBERSHIP_RENEWAL_BATCH_ORDER_ASYNC_JOB("aaaMembershipRenewalBatchOrderAsyncJob"),
+        RENEWAL_IMAGE_RATING_ASYNC_TASK_JOB("renewalImageRatingAsyncTaskJob");
 
 
 
