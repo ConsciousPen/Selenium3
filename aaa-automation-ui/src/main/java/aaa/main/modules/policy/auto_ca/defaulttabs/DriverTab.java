@@ -49,4 +49,8 @@ public class DriverTab extends Tab {
 	public MultiInstanceBeforeAssetList getActivityInformationAssetList() {
 		return getAssetList().getAsset(AutoCaMetaData.DriverTab.ACTIVITY_INFORMATION);
 	}
+
+	public static void viewDriver(int index){
+		tableDriverList.selectRow(index);
+	}
 }

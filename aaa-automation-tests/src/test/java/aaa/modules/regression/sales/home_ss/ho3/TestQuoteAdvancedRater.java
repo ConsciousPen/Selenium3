@@ -51,7 +51,12 @@ public class TestQuoteAdvancedRater extends HomeSSHO3BaseTest {
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD(), PremiumsAndCoveragesQuoteTab.class);
         premiumsAndCoveragesQuoteTab.calculatePremium();
+        
         Dollar origPremiumValue = new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
+        
+        if (PremiumsAndCoveragesQuoteTab.tableTaxesSurchargesSummary.getRowsCount() > 0) {
+        	origPremiumValue = origPremiumValue.subtract(new Dollar(PremiumsAndCoveragesQuoteTab.getTaxesSurchargesPremium()));
+        }
 
         verifyPremiumChangeOf(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_B);
         verifyPremiumChangeOf(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D);
@@ -61,22 +66,43 @@ public class TestQuoteAdvancedRater extends HomeSSHO3BaseTest {
 
         Dollar premiuimChangeOf = changeCoverage(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE);
         Dollar newPremiumValue = origPremiumValue.add(premiuimChangeOf);
+        
+        Dollar calculatedPremium = PremiumsAndCoveragesQuoteTab.getPolicyTermPremium();
+        
+        if (PremiumsAndCoveragesQuoteTab.tableTaxesSurchargesSummary.getRowsCount() > 0) {
+        	calculatedPremium = calculatedPremium.subtract(new Dollar(PremiumsAndCoveragesQuoteTab.getTaxesSurchargesPremium()));
+        }
+
         if (getState().equals(Constants.States.OK)) {
             PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().verify.equals(newPremiumValue, 260.0);
             newPremiumValue = new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
         }
         else
-            PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().verify.equals(newPremiumValue, 1.0);
+        	calculatedPremium.verify.equals(newPremiumValue, 1.0);
 
         premiuimChangeOf = changeCoverage(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_B);
         newPremiumValue = newPremiumValue.add(premiuimChangeOf);
-        PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().verify.equals(newPremiumValue, 1.0);
+        
+        
+        calculatedPremium = PremiumsAndCoveragesQuoteTab.getPolicyTermPremium();
+        if (PremiumsAndCoveragesQuoteTab.tableTaxesSurchargesSummary.getRowsCount() > 0) {
+        	calculatedPremium = calculatedPremium.subtract(new Dollar(PremiumsAndCoveragesQuoteTab.getTaxesSurchargesPremium()));
+        }
+        
+        calculatedPremium.verify.equals(newPremiumValue, 1.0);
 
         PremiumsAndCoveragesQuoteTab.btnContinue.click();
         policy.getDefaultView().fillFromTo(getPolicyTD(), MortgageesTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
 
-        PolicySummaryPage.getTotalPremiumSummaryForProperty().verify.equals(newPremiumValue, 1.0);
+        
+        calculatedPremium = PolicySummaryPage.getTotalPremiumSummaryForProperty();
+        
+        if (PolicySummaryPage.tableTotalStateTaxesProperty.getRowsCount() > 0) {
+        	calculatedPremium = calculatedPremium.subtract(new Dollar(PolicySummaryPage.getTotalStateTaxesForProperty()));
+        }
+        
+        calculatedPremium.verify.equals(newPremiumValue, 1.0);
     }
 
     private void verifyPremiumChangeOf(AssetDescriptor<ComboBox> field) {

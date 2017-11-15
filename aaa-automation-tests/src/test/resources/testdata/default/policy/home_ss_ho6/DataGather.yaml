@@ -375,7 +375,7 @@ TestData_KY: {
   PremiumsAndCoveragesQuoteTab: '@home_ss_ho3@DataGather@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@home_ss_ho3@DataGather@MortgageesTab',
   UnderwritingAndApprovalTab: '@home_ss_ho3@DataGather@UnderwritingAndApprovalTab_KY',
-  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab_KY',
   BindTab: '@home_ss_ho3@DataGather@BindTab',
   PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab',
 }

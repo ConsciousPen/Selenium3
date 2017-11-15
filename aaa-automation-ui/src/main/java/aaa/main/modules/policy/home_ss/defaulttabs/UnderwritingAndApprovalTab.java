@@ -19,7 +19,7 @@ import toolkit.webdriver.controls.StaticElement;
 public class UnderwritingAndApprovalTab extends Tab {
     public UnderwritingAndApprovalTab() {
         super(HomeSSMetaData.UnderwritingAndApprovalTab.class);
-        assetList.config.applyConfiguration("UnderwritingTab");
+        assetList = assetList.applyConfiguration("UnderwritingTab");
     }
     
     public StaticElement lblWarningMessage = new StaticElement(By.xpath("//table[@id='policyDataGatherForm:inspectionReqWarningMsg_AAAHOInspMsgUW']//span/text()"));

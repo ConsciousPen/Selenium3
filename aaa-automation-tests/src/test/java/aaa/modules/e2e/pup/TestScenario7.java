@@ -56,8 +56,11 @@ public class TestScenario7 extends Scenario7 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC06_Generate_Third_Bill(@Optional("") String state) {
+	public void TC06_Generate_Third_Bill_And_Renewal_Image_Generation(@Optional("") String state) {
 		super.generateThirdBill();
+		if (getState().equals(States.CA)) {
+			super.renewalImageGeneration();
+		}
 	}
 
 	@Parameters({"state"})
@@ -75,7 +78,9 @@ public class TestScenario7 extends Scenario7 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC09_Renewal_Image_Generation(@Optional("") String state) {
-		super.renewalImageGeneration();
+		if (!getState().equals(States.CA)) {
+			super.renewalImageGeneration();
+		}
 	}
 
 	@Parameters({"state"})
