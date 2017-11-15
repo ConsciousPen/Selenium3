@@ -1,9 +1,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="JDI Functional Test Suite" verbose="1" parallel="false" thread-count="1">
-    <!-- Listener commented out for local runs
+
     <listeners>
-         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
-     </listeners>-->
+        <!-- Listener commented out for local runs
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>-->
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
     <test name="TestRefundProcess">
@@ -51,12 +53,17 @@
         </classes>
     </test>
 
-    <test name="TestNonPremiumBearingEndorsements">
+    <test name="TestNonPremiumBearingEndorsementsCA">
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing"/>
             <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing"/>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing"/>
         </classes>
     </test>
 
+    <test name="TestNonPremiumBearingEndorsementsSS">
+        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing"/>
+        </classes>
+    </test>
 </suite>

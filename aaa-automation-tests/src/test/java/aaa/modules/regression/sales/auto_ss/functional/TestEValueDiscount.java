@@ -391,7 +391,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
         Page.dialogConfirmation.confirm();
         PremiumAndCoveragesTab.calculatePremium();
         premiumAndCoveragesTab.saveAndExit();
-        PolicySummaryPage.buttonPendedEndorsement.click();
         simplifiedPendedEndorsementIssue();
         PolicySummaryPage.tableGeneralInformation.getRow(1).getCell("eValue Status").verify.value("");
         CustomAssert.assertEquals(DBService.get().getValue(String.format(EVALUE_STATUS_CHECK, policyNumber)).get(), "INACTIVE");
@@ -1341,6 +1340,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 
 
     public void simplifiedPendedEndorsementIssue() {
+        PolicySummaryPage.buttonPendedEndorsement.click();
         policy.dataGather().start();
         NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY).setValue("Megha");

@@ -4,10 +4,14 @@
  */
 package aaa.main.modules.swaggerui;
 
+import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.swaggerui.metadata.SwaggerUiMetaData;
-import org.openqa.selenium.By;
-import toolkit.webdriver.controls.*;
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.Link;
+import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
@@ -27,10 +31,10 @@ public class SwaggerUiTab extends Tab {
 	public static Link productStateLoad = new Link(By.xpath(".//*[@id='product-state_load']/div[1]/h3/span[2]/a"), Waiters.AJAX);
 	public static Link productStateStart = new Link(By.xpath(".//*[@id='product-state_start']/div[1]/h3/span[2]/a"), Waiters.AJAX);
 
-	public static Link customerV1Endorsements = new Link(By.xpath(".//*[@id='endpointListTogger_/customer/v1/endorsements']"), Waiters.AJAX);
-	public static Link customerV1EndorsementsPost = new Link(By.xpath(".//*[@id='/customer/v1/endorsements_updateEmail']/div[1]/h3/span[2]/a"), Waiters.AJAX);
-	public static TextBox policyNumber = new TextBox(By.xpath(".//*[@id='/customer/v1/endorsements_updateEmail']//input[@name='policyNumber']"), Waiters.AJAX);
-	public static TextBox updateEmailRequest = new TextBox(By.xpath(".//*[@id='/customer/v1/endorsements_updateEmail']//textarea[@name='updateEmailRequest']"), Waiters.AJAX);
+	public static Link agentV1Endorsements = new Link(By.xpath(".//*[@id='endpointListTogger_/agent/v1/endorsements']"), Waiters.AJAX);
+	public static Link agentV1EndorsementsPost = new Link(By.xpath(".//*[@id='/agent/v1/endorsements_updateContactInfo']/div[1]/h3/span[1]/a"), Waiters.AJAX);
+	public static TextBox policyNumber = new TextBox(By.xpath(".//*[@id='/agent/v1/endorsements_updateContactInfo']//input[@name='policyNumber']"), Waiters.AJAX);
+	public static TextBox updateContactInfo = new TextBox(By.xpath(".//*[@id='/agent/v1/endorsements_updateContactInfo']//textarea[@name='updateContactInfo']"), Waiters.AJAX);
 
 	//common pattern xpath
 	public static final String ROOT_XPATH = "/../../../../div[2]";

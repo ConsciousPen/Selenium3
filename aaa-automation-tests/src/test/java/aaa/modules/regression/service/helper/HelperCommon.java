@@ -23,23 +23,24 @@ import toolkit.webdriver.controls.waiters.Waiters;
 
 public class HelperCommon{
 	private static String swaggerUiUrl = PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + PropertyProvider
-			.getProperty(CustomTestProperties.APP_SWAGGER_URLTEMPLATE);
+			.getProperty(CustomTestProperties.APP_SWAGGER_URL_TEMPLATE);
 
 	private static String urlBuilder(String endpointUrlPart) {
 		return "http://" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
 	}
 
-	private void emailUpdateSwaggerUi(String policyNumber, String emailAddress) {
-		By customerV1EndorsementsPost = SwaggerUiTab.customerV1EndorsementsPost.getLocator();
+	private void emailUpdateSwaggerUi(String policyNumber, String emailAddress, String authorizedBy) {
+		By customerV1EndorsementsPost = SwaggerUiTab.agentV1EndorsementsPost.getLocator();
 		Application.open(swaggerUiUrl);
 		SwaggerUiTab swaggerUiTab = new SwaggerUiTab();
 
 		Waiters.SLEEP(2000).go();
-		SwaggerUiTab.customerV1Endorsements.click();
-		SwaggerUiTab.customerV1EndorsementsPost.click();
+		SwaggerUiTab.agentV1Endorsements.click();
+		SwaggerUiTab.agentV1EndorsementsPost.click();
 
 		SwaggerUiTab.policyNumber.setValue(policyNumber);
-		SwaggerUiTab.updateEmailRequest.setValue("{\"email\": \"" + emailAddress + "\"}");
+		SwaggerUiTab.updateContactInfo.setValue(" { \"email\": \""+emailAddress+"\",\n"
+				+ "  \"authorizedBy\": \""+ authorizedBy + "\"}");
 		swaggerUiTab.clickButtonTryIt(customerV1EndorsementsPost);
 		//TODO get rid of authentication popup, which cant be handled by Chrome of Firefox
 		CustomAssert.assertEquals(swaggerUiTab.getResponseCodeValue(customerV1EndorsementsPost), "200");
@@ -83,13 +84,14 @@ public class HelperCommon{
 		}
 	}
 
-	void executeRequest(String policyNumber, String emailAddressChanged) {
+	public void executeRequest(String policyNumber, String emailAddressChanged, String authorizedBy) {
 		if (Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.USE_SWAGGER))) {
-			emailUpdateSwaggerUi(policyNumber, emailAddressChanged);
+			emailUpdateSwaggerUi(policyNumber, emailAddressChanged, authorizedBy);
 		} else {
-			UpdateEmailRequest request = new UpdateEmailRequest();
+			UpdateContactInfoRequest request = new UpdateContactInfoRequest();
 			request.email = emailAddressChanged;
-			String requestUrl = urlBuilder(PropertyProvider.getProperty(CustomTestProperties.DXP_EMAIL_UPDATE_ENDPOINT)) + policyNumber;
+			request.authorizedBy = authorizedBy;
+			String requestUrl = urlBuilder(PropertyProvider.getProperty(CustomTestProperties.DXP_CONTACT_INFO_UPDATE_ENDPOINT)) + policyNumber;
 			runJsonRequest(requestUrl, request);
 		}
 	}
