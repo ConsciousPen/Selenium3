@@ -132,6 +132,7 @@ public final class BillingConstants {
 		public static final String NON_EFT_INSTALLMENT_FEE_WAIVED = "Non EFT Installment Fee Waived";
 		public static final String SEISMIC_SAFETY_FEE = "Seismic Safety Fee";
 		public static final String OTHER = "Other";
+		public static final String REFUND_PAYMENT_VOIDED = "Refund Payment Voided";
 	}
 
 	public static final class PaymentsAndOtherTransactionReason {

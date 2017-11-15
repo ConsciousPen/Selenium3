@@ -17,6 +17,7 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
+import aaa.helpers.billing.BillingPendingTransactionsVerifier;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ActionConstants;
@@ -319,7 +320,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	protected void issuedRefundOnStartDatePlus25(Dollar refundAmount) {
-		LocalDateTime refundDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25).with(DateTimeUtils.closestFutureWorkingDay);
+		LocalDateTime refundDate = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
 		issuedRefundOnDate(refundAmount, refundDate);
 	}
 
@@ -330,6 +331,15 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		// TODO void refund implementation
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.STATUS, BillingConstants.PaymentsAndOtherTransactionType.REFUND)
+			.getCell(BillingPendingTransactionsTable.ACTION).controls.links.get(ActionConstants.BillingPaymentsAndOtherTransactionAction.VOID).click();
+		Page.dialogConfirmation.confirm();
+		new BillingPaymentsAndTransactionsVerifier()
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.REFUND_PAYMENT_VOIDED)
+			// .setAmount(amount.negate())
+			.verifyPresent();
+
 		log.info("Void Refund action completed successfully");
 	}
 
@@ -723,7 +733,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		new BillingPaymentsAndTransactionsVerifier()
-			.setTransactionDate(refundDate)
 			.setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
 			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND)
 			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.ISSUED)
@@ -738,7 +747,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		new BillingPaymentsAndTransactionsVerifier()
+		new BillingPendingTransactionsVerifier()
 			.setTransactionDate(refundDate)
 			.setType(BillingConstants.BillingPendingTransactionsType.REFUND)
 			.setSubtypeReason(BillingConstants.BillingPendingTransactionsSubtype.AUTOMATED_REFUND)

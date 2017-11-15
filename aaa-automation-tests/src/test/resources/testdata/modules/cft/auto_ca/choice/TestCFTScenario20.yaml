@@ -35,11 +35,16 @@ TestData_DataGather: {
   DriverTab: '@<auto_ca_choice>@DataGather@DriverTab',
   MembershipTab: '@<auto_ca_choice>@DataGather@MembershipTab',
   VehicleTab: ['@Vehicle1', '@Vehicle2'],
-  AssignmentTab: '@<auto_ca_choice>@DataGather@AssignmentTab',
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: [{
+      Primary Driver: index=1}, {
+      Primary Driver: index=1
+    }] 
+  },
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@<auto_ca_choice>@DataGather@DocumentsAndBindTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
   PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
 }
 
@@ -59,6 +64,26 @@ Vehicle2: {
   "Salvaged?": 'No',
   Odometer Reading: 5000,
 }
+
+
+DocumentsAndBindTab: {
+  RequiredToBind: '@RequiredToBind',
+  #RequiredToIssue: { },
+  VehicleInformation: ['@VehicleInformation', '@VehicleInformation'],
+}
+
+RequiredToBind: {
+  Personal Auto Application: Physically Signed,
+  Deleting Uninsured Motorist Property Damage Coverage: Physically Signed
+}
+
+VehicleInformation: {
+  "Are there any additional interest(s)?": 'No'
+}
+
+
+
+
 
 PremiumAndCoveragesTab: {
   Payment Plan: Semi-Annual
