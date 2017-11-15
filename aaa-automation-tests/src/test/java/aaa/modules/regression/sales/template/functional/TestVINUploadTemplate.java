@@ -11,11 +11,13 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
+import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import org.testng.annotations.AfterMethod;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
+import toolkit.verification.CustomAssert;
 
 import java.util.NoSuchElementException;
 
@@ -29,6 +31,8 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
      * @author Lev Kazarnovskiy
      *
      * PAS-1406 - Data Refresh - PAS-533 -Quote Refresh -Add New VIN
+     * PAS-1487 VIN No Match to Match but Year Doesn't Match
+     * PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
      *
      * @name Test VINupload 'Add new VIN' scenario for NB.
      * @scenario 0. Create customer
@@ -44,10 +48,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
         TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
                 .adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
-        mainApp().open();
-        createCustomerIndividual();
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(testData, VehicleTab.class, true);
+        precondsTestVINUpload(testData);
 
         //Verify that VIN which will be uploaded is not exist yet in the system
         vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No" );
@@ -75,9 +76,14 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 
+        CustomAssert.enableSoftMode();
         vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.MODEL.getLabel(), "Gt");
         vehicleTab.verifyFieldIsNotDisplayed(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel());
-        VehicleTab.buttonSaveAndExit.click();
+        // PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
+        vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "Yes");
+        CustomAssert.disableSoftMode();
+
+        CustomAssert.assertAll();
 
         log.info(getPolicyType() + " Quote# " + quoteNumber + " was successfully saved " +
                 "'Add new VIN scenario' for NB is passed for VIN UPLOAD tests");
@@ -87,6 +93,9 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
      * @author Lev Kazarnovskiy
      *
      * PAS-1406 - Data Refresh - PAS-527 -Renewal Refresh -Add New VIN & Update Existing
+     * PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
+     * PAS-1487  No Match to Match but Year Doesn't Match
+     * PAS-544 Activities and User Notes
      *
      * @name Test VINupload 'Add new VIN' scenario for Renewal.
      * @scenario 0. Create customer
@@ -103,10 +112,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
         TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
                 .adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
-        mainApp().open();
-        createCustomerIndividual();
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(testData, VehicleTab.class, true);
+        precondsTestVINUpload(testData);
 
         //Verify that VIN which will be uploaded is not exist yet in the system
         vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No" );
@@ -133,9 +139,21 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
         policy.renew().start();
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 
+        CustomAssert.enableSoftMode();
         vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.MODEL.getLabel(), "Gt");
         vehicleTab.verifyFieldIsNotDisplayed(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel());
+        vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel(), "UT_SS");
+        // PAS-1487  No Match to Match but Year Doesn't Match
+        vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.YEAR.getLabel(), "2005");
+        // PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
+        vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "Yes");
+        CustomAssert.disableSoftMode();
+
+        CustomAssert.assertAll();
+
         VehicleTab.buttonSaveAndExit.click();
+
+        verifyActivitiesAndUserNotes(vinNumber);
 
         log.info(getPolicyType() + ". Renewal image for policy " + policyNumber + " was successfully saved " +
                 "'Add new VIN scenario' for Renewal is passed for VIN UPLOAD tests");
@@ -145,6 +163,8 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
      * @author Lev Kazarnovskiy
      *
      * PAS-1406 - Data Refresh - PAS-527 -Renewal Refresh -Add New VIN & Update Existing
+     * PAS-1487  No Match to Match but Year Doesn't Match
+     * PAS-544 Activities and User Notes
      *
      * @name Test VINupload 'Update VIN' scenario.
      * @scenario 0. Create customer
@@ -159,11 +179,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 
         TestData testData = getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
-        mainApp().open();
-        createCustomerIndividual();
-
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(testData, VehicleTab.class, true);
+        precondsTestVINUpload(testData);
 
         //Verify that VIN which will be updated exists in the system, save value that will be updated
         vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "Yes" );
@@ -192,14 +208,38 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 
         //Verify that fields are updated
+        CustomAssert.enableSoftMode();
         vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "Yes" );
         vehicleTab.verifyFieldHasNotValue(AutoCaMetaData.VehicleTab.MAKE.getLabel(), oldModelValue);
         vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.MODEL.getLabel(), "TEST");
         vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel(), "TEST");
+        // PAS-1487  No Match to Match but Year Doesn't Match
+        vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.YEAR.getLabel(), "2005");
+        CustomAssert.disableSoftMode();
+
+        CustomAssert.assertAll();
+
         VehicleTab.buttonSaveAndExit.click();
+
+        verifyActivitiesAndUserNotes(vinNumber);
 
         log.info(getPolicyType() + ". Renewal image for policy " + PolicySummaryPage.labelPolicyNumber.getValue() + " was successfully created. \n" +
                 "'Update VIN scenario' is passed for VIN UPLOAD tests, Renewal Refresh works fine for VINUpdate");
+    }
+
+    private void precondsTestVINUpload(TestData testData) {
+        mainApp().open();
+        createCustomerIndividual();
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(testData, VehicleTab.class, true);
+    }
+
+
+    private void verifyActivitiesAndUserNotes (String vinNumber) {
+        //method added for verification of PAS-544 - Activities and User Notes
+        NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+        NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description","VIN data has been updated for the following vehicle(s): " + vinNumber)
+                .verify.present("PAS-544 - Activities and User Notes may be broken: VIN refresh record is missed in Activities and User Notes:");
     }
 
     /*

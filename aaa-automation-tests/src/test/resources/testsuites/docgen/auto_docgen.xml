@@ -75,4 +75,11 @@
             <class name="aaa.modules.deloitte.docgen.auto_ca.choice.TestScenario1" />
         </classes>
     </test>
+    
+	<test name="TestScenario4_Deloitte">
+        <parameter name="state" value="AZ,IN,OH,VA" />
+        <classes>
+            <class name="aaa.modules.deloitte.docgen.auto_ss.TestScenario4" />
+        </classes>
+    </test>
 </suite>

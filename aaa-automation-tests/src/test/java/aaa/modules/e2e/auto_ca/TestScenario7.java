@@ -122,43 +122,44 @@ public class TestScenario7 extends Scenario7 {
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC17_Check_Renewal_Status_And_Payment_Not_Generated(@Optional("CA") String state) {
+	public void TC16_Check_Renewal_Status_And_Payment_Not_Generated(@Optional("CA") String state) {
 		super.checkRenewalStatusAndPaymentNotGenerated();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC18_Expire_Policy(@Optional("CA") String state) {
+	public void TC17_Expire_Policy(@Optional("CA") String state) {
 		super.expirePolicy();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC19_Generate_First_Renewal_Bill(@Optional("CA") String state) {
+	public void TC18_Generate_First_Renewal_Bill(@Optional("CA") String state) {
 		super.generateFirstRenewalBill();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC20_Customer_Decline_Renewal(@Optional("CA") String state) {
+	public void TC19_Customer_Decline_Renewal(@Optional("CA") String state) {
 		super.customerDeclineRenewal();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC21_Create_Remittance_File(@Optional("CA") String state) {
+	public void TC20_Create_Remittance_File(@Optional("CA") String state) {
 		super.createRemittanceFile();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC22_Pay_Renewal_Bill_By_Remittance(@Optional("CA") String state) {
+	public void TC21_Pay_Renewal_Bill_By_Remittance(@Optional("CA") String state) {
 		super.payRenewalBillByRemittance();
 	}
 
+	/* Applicable for AutoSS only
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC23_Qualify_For_Manual_Renewal_Task_Created(@Optional("CA") String state) {
+	public void TC22_Qualify_For_Manual_Renewal_Task_Created(@Optional("CA") String state) {
 		super.qualifyForManualRenewalTaskCreated();
-	}
+	}*/
 }

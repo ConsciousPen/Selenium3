@@ -1544,7 +1544,7 @@ TestData_KY: {
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_KY',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_KY',
-  DocumentsTab: '@DocumentsTab',
+  DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab_KY',
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab',
 }

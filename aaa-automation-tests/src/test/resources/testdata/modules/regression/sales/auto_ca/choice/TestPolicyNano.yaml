@@ -7,19 +7,10 @@ TestData_Adjustment: {
 
 
 GeneralTab: {
-  NamedInsuredInformation: ['@NamedInsuredInformation'],
-  AAAProductOwned: '@AAAProductOwned',
+  NamedInsuredInformation: ['@<auto_ca_choice>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ca_choice>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ca_choice>@DataGather@ContactInformation',
   PolicyInformation: '@PolicyInformation'
-}
-
-NamedInsuredInformation: {
-  "Home Phone #": 1234567890 
-}
-
-AAAProductOwned: {
-  Current AAA Member: 'Yes',
-  Membership Number: 4290023667710001,
-  Member Last Name: Test,
 }
 
 PolicyInformation: {
