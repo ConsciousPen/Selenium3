@@ -213,10 +213,23 @@ public class Scenario3 extends ScenarioBaseTest {
 	}
 
 	public void payRenewOffer() {
-		goToBillingPage(policyNum);
+		//added a hour to postpone job execution to avoid conflict with makeManualPaymentInFullRenewalOfferAmount from Scenario2
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getPayLapsedRenewShort(policyExpirationDate).plusHours(1));
+		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
+
 		String billType = getState().equals(Constants.States.CA) ? BillsAndStatementsType.OFFER : BillsAndStatementsType.BILL;
 		Dollar sum = BillingHelper.getBillMinDueAmount(policyExpirationDate, billType);
+
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_CC"), sum);
+		if (PolicyType.AUTO_CA_SELECT.equals(getPolicyType())) {
+			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
+			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getPayLapsedRenewShort(policyExpirationDate)).setType(PaymentsAndOtherTransactionType.FEE).verifyPresent();
+		} else {
+			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
+		}
 	}
 
 	public void bindRenew() {
@@ -227,14 +240,14 @@ public class Scenario3 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		PolicySummaryPage.buttonRenewals.click();
-		if (PolicyType.AUTO_SS.equals(getPolicyType())) {
-			new ProductRenewalsVerifier().setStatus(PolicyStatus.CUSTOMER_DECLINED).verify(1);
+		new ProductRenewalsVerifier().setStatus(PolicyStatus.CUSTOMER_DECLINED).verify(1);
+		if (getPolicyType().isAutoPolicy()) {
 			policy.dataGather().start();
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			PremiumAndCoveragesTab.calculatePremium();
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 			new DocumentsAndBindTab().submitTab();
-		} else if (!PolicyType.AUTO_CA_SELECT.equals(getPolicyType())) {
+		} else {
 			policy.manualRenewalWithOrWithoutLapse().perform(getStateTestData(tdPolicy, "ManualRenewalWithOrWithoutLapse", "TestData"));
 		}
 
