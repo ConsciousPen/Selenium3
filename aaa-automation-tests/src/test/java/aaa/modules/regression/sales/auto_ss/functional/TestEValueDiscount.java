@@ -179,7 +179,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	@Test
 	@TestInfo(isAuxiliary = true)
 	public static void eValueMembershipConfigCheck() {
-		CustomAssert.assertTrue("eValue configuration for membership not require. Please run eValueMembershipConfigInsert", DBService.get().getValue(EVALUE_MEMBERSHIP_CONFIG_CHECK).isPresent());
+		CustomAssert.assertTrue("eValue configuration for membership not require. Please run eValueMembershipEligibilityConfigInsert", DBService.get().getValue(EVALUE_MEMBERSHIP_CONFIG_CHECK).isPresent());
 	}
 
 	@Test
