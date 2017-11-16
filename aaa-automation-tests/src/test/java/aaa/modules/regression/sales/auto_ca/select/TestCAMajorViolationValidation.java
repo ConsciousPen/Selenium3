@@ -33,7 +33,7 @@ public class TestCAMajorViolationValidation extends AutoCaSelectBaseTest {
 
     @Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-5843")
     public void testCAMajorViolationValidation(@Optional("CA") String state) {
     	
         mainApp().open();
