@@ -3,6 +3,7 @@ package aaa.modules.regression.sales.auto_ss.functional;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -81,11 +82,11 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 
 		// Start of PAS-3795 New Business DE & NJ: Member Validation Failed Message
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
-		if("NJ".equalsIgnoreCase(state)){
+		if(Constants.States.NJ.equalsIgnoreCase(state)){
 			errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_SS171018_NJ.getMessage()).verify.present();
 			errorTab.cancel();
 		}
-		else if ("DE".equalsIgnoreCase(state)){
+		else if (Constants.States.DE.equalsIgnoreCase(state)){
 			errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_SS171018_DE.getMessage()).verify.present();
 			errorTab.cancel();
 		}
