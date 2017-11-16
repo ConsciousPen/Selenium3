@@ -1,6 +1,5 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -47,54 +46,49 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 
 	private GeneralTab generalTab = new GeneralTab();
 	private ErrorTab errorTab = new ErrorTab();
+	private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
 	private AssetList assetListNamedInsuredInfo = generalTab.getCurrentCarrierInfoAssetList();
 	private AssetList assetListAAAProductOwned = generalTab.getAAAProductOwnedAssetList();
 	private static final String QUOTE_EFFECTIVE_DATE = "01/01/2018";
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4244")
-	public void pas4244_MembershipValidationError(@Optional("") String state) {
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3795")
+	public void pas3795_MembershipValidationError(@Optional("") String state) {
+		TestData testDataAdjusted = getAdjustedTestData();
 
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
-		policy.getDefaultView().fillFromTo(getPolicyTD(), PrefillTab.class, DriverTab.class, false);
+		policy.getDefaultView().fillFromTo(testDataAdjusted, PrefillTab.class, DriverTab.class, false);
 
 		CustomAssert.enableSoftMode();
+
 		// Start of PAS-3794 New Business DE & NJ: Non-Member Message
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(QUOTE_EFFECTIVE_DATE);
+
 		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("No");
 		generalTab.verifyFieldHasValue(assetListAAAProductOwned, AutoSSMetaData.GeneralTab.AAAProductOwned.EXISTING_MEMBERSHIP_NO_NJ_DE_WARNING_BLOCK.getLabel(), ErrorEnum.Errors.ERROR_AAA_SS171018
 				.getMessage());
+
 		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Membership Pending");
 		generalTab.verifyFieldHasValue(assetListAAAProductOwned, AutoSSMetaData.GeneralTab.AAAProductOwned.EXISTING_MEMBERSHIP_NO_NJ_DE_WARNING_BLOCK.getLabel(), ErrorEnum.Errors.ERROR_AAA_SS171018
 				.getMessage());
 		// End of PAS-3794 New Business DE & NJ: Non-Member Message
+
+		policy.getDefaultView().fillFromTo(testDataAdjusted, GeneralTab.class, PremiumAndCoveragesTab.class, true);
+
 		// Start of PAS-3795 New Business DE & NJ: Member Validation Failed Message
-		TestData defaultTestData = getPolicyTD();
-		TestData ratingDetailReportsTab = defaultTestData.getTestData("RatingDetailReportsTab");
-
-		TestData addMemberSinceDialog = new SimpleDataProvider();
-		addMemberSinceDialog.adjust("Member Since","/today-1y");
-		addMemberSinceDialog.adjust("OK","click");
-
-		TestData AaaMembershipReportRow = new SimpleDataProvider();
-		AaaMembershipReportRow.adjust("Action","Add Member Since");
-
-		List<TestData> AAAMembershipReport = ratingDetailReportsTab.getTestDataList("AAAMembershipReport");
-		AAAMembershipReport.add(AaaMembershipReportRow);
-		AAAMembershipReport.add(addMemberSinceDialog);
-
-		ratingDetailReportsTab.adjust(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT.getLabel(),AAAMembershipReport);
-
-		generalTab.getAAAProductOwnedAssetList().fill(ratingDetailReportsTab);
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
-		policy.getDefaultView().fillFromTo(getPolicyTD(), RatingDetailReportsTab.class, PremiumAndCoveragesTab.class, true);
-
-		errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_SS171019.getMessage()).verify.present();
-		// add this to defaultTestData
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
+		if("NJ".equalsIgnoreCase(state)){
+			errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_SS171018_NJ.getMessage()).verify.present();
+			errorTab.cancel();
+		}
+		else if ("DE".equalsIgnoreCase(state)){
+			errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_SS171018_DE.getMessage()).verify.present();
+			errorTab.cancel();
+		}
 		// End of PAS-3795 New Business DE & NJ: Member Validation Failed Message
 
 		CustomAssert.disableSoftMode();
@@ -102,21 +96,41 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 	}
 
 	/**
-	*Prepare testdata which will trigger error appearence
+	*Prepare test data which will trigger error appearance
 	*AND the policy effective date is on or after 01/01/2018
 	*invalid membership number
 	*/
 	private TestData getAdjustedTestData() {
-		TestData defaultTestData = getPolicyTD();
-		TestData policyInformation = defaultTestData.getTestData(generalTab.getMetaKey()).getTestData(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel())
+		TestData testData = getPolicyTD();
+		// Start General Tab
+		TestData testDataGeneralTab = testData.getTestData(generalTab.getMetaKey());
+
+		TestData testDataPolicyInformation = testDataGeneralTab.getTestData(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel())
 				.adjust(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), QUOTE_EFFECTIVE_DATE);
-		TestData aaaProductsOwned = defaultTestData.getTestData(generalTab.getMetaKey()).getTestData(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel())
+		TestData testDataAAAProductsOwned = testDataGeneralTab.getTestData(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel())
 				.adjust(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Yes")
 				.adjust(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), "9920702826992041");
-		TestData generalTabAdjusted = defaultTestData.getTestData(generalTab.getMetaKey())
-				.adjust(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), aaaProductsOwned)
-				.adjust(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), policyInformation);
-		//defaultTestData.adjust(generalTab.getMetaKey(), generalTabAdjusted)
-		return generalTabAdjusted;
+		TestData generalTabAdjusted = testDataGeneralTab
+				.adjust(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), testDataAAAProductsOwned)
+				.adjust(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), testDataPolicyInformation);
+
+		testData.adjust(generalTab.getMetaKey(),generalTabAdjusted).resolveLinks();
+		// End of General tab
+
+		// Start of  Rating DetailReports Tab
+		TestData addMemberSinceDialog = new SimpleDataProvider()
+				.adjust(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), "/today-1y:MM/dd/yyyy")
+				.adjust(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.BTN_OK.getLabel(), "click");
+		TestData aaaMembershipReportRow = new SimpleDataProvider()
+				.adjust("Action", "Add Member Since")
+				.adjust(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ADD_MEMBER_SINCE_DIALOG.getLabel(), addMemberSinceDialog);
+
+		// Rating DetailReports Tab
+		TestData testDataRatingDetailReportsTab = testData.getTestData(ratingDetailReportsTab.getMetaKey())
+				.adjust(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT.getLabel(), aaaMembershipReportRow);
+		testData.adjust(ratingDetailReportsTab.getMetaKey(), testDataRatingDetailReportsTab).resolveLinks();
+		// End of  Rating DetailReports Tab
+
+		return testData;
 	}
 }
