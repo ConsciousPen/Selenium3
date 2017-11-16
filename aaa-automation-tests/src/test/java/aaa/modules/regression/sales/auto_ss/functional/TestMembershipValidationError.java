@@ -25,6 +25,14 @@ import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
 public class TestMembershipValidationError extends AutoSSBaseTest {
+
+	private GeneralTab generalTab = new GeneralTab();
+	private ErrorTab errorTab = new ErrorTab();
+	private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
+	private AssetList assetListNamedInsuredInfo = generalTab.getCurrentCarrierInfoAssetList();
+	private AssetList assetListAAAProductOwned = generalTab.getAAAProductOwnedAssetList();
+	private static final String QUOTE_EFFECTIVE_DATE = "01/01/2018";
+
 	/**
 	*@author Viktor Petrenko
 	*
@@ -44,13 +52,6 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 	*10. Verify Error message presence
 	*@details
 	*/
-
-	private GeneralTab generalTab = new GeneralTab();
-	private ErrorTab errorTab = new ErrorTab();
-	private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
-	private AssetList assetListNamedInsuredInfo = generalTab.getCurrentCarrierInfoAssetList();
-	private AssetList assetListAAAProductOwned = generalTab.getAAAProductOwnedAssetList();
-	private static final String QUOTE_EFFECTIVE_DATE = "01/01/2018";
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
