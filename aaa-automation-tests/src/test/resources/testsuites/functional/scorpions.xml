@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Scorpions Auto Functional tests" verbose="1" parallel="tests" thread-count="1">
+<suite name="Scorpions Auto Functional tests" verbose="1" parallel="tests" thread-count="1024">
    <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
@@ -32,6 +32,13 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestRatingDetailsView"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestRatingDetailsView"/>
+        </classes>
+    </test>
+
+    <test name="PAS-3794,PAS-3795 New Business NJ_DE: Non-Member Message and validation error">
+        <parameter name="state" value="DE, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidationError"/>
         </classes>
     </test>
 
