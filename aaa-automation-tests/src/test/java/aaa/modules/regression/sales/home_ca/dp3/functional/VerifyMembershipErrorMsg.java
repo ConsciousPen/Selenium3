@@ -1,54 +1,44 @@
-package aaa.modules.regression.sales.home_ca.ho3.functional;
+package aaa.modules.regression.sales.home_ca.dp3.functional;
 
 import aaa.common.pages.SearchPage;
-import aaa.helpers.TimeSetterBctClient;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.helpers.product.ProductRenewalsVerifier;
-import aaa.helpers.ssh.RemoteHelper;
-import aaa.helpers.ssh.Ssh;
 import aaa.main.enums.ErrorEnum;
-import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.home_ca.defaulttabs.*;
+import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.modules.policy.HomeCaDP3BaseTest;
+import aaa.modules.policy.HomeCaHO6BaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.exigen.istf.timesetter.client.TimeSetter;
-import com.exigen.istf.timesetter.client.TimeSetterClient;
-import com.gargoylesoftware.htmlunit.javascript.host.intl.DateTimeFormat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import ru.yandex.qatools.ashot.Screenshot;
 import toolkit.datax.TestData;
-import toolkit.utils.SSHController;
 import toolkit.utils.TestInfo;
 import toolkit.utils.screenshots.ScreenshotManager;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import static org.apache.cxf.frontend.ClientProxy.getClient;
 
 /**
  * @author Tyrone Jemison
+ * @contact (tyrone.jemison@csaa.com)
  * @name Verify Membership Error Message
  * @scenario
  * 1.GIVEN an agent binding a transaction at NB/Endorsement/Renewal with an ACTIVE membership Status.
- * 2.WHEN there is NO match of either Last or First or DOB between RMS and Insured/Drivers...
- * 3.THEN the UW eligibility rule fires with message.
+ * 2.WHEN there is NO match of either Last and First and DOB between RMS and Insured/Drivers...
+ * 3.THEN the UW eligibility rule fires with error message.
  */
-public class VerifyMembershipErrorMsg extends HomeCaHO3BaseTest
+public class VerifyMembershipErrorMsg extends HomeCaDP3BaseTest
 {
 
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6049")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-6052")
     public void TC01_verifyMembershipMsg_NB(@Optional("CA") String state) {
 
         TestData _td = getTestSpecificTD("TestData");
@@ -150,7 +140,7 @@ public class VerifyMembershipErrorMsg extends HomeCaHO3BaseTest
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6049")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6052")
     public void TC02_verifyMembershipMsg_Endorsement(@Optional("CA") String state) {
 
         boolean bTakeScreenshots = true;
@@ -218,7 +208,7 @@ public class VerifyMembershipErrorMsg extends HomeCaHO3BaseTest
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6049")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6052")
     public void TC03_verifyMembershipMsg_Renewal(@Optional("CA") String state) {
 
         boolean bTakeScreenshots = true;
@@ -284,7 +274,7 @@ public class VerifyMembershipErrorMsg extends HomeCaHO3BaseTest
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6049")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6052")
     public void TCXX_UnitTest(@Optional("CA") String state) {
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1, true);
 
@@ -292,7 +282,7 @@ public class VerifyMembershipErrorMsg extends HomeCaHO3BaseTest
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6049")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6052")
     public void TCXX_UnitTest_ManualRenew(@Optional("CA") String state) {
 
         boolean bTakeScreenshots = true;
