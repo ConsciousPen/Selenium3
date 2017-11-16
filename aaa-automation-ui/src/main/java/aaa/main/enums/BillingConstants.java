@@ -40,6 +40,10 @@ public final class BillingConstants {
 		public static final String HOLD = "On Hold";
 	}
 
+	public static final class BillingAccountPoliciesPolicyStatus {
+		public static final String CUSTOMER_DECLINED = "Customer Declined";
+	}
+
 	public static final class InstallmentScheduleBilledStatus {
 		public static final String BILLED = "Billed";
 		public static final String UNBILLED = "Unbilled";
@@ -133,6 +137,7 @@ public final class BillingConstants {
 		public static final String SEISMIC_SAFETY_FEE = "Seismic Safety Fee";
 		public static final String OTHER = "Other";
 		public static final String REFUND_PAYMENT_VOIDED = "Refund Payment Voided";
+		public static final String ESCHEATMENT = "Escheatment";
 	}
 
 	public static final class PaymentsAndOtherTransactionReason {
@@ -152,6 +157,7 @@ public final class BillingConstants {
 		public static final String DECLINED = "Declined";
 		public static final String ISSUED = "Issued";
 		public static final String PENDING = "Pending";
+		public static final String VOIDED = "Voided";
 	}
 
 	public static final class PaymentsAndOtherTransactionAction {
