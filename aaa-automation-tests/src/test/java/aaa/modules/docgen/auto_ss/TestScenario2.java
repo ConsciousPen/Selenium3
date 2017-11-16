@@ -1,5 +1,52 @@
 package aaa.modules.docgen.auto_ss;
 
+import static aaa.main.enums.DocGenEnum.Documents.AA02AZ;
+import static aaa.main.enums.DocGenEnum.Documents.AA02IN;
+import static aaa.main.enums.DocGenEnum.Documents.AA02OK;
+import static aaa.main.enums.DocGenEnum.Documents.AA02PA;
+import static aaa.main.enums.DocGenEnum.Documents.AA10OK;
+import static aaa.main.enums.DocGenEnum.Documents.AA10PA;
+import static aaa.main.enums.DocGenEnum.Documents.AA10XX;
+import static aaa.main.enums.DocGenEnum.Documents.AA43AZ;
+import static aaa.main.enums.DocGenEnum.Documents.AA43IN;
+import static aaa.main.enums.DocGenEnum.Documents.AA43OK;
+import static aaa.main.enums.DocGenEnum.Documents.AA43PA;
+import static aaa.main.enums.DocGenEnum.Documents.AA52AZ;
+import static aaa.main.enums.DocGenEnum.Documents.AA52IN;
+import static aaa.main.enums.DocGenEnum.Documents.AA52IPAB;
+import static aaa.main.enums.DocGenEnum.Documents.AA52IPAC;
+import static aaa.main.enums.DocGenEnum.Documents.AA52OK;
+import static aaa.main.enums.DocGenEnum.Documents.AA52UPAB;
+import static aaa.main.enums.DocGenEnum.Documents.AA52UPAC;
+import static aaa.main.enums.DocGenEnum.Documents.AA53IN;
+import static aaa.main.enums.DocGenEnum.Documents.AA59XX;
+import static aaa.main.enums.DocGenEnum.Documents.AAAEOK;
+import static aaa.main.enums.DocGenEnum.Documents.AADNPAC;
+import static aaa.main.enums.DocGenEnum.Documents.AADNPAD;
+import static aaa.main.enums.DocGenEnum.Documents.AADNPAE;
+import static aaa.main.enums.DocGenEnum.Documents.AAFPPA;
+import static aaa.main.enums.DocGenEnum.Documents.AAGCAZ;
+import static aaa.main.enums.DocGenEnum.Documents.AALTPA;
+import static aaa.main.enums.DocGenEnum.Documents.AAPDXX;
+import static aaa.main.enums.DocGenEnum.Documents.AARFIXX;
+import static aaa.main.enums.DocGenEnum.Documents.AASDPA;
+import static aaa.main.enums.DocGenEnum.Documents.AASR22;
+import static aaa.main.enums.DocGenEnum.Documents.AASR26;
+import static aaa.main.enums.DocGenEnum.Documents.AH35XX;
+import static aaa.main.enums.DocGenEnum.Documents.AHAUXX;
+import static aaa.main.enums.DocGenEnum.Documents.AHNBXX;
+import static aaa.main.enums.DocGenEnum.Documents.AHPNXX;
+import static aaa.main.enums.DocGenEnum.Documents.AHRBXX;
+import static aaa.main.enums.DocGenEnum.Documents.F122G;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import org.mortbay.log.Log;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -23,23 +70,11 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.mortbay.log.Log;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.TextBox;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import static aaa.main.enums.DocGenEnum.Documents.*;
 
 public class TestScenario2 extends AutoSSBaseTest {
 	

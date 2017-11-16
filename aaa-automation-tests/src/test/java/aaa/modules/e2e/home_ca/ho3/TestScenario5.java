@@ -3,10 +3,9 @@ package aaa.modules.e2e.home_ca.ho3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import toolkit.datax.TestData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.e2e.templates.Scenario5;
+import toolkit.datax.TestData;
 
 public class TestScenario5 extends Scenario5 {
 

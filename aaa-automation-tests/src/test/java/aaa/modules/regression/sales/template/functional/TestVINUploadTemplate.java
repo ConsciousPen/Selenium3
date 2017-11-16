@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.template.functional;
 
+import java.util.NoSuchElementException;
+import org.testng.annotations.AfterMethod;
 import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.enums.NavigationEnum;
@@ -14,12 +16,9 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import org.testng.annotations.AfterMethod;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.verification.CustomAssert;
-
-import java.util.NoSuchElementException;
 
 public class TestVINUploadTemplate extends PolicyBaseTest {
 

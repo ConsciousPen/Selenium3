@@ -3,12 +3,11 @@ package aaa.modules.e2e.home_ca.ho3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import toolkit.datax.TestData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.modules.e2e.templates.Scenario7;
+import toolkit.datax.TestData;
 
 public class TestScenario7 extends Scenario7 {
 

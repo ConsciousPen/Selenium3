@@ -1,10 +1,10 @@
 package aaa.modules.e2e.auto_ca;
 
-import aaa.main.modules.policy.PolicyType;
-import aaa.modules.e2e.templates.Scenario3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.e2e.templates.Scenario3;
 import toolkit.datax.TestData;
 
 public class TestScenario3 extends Scenario3 {

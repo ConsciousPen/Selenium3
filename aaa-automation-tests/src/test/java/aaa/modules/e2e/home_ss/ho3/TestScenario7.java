@@ -1,15 +1,14 @@
 package aaa.modules.e2e.home_ss.ho3;
 
-import aaa.common.enums.Constants;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import toolkit.datax.TestData;
+import aaa.common.enums.Constants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.modules.e2e.templates.Scenario7;
+import toolkit.datax.TestData;
 
 public class TestScenario7 extends Scenario7 {
 

@@ -99,15 +99,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest {
 			+ "and code = 'membershipEligibility'\n"
 			+ "and EXPIRATION is null";
 
-	@Test
-	@TestInfo(isAuxiliary = true)
+
+	@Test(description = "Check membership endpoint")
 	public static void retrieveMembershipSummaryEndpointCheck() {
 		CustomAssert.assertTrue("retrieveMembershipSummary doesn't use stub endpoint. Please run retrieveMembershipSummaryStubEndpointUpdate", DBService.get()
 				.getValue(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_CHECK).get().contains(APP_HOST));
 	}
 
-	@Test
-	@TestInfo(isAuxiliary = true)
+	@Test(description = "Renewal job adding")
 	public void precondJobAdding() {
 		adminApp().open();
 		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());

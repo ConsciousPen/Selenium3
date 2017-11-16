@@ -3,13 +3,12 @@ package aaa.modules.e2e.pup;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import toolkit.datax.TestData;
 import aaa.common.enums.Constants.States;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.modules.e2e.templates.Scenario7;
+import toolkit.datax.TestData;
 
 public class TestScenario7 extends Scenario7 {
 
