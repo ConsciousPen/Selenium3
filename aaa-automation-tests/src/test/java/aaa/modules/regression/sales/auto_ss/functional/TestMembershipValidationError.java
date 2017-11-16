@@ -83,14 +83,11 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 
 		// Start of PAS-3795 New Business DE & NJ: Member Validation Failed Message
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
-		if(Constants.States.NJ.equalsIgnoreCase(state)){
-			errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_SS171018_NJ.getMessage()).verify.present();
-			errorTab.cancel();
-		}
-		else if (Constants.States.DE.equalsIgnoreCase(state)){
-			errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_SS171018_DE.getMessage()).verify.present();
-			errorTab.cancel();
-		}
+
+		String message = Constants.States.NJ.equals(state) ? ErrorEnum.Errors.ERROR_AAA_SS171018_NJ.getMessage() : ErrorEnum.Errors.ERROR_AAA_SS171018_DE.getMessage();
+		errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, message).verify.present();
+		errorTab.cancel();
+
 		// End of PAS-3795 New Business DE & NJ: Member Validation Failed Message
 
 		CustomAssert.disableSoftMode();
