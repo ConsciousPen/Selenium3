@@ -214,9 +214,8 @@ public final class BillingHelper {
 			return totalPremiumAmount;
 		}
 
-		List<String> amountsList = BillingSummaryPage.tablePaymentsOtherTransactions.getValuesFromRows(premiumRowSearchQuery, BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT);
-		for (String amount : amountsList) {
-			totalPremiumAmount.add(new Dollar(amount));
+		for (String amount : BillingSummaryPage.tablePaymentsOtherTransactions.getValuesFromRows(premiumRowSearchQuery, BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT)) {
+			totalPremiumAmount = totalPremiumAmount.add(new Dollar(amount));
 		}
 		return calculatePligaFee(transactionDate, totalPremiumAmount);
 	}

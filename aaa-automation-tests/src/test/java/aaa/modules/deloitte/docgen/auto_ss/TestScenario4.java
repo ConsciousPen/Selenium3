@@ -26,7 +26,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 	private DocumentsAndBindTab documentsAndBindTab = policy.getDefaultView().getTab(DocumentsAndBindTab.class);
 	private GenerateOnDemandDocumentActionTab docgenActionTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 	
-	private String policyNumber;
+	private String policyNumber = "WVSS933607583";
 	
 	@Parameters({ "state" })
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
@@ -54,6 +54,9 @@ public class TestScenario4 extends AutoSSBaseTest {
 		case States.OH:
 			docgenActionTab.verify.documentsPresent(Documents.AA11OH, Documents.AA52OH, Documents.AAIQ.setState(getState()), Documents.AHFMXX, Documents.AU03, Documents.AA43OH);
 			break;
+		case States.WV:
+			docgenActionTab.verify.documentsPresent(Documents.AA11WV, Documents.AA52WV, Documents.AAIQ.setState(getState()), Documents.AHFMXX, Documents.AU03, Documents.AA43WV);
+			break;
 		}
 		docgenActionTab.verify.documentsPresent(false, Documents.AHPNXX);
 		docgenActionTab.cancel();
@@ -75,6 +78,9 @@ public class TestScenario4 extends AutoSSBaseTest {
 			break;
 		case States.VA:
 			DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AA11VA, Documents.AHAPXX, Documents.AAAUVA);
+			break;
+		case States.WV:
+			DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AA11WV, Documents.AA43WV, Documents.AHAUXX, Documents.AHAPXX);
 			break;
 		}
 		documentsAndBindTab.cancel();
@@ -105,6 +111,9 @@ public class TestScenario4 extends AutoSSBaseTest {
 			docgenActionTab.verify.documentsEnabled(Documents.AA11AZ, Documents.AA10XX, Documents.AASR22, Documents.AHAPXX, Documents.AHRCTXXAUTO, Documents.AA06XX_AUTOSS, Documents._605004, Documents._605005_SELECT, Documents.AU02, Documents.AU07, Documents.AU09, Documents.AU10, Documents.AU08, Documents.AU06, Documents.AU04, Documents.AU05);
 			docgenActionTab.verify.documentsEnabled(false, Documents.AA52AZ_UPPERCASE, Documents.AHFMXX);
 			break;
+		case States.WV:
+			docgenActionTab.verify.documentsEnabled(Documents.AA11WV, Documents.AASR22, Documents.AHAPXX, Documents.AHRCTXXAUTO, Documents.AA06XX_AUTOSS, Documents._605004, Documents._605005_SELECT, Documents.AU02, Documents.AU07, Documents.AU09, Documents.AU10, Documents.AU08, Documents.AU06, Documents.AU04, Documents.AU05);
+			break;
 		}
 		docgenActionTab.cancel();
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
@@ -125,6 +134,10 @@ public class TestScenario4 extends AutoSSBaseTest {
 			break;
 		case States.AZ:
 			DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AA02AZ, Documents.AA43AZ, Documents.AHNBXX);
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AASR22);
+			break;
+		case States.WV:
+			DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AA02WV, Documents.AA43WV, Documents.AHNBXX);
 			DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AASR22);
 			break;
 		}
@@ -171,6 +184,10 @@ public class TestScenario4 extends AutoSSBaseTest {
 			DocGenHelper.verifyDocumentsGenerated(copiedQuoteNumber, Documents.AA11VA, Documents.AHAPXX);
 			DocGenHelper.verifyDocumentsGenerated(false, copiedQuoteNumber, Documents.AASR22, Documents.AAPNXX, Documents.AA02VA);
 			break;
+		case States.WV:
+			DocGenHelper.verifyDocumentsGenerated(copiedQuoteNumber, Documents.AA11WV, Documents.AHAPXX);
+			DocGenHelper.verifyDocumentsGenerated(false, copiedQuoteNumber, Documents.AA43WV, Documents.AASR22, Documents.AAPNXX, Documents.AA02WV);
+			break;
 		}
 		
 		CustomAssert.disableSoftMode();
@@ -211,6 +228,10 @@ public class TestScenario4 extends AutoSSBaseTest {
 		case States.VA:
 			DocGenHelper.verifyDocumentsGenerated(copiedPolicyNumber, Documents.AA02VA);
 			DocGenHelper.verifyDocumentsGenerated(false, copiedPolicyNumber, Documents.AHAUXX, Documents.AHAPXX, Documents.AASR22, Documents.AAPNXX);
+			break;
+		case States.WV:
+			DocGenHelper.verifyDocumentsGenerated(copiedPolicyNumber, Documents.AA02WV);
+			DocGenHelper.verifyDocumentsGenerated(false, copiedPolicyNumber, Documents.AHAUXX, Documents.AHAPXX, Documents.AA43WV, Documents.AASR22, Documents.AAPNXX);
 			break;
 		}
 	

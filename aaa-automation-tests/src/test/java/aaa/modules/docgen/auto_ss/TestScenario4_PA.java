@@ -2,13 +2,14 @@ package aaa.modules.docgen.auto_ss;
 
 import static aaa.main.enums.DocGenEnum.Documents.*;
 import java.time.LocalDateTime;
+
+import com.exigen.ipb.etcsa.utils.Dollar;
 import org.mortbay.log.Log;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
-import toolkit.utils.Dollar;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.TextBox;

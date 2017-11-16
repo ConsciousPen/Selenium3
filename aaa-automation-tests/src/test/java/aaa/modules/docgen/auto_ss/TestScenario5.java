@@ -6,13 +6,13 @@ import static org.openqa.selenium.By.id;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.exigen.ipb.etcsa.utils.Dollar;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
-import toolkit.utils.Dollar;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
 import aaa.common.Tab;

@@ -94,14 +94,12 @@ public class EvalueInsertPreconditions {
 
 
 
-	@Test()
-	@TestInfo(isAuxiliary = true)
+	@Test(description = "Precondition")
 	public static void paperlessPreferencesConfigUpdate() {
 		DBService.get().executeUpdate(String.format(PAPERLESSPREFRANCE_API_SERVICE, APP_HOST));
 	}
 
-	@Test()
-	@TestInfo(isAuxiliary = true)
+	@Test(description = "Precondition")
 	public static void eValueDocGenConfigInsert() {
 
 		DBService.get().executeUpdate(DOC_GEN_WEB_CLIENT);
@@ -109,8 +107,7 @@ public class EvalueInsertPreconditions {
 		DBService.get().executeUpdate(AAA_RETRIEVE_DOCUMENT_WEB_CLIENT);
 	}
 
-	@Test()
-	@TestInfo(isAuxiliary = true)
+	@Test(description = "Precondition")
 	public static void eValueConfigInsert() {
 		List<String> configForStates = Arrays.asList("VA"  //for Paperless Preferences = Yes
 				, "MD"  //for Paperless Preferences = Pending
@@ -128,8 +125,7 @@ public class EvalueInsertPreconditions {
 		}
 	}
 
-	@Test()
-	@TestInfo(isAuxiliary = true)
+	@Test(description = "Precondition")
 	public static void eValuePriorBiCurrentBiConfigUpdateInsert() {
 		DBService.get().executeUpdate(EVALUE_PRIOR_BI_CONFIG_INSERT);
 		DBService.get().executeUpdate(EVALUE_CURRENT_BI_CONFIG_INSERT);
@@ -145,20 +141,17 @@ public class EvalueInsertPreconditions {
 		DBService.get().executeUpdate(String.format(EVALUE_PRIOR_BI_LIMIT_CONFIGURATION_INSERT, state));
 	}
 
-	@Test ()
-	@TestInfo(isAuxiliary = true)
+	@Test(description = "Precondition")
 	public static void eValueTerritoryChannelForVAConfigUpdate() {
 		DBService.get().executeUpdate(EVALUE_TERRITORY_CHANNEL_FOR_VA_CONFIG_UPDATE);
 	}
 
-	@Test()
-	@TestInfo(isAuxiliary = true)
+	@Test(description = "Precondition")
 	public static void eValueMembershipConfigInsert() {
 		DBService.get().executeUpdate(EVALUE_MEMBERSHIP_CONFIG_INSERT);
 	}
 
-	@Test()
-	@TestInfo(isAuxiliary = true)
+	@Test(description = "Precondition")
 	public static void refundDocumentGenerationConfigInsert() {
 		DBService.get().executeUpdate(REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL);
 	}
