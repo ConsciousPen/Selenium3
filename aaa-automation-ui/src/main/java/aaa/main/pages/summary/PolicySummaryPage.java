@@ -73,6 +73,7 @@ public class PolicySummaryPage extends SummaryPage {
 	public static Table tableOtherUnderlyingRisks = new Table(By.xpath("//div[@id='productConsolidatedViewForm:pupUnderlyingRiskPanel_body'//table"));
 	public static Table tableTotalPremiumSummaryProperty = new Table(By.xpath("//table[@id='productConsolidatedViewForm:totalSummaryTable' "
 		+ "or @id='productConsolidatedViewForm:pupCoverageDetail' " + "or @id='productConsolidatedViewForm:pupTableTotalPremium']"));
+	public static Table tableTotalStateTaxesProperty = new Table(By.xpath("//table[@id='productConsolidatedViewForm:stateLocalTaxes']"));
 	public static Table tablePupPropertyInformation = new Table(By.id("productConsolidatedViewForm:body_scolumn_PupConsolidatedPropertyInfo"));
 	// cea
 	public static Table tablePaymentSummary = new Table(By.xpath("//table[@id='productConsolidatedViewForm:billing_transactions_active']"));
@@ -86,6 +87,10 @@ public class PolicySummaryPage extends SummaryPage {
 
 	public static Dollar getTotalPremiumSummaryForProperty() {
 		return new Dollar(tableTotalPremiumSummaryProperty.getRow(1).getCell(2).getValue());
+	}
+	
+	public static Dollar getTotalStateTaxesForProperty() {
+		return new Dollar(tableTotalStateTaxesProperty.getRow(1).getCell(2).getValue());
 	}
 
 	public static Dollar getProposedRenewalPremium() {

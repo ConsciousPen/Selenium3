@@ -1,0 +1,88 @@
+TestData: {
+  PrefillTab: '@<auto_ca_select>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab1', '@DriverTab2', '@DriverTab3'],
+  MembershipTab: '@<auto_ca_select>@DataGather@MembershipTab',
+  VehicleTab: '@<auto_ca_select>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ca_select>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ca_select>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ca_select>@DataGather@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ca_select>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
+}
+
+GeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2', '@NamedInsuredInformation3'],
+  AAAProductOwned: '@<auto_ca_select>@DataGather@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  PolicyInformation: '@<auto_ca_select>@DataGather@PolicyInformation',
+}
+
+NamedInsuredInformation1: {
+  Social Security Number: 123456789,
+  "Has lived here for less than three years?": 'No',
+}
+
+NamedInsuredInformation2: {
+  InsuredSearchDialog: {},
+  First Name: Jenny,
+  Last Name: Smith,
+  Base Date: /today,
+  Social Security Number: 223456789,
+  "Has lived here for less than three years?": 'No',
+}
+
+NamedInsuredInformation3: {
+  InsuredSearchDialog: {},
+  First Name: John,
+  Last Name: Smith,
+  Base Date: /today,
+  Social Security Number: 223456789,
+  "Has lived here for less than three years?": 'No',
+}
+
+ContactInformation: {
+  Email: temp@gmail.com
+}
+
+DriverTab1: {
+  Occupation: Driver,
+  Age First Licensed: 18,
+  Permit Before License: 'Yes',
+  License Type: 'Licensed (US)',
+  License State: CA,
+  "License #": D5435431
+}
+
+DriverTab2: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Daughter,
+  Date of Birth: 01/01/1999,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Editor,
+  Age First Licensed: 16,
+  Permit Before License: 'Yes',
+  License Type: 'Licensed (US)',
+  License State: CA,
+  "License #": D5435437
+}
+
+DriverTab3: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Son,
+  Date of Birth: 01/01/1999,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Editor,
+  Age First Licensed: 16,
+  Permit Before License: 'Yes',
+  License Type: 'Licensed (US)',
+  License State: CA,
+  "License #": D5435435
+}

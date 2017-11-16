@@ -9,8 +9,6 @@ import toolkit.db.DBService;
 
 public class EvalueInsertPreconditions {
 
-	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
-
 	private static final String DOC_GEN_WEB_CLIENT = "update propertyconfigurerentity\n" +
 			"set value = 'http://soaqa3.tent.trt.csaa.pri/3.1/StandardDocumentService'\n" +
 			"where propertyname = 'docGenwebClient.endpointUri'";

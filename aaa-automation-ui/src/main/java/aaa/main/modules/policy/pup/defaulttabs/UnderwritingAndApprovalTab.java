@@ -16,7 +16,7 @@ import toolkit.webdriver.controls.StaticElement;
 public class UnderwritingAndApprovalTab extends Tab {
     public UnderwritingAndApprovalTab() {
         super(PersonalUmbrellaMetaData.UnderwritingAndApprovalTab.class);
-        assetList.config.applyConfiguration("UnderwritingTab");
+        assetList.applyConfiguration("UnderwritingTab");
     }
 
     @Override

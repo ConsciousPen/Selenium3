@@ -89,6 +89,7 @@ public final class BillingConstants {
 		public static final String CANCELLATION_NOTICE = "Cancellation Notice";
 		public static final String CANCELLATION = "Cancellation";
 		public static final String CANCELLATION_NON_PAYMENT_OF_PREMIUM = "Cancellation - Non Payment of Premium";
+		public static final String CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM = "Cancellation - Insured Non-Payment Of Premium";
 		public static final String CANCELLATION_INSURED_REQUEST_DUE_TO_HIGH_PREMIUM = "Cancellation - Insured Request - Due To High Premium";
 		public static final String PAYMENT_DECLINED = "Payment Declined";
 		public static final String WRITE_OFF = "Write-off";
@@ -121,9 +122,14 @@ public final class BillingConstants {
 		public static final String REGULUS_ONLINE = "Regulus Online";
 		public static final String NON_EFT_INSTALLMENT_FEE = "Non EFT Installment Fee";
 		public static final String NON_EFT_INSTALLMENT_FEE_WAIVED = "Non EFT Installment Fee Waived";
+		public static final String SEISMIC_SAFETY_FEE = "Seismic Safety Fee";
 		public static final String OTHER = "Other";
 	}
 
+	public static final class BillingPendingTransactionsSubtype {
+		public static final String AUTOMATED_REFUND = "Automated Refund";
+	}
+	
 	public static final class PaymentsAndOtherTransactionReason {
 		public static final String COUNTERFEIT = "Counterfeit";
 		public static final String FEE_NO_RESTRICTION = "Fee + No Restriction";
@@ -133,6 +139,10 @@ public final class BillingConstants {
 		public static final String OVERPAYMENT = "Overpayment";
 	}
 
+	public static final class BillingPendingTransactionsReason {
+		public static final String OVERPAYMENT = "Overpayment";
+	}
+	
 	public static final class PaymentsAndOtherTransactionStatus {
 		public static final String APPLIED = "Applied";
 		public static final String APPROVED = "Approved";
@@ -140,6 +150,10 @@ public final class BillingConstants {
 		public static final String TRANSFERRED = "Transferred";
 		public static final String DECLINED = "Declined";
 		public static final String ISSUED = "Issued";
+		public static final String PENDING = "Pending";
+	}
+	
+	public static final class BillingPendingTransactionsStatus {
 		public static final String PENDING = "Pending";
 	}
 

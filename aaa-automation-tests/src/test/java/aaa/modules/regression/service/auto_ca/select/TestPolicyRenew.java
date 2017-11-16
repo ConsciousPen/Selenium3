@@ -25,7 +25,7 @@ public class TestPolicyRenew extends AutoCaSelectBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT)
-	public void testQuoteCreation(@Optional("CA") String state) {
+	public void testPolicyRenew(@Optional("CA") String state) {
 		mainApp().open();
 
 		createCustomerIndividual();

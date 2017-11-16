@@ -54,14 +54,12 @@ public class TestRefundProcess extends PolicyBilling {
 			"and DISPLAYVALUE = 'TRUE' ";
 
 
-
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
 	}
 
-	@Test
-	@TestInfo(isAuxiliary = true)
+	@Test(description = "Precondition for TestRefundProcess tests")
 	public void precondJobAdding() {
 		adminApp().open();
 		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
@@ -69,13 +67,10 @@ public class TestRefundProcess extends PolicyBilling {
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_ASYNC_JOB);
 	}
 
-	@Test()
-	@TestInfo(isAuxiliary = true)
+	@Test(description = "Precondition for TestRefundProcess tests")
 	public static void refundDocumentGenerationConfigCheck() {
 		CustomAssert.assertTrue("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.", DbAwaitHelper.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5));
 	}
-
-
 
 
 	/**
@@ -100,12 +95,14 @@ public class TestRefundProcess extends PolicyBilling {
 		String checkDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String checkDate2 = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
 
+		precondJobAdding();
+
 		mainApp().open();
 		createCustomerIndividual();
 		getPolicyType().get().createPolicy(getPolicyTD());
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		log.info("policyNumber: " + policyNumber);
+		log.info("policyNumber: {}", policyNumber);
 
 		CustomAssert.enableSoftMode();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -187,7 +184,7 @@ public class TestRefundProcess extends PolicyBilling {
 
 	private static void checkRefundDocumentInDb(String state, String policyNumber, int numberOfDocuments) {
 		//PAS-443 start
-		if (state.equals("VA")) {
+		if ("VA".equals(state)) {
 			if (DbAwaitHelper.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5)){
 				String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "55 3500", "REFUND");
 				CustomAssert.assertFalse(DbAwaitHelper.waitForQueryResult(query, 5));
