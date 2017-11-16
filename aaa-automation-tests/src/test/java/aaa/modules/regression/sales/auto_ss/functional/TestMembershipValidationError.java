@@ -73,12 +73,6 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 				.getMessage());
 		// End of PAS-3794 New Business DE & NJ: Non-Member Message
 		// Start of PAS-3795 New Business DE & NJ: Member Validation Failed Message
-		generalTab.getAAAProductOwnedAssetList().fill(getAdjustedTestData());
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
-		policy.getDefaultView().fillFromTo(getPolicyTD(), RatingDetailReportsTab.class, PremiumAndCoveragesTab.class, true);
-
-		errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_SS171019.getMessage()).verify.present();
-
 		TestData defaultTestData = getPolicyTD();
 		TestData ratingDetailReportsTab = defaultTestData.getTestData("RatingDetailReportsTab");
 
@@ -93,8 +87,14 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 		AAAMembershipReport.add(AaaMembershipReportRow);
 		AAAMembershipReport.add(addMemberSinceDialog);
 
-		// add this to defaultTestData
+		ratingDetailReportsTab.adjust(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT.getLabel(),AAAMembershipReport);
 
+		generalTab.getAAAProductOwnedAssetList().fill(ratingDetailReportsTab);
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
+		policy.getDefaultView().fillFromTo(getPolicyTD(), RatingDetailReportsTab.class, PremiumAndCoveragesTab.class, true);
+
+		errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, ErrorEnum.Errors.ERROR_AAA_SS171019.getMessage()).verify.present();
+		// add this to defaultTestData
 		// End of PAS-3795 New Business DE & NJ: Member Validation Failed Message
 
 		CustomAssert.disableSoftMode();
@@ -107,14 +107,12 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 	*invalid membership number
 	*/
 	private TestData getAdjustedTestData() {
-		String membershipNumber = "9920702826992041";
-
 		TestData defaultTestData = getPolicyTD();
 		TestData policyInformation = defaultTestData.getTestData(generalTab.getMetaKey()).getTestData(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel())
 				.adjust(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), QUOTE_EFFECTIVE_DATE);
 		TestData aaaProductsOwned = defaultTestData.getTestData(generalTab.getMetaKey()).getTestData(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel())
 				.adjust(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Yes")
-				.adjust(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), membershipNumber);
+				.adjust(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), "9920702826992041");
 		TestData generalTabAdjusted = defaultTestData.getTestData(generalTab.getMetaKey())
 				.adjust(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), aaaProductsOwned)
 				.adjust(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), policyInformation);
