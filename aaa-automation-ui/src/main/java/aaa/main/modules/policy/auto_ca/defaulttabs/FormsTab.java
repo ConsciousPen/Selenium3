@@ -4,6 +4,9 @@
  */
 package aaa.main.modules.policy.auto_ca.defaulttabs;
 
+import org.openqa.selenium.By;
+
+import toolkit.webdriver.controls.composite.table.Table;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoCaMetaData;
 
@@ -14,6 +17,7 @@ import aaa.main.metadata.policy.AutoCaMetaData;
  * @category Generated
  */
 public class FormsTab extends Tab {
+	public static Table tableSelectedPolicyForms = new Table(By.id("policyDataGatherForm:body_selectedManageableComponentsTable_PolicyEndorsementFormsManager"));
 	
     public FormsTab() {
         super(AutoCaMetaData.FormsTab.class);

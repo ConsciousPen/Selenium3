@@ -757,3 +757,110 @@ AssignmentTab: {
     }
   ]
 }
+
+############################# WV #########################################
+
+TestData_QuoteCreation_WV: {
+  GeneralTab: '@GeneralTab_WV',
+  DriverTab: ['@Driver1_WV', '@Driver2_WV', '@Driver3_WV', '@Driver4_WV'],
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: ['@Vehicle1', '@Vehicle2', '@Vehicle3', '@Vehicle4', '@Vehicle5'],
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DocumentsAndBindTab: {}
+}
+
+TestData_Purchase_WV: {
+  RatingDetailReportsTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Auto Insurance Application: Physically Signed,
+      Named Driver Exclusion Endorsement: Physically Signed,
+      Coverage Acceptance Statement: Physically Signed,
+      'Uninsured/Underinsured Motorists Coverage Offer': Physically Signed
+    },
+    Agreement: I agree,
+    RequiredToIssue: {
+      Proof of Defensive Driver course completion: 'Yes',
+      Proof of Good Student Discount: 'Yes',
+      Proof of Prior Insurance: 'Yes',
+      'Proof of purchase date (bill of sale) for new vehicle(s)': 'Yes',
+      'Proof of equivalent new car added protection with prior carrier for new vehicle(s)': 'Yes',
+      'Canadian MVR for (driver)': 'Yes'
+    },
+    Case Number: 123456,
+    GeneralInformation: {
+      'Work Phone #': 1234567890
+    }
+  }
+}
+
+GeneralTab_WV: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_WV'
+}
+
+Driver1_WV: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A123456,
+  ADB Coverage: 'Yes',
+  Financial Responsibility Filing Needed: 'Yes',
+  Filing State: Arizona
+}
+
+Driver2_WV: {
+  DriverSearchDialog: {},
+  Named Insured: Sam Alonso,
+  Rel. to First Named Insured: Other,
+  Date of Birth: /today-20y,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Student,
+  License Type: 'Licensed (US)',
+  Age First Licensed: 16,
+  License Number: A742536,
+  Most Recent GPA: A Student,
+  'Smart Driver Course Completed?': 'Yes',
+  Smart Driver Course Completion Date: 01/01/2008,
+  Smart Driver Course Certificate Number: 12345678
+}
+
+Driver3_WV: {
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Other,
+  First Name: Old,
+  Last Name: Bear,
+  Date of Birth: 01/01/1955,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  License Type: 'Licensed (US)',
+  License Number: A254178,
+  Age First Licensed: 16,
+  'Defensive Driver Course Completed?': 'Yes',
+  Defensive Driver Course Completion Date: /today-366d,
+  Defensive Driver Course Certificate Number: 12345678
+}
+
+Driver4_WV: {
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Other,
+  Driver Type: Excluded,
+  Reason: Company Request,
+  First Name: Jim,
+  Last Name: Block,
+  Date of Birth: 01/01/1981,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Employed,
+  License Type: 'Licensed (Canadian)',
+  License Number: A541786,
+  Age First Licensed: 16
+}
