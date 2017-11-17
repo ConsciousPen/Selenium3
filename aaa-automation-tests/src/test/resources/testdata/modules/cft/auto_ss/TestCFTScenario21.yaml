@@ -1,0 +1,15 @@
+TestData: {
+  AcceptPaymentActionTab: '@AcceptPaymentActionTab',
+}
+
+AcceptPaymentActionTab: {
+  Payment Method: 'Cash'
+}  
+
+DriverTab_DataGather: {
+  Affinity Group: 'AAA Employee'
+}
+
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Annual
+}

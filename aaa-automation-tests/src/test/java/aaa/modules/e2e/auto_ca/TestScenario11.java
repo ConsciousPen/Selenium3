@@ -37,74 +37,91 @@ public class TestScenario11 extends Scenario11 {
 	
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC02_Endorse_Policy(@Optional("CA") String state) {
-		super.endorsePolicy();
+	public void TC02_Make_First_Endorsement(@Optional("CA") String state) {
+		super.makeFistEndorsement();
 	} 
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC03_Generate_Off_Cycle_Bill(@Optional("CA") String state) {
-		super.generateOffCycleBill();
+	public void TC03_Generate_First_Off_Cycle_Bill(@Optional("CA") String state) {
+		super.generateFirstOffCycleBill();
 	} 
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC04_Pay_Off_Cycle_Bill(@Optional("CA") String state) {
-		super.payOffCycleBill();
+	public void TC04_Pay_First_Off_Cycle_Bill(@Optional("CA") String state) {
+		super.payFirstOffCycleBill();
 	} 
 
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC05_Make_Second_Endorsement(@Optional("CA") String state) {
+		super.makeSecondEndorsement();
+	} 
 	
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC07_Generate_Renewal_Image(@Optional("CA") String state) {
+	public void TC06_Generate_Second_Off_Cycle_Bill(@Optional("CA") String state) {
+		super.generateSecondOffCycleBill();
+	} 
+
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC07_Pay_Second_Off_Cycle_Bill(@Optional("CA") String state) {
+		super.paySecondOffCycleBill();
+	} 
+	
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC08_Generate_Renewal_Image(@Optional("CA") String state) {
 		super.renewalImageGeneration();
 	}
 	
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC08_Generate_Renewal_Preview(@Optional("CA") String state) {
+	public void TC09_Generate_Renewal_Preview(@Optional("CA") String state) {
 		super.renewalPreviewGeneration();
 	}
 	
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC09_Generate_Renewal_Offer(@Optional("CA") String state) {
+	public void TC10_Generate_Renewal_Offer(@Optional("CA") String state) {
 		super.renewalOfferGeneration();
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC10_Update_Policy_Status(@Optional("CA") String state) {
+	public void TC11_Update_Policy_Status(@Optional("CA") String state) {
 		super.updatePolicyStatus();
 	}
  	
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC11_Pay_Renewal_Offer_Not_In_Full_Amount(@Optional("CA") String state) {
+	public void TC12_Pay_Renewal_Offer_Not_In_Full_Amount(@Optional("CA") String state) {
 		super.payRenewalOfferNotInFullAmount(toleranceAmount);
 	}
 	
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC12_Pay_Renewal_Offer_In_Full_Amount(@Optional("CA") String state) {
+	public void TC13_Pay_Renewal_Offer_In_Full_Amount(@Optional("CA") String state) {
 		super.payRenewalOfferInFullAmount(toleranceAmount);
 	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC13_Make_Overpayment(@Optional("CA") String state) {
+	public void TC14_Make_Overpayment(@Optional("CA") String state) {
 		super.makeOverpayment(); 
 	} 
 	
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC14_Cancellation_Policy(@Optional("CA") String state) {
+	public void TC15_Cancellation_Policy(@Optional("CA") String state) {
 		super.cancellationPolicy();
 	} 
 	
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC15_Generate_Refund(@Optional("CA") String state) {
+	public void TC16_Generate_Refund(@Optional("CA") String state) {
 		super.refundGeneration();
 	} 
 	
