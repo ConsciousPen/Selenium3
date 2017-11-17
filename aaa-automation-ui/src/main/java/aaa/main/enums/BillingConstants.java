@@ -141,10 +141,6 @@ public final class BillingConstants {
 		public static final String ESCHEATMENT = "Escheatment";
 	}
 
-	public static final class BillingPendingTransactionsSubtype {
-		public static final String AUTOMATED_REFUND = "Automated Refund";
-	}
-	
 	public static final class PaymentsAndOtherTransactionReason {
 		public static final String COUNTERFEIT = "Counterfeit";
 		public static final String FEE_NO_RESTRICTION = "Fee + No Restriction";
@@ -157,7 +153,7 @@ public final class BillingConstants {
 	public static final class BillingPendingTransactionsReason {
 		public static final String OVERPAYMENT = "Overpayment";
 	}
-	
+
 	public static final class PaymentsAndOtherTransactionStatus {
 		public static final String APPLIED = "Applied";
 		public static final String APPROVED = "Approved";
@@ -167,10 +163,6 @@ public final class BillingConstants {
 		public static final String ISSUED = "Issued";
 		public static final String PENDING = "Pending";
 		public static final String VOIDED = "Voided";
-	}
-	
-	public static final class BillingPendingTransactionsStatus {
-		public static final String PENDING = "Pending";
 	}
 
 	public static final class PaymentsAndOtherTransactionAction {
