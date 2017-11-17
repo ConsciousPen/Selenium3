@@ -3,6 +3,8 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import static aaa.main.enums.DocGenEnum.Documents.AHEVAXX;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -24,6 +26,7 @@ import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.DbAwaitHelper;
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -151,6 +154,35 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 			" WHERE propertyname='policyPreferenceApiService.policyPreferenceApiUri' " +
 			" and  VALUE= 'http://%s:9098/aaa-external-stub-services-app/ws/policy/preferences'";
 
+	private static final String EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK= "select Effective from (\n" +
+			"SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n" +
+			"FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n" +
+			"    (SELECT ID \n" +
+			"    FROM LOOKUPLIST \n" +
+			"    WHERE LOOKUPNAME=''''{0}'''')\n" +
+			"and riskstatecd = ''''VA''''\n" +
+			"and productCD = ''''AAA_SS''''\n" +
+			"and code = ''''{1}''''\n" +
+			"and displayvalue = ''''FALSE'''' \n" +
+			"and (SYSDATE-'{'0'}' <= effective and effective < SYSDATE-'{'1'}') \n" +
+			"and (SYSDATE-'{'2'}' <= expiration and expiration < SYSDATE-'{'3'}'))";
+
+
+	public static final String EVALUE_MEMBERSHIP_ACKNOWLEDGEMENT_CHECK =
+			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "membershipEligibility");
+
+	public static final String EVALUE_CURRENT_BI_ACKNOWLEDGEMENT_CHECK =
+			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "currentBIRequired");
+
+	public static final String EVALUE_PAYPLAN_ACKNOWLEDGEMENT_CHECK =
+			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "paymentPlanRequired");
+
+	public static final String EVALUE_MYPOLICY_ACKNOWLEDGEMENT_CHECK =
+			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "myPolicyRequired");
+
+	public static final String EVALUE_CREDITCARD_ACKNOWLEDGEMENT_CHECK =
+			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeValueQualifyingPaymentMethods", "pciCreditCard");
+
 	@Test(description = "Precondition")
 	public static void paperlessPreferencesConfigCheck() {
 		CustomAssert
@@ -207,6 +239,27 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 				.assertEquals("Territory for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_TERRITORY_FOR_VA_CONFIG_CHECK).get(), "212");
 		CustomAssert.assertEquals("Channel for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_CHANNEL_FOR_VA_CONFIG_CHECK)
 				.get(), "AZ Club Agent");
+	}
+
+	@Test(description = "Precondition")
+	public static void eValueAcknowledgementConfigCheck() {
+		CustomAssert.enableSoftMode();
+		verifyAcknowledgementConfiguration(EVALUE_MEMBERSHIP_ACKNOWLEDGEMENT_CHECK, 10, 6,  "eValueMembershipAcknowledgementConfigInsert" );
+		verifyAcknowledgementConfiguration(EVALUE_MEMBERSHIP_ACKNOWLEDGEMENT_CHECK, 5, 1,  "eValueMembershipAcknowledgementConfigInsert" );
+		verifyAcknowledgementConfiguration(EVALUE_CURRENT_BI_ACKNOWLEDGEMENT_CHECK, 13, 11,  "eValueCurrentBIAcknowledgementConfigInsert" );
+		verifyAcknowledgementConfiguration(EVALUE_CURRENT_BI_ACKNOWLEDGEMENT_CHECK, 5, 1,  "eValueCurrentBIAcknowledgementConfigInsert" );
+		verifyAcknowledgementConfiguration(EVALUE_PAYPLAN_ACKNOWLEDGEMENT_CHECK, 20, 17,  "eValuePayPlanAcknowledgementConfigInsert" );
+		verifyAcknowledgementConfiguration(EVALUE_PAYPLAN_ACKNOWLEDGEMENT_CHECK, 5, 1,  "eValuePayPlanAcknowledgementConfigInsert" );
+		verifyAcknowledgementConfiguration(EVALUE_MYPOLICY_ACKNOWLEDGEMENT_CHECK, 16, 14,  "eValueMyPolicyAcknowledgementConfigInsert" );
+		verifyAcknowledgementConfiguration(EVALUE_MYPOLICY_ACKNOWLEDGEMENT_CHECK, 5, 1,  "eValueMyPolicyAcknowledgementConfigInsert" );
+		verifyAcknowledgementConfiguration(EVALUE_CREDITCARD_ACKNOWLEDGEMENT_CHECK, 13, 11,  "eValueCreditCardAcknowledgementConfigInsert" );
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	private static void verifyAcknowledgementConfiguration(String eValueConfiguration, int sysAndEffDateDelta, int sysAndExpDateDelta, String insertQuery) {
+		String query = MessageFormat.format(eValueConfiguration, sysAndEffDateDelta, sysAndEffDateDelta-1, sysAndExpDateDelta, sysAndExpDateDelta-1);
+		CustomAssert.assertTrue("Configuration for acknowledgement should be present. Please run "+insertQuery, DBService.get().getValue(query).isPresent());
 	}
 
 	//TODO Replace below TCs with DataProvider when the Optional parameter State will be removed
@@ -910,6 +963,75 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
+	}
+
+	//TODO Replace below TCs with DataProvider when the Optional parameter State will be removed
+	/**
+	 * *@author Viktoriia Lutsenko
+	 * *@name Evalue acknowledgement document (AHEVAXX) generation.
+	 * *@scenario
+	 * 1.Make next configurations for evalue state:
+	 * - membershipEligibility = N, currentBIRequired = Y, paymentPlanRequired = Y, myPolicyRequired = Y, pciCreditCard = N (systemdate-10;sytemdate-6)
+	 * - membershipEligibility = Y, currentBIRequired = N, paymentPlanRequired = Y, myPolicyRequired = Y, pciCreditCard = Y (systemdate-13;sytemdate-11)
+	 * - membershipEligibility = Y, currentBIRequired = Y, paymentPlanRequired = N, myPolicyRequired = Y, pciCreditCard = N (systemdate-20;sytemdate-17)
+	 * - membershipEligibility = Y, currentBIRequired = Y, paymentPlanRequired = Y, myPolicyRequired = N, pciCreditCard = N (systemdate-16;sytemdate-14)
+	 * - membershipEligibility = N, currentBIRequired = N, paymentPlanRequired = N, myPolicyRequired = N, pciCreditCard = N (systemdate-5;sytemdate-1)
+	 * 2.Initiate quote creation.
+	 * 3. Apply evalue discount.
+	 * 4. Calculate premium.
+	 * 5. Go to Documents and Bind tab.
+	 * 6. Click on Generate Documents..
+	 * 7. AHEVAXX for each case has next data:
+	 * - AAAMemYN = N, CurrentBIYN = Y, PayPlnYN = Y, PlcyPayFullAmtYN = Y, MyPolicyYN = Y (systemdate-10;sytemdate-6)
+	 * - AAAMemYN = Y, CurrentBIYN = N, PayPlnYN = Y, PlcyPayFullAmtYN = N, MyPolicyYN = Y (systemdate-13;sytemdate-11)
+	 * - AAAMemYN = Y, CurrentBIYN = Y, PayPlnYN = N, PlcyPayFullAmtYN = Y, MyPolicyYN = Y (systemdate-20;sytemdate-17)
+	 * - AAAMemYN = Y, CurrentBIYN = Y, PayPlnYN = Y, PlcyPayFullAmtYN = Y, MyPolicyYN = N (systemdate-16;sytemdate-14)
+	 * - AAAMemYN = N, CurrentBIYN = N, PayPlnYN = N, PlcyPayFullAmtYN = Y, MyPolicyYN = N (systemdate-5;sytemdate-1)
+	 * *@details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
+	public void pas3693_eValueConfiguration(@Optional("VA") String state) {
+		CustomAssert.enableSoftMode();
+		verifyEvalueAcknowledgement(8,"N","Y","Y","Y","Y" );
+		verifyEvalueAcknowledgement(12,"Y","N","Y","N","Y" );
+		verifyEvalueAcknowledgement(18,"Y","Y","N","Y","Y" );
+		verifyEvalueAcknowledgement(15,"Y","Y","Y","Y","N" );
+		verifyEvalueAcknowledgement(3,"N","N","N","Y","N" );
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	private void verifyEvalueAcknowledgement(int days, String aaaMemYN, String currentBIYN, String payPlnYN, String plcyPayFullAmtYN, String myPolicyYN) {
+		String quoteNumber;
+		eValueQuoteCreation();
+		quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TimeSetterUtil
+				.getInstance().getCurrentTime().minusDays(days).format(DateTimeUtils.MM_DD_YYYY));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		PremiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		DocumentsAndBindTab.btnGenerateDocuments.click();
+		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, quoteNumber, "AHEVAXX", "ADHOC_DOC_GENERATE");
+		DocGenHelper.waitForDocumentsAppearanceInDB(AHEVAXX, query);
+		verifyAHEVAXXTag(query, "AAAMemYN", aaaMemYN);
+		verifyAHEVAXXTag(query, "CurrentBIYN", currentBIYN);
+		verifyAHEVAXXTag(query, "PayPlnYN", payPlnYN);
+		if ("Y".equals(payPlnYN)) {
+			verifyAHEVAXXTag(query, "PlcyPayFullAmtYN", plcyPayFullAmtYN);
+		}
+		verifyAHEVAXXTag(query, "MyPolicyYN", myPolicyYN);
+		documentsAndBindTab.saveAndExit();
+	}
+
+
+	private void verifyAHEVAXXTag(String query, String tag, String expectedValue ) {
+		CustomAssert.assertTrue(MessageFormat.format("Problem is in tag: [{0}]", tag), expectedValue
+				.equals(DocGenHelper.getDocumentDataElemByName(tag, AHEVAXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
 	}
 
 	/**

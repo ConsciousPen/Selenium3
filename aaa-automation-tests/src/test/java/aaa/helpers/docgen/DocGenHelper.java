@@ -17,6 +17,7 @@ import org.testng.Assert;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
 
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -199,6 +200,39 @@ public class DocGenHelper {
         return doc.getDocumentDataSections().stream().filter(list -> !list.getDocumentDataElements().isEmpty()).
                 collect(Collectors.toList());
     }
+
+	/**
+	 * Wait for document(s) request appearance in database for specific <b>docId</b> with timeout {@link DocGenHelper#DOCUMENT_GENERATION_TIMEOUT}
+	 *
+	 * @param docId      documents ids to be used for waiting xml document.
+	 * @param selectDocumentQuery query to select requested document from DB
+	 * @throws AssertionError if no xml document was found within timeout ({@link DocGenHelper#DOCUMENT_GENERATION_TIMEOUT} seconds by default)
+	 */
+	public static void waitForDocumentsAppearanceInDB(DocGenEnum.Documents docId, String selectDocumentQuery) {
+		final long conditionCheckPoolingIntervalInSeconds = 1;
+		log.info(String.format("Waiting for xml document \"%1$s\" request appearance in database.", docId.getId()));
+
+		long searchStart = System.currentTimeMillis();
+		long timeout = searchStart + DOCUMENT_GENERATION_TIMEOUT * 1000;
+		Document document;
+		do {
+			try {
+				document = getDocument(docId, selectDocumentQuery);
+			} catch (Exception e) {
+				document = null;
+			}
+			if (document != null) break;
+			try {
+				TimeUnit.SECONDS.sleep(conditionCheckPoolingIntervalInSeconds);
+			} catch (InterruptedException e) {
+				log.debug(e.getMessage());
+			}
+		} while (timeout > System.currentTimeMillis());
+		long searchTime = System.currentTimeMillis() - searchStart;
+
+		CustomAssert.assertTrue(MessageFormat.format("Xml document \"{0}\" found. Search time:  \"{1}\"", docId.getId(), searchTime), document != null);
+		log.info(MessageFormat.format("Found document \"{0}\" after {1} milliseconds", docId.getId(), searchTime));
+	}
 
     public static Document getDocument(DocGenEnum.Documents value, String query) {
         String xmlDocData = DbXmlHelper.getXmlByDocName(value, query);
