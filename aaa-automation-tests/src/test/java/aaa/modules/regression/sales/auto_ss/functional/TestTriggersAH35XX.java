@@ -2,14 +2,21 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
+import static aaa.main.enums.BillingConstants.BillingAccountPoliciesTable.POLICY_NUM;
+import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.MAKE;
+import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.MODEL;
+import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.YEAR;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.DbAwaitHelper;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.xml.models.DocumentDataElement;
-import aaa.helpers.xml.models.DocumentDataSection;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.BillingAccountMetaData;
@@ -21,9 +28,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -31,29 +35,17 @@ import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static aaa.main.enums.BillingConstants.BillingAccountPoliciesTable.POLICY_NUM;
-import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.MAKE;
-import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.MODEL;
-import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.YEAR;
-
-
 public class TestTriggersAH35XX extends AutoSSBaseTest {
-	private VehicleTab vehicleTab=new VehicleTab();
+	private VehicleTab vehicleTab = new VehicleTab();
 
-	private static final String PAYMENT_CENTRAL_CONFIG_CHECK = "select value from PROPERTYCONFIGURERENTITY\n"+
+	private static final String PAYMENT_CENTRAL_CONFIG_CHECK = "select value from PROPERTYCONFIGURERENTITY\n" +
 			"where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')\n";
 
-	@Test
-	@TestInfo(isAuxiliary = true)
-	private void paymentCentralConfigCheck(){
+	@Test(description = "Preconditions")
+	private void paymentCentralConfigCheck() {
 		String appHost = PropertyProvider.getProperty("app.host");
-		CustomAssert.assertTrue("Adding Payment methods will not be possible because PaymentCentralEndpoints are looking at real service. Please run paymentCentralConfigUpdate", DBService.get().getValue(PAYMENT_CENTRAL_CONFIG_CHECK).get().contains(appHost));
+		CustomAssert.assertTrue("Adding Payment methods will not be possible because PaymentCentralEndpoints are looking at real service. Please run paymentCentralConfigUpdate", DBService.get()
+				.getValue(PAYMENT_CENTRAL_CONFIG_CHECK).get().contains(appHost));
 	}
 
 	/**
@@ -88,18 +80,18 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 		BillingAccount billingAccount = new BillingAccount();
 		billingAccount.update().perform(getTestSpecificTD("TestData_UpdateBilling"));
 		String numberACH = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(1).getValue("Account #"); //ACH
-		documentPaymentMethodCheckInDb(policyNumber, numberACH,1);
-		pas2777_documentContainsVehicleInfoCheckInDb(policyNumber, "AUTO_PAY_METNOD_CHANGED",1, vehicle1);
+		documentPaymentMethodCheckInDb(policyNumber, numberACH, 1);
+		pas2777_documentContainsVehicleInfoCheckInDb(policyNumber, "AUTO_PAY_METNOD_CHANGED", 1, vehicle1);
 
 		autopaySelection("contains=Visa");
 		String visaNumber = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0).getValue("Number");  //Visa
 		documentPaymentMethodCheckInDb(policyNumber, visaNumber, 2);
-		pas2777_documentContainsVehicleInfoCheckInDb(policyNumber, "AUTO_PAY_METNOD_CHANGED" ,2, vehicle1);
+		pas2777_documentContainsVehicleInfoCheckInDb(policyNumber, "AUTO_PAY_METNOD_CHANGED", 2, vehicle1);
 
 		autopaySelection("contains=Master");
 		String numberMaster = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2).getValue("Number"); //Master
 		documentPaymentMethodCheckInDb(policyNumber, numberMaster, 3);
-		pas2777_documentContainsVehicleInfoCheckInDb(policyNumber, "AUTO_PAY_METNOD_CHANGED" ,3, vehicle1);
+		pas2777_documentContainsVehicleInfoCheckInDb(policyNumber, "AUTO_PAY_METNOD_CHANGED", 3, vehicle1);
 
 		BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(POLICY_NUM).controls.links.get(policyNumber).click();
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -117,12 +109,12 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 		testEValueDiscount.simplifiedPendedEndorsementIssue();
 		String vehicle2 = getVehicleInfo(2);
 
-		pas2777_documentContainsVehicleInfoCheckInDb(policyNumber, "ENDORSEMENT_ISSUE",1, vehicle1, vehicle2);
+		pas2777_documentContainsVehicleInfoCheckInDb(policyNumber, "ENDORSEMENT_ISSUE", 1, vehicle1, vehicle2);
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		autopaySelection("contains=Visa");
 		documentPaymentMethodCheckInDb(policyNumber, visaNumber, 4);
-		pas2777_documentContainsVehicleInfoCheckInDb(policyNumber, "AUTO_PAY_METNOD_CHANGED" ,4, vehicle1, vehicle2);
+		pas2777_documentContainsVehicleInfoCheckInDb(policyNumber, "AUTO_PAY_METNOD_CHANGED", 4, vehicle1, vehicle2);
 		//PAS-2777 end
 
 		CustomAssert.disableSoftMode();
@@ -138,24 +130,29 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 
 	private void documentPaymentMethodCheckInDb(String policyNum, String numberCCACH, int numberOfDocuments) {
 		String visaNumberScreened = "***" + numberCCACH.substring(numberCCACH.length() - 4, numberCCACH.length());
-		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME + " and data like '%%" + visaNumberScreened + "%%'", policyNum, "AH35XX", "AUTO_PAY_METNOD_CHANGED");
-		CustomAssert.assertTrue(DbAwaitHelper.waitForQueryResult(query, 5));
-		CustomAssert.assertTrue(DocGenHelper.getDocumentDataElemByName("AcctNum", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField().contains(visaNumberScreened));
+		String query = GET_DOCUMENT_BY_EVENT_NAME + " and data like '%%" + visaNumberScreened + "%%'";
+		String queryFull = String.format(query, policyNum, "AH35XX", "AUTO_PAY_METNOD_CHANGED");
+		CustomAssert.assertTrue(DbAwaitHelper.waitForQueryResult(queryFull, 5));
+		CustomAssert.assertTrue(DocGenHelper.getDocumentDataElemByName("AcctNum", DocGenEnum.Documents.AH35XX, queryFull).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()
+				.contains(visaNumberScreened));
 
 		String query2 = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNum, "AH35XX", "AUTO_PAY_METNOD_CHANGED");
 		CustomAssert.assertEquals(Integer.parseInt(DBService.get().getValue(query2).get()), numberOfDocuments);
 	}
 
-	private void pas2777_documentContainsVehicleInfoCheckInDb(String policyNum, String eventName, int numberOfDocuments,  String... vehicleInfos) {
+	private void pas2777_documentContainsVehicleInfoCheckInDb(String policyNum, String eventName, int numberOfDocuments, String... vehicleInfos) {
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNum, "AH35XX", eventName);
 
-		CustomAssert.assertEquals(DocGenHelper.getDocumentDataSectionsByName("VehicleDetails", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField(), (vehicleInfos[0]));
-		CustomAssert.assertEquals(DocGenHelper.getDocumentDataElemByName("PlcyVehInfo", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField(), (vehicleInfos[0]));
+		CustomAssert.assertEquals(DocGenHelper.getDocumentDataSectionsByName("VehicleDetails", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+				.getTextField(), vehicleInfos[0]);
+		CustomAssert.assertEquals(DocGenHelper.getDocumentDataElemByName("PlcyVehInfo", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+				.getTextField(), vehicleInfos[0]);
 
-		for(int index = 0 ; index < vehicleInfos.length ; index ++){
-			CustomAssert.assertEquals( DocGenHelper.getDocumentDataElemByName("PlcyVehInfo", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().
-					get(index).getDataElementChoice().getTextField(),
+		for (int index = 0; index < vehicleInfos.length; index++) {
+			CustomAssert.assertEquals(DocGenHelper.getDocumentDataElemByName("PlcyVehInfo", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().
+							get(index).getDataElementChoice().getTextField(),
 					vehicleInfos[index++]);
+			++index;
 		}
 
 		String query2 = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNum, "AH35XX", eventName);
@@ -168,6 +165,5 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 		updateBillingAccountActionTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.AUTOPAY_SELECTION.getLabel(), ComboBox.class).setValue(autopaySelectionValue);
 		UpdateBillingAccountActionTab.buttonSave.click();
 	}
-
 
 }

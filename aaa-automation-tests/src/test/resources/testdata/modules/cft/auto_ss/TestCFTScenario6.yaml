@@ -41,6 +41,10 @@ DriverTab: {
     Financial Responsibility Filing Needed: 'Yes'
 }
 
+DriverTab_DataGather: {
+    Affinity Group: 'AAA Employee'
+}
+
 PremiumAndCoveragesTab_DataGather: {
   Payment Plan: 'Quarterly',
 }

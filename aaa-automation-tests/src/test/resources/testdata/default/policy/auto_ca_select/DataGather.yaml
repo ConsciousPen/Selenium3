@@ -29,16 +29,11 @@ PrefillTab: {
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
-  #CurrentCarrierInformation: '@CurrentCarrierInformation',
-  ContactInformation: '@ContactInformation',
   PolicyInformation: '@PolicyInformation'
 }
 
 NamedInsuredInformation: {
-}
-
-ContactInformation: {
-  Home Phone Number: 1234567890,
+  'Home Phone #': 1234567890,
   Email: temp@gmail.com
 }
 

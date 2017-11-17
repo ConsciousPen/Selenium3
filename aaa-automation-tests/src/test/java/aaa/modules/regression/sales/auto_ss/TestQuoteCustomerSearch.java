@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.auto_ss;
 
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.DialogsMetaData;
@@ -89,7 +91,7 @@ public class TestQuoteCustomerSearch extends AutoSSBaseTest {
 		//Fill all mandatory fields and go to the Drivers Tab
 		generalTab.fillTab(getTestSpecificTD("GeneralTabData"));
 		generalTab.getAssetList().getAsset(NAMED_INSURED_INFORMATION).getAsset(NamedInsuredInformation.HAS_LIVED_LESS_THAN_3_YEARS).setValue("No");
-		generalTab.submitTab();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
 		//Fill all mandatory fields for Drivers Tab
 		driverTab.fillTab(td);

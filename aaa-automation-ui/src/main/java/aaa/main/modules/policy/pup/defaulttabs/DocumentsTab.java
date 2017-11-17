@@ -19,7 +19,7 @@ public class DocumentsTab extends Tab {
 	public DocumentsTab() {
 		super(PersonalUmbrellaMetaData.DocumentsTab.class);
 		for (String list : assetList.getAssetNames()) {
-			assetList.getAsset(list, AssetList.class).config.applyConfiguration("UnderwritingTab");
+			assetList.getAsset(list, AssetList.class).applyConfiguration("UnderwritingTab");
 		}
 	}
 

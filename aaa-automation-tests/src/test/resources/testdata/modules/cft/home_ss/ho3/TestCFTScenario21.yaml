@@ -1,0 +1,15 @@
+TestData: {
+  AcceptPaymentActionTab: '@AcceptPaymentActionTab',
+}
+
+AcceptPaymentActionTab: {
+  Payment Method: 'Cash'
+}  
+
+ApplicantTab_DataGather: {
+  AAA employee: 'Yes'
+}
+
+PremiumsAndCoveragesQuoteTab_DataGather: {
+  Payment plan: Annual
+}
