@@ -56,17 +56,19 @@ public class Scenario11 extends ScenarioBaseTest {
 	protected List<LocalDateTime> installmentDueDates;
 	protected int installmentsCount = 1;
 	
-	protected Dollar endorsementAmount; 
+	protected Dollar endorseAmount1; 
+	protected Dollar endorseAmount2;
 	
-	protected LocalDateTime offCycleBillDueDate; 		//DD2 
-
+	protected LocalDateTime offCycleBillDueDate1; 		//DD1 
+	protected LocalDateTime offCycleBillDueDate2;		//DD2
+	
 	protected void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();		
 		mainApp().open();
 		
 		//createCustomerIndividual();	
 		//policyNum = createPolicy(policyCreationTD); 
-		policyNum = "CAAS933622643";
+		policyNum = "CAAS933622654";
 		SearchPage.openPolicy(policyNum);
 		
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
@@ -78,53 +80,99 @@ public class Scenario11 extends ScenarioBaseTest {
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
 		CustomAssert.assertEquals("Billing Installments count for Quarterly payment plan", installmentsCount, installmentDueDates.size()); 
 		
-		offCycleBillDueDate = policyEffectiveDate.plusMonths(2);		
+		offCycleBillDueDate1 = policyEffectiveDate.plusMonths(1);
+		offCycleBillDueDate2 = policyEffectiveDate.plusMonths(2);		
 	}
 	
-	protected void endorsePolicy() {
-		//DD1
-		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusMonths(1).with(DateTimeUtils.closestFutureWorkingDay)); 
+	protected void makeFistEndorsement() {		
+		//DD0+5
+		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(5));
 		
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		
 		TestData endorsementTD = getStateTestData(tdPolicy, "Endorsement", "TestData");
-		policy.endorse().performAndFill(getTestSpecificTD("TestData_Endorsement").adjust(endorsementTD));
+		policy.endorse().performAndFill(getTestSpecificTD("TestData_Endorsement1").adjust(endorsementTD));
 		LocalDateTime transactionDate = TimeSetterUtil.getInstance().getCurrentTime();
 		PolicyHelper.verifyEndorsementIsCreated();
 		
-		endorsementAmount = PolicySummaryPage.TransactionHistory.getTranPremium(); 
+		endorseAmount1 = PolicySummaryPage.TransactionHistory.getTranPremium(); 
 
 		// Endorsement transaction displaing on billing in Payments & Other transactions section
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		
-		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setTotalDue(endorsementAmount).verifyPresent();
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setTotalDue(endorseAmount1).verifyPresent();
 		
 		String reason = "Endorsement - " + endorsementTD.getValue(endorsementReasonDataKeys);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(transactionDate).setPolicy(policyNum).setType(PaymentsAndOtherTransactionType.PREMIUM)
 				.setSubtypeReason(reason).verifyPresent();
 	}
 	
-	protected void generateOffCycleBill() {
-		//DD2-20 
-		LocalDateTime dueDate = getTimePoints().getOffcycleBillGenerationDate(offCycleBillDueDate);
+	protected void generateFirstOffCycleBill() {
+		//DD1-20 
+		LocalDateTime dueDate = getTimePoints().getOffcycleBillGenerationDate(offCycleBillDueDate1);
 		TimeSetterUtil.getInstance().nextPhase(dueDate);
 		JobUtils.executeJob(Jobs.offCycleBillingInvoiceAsyncJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		//endorsementDue = BillingSummaryPage.getTotalDue();
-		new BillingBillsAndStatementsVerifier().setType(BillsAndStatementsType.BILL).setMinDue(endorsementAmount)
-				.setPastDueZero().verifyRowWithDueDate(offCycleBillDueDate);
+		new BillingBillsAndStatementsVerifier().setType(BillsAndStatementsType.BILL).setMinDue(endorseAmount1)
+				.setPastDueZero().verifyRowWithDueDate(offCycleBillDueDate1);
 	}
 	
-	protected void payOffCycleBill() {
-		//DD2
-		TimeSetterUtil.getInstance().nextPhase(offCycleBillDueDate);
+	protected void payFirstOffCycleBill() {
+		//DD1
+		TimeSetterUtil.getInstance().nextPhase(offCycleBillDueDate1);
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-		Dollar dueAmount = new Dollar(endorsementAmount); 
+		Dollar dueAmount = new Dollar(endorseAmount1); 
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), dueAmount);
+		new BillingPaymentsAndTransactionsVerifier().verifyManualPaymentAccepted(DateTimeUtils.getCurrentDateTime(), dueAmount.negate());		
+	}
+	
+	protected void makeSecondEndorsement() {
+		mainApp().open();
+		SearchPage.openPolicy(policyNum);
+		
+		TestData endorsementTD = getStateTestData(tdPolicy, "Endorsement", "TestData");
+		policy.endorse().performAndFill(getTestSpecificTD("TestData_Endorsement2").adjust(endorsementTD));
+		LocalDateTime transactionDate = TimeSetterUtil.getInstance().getCurrentTime();
+		PolicyHelper.verifyEndorsementIsCreated();
+		
+		endorseAmount2 = PolicySummaryPage.TransactionHistory.getTranPremium(); 
+
+		// Endorsement transaction displaing on billing in Payments & Other transactions section
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setTotalDue(endorseAmount2).verifyPresent();
+		
+		String reason = "Endorsement - " + endorsementTD.getValue(endorsementReasonDataKeys);
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(transactionDate).setPolicy(policyNum).setType(PaymentsAndOtherTransactionType.PREMIUM)
+				.setSubtypeReason(reason).verifyPresent();		
+	}
+	
+	protected void generateSecondOffCycleBill() {
+		//DD2-20 
+		LocalDateTime dueDate = getTimePoints().getOffcycleBillGenerationDate(offCycleBillDueDate2);
+		TimeSetterUtil.getInstance().nextPhase(dueDate);
+		JobUtils.executeJob(Jobs.offCycleBillingInvoiceAsyncJob);
+
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
+		//endorsementDue = BillingSummaryPage.getTotalDue();
+		new BillingBillsAndStatementsVerifier().setType(BillsAndStatementsType.BILL).setMinDue(endorseAmount2)
+				.setPastDueZero().verifyRowWithDueDate(offCycleBillDueDate2);
+	}
+	
+	protected void paySecondOffCycleBill() {
+		//DD2
+		TimeSetterUtil.getInstance().nextPhase(offCycleBillDueDate2);
+		
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
+		Dollar dueAmount = new Dollar(endorseAmount2); 
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), dueAmount);
 		new BillingPaymentsAndTransactionsVerifier().verifyManualPaymentAccepted(DateTimeUtils.getCurrentDateTime(), dueAmount.negate());		
 	}
@@ -203,7 +251,12 @@ public class Scenario11 extends ScenarioBaseTest {
 		
 		String billType = getState().equals(Constants.States.CA) ? BillsAndStatementsType.OFFER : BillsAndStatementsType.BILL;
 		Dollar offerAmount = BillingHelper.getBillMinDueAmount(policyExpirationDate, billType);
-		
+
+		if (getState().equals(Constants.States.CA)) {
+			Dollar caFraudAssessmentFee = new Dollar(1.76);
+			offerAmount = offerAmount.subtract(caFraudAssessmentFee.multiply(2)); 
+			log.info("Offer amount is: "+offerAmount);
+		}
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), offerAmount.subtract(toleranceAmount));
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
 	}
@@ -215,7 +268,13 @@ public class Scenario11 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		
-		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), toleranceAmount); 
+		if (getState().equals(Constants.States.CA)) {
+			Dollar caFraudAssessmentFee = new Dollar(1.76);
+			billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), toleranceAmount.add(caFraudAssessmentFee.multiply(2))); 
+		}
+		else {
+			billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), toleranceAmount); 
+		} 
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);		
 	}
 
@@ -225,8 +284,6 @@ public class Scenario11 extends ScenarioBaseTest {
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-		
-		//Dollar dueAmount = new Dollar(endorsementAmount).add(100);
 		Dollar dueAmount = new Dollar(100);
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), dueAmount);
 		new BillingPaymentsAndTransactionsVerifier().verifyManualPaymentAccepted(DateTimeUtils.getCurrentDateTime(), dueAmount.negate());
@@ -275,8 +332,7 @@ public class Scenario11 extends ScenarioBaseTest {
 			.setType(PaymentsAndOtherTransactionType.REFUND)
 			.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND)
 			.setReason(PaymentsAndOtherTransactionReason.OVERPAYMENT)
-			.setStatus(PaymentsAndOtherTransactionStatus.APPROVED).verifyPresent(); 
-		
+			.setStatus(PaymentsAndOtherTransactionStatus.APPROVED).verifyPresent(); 		
 	}
 	
 }
