@@ -59,17 +59,15 @@ public class Scenario11 extends ScenarioBaseTest {
 	protected Dollar endorseAmount1; 
 	protected Dollar endorseAmount2;
 	
-	protected LocalDateTime offCycleBillDueDate1; 		//DD1 
-	protected LocalDateTime offCycleBillDueDate2;		//DD2
+	protected LocalDateTime offCycleBillDueDate1; 		 
+	protected LocalDateTime offCycleBillDueDate2;		
 	
 	protected void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();		
 		mainApp().open();
 		
-		//createCustomerIndividual();	
-		//policyNum = createPolicy(policyCreationTD); 
-		policyNum = "CAAS933622654";
-		SearchPage.openPolicy(policyNum);
+		createCustomerIndividual();	
+		policyNum = createPolicy(policyCreationTD); 
 		
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
@@ -116,7 +114,6 @@ public class Scenario11 extends ScenarioBaseTest {
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-		//endorsementDue = BillingSummaryPage.getTotalDue();
 		new BillingBillsAndStatementsVerifier().setType(BillsAndStatementsType.BILL).setMinDue(endorseAmount1)
 				.setPastDueZero().verifyRowWithDueDate(offCycleBillDueDate1);
 	}
@@ -161,7 +158,6 @@ public class Scenario11 extends ScenarioBaseTest {
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-		//endorsementDue = BillingSummaryPage.getTotalDue();
 		new BillingBillsAndStatementsVerifier().setType(BillsAndStatementsType.BILL).setMinDue(endorseAmount2)
 				.setPastDueZero().verifyRowWithDueDate(offCycleBillDueDate2);
 	}
