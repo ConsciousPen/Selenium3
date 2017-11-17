@@ -83,7 +83,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4145")
-    public void pas4145_calculateTierNyConversionCheckNB(@Optional("") String state) {
+    public void pas4145_calculateTierNyConversionCheckNB(@Optional("NY") String state) {
         //Prepare TD
         TestData policyData = DataProviderFactory.emptyData().adjust(getPolicyTD().resolveLinks());
         policyData.adjust(generalTab.getMetaKey(), getTestSpecificTD("TestData").getTestData(generalTab.getMetaKey()));
@@ -133,7 +133,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, dependsOnMethods = "pas4145_calculateTierNyConversionCheckNB")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4145")
-    public void pas4145_calculateTierNyConversionCheckRenewal(@Optional("") String state) {
+    public void pas4145_calculateTierNyConversionCheckRenewal(@Optional("NY") String state) {
         LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
         JobUtils.executeJob(Jobs.renewalOfferGenerationJob);
