@@ -14,6 +14,8 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
 
+import com.exigen.ipb.etcsa.utils.Dollar;
+
 /**
  * Controlled Financial Testing Scenario 17
  * Authorized Refund - approved Lapse - Waive fee
@@ -26,8 +28,8 @@ public class TestCFTScenario17 extends ControlledFinancialBaseTest {
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario17(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
-		acceptTotalDuePlus600StartDatePlus16();
-		refundPaymentStartDatePlus25();
+		acceptTotalDuePlusOverpaymentOnBillGenDate(new Dollar(600));
+		issuedRefundOnStartDatePlus25(new Dollar(600));
 	}
 
 	@Override

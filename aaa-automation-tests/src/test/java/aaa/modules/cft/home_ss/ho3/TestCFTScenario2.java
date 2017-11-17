@@ -10,9 +10,9 @@ import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
 
 /**
@@ -32,7 +32,7 @@ public class TestCFTScenario2 extends ControlledFinancialBaseTest {
 		createPolicyForTest();
 		endorsePolicyEffDatePlus2Days();
 		generateInstallmentBill(1);
-		waiveFee();
+		waiveFeeOnStartDatePlus16();
 		manualFutureCancellationEffDatePlus25Days();
 		updatePolicyStatusForPendedCancellation();
 		manualReinstatement();

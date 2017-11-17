@@ -88,8 +88,12 @@ public final class ErrorEnum {
 		ERROR_AAA_CSA3083444("AAA_CSA3083444", "Renters policy is indicated but renters policy # doesn't exist"),
 		ERROR_AAA_CSA3081512("AAA_CSA3081512", "Motorcycle policy is indicated but motorcycle policy # doesn't exist"),
 		ERROR_AAA_CSA9231984("AAA_CSA9231984", "At least one phone number must be provided (AAA_CSA9231984) [for AAADocumentRulesComponent.attributeForRules]"),
+		ERROR_AAA_CAC7150833("AAA_CAC7150833_CA_CHOICE", "Driver with more than 2 Major violations in the last 3 years is unacceptable ..."),
 
 		// Auto Errors
+		ERROR_AAA_SS171018("AAA_SS171018","Non-members are ineligible for coverage."),
+		ERROR_AAA_SS171018_DE("AAA_SS171018_DE","Policies with unsuccessful membership validation results require prior approval."),
+		ERROR_AAA_SS171018_NJ("AAA_SS171018_NJ","Policies with unsuccessful membership validation results require prior approval."),
 		ERROR_AAA_SS171019("AAA_SS171019","Policies being rated as having no prior insurance are ineligible for coverage");
 
 		private String code;

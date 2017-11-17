@@ -10,8 +10,8 @@ import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
 
 /**
@@ -27,8 +27,8 @@ public class TestCFTScenario5 extends ControlledFinancialBaseTest {
 	public void cftTestScenario5(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		acceptPaymentEffDatePlus25();
-		otherAdjustmentOnCancellationNoticeDate();
-		generateInstallmentBill(3);
+		otherAdjustmentOnCancellationDate();
+		generateInstallmentBill(2);
 	}
 
 	@Override

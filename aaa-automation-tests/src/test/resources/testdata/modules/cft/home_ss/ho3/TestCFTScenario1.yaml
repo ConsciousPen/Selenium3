@@ -19,7 +19,7 @@ EndorsementActionTab: {
 }
 
 PremiumsAndCoveragesQuoteTab: {
-  Coverage E - Personal Liability Each Occurrence: 'contains=$700,000',
+  Coverage E - Personal Liability Each Occurrence: 'contains=$1,000,000',
   Calculate Premium: 'click',
   Override Premium: {
     Remarks: 'Only Erich Maria Remarque',
