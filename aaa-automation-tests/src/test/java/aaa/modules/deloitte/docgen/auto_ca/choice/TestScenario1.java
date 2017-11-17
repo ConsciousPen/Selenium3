@@ -14,7 +14,6 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.FormsTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
-import aaa.toolkit.webdriver.customcontrols.endorsements.AutoCAForms;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
