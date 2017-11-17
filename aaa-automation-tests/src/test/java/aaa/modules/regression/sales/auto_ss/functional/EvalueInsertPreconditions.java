@@ -1,11 +1,13 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import java.util.Arrays;
-import java.util.List;
 import org.testng.annotations.Test;
 import aaa.helpers.config.CustomTestProperties;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
+import toolkit.utils.TestInfo;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class EvalueInsertPreconditions {
 
@@ -205,4 +207,5 @@ public class EvalueInsertPreconditions {
 	public static void paymentCentralStubEndPointUpdate() {
 		DBService.get().executeUpdate(String.format(PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE, APP_HOST));
 	}
+
 }

@@ -23,8 +23,7 @@ public class TestPaperlessPreferences extends AutoSSBaseTest {
 	private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 	private InquiryAssetList inquiryAssetList = new InquiryAssetList(new DocumentsAndBindTab().getAssetList().getLocator(), AutoSSMetaData.DocumentsAndBindTab.class);
 
-	@Test
-	@TestInfo()
+	@Test(description = "Preconditions")
 	public static void eValueConfigCheck() {
 		TestEValueDiscount.eValueConfigCheck();
 	}
