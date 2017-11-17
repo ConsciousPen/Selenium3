@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -20,7 +21,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
