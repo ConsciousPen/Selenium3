@@ -176,6 +176,13 @@ public final class BillingHelper {
 		}
 	}
 
+	public static int getPremiumTransactionsCount(String policyNum) {
+		Map<String, String> query = new HashMap<>();
+		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.POLICY, policyNum);
+		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PREMIUM);
+		return BillingSummaryPage.tablePaymentsOtherTransactions.getRows(query).size();
+	}
+
 	// ------- Pending Transactions table -------
 
 	public static void approvePendingTransaction(LocalDateTime transactionDate, String type) {
@@ -201,13 +208,15 @@ public final class BillingHelper {
 		Map<String, String> premiumRowSearchQuery = new HashMap<>();
 		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
 		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.PREMIUM);
-		if (!BillingSummaryPage.tablePaymentsOtherTransactions.getRow(premiumRowSearchQuery).isPresent()) {
-			log.warn(String.format("There is no Premium transaction with query %s, assume PLIGA Fee should be $0", premiumRowSearchQuery.entrySet()));
-			return DZERO;
+		Dollar totalPremiumAmount = DZERO;
+		if (BillingSummaryPage.tablePaymentsOtherTransactions.getRows(premiumRowSearchQuery).isEmpty()) {
+			log.warn(String.format("There is no Premium transaction(s) with query %s, assume PLIGA Fee should be $0", premiumRowSearchQuery.entrySet()));
+			return totalPremiumAmount;
 		}
 
-		Dollar totalPremiumAmount = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(premiumRowSearchQuery)
-			.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
+		for (String amount : BillingSummaryPage.tablePaymentsOtherTransactions.getValuesFromRows(premiumRowSearchQuery, BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT)) {
+			totalPremiumAmount = totalPremiumAmount.add(new Dollar(amount));
+		}
 		return calculatePligaFee(transactionDate, totalPremiumAmount);
 	}
 

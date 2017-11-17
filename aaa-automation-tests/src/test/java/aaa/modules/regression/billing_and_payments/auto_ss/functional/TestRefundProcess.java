@@ -59,8 +59,7 @@ public class TestRefundProcess extends PolicyBilling {
 		return PolicyType.AUTO_SS;
 	}
 
-	@Test
-	@TestInfo(isAuxiliary = true)
+	@Test(description = "Precondition for TestRefundProcess tests")
 	public void precondJobAdding() {
 		adminApp().open();
 		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
@@ -68,8 +67,7 @@ public class TestRefundProcess extends PolicyBilling {
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_ASYNC_JOB);
 	}
 
-	@Test()
-	@TestInfo(isAuxiliary = true)
+	@Test(description = "Precondition for TestRefundProcess tests")
 	public static void refundDocumentGenerationConfigCheck() {
 		CustomAssert.assertTrue("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.", DbAwaitHelper.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5));
 	}

@@ -10,7 +10,7 @@ public final class ErrorEnum {
 		ERROR_200060_CO("200060_CO", "If Medical Payments coverage is rejected, a signed form must be received"),
 		ERROR_AAA_SS9140068("AAA_SS9140068", "It is too late in the term to change to the selected bill plan."),
 		ERROR_AAA_CLUE_order_validation_SS("AAA_CLUE_order_validation_SS", "Current CLUE must be ordered"),
-		ERROR_AAA_SS10240324("AAA_SS10240324", "At least one phone number must be provided. (AAA_SS10240324) [for AAADocumentRulesComponent.attributeForRules"),
+		ERROR_AAA_SS10240324("AAA_SS10240324", "At least one phone number must be provided. (AAA_SS10240324) [for AAADocumentRulesComponent.attributeForRules]"),
 
 		// Property errors
 		ERROR_AAA_HO_CA_15011_1("AAA_HO_CA_15011_1", "Dwellings built prior to 1940 must have all four major systems fully renovated."),
@@ -86,7 +86,14 @@ public final class ErrorEnum {
 		ERROR_AAA_CSA3080903("AAA_CSA3080903", "Condo policy is indicated but condo policy # doesn't exist"),
 		ERROR_AAA_CSA3082394("AAA_CSA3082394", "Life policy is indicated but life policy # doesn't exist"),
 		ERROR_AAA_CSA3083444("AAA_CSA3083444", "Renters policy is indicated but renters policy # doesn't exist"),
-		ERROR_AAA_CSA3081512("AAA_CSA3081512", "Motorcycle policy is indicated but motorcycle policy # doesn't exist");
+		ERROR_AAA_CSA3081512("AAA_CSA3081512", "Motorcycle policy is indicated but motorcycle policy # doesn't exist"),
+		ERROR_AAA_CSA9231984("AAA_CSA9231984", "At least one phone number must be provided (AAA_CSA9231984) [for AAADocumentRulesComponent.attributeForRules]"),
+
+		// Auto Errors
+		ERROR_AAA_SS171018("AAA_SS171018","Non-members are ineligible for coverage."),
+		ERROR_AAA_SS171018_DE("AAA_SS171018_DE","Policies with unsuccessful membership validation results require prior approval."),
+		ERROR_AAA_SS171018_NJ("AAA_SS171018_NJ","Policies with unsuccessful membership validation results require prior approval."),
+		ERROR_AAA_SS171019("AAA_SS171019","Policies being rated as having no prior insurance are ineligible for coverage");
 
 		private String code;
 		private String message;

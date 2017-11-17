@@ -15,8 +15,14 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class TestPaperlessPreferences extends AutoSSBaseTest {
 

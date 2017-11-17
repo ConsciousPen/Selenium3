@@ -138,6 +138,10 @@ public class TimePoints {
 		if (PolicyType.AUTO_SS.equals(policyType) && Constants.States.PA.equals(state) && !isWorkingDay(date, TimepointsList.CANCELLATION_NOTICE)) {
 			// According to 160-140PA requirement for Auto SS, PA product we should add 18 days instead of 15 if cancellation notice falls on non-working day
 			return getTimepoint(getCancellationNoticeDate(date), TimepointsList.CANCELLATION_IF_CN_FALLS_ON_NWD, true);
+		} else if (PolicyType.AUTO_CA_SELECT.equals(policyType)) {
+			// Cancellation date for Auto CA policy should be calculated from cancellation notice before shift, see QC defect 44998
+			LocalDateTime cancellationNoticeWithoutShiftDate = getTimepoint(date, TimepointsList.CANCELLATION_NOTICE, false);
+			return getTimepoint(cancellationNoticeWithoutShiftDate, TimepointsList.CANCELLATION, true);
 		}
 		return getTimepoint(getCancellationNoticeDate(date), TimepointsList.CANCELLATION, true);
 	}
@@ -150,6 +154,10 @@ public class TimePoints {
 		if (PolicyType.AUTO_SS.equals(policyType) && Constants.States.PA.equals(state)  && !isWorkingDay(date, TimepointsList.CANCELLATION_NOTICE)) {
 			// According to 160-140PA requirement for Auto SS, PA product we should add 18 days instead of 15 if cancellation notice falls on non-working day
 			return getTimepoint(getCancellationNoticeDate(date), TimepointsList.CANCELLATION_IF_CN_FALLS_ON_NWD, false);
+		} else if (PolicyType.AUTO_CA_SELECT.equals(policyType)) {
+			// Cancellation date for Auto CA policy should be calculated from cancellation notice before shift, see QC defect 44998
+			LocalDateTime cancellationNoticeWithoutShiftDate = getTimepoint(date, TimepointsList.CANCELLATION_NOTICE, false);
+			return getTimepoint(cancellationNoticeWithoutShiftDate, TimepointsList.CANCELLATION, false);
 		}
 		return getTimepoint(getCancellationNoticeDate(date), TimepointsList.CANCELLATION, false);
 	}
