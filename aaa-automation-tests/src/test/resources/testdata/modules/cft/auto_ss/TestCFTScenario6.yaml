@@ -13,6 +13,21 @@ TestData: {
   }
 }
 
+TestData_KY: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  DriverTab: '@DriverTab_KY',
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa,
+    Case Number: 123
+  }
+}
+
 EndorsementActionTab: {
     Endorsement Date: /today+2d,
     Endorsement Reason: Maintain Vehicle(s)
@@ -39,6 +54,11 @@ EndorsementActionTab_OOS: {
 
 DriverTab: {
     Financial Responsibility Filing Needed: 'Yes'
+}
+
+DriverTab_KY: {
+    Financial Responsibility Filing Needed: 'Yes',
+    Filing State: Arizona
 }
 
 DriverTab_DataGather: {
