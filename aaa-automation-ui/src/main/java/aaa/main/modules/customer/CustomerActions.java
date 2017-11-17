@@ -2,6 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.modules.customer;
 
+import java.util.Arrays;
+import aaa.common.Tab;
 import aaa.main.modules.customer.views.*;
 import org.openqa.selenium.By;
 
@@ -1661,6 +1663,13 @@ public final class CustomerActions {
         @Override
         public Workspace getView() {
             return new InitiateRenewalEntryView();
+        }
+
+        @Override
+        public AbstractAction submit() {
+            Arrays.asList(Tab.buttonGo,Tab.buttonOk).forEach(Button::click);
+            Page.dialogConfirmation.confirm();
+            return this;
         }
     }
 

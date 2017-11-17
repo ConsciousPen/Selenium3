@@ -14,4 +14,12 @@
         </classes>
     </test>
 
+    <test name="Test Calculate Tier for NY converted policies">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.conversion.manual.TestTierCalculation"/>
+        </classes>
+    </test>
+
+
 </suite>
