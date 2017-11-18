@@ -563,6 +563,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		//PAS-306, PAS-320, PAS-323 start
 		commissionTypeCheck(expectedEvalueCommissionTypeOptions, "No", "eValue New Business");//because the issue happened with eValue Discount = True
 		commissionTypeCheck(expectedEvalueCommissionTypeOptions, "Yes", "eValue New Business");
+		pas316_eValueRemovalPopUpCheck();
 		//PAS-306, PAS-320, PAS-323 end
 		generalTab.cancel();
 		Page.dialogConfirmation.buttonDeleteEndorsement.click();
@@ -574,6 +575,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		commissionTypeCheck(expectedEvalueCommissionTypeOptions, "No", "eValue Renewal");
 		commissionTypeCheck(expectedEvalueCommissionTypeOptions, "Yes", "eValue Renewal");
 		//PAS-306, PAS-320, PAS-323, PAS-318 end
+		pas316_eValueRemovalPopUpCheck();
 		generalTab.saveAndExit();
 
 		//Cancel and Rewrite
@@ -617,6 +619,18 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		//PAS-302 end
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
+	}
+
+	private void pas316_eValueRemovalPopUpCheck() {
+		//PAS-316 start
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("No");
+		CustomAssert.assertTrue(Page.dialogConfirmation.isPresent());
+		Page.dialogConfirmation.labelMessage.verify.value("If you remove the eValue discount, the premium will increase. Are you sure you want to remove the discount?");
+		Page.dialogConfirmation.reject();
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("Yes");
+		//PAS-316 end
 	}
 
 	/**
@@ -950,7 +964,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 
 		checkBlueBoxMessages(messageInfo4, preQualifications);
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled(true);
-		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.equals("No");
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("No");
 		checkBlueBoxMessages(messageInfo4, preQualifications);
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
 		checkBlueBoxMessages(messageInfo4, preQualifications);
