@@ -27,6 +27,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.DbAwaitHelper;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.xml.models.Document;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -163,25 +164,25 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 			"and riskstatecd = ''''VA''''\n" +
 			"and productCD = ''''AAA_SS''''\n" +
 			"and code = ''''{1}''''\n" +
-			"and displayvalue = ''''FALSE'''' \n" +
+			"and displayvalue = ''''{2}'''' \n" +
 			"and (SYSDATE-'{'0'}' <= effective and effective < SYSDATE-'{'1'}') \n" +
 			"and (SYSDATE-'{'2'}' <= expiration and expiration < SYSDATE-'{'3'}'))";
 
 
 	public static final String EVALUE_MEMBERSHIP_ACKNOWLEDGEMENT_CHECK =
-			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "membershipEligibility");
+			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "membershipEligibility", "FALSE");
 
 	public static final String EVALUE_CURRENT_BI_ACKNOWLEDGEMENT_CHECK =
-			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "currentBIRequired");
+			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "currentBIRequired", "FALSE");
 
 	public static final String EVALUE_PAYPLAN_ACKNOWLEDGEMENT_CHECK =
-			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "paymentPlanRequired");
+			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "paymentPlanRequired", "FALSE");
 
 	public static final String EVALUE_MYPOLICY_ACKNOWLEDGEMENT_CHECK =
-			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "myPolicyRequired");
+			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "myPolicyRequired", "FALSE");
 
 	public static final String EVALUE_CREDITCARD_ACKNOWLEDGEMENT_CHECK =
-			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeValueQualifyingPaymentMethods", "pciCreditCard");
+			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeValueQualifyingPaymentMethods", "pciCreditCard", "TRUE");
 
 	@Test(description = "Precondition")
 	public static void paperlessPreferencesConfigCheck() {
@@ -258,7 +259,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	}
 
 	private static void verifyAcknowledgementConfiguration(String eValueConfiguration, int sysAndEffDateDelta, int sysAndExpDateDelta, String insertQuery) {
-		String query = MessageFormat.format(eValueConfiguration, sysAndEffDateDelta, sysAndEffDateDelta-1, sysAndExpDateDelta, sysAndExpDateDelta-1);
+		String query = MessageFormat.format(eValueConfiguration, sysAndEffDateDelta+1, sysAndEffDateDelta, sysAndExpDateDelta+1, sysAndExpDateDelta);
 		CustomAssert.assertTrue("Configuration for acknowledgement should be present. Please run "+insertQuery, DBService.get().getValue(query).isPresent());
 	}
 
@@ -1003,36 +1004,37 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		CustomAssert.assertAll();
 	}
 
-	private void verifyEvalueAcknowledgement(int days, String aaaMemYN, String currentBIYN, String payPlnYN, String plcyPayFullAmtYN, String myPolicyYN) {
-		String quoteNumber;
-		eValueQuoteCreation();
-		quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		policy.dataGather().start();
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TimeSetterUtil
-				.getInstance().getCurrentTime().minusDays(days).format(DateTimeUtils.MM_DD_YYYY));
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-		PremiumAndCoveragesTab.calculatePremium();
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		DocumentsAndBindTab.btnGenerateDocuments.click();
-		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, quoteNumber, "AHEVAXX", "ADHOC_DOC_GENERATE");
-		DocGenHelper.waitForDocumentsAppearanceInDB(AHEVAXX, query);
-		verifyAHEVAXXTag(query, "AAAMemYN", aaaMemYN);
-		verifyAHEVAXXTag(query, "CurrentBIYN", currentBIYN);
-		verifyAHEVAXXTag(query, "PayPlnYN", payPlnYN);
-		if ("Y".equals(payPlnYN)) {
-			verifyAHEVAXXTag(query, "PlcyPayFullAmtYN", plcyPayFullAmtYN);
+    private void verifyEvalueAcknowledgement(int days, String aaaMemYN, String currentBIYN, String payPlnYN, String plcyPayFullAmtYN, String myPolicyYN) {
+        String quoteNumber;
+        eValueQuoteCreation();
+        quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+               policy.dataGather().start();
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TimeSetterUtil
+                .getInstance().getCurrentTime().minusDays(days).format(DateTimeUtils.MM_DD_YYYY));
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+        PremiumAndCoveragesTab.calculatePremium();
+        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        DocumentsAndBindTab.btnGenerateDocuments.click();
+        Document document = DocGenHelper.waitForDocumentsAppearanceInDB(AHEVAXX, quoteNumber, "ADHOC_DOC_GENERATE");
+		if (document != null) {
+			verifyAHEVAXXTag(document, "AAAMemYN", aaaMemYN);
+			verifyAHEVAXXTag(document, "CurrentBIYN", currentBIYN);
+			verifyAHEVAXXTag(document, "PayPlnYN", payPlnYN);
+			if ("Y".equals(payPlnYN)) {
+				verifyAHEVAXXTag(document, "PlcyPayFullAmtYN", plcyPayFullAmtYN);
+			}
+			verifyAHEVAXXTag(document, "MyPolicyYN", myPolicyYN);
 		}
-		verifyAHEVAXXTag(query, "MyPolicyYN", myPolicyYN);
 		documentsAndBindTab.saveAndExit();
-	}
+    }
 
 
-	private void verifyAHEVAXXTag(String query, String tag, String expectedValue ) {
-		CustomAssert.assertTrue(MessageFormat.format("Problem is in tag: [{0}]", tag), expectedValue
-				.equals(DocGenHelper.getDocumentDataElemByName(tag, AHEVAXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
-	}
+    private void verifyAHEVAXXTag(Document document, String tag, String expectedValue ) {
+        CustomAssert.assertTrue(MessageFormat.format("Problem is in tag: [{0}]", tag), expectedValue
+                .equals(DocGenHelper.getDocumentDataElemByName(tag, document).getDataElementChoice().getTextField()));
+    }
 
 	/**
 	 * @author Alex Tinkovan
