@@ -164,7 +164,6 @@ public final class BillingConstants {
 		public static final String PENDING = "Pending";
 		public static final String VOIDED = "Voided";
 	}
-
 	public static final class PaymentsAndOtherTransactionAction {
 		public static final String DECLINE = "Decline";
 		public static final String TRANSFER = "Transfer";
