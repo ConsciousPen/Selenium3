@@ -721,7 +721,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 			.verifyPresent();
 		new BillingBillsAndStatementsVerifier()
 			.setDueDate(policyExpDate)
-			.setType(BillingConstants.BillsAndStatementsType.BILL)
 			.setMinDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue()))
 			.setTotalDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue()))
 			.verifyPresent();
