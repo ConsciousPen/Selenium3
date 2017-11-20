@@ -9,6 +9,7 @@ import aaa.main.modules.policy.home_ss.HomeSSPolicy;
 import aaa.main.modules.policy.pup.PupPolicy;
 import aaa.rest.policy.PolicyRest;
 import aaa.rest.policy.personallines.PersonalLinesPolicyRest;
+import aaa.utils.rating.*;
 
 /**
  * Single-root product (actually, entity) enum/factory.
@@ -17,34 +18,32 @@ import aaa.rest.policy.personallines.PersonalLinesPolicyRest;
  */
 public class PolicyType {
 
-	public static final PolicyType AUTO_CA_SELECT = new PolicyType("AutoCA", "California Auto", true, new AutoCaPolicy());
-	public static final PolicyType AUTO_CA_CHOICE = new PolicyType("AutoCAC", "California Auto", true, new AutoCaPolicy());
-	public static final PolicyType AUTO_SS = new PolicyType("AutoSS", "Auto Signature Series", true, new AutoSSPolicy());
-	public static final PolicyType HOME_SS_HO3 = new PolicyType("HomeSS", "Homeowners Signature Series", new HomeSSPolicy());
-	public static final PolicyType HOME_SS_HO4 = new PolicyType("HomeSS_HO4", "Homeowners Signature Series", new HomeSSPolicy());
-	public static final PolicyType HOME_SS_HO6 = new PolicyType("HomeSS_HO6", "Homeowners Signature Series", new HomeSSPolicy());
-	public static final PolicyType HOME_SS_DP3 = new PolicyType("HomeSS_DP3", "Homeowners Signature Series", new HomeSSPolicy());
-	public static final PolicyType HOME_CA_HO3 = new PolicyType("HomeCA", "California Homeowners", new HomeCaPolicy());
-	public static final PolicyType HOME_CA_HO4 = new PolicyType("HOME_CA_HO4", "California Homeowners", new HomeCaPolicy());
-	public static final PolicyType HOME_CA_HO6 = new PolicyType("HOME_CA_HO6", "California Homeowners", new HomeCaPolicy());
-	public static final PolicyType HOME_CA_DP3 = new PolicyType("HOME_CA_DP3", "California Homeowners", new HomeCaPolicy());
-	public static final PolicyType PUP = new PolicyType("PUP", "Personal Umbrella Policy", new PupPolicy());
+	public static final PolicyType AUTO_CA_SELECT = new PolicyType("AutoCA", "California Auto", true, new AutoCaPolicy(), new AutoCaOpenLFileParser());
+	public static final PolicyType AUTO_CA_CHOICE = new PolicyType("AutoCAC", "California Auto", true, new AutoCaPolicy(), new AutoCaCOpenLFileParser());
+	public static final PolicyType AUTO_SS = new PolicyType("AutoSS", "Auto Signature Series", true, new AutoSSPolicy(), new AutoSSOpenLFileParser());
+	public static final PolicyType HOME_SS_HO3 = new PolicyType("HomeSS", "Homeowners Signature Series", false, new HomeSSPolicy(), new HomeSSOpenLFileParser());
+	public static final PolicyType HOME_SS_HO4 = new PolicyType("HomeSS_HO4", "Homeowners Signature Series", false, new HomeSSPolicy(), new HomeSSOpenLFileParser());
+	public static final PolicyType HOME_SS_HO6 = new PolicyType("HomeSS_HO6", "Homeowners Signature Series", false, new HomeSSPolicy(), new HomeSSOpenLFileParser());
+	public static final PolicyType HOME_SS_DP3 = new PolicyType("HomeSS_DP3", "Homeowners Signature Series", false, new HomeSSPolicy(), new HomeSSOpenLFileParser());
+	public static final PolicyType HOME_CA_HO3 = new PolicyType("HomeCA", "California Homeowners", false, new HomeCaPolicy(), new HomeCaOpenLFileParser());
+	public static final PolicyType HOME_CA_HO4 = new PolicyType("HOME_CA_HO4", "California Homeowners", false, new HomeCaPolicy(), new HomeCaOpenLFileParser());
+	public static final PolicyType HOME_CA_HO6 = new PolicyType("HOME_CA_HO6", "California Homeowners", false, new HomeCaPolicy(), new HomeCaOpenLFileParser());
+	public static final PolicyType HOME_CA_DP3 = new PolicyType("HOME_CA_DP3", "California Homeowners", false, new HomeCaPolicy(), new HomeCaOpenLFileParser());
+	public static final PolicyType PUP = new PolicyType("PUP", "Personal Umbrella Policy", false, new PupPolicy(), new HomeCaOpenLFileParser());
 	protected IPolicy policy;
 	protected String shortName;
 	protected String fullName;
 	protected PolicyRest policyRest;
 	protected boolean isAutoPolicy;
+	protected OpenLFileParser openLFileParser;
 
-	public PolicyType(String shortName, String fullName, IPolicy policy) {
-		this(shortName, fullName, false, policy);
-	}
-
-	public PolicyType(String shortName, String fullName, boolean isAutoPolicy, IPolicy policy) {
+	public PolicyType(String shortName, String fullName, boolean isAutoPolicy, IPolicy policy, OpenLFileParser openLFileParser) {
 		this.shortName = shortName;
 		this.fullName = fullName;
 		this.policy = policy;
 		policyRest = new PersonalLinesPolicyRest(this);
 		this.isAutoPolicy = isAutoPolicy;
+		this.openLFileParser = openLFileParser;
 	}
 
 	public String getName() {
@@ -65,6 +64,10 @@ public class PolicyType {
 
 	public boolean isAutoPolicy() {
 		return isAutoPolicy;
+	}
+
+	public OpenLFileParser getOpenLFileParser() {
+		return openLFileParser;
 	}
 
 	@Override

@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Rating Test" verbose="1" parallel="methods" thread-count="1024">
+	<listeners>
+		<listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+		<listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
+	</listeners>
+	<parameter name="timeshift-scenario-mode" value="method" />
+
+	<test name="AutoSS Premium Calculation Test" preserve-order="true">
+		<parameter name="state" value="UT, AZ, CO, IN, KS, NJ, NY, OH, OR, PA, SD, VA, KY" />
+		<classes>
+			<class name="aaa.modules.rating.auto_ss.PremiumCalculationTest" />
+		</classes>
+	</test>
+</suite>

@@ -2,7 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.admin.pages.general;
 
-import aaa.JobRunner;
+import aaa.utils.JobRunner;
 import aaa.admin.pages.AdminPage;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.AdminAppLeftMenu;
