@@ -26,6 +26,7 @@ public final class ActionConstants {
 		public static final String DECLINE = "Decline";
 		public static final String TRANSFER = "Transfer";
 		public static final String ISSUE = "Issue";
+		public static final String VOID = "Void";
 	}
 
 	public static final class BillingAction {
