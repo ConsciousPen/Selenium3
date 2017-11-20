@@ -1,0 +1,33 @@
+TestData: {
+  AcceptPaymentActionTab: '@AcceptPaymentActionTab',
+  CancellationActionTab: '@CancellationActionTab'
+}
+
+AcceptPaymentActionTab: {
+  Payment Method: 'Cash'
+}  
+
+CancellationActionTab: {
+  Cancel Date: '/startTime+1M',
+  Cancellation reason: "Insured's Request - Other",
+  Description: 'CFT test'
+}
+
+GeneralTab_DataGather: {
+  Effective date: '/today+1M'
+}
+
+ApplicantTab_DataGather: {
+  AAA employee: 'Yes'
+}
+
+PremiumsAndCoveragesQuoteTab_DataGather: {
+  Payment plan: Eleven Pay Standard
+}
+
+PurchaseTab_DataGather: {
+  PaymentAllocation: {
+    Check: /rest,
+    Check Number Check: '123456'
+  }
+}
