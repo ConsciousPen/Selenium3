@@ -87,7 +87,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
      * @scenario
      * 1. Create Customer.
      * 2. Create Auto SS Quote.
-     * 3. Add member number on General tab with matching First Name, Last Name and DOB.
+     * 3. Add member number on General tab with matching Last Name .
      * 4. Fill All other required data up to Documents and Bind Tab.
      * 5. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
      * 6. Bind.
@@ -130,7 +130,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
      * 1. Create Customer.
      * 2. Create Auto SS Policy without Membership Number.
      * 3. Initiate endorsement for the policy.
-     * 4. Add member number on General tab with matching First Name, Last Name and DOB.
+     * 4. Add member number on General tab with mismatching First Name, Last Name and DOB.
      * 5. Fill All other required data up to Documents and Bind Tab.
      * 6. Verify that Error is displayed -  "Membership Validation Failed. Please review the Membership Report and confirm..."
      * 7. Override the error and bind.
@@ -153,7 +153,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
      * 1. Create Customer.
      * 2. Create Auto SS Policy without Membership Number.
      * 3. Initiate endorsement for the policy.
-     * 4. Add member number on General tab with matching First Name, Last Name and DOB.
+     * 4. Add member number on General tab with matching FN, LN or DOB match (FN match)
      * 5. Fill All other required data up to Documents and Bind Tab.
      * 6. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
      * 7. Bind.
@@ -176,7 +176,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
      * 1. Create Customer.
      * 2. Create Auto SS Policy without Membership Number.
      * 3. Initiate Manual renewal for the policy.
-     * 4. Add member number on General tab with matching First Name, Last Name and DOB.
+     * 4. Add member number on General tab with mismatching First Name, Last Name and DOB.
      * 5. Fill All other required data up to Documents and Bind Tab.
      * 6. Verify that Error is displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
      * 7. Override the error and bind.
@@ -199,7 +199,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
      * 1. Create Customer.
      * 2. Create Auto SS Policy without Membership Number.
      * 3. Initiate Manual renewal for the policy.
-     * 4. Add member number on General tab with matching First Name, Last Name and DOB.
+     * 4. Add member number on General tab with matching FN, LN or DOB match (FN match)
      * 5. Fill All other required data up to Documents and Bind Tab.
      * 6. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
      * 7. Bind.
