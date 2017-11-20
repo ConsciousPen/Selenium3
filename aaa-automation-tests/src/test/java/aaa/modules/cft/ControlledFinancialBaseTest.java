@@ -829,11 +829,11 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		new BillingPendingTransactionsVerifier()
-			.setTransactionDate(refundDate)
 			.setType(BillingConstants.BillingPendingTransactionsType.REFUND)
 			.setSubtypeReason(BillingConstants.BillingPendingTransactionsSubtype.AUTOMATED_REFUND)
-			.setStatus(BillingConstants.BillingPendingTransactionsStatus.PENDING)
+			.setReason(BillingConstants.BillingPendingTransactionsReason.OVERPAYMENT)
 			.setAmount(refundAmount)
+			.setStatus(BillingConstants.BillingPendingTransactionsStatus.PENDING)
 			.verifyPresent();
 		log.info("Refund present in Pending Transactions Table");
 	}

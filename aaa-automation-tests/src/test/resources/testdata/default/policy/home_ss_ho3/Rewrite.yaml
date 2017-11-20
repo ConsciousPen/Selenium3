@@ -82,9 +82,29 @@ UnderwritingAndApprovalTab_CT: {
     "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No'
 }
 
+# ----------------- TestData: KS -----------------
+TestDataForBindRewrittenPolicy_KS: {
+  GeneralTab: {
+    Immediate prior carrier: 'index=2'
+  },
+  ApplicantTab: {},
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DataGather@DocumentsTab',
+  BindTab: {},
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
 # ----------------- TestData: KY -----------------
 TestDataForBindRewrittenPolicy_KY: {
-  GeneralTab: {},
+  GeneralTab: {
+    Immediate prior carrier: 'index=2'
+  },
   ApplicantTab: {},
   ReportsTab: '@ReportsTab',
   PropertyInfoTab: {},
@@ -93,7 +113,7 @@ TestDataForBindRewrittenPolicy_KY: {
   PremiumsAndCoveragesQuoteTab: {},
   MortgageesTab: {},
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_KY',
-  DocumentsTab: '@DataGather@DocumentsTab',
+  DocumentsTab: '@DataGather@DocumentsTab_KY',
   BindTab: {},
   PurchaseTab: '@DataGather@PurchaseTab'
 }
