@@ -234,6 +234,15 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		acceptTotalDuePlusOverpaymentOnDate(overpayment, paymentDate);
 	}
 
+	/**
+	 * Accept TotalDue + Over payment on DD1 - 20 days
+	 */
+
+	protected void acceptTotalDuePlusOverpaymentOnDD1Minus20(Dollar overpayment) {
+		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getStartTime().plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay);
+		acceptTotalDuePlusOverpaymentOnDate(overpayment, paymentDate);
+	}
+
 	protected void acceptTotalDuePlusOverpaymentOnRenewCustomerDeclineDate(Dollar overpayment) {
 		LocalDateTime paymentDate = getTimePoints().getRenewCustomerDeclineDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate());;
 		acceptTotalDuePlusOverpaymentOnDate(overpayment, paymentDate);
@@ -469,7 +478,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		waiveFeeOnDate(waiveDate);
 	}
 
-	protected void manualFutureCancellationEffDatePlus25Days() {
+	protected void manualFutureCancellationStartDatePlus25Days() {
 		LocalDateTime plus25Days = TimeSetterUtil.getInstance().getStartTime().plusDays(25);
 		TimeSetterUtil.getInstance().nextPhase(plus25Days);
 		log.info("Manual cancellation action started");
