@@ -23,7 +23,7 @@ public class TestCFTScenario7 extends ControlledFinancialBaseTest {
 	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
-	public void cftTestScenario1(@Optional(StringUtils.EMPTY) String state) {
+	public void cftTestScenario7(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		generateInstallmentBill(1);
 	}
