@@ -105,7 +105,6 @@ public class TestScenario11 extends Scenario11 {
 	public void TC13_Pay_Renewal_Bill_Not_In_Full_Amount(@Optional("") String state) {
 		super.payRenewalBillNotInFullAmount(toleranceAmount);
 	}
-
 	
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
