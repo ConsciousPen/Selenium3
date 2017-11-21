@@ -35,6 +35,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.regression.sales.auto_ss.functional.PreConditions.TestEValueDiscountPreConditions;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.DataProviderFactory;
@@ -47,7 +48,7 @@ import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
 
-public class TestEValueDiscount extends AutoSSBaseTest {
+public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDiscountPreConditions {
 
 	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
 	private static final String E_VALUE_DISCOUNT = "eValue Discount"; //PAS-440 - rumors have it, that discount might be renamed
@@ -72,84 +73,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab(); //TODO test with policy.dataGather().getView().getTab(DocumentsAndBindTab.class); instead of new Tab();
 	private ErrorTab errorTab = new ErrorTab();
 
-	private static final String EVALUE_CONFIGURATION_PER_STATE_CHECK =
-			"select dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id from LOOKUPVALUE\n" +
-					" where lookuplist_id = \n" +
-					" (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup')\n" +
-					" and CODE = 'eMember'\n" +
-					" and RISKSTATECD = '%s'";
 
-	private static final String PAPERLESS_PREFRENCES_CONFIGURATION_PER_STATE_CHECK =
-			"select dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id from LOOKUPVALUE\n" +
-					" where lookuplist_id = \n" +
-					" (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup')\n" +
-					" and CODE = 'PaperlessPreferences'\n" +
-					" and RISKSTATECD = '%s'";
-
-	private static final String EVALUE_STATUS_CHECK = "select evaluestatus from(\n" +
-			"select ps.id, em.EVALUESTATUS  from  policysummary ps\n" +
-			"join AAAEMemberDetailsEntity em on em.id = ps.EMEMBERDETAIL_ID\n" +
-			"where ps.policynumber = '%s'\n" +
-			"order by ps.id desc)\n" +
-			"where rownum=1";
-
-	private static final String EVALUE_TERRITORY_FOR_VA_CONFIG_CHECK = "select TerritoryCD from(\n" +
-			"SELECT code, displayvalue, effective, productCd, riskstatecd, territoryCd, channelCd, underwritercd \n" +
-			"FROM LOOKUPVALUE \n" +
-			"WHERE LOOKUPLIST_ID IN (\n" +
-			"    SELECT ID \n" +
-			"    FROM PASADM.LOOKUPLIST \n" +
-			"    WHERE LOOKUPNAME LIKE '%Rollout%') \n" +
-			"    AND CODE='eMember' \n" +
-			"    and RiskStateCd = 'VA')";
-
-	private static final String EVALUE_CHANNEL_FOR_VA_CONFIG_CHECK = "select ChannelCd from(\n" +
-			"SELECT code, displayvalue, effective, productCd, riskstatecd, territoryCd, channelCd, underwritercd \n" +
-			"FROM LOOKUPVALUE \n" +
-			"WHERE LOOKUPLIST_ID IN (\n" +
-			"    SELECT ID \n" +
-			"    FROM PASADM.LOOKUPLIST \n" +
-			"    WHERE LOOKUPNAME LIKE '%Rollout%') \n" +
-			"    AND CODE='eMember' \n" +
-			"    and RiskStateCd = 'VA')";
-
-	private static final String EVALUE_CURRENT_BI_CONFIG_CHECK = "select effective from (\n" +
-			"SELECT code, displayValue, productCd, riskStateCd, effective, expiration \n" +
-			"FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n" +
-			"    (SELECT ID \n" +
-			"    FROM LOOKUPLIST \n" +
-			"    WHERE LOOKUPNAME='AAAeMemberQualifications')\n" +
-			"and riskstatecd = 'VA'\n" +
-			"and productCD = 'AAA_SS'\n" +
-			"and code = 'currentBILimits'\n" +
-			"and displayvalue = '50000/100000')";
-
-	private static final String EVALUE_PRIOR_BI_CONFIG_CHECK = "select Effective from (\n" +
-			"SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n" +
-			"FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n" +
-			"    (SELECT ID \n" +
-			"    FROM LOOKUPLIST \n" +
-			"    WHERE LOOKUPNAME='AAAeMemberQualifications')\n" +
-			"and riskstatecd = 'VA'\n" +
-			"and productCD = 'AAA_SS'\n" +
-			"and code = 'priorBILimits'\n" +
-			"and displayvalue = '25000/50000')";
-
-	private static final String EVALUE_MEMBERSHIP_CONFIG_CHECK = "select Effective from (\n" +
-			"SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n" +
-			"FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n" +
-			"    (SELECT ID \n" +
-			"    FROM LOOKUPLIST \n" +
-			"    WHERE LOOKUPNAME='AAAeMemberQualifications')\n" +
-			"and riskstatecd = 'VA'\n" +
-			"and productCD = 'AAA_SS'\n" +
-			"and code = 'membershipEligibility'\n" +
-			"and displayvalue = 'FALSE')";
-
-	private static final String PAPERLESS_PRFERENCE_STUB_POINT = "select VALUE from " +
-			"PROPERTYCONFIGURERENTITY" +
-			" WHERE propertyname='policyPreferenceApiService.policyPreferenceApiUri' " +
-			" and  VALUE= 'http://%s:9098/aaa-external-stub-services-app/ws/policy/preferences'";
 
 	@Test(description = "Precondition")
 	public static void paperlessPreferencesConfigCheck() {

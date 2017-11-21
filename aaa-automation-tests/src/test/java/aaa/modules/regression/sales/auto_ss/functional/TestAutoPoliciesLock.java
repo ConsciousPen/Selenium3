@@ -12,6 +12,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.modules.regression.sales.auto_ss.functional.PreConditions.TestAutoPolicyLockPreConditions;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
@@ -21,18 +22,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestAutoPoliciesLock extends AutoSSBaseTest {
+public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPolicyLockPreConditions {
 
-    private final static String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ISO_DATE);
-    private final static String lookUpId = "(SELECT ll.id FROM lookupList ll WHERE ll.lookupName LIKE '%AAAFactorsLockLookup')";
-    private final static String toCurrentDate = "to_date('" + currentDate + "', 'YYYY-MM-DD')";
-
-    private final static String INSERT_QUERY = "INSERT INTO lookupValue " +
-            "(lookUpList_id,dType,code,displayValue,effective,expiration,productCD,riskStateCD) "+
-            "VALUES (%s,'AAAFactorsLockLookupValue','%s','TRUE',%s,null,'AAA_SS','%s')";
-
-    private final static String DELETE_QUERY = "DELETE FROM lookupValue lv " +
-            "WHERE lv.lookupList_id IN %s AND CODE = '%s' AND DISPLAYVALUE='TRUE' AND EFFECTIVE=%s AND RISKSTATECD='%s'";
+    private static final String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ISO_DATE);
+    private static final String lookUpId = "(SELECT ll.id FROM lookupList ll WHERE ll.lookupName LIKE '%AAAFactorsLockLookup')";
+    private static final String toCurrentDate = "to_date('" + currentDate + "', 'YYYY-MM-DD')";
 
     /**
      * @author Lev Kazarnovskiy
