@@ -55,8 +55,8 @@ public class TestVINUpload extends AutoSSBaseTest {
 	public void testVINUpload_NewVINAdded(@Optional("UT") String state) {
 
 		String vinNumber = "BBBKN3DD0E0344466";
-		String uploadExcelName = "uploadAddedVIN_UT_SS.xlsx";
-		String configExcelName = "controlTable_UT_SS.xlsx";
+		String uploadExcelName = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
+		String configExcelName = getControlTableFile();
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
@@ -126,8 +126,8 @@ public class TestVINUpload extends AutoSSBaseTest {
 	public void testVINUpload_NewVINAdded_Renewal(@Optional("UT") String state) {
 
 		String vinNumber = "BBBKN3DD0E0344466";
-		String uploadExcelName = "uploadAddedVIN_UT_SS.xlsx";
-		String configExcelName = "controlTable_UT_SS.xlsx";
+		String uploadExcelName = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
+		String configExcelName = getControlTableFile();
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
@@ -198,8 +198,8 @@ public class TestVINUpload extends AutoSSBaseTest {
 	public void testVINUpload_UpdatedVIN_Renewal(@Optional("UT") String state) {
 
 		String vinNumber = "1HGEM215140028445";
-		String uploadExcelName = "uploadUpdatedVIN_UT_SS.xlsx";
-		String configExcelName = "controlTable_UT_SS.xlsx";
+		String uploadExcelName = getSpecificUploadFile(UploadFilesTypes.UPDATED_VIN.get());
+		String configExcelName = getControlTableFile();
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
 		precondsTestVINUpload(testData);
@@ -286,6 +286,35 @@ public class TestVINUpload extends AutoSSBaseTest {
 			DBService.get().executeUpdate("UPDATE vehiclerefdatavincontrol SET EXPIRATIONDATE='99999999'");
 		} catch (NoSuchElementException e) {
 			log.error("Configurations with names " + configNames + " are not present in DB, after method have'n been executed fully");
+		}
+	}
+
+	protected String getControlTableFile() {
+		String defaultControlFileName = "controlTable_%s_SS.xlsx";
+		return String.format(defaultControlFileName, getState());
+	}
+
+	protected String getSpecificUploadFile(String type) {
+		String defaultAddedFileName = "upload%sVIN_%s_SS.xlsx";
+		return String.format(defaultAddedFileName, type, getState());
+	}
+
+	protected enum UploadFilesTypes {
+		UPDATED_VIN("Updated"),
+		ADDED_VIN("Added");
+
+		private String type;
+
+		UploadFilesTypes(String type) {
+			set(type);
+		}
+
+		private void set(String type) {
+			this.type = type;
+		}
+
+		private String get() {
+			return type;
 		}
 	}
 }
