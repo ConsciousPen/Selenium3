@@ -1,0 +1,33 @@
+TestData_Purchase: {
+  RatingDetailReportsTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click
+  }
+}
+
+TestData_Endorsement: {
+  GeneralTab: {
+    PolicyInformation: {
+      Authorized by: QA
+    }
+  },
+  DriverTab: {},
+  RatingDetailReportsTab: {
+    Order Report: click
+  },
+  VehicleTab: [
+    {},
+    {
+      Usage: Pleasure,
+      VIN: 2B3ED46T6RH199391,
+      'Is this a Replacement Vehicle?': 'No'
+    }
+  ],
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {}
+}
