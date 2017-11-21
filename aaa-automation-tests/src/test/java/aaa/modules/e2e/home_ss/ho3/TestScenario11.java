@@ -1,4 +1,4 @@
-package aaa.modules.e2e.auto_ss;
+package aaa.modules.e2e.home_ss.ho3;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -12,15 +12,14 @@ import aaa.main.modules.policy.auto_ss.actiontabs.EndorsementActionTab;
 import aaa.modules.e2e.templates.Scenario11;
 import toolkit.datax.TestData;
 
-public class TestScenario11 extends Scenario11 { 
-	
+public class TestScenario11 extends Scenario11 {
 	private Dollar toleranceAmount = new Dollar(10.00);
 	
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_SS;
+		return PolicyType.HOME_SS_HO3;
 	}
-	
+
 	@Parameters({"state"})
 	@Test
 	public void TC01_createPolicy(@Optional("") String state) {
@@ -38,8 +37,8 @@ public class TestScenario11 extends Scenario11 {
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC02_Make_First_Endorsement(@Optional("") String state) {
 		super.makeFistEndorsement();
-	} 
-
+	}
+	
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC03_Generate_First_Off_Cycle_Bill(@Optional("") String state) {
@@ -68,7 +67,7 @@ public class TestScenario11 extends Scenario11 {
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC07_Pay_Second_Off_Cycle_Bill(@Optional("") String state) {
 		super.paySecondOffCycleBill();
-	} 
+	}
 	
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
