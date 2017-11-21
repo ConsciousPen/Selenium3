@@ -77,7 +77,7 @@ public class Scenario11 extends ScenarioBaseTest {
 		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		CustomAssert.assertEquals("Billing Installments count for Quarterly payment plan", installmentsCount, installmentDueDates.size()); 
+		CustomAssert.assertEquals("Billing Installments count for Annual (Pay In Full) payment plan", installmentsCount, installmentDueDates.size()); 
 		
 		offCycleBillDueDate1 = policyEffectiveDate.plusMonths(1);
 		offCycleBillDueDate2 = policyEffectiveDate.plusMonths(2);		
@@ -251,7 +251,7 @@ public class Scenario11 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 	}
 
-	//For AutoSS
+	//For AutoSS, HomeSS
 	protected void payRenewalBillNotInFullAmount(Dollar toleranceAmount) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate)); 
 		mainApp().open();
