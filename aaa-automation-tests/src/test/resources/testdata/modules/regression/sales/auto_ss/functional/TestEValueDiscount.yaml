@@ -21,6 +21,15 @@ CurrentCarrierInformation: {
   Agent Entered BI Limits: '$300,000/$500,000',
 }
 
+CurrentCarrierInformationBlueBox: {
+  "Override Prefilled Current Carrier?": 'Yes',
+  Agent Entered Current/Prior Carrier: 'AAA-SoCal (ACSC)',
+  Agent Entered Inception Date: /today,
+  Agent Entered Expiration Date: /today,
+  Agent Entered Policy Number: 'VASS876456324',
+  Agent Entered BI Limits: '$300,000/$500,000',
+}
+
 PolicyInformation: {
   Policy Type: Standard,
   Effective Date: '/today:MM/dd/yyyy',
