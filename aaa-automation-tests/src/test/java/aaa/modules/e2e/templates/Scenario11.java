@@ -34,6 +34,7 @@ import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.IPolicy;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
@@ -76,7 +77,7 @@ public class Scenario11 extends ScenarioBaseTest {
 		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		CustomAssert.assertEquals("Billing Installments count for Quarterly payment plan", installmentsCount, installmentDueDates.size()); 
+		CustomAssert.assertEquals("Billing Installments count for Annual (Pay In Full) payment plan", installmentsCount, installmentDueDates.size()); 
 		
 		offCycleBillDueDate1 = policyEffectiveDate.plusMonths(1);
 		offCycleBillDueDate2 = policyEffectiveDate.plusMonths(2);		
@@ -222,6 +223,21 @@ public class Scenario11 extends ScenarioBaseTest {
 		}
 		*/
 	}
+	
+	//Skip this step for CA
+	protected void generateRenewalBill() {
+		LocalDateTime billDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
+		TimeSetterUtil.getInstance().nextPhase(billDate);
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
+		BillingSummaryPage.showPriorTerms();
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
+
+		//Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
+		verifyRenewPremiumNotice(policyExpirationDate, billDate);
+	}
 
 	protected void updatePolicyStatus() {
 		LocalDateTime updateStatusDate = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
@@ -235,6 +251,23 @@ public class Scenario11 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 	}
 
+	//For AutoSS, HomeSS
+	protected void payRenewalBillNotInFullAmount(Dollar toleranceAmount) {
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate)); 
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
+		BillingSummaryPage.showPriorTerms();
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
+		
+		Dollar offerAmount = BillingHelper.getBillMinDueAmount(policyExpirationDate, BillsAndStatementsType.BILL);
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), 
+				getAmountToPaidOfferNotInFull(offerAmount, toleranceAmount)); 
+		
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
+	}
+	
+	//For AutoCA 
 	protected void payRenewalOfferNotInFullAmount(Dollar toleranceAmount) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate).plusHours(1));
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
@@ -248,13 +281,10 @@ public class Scenario11 extends ScenarioBaseTest {
 		String billType = getState().equals(Constants.States.CA) ? BillsAndStatementsType.OFFER : BillsAndStatementsType.BILL;
 		Dollar offerAmount = BillingHelper.getBillMinDueAmount(policyExpirationDate, billType);
 
-		if (getState().equals(Constants.States.CA)) {
-			Dollar caFraudAssessmentFee = new Dollar(1.76);
-			offerAmount = offerAmount.subtract(caFraudAssessmentFee.multiply(2)); 
-			log.info("Offer amount is: "+offerAmount);
-		}
-		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), offerAmount.subtract(toleranceAmount));
-		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), 
+				getAmountToPaidOfferNotInFull(offerAmount, toleranceAmount));
+		
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate); 
 	}
 	
 	protected void payRenewalOfferInFullAmount(Dollar toleranceAmount) {
@@ -263,14 +293,9 @@ public class Scenario11 extends ScenarioBaseTest {
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), 
+				getRestAmountToPaidOfferInFull(toleranceAmount)); 
 		
-		if (getState().equals(Constants.States.CA)) {
-			Dollar caFraudAssessmentFee = new Dollar(1.76);
-			billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), toleranceAmount.add(caFraudAssessmentFee.multiply(2))); 
-		}
-		else {
-			billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), toleranceAmount); 
-		} 
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);		
 	}
 
@@ -306,10 +331,10 @@ public class Scenario11 extends ScenarioBaseTest {
 		query.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, policyExpirationDate.plusMonths(1).format(DateTimeUtils.MM_DD_YYYY));
 		query.put(BillingPaymentsAndOtherTransactionsTable.POLICY, policyNum);
 		query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PREMIUM); 
-		query.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM);
+		query.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.CANCELLATION);
 
 		String cancelAmount = 
-				BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue().toString();
+				BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue().toString();
 		log.info("cancelAmount is: "+cancelAmount);
 		Dollar refundAmount = new Dollar(cancelAmount.substring(1, cancelAmount.length()-1));
 		log.info("refundAmount is: "+refundAmount);
@@ -329,6 +354,24 @@ public class Scenario11 extends ScenarioBaseTest {
 			.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND)
 			.setReason(PaymentsAndOtherTransactionReason.OVERPAYMENT)
 			.setStatus(PaymentsAndOtherTransactionStatus.APPROVED).verifyPresent(); 		
+	}
+
+	private Dollar getAmountToPaidOfferNotInFull(Dollar offerAmount, Dollar toleranceAmount) {
+		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
+			Dollar caFraudAssessmentFee = new Dollar(1.76);
+			offerAmount = offerAmount.subtract(caFraudAssessmentFee.multiply(2)); 
+			toleranceAmount = toleranceAmount.add(0.01);			
+		}
+		return offerAmount.subtract(toleranceAmount);
+	}
+	
+	private Dollar getRestAmountToPaidOfferInFull(Dollar toleranceAmount) {
+		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
+			Dollar caFraudAssessmentFee = new Dollar(1.76); 
+			toleranceAmount = toleranceAmount.add(caFraudAssessmentFee.multiply(2));
+			toleranceAmount = toleranceAmount.add(0.01);
+		}
+		return toleranceAmount;
 	}
 	
 }

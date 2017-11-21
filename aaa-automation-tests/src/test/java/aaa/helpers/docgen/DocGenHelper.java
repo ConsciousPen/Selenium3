@@ -1,22 +1,7 @@
 package aaa.helpers.docgen;
 
-import aaa.helpers.db.DbXmlHelper;
-import aaa.helpers.docgen.searchNodes.SearchBy;
-import aaa.helpers.ssh.RemoteHelper;
-import aaa.helpers.xml.XmlHelper;
-import aaa.helpers.xml.models.CreateDocuments;
-import aaa.helpers.xml.models.Document;
-import aaa.helpers.xml.models.DocumentDataSection;
-import aaa.helpers.xml.models.StandardDocumentRequest;
-import aaa.main.enums.DocGenEnum;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.Assert;
-
-import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssert;
-
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -24,6 +9,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import aaa.helpers.db.DbXmlHelper;
+import aaa.helpers.docgen.searchNodes.SearchBy;
+import aaa.helpers.ssh.RemoteHelper;
+import aaa.helpers.xml.XmlHelper;
+import aaa.helpers.xml.models.CreateDocuments;
+import aaa.helpers.xml.models.Document;
+import aaa.helpers.xml.models.DocumentDataElement;
+import aaa.helpers.xml.models.DocumentDataSection;
+import aaa.helpers.xml.models.StandardDocumentRequest;
+import aaa.main.enums.DocGenEnum;
+import toolkit.exceptions.IstfException;
+import toolkit.verification.CustomAssert;
 
 public class DocGenHelper {
 	public static final String DOCGEN_SOURCE_FOLDER = "/home/DocGen/";
@@ -194,11 +194,60 @@ public class DocGenHelper {
      */
     public static List<DocumentDataSection> getDocumentDataElemByName(String dataElemName, DocGenEnum.Documents docId, String selectPolicyData) {
         Document doc = getDocument(docId, selectPolicyData);
-        doc.getDocumentDataSections().forEach(v1 -> v1.setDocumentDataElements(v1.getDocumentDataElements().stream().
-                filter(inner -> inner.getName().equals(dataElemName)).collect(Collectors.toList())));
-        return doc.getDocumentDataSections().stream().filter(list -> !list.getDocumentDataElements().isEmpty()).
-                collect(Collectors.toList());
+		doc.getDocumentDataSections().forEach(v1 -> v1.setDocumentDataElements(v1.getDocumentDataElements().stream().
+				filter(inner -> inner.getName().equals(dataElemName)).collect(Collectors.toList())));
+		return doc.getDocumentDataSections().stream().filter(list -> !list.getDocumentDataElements().isEmpty()).
+				collect(Collectors.toList());
     }
+
+	/**
+	 * Find DataElem in the document
+	 * @param dataElemName elem Name which will be in the section
+	 * @param document generated Document
+	 */
+	public static DocumentDataElement getDocumentDataElemByName(String dataElemName, Document document) {
+		List<DocumentDataSection> sections = document.getDocumentDataSections().stream()
+				.filter(section -> section.getDocumentDataElements().stream()
+						.anyMatch(elem -> elem.getName().equals(dataElemName))).collect(Collectors.toList());
+		CustomAssert.assertTrue(MessageFormat.format("More than one element \"{0}\" found.", dataElemName), sections.size() <= 1);
+
+		return sections.stream().findFirst().get().getDocumentDataElements().stream().filter(elem -> elem.getName().equals(dataElemName)).findFirst().get();
+	}
+
+	/**
+	 * Wait for document(s) request appearance in database for specific <b>docId</b> with timeout {@link DocGenHelper#DOCUMENT_GENERATION_TIMEOUT}
+	 *
+	 * @param docId documents ids to be used for waiting xml document.
+	 * @param quoteNumber quote/policy number
+	 *@param eventName event name of the generated document
+	 */
+	public static Document waitForDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, String eventName) {
+		final long conditionCheckPoolingIntervalInSeconds = 1;
+		log.info(String.format("Waiting for xml document \"%1$s\" request appearance in database.", docId.getId()));
+
+		long searchStart = System.currentTimeMillis();
+		long timeout = searchStart + DOCUMENT_GENERATION_TIMEOUT * 1000;
+		Document document;
+		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, quoteNumber, docId.getId(), eventName);
+		do {
+			try {
+				document = getDocument(docId, query);
+			} catch (Exception e) {
+				document = null;
+			}
+			if (document != null) return document;
+			try {
+				TimeUnit.SECONDS.sleep(conditionCheckPoolingIntervalInSeconds);
+			} catch (InterruptedException e) {
+				log.debug(e.getMessage());
+			}
+		} while (timeout > System.currentTimeMillis());
+		long searchTime = System.currentTimeMillis() - searchStart;
+
+		CustomAssert.assertTrue(MessageFormat.format("Xml document \"{0}\" found. Search time:  \"{1}\"", docId.getId(), searchTime), document != null);
+		log.info(MessageFormat.format("Found document \"{0}\" after {1} milliseconds", docId.getId(), searchTime));
+		return document;
+	}
 
     public static Document getDocument(DocGenEnum.Documents value, String query) {
         String xmlDocData = DbXmlHelper.getXmlByDocName(value, query);
