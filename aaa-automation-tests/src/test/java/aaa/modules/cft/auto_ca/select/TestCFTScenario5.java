@@ -28,7 +28,7 @@ public class TestCFTScenario5 extends ControlledFinancialBaseTest {
 		createPolicyForTest();
 		acceptPaymentEffDatePlus25();
 		otherAdjustmentOnCancellationNoticeDate();
-		generateInstallmentBill(2);
+		generateInstallmentBill(1);
 	}
 
 	@Override
