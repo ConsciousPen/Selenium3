@@ -93,5 +93,19 @@ public class EvalueInsertSetupConditions implements EvalueInsertPreConditions {
 	public static void paymentCentralStubEndPointUpdate() {
 		DBService.get().executeUpdate(String.format(PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE, APP_HOST));
 	}
+	@Test(description = "Precondition")
+	public static void eValueMembershipAcknowledgementConfigInsert() { DBService.get().executeUpdate(EVALUE_MEMBERSHIP_CONFIG_ACKNOWLEDGEMENT_INSERT); }
+
+	@Test(description = "Precondition")
+	public static void eValueCurrentBIAcknowledgementConfigInsert() { DBService.get().executeUpdate(EVALUE_CURRENT_BI_CONFIG_ACKNOWLEDGEMENT_INSERT); }
+
+	@Test(description = "Precondition")
+	public static void eValuePayPlanAcknowledgementConfigInsert() { DBService.get().executeUpdate(EVALUE_PAYPLAN_CONFIG_ACKNOWLEDGEMENT_INSERT); }
+
+	@Test(description = "Precondition")
+	public static void eValueMyPolicyAcknowledgementConfigInsert() { DBService.get().executeUpdate(EVALUE_MYPOLICY_CONFIG_ACKNOWLEDGEMENT_INSERT); }
+
+	@Test(description = "Precondition")
+	public static void eValueCreditCardAcknowledgementConfigInsert() { DBService.get().executeUpdate(EVALUE_CREDITCARD_CONFIG_ACKNOWLEDGEMENT_INSERT); }
 
 }

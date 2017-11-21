@@ -117,4 +117,38 @@ public interface EvalueInsertPreConditions {
             + "set value = 'http://%s:9098/aaa-external-stub-services-app/ws/membershipsummary'\n"
             + "where propertyname = 'retrieveMembershipSummaryServiceImpl.endpointRetrieveMembershipSummaryUri'";
 
+
+    String EVALUE_MEMBERSHIP_CONFIG_ACKNOWLEDGEMENT_INSERT = "INSERT ALL\n"
+            + "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
+            + "		values ('BaseProductLookupValue', 'membershipEligibility', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
+            + "		values ('BaseProductLookupValue', 'membershipEligibility', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-5 from dual), (select SYSDATE-1 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "Select * from dual";
+
+    String EVALUE_CURRENT_BI_CONFIG_ACKNOWLEDGEMENT_INSERT = "INSERT ALL\n"
+            + "    INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
+            + "        values ('BaseProductLookupValue', 'currentBIRequired', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-13 from dual), (select SYSDATE-11 from dual) ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "    INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
+            + "        values ('BaseProductLookupValue', 'currentBIRequired', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-5 from dual), (select SYSDATE-1 from dual) ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "Select * from dual";
+
+    String EVALUE_MYPOLICY_CONFIG_ACKNOWLEDGEMENT_INSERT = "INSERT ALL\n"
+            + "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
+            + "		values ('BaseProductLookupValue', 'myPolicyRequired', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-16 from dual), (select SYSDATE-14 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
+            + "		values ('BaseProductLookupValue', 'myPolicyRequired', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-5 from dual), (select SYSDATE-1 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "Select * from dual";
+
+    String EVALUE_PAYPLAN_CONFIG_ACKNOWLEDGEMENT_INSERT = "INSERT ALL\n"
+            + "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
+            + "		values ('BaseProductLookupValue', 'paymentPlanRequired', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-20 from dual), (select SYSDATE-17 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
+            + "		values ('BaseProductLookupValue', 'paymentPlanRequired', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-5 from dual), (select SYSDATE-1 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+            + "Select * from dual";
+
+    String EVALUE_CREDITCARD_CONFIG_ACKNOWLEDGEMENT_INSERT = "INSERT ALL\n"
+            + "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
+            + "		values ('BaseProductLookupValue', 'pciCreditCard', 'TRUE', 'AAA_SS', 'VA',(select SYSDATE-13 from dual), (select SYSDATE-11 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifyingPaymentMethods'))\n"
+            + "Select * from dual";
+
 }
