@@ -10,6 +10,7 @@ import aaa.common.metadata.LoginPageMeta;
 import aaa.common.pages.LoginPage;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.AaaMarkupParser;
 import aaa.helpers.EntitiesHolder;
 import aaa.helpers.TestDataManager;
 import aaa.helpers.TimePoints;
@@ -19,7 +20,9 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.enums.SearchEnum.SearchBy;
 import aaa.main.enums.SearchEnum.SearchFor;
 import aaa.main.modules.customer.Customer;
+import aaa.main.modules.customer.CustomerActions;
 import aaa.main.modules.customer.CustomerType;
+import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
@@ -415,8 +418,6 @@ public class BaseTest {
 		return new SimpleDataProvider(td);
 	}
 
-
-	//TODO : make more readable, for instance getPolicyType() != null && getCaTypes().contains(getPolicyType())
 	protected boolean isStateCA() {
 		return getPolicyType() != null && (getPolicyType().equals(PolicyType.HOME_CA_HO3) || getPolicyType().equals(PolicyType.AUTO_CA_SELECT) || getPolicyType().equals(PolicyType.HOME_CA_DP3) || getPolicyType().equals(PolicyType.HOME_CA_HO4)
 				|| getPolicyType().equals(PolicyType.HOME_CA_HO6) || getPolicyType().equals(PolicyType.AUTO_CA_CHOICE));
@@ -426,6 +427,17 @@ public class BaseTest {
 		String customerNumber = createCustomerIndividual();
 		customer.initiateRenewalEntry().perform(td);
 		return customerNumber;
+	}
+
+	protected String initiateManualConversion(){
+		return initiateManualConversion(getStateTestData(tdCustomerIndividual, CustomerActions.InitiateRenewalEntry.class.getSimpleName(), "TestData"));
+	}
+
+	protected String initiateManualConversionR35() {
+		TestData td = getStateTestData(tdCustomerIndividual, CustomerActions.InitiateRenewalEntry.class.getSimpleName(), "TestData");
+		td.adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(), "Renewal Effective Date"),
+				new AaaMarkupParser().parse("/today+35d:MM/dd/yyyy"));
+		return initiateManualConversion(td);
 	}
 
 	private void initTestDataForTest() {
