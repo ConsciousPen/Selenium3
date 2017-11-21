@@ -16,6 +16,7 @@ TestData: {
 PrefillTab: {
   First Name: Chad,
   Last Name: Black,
+  Date of Birth: '02/02/1970',
   Validate Address: click,
   Validate Address Dialog: {},
   Order Prefill: click

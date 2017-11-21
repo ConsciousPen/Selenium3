@@ -53,4 +53,11 @@
         </classes>
     </test>
 
+    <test name="TestEndorsementActionRules">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEndorsementActionRules"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestEndorsementActionRules"/>
+        </classes>
+    </test>
+
 </suite>

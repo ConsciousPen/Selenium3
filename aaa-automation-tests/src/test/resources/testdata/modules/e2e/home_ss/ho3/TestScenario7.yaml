@@ -39,6 +39,27 @@ TestData_EndorsementRP: {
   BindTab: {},
 }
 
+TestData_EndorsementRP_NJ: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+        Coverage A - Dwelling limit: 144000
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+    Coverage E - Personal Liability Each Occurrence: 'contains=$200,000'
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+}
+
 TestData_EndorsementAP: {
   GeneralTab: {},
   ApplicantTab: {},
@@ -52,6 +73,27 @@ TestData_EndorsementAP: {
   EndorsementTab: {},
   PremiumsAndCoveragesQuoteTab: {
     Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+}
+
+TestData_EndorsementAP_NJ: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {
+    PropertyValue: {
+      Coverage A - Dwelling limit: 150000
+    }
+  },
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
+    Coverage E - Personal Liability Each Occurrence: 'contains=$300,000'
   },
   MortgageesTab: {},
   UnderwritingAndApprovalTab: {},

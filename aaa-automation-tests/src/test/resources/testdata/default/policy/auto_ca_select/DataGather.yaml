@@ -29,8 +29,8 @@ PrefillTab: {
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
-  #CurrentCarrierInformation: '@CurrentCarrierInformation',
   ContactInformation: '@ContactInformation',
+  #CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation'
 }
 

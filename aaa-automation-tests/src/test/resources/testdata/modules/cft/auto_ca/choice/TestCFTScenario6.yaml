@@ -5,7 +5,7 @@ TestData: {
   MembershipTab: {},
   VehicleTab: {},
   AssignmentTab: {},
-  FormsTab: {},
+  FormsTab: '@FormsTab',
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
@@ -22,8 +22,9 @@ TestData_OOS: {
   EndorsementActionTab: '@EndorsementActionTab_OOS',
   GeneralTab: {},
   DriverTab: {},
-  RatingDetailReportsTab: {},
+  MembershipTab: {},
   VehicleTab: {},
+  AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
@@ -38,7 +39,23 @@ EndorsementActionTab_OOS: {
 }
 
 DriverTab: {
-   Financial Responsibility Filing Needed: 'Yes'
+   Financial Responsibility Filling Needed: 'Yes',
+   Filling Type: 'SR-22'
+}
+
+FormsTab: {
+  Driver Forms: {
+    CIPCSR22: {
+      Action: Edit,
+      Case Number: 123,
+      State: CA
+    }
+  }
+}
+ 
+DriverTab_DataGather: {
+    Employee Benefit Type: 'Active employee',
+    Employee ID: '12345678'
 }
 
 PremiumAndCoveragesTab_DataGather: {

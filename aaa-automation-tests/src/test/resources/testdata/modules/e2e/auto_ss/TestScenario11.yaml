@@ -5,8 +5,8 @@ TestData: {
   },
 }
 
-# ----- Endorsement -----
-TestData_Endorsement: {
+# ----- Endorsement 1 -----
+TestData_Endorsement1: {
   GeneralTab: {},
   DriverTab: {},
   RatingDetailReportsTab: {},
@@ -60,3 +60,23 @@ VehicleTab_NY: {
   "Less Than 3,000 Miles": 'No',
   'Is this a Replacement Vehicle?': 'No'
 }
+
+# ----- Endorsement 2 -----
+TestData_Endorsement2: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+PremiumAndCoveragesTab: {
+  Bodily Injury Liability: 'contains=$500,000/$500,000',
+  Property Damage Liability: 'contains=$100,000'
+}
+
