@@ -14,10 +14,10 @@ import toolkit.datax.TestData;
 
 public class TestScenario11 extends Scenario11 {
 
-	private Dollar toleranceAmount = new Dollar(15.01);
+	private Dollar toleranceAmount = new Dollar(15.00);
 	
 	//For CA Choice
-	//private Dollar toleranceAmount = new Dollar(12.01);
+	//private Dollar toleranceAmount = new Dollar(12.00);
 	
 	@Override
 	protected PolicyType getPolicyType() {
