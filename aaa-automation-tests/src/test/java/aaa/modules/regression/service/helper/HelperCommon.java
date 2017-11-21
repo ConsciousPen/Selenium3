@@ -30,13 +30,13 @@ public class HelperCommon{
 	}
 
 	private void emailUpdateSwaggerUi(String policyNumber, String emailAddress, String authorizedBy) {
-		By customerV1EndorsementsPost = SwaggerUiTab.agentV1EndorsementsPost.getLocator();
+		By customerV1EndorsementsPost = SwaggerUiTab.policyV1EndorsementsPost.getLocator();
 		Application.open(swaggerUiUrl);
 		SwaggerUiTab swaggerUiTab = new SwaggerUiTab();
 
 		Waiters.SLEEP(2000).go();
-		SwaggerUiTab.agentV1Endorsements.click();
-		SwaggerUiTab.agentV1EndorsementsPost.click();
+		SwaggerUiTab.policyV1Endorsements.click();
+		SwaggerUiTab.policyV1EndorsementsPost.click();
 
 		SwaggerUiTab.policyNumber.setValue(policyNumber);
 		SwaggerUiTab.updateContactInfo.setValue(" { \"email\": \""+emailAddress+"\",\n"

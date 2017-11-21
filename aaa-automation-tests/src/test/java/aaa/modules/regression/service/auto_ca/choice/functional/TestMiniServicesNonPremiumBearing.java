@@ -14,7 +14,6 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
-import aaa.modules.regression.service.helper.Preconditions;
 import aaa.modules.regression.service.helper.TestMiniServicesNonPremiumBearingAbstract;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -26,12 +25,6 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_CA_CHOICE;
-	}
-
-	@Test
-	@TestInfo(isAuxiliary = true)
-	public static void dxpConfigurationCheck() {
-		Preconditions.dxpConfigurationCheck();
 	}
 
 	/**
@@ -48,7 +41,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "dxpConfigurationCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE)
 	public void pas1441_emailChangeOutOfPas(@Optional("CA") String state) {
 

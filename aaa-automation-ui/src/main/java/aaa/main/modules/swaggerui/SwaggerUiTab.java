@@ -31,10 +31,10 @@ public class SwaggerUiTab extends Tab {
 	public static Link productStateLoad = new Link(By.xpath(".//*[@id='product-state_load']/div[1]/h3/span[2]/a"), Waiters.AJAX);
 	public static Link productStateStart = new Link(By.xpath(".//*[@id='product-state_start']/div[1]/h3/span[2]/a"), Waiters.AJAX);
 
-	public static Link agentV1Endorsements = new Link(By.xpath(".//*[@id='endpointListTogger_/agent/v1/endorsements']"), Waiters.AJAX);
-	public static Link agentV1EndorsementsPost = new Link(By.xpath(".//*[@id='/agent/v1/endorsements_updateContactInfo']/div[1]/h3/span[1]/a"), Waiters.AJAX);
-	public static TextBox policyNumber = new TextBox(By.xpath(".//*[@id='/agent/v1/endorsements_updateContactInfo']//input[@name='policyNumber']"), Waiters.AJAX);
-	public static TextBox updateContactInfo = new TextBox(By.xpath(".//*[@id='/agent/v1/endorsements_updateContactInfo']//textarea[@name='updateContactInfo']"), Waiters.AJAX);
+	public static Link policyV1Endorsements = new Link(By.xpath(".//*[@id='endpointListTogger_/policy/v1/endorsements']"), Waiters.AJAX);
+	public static Link policyV1EndorsementsPost = new Link(By.xpath(".//*[@id='/policy/v1/endorsements_updateContactInfo']/div[1]/h3/span[1]/a"), Waiters.AJAX);
+	public static TextBox policyNumber = new TextBox(By.xpath(".//*[@id='/policy/v1/endorsements_updateContactInfo']//input[@name='policyNumber']"), Waiters.AJAX);
+	public static TextBox updateContactInfo = new TextBox(By.xpath(".//*[@id='/policy/v1/endorsements_updateContactInfo']//textarea[@name='updateContactInfo']"), Waiters.AJAX);
 
 	//common pattern xpath
 	public static final String ROOT_XPATH = "/../../../../div[2]";
