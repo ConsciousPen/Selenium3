@@ -3,6 +3,7 @@ package aaa.modules.conversion;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingHelper;
+import aaa.helpers.constants.Groups;
 import aaa.helpers.conversion.ConversionPolicyData;
 import aaa.helpers.conversion.ConversionUtils;
 import aaa.helpers.conversion.SisConversionData;
@@ -26,61 +27,61 @@ import java.time.LocalDateTime;
 public class SisConversionTest extends HomeCaDP3BaseTest {
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void sisCADP3ConversionTest1(@Optional("CA") String state, ITestContext context) {
 		sisConversion("1.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void sisCADP3ConversionTest2(@Optional("CA") String state, ITestContext context) {
 		sisConversion("2.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void sisCADP3ConversionTest3(@Optional("CA") String state, ITestContext context) {
 		sisConversion("3.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void sisCADP3ConversionTest4(@Optional("CA") String state, ITestContext context) {
 		sisConversion("4.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void sisCADP3ConversionTest5(@Optional("CA") String state, ITestContext context) {
 		sisConversion("5.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void sisCADP3ConversionTest_customerDeclined1(@Optional("CA") String state, ITestContext context) {
 		sisConversion_customerDeclined("1.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void sisCADP3ConversionTest_customerDeclined2(@Optional("CA") String state, ITestContext context) {
 		sisConversion_customerDeclined("2.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void sisCADP3ConversionTest_customerDeclined3(@Optional("CA") String state, ITestContext context) {
 		sisConversion_customerDeclined("3.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void sisCADP3ConversionTest_customerDeclined4(@Optional("CA") String state, ITestContext context) {
 		sisConversion_customerDeclined("4.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void sisCADP3ConversionTest_customerDeclined5(@Optional("CA") String state, ITestContext context) {
 		sisConversion_customerDeclined("5.xml", context);
 	}
