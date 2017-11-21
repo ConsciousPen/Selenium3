@@ -290,7 +290,8 @@ public final class DocGenEnum {
         AADNNY2(""),
         AAACNY(""),
         AAIFNY2(""),
-        AAIFNYF("")
+        AAIFNYF(""),
+        AACDNYR("")
 		;
 
 		private String id;

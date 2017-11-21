@@ -1,15 +1,24 @@
 package aaa.modules.deloitte.docgen.auto_ss;
 
+import java.time.LocalDateTime;
+
+import org.mortbay.log.Log;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import aaa.common.enums.NavigationEnum.AutoSSTab;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.http.HttpStub;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.metadata.policy.AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting;
@@ -22,6 +31,8 @@ import aaa.toolkit.webdriver.WebDriverHelper;
 public class TestScenarioNY extends AutoSSBaseTest {
 	private DocumentsAndBindTab documentsAndBindTab = policy.getDefaultView().getTab(DocumentsAndBindTab.class);
 	private GenerateOnDemandDocumentActionTab docgenActionTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
+	private LocalDateTime policyExpirationDate;
+	private String policyNumber;
 	
 	@Parameters({ "state" })
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
@@ -42,7 +53,8 @@ public class TestScenarioNY extends AutoSSBaseTest {
 		
 		/* Purchase */
 		policy.calculatePremiumAndPurchase(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase")));
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		policyNumber = PolicySummaryPage.getPolicyNumber();
+		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, 
 				Documents.AAMTNY, 
@@ -58,5 +70,20 @@ public class TestScenarioNY extends AutoSSBaseTest {
 		policy.createEndorsement(td);
 		policy.policyDocGen().start();
 		docgenActionTab.verify.documentsPresent(Documents.AAIFNYF);		
+		docgenActionTab.buttonCancel.click();
+		
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+	
+	@Parameters({ "state" })
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
+	public void TC02_RenewaOfferBillGeneration(@Optional("") String state) {
+		LocalDateTime renewOfferBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
+		TimeSetterUtil.getInstance().nextPhase(renewOfferBillGenDate);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1, true);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2, true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents.AACDNYR);
 	}
 }
