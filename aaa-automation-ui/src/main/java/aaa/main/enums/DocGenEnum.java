@@ -282,7 +282,8 @@ public final class DocGenEnum {
         AU09("Uprate Notice"),
         AU10("Potential Uprate"),
         AAPNXX(""),
-        
+		AHEVAXX("eValue Discount Acknowledgement"),
+
         AAOANY(""),
         AAMTNY(""),
         FS20("FS-20", ""),
