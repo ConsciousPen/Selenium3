@@ -410,22 +410,22 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	/**
-	 * Other Adjustment on cancellation Notice generation day
+	 * Other Adjustment on cancellation Notice generation day, calculated from one month after policy effective date
 	 * Adjustment amount defined in TestData
 	 */
 	protected void otherAdjustmentOnCancellationNoticeDate() {
 		LocalDateTime cancellationNoticeDate = getTimePoints().getCancellationNoticeDate(
-			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
+			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyEffDate().plusMonths(1));
 		otherAdjustmentOnDate(cancellationNoticeDate);
 	}
 
 	/**
-	 * Other Adjustment on Cancellation day
+	 * Other Adjustment on Cancellation day, calculated from one month after policy effective date
 	 * Adjustment amount defined in TestData
 	 */
 	protected void otherAdjustmentOnCancellationDate() {
 		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(
-			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
+			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyEffDate().plusMonths(1));
 		otherAdjustmentOnDate(cancellationDate);
 	}
 
