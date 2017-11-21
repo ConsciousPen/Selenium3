@@ -1,4 +1,4 @@
-package aaa.utils.rating.openl_objects;
+package aaa.utils.openl.model;
 
 import java.time.LocalDateTime;
 

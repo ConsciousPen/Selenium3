@@ -1,34 +1,29 @@
 package aaa.helpers.rating;
 
-import aaa.main.modules.policy.PolicyType;
-import aaa.utils.rating.OpenLFileParser;
-import aaa.utils.rating.openl_objects.OpenLPolicy;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import toolkit.datax.TestData;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import aaa.utils.openl.model.OpenLPolicy;
+import aaa.utils.openl.parser.OpenLFileParser;
+import toolkit.datax.TestData;
 
-public class OpenLTestsHolder {
+public class OpenLTestsHolder<T extends OpenLFileParser<P, ?>, P extends OpenLPolicy> {
 	private List<OpenLTest> openLTests;
 
-	public OpenLTestsHolder(String pathToOpenLfile, PolicyType policyType) {
-		OpenLFileParser openLFileParser = policyType.getOpenLFileParser().parse(new File(pathToOpenLfile));
-		openLTests = initializeTests(openLFileParser);
+	public OpenLTestsHolder(String pathToOpenLfile, T openLFileParser) {
+		openLFileParser.parse(new File(pathToOpenLfile));
+		List<P> openLPolicies = openLFileParser.getPolicies();
+		openLTests = new ArrayList<>(openLPolicies.size());
+
+		for (P oPolicy : openLPolicies) {
+			TestData ratingData = openLFileParser.generateTestData(oPolicy);
+			Dollar expectedPremium = openLFileParser.getFinalPremium(oPolicy);
+			openLTests.add(new OpenLTest(ratingData, expectedPremium));
+		}
 	}
 
 	public List<OpenLTest> getTests() {
-		return openLTests;
-	}
-
-	private List<OpenLTest> initializeTests(OpenLFileParser openLFileParser) {
-		List<OpenLTest> openLTests = new ArrayList<>(openLFileParser.getPolicies().size());
-		for (OpenLPolicy openLPolicy : openLFileParser.getPolicies()) {
-			TestData ratingData = openLFileParser.generateTestData(openLPolicy);
-			Dollar expectedPremium = openLFileParser.getFinalPremium(openLPolicy.getNumber());
-			openLTests.add(new OpenLTest(ratingData, expectedPremium));
-		}
 		return openLTests;
 	}
 

@@ -1,6 +1,5 @@
-package aaa.utils.rating.openl_objects;
+package aaa.utils.openl.model;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class AutoSSOpenLPolicy extends OpenLPolicy {
@@ -66,8 +65,8 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		return isAAAMember;
 	}
 
-	public void setAAAMember(boolean AAAMember) {
-		isAAAMember = AAAMember;
+	public void setAAAMember(boolean isAAAMember) {
+		this.isAAAMember = isAAAMember;
 	}
 
 	public String getAaaHomePolicy() {
@@ -114,8 +113,8 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		return isEMember;
 	}
 
-	public void setEMember(boolean EMember) {
-		isEMember = EMember;
+	public void setEMember(boolean isEMember) {
+		this.isEMember = isEMember;
 	}
 
 	public int getMemberPersistency() {
@@ -154,8 +153,8 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		return isAARP;
 	}
 
-	public void setAARP(boolean AARP) {
-		isAARP = AARP;
+	public void setAARP(boolean isAARP) {
+		this.isAARP = isAARP;
 	}
 
 	public boolean isEmployee() {
