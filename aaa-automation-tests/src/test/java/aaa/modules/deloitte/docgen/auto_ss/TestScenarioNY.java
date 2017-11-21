@@ -1,22 +1,16 @@
 package aaa.modules.deloitte.docgen.auto_ss;
 
 import java.time.LocalDateTime;
-
-import org.mortbay.log.Log;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssert;
 import aaa.common.enums.NavigationEnum.AutoSSTab;
 import aaa.common.pages.NavigationPage;
-import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum.Documents;
@@ -62,7 +56,7 @@ public class TestScenarioNY extends AutoSSBaseTest {
 				Documents.AADNNY2,
 				Documents.AAACNY);
 		policy.policyDocGen().start();
-		docgenActionTab.verify.documentsPresent(Documents.AAIFNY2);
+		docgenActionTab.verify.documentsPresent(Documents.AAIFNY2, Documents.AAIFNYC);
 		docgenActionTab.cancel();
 		
 		/* Endorse */
@@ -85,5 +79,25 @@ public class TestScenarioNY extends AutoSSBaseTest {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2, true);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents.AACDNYR);
+	}
+	
+	@Parameters({ "state" })
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
+	public void TC03_UpdatePolicyStatus(@Optional("") String state) {
+		LocalDateTime updatePolicyStatusDate = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
+		TimeSetterUtil.getInstance().nextPhase(updatePolicyStatusDate);
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob, true);
+	}
+	
+	@Parameters({ "state" })
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
+	public void TC04_InsuranceRenewalReminder(@Optional("") String state) {
+		LocalDateTime insuranceRenewalReminderDate = getTimePoints().getInsuranceRenewalReminderDate(policyExpirationDate);
+		TimeSetterUtil.getInstance().nextPhase(insuranceRenewalReminderDate);
+		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob, true);
+		JobUtils.executeJob(Jobs.aaaRenewalReminderGenerationAsyncJob, true);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents.AH64XX);
 	}
 }
