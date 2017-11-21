@@ -81,7 +81,7 @@ public class TestNyDocGen extends AutoSSBaseTest {
     public void pas2832_IdentificationCardNoticeAADNNY1(@Optional("NY") String state) {
         TestData policyTd = prepareConvTD(getPolicyTD(), state);
         String policyNumber = conversionPolicyPreconditions(policyTd);
-        String getDataSql = String.format(AaaDocGenEntityQueries.GET_DOCUMENT_BY_POLICY_NUMBER, policyNumber, AaaDocGenEntityQueries.EvantNames.RENEWAL_OFFER);
+        String getDataSql = String.format(AaaDocGenEntityQueries.GET_DOCUMENT_BY_POLICY_NUMBER, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 
         DOC_TO_CHECK.forEach(docID -> {
             //Select doc from DB
@@ -155,7 +155,7 @@ public class TestNyDocGen extends AutoSSBaseTest {
                 adjust(TestData.makeKeyPath(premiumCovTab.getMetaKey(), SUPPLEMENTAL_SPOUSAL_LIABILITY.getLabel()), "Yes").
                 adjust(TestData.makeKeyPath(premiumCovTab.getMetaKey(), RENTAL_REIMBURSEMENT.getLabel()), "index=1");
         String policyNumber = conversionPolicyPreconditions(policyTd);
-        String getDataSql = String.format(AaaDocGenEntityQueries.GET_DOCUMENT_BY_POLICY_NUMBER, policyNumber, AaaDocGenEntityQueries.EvantNames.RENEWAL_OFFER);
+        String getDataSql = String.format(AaaDocGenEntityQueries.GET_DOCUMENT_BY_POLICY_NUMBER, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
         Document privDoc = null;
 
         for (DocGenEnum.Documents doc : DOC_TO_CHECK_SEQUENCING) {
@@ -194,7 +194,7 @@ public class TestNyDocGen extends AutoSSBaseTest {
         String policyNumber = conversionPolicyPreconditions(policyTd);
 
         //Select data from DB
-        String getDataSql = String.format(AaaDocGenEntityQueries.GET_DOCUMENT_BY_POLICY_NUMBER, policyNumber, AaaDocGenEntityQueries.EvantNames.RENEWAL_OFFER);
+        String getDataSql = String.format(AaaDocGenEntityQueries.GET_DOCUMENT_BY_POLICY_NUMBER, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 
         //Get actual value
         DocumentDataSection docData = DocGenHelper.getDocumentDataElemByName(xmlTag, getStateRelatedDoc(state), getDataSql).get(0);

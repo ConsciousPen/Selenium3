@@ -23,7 +23,7 @@ public interface AaaDocGenEntityQueries {
             + "FROM aaadocgenentity doc INNER JOIN policysummary s ON s.id = doc.entityid\n"
             + "WHERE  s.policynumber = '%s' AND doc.eventname LIKE '%s'";
 
-    enum EventNames{
+    enum EventNames {
         RENEWAL_OFFER,PREMIUM_CALCULATED,CANCEL_MIDTERM,ENDORSEMENT_ISSUE,ADHOC_DOC_GENERATE,POLICY_ISSUE
     }
 
