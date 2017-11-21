@@ -30,6 +30,7 @@ GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
   AAAProductOwned: '@AAAProductOwned',
   ContactInformation: '@ContactInformation',
+  #CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation'
 }
 
