@@ -55,8 +55,8 @@ public class TestVINUpload extends AutoSSBaseTest {
 	public void testVINUpload_NewVINAdded(@Optional("UT") String state) {
 
 		String vinNumber = "BBBKN3DD0E0344466";
-		String uploadExcelName = "VINupload_UT_SS.xlsx";
-		String configExcelName = "VINconfig_UT_SS.xlsx";
+		String uploadExcelName = "uploadAddedVIN_UT_SS.xlsx";
+		String configExcelName = "controlTable_UT_SS.xlsx";
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
@@ -126,8 +126,8 @@ public class TestVINUpload extends AutoSSBaseTest {
 	public void testVINUpload_NewVINAdded_Renewal(@Optional("UT") String state) {
 
 		String vinNumber = "BBBKN3DD0E0344466";
-		String uploadExcelName = "VINupload_UT_SS.xlsx";
-		String configExcelName = "VINconfig_UT_SS.xlsx";
+		String uploadExcelName = "uploadAddedVIN_UT_SS.xlsx";
+		String configExcelName = "controlTable_UT_SS.xlsx";
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
@@ -198,8 +198,8 @@ public class TestVINUpload extends AutoSSBaseTest {
 	public void testVINUpload_UpdatedVIN_Renewal(@Optional("UT") String state) {
 
 		String vinNumber = "1HGEM215140028445";
-		String uploadExcelName = "VINupload_UT_SS_UPDATE.xlsx";
-		String configExcelName = "VINconfig_UT_SS.xlsx";
+		String uploadExcelName = "uploadUpdatedVIN_UT_SS.xlsx";
+		String configExcelName = "controlTable_UT_SS.xlsx";
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
 		precondsTestVINUpload(testData);
@@ -256,11 +256,10 @@ public class TestVINUpload extends AutoSSBaseTest {
 		policy.getDefaultView().fillUpTo(testData, VehicleTab.class, true);
 	}
 
-
-	private void verifyActivitiesAndUserNotes (String vinNumber) {
+	private void verifyActivitiesAndUserNotes(String vinNumber) {
 		//method added for verification of PAS-544 - Activities and User Notes
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description","VIN data has been updated for the following vehicle(s): " + vinNumber)
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "VIN data has been updated for the following vehicle(s): " + vinNumber)
 				.verify.present("PAS-544 - Activities and User Notes may be broken: VIN refresh record is missed in Activities and User Notes:");
 	}
 
