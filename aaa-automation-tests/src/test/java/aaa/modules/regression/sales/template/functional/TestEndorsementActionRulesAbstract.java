@@ -79,6 +79,7 @@ public abstract class TestEndorsementActionRulesAbstract extends PolicyBaseTest 
 
 		//BUG PAS-6204 When entering endorsement reason into 'Other' field in Endorsement Action tab longer than 255 characters, error 500 is thrown
 		getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason().getLabel(),TextBox.class).setValue(RandomStringUtils.randomAlphanumeric(256));
+		CustomAssert.assertEquals(255, getEndorsementActionTab().getAssetList().getAsset(getEndorsementOtherReason().getLabel(),TextBox.class).getValue().length());
 		Tab.buttonOk.click();
 
 		//to check that Endorsement is started
