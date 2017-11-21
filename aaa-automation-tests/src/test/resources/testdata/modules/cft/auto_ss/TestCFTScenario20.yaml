@@ -40,6 +40,19 @@ TestData_DataGather: {
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
+TestData_DataGather_MD: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab_MD',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@Vehicle1', '@Vehicle2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab_MD',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
 Vehicle1: {
   Usage: Pleasure,
   VIN: 1GNWGPFG8B6548273
