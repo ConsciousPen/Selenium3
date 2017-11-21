@@ -14,7 +14,7 @@ import toolkit.datax.TestData;
 
 public class TestScenario11 extends Scenario11 { 
 	
-	private Dollar toleranceAmount = new Dollar(10.01);
+	private Dollar toleranceAmount = new Dollar(10.00);
 	
 	@Override
 	protected PolicyType getPolicyType() {
@@ -87,41 +87,47 @@ public class TestScenario11 extends Scenario11 {
 	public void TC10_Generate_Renewal_Offer(@Optional("") String state) {
 		super.renewalOfferGeneration();
 	}
+	
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC11_Generate_Renewal_Bill(@Optional("") String state) {
+		super.generateRenewalBill();
+	}
 
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC11_Update_Policy_Status(@Optional("") String state) {
+	public void TC12_Update_Policy_Status(@Optional("") String state) {
 		super.updatePolicyStatus();
 	}
  	
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC12_Pay_Renewal_Offer_Not_In_Full_Amount(@Optional("") String state) {
-		super.payRenewalOfferNotInFullAmount(toleranceAmount);
+	public void TC13_Pay_Renewal_Bill_Not_In_Full_Amount(@Optional("") String state) {
+		super.payRenewalBillNotInFullAmount(toleranceAmount);
 	}
 
 	
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC13_Pay_Renewal_Offer_In_Full_Amount(@Optional("") String state) {
+	public void TC14_Pay_Renewal_Offer_In_Full_Amount(@Optional("") String state) {
 		super.payRenewalOfferInFullAmount(toleranceAmount);
 	}
 	
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC14_Make_Overpayment(@Optional("") String state) {
+	public void TC15_Make_Overpayment(@Optional("") String state) {
 		super.makeOverpayment(); 
 	} 
 	
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC15_Cancellation_Policy(@Optional("") String state) {
+	public void TC16_Cancellation_Policy(@Optional("") String state) {
 		super.cancellationPolicy();
 	} 
 	
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC16_Generate_Refund(@Optional("") String state) {
+	public void TC17_Generate_Refund(@Optional("") String state) {
 		super.refundGeneration();
 	} 
 	
