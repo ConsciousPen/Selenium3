@@ -33,7 +33,7 @@ PremiumsAndCoveragesQuoteTab: {
 }
 
 CancellationActionTab: {
-  Cancel Date: "/today+2d",
+  Cancellation effective date: "/today+2d",
   Cancellation reason: "Insured's Request - Other",
   Description: "CFT test scenario 2"
 }

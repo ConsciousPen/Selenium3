@@ -722,7 +722,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().open();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		new BillingPaymentsAndTransactionsVerifier()
-			.setTransactionDate(getTimePoints().getRenewOfferGenerationDate(policyExpDate))
 			.setEffectiveDate(policyExpDate)
 			.setType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM)
 			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL)
