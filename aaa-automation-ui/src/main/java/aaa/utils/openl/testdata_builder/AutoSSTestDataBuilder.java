@@ -16,7 +16,7 @@ import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
-public class AutoSSTestDataBuilder implements OpenLTestDataBuilder<AutoSSOpenLPolicy> {
+public class AutoSSTestDataBuilder implements TestDataBuilder<AutoSSOpenLPolicy> {
 	@Override
 	public TestData buildRatingData(AutoSSOpenLPolicy openLPolicy) {
 		return DataProviderFactory.dataOf(

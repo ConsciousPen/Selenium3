@@ -1,5 +1,9 @@
 package aaa.helpers.docgen;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import aaa.helpers.docgen.searchNodes.SearchBy;
 import aaa.helpers.xml.models.Document;
 import aaa.helpers.xml.models.DocumentPackage;
@@ -9,11 +13,6 @@ import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-
 public class DocumentWrapper {
 	public Verify verify = new Verify();
 	private StandardDocumentRequest standardDocumentRequest;
@@ -21,6 +20,14 @@ public class DocumentWrapper {
 
 	public DocumentWrapper(StandardDocumentRequest standardDocumentRequest) {
 		this.standardDocumentRequest = standardDocumentRequest;
+		this.generatedByJob = false;
+	}
+
+	public DocumentWrapper(Document document) {
+		this.standardDocumentRequest = new StandardDocumentRequest();
+		DocumentPackage documentPackage = new DocumentPackage();
+		documentPackage.setDocuments(Arrays.asList(document));
+		standardDocumentRequest.setDocumentPackages(Arrays.asList(documentPackage));
 		this.generatedByJob = false;
 	}
 

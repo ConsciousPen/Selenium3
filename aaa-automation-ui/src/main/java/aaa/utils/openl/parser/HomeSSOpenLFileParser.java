@@ -3,15 +3,15 @@ package aaa.utils.openl.parser;
 import java.io.File;
 import org.apache.commons.lang3.NotImplementedException;
 import aaa.utils.openl.model.HomeSSOpenLPolicy;
-import aaa.utils.openl.testdata_builder.HomeSSTestDataBuilder;
 
-public class HomeSSOpenLFileParser extends OpenLFileParser<HomeSSOpenLPolicy, HomeSSTestDataBuilder> {
-	public HomeSSOpenLFileParser() {
-		super(new HomeSSTestDataBuilder());
+public class HomeSSOpenLFileParser extends OpenLFileParser<HomeSSOpenLPolicy> {
+	public HomeSSOpenLFileParser(String openLFilePath) {
+		super(openLFilePath);
+		parse(getOpenLFile());
 	}
 
 	@Override
-	public OpenLFileParser parse(File openLtestsFile) {
+	public final boolean parse(File openLtestsFile) {
 		//TODO-dchubkov: implement this method
 		throw new NotImplementedException("method is not implemented yet for " + this.getClass().getSimpleName());
 	}
