@@ -77,22 +77,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab(); //TODO test with policy.dataGather().getView().getTab(DocumentsAndBindTab.class); instead of new Tab();
 	private ErrorTab errorTab = new ErrorTab();
 
-
-
-	private static final String EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK= "select Effective from (\n" +
-			"SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n" +
-			"FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n" +
-			"    (SELECT ID \n" +
-			"    FROM LOOKUPLIST \n" +
-			"    WHERE LOOKUPNAME=''''{0}'''')\n" +
-			"and riskstatecd = ''''VA''''\n" +
-			"and productCD = ''''AAA_SS''''\n" +
-			"and code = ''''{1}''''\n" +
-			"and displayvalue = ''''{2}'''' \n" +
-			"and (SYSDATE-'{'0'}' <= effective and effective < SYSDATE-'{'1'}') \n" +
-			"and (SYSDATE-'{'2'}' <= expiration and expiration < SYSDATE-'{'3'}'))";
-
-
 	public static final String EVALUE_MEMBERSHIP_ACKNOWLEDGEMENT_CHECK =
 			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "membershipEligibility", "FALSE");
 

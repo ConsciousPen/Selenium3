@@ -80,4 +80,17 @@ public interface TestEValueDiscountPreConditions {
             + "PROPERTYCONFIGURERENTITY"
             + " WHERE propertyname='policyPreferenceApiService.policyPreferenceApiUri' "
             + " and  VALUE= 'http://%s:9098/aaa-external-stub-services-app/ws/policy/preferences'";
+
+    String EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK = "select Effective from (\n"
+            + "SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n"
+            + "FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n"
+            + "    (SELECT ID \n"
+            + "    FROM LOOKUPLIST \n"
+            + "    WHERE LOOKUPNAME=''''{0}'''')\n"
+            + "and riskstatecd = ''''VA''''\n"
+            + "and productCD = ''''AAA_SS''''\n"
+            + "and code = ''''{1}''''\n"
+            + "and displayvalue = ''''{2}'''' \n"
+            + "and (SYSDATE-'{'0'}' <= effective and effective < SYSDATE-'{'1'}') \n"
+            + "and (SYSDATE-'{'2'}' <= expiration and expiration < SYSDATE-'{'3'}'))";
 }

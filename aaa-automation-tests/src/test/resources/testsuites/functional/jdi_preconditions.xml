@@ -9,7 +9,7 @@
 
     <test name="EvalueInsertPreconditions">
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.EvalueInsertPreconditions"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.EvalueInsertSetup"/>
         </classes>
     </test>
 

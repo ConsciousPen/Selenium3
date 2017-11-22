@@ -3,7 +3,7 @@ package aaa.modules.regression.sales.auto_ss.functional.PreConditions;
 import aaa.helpers.config.CustomTestProperties;
 import toolkit.config.PropertyProvider;
 
-public interface EvalueInsertPreConditions {
+public interface EvalueInsertSetupPreConditions {
 
     String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
 

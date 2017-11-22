@@ -1,13 +1,12 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import org.testng.annotations.Test;
-import aaa.modules.regression.sales.auto_ss.functional.PreConditions.EvalueInsertPreConditions;
-import toolkit.db.DBService;
-
 import java.util.Arrays;
 import java.util.List;
+import org.testng.annotations.Test;
+import aaa.modules.regression.sales.auto_ss.functional.PreConditions.EvalueInsertSetupPreConditions;
+import toolkit.db.DBService;
 
-public class EvalueInsertSetupConditions implements EvalueInsertPreConditions {
+public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition updating Payperless Preferences Endpoint to a Stub")
 	public static void paperlessPreferencesStubEndpointUpdate() {
