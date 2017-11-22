@@ -168,19 +168,19 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 			"and (SYSDATE-'{'0'}' <= effective and effective < SYSDATE-'{'1'}') \n" +
 			"and (SYSDATE-'{'2'}' <= expiration and expiration < SYSDATE-'{'3'}'))";
 
-	public static final String EVALUE_MEMBERSHIP_ACKNOWLEDGEMENT_CHECK =
+	private static final String EVALUE_MEMBERSHIP_ACKNOWLEDGEMENT_CHECK =
 			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "membershipEligibility", "FALSE");
 
-	public static final String EVALUE_CURRENT_BI_ACKNOWLEDGEMENT_CHECK =
+	private static final String EVALUE_CURRENT_BI_ACKNOWLEDGEMENT_CHECK =
 			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "currentBIRequired", "FALSE");
 
-	public static final String EVALUE_PAYPLAN_ACKNOWLEDGEMENT_CHECK =
+	private static final String EVALUE_PAYPLAN_ACKNOWLEDGEMENT_CHECK =
 			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "paymentPlanRequired", "FALSE");
 
-	public static final String EVALUE_MYPOLICY_ACKNOWLEDGEMENT_CHECK =
+	private static final String EVALUE_MYPOLICY_ACKNOWLEDGEMENT_CHECK =
 			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "myPolicyRequired", "FALSE");
 
-	public static final String EVALUE_CREDITCARD_ACKNOWLEDGEMENT_CHECK =
+	private static final String EVALUE_CREDITCARD_ACKNOWLEDGEMENT_CHECK =
 			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeValueQualifyingPaymentMethods", "pciCreditCard", "TRUE");
 
 	@Test(description = "Precondition")
@@ -966,7 +966,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	}
 
 	//TODO Replace below TCs with DataProvider when the Optional parameter State will be removed
-
 	/**
 	 * *@author Viktoriia Lutsenko
 	 * *@name Evalue acknowledgement document (AHEVAXX) generation.
@@ -1303,7 +1302,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	}
 
 	public void simplifiedPendedEndorsementIssue() {
-		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY)
