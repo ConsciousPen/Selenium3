@@ -10,8 +10,8 @@ import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
 
 public class TestCFTScenario1 extends ControlledFinancialBaseTest {
@@ -25,9 +25,6 @@ public class TestCFTScenario1 extends ControlledFinancialBaseTest {
 		generateInstallmentBill(1);
 		automaticCancellationNotice(1);
 		automaticCancellation(1);
-		generateFirstEarnedPremiumBill(1);
-		generateSecondEarnedPremiumBill(1);
-		generateThirdEarnedPremiumBill(1);
 		writeOff(1);
 	}
 

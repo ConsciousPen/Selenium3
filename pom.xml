@@ -73,15 +73,20 @@
             <artifactId>etcs-automation-core</artifactId>
             <version>8.15</version>
             <exclusions>
-                <exclusion>
+              <exclusion>
                     <groupId>com.exigen.istf</groupId>
-                    <artifactId>*</artifactId>
+                    <artifactId>istf-core</artifactId>
                 </exclusion>
 
                 <exclusion>
                     <groupId>com.exigen.istf.exec</groupId>
                     <artifactId>*</artifactId>
                 </exclusion>
+
+               <!-- <exclusion>
+                    <groupId>org.jsoup</groupId>
+                    <artifactId>jsoup</artifactId>
+                </exclusion>-->
 
                 <exclusion>
                     <groupId>org.testng</groupId>
@@ -99,7 +104,7 @@
         <dependency>
             <groupId>com.exigen.istf</groupId>
             <artifactId>test-analytics-listener</artifactId>
-            <version>2.15.1</version>
+            <version>2.15.1-01</version>
         </dependency>
 
         <dependency>
@@ -180,6 +185,8 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- PEF Artifacts END -->
+
         <!--CXF REST client dependency-->
         <dependency>
             <groupId>org.apache.cxf</groupId>
@@ -191,7 +198,6 @@
             <artifactId>cxf-rt-frontend-jaxws</artifactId>
             <version>3.0.4</version>
         </dependency>
-        <!-- PEF Artifacts END -->
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
@@ -208,53 +214,6 @@
             <version>1.2.16</version>
             <scope>provided</scope>
         </dependency>
-
-		<dependency>
-			<groupId>com.exigen.istf.timesetter</groupId>
-			<artifactId>istf-timesetter-client</artifactId>
-			<version>2.2.1</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.exigen.istf</groupId>
-					<artifactId>istf-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<artifactId>commons-io</artifactId>
-					<groupId>commons-io</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<!--CXF REST client dependency-->
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-rs-client</artifactId>
-			<version>3.0.4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-			<version>3.0.4</version>
-		</dependency>
-		<!-- PEF Artifacts END -->
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-			<version>2.7</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.inject</groupId>
-			<artifactId>guice</artifactId>
-			<version>2.0</version>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.16</version>
-			<scope>provided</scope>
-		</dependency>
-
-        <!-- <dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc6</artifactId>
-            <version>11.1.0.7.0</version> </dependency> -->
 
         <dependency>
             <groupId>cn.guoyukun.jdbc</groupId>

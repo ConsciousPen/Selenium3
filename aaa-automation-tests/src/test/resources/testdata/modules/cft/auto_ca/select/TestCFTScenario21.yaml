@@ -1,0 +1,21 @@
+TestData: {
+  AcceptPaymentActionTab: '@AcceptPaymentActionTab',
+}
+
+AcceptPaymentActionTab: {
+  Payment Method: 'Cash'
+}
+
+DriverTab_DataGather: {
+  Occupation: Self Employed,
+  Age First Licensed: 37,
+  Permit Before License: 'No',
+  License State: CA,
+  "License #": C1234567,
+  Employee Benefit Type: 'Active employee',
+  Employee ID: '12345678'
+}
+
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Annual
+}

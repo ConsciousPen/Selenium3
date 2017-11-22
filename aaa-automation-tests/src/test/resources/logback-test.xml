@@ -3,7 +3,7 @@
     <define name="rootLevel"
             class="toolkit.utils.logging.CustomLoggerPropertyProvider">
         <name>test.loglevel</name>
-        <defaultValue>INFO</defaultValue>
+        <defaultValue>DEBUG</defaultValue>
     </define>
     <timestamp key="bySecond" datePattern="yyyy-MM-dd_HH-mm-ss"/>
     <conversionRule conversionWord="tid" converterClass="aaa.helpers.ThreadIdConverter"/>

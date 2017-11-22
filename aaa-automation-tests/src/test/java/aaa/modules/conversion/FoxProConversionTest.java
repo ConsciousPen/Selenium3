@@ -3,6 +3,7 @@ package aaa.modules.conversion;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingHelper;
+import aaa.helpers.constants.Groups;
 import aaa.helpers.conversion.ConversionPolicyData;
 import aaa.helpers.conversion.ConversionUtils;
 import aaa.helpers.conversion.FoxProConversionData;
@@ -32,55 +33,55 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void foxProCAPUPConversionTest2(@Optional("CA") String state, ITestContext context) {
 		foxProConversion("2.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void foxProCAPUPConversionTest3(@Optional("CA") String state, ITestContext context) {
 		foxProConversion("3.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void foxProCAPUPConversionTest4(@Optional("CA") String state, ITestContext context) {
 		foxProConversion("4.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void foxProCAPUPConversionTest5(@Optional("CA") String state, ITestContext context) {
 		foxProConversion("5.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void foxProCAPUPConversionTest_customerDeclined1(@Optional("CA") String state, ITestContext context) {
 		foxProConversion_customerDeclined("1.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void foxProCAPUPConversionTest_customerDeclined2(@Optional("CA") String state, ITestContext context) {
 		foxProConversion_customerDeclined("2.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void foxProCAPUPConversionTest_customerDeclined3(@Optional("CA") String state, ITestContext context) {
 		foxProConversion_customerDeclined("3.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void foxProCAPUPConversionTest_customerDeclined4(@Optional("CA") String state, ITestContext context) {
 		foxProConversion_customerDeclined("4.xml", context);
 	}
 
 	@Parameters({"state"})
-	@Test
+	@Test(groups = {Groups.REGRESSION})
 	public void foxProCAPUPConversionTest_customerDeclined5(@Optional("CA") String state, ITestContext context) {
 		foxProConversion_customerDeclined("5.xml", context);
 	}
