@@ -64,7 +64,7 @@ InsuranceScoreOverride_OverrideTo645: {
     Action: Override Score,
     EditInsuranceScoreDialog: {
     New Score: '645',
-    Reason for override: 'Fair Credit Reporting Act Dispute',
+    Reason for Override: 'Fair Credit Reporting Act Dispute',
     Save: 'click'
   }
 }
