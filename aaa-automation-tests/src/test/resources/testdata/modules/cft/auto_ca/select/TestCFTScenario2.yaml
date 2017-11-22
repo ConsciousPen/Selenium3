@@ -42,7 +42,13 @@ ReinstatementActionTab: {
  }
 
 DriverTab_DataGather: {
-    Affinity Group: 'AAA Employee'
+  Occupation: Self Employed,
+  Age First Licensed: 18,
+  Permit Before License: 'No',
+  License State: CA,
+  "License #": C1234567,
+  Employee Benefit Type: 'Active employee',
+  Employee ID: '12345678'
 }
 
 PremiumAndCoveragesTab_DataGather: {
