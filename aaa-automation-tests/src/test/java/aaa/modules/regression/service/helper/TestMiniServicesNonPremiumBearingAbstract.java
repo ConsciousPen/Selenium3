@@ -32,32 +32,6 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 	protected abstract AssetDescriptor<Button> getCalculatePremium();
 
-	private void emailAddressChangedInEndorsementCheck(String emailAddressChanged, String authorizedBy) {
-		policy.policyInquiry().start();
-
-		getGeneralTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL.getLabel()).verify.value(emailAddressChanged);
-		NavigationPage.toViewTab(getDocumentsAndBindTab());
-
-		if (getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL.getLabel()).isPresent()) {
-			getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL.getLabel()).verify.value(emailAddressChanged);
-		}
-		if (getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY.getLabel()).isPresent()) {
-			getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY.getLabel()).verify.value(authorizedBy);
-		}
-		Tab.buttonCancel.click();
-	}
-
-	private void secondEndorsementIssueCheck() {
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		NavigationPage.toViewTab(getPremiumAndCoverageTab());
-		getPremiumAndCoverageTabElement().getAssetList().getAsset(getCalculatePremium()).click();
-		getPremiumAndCoverageTabElement().saveAndExit();
-
-		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-		testEValueDiscount.simplifiedPendedEndorsementIssue();
-		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-	}
-
 	protected void pas1441_emailChangeOutOfPasTestBody(PolicyType policyType) {
 		HelperCommon helperCommon = new HelperCommon();
 
@@ -87,6 +61,32 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		//PAS-343 end
 
 		secondEndorsementIssueCheck();
+	}
+
+	private void emailAddressChangedInEndorsementCheck(String emailAddressChanged, String authorizedBy) {
+		policy.policyInquiry().start();
+
+		getGeneralTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL.getLabel()).verify.value(emailAddressChanged);
+		NavigationPage.toViewTab(getDocumentsAndBindTab());
+
+		if (getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL.getLabel()).isPresent()) {
+			getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL.getLabel()).verify.value(emailAddressChanged);
+		}
+		if (getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY.getLabel()).isPresent()) {
+			getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY.getLabel()).verify.value(authorizedBy);
+		}
+		Tab.buttonCancel.click();
+	}
+
+	private void secondEndorsementIssueCheck() {
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(getPremiumAndCoverageTab());
+		getPremiumAndCoverageTabElement().getAssetList().getAsset(getCalculatePremium()).click();
+		getPremiumAndCoverageTabElement().saveAndExit();
+
+		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+		testEValueDiscount.simplifiedPendedEndorsementIssue();
+		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
 	}
 
 	private void emailUpdateTransactionHistoryCheck(String policyNumber) {

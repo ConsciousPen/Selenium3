@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.helper;
 
+import static aaa.admin.modules.IAdmin.log;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -70,6 +71,7 @@ public class HelperCommon{
 					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
 					.post(Entity.json(request));
 			response.readEntity(String.class);
+			log.info(response.toString());
 			if (response.getStatus() != Response.Status.OK.getStatusCode()) {
 				//handle error
 				throw new IstfException(response.readEntity(String.class));
