@@ -55,8 +55,8 @@ public class TestVINUpload extends AutoSSBaseTest {
 	public void testVINUpload_NewVINAdded(@Optional("UT") String state) {
 
 		String vinNumber = "BBBKN3DD0E0344466";
-		String uploadExcelName = "VINupload_UT_SS.xlsx";
-		String configExcelName = "VINconfig_UT_SS.xlsx";
+		String uploadExcelName = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
+		String configExcelName = getControlTableFile();
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
@@ -126,8 +126,8 @@ public class TestVINUpload extends AutoSSBaseTest {
 	public void testVINUpload_NewVINAdded_Renewal(@Optional("UT") String state) {
 
 		String vinNumber = "BBBKN3DD0E0344466";
-		String uploadExcelName = "VINupload_UT_SS.xlsx";
-		String configExcelName = "VINconfig_UT_SS.xlsx";
+		String uploadExcelName = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
+		String configExcelName = getControlTableFile();
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
@@ -198,8 +198,8 @@ public class TestVINUpload extends AutoSSBaseTest {
 	public void testVINUpload_UpdatedVIN_Renewal(@Optional("UT") String state) {
 
 		String vinNumber = "1HGEM215140028445";
-		String uploadExcelName = "VINupload_UT_SS_UPDATE.xlsx";
-		String configExcelName = "VINconfig_UT_SS.xlsx";
+		String uploadExcelName = getSpecificUploadFile(UploadFilesTypes.UPDATED_VIN.get());
+		String configExcelName = getControlTableFile();
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
 		precondsTestVINUpload(testData);
@@ -256,11 +256,10 @@ public class TestVINUpload extends AutoSSBaseTest {
 		policy.getDefaultView().fillUpTo(testData, VehicleTab.class, true);
 	}
 
-
-	private void verifyActivitiesAndUserNotes (String vinNumber) {
+	private void verifyActivitiesAndUserNotes(String vinNumber) {
 		//method added for verification of PAS-544 - Activities and User Notes
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description","VIN data has been updated for the following vehicle(s): " + vinNumber)
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "VIN data has been updated for the following vehicle(s): " + vinNumber)
 				.verify.present("PAS-544 - Activities and User Notes may be broken: VIN refresh record is missed in Activities and User Notes:");
 	}
 
@@ -287,6 +286,35 @@ public class TestVINUpload extends AutoSSBaseTest {
 			DBService.get().executeUpdate("UPDATE vehiclerefdatavincontrol SET EXPIRATIONDATE='99999999'");
 		} catch (NoSuchElementException e) {
 			log.error("Configurations with names " + configNames + " are not present in DB, after method have'n been executed fully");
+		}
+	}
+
+	protected String getControlTableFile() {
+		String defaultControlFileName = "controlTable_%s_SS.xlsx";
+		return String.format(defaultControlFileName, getState());
+	}
+
+	protected String getSpecificUploadFile(String type) {
+		String defaultAddedFileName = "upload%sVIN_%s_SS.xlsx";
+		return String.format(defaultAddedFileName, type, getState());
+	}
+
+	protected enum UploadFilesTypes {
+		UPDATED_VIN("Updated"),
+		ADDED_VIN("Added");
+
+		private String type;
+
+		UploadFilesTypes(String type) {
+			set(type);
+		}
+
+		private void set(String type) {
+			this.type = type;
+		}
+
+		private String get() {
+			return type;
 		}
 	}
 }

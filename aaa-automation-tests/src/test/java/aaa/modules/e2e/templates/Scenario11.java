@@ -335,27 +335,29 @@ public class Scenario11 extends ScenarioBaseTest {
 
 		String cancelAmount = 
 				BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue().toString();
-		log.info("cancelAmount is: "+cancelAmount);
-		Dollar refundAmount = new Dollar(cancelAmount.substring(1, cancelAmount.length()-1));
-		log.info("refundAmount is: "+refundAmount);
+		Dollar refundAmount = new Dollar(cancelAmount.substring(1, cancelAmount.length()-1)); 
+		refundAmount = refundAmount.add(100);
 		
-		new BillingPendingTransactionsVerifier().setTransactionDate(refundDueDate)
-			.setAmount(refundAmount.add(100))
-			.setType(BillingPendingTransactionsType.REFUND)
-			.setSubtypeReason(BillingPendingTransactionsSubtype.AUTOMATED_REFUND)
-			.setReason(BillingPendingTransactionsReason.OVERPAYMENT)
-			.setStatus(BillingPendingTransactionsStatus.PENDING).verifyPresent();
+		if (refundAmount.moreThan(new Dollar(1000))) {
+			new BillingPendingTransactionsVerifier().setTransactionDate(refundDueDate)
+				.setAmount(refundAmount)
+				.setType(BillingPendingTransactionsType.REFUND)
+				.setSubtypeReason(BillingPendingTransactionsSubtype.AUTOMATED_REFUND)
+				.setReason(BillingPendingTransactionsReason.OVERPAYMENT)
+				.setStatus(BillingPendingTransactionsStatus.PENDING).verifyPresent();
 		
-		BillingHelper.approvePendingTransaction(refundDueDate, BillingPendingTransactionsType.REFUND); 
+			BillingHelper.approvePendingTransaction(refundDueDate, BillingPendingTransactionsType.REFUND);
+		}
 		
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(refundDueDate)
-			.setAmount(refundAmount.add(100))
+			.setAmount(refundAmount)
 			.setType(PaymentsAndOtherTransactionType.REFUND)
 			.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND)
 			.setReason(PaymentsAndOtherTransactionReason.OVERPAYMENT)
 			.setStatus(PaymentsAndOtherTransactionStatus.APPROVED).verifyPresent(); 		
 	}
 
+	
 	private Dollar getAmountToPaidOfferNotInFull(Dollar offerAmount, Dollar toleranceAmount) {
 		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
 			Dollar caFraudAssessmentFee = new Dollar(1.76);

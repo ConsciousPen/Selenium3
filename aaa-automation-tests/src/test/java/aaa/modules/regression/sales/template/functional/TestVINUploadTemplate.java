@@ -142,7 +142,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
         CustomAssert.enableSoftMode();
         vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.MODEL.getLabel(), "Gt");
         vehicleTab.verifyFieldIsNotDisplayed(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel());
-        vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel(), "UT_SS");
+        vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel(), "TEST");
         // PAS-1487  No Match to Match but Year Doesn't Match
         vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.YEAR.getLabel(), "2005");
         // PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
