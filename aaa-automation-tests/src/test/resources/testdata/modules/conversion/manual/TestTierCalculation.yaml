@@ -1,0 +1,74 @@
+TestData: {
+  GeneralTab: '@GeneralTab',
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab',
+  AcceptPaymentActionTab: '@AcceptPaymentActionTab'
+}
+
+TestDataConv: {
+  GeneralTab: '@GeneralTabConv',
+  PremiumAndCoveragesTab: 'PremiumAndCoveragesTabConv',
+  DriverTab: 'DriverTabConv',
+  VehicleTab: 'VehicleTabConv'
+}
+
+AcceptPaymentActionTab: {
+  Payment Method: 'Cash'
+}
+
+GeneralTabConv: {
+  PolicyInformation:{
+    'Lead Source': null,
+  }
+}
+
+
+
+GeneralTab: {
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_NY'
+}
+
+
+AAAProductOwned: {
+     Current AAA Member: 'No',
+     Membership Number: 4290023667710001
+}
+
+CurrentCarrierInformation: {
+  "Override Prefilled Current Carrier?": 'Yes',
+  Agent Entered Current/Prior Carrier: 'AAA-SoCal (ACSC)',
+  Agent Entered Inception Date: '/today+45d:MM/dd/yyyy',
+  Agent Entered Expiration Date: '/today+45d:MM/dd/yyyy',
+  Agent Entered BI Limits: '$300,000/$500,000',
+  More than 6 months Total Insurance Experience: 'Yes'
+}
+
+
+PolicyInformation_NY: {
+  Policy Type: Standard,
+  Effective Date: '/today+45d:MM/dd/yyyy',
+  Policy Term: Annual,
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NORTHWAY NEW YORK - 500001009',
+  Sales Channel: 'Captive Branch Agents',
+  Agency Location: 'QUEENSBURY - 500005187 - QUEENSBURY',
+  Agent: 'House Agent QUEENSBURY',
+  Authorized by: QA,
+  TollFree Number: 1,
+  Lead Source: AAA Magazines
+}
+
+InitiateRenewalEntryActionTab: {
+  Previous Policy Number: '/rx:\d{10}',
+  Previous Source System: SIS,
+  Risk State: NY,
+  Renewal Effective Date: '/today+45d:MM/dd/yyyy',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+

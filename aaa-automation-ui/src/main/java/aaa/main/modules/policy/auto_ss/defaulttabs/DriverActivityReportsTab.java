@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import toolkit.datax.TestData;
 import toolkit.webdriver.controls.composite.table.Table;
 
 /**
@@ -17,7 +18,7 @@ import toolkit.webdriver.controls.composite.table.Table;
  * @category Generated
  */
 public class DriverActivityReportsTab extends Tab {
-	
+	private static final Object lock = new Object();
 	public static Table tableCLUEReports = new Table(By.id("policyDataGatherForm:clueReports"));
 	public static Table tableMVRReports = new Table(By.id("policyDataGatherForm:mvrReportsDataTable"));
 	
@@ -28,6 +29,14 @@ public class DriverActivityReportsTab extends Tab {
 	@Override
 	public Tab submitTab() {
 		buttonNext.click();
+		return this;
+	}
+
+	@Override
+	public Tab fillTab(TestData td) {
+		synchronized (lock) {
+			assetList.fill(td);
+		}
 		return this;
 	}
 }
