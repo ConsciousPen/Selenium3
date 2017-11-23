@@ -412,7 +412,6 @@ public class BaseTest {
 	}
 
 
-	//TODO : make more readable, for instance getPolicyType() != null && getCaTypes().contains(getPolicyType())
 	protected boolean isStateCA() {
 		return getPolicyType() != null && getPolicyType().isCaProduct();
 	}
