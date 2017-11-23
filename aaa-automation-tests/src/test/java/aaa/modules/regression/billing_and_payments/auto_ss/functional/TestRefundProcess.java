@@ -12,6 +12,7 @@ import java.util.Map;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.pages.general.GeneralSchedulerPage;
@@ -39,8 +40,8 @@ import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
-
 
 public class TestRefundProcess extends PolicyBilling {
 
@@ -54,7 +55,6 @@ public class TestRefundProcess extends PolicyBilling {
 			"and code = 'pcDisbursementEngine' " +
 			"and RISKSTATECD = 'VA' " +
 			"and DISPLAYVALUE = 'TRUE' ";
-
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -71,9 +71,9 @@ public class TestRefundProcess extends PolicyBilling {
 
 	@Test(description = "Precondition for TestRefundProcess tests")
 	public static void refundDocumentGenerationConfigCheck() {
-		CustomAssert.assertTrue("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.", DbAwaitHelper.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5));
+		CustomAssert.assertTrue("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.", DbAwaitHelper
+				.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5));
 	}
-
 
 	/**
 	 * @author Oleg Stasyuk
@@ -137,7 +137,6 @@ public class TestRefundProcess extends PolicyBilling {
 		checkRefundDocumentInDb(state, policyNumber, 1);
 		issuedRefundActionsCheck(refund1, policyNumber);
 
-
 		Dollar totalDue = BillingSummaryPage.getTotalDue();
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue.add(refundAmount2));
 
@@ -159,6 +158,135 @@ public class TestRefundProcess extends PolicyBilling {
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Refund Methods and the Drop down - Last Payment Method
+	 * @scenario 1. Create new policy
+	 * 2. go to manual refund
+	 * 3. Verify the last payment method in drop down is same as stub
+	 * 4. verify last 4  digits of the account and expiration date (for CC-Visa )
+	 * 5. Select the payment method Visa Credit Card from drop down
+	 * 6.When we select payment method verify message how much is available for that refund method
+	 * 7.If Payment method is credit card we can see only amount field and it blank
+	 * 8.issue refund with Credit card visa verify Transaction History shows Status = Approved and available actions are Void and Issue
+	 * 9.Click on refund and verify card name and amount is same on refund detail page
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})//TODO when running suite, the test which has Depends on is not being executed
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-352")
+	public void pas352_RefundMethodAndDropdownLastPaymentMethod(@Optional("VA") String state) {
+
+		String message = "Credit Card Visa-4113 expiring 01/22";
+		String amount = "10";
+
+		CustomAssert.enableSoftMode();
+		pas352_RefundMethodAndDropdownLastPaymentMethodTest(message, amount);
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Refund Methods and the Drop down - Last Payment Method
+	 * @scenario 1. Create new policy
+	 * 2. go to manual refund
+	 * 3. Verify the last payment method in drop down is same as stub
+	 * 4. verify last 4  digits of the account and expiration date (for Debit card -Master )
+	 * 5. Select the payment method Visa Debit Card from drop down
+	 * 6.When we select payment method verify message how much is available for that refund method
+	 * 7.If Payment method is credit card we can see only amount field and it blank
+	 * 8.issue refund with Credit card visa verify Transaction History shows Status = Approved and available actions are Void and Issue
+	 * 9.Click on refund and verify card name and amount is same on refund detail page
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})//TODO when running suite, the test which has Depends on is not being executed
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-352")
+	public void pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc(@Optional("AZ") String state) {
+
+		String message = "Debit Card MasterCard-4444 expiring 05/20";
+		String amount = "22";
+
+		CustomAssert.enableSoftMode();
+		pas352_RefundMethodAndDropdownLastPaymentMethodTest(message, amount);
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Refund Methods and the Drop down - Last Payment Method
+	 * @scenario 1. Create new policy
+	 * 2. go to manual refund
+	 * 3. Verify the last payment method in drop down is same as stub
+	 * 4. verify last 4  digits of the account (ACH Checking/Saving )
+	 * 5. Select the payment method ACH Checking/Saving from drop down
+	 * 6.When we select payment method verify message how much is available for that refund method
+	 * 7.If Payment method is ACH Checking/Saving we can see only amount field and it blank
+	 * 8.issue refund with Credit card visa verify Transaction History shows Status = Approved and available actions are Void and Issue
+	 * 9.Click on refund and verify card name and amount is same on refund detail page
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})//TODO when running suite, the test which has Depends on is not being executed
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-352")
+	public void pas352_RefundMethodAndDropdownLastPaymentMethodEFT(@Optional("MD") String state) {
+
+		String message = "Checking/Savings (ACH) #,1542";
+		String amount = "33";
+
+		CustomAssert.enableSoftMode();
+		pas352_RefundMethodAndDropdownLastPaymentMethodTest(message, amount);
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	private void pas352_RefundMethodAndDropdownLastPaymentMethodTest(String message, String amount) {
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = createPolicy();
+		log.info("policyNumber: {}", policyNumber);
+
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		billingAccount.refund().start();
+		//PAS-352 Start
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.option(message);
+		//PAS-3619 Start
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).setValue(message);
+		CustomAssert.assertTrue(message.equals(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).getValue()));
+		//PAS-352 End
+		//PAS-3619 End
+		//PAS-1937 Start
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD_MESSAGE_TABLE.getLabel(), StaticElement.class).getValue();
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD_MESSAGE_TABLE.getLabel(), StaticElement.class).verify
+				.value("$" + amount + " is the maximum amount available for this payment method.");
+		//PAS-1937 End
+		//PAS-1940 Start
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).verify.value("");
+		//PAS-1940 End
+		//PAS-2719 Start
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(amount);
+		acceptPaymentActionTab.submitTab();
+
+		String transactionDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
+		Map<String, String> refund = new HashMap<>();
+		refund.put(TRANSACTION_DATE, transactionDate);
+		refund.put(STATUS, "Approved");
+		refund.put(TYPE, "Refund");
+		refund.put(SUBTYPE_REASON, "Manual Refund");
+		unissuedRefundActionsCreditCard(refund);
+
+		//2719 End
+		//PAS-3619 Start
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell("Type").controls.links.get(1).click();
+		SoftAssert softAssert = new SoftAssert();
+		softAssert.assertFalse(acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).isEnabled());
+		softAssert.assertEquals("Visa-4113 expiring 01/22", acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class)
+				.getValue());
+		//PAS-3619 End
 	}
 
 	private void unissuedRefundRecordDetailsCheck(Dollar amount, String checkDate, Map<String, String> refund1) {
@@ -187,7 +315,7 @@ public class TestRefundProcess extends PolicyBilling {
 	private static void checkRefundDocumentInDb(String state, String policyNumber, int numberOfDocuments) {
 		//PAS-443 start
 		if ("VA".equals(state)) {
-			if (DbAwaitHelper.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5)){
+			if (DbAwaitHelper.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5)) {
 				String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "55 3500", "REFUND");
 				CustomAssert.assertFalse(DbAwaitHelper.waitForQueryResult(query, 5));
 			}
@@ -199,4 +327,11 @@ public class TestRefundProcess extends PolicyBilling {
 		}
 		//PAS-443 end
 	}
+
+	private void unissuedRefundActionsCreditCard(Map<String, String> refund) {
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(TRANSACTION_DATE).verify.value(refund.get(TRANSACTION_DATE));
+		unissuedRefundActionsCheck(refund);
+	}
+
 }
+

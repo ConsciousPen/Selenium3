@@ -2,13 +2,22 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.metadata;
 
-import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
-import aaa.toolkit.webdriver.customcontrols.FillableTable;
+import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.controls.dialog.DialogMultiSelector;
 import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
-import org.openqa.selenium.By;
-import toolkit.webdriver.controls.*;
+import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
+import aaa.toolkit.webdriver.customcontrols.FillableTable;
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.CheckBox;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.DoubleComboBox;
+import toolkit.webdriver.controls.Link;
+import toolkit.webdriver.controls.ListBox;
+import toolkit.webdriver.controls.RadioButton;
+import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.waiters.Waiters;
@@ -29,6 +38,8 @@ public final class BillingAccountMetaData {
         public static final AssetDescriptor<RadioGroup> SUSPEND_REMAINING = declare("Suspend Remaining?", RadioGroup.class);
         public static final AssetDescriptor<RadioButton> ALLOCATE_EXISTING_SUSPENSE = declare("Allocate existing Suspense", RadioButton.class, By.id("paymentForm:createNewPayment_radio:1"));
         public static final AssetDescriptor<RadioButton> UPDATE_LIVES_VOLUME_NO = declare("Update Lives/Volume? NO", RadioButton.class, By.id("paymentForm:updateLivesVolume_radio:1"));
+        public static final AssetDescriptor<StaticElement> PAYMENT_METHOD_MESSAGE_TABLE = declare("Payment Method message", StaticElement.class, By.id("paymentForm:refundAmountMessage"));
+        public static final AssetDescriptor<StaticElement> PAYMENT_SUBMIT_REFUND = declare("Payment Submit Refund", StaticElement.class, By.id("paymentForm:saveButton_footer"));
 
         //Fee specific fields
         public static final AssetDescriptor<ComboBox> TRANSACTION_TYPE = declare("Transaction Type", ComboBox.class);

@@ -4,6 +4,20 @@
 #  failures:
 #    - tests: [aaa.modules.regression.common.TestSearchPageFillingAndWarnings.testSearchWarnings]
 #      messages: ["Unexpeted warning message(s) is(are) present on search page: [Maximum criteria length for 'Underwriting Company #' is 255]"]
+QC-E2ECOMMON:
+  summary: "Common dummy ticket for all dependent e2e tests to mark them yellow if they are skipped due to failed 1st policy creation test"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.*]
+      messages: ["Errors: Time out. No session available.", "depends on not successfully finished methods"]
+    - tests: [aaa.modules.e2e.*]
+      messages: ["depends on not successfully finished methods"]
+QC-DOCGENCOMMON:
+  summary: "Common dummy ticket for all dependent docgen tests to mark them yellow if they are skipped due to failed 1st policy creation test"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.docgen.*]
+      messages: ["depends on not successfully finished methods"]
 EISDEV-XXXXX2:
   summary: "[TO_BE_CREATED] base00003 error message appears if search for customer by phone number in correct format"
   reason: PROD

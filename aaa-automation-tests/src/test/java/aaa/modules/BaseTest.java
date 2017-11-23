@@ -415,9 +415,17 @@ public class BaseTest {
 		return new SimpleDataProvider(td);
 	}
 
+
+	//TODO : make more readable, for instance getPolicyType() != null && getCaTypes().contains(getPolicyType())
 	protected boolean isStateCA() {
 		return getPolicyType() != null && (getPolicyType().equals(PolicyType.HOME_CA_HO3) || getPolicyType().equals(PolicyType.AUTO_CA_SELECT) || getPolicyType().equals(PolicyType.HOME_CA_DP3) || getPolicyType().equals(PolicyType.HOME_CA_HO4)
 				|| getPolicyType().equals(PolicyType.HOME_CA_HO6) || getPolicyType().equals(PolicyType.AUTO_CA_CHOICE));
+	}
+
+	protected String initiateManualConversion(TestData td){
+		String customerNumber = createCustomerIndividual();
+		customer.initiateRenewalEntry().perform(td);
+		return customerNumber;
 	}
 
 	private void initTestDataForTest() {

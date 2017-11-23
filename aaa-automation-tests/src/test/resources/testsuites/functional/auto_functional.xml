@@ -12,6 +12,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
    			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyDiscountsPolicyLevel"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
@@ -56,6 +57,7 @@
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
    			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig"/>
+			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyDiscountsPolicyLevel"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
 			<class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
