@@ -110,12 +110,12 @@ public class EvalueInsertPreconditions {
 	private static final String AHDRXX_CONFIG_INSERT = "INSERT INTO LOOKUPVALUE\n" +
 			"(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n" +
 			"values\n" +
-			"(AAARolloutEligibilityLookupValue', 'AHDRXX', 'TRUE', 'AAA_SS', 'VA',null, null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
+			"('AAARolloutEligibilityLookupValue', 'AHDRXX', 'TRUE', 'AAA_SS', 'VA',null, null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
 	private static final String AHDEXX_CONFIG_INSERT = "INSERT INTO LOOKUPVALUE\n" +
 			"(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n" +
 			"values\n" +
-			"(AAARolloutEligibilityLookupValue', 'AHDEXX', 'TRUE', 'AAA_SS', 'VA',null, null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
+			"('AAARolloutEligibilityLookupValue', 'AHDEXX', 'TRUE', 'AAA_SS', 'VA',null, null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
 	private static final String RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE = "update propertyconfigurerentity\n" +
 			"set value = 'http://%s:9098/aaa-external-stub-services-app/ws/membershipsummary'\n" +

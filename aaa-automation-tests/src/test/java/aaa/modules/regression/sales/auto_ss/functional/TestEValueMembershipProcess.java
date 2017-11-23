@@ -49,7 +49,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest {
 
 	private static final String E_VALUE_DISCOUNT = "eValue Discount"; //PAS-440 - rumors have it, that discount might be renamed
 	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
-	private static final String MESSAGE_INFO_1 = "This customer is not eligible for the eValue discount due to the following reason(s):";
+	private static final String MESSAGE_INFO_1 = "This customer is not eligible for eValue discount due to one or more of the following reasons";
 	private static final String MESSAGE_BULLET_8 = "Does not have an active AAA membership";
 	private static final String MESSAGE_INFO_2 = "This customer is eligible for the eValue discount, but the following steps must be completed in order to bind.";
 
