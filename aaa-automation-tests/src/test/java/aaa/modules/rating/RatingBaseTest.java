@@ -15,7 +15,7 @@ import aaa.utils.openl.testdata_builder.TestDataBuilder;
 import toolkit.datax.TestData;
 
 public class RatingBaseTest<P extends OpenLPolicy> extends BaseTest {
-	protected static final String OPENL_RATING_TESTS_FOLDER = "openl";
+	protected static final String OPENL_RATING_TESTS_FOLDER = "src/test/resources/openl";
 	protected static final Logger log = LoggerFactory.getLogger(RatingBaseTest.class);
 	protected IPolicy policy;
 	private TestDataBuilder<P> testDataBuilder;

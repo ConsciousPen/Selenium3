@@ -1,16 +1,11 @@
 package aaa.utils.openl.parser;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import com.exigen.ipb.etcsa.utils.ExcelUtils;
-import aaa.utils.AAAExcelUtils;
+import aaa.utils.excel.ExcelParser;
+import aaa.utils.excel.ExcelTable;
+import aaa.utils.excel.TableRow;
 import aaa.utils.openl.model.AutoSSOpenLPolicy;
 
 public class AutoSSOpenLFileParser extends OpenLFileParser<AutoSSOpenLPolicy> {
@@ -21,28 +16,20 @@ public class AutoSSOpenLFileParser extends OpenLFileParser<AutoSSOpenLPolicy> {
 
 	@Override
 	protected final boolean parse(File openLFile) {
-		Workbook wb = ExcelUtils.getWorkbook(openLFile.getAbsolutePath());
-		Sheet policySheet = ExcelUtils.getSheet(wb, POLICY_SHEET_NAME);
+		ExcelParser ep = new ExcelParser(openLFile, POLICY_SHEET_NAME);
 		Set<String> policyHeader = new HashSet<>();
 		policyHeader.add(PolicyFields.PK.get());
 		policyHeader.add(PolicyFields.POLICYNUMBER.get());//, "policyNumber", "effectiveDate", "term", "isHomeOwner", "creditScore");
-		Row policyHeaderRow = AAAExcelUtils.getHeaderRow(policySheet, policyHeader);
 
-		List<Map<String, String>> policiesMaps = new ArrayList<>();
-
-		for (int rowNumber = policyHeaderRow.getRowNum(); rowNumber < policySheet.getLastRowNum(); rowNumber++) {
+		ExcelTable excelTable = ep.getTable(policyHeader);
+		for (TableRow row : excelTable) {
 			AutoSSOpenLPolicy openLPolicy = new AutoSSOpenLPolicy();
+			openLPolicy.setNumber(Integer.valueOf(row.getValue(PolicyFields.PK.get())));
+			openLPolicy.setPolicyNumber(row.getValue(PolicyFields.POLICYNUMBER.get()));
+			//to be continued...
 
-			openLPolicy.setNumber(Integer.valueOf(
-					ExcelUtils.getCellValue(policySheet, rowNumber, ExcelUtils.getColumnNumber(policyHeaderRow, PolicyFields.PK.get()))));
-			openLPolicy.setPolicyNumber(
-					ExcelUtils.getCellValue(policySheet, rowNumber, ExcelUtils.getColumnNumber(policyHeaderRow, PolicyFields.POLICYNUMBER.get())));
-			//AAAExcelUtils.getCellValue(policySheet, rowNumber, 4, "policyNumber");
 			openLPolicies.add(openLPolicy);
 		}
-
-		//TODO-dchubkov: implement this method
-		//throw new NotImplementedException("method is not implemented yet for " + this.getClass().getSimpleName());
 		return true;
 	}
 
@@ -50,7 +37,7 @@ public class AutoSSOpenLFileParser extends OpenLFileParser<AutoSSOpenLPolicy> {
 		PK("_PK_"),
 		POLICYNUMBER("policyNumber");
 
-		private String name;
+		private final String name;
 
 		PolicyFields(String name) {
 			this.name = name;

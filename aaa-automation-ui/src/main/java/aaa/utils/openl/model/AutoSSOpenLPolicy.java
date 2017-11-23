@@ -300,4 +300,43 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	public void setDrivers(List<OpenLDrivers> drivers) {
 		this.drivers = drivers;
 	}
+
+	@Override
+	public String toString() {
+		return "AutoSSOpenLPolicy{" +
+				"term=" + term +
+				", isHomeOwner=" + isHomeOwner +
+				", creditScore=" + creditScore +
+				", isAAAMember=" + isAAAMember +
+				", aaaHomePolicy='" + aaaHomePolicy + '\'' +
+				", aaaRentersPolicy='" + aaaRentersPolicy + '\'' +
+				", aaaCondoPolicy='" + aaaCondoPolicy + '\'' +
+				", aaaLifePolicy=" + aaaLifePolicy +
+				", aaaMotorcyclePolicy=" + aaaMotorcyclePolicy +
+				", isEMember=" + isEMember +
+				", memberPersistency=" + memberPersistency +
+				", autoInsurancePersistency=" + autoInsurancePersistency +
+				", aaaInsurancePersistency=" + aaaInsurancePersistency +
+				", aaaAsdInsurancePersistency=" + aaaAsdInsurancePersistency +
+				", isAARP=" + isAARP +
+				", isEmployee=" + isEmployee +
+				", isAdvanceShopping=" + isAdvanceShopping +
+				", paymentPlanType='" + paymentPlanType + '\'' +
+				", distributionChannel='" + distributionChannel + '\'' +
+				", unacceptableRisk=" + unacceptableRisk +
+				", priorBILimit='" + priorBILimit + '\'' +
+				", reinstatements=" + reinstatements +
+				", yearsAtFaultAccidentFree=" + yearsAtFaultAccidentFree +
+				", yearsIncidentFree=" + yearsIncidentFree +
+				", aggregateCompClaims=" + aggregateCompClaims +
+				", nafAccidents=" + nafAccidents +
+				", avgAnnualERSperMember=" + avgAnnualERSperMember +
+				", insuredAge=" + insuredAge +
+				", cappingDetails=" + cappingDetails +
+				", vehicles=" + vehicles +
+				", noOfVehiclesExcludingTrailer=" + noOfVehiclesExcludingTrailer +
+				", multiCar=" + multiCar +
+				", drivers=" + drivers +
+				'}';
+	}
 }

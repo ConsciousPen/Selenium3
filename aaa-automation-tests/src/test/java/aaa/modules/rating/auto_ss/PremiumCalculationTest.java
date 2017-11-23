@@ -23,7 +23,7 @@ public class PremiumCalculationTest extends RatingBaseTest<AutoSSOpenLPolicy> {
 	@Parameters({"state"})
 	@Test
 	public void premiumCalculationTest(@Optional("") String state) {
-		OpenLFileParser<AutoSSOpenLPolicy> openLParser = new AutoSSOpenLFileParser(String.format("%1$s//%2$sTests-20170915.xls", OPENL_RATING_TESTS_FOLDER, getState()));
+		OpenLFileParser<AutoSSOpenLPolicy> openLParser = new AutoSSOpenLFileParser(String.format("%1$s/%2$sTests-20170915.xls", OPENL_RATING_TESTS_FOLDER, getState()));
 		verifyPremiums(openLParser.getPolicies());
 	}
 }

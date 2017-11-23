@@ -22,14 +22,6 @@ public class DocumentWrapper {
 		this(standardDocumentRequest, false);
 	}
 
-	public DocumentWrapper(Document document) {
-		this.standardDocumentRequest = new StandardDocumentRequest();
-		DocumentPackage documentPackage = new DocumentPackage();
-		documentPackage.setDocuments(Arrays.asList(document));
-		standardDocumentRequest.setDocumentPackages(Arrays.asList(documentPackage));
-		this.generatedByJob = false;
-	}
-
 	public DocumentWrapper(StandardDocumentRequest standardDocumentRequest, boolean generatedByJob) {
 		this.standardDocumentRequest = standardDocumentRequest;
 		this.generatedByJob = generatedByJob;
