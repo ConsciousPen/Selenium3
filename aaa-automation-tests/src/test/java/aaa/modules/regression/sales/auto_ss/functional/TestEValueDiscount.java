@@ -155,7 +155,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 			" WHERE propertyname='policyPreferenceApiService.policyPreferenceApiUri' " +
 			" and  VALUE= 'http://%s:9098/aaa-external-stub-services-app/ws/policy/preferences'";
 
-	private static final String EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK= "select Effective from (\n" +
+	private static final String EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK = "select Effective from (\n" +
 			"SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n" +
 			"FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n" +
 			"    (SELECT ID \n" +
@@ -168,20 +168,19 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 			"and (SYSDATE-'{'0'}' <= effective and effective < SYSDATE-'{'1'}') \n" +
 			"and (SYSDATE-'{'2'}' <= expiration and expiration < SYSDATE-'{'3'}'))";
 
-
-	public static final String EVALUE_MEMBERSHIP_ACKNOWLEDGEMENT_CHECK =
+	private static final String EVALUE_MEMBERSHIP_ACKNOWLEDGEMENT_CHECK =
 			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "membershipEligibility", "FALSE");
 
-	public static final String EVALUE_CURRENT_BI_ACKNOWLEDGEMENT_CHECK =
+	private static final String EVALUE_CURRENT_BI_ACKNOWLEDGEMENT_CHECK =
 			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "currentBIRequired", "FALSE");
 
-	public static final String EVALUE_PAYPLAN_ACKNOWLEDGEMENT_CHECK =
+	private static final String EVALUE_PAYPLAN_ACKNOWLEDGEMENT_CHECK =
 			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "paymentPlanRequired", "FALSE");
 
-	public static final String EVALUE_MYPOLICY_ACKNOWLEDGEMENT_CHECK =
+	private static final String EVALUE_MYPOLICY_ACKNOWLEDGEMENT_CHECK =
 			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "myPolicyRequired", "FALSE");
 
-	public static final String EVALUE_CREDITCARD_ACKNOWLEDGEMENT_CHECK =
+	private static final String EVALUE_CREDITCARD_ACKNOWLEDGEMENT_CHECK =
 			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeValueQualifyingPaymentMethods", "pciCreditCard", "TRUE");
 
 	@Test(description = "Precondition")
@@ -245,22 +244,22 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	@Test(description = "Precondition")
 	public static void eValueAcknowledgementConfigCheck() {
 		CustomAssert.enableSoftMode();
-		verifyAcknowledgementConfiguration(EVALUE_MEMBERSHIP_ACKNOWLEDGEMENT_CHECK, 10, 6,  "eValueMembershipAcknowledgementConfigInsert" );
-		verifyAcknowledgementConfiguration(EVALUE_MEMBERSHIP_ACKNOWLEDGEMENT_CHECK, 5, 1,  "eValueMembershipAcknowledgementConfigInsert" );
-		verifyAcknowledgementConfiguration(EVALUE_CURRENT_BI_ACKNOWLEDGEMENT_CHECK, 13, 11,  "eValueCurrentBIAcknowledgementConfigInsert" );
-		verifyAcknowledgementConfiguration(EVALUE_CURRENT_BI_ACKNOWLEDGEMENT_CHECK, 5, 1,  "eValueCurrentBIAcknowledgementConfigInsert" );
-		verifyAcknowledgementConfiguration(EVALUE_PAYPLAN_ACKNOWLEDGEMENT_CHECK, 20, 17,  "eValuePayPlanAcknowledgementConfigInsert" );
-		verifyAcknowledgementConfiguration(EVALUE_PAYPLAN_ACKNOWLEDGEMENT_CHECK, 5, 1,  "eValuePayPlanAcknowledgementConfigInsert" );
-		verifyAcknowledgementConfiguration(EVALUE_MYPOLICY_ACKNOWLEDGEMENT_CHECK, 16, 14,  "eValueMyPolicyAcknowledgementConfigInsert" );
-		verifyAcknowledgementConfiguration(EVALUE_MYPOLICY_ACKNOWLEDGEMENT_CHECK, 5, 1,  "eValueMyPolicyAcknowledgementConfigInsert" );
-		verifyAcknowledgementConfiguration(EVALUE_CREDITCARD_ACKNOWLEDGEMENT_CHECK, 13, 11,  "eValueCreditCardAcknowledgementConfigInsert" );
+		verifyAcknowledgementConfiguration(EVALUE_MEMBERSHIP_ACKNOWLEDGEMENT_CHECK, 10, 6, "eValueMembershipAcknowledgementConfigInsert");
+		verifyAcknowledgementConfiguration(EVALUE_MEMBERSHIP_ACKNOWLEDGEMENT_CHECK, 5, 1, "eValueMembershipAcknowledgementConfigInsert");
+		verifyAcknowledgementConfiguration(EVALUE_CURRENT_BI_ACKNOWLEDGEMENT_CHECK, 13, 11, "eValueCurrentBIAcknowledgementConfigInsert");
+		verifyAcknowledgementConfiguration(EVALUE_CURRENT_BI_ACKNOWLEDGEMENT_CHECK, 5, 1, "eValueCurrentBIAcknowledgementConfigInsert");
+		verifyAcknowledgementConfiguration(EVALUE_PAYPLAN_ACKNOWLEDGEMENT_CHECK, 20, 17, "eValuePayPlanAcknowledgementConfigInsert");
+		verifyAcknowledgementConfiguration(EVALUE_PAYPLAN_ACKNOWLEDGEMENT_CHECK, 5, 1, "eValuePayPlanAcknowledgementConfigInsert");
+		verifyAcknowledgementConfiguration(EVALUE_MYPOLICY_ACKNOWLEDGEMENT_CHECK, 16, 14, "eValueMyPolicyAcknowledgementConfigInsert");
+		verifyAcknowledgementConfiguration(EVALUE_MYPOLICY_ACKNOWLEDGEMENT_CHECK, 5, 1, "eValueMyPolicyAcknowledgementConfigInsert");
+		verifyAcknowledgementConfiguration(EVALUE_CREDITCARD_ACKNOWLEDGEMENT_CHECK, 13, 11, "eValueCreditCardAcknowledgementConfigInsert");
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
 
 	private static void verifyAcknowledgementConfiguration(String eValueConfiguration, int sysAndEffDateDelta, int sysAndExpDateDelta, String insertQuery) {
-		String query = MessageFormat.format(eValueConfiguration, sysAndEffDateDelta+1, sysAndEffDateDelta, sysAndExpDateDelta+1, sysAndExpDateDelta);
-		CustomAssert.assertTrue("Configuration for acknowledgement should be present. Please run "+insertQuery, DBService.get().getValue(query).isPresent());
+		String query = MessageFormat.format(eValueConfiguration, sysAndEffDateDelta + 1, sysAndEffDateDelta, sysAndExpDateDelta + 1, sysAndExpDateDelta);
+		CustomAssert.assertTrue("Configuration for acknowledgement should be present. Please run " + insertQuery, DBService.get().getValue(query).isPresent());
 	}
 
 	//TODO Replace below TCs with DataProvider when the Optional parameter State will be removed
@@ -967,6 +966,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	}
 
 	//TODO Replace below TCs with DataProvider when the Optional parameter State will be removed
+
 	/**
 	 * *@author Viktoriia Lutsenko
 	 * *@name Evalue acknowledgement document (AHEVAXX) generation.
@@ -995,29 +995,29 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
 	public void pas3693_eValueConfiguration(@Optional("VA") String state) {
 		CustomAssert.enableSoftMode();
-		verifyEvalueAcknowledgement(8,"N","Y","Y","Y","Y" );
-		verifyEvalueAcknowledgement(12,"Y","N","Y","N","Y" );
-		verifyEvalueAcknowledgement(18,"Y","Y","N","Y","Y" );
-		verifyEvalueAcknowledgement(15,"Y","Y","Y","Y","N" );
-		verifyEvalueAcknowledgement(3,"N","N","N","Y","N" );
+		verifyEvalueAcknowledgement(8, "N", "Y", "Y", "Y", "Y");
+		verifyEvalueAcknowledgement(12, "Y", "N", "Y", "N", "Y");
+		verifyEvalueAcknowledgement(18, "Y", "Y", "N", "Y", "Y");
+		verifyEvalueAcknowledgement(15, "Y", "Y", "Y", "Y", "N");
+		verifyEvalueAcknowledgement(3, "N", "N", "N", "Y", "N");
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
 
-    private void verifyEvalueAcknowledgement(int days, String aaaMemYN, String currentBIYN, String payPlnYN, String plcyPayFullAmtYN, String myPolicyYN) {
-        String quoteNumber;
-        eValueQuoteCreation();
-        quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-               policy.dataGather().start();
-        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TimeSetterUtil
-                .getInstance().getCurrentTime().minusDays(days).format(DateTimeUtils.MM_DD_YYYY));
-        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-        PremiumAndCoveragesTab.calculatePremium();
-        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        DocumentsAndBindTab.btnGenerateDocuments.click();
-        Document document = DocGenHelper.waitForDocumentsAppearanceInDB(AHEVAXX, quoteNumber, "ADHOC_DOC_GENERATE");
+	private void verifyEvalueAcknowledgement(int days, String aaaMemYN, String currentBIYN, String payPlnYN, String plcyPayFullAmtYN, String myPolicyYN) {
+		String quoteNumber;
+		eValueQuoteCreation();
+		quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TimeSetterUtil
+				.getInstance().getCurrentTime().minusDays(days).format(DateTimeUtils.MM_DD_YYYY));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		PremiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		DocumentsAndBindTab.btnGenerateDocuments.click();
+		Document document = DocGenHelper.waitForDocumentsAppearanceInDB(AHEVAXX, quoteNumber, "ADHOC_DOC_GENERATE");
 		if (document != null) {
 			verifyAHEVAXXTag(document, "AAAMemYN", aaaMemYN);
 			verifyAHEVAXXTag(document, "CurrentBIYN", currentBIYN);
@@ -1028,13 +1028,12 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 			verifyAHEVAXXTag(document, "MyPolicyYN", myPolicyYN);
 		}
 		documentsAndBindTab.saveAndExit();
-    }
+	}
 
-
-    private void verifyAHEVAXXTag(Document document, String tag, String expectedValue ) {
-        CustomAssert.assertTrue(MessageFormat.format("Problem is in tag: [{0}]", tag), expectedValue
-                .equals(DocGenHelper.getDocumentDataElemByName(tag, document).getDataElementChoice().getTextField()));
-    }
+	private void verifyAHEVAXXTag(Document document, String tag, String expectedValue) {
+		CustomAssert.assertTrue(MessageFormat.format("Problem is in tag: [{0}]", tag), expectedValue
+				.equals(DocGenHelper.getDocumentDataElemByName(tag, document).getDataElementChoice().getTextField()));
+	}
 
 	/**
 	 * @author Alex Tinkovan

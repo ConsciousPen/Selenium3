@@ -5,9 +5,7 @@ package aaa.modules.regression.service.auto_ca.choice;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import com.exigen.ipb.etcsa.utils.Dollar;
-
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
@@ -18,43 +16,43 @@ import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
 /**
- * @author 
+ * @author
  * @name Test Flat Endorsement for Auto Policy
  * @scenario
  * @details
  */
 public class TestPolicyEndorsementAdd extends AutoCaChoiceBaseTest {
 
-    @Parameters({"state"})
-	@Test(groups = { Groups.SMOKE, Groups.CRITICAL })
-    @TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE)
-    public void testPolicyEndorsementAdd(@Optional("CA") String state) {
-        mainApp().open();
-        
-        createCustomerIndividual();
-        createPolicy();
+	@Parameters({"state"})
+	@Test(groups = {Groups.SMOKE, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE)
+	public void testPolicyEndorsementAdd(@Optional("CA") String state) {
+		mainApp().open();
 
-        Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		createCustomerIndividual();
+		createPolicy();
 
-        log.info("TEST: Endorsement for Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
-        
-        TestData tdEndorsement = getTestSpecificTD("TestData");
-        getPolicyType().get().createEndorsement(tdEndorsement.adjust(getPolicyTD("Endorsement", "TestData")));
+		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
-        CustomAssert.enableSoftMode();
-        
-        PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        
-        PolicySummaryPage.tablePolicyDrivers.verify.rowsCount(2);
-        PolicySummaryPage.tablePolicyVehicles.verify.rowsCount(2);
-        PolicySummaryPage.tableInsuredInformation.verify.rowsCount(2);
-        
-        CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
-        
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
-    }
-    
-    
+		log.info("TEST: Endorsement for Policy #{}", PolicySummaryPage.labelPolicyNumber.getValue());
+
+		TestData tdEndorsement = getTestSpecificTD("TestData");
+		//BUG PAS-6310 VIN retrieve doesnt work when adding or editing a vehicle in Endorsement for CA auto product
+		getPolicyType().get().createEndorsement(tdEndorsement.adjust(getPolicyTD("Endorsement", "TestData")));
+
+		CustomAssert.enableSoftMode();
+
+		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		PolicySummaryPage.tablePolicyDrivers.verify.rowsCount(2);
+		PolicySummaryPage.tablePolicyVehicles.verify.rowsCount(2);
+		PolicySummaryPage.tableInsuredInformation.verify.rowsCount(2);
+
+		CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
 }

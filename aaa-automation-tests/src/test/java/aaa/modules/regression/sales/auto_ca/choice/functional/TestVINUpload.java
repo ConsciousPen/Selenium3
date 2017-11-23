@@ -28,7 +28,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
     @Test(groups = { Groups.FUNCTIONAL, Groups.MEDIUM })
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-533")
     public void testVINUpload_NewVINAdded(@Optional("CA") String state) {
-        super.testVINUpload_NewVINAdded("VINconfig_CA_CHOICE.xlsx", "VINupload_CA_CHOICE.xlsx", "BBBKN3DD0E0344466");
+        super.testVINUpload_NewVINAdded("controlTable_CA_Choice.xlsx", "uploadAddedVIN_CA_CHOICE_.xlsx", "BBBKN3DD0E0344466");
     }
 
     /**
@@ -43,7 +43,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
     @Test(groups = { Groups.FUNCTIONAL, Groups.MEDIUM })
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-527")
     public void testVINUpload_NewVINAdded_Renewal(@Optional("CA") String state) {
-        super.testVINUpload_NewVINAdded_Renewal("VINconfig_CA_CHOICE.xlsx", "VINupload_CA_CHOICE.xlsx", "BBBKN3DD0E0344466");
+        super.testVINUpload_NewVINAdded_Renewal("controlTable_CA_Choice.xlsx", "uploadAddedVIN_CA_CHOICE_.xlsx", "BBBKN3DD0E0344466");
     }
 
     /**
@@ -58,6 +58,6 @@ public class TestVINUpload extends TestVINUploadTemplate {
     @Test(groups = { Groups.FUNCTIONAL, Groups.MEDIUM })
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-527")
     public void testVINUpload_UpdatedVIN_Renewal(@Optional("CA") String state) {
-        super.testVINUpload_UpdatedVIN_Renewal("VINconfig_CA_CHOICE.xlsx", "VINupload_CA_CHOICE_UPDATE.xlsx", "4T1BE30K46U656311");
+        super.testVINUpload_UpdatedVIN_Renewal("controlTable_CA_Choice.xlsx", "uploadUpdatedVIN_CA_CHOICE.xlsx", "4T1BE30K46U656311");
     }
 }
