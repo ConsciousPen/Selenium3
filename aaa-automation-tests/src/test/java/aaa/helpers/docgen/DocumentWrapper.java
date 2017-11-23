@@ -19,8 +19,7 @@ public class DocumentWrapper {
 	private boolean generatedByJob;
 
 	public DocumentWrapper(StandardDocumentRequest standardDocumentRequest) {
-		this.standardDocumentRequest = standardDocumentRequest;
-		this.generatedByJob = false;
+		this(standardDocumentRequest, false);
 	}
 
 	public DocumentWrapper(Document document) {
@@ -32,6 +31,19 @@ public class DocumentWrapper {
 	}
 
 	public DocumentWrapper(StandardDocumentRequest standardDocumentRequest, boolean generatedByJob) {
+		this.standardDocumentRequest = standardDocumentRequest;
+		this.generatedByJob = generatedByJob;
+	}
+
+	public DocumentWrapper(Document document) {
+		this(document, false);
+	}
+
+	public DocumentWrapper(Document document, boolean generatedByJob) {
+		StandardDocumentRequest standardDocumentRequest = new StandardDocumentRequest();
+		DocumentPackage documentPackage = new DocumentPackage();
+		documentPackage.setDocuments(Arrays.asList(document));
+		standardDocumentRequest.setDocumentPackages(Arrays.asList(documentPackage));
 		this.standardDocumentRequest = standardDocumentRequest;
 		this.generatedByJob = generatedByJob;
 	}
@@ -78,7 +90,8 @@ public class DocumentWrapper {
 		}
 
 		public <D> void exists(boolean expectedValue, String assertionMessage, SearchBy<?, D> searchFilter) {
-			assertionMessage = Objects.isNull(assertionMessage) ? String.format("Entries are %1$s in xml file by search criteria:\n%2$s", expectedValue ? "absent" : "present", searchFilter) : assertionMessage;
+			assertionMessage =
+					Objects.isNull(assertionMessage) ? String.format("Entries are %1$s in xml file by search criteria:\n%2$s", expectedValue ? "absent" : "present", searchFilter) : assertionMessage;
 			CustomAssert.assertEquals(assertionMessage, getList(searchFilter).isEmpty(), !expectedValue);
 		}
 
@@ -96,7 +109,7 @@ public class DocumentWrapper {
 		public void mapping(boolean expectedValue, TestData td, String policyNumber) {
 			for (String docKey : td.getKeys()) {
 				DocGenEnum.Documents document = null;
-				if (!docKey.equals("DocumentPackageData")) {
+				if (!"DocumentPackageData".equals(docKey)) {
 					document = DocGenEnum.Documents.valueOf(docKey);
 				}
 				TestData tdDoc = td.getTestData(docKey);
@@ -107,7 +120,8 @@ public class DocumentWrapper {
 							List<TestData> tdDataElementList = tdSection.getTestDataList(dataElementName);
 							for (TestData tdDataElementChoice : tdDataElementList) {
 								if (tdDataElementChoice.getKeys().retainAll(Arrays.asList(DocGenEnum.DataElementChoiceTag.TEXTFIELD, DocGenEnum.DataElementChoiceTag.DATETIMEFIELD))) {
-									throw new IstfException(String.format("Data mapping verification for \"DataElementChoice\" section is supported only by \"%s\" and \"%s\" tags values. Check your test data format.",
+									throw new IstfException(String
+											.format("Data mapping verification for \"DataElementChoice\" section is supported only by \"%s\" and \"%s\" tags values. Check your test data format.",
 													DocGenEnum.DataElementChoiceTag.TEXTFIELD, DocGenEnum.DataElementChoiceTag.DATETIMEFIELD));
 								}
 
@@ -115,10 +129,12 @@ public class DocumentWrapper {
 									String testFieldValue = tdDataElementChoice.getValue(DocGenEnum.DataElementChoiceTag.TEXTFIELD);
 									if ("DocumentPackageData".equals(docKey)) {
 										exists(expectedValue, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber)
-												.documentPackageData.documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.textField(testFieldValue));
+												.documentPackageData.documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice
+												.textField(testFieldValue));
 									} else {
 										exists(expectedValue, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber)
-												.document.templateId(document.getIdInXml()).documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.textField(testFieldValue));
+												.document.templateId(document.getIdInXml()).documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice
+												.textField(testFieldValue));
 									}
 								}
 
@@ -126,10 +142,12 @@ public class DocumentWrapper {
 									String dateTimeFieldValue = tdDataElementChoice.getValue(DocGenEnum.DataElementChoiceTag.DATETIMEFIELD);
 									if ("DocumentPackageData".equals(docKey)) {
 										exists(expectedValue, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber)
-												.documentPackageData.documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.dateTimeField(dateTimeFieldValue));
+												.documentPackageData.documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice
+												.dateTimeField(dateTimeFieldValue));
 									} else {
 										exists(expectedValue, SearchBy.standardDocumentRequest.documentPackage.packageIdentifier(policyNumber)
-												.document.templateId(document.getIdInXml()).documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice.dateTimeField(dateTimeFieldValue));
+												.document.templateId(document.getIdInXml()).documentDataSection.sectionName(sectionName).documentDataElement.name(dataElementName).dataElementChoice
+												.dateTimeField(dateTimeFieldValue));
 									}
 								}
 							}

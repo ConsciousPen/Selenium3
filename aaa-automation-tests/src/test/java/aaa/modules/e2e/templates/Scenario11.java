@@ -97,7 +97,7 @@ public class Scenario11 extends ScenarioBaseTest {
 		
 		endorseAmount1 = PolicySummaryPage.TransactionHistory.getTranPremium(); 
 
-		// Endorsement transaction displaing on billing in Payments & Other transactions section
+		// Endorsement transaction displaying on billing in Payments & Other transactions section
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setTotalDue(endorseAmount1).verifyPresent();
@@ -267,7 +267,7 @@ public class Scenario11 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
 	}
 	
-	//For AutoCA 
+	//For AutoCA, HomeCA
 	protected void payRenewalOfferNotInFullAmount(Dollar toleranceAmount) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate).plusHours(1));
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
@@ -325,18 +325,9 @@ public class Scenario11 extends ScenarioBaseTest {
 		JobUtils.executeJob(Jobs.refundGenerationJob);
 		
 		mainApp().open();
-		SearchPage.openBilling(policyNum);
+		SearchPage.openBilling(policyNum); 
 		
-		HashMap<String, String> query = new HashMap<>();
-		query.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, policyExpirationDate.plusMonths(1).format(DateTimeUtils.MM_DD_YYYY));
-		query.put(BillingPaymentsAndOtherTransactionsTable.POLICY, policyNum);
-		query.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PREMIUM); 
-		query.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.CANCELLATION);
-
-		String cancelAmount = 
-				BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue().toString();
-		Dollar refundAmount = new Dollar(cancelAmount.substring(1, cancelAmount.length()-1)); 
-		refundAmount = refundAmount.add(100);
+		Dollar refundAmount = getRefundAmount(); 
 		
 		if (refundAmount.moreThan(new Dollar(1000))) {
 			new BillingPendingTransactionsVerifier().setTransactionDate(refundDueDate)
@@ -357,12 +348,39 @@ public class Scenario11 extends ScenarioBaseTest {
 			.setStatus(PaymentsAndOtherTransactionStatus.APPROVED).verifyPresent(); 		
 	}
 
+	private Dollar getRefundAmount(){
+		HashMap<String, String> query_cancel = new HashMap<>();
+		query_cancel.put(BillingPaymentsAndOtherTransactionsTable.POLICY, policyNum);
+		query_cancel.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PREMIUM); 
+		query_cancel.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.CANCELLATION);
+		
+		String cancelAmount = 
+				BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query_cancel).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue().toString();
+		Dollar refundAmount = new Dollar(cancelAmount.substring(1, cancelAmount.length()-1)); 
+		refundAmount = refundAmount.add(100); 
+		
+		if (getPolicyType().equals(PolicyType.HOME_CA_HO3)) {
+			HashMap<String, String> query_renew = new HashMap<>();
+			query_renew.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.PREMIUM); 
+			query_renew.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.RENEWAL);
+			
+			String premiumRenewal = 
+					BillingSummaryPage.tablePaymentsOtherTransactions.getRow(query_renew).getCell(BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue().toString();
+			Dollar premiumAmount = new Dollar(premiumRenewal.substring(1, premiumRenewal.length()-1)); 
+			refundAmount = refundAmount.add(premiumAmount); 
+			refundAmount = refundAmount.subtract(new Dollar(20));
+		}		
+		return refundAmount;		
+	}
 	
 	private Dollar getAmountToPaidOfferNotInFull(Dollar offerAmount, Dollar toleranceAmount) {
 		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
 			Dollar caFraudAssessmentFee = new Dollar(1.76);
 			offerAmount = offerAmount.subtract(caFraudAssessmentFee.multiply(2)); 
 			toleranceAmount = toleranceAmount.add(0.01);			
+		}
+		else if (getPolicyType().equals(PolicyType.HOME_CA_HO3)) {
+			toleranceAmount = toleranceAmount.add(0.01);
 		}
 		return offerAmount.subtract(toleranceAmount);
 	}
@@ -371,6 +389,9 @@ public class Scenario11 extends ScenarioBaseTest {
 		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
 			Dollar caFraudAssessmentFee = new Dollar(1.76); 
 			toleranceAmount = toleranceAmount.add(caFraudAssessmentFee.multiply(2));
+			toleranceAmount = toleranceAmount.add(0.01);
+		}
+		else if (getPolicyType().equals(PolicyType.HOME_CA_HO3)) {
 			toleranceAmount = toleranceAmount.add(0.01);
 		}
 		return toleranceAmount;

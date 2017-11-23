@@ -299,6 +299,7 @@ public final class AutoSSMetaData {
 
 		public static final AssetDescriptor<FillableTable> AAA_MEMBERSHIP_REPORT = declare("AAAMembershipReport", FillableTable.class, AaaMembershipReportRow.class, By.xpath("//table[@id='policyDataGatherForm:membershipReports']"));
 		public static final AssetDescriptor<FillableTable> INSURANCE_SCORE_OVERRIDE = declare("InsuranceScoreOverride", FillableTable.class, InsuranceScoreOverrideRow.class, By.xpath("//table[@id='policyDataGatherForm:creditScoreOverride']"));
+		public static final AssetDescriptor<StaticElement> ELC_MESSAGE = declare("ELC Message", StaticElement.class,By.xpath("//span[@id='policyDataGatherForm:ELCMessageText']"));
 
 		public static final class AaaMembershipReportRow extends MetaData {
 			public static final AssetDescriptor<RadioGroup> SELECT = declare("Select", RadioGroup.class);
@@ -338,14 +339,14 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<StaticElement> OVERRIDE_DATE = declare("Override Date", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> REASON_FOR_OVERRIDE = declare("Reason for Override", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> OVERRIDDEN_BY = declare("User", StaticElement.class);
-			public static final AssetDescriptor<Link> ACTION = declare("Action", Link.class);
+			public static final AssetDescriptor<Link> ACTION = declare("Action", Link.class, Waiters.AJAX);
 			public static final AssetDescriptor<AssetList> EDIT_INSURANCE_SCORE = declare("EditInsuranceScoreDialog", AssetList.class, EditInsuranceScoreDialog.class);
 		}
 
 		public static final class EditInsuranceScoreDialog extends MetaData {
-			public static final AssetDescriptor<TextBox> NEW_SCORE = declare("New Score", TextBox.class, By.xpath("//input[@id='editInsuranceScoreFrom:popupInsuranceScore_newScore']"));
-			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for Override", ComboBox.class, By.xpath("//select[@id='editInsuranceScoreFrom:popupInsuranceScore_reasonForOverride']"));
-			public static final AssetDescriptor<Button> BTN_SAVE = declare("Save", Button.class, By.xpath("//input[@id='editInsuranceScoreFrom:saveButton']"));
+			public static final AssetDescriptor<TextBox> NEW_SCORE = declare("New Score", TextBox.class,Waiters.AJAX, By.xpath("//input[@id='editInsuranceScoreFrom:popupInsuranceScore_newScore']"));
+			public static final AssetDescriptor<ComboBox> REASON_FOR_OVERRIDE = declare("Reason for Override", ComboBox.class,Waiters.AJAX, By.xpath("//select[@id='editInsuranceScoreFrom:popupInsuranceScore_reasonForOverride']"));
+			public static final AssetDescriptor<Button> BTN_SAVE = declare("Save", Button.class,Waiters.AJAX, By.xpath("//input[@id='editInsuranceScoreFrom:saveButton']"));
 			public static final AssetDescriptor<Button> BTN_CANCEL = declare("Cancel", Button.class, By.xpath("//input[@id='editInsuranceScoreFrom:cancelEditButton']"));
 		}
 
