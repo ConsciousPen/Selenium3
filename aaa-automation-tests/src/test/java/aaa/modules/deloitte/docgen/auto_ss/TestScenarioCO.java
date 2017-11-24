@@ -61,7 +61,7 @@ public class TestScenarioCO extends AutoSSBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2,true);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob,true);
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents.AARNXX);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents.AARNXX, Documents.AA02CO, Documents.AA10XX);
 	}
 	
 	@Parameters({ "state" })
