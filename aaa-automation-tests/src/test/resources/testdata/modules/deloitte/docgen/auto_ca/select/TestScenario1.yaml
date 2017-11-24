@@ -234,7 +234,5 @@ TestData_Endorsement2: {
     Sales Agent Agreement: I Agree,
     Validate Driving History: click
   },
-  DocumentsAndBindTab: {
-    Authorized By: Test
-  }
+  DocumentsAndBindTab: {}
 }
