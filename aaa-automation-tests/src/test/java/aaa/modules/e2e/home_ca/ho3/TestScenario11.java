@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
 
-import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.actiontabs.EndorsementActionTab;
 import aaa.modules.e2e.templates.Scenario11;
@@ -25,7 +25,7 @@ public class TestScenario11 extends Scenario11 {
 	public void TC01_createPolicy(@Optional("CA") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
 		endorsementReasonDataKeys = new String[] {new EndorsementActionTab().getMetaKey(),
-				AutoCaMetaData.EndorsementActionTab.ENDORSEMENT_REASON.getLabel()};
+				HomeCaMetaData.EndorsementActionTab.ENDORSEMENT_REASON.getLabel()};
 		
 		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData")
 				.adjust(getTestSpecificTD("TestData").resolveLinks());
