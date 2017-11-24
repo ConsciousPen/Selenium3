@@ -296,7 +296,8 @@ public final class DocGenEnum {
         AA02CO(""),
         AA52COA(""),
         AA52COB(""),
-        AA71COA("")
+        AA71COA(""),
+        AARNXX("")
 		;
 
 		private String id;
