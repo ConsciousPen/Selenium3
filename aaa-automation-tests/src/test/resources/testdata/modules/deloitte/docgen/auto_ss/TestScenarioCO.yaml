@@ -1,0 +1,226 @@
+################################# New Business #########################################
+TestData: {
+    DriverTab: ['@Driver1','@Driver2'],
+    VehicleTab: ['@Vehicle1','@Vehicle2'],
+    FormsTab: '@FormsTab',
+    PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+    DocumentsAndBindTab: '@DocumentsAndBindTab',
+    ErrorTab: '@ErrorTab',
+    PurchaseTab: '@PurchaseTab_WithAutopay'
+}
+
+Driver1: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A552183,
+  Financial Responsibility Filing Needed: 'Yes',
+  Filling State: Colorado
+}
+
+
+Driver2: {
+  DriverSearchDialog: {},
+  Driver Type: Excluded,
+  Reason: Company Request,
+  First Name: Maria,
+  Last Name: Jefferson,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: '11/12/1986',
+  Gender: Female,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License Number: A552184,
+  Age First Licensed: 20
+}
+
+Vehicle1: { 
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273,
+  Existing Damage: Rust
+}
+
+Vehicle2: {
+  Usage: Pleasure,
+  VIN: KNDJT2A2XA7038383
+}
+
+FormsTab: { 
+  Driver Forms: {
+    Forms Subject: "Zinaida",
+    SR22: {
+      Action: Edit,
+      Case Number: 123,
+      State: CO
+    }
+  }
+}
+
+PremiumAndCoveragesTab: {
+  Payment Plan: 'Eleven Pay - Standard',
+  'Uninsured/Underinsured Motorist Bodily Injury': 'contains=No Coverage'
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    Auto Insurance Application: Not Signed,
+    'Statement Electing Lower Limits for Uninsured/Underinsured Motorists Coverage': Not Signed,
+    Named Driver Exclusion Endorsement: Not Signed
+  },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  },
+  Agreement: I agree
+}
+
+ErrorTab: {
+   ErrorsOverride: [{
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   },
+   {
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   },
+   {
+    Override: 'true',
+    Approval: 'true',
+    Duration: Life,
+    Reason for override: index=1
+   }]  
+}
+
+PurchaseTab_WithAutopay: {
+  PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa'],
+  Activate Autopay: true,
+  Autopay Selection: 'index=1',
+  PaymentAllocation: {
+    Visa: /rest
+  }
+}
+
+####################################### Endorsement ####################################
+TestData_Endorsement: {
+  GeneralTab: {
+    PolicyInformation: {
+      Authorized by: QA
+    }
+  },
+  DriverTab: {},
+  RatingDetailReportsTab: {
+    Order Report: click
+  },
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    'Uninsured/Underinsured Motorist Bodily Injury': 'contains=$50,000/$100,000'
+  },
+  DriverActivityReportsTab: {
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {}
+}
+
+####################################### Renew ####################################
+TestData_AddRenewal: {
+  GeneralTab: {},
+  DriverTab: {
+    ActivityInformation: [
+      {
+        Type: 'At-Fault Accident',
+        Description: 'Accident (Property Damage Only)',
+        Occurrence Date: /today,
+        Loss Payment Amount: 100
+      },
+      {
+        Type: 'At-Fault Accident',
+        Description: 'Accident (Property Damage Only)',
+        Occurrence Date: /today,
+        Loss Payment Amount: 100
+      },
+      {
+        Type: 'At-Fault Accident',
+        Description: 'Accident (Property Damage Only)',
+        Occurrence Date: /today,
+        Loss Payment Amount: 100
+      },
+      {
+        Type: 'At-Fault Accident',
+        Description: 'Accident (Property Damage Only)',
+        Occurrence Date: /today,
+        Loss Payment Amount: 100
+      },
+      {
+        Type: 'At-Fault Accident',
+        Description: 'Accident (Property Damage Only)',
+        Occurrence Date: /today,
+        Loss Payment Amount: 100
+      },
+      {
+        Type: 'At-Fault Accident',
+        Description: 'Accident (Property Damage Only)',
+        Occurrence Date: /today,
+        Loss Payment Amount: 100
+      },
+      {
+        Type: 'At-Fault Accident',
+        Description: 'Accident (Property Damage Only)',
+        Occurrence Date: /today,
+        Loss Payment Amount: 100
+      },
+      {
+        Type: 'At-Fault Accident',
+        Description: 'Accident (Property Damage Only)',
+        Occurrence Date: /today,
+        Loss Payment Amount: 100
+      },
+      {
+        Type: 'At-Fault Accident',
+        Description: 'Accident (Property Damage Only)',
+        Occurrence Date: /today,
+        Loss Payment Amount: 100
+      },
+      {
+        Type: 'At-Fault Accident',
+        Description: 'Accident (Property Damage Only)',
+        Occurrence Date: /today,
+        Loss Payment Amount: 100
+      },
+      {
+        Type: 'At-Fault Accident',
+        Description: 'Accident (Property Damage Only)',
+        Occurrence Date: /today,
+        Loss Payment Amount: 100
+      }
+    ]
+  },
+  RatingDetailReportsTab: {
+    Customer Agreement: Customer Agrees,
+    Order Report: click
+  },
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+  ErrorTab: {
+    ErrorsOverride: [{
+      Override: 'true',
+      Approval: 'true',
+      Duration: Life,
+      Reason for override: index=1
+    },
+    {
+      Override: 'true',
+      Approval: 'true',
+      Duration: Life,
+      Reason for override: index=1
+    }]
+  }
+}
