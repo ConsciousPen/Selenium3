@@ -255,22 +255,15 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void acceptMinDuePaymentDD1plus30() {
 		LocalDateTime paymentDate = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1).plusDays(30);
-		TimeSetterUtil.getInstance().nextPhase(paymentDate);
-		log.info("Accept payment action started");
-		log.info("Accept payment date: {}", paymentDate);
-		mainApp().reopen();
-		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		Dollar minDue = new Dollar(BillingSummaryPage.tableBillsStatements
-			.getRowContains(BillingConstants.BillingBillsAndStatmentsTable.TYPE, BillingConstants.BillsAndStatementsType.BILL)
-			.getCell(BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
-		billingAccount.acceptPayment().perform(getTestSpecificTD("AcceptPayment"), minDue);
-		new BillingPaymentsAndTransactionsVerifier()
-			.setTransactionDate(paymentDate)
-			.setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
-			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
-			.setAmount(minDue.negate())
-			.verifyPresent();
-		log.info("Accept payment action completed successfully");
+		acceptMinDuePaymentOnDate(paymentDate);
+	}
+
+	/**
+	 * Accept Min Due payment on Update Policy Status Date (Expiration date + 1 day)
+	 */
+	protected void acceptMinDuePaymentOnUpdatePolicyStatusDate() {
+		LocalDateTime paymentDate = getTimePoints().getUpdatePolicyStatusDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate());
+		acceptMinDuePaymentOnDate(paymentDate);
 	}
 
 	/**
@@ -721,12 +714,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().open();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		new BillingPaymentsAndTransactionsVerifier()
-			.setEffectiveDate(policyExpDate)
-			.setType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM)
-			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL)
-			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
-			.verifyPresent();
 		new BillingBillsAndStatementsVerifier()
 			.setDueDate(policyExpDate)
 			.setMinDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue()))
@@ -755,6 +742,22 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
 			.verifyPresent();
 		log.info("Escheatment is created");
+	}
+
+	protected void validatePLIGAFeeOnRenewGenOfferDate() {
+		LocalDateTime genOfferDate = getTimePoints().getRenewOfferGenerationDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate());
+		TimeSetterUtil.getInstance().nextPhase(genOfferDate);
+		log.info("PLIGA fee validation on {}", genOfferDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().open();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		Dollar pligaFee = BillingHelper.calculatePligaFee(genOfferDate, BillingSummaryPage.getInstallmentAmount(1));
+		new BillingPaymentsAndTransactionsVerifier()
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PLIGA_FEE)
+			.setAmount(pligaFee)
+			.verifyPresent();
+		log.info("PLIGA fee validated successfully");
 	}
 
 	protected TestData getPolicyTestData() {
@@ -809,6 +812,25 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 			.setAmount(amount.negate())
 			.verifyPresent();
 		log.info("Accept overpayment action completed successfully");
+	}
+
+	private void acceptMinDuePaymentOnDate(LocalDateTime paymentDate) {
+		TimeSetterUtil.getInstance().nextPhase(paymentDate);
+		log.info("Accept payment action started on {}", paymentDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		Dollar minDue = new Dollar(BillingSummaryPage.tableBillsStatements
+			.getRowContains(BillingConstants.BillingBillsAndStatmentsTable.TYPE, BillingConstants.BillsAndStatementsType.BILL)
+			.getCell(BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
+		billingAccount.acceptPayment().perform(getTestSpecificTD("AcceptPayment"), minDue);
+		new BillingPaymentsAndTransactionsVerifier()
+			.setTransactionDate(paymentDate)
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_PAYMENT)
+			.setAmount(minDue.negate())
+			.verifyPresent();
+		log.info("Accept payment action completed successfully");
 	}
 
 	private void performEndorsementOnDate(LocalDateTime endorsementDate) {
