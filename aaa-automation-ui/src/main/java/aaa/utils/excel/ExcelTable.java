@@ -32,6 +32,13 @@ public class ExcelTable implements Iterable<TableRow> {
 		return tableRows;
 	}
 
+	/**
+	 * Without header row
+	 */
+	public int getRowsNumber() {
+		return getRows().size();
+	}
+
 	@Override
 	@Nonnull
 	public Iterator<TableRow> iterator() {
@@ -60,6 +67,15 @@ public class ExcelTable implements Iterable<TableRow> {
 		return foundRow;
 	}
 
+	@Override
+	public String toString() {
+		return "ExcelTable{" +
+				"header=" + header +
+				", rowsNumber=" + getRowsNumber() +
+				", tableRows=" + tableRows +
+				'}';
+	}
+
 	class TableRowIterator implements Iterator<TableRow> {
 		private int currentIndex;
 		private int endIndex;
@@ -75,7 +91,7 @@ public class ExcelTable implements Iterable<TableRow> {
 
 		@Override
 		public boolean hasNext() {
-			return currentIndex < endIndex && tableRows.get(currentIndex) != null;
+			return currentIndex < endIndex && getRows().get(currentIndex) != null;
 		}
 
 		@Override
@@ -83,7 +99,7 @@ public class ExcelTable implements Iterable<TableRow> {
 			if (!hasNext()) {
 				throw new NoSuchElementException("ExcelTable does not have next TableRow");
 			}
-			TableRow returnRow = tableRows.get(currentIndex);
+			TableRow returnRow = getRows().get(currentIndex);
 			currentIndex++;
 			return returnRow;
 		}

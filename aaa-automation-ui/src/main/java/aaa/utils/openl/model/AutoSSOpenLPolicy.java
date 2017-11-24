@@ -35,7 +35,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private List<OpenLVehicles> vehicles;
 	private int noOfVehiclesExcludingTrailer;
 	private boolean multiCar;
-	private List<OpenLDrivers> drivers;
+	private List<OpenLDriver> drivers;
 
 	public int getTerm() {
 		return term;
@@ -293,11 +293,11 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		this.multiCar = multiCar;
 	}
 
-	public List<OpenLDrivers> getDrivers() {
+	public List<OpenLDriver> getDrivers() {
 		return drivers;
 	}
 
-	public void setDrivers(List<OpenLDrivers> drivers) {
+	public void setDrivers(List<OpenLDriver> drivers) {
 		this.drivers = drivers;
 	}
 

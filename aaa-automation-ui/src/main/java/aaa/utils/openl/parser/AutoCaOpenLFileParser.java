@@ -1,3 +1,4 @@
+/*
 package aaa.utils.openl.parser;
 
 import java.io.File;
@@ -17,3 +18,4 @@ public class AutoCaOpenLFileParser extends OpenLFileParser<AutoCaOpenLPolicy> {
 		throw new NotImplementedException("method is not implemented yet for " + this.getClass().getSimpleName());
 	}
 }
+*/
