@@ -83,7 +83,7 @@ public class Scenario11 extends ScenarioBaseTest {
 		offCycleBillDueDate2 = policyEffectiveDate.plusMonths(2);		
 	}
 	
-	protected void makeFistEndorsement() {		
+	protected void makeFirstEndorsement() {		
 		//DD0+5
 		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(5));
 		
