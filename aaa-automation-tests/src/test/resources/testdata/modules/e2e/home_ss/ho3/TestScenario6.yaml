@@ -33,7 +33,7 @@ PropertyValue: {
   Coverage A - Dwelling limit: 200000,
   ISO replacement cost: 174000,
   Reason replacement cost differs from the tool value: 'index=1',
-  Purchase date of home: '/today-1y:MM/dd/yyyy'
+  Purchase date of home: '$<today-1y:MM/dd/yyyy>'
 }
 
 #---- OH ----

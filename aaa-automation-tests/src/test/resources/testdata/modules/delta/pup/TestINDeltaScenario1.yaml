@@ -36,7 +36,7 @@ PrefillTab: {
 
 GeneralTab: {
   PolicyInfo: {
-    Effective date: '/today:MM/dd/yyyy',
+    Effective date: '$<today:MM/dd/yyyy>',
     Application type: New,
     Channel Type: Independent Agent,
     Agency: 'SMTestIA - 400001650',

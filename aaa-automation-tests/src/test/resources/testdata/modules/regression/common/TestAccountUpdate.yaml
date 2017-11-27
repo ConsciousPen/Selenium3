@@ -9,8 +9,8 @@ CustomerType: {
 }
 
 GeneralTab: {
-  First Name: '/rx:Tom\d{5}',
-  Last Name: '/rx:Lee\d{5}',
+  First Name: '$<rx:Tom\d{5}>',
+  Last Name: '$<rx:Lee\d{5}>',
   Suffix: 'Sr.',
   Date of Birth: 12/05/1985,
   Gender: Male,
@@ -60,8 +60,8 @@ TD_CreateCustomer2: {
 }
 
 GeneralTab_C2: {
-  First Name: '/rx:Jax\d{5}',
-  Last Name: '/rx:Jones\d{5}',
+  First Name: '$<rx:Jax\d{5}>',
+  Last Name: '$<rx:Jones\d{5}>',
   Suffix: 'PhD',
   Date of Birth: 01/01/1981,
   Gender: Male,

@@ -18,7 +18,7 @@ TestData: {
         'Rel. to First Named Insured': 'Spouse',
         First Name: Linda,
         Last Name: Alonso,
-        Date of Birth: /today-20y,
+        Date of Birth: $<today-20y>,
         Gender: Female,
         Marital Status: Married,
         Occupation: Self-Employed,

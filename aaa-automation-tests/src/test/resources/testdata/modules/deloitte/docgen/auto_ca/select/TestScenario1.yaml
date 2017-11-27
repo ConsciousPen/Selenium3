@@ -5,7 +5,7 @@ TestData_QuoteUpdate: {
       ActivityInformation: {
         Activity Source: Customer Input,
         Type: Minor Violation,
-        Occurrence Date: /today,
+        Occurrence Date: $<today>,
         Description: Speeding,
         'Include in Points and/or YAF?': 'No',
         'Not Included in Points and/or YAF - Reason Codes': Penalty of Perjury,

@@ -2,21 +2,21 @@
 
 EndorsementFlat: {
   EndorsementActionTab: {
-    Endorsement Date: /today,
+    Endorsement Date: $<today>,
     Endorsement Reason: Maintain Vehicle(s)
   }
 }
 
 EndorsementPlusM: {
   EndorsementActionTab: {
-    Endorsement Date: /today+30d,
+    Endorsement Date: $<today+30d>,
     Endorsement Reason: Maintain Vehicle(s)
   }
 }
 
 EndorsementPlus2M: {
   EndorsementActionTab: {
-    Endorsement Date: /today+60d,
+    Endorsement Date: $<today+60d>,
     Endorsement Reason: Maintain Vehicle(s)
   }
 }
@@ -44,7 +44,7 @@ DataGather_WO_Discounts: {
 PrefillTab: {
   First Name: Gustavo,
   Last Name: Catalan,
-  Date of Birth: '/today-37y-4d:MM/dd/yyyy',
+  Date of Birth: '$<today-37y-4d:MM/dd/yyyy>',
   Validate Address: click,
   Validate Address Dialog: {},
   Order Prefill: click
@@ -74,7 +74,7 @@ ContactInformation: {
 
 PolicyInformation: {
   Policy Type: Standard,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA NCNU - 500001005',
@@ -165,8 +165,8 @@ AAAProductOwned1: {
 CurrentCarrierInformation1: {
   'Override Prefilled Current Carrier?': 'Yes',
   'Agent Entered Current/Prior Carrier': 'AAA Insurance',
-  Agent Entered Inception Date:  '/today-3y+1d:MM/dd/yyyy',
-  Agent Entered Expiration Date:  '/today+1d:MM/dd/yyyy',
+  Agent Entered Inception Date:  '$<today-3y+1d:MM/dd/yyyy>',
+  Agent Entered Expiration Date:  '$<today+1d:MM/dd/yyyy>',
   Agent Entered BI Limits: '$300,000/$500,000',
 }
 
@@ -185,8 +185,8 @@ AAAProductOwned3: {
 }
 
 CurrentCarrierInformation3: {
-  Agent Entered Inception Date:  '/today-3y+1d:MM/dd/yyyy',
-  Agent Entered Expiration Date:  '/today-4d:MM/dd/yyyy',
+  Agent Entered Inception Date:  '$<today-3y+1d:MM/dd/yyyy>',
+  Agent Entered Expiration Date:  '$<today-4d:MM/dd/yyyy>',
 }
 
 GeneralTab_Discounts4: {
@@ -204,8 +204,8 @@ AAAProductOwned4: {
 }
 
 CurrentCarrierInformation4: {
-  Agent Entered Inception Date:  '/today-1y-4d:MM/dd/yyyy',
-  Agent Entered Expiration Date:  '/today-3d:MM/dd/yyyy',
+  Agent Entered Inception Date:  '$<today-1y-4d:MM/dd/yyyy>',
+  Agent Entered Expiration Date:  '$<today-3d:MM/dd/yyyy>',
 }
 
 PolicyInformation4: {
@@ -442,7 +442,7 @@ GeneralTab_AZ: {
 
 PolicyInformation_AZ: {
   Policy Type: Standard,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: AAA Agent,
   Agency: AAA Arizona - 500001004,

@@ -36,7 +36,7 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual:  {
   "Companion Auto Pending with Discount?": 'No',
   Auto policy state: UT, 
   Policy number: '345345345',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Policy tier: 'index=1',
   Auto policy BI limit: 'index=1',
   Auto Insurance Persistency: '21'
@@ -61,6 +61,6 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_Pup:  {
   Policy type: PUP,
   "Companion PUP/DP3 Pending with Discount?": 'No',
   Policy number: '123456789',
-  Effective date: '/today+2d:MM/dd/yyyy',
+  Effective date: '$<today+2d:MM/dd/yyyy>',
 }
 

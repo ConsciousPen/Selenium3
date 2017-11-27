@@ -8,7 +8,7 @@ TestData: {
   EmployeeInfoTab: {
     Job Title: Worker,
     Job Code: Any Work,
-    Original Hire Date: /today-1d,
+    Original Hire Date: $<today-1d>,
     Employment Status: Active,
   }
 }

@@ -135,67 +135,67 @@ TestData_AddRenewal: {
       {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
-        Occurrence Date: /today,
+        Occurrence Date: $<today>,
         Loss Payment Amount: 100
       },
       {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
-        Occurrence Date: /today,
+        Occurrence Date: $<today>,
         Loss Payment Amount: 100
       },
       {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
-        Occurrence Date: /today,
+        Occurrence Date: $<today>,
         Loss Payment Amount: 100
       },
       {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
-        Occurrence Date: /today,
+        Occurrence Date: $<today>,
         Loss Payment Amount: 100
       },
       {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
-        Occurrence Date: /today,
+        Occurrence Date: $<today>,
         Loss Payment Amount: 100
       },
       {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
-        Occurrence Date: /today,
+        Occurrence Date: $<today>,
         Loss Payment Amount: 100
       },
       {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
-        Occurrence Date: /today,
+        Occurrence Date: $<today>,
         Loss Payment Amount: 100
       },
       {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
-        Occurrence Date: /today,
+        Occurrence Date: $<today>,
         Loss Payment Amount: 100
       },
       {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
-        Occurrence Date: /today,
+        Occurrence Date: $<today>,
         Loss Payment Amount: 100
       },
       {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
-        Occurrence Date: /today,
+        Occurrence Date: $<today>,
         Loss Payment Amount: 100
       },
       {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
-        Occurrence Date: /today,
+        Occurrence Date: $<today>,
         Loss Payment Amount: 100
       }
     ]
