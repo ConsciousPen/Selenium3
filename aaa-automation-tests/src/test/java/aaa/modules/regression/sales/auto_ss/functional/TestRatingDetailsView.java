@@ -2,9 +2,9 @@
 * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Arrays;
 import java.util.List;
-import org.testng.AssertJUnit;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -51,17 +51,17 @@ public class TestRatingDetailsView extends AutoSSBaseTest {
 
 		// Start of PAS-535 Modifies View Rating Details to display separate comp and coll symbols.
 		List<String> pas535Fields = Arrays.asList("Coll Symbol","Comp Symbol");
-		pas535Fields.forEach(f -> AssertJUnit.assertTrue(f + " should present",
-				PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).isPresent()));
+		pas535Fields.forEach(f -> assertThat(
+				PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).isPresent()).isEqualTo(true));
 
-		pas535Fields.forEach(f -> AssertJUnit.assertFalse(f + "  is empty",
+		pas535Fields.forEach(f -> assertThat(
 				PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue().isEmpty() &&
-				PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue().isEmpty()));
+				PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue().isEmpty()).isEqualTo(true));
 		// End of PAS-535 Modifies View Rating Details to display separate comp and coll symbols.
 		// Start of PAS-2712 Update UI (View Rating Details)
 		List<String> pas2712Fields = Arrays.asList("BI Symbol","PD Symbol","UM Symbol", "PD Symbol");
-		pas2712Fields.forEach(f -> AssertJUnit.assertTrue(f + " should present", PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).isPresent()));
-		AssertJUnit.assertFalse(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Stat Code").isPresent());
+		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).isPresent()).isEqualTo(true));
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Stat Code").isPresent()).isEqualTo(false);
 		// End of PAS-2712 Update UI (View Rating Details)
 	}
 }

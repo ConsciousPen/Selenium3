@@ -2,9 +2,9 @@
 * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.delta.ct.auto;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Arrays;
 import java.util.List;
-import org.testng.AssertJUnit;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.Tab;
@@ -84,7 +84,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 
 		//010-005CT
 		//If the zip code is associated with only one county/township, the drop down list contains only that county/township value with default being that value
-		AssertJUnit.assertTrue("New Haven / Middlebury".equalsIgnoreCase(prefillTab.getAssetList().getAsset(AutoSSMetaData.PrefillTab.COUNTY_TOWNSHIP).getValue()));
+		assertThat(prefillTab.getAssetList().getAsset(AutoSSMetaData.PrefillTab.COUNTY_TOWNSHIP).getValue()).isEqualTo("New Haven / Middlebury");
 		//If the zip code spans across counties/townships, the drop down list will contain the applicable counties/townships that are associated with the zip code; the default value is 'blank'.
 
 		Tab.buttonSaveAndExit.click();
@@ -163,7 +163,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 		//Set zip = 06756 (associated with several county/township)
 		//Check country/township defaulted to blank
 		generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ZIP_CODE).setValue("06756");
-		AssertJUnit.assertTrue(generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.COUNTY_TOWNSHIP).getValue().isEmpty());
+		assertThat(generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.COUNTY_TOWNSHIP).getValue()).isEqualTo("");
 
 		generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ZIP_CODE)
 				.setValue(getCustomerIndividualTD("DataGather", "GeneralTab_CT").getValue("Zip Code"));
@@ -294,7 +294,8 @@ import toolkit.webdriver.controls.waiters.Waiters;
 		preconditions(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS);
 
 		ratingDetailReportsTab.fillTab(getTestSpecificTD("RatingDetailReportsTab_TC9"));
-		AssertJUnit.assertFalse(ERROR_MESSAGE + " message should present",ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.ELC_MESSAGE).getValue().contains(ERROR_MESSAGE));
+		assertThat(ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.ELC_MESSAGE).getValue()).doesNotContain(ERROR_MESSAGE);
+
 		Tab.buttonSaveAndExit.click(Waiters.AJAX);
 
 	}
@@ -352,7 +353,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 				.setValueByRegex("\\$500,000.*1,000,000.*");
 		PremiumAndCoveragesTab.calculatePremium();
 		String expected_ER = "UMBI/UIMBI limits may not exceed twice the BI limits";
-		AssertJUnit.assertTrue(errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, expected_ER).isPresent());
+		assertThat(errorTab.getErrorsControl().getTable().getRowContains(PolicyConstants.PolicyErrorsTable.MESSAGE, expected_ER).isPresent()).isEqualTo(true);
 		errorTab.cancel();
 
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY)
@@ -382,22 +383,21 @@ import toolkit.webdriver.controls.waiters.Waiters;
 		PremiumAndCoveragesTab.calculatePremium();
 
 		//default value for "Underinsured Motorist Conversion Coverage" = No
-		AssertJUnit.assertTrue(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_CONVERSION_COVERAGE)
-				.getValue().contains("No"));
+		assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_CONVERSION_COVERAGE)).isEqualTo("No");
 
-		AssertJUnit.assertTrue(PremiumAndCoveragesTab.tableTermPremiumbyVehicle.getColumn(1).getValue().contains("UIM Conversion Coverage not selected"));
+		assertThat(PremiumAndCoveragesTab.tableTermPremiumbyVehicle.getColumn(1).getValue().contains("UIM Conversion Coverage not selected")).isEqualTo(true);
 
 		// UIM Conversion Coverage = NO
-		premiumAndCoveragesTab.getRatingDetailsVehiclesData().forEach(i -> AssertJUnit.assertTrue("UIM Conversion Coverage should be No", i.getValue("UIM Conversion Coverage").contains("No")));
+		premiumAndCoveragesTab.getRatingDetailsVehiclesData().forEach(i -> assertThat(i.getValue("UIM Conversion Coverage")).isEqualTo("No"));
 
-		AssertJUnit.assertTrue("ELC Applied should be No", premiumAndCoveragesTab.getRatingDetailsQuoteInfoData().getValue("ELC Applied").contains("No"));
+		assertThat(premiumAndCoveragesTab.getRatingDetailsQuoteInfoData().getValue("ELC Applied")).contains("No");
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_CONVERSION_COVERAGE)
 				.setValue("Yes");
 
-		AssertJUnit.assertTrue(PremiumAndCoveragesTab.tableTermPremiumbyVehicle.getColumn(1).getValue().contains("UIM Conversion Coverage selected"));
+		assertThat(PremiumAndCoveragesTab.tableTermPremiumbyVehicle.getColumn(1).getValue()).contains("UIM Conversion Coverage selected");
 
 		Tab.buttonSaveAndExit.click();
 	}
@@ -423,12 +423,12 @@ import toolkit.webdriver.controls.waiters.Waiters;
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.calculatePremium();
 
-		AssertJUnit.assertTrue("ELC should be available.", premiumAndCoveragesTab.getRatingDetailsQuoteInfoData().getValue("ELC Applied").contains("Yes"));
+		assertThat(premiumAndCoveragesTab.getRatingDetailsQuoteInfoData().getValue("ELC Applied")).contains("Yes");
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 
 		//Go to Driver Reports tab, check message
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
-		AssertJUnit.assertTrue(ERROR_MESSAGE + " should present", ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.ELC_MESSAGE).getValue().contains(ERROR_MESSAGE));
+		assertThat(ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.ELC_MESSAGE).getValue()).contains(ERROR_MESSAGE);
 		Tab.buttonSaveAndExit.click();
 	}
 
