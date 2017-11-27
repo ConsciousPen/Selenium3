@@ -1,0 +1,36 @@
+PrefillTab: {
+  First Name: Jori,
+  Middle Name: Kav,
+  Last Name: Amar,
+  Date of Birth: 03/11/1974,
+  Validate Address: click,
+  Validate Address Dialog: {
+    },
+  Order Prefill: click
+}
+
+DriverTab: {
+  Occupation: 'Self Employed',
+  Age First Licensed: 18,
+  Permit Before License: 'No',
+  License State: CA,
+  'License #': B6526589,
+}
+
+PremiumAndCoveragesTab: {
+  Product: CA Select,
+  Payment Plan: Annual,
+  Bodily Injury Liability: 'contains=$25,000/$50,000',
+  Property Damage Liability: 'contains=$25,000'
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    Personal Auto Application: Physically Signed,
+    Deleting Uninsured Motorist Property Damage Coverage: Physically Signed,
+    Reducing Uninsured/Underinsured Motorist Coverage: Physically Signed,
+  },
+  VehicleInformation: {
+    'Are there any additional interest(s)?': 'No',
+  }
+}
