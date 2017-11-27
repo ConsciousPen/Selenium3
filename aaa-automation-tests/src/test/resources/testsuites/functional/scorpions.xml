@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Scorpions Auto Functional tests" verbose="1" parallel="tests" thread-count="1024">
+<suite name="Scorpions Functional Suite" verbose="1" parallel="tests" thread-count="1024">
    <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
@@ -13,7 +13,7 @@
         </classes>
     </test>
 
-    <test name="PAS-541 Symbols in Policy Details Service AZ">
+    <test name="PAS-541 Symbols in Policy Details Service AZ, PAS-1904 Adapt MSRP, PAS-2712 4 symbols instead of STAT CODE ">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestGetAutoPolicyDetails"/>
@@ -24,14 +24,6 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestGetAutoPolicyDetails"/>
-        </classes>
-    </test>
-
-    <test name="PAS-1904 Adapt MSRP (separate comp/coll to comp and coll - but same value)">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestRatingDetailsView"/>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestRatingDetailsView"/>
         </classes>
     </test>
 

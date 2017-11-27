@@ -48,7 +48,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	public class TestDeltaScenario1 extends AutoSSBaseTest {
 
-	private String quoteNumber;
+	private String quoteNumber = null;
 	public String scenarioPolicyType = "Auto SS";
 
 	private DriverTab driverTab = new DriverTab();
