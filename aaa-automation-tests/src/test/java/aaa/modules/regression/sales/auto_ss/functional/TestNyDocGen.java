@@ -18,10 +18,7 @@ import static aaa.main.metadata.policy.AutoSSMetaData.PremiumAndCoveragesTab.REN
 import static aaa.main.metadata.policy.AutoSSMetaData.PremiumAndCoveragesTab.SUPPLEMENTAL_SPOUSAL_LIABILITY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import java.util.Arrays;
-import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -55,10 +52,6 @@ import toolkit.webdriver.controls.RadioGroup;
 
 public class TestNyDocGen extends AutoSSBaseTest {
 
-    private static final Set<DocGenEnum.Documents> DOC_TO_CHECK = EnumSet.of(AADNNY1, AAINXX1, AAMTNY, AASANY, AAOANY, AAACNY);
-    //use List instead of EnumSet to determine sequence
-    private static final List<DocGenEnum.Documents> DOC_TO_CHECK_SEQUENCING = Arrays.asList(AAINXX1, AA02NY, AHPNXX, FS20, AACDNYR, AADNNY2, AARTNY,
-            AARRNY, AASLNY, AAACNY, AADNNY1, AAMTNY, AASANY, AAOANY);
 
     private final Tab generalTab = new GeneralTab();
     private final Tab premiumCovTab = new PremiumAndCoveragesTab();
