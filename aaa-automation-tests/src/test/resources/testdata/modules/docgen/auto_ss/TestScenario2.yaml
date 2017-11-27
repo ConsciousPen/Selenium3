@@ -938,28 +938,28 @@ AA52AZ: {
      {TextField: '500/1000'},
      {TextField: '1000/1000'}
     ],
-    VehUMPrem: [
-     {TextField: '39'},
-     {TextField: '52'},
-     {TextField: '66'},
-     {TextField: '89'},
-     {TextField: '112'},
-     {TextField: '114'},
-     {TextField: '140'},
-     {TextField: '150'},
-     {TextField: '172'}
-    ],
-    VehUIMBPrem: [
-     {TextField: '86'},
-     {TextField: '126'},
-     {TextField: '187'},
-     {TextField: '282'},
-     {TextField: '451'},
-     {TextField: '474'},
-     {TextField: '504'},
-     {TextField: '555'},
-     {TextField: '735'}
-    ],
+#    VehUMPrem: [
+#     {TextField: '39'},
+#     {TextField: '52'},
+#     {TextField: '66'},
+#     {TextField: '89'},
+#     {TextField: '112'},
+#     {TextField: '114'},
+#     {TextField: '140'},
+#     {TextField: '150'},
+#     {TextField: '172'}
+#    ],
+#    VehUIMBPrem: [
+#     {TextField: '86'},
+#     {TextField: '126'},
+#     {TextField: '187'},
+#     {TextField: '282'},
+#     {TextField: '451'},
+#     {TextField: '474'},
+#     {TextField: '504'},
+#     {TextField: '555'},
+#     {TextField: '735'}
+#    ],
     UMCovRjctFlg: {TextField: 'N'},
     UIMCovRjctFlg: {TextField: 'N'},
     UMSelCov: {TextField: '50/100'},
@@ -3201,28 +3201,28 @@ AA52AZ_ED: {
      {TextField: '500/1000'},
      {TextField: '1000/1000'}
     ],
-    VehUMPrem: [
-     {TextField: '41'},
-     {TextField: '55'},
-     {TextField: '69'},
-     {TextField: '95'},
-     {TextField: '120'},
-     {TextField: '123'},
-     {TextField: '152'},
-     {TextField: '163'},
-     {TextField: '187'}
-    ],
-    VehUIMBPrem: [
-     {TextField: '88'},
-     {TextField: '127'},
-     {TextField: '191'},
-     {TextField: '289'},
-     {TextField: '467'},
-     {TextField: '491'},
-     {TextField: '523'},
-     {TextField: '575'},
-     {TextField: '762'}
-    ],
+#    VehUMPrem: [
+#     {TextField: '41'},
+#     {TextField: '55'},
+#     {TextField: '69'},
+#     {TextField: '95'},
+#     {TextField: '120'},
+#     {TextField: '123'},
+#     {TextField: '152'},
+#     {TextField: '163'},
+#     {TextField: '187'}
+#    ],
+#    VehUIMBPrem: [
+#     {TextField: '88'},
+#     {TextField: '127'},
+#     {TextField: '191'},
+#     {TextField: '289'},
+#     {TextField: '467'},
+#     {TextField: '491'},
+#     {TextField: '523'},
+#     {TextField: '575'},
+#     {TextField: '762'}
+#    ],
     UMCovRjctFlg: {TextField: 'Y'},
     UIMCovRjctFlg: {TextField: 'Y'},
     UMSelCov: {TextField: '0/0'},
