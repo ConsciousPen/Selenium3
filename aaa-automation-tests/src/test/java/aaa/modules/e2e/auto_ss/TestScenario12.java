@@ -117,8 +117,62 @@ public class TestScenario12 extends Scenario12 {
 	
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
-	public void TC17_Pay_Third_Bill_For_Renewal(@Optional("") String state) {
+	public void TC17_Renewal_Image_Generation_For_First_Renewal(@Optional("") String state) {
+		super.renewalImageGeneration_FirstRenewal();
+	}
+	
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC18_Pay_Third_Bill_For_Renewal(@Optional("") String state) {
 		super.payThirdBillOfFirstRenewal();
-	}	
+	}
+	
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC19_Renewal_Preview_Generation_For_First_Renewal(@Optional("") String state) {
+		super.renewalPreviewGeneration_FirstRenewal();
+	}
+
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC20_Renewal_Offer_Generation_For_First_Renewal(@Optional("") String state) {
+		super.renewalOfferGeneration_FirstRenewal();
+	}
+	
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC21_Change_Payment_Plan_For_First_Renewal(@Optional("") String state) {
+		super.changePaymentPlan_FirstRenewal();
+	}
+	
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC22_Generate_Renewal_Bill_For_First_Renewal(@Optional("") String state) {
+		super.generateRenewalBill_FirstRenewal();
+	}
+	
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC23_Pay_Renewal_Bill_For_First_Renewal(@Optional("") String state) {
+		super.payRenewalBill_FirstRenewal();
+	}
+	
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC24_Update_Policy_Status_First_Renewal(@Optional("") String state) {
+		super.updatePolicyStatus_FirstRenewal();
+	}
+	
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC25_Generate_First_Bill_For_Second_Renewal(@Optional("") String state) {
+		super.generateFirstBillOfSecondRenewal();
+	}
+	
+	@Parameters({"state"})
+	@Test(dependsOnMethods = "TC01_createPolicy")
+	public void TC26_Pay_First_Bill_For_Second_Renewal(@Optional("") String state) {
+		super.payFirstBillOfSecondRenewal();
+	}
 	
 }
