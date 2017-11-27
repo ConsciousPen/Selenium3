@@ -22,11 +22,11 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.Tab;
-import aaa.common.enums.Constants;
 import aaa.common.pages.Page;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -67,7 +67,7 @@ public class TestNyDocGen extends AutoSSBaseTest {
 
     /**
      * * @author Igor Garkusha
-     * @name Test Paperless Preferences properties and Inquiry mode
+     * @name NY doc gen check fof AADNNY1, AAINXX1, AAMTNY, AASANY, AAOANY, AAACNY
      * @scenario 1.  Initiate a manual entry conversion for SIS - NY from PAS..
      * 2.Navigate through the application and calculate the premium.
      * 3. Run the renewal process till Renewal Offer stage.
@@ -82,8 +82,9 @@ public class TestNyDocGen extends AutoSSBaseTest {
         TestData policyTd = prepareConvTD(getPolicyTD(), state);
         String policyNumber = conversionPolicyPreconditions(policyTd);
         String getDataSql = String.format(AaaDocGenEntityQueries.GET_DOCUMENT_BY_POLICY_NUMBER, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-
-        DOC_TO_CHECK.forEach(docID -> {
+        List<DocGenEnum.Documents> docsToCheck = getEnumList(getStateTestData(testDataManager.getDefault(this.getClass()), "DocToCheck").
+                getList("DocumentsNames"));
+        docsToCheck.forEach(docID -> {
             //Select doc from DB
             List<DocumentDataSection> docData = DocGenHelper.getDocumentDataElemByName("PlcyNum", docID, getDataSql);
             assertThat(docData).isNotEmpty();
@@ -97,7 +98,7 @@ public class TestNyDocGen extends AutoSSBaseTest {
 
     /**
      * * @author Igor Garkusha
-     * @name Test Paperless Preferences properties and Inquiry mode
+     * @name Test Supplementary UM UIM Reject/Elect Lower Limits
      * @scenario 1. Initiate a manual entry conversion for SIS - NY from PAS.
      * 2.Navigate through the application and calculate the premium with BI Limit as the very lowest option selected on P&C page.
      * 3. Run the renewal process till Renewal Offer stage.
@@ -118,7 +119,7 @@ public class TestNyDocGen extends AutoSSBaseTest {
 
     /**
      * * @author Igor Garkusha
-     * @name Test Paperless Preferences properties and Inquiry mode
+     * @name Test Supplementary UM UIM Reject/Elect Lower Limits
      * @scenario 1. Initiate a manual entry conversion for SIS - NY from PAS.
      * 2.Navigate through the application and calculate the premium with BI Limit as the very lowest option selected on P&C page.
      * 3. Run the renewal process till Renewal Offer stage.
@@ -139,7 +140,7 @@ public class TestNyDocGen extends AutoSSBaseTest {
 
     /**
      * * @author Igor Garkusha
-     * @name Test Paperless Preferences properties and Inquiry mode
+     * @name Test Sequencing for NY Conversion Docs
      * @scenario 1. Initiate a manual entry conversion for SIS - NY from PAS.
      * 2.Navigate through all tabs, enter required informantion, calculate premium and bind the policy.
      * 3. Check if Conversion Renewal Packet is generated.
@@ -156,9 +157,13 @@ public class TestNyDocGen extends AutoSSBaseTest {
                 adjust(TestData.makeKeyPath(premiumCovTab.getMetaKey(), RENTAL_REIMBURSEMENT.getLabel()), "index=1");
         String policyNumber = conversionPolicyPreconditions(policyTd);
         String getDataSql = String.format(AaaDocGenEntityQueries.GET_DOCUMENT_BY_POLICY_NUMBER, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+
+        List<DocGenEnum.Documents> docsToCheck = getEnumList(getStateTestData(testDataManager.getDefault(this.getClass()), "DocToCheck").
+                getList("DocumentsNamesInOrder"));
+
         Document privDoc = null;
 
-        for (DocGenEnum.Documents doc : DOC_TO_CHECK_SEQUENCING) {
+        for (DocGenEnum.Documents doc : docsToCheck) {
 
             Document currentDoc = DocGenHelper.getDocument(doc, getDataSql);
             assertThat(currentDoc).isNotNull();
@@ -170,16 +175,6 @@ public class TestNyDocGen extends AutoSSBaseTest {
             privDoc = currentDoc;
         }
 
-    }
-
-    private DocGenEnum.Documents getStateRelatedDoc(String state) {
-        switch (state) {
-            case Constants.States.NY:
-                return AA52NY;
-            case Constants.States.MT:
-            default:
-                return AA52MT;
-        }
     }
 
     private void aa52TestBody(String signeType, String xmlTag, String state, DocumentDataElement expectedValue) {
@@ -197,7 +192,7 @@ public class TestNyDocGen extends AutoSSBaseTest {
         String getDataSql = String.format(AaaDocGenEntityQueries.GET_DOCUMENT_BY_POLICY_NUMBER, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 
         //Get actual value
-        DocumentDataSection docData = DocGenHelper.getDocumentDataElemByName(xmlTag, getStateRelatedDoc(state), getDataSql).get(0);
+        DocumentDataSection docData = DocGenHelper.getDocumentDataElemByName(xmlTag, valueOf("AA52" + state), getDataSql).get(0);
 
         //Compare with actual value
         assertSoftly(softly -> softly.assertThat(docData.getDocumentDataElements()).contains(expectedValue));
@@ -231,4 +226,9 @@ public class TestNyDocGen extends AutoSSBaseTest {
                 mask(TestData.makeKeyPath(docAndBind.getMetaKey(), "Agreement"));
 
     }
+
+    private List<DocGenEnum.Documents> getEnumList(List<String> valuesList) {
+        return valuesList.stream().map(DocGenEnum.Documents::valueOf).collect(Collectors.toList());
+    }
+
 }

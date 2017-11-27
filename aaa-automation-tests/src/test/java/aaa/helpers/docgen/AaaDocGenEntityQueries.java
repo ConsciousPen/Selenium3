@@ -19,9 +19,12 @@ public interface AaaDocGenEntityQueries {
     String GET_PART_OF_XML_BY_XPATH = "select EXTRACT(xmltype(DATA), '//doc:TemplateId[contains(text(),\"${DOC_NAME}\")]/..',\n" +
             "'${NS_VALUES}').getClobVal() value \n" +
             "from (${GET_DATA})";
-    String GET_DOCUMENT_BY_POLICY_NUMBER = "SELECT data \n"
+    String GET_DOCUMENT_BY_POLICY_NUMBER = "SELECT  data\n"
+            + "FROM ( SELECT data \n"
             + "FROM aaadocgenentity doc INNER JOIN policysummary s ON s.id = doc.entityid\n"
-            + "WHERE  s.policynumber = '%s' AND doc.eventname LIKE '%s'";
+            + "WHERE  s.policynumber = '%s' AND doc.eventname LIKE '%s'\n"
+            + "ORDER BY doc.id DESC\n"
+            + " ) WHERE ROWNUM = 1 ";
 
     enum EventNames {
         RENEWAL_OFFER,PREMIUM_CALCULATED,CANCEL_MIDTERM,ENDORSEMENT_ISSUE,ADHOC_DOC_GENERATE,POLICY_ISSUE
