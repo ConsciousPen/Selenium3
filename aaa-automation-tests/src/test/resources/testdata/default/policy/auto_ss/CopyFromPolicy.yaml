@@ -1,6 +1,6 @@
 TestData: {
   CopyFromPolicyActionTab: {
-    Quote Effective Date: /today
+    Quote Effective Date: '$<today>'
   },
   RatingDetailReportsTab: {
     #Customer Agreement: Customer Agrees,
@@ -12,6 +12,6 @@ TestData: {
 
 TestData_BackDated: {
   CopyFromPolicyActionTab: {
-    Quote Effective Date: /today-1m,
+    Quote Effective Date: $<today-1m>,
   }
 }

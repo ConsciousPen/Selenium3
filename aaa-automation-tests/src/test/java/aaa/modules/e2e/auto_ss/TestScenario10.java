@@ -70,7 +70,7 @@ public class TestScenario10 extends Scenario10 {
 		super.renewalImageGeneration();
 	}
 	
-		@Parameters({"state"})
+	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC09_Renewal_Preview_Generation(@Optional("") String state) {
 		super.renewalPreviewGeneration();

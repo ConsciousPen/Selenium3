@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import com.exigen.ipb.etcsa.utils.Dollar;
 
-import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.actiontabs.EndorsementActionTab;
 import aaa.modules.e2e.templates.Scenario11;
@@ -25,7 +25,7 @@ public class TestScenario11 extends Scenario11 {
 	public void TC01_createPolicy(@Optional("") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
 		endorsementReasonDataKeys = new String[] {new EndorsementActionTab().getMetaKey(),
-				AutoSSMetaData.EndorsementActionTab.ENDORSEMENT_REASON.getLabel()};
+				HomeSSMetaData.EndorsementActionTab.ENDORSEMENT_REASON.getLabel()};
 		
 		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData")
 				.adjust(getTestSpecificTD("TestData").resolveLinks());
@@ -36,7 +36,7 @@ public class TestScenario11 extends Scenario11 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC02_Make_First_Endorsement(@Optional("") String state) {
-		super.makeFistEndorsement();
+		super.makeFirstEndorsement();
 	}
 	
 	@Parameters({"state"})

@@ -118,6 +118,7 @@ public final class BillingConstants {
 		public static final String RENEWAL_POLICY_RENEWAL_PROPOSAL_REVERSAL = "Renewal - Policy Renewal Proposal Reversal";
 		public static final String REINSTATEMENT = "Reinstatement";
 		public static final String REINSTATEMENT_FEE = "Reinstatement Fee";
+		public static final String REINSTATEMENT_FEE_RENEWAL = "Reinstatement Fee - Renewal";
 		public static final String REINSTATEMENT_FEE_WITH_LAPSE = "Reinstatement with Lapse";
 		public static final String REINSTATEMENT_WITHOUT_LAPSE = "Reinstatement - Without Lapse: payment received within grace period";
 		public static final String REINSTATEMENT_WITH_LAPSE = "Reinstatement - Lapse: payment received within the lapse period";

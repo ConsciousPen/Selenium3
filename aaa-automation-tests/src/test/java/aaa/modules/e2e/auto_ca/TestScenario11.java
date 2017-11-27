@@ -40,7 +40,7 @@ public class TestScenario11 extends Scenario11 {
 	@Parameters({"state"})
 	@Test(dependsOnMethods = "TC01_createPolicy")
 	public void TC02_Make_First_Endorsement(@Optional("CA") String state) {
-		super.makeFistEndorsement();
+		super.makeFirstEndorsement();
 	} 
 
 	@Parameters({"state"})
