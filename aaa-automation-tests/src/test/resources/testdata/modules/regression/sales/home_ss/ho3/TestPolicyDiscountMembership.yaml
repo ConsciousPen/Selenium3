@@ -57,7 +57,7 @@ TestData_CopyPolicy: {
 }
 
 CopyFromPolicyActionTab: {
-    Quote Effective Date: '/today'
+    Quote Effective Date: '$<today>'
 }
 
 UnderwritingAndApprovalTab: {

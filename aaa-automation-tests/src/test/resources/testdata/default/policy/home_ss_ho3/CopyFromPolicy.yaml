@@ -6,7 +6,7 @@ TestData: {
 }
 
 CopyFromPolicyActionTab: {
-  Quote Effective Date: /today
+  Quote Effective Date: '$<today>'
 }
 
 ReportsTab: {
@@ -26,7 +26,7 @@ UnderwritingAndApprovalTab: {
 # TestData_Backdated  
 TestData_BackDated: {
   CopyFromPolicyActionTab: {
-    Quote Effective Date: /today-1m,
+    Quote Effective Date: $<today-1m>,
   }
 }
 

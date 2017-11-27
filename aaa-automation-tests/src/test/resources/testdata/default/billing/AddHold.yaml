@@ -8,6 +8,6 @@ TestData: {
     Hold Description: 'Test',
     Reason: 'Natural Disaster',
     Hold Type: ['Invoice', 'Cancel Notice', 'Cancellation', 'Refund', 'Recurring Payments', 'EP Write-off'],
-    Effective Date: '/today'
+    Effective Date: '$<today>'
   }
 }

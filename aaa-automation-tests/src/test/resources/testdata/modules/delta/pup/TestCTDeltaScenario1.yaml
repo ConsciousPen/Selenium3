@@ -35,7 +35,7 @@ PrefillTab: {
 
 GeneralTab: {
   PolicyInfo: {
-    Effective date: '/today:MM/dd/yyyy',
+    Effective date: '$<today:MM/dd/yyyy>',
     Application type: New,
     Channel Type: Independent Agent,
     Agency: 'SMTestIA - 400001650',
@@ -56,8 +56,8 @@ UnderlyingRisksPropertyTab: {
     Zip Code: 21217,
     Street Address 1: 1425 Myrtle Ave,
     Policy Number: MDH3876543234,
-    Effective date: '/today:MM/dd/yyyy',
-    Expiration date: '/today+1y:MM/dd/yyyy',
+    Effective date: '$<today:MM/dd/yyyy>',
+    Expiration date: '$<today+1y:MM/dd/yyyy>',
     Occupancy type: Primary Residence,
     'Number of units/acres': 2,
     Current Carrier: 'AAA-Michigan (ACG)',
@@ -77,8 +77,8 @@ UnderlyingRisksPropertyTab: {
 #  Zip Code: 21217,
 #  "Street Address 1": '1425 Myrtle Ave',
 #  Policy Number: MDH3876543234,
-#  Effective date: '/today:MM/dd/yyyy',
-#  Expiration date: '/today+1y:MM/dd/yyyy',
+#  Effective date: '$<today:MM/dd/yyyy>',
+#  Expiration date: '$<today+1y:MM/dd/yyyy>',
 #  Occupancy type: Primary Residence,
 #  "Number of units/acres": 2,
 #  Current Carrier: 'index=5',
@@ -259,7 +259,7 @@ TestData_Plus49Days: {
 }
 
 CancelNoticeActionTab_Plus49Days: {
-    Cancellation effective date: '/today+49d', 
+    Cancellation effective date: '$<today+49d>',
     Cancellation reason: 'Material Misrepresentation', 
     Description: test test
   }
