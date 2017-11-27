@@ -83,6 +83,15 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	/**
 	 * Endorsement of the policy
+	 * On start date + 2 days
+	 */
+	protected void endorsePolicyOnStartDatePlus2() {
+		LocalDateTime endorseDate = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
+		performEndorsementOnDate(endorseDate, endorseDate);
+	}
+
+	/**
+	 * Endorsement of the policy
 	 * today(suite start time) + 2 day
 	 */
 	protected void endorsePolicyEffDatePlus2Days() {
@@ -497,15 +506,14 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Manual cancellation action completed successfully");
 	}
 
-	protected void manualCancellationStartDatePlus16(String keyPath) {
+	protected void flatCancellationStartDatePlus16() {
 		LocalDateTime cancellationDate = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
 		TimeSetterUtil.getInstance().nextPhase(cancellationDate);
-		log.info("Manual cancellation action started");
-		log.info("Manual cancellation date: {}", cancellationDate);
+		log.info("Manual cancellation action started on {}", cancellationDate);
 		mainApp().reopen();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		String effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue();
-		policy.cancel().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).adjust(keyPath, effectiveDate));
+		policy.cancel().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		// assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		log.info("Manual cancellation action completed successfully");
 	}
@@ -677,19 +685,15 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected void refundSuspenseDD1plus5() {
 		LocalDateTime refundDate = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1).plusDays(5);
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
-		log.info("Refund Suspense action started");
-		log.info("Action date: {}", refundDate);
-
+		log.info("Refund Suspense action started on {}", refundDate);
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-
 		BillingSummaryPage.buttonPaymentsBillingMaintenance.click();
 		PaymentsAndBillingMaintenancePage.buttonClearSuspense.click();
 		new SearchSuspenseActionTab().fillTab(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		SearchSuspenseActionTab.buttonSearch.click();
 		SearchSuspenseActionTab.tableSuspenseSearchResults.getRow(1).getCell(BillingConstants.BillingSuspenseSearchResultsTable.ACTION).controls.links.get(ActionConstants.REVERSE).click();
 		Tab.buttonOk.click();
-
 		log.info("Suspense refunded successfully");
 	}
 
@@ -918,8 +922,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	private void manualReinstatementOnDate(LocalDateTime reinstatementDate) {
 		TimeSetterUtil.getInstance().nextPhase(reinstatementDate);
-		log.info("Manual reinstatement action started");
-		log.info("Manual reinstatement date: {}", reinstatementDate);
+		log.info("Manual reinstatement action started on {}", reinstatementDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());

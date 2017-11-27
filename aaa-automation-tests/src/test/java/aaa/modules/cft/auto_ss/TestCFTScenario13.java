@@ -10,7 +10,6 @@ import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.actiontabs.CancellationActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
@@ -32,7 +31,7 @@ public class TestCFTScenario13 extends ControlledFinancialBaseTest {
 		createPolicyForTest();
 		acceptPaymentStartDatePlus2();
 		addSuspenseEffDatePlus2();
-		manualCancellationStartDatePlus16(TestData.makeKeyPath(CancellationActionTab.class.getSimpleName(), AutoSSMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()));
+		flatCancellationStartDatePlus16();
 		clearSuspenseEffDatePlus16();
 		manualReinstatementStartDatePlus25();
 		endorsePolicyCancellationNoticeDate();
