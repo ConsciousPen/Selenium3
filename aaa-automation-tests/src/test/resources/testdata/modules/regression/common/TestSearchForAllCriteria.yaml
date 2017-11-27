@@ -29,8 +29,8 @@ CustomerType: {
 }
 
 CustomerGeneralTab: {
-  First Name: '/rx:Mike\d{6}',
-  Last Name: '/rx:Tyson\d{6}',
+  First Name: '$<rx:Mike\d{6}>',
+  Last Name: '$<rx:Tyson\d{6}>',
   Date of Birth: 06/30/1966,
   Gender: Male,
   Marital Status: Married,
@@ -55,13 +55,13 @@ CustomerGeneralTab: {
 GeneralTab: {
   State: 'UT',
   Policy type: 'DP3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab: {

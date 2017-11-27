@@ -46,7 +46,7 @@ ContactInformation: {
 
 PolicyInformation: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA NCNU - 500001005',
@@ -131,7 +131,7 @@ GeneralTab_AZ: {
 
 PolicyInformation_AZ: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Arizona - 500001004',
@@ -174,7 +174,7 @@ GeneralTab_CO: {
 
 PolicyInformation_CO: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Colorado - 500001007',
@@ -224,7 +224,7 @@ GeneralTab_CT: {
 
 PolicyInformation_CT: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
@@ -275,7 +275,7 @@ GeneralTab_DC: {
 
 PolicyInformation_DC: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
@@ -326,7 +326,7 @@ GeneralTab_DE: {
 
 PolicyInformation_DE: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
@@ -379,7 +379,7 @@ GeneralTab_ID: {
 
 PolicyInformation_ID: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Oregon - 500001021',
@@ -423,7 +423,7 @@ GeneralTab_IN: {
 
 PolicyInformation_IN: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA INDIANA HOOSIER MOTOR CLUB - 500001023',
@@ -466,7 +466,7 @@ GeneralTab_KS: {
 
 PolicyInformation_KS: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
@@ -517,7 +517,7 @@ GeneralTab_KY: {
 
 PolicyInformation_KY: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
@@ -560,7 +560,7 @@ GeneralTab_MD: {
 
 PolicyInformation_MD: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
@@ -612,7 +612,7 @@ GeneralTab_MT: {
 
 PolicyInformation_MT: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mountain West - 500001006',
@@ -663,7 +663,7 @@ GeneralTab_NJ: {
 
 PolicyInformation_NJ: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
@@ -718,7 +718,7 @@ GeneralTab_NV: {
 
 PolicyInformation_NV: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA NCNU - 500001005',
@@ -760,7 +760,7 @@ GeneralTab_OH: {
 
 PolicyInformation_OH: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'Ohio Findlay Club - 500001015',
@@ -803,7 +803,7 @@ GeneralTab_OK: {
 
 PolicyInformation_OK: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA OKLAHOMA INSURANCE - 500001020',
@@ -857,7 +857,7 @@ GeneralTab_OR: {
 
 PolicyInformation_OR: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Oregon - 500001021',
@@ -873,7 +873,7 @@ DriverTab_OR: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
-  License Number: '/rx:001234567'
+  License Number: '$<rx:001234567>'
 }
 
 # ------- PA ------
@@ -900,7 +900,7 @@ GeneralTab_PA: {
 
 PolicyInformation_PA: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Southern Penn - 500017173',
@@ -956,7 +956,7 @@ GeneralTab_SD: {
 
 PolicyInformation_SD: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA SOUTH DAKOTA - 500001022',
@@ -1000,7 +1000,7 @@ GeneralTab_VA: {
 
 PolicyInformation_VA: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
@@ -1043,7 +1043,7 @@ GeneralTab_WV: {
 
 PolicyInformation_WV: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
@@ -1094,7 +1094,7 @@ GeneralTab_WY: {
 
 PolicyInformation_WY: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mountain West - 500001006',

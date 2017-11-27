@@ -1,6 +1,6 @@
 GeneralTab_DataGather: {
   PolicyInformation: {
-    Effective Date: '/today+1M',
+    Effective Date: '$<today+1M>',
   }
 }
 

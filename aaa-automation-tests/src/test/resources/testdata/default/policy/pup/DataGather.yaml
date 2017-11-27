@@ -40,7 +40,7 @@ GeneralTab: {
 }
 
 PolicyInfo_UT: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA NCNU - 500001005',
@@ -152,7 +152,7 @@ GeneralTab_AZ: {
 }
 
 PolicyInfo_AZ: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Arizona - 500001004',
@@ -239,7 +239,7 @@ GeneralTab_CA: {
 }
 
 PolicyInfo_CA: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: AAA Agent,
   Agency: 'AAA NCNU - 500001005',
@@ -321,7 +321,7 @@ GeneralTab_CO: {
 }
 
 PolicyInfo_CO: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Colorado - 500001007',
@@ -375,7 +375,7 @@ GeneralTab_CT: {
 }
 
 PolicyInfo_CT: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
@@ -443,7 +443,7 @@ GeneralTab_DC: {
 }
 
 PolicyInfo_DC: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
@@ -497,7 +497,7 @@ GeneralTab_DE: {
 }
 
 PolicyInfo_DE: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
@@ -551,7 +551,7 @@ GeneralTab_ID: {
 }
 
 PolicyInfo_ID: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Oregon - 500001021',
@@ -605,7 +605,7 @@ GeneralTab_IN: {
 }
 
 PolicyInfo_IN: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA INDIANA HOOSIER MOTOR CLUB - 500001023',
@@ -659,7 +659,7 @@ GeneralTab_KS: {
 }
 
 PolicyInfo_KS: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
@@ -713,7 +713,7 @@ GeneralTab_KY: {
 }
 
 PolicyInfo_KY: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
@@ -781,7 +781,7 @@ GeneralTab_MD: {
 }
 
 PolicyInfo_MD: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
@@ -849,7 +849,7 @@ GeneralTab_MT: {
 }
 
 PolicyInfo_MT: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mountain West - 500001006',
@@ -903,7 +903,7 @@ GeneralTab_NJ: {
 }
 
 PolicyInfo_NJ: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
@@ -957,7 +957,7 @@ GeneralTab_NV: {
 }
 
 PolicyInfo_NV: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA NCNU - 500001005',
@@ -1018,7 +1018,7 @@ GeneralTab_NY: {
 }
 
 PolicyInfo_NY: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA NORTHWAY NEW YORK - 500001009',
@@ -1072,7 +1072,7 @@ GeneralTab_OH: {
 }
 
 PolicyInfo_OH: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'Ohio Findlay Club - 500001015',
@@ -1126,7 +1126,7 @@ GeneralTab_OK: {
 }
 
 PolicyInfo_OK: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA OKLAHOMA INSURANCE - 500001020',
@@ -1180,7 +1180,7 @@ GeneralTab_OR: {
 }
 
 PolicyInfo_OR: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Oregon - 500001021',
@@ -1248,7 +1248,7 @@ GeneralTab_PA: {
 }
 
 PolicyInfo_PA: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Southern Penn - 500017173',
@@ -1302,7 +1302,7 @@ GeneralTab_SD: {
 }
 
 PolicyInfo_SD: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA SOUTH DAKOTA - 500001022',
@@ -1356,7 +1356,7 @@ GeneralTab_VA: {
 }
 
 PolicyInfo_VA: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mid-Atlantic - 500016292',
@@ -1410,7 +1410,7 @@ GeneralTab_WV: {
 }
 
 PolicyInfo_WV: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Allied Club - 500001019',
@@ -1472,7 +1472,7 @@ GeneralTab_WY: {
 }
 
 PolicyInfo_WY: {
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Application type: New,
   Channel Type: 'AAA Agent',
   Agency: 'AAA Mountain West - 500001006',

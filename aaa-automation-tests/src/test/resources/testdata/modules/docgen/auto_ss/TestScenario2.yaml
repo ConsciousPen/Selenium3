@@ -663,7 +663,7 @@ DriverTab_Renewal: {
    addSection: "",
    Type: 'At-Fault Accident',
    Description: 'Accident (Property Damage Only)',
-   Occurrence Date: '/today-15d:MM/dd/yyyy',
+   Occurrence Date: '$<today-15d:MM/dd/yyyy>',
    Loss Payment Amount: 2000
  }
 }
@@ -725,7 +725,7 @@ AA43AZ: {
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: AZ},
     TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     SgntrOnFile: {TextField: ''}
   }
 }
@@ -766,7 +766,7 @@ AH35XX_AZ: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0040'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     TransDesc: {TextField: 'NB'},
     FutInstlDueDt: {}
   }
@@ -817,8 +817,8 @@ AASR22_AZ: {
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'AZ'},
     SR22CseNum: {TextField: '123'},
-    SgnDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
-    SR22CertEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SgnDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
+    SR22CertEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     SR22CertReqSt: {TextField: 'Arizona'},
     SSNum: {TextField: '6789'}
   }
@@ -938,28 +938,28 @@ AA52AZ: {
      {TextField: '500/1000'},
      {TextField: '1000/1000'}
     ],
-    VehUMPrem: [
-     {TextField: '39'},
-     {TextField: '52'},
-     {TextField: '66'},
-     {TextField: '89'},
-     {TextField: '112'},
-     {TextField: '114'},
-     {TextField: '140'},
-     {TextField: '150'},
-     {TextField: '172'}
-    ],
-    VehUIMBPrem: [
-     {TextField: '86'},
-     {TextField: '126'},
-     {TextField: '187'},
-     {TextField: '282'},
-     {TextField: '451'},
-     {TextField: '474'},
-     {TextField: '504'},
-     {TextField: '555'},
-     {TextField: '735'}
-    ],
+#    VehUMPrem: [
+#     {TextField: '39'},
+#     {TextField: '52'},
+#     {TextField: '66'},
+#     {TextField: '89'},
+#     {TextField: '112'},
+#     {TextField: '114'},
+#     {TextField: '140'},
+#     {TextField: '150'},
+#     {TextField: '172'}
+#    ],
+#    VehUIMBPrem: [
+#     {TextField: '86'},
+#     {TextField: '126'},
+#     {TextField: '187'},
+#     {TextField: '282'},
+#     {TextField: '451'},
+#     {TextField: '474'},
+#     {TextField: '504'},
+#     {TextField: '555'},
+#     {TextField: '735'}
+#    ],
     UMCovRjctFlg: {TextField: 'N'},
     UIMCovRjctFlg: {TextField: 'N'},
     UMSelCov: {TextField: '50/100'},
@@ -968,7 +968,7 @@ AA52AZ: {
   form: {
     PlcyNum: {TextField: ''},
     PlcyPrfx: {TextField: 'AZSS'},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     TermEffDt: {DateTimeField: ''},
     SgntrOnFile: {TextField: ''},
     PlcyTransCd: {TextField: '0040'},
@@ -1117,7 +1117,7 @@ AA10XX_AZ: {
     PlcyPrfx: {TextField: 'AZSS'},
     TermExprDt: {DateTimeField: ''},
     TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'AZ'}
   }
@@ -1324,7 +1324,7 @@ AA02AZ: {
     ],
     PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount'},
     TermExprDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"}
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"}
   }
 }
 
@@ -1377,7 +1377,7 @@ AA43IN: {
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: IN},
     TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     SgntrOnFile: {TextField: ''}
   }
 }
@@ -1418,7 +1418,7 @@ AH35XX_IN: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0040'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     TransDesc: {TextField: 'NB'},
     FutInstlDueDt: {}
   }
@@ -1460,8 +1460,8 @@ AASR22_IN: {
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'IN'},
     SR22CseNum: {TextField: '123'},
-    SgnDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
-    SR22CertEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SgnDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
+    SR22CertEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     SR22CertReqSt: {TextField: 'Indiana'},
     SSNum: {TextField: '6789'}
   }
@@ -1542,7 +1542,7 @@ AA52IN: {
   form: {
     PlcyNum: {TextField: ''},
     PlcyPrfx: {TextField: 'INSS'},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     TermEffDt: {DateTimeField: ''},
     SgntrOnFile: {TextField: ''},
     PlcyTransCd: {TextField: '0040'},
@@ -1575,7 +1575,7 @@ AA53IN: {
     PlcyGrp: {TextField: 'PERSONAL AUTO'},
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'IN'},
-    RjctEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    RjctEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     CoNmIN: {TextField: 'Western United Insurance Company dba AAA Insurance Company'},
     SgntrOnFile: [
       {TextField: ''},
@@ -1715,7 +1715,7 @@ AA10XX_IN: {
     PlcyPrfx: {TextField: 'INSS'},
     TermExprDt: {DateTimeField: ''},
     TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'IN'}
   }
@@ -1855,7 +1855,7 @@ AA02IN: {
     TermExprDt: {DateTimeField: ''},
     AmdDecTxt: {TextField: ''},
     CoNmIN: {TextField: 'Western United Insurance Company dba AAA Insurance Company'},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"}
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"}
   }
 }
 
@@ -1947,7 +1947,7 @@ AH35XX_PA: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0040'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     TransDesc: {TextField: 'NB'},
     FutInstlDueDt: {}
   }
@@ -2022,7 +2022,7 @@ AA10PA: {
     PlcyPrfx: {TextField: 'PASS'},
     TermExprDt: {DateTimeField: ''},
     TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'PA'}
   }
@@ -2128,7 +2128,7 @@ AA43PA: {
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: PA},
     TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     SgntrOnFile: {TextField: ''}
   }
 }
@@ -2153,7 +2153,7 @@ AA52UPAC: {
   },
  form: {
   PlcyNum: {TextField: ''},
-  EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+  EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
   TermEffDt: {DateTimeField: ''},
   PlcyTransCd: {TextField: '0040'},
   PlcyStAbrv: {TextField: 'PA'}
@@ -2180,7 +2180,7 @@ AA52IPAC: {
   },
  form: {
   PlcyNum: {TextField: ''},
-  EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+  EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
   TermEffDt: {DateTimeField: ''},
   PlcyTransCd: {TextField: '0040'},
   PlcyStAbrv: {TextField: 'PA'}
@@ -2207,7 +2207,7 @@ AASDPA: {
   },
  form: {
   PlcyNum: {TextField: ''},
-  RnwlTrmEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+  RnwlTrmEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
   TermEffDt: {DateTimeField: ''},
   PlcyTransCd: {TextField: '0040'},
   PlcyStAbrv: {TextField: 'PA'}
@@ -2234,7 +2234,7 @@ AADNPAC: {
   },
  form: {
   PlcyNum: {TextField: ''},
-  EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+  EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
   TermEffDt: {DateTimeField: ''},
   PlcyTransCd: {TextField: '0040'},
   PlcyStAbrv: {TextField: 'PA'}
@@ -2261,7 +2261,7 @@ AADNPAD: {
   },
  form: {
   PlcyNum: {TextField: ''},
-  RnwlTrmEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+  RnwlTrmEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
   TermEffDt: {DateTimeField: ''},
   PlcyTransCd: {TextField: '0040'},
   PlcyStAbrv: {TextField: 'PA'}
@@ -2288,7 +2288,7 @@ AADNPAE: {
   },
  form: {
   PlcyNum: {TextField: ''},
-  RnwlTrmEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+  RnwlTrmEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
   TermEffDt: {DateTimeField: ''},
   PlcyTransCd: {TextField: '0040'},
   PlcyStAbrv: {TextField: 'PA'}
@@ -2464,7 +2464,7 @@ AA02PA: {
   PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount'},
   TermExprDt: {DateTimeField: ''},
   TermEffDt: {DateTimeField: ''},
-  EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+  EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
 #  PlcyEndrRsn: {TextField: ''},
  }
 }
@@ -2523,7 +2523,7 @@ AH35XX_OK: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0040'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     TransDesc: {TextField: 'NB'},
     FutInstlDueDt: {}
   }
@@ -2565,8 +2565,8 @@ AASR22_OK: {
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'OK'},
     SR22CseNum: {TextField: '123'},
-    SgnDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
-    SR22CertEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SgnDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
+    SR22CertEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     SR22CertReqSt: {TextField: 'Oklahoma'},
     SSNum: {TextField: '6789'}
   }
@@ -2736,7 +2736,7 @@ AA43OK: {
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'OK'},
     TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     SgntrOnFile: {TextField: ''}
   }
 }
@@ -2777,7 +2777,7 @@ AA52OK: {
   },
   form: {
     PlcyNum: {TextField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     TermEffDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'OK'},
@@ -2825,7 +2825,7 @@ AA10OK: {
     PlcyPrfx: {TextField: 'OKSS'},
     TermExprDt: {DateTimeField: ''},
     TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     PlcyTransCd: {TextField: '0040'},
     PlcyStAbrv: {TextField: 'OK'}
   }
@@ -2984,7 +2984,7 @@ AA02OK: {
     ],
     PlcyDiscDesc: {TextField: 'Loyalty Discount;Membership Discount'},
     TermExprDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"}
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"}
   }
 }
 
@@ -3032,9 +3032,9 @@ AASR26_AZ: {
     PlcyTransCd: {TextField: '0100'},
     PlcyStAbrv: {TextField: 'AZ'},
     SR22CseNum: {TextField: '123'},
-    SgnDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SgnDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     SR22CertReqSt: {TextField: 'Arizona'},
-    SR22FilgCancDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SR22FilgCancDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     SSNum: {TextField: '6789'},
     SR22YN: {TextField: 'Y'},
     SR23YN: {TextField: 'N'}
@@ -3113,7 +3113,7 @@ AH35XX_ED_AZ: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0100'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     TransDesc: {TextField: 'AMD'},
 #    FutInstlDueDt: {}
   }
@@ -3201,28 +3201,28 @@ AA52AZ_ED: {
      {TextField: '500/1000'},
      {TextField: '1000/1000'}
     ],
-    VehUMPrem: [
-     {TextField: '41'},
-     {TextField: '55'},
-     {TextField: '69'},
-     {TextField: '95'},
-     {TextField: '120'},
-     {TextField: '123'},
-     {TextField: '152'},
-     {TextField: '163'},
-     {TextField: '187'}
-    ],
-    VehUIMBPrem: [
-     {TextField: '88'},
-     {TextField: '127'},
-     {TextField: '191'},
-     {TextField: '289'},
-     {TextField: '467'},
-     {TextField: '491'},
-     {TextField: '523'},
-     {TextField: '575'},
-     {TextField: '762'}
-    ],
+#    VehUMPrem: [
+#     {TextField: '41'},
+#     {TextField: '55'},
+#     {TextField: '69'},
+#     {TextField: '95'},
+#     {TextField: '120'},
+#     {TextField: '123'},
+#     {TextField: '152'},
+#     {TextField: '163'},
+#     {TextField: '187'}
+#    ],
+#    VehUIMBPrem: [
+#     {TextField: '88'},
+#     {TextField: '127'},
+#     {TextField: '191'},
+#     {TextField: '289'},
+#     {TextField: '467'},
+#     {TextField: '491'},
+#     {TextField: '523'},
+#     {TextField: '575'},
+#     {TextField: '762'}
+#    ],
     UMCovRjctFlg: {TextField: 'Y'},
     UIMCovRjctFlg: {TextField: 'Y'},
     UMSelCov: {TextField: '0/0'},
@@ -3592,9 +3592,9 @@ AASR26_IN: {
     PlcyTransCd: {TextField: '0100'},
     PlcyStAbrv: {TextField: 'IN'},
     SR22CseNum: {TextField: '123'},
-    SgnDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SgnDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     SR22CertReqSt: {TextField: 'Indiana'},
-    SR22FilgCancDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SR22FilgCancDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     SSNum: {TextField: '6789'},
     SR22YN: {TextField: 'Y'},
     SR23YN: {TextField: 'N'}
@@ -3637,7 +3637,7 @@ AH35XX_ED_IN: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0100'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     TransDesc: {TextField: 'AMD'},
 #    FutInstlDueDt: {}
   }
@@ -3814,7 +3814,7 @@ AA53IN_ED: {
     PlcyGrp: {TextField: 'PERSONAL AUTO'},
     PlcyTransCd: {TextField: '0100'},
     PlcyStAbrv: {TextField: 'IN'},
-    RjctEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    RjctEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     CoNmIN: {TextField: 'Western United Insurance Company dba AAA Insurance Company'},
     SgntrOnFile: [
       {TextField: ''},
@@ -4095,9 +4095,9 @@ AASR26_OK: {
     PlcyTransCd: {TextField: '0100'},
     PlcyStAbrv: {TextField: 'OK'},
     SR22CseNum: {TextField: '123'},
-    SgnDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SgnDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     SR22CertReqSt: {TextField: 'Oklahoma'},
-    SR22FilgCancDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SR22FilgCancDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     SSNum: {TextField: '6789'},
     SR22YN: {TextField: 'Y'},
     SR23YN: {TextField: 'N'}
@@ -4140,7 +4140,7 @@ AH35XX_ED_OK: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0100'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     TransDesc: {TextField: 'AMD'},
 #    FutInstlDueDt: {}
   }
@@ -4599,7 +4599,7 @@ AH35XX_ED_PA: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: '0100'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     TransDesc: {TextField: 'AMD'},
 #    FutInstlDueDt: {}
   }
@@ -4674,7 +4674,7 @@ AA10PA_ED: {
     PlcyPrfx: {TextField: 'PASS'},
     TermExprDt: {DateTimeField: ''},
     TermEffDt: {DateTimeField: ''},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     PlcyTransCd: {TextField: '0100'},
     PlcyStAbrv: {TextField: 'PA'}
   }
@@ -6621,7 +6621,7 @@ AH35XX_Renewal_AZ: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: 'STMT'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     TransDesc: {TextField: 'RNWL'},
     FutInstlDueDt: {}
   }
@@ -6726,7 +6726,7 @@ AH35XX_Renewal_IN: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: 'STMT'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     TransDesc: {TextField: 'RNWL'},
     FutInstlDueDt: {}
   }
@@ -6829,7 +6829,7 @@ AH35XX_Renewal_OK: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: 'STMT'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     TransDesc: {TextField: 'RNWL'},
 #    FutInstlDueDt: {}
   }
@@ -6934,7 +6934,7 @@ AH35XX_Renewal_PA: {
     PlcyEffDt: {DateTimeField: ''},
     PlcyExprDt: {DateTimeField: ''},
     PlcyTransCd: {TextField: 'STMT'},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     TransDesc: {TextField: 'RNWL'},
 #    FutInstlDueDt: {}
   }
