@@ -29,13 +29,10 @@ public class TestSymbolsPresenceTemplate extends PolicyBaseTest {
 				PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue().isEmpty() &&
 						PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue().isEmpty()));
 		// End of PAS-535 Modifies View Rating Details to display separate comp and coll symbols.
-		CustomAssert.enableSoftMode();
 		//For the second vehicle with VIN that did not match we should validate if Comp and Coll symbols are equals (if VIN matches they could be different)
-		CustomAssert.assertEquals("Comp and Coll symbols are not equals for vehicle 2",
+		AssertJUnit.assertEquals("Comp and Coll symbols are not equals for vehicle 2",
 				PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(3).getValue(),
 				PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(3).getValue());
-
-		CustomAssert.disableSoftMode();
 		// Start of PAS-2712 Update UI (View Rating Details)
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "PD Symbol");
 		pas2712Fields.forEach(f -> AssertJUnit.assertTrue(f + " should present", PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).isPresent()));
