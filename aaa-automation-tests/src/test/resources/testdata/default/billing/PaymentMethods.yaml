@@ -8,14 +8,14 @@ CC_Visa: {
   Payment Method: 'Credit/Debit Card',
   Type: 'Visa',
   Number: '4111111111111111',
-  'Expiration Month/Year': ['/today:M', '/today+4y:yyyy']
+  'Expiration Month/Year': ['$<today:M>', '$<today+4y:yyyy>']
 }
 
 CC_MasterCard: {
   Payment Method: 'Credit/Debit Card',
   Type: 'Master Card',
   Number: '5447720793964498',
-  'Expiration Month/Year': ['/today:M', '/today+4y:yyyy']
+  'Expiration Month/Year': ['$<today:M>', '$<today+4y:yyyy>']
 }
 
 EFT: {

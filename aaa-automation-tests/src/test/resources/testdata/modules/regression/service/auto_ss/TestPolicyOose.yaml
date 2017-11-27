@@ -675,7 +675,7 @@ DriverTab2_OR: {
   Marital Status: Single,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
-  License Number: '/rx:001234599'
+  License Number: '$<rx:001234599>'
 }
 
 

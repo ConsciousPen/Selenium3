@@ -28,7 +28,7 @@ NamedInsuredInformation2: {
   InsuredSearchDialog: {},
   First Name: Jenny,
   Last Name: Smith,
-  Base Date: /today,
+  Base Date: $<today>,
   Social Security Number: 223456789,
   "Has lived here for less than three years?": 'No',
 }
@@ -37,7 +37,7 @@ NamedInsuredInformation3: {
   InsuredSearchDialog: {},
   First Name: John,
   Last Name: Smith,
-  Base Date: /today,
+  Base Date: $<today>,
   Social Security Number: 223456789,
   "Has lived here for less than three years?": 'No',
 }

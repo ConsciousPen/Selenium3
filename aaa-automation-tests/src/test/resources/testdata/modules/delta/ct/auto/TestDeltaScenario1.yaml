@@ -8,19 +8,19 @@ DriverTab_CT567: {
       Activity Source : 'Company Input',
       Type: 'Minor Violation',
       Description: 'Improper Turn',
-      Occurrence Date: '/today-10d:MM/dd/yyyy'
+      Occurrence Date: '$<today-10d:MM/dd/yyyy>'
     },
     {
       Activity Source : 'Company Input',
       Type: 'Speeding Violation',
       Description: 'Speeding',
-      Occurrence Date: '/today-11d:MM/dd/yyyy'
+      Occurrence Date: '$<today-11d:MM/dd/yyyy>'
     },
     {
       Activity Source : 'Company Input',
       Type: 'At-Fault Accident',
       Description: 'Accident (Property Damage Only)',
-      Occurrence Date: '/today-11d:MM/dd/yyyy',
+      Occurrence Date: '$<today-11d:MM/dd/yyyy>',
       Loss Payment Amount : '1001'
 
     }
@@ -37,14 +37,14 @@ DriverTab_CT8: {
       Activity Source : 'Company Input',
       Type: 'Major Violation',
       Description: 'Hit and Run',
-      Occurrence Date: '/today-2d:MM/dd/yyyy'
+      Occurrence Date: '$<today-2d:MM/dd/yyyy>'
     },
     {
       Activity Source : 'Company Input',
       Type: 'At-Fault Accident',
       Description: 'Accident (Resulting in Bodily Injury)',
       Loss Payment Amount : '1001',
-      Occurrence Date: '/today-2d:MM/dd/yyyy'
+      Occurrence Date: '$<today-2d:MM/dd/yyyy>'
     }
   ]
 }
@@ -79,8 +79,8 @@ VehicleTab2_CT10: {
   VIN: WDCYC7BB0B6729451,
   Ownership: {
     Is Registered Owner Different than Named Insured : 'Yes',
-    'Primary Owner First, Last Name': '/rx:Lora \d{5}',
-    'Additional Owner First, Last Name': '/rx:Nick \d{5}'
+    'Primary Owner First, Last Name': '$<rx:Lora \d{5}>',
+    'Additional Owner First, Last Name': '$<rx:Nick \d{5}>'
   }
 }
 

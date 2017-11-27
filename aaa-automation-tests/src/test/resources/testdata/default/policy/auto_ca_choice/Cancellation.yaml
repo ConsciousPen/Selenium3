@@ -1,6 +1,6 @@
 TestData: {
   CancellationActionTab: {
-    Cancel Date: /today,
+    Cancel Date: $<today>,
     Cancellation Reason: "Underwriting Request - Material Misrepresentation",
     Authorized By: 'qa'
   }

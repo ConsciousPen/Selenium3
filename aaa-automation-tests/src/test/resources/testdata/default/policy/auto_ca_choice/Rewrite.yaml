@@ -1,12 +1,12 @@
 TestDataSameDate: {
   RewriteActionTab: {
-    Effective Date:  /today
+    Effective Date:  '$<today>'
   }
 }
 
 TestDataFutureDate: {
   RewriteActionTab: {
-    Effective Date:  /today+3d
+    Effective Date:  '$<today+3d>'
   }
 }
 

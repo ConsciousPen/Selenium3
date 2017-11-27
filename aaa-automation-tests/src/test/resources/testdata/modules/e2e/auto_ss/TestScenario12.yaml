@@ -14,11 +14,20 @@ PurchaseTab: {
   }
 }
 
-# ----- Renewal -----
-TestData_Renewal: {
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+# ----- First Renewal -----
+TestData_FirstRenewal: {
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_FirstRenewal',
 }
 
-PremiumAndCoveragesTab: {
+PremiumAndCoveragesTab_FirstRenewal: {
   Payment Plan: Quarterly (Renewal)
+}
+
+# ----- Second Renewal -----
+TestData_SecondRenewal: {
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_SecondRenewal',
+}
+
+PremiumAndCoveragesTab_SecondRenewal: {
+  Payment Plan: Semi-Annual (Renewal)
 }
