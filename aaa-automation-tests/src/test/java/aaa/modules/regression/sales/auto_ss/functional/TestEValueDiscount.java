@@ -966,7 +966,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	}
 
 	//TODO Replace below TCs with DataProvider when the Optional parameter State will be removed
-
 	/**
 	 * *@author Viktoriia Lutsenko
 	 * *@name Evalue acknowledgement document (AHEVAXX) generation.
