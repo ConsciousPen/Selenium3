@@ -163,7 +163,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 		//Set zip = 06756 (associated with several county/township)
 		//Check country/township defaulted to blank
 		generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ZIP_CODE).setValue("06756");
-		assertThat(generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.COUNTY_TOWNSHIP).getValue()).isEqualTo("");
+		assertThat(generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.COUNTY_TOWNSHIP).getValue()).isEmpty();
 
 		generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ZIP_CODE)
 				.setValue(getCustomerIndividualTD("DataGather", "GeneralTab_CT").getValue("Zip Code"));
