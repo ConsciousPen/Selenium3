@@ -16,14 +16,14 @@ TestDataFull: {
 GeneralTab: {
   PolicyInfo: {
     Policy type: 'DP3',
-    Effective date: '/today:MM/dd/yyyy',
+    Effective date: '$<today:MM/dd/yyyy>',
     Lead source: 'Book Roll',
     },
   CurrentCarrier: {
     Carrier name: 'AAA - NCNU',
     Policy type: 'DP3',
     Continuous years with HO insurance: '5',
-    Base date with AAA: '/today:MM/dd/yyyy',
+    Base date with AAA: '$<today:MM/dd/yyyy>',
   }
 }
 
@@ -133,7 +133,7 @@ PropertyInfoTabFull: {
   },
 
   RentalInformation: {
-    Year first rented: '/today-5y:yyyy',
+    Year first rented: '$<today-5y:yyyy>',
     Property manager: 'index=1',
     "Are there any additional rental dwellings ?": "No"
   },
@@ -214,7 +214,7 @@ MortgageesTab: {
     Street address 1: 'Power Str',
     Street address 2: '2',
     Description of interest: 'He is a very cool guy',
-    Effective Date: '/today',
+    Effective Date: '$<today>',
   },
   ThirdPartyDesignee: {
     Name: 'Chuck Norris',

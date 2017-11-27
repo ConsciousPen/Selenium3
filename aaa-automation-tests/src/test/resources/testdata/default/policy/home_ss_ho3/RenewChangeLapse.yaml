@@ -1,20 +1,20 @@
 TestData: {
   ChangeRenewalLapseActionTab: {
-    Revised Renewal Date: /today+1y,
+    Revised Renewal Date: $<today+1y>,
     Lapse Change Reason: 'Lapse Removed: management decision'
   }
 }
 
 TestData_Plus368Days: {
   ChangeRenewalLapseActionTab: {
-    Revised Renewal Date: /today+368d,
+    Revised Renewal Date: $<today+368d>,
     Lapse Change Reason: 'Lapse Removed: management decision'
   }
 }
 
 TestData_Plus370Days: {
   ChangeRenewalLapseActionTab: {
-    Revised Renewal Date: /today+370d,
+    Revised Renewal Date: $<today+370d>,
     Lapse Change Reason: 'Lapse Removed: management decision'
   }
 }

@@ -23,7 +23,7 @@ PremiumAndCoveragesTab: {
 
 TestData_Reinstate: {
   ReinstatementActionTab: {
-    Reinstate Date: /today,
+    Reinstate Date: $<today>,
     Authorized By: QA
   }
 }
@@ -437,7 +437,7 @@ ContactInformation_OK: {
 
 PolicyInformation_OK: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: Independent Agent,
   Agency: SMTestIA - 400001650,

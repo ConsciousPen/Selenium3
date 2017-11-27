@@ -1,20 +1,20 @@
 TestData: {
   CancellationActionTab: {
-    Cancellation effective date: /today,
+    Cancellation effective date: $<today>,
     Cancellation reason: index=1
   }
 }
 
 TestData_Plus3Days: {
   CancellationActionTab: {
-    Cancellation effective date: /today+3d,
+    Cancellation effective date: $<today+3d>,
     Cancellation reason: index=1
   }
 }
 
 TestData_Plus1Year: {
   CancellationActionTab: {
-    Cancellation effective date: /today+1y,
+    Cancellation effective date: $<today+1y>,
     Cancellation reason: index=1
   }
 }

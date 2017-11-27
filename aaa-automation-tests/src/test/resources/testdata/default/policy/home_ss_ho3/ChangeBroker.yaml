@@ -3,7 +3,7 @@ TestDataInter_Other_Plus1Day: {
     Transfer Type: Inter-agency,
     Reason: index=1,
     Transfer Effective Upon: Other,
-    Transfer Effective Date: /today+1d,
+    Transfer Effective Date: $<today+1d>,
     Commission Impact: 'No',
     Location Name: {
       Agency Name: Test Agency Inter
@@ -30,7 +30,7 @@ TestDataIntra_Other: {
     Transfer Type: Intra-agency,
     Reason: index=1,
     Transfer Effective Upon: Other,
-    Transfer Effective Date: /today,
+    Transfer Effective Date: $<today>,
     Commission Impact: 'No',
     Insurance Agent: Test Agency Intra1 Test Agency Intra1
   }

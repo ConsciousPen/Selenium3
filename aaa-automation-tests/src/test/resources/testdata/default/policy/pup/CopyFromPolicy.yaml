@@ -5,12 +5,12 @@ TestData: {
 }
 
 CopyFromPolicyActionTab: {
-  Quote Effective Date: /today
+  Quote Effective Date: '$<today>'
 }
 
 TestData_BackDated: {
   CopyFromPolicyActionTab: {
-    Quote Effective Date: /today-1m,
+    Quote Effective Date: $<today-1m>,
   }
 }
 

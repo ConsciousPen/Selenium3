@@ -1,20 +1,20 @@
 TestDataSameNumber: {
   RewriteActionTab: {
-    Effective Date:  /today,
+    Effective Date:  $<today>,
     'Use Original Policy Number?': 'Yes'
   }
 }
 
 TestDataFutureSameNumber: {
   RewriteActionTab: {
-    Effective Date:  /today+3d,
+    Effective Date:  $<today+3d>,
     'Use Original Policy Number?': 'Yes'
   }
 }
 
 TestDataNewNumber: {
   RewriteActionTab: {
-    Effective Date:  /today,
+    Effective Date:  $<today>,
     Rewrite reason: index=1
     #'Use Original Policy Number?': 'No'
   }
@@ -22,7 +22,7 @@ TestDataNewNumber: {
 
 TestDataSameDate: {
   RewriteActionTab: {
-    Effective Date:  /today,
+    Effective Date:  $<today>,
     Rewrite reason: index=2
   }
 }

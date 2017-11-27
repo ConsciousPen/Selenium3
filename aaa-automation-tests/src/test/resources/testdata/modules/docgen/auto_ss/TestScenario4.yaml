@@ -140,8 +140,8 @@ AASR22_EDOne: {
     PlcyTransCd: {TextField: '0100'},
     PlcyStAbrv: {TextField: 'AZ'},
     SR22CseNum: {TextField: '123'},
-    SgnDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
-    SR22CertEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SgnDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
+    SR22CertEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
     SR22CertReqSt: {TextField: 'Arizona'},
     SSNum: {TextField: '6789'}
   }
@@ -300,7 +300,7 @@ AH64XX: {
 #    PlcyEffDt: {DateTimeField: ''},
 #    PlcyExprDt: {DateTimeField: ''},
     PlcyRnwlExprDt: {DateTimeField: ''},
-    NoteDt: {DateTimeField: "contains=/today:yyyy-MM-dd"}
+    NoteDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"}
   },
   PaymentDetails: {
     RnwlDnPayAmt: {TextField: ''},

@@ -9,7 +9,7 @@ ApplicantTab_YoungHomeOwner: {
 }
 
 NamedInsured_YoungHomeOwner: {
-  Date of birth: '/today-30y:MM/dd/yyyy'
+  Date of birth: '$<today-30y:MM/dd/yyyy>'
 }
 
 ReportsTab: {
@@ -29,7 +29,7 @@ ApplicantTab_MatureHomeowner: {
 }
 
 NamedInsured_MatureHomeowner: {
-  Date of birth: '/today-55y:MM/dd/yyyy'
+  Date of birth: '$<today-55y:MM/dd/yyyy>'
 }
 
 # ------------- TestData: No Discounts --------------
@@ -43,7 +43,7 @@ ApplicantTab_NoPolicyHolderDiscount: {
 }
 
 NamedInsured_NoPolicyHolderDiscount: {
-  Date of birth: '/today-50y:MM/dd/yyyy'
+  Date of birth: '$<today-50y:MM/dd/yyyy>'
 }
 
 # ----------- TestData: AAA Employee Discount ------------
@@ -99,7 +99,7 @@ ApplicantTab_NoPolicyHolderDiscount_NV: {
 }
 
 NamedInsured_NoPolicyHolderDiscount_NV: {
-  Date of birth: '/today-49y:MM/dd/yyyy'
+  Date of birth: '$<today-49y:MM/dd/yyyy>'
 }
 
 

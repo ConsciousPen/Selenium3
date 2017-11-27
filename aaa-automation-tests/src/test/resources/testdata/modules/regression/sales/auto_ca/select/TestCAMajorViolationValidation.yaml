@@ -12,20 +12,20 @@ TestData: {
 
 Activity1: {
 Type: "Major Violation",
-Occurrence Date: '/today-15d:MM/dd/yyyy',
+Occurrence Date: '$<today-15d:MM/dd/yyyy>',
 Description: "Hit and run"
 }
 
 
 Activity2: {
 Type: "Major Violation",
-Occurrence Date: '/today-10d:MM/dd/yyyy',
+Occurrence Date: '$<today-10d:MM/dd/yyyy>',
 Description: "Drag Racing"
 }
 
 
 Activity3: {
 Type: "10-yr Major Violation",
-Occurrence Date: '/today-20d:MM/dd/yyyy',
+Occurrence Date: '$<today-20d:MM/dd/yyyy>',
 Description: "Driving under the influence of alcohol"
 }

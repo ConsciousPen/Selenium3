@@ -151,7 +151,7 @@ GeneralTab_AZ: {
 NamedInsuredInformation: {
   First Name: Sam,
   Last Name: Alonso,
-  Base Date: /today,
+  Base Date: $<today>,
   Social Security Number: 123456788,
   "Has lived here for less than three years?": 'No',
   Residence: Own Home
@@ -197,7 +197,7 @@ Driver3_AZ: {
   License Number: A25417865,
   Age First Licensed: 16,
   'Defensive Driver Course Completed?': 'Yes',
-  Defensive Driver Course Completion Date: /today-366d,
+  Defensive Driver Course Completion Date: $<today-366d>,
   Defensive Driver Course Certificate Number: 12345678
 }
 
@@ -279,11 +279,11 @@ PremiumAndCoveragesTab: {
     {},
     {
       New Car Added Protection: 'Yes',
-      Purchase Date: /today-20d
+      Purchase Date: '$<today-20d>'
     },
     {
       New Car Added Protection: 'Yes',
-      Purchase Date: /today-40d
+      Purchase Date: '$<today-40d>'
     }
   ]
 }
@@ -391,7 +391,7 @@ Driver3_IN: {
   License Number: 154673423,
   Age First Licensed: 16,
   'Defensive Driver Course Completed?': 'Yes',
-  Defensive Driver Course Completion Date: /today-366d,
+  Defensive Driver Course Completion Date: $<today-366d>,
   Defensive Driver Course Certificate Number: 12345678
 }
 
@@ -514,7 +514,7 @@ Driver3_OH: {
   License Number: AB673423,
   Age First Licensed: 16,
   'Defensive Driver Course Completed?': 'Yes',
-  Defensive Driver Course Completion Date: /today-366d,
+  Defensive Driver Course Completion Date: $<today-366d>,
   Defensive Driver Course Certificate Number: 12345678
 }
 
@@ -727,7 +727,7 @@ Driver3_VA: {
   License Number: 154673423,
   Age First Licensed: 16,
   'Defensive Driver Course Completed?': 'Yes',
-  Defensive Driver Course Completion Date: /today-366d,
+  Defensive Driver Course Completion Date: $<today-366d>,
   Defensive Driver Course Certificate Number: 12345678
 }
 
@@ -820,7 +820,7 @@ Driver2_WV: {
   DriverSearchDialog: {},
   Named Insured: Sam Alonso,
   Rel. to First Named Insured: Other,
-  Date of Birth: /today-20y,
+  Date of Birth: $<today-20y>,
   Gender: Male,
   Marital Status: Single,
   Occupation: Student,
@@ -846,7 +846,7 @@ Driver3_WV: {
   License Number: A254178,
   Age First Licensed: 16,
   'Defensive Driver Course Completed?': 'Yes',
-  Defensive Driver Course Completion Date: /today-366d,
+  Defensive Driver Course Completion Date: $<today-366d>,
   Defensive Driver Course Certificate Number: 12345678
 }
 

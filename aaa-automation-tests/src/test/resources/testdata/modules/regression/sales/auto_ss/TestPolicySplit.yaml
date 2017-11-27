@@ -1,6 +1,6 @@
 SplitTestData: {
    SplitActionTab: {
-  Transaction Effective Date: /today,
+  Transaction Effective Date: $<today>,
     Insureds: '2',
     Vehicles : '2'
     }

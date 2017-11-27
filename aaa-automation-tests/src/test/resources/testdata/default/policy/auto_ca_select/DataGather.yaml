@@ -50,7 +50,7 @@ AAAProductOwned: {
 
 PolicyInformation: {
   Policy Type: Standard,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Channel Type: AAA Agent,
   Agency: 'AAA NCNU - 500001005',
   Agency Location: 'Los Gatos - 500005341 - Los Gatos',

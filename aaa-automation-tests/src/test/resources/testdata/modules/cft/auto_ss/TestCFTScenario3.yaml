@@ -19,7 +19,7 @@ TestData: {
 }
 
 EndorsementActionTab: {
-    Endorsement Date: /today,
+    Endorsement Date: $<today>,
     Endorsement Reason: Maintain Vehicle(s)
 }
 
