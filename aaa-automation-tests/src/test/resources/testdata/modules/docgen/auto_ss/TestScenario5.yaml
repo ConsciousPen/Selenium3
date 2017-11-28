@@ -174,7 +174,7 @@ AAIQAZ: {
     PlcyTotPrem: {TextField: ''},
   },
   form: {
-    QuoteDate: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
+    QuoteDate: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     PlcyEffDt: {DateTimeField: ''},
     PlcyStAbrv: {TextField: 'AZ'},
     PlcyTrm: {TextField: '12 Months'},

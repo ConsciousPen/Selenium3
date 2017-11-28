@@ -327,7 +327,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION.getLabel(), AssetList.class)
 				.getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL).setValue("");
 		DocumentsAndBindTab.btnPurchase.click();
-		errorTab.getErrorsControl().getTable().getRowContains("Code", "AAA_SS6591343").getCell("Message").verify.contains("'Email' is required");
+		CustomAssert.assertTrue(errorTab.getErrorsControl().getTable().getColumn("Message").getValue().toString().contains("'Email' is required"));
 		//PAS-276 end
 
 		CustomAssert.disableSoftMode();
@@ -613,6 +613,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("No");
+		//BUG PAS-6591 PAS-316 There is no Dialog Confirmation popup when setting EValue to No in endorsement
 		CustomAssert.assertTrue(Page.dialogConfirmation.isPresent());
 		Page.dialogConfirmation.labelMessage.verify.value("If you remove the eValue discount, the premium will increase. Are you sure you want to remove the discount?");
 		Page.dialogConfirmation.reject();
@@ -815,8 +816,8 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 
 		PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).verify.contains(biLimit);
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertTrue(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY).getAllValues().get(0).contains(biLimit));
+		//OSI: there is no more hiding of non eligible values in BI dropdown
+		CustomAssert.assertTrue(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY).getAllValues().get(0).contains("$25,000/$50,000"));
 	}
 
 	/**
@@ -1046,7 +1047,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		PremiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
 
-		PolicySummaryPage.buttonPendedEndorsement.click();
 		simplifiedPendedEndorsementIssue();
 
 		CustomAssert.disableSoftMode();
