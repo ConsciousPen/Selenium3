@@ -37,9 +37,9 @@ CustomerType: {
 }
 
 GeneralTab_CleanCustomer: {
-  First Name: Ann,
-  Last Name: Green2,
-  Date of Birth: 11/12/1985,
+  First Name: NONA,
+  Last Name: HOVE,
+  Date of Birth: 08/03/1940,
   Gender: Female,
   Marital Status: Married,
   Zip Code: '90210',
@@ -47,9 +47,9 @@ GeneralTab_CleanCustomer: {
 }
 
 GeneralTab_DirtyCustomer_First: {
-  First Name: Allison,
-  Last Name: Green2,
-  Date of Birth: 11/12/1985,
+  First Name: DIRTYF,
+  Last Name: HOVE,
+  Date of Birth: 08/03/1940,
   Gender: Female,
   Marital Status: Married,
   Zip Code: '90210',
@@ -57,9 +57,9 @@ GeneralTab_DirtyCustomer_First: {
 }
 
 GeneralTab_DirtyCustomer_Last: {
-  First Name: Ann,
-  Last Name: Blue2,
-  Date of Birth: 11/12/1985,
+  First Name: NONA,
+  Last Name: DIRTYL,
+  Date of Birth: 08/03/1940,
   Gender: Female,
   Marital Status: Married,
   Zip Code: '90210',
@@ -67,9 +67,9 @@ GeneralTab_DirtyCustomer_Last: {
 }
 
 GeneralTab_DirtyCustomer_DOB: {
-  First Name: Ann,
-  Last Name: Green2,
-  Date of Birth: 11/12/1978,
+  First Name: NONA,
+  Last Name: HOVE,
+  Date of Birth: 12/25/1988,
   Gender: Female,
   Marital Status: Married,
   Zip Code: '90210',
@@ -77,9 +77,9 @@ GeneralTab_DirtyCustomer_DOB: {
 }
 
 GeneralTab_DirtyCustomer_ALL: {
-  First Name: Allison,
-  Last Name: Blue2,
-  Date of Birth: 11/12/1988,
+  First Name: DIRTYF,
+  Last Name: DIRTYL,
+  Date of Birth: 12/25/1988,
   Gender: Female,
   Marital Status: Married,
   Zip Code: '90210',
@@ -94,6 +94,59 @@ GeneralTab_OtherCustomer: {
   Marital Status: Single,
   Zip Code: '90210',
   Address Line 1: 6586 PORCUPINE WAY
+}
+
+#--------------------- Test Data For Renewals ---------------------------------
+TestData_AddCleanRenewal: {
+  GeneralTab: {},
+  ApplicantTab: {
+    #NamedInsured: ['@NamedInsured', '@NamedInsured2_Clean'],
+    NamedInsured: '@NamedInsured',
+    AAAMembership: '@AAAMembership_Clean',
+    DwellingAddress: {},
+    PreviousDwellingAddress: {},
+    MailingAddress: {},
+    NamedInsuredInformation: {},
+    AgentInfo: {},
+    OtherActiveAAAPolicies: {}
+  },
+  ReportsTab: {
+    #CLUEreport: [{Report: 'Re-order report'}]
+  },
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_AddDirtyRenewal: {
+  GeneralTab: {},
+  ApplicantTab: {
+    #NamedInsured: ['@NamedInsured', '@NamedInsured2_Dirty'],
+    NamedInsured: '@NamedInsured',
+    AAAMembership: '@AAAMembership_Dirty',
+    DwellingAddress: {},
+    PreviousDwellingAddress: {},
+    MailingAddress: {},
+    NamedInsuredInformation: {},
+    AgentInfo: {},
+    OtherActiveAAAPolicies: {}
+  },
+  ReportsTab: {
+    #CLUEreport: [{Report: 'Re-order report'}]
+  },
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
 }
 
 # --------------------Test Data For Endorsements ------------------------------
@@ -150,7 +203,7 @@ NamedInsured2_Clean: {
 }
 AAAMembership_Clean: {
   Current AAA Member: 'Yes',
-  Membership number: '4290020000051010',
+  Membership number: '4290051293803718',
   Last name: Green2
 }
 AAAMembership_CleanEndo: {
@@ -200,7 +253,7 @@ AAAMembership_Dirty: {
   Last name: Blue2
 }
 
-# --------------------Test Data For H03 policy---------------------------------
+# --------------------Test Data For H04 policy---------------------------------
 TestData: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab',
@@ -232,13 +285,13 @@ TestData_OtherPerson: {
 
 GeneralTab: {
   PolicyInfo: {
-    Policy type: 'HO3',
+    Policy type: 'HO4',
     Effective date: '/today:MM/dd/yyyy',
     Lead source: 'AAA Magazines',
     },
   CurrentCarrier: {
     Carrier name: 'AAA - NCNU',
-    Policy type: 'HO3',
+    Policy type: 'HO4',
     Continuous years with HO insurance: '5',
     Base date with AAA: '/today:MM/dd/yyyy',
     }
@@ -278,29 +331,23 @@ ApplicantTab_NonMember: {
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
   AAAMembershipReport: [{Report: 'Order report'}],
-  FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
   CLUEreport: [{Report: 'Order report'}],
 }
 ReportsTab_NonMember: {
   Sales Agent Agreement: 'I Agree',
-  FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
   CLUEreport: [{Report: 'Order report'}],
 }
 
 PropertyInfoTab: {
   DwellingAddress: '@DwellingAddress_PropertyInfoTab',
-  AdditionalAddress: ['@AdditionalAddress'],
   PublicProtectionClass: '@PublicProtectionClass',
   FireReport: {},
   PropertyValue: '@PropertyValue',
   Construction: '@Construction',
   Interior: '@Interior',
-  DetachedStructures: ['@DetachedStructures'],
   FireProtectiveDD: {},
-  TheftProtectiveTPDD: {},
-  HomeRenovation: '@HomeRenovation',
   PetsOrAnimals: '@PetsOrAnimals',
   Stoves: '@Stoves',
   RecreationalEquipment: '@RecreationalEquipment',
@@ -310,37 +357,22 @@ PropertyInfoTab: {
 ProductOfferingTab: {}
 EndorsementTab: {}
 PremiumsAndCoveragesQuoteTab: {
-  Payment plan: Pay in Full,
-  Coverage C - Personal Property limit: '75|Coverage A - Dwelling limit',
-  Coverage E - Personal Liability Each Occurrence: '$300,000'
+
   }
 
 MortgageesTab: {
-  Mortgagee: 'Yes',
-  MortgageeInformation: '@MortgageeInformation',
-  Use legal named insured: 'Yes',
-  Legal named insured: Pasha Ulybasha,
-  "Use legal property address": 'Yes',
-  LegalPropetyAddress: '@LegalPropetyAddress',
-  "Is there an additional insured?": 'Yes',
-  AdditionalInsured: '@AdditionalInsured',
-  "Is there an additional interest?": 'Yes',
-  AdditionalInterest: '@AdditionalInterest'
+
 }
 
 UnderwritingAndApprovalTab: {
   "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
   "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
-  "Has the property been in foreclosure proceedings within the past 18 months?": "No",
-  "Is any gas water heater located in a garage?": "No",
   "Do employees of any resident or applicant reside in the dwelling?": "No",
-  "Is there a business on premises?": "No",
-  "Is the dwelling located within 500 feet of bay or coastal waters?": "No"
+  "Is there a business on premises?": "No"
 }
 
 DocumentsTab: {
   DocumentsToIssue: {
-  California Residential Property Insurance Disclosure: Physically Signed,
   Signed policy application: Physically Signed
   }
 }
@@ -362,7 +394,7 @@ NamedInsured: {
 }
 
 AAAMembership: {
-  Membership number: '4290020000051010',
+  Membership number: '4290051293803718',
   Last name: Green2,
 }
 AAAMembership_NonMember: {
@@ -417,7 +449,7 @@ OtherActiveAAAPolicies: {
 }
 
 OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual:  {
-  Policy type: HO3,
+  Policy type: HO4,
   Policy number: '345345345',
   Coverage E: '1000',
   Deductible: '1000',
@@ -439,16 +471,6 @@ DwellingAddress_PropertyInfoTab: {
   Section II territory: 'index=1'
 }
 
-AdditionalAddress: {
-  'Are there any additional addresses?': 'Yes',
-  Zip code: '90201',
-  Street address 1: '266 Chipman Ave',
-  City: Bell,
-  State: CA,
-  Validate Address: true,
-  Validate Address Dialog: {}
-}
-
 PublicProtectionClass: {
   Fire department type: 'T - Tax based',
   Public protection class: '1X',
@@ -457,18 +479,14 @@ PublicProtectionClass: {
 }
 
 PropertyValue: {
-  Coverage A - Dwelling limit: 150000,
-  ISO replacement cost: 145000,
-  Reason replacement cost differs from the tool value: 'index=1',
+  Personal Property Value: '15000'
 }
 
 Construction: {
     Year built: 2009,
     Square footage: 1,
     Roof type: Laminate / Architectural,
-    Roof shape: 'index=1',
-    Construction type: 'index=1',
-    Foundation Type: 'index=1'
+    Construction type: 'index=1'
   }
 
 Interior: {
