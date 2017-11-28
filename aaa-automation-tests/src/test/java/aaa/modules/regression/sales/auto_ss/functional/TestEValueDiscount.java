@@ -66,26 +66,26 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
 	private static final String E_VALUE_DISCOUNT = "eValue Discount"; //PAS-440 - rumors have it, that discount might be renamed
 
-	private static String messageInfo1 = "This customer is not eligible for eValue discount due to one or more of the following reasons:";
-	private static String messageInfo4 = "eValue Discount Requirements:";
-	private static String messageBullet1 = "Payment Options: Pay in full with any payment method or enroll in AutoPay with a checking/savings account or debit card";
-	private static String messageBullet1a = "Payment Options: Pay in full with any payment method or enroll in AutoPay";
-	private static String messageBullet3 = "Paperless Preferences: Enroll in paperless notifications for policy and billing documents";
-	private static String messageBullet4 = "Coverage and BI Limits: Maintain continuous insurance coverage and bodily injury limits of at least $50,000/$100,000";
-	private static String messageBullet4a = "Coverage and BI Limits: Maintain continuous insurance coverage and bodily injury limits of at least $100,000/$300,000";
-	private static String messageBullet7 = "Has held CSAA Insurance for less than one term";
-	private static String messageBullet8 = "Does not have an active AAA membership";
-	private static String messageBullet9 = "Does not have prior insurance or prior insurance BI limit";
-	private static String messageBullet10 = "eValue Acknowledgement: Agree to and sign the eValue acknowledgement";
-	private static String messageBullet11 = "Membership: Have an active membership";
+	private static final String MESSAGE_INFO_1 = "This customer is not eligible for eValue discount due to one or more of the following reasons:";
+	private static final String MESSAGE_INFO_4 = "eValue Discount Requirements:";
+	private static final String MESSAGE_BULLET_1 = "Payment Options: Pay in full with any payment method or enroll in AutoPay with a checking/savings account or debit card";
+	private static final String MESSAGE_BULLET_1_A = "Payment Options: Pay in full with any payment method or enroll in AutoPay";
+	private static final String MESSAGE_BULLET_3 = "Paperless Preferences: Enroll in paperless notifications for policy and billing documents";
+	private static final String MESSAGE_BULLET_4 = "Coverage and BI Limits: Maintain continuous insurance coverage and bodily injury limits of at least $50,000/$100,000";
+	private static final String MESSAGE_BULLET_4_A = "Coverage and BI Limits: Maintain continuous insurance coverage and bodily injury limits of at least $100,000/$300,000";
+	private static final String MESSAGE_BULLET_7 = "Has held CSAA Insurance for less than one term";
+	private static final String MESSAGE_BULLET_8 = "Does not have an active AAA membership";
+	private static final String MESSAGE_BULLET_9 = "Does not have prior insurance or prior insurance BI limit";
+	private static final String MESSAGE_BULLET_10 = "eValue Acknowledgement: Agree to and sign the eValue acknowledgement";
+	private static final String MESSAGE_BULLET_11 = "Membership: Have an active membership";
 
-	private static List<String> preQualifications = Arrays.asList(messageBullet11, messageBullet4a, messageBullet1, messageBullet10, messageBullet3);
-	private static List<String> notPreQualifications = Arrays.asList(messageBullet8, messageBullet9, messageBullet7);
-	private static List<String> membershipFalseYes = Arrays.asList(messageBullet4, messageBullet1, messageBullet10, messageBullet3);
-	private static List<String> currentBIFalseYes = Arrays.asList(messageBullet11, messageBullet1a, messageBullet10, messageBullet3);
-	private static List<String> payPlanFalseYes = Arrays.asList(messageBullet11, messageBullet4, messageBullet10, messageBullet3);
-	private static List<String> paperlessAndPriorInsFalseYes = Arrays.asList(messageBullet11, messageBullet4, messageBullet1, messageBullet10);
-	private static List<String> allFalse = Arrays.asList(messageBullet10);
+	private static final List<String> PRE_QUALIFICATIONS = Arrays.asList(MESSAGE_BULLET_11, MESSAGE_BULLET_4_A, MESSAGE_BULLET_1, MESSAGE_BULLET_10, MESSAGE_BULLET_3);
+	private static final List<String> NOT_PRE_QUALIFICATIONS = Arrays.asList(MESSAGE_BULLET_8, MESSAGE_BULLET_9, MESSAGE_BULLET_7);
+	private static final List<String> MEMBERSHIP_FALSE_YES = Arrays.asList(MESSAGE_BULLET_4, MESSAGE_BULLET_1, MESSAGE_BULLET_10, MESSAGE_BULLET_3);
+	private static final List<String> CURRENT_BI_FALSE_YES = Arrays.asList(MESSAGE_BULLET_11, MESSAGE_BULLET_1_A, MESSAGE_BULLET_10, MESSAGE_BULLET_3);
+	private static final List<String> PAY_PLAN_FALSE_YES = Arrays.asList(MESSAGE_BULLET_11, MESSAGE_BULLET_4, MESSAGE_BULLET_10, MESSAGE_BULLET_3);
+	private static final List<String> PAPERLESS_AND_PRIOR_INS_FALSE_YES = Arrays.asList(MESSAGE_BULLET_11, MESSAGE_BULLET_4, MESSAGE_BULLET_1, MESSAGE_BULLET_10);
+	private static final List<String> ALL_FALSE = Arrays.asList(MESSAGE_BULLET_10);
 
 	private GeneralTab generalTab = new GeneralTab();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
@@ -931,15 +931,15 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	public void pas3693_eValueConfiguration(@Optional("VA") String state) {
 		CustomAssert.enableSoftMode();
 		verifyEvalueAcknowledgement(8, "N", "Y", "Y", "Y", "Y");
-		checkBlueBoxMessagesWithDiffData(8, messageInfo4, membershipFalseYes, messageInfo4, membershipFalseYes, "membership");
+		checkBlueBoxMessagesWithDiffData(8, MESSAGE_INFO_4, MEMBERSHIP_FALSE_YES, MESSAGE_INFO_4, MEMBERSHIP_FALSE_YES, "membership");
 		verifyEvalueAcknowledgement(12, "Y", "N", "Y", "N", "Y");
-		checkBlueBoxMessagesWithDiffData(12, messageInfo4, currentBIFalseYes, messageInfo1, notPreQualifications, "membership");
+		checkBlueBoxMessagesWithDiffData(12, MESSAGE_INFO_4, CURRENT_BI_FALSE_YES, MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, "membership");
 		verifyEvalueAcknowledgement(18, "Y", "Y", "N", "Y", "Y");
-		checkBlueBoxMessagesWithDiffData(18, messageInfo4, payPlanFalseYes, messageInfo1, notPreQualifications, "membership");
+		checkBlueBoxMessagesWithDiffData(18, MESSAGE_INFO_4, PAY_PLAN_FALSE_YES, MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, "membership");
 		verifyEvalueAcknowledgement(15, "Y", "Y", "Y", "Y", "N");
-		checkBlueBoxMessagesWithDiffData(15, messageInfo4, paperlessAndPriorInsFalseYes, messageInfo1, notPreQualifications, "priorCarior");
+		checkBlueBoxMessagesWithDiffData(15, MESSAGE_INFO_4, PAPERLESS_AND_PRIOR_INS_FALSE_YES, MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS, "priorCarior");
 		verifyEvalueAcknowledgement(3, "N", "N", "N", "Y", "N");
-		checkBlueBoxMessagesWithDiffData(3, messageInfo4, allFalse, messageInfo4, allFalse, "priorCarior");
+		checkBlueBoxMessagesWithDiffData(3, MESSAGE_INFO_4, ALL_FALSE, MESSAGE_INFO_4, ALL_FALSE, "priorCarior");
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -998,19 +998,19 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-		checkBlueBoxMessages(messageInfo4, preQualifications);
+		checkBlueBoxMessages(MESSAGE_INFO_4, PRE_QUALIFICATIONS);
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("No");
-		checkBlueBoxMessages(messageInfo1, notPreQualifications);
+		checkBlueBoxMessages(MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS);
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.OVERRIDE_CURRENT_CARRIER).setValue("No");
-		checkBlueBoxMessages(messageInfo1, notPreQualifications);
+		checkBlueBoxMessages(MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS);
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
-		checkBlueBoxMessages(messageInfo1, notPreQualifications);
+		checkBlueBoxMessages(MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS);
 
 		PremiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
@@ -1025,24 +1025,24 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		TestData currentCarrierData = defaultTestData.adjust("GeneralTab", generalTabAdjusted);
 		generalTab.fillTab(currentCarrierData);
 
-		checkBlueBoxMessages(messageInfo4, preQualifications);
+		checkBlueBoxMessages(MESSAGE_INFO_4, PRE_QUALIFICATIONS);
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled(true);
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("No");
-		checkBlueBoxMessages(messageInfo4, preQualifications);
+		checkBlueBoxMessages(MESSAGE_INFO_4, PRE_QUALIFICATIONS);
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-		checkBlueBoxMessages(messageInfo4, preQualifications);
+		checkBlueBoxMessages(MESSAGE_INFO_4, PRE_QUALIFICATIONS);
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("No");
-		checkBlueBoxMessages(messageInfo1, notPreQualifications);
+		checkBlueBoxMessages(MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS);
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.OVERRIDE_CURRENT_CARRIER).setValue("No");
-		checkBlueBoxMessages(messageInfo1, notPreQualifications);
+		checkBlueBoxMessages(MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS);
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
-		checkBlueBoxMessages(messageInfo1, notPreQualifications);
+		checkBlueBoxMessages(MESSAGE_INFO_1, NOT_PRE_QUALIFICATIONS);
 
 		PremiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
