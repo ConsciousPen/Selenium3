@@ -87,7 +87,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	private static List<String> paperlessAndPriorInsFalseYes = Arrays.asList(messageBullet11, messageBullet4, messageBullet1, messageBullet10);
 	private static List<String> allFalse = Arrays.asList(messageBullet10);
 
-
 	private GeneralTab generalTab = new GeneralTab();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab(); //TODO test with policy.dataGather().getView().getTab(DocumentsAndBindTab.class); instead of new Tab();
@@ -108,10 +107,10 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	private static final String EVALUE_CREDITCARD_ACKNOWLEDGEMENT_CHECK =
 			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeValueQualifyingPaymentMethods", "pciCreditCard", "TRUE");
 
-	public static final String EVALUE_PAPERLESS_PREFERENCES_BLUE_BOX_CHECK =
+	private static final String EVALUE_PAPERLESS_PREFERENCES_BLUE_BOX_CHECK =
 			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "paperlessPreferencesRequired", "FALSE");
 
-	public static final String EVALUE_PRIOR_INSURANCE_BLUE_BOX_CHECK =
+	private static final String EVALUE_PRIOR_INSURANCE_BLUE_BOX_CHECK =
 			MessageFormat.format(EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK, "AAAeMemberQualifications", "priorInsurance", "FALSE");
 
 	@Test(description = "Precondition")
@@ -175,19 +174,19 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	@Test(description = "Precondition")
 	public static void eValueAcknowledgementConfigCheck() {
 		CustomAssert.enableSoftMode();
-		verifyAcknowledgementConfiguration(EVALUE_MEMBERSHIP_ACKNOWLEDGEMENT_CHECK, 10, 6,  "eValueMembershipAcknowledgementConfigInsert" );
-		verifyAcknowledgementConfiguration(EVALUE_MEMBERSHIP_ACKNOWLEDGEMENT_CHECK, 5, 1,  "eValueMembershipAcknowledgementConfigInsert" );
-		verifyAcknowledgementConfiguration(EVALUE_CURRENT_BI_ACKNOWLEDGEMENT_CHECK, 13, 11,  "eValueCurrentBIAcknowledgementConfigInsert" );
-		verifyAcknowledgementConfiguration(EVALUE_CURRENT_BI_ACKNOWLEDGEMENT_CHECK, 5, 1,  "eValueCurrentBIAcknowledgementConfigInsert" );
-		verifyAcknowledgementConfiguration(EVALUE_PAYPLAN_ACKNOWLEDGEMENT_CHECK, 20, 17,  "eValuePayPlanAcknowledgementConfigInsert" );
-		verifyAcknowledgementConfiguration(EVALUE_PAYPLAN_ACKNOWLEDGEMENT_CHECK, 5, 1,  "eValuePayPlanAcknowledgementConfigInsert" );
-		verifyAcknowledgementConfiguration(EVALUE_MYPOLICY_ACKNOWLEDGEMENT_CHECK, 16, 14,  "eValueMyPolicyAcknowledgementConfigInsert" );
-		verifyAcknowledgementConfiguration(EVALUE_MYPOLICY_ACKNOWLEDGEMENT_CHECK, 5, 1,  "eValueMyPolicyAcknowledgementConfigInsert" );
-		verifyAcknowledgementConfiguration(EVALUE_CREDITCARD_ACKNOWLEDGEMENT_CHECK, 13, 11,  "eValueCreditCardAcknowledgementConfigInsert" );
-		verifyAcknowledgementConfiguration(EVALUE_PAPERLESS_PREFERENCES_BLUE_BOX_CHECK, 16, 14,  "eValuePaperlessPreferencesBlueBoxConfigInsert" );
-		verifyAcknowledgementConfiguration(EVALUE_PAPERLESS_PREFERENCES_BLUE_BOX_CHECK, 5, 1,  "eValuePaperlessPreferencesBlueBoxConfigInsert" );
-		verifyAcknowledgementConfiguration(EVALUE_PRIOR_INSURANCE_BLUE_BOX_CHECK, 16, 14,  "eValuePriorInsuranceBlueBoxConfigInsert" );
-		verifyAcknowledgementConfiguration(EVALUE_PRIOR_INSURANCE_BLUE_BOX_CHECK, 5, 1,  "eValuePriorInsuranceBlueBoxConfigInsert" );
+		verifyAcknowledgementConfiguration(EVALUE_MEMBERSHIP_ACKNOWLEDGEMENT_CHECK, 10, 6, "eValueMembershipAcknowledgementConfigInsert");
+		verifyAcknowledgementConfiguration(EVALUE_MEMBERSHIP_ACKNOWLEDGEMENT_CHECK, 5, 1, "eValueMembershipAcknowledgementConfigInsert");
+		verifyAcknowledgementConfiguration(EVALUE_CURRENT_BI_ACKNOWLEDGEMENT_CHECK, 13, 11, "eValueCurrentBIAcknowledgementConfigInsert");
+		verifyAcknowledgementConfiguration(EVALUE_CURRENT_BI_ACKNOWLEDGEMENT_CHECK, 5, 1, "eValueCurrentBIAcknowledgementConfigInsert");
+		verifyAcknowledgementConfiguration(EVALUE_PAYPLAN_ACKNOWLEDGEMENT_CHECK, 20, 17, "eValuePayPlanAcknowledgementConfigInsert");
+		verifyAcknowledgementConfiguration(EVALUE_PAYPLAN_ACKNOWLEDGEMENT_CHECK, 5, 1, "eValuePayPlanAcknowledgementConfigInsert");
+		verifyAcknowledgementConfiguration(EVALUE_MYPOLICY_ACKNOWLEDGEMENT_CHECK, 16, 14, "eValueMyPolicyAcknowledgementConfigInsert");
+		verifyAcknowledgementConfiguration(EVALUE_MYPOLICY_ACKNOWLEDGEMENT_CHECK, 5, 1, "eValueMyPolicyAcknowledgementConfigInsert");
+		verifyAcknowledgementConfiguration(EVALUE_CREDITCARD_ACKNOWLEDGEMENT_CHECK, 13, 11, "eValueCreditCardAcknowledgementConfigInsert");
+		verifyAcknowledgementConfiguration(EVALUE_PAPERLESS_PREFERENCES_BLUE_BOX_CHECK, 16, 14, "eValuePaperlessPreferencesBlueBoxConfigInsert");
+		verifyAcknowledgementConfiguration(EVALUE_PAPERLESS_PREFERENCES_BLUE_BOX_CHECK, 5, 1, "eValuePaperlessPreferencesBlueBoxConfigInsert");
+		verifyAcknowledgementConfiguration(EVALUE_PRIOR_INSURANCE_BLUE_BOX_CHECK, 16, 14, "eValuePriorInsuranceBlueBoxConfigInsert");
+		verifyAcknowledgementConfiguration(EVALUE_PRIOR_INSURANCE_BLUE_BOX_CHECK, 5, 1, "eValuePriorInsuranceBlueBoxConfigInsert");
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -901,6 +900,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	}
 
 	//TODO Replace below TCs with DataProvider when the Optional parameter State will be removed
+
 	/**
 	 * *@author Viktoriia Lutsenko
 	 * *@name Evalue acknowledgement document (AHEVAXX) generation.
@@ -929,34 +929,34 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3693")
 	public void pas3693_eValueConfiguration(@Optional("VA") String state) {
 		CustomAssert.enableSoftMode();
-		verifyEvalueAcknowledgement(8,"N","Y","Y","Y","Y" );
+		verifyEvalueAcknowledgement(8, "N", "Y", "Y", "Y", "Y");
 		checkBlueBoxMessagesWithDiffData(8, messageInfo4, membershipFalseYes, messageInfo4, membershipFalseYes, "membership");
-		verifyEvalueAcknowledgement(12,"Y","N","Y","N","Y" );
+		verifyEvalueAcknowledgement(12, "Y", "N", "Y", "N", "Y");
 		checkBlueBoxMessagesWithDiffData(12, messageInfo4, currentBIFalseYes, messageInfo1, notPreQualifications, "membership");
-		verifyEvalueAcknowledgement(18,"Y","Y","N","Y","Y" );
+		verifyEvalueAcknowledgement(18, "Y", "Y", "N", "Y", "Y");
 		checkBlueBoxMessagesWithDiffData(18, messageInfo4, payPlanFalseYes, messageInfo1, notPreQualifications, "membership");
-		verifyEvalueAcknowledgement(15,"Y","Y","Y","Y","N" );
+		verifyEvalueAcknowledgement(15, "Y", "Y", "Y", "Y", "N");
 		checkBlueBoxMessagesWithDiffData(15, messageInfo4, paperlessAndPriorInsFalseYes, messageInfo1, notPreQualifications, "priorCarior");
-		verifyEvalueAcknowledgement(3,"N","N","N","Y","N" );
+		verifyEvalueAcknowledgement(3, "N", "N", "N", "Y", "N");
 		checkBlueBoxMessagesWithDiffData(3, messageInfo4, allFalse, messageInfo4, allFalse, "priorCarior");
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
 
-    private void verifyEvalueAcknowledgement(int days, String aaaMemYN, String currentBIYN, String payPlnYN, String plcyPayFullAmtYN, String myPolicyYN) {
-        String quoteNumber;
-        eValueQuoteCreation();
-        quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-               policy.dataGather().start();
-        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TimeSetterUtil
-                .getInstance().getCurrentTime().minusDays(days).format(DateTimeUtils.MM_DD_YYYY));
-        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-        PremiumAndCoveragesTab.calculatePremium();
-        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        DocumentsAndBindTab.btnGenerateDocuments.click();
-        Document document = DocGenHelper.waitForDocumentsAppearanceInDB(AHEVAXX, quoteNumber, "ADHOC_DOC_GENERATE");
+	private void verifyEvalueAcknowledgement(int days, String aaaMemYN, String currentBIYN, String payPlnYN, String plcyPayFullAmtYN, String myPolicyYN) {
+		String quoteNumber;
+		eValueQuoteCreation();
+		quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TimeSetterUtil
+				.getInstance().getCurrentTime().minusDays(days).format(DateTimeUtils.MM_DD_YYYY));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		PremiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		DocumentsAndBindTab.btnGenerateDocuments.click();
+		Document document = DocGenHelper.waitForDocumentsAppearanceInDB(AHEVAXX, quoteNumber, "ADHOC_DOC_GENERATE");
 		if (document != null) {
 			verifyAHEVAXXTag(document, "AAAMemYN", aaaMemYN);
 			verifyAHEVAXXTag(document, "CurrentBIYN", currentBIYN);
@@ -1242,6 +1242,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	}
 
 	public void simplifiedPendedEndorsementIssue() {
+		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY)
@@ -1264,15 +1265,15 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		CustomAssert.assertEquals("Blue Box contains wrong Messages", messages, currentValues);
 	}
 
-	private void selectMembershipOrPriorInsur(String membershipOrPrior, String value){
-		if(membershipOrPrior.equals("membership")){
+	private void selectMembershipOrPriorInsur(String membershipOrPrior, String value) {
+		if ("membership".equals(membershipOrPrior)) {
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 			generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue(value);
-		}else if(membershipOrPrior.equals("priorCarior")){
+		} else if ("priorCarior".equals(membershipOrPrior)) {
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-			if (value.equals("No")) {
+			if ("No".equals(value)) {
 				generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.OVERRIDE_CURRENT_CARRIER).setValue(value);
-			} else if (value.equals("Yes")) {
+			} else if ("Yes".equals(value)) {
 				TestData defaultTestData = getPolicyTD("DataGather", "TestData");
 				TestData currentCarrierSectionAdjusted = getTestSpecificTD("CurrentCarrierInformation");
 				TestData generalTabAdjusted = DataProviderFactory.emptyData().adjust("CurrentCarrierInformation", currentCarrierSectionAdjusted);
@@ -1282,7 +1283,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		}
 	}
 
-	private void endorsementDataGather(int days){
+	private void endorsementDataGather(int days) {
 		TestData adjustedEndorsementActionData = getPolicyTD("Endorsement", "TestData")
 				.getTestData("EndorsementActionTab")
 				.adjust("Endorsement Date", TimeSetterUtil.getInstance().getCurrentTime().minusDays(days).format(DateTimeUtils.MM_DD_YYYY));
@@ -1290,7 +1291,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 				.adjust("EndorsementActionTab", adjustedEndorsementActionData));
 	}
 
-	private void checkBlueBoxMessagesWithDiffData(int days, String messageInfo, List messageBullet, String messageInfo1, List messageBullet1, String membershipOrPrior){
+	private void checkBlueBoxMessagesWithDiffData(int days, String messageInfo, List messageBullet, String messageInfo1, List messageBullet1, String membershipOrPrior) {
 		policy.dataGather().start();
 
 		checkBlueBoxMessages(messageInfo, messageBullet);
@@ -1312,7 +1313,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		endorsementDataGather(days);
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		checkBlueBoxMessages(messageInfo, messageBullet);
-		selectMembershipOrPriorInsur(membershipOrPrior,"No");
+		selectMembershipOrPriorInsur(membershipOrPrior, "No");
 		checkBlueBoxMessages(messageInfo1, messageBullet1);
 
 		PremiumAndCoveragesTab.calculatePremium();
