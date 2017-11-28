@@ -38,9 +38,9 @@ TestData_MembershipValidation_End_Ren_MembershipYes_AZ: {
   EndorsementActionTab: '@EndorsementActionTab'
 
 }
-############ For Endorsement and renewal TCs
+############ For Endorsement and Renewal TCs
 TestData_MembershipValidation_MembershipNo_SomeMatch_AZ: {
-  PrefillTab: '@PrefillTab_DOBnoMatch',   #adjust DOB to math or not
+  PrefillTab: '@PrefillTab_DOBnoMatch',   #adjust DOB to match or not
   GeneralTab: '@GeneralTab_MembershipNo_SomeMatch',
 }
 ###########
