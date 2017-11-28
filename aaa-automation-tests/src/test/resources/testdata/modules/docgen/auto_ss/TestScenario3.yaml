@@ -45,9 +45,7 @@ Endorsement: {
     "Underinsured Motorist Stacked/Unstacked": Stacked
   },
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: Test
-  },
+  DocumentsAndBindTab: {},
 }
 
 # ------------- Tabs ----------
