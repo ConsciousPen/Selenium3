@@ -22,6 +22,7 @@ import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.BillingConstants.BillingBillsAndStatmentsTable;
 import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
+import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
 import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -62,8 +63,11 @@ public class Scenario12 extends ScenarioBaseTest {
 		policy = getPolicyType().get();		
 		mainApp().open();
 		
-		createCustomerIndividual();	
-		policyNum = createPolicy(policyCreationTD); 
+		//createCustomerIndividual();	
+		//policyNum = createPolicy(policyCreationTD); 
+		
+		policyNum = "CAAS933658748";
+		SearchPage.openPolicy(policyNum);
 		
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
@@ -157,8 +161,8 @@ public class Scenario12 extends ScenarioBaseTest {
 	
 	protected void changePaymentPlanForCA() {
 		LocalDateTime renewOfferDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
-		LocalDateTime dueDate = getTimePoints().getBillGenerationDate(policyExpirationDate).plusHours(1);
-		TimeSetterUtil.getInstance().nextPhase(dueDate);
+		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate).plusHours(1);
+		TimeSetterUtil.getInstance().nextPhase(billGenDate);
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -177,13 +181,14 @@ public class Scenario12 extends ScenarioBaseTest {
 				installmentsCount_FirstRenewal, installmentDueDates_FirstRenewal.size()); 
 		
 		new BillingBillsAndStatementsVerifier().setDueDate(policyExpirationDate).setType(BillingConstants.BillsAndStatementsType.OFFER).verifyPresent();
-		new BillingBillsAndStatementsVerifier().setDueDate(policyExpirationDate).setType(BillingConstants.BillsAndStatementsType.DISCARDED_OFFER).verifyPresent();
+		//new BillingBillsAndStatementsVerifier().setDueDate(policyExpirationDate).setType(BillingConstants.BillsAndStatementsType.DISCARDED_OFFER).verifyPresent();
 		
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
-		.setSubtypeReason("EFT Installment Fee").verifyPresent(); 
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
-		.setSubtypeReason("Non EFT Installment Fee Waived").verifyPresent(); 	
+		new BillingPaymentsAndTransactionsVerifier()
+			.setTransactionDate(renewOfferDate)
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
+			.setSubtypeReason("Non EFT Installment Fee").verifyPresent(); 
 		
+		//new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).setSubtypeReason("Non EFT Installment Fee Waived").verifyPresent(); 			
 	}
 	
 	protected void enableAutoPay() { 
@@ -205,8 +210,11 @@ public class Scenario12 extends ScenarioBaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(policyExpirationDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
-		//new BillingPaymentsAndTransactionsVerifier().verifyAutoPaymentGenerated(DateTimeUtils.getCurrentDateTime(), minDue.negate()); 
 		//verify recurring payment is not generated
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(DateTimeUtils.getCurrentDateTime())
+			.setAmount(minDue.negate())
+			.setType(PaymentsAndOtherTransactionType.PAYMENT)
+			.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RECURRING_PAYMENT).verifyPresent(false);
 		
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), minDue);
 		new BillingPaymentsAndTransactionsVerifier().verifyManualPaymentAccepted(DateTimeUtils.getCurrentDateTime(), minDue.negate());			
@@ -280,6 +288,37 @@ public class Scenario12 extends ScenarioBaseTest {
 		installmentDueDates_SecondRenewal = BillingHelper.getInstallmentDueDates();
 		CustomAssert.assertEquals("Billing Installments count for Semi-Annual (Renewal) payment plan", 
 				installmentsCount_SecondRenewal, installmentDueDates_SecondRenewal.size());
+	}
+	
+	protected void changePaymentPlanForCA_FirstRenewal() {
+		LocalDateTime renewOfferDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate_FirstRenewal);
+		
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
+		
+		billingAccount.changePaymentPlan().perform(tdBilling.getTestData("ChangePaymentPlan", "TestData_ChangePaymentPlanToSemiAnnual"));
+		
+		BillingSummaryPage.showPriorTerms();		
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).setPaymentPlan("Semi-Annual").verifyPresent();
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setPaymentPlan("Quarterly (Renewal)").verifyPresent();
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).setPaymentPlan("Semi-Annual (Renewal)").verifyPresent(); 
+		BillingSummaryPage.buttonHidePriorTerms.click();
+		
+		installmentDueDates_SecondRenewal = BillingHelper.getInstallmentDueDates();
+		CustomAssert.assertEquals("Billing Installments count for Quarterly (Renewal) payment plan", 
+				installmentsCount_SecondRenewal, installmentDueDates_SecondRenewal.size()); 
+		
+		//verifyRenewalOfferPaymentAmount(policyExpirationDate, renewOfferDate, billGenDate, installmentsCount_FirstRenewal);
+		
+		new BillingBillsAndStatementsVerifier().setDueDate(policyExpirationDate).setType(BillingConstants.BillsAndStatementsType.OFFER).verifyPresent();
+		//new BillingBillsAndStatementsVerifier().setDueDate(policyExpirationDate).setType(BillingConstants.BillsAndStatementsType.DISCARDED_OFFER).verifyPresent();
+		
+		new BillingPaymentsAndTransactionsVerifier()
+			.setTransactionDate(renewOfferDate)
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
+			.setSubtypeReason("EFT Installment Fee").verifyPresent(); 
+		
+		//new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).setSubtypeReason("Non EFT Installment Fee Waived").verifyPresent(); 			
 	}
 
 	protected void generateRenewalBill_FirstRenewal() {
