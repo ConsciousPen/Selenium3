@@ -245,6 +245,8 @@ public class TestRefundProcess extends PolicyBilling {
 	}
 
 	private void pas352_RefundMethodAndDropdownLastPaymentMethodTest(String message, String amount) {
+
+		precondJobAdding();
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy();
@@ -272,12 +274,12 @@ public class TestRefundProcess extends PolicyBilling {
 		acceptPaymentActionTab.submitTab();
 
 		String transactionDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
-		Map<String, String> refund = new HashMap<>();
-		refund.put(TRANSACTION_DATE, transactionDate);
-		refund.put(STATUS, "Approved");
-		refund.put(TYPE, "Refund");
-		refund.put(SUBTYPE_REASON, "Manual Refund");
-		unissuedRefundActionsCreditCard(refund);
+		Map<String, String> refund1 = new HashMap<>();
+		refund1.put(TRANSACTION_DATE, transactionDate);
+		refund1.put(STATUS, "Approved");
+		refund1.put(TYPE, "Refund");
+		refund1.put(SUBTYPE_REASON, "Manual Refund");
+		unissuedRefundActionsCreditCard(refund1);
 
 		//2719 End
 		//PAS-3619 Start
@@ -287,6 +289,18 @@ public class TestRefundProcess extends PolicyBilling {
 		softAssert.assertEquals("Visa-4113 expiring 01/22", acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class)
 				.getValue());
 		//PAS-3619 End
+		//PAS-2728 Start
+		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+		Map<String, String> refund2 = new HashMap<>();
+		refund2.put(TRANSACTION_DATE, transactionDate);
+		refund2.put(STATUS, "Issued");
+		refund2.put(TYPE, "Refund");
+		refund2.put(SUBTYPE_REASON, "Manual Refund");
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund2).getCell(ACTION).verify.value("");
+		//PAS-2728 End
 	}
 
 	private void unissuedRefundRecordDetailsCheck(Dollar amount, String checkDate, Map<String, String> refund1) {
@@ -332,6 +346,5 @@ public class TestRefundProcess extends PolicyBilling {
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(TRANSACTION_DATE).verify.value(refund.get(TRANSACTION_DATE));
 		unissuedRefundActionsCheck(refund);
 	}
-
 }
 
