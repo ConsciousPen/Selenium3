@@ -19,6 +19,7 @@ import org.testng.annotations.AfterMethod;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.verification.CustomAssert;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.NoSuchElementException;
 
@@ -66,13 +67,11 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
         //Uploading of VinUpload info, then uploading of the updates for VIN_Control table
         uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, vinTableFile);
         //PAS-6455 Make Entry Date Part of Key for VIN Table Upload
-        AssertJUnit.assertTrue("File was not uploaded or DB contains unexpected info",
-                UploadToVINTableTab.LBL_UPLOAD_MSG.getValue().contains("Rows added: 1; Rows updated: 0 (from " + vinTableFile));
+        assertThat(UploadToVINTableTab.LBL_UPLOAD_MSG.getValue().contains("Rows added: 1; Rows updated: 0 (from " + vinTableFile));
 
         uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
         //PAS-6455 Make Entry Date Part of Key for VIN Table Upload
-        AssertJUnit.assertTrue("File was not uploaded or DB contains unexpected info",
-                UploadToVINTableTab.LBL_UPLOAD_MSG.getValue().contains("Rows added: 1; Rows updated: 1 (from " + controlTableFile));
+        assertThat(UploadToVINTableTab.LBL_UPLOAD_MSG.getValue().contains("Rows added: 1; Rows updated: 1 (from " + controlTableFile));
 
         //Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
         mainApp().open();
@@ -140,13 +139,11 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
         //Uploading of VinUpload info, then uploading of the updates for VIN_Control table (configExcel)
         uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, vinTableFile);
         //PAS-6455 Make Entry Date Part of Key for VIN Table Upload
-        AssertJUnit.assertTrue("File was not uploaded or DB contains unexpected info",
-                UploadToVINTableTab.LBL_UPLOAD_MSG.getValue().contains("Rows added: 1; Rows updated: 0 (from " + vinTableFile));
+        assertThat(UploadToVINTableTab.LBL_UPLOAD_MSG.getValue().contains("Rows added: 1; Rows updated: 0 (from " + vinTableFile));
 
         uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
         //PAS-6455 Make Entry Date Part of Key for VIN Table Upload
-        AssertJUnit.assertTrue("File was not uploaded or DB contains unexpected info",
-                UploadToVINTableTab.LBL_UPLOAD_MSG.getValue().contains("Rows added: 1; Rows updated: 1 (from " + controlTableFile));
+        assertThat(UploadToVINTableTab.LBL_UPLOAD_MSG.getValue().contains("Rows added: 1; Rows updated: 1 (from " + controlTableFile));
 
         //Go back to MainApp, find created policy, initiate Renewal, verify if VIN value is applied
         mainApp().open();
@@ -215,13 +212,11 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
         //Uploading of VinUpload info, then uploading of the updates for VIN_Control table
         uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, vinTableFile);
         //PAS-6455 Make Entry Date Part of Key for VIN Table Upload
-        AssertJUnit.assertTrue("File was not uploaded or DB contains unexpected info",
-                UploadToVINTableTab.LBL_UPLOAD_MSG.getValue().contains("Rows added: 1; Rows updated: 1 (from " + vinTableFile));
+        assertThat(UploadToVINTableTab.LBL_UPLOAD_MSG.getValue().contains("Rows added: 1; Rows updated: 1 (from " + vinTableFile));
 
         uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
         //PAS-6455 Make Entry Date Part of Key for VIN Table Upload
-        AssertJUnit.assertTrue("File was not uploaded or DB contains unexpected info",
-                UploadToVINTableTab.LBL_UPLOAD_MSG.getValue().contains("Rows added: 1; Rows updated: 1 (from " + controlTableFile));
+        assertThat(UploadToVINTableTab.LBL_UPLOAD_MSG.getValue().contains("Rows added: 1; Rows updated: 1 (from " + controlTableFile));
 
         //Go back to MainApp, find created policy, create Renewal image and verify if VIN was updated and new values are applied
         mainApp().open();
