@@ -1015,7 +1015,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		PremiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
 
-		PolicySummaryPage.buttonPendedEndorsement.click();
 		simplifiedPendedEndorsementIssue();
 
 		CustomAssert.disableSoftMode();
@@ -1211,6 +1210,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	public void simplifiedPendedEndorsementIssue() {
+		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY)
