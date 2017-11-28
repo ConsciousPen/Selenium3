@@ -2,10 +2,13 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import java.util.Arrays;
 import java.util.List;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+import aaa.helpers.listeners.AaaTestListener;
 import aaa.modules.regression.sales.auto_ss.functional.PreConditions.EvalueInsertSetupPreConditions;
 import toolkit.db.DBService;
 
+@Listeners({AaaTestListener.class})
 public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition updating Payperless Preferences Endpoint to a Stub")
