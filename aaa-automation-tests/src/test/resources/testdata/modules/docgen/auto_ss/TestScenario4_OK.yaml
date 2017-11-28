@@ -105,8 +105,8 @@ AASR22: {
     PlcyTransCd: {TextField: '0100'},
     PlcyStAbrv: {TextField: 'OK'},
     SR22CseNum: {TextField: '123'},
-    SgnDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
-    SR22CertEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd"}>,
+    SgnDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
+    SR22CertEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     SR22CertReqSt: {TextField: 'Oklahoma'},
     SSNum: {TextField: '6789'}
   }
