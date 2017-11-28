@@ -1,13 +1,13 @@
 package aaa.utils.openl.model;
 
 import java.time.LocalDateTime;
-import com.exigen.ipb.etcsa.utils.Dollar;
 
-public abstract class OpenLPolicy {
-	private int number;
-	private String policyNumber;
-	private LocalDateTime effectiveDate;
-	private Dollar expectedPremium;
+public class OpenLPolicy {
+	@ExcelTableColumnElement(name = "_PK_")
+	protected int number;
+	protected String policyNumber;
+	protected LocalDateTime effectiveDate;
+	//private Dollar expectedPremium;
 
 	public int getNumber() {
 		return number;
@@ -33,11 +33,11 @@ public abstract class OpenLPolicy {
 		this.effectiveDate = effectiveDate;
 	}
 
-	public Dollar getExpectedPremium() {
+	/*public Dollar getExpectedPremium() {
 		return expectedPremium;
 	}
 
 	public void setExpectedPremium(Dollar expectedPremium) {
 		this.expectedPremium = expectedPremium;
-	}
+	}*/
 }

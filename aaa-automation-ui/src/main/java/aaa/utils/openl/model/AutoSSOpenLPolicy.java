@@ -1,5 +1,6 @@
 package aaa.utils.openl.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AutoSSOpenLPolicy extends OpenLPolicy {
@@ -31,10 +32,17 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private int nafAccidents;
 	private int avgAnnualERSperMember;
 	private int insuredAge;
-	private List<OpenLCappingDetails> cappingDetails;
-	private List<OpenLVehicles> vehicles;
 	private int noOfVehiclesExcludingTrailer;
 	private boolean multiCar;
+	private boolean supplementalSpousalLiability;
+
+	@ExcelTableElement(sheetName = "Batch- CappingDetails")
+	private List<OpenLCappingDetails> cappingDetails;
+
+	@ExcelTableElement(sheetName = "Batch- VehicleAZ")
+	private List<OpenLVehicles> vehicles;
+
+	@ExcelTableElement(sheetName = "Batch- DriverAZ")
 	private List<OpenLDriver> drivers;
 
 	public int getTerm() {
@@ -266,7 +274,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	public void setCappingDetails(List<OpenLCappingDetails> cappingDetails) {
-		this.cappingDetails = cappingDetails;
+		this.cappingDetails = new ArrayList<>(cappingDetails);
 	}
 
 	public List<OpenLVehicles> getVehicles() {
@@ -274,7 +282,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	public void setVehicles(List<OpenLVehicles> vehicles) {
-		this.vehicles = vehicles;
+		this.vehicles = new ArrayList<>(vehicles);
 	}
 
 	public int getNoOfVehiclesExcludingTrailer() {
@@ -298,7 +306,15 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	public void setDrivers(List<OpenLDriver> drivers) {
-		this.drivers = drivers;
+		this.drivers = new ArrayList<>(drivers);
+	}
+
+	public boolean isSupplementalSpousalLiability() {
+		return supplementalSpousalLiability;
+	}
+
+	public void setSupplementalSpousalLiability(boolean supplementalSpousalLiability) {
+		this.supplementalSpousalLiability = supplementalSpousalLiability;
 	}
 
 	@Override

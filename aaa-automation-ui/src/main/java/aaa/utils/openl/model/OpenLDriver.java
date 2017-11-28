@@ -1,6 +1,7 @@
 package aaa.utils.openl.model;
 
 public class OpenLDriver {
+	@ExcelTableColumnElement(name = "_PK_", isPrimaryKey = true)
 	private int number;
 	private String id;
 	private String name;
@@ -8,18 +9,18 @@ public class OpenLDriver {
 	private String maritalStatus;
 	private int tyde;
 	private int dsr;
-	private boolean isGoodStudent;
 	private boolean hasSR22;
 	private int driverAge;
 	private int ageBeforeEndorsement;
-	private boolean isSmartDriver;
-	private boolean isDistantStudent;
 	private String defensiveDrivingCourse;
-	private boolean isForeignLicense;
-	private boolean isUnverifiableDrivingRecord;
-	private boolean isOutOfStateLicenseSurcharge;
-	private boolean isExposure;
-	private boolean isCleanDriver;
+	private boolean cleanDriver;
+	private boolean distantStudent;
+	private boolean exposure;
+	private boolean foreignLicense;
+	private boolean goodStudent;
+	private boolean outOfStateLicenseSurcharge;
+	private boolean smartDriver;
+	private boolean unverifiableDrivingRecord;
 
 	public int getNumber() {
 		return number;
@@ -77,22 +78,6 @@ public class OpenLDriver {
 		this.dsr = dsr;
 	}
 
-	public boolean isGoodStudent() {
-		return isGoodStudent;
-	}
-
-	public void setGoodStudent(boolean isGoodStudent) {
-		this.isGoodStudent = isGoodStudent;
-	}
-
-	public boolean hasSR22() {
-		return hasSR22;
-	}
-
-	public void setHasSR22(boolean hasSR22) {
-		this.hasSR22 = hasSR22;
-	}
-
 	public int getDriverAge() {
 		return driverAge;
 	}
@@ -109,20 +94,12 @@ public class OpenLDriver {
 		this.ageBeforeEndorsement = ageBeforeEndorsement;
 	}
 
-	public boolean isSmartDriver() {
-		return isSmartDriver;
-	}
-
-	public void setSmartDriver(boolean isSmartDriver) {
-		this.isSmartDriver = isSmartDriver;
-	}
-
 	public boolean isDistantStudent() {
-		return isDistantStudent;
+		return distantStudent;
 	}
 
-	public void setDistantStudent(boolean isDistantStudent) {
-		this.isDistantStudent = isDistantStudent;
+	public void setDistantStudent(boolean distantStudent) {
+		this.distantStudent = distantStudent;
 	}
 
 	public String getDefensiveDrivingCourse() {
@@ -134,43 +111,67 @@ public class OpenLDriver {
 	}
 
 	public boolean isForeignLicense() {
-		return isForeignLicense;
+		return foreignLicense;
 	}
 
-	public void setForeignLicense(boolean isForeignLicense) {
-		this.isForeignLicense = isForeignLicense;
+	public void setForeignLicense(boolean foreignLicense) {
+		this.foreignLicense = foreignLicense;
 	}
 
 	public boolean isUnverifiableDrivingRecord() {
-		return isUnverifiableDrivingRecord;
+		return unverifiableDrivingRecord;
 	}
 
-	public void setUnverifiableDrivingRecord(boolean isUnverifiableDrivingRecord) {
-		this.isUnverifiableDrivingRecord = isUnverifiableDrivingRecord;
+	public void setUnverifiableDrivingRecord(boolean unverifiableDrivingRecord) {
+		this.unverifiableDrivingRecord = unverifiableDrivingRecord;
 	}
 
 	public boolean isOutOfStateLicenseSurcharge() {
-		return isOutOfStateLicenseSurcharge;
+		return outOfStateLicenseSurcharge;
 	}
 
-	public void setOutOfStateLicenseSurcharge(boolean isOutOfStateLicenseSurcharge) {
-		this.isOutOfStateLicenseSurcharge = isOutOfStateLicenseSurcharge;
+	public void setOutOfStateLicenseSurcharge(boolean outOfStateLicenseSurcharge) {
+		this.outOfStateLicenseSurcharge = outOfStateLicenseSurcharge;
 	}
 
 	public boolean isExposure() {
-		return isExposure;
+		return exposure;
 	}
 
-	public void setExposure(boolean isExposure) {
-		this.isExposure = isExposure;
+	public void setExposure(boolean exposure) {
+		this.exposure = exposure;
+	}
+
+	public boolean isGoodStudent() {
+		return goodStudent;
+	}
+
+	public void setGoodStudent(boolean goodStudent) {
+		this.goodStudent = goodStudent;
+	}
+
+	public boolean isSmartDriver() {
+		return smartDriver;
+	}
+
+	public void setSmartDriver(boolean smartDriver) {
+		this.smartDriver = smartDriver;
 	}
 
 	public boolean isCleanDriver() {
-		return isCleanDriver;
+		return cleanDriver;
 	}
 
-	public void setCleanDriver(boolean isCleanDriver) {
-		this.isCleanDriver = isCleanDriver;
+	public void setCleanDriver(boolean cleanDriver) {
+		this.cleanDriver = cleanDriver;
+	}
+
+	public void setHasSR22(boolean hasSR22) {
+		this.hasSR22 = hasSR22;
+	}
+
+	public boolean hasSR22() {
+		return hasSR22;
 	}
 
 	@Override
@@ -183,18 +184,18 @@ public class OpenLDriver {
 				", maritalStatus='" + maritalStatus + '\'' +
 				", tyde=" + tyde +
 				", dsr=" + dsr +
-				", isGoodStudent=" + isGoodStudent +
 				", hasSR22=" + hasSR22 +
 				", driverAge=" + driverAge +
 				", ageBeforeEndorsement=" + ageBeforeEndorsement +
-				", isSmartDriver=" + isSmartDriver +
-				", isDistantStudent=" + isDistantStudent +
 				", defensiveDrivingCourse='" + defensiveDrivingCourse + '\'' +
-				", isForeignLicense=" + isForeignLicense +
-				", isUnverifiableDrivingRecord=" + isUnverifiableDrivingRecord +
-				", isOutOfStateLicenseSurcharge=" + isOutOfStateLicenseSurcharge +
-				", isExposure=" + isExposure +
-				", isCleanDriver=" + isCleanDriver +
+				", cleanDriver=" + cleanDriver +
+				", distantStudent=" + distantStudent +
+				", exposure=" + exposure +
+				", foreignLicense=" + foreignLicense +
+				", goodStudent=" + goodStudent +
+				", outOfStateLicenseSurcharge=" + outOfStateLicenseSurcharge +
+				", smartDriver=" + smartDriver +
+				", unverifiableDrivingRecord=" + unverifiableDrivingRecord +
 				'}';
 	}
 }

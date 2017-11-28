@@ -47,17 +47,17 @@ public class TableHeader {
 		return headerColumns.size();
 	}
 
-	public int getColumnNumber(String columnName) {
-		if (!headerColumns.containsKey(columnName)) {
-			throw new IstfException(String.format("There is no column name \"%s\" in the table's header", columnName));
-		}
-		return headerColumns.get(columnName);
-	}
-
 	@Override
 	public String toString() {
 		return "TableHeader{" +
 				"headerColumns=" + getHeaderNames() +
 				'}';
+	}
+
+	public int getColumnNumber(String columnName) {
+		if (!headerColumns.containsKey(columnName)) {
+			throw new IstfException(String.format("There is no column name \"%s\" in the table's header", columnName));
+		}
+		return headerColumns.get(columnName);
 	}
 }

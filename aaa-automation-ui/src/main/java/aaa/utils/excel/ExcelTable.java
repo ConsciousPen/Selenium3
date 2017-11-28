@@ -45,6 +45,15 @@ public class ExcelTable implements Iterable<TableRow> {
 		return new TableRowIterator(tableRows.size());
 	}
 
+	@Override
+	public String toString() {
+		return "ExcelTable{" +
+				"header=" + header +
+				", rowsNumber=" + getRowsNumber() +
+				", tableRows=" + tableRows +
+				'}';
+	}
+
 	public boolean hasRow(int rowNumber) {
 		return tableRows.stream().anyMatch(tRow -> tRow.getRowNumber() == rowNumber);
 	}
@@ -65,15 +74,6 @@ public class ExcelTable implements Iterable<TableRow> {
 			}
 		}
 		return foundRow;
-	}
-
-	@Override
-	public String toString() {
-		return "ExcelTable{" +
-				"header=" + header +
-				", rowsNumber=" + getRowsNumber() +
-				", tableRows=" + tableRows +
-				'}';
 	}
 
 	class TableRowIterator implements Iterator<TableRow> {

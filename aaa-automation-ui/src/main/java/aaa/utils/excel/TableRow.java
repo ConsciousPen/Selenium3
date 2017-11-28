@@ -1,5 +1,6 @@
 package aaa.utils.excel;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.poi.ss.usermodel.Row;
@@ -52,6 +53,10 @@ public class TableRow {
 
 	public int getIntValue(String headerColumnName) {
 		return excelParser.getIntValue(getRow(), getHeader().getColumnNumber(headerColumnName));
+	}
+
+	public LocalDateTime getDateValue(String headerColumnName) {
+		return excelParser.getDateValue(getRow(), getHeader().getColumnNumber(headerColumnName));
 	}
 
 	private Row getRow() {

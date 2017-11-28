@@ -2,11 +2,17 @@ package aaa.utils.excel;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -24,6 +30,11 @@ public class ExcelParser {
 
 	private Workbook workbook;
 	private Sheet sheet;
+
+	public ExcelParser(File excelFile) {
+		this.workbook = ExcelUtils.getWorkbook(excelFile.getAbsolutePath());
+		this.sheet = ExcelUtils.getSheet(this.workbook);
+	}
 
 	public ExcelParser(File excelFile, String sheetName) {
 		this.workbook = ExcelUtils.getWorkbook(excelFile.getAbsolutePath());
@@ -74,6 +85,13 @@ public class ExcelParser {
 		throw new IstfException(String.format("There is no sheet in list %1$s with name which mathches pattern: %2$s", getSheetNames(), sheetNamePattern));
 	}
 
+	public ExcelParser switchSheet(String sheetName) {
+		Sheet sheet = ExcelUtils.getSheet(this.workbook, sheetName);
+		assertThat(sheet).as("Can't find sheet with name \"%s\"", sheetName).isNotEqualTo(null);
+		this.sheet = sheet;
+		return this;
+	}
+
 	public List<String> getRowValues(Row row) {
 		return getRowValues(row, 0);
 	}
@@ -119,6 +137,16 @@ public class ExcelParser {
 		return (int) cell.getNumericCellValue();
 	}
 
+	public LocalDateTime getDateValue(Row row, int columnNumber) {
+		assertThat(row).as("Row should not be null").isNotEqualTo(null);
+		return getDateValue(row.getCell(columnNumber));
+	}
+
+	public LocalDateTime getDateValue(Cell cell) {
+		//TODO-dchubkov: get date if it's stored as text
+		return cell.getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+	}
+
 	public String getValue(Row row, int columnNumber) {
 		assertThat(row).as("Row should not be null").isNotEqualTo(null);
 		return getValue(row.getCell(columnNumber));
@@ -153,15 +181,32 @@ public class ExcelParser {
 
 	public Row getHeaderRow(Set<String> headerColumnNames, boolean isLowest) {
 		List<Row> foundRows = new ArrayList<>();
+		Map<Integer, Pair<Row, String>> foundRowsWithPartialMatch = new HashMap<>();
 		for (Row row : this.sheet) {
-			if (getRowValues(row).containsAll(headerColumnNames)) {
+			List<String> rowValues = getRowValues(row);
+			Set<String> columnNames = new HashSet<>(headerColumnNames);
+			if (rowValues.containsAll(columnNames)) {
 				foundRows.add(row);
+			} else if (columnNames.removeAll(rowValues)) {
+				foundRowsWithPartialMatch.put(columnNames.size(), Pair.of(row, columnNames.toString()));
 			}
+
 			if (!foundRows.isEmpty() && !isLowest) {
 				break;
 			}
 		}
-		assertThat(foundRows).as("Unable to find header row with column values " + headerColumnNames).isNotEmpty();
+
+		if (foundRows.isEmpty()) {
+			String errorMessage = String.format("Unable to find header row with all these column names: %1$s on sheet \"%2$s\"", headerColumnNames, getSheet().getSheetName());
+			if (!foundRowsWithPartialMatch.isEmpty()) {
+				int bestMatch = foundRowsWithPartialMatch.keySet().stream().min(Integer::compare).get();
+				int rowNumber = foundRowsWithPartialMatch.get(bestMatch).getLeft().getRowNum();
+				String missedVales = foundRowsWithPartialMatch.get(bestMatch).getRight();
+				errorMessage = String.format("%1$s\nBest match was found in row #%2$s with missed column names: %3$s", errorMessage, rowNumber, missedVales);
+			}
+			throw new IstfException(errorMessage);
+		}
+
 		Row headerRow = foundRows.get(foundRows.size() - 1);
 		List<String> extraHeaderColumns = new ArrayList<>(getRowValues(headerRow));
 		extraHeaderColumns.removeAll(headerColumnNames);
