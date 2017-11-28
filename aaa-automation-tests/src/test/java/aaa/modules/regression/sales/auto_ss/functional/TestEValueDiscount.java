@@ -61,8 +61,6 @@ import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
 
-
-@SuppressWarnings("ProblematicWhitespace")
 public class TestEValueDiscount extends AutoSSBaseTest {
 
 	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
