@@ -2,6 +2,7 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.admin.modules.administration.uploadVIN.defaulttabs;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.common.DefaultTab;
 import org.openqa.selenium.By;
@@ -33,5 +34,6 @@ public class UploadToVINTableTab extends DefaultTab {
 
         getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
                 .getAsset(AdministrationMetaData.VinTableTab.UploadDialog.BUTTON_SUBMIT_POPUP).click();
+        assertThat(LBL_UPLOAD_MSG.getValue()).as("File was not uploaded because of the next error: " +LBL_UPLOAD_MSG.getValue()).contains("Rows added:").contains("Rows updated:");
     }
 }
