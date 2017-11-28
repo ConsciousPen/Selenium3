@@ -1,8 +1,11 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import org.testng.annotations.Optional;
+import java.lang.reflect.Method;
+import org.testng.ITestContext;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -18,192 +21,126 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 public class TestMembershipValidation extends AutoSSBaseTest {
+
+	@DataProvider(name = "TdProvider")
+	public Object[][] credentialsNB(ITestContext context, Method m) {
+		String stateValue = getStateValue(context);
+
+		switch (m.getName()) {
+			case "pas3786_Validate_Override_NewBusiness":
+				return new Object[][] {
+						{stateValue, "TestData_MembershipValidation_NB_NoMatch", true},
+						{stateValue, "TestData_MembershipValidation_NB_AllMatch", false},
+						{stateValue, "TestData_MembershipValidation_NB_FNmatch", false},
+						{stateValue, "TestData_MembershipValidation_NB_LNmatch", false},
+						{stateValue, "TestData_MembershipValidation_NB_DOBmatch", false}
+				};
+			case "pas3786_Validate_Override_Endorsement":
+				return new Object[][] {
+						{stateValue, "TestData_MembershipValidation_MembershipNo", "TestData_MembershipValidation_End_Ren_MembershipYes", true},
+						{stateValue, "TestData_MembershipValidation_MembershipNo_SomeMatch", "TestData_MembershipValidation_End_Ren_MembershipYes", false},
+				};
+			default: //for "pas3786_Validate_Override_Manual_Renewal"
+				return new Object[][] {
+						{stateValue, "TestData_MembershipValidation_MembershipNo", "TestData_MembershipValidation_End_Ren_MembershipYes", true},
+						{stateValue, "TestData_MembershipValidation_MembershipNo_SomeMatch", "TestData_MembershipValidation_End_Ren_MembershipYes", false},
+				};
+
+		}
+
+	}
+
+	private String getStateValue(ITestContext context) {
+		String stateValue = context.getCurrentXmlTest().getParameter("state");
+		if (stateValue == null) {
+			stateValue = Constants.States.AZ;
+		}
+		return stateValue;
+	}
+
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - FN, LN and DOB don't match (New business)
+	 * @name Test Membership validation (New business)
 	 * @scenario
 	 * 1. Create Customer.
 	 * 2. Create Auto SS Quote.
-	 * 3. Add member number on General tab with mismatching First Name, Last Name and DOB.
+	 * 3. Add member number on General tab with:
+	 *              case a. - mismatching First Name, Last Name and DOB
+	 *              case b. - matching First Name, Last Name and DOB
+	 *              case c. - matching First Name
+	 *              case d. - matching Last Name
+	 *              case e. - matching DOB
 	 * 4. Fill All other required data up to Documents and Bind Tab.
-	 * 5. Verify that Error is displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 6. Override the error and bind.
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3786")
-	public void pas3786_Validate_Override_NewBusiness_NoMatch(@Optional("AZ") String state) {
-		TestData td_specific = getTestSpecificTD("TestData_MembershipValidation_NB_NoMatch").resolveLinks();
-		validate_NewBusiness(td_specific, true, state);
-	}
-
-	/**
-	 * @author Maris Strazds
-	 * @name Test Membership validation - FN, LN and DOB match (New business)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Quote.
-	 * 3. Add member number on General tab with matching First Name, Last Name and DOB.
-	 * 4. Fill All other required data up to Documents and Bind Tab.
-	 * 5. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 6. Bind.
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3786")
-	public void pas3786_Validate_Override_NewBusiness_AllMatch(@Optional("AZ") String state) {
-		TestData td_specific = getTestSpecificTD("TestData_MembershipValidation_NB_AllMatch").resolveLinks();
-		validate_NewBusiness(td_specific, false, state);
-	}
-
-	/**
-	 * @author Maris Strazds
-	 * @name Test Membership validation - FN match, LN and DOB don't match (New business)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Quote.
-	 * 3. Add member number on General tab with matching First Name.
-	 * 4. Fill All other required data up to Documents and Bind Tab.
-	 * 5. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 6. Bind.
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3786")
-	public void pas3786_Validate_Override_NewBusiness_FNmatch(@Optional("AZ") String state) {
-		TestData td_specific = getTestSpecificTD("TestData_MembershipValidation_NB_FNmatch").resolveLinks();
-		validate_NewBusiness(td_specific, false, state);
-	}
-
-	/**
-	 * @author Maris Strazds
-	 * @name Test Membership validation - LN match, FN and DOB don't match (New business)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Quote.
-	 * 3. Add member number on General tab with matching Last Name .
-	 * 4. Fill All other required data up to Documents and Bind Tab.
-	 * 5. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 6. Bind.
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3786")
-	public void pas3786_Validate_Override_NewBusiness_LNmatch(@Optional("AZ") String state) {
-		TestData td_specific = getTestSpecificTD("TestData_MembershipValidation_NB_LNmatch").resolveLinks();
-		validate_NewBusiness(td_specific, false, state);
-	}
-
-	/**
-	 * @author Maris Strazds
-	 * @name Test Membership validation - DOB match, FN and LN don't match (New business)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Quote.
-	 * 3. Add member number on General tab with matching DOB
-	 * 4. Fill All other required data up to Documents and Bind Tab.
-	 * 5. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 6. Bind.
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3786")
-	public void pas3786_Validate_Override_NewBusiness_DOBmatch(@Optional("AZ") String state) {
-		TestData td_specific = getTestSpecificTD("TestData_MembershipValidation_NB_DOBmatch").resolveLinks();
-		validate_NewBusiness(td_specific, false, state);
-	}
-
-	/**
-	 * @author Maris Strazds
-	 * @name Test Membership validation - FN, LN, DOB don't match (Endorsement)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Policy without Membership Number.
-	 * 3. Initiate endorsement for the policy.
-	 * 4. Add member number on General tab with mismatching First Name, Last Name and DOB.
-	 * 5. Fill All other required data up to Documents and Bind Tab.
-	 * 6. Verify that Error is displayed -  "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 7. Override the error and bind.
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3786")
-	public void pas3786_Validate_Override_Endorsement_NoMatch(@Optional("AZ") String state) {
-		TestData td_specificNB = getTestSpecificTD("TestData_MembershipValidation_MembershipNo").resolveLinks();
-		TestData td_specificEnd = getTestSpecificTD("TestData_MembershipValidation_End_Ren_MembershipYes").resolveLinks();
-		validate_Endorsement(td_specificNB, td_specificEnd, true, state);
-	}
-
-	/**
-	 * @author Maris Strazds
-	 * @name Test Membership validation - FN, LN or DOB match (FN match) (Endorsement)
-	 * @scenario
-	 * 1. Create Customer.
-	 * 2. Create Auto SS Policy without Membership Number.
-	 * 3. Initiate endorsement for the policy.
-	 * 4. Add member number on General tab with matching FN, LN or DOB match (FN match)
-	 * 5. Fill All other required data up to Documents and Bind Tab.
-	 * 6. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * 5. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..." is:
+	 *              case a. - displayed
+	 *              case b. - not displayed
+	 *              case c. - not displayed
+	 *              case d. - not displayed
+	 *              case e. - not displayed
+	 * 6. Override the error (if displayed)
 	 * 7. Bind.
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization", dataProvider = "TdProvider")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3786")
-	public void pas3786_Validate_Override_Endorsement_SomeMatch(@Optional("AZ") String state) {
-		TestData td_specificNB = getTestSpecificTD("TestData_MembershipValidation_MembershipNo_SomeMatch").resolveLinks();
-		TestData td_specificEnd = getTestSpecificTD("TestData_MembershipValidation_End_Ren_MembershipYes").resolveLinks();
-		validate_Endorsement(td_specificNB, td_specificEnd, false, state);
+	public void pas3786_Validate_Override_NewBusiness(String state, String tdName, boolean ruleShouldFire) {
+		TestData td_specific = getStateTestData(testDataManager.getDefault(this.getClass()), tdName).resolveLinks();
+		validate_NewBusiness(td_specific, ruleShouldFire);
 	}
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - FN, LN, DOB don't match (Manual Renewal)
+	 * @name Test Membership validation (Endorsement)
 	 * @scenario
 	 * 1. Create Customer.
 	 * 2. Create Auto SS Policy without Membership Number.
-	 * 3. Initiate Manual renewal for the policy.
-	 * 4. Add member number on General tab with mismatching First Name, Last Name and DOB.
+	 * 3. Initiate endorsement for the policy.
+	 * 4. Add member number on General tab with
+	 *              case a. - mismatching First Name, Last Name and DOB
+	 *              case b. - matching FN, LN or DOB match (FN match)
 	 * 5. Fill All other required data up to Documents and Bind Tab.
-	 * 6. Verify that Error is displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 7. Override the error and bind.
+	 * 6. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..." is:
+	 *              case a. - displayed
+	 *              case b. - not displayed
+	 * 7. Override the error (if displayed).
+	 * 8. Bind.
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization", dataProvider = "TdProvider")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3786")
-	public void pas3786_Validate_Override_Manual_Renewal_NoMatch(@Optional("AZ") String state) {
-		TestData td_specificNB = getTestSpecificTD("TestData_MembershipValidation_MembershipNo").resolveLinks();
-		TestData td_specificEnd = getTestSpecificTD("TestData_MembershipValidation_End_Ren_MembershipYes").resolveLinks();
-		validate_Manual_Renewal(td_specificNB, td_specificEnd, true, state);
+	public void pas3786_Validate_Override_Endorsement(String state, String tdName1, String tdName2, boolean ruleShouldFire) {
+		TestData td_specificNB = getStateTestData(testDataManager.getDefault(this.getClass()), tdName1).resolveLinks();
+		TestData td_specificEnd = getStateTestData(testDataManager.getDefault(this.getClass()), tdName2).resolveLinks();
+		validate_Endorsement(td_specificNB, td_specificEnd, ruleShouldFire);
 	}
 
 	/**
 	 * @author Maris Strazds
-	 * @name Test Membership validation - FN, LN or DOB match (FN match) (Manual Renewal)
+	 * @name Test Membership validation (Manual Renewal)
 	 * @scenario
 	 * 1. Create Customer.
 	 * 2. Create Auto SS Policy without Membership Number.
 	 * 3. Initiate Manual renewal for the policy.
-	 * 4. Add member number on General tab with matching FN, LN or DOB match (FN match)
+	 * 4. Add member number on General tab with:
+	 *              case a. - mismatching First Name, Last Name and DOB
+	 *              case b. - matching FN, LN or DOB match (FN match)
 	 * 5. Fill All other required data up to Documents and Bind Tab.
-	 * 6. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
-	 * 7. Bind.
+	 * 6. Verify that Error "Membership Validation Failed. Please review the Membership Report and confirm..." is:
+	 *              case a. - displayed
+	 *              case b. - not displayed
+	 * 7. Override the error (if displayed).
+	 * 8. Bind.
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization", dataProvider = "TdProvider")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3786")
-	public void pas3786_Validate_Override_Manual_Renewal_SomeMatch(@Optional("AZ") String state) {
-		TestData td_specificNB = getTestSpecificTD("TestData_MembershipValidation_MembershipNo_SomeMatch").resolveLinks();
-		TestData td_specificEnd = getTestSpecificTD("TestData_MembershipValidation_End_Ren_MembershipYes").resolveLinks();
-		validate_Manual_Renewal(td_specificNB, td_specificEnd, false, state);
+	public void pas3786_Validate_Override_Manual_Renewal(String state, String tdName1, String tdName2, boolean ruleShouldFire) {
+		TestData td_specificNB = getStateTestData(testDataManager.getDefault(this.getClass()), tdName1).resolveLinks();
+		TestData td_specificEnd = getStateTestData(testDataManager.getDefault(this.getClass()), tdName2).resolveLinks();
+		validate_Manual_Renewal(td_specificNB, td_specificEnd, ruleShouldFire);
 	}
 
 	private void goToBindAndVerifyError(Errors errorCode) {
@@ -211,7 +148,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 		new ErrorTab().verify.errorsPresent(errorCode);
 	}
 
-	private void validate_NewBusiness(TestData td_specific, boolean ruleShouldFire, @Optional("AZ") String state) {
+	private void validate_NewBusiness(TestData td_specific, boolean ruleShouldFire) {
 		TestData testData = getPolicyTD().adjust(td_specific);
 
 		mainApp().open();
@@ -231,7 +168,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
-	private void validate_Endorsement(TestData td_specificNB, TestData td_specificEnd, boolean ruleShouldFire, @Optional("AZ") String state) {
+	private void validate_Endorsement(TestData td_specificNB, TestData td_specificEnd, boolean ruleShouldFire) {
 		TestData testData = getPolicyTD().adjust(td_specificNB);
 
 		mainApp().open();
@@ -248,7 +185,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	}
 
-	private void validate_Manual_Renewal(TestData td_specificNB, TestData td_specificEnd, boolean ruleShouldFire, @Optional("AZ") String state) {
+	private void validate_Manual_Renewal(TestData td_specificNB, TestData td_specificEnd, boolean ruleShouldFire) {
 		TestData testData = getPolicyTD().adjust(td_specificNB);
 
 		mainApp().open();
@@ -264,6 +201,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 		checkAndOverrideErrors(ruleShouldFire);
 	}
 
+	//if rule should fire, check the error and override
 	private void checkAndOverrideErrors(boolean ruleShouldFire) {
 		if (ruleShouldFire) {
 			new ErrorTab().verify.errorsPresent(Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME);
