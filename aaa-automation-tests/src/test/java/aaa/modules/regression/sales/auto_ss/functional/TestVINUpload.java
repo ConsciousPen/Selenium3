@@ -132,7 +132,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, dependsOnMethods = {"testVINUpload_NewVINAdded"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-527")
 	public void testVINUpload_NewVINAdded_Renewal(@Optional("UT") String state) {
 
@@ -212,7 +212,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, dependsOnMethods = {"testVINUpload_NewVINAdded_Renewal"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-527")
 	public void testVINUpload_UpdatedVIN_Renewal(@Optional("UT") String state) {
 

@@ -40,7 +40,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
      * {@link aaa.modules.regression.sales.template.functional.TestVINUploadTemplate#testVINUpload_NewVINAdded_Renewal(String, String, String)}
      */
     @Parameters({"state"})
-    @Test(groups = { Groups.FUNCTIONAL, Groups.MEDIUM }, dependsOnMethods = {"testVINUpload_NewVINAdded"})
+    @Test(groups = { Groups.FUNCTIONAL, Groups.MEDIUM })
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-527")
     public void testVINUpload_NewVINAdded_Renewal(@Optional("CA") String state) {
         testVINUpload_NewVINAdded_Renewal("controlTable_CA_SELECT.xlsx", "uploadAddedVIN_CA_SELECT.xlsx", "1FDEU15H7KL055795");
@@ -55,7 +55,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
      * {@link aaa.modules.regression.sales.template.functional.TestVINUploadTemplate#testVINUpload_UpdatedVIN_Renewal(String, String, String)}
      */
     @Parameters({"state"})
-    @Test(groups = { Groups.FUNCTIONAL, Groups.MEDIUM }, dependsOnMethods = {"testVINUpload_NewVINAdded_Renewal"})
+    @Test(groups = { Groups.FUNCTIONAL, Groups.MEDIUM })
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-527")
     public void testVINUpload_UpdatedVIN_Renewal(@Optional("CA") String state) {
         testVINUpload_UpdatedVIN_Renewal("controlTable_CA_SELECT.xlsx", "uploadUpdatedVIN_CA_SELECT.xlsx", "1HGEM215140028445");

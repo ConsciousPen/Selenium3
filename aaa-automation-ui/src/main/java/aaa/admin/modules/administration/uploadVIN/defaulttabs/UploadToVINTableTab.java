@@ -21,7 +21,7 @@ public class UploadToVINTableTab extends DefaultTab {
     public static StaticElement LBL_UPLOAD_MSG = new StaticElement(By.id("uploadToVINTableForm:uploadSuccesful"));
     public static Button BTN_UPLOAD = new Button(By.id("uploadToVINTableForm:uploadBtn"));
 
-    protected final static String defaultpath = "src/test/resources/uploadingfiles/vinUploadFiles/";
+    protected final static String defaultPath = "src/test/resources/uploadingfiles/vinUploadFiles/";
 
 
     public void uploadExcel(AssetDescriptor<RadioButton> buttonAssetDescriptor, String fileName){
@@ -29,7 +29,7 @@ public class UploadToVINTableTab extends DefaultTab {
         getAssetList().getAsset(buttonAssetDescriptor).setValue(true);
         BTN_UPLOAD.click();
         getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
-                .getAsset(AdministrationMetaData.VinTableTab.UploadDialog.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(defaultpath+fileName));
+                .getAsset(AdministrationMetaData.VinTableTab.UploadDialog.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(defaultPath+fileName));
 
         getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
                 .getAsset(AdministrationMetaData.VinTableTab.UploadDialog.BUTTON_SUBMIT_POPUP).click();
