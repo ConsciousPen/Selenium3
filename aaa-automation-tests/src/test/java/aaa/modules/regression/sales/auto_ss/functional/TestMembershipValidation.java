@@ -10,7 +10,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.ErrorEnum.Errors;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
@@ -50,14 +50,6 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	}
 
-	private String getStateValue(ITestContext context) {
-		String stateValue = context.getCurrentXmlTest().getParameter("state");
-		if (stateValue == null) {
-			stateValue = Constants.States.AZ;
-		}
-		return stateValue;
-	}
-
 	/**
 	 * @author Maris Strazds
 	 * @name Test Membership validation (New business)
@@ -85,8 +77,8 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization", dataProvider = "TdProvider")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3786")
 	public void pas3786_Validate_Override_NewBusiness(String state, String tdName, boolean ruleShouldFire) {
-		TestData td_specific = getStateTestData(testDataManager.getDefault(this.getClass()), tdName).resolveLinks();
-		validate_NewBusiness(td_specific, ruleShouldFire);
+		TestData tdSpecific = getStateTestData(testDataManager.getDefault(this.getClass()), tdName).resolveLinks();
+		validate_NewBusiness(tdSpecific, ruleShouldFire);
 	}
 
 	/**
@@ -111,9 +103,9 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization", dataProvider = "TdProvider")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3786")
 	public void pas3786_Validate_Override_Endorsement(String state, String tdName1, String tdName2, boolean ruleShouldFire) {
-		TestData td_specificNB = getStateTestData(testDataManager.getDefault(this.getClass()), tdName1).resolveLinks();
-		TestData td_specificEnd = getStateTestData(testDataManager.getDefault(this.getClass()), tdName2).resolveLinks();
-		validate_Endorsement(td_specificNB, td_specificEnd, ruleShouldFire);
+		TestData tdSpecificNB = getStateTestData(testDataManager.getDefault(this.getClass()), tdName1).resolveLinks();
+		TestData tdSpecificEnd = getStateTestData(testDataManager.getDefault(this.getClass()), tdName2).resolveLinks();
+		validate_Endorsement(tdSpecificNB, tdSpecificEnd, ruleShouldFire);
 	}
 
 	/**
@@ -138,18 +130,18 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization", dataProvider = "TdProvider")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3786")
 	public void pas3786_Validate_Override_Manual_Renewal(String state, String tdName1, String tdName2, boolean ruleShouldFire) {
-		TestData td_specificNB = getStateTestData(testDataManager.getDefault(this.getClass()), tdName1).resolveLinks();
-		TestData td_specificEnd = getStateTestData(testDataManager.getDefault(this.getClass()), tdName2).resolveLinks();
-		validate_Manual_Renewal(td_specificNB, td_specificEnd, ruleShouldFire);
+		TestData tdSpecificNB = getStateTestData(testDataManager.getDefault(this.getClass()), tdName1).resolveLinks();
+		TestData tdSpecificEnd = getStateTestData(testDataManager.getDefault(this.getClass()), tdName2).resolveLinks();
+		validate_Manual_Renewal(tdSpecificNB, tdSpecificEnd, ruleShouldFire);
 	}
 
-	private void goToBindAndVerifyError(Errors errorCode) {
-		new DocumentsAndBindTab().btnPurchase.click();
+	private void goToBindAndVerifyError(ErrorEnum.Errors errorCode) {
+		DocumentsAndBindTab.btnPurchase.click();
 		new ErrorTab().verify.errorsPresent(errorCode);
 	}
 
-	private void validate_NewBusiness(TestData td_specific, boolean ruleShouldFire) {
-		TestData testData = getPolicyTD().adjust(td_specific);
+	private void validate_NewBusiness(TestData tdSpecific, boolean ruleShouldFire) {
+		TestData testData = getPolicyTD().adjust(tdSpecific);
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -158,7 +150,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 		policy.getDefaultView().fillUpTo(testData, DocumentsAndBindTab.class, true);
 		if (ruleShouldFire) {
-			goToBindAndVerifyError(Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME);
+			goToBindAndVerifyError(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME);
 			new ErrorTab().overrideAllErrors();
 		}
 
@@ -168,15 +160,15 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
-	private void validate_Endorsement(TestData td_specificNB, TestData td_specificEnd, boolean ruleShouldFire) {
-		TestData testData = getPolicyTD().adjust(td_specificNB);
+	private void validate_Endorsement(TestData tdSpecificNB, TestData tdSpecificEnd, boolean ruleShouldFire) {
+		TestData testData = getPolicyTD().adjust(tdSpecificNB);
 
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(testData);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-		policy.endorse().performAndFill(td_specificEnd);
+		policy.endorse().performAndFill(tdSpecificEnd);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
 		checkAndOverrideErrors(ruleShouldFire);
@@ -185,8 +177,8 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	}
 
-	private void validate_Manual_Renewal(TestData td_specificNB, TestData td_specificEnd, boolean ruleShouldFire) {
-		TestData testData = getPolicyTD().adjust(td_specificNB);
+	private void validate_Manual_Renewal(TestData tdSpecificNB, TestData tdSpecificEnd, boolean ruleShouldFire) {
+		TestData testData = getPolicyTD().adjust(tdSpecificNB);
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -194,7 +186,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		policy.renew().start();
-		policy.getDefaultView().fillUpTo(td_specificEnd, DocumentsAndBindTab.class, true);
+		policy.getDefaultView().fillUpTo(tdSpecificEnd, DocumentsAndBindTab.class, true);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
@@ -204,11 +196,19 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 	//if rule should fire, check the error and override
 	private void checkAndOverrideErrors(boolean ruleShouldFire) {
 		if (ruleShouldFire) {
-			new ErrorTab().verify.errorsPresent(Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME);
+			new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME);
 			new ErrorTab().overrideAllErrors();
 			new DocumentsAndBindTab().submitTab();
 		}
 
+	}
+
+	private String getStateValue(ITestContext context) {
+		String stateValue = context.getCurrentXmlTest().getParameter("state");
+		if (stateValue == null) {
+			stateValue = Constants.States.AZ;
+		}
+		return stateValue;
 	}
 
 }
