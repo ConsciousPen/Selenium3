@@ -140,8 +140,8 @@ AASR22_EDOne_IN: {
     PlcyTransCd: {TextField: '0100'},
     PlcyStAbrv: {TextField: 'IN'},
     SR22CseNum: {TextField: '123'},
-    SgnDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
-    SR22CertEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SgnDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
+    SR22CertEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     SR22CertReqSt: {TextField: 'Indiana'},
     SSNum: {TextField: '6789'}
   }

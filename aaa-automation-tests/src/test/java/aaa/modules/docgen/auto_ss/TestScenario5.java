@@ -113,8 +113,8 @@ public class TestScenario5 extends AutoSSBaseTest {
 				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehClsnPrem"), vehClsnPrem)
 				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehRntlReimbsPrem"), vehRntlReimbsPrem)
 				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehTwgLbrPrem"), vehTwgLbrPrem)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehTotPrem"), vehTotPrem)
-				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehSpclEqpmtPrem"), vehSpclEqpmtPrem),
+				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehTotPrem"), vehTotPrem),
+//				.adjust(TestData.makeKeyPath("AAIQAZ", "CoverageDetails", "VehSpclEqpmtPrem"), vehSpclEqpmtPrem)
 				policyNumber);	
 		
 		CustomAssert.disableSoftMode();

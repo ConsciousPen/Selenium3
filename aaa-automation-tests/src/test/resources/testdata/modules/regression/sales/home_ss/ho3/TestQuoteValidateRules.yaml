@@ -4,7 +4,7 @@ TestData_TodayMinus3Days: {
 }
 
 GeneralTab_TodayMinus3Days: {
-  Effective date: '/today-3d:MM/dd/yyyy'
+  Effective date: '$<today-3d:MM/dd/yyyy>'
 }
 
 # ------- Today-10 days
@@ -13,7 +13,7 @@ TestData_TodayMinus10Days: {
 }
 
 GeneralTab_TodayMinus10Days: {
-  Effective date: '/today-10d:MM/dd/yyyy'
+  Effective date: '$<today-10d:MM/dd/yyyy>'
 }
 
 # ------- Today+10 days
@@ -22,7 +22,7 @@ TestData_TodayPlus10Days: {
 }
 
 GeneralTab_TodayPlus10Days: {
-  Effective date: '/today+10d:MM/dd/yyyy'
+  Effective date: '$<today+10d:MM/dd/yyyy>'
 }
 
 # ------- Today+91 days
@@ -31,5 +31,5 @@ TestData_TodayPlus91Days: {
 }
 
 GeneralTab_TodayPlus91Days: {
-  Effective date: '/today+91d:MM/dd/yyyy'
+  Effective date: '$<today+91d:MM/dd/yyyy>'
 }

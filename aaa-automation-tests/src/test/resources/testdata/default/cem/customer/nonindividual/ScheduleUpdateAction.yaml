@@ -1,6 +1,6 @@
 TestData: {
   ScheduledUpdateActionTab: {
-    Update Effective Date: /today+1m
+    Update Effective Date: '$<today+1m>'
   },
   GeneralTab: {
     Name - Legal: /Corp#########,

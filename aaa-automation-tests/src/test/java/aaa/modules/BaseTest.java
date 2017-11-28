@@ -19,8 +19,7 @@ import com.exigen.ipb.etcsa.base.app.MainApplication;
 import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
 import aaa.EntityLogger;
 import aaa.common.enums.Constants;
-import aaa.common.enums.Constants.States;
-import aaa.common.enums.NavigationEnum.AppMainTabs;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.metadata.LoginPageMeta;
 import aaa.common.pages.LoginPage;
 import aaa.common.pages.NavigationPage;
@@ -31,8 +30,6 @@ import aaa.helpers.TimePoints;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.listeners.AaaTestListener;
 import aaa.main.enums.SearchEnum;
-import aaa.main.enums.SearchEnum.SearchBy;
-import aaa.main.enums.SearchEnum.SearchFor;
 import aaa.main.modules.customer.Customer;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.PolicyType;
@@ -98,7 +95,7 @@ public class BaseTest {
 			setState(Constants.States.CA);
 		else if (StringUtils.isNotBlank(usState))
 			setState(usState);
-		else setState(States.UT);
+		else setState(Constants.States.UT);
 	}
 
 	/**
@@ -206,7 +203,7 @@ public class BaseTest {
 	protected String getCopiedQuote() {
 		openDefaultPolicy(getPolicyType(), getState());
 		getPolicyType().get().policyCopy().perform(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData"));
-		log.info("Quote copied " + EntityLogger.getEntityHeader(EntityLogger.EntityType.QUOTE));
+		log.info("Quote copied {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.QUOTE));
 		return PolicySummaryPage.labelPolicyNumber.getValue();
 	}
 
@@ -285,8 +282,8 @@ public class BaseTest {
 	protected final Map<String, String> getPrimaryPoliciesForPup() {
 		//EntitiesHolder.addNewEntity(EntitiesHolder.makeDefaultPolicyKey(PolicyType.HOME_SS_HO3,
 		//getState()), "COH3927438929");
-		if (!NavigationPage.isMainTabSelected(AppMainTabs.CUSTOMER.get())) {
-			NavigationPage.toMainTab(AppMainTabs.CUSTOMER.get());
+		if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
 		}
 		//remember customer that was created in test
 		String customerNum = CustomerSummaryPage.labelCustomerNumber.getValue();
@@ -295,7 +292,7 @@ public class BaseTest {
 		synchronized (state) {
 			PolicyType type;
 			PolicyType typeAuto = null;
-			if (state.equals(States.CA)) {
+			if (state.equals(Constants.States.CA)) {
 				type = PolicyType.HOME_CA_HO3;
 				typeAuto = PolicyType.AUTO_CA_SELECT;
 			} else
@@ -322,8 +319,8 @@ public class BaseTest {
 				}
 			}
 			//open Customer that was created in test
-			if (!NavigationPage.isMainTabSelected(AppMainTabs.CUSTOMER.get())) {
-				SearchPage.search(SearchFor.CUSTOMER, SearchBy.CUSTOMER, customerNum);
+			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
+				SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, customerNum);
 			}
 			return returnValue;
 		}
@@ -338,7 +335,7 @@ public class BaseTest {
 	protected Map<String, String> getPrimaryPoliciesForPup(TestData tdHomeAdjustment, TestData tdAutoAdjustment) {
 		Map<String, String> policies = new LinkedHashMap<>();
 		String state = getState().intern();
-		if (state.equals(States.CA)) {
+		if (state.equals(Constants.States.CA)) {
 			TestData tdHome = testDataManager.policy.get(PolicyType.HOME_CA_HO3);
 			TestData tdHomeData = getStateTestData(tdHome, "DataGather", "TestData").adjust(tdHomeAdjustment);
 			PolicyType.HOME_CA_HO3.get().createPolicy(tdHomeData);
@@ -392,7 +389,7 @@ public class BaseTest {
 			log.info(String.format("==== %s Test Data is used: %s ====", getState(), getStateTestDataName(tdName)));
 		} else {
 			td = td.getTestData(tdName);
-			if (getState().equals(States.CA))
+			if (getState().equals(Constants.States.CA))
 				log.info(String.format("==== CA Test Data is used: %s ====", getStateTestDataName(tdName)));
 			else
 				log.info(String.format("==== Default state UT Test Data is used. Requested Test Data: %s is missing ====", getStateTestDataName(tdName)));
@@ -416,10 +413,8 @@ public class BaseTest {
 	}
 
 
-	//TODO : make more readable, for instance getPolicyType() != null && getCaTypes().contains(getPolicyType())
 	protected boolean isStateCA() {
-		return getPolicyType() != null && (getPolicyType().equals(PolicyType.HOME_CA_HO3) || getPolicyType().equals(PolicyType.AUTO_CA_SELECT) || getPolicyType().equals(PolicyType.HOME_CA_DP3) || getPolicyType().equals(PolicyType.HOME_CA_HO4)
-				|| getPolicyType().equals(PolicyType.HOME_CA_HO6) || getPolicyType().equals(PolicyType.AUTO_CA_CHOICE));
+		return getPolicyType() != null && getPolicyType().isCaProduct();
 	}
 
 	protected String initiateManualConversion(TestData td){

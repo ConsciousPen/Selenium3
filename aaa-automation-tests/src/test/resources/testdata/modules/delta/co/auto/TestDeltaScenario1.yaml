@@ -42,19 +42,19 @@ DriverTab_TC04: {
       Type: 'Minor Violation',
       Description: 'Improper Passing',
       Occurrence Date: '01/10/2012',
-      Conviction Date: '/today-30d:MM/dd/yyyy'
+      Conviction Date: '$<today-30d:MM/dd/yyyy>'
     },
     {
       Type: 'Minor Violation',
       Description: 'Improper Signal',
       Occurrence Date: '01/12/2012',
-      Conviction Date: '/today-250d:MM/dd/yyyy'
+      Conviction Date: '$<today-250d:MM/dd/yyyy>'
     },
     {
       Type: 'Minor Violation',
       Description: 'Illegal Riding',
       Occurrence Date: '01/02/2013',
-      Conviction Date: '/today-20d:MM/dd/yyyy'
+      Conviction Date: '$<today-20d:MM/dd/yyyy>'
     }
   ]
 }

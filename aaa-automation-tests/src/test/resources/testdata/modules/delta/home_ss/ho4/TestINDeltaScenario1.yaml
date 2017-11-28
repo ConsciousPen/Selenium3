@@ -15,11 +15,11 @@ TestData: {
 GeneralTab: {
   State: 'IN',
   Policy type: 'HO4',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ReportsTab: {

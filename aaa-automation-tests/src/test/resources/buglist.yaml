@@ -16,7 +16,7 @@ QC-DOCGENCOMMON:
   summary: "Common dummy ticket for all dependent docgen tests to mark them yellow if they are skipped due to failed 1st policy creation test"
   reason: PROD
   failures:
-    - tests: [aaa.modules.docgen.*]
+    - tests: [aaa.modules.docgen.*, aaa.modules.deloitte.docgen.*]
       messages: ["depends on not successfully finished methods"]
 EISDEV-XXXXX2:
   summary: "[TO_BE_CREATED] base00003 error message appears if search for customer by phone number in correct format"
@@ -132,15 +132,12 @@ QC-44911:
               aaa.modules.e2e.auto_ss.TestScenario7.TC01_createPolicy]
       messages: ["Unable to locate element: {\"method\":\"xpath\",\"selector\":\"//input[@id='policyDataGatherForm:next_footer' or @id='crmForm:nextBtn_footer' or @id='policyDataGatherForm:next' or @id='policyDataGatherForm:nextButton_footer'",
                  "Errors: Time out. No session available."]
-QC-44941:
-  summary: "Regression: 62 6500 is not disabled on 'On-Demand Documents' page after quote creation"
+QC-45066:
+  summary: "Regression: The 'Purchase Date' field is cleared after calculating premium"
   reason: PROD
   failures:
-    - tests: [aaa.modules.docgen.home_ca.dp3.TestDocgenScenarios.testQuoteDocuments,
-              aaa.modules.docgen.home_ca.ho3.TestDocgenScenarios.testQuoteDocuments,
-              aaa.modules.docgen.home_ca.ho4.TestDocgenScenarios.testQuoteDocuments,
-              aaa.modules.docgen.home_ca.ho6.TestDocgenScenarios.testQuoteDocuments]
-      messages: ["On demand document Documents{id='62 6500', name='CA Evidence of Property Insurance'}' is not disabled as expected"]
+    - tests: [aaa.modules.deloitte.docgen.auto_ss.TestScenario4.TC01_CreatePolicy]
+      messages: ["Unable to locate element","policyDataGatherForm:nextButton_footer"]
 QC-11111:
   summary: "OSI: Senior Discount related code is not in Master yet"
   reason: PROD

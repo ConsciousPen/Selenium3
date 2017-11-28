@@ -25,7 +25,8 @@ public abstract class Application {
 	public enum AppType {
 		ADMIN,
 		OPERATIONAL_REPORT,
-		EU
+		EU,
+		SWAGGER
 	}
 
 	protected Application(String name, String url) {
@@ -179,5 +180,9 @@ public abstract class Application {
 			host = PropertyProvider.getProperty(TestProperties.APP_EU_HOST);
 		}
 		return host;
+	}
+
+	public static void open(String url) {
+		BrowserController.get().open(url);
 	}
 }

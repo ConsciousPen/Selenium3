@@ -294,7 +294,14 @@ public final class DocGenEnum {
         AAIFNY2(""),
         AAIFNYF(""),
         AACDNYR(""),
-        AAIFNYC("Confirmation of Suspension of Physical Damage Coverage")
+        AAIFNYC("Confirmation of Suspension of Physical Damage Coverage"),
+        AA02CO(""),
+        AA52COA(""),
+        AA52COB(""),
+        AA71COA(""),
+        AARNXX(""),
+        AHCAAG("Coverage Acceptance Statement"),
+        AH65XX("")
 		;
 
 		private String id;

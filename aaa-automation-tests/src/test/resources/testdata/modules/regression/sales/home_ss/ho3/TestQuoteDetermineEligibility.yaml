@@ -306,7 +306,7 @@ AdditionalInterest1: {
   Zip code: '84003', 
   Street address 1: '265 CHIPMAN AVE', 
   Description of interest: 'test1',
-  Effective date: '/today:MM/dd/yyyy'
+  Effective date: '$<today:MM/dd/yyyy>'
 }
 
 AdditionalInterest2: {
@@ -314,7 +314,7 @@ AdditionalInterest2: {
   Zip code: '84003', 
   Street address 1: '266 CHIPMAN AVE', 
   Description of interest: 'test2',
-  Effective date: '/today:MM/dd/yyyy'
+  Effective date: '$<today:MM/dd/yyyy>'
 }
 
 AdditionalInterest3: {
@@ -322,7 +322,7 @@ AdditionalInterest3: {
   Zip code: '84003', 
   Street address 1: '267 CHIPMAN AVE', 
   Description of interest: 'test3',
-  Effective date: '/today:MM/dd/yyyy'
+  Effective date: '$<today:MM/dd/yyyy>'
 }
 
 

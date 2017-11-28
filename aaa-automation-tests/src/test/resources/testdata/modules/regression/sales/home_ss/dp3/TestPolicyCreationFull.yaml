@@ -80,7 +80,7 @@ MortgageesTab: {
     Street address 1: 'Power Str',
     Street address 2: '2',
     Description of interest: 'He is a very cool guy',
-    Effective Date: '/today',
+    Effective Date: '$<today>',
   }
 }
 
@@ -152,7 +152,7 @@ PropertyValue: {
   Coverage A - Dwelling limit: 150000,
   ISO replacement cost: 145000,
   Reason replacement cost differs from the tool value: 'index=1',
-  Purchase date of home: '/today-1y:MM/dd/yyyy'
+  Purchase date of home: '$<today-1y:MM/dd/yyyy>'
 }
 
 DwellingAddress_PropertyInfoTab: {
