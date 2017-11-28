@@ -7,6 +7,7 @@ import aaa.common.DefaultTab;
 import org.openqa.selenium.By;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.RadioButton;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 import java.io.File;
@@ -17,7 +18,7 @@ public class UploadToVINTableTab extends DefaultTab {
         super(AdministrationMetaData.VinTableTab.class);
     }
 
-
+    public static StaticElement LBL_UPLOAD_MSG = new StaticElement(By.id("uploadToVINTableForm:uploadSuccesful"));
     public static Button BTN_UPLOAD = new Button(By.id("uploadToVINTableForm:uploadBtn"));
 
     protected final static String defaultpath = "src/test/resources/uploadingfiles/vinUploadFiles/";

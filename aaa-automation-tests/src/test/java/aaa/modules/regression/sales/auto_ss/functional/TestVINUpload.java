@@ -16,6 +16,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import org.testng.AssertJUnit;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -39,6 +40,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 	 * PAS-1406 - Data Refresh - PAS-533 -Quote Refresh -Add New VIN
 	 * PAS-1487 VIN No Match to Match but Year Doesn't Match
 	 * PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
+	 * PAS-6455 Make Entry Date Part of Key for VIN Table Upload
 	 *
 	 * @name Test VINupload 'Add new VIN' scenario for NB.
 	 * @scenario 0. Create customer
@@ -54,9 +56,10 @@ public class TestVINUpload extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-533,PAS-1487")
 	public void testVINUpload_NewVINAdded(@Optional("UT") String state) {
 
-		String vinNumber = "BBBKN3DD0E0344466";
-		String uploadExcelName = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
-		String configExcelName = getControlTableFile();
+		//		String vinNumber = "BBBKN3DD0E0344466";
+		String vinNumber = "1FDEU15H7KL055795";
+		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
+		String controlTableFile = getControlTableFile();
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
@@ -75,8 +78,15 @@ public class TestVINUpload extends AutoSSBaseTest {
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, uploadExcelName);
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, configExcelName);
+		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, vinTableFile);
+		//PAS-6455 Make Entry Date Part of Key for VIN Table Upload
+		AssertJUnit.assertTrue("File was not uploaded or DB contains unexpected info",
+				UploadToVINTableTab.LBL_UPLOAD_MSG.getValue().contains("Rows added: 1; Rows updated: 0 (from " + vinTableFile));
+
+		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
+		//PAS-6455 Make Entry Date Part of Key for VIN Table Upload
+		AssertJUnit.assertTrue("File was not uploaded or DB contains unexpected info",
+				UploadToVINTableTab.LBL_UPLOAD_MSG.getValue().contains("Rows added: 1; Rows updated: 1 (from " + controlTableFile));
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		mainApp().open();
@@ -109,6 +119,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 	 * PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
 	 * PAS-1487  No Match to Match but Year Doesn't Match
 	 * PAS-544 Activities and User Notes
+	 * PAS-6455 Make Entry Date Part of Key for VIN Table Upload
 	 *
 	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
 	 * @scenario 0. Create customer
@@ -121,13 +132,13 @@ public class TestVINUpload extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, dependsOnMethods = {"testVINUpload_NewVINAdded"})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-527")
 	public void testVINUpload_NewVINAdded_Renewal(@Optional("UT") String state) {
 
-		String vinNumber = "BBBKN3DD0E0344466";
-		String uploadExcelName = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
-		String configExcelName = getControlTableFile();
+		String vinNumber = "1FDEU15H7KL055795";
+		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
+		String controlTableFile = getControlTableFile();
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
@@ -147,8 +158,15 @@ public class TestVINUpload extends AutoSSBaseTest {
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, uploadExcelName);
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, configExcelName);
+		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, vinTableFile);
+		//PAS-6455 Make Entry Date Part of Key for VIN Table Upload
+		AssertJUnit.assertTrue("File was not uploaded or DB contains unexpected info",
+				UploadToVINTableTab.LBL_UPLOAD_MSG.getValue().contains("Rows added: 1; Rows updated: 0 (from " + vinTableFile));
+
+		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
+		//PAS-6455 Make Entry Date Part of Key for VIN Table Upload
+		AssertJUnit.assertTrue("File was not uploaded or DB contains unexpected info",
+				UploadToVINTableTab.LBL_UPLOAD_MSG.getValue().contains("Rows added: 1; Rows updated: 1 (from " + controlTableFile));
 
 		//Go back to MainApp, find created policy, initiate Renewal, verify if VIN value is applied
 		mainApp().open();
@@ -182,6 +200,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 	 * PAS-1406 - Data Refresh - PAS-527 -Renewal Refresh -Add New VIN & Update Existing
 	 * PAS-1487  No Match to Match but Year Doesn't Match
 	 * PAS-544 Activities and User Notes
+	 * PAS-6455 Make Entry Date Part of Key for VIN Table Upload
 	 *
 	 * @name Test VINupload 'Update VIN' scenario.
 	 * @scenario 0. Create customer
@@ -193,13 +212,13 @@ public class TestVINUpload extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, dependsOnMethods = {"testVINUpload_NewVINAdded_Renewal"})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-527")
 	public void testVINUpload_UpdatedVIN_Renewal(@Optional("UT") String state) {
 
 		String vinNumber = "1HGEM215140028445";
-		String uploadExcelName = getSpecificUploadFile(UploadFilesTypes.UPDATED_VIN.get());
-		String configExcelName = getControlTableFile();
+		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.UPDATED_VIN.get());
+		String controlTableFile = getControlTableFile();
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
 		precondsTestVINUpload(testData);
@@ -219,8 +238,15 @@ public class TestVINUpload extends AutoSSBaseTest {
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, uploadExcelName);
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, configExcelName);
+		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, vinTableFile);
+		//PAS-6455 Make Entry Date Part of Key for VIN Table Upload
+		AssertJUnit.assertTrue("File was not uploaded or DB contains unexpected info",
+				UploadToVINTableTab.LBL_UPLOAD_MSG.getValue().contains("Rows added: 1; Rows updated: 1 (from " + vinTableFile));
+
+		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
+		//PAS-6455 Make Entry Date Part of Key for VIN Table Upload
+		AssertJUnit.assertTrue("File was not uploaded or DB contains unexpected info",
+				UploadToVINTableTab.LBL_UPLOAD_MSG.getValue().contains("Rows added: 1; Rows updated: 1 (from " + controlTableFile));
 
 		// Go back to MainApp, find created policy, create Renewal image and verify if VIN was updated and new values are applied
 		mainApp().open();
