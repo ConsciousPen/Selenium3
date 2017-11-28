@@ -56,6 +56,13 @@ public class TestRefundProcess extends PolicyBilling {
 			"and RISKSTATECD = 'VA' " +
 			"and DISPLAYVALUE = 'TRUE' ";
 
+	private static final String REFUND_CONFIG_CHECK = "select * from LOOKUPVALUE " +
+			"where WHERE LOOKUPLIST_ID IN ( \n" +
+			"SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME LIKE '%Rollout%' and CODE='eRefunds' and DISPLAYVALUE='TRUE' )";
+
+	private static final String LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK = "select * from PROPERTYCONFIGURERENTITY " +
+			"where propertyname = 'lastPaymentService.lastPaymentServiceUrl" ;
+
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
@@ -75,6 +82,14 @@ public class TestRefundProcess extends PolicyBilling {
 				.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5));
 	}
 
+	@Test(description = "Precondition for refund last payment method")
+	public static void eRefundLastPaymentMethodConfigCheck() {
+		CustomAssert.enableSoftMode();
+		CustomAssert.assertTrue("Erefunds lookup value is not true, please run REFUND_CONFIG_INSERT ", DBService.get().getValue(REFUND_CONFIG_CHECK).isPresent());
+		CustomAssert.assertTrue("Last payment method stub end point are not set correctly, please run LAST_PAYMENT_METHOD_STUB_END_POINT_INSERT ", DBService.get().getValue(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK).isPresent());
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+		}
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Test Installment Fee split to Credit Card and Debit Card
@@ -175,7 +190,7 @@ public class TestRefundProcess extends PolicyBilling {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})//TODO when running suite, the test which has Depends on is not being executed
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eRefundLastPaymentMethodConfigCheck")//TODO when running suite, the test which has Depends on is not being executed
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-352")
 	public void pas352_RefundMethodAndDropdownLastPaymentMethod(@Optional("VA") String state) {
 
