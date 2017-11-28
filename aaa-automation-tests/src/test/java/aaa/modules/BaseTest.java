@@ -58,7 +58,6 @@ public class BaseTest {
 	private static String usState = PropertyProvider.getProperty("test.usstate");
 	private static Map<String, Integer> policyCount = new HashMap<>();
 	private boolean isCiModeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.IS_CI_MODE, "true"));
-	private String appStubUrltemplate=PropertyProvider.getProperty(CustomTestProperties.APP_STUB_URLTEMPLATE, ":8083/aaa-external-stub-services-app/");
 
 	static {
 		CustomAssert.initDriver(CustomAssert.AssertDriverType.TESTNG);
