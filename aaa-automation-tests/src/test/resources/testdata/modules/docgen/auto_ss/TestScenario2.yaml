@@ -1108,7 +1108,7 @@ AA10XX_AZ: {
     VehAddFlg: {TextField: 'Y'},
     VehManfrNm: {TextField: 'KIA'},
     VehMdelNm: {TextField: 'SOUL'},
-    VehBdyTyp: {TextField: 'WAGON 4 DOOR'},
+    VehBdyTyp: {TextField: ''},
     VehIdNum: {TextField: 'KNDJT2A2XA7038383'}
   }
   ], 
@@ -1171,7 +1171,7 @@ AA02AZ: {
     VehTyp: {TextField: 'Golf'},
     VehManufactureYear: {TextField: '2010'},
     VehManfrNm: {TextField: 'KIA'},
-    VehMdelNm: {TextField: 'SOUL WAGON 4 DOOR'},
+    VehMdelNm: {TextField: 'SOUL'},
     VehIdNum: {TextField: 'KNDJT2A2XA7038383'},
     VehUnitNum: {TextField: '2'},
     VehDiscDesc: {TextField: ''},
