@@ -56,7 +56,7 @@ public class VerifyMembershipErrorMsg extends HomeCaHO3BaseTest
     public void TC01_verifyMembershipMsg_NB(@Optional("CA") String state) {
 
         TestData _td = getTestSpecificTD("TestData");
-        boolean bTakeScreenshots = true;
+        boolean bTakeScreenshots = false;
 
         // Clean Test Data
         //Open App
@@ -88,7 +88,7 @@ public class VerifyMembershipErrorMsg extends HomeCaHO3BaseTest
         createPolicy(_td);
 
         //Screenshot Verifies Successful Test
-        ScreenshotManager.getInstance().makeScreenshot("HO_HO3_NB_Dirty_FirstName");
+        if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_HO3_NB_Dirty_FirstName");}
 
         //Close App to prevent Memory Leaks.
         mainApp().close();
@@ -122,7 +122,7 @@ public class VerifyMembershipErrorMsg extends HomeCaHO3BaseTest
         createPolicy(_td);
 
         //Screenshot Verifies Successful Test
-        ScreenshotManager.getInstance().makeScreenshot("HO_HO3_NB_Dirty_DOB");
+        if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_HO3_NB_Dirty_DOB");}
 
         //Close App to prevent Memory Leaks.
         mainApp().close();
@@ -146,7 +146,7 @@ public class VerifyMembershipErrorMsg extends HomeCaHO3BaseTest
         _errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
 
         //Screenshot Verifies Successful Test
-        ScreenshotManager.getInstance().makeScreenshot("HO_HO3_NB_Dirty_ALL");
+        if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_HO3_NB_Dirty_ALL");}
 
         //Close App to prevent Memory Leaks.
         mainApp().close();
@@ -157,7 +157,7 @@ public class VerifyMembershipErrorMsg extends HomeCaHO3BaseTest
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6049")
     public void TC02_verifyMembershipMsg_Endorsement(@Optional("CA") String state) {
 
-        boolean bTakeScreenshots = true;
+        boolean bTakeScreenshots = false;
         String _persistantPolicyNumber = "";
 
         //Clean Data
@@ -221,7 +221,7 @@ public class VerifyMembershipErrorMsg extends HomeCaHO3BaseTest
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6049")
     public void TC03_verifyMembershipMsg_Renewal(@Optional("CA") String state) {
 
-        boolean bTakeScreenshots = true;
+        boolean bTakeScreenshots = false;
         String _persistantPolicyNumber_Clean = "";
         String _persistantPolicyNumber_Dirty = "";
 
@@ -269,7 +269,7 @@ public class VerifyMembershipErrorMsg extends HomeCaHO3BaseTest
             }
         }
 
-        if (true){ScreenshotManager.getInstance().makeScreenshot("HO_HO3_Renewal_Dirty");}
+        if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_HO3_Renewal_Dirty");}
 
         // Close App.
         mainApp().close();

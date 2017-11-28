@@ -111,7 +111,8 @@ TestData_AddCleanRenewal: {
     OtherActiveAAAPolicies: {}
   },
   ReportsTab: {
-    #CLUEreport: [{Report: 'Re-order report'}]
+    Sales Agent Agreement: 'I Agree',
+    AAAMembershipReport: [{Report: 'Order report'}]
   },
   PropertyInfoTab: {},
   ProductOfferingTab: {},
@@ -137,7 +138,8 @@ TestData_AddDirtyRenewal: {
     OtherActiveAAAPolicies: {}
   },
   ReportsTab: {
-    #CLUEreport: [{Report: 'Re-order report'}]
+    Sales Agent Agreement: 'I Agree',
+    AAAMembershipReport: [{Report: 'Order report'}]
   },
   PropertyInfoTab: {},
   ProductOfferingTab: {},
@@ -179,7 +181,8 @@ Endorsement_CleanData: {
     OtherActiveAAAPolicies: {}
   },
   ReportsTab: {
-    #CLUEreport: [{Report: 'Re-order report'}]
+    Sales Agent Agreement: 'I Agree',
+    AAAMembershipReport: [{Report: 'Order report'}]
   },
   PropertyInfoTab: {},
   ProductOfferingTab: {},
@@ -188,14 +191,13 @@ Endorsement_CleanData: {
   MortgageesTab: {},
   UnderwritingAndApprovalTab: {},
   DocumentsTab: {},
-  BindTab: {},
-  PurchaseTab: {}
+  BindTab: {}
 }
 NamedInsured2_Clean: {
   Prefix: 'Mrs.',
-  First Name: 'Ann',
+  First Name: 'NONA',
   Middle Name: '',
-  Last Name: 'Green2',
+  Last Name: 'HOVE',
   Suffix: '',
   Relationship to primary named insured:  Spouse,
   Date Of Birth: 11/12/1985,
@@ -204,7 +206,7 @@ NamedInsured2_Clean: {
 AAAMembership_Clean: {
   Current AAA Member: 'Yes',
   Membership number: '4290051293803718',
-  Last name: Green2
+  Last name: 'HOVE'
 }
 AAAMembership_CleanEndo: {
   Current AAA Member: 'No'
@@ -225,7 +227,8 @@ Endorsement_DirtyData: {
       OtherActiveAAAPolicies: {}
     },
     ReportsTab: {
-      #CLUEreport: [{Report: 'Re-order report'}]
+      Sales Agent Agreement: 'I Agree',
+      AAAMembershipReport: [{Report: 'Order report'}]
     },
     PropertyInfoTab: {},
     ProductOfferingTab: {},
@@ -234,8 +237,7 @@ Endorsement_DirtyData: {
     MortgageesTab: {},
     UnderwritingAndApprovalTab: {},
     DocumentsTab: {},
-    BindTab: {},
-    PurchaseTab: {}
+    BindTab: {}
 }
 NamedInsured2_Dirty: {
   Prefix: 'Mrs.',
@@ -249,8 +251,8 @@ NamedInsured2_Dirty: {
 }
 AAAMembership_Dirty: {
   Current AAA Member: 'Yes',
-  Membership number: '4290020000051010',
-  Last name: Blue2
+  Membership number: '4290051293803718',
+  Last name: 'DIRTYL'
 }
 
 # --------------------Test Data For H04 policy---------------------------------
@@ -395,7 +397,7 @@ NamedInsured: {
 
 AAAMembership: {
   Membership number: '4290051293803718',
-  Last name: Green2,
+  Last name: HOVE,
 }
 AAAMembership_NonMember: {
   Current AAA Member: 'No'
