@@ -27,7 +27,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 	/**
@@ -104,42 +103,39 @@ import toolkit.webdriver.controls.waiters.Waiters;
 	public void testSC1_TC02() {
 		preconditions(NavigationEnum.AutoSSTab.GENERAL);
 
-		CustomAssert.enableSoftMode();
 		//Residence
 		List<String> expectedValuesOfResidence = Arrays.asList("Own Home", "Own Condo", "Own Mobile Home", "Rents Multi-Family Dwelling",
 				"Rents Single-Family Dwelling", "Lives with Parent", "Other");
-		generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE).verify.optionsContain(expectedValuesOfResidence);
+		assertThat(generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE).getValue()).contains(expectedValuesOfResidence);
 		//Current AAA Member
 		List<String> expectedValuesOfCurrentMember = Arrays.asList("Yes", "No", "Membership Pending");
-		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).verify.optionsContain(expectedValuesOfCurrentMember);
+		assertThat(generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).getValue()).contains(expectedValuesOfCurrentMember);
 		//Source of Business
 		List<String> expectedValuesOfSourceOfBusiness = Arrays.asList("New Business", "Spin", "Split", "Rewrite");
-		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.SOURCE_OF_BUSINESS).verify.optionsContain(expectedValuesOfSourceOfBusiness);
+		assertThat(generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.SOURCE_OF_BUSINESS).getValue()).contains(expectedValuesOfSourceOfBusiness);
 		//Policy Type
 		List<String> expectedValuesOfPolicyType = Arrays.asList("Standard", "Named Non Owner");
-		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TYPE).verify.optionsContain(expectedValuesOfPolicyType);
+		assertThat(generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TYPE).getValue()).contains(expectedValuesOfPolicyType);
 		//PolicyTerm
 		List<String> expectedValuesOfPolicyTerm = Arrays.asList("Annual", "Semi-annual");
-		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM).verify.optionsContain(expectedValuesOfPolicyTerm);
+		assertThat(generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM).getValue()).contains(expectedValuesOfPolicyTerm);
 		//Motorcycle related items should be absent on page
-		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE).verify.present();
-		generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE).verify.present(false);
+		assertThat(generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE).isPresent()).isEqualTo(true);
+		assertThat(generalTab.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE).isPresent()).isEqualTo(false);
 
 		generalTab.fillTab(getPolicyTD());
 
 		//1. ELC field is present
 		//2. Drop-down contain correct values
 		//3. ELC default value = None
-		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EXTRAORDINARY_LIFE_CIRCUMSTANCE).verify.present();
+		assertThat(generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EXTRAORDINARY_LIFE_CIRCUMSTANCE).isPresent()).isEqualTo(true);
 		List<String> expectedValuesOfELC = Arrays.asList("None", "A catastrophic illness or injury", "The death of a spouse, child or parent",
 				"Involuntary loss of employment for a period of 3 months/ more, if it results from involuntary termination", "Divorce",
 				"Total or other loss that makes your home uninhabitable", "Identity theft", "Other events, as determined by the insurer", "Declined");
-		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EXTRAORDINARY_LIFE_CIRCUMSTANCE).verify.optionsContain(expectedValuesOfELC);
+		assertThat(generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EXTRAORDINARY_LIFE_CIRCUMSTANCE).getValue()).contains(expectedValuesOfELC);
 
 		//020-008CT, ELC default = None
-		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EXTRAORDINARY_LIFE_CIRCUMSTANCE).verify.value("None");
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		assertThat(generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EXTRAORDINARY_LIFE_CIRCUMSTANCE).getValue()).isEqualTo("None");
 
 		Tab.buttonSaveAndExit.click();
 	}
@@ -189,31 +185,28 @@ import toolkit.webdriver.controls.waiters.Waiters;
 	public void testSC1_TC04() {
 		preconditions(NavigationEnum.AutoSSTab.DRIVER);
 
-		CustomAssert.enableSoftMode();
 		//Driver Type
 		List<String> expectedDriverType = Arrays.asList("Available for Rating", "Not Available for Rating", "Excluded");
-		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DRIVER_TYPE).verify.optionsContain(expectedDriverType);
+		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.DRIVER_TYPE).getValue()).contains(expectedDriverType);
 
 		List<String> expectedRelationToNI = Arrays.asList("First Named Insured", "Spouse", "Child", "Parent",
 				"Sibling", "Other Resident Relative", "Employee", "Other");
-		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED).verify.optionsContain(expectedRelationToNI);
+		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED).getValue()).contains(expectedRelationToNI);
 
 		List<String> expectedGender = Arrays.asList("Male", "Female");
-		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.GENDER).verify.optionsContain(expectedGender);
+		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.GENDER).getValue()).contains(expectedGender);
 
 		List<String> expectedMaritalStatus = Arrays.asList("Married", "Single", "Divorced", "Widowed", "Separated");
-		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).verify.optionsContain(expectedMaritalStatus);
+		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).getValue()).contains(expectedMaritalStatus);
 
-		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).verify.noOption("Domestic Partner");
-		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).verify.noOption("Registered Domestic Partner");
-		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).verify.noOption("Civil Union");
+		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).getAllValues()).doesNotContain("Domestic Partner");
+		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).getAllValues()).doesNotContain("Registered Domestic Partner");
+		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).getAllValues()).doesNotContain("Civil Union");
 
 		//PAS13 ER fix-App change#21-As per US 28555, License type dropdown values have changed
 		List<String> expectedLicenseStatus = Arrays.asList("Licensed (US)", "Licensed (Canadian)", "Foreign", "Not Licensed", "Learner's Permit");
-		driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.LICENSE_TYPE).verify.optionsContain(expectedLicenseStatus);
+		assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.LICENSE_TYPE).getValue()).contains(expectedLicenseStatus);
 
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	/**
@@ -235,13 +228,10 @@ import toolkit.webdriver.controls.waiters.Waiters;
 		driverTab.fillTab(getPolicyTD());
 		driverTab.fillTab(getTestSpecificTD("TestData_CT567"));
 
-		CustomAssert.disableSoftMode();
 		//violation points should be = 0
 		DriverTab.tableActivityInformationList.getRow("Description", "Improper Turn").getCell("Points").verify.value("0");
 		DriverTab.tableActivityInformationList.getRow("Description", "Speeding").getCell("Points").verify.value("0");
 		DriverTab.tableActivityInformationList.getRow("Description", "Accident (Property Damage Only)").getCell("Points").verify.value("0");
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	/**
@@ -264,7 +254,6 @@ import toolkit.webdriver.controls.waiters.Waiters;
 		driverTab.fillTab(getPolicyTD());
 		driverTab.fillTab(getTestSpecificTD("TestData_CT8"));
 
-		CustomAssert.enableSoftMode();
 		//violation points should be = 7
 		DriverTab.tableActivityInformationList.getRow("Description", "Accident (Resulting in Bodily Injury)").getCell("Points").verify.value("7");
 		//violation points should be = 4
@@ -273,8 +262,6 @@ import toolkit.webdriver.controls.waiters.Waiters;
 		DriverTab.tableActivityInformationList.getRow("Description", "Hit and Run").getCell(8).controls.links.getFirst().click(Waiters.AJAX);
 		driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER).setValue("No");
 		driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.VIOLATION_POINTS).verify.value("0");
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
 	}
 
 	/**
@@ -316,7 +303,6 @@ import toolkit.webdriver.controls.waiters.Waiters;
 	public void testSC1_TC10_11() {
 		preconditions(NavigationEnum.AutoSSTab.VEHICLE);
 
-		CustomAssert.enableSoftMode();
 		List<String> expectedValuesOfVehicleType = Arrays.asList("Private Passenger Auto", "Limited Production/Antique", "Trailer", "Motor Home", "Conversion Van");
 		vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.TYPE).verify.optionsContain(expectedValuesOfVehicleType);
 
@@ -327,10 +313,8 @@ import toolkit.webdriver.controls.waiters.Waiters;
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
-		CustomAssert.assertFalse("", PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1)
-				.getValue().contains("Motorcycle Discount"));
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1)
+				.getValue()).doesNotContain("Motorcycle Discount");
 
 		Tab.buttonSaveAndExit.click();
 	}

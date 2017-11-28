@@ -6,7 +6,6 @@ import java.util.List;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 
 public class TestSymbolsPresenceTemplate extends PolicyBaseTest {
 	public void verifySymbolsPresence() {
@@ -36,6 +35,5 @@ public class TestSymbolsPresenceTemplate extends PolicyBaseTest {
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Stat Code").isPresent()).isEqualTo(true);
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Vehicle Type").isPresent()).isEqualTo(true);
 		// End of PAS-2712 Update UI (View Rating Details)
-		CustomAssert.assertAll();
 	}
 }
