@@ -5,11 +5,10 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.e2e.templates.Scenario3;
+import aaa.modules.e2e.templates.Scenario12;
 import toolkit.datax.TestData;
 
-public class TestScenario3 extends Scenario3 {
-
+public class TestScenario12 extends Scenario12 {
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.HOME_CA_HO3;
@@ -24,16 +23,29 @@ public class TestScenario3 extends Scenario3 {
 		createTestPolicy(policyCreationTD);
 		SoftAssertions.assertSoftly(softly -> {
 			generateFirstBill();
-			generateCancellationNotice();
-			cancelPolicy(installmentDueDates.get(1));
-			createRemittanceFile();
-			payCancellationNoticeByRemittance();
+			payFirstBill();
 			renewalImageGeneration();
 			renewalPreviewGeneration();
 			renewalOfferGeneration();
-			expirePolicy();
-			customerDeclineRenewal();
-			bindRenew();
+			changePaymentPlanForCA();
+			enableAutoPay();
+			payRenewalBill();
+			updatePolicyStatus();
+			generateFirstBillOfFirstRenewal();
+			payFirstBillOfFirstRenewal();
+			generateSecondBillOfFirstRenewal();
+			paySecondBillOfFirstRenewal();
+			generateThirdBillOfFirstRenewal();
+			payThirdBillOfFirstRenewal();
+			renewalImageGeneration_FirstRenewal();
+			renewalPreviewGeneration_FirstRenewal();
+			renewalOfferGeneration_FirstRenewal();
+			changePaymentPlanForCA_FirstRenewal();
+			payRenewalBill_FirstRenewal();
+			updatePolicyStatus_FirstRenewal();
+			generateFirstBillOfSecondRenewal();
+			payFirstBillOfSecondRenewal();
 		});
 	}
+
 }

@@ -1,38 +1,37 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.modules.policy.AutoSSBaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestAutoPolicyLockPreConditions;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPolicyLockPreConditions {
 
-public class TestAutoPoliciesLock extends AutoSSBaseTest {
-
-    private final static String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ISO_DATE);
-    private final static String lookUpId = "(SELECT ll.id FROM lookupList ll WHERE ll.lookupName LIKE '%AAAFactorsLockLookup')";
-    private final static String toCurrentDate = "to_date('" + currentDate + "', 'YYYY-MM-DD')";
-
-    private final static String INSERT_QUERY = "INSERT INTO lookupValue " +
-            "(lookUpList_id,dType,code,displayValue,effective,expiration,productCD,riskStateCD) "+
-            "VALUES (%s,'AAAFactorsLockLookupValue','%s','TRUE',%s,null,'AAA_SS','%s')";
-
-    private final static String DELETE_QUERY = "DELETE FROM lookupValue lv " +
-            "WHERE lv.lookupList_id IN %s AND CODE = '%s' AND DISPLAYVALUE='TRUE' AND EFFECTIVE=%s AND RISKSTATECD='%s'";
+	private static final String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ISO_DATE);
+	private static final String lookUpId = "(SELECT ll.id FROM lookupList ll WHERE ll.lookupName LIKE '%AAAFactorsLockLookup')";
+	private static final String toCurrentDate = "to_date('" + currentDate + "', 'YYYY-MM-DD')";
 
 	/**
 	 * @author Lev Kazarnovskiy
