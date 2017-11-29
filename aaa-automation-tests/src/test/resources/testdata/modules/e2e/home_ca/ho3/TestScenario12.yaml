@@ -1,0 +1,14 @@
+TestData: {
+  PremiumsAndCoveragesQuoteTab: {
+    Payment Plan: Semi-Annual
+  },
+  PurchaseTab: '@PurchaseTab'
+}
+
+PurchaseTab: {
+  PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa'],
+  Activate Autopay: false,
+  PaymentAllocation: {
+    Visa: /rest
+  }
+}

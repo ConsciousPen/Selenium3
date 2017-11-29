@@ -45,7 +45,7 @@ public class TestPolicyBackdated extends AutoCaChoiceBaseTest {
 				.adjust(TestData.makeKeyPath("GeneralTab",
 						AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
 						AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()),
-						"/today-10d:MM/dd/yyyy")
+						"$<today-10d:MM/dd/yyyy>")
 				.adjust(getTestSpecificTD("TestData").resolveLinks());
 
 		getPolicyType().get().createPolicy(td);
