@@ -1,5 +1,10 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import java.util.NoSuchElementException;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.enums.NavigationEnum;
@@ -16,16 +21,10 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
-
-import java.util.NoSuchElementException;
 
 public class TestVINUpload extends AutoSSBaseTest {
 
@@ -36,12 +35,14 @@ public class TestVINUpload extends AutoSSBaseTest {
 	/**
 	 * @author Lev Kazarnovskiy
 	 * <p>
-	 * PAS-1406 - Data Refresh - PAS-533 -Quote Refresh -Add New VIN
+	 * PAS-533 Quote Refresh -Add New VIN
+	 * PAS-1406 Data Refresh
 	 * PAS-1487 VIN No Match to Match but Year Doesn't Match
 	 * PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
 	 *
 	 * @name Test VINupload 'Add new VIN' scenario for NB.
-	 * @scenario 0. Create customer
+	 * @scenario
+	 * 0. Create customer
 	 * 1. Initiate Auto SS quote creation
 	 * 2. Go to the vehicle tab, fill info with not existing VIN and fill all mandatory info
 	 * 3. On Administration tab in Admin upload Excel to add this VIN to the system
@@ -51,8 +52,8 @@ public class TestVINUpload extends AutoSSBaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-533,PAS-1487")
-	public void testVINUpload_NewVINAdded(@Optional("UT") String state) {
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-533,PAS-1487,PAS-1551")
+	public void pas533_newVinAdded(@Optional("UT") String state) {
 
 		String vinNumber = "BBBKN3DD0E0344466";
 		String uploadExcelName = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
@@ -105,9 +106,10 @@ public class TestVINUpload extends AutoSSBaseTest {
 	/**
 	 * @author Lev Kazarnovskiy
 	 * <p>
-	 * PAS-1406 - Data Refresh - PAS-527 -Renewal Refresh -Add New VIN & Update Existing
+	 * PAS-527 Renewal Refresh -Add New VIN & Update Existing
+	 * PAS-1406 Data Refresh
 	 * PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
-	 * PAS-1487  No Match to Match but Year Doesn't Match
+	 * PAS-1487 No Match to Match but Year Doesn't Match
 	 * PAS-544 Activities and User Notes
 	 *
 	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
@@ -122,8 +124,8 @@ public class TestVINUpload extends AutoSSBaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-527")
-	public void testVINUpload_NewVINAdded_Renewal(@Optional("UT") String state) {
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-527,PAS-544,PAS-1406,PAS-1487,PAS-1551")
+	public void pas527_NewVinAddedRenewal(@Optional("UT") String state) {
 
 		String vinNumber = "BBBKN3DD0E0344466";
 		String uploadExcelName = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
@@ -179,8 +181,9 @@ public class TestVINUpload extends AutoSSBaseTest {
 	/**
 	 * @author Lev Kazarnovskiy
 	 * <p>
-	 * PAS-1406 - Data Refresh - PAS-527 -Renewal Refresh -Add New VIN & Update Existing
-	 * PAS-1487  No Match to Match but Year Doesn't Match
+	 * PAS-527 Renewal Refresh -Add New VIN & Update Existing
+	 * PAS-1406 Data Refresh
+	 * PAS-1487 No Match to Match but Year Doesn't Match
 	 * PAS-544 Activities and User Notes
 	 *
 	 * @name Test VINupload 'Update VIN' scenario.
@@ -194,8 +197,8 @@ public class TestVINUpload extends AutoSSBaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-527")
-	public void testVINUpload_UpdatedVIN_Renewal(@Optional("UT") String state) {
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-527,PAS-544,PAS-1406,PAS-1487")
+	public void pas527_updatedVinRenewal(@Optional("UT") String state) {
 
 		String vinNumber = "1HGEM215140028445";
 		String uploadExcelName = getSpecificUploadFile(UploadFilesTypes.UPDATED_VIN.get());
