@@ -144,10 +144,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	@Test(description = "Precondition")
 	public static void eValueTerritoryChannelForVAConfigCheck() {
-		CustomAssert
-				.assertEquals("Territory for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_TERRITORY_FOR_VA_CONFIG_CHECK).get(), "212");
-		CustomAssert.assertEquals("Channel for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_CHANNEL_FOR_VA_CONFIG_CHECK)
-				.get(), "AZ Club Agent");
+		CustomAssert.assertEquals("Territory for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_TERRITORY_FOR_VA_CONFIG_CHECK).get(), "212");
+		CustomAssert.assertEquals("Channel for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_CHANNEL_FOR_VA_CONFIG_CHECK).get(), "AZ Club Agent");
 	}
 
 	@Test(description = "Precondition")
@@ -365,6 +363,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("No");
+		//BUG PAS-6591 PAS-316 There is no Dialog Confirmation popup when setting EValue to No in endorsement
 		Page.dialogConfirmation.confirm();
 		PremiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();

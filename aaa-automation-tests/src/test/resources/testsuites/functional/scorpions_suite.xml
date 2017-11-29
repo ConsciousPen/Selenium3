@@ -43,7 +43,7 @@
         </classes>
     </test>
     <test name="PAS-1406 - Data Refresh - PAS-533 -Quote Refresh -Add New VIN, PAS-1487 VIN No Match to Match but Year Doesn't Match,
-	 PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated, PAS-6455 Make Entry Date Part of Key for VIN Table Upload">
+PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated, PAS-6455 Make Entry Date Part of Key for VIN Table Upload">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVINUpload"/>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload"/>
