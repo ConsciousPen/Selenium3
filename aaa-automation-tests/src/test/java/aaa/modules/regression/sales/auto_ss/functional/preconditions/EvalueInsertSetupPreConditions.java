@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ss.functional.PreConditions;
+package aaa.modules.regression.sales.auto_ss.functional.preconditions;
 
 import aaa.helpers.config.CustomTestProperties;
 import toolkit.config.PropertyProvider;
