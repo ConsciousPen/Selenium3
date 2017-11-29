@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="JDI Functional Test Suite" verbose="1" parallel="false" thread-count="1">
+<suite name="JDI Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <!-- Listener commented out for local runs-->
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
@@ -32,6 +32,7 @@
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
+                    <include name="refundDocumentGenerationConfigCheck"/>
                     <include name="pas352_RefundMethodAndDropdownLastPaymentMethod"/>
                 </methods>
             </class>
@@ -42,6 +43,7 @@
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
+                    <include name="refundDocumentGenerationConfigCheck"/>
                     <include name="pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc"/>
                 </methods>
             </class>
@@ -52,6 +54,7 @@
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
+                    <include name="refundDocumentGenerationConfigCheck"/>
                     <include name="pas352_RefundMethodAndDropdownLastPaymentMethodEFT"/>
                 </methods>
             </class>

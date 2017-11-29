@@ -59,7 +59,7 @@ public interface EvalueInsertSetupPreConditions {
 			+ "(DTYPE, CODE, DISPLAYVALUE, PRODUCTCD, RISKSTATECD, EFFECTIVE, EXPIRATION, LOOKUPLIST_ID)\n"
 			+ "values\n"
 			+ "('BaseProductLookupValue', 'currentBILimits', '50000/100000', 'AAA_SS', '%s', TO_DATE('1-MAY-2017'), TO_DATE('1-MAY-2018'),\n"
-			+ "0(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))";
+			+ "(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))";
 
 	String EVALUE_PRIOR_BI_LIMIT_CONFIGURATION_INSERT = "INSERT INTO LOOKUPVALUE\n"
 			+ "(DTYPE, CODE, DISPLAYVALUE, PRODUCTCD, RISKSTATECD, EFFECTIVE, EXPIRATION, LOOKUPLIST_ID)\n"
@@ -106,12 +106,12 @@ public interface EvalueInsertSetupPreConditions {
 	String AHDRXX_CONFIG_INSERT = "INSERT INTO LOOKUPVALUE\n"
 			+ "(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
 			+ "values\n"
-			+ "(AAARolloutEligibilityLookupValue', 'AHDRXX', 'TRUE', 'AAA_SS', 'VA',null, null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
+			+ "('AAARolloutEligibilityLookupValue', 'AHDRXX', 'TRUE', 'AAA_SS', 'VA',null, null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
 	String AHDEXX_CONFIG_INSERT = "INSERT INTO LOOKUPVALUE\n"
 			+ "(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
 			+ "values\n"
-			+ "(AAARolloutEligibilityLookupValue', 'AHDEXX', 'TRUE', 'AAA_SS', 'VA',null, null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
+			+ "('AAARolloutEligibilityLookupValue', 'AHDEXX', 'TRUE', 'AAA_SS', 'VA',null, null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
 	String RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
 			+ "set value = 'http://%s:9098/aaa-external-stub-services-app/ws/membershipsummary'\n"
@@ -149,5 +149,12 @@ public interface EvalueInsertSetupPreConditions {
 			+ "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
 			+ "		values ('BaseProductLookupValue', 'pciCreditCard', 'TRUE', 'AAA_SS', 'VA',(select SYSDATE-13 from dual), (select SYSDATE-11 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifyingPaymentMethods'))\n"
 			+ "Select * from dual";
+
+	String REFUND_CONFIG_UPDATE = "update LOOKUPVALUE\n"
+			+ "set  DISPLAYVALUE='TRUE' where CODE='eRefunds'";
+
+	String LAST_PAYMENT_METHOD_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
+			+ "set value = 'http://%s:9098/aaa-external-stub-services-app/ws/billing/lastPayment'\n"
+			+ "where propertyname = 'lastPaymentService.lastPaymentServiceUrl'";
 
 }
