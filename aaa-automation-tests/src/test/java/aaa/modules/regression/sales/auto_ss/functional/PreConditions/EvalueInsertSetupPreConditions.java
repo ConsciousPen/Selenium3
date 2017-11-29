@@ -150,4 +150,11 @@ public interface EvalueInsertSetupPreConditions {
 			+ "		values ('BaseProductLookupValue', 'pciCreditCard', 'TRUE', 'AAA_SS', 'VA',(select SYSDATE-13 from dual), (select SYSDATE-11 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifyingPaymentMethods'))\n"
 			+ "Select * from dual";
 
+	String REFUND_CONFIG_UPDATE = "update LOOKUPVALUE\n"
+			+ "set  DISPLAYVALUE='TRUE' where CODE='eRefunds'";
+
+	String LAST_PAYMENT_METHOD_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
+			+ "set value = 'http://%s:9098/aaa-external-stub-services-app/ws/billing/lastPayment'\n"
+			+ "where propertyname = 'lastPaymentService.lastPaymentServiceUrl'";
+
 }
