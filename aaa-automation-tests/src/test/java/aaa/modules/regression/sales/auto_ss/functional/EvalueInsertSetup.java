@@ -2,10 +2,13 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import java.util.Arrays;
 import java.util.List;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-import aaa.modules.regression.sales.auto_ss.functional.PreConditions.EvalueInsertSetupPreConditions;
+import aaa.helpers.listeners.AaaTestListener;
+import aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions;
 import toolkit.db.DBService;
 
+@Listeners({AaaTestListener.class})
 public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition updating Payperless Preferences Endpoint to a Stub")
@@ -107,4 +110,11 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 	@Test(description = "Precondition")
 	public static void eValueCreditCardAcknowledgementConfigInsert() { DBService.get().executeUpdate(EVALUE_CREDITCARD_CONFIG_ACKNOWLEDGEMENT_INSERT); }
 
+	@Test(description = "Precondition for eRefund configuration")
+	public static void refundConfigurationUpdate() { DBService.get().executeUpdate(REFUND_CONFIG_UPDATE); }
+
+	@Test(description = "Precondition updating last payment method stub end points")
+	public static void lastPaymentMethodStubPointUpdate() {
+		DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE, APP_HOST));
+	}
 }

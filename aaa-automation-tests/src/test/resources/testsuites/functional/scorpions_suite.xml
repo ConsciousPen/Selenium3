@@ -1,19 +1,17 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Scorpions Functional Suite" verbose="1" parallel="tests" thread-count="1024">
-   <listeners>
+<suite name="Scorpions Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
-
     <test name="PAS-3805, PAS-4244 DE_NJ No Prior Insurance Message and Error">
         <parameter name="state" value="DE, NJ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestNoPriorInsuranceError"/>
         </classes>
     </test>
-
-    <test name="PAS-541 Symbols in Policy Details Service AZ, PAS-1904 Adapt MSRP, PAS-2712 4 symbols instead of STAT CODE ">
+    <test name="PAS-541 Symbols in Policy Details Service AZ">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestGetAutoPolicyDetails"/>
@@ -26,13 +24,17 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestGetAutoPolicyDetails"/>
         </classes>
     </test>
-
+    <test name="PAS-1904 Adapt MSRP (separate comp/coll to comp and coll - but same value)">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestRatingDetailsView"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestRatingDetailsView"/>
+        </classes>
+    </test>
     <test name="PAS-3794,PAS-3795 New Business NJ_DE: Non-Member Message and validation error">
         <parameter name="state" value="DE, NJ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidationError"/>
         </classes>
     </test>
-
-
 </suite>
