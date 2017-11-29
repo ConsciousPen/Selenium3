@@ -25,7 +25,9 @@ import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 public class TestVINUpload extends AutoSSBaseTest {
 
@@ -154,9 +156,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
 
 		//Go back to MainApp, find created policy, initiate Renewal, verify if VIN value is applied
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		policy.renew().start();
+		renewalCreationSteps(policyNumber);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
 		CustomAssert.enableSoftMode();
@@ -227,9 +227,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
 
 		// Go back to MainApp, find created policy, create Renewal image and verify if VIN was updated and new values are applied
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		policy.renew().start();
+		renewalCreationSteps(policyNumber);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
 		//Verify that fields are updated
@@ -258,6 +256,17 @@ public class TestVINUpload extends AutoSSBaseTest {
 		createCustomerIndividual();
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(testData, VehicleTab.class, true);
+	}
+
+	private void renewalCreationSteps(String policyNumber) {
+		LocalDateTime policyExpDate = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
+
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpDate));
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		policy.renew().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		PremiumAndCoveragesTab.calculatePremium();
 	}
 
 	private void verifyActivitiesAndUserNotes(String vinNumber) {
