@@ -90,6 +90,15 @@
         </classes>
     </test>
     
+	<!-- 
+	<test name="Deloitte_TestScenario1">
+        <parameter name="state" value="CT,MD,MT,VA,WV" />
+        <classes>
+            <class name="aaa.modules.deloitte.docgen.auto_ss.TestScenario1" />
+        </classes>
+    </test>
+     -->
+     
 	<test name="Deloitte_TestScenario4">
         <parameter name="state" value="AZ,IN,OH,VA" />
         <classes>
@@ -101,6 +110,20 @@
         <parameter name="state" value="NY" />
         <classes>
             <class name="aaa.modules.deloitte.docgen.auto_ss.TestScenarioNY" />
+        </classes>
+    </test>
+    
+	<test name="Deloitte_TestScenarioCT">
+        <parameter name="state" value="CT" />
+        <classes>
+            <class name="aaa.modules.deloitte.docgen.auto_ss.TestScenarioCT" />
+        </classes>
+    </test>
+    
+	<test name="Deloitte_TestScenarioCO">
+        <parameter name="state" value="CO" />
+        <classes>
+            <class name="aaa.modules.deloitte.docgen.auto_ss.TestScenarioCO" />
         </classes>
     </test>
 </suite>

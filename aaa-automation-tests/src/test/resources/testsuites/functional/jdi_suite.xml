@@ -32,6 +32,7 @@
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
+                    <include name="refundDocumentGenerationConfigCheck"/>
                     <include name="pas352_RefundMethodAndDropdownLastPaymentMethod"/>
                 </methods>
             </class>
@@ -42,6 +43,7 @@
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
+                    <include name="refundDocumentGenerationConfigCheck"/>
                     <include name="pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc"/>
                 </methods>
             </class>
@@ -52,6 +54,7 @@
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
+                    <include name="refundDocumentGenerationConfigCheck"/>
                     <include name="pas352_RefundMethodAndDropdownLastPaymentMethodEFT"/>
                 </methods>
             </class>
