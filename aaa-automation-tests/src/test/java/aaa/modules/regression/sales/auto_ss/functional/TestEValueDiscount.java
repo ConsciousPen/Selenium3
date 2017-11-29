@@ -39,7 +39,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import aaa.modules.regression.sales.auto_ss.functional.PreConditions.TestEValueDiscountPreConditions;
+import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueDiscountPreConditions;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.DataProviderFactory;
