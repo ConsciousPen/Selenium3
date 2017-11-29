@@ -1,0 +1,10 @@
+#---- Data Gather ----
+GeneralTab_DataGather: {
+  PolicyInformation: {
+    Effective Date: '/today+1M-20d',
+  }
+}
+
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Annual
+}
