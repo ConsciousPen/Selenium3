@@ -5,7 +5,7 @@ import java.util.List;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import aaa.helpers.listeners.AaaTestListener;
-import aaa.modules.regression.sales.auto_ss.functional.PreConditions.EvalueInsertSetupPreConditions;
+import aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions;
 import toolkit.db.DBService;
 
 @Listeners({AaaTestListener.class})
