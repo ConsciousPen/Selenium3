@@ -1,6 +1,7 @@
 package aaa.modules.deloitte.docgen.auto_ca.choice;
 
 import aaa.common.Tab;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.NavigationEnum.AutoCaTab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -10,8 +11,10 @@ import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.actiontabs.PolicyDocGenActionTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.FormsTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
 
@@ -112,7 +115,10 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 		docgenActionTab.cancel();
 		
 		// 5
-		policy.calculatePremiumAndPurchase(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase")));
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+		policy.dataGather().getView().fillFromTo(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase").resolveLinks()), DriverActivityReportsTab.class, PurchaseTab.class, true);
+		policy.dataGather().getView().getTab(PurchaseTab.class).submitTab();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 		
@@ -128,7 +134,8 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 				Documents.AA47CA,
 				Documents.AA49CA,
 				Documents.AA02CA,
-				Documents.AA59XX
+				Documents.AA59XX,
+				Documents.AARFIXX
 				);
 		
 		// 7
