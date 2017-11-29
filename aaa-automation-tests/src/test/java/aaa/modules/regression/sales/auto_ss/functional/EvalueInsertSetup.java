@@ -110,4 +110,9 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 	@Test(description = "Precondition")
 	public static void eValueCreditCardAcknowledgementConfigInsert() { DBService.get().executeUpdate(EVALUE_CREDITCARD_CONFIG_ACKNOWLEDGEMENT_INSERT); }
 
+	@Test(description = "Precondition")
+	public static void eValuePaperlessPreferencesBlueBoxConfigInsert() { DBService.get().executeUpdate(EVALUE_PAPERLESS_PREFERENCES_CONFIG_BLUE_BOX_INSERT); }
+
+	@Test(description = "Precondition")
+	public static void eValuePriorInsuranceBlueBoxConfigInsert() { DBService.get().executeUpdate(EVALUE_PRIOR_INSURANCE_CONFIG_BLUE_BOX_INSERT); }
 }
