@@ -30,8 +30,10 @@ public class UploadToVINTableTab extends DefaultTab {
 
     protected final static String defaultPath = "src/test/resources/uploadingfiles/vinUploadFiles/";
 
-
-    public void uploadExcel(AssetDescriptor<RadioButton> buttonAssetDescriptor, String fileName) throws DataFormatException {
+	/**
+	@throws DataFormatException if file was not uploaded
+	*/
+	public void uploadExcel(AssetDescriptor<RadioButton> buttonAssetDescriptor, String fileName) {
 
         getAssetList().getAsset(buttonAssetDescriptor).setValue(true);
         BTN_UPLOAD.click();
@@ -42,7 +44,11 @@ public class UploadToVINTableTab extends DefaultTab {
                 .getAsset(AdministrationMetaData.VinTableTab.UploadDialog.BUTTON_SUBMIT_POPUP).click();
 
         if (!LBL_UPLOAD_SUCCESSFUl.isPresent()) {
-            throw  new DataFormatException("File " + fileName + "was not uploaded. See error: " + LBL_UPLOAD_FAILED.getValue());
+	        try {
+		        throw  new DataFormatException("File " + fileName + "was not uploaded. See error: \n" + LBL_UPLOAD_FAILED.getValue());
+	        } catch (DataFormatException e) {
+		        e.printStackTrace();
+	        }
         }
     }
 }
