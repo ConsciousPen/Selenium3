@@ -15,28 +15,28 @@ import java.io.File;
 
 public class UploadToVINTableTab extends DefaultTab {
 
-    public UploadToVINTableTab() {
-        super(AdministrationMetaData.VinTableTab.class);
-    }
+	public UploadToVINTableTab() {
+		super(AdministrationMetaData.VinTableTab.class);
+	}
 
-    public static StaticElement LBL_UPLOAD_SUCCESSFUl = new StaticElement(By.id("uploadToVINTableForm:uploadSuccesful"));
-    public static StaticElement LBL_UPLOAD_FAILED = new StaticElement(By.id("uploadToVINTableForm:uploadFailed"));
-    public static Button BTN_UPLOAD = new Button(By.id("uploadToVINTableForm:uploadBtn"));
+	public static StaticElement LBL_UPLOAD_SUCCESSFUl = new StaticElement(By.id("uploadToVINTableForm:uploadSuccesful"));
+	public static StaticElement LBL_UPLOAD_FAILED = new StaticElement(By.id("uploadToVINTableForm:uploadFailed"));
+	public static Button BTN_UPLOAD = new Button(By.id("uploadToVINTableForm:uploadBtn"));
 
-    protected final static String defaultPath = "src/test/resources/uploadingfiles/vinUploadFiles/";
+	protected final static String defaultPath = "src/test/resources/uploadingfiles/vinUploadFiles/";
 
 	public void uploadExcel(AssetDescriptor<RadioButton> buttonAssetDescriptor, String fileName) {
 
-        getAssetList().getAsset(buttonAssetDescriptor).setValue(true);
-        BTN_UPLOAD.click();
-        getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
-                .getAsset(AdministrationMetaData.VinTableTab.UploadDialog.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(defaultPath+fileName));
+		getAssetList().getAsset(buttonAssetDescriptor).setValue(true);
+		BTN_UPLOAD.click();
+		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
+				.getAsset(AdministrationMetaData.VinTableTab.UploadDialog.FILE_PATH_UPLOAD_ELEMENT).setValue(new File(defaultPath + fileName));
 
-        getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
-                .getAsset(AdministrationMetaData.VinTableTab.UploadDialog.BUTTON_SUBMIT_POPUP).click();
+		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
+				.getAsset(AdministrationMetaData.VinTableTab.UploadDialog.BUTTON_SUBMIT_POPUP).click();
 
-        if (!LBL_UPLOAD_SUCCESSFUl.isPresent()) {
-        	fail("File " + fileName + " was not uploaded. See error: \n" + LBL_UPLOAD_FAILED.getValue());
-        }
-    }
+		if (!LBL_UPLOAD_SUCCESSFUl.isPresent()) {
+			fail("File " + fileName + " was not uploaded. See error: \n" + LBL_UPLOAD_FAILED.getValue());
+		}
+	}
 }
