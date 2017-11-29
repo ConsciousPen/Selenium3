@@ -63,11 +63,8 @@ public class Scenario12 extends ScenarioBaseTest {
 		policy = getPolicyType().get();		
 		mainApp().open();
 		
-		//createCustomerIndividual();	
-		//policyNum = createPolicy(policyCreationTD); 
-		
-		policyNum = "CAH3933658757";
-		SearchPage.openPolicy(policyNum);
+		createCustomerIndividual();	
+		policyNum = createPolicy(policyCreationTD); 
 		
 		PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 
