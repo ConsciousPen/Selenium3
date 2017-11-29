@@ -2,7 +2,7 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.admin.modules.administration.uploadVIN.defaulttabs;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.common.DefaultTab;
 import org.openqa.selenium.By;
@@ -44,11 +44,7 @@ public class UploadToVINTableTab extends DefaultTab {
                 .getAsset(AdministrationMetaData.VinTableTab.UploadDialog.BUTTON_SUBMIT_POPUP).click();
 
         if (!LBL_UPLOAD_SUCCESSFUl.isPresent()) {
-	        try {
-		        throw  new DataFormatException("File " + fileName + "was not uploaded. See error: \n" + LBL_UPLOAD_FAILED.getValue());
-	        } catch (DataFormatException e) {
-		        e.printStackTrace();
-	        }
+        	fail("File " + fileName + " was not uploaded. See error: \n" + LBL_UPLOAD_FAILED.getValue());
         }
     }
 }
