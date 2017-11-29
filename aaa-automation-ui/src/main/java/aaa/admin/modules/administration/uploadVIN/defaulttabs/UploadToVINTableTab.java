@@ -12,7 +12,6 @@ import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 import java.io.File;
-import java.util.zip.DataFormatException;
 
 public class UploadToVINTableTab extends DefaultTab {
 
