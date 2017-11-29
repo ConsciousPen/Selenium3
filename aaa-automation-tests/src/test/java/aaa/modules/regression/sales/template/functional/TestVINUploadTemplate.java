@@ -14,12 +14,10 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import org.testng.AssertJUnit;
 import org.testng.annotations.AfterMethod;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.verification.CustomAssert;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.NoSuchElementException;
 

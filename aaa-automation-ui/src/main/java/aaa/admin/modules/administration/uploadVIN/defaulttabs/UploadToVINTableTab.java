@@ -19,7 +19,8 @@ public class UploadToVINTableTab extends DefaultTab {
         super(AdministrationMetaData.VinTableTab.class);
     }
 
-    public static StaticElement LBL_UPLOAD_MSG = new StaticElement(By.id("uploadToVINTableForm:uploadSuccesful"));
+    public static StaticElement LBL_UPLOAD_SUCCESSFUl = new StaticElement(By.id("uploadToVINTableForm:uploadSuccesful"));
+    public static StaticElement LBL_UPLOAD_FAILED = new StaticElement(By.id("uploadToVINTableForm:uploadFailed"));
     public static Button BTN_UPLOAD = new Button(By.id("uploadToVINTableForm:uploadBtn"));
 
     protected final static String defaultPath = "src/test/resources/uploadingfiles/vinUploadFiles/";
@@ -34,6 +35,7 @@ public class UploadToVINTableTab extends DefaultTab {
 
         getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
                 .getAsset(AdministrationMetaData.VinTableTab.UploadDialog.BUTTON_SUBMIT_POPUP).click();
-        assertThat(LBL_UPLOAD_MSG.getValue()).as("File was not uploaded because of the next error: " +LBL_UPLOAD_MSG.getValue()).contains("Rows added:").contains("Rows updated:");
+
+        assertThat(LBL_UPLOAD_SUCCESSFUl.isPresent()).as("File was not uploaded because of the next error: " +LBL_UPLOAD_FAILED.getValue()).isTrue();
     }
 }
