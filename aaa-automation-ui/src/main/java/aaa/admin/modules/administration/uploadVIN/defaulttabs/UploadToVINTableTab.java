@@ -6,18 +6,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.common.DefaultTab;
 import org.openqa.selenium.By;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.RadioButton;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 import java.io.File;
+import java.util.zip.DataFormatException;
 
 public class UploadToVINTableTab extends DefaultTab {
 
     public UploadToVINTableTab() {
         super(AdministrationMetaData.VinTableTab.class);
     }
+
+    protected static Logger log = LoggerFactory.getLogger(UploadToVINTableTab.class);
 
     public static StaticElement LBL_UPLOAD_SUCCESSFUl = new StaticElement(By.id("uploadToVINTableForm:uploadSuccesful"));
     public static StaticElement LBL_UPLOAD_FAILED = new StaticElement(By.id("uploadToVINTableForm:uploadFailed"));
@@ -26,7 +31,7 @@ public class UploadToVINTableTab extends DefaultTab {
     protected final static String defaultPath = "src/test/resources/uploadingfiles/vinUploadFiles/";
 
 
-    public void uploadExcel(AssetDescriptor<RadioButton> buttonAssetDescriptor, String fileName){
+    public void uploadExcel(AssetDescriptor<RadioButton> buttonAssetDescriptor, String fileName) throws DataFormatException {
 
         getAssetList().getAsset(buttonAssetDescriptor).setValue(true);
         BTN_UPLOAD.click();
@@ -36,6 +41,8 @@ public class UploadToVINTableTab extends DefaultTab {
         getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_DIALOG)
                 .getAsset(AdministrationMetaData.VinTableTab.UploadDialog.BUTTON_SUBMIT_POPUP).click();
 
-        assertThat(LBL_UPLOAD_SUCCESSFUl.isPresent()).as("File was not uploaded because of the next error: " +LBL_UPLOAD_FAILED.getValue()).isTrue();
+        if (!LBL_UPLOAD_SUCCESSFUl.isPresent()) {
+            throw  new DataFormatException("File " + fileName + "was not uploaded. See error: " + LBL_UPLOAD_FAILED.getValue());
+        }
     }
 }
