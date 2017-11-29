@@ -6,8 +6,6 @@ import static org.assertj.core.api.Assertions.fail;
 import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.common.DefaultTab;
 import org.openqa.selenium.By;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.RadioButton;
 import toolkit.webdriver.controls.StaticElement;
@@ -22,17 +20,12 @@ public class UploadToVINTableTab extends DefaultTab {
         super(AdministrationMetaData.VinTableTab.class);
     }
 
-    protected static Logger log = LoggerFactory.getLogger(UploadToVINTableTab.class);
-
     public static StaticElement LBL_UPLOAD_SUCCESSFUl = new StaticElement(By.id("uploadToVINTableForm:uploadSuccesful"));
     public static StaticElement LBL_UPLOAD_FAILED = new StaticElement(By.id("uploadToVINTableForm:uploadFailed"));
     public static Button BTN_UPLOAD = new Button(By.id("uploadToVINTableForm:uploadBtn"));
 
     protected final static String defaultPath = "src/test/resources/uploadingfiles/vinUploadFiles/";
 
-	/**
-	@throws DataFormatException if file was not uploaded
-	*/
 	public void uploadExcel(AssetDescriptor<RadioButton> buttonAssetDescriptor, String fileName) {
 
         getAssetList().getAsset(buttonAssetDescriptor).setValue(true);
