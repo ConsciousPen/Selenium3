@@ -6,17 +6,22 @@ import java.util.Map;
 import org.apache.poi.ss.usermodel.Row;
 
 public class TableRow {
+	private ExcelTable table;
 	private TableHeader header;
 	private Row row;
 	private int rowNumber;
 	private ExcelParser excelParser;
 
-	public TableRow(TableHeader header, int rowNumber) {
-		int rowNumberInSheet = header.getRowNum() + rowNumber;
-		this.row = header.getSheet().getRow(rowNumberInSheet);
-		this.header = header;
+	public TableRow(ExcelTable table, int rowNumber) {
+		this.table = table;
+		this.header = table.getHeader();
 		this.rowNumber = rowNumber;
+		this.row = header.getSheet().getRow(header.getRowNum() + rowNumber);
 		this.excelParser = new ExcelParser(header.getSheet());
+	}
+
+	public ExcelTable getTable() {
+		return table;
 	}
 
 	public TableHeader getHeader() {

@@ -5,12 +5,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import javax.annotation.Nonnull;
+import org.apache.poi.ss.usermodel.Sheet;
 import toolkit.exceptions.IstfException;
 
 public class ExcelTable implements Iterable<TableRow> {
 
 	private TableHeader header;
 	private List<TableRow> tableRows;
+	private int rowsNumber;
 
 	public ExcelTable(TableHeader header) {
 		this(header, header.getSheet().getLastRowNum() - header.getRowNum());
@@ -18,17 +20,24 @@ public class ExcelTable implements Iterable<TableRow> {
 
 	public ExcelTable(TableHeader header, int rowsNumber) {
 		this.header = header;
-		this.tableRows = new ArrayList<>();
-		for (int rowNumber = 1; rowNumber <= rowsNumber; rowNumber++) {
-			tableRows.add(new TableRow(header, rowNumber));
-		}
+		this.rowsNumber = rowsNumber;
 	}
 
 	public TableHeader getHeader() {
 		return header;
 	}
 
+	public Sheet getSheet() {
+		return header.getSheet();
+	}
+
 	public List<TableRow> getRows() {
+		if (tableRows == null) {
+			tableRows = new ArrayList<>(rowsNumber);
+			for (int rowNumber = 1; rowNumber <= rowsNumber; rowNumber++) {
+				tableRows.add(new TableRow(this, rowNumber));
+			}
+		}
 		return tableRows;
 	}
 
@@ -36,13 +45,13 @@ public class ExcelTable implements Iterable<TableRow> {
 	 * Without header row
 	 */
 	public int getRowsNumber() {
-		return getRows().size();
+		return rowsNumber;
 	}
 
 	@Override
 	@Nonnull
 	public Iterator<TableRow> iterator() {
-		return new TableRowIterator(tableRows.size());
+		return new TableRowIterator(rowsNumber);
 	}
 
 	@Override
@@ -55,7 +64,7 @@ public class ExcelTable implements Iterable<TableRow> {
 	}
 
 	public boolean hasRow(int rowNumber) {
-		return tableRows.stream().anyMatch(tRow -> tRow.getRowNumber() == rowNumber);
+		return getRows().stream().anyMatch(tRow -> tRow.getRowNumber() == rowNumber);
 	}
 
 	/**
@@ -67,7 +76,7 @@ public class ExcelTable implements Iterable<TableRow> {
 		}
 
 		TableRow foundRow = null;
-		for (TableRow row : tableRows) {
+		for (TableRow row : getRows()) {
 			foundRow = row;
 			if (rowNumber == row.getRowNumber()) {
 				break;

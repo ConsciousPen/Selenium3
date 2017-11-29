@@ -3,16 +3,15 @@ package aaa.modules.rating.auto_ss;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import aaa.helpers.openl.OpenLHelper;
+import aaa.helpers.openl.model.auto_ss.AutoSSOpenLFile;
+import aaa.helpers.openl.model.auto_ss.AutoSSOpenLPolicy;
+import aaa.helpers.openl.testdata_builder.AutoSSTestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.rating.RatingBaseTest;
-import aaa.utils.openl.model.AutoSSOpenLFile;
-import aaa.utils.openl.model.AutoSSOpenLPolicy;
-import aaa.utils.openl.testdata_builder.AutoSSTestDataBuilder;
 
 public class PremiumCalculationTest extends RatingBaseTest<AutoSSOpenLPolicy> {
 	public PremiumCalculationTest() {
-		super(new AutoSSTestDataBuilder());
+		super(new AutoSSTestDataGenerator());
 	}
 
 	@Override
@@ -23,8 +22,7 @@ public class PremiumCalculationTest extends RatingBaseTest<AutoSSOpenLPolicy> {
 	@Parameters({"state"})
 	@Test
 	public void premiumCalculationTest(@Optional("") String state) {
-		//OpenLFileParser<AutoSSOpenLPolicy, AutoSSOpenLFields> openLParser = new AutoSSOpenLFileParser(String.format("%1$s/%2$sTests-20170915.xls", OPENL_RATING_TESTS_FOLDER, getState()));
-		AutoSSOpenLFile openLFile = OpenLHelper.excelToModel(String.format("%1$s/%2$sTests-20170915.xls", OPENL_RATING_TESTS_FOLDER, getState()), AutoSSOpenLFile.class);
-		verifyPremiums(openLFile.getPolicies());
+		String openLFileName = getState() + "Tests-20170915.xls";
+		verifyPremiums(openLFileName, AutoSSOpenLFile.class);
 	}
 }
