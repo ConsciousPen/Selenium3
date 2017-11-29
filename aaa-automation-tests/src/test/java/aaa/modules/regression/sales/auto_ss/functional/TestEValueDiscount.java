@@ -4,16 +4,6 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.main.enums.DocGenEnum.Documents.AHEVAXX;
-import static aaa.modules.regression.sales.auto_ss.functional.PreConditions.TestEValueDiscountPreConditions.EVALUE_CHANNEL_FOR_VA_CONFIG_CHECK;
-import static aaa.modules.regression.sales.auto_ss.functional.PreConditions.TestEValueDiscountPreConditions.EVALUE_CONFIGURATION_PER_STATE_CHECK;
-import static aaa.modules.regression.sales.auto_ss.functional.PreConditions.TestEValueDiscountPreConditions.EVALUE_CONFIG_FOR_ACKNOWLEDGEMENT_CHECK;
-import static aaa.modules.regression.sales.auto_ss.functional.PreConditions.TestEValueDiscountPreConditions.EVALUE_CURRENT_BI_CONFIG_CHECK;
-import static aaa.modules.regression.sales.auto_ss.functional.PreConditions.TestEValueDiscountPreConditions.EVALUE_MEMBERSHIP_CONFIG_CHECK;
-import static aaa.modules.regression.sales.auto_ss.functional.PreConditions.TestEValueDiscountPreConditions.EVALUE_PRIOR_BI_CONFIG_CHECK;
-import static aaa.modules.regression.sales.auto_ss.functional.PreConditions.TestEValueDiscountPreConditions.EVALUE_STATUS_CHECK;
-import static aaa.modules.regression.sales.auto_ss.functional.PreConditions.TestEValueDiscountPreConditions.EVALUE_TERRITORY_FOR_VA_CONFIG_CHECK;
-import static aaa.modules.regression.sales.auto_ss.functional.PreConditions.TestEValueDiscountPreConditions.PAPERLESS_PREFRENCES_CONFIGURATION_PER_STATE_CHECK;
-import static aaa.modules.regression.sales.auto_ss.functional.PreConditions.TestEValueDiscountPreConditions.PAPERLESS_PRFERENCE_STUB_POINT;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,6 +39,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueDiscountPreConditions;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.DataProviderFactory;
@@ -61,7 +52,7 @@ import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
 
-public class TestEValueDiscount extends AutoSSBaseTest {
+public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDiscountPreConditions {
 
 	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
 	private static final String E_VALUE_DISCOUNT = "eValue Discount"; //PAS-440 - rumors have it, that discount might be renamed
@@ -165,10 +156,8 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 
 	@Test(description = "Precondition")
 	public static void eValueTerritoryChannelForVAConfigCheck() {
-		CustomAssert
-				.assertEquals("Territory for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_TERRITORY_FOR_VA_CONFIG_CHECK).get(), "212");
-		CustomAssert.assertEquals("Channel for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_CHANNEL_FOR_VA_CONFIG_CHECK)
-				.get(), "AZ Club Agent");
+		CustomAssert.assertEquals("Territory for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_TERRITORY_FOR_VA_CONFIG_CHECK).get(), "212");
+		CustomAssert.assertEquals("Channel for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_CHANNEL_FOR_VA_CONFIG_CHECK).get(), "AZ Club Agent");
 	}
 
 	@Test(description = "Precondition")
@@ -390,6 +379,7 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("No");
+		//BUG PAS-6591 PAS-316 There is no Dialog Confirmation popup when setting EValue to No in endorsement
 		Page.dialogConfirmation.confirm();
 		PremiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
@@ -901,7 +891,6 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 	}
 
 	//TODO Replace below TCs with DataProvider when the Optional parameter State will be removed
-
 	/**
 	 * *@author Viktoriia Lutsenko
 	 * *@name Evalue acknowledgement document (AHEVAXX) generation.
@@ -1245,8 +1234,10 @@ public class TestEValueDiscount extends AutoSSBaseTest {
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY)
-				.setValue("Megha");
+		if(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY).isPresent()) {
+			documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY)
+					.setValue("Megha");
+		}
 		DocumentsAndBindTab.btnPurchase.click();
 		Page.dialogConfirmation.confirm();
 

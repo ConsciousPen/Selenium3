@@ -5,7 +5,7 @@ import java.util.List;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import aaa.helpers.listeners.AaaTestListener;
-import aaa.modules.regression.sales.auto_ss.functional.PreConditions.EvalueInsertSetupPreConditions;
+import aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions;
 import toolkit.db.DBService;
 
 @Listeners({AaaTestListener.class})
@@ -115,4 +115,12 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition")
 	public static void eValuePriorInsuranceBlueBoxConfigInsert() { DBService.get().executeUpdate(EVALUE_PRIOR_INSURANCE_CONFIG_BLUE_BOX_INSERT); }
+
+	@Test(description = "Precondition for eRefund configuration")
+	public static void refundConfigurationUpdate() { DBService.get().executeUpdate(REFUND_CONFIG_UPDATE); }
+
+	@Test(description = "Precondition updating last payment method stub end points")
+	public static void lastPaymentMethodStubPointUpdate() {
+		DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE, APP_HOST));
+	}
 }
