@@ -38,7 +38,7 @@ public class VerifyMembershipErrorMsg extends HomeCaHO6BaseTest
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-6051")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-6051")
     public void TC01_verifyMembershipMsg_NB(@Optional("CA") String state) {
 
         TestData _td = getTestSpecificTD("TestData");
@@ -54,7 +54,7 @@ public class VerifyMembershipErrorMsg extends HomeCaHO6BaseTest
 
         //Create Clean Policy
         createPolicy(_td);
-        if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_HO3_NB_Clean");}
+        if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_HO6_NB_Clean");}
         mainApp().close();
 
         // ---------------------------------------------------------------------------------------
@@ -62,63 +62,12 @@ public class VerifyMembershipErrorMsg extends HomeCaHO6BaseTest
 
         // Dirty Test Data
 
-        // -------------------------------- FIRST NAME MISMATCH ----------------------------------
-        //Open App
-        mainApp().open();
-
-        //Create Customer using Customer TD
-        TestData _tdDirtyCustomer = getTestSpecificTD("TestData_DirtyCustomer_First");
-        createCustomerIndividual(_tdDirtyCustomer);
-
-        //Create Policy
-        createPolicy(_td);
-
-        //Screenshot Verifies Successful Test
-        ScreenshotManager.getInstance().makeScreenshot("HO_HO3_NB_Dirty_FirstName");
-
-        //Close App to prevent Memory Leaks.
-        mainApp().close();
-
-        // -------------------------------- LAST NAME MISMATCH ----------------------------------
-        //Open App
-        mainApp().open();
-
-        //Create Customer using Customer TD
-        _tdDirtyCustomer = getTestSpecificTD("TestData_DirtyCustomer_Last");
-        createCustomerIndividual(_tdDirtyCustomer);
-
-        //Create Policy
-        createPolicy(_td);
-
-        //Screenshot Verifies Successful Test
-        ScreenshotManager.getInstance().makeScreenshot("HO_HO3_NB_Dirty_LastName");
-
-        //Close App to prevent Memory Leaks.
-        mainApp().close();
-
-        // -------------------------------- DOB NAME MISMATCH ----------------------------------
-        //Open App
-        mainApp().open();
-
-        //Create Customer using Customer TD
-        _tdDirtyCustomer = getTestSpecificTD("TestData_DirtyCustomer_DOB");
-        createCustomerIndividual(_tdDirtyCustomer);
-
-        //Create Policy
-        createPolicy(_td);
-
-        //Screenshot Verifies Successful Test
-        ScreenshotManager.getInstance().makeScreenshot("HO_HO3_NB_Dirty_DOB");
-
-        //Close App to prevent Memory Leaks.
-        mainApp().close();
-
         // -------------------------------- ALL MISMATCH ----------------------------------
         //Open App
         mainApp().open();
 
         //Create Customer using Customer TD
-        _tdDirtyCustomer = getTestSpecificTD("TestData_DirtyCustomer_ALL");
+        TestData _tdDirtyCustomer = getTestSpecificTD("TestData_DirtyCustomer_ALL");
         createCustomerIndividual(_tdDirtyCustomer);
 
         //Initiate Quote. Given Data to Provoke Uw Rule Firing.
@@ -132,7 +81,7 @@ public class VerifyMembershipErrorMsg extends HomeCaHO6BaseTest
         _errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
 
         //Screenshot Verifies Successful Test
-        ScreenshotManager.getInstance().makeScreenshot("HO_HO3_NB_Dirty_ALL");
+        if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_HO6_NB_Dirty_ALL");}
 
         //Close App to prevent Memory Leaks.
         mainApp().close();
@@ -140,10 +89,10 @@ public class VerifyMembershipErrorMsg extends HomeCaHO6BaseTest
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6051")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-6051")
     public void TC02_verifyMembershipMsg_Endorsement(@Optional("CA") String state) {
 
-        boolean bTakeScreenshots = true;
+        boolean bTakeScreenshots = false;
         String _persistantPolicyNumber = "";
 
         //Clean Data
@@ -173,7 +122,7 @@ public class VerifyMembershipErrorMsg extends HomeCaHO6BaseTest
         policy.endorse().perform(_myEndoTD.adjust(getPolicyTD("Endorsement", "TestData")));
         policy.getDefaultView().fillUpTo(_myEndoTD, PurchaseTab.class, false);
         //policy.getDefaultView().fillFromTo(_myEndoTD, ReportsTab.class, PurchaseTab.class, true);
-        if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_HO3_Endo_Clean");}
+        if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_HO6_Endo_Clean");}
 
         mainApp().close();
 
@@ -197,7 +146,7 @@ public class VerifyMembershipErrorMsg extends HomeCaHO6BaseTest
         policy.endorse().perform(_myDirtyEndoTD.adjust(getPolicyTD("Endorsement", "TestData")));
         policy.getDefaultView().fillUpTo(_myDirtyEndoTD, PurchaseTab.class, false);
 
-        if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_HO3_Endo_Dirty");}
+        if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_HO6_Endo_Dirty");}
 
         //Verify Membership Mis-Match Error Message
         ErrorTab _errorTab = new ErrorTab();
@@ -208,7 +157,7 @@ public class VerifyMembershipErrorMsg extends HomeCaHO6BaseTest
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6051")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-6051")
     public void TC03_verifyMembershipMsg_Renewal(@Optional("CA") String state) {
 
         boolean bTakeScreenshots = true;
@@ -223,58 +172,55 @@ public class VerifyMembershipErrorMsg extends HomeCaHO6BaseTest
         TestData _tdCleanCustomer = getTestSpecificTD("TestData_CleanCustomer");
         TestData _tdDirtyCustomer = getTestSpecificTD("TestData_DirtyCustomer_ALL");
         TestData _td = getTestSpecificTD("TestData_NonMember");
+        TestData _myTDCleanRenew = getTestSpecificTD("TestData_AddCleanRenewal");
+        TestData _myTDDirtyRenew = getTestSpecificTD("TestData_AddDirtyRenewal");
 
         createCustomerIndividual(_tdCleanCustomer);
         _persistantPolicyNumber_Clean = createPolicy(_td);
-        LocalDateTime policyExpirationDate_CleanPolicy = PolicySummaryPage.getExpirationDate();
-        if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_HO3_Renewal_CleanSetup");}
+        if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_HO4_Renewal_CleanSetup");}
 
         createCustomerIndividual(_tdDirtyCustomer);
         _persistantPolicyNumber_Dirty = createPolicy(_td);
-        LocalDateTime policyExpirationDate_DirtyPolicy = PolicySummaryPage.getExpirationDate();
-        if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_HO3_Renewal_DirtySetup");}
+        if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_HO4_Renewal_DirtySetup");}
 
         mainApp().close();
 
-        //Move JVM Time Forward & Save Original Date
-        LocalDateTime originalDate = TimeSetterUtil.getInstance().getCurrentTime();
-        LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate_CleanPolicy);
-        TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-        //Run Jobs
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1,true);
-        HttpStub.executeAllBatches();
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2,true);
-
-        // Do Renewals
+        // Do Manual Renewals
         //Clean
         mainApp().open();
         SearchPage.openPolicy(_persistantPolicyNumber_Clean);
+
         //If Renew Image is Available, click it.
-        PolicySummaryPage.buttonRenewals.verify.enabled();
-        PolicySummaryPage.buttonRenewals.click();
-        //Go into DataGathering Mode to Fill Out Tabs.
-        policy.dataGather().start();
-        policy.getDefaultView().fill(getTestSpecificTD("TestData_AddRenewal"));
-        if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_HO3_Renewal_Clean");}
+        policy.renew().performAndFill(_myTDCleanRenew);
+        if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_HO4_Renewal_Clean");}
 
 
         SearchPage.openPolicy(_persistantPolicyNumber_Dirty);
-        //If Renew Image is Available, click it.
-        PolicySummaryPage.buttonRenewals.verify.enabled();
-        PolicySummaryPage.buttonRenewals.click();
-        //Go into DataGathering Mode to Fill Out Tabs.
-        policy.dataGather().start();
-        policy.getDefaultView().fill(getTestSpecificTD("TestData_AddRenewal"));
-        if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_HO3_Renewal_Dirty");}
+        //Using a Try Catch to Anticipate Renewal Failure. Will determine if failure was due to UW Rules or Not.
+        try{
+            policy.renew().performAndFill(_myTDDirtyRenew);
+        } catch(Exception ex) {
+            //Verify Membership Mis-Match Error Message
+            ErrorTab _errorTab = new ErrorTab();
+            if (_errorTab.isVisible())
+            {
+                _errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
+            }
+            else
+            {
+                log.error("Framework anticipated an error to be present where none was located.");
+            }
+        }
+
+        if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_HO4_Renewal_Dirty");}
 
         // Move JVM Back to Original Date and Close App.
         mainApp().close(); //Close App before NextPhase
-        TimeSetterUtil.getInstance().nextPhase(originalDate);
     }
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6051")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-6051")
     public void TCXX_UnitTest(@Optional("CA") String state) {
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1, true);
 
@@ -282,7 +228,7 @@ public class VerifyMembershipErrorMsg extends HomeCaHO6BaseTest
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6051")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-6051")
     public void TCXX_UnitTest_ManualRenew(@Optional("CA") String state) {
 
         boolean bTakeScreenshots = true;

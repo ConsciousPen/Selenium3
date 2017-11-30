@@ -38,7 +38,7 @@ public class VerifyMembershipErrorMsg extends HomeCaDP3BaseTest
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-6052")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-6052")
     public void TC01_verifyMembershipMsg_NB(@Optional("CA") String state) {
 
         TestData _td = getTestSpecificTD("TestData");
@@ -54,7 +54,7 @@ public class VerifyMembershipErrorMsg extends HomeCaDP3BaseTest
 
         //Create Clean Policy
         createPolicy(_td);
-        if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_HO3_NB_Clean");}
+        if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_DP3_NB_Clean");}
         mainApp().close();
 
         // ---------------------------------------------------------------------------------------
@@ -62,63 +62,12 @@ public class VerifyMembershipErrorMsg extends HomeCaDP3BaseTest
 
         // Dirty Test Data
 
-        // -------------------------------- FIRST NAME MISMATCH ----------------------------------
-        //Open App
-        mainApp().open();
-
-        //Create Customer using Customer TD
-        TestData _tdDirtyCustomer = getTestSpecificTD("TestData_DirtyCustomer_First");
-        createCustomerIndividual(_tdDirtyCustomer);
-
-        //Create Policy
-        createPolicy(_td);
-
-        //Screenshot Verifies Successful Test
-        ScreenshotManager.getInstance().makeScreenshot("HO_HO3_NB_Dirty_FirstName");
-
-        //Close App to prevent Memory Leaks.
-        mainApp().close();
-
-        // -------------------------------- LAST NAME MISMATCH ----------------------------------
-        //Open App
-        mainApp().open();
-
-        //Create Customer using Customer TD
-        _tdDirtyCustomer = getTestSpecificTD("TestData_DirtyCustomer_Last");
-        createCustomerIndividual(_tdDirtyCustomer);
-
-        //Create Policy
-        createPolicy(_td);
-
-        //Screenshot Verifies Successful Test
-        ScreenshotManager.getInstance().makeScreenshot("HO_HO3_NB_Dirty_LastName");
-
-        //Close App to prevent Memory Leaks.
-        mainApp().close();
-
-        // -------------------------------- DOB NAME MISMATCH ----------------------------------
-        //Open App
-        mainApp().open();
-
-        //Create Customer using Customer TD
-        _tdDirtyCustomer = getTestSpecificTD("TestData_DirtyCustomer_DOB");
-        createCustomerIndividual(_tdDirtyCustomer);
-
-        //Create Policy
-        createPolicy(_td);
-
-        //Screenshot Verifies Successful Test
-        ScreenshotManager.getInstance().makeScreenshot("HO_HO3_NB_Dirty_DOB");
-
-        //Close App to prevent Memory Leaks.
-        mainApp().close();
-
         // -------------------------------- ALL MISMATCH ----------------------------------
         //Open App
         mainApp().open();
 
         //Create Customer using Customer TD
-        _tdDirtyCustomer = getTestSpecificTD("TestData_DirtyCustomer_ALL");
+        TestData _tdDirtyCustomer = getTestSpecificTD("TestData_DirtyCustomer_ALL");
         createCustomerIndividual(_tdDirtyCustomer);
 
         //Initiate Quote. Given Data to Provoke Uw Rule Firing.
@@ -132,7 +81,7 @@ public class VerifyMembershipErrorMsg extends HomeCaDP3BaseTest
         _errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
 
         //Screenshot Verifies Successful Test
-        ScreenshotManager.getInstance().makeScreenshot("HO_HO3_NB_Dirty_ALL");
+        ScreenshotManager.getInstance().makeScreenshot("HO_DP3_NB_Dirty_ALL");
 
         //Close App to prevent Memory Leaks.
         mainApp().close();
@@ -242,7 +191,7 @@ public class VerifyMembershipErrorMsg extends HomeCaDP3BaseTest
         TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
         //Run Jobs
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1,true);
-        HttpStub.executeAllBatches();
+        //HttpStub.executeAllBatches();
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2,true);
 
         // Do Renewals
