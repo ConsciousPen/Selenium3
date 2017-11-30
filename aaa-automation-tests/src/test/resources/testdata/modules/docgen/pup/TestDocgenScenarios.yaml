@@ -2,7 +2,7 @@
 QuoteGenerateHSU_AZ: {
 Decision based on CLUE HSU03: 'true',
 First name: test,
-Last name: test,
+Last name: Smith,
 Zip code: '85003',
 Street address 1: '265 CHIPMAN AVE',
 City: Phoenix,
@@ -12,7 +12,7 @@ State: AZ
 QuoteGenerateHSU_UT: {
 Decision based on CLUE HSU03: 'true',
 First name: test,
-Last name: test,
+Last name: Smith
 Zip code: '84101',
 Street address 1: '265 CHIPMAN AVE',
 City: 'Salt Lake City',
@@ -22,7 +22,7 @@ State: UT
 QuoteGenerateHSU_PA: {
 Decision based on CLUE HSU03: 'true',
 First name: test,
-Last name: test,
+Last name: Smith
 Zip code: '15001',
 Street address 1: '265 CHIPMAN AVE',
 City: Aliquippa,
@@ -32,7 +32,7 @@ State: PA
 QuoteGenerateHSU_NJ: {
 Decision based on CLUE HSU03: 'true',
 First name: test,
-Last name: test,
+Last name: Smith
 Zip code: '07005',
 Street address 1: '265 CHIPMAN AVE',
 City: Boonton,
