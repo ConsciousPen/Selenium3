@@ -16,16 +16,18 @@ public class BatchFileSummary {
 		return batchJobInfo;
 	}
 
-	public void setBatchJobInfo(BatchJobInfo batchJobInfo) {
-		this.batchJobInfo = batchJobInfo;
-	}
-
 	public BatchFileInfo getBatchFileInfo() {
 		return batchFileInfo;
 	}
 
-	public void setBatchFileInfo(BatchFileInfo batchFileInfo) {
+	public BatchFileSummary setBatchJobInfo(BatchJobInfo batchJobInfo) {
+		this.batchJobInfo = batchJobInfo;
+		return this;
+	}
+
+	public BatchFileSummary setBatchFileInfo(BatchFileInfo batchFileInfo) {
 		this.batchFileInfo = batchFileInfo;
+		return this;
 	}
 
 	@Override
@@ -34,5 +36,29 @@ public class BatchFileSummary {
 				"batchJobInfo=" + batchJobInfo +
 				", batchFileInfo=" + batchFileInfo +
 				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		BatchFileSummary that = (BatchFileSummary) o;
+
+		if (batchJobInfo != null ? !batchJobInfo.equals(that.batchJobInfo) : that.batchJobInfo != null) {
+			return false;
+		}
+		return batchFileInfo != null ? batchFileInfo.equals(that.batchFileInfo) : that.batchFileInfo == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = batchJobInfo != null ? batchJobInfo.hashCode() : 0;
+		result = 31 * result + (batchFileInfo != null ? batchFileInfo.hashCode() : 0);
+		return result;
 	}
 }

@@ -21,33 +21,36 @@ public class BatchFileInfo {
 	public String getBatchFileName() {
 		return batchFileName;
 	}
-
-	public void setBatchFileName(String batchFileName) {
-		this.batchFileName = batchFileName;
-	}
-
 	public String getBatchFileCreationDateTime() {
 		return batchFileCreationDateTime;
-	}
-
-	public void setBatchFileCreationDateTime(String batchFileCreationDateTime) {
-		this.batchFileCreationDateTime = batchFileCreationDateTime;
 	}
 
 	public String getBatchFileCorrelationId() {
 		return batchFileCorrelationId;
 	}
 
-	public void setBatchFileCorrelationId(String batchFileCorrelationId) {
-		this.batchFileCorrelationId = batchFileCorrelationId;
-	}
-
 	public String getBatchFileLineItemCount() {
 		return batchFileLineItemCount;
 	}
 
-	public void setBatchFileLineItemCount(String batchFileLineItemCount) {
+	public BatchFileInfo setBatchFileName(String batchFileName) {
+		this.batchFileName = batchFileName;
+		return this;
+	}
+
+	public BatchFileInfo setBatchFileCreationDateTime(String batchFileCreationDateTime) {
+		this.batchFileCreationDateTime = batchFileCreationDateTime;
+		return this;
+	}
+
+	public BatchFileInfo setBatchFileCorrelationId(String batchFileCorrelationId) {
+		this.batchFileCorrelationId = batchFileCorrelationId;
+		return this;
+	}
+
+	public BatchFileInfo setBatchFileLineItemCount(String batchFileLineItemCount) {
 		this.batchFileLineItemCount = batchFileLineItemCount;
+		return this;
 	}
 
 	@Override
@@ -58,5 +61,37 @@ public class BatchFileInfo {
 				", batchFileCorrelationId='" + batchFileCorrelationId + '\'' +
 				", batchFileLineItemCount='" + batchFileLineItemCount + '\'' +
 				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		BatchFileInfo that = (BatchFileInfo) o;
+
+		if (batchFileName != null ? !batchFileName.equals(that.batchFileName) : that.batchFileName != null) {
+			return false;
+		}
+		if (batchFileCreationDateTime != null ? !batchFileCreationDateTime.equals(that.batchFileCreationDateTime) : that.batchFileCreationDateTime != null) {
+			return false;
+		}
+		if (batchFileCorrelationId != null ? !batchFileCorrelationId.equals(that.batchFileCorrelationId) : that.batchFileCorrelationId != null) {
+			return false;
+		}
+		return batchFileLineItemCount != null ? batchFileLineItemCount.equals(that.batchFileLineItemCount) : that.batchFileLineItemCount == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = batchFileName != null ? batchFileName.hashCode() : 0;
+		result = 31 * result + (batchFileCreationDateTime != null ? batchFileCreationDateTime.hashCode() : 0);
+		result = 31 * result + (batchFileCorrelationId != null ? batchFileCorrelationId.hashCode() : 0);
+		result = 31 * result + (batchFileLineItemCount != null ? batchFileLineItemCount.hashCode() : 0);
+		return result;
 	}
 }

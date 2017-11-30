@@ -16,8 +16,9 @@ public class DistributionChannel {
 		return deliveryStatus;
 	}
 
-	public void setDeliveryStatus(String deliveryStatus) {
+	public DistributionChannel setDeliveryStatus(String deliveryStatus) {
 		this.deliveryStatus = deliveryStatus;
+		return this;
 	}
 
 	@Override
@@ -25,5 +26,24 @@ public class DistributionChannel {
 		return "DistributionChannel{" +
 				"deliveryStatus='" + deliveryStatus + '\'' +
 				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		DistributionChannel that = (DistributionChannel) o;
+
+		return deliveryStatus != null ? deliveryStatus.equals(that.deliveryStatus) : that.deliveryStatus == null;
+	}
+
+	@Override
+	public int hashCode() {
+		return deliveryStatus != null ? deliveryStatus.hashCode() : 0;
 	}
 }
