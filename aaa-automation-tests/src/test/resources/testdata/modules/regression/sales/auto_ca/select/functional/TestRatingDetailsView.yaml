@@ -1,5 +1,5 @@
 TestData: {
-  VehicleTab: ['@<auto_ca_select>@DataGather@VehicleTab_1','@VINDoesNotMatch@VehicleTab_UnmatchedVIN'],
+  VehicleTab: ['@<auto_ca_select>@DataGather@VehicleTab','@VINDoesNotMatch@VehicleTab_UnmatchedVIN'],
   AssignmentTab: {
     DriverVehicleRelationshipTable: ['@Assignment', '@Assignment'],
     }

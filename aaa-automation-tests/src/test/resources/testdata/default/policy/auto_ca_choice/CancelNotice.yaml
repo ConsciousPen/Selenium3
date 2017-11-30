@@ -6,3 +6,11 @@ TestData: {
     Print Notice: 'No'    
   }
 }
+
+TestData_SubstantialIncrease: {
+  CancelNoticeActionTab: {
+    Cancellation Reason: 'Underwriting Request - Substantial Increase in Hazard',
+    Supporting Data: Supporting Data,
+    Print Notice: 'No'    
+  }
+}

@@ -297,7 +297,10 @@ public final class DocGenEnum {
         AA52COA(""),
         AA52COB(""),
         AA71COA(""),
-        AARNXX("")
+        AARNXX(""),
+        AHCAAG("Coverage Acceptance Statement"),
+        AH65XX(""),
+        AH63XX(""),
 		;
 
 		private String id;
