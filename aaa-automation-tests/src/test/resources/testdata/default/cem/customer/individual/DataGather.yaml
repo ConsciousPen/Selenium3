@@ -21,7 +21,7 @@ CustomerGeneralTabAgency: {
 
 GeneralTab: {
   First Name: '$<rx:Tim\d{5}>',
-  Last Name: '$<rx:Cook\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -41,7 +41,7 @@ TestData_AZ: {
 
 GeneralTab_AZ: {
   First Name: '$<rx:Fernando\d{5}>',
-  Last Name: '$<rx:Alonso\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -59,7 +59,7 @@ TestData_CA: {
 
 GeneralTab_CA: {
   First Name: '$<rx:Nicolas\d{5}>',
-  Last Name: '$<rx:Cage\d{5}>',
+  Last Name: Smith,
   Date of Birth: 09/05/1972,
   Gender: Male,
   Marital Status: Married,
@@ -78,7 +78,7 @@ TestData_CO: {
 
 GeneralTab_CO: {
   First Name: '$<rx:Zinaida\d{5}>',
-  Last Name: '$<rx:Petrosyan\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -96,7 +96,7 @@ TestData_CT: {
 
 GeneralTab_CT: {
   First Name: '$<rx:Cristiano\d{5}>',
-  Last Name: '$<rx:Ronaldo\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -114,7 +114,7 @@ TestData_DC: {
 
 GeneralTab_DC: {
   First Name: '$<rx:Robert\d{5}>',
-  Last Name: '$<rx:Lewandowski\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -132,7 +132,7 @@ TestData_DE: {
 
 GeneralTab_DE: {
   First Name: '$<rx:Paul\d{5}>',
-  Last Name: '$<rx:Wesley\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -150,7 +150,7 @@ TestData_ID: {
 
 GeneralTab_ID: {
   First Name: '$<rx:Juan\d{5}>',
-  Last Name: '$<rx:Cuadrado\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -168,7 +168,7 @@ TestData_IN: {
 
 GeneralTab_IN: {
   First Name: '$<rx:Harry\d{5}>',
-  Last Name: '$<rx:Kane\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -186,7 +186,7 @@ TestData_KS: {
 
 GeneralTab_KS: {
   First Name: '$<rx:Paul\d{5}>',
-  Last Name: '$<rx:Scholes\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -204,7 +204,7 @@ TestData_KY: {
 
 GeneralTab_KY: {
   First Name: '$<rx:Alvaro\d{5}>',
-  Last Name: '$<rx:Morata\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -222,7 +222,7 @@ TestData_MD: {
 
 GeneralTab_MD: {
   First Name: '$<rx:Lady\d{5}>',
-  Last Name: '$<rx:Gaga\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -240,7 +240,7 @@ TestData_MT: {
 
 GeneralTab_MT: {
   First Name: '$<rx:Andrey\d{5}>',
-  Last Name: '$<rx:Andrejeev\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -258,7 +258,7 @@ TestData_NJ: {
 
 GeneralTab_NJ: {
   First Name: '$<rx:Robin\d{5}>',
-  Last Name: '$<rx:Good\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -276,7 +276,7 @@ TestData_NV: {
 
 GeneralTab_NV: {
   First Name: '$<rx:Paul\d{5}>',
-  Last Name: '$<rx:Pogba\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -294,7 +294,7 @@ TestData_NY: {
 
 GeneralTab_NY: {
   First Name: '$<rx:Fernando\d{5}>',
-  Last Name: '$<rx:Torres\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -312,7 +312,7 @@ TestData_OH: {
 
 GeneralTab_OH: {
   First Name: '$<rx:Leo\d{5}>',
-  Last Name: '$<rx:Messi\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -330,7 +330,7 @@ TestData_OK: {
 
 GeneralTab_OK: {
   First Name: '$<rx:Phil\d{5}>',
-  Last Name: '$<rx:Jones\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -348,7 +348,7 @@ TestData_OR: {
 
 GeneralTab_OR: {
   First Name: '$<rx:Tomas\d{5}>',
-  Last Name: '$<rx:Muller\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -365,7 +365,7 @@ TestData_PA: {
 
 GeneralTab_PA: {
   First Name: '$<rx:Steve\d{5}>',
-  Last Name: '$<rx:Jobsik\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -383,7 +383,7 @@ TestData_SD: {
 
 GeneralTab_SD: {
   First Name: '$<rx:Arcadiy\d{5}>',
-  Last Name: '$<rx:Ukupnik\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -400,7 +400,7 @@ TestData_VA: {
 
 GeneralTab_VA: {
   First Name: '$<rx:Ben\d{5}>',
-  Last Name: '$<rx:Afflek\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -417,7 +417,7 @@ TestData_WV: {
 
 GeneralTab_WV: {
   First Name: '$<rx:Nadezhda\d{5}>',
-  Last Name: '$<rx:Babkina\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
@@ -434,7 +434,7 @@ TestData_WY: {
 
 GeneralTab_WY: {
   First Name: '$<rx:Paulo\d{5}>',
-  Last Name: '$<rx:Dybala\d{5}>',
+  Last Name: Smith,
   Date of Birth: 12/05/1962,
   Gender: Male,
   Marital Status: Married,
