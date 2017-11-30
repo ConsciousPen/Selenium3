@@ -17,7 +17,7 @@ TestData: {
 }
 
 EndorsementActionTab: {
-  Endorsement Date: /startTime+2d,
+  Endorsement Date: $<startTime+2d>,
   Endorsement Reason: 'Other Interest(s)/Mortgagees'
 }
 
@@ -34,12 +34,12 @@ PurchaseTab: {
 }
 
 CancellationActionTab: {
-  Cancellation effective date: \startTime,
-  Cancellation reason: 'Rewrite Accommodation'
+  Cancellation effective date: $<startTime>,
+  Cancellation reason: 'Rewrite Accommodation',
 }
 
 ReinstatementActionTab: {
-  Reinstate Date: /startTime+25d
+  Reinstate Date: $<startTime+25d>
 }
 
 PremiumsAndCoveragesQuoteTab_DataGather: {

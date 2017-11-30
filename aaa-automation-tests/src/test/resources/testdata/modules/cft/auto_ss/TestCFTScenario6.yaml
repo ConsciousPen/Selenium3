@@ -48,7 +48,7 @@ TestData_OOS: {
 }
 
 EndorsementActionTab_OOS: {
-    Endorsement Date: /startTime+1d,
+    Endorsement Date: $<startTime+1d>,
     Endorsement Reason: Maintain Vehicle(s)
 }
 

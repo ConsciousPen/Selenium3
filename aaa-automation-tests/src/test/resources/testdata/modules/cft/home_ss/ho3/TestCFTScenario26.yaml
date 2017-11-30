@@ -3,13 +3,13 @@ TestData: {
 }  
 
 CancellationActionTab: {
-  Cancellation effective date: /startTime+1M,
+  Cancellation effective date: $<startTime+1M>,
   Cancellation reason: 'Rewrite Accommodation'
 }
 
 #---- Data Gather ----
 GeneralTab_DataGather: {
-  Effective date: '/today+1M'
+  Effective date: $<today+1M>
 }
 
 PremiumsAndCoveragesQuoteTab_DataGather: {

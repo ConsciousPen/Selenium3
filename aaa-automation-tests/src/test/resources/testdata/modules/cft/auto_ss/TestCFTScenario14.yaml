@@ -16,7 +16,7 @@ DriverTab_DataGather: {
 }
 
 CancellationActionTab: {
-  Cancel Date: /startTime+2d,
+  Cancel Date: $<startTime+2d>,
   Cancellation Reason: 'Rewrite Accommodation',
   Authorized By: QA
 }

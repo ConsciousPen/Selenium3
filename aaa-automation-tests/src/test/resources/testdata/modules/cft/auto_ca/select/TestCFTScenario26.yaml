@@ -3,7 +3,7 @@ TestData: {
 }
 
 CancellationActionTab: {
-  Cancel Date: /startTime+1M,
+  Cancel Date: $<startTime+1M>,
   Cancellation Reason: 'Accomodation - Miscellaneous',
   Authorized By: QA
 }
@@ -11,7 +11,7 @@ CancellationActionTab: {
 #---- Data Gather ----
 GeneralTab_DataGather: {
   PolicyInformation: {
-    Effective Date: '/today+1M',
+    Effective Date: $<today+1M>,
   }
 }
 

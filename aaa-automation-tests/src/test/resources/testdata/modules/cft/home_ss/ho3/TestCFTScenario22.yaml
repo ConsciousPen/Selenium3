@@ -8,13 +8,13 @@ AcceptPaymentActionTab: {
 }  
 
 CancellationActionTab: {
-  Cancellation effective date: '/startTime+1M',
+  Cancellation effective date: $<startTime+1M>,
   Cancellation reason: "Insured's Request - Other",
   Description: 'CFT test'
 }
 
 GeneralTab_DataGather: {
-  Effective date: '/today+1M'
+  Effective date: $<today+1M>
 }
 
 ApplicantTab_DataGather: {

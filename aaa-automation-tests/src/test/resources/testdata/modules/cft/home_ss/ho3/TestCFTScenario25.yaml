@@ -4,12 +4,12 @@ TestData: {
 }
 
 CancellationActionTab: {
-  Cancellation effective date: /startTime,
+  Cancellation effective date: $<startTime>,
   Cancellation reason: 'Rewrite Accommodation'
 }
 
 ReinstatementActionTab: {
-  Reinstate Date: /startTime
+  Reinstate Date: $<startTime>
 }
 
 PremiumsAndCoveragesQuoteTab_DataGather: {
