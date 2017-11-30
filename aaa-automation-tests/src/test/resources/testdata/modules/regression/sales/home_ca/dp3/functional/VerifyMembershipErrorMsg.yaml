@@ -96,6 +96,61 @@ GeneralTab_OtherCustomer: {
   Address Line 1: 6586 PORCUPINE WAY
 }
 
+#--------------------- Test Data For Renewals ---------------------------------
+TestData_AddCleanRenewal: {
+  GeneralTab: {},
+  ApplicantTab: {
+    #NamedInsured: ['@NamedInsured', '@NamedInsured2_Clean'],
+    NamedInsured: '@NamedInsured',
+    AAAMembership: '@AAAMembership_Clean',
+    DwellingAddress: {},
+    PreviousDwellingAddress: {},
+    MailingAddress: {},
+    NamedInsuredInformation: {},
+    AgentInfo: {},
+    OtherActiveAAAPolicies: {}
+  },
+  ReportsTab: {
+    Sales Agent Agreement: 'I Agree',
+    AAAMembershipReport: [{Report: 'Order report'}]
+  },
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_AddDirtyRenewal: {
+  GeneralTab: {},
+  ApplicantTab: {
+    #NamedInsured: ['@NamedInsured', '@NamedInsured2_Dirty'],
+    NamedInsured: '@NamedInsured',
+    AAAMembership: '@AAAMembership_Dirty',
+    DwellingAddress: {},
+    PreviousDwellingAddress: {},
+    MailingAddress: {},
+    NamedInsuredInformation: {},
+    AgentInfo: {},
+    OtherActiveAAAPolicies: {}
+  },
+  ReportsTab: {
+    Sales Agent Agreement: 'I Agree',
+    AAAMembershipReport: [{Report: 'Order report'}]
+  },
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
 # --------------------Test Data For Endorsements ------------------------------
 TestData_NonMember: {
   GeneralTab: '@GeneralTab',
@@ -126,7 +181,8 @@ Endorsement_CleanData: {
     OtherActiveAAAPolicies: {}
   },
   ReportsTab: {
-    #CLUEreport: [{Report: 'Re-order report'}]
+    Sales Agent Agreement: 'I Agree',
+    AAAMembershipReport: [{Report: 'Order report'}]
   },
   PropertyInfoTab: {},
   ProductOfferingTab: {},
@@ -162,7 +218,8 @@ Endorsement_DirtyData: {
       OtherActiveAAAPolicies: {}
     },
     ReportsTab: {
-      #CLUEreport: [{Report: 'Re-order report'}]
+      Sales Agent Agreement: 'I Agree',
+      AAAMembershipReport: [{Report: 'Order report'}]
     },
     PropertyInfoTab: {},
     ProductOfferingTab: {},
@@ -318,7 +375,6 @@ UnderwritingAndApprovalTab: {
   "Has the property been in foreclosure proceedings within the past 18 months?": "No",
   "Is any gas water heater located in a garage?": "No",
   "Do employees of any resident or applicant reside in the dwelling?": "No",
-  "Is there a business on premises?": "No",
   "Is the dwelling located within 500 feet of bay or coastal waters?": "No"
 }
 
@@ -439,7 +495,7 @@ PropertyValue: {
 Construction: {
     Year built: 2009,
     Square footage: 1,
-    Roof type: Laminate / Architectural,
+    Roof type: Other,
     Roof shape: 'index=1',
     Construction type: 'index=1',
     Foundation Type: 'index=1'
