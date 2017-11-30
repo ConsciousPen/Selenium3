@@ -5,8 +5,8 @@ TestData_1: {
     }],
     Check Policy: 'true',
     Reason: 'Natural Disaster',
-    Effective Date: '/today-1d',
-    Expiration Date: '/today-1d',
+    Effective Date: '$<today-1d>',
+    Expiration Date: '$<today-1d>',
   }
 }
 
@@ -17,7 +17,7 @@ TestData_2: {
     Reason: 'Other',
     Additional Info: 'Because we can',
     Hold Type: ['Invoice'],
-    Effective Date: '/today',
-    Expiration Date: '/today+1d',
+    Effective Date: '$<today>',
+    Expiration Date: '$<today+1d>',
   }
 }

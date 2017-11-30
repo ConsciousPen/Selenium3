@@ -1,0 +1,53 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Scorpions Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+    <test name="PAS-3805, PAS-4244 DE_NJ No Prior Insurance Message and Error">
+        <parameter name="state" value="DE, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestNoPriorInsuranceError"/>
+        </classes>
+    </test>
+    <test name="PAS-541 Symbols in Policy Details Service AZ">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestGetAutoPolicyDetails"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestGetAutoPolicyDetails"/>
+        </classes>
+    </test>
+    <test name="PAS-541 Symbols in Policy Details Service CA">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestGetAutoPolicyDetails"/>
+        </classes>
+    </test>
+    <test name="PAS-1904 Adapt MSRP (separate comp/coll to comp and coll - but same value)">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestRatingDetailsView"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestRatingDetailsView"/>
+        </classes>
+    </test>
+    <test name="PAS-3794,PAS-3795 New Business NJ_DE: Non-Member Message and validation error">
+        <parameter name="state" value="DE, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidationError"/>
+        </classes>
+    </test>
+    <test name="PAS-2247, PAS-2248 - Lock Membership and Auto Ins Persistency, Not at Fault and Comp Claims">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAutoPoliciesLock"/>
+        </classes>
+    </test>
+    <test name="PAS-1406 - Data Refresh - PAS-533 -Quote Refresh -Add New VIN, PAS-1487 VIN No Match to Match but Year Doesn't Match,
+PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated, PAS-6455 Make Entry Date Part of Key for VIN Table Upload">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVINUpload"/>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload"/>
+        </classes>
+    </test>
+</suite>

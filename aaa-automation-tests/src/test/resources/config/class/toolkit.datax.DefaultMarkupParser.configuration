@@ -1,3 +1,0 @@
-{
-  "expressionRegexp": '^/(\\w+)\\s*(.*)$'
-}

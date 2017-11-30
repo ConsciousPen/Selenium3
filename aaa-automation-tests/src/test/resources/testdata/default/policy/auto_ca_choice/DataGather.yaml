@@ -17,7 +17,7 @@ PrefillTab: {
   Last Name: Stark,
   Zip Code: 90255,
   Address Line 1: 6586 PORCUPINE WAY,
-  Date of Birth: '/today-38y:MM/dd/yyyy',
+  Date of Birth: '$<today-38y:MM/dd/yyyy>',
   Validate Address: click,
   Validate Address Dialog: {
     },
@@ -43,7 +43,7 @@ AAAProductOwned: {
 
 PolicyInformation: {
   Policy Type: Standard,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Channel Type: AAA Agent,
   Agency: 'AAA NCNU - 500001005',
   Agency Location: 'Los Gatos - 500005341 - Los Gatos',

@@ -11,7 +11,7 @@ TestData: {
       Coverage A - Dwelling limit: 184000,
       ISO replacement cost: 174000,
       Reason replacement cost differs from the tool value: 'index=1',
-      Purchase date of home: '/today:MM/dd/yyyy'
+      Purchase date of home: '$<today:MM/dd/yyyy>'
     },
     Construction: {
       Year built: 2009,

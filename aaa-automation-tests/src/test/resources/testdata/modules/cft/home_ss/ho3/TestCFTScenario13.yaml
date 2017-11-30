@@ -8,7 +8,7 @@ TestData: {
 }  
 
 GeneralTab_DataGather: {
-  Effective date: '/today+2d'
+  Effective date: '$<today+2d>'
 }
 
 PremiumsAndCoveragesQuoteTab_DataGather: {
@@ -26,7 +26,7 @@ CancellationActionTab: {
 }
 
 ReinstatementActionTab: {
-  Reinstate Date: /today,
+  Reinstate Date: $<today>,
 }
 
 AddSuspenseActionTab: {

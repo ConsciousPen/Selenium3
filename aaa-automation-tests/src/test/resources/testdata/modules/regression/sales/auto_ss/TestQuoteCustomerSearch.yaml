@@ -1,7 +1,7 @@
 GeneralTabData: {
   GeneralTab: {
     NamedInsuredInformation: {
-      Base Date: '/today:MM/dd/yyyy',
+      Base Date: '$<today:MM/dd/yyyy>',
       Residence: 'Own Home',
       Validate Address: click,
       Validate Address Dialog: {Street Name: 'East Hampton'},

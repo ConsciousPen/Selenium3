@@ -3,7 +3,7 @@ TestData: {
 }
 GeneralTab_DataGather: {
   PolicyInformation: {
-    Effective Date: '/today+2d',
+    Effective Date: '$<today+2d>',
   }
 }
 

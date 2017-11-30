@@ -1,6 +1,6 @@
 TestData: {
   ChangeRenewalLapseActionTab: {
-    Revised Renewal Date: /today+1y,
+    Revised Renewal Date: $<today+1y>,
     Lapse Change Reason: 'Other',
     Other: 'Other Reason'
   }
@@ -8,7 +8,7 @@ TestData: {
 
 TestData_Plus368Days: {
   ChangeRenewalLapseActionTab: {
-    Revised Renewal Date: /today+368d,
+    Revised Renewal Date: $<today+368d>,
     Lapse Change Reason: 'Other',
     Other: 'Other Reason'
   }
@@ -16,7 +16,7 @@ TestData_Plus368Days: {
 
 TestData_Plus370Days: {
   ChangeRenewalLapseActionTab: {
-    Revised Renewal Date: /today+370d,
+    Revised Renewal Date: $<today+370d>,
     Lapse Change Reason: 'Other',
     Other: 'Other Reason'
   }

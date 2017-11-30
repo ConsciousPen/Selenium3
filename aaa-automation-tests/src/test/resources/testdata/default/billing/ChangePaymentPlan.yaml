@@ -3,3 +3,15 @@ TestData_ChangePaymentPlanToMonthly: {
     "Payment Plan:": 'contains=Monthly'
   }
 }
+
+TestData_ChangePaymentPlanToQuarterly: {
+  ChangePaymentPlanActionTab: {
+    "Payment Plan:": 'contains=Quarterly'
+  }
+}
+
+TestData_ChangePaymentPlanToSemiAnnual: {
+  ChangePaymentPlanActionTab: {
+    "Payment Plan:": 'contains=Semi-Annual'
+  }
+}

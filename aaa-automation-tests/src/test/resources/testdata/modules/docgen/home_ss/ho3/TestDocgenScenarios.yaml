@@ -141,7 +141,7 @@ PropertyInfoTab: {
   PropertyValue: {
     Coverage A - Dwelling limit: 280000,
     ISO replacement cost: 280000,
-    Purchase date of home: '/today-1y:MM/dd/yyyy'
+    Purchase date of home: '$<today-1y:MM/dd/yyyy>'
   },
   Construction: {
     Year built: 2009,

@@ -16,7 +16,7 @@ TestData: {
 }
 
 EndorsementActionTab: {
-  Endorsement Date: /today+2d,
+  Endorsement Date: $<today+2d>,
   Endorsement Reason: 'Other Interest(s)/Mortgagees'
 }
 
@@ -33,13 +33,13 @@ PremiumsAndCoveragesQuoteTab: {
 }
 
 CancellationActionTab: {
-  Cancellation effective date: "/today+2d",
+  Cancel Date: $<today+2d>,
   Cancellation reason: "Insured's Request - Other",
   Description: "CFT test scenario 2"
 }
 
 ReinstatementActionTab: {
-   Reinstate Date: /today
+   Reinstate Date: '$<today>'
 }
 
 PremiumsAndCoveragesQuoteTab_DataGather: {
