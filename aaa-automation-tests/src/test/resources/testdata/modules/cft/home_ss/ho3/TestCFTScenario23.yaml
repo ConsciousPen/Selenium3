@@ -5,5 +5,5 @@ AcceptPayment: {
 }
 
 PremiumsAndCoveragesQuoteTab_DataGather: {
-  Payment plan: Annual
+  Payment plan: Pay in Full
 }
