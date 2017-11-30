@@ -1,0 +1,195 @@
+TestData_MembershipValidation_NB_NoMatch_AZ: {
+  GeneralTab: '@GeneralTab_NoMatch',
+  PrefillTab: '@PrefillTab_DOBnoMatch'
+}
+
+TestData_MembershipValidation_NB_AllMatch_AZ: {
+  GeneralTab: '@GeneralTab_AllMatch',
+  PrefillTab: '@PrefillTab_DOBmatch'
+}
+
+TestData_MembershipValidation_NB_FNmatch_AZ: {
+  GeneralTab: '@GeneralTab_FNmatch',
+  PrefillTab: '@PrefillTab_DOBnoMatch'
+}
+
+TestData_MembershipValidation_NB_LNmatch_AZ: {
+  GeneralTab: '@GeneralTab_LNmatch',
+  PrefillTab: '@PrefillTab_DOBnoMatch'
+}
+
+TestData_MembershipValidation_NB_DOBmatch_AZ: {
+  GeneralTab: '@GeneralTab_DOBmatch',
+  PrefillTab: '@PrefillTab_DOBmatch'
+}
+
+TestData_MembershipValidation_MembershipNo_AZ: {
+  GeneralTab: '@GeneralTab_MembershipNo',
+
+}
+
+TestData_MembershipValidation_End_Ren_MembershipYes_AZ: {
+  GeneralTab: '@GeneralTab_End_Ren_MembershipYes',
+  DriverTab: {},
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  EndorsementActionTab: '@EndorsementActionTab'
+
+}
+############ For Endorsement and Renewal TCs
+TestData_MembershipValidation_MembershipNo_SomeMatch_AZ: {
+  PrefillTab: '@PrefillTab_DOBnoMatch',   #adjust DOB to match or not
+  GeneralTab: '@GeneralTab_MembershipNo_SomeMatch',
+}
+###########
+
+# ------------- Tabs ----------
+
+EndorsementActionTab: {
+    Endorsement Date: /today+1d,
+    Endorsement Reason: Maintain Vehicle(s)
+}
+
+PrefillTab_DOBmatch: {
+   Date of Birth: 8/25/1974, #DOB has to match with DOB from Membership report response
+   Validate Address: click,
+   Validate Address Dialog: {},
+   Order Prefill: click
+ }
+
+PrefillTab_DOBnoMatch: {
+   Date of Birth: 8/25/1975,   #DOB has to be different than DOB from Membership report response
+   Validate Address: click,
+   Validate Address Dialog: {},
+   Order Prefill: click
+  }
+
+GeneralTab_AllMatch: {
+  NamedInsuredInformation: '@NamedInsuredInformation_AllMatch',
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
+}
+
+GeneralTab_NoMatch: {
+  NamedInsuredInformation: '@NamedInsuredInformation_NoMatch',
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
+}
+
+GeneralTab_FNmatch: {
+  NamedInsuredInformation: '@NamedInsuredInformation_FNmatch',
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
+}
+
+GeneralTab_LNmatch: {
+  NamedInsuredInformation: '@NamedInsuredInformation_LNmatch',
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
+}
+
+GeneralTab_DOBmatch: {
+  NamedInsuredInformation: '@NamedInsuredInformation_NoMatch',
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
+}
+
+GeneralTab_MembershipNo: {
+  NamedInsuredInformation: '@NamedInsuredInformation_NoMatch',
+  AAAProductOwned: '@AAAProductOwned_MembershipNo',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
+}
+
+############## For Endorsement and renewal TCs
+GeneralTab_MembershipNo_SomeMatch: {
+  NamedInsuredInformation: '@NamedInsuredInformation_FNmatch',    #adjust what to match (FN, LN)
+  AAAProductOwned: '@AAAProductOwned_MembershipNo',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
+}
+#########
+
+GeneralTab_End_Ren_MembershipYes: {
+#  NamedInsuredInformation: '@NamedInsuredInformation',
+  AAAProductOwned: '@AAAProductOwned',
+#  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+#  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_End_Ren'
+}
+
+RatingDetailReportsTab: {
+  Order Report: click
+}
+
+
+PolicyInformation_End_Ren: {
+  Authorized by: qa
+}
+
+NamedInsuredInformation_NoMatch: {
+  InsuredSearchDialog: {},
+  First Name: Joret,
+  Last Name: Boldha,
+  Base Date: /today,
+  Social Security Number: 223456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home
+}
+
+NamedInsuredInformation_AllMatch: {
+  InsuredSearchDialog: {},
+  First Name: NAGABHUSHANAM,
+  Last Name: VELUMULA,
+  Base Date: /today,
+  Social Security Number: 223456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home
+}
+
+NamedInsuredInformation_FNmatch: {
+  InsuredSearchDialog: {},
+  First Name: NAGABHUSHANAM,
+  Last Name: Boldha,
+  Base Date: /today,
+  Social Security Number: 223456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home
+}
+
+NamedInsuredInformation_LNmatch: {
+  InsuredSearchDialog: {},
+  First Name: Joret,
+  Last Name: VELUMULA,
+  Base Date: /today,
+  Social Security Number: 223456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home
+}
+
+
+AAAProductOwned: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001,
+  Last name: TestXXXXXX
+}
+
+AAAProductOwned_MembershipNo: {
+  Current AAA Member: 'No',
+#  Membership Number: 4290023667710001,
+#  Last name: TestXXXXXX
+}
