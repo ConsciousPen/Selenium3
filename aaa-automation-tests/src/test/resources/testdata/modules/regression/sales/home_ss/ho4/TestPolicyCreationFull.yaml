@@ -129,7 +129,7 @@ NamedInsured: {
 AAAMembership: {
   Current AAA Member: 'Yes',
   Membership number: '4290023667710001',
-  Last name: 'Testovich',
+  Last name: Smith,
 }
 
 DwellingAddress: {
