@@ -73,12 +73,22 @@ TestData_Purchase: {
     Validate Driving History: click
   },
   DocumentsAndBindTab: {
-    RequiredToBind: {
-      Personal Auto Application: Physically Signed,
-      'Named Driver(s) Exclusion': Physically Signed
-    },
     VehicleInformation: {
       "Are there any additional interest(s)?": 'No'
     }
+  },
+  ErrorTab: {
+    ErrorsOverride: [{
+      Override: 'true',
+      Approval: 'true',
+      Duration: Life,
+      Reason for override: index=1
+    },
+    {
+      Override: 'true',
+      Approval: 'true',
+      Duration: Life,
+      Reason for override: index=1
+    }] 
   }
 }

@@ -20,16 +20,20 @@ public class DocumentDataElement {
 		return dataElementChoice;
 	}
 
-	public void setDataElementChoice(DataElementChoice dataElementChoice) {
-		this.dataElementChoice = dataElementChoice;
-	}
+
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public DocumentDataElement setDataElementChoice(DataElementChoice dataElementChoice) {
+		this.dataElementChoice = dataElementChoice;
+		return this;
+	}
+
+	public DocumentDataElement setName(String name) {
 		this.name = name;
+		return this;
 	}
 
 	@Override
@@ -38,5 +42,29 @@ public class DocumentDataElement {
 				"dataElementChoice=" + dataElementChoice +
 				", name='" + name + '\'' +
 				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || !getClass().equals(o.getClass())) {
+			return false;
+		}
+
+		DocumentDataElement that = (DocumentDataElement) o;
+
+		if (dataElementChoice != null ? !dataElementChoice.equals(that.dataElementChoice) : that.dataElementChoice != null) {
+			return false;
+		}
+		return name != null ? name.equals(that.name) : that.name == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = dataElementChoice != null ? dataElementChoice.hashCode() : 0;
+		result = 31 * result + (name != null ? name.hashCode() : 0);
+		return result;
 	}
 }

@@ -1,16 +1,18 @@
 package aaa.helpers.listeners;
 
-import aaa.common.enums.Constants;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.IAlterSuiteListener;
 import org.testng.collections.Maps;
 import org.testng.xml.XmlClass;
 import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
+import aaa.common.enums.Constants;
 import toolkit.config.PropertyProvider;
 import toolkit.utils.logging.CustomLogger;
-
-import java.util.*;
 
 public class AlterSuiteListener implements IAlterSuiteListener {
 	@Override
@@ -25,7 +27,6 @@ public class AlterSuiteListener implements IAlterSuiteListener {
 			}
 		}
 	}
-
 
 	private List<String> getStates(XmlTest test) {
 		String usState = PropertyProvider.getProperty("test.usstate");
@@ -64,7 +65,7 @@ public class AlterSuiteListener implements IAlterSuiteListener {
 	private XmlTest createTest(XmlTest test, String state) {
 		XmlTest xmlTest = new XmlTest();
 		String testNameme = test.getName();
-		if (!testNameme.startsWith(state)) {
+		if (!testNameme.startsWith(state) || !testNameme.contains(state.toUpperCase())) {
 			xmlTest.setName(state + " " + test.getName());
 		} else {
 			xmlTest.setName(test.getName());
@@ -103,8 +104,9 @@ public class AlterSuiteListener implements IAlterSuiteListener {
 						xmlTest.getClasses().add(xmlClass);
 					}
 				}
-				if (!xmlTest.getClasses().isEmpty())
+				if (!xmlTest.getClasses().isEmpty()) {
 					newTests.add(xmlTest);
+				}
 			}
 			if (!newCATest.getClasses().isEmpty()) {
 				newTests.add(newCATest);
