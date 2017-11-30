@@ -81,7 +81,10 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 				CustomAssert.assertFalse("No policies found by '" + queryName + "' query", policies.size() == 0);
 				break;
 			default:
-				log.info("Policies with query Name" + queryName);
+				if (policies.size() == 0) {
+					log.error("No policies found by '" + queryName + "' query");
+					throw new SkipException("No policies found by '" + queryName + "' query");
+				}
 		}
 		log.info("Policies found by '" + queryName + "' query: " + policies.toString());
 
