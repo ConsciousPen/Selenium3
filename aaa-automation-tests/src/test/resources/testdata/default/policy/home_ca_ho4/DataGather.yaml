@@ -103,7 +103,7 @@ TestData_Full: {
     }],
     AAAMembership: {
       Membership number: '4290023667710001',
-      Last name: Test,
+      Last name: Smith
     },
     DwellingAddress: {
       Zip code: '90255',

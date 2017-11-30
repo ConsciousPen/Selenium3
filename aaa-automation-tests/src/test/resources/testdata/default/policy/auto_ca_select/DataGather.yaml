@@ -13,8 +13,6 @@ TestData_CA: {
 }
 
 PrefillTab: {
-  First Name: Susie,
-  Last Name: Jones20,
   Zip Code: 90255,
   Address Line 1: 6586 PORCUPINE WAY,
   #City:  Fruitland,
@@ -45,7 +43,7 @@ ContactInformation: {
 AAAProductOwned: {
   Current AAA Member: 'Yes',
   Membership Number: 4290023667710001,
-  Member Last Name: Test,
+  Member Last Name: Smith
 }
 
 PolicyInformation: {

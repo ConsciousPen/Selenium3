@@ -31,7 +31,7 @@ public class DbXmlHelper implements AaaDocGenEntityQueries {
 
         );
 
-        String query = StrSubstitutor.replace(getPartOfXmlByXpath, params);
+        String query = StrSubstitutor.replace(GET_PART_OF_XML_BY_XPATH, params);
         return DBService.get().getValue(query).get();
     }
 
