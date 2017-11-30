@@ -150,6 +150,20 @@ public interface EvalueInsertSetupPreConditions {
 			+ "		values ('BaseProductLookupValue', 'pciCreditCard', 'TRUE', 'AAA_SS', 'VA',(select SYSDATE-13 from dual), (select SYSDATE-11 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifyingPaymentMethods'))\n"
 			+ "Select * from dual";
 
+	String EVALUE_PAPERLESS_PREFERENCES_CONFIG_BLUE_BOX_INSERT = "INSERT ALL\n"
+			+ "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
+			+ "		values ('BaseProductLookupValue', 'paperlessPreferencesRequired', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-16 from dual), (select SYSDATE-14 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+			+ "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
+			+ "		values ('BaseProductLookupValue', 'paperlessPreferencesRequired', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-5 from dual), (select SYSDATE-1 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+			+ "Select * from dual";
+
+	String EVALUE_PRIOR_INSURANCE_CONFIG_BLUE_BOX_INSERT = "INSERT ALL\n"
+			+ "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
+			+ "		values ('BaseProductLookupValue', 'priorInsurance', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-16 from dual), (select SYSDATE-14 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+			+ "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
+			+ "		values ('BaseProductLookupValue', 'priorInsurance', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-5 from dual), (select SYSDATE-1 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n"
+			+ "Select * from dual";
+
 	String REFUND_CONFIG_UPDATE = "update LOOKUPVALUE\n"
 			+ "set  DISPLAYVALUE='TRUE' where CODE='eRefunds'";
 
