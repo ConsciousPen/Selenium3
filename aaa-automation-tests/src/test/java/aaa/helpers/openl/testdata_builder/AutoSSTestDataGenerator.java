@@ -1,90 +1,57 @@
 package aaa.helpers.openl.testdata_builder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import aaa.helpers.openl.model.auto_ss.AutoSSOpenLPolicy;
-import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
-import toolkit.datax.DataProviderFactory;
-import toolkit.datax.TestData;
+import java.util.Random;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import aaa.helpers.openl.model.OpenLPolicy;
 import toolkit.exceptions.IstfException;
-import toolkit.utils.datetime.DateTimeUtils;
 
-public class AutoSSTestDataGenerator implements TestDataGenerator<AutoSSOpenLPolicy> {
-	@Override
-	public TestData getRatingData(AutoSSOpenLPolicy openLPolicy) {
-		return DataProviderFactory.dataOf(
-				new PrefillTab().getMetaKey(), getPrefillTabData(),
-				new GeneralTab().getMetaKey(), getGeneralTabData(openLPolicy),
-				new DriverTab().getMetaKey(), getDriverTabData(openLPolicy),
-				new RatingDetailReportsTab().getMetaKey(), getRatingDetailReportsTabData(openLPolicy),
-				new VehicleTab().getMetaKey(), getVehicleTabData(openLPolicy),
-				new FormsTab().getMetaKey(), getFormsTabTabData(openLPolicy),
-				new PremiumAndCoveragesTab().getMetaKey(), getPremiumAndCoveragesTabData(openLPolicy));
+abstract class AutoSSTestDataGenerator<P extends OpenLPolicy> extends TestDataGenerator<P> {
+	private Random random = new Random();
+
+	protected String getGeneralTabResidence(boolean isHomeOwner) {
+		List<String> isHomeOwnerOptions = Arrays.asList("Own Home", "Own Condo", "Own Mobile Home");
+		List<String> notHomeOwnerOptions = Arrays.asList("Rents Multi-Family Dwelling", "Rents Single-Family Dwelling", "Lives with Parent", "Other");
+		if (isHomeOwner) {
+			return isHomeOwnerOptions.get(random.nextInt(isHomeOwnerOptions.size()));
+		}
+		return notHomeOwnerOptions.get(random.nextInt(notHomeOwnerOptions.size()));
 	}
 
-	private TestData getPrefillTabData() {
-		return DataProviderFactory.dataOf(
-				AutoSSMetaData.PrefillTab.VALIDATE_ADDRESS_BTN.getLabel(), "click",
-				AutoSSMetaData.PrefillTab.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.emptyData(),
-				AutoSSMetaData.PrefillTab.ORDER_PREFILL.getLabel(), "click");
-	}
-
-	private TestData getGeneralTabData(AutoSSOpenLPolicy openLPolicy) {
-		return DataProviderFactory.dataOf(
-				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), DataProviderFactory.dataOf(
-						AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TYPE.getLabel(), "Standard",
-						AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY),
-						AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM.getLabel(), getTermValue(openLPolicy))
-		);
-				/*AutoSSMetaData.PrefillTab.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.emptyData(),
-				AutoSSMetaData.PrefillTab.ORDER_PREFILL.getLabel(), "click");*/
-	}
-
-	private List<TestData> getDriverTabData(AutoSSOpenLPolicy openLPolicy) {
-		//TODO-dchubkov: to be implemented
-		List<TestData> tdList = new ArrayList<>(openLPolicy.getDrivers().size());
-		tdList.add(DataProviderFactory.emptyData());
-		return tdList;
-	}
-
-	private TestData getRatingDetailReportsTabData(AutoSSOpenLPolicy openLPolicy) {
-		//TODO-dchubkov: to be implemented
-		return DataProviderFactory.emptyData();
-	}
-
-	private List<TestData> getVehicleTabData(AutoSSOpenLPolicy openLPolicy) {
-		//TODO-dchubkov: to be implemented
-		List<TestData> tdList = new ArrayList<>(openLPolicy.getVehicles().size());
-		tdList.add(DataProviderFactory.emptyData());
-		return tdList;
-	}
-
-	private TestData getFormsTabTabData(AutoSSOpenLPolicy openLPolicy) {
-		//TODO-dchubkov: to be implemented
-		return DataProviderFactory.emptyData();
-	}
-
-	private TestData getPremiumAndCoveragesTabData(AutoSSOpenLPolicy openLPolicy) {
-		//TODO-dchubkov: to be implemented
-		return DataProviderFactory.emptyData();
-	}
-
-	private String getTermValue(AutoSSOpenLPolicy openLPolicy) {
-		switch (openLPolicy.getTerm()) {
+	protected String getGeneralTabTerm(int term) {
+		switch (term) {
 			case 12:
 				return "Annual";
 			case 6:
 				return "Semi-Annual";
 			default:
-				throw new IstfException("Unable to build test data. Unsupported openL policy term: " + openLPolicy.getTerm());
+				throw new IstfException("Unable to build test data. Unsupported openL policy term: " + term);
 		}
 	}
 
+	protected String generalTabIsAdvanceShopping(boolean isAdvanceShopping) {
+		if (isAdvanceShopping) {
+			throw new IstfException("Unknown mapping for isAdvanceShopping = true");
+		}
+		return "No Discount";
+	}
+
+	protected String getGeneralTabPriorBILimit(String priorBILimit) {
+		List<String> priorBILimit100xx = new ArrayList<>();
+		priorBILimit100xx.add("None");
+		priorBILimit100xx.add(new Dollar(15_000) + "/" + new Dollar(30_000));
+		priorBILimit100xx.add(new Dollar(20_000) + "/" + new Dollar(40_000));
+		priorBILimit100xx.add(new Dollar(25_000) + "/" + new Dollar(50_000));
+		priorBILimit100xx.add(new Dollar(30_000) + "/" + new Dollar(60_000));
+		priorBILimit100xx.add(new Dollar(50_000) + "/" + new Dollar(100_000));
+		switch (priorBILimit) {
+			case "100/XX":
+				return priorBILimit100xx.get(random.nextInt(priorBILimit100xx.size()));
+			//TODO-dchubkov: add other cases:
+			default:
+				throw new IstfException("Unknown mapping for priorBILimit = " + priorBILimit);
+		}
+	}
 }

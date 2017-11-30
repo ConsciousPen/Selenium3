@@ -5,6 +5,7 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -175,16 +176,17 @@ public class ExcelParser {
 		return value;
 	}
 
-	public Row getHeaderRow(Set<String> headerColumnNames) {
-		return getHeaderRow(headerColumnNames, true);
+	public Row getHeaderRow(String... headerColumnNames) {
+		return getHeaderRow(true, headerColumnNames);
 	}
 
-	public Row getHeaderRow(Set<String> headerColumnNames, boolean isLowest) {
+	public Row getHeaderRow(boolean isLowest, String... headerColumnNames) {
+		Set<String> expectedColumnNames = new HashSet<>(Arrays.asList(headerColumnNames));
 		List<Row> foundRows = new ArrayList<>();
 		Map<Integer, Pair<Row, String>> foundRowsWithPartialMatch = new HashMap<>();
 		for (Row row : this.sheet) {
 			List<String> rowValues = getRowValues(row);
-			Set<String> columnNames = new HashSet<>(headerColumnNames);
+			Set<String> columnNames = new HashSet<>(expectedColumnNames);
 			if (rowValues.containsAll(columnNames)) {
 				foundRows.add(row);
 			} else if (columnNames.removeAll(rowValues)) {
@@ -197,7 +199,7 @@ public class ExcelParser {
 		}
 
 		if (foundRows.isEmpty()) {
-			String errorMessage = String.format("Unable to find header row with all these column names: %1$s on sheet \"%2$s\"", headerColumnNames, getSheet().getSheetName());
+			String errorMessage = String.format("Unable to find header row with all these column names: %1$s on sheet \"%2$s\"", expectedColumnNames, getSheet().getSheetName());
 			if (!foundRowsWithPartialMatch.isEmpty()) {
 				int bestMatch = foundRowsWithPartialMatch.keySet().stream().min(Integer::compare).get();
 				int rowNumber = foundRowsWithPartialMatch.get(bestMatch).getLeft().getRowNum();
@@ -209,19 +211,22 @@ public class ExcelParser {
 
 		Row headerRow = foundRows.get(foundRows.size() - 1);
 		List<String> extraHeaderColumns = new ArrayList<>(getRowValues(headerRow));
-		extraHeaderColumns.removeAll(headerColumnNames);
+		extraHeaderColumns.removeAll(expectedColumnNames);
 		if (!extraHeaderColumns.isEmpty()) {
 			log.warn("Found header row contains extra column names: {}", extraHeaderColumns);
 		}
 		return headerRow;
 	}
 
-	public ExcelTable getTable(Set<String> headerColumnNames) {
-		return getTable(headerColumnNames, true);
+	/**
+	 * Only columns with unique names from array will be searched. Returns <b>last</b> found ExcelTable
+	 */
+	public ExcelTable getTable(String... headerColumnNames) {
+		return getTable(true, headerColumnNames);
 	}
 
-	public ExcelTable getTable(Set<String> headerColumnNames, boolean isLowest) {
-		TableHeader header = new TableHeader(getHeaderRow(headerColumnNames, isLowest));
+	public ExcelTable getTable(boolean isLowest, String... headerColumnNames) {
+		TableHeader header = new TableHeader(getHeaderRow(isLowest, headerColumnNames));
 		return new ExcelTable(header);
 	}
 }

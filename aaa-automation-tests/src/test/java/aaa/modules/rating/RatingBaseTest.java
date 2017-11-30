@@ -8,18 +8,17 @@ import aaa.common.Tab;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
-import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
-import aaa.modules.BaseTest;
+import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
+import aaa.modules.policy.PolicyBaseTest;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
 import toolkit.datax.TestData;
 
-public class RatingBaseTest<P extends OpenLPolicy> extends BaseTest {
+public class RatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 	protected static final String OPENL_RATING_TESTS_FOLDER = "src/test/resources/openl";
 	protected static final Logger log = LoggerFactory.getLogger(RatingBaseTest.class);
-	protected IPolicy policy;
 	private TestDataGenerator<P> testDataGenerator;
 
 	public RatingBaseTest(TestDataGenerator<P> testDataGenerator) {
@@ -27,7 +26,7 @@ public class RatingBaseTest<P extends OpenLPolicy> extends BaseTest {
 	}
 
 	protected <O extends OpenLFile<P>> void verifyPremiums(String openLFileName, Class<O> openLFileModelClass) {
-		policy = getPolicyType().get();
+		this.testDataGenerator.setRatingDataPattern(getRatingDataPattern());
 		OpenLFile<P> openLFile = getOpenLFileObject(openLFileName, openLFileModelClass);
 
 		mainApp().open();
@@ -36,9 +35,6 @@ public class RatingBaseTest<P extends OpenLPolicy> extends BaseTest {
 		for (P openLPolicy : openLFile.getPolicies()) {
 			log.info("Premium calculation verification initiated for OpenL test with policy: {}", openLPolicy);
 			TestData quoteRatingData = testDataGenerator.getRatingData(openLPolicy);
-			if (getPolicyType().equals(PolicyType.PUP)) {
-				quoteRatingData = new PrefillTab().adjustWithRealPolicies(quoteRatingData, getPrimaryPoliciesForPup());
-			}
 
 			policy.initiate();
 			policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
@@ -58,5 +54,13 @@ public class RatingBaseTest<P extends OpenLPolicy> extends BaseTest {
 
 	protected String getExpectedPremium(OpenLFile<P> openLFile, int policyNumber) {
 		return String.valueOf(openLFile.getTests().stream().filter(t -> t.getPolicy() == policyNumber).findFirst().get().getTotalPremium());
+	}
+
+	protected TestData getRatingDataPattern() {
+		TestData td = getPolicyTD().mask(new PurchaseTab().getMetaKey());
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
+		}
+		return td;
 	}
 }

@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
 import aaa.utils.excel.ExcelParser;
 import aaa.utils.excel.ExcelTable;
 import aaa.utils.excel.TableRow;
@@ -25,7 +23,7 @@ public class ExcelUnmarshaller {
 		for (Field tableField : getAllFields(excelFileModel, true)) {
 			excelParser.switchSheet(getSheetName(tableField));
 			List<Field> tableRowFields = getAllFields(getTableRowType(tableField));
-			ExcelTable excelTable = excelParser.getTable(getHeaderColumnNames(tableRowFields), isLowestTable(tableField));
+			ExcelTable excelTable = excelParser.getTable(isLowestTable(tableField), getHeaderColumnNames(tableRowFields));
 
 			List<Object> tableFields = new ArrayList<>();
 			for (TableRow row : excelTable) {
@@ -120,7 +118,7 @@ public class ExcelUnmarshaller {
 				}
 				List<Field> linkedTableRowFields = getAllFields(getTableRowType(tableRowField));
 				ExcelParser excelParser = new ExcelParser(row.getTable().getSheet()).switchSheet(getSheetName(tableRowField));
-				ExcelTable excelTable = excelParser.getTable(getHeaderColumnNames(linkedTableRowFields), isLowestTable(tableRowField));
+				ExcelTable excelTable = excelParser.getTable(isLowestTable(tableRowField), getHeaderColumnNames(linkedTableRowFields));
 
 				List<Object> linkedTableRows = new ArrayList<>();
 				for (TableRow linkedTableRow : excelTable) {
@@ -182,8 +180,8 @@ public class ExcelUnmarshaller {
 		return (Class<?>) parameterizedType.getActualTypeArguments()[0];
 	}
 
-	private Set<String> getHeaderColumnNames(List<Field> tableRowFields) {
-		return tableRowFields.stream().map(this::getHeaderColumnName).collect(Collectors.toSet());
+	private String[] getHeaderColumnNames(List<Field> tableRowFields) {
+		return tableRowFields.stream().map(this::getHeaderColumnName).toArray(String[]::new);
 	}
 
 	private String getHeaderColumnName(Field tableRowField) {
