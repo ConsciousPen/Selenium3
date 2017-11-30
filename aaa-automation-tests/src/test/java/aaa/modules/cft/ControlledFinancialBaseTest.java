@@ -456,26 +456,20 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	/**
+	 * Bill generation on DD1 date (i.e. Start Date + one month)
+	 */
+	protected void generateInstallmentBill() {
+		LocalDateTime billDueDate = TimeSetterUtil.getInstance().getStartTime().plusMonths(1);
+		generateInstallmentBillOnDate(billDueDate);
+	}
+	/**
 	 * Bill generation for provided installment of the policy
-	 *
 	 * @param installmentNumber number of the installment
 	 */
 	protected void generateInstallmentBill(int installmentNumber) {
 		LocalDateTime billDueDate = getTimePoints().getBillGenerationDate(
 			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
-		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		log.info("{} Installment bill generation started on {}", installmentNumber, billDueDate);
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
-		mainApp().reopen();
-		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		new BillingBillsAndStatementsVerifier()
-			.setType(BillingConstants.BillsAndStatementsType.BILL)
-			.setDueDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber))
-			.setMinDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue()))
-			.setPastDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PAST_DUE).getValue()))
-			.setTotalDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue()))
-			.verifyPresent();
-		log.info("{} Installment bill generation completed successfully", installmentNumber);
+		generateInstallmentBillOnDate(billDueDate);
 	}
 
 	protected void splitPolicyOnFirstDueDate() {
@@ -786,17 +780,9 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	protected void runCFTJobs() {
-		// JobUtils.executeJob(Jobs.cftDcsEodJob);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		JobUtils.executeJob(Jobs.policyTransactionLedgerJob);
-	}
-
-	private void generateAndCheckEarnedPremiumBill(LocalDateTime date) {
-		TimeSetterUtil.getInstance().nextPhase(date);
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
-		mainApp().reopen();
-		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).verifyRowWithDueDate(date);
 	}
 
 	private void acceptManualPaymentOnDate(LocalDateTime paymentDate) {
@@ -852,6 +838,31 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 			.setAmount(minDue.negate())
 			.verifyPresent();
 		log.info("Accept payment action completed successfully");
+	}
+
+	private void generateAndCheckEarnedPremiumBill(LocalDateTime date) {
+		TimeSetterUtil.getInstance().nextPhase(date);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).verifyRowWithDueDate(date);
+	}
+
+	private void generateInstallmentBillOnDate(LocalDateTime billDueDate) {
+		TimeSetterUtil.getInstance().nextPhase(billDueDate);
+		log.info("Installment bill generation started on {}", billDueDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		new BillingBillsAndStatementsVerifier()
+			.setType(BillingConstants.BillsAndStatementsType.BILL)
+			.setDueDate(billDueDate)
+			// .setDueDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber))
+			.setMinDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.MIN_DUE).getValue()))
+			.setPastDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PAST_DUE).getValue()))
+			.setTotalDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue()))
+			.verifyPresent();
+		log.info("Installment bill generation completed successfully");
 	}
 
 	private void performEndorsementOnDate(LocalDateTime endorsementDate) {
