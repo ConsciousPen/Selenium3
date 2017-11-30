@@ -17,7 +17,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
     }
 
     /**
-     * * @author Lev Kazarnovskiy
+     * @author Lev Kazarnovskiy
      * PAS-533 Quote Refresh -Add New VIN
      * PAS-1406 Data Refresh
      *
@@ -32,7 +32,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
     }
 
     /**
-     * * @author Lev Kazarnovskiy
+     * @author Lev Kazarnovskiy
      * PAS-1406 Data Refresh
      * PAS-527 Renewal Refresh -Add New VIN & Update Existing
      * See detailed steps in template file

@@ -1,5 +1,8 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import java.util.Arrays;
+import java.util.List;
 import java.util.NoSuchElementException;
 import org.testng.annotations.AfterMethod;
 import aaa.admin.metadata.administration.AdministrationMetaData;
@@ -57,10 +60,10 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 
 		//save quote number to open it later
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		log.info("Quote " + quoteNumber + " is successfully saved for further use");
+		log.info("Quote {} is successfully saved for further use", quoteNumber);
 
 		//open Admin application and navigate to Administration tab
-		adminApp().open();
+		adminApp().switchPanel();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
@@ -68,17 +71,16 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, configExcelName);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
-		mainApp().open();
+		mainApp().switchPanel();
 		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.ASSIGNMENT.get());
 
 		policy.getDefaultView().fillFromTo(testData, AssignmentTab.class, PremiumAndCoveragesTab.class, true);
 		// Start PAS-2714 NB
-		// PDSYMBOL
-		// MPSYMBOL
-		// UMSYMBOL
-		// BISYMBOL
+		List<String> pas2712Fields = Arrays.asList("BI Symbol","PD Symbol","UM Symbol", "MP Symbol");
+		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1)).isEqualTo(true));
+		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).getValue()).isEqualTo("K"));
 		// End PAS-2714 NB
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 
@@ -91,8 +93,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 
 		CustomAssert.assertAll();
 
-		log.info(getPolicyType() + " Quote# " + quoteNumber + " was successfully saved " +
-				"'Add new VIN scenario' for NB is passed for VIN UPLOAD tests");
+		log.info("{} Quote# {} was successfully saved 'Add new VIN scenario' for NB is passed for VIN UPLOAD tests", getPolicyType(), quoteNumber);
 	}
 
 	/**
@@ -162,8 +163,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 
 		verifyActivitiesAndUserNotes(vinNumber);
 
-		log.info(getPolicyType() + ". Renewal image for policy " + policyNumber + " was successfully saved " +
-				"'Add new VIN scenario' for Renewal is passed for VIN UPLOAD tests");
+		log.info("{}. Renewal image for policy {} was successfully saved 'Add new VIN scenario' for Renewal is passed for VIN UPLOAD tests", getPolicyType(), policyNumber);
 	}
 
 	/**
@@ -198,7 +198,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 
 		//save policy number to open it later
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		log.info("Policy " + policyNumber + " is successfully saved for further use");
+		log.info("Policy {} is successfully saved for further use", policyNumber);
 
 		//open Admin application and navigate to Administration tab
 		adminApp().open();
@@ -230,8 +230,8 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 
 		verifyActivitiesAndUserNotes(vinNumber);
 
-		log.info(getPolicyType() + ". Renewal image for policy " + PolicySummaryPage.labelPolicyNumber.getValue() + " was successfully created. \n" +
-				"'Update VIN scenario' is passed for VIN UPLOAD tests, Renewal Refresh works fine for VINUpdate");
+		log.info("{}. Renewal image for policy {} was successfully created. \n'Update VIN scenario' is passed for VIN UPLOAD tests, Renewal Refresh works fine for VINUpdate", getPolicyType(), PolicySummaryPage.labelPolicyNumber
+				.getValue());
 	}
 
 	private void precondsTestVINUpload(TestData testData) {
@@ -262,15 +262,15 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 	protected void vin_db_cleaner() {
 		String configNames = "('SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT', 'SYMBOL_2000_SS_TEST')";
 		try {
-			String VehiclerefdatamodelID = DBService.get().getValue("SELECT DM.id FROM vehiclerefdatamodel DM " +
+			String vehicleRefDatamodelId = DBService.get().getValue("SELECT DM.id FROM vehiclerefdatamodel DM " +
 					"JOIN vehiclerefdatavin DV ON DV.vehiclerefdatamodelid=DM.id " +
 					"WHERE DV.version IN " + configNames).get();
 			DBService.get().executeUpdate("DELETE FROM vehiclerefdatavin V WHERE V.VERSION IN " + configNames);
-			DBService.get().executeUpdate("DELETE FROM vehiclerefdatamodel WHERE id='" + VehiclerefdatamodelID + "'");
+			DBService.get().executeUpdate("DELETE FROM vehiclerefdatamodel WHERE id='" + vehicleRefDatamodelId + "'");
 			DBService.get().executeUpdate("DELETE FROM vehiclerefdatavincontrol VC WHERE VC.version IN " + configNames);
 			DBService.get().executeUpdate("UPDATE vehiclerefdatavincontrol SET expirationdate='99999999'");
 		} catch (NoSuchElementException e) {
-			log.error("Configurations with names " + configNames + " are not present in DB, after method have'n been executed fully");
+			log.error("Configurations with names {} are not present in DB, after method have'n been executed fully", configNames);
 		}
 	}
 }
