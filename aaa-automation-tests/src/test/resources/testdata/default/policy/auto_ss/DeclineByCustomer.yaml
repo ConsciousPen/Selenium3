@@ -1,13 +1,13 @@
 TestData: {
   DeclineByCustomerActionTab: {
-    Decline Date: /today,
+    Decline Date: $<today>,
     Decline Reason: index=1
   }
 }
 
 TestData_Plus1Year: {
   DeclineByCustomerActionTab: {
-    Decline Date: /today+1y,
+    Decline Date: $<today+1y>,
     Decline Reason: index=1
   }
 }

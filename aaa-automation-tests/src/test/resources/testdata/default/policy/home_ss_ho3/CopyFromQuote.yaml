@@ -1,12 +1,12 @@
 TestData: {
   CopyQuoteActionTab: {
-    Quote Effective Date: /today
+    Quote Effective Date: '$<today>'
   }
 }
 
 TestData_BackDated: {
   CopyQuoteActionTab: {
-    Quote Effective Date: /today-30d,
+    Quote Effective Date: $<today-30d>,
   }
 }
 

@@ -1,7 +1,7 @@
 AAAProductOwned_Active: {
   Current AAA Member: 'Yes',
   Membership Number: 4382124426284004,
-  Last name: Test
+  Last name: Smith
 }
 
 AAAProductOwned_Pending: {
@@ -15,15 +15,15 @@ AAAProductOwned_No: {
 CurrentCarrierInformation: {
   "Override Prefilled Current Carrier?": 'Yes',
   Agent Entered Current/Prior Carrier: 'AAA-SoCal (ACSC)',
-  Agent Entered Inception Date: /today-1y,
-  Agent Entered Expiration Date: /today-1d,
+  Agent Entered Inception Date: $<today-1y>,
+  Agent Entered Expiration Date: $<today-1d>,
   Agent Entered Policy Number: 'VASS876456324',
   Agent Entered BI Limits: '$300,000/$500,000',
 }
 
 PolicyInformation: {
   Policy Type: Standard,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: AAA Agent,
   Agency: AAA Mid-Atlantic - 500016292,
@@ -40,8 +40,8 @@ DriverActivityReportsTab: {
 CurrentCarrierInformation_DayLapsedMore4: {
   "Override Prefilled Current Carrier?": 'Yes',
   Agent Entered Current/Prior Carrier: 'AAA-SoCal (ACSC)',
-  Agent Entered Inception Date: /today-1y,
-  Agent Entered Expiration Date: /today-10d,
+  Agent Entered Inception Date: $<today-1y>,
+  Agent Entered Expiration Date: $<today-10d>,
   Agent Entered Policy Number: 'VASS876456324',
   Agent Entered BI Limits: '$300,000/$500,000',
 }
@@ -49,8 +49,8 @@ CurrentCarrierInformation_DayLapsedMore4: {
 CurrentCarrierInformation_BILimitLess: {
   "Override Prefilled Current Carrier?": 'Yes',
   Agent Entered Current/Prior Carrier: 'AAA-SoCal (ACSC)',
-  Agent Entered Inception Date: /today-1y,
-  Agent Entered Expiration Date: /today-1d,
+  Agent Entered Inception Date: $<today-1y>,
+  Agent Entered Expiration Date: $<today-1d>,
   Agent Entered Policy Number: 'VASS876456324',
   Agent Entered BI Limits: '$15,000/$30,000',
 }
@@ -84,7 +84,7 @@ CC_MasterCard: {
   Payment Method: 'Credit/Debit Card',
   Type: 'Master Card',
   Number: '5555555555554444',
-  'Expiration Month/Year': ['/today:M', '/today+4y:yyyy']
+  'Expiration Month/Year': ['$<today:M>', '$<today+4y:yyyy>']
 }
 
 PurchaseTab_DC: {
@@ -100,7 +100,7 @@ DC_Visa: {
   Payment Method: 'Credit/Debit Card',
   Type: 'MasterCard',
   Number: '4539343326426984',
-  'Expiration Month/Year': ['/today:M', '/today+4y:yyyy']
+  'Expiration Month/Year': ['$<today:M>', '$<today+4y:yyyy>']
 }
 
 PolicyInformationForTerritoriesEValueApplicable: {

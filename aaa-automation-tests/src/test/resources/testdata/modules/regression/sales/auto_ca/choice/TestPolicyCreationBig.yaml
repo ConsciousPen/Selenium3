@@ -17,7 +17,7 @@ PrefillTab: {
   Last Name: Stark,
   Zip Code: 94544,
   Address Line 1: 8416 Briggs Drive,
-  Date of Birth: '/today-38y:MM/dd/yyyy',
+  Date of Birth: '$<today-38y:MM/dd/yyyy>',
   Validate Address: click,
   Validate Address Dialog: {
     },
@@ -39,18 +39,18 @@ NamedInsuredInformation2: {
   InsuredSearchDialog: {},
   First Name: Diego,
   Last Name: Maradona,
-  Base Date: '/today:MM/dd/yyyy'
+  Base Date: '$<today:MM/dd/yyyy>'
 }
 
 AAAProductOwned: {
   Current AAA Member: 'Yes',
   Membership Number: 4290023667710001,
-  Member Last Name: Test,
+  Member Last Name: Smith
 }
 
 PolicyInformation: {
   Policy Type: Standard,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Channel Type: AAA Agent,
   Agency: 'AAA NCNU - 500001005',
   Agency Location: 'Los Gatos - 500005341 - Los Gatos',
@@ -74,7 +74,7 @@ DriverTab2: {
   Named Insured: 'Diego Maradona',
   Driver Type: Available for Rating,
   'Rel. to First Named Insured': Other,
-  Date of Birth: '/today-37y:MM/dd/yyyy',
+  Date of Birth: '$<today-37y:MM/dd/yyyy>',
   Occupation: Self Employed,
   Gender: Male,
   Marital Status: Single,

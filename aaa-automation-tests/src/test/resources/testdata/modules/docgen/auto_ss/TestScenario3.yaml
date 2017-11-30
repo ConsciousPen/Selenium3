@@ -45,9 +45,7 @@ Endorsement: {
     "Underinsured Motorist Stacked/Unstacked": Stacked
   },
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: Test
-  },
+  DocumentsAndBindTab: {},
 }
 
 # ------------- Tabs ----------
@@ -69,7 +67,7 @@ NamedInsuredInformation: {
 
 AAAProductOwned: {
   Membership Number: 2234567890123450,
-  Last name: Test
+  Last name: Smith
 }
 
 ContactInformation: {
@@ -78,7 +76,7 @@ ContactInformation: {
 
 PolicyInformation: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: Independent Agent,
   Agency: SMTestIA - 400001650,
@@ -254,7 +252,7 @@ AA41XX_AZ: {
     PlcyGrp: {TextField: PERSONAL AUTO},
     SpseExclNOPlcyYN: {TextField: Y},
     PlcyNum: {TextField: ''},
-    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+    TermEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
     SgntrOnFile: {TextField: ''}
   }
 }
@@ -288,7 +286,7 @@ AA41XX_IN: {
     PlcyGrp: {TextField: PERSONAL AUTO},
     SpseExclNOPlcyYN: {TextField: Y},
     PlcyNum: {TextField: ''},
-    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+    TermEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
     SgntrOnFile: {TextField: ''}
   }
 }
@@ -322,7 +320,7 @@ AA41XX_OK: {
     PlcyGrp: {TextField: PERSONAL AUTO},
     SpseExclNOPlcyYN: {TextField: Y},
     PlcyNum: {TextField: ''},
-    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+    TermEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
     SgntrOnFile: {TextField: ''}
   }
 }
@@ -349,7 +347,7 @@ AA41PA: {
     PlcyStAbrv: {TextField: PA},
     PlcyTransCd: {TextField: '0040'},
     PlcyNum: {TextField: ''},
-    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"}
+    TermEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"}
   }
 }
 
@@ -432,8 +430,8 @@ AA52UPAB: {
     PlcyStAbrv: {TextField: PA},
     PlcyTransCd: {TextField: '0040'},
     PlcyNum: {TextField: ''},
-    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+    TermEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
   }
 }
 
@@ -459,8 +457,8 @@ AA52IPAB: {
     PlcyStAbrv: {TextField: PA},
     PlcyTransCd: {TextField: '0040'},
     PlcyNum: {TextField: ''},
-    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+    TermEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
   }
 }
 
@@ -486,8 +484,8 @@ AA52UPAC: {
     PlcyStAbrv: {TextField: PA},
     PlcyTransCd: {TextField: '0100'},
     PlcyNum: {TextField: ''},
-    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+    TermEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
   }
 }
 
@@ -513,7 +511,7 @@ AA52IPAC: {
     PlcyStAbrv: {TextField: PA},
     PlcyTransCd: {TextField: '0100'},
     PlcyNum: {TextField: ''},
-    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+    TermEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
   }
 }

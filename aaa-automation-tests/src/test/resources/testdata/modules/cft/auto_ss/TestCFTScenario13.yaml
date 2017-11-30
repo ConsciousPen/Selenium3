@@ -20,7 +20,7 @@ TestData: {
 
 GeneralTab_DataGather: {
   PolicyInformation: {
-    Effective Date: '/today+2d',
+    Effective Date: '$<today+2d>',
   }
 }
 
@@ -39,12 +39,12 @@ CancellationActionTab: {
 }
 
 ReinstatementActionTab: {
-  Reinstate Date: /today,
+  Reinstate Date: $<today>,
   Authorized By: 'QA'
 }
 
 EndorsementActionTab: {
-  Endorsement Date: /today,
+  Endorsement Date: $<today>,
   Endorsement Reason: Maintain Vehicle(s)
 }
 

@@ -23,7 +23,7 @@ PremiumAndCoveragesTab: {
 
 TestData_Reinstate: {
   ReinstatementActionTab: {
-    Reinstate Date: /today,
+    Reinstate Date: $<today>,
     Authorized By: QA
   }
 }
@@ -428,7 +428,7 @@ NamedInsuredInformation_OK: {
 
 AAAProductOwned_OK: {
   Membership Number: 4290023667710001,
-  Last name: Test,
+  Last name: Smith
 }
 
 ContactInformation_OK: {
@@ -437,7 +437,7 @@ ContactInformation_OK: {
 
 PolicyInformation_OK: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: Independent Agent,
   Agency: SMTestIA - 400001650,

@@ -1,6 +1,6 @@
 SpinTestData: {
    SpinActionTab: {
-  Transaction Effective Date: /today,
+  Transaction Effective Date: $<today>,
   'Insureds approve removal of drivers and vehicles': 'Yes',
     Drivers: '1',
     Vehicles : '2'
@@ -81,7 +81,7 @@ NamedInsuredInformation: {
 AAAProductOwned: {
   Current AAA Member: 'Yes',
   Membership Number: 4290023667710001,
-  Last name: Test,
+  Last name: Smith
 }
 
 ContactInformation: {

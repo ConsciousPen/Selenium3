@@ -1,11 +1,11 @@
 TestData: {
   ReinstatementActionTab: {
-    Reinstate Date: /today
+    Reinstate Date: '$<today>'
   }
 }
 
 TestData_Plus14Days: {
   ReinstatementActionTab: {
-    Reinstate Date: /today+14d
+    Reinstate Date: '$<today+14d>'
   }
 }
