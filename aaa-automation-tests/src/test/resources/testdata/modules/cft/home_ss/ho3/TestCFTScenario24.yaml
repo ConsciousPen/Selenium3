@@ -34,7 +34,7 @@ PurchaseTab: {
 }
 
 CancellationActionTab: {
-  Cancellation effective date: /startTime,
+  Cancellation effective date: \startTime,
   Cancellation reason: 'Rewrite Accommodation'
 }
 

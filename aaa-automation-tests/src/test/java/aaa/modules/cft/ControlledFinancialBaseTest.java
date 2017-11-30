@@ -15,7 +15,6 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.TimePoints.TimepointsList;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
@@ -713,7 +712,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected void generateRenewalOfferBill() {
 		LocalDateTime policyExpDate = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate();
-		LocalDateTime renewalOfferBillDate = getTimePoints().getTimepoint(policyExpDate, TimepointsList.BILL_GENERATION, false);
+		LocalDateTime renewalOfferBillDate = getTimePoints().getBillGenerationDate(policyExpDate);
 		TimeSetterUtil.getInstance().nextPhase(renewalOfferBillDate);
 		log.info("Renewal offer bill generation started on {}", renewalOfferBillDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
@@ -750,7 +749,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	protected void verifyPolicyActiveOnDD1Minus20() {
-		LocalDateTime date = TimeSetterUtil.getInstance().getStartTime().plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay);
+		LocalDateTime date = TimeSetterUtil.getInstance().getStartTime().plusMonths(1).minusDays(20);
 		verifyPolicyStatusOnDate(date, ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
@@ -919,8 +918,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	private void performEndorsementOnDate(LocalDateTime endorsementDate, LocalDateTime endorsementDueDate) {
 		TimeSetterUtil.getInstance().nextPhase(endorsementDate);
-		log.info("Endorsment action started");
-		log.info("Endorsement date: {}", endorsementDate);
+		log.info("Endorsment action started on {}", endorsementDate);
 		mainApp().reopen();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
