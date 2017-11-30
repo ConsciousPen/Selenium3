@@ -1,20 +1,10 @@
 PrefillTab: {
-  First Name: Jori,
-  Middle Name: Kav,
-  Last Name: Amar,
-  Date of Birth: 03/11/1974,
+  First Name: Chargeable,
+  Last Name: Activity,
   Validate Address: click,
   Validate Address Dialog: {
     },
   Order Prefill: click
-}
-
-DriverTab: {
-  Occupation: 'Self Employed',
-  Age First Licensed: 18,
-  Permit Before License: 'No',
-  License State: CA,
-  'License #': B6526589,
 }
 
 PremiumAndCoveragesTab: {
@@ -24,13 +14,52 @@ PremiumAndCoveragesTab: {
   Property Damage Liability: 'contains=$25,000'
 }
 
-DocumentsAndBindTab: {
-  RequiredToBind: {
-    Personal Auto Application: Physically Signed,
-    Deleting Uninsured Motorist Property Damage Coverage: Physically Signed,
-    Reducing Uninsured/Underinsured Motorist Coverage: Physically Signed,
-  },
-  VehicleInformation: {
-    'Are there any additional interest(s)?': 'No',
+TestData_Renewal_CA: {
+  GeneralTab: '@GeneralTab_Renewal',
+  DriverTab: ['@DriverTab_Empty', '@DriverTab_Renewal'],
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_Renewal',
+  DriverActivityReportsTab: '@DriverActivityReportsTab_Renewal',
+  DocumentsAndBindTab: {},
+}
+
+GeneralTab_Renewal: {
+  AAAProductOwned: {
+    Current AAA Member: 'No',
   }
+}
+
+DriverTab_Renewal: {
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
+  First Name: Chargeable,
+  Last Name: Activity,
+  Date of Birth: 03/11/1974,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Self Employed,
+  Age First Licensed: 18,
+  Permit Before License: 'No',
+  License State: CA,
+  "License #": B6526589
+}
+
+PremiumAndCoveragesTab_Renewal: {
+  Bodily Injury Liability: 'contains=$25,000/$50,000',
+  Property Damage Liability: 'contains=$25,000'
+}
+
+DriverActivityReportsTab_Renewal: {
+  Sales Agent Agreement: I Agree,
+  Validate Driving History: click,
+  OrderCLUEReport: [{}],
+  OrderMVRReport: [{}],
+  OrderInternalClaimsReport: [{}]
+}
+
+DriverTab_Empty: {
 }
