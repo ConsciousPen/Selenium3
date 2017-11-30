@@ -40,6 +40,7 @@ import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
+import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
@@ -430,8 +431,8 @@ public class BaseTest {
 
 	protected String initiateManualConversionR35() {
 		TestData td = getStateTestData(tdCustomerIndividual, CustomerActions.InitiateRenewalEntry.class.getSimpleName(), "TestData");
-//		td.adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(), "Renewal Effective Date"),
-//				new AaaMarkupParser().parse("/today+35d:MM/dd/yyyy"));
+		td.adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(), "Renewal Effective Date"),
+				new DefaultMarkupParser().parse("$<today+35d:MM/dd/yyyy>"));
 		return initiateManualConversion(td);
 	}
 
