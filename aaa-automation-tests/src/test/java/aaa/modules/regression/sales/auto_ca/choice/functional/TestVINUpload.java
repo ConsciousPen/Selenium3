@@ -16,7 +16,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		return PolicyType.AUTO_CA_CHOICE;
 	}
 
-//	TODO add logic to generate file names for CA states based on product type
+	//	TODO add logic to generate file names for CA states based on product type
 
 	/**
 	 * @author Lev Kazarnovskiy
