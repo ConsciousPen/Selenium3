@@ -15,10 +15,7 @@ TestData_Endorsement1: {
   AssignmentTab: '@AssignmentTab',
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DriverActivityReportsTab: {}
 }
 
 VehicleTab: {
@@ -45,10 +42,7 @@ TestData_Endorsement2: {
   AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DriverActivityReportsTab: {}
 }
 
 PremiumAndCoveragesTab: {
