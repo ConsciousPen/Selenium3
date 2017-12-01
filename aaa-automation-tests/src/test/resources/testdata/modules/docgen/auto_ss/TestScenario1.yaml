@@ -4,8 +4,6 @@ TestData_AZ: {
 }
 
 PrefillTab_AZ: {
-  First Name: Fernando,
-  Last Name: Alonso,
   Validate Address: click,
   Validate Address Dialog: {},
   Order Prefill: click
@@ -69,9 +67,9 @@ AHIBXX_AZ: {
    PLIGAFee: {TextField: '0.00'}
  },
  NamedInsuredDetails: {
-   NmdInsrdFrstNm: {TextField: 'Fernando'},
+   NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
    NmdInsrdMidNm: {TextField: ''},
-   NmdInsrdLstNm: {TextField: 'Alonso'},
+   NmdInsrdLstNm: {TextField: 'Smith'},
    NmdInsrdStrPobAddr1:  {TextField: '4101 S LAST CHANCE TRL'},
    NmdInsrdAddlAddr2: {TextField: ''},
    NmdInsrdCityNm: {TextField: 'GOLD CANYON'},
@@ -90,9 +88,9 @@ TestData_AH34XX_Verification_AZ: {
 
 AH34XX_AZ: {
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
     NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '4101 S LAST CHANCE TRL'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'GOLD CANYON'},
@@ -129,9 +127,9 @@ TestData_AH67XX_Verification_AZ: {
 
 AH67XX_AZ: {
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
     NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '4101 S LAST CHANCE TRL'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'GOLD CANYON'},
@@ -160,9 +158,9 @@ TestData_AH62XX_Verification_AZ: {
 
 AH62XX_AZ: {
     NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
     NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '4101 S LAST CHANCE TRL'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'GOLD CANYON'},
@@ -205,8 +203,6 @@ TestData_IN: {
 }
 
 PrefillTab_IN: {
-  First Name: Harry,
-  Last Name: Kane,
   Validate Address: click,
   Validate Address Dialog: {},
   Order Prefill: click
@@ -253,9 +249,9 @@ AHIBXX_IN: {
    PLIGAFee: {TextField: '0.00'}
  },
  NamedInsuredDetails: {
-   NmdInsrdFrstNm: {TextField: 'Harry'},
+   NmdInsrdFrstNm: {TextField: 'contains=Harry'},
    NmdInsrdMidNm: {TextField: ''},
-   NmdInsrdLstNm: {TextField: 'Kane'},
+   NmdInsrdLstNm: {TextField: 'Smith'},
    NmdInsrdStrPobAddr1:  {TextField: '22616 ROCKVILLE RD'},
    NmdInsrdAddlAddr2: {TextField: ''},
    NmdInsrdCityNm: {TextField: 'EVANSVILLE'},
@@ -274,9 +270,9 @@ TestData_AH34XX_Verification_IN: {
 
 AH34XX_IN: {
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
     NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Kane'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '22616 ROCKVILLE RD'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'EVANSVILLE'},
@@ -313,9 +309,9 @@ TestData_AH67XX_Verification_IN: {
 
 AH67XX_IN: {
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
     NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Kane'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '22616 ROCKVILLE RD'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'EVANSVILLE'},
@@ -344,9 +340,9 @@ TestData_AH62XX_Verification_IN: {
 
 AH62XX_IN: {
     NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Harry'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
     NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Kane'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '22616 ROCKVILLE RD'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'EVANSVILLE'},
@@ -406,8 +402,6 @@ TestData_OK: {
 }
 
 PrefillTab_OK: {
-  First Name: Phil,
-  Last Name: Jones,
   Validate Address: click,
   Validate Address Dialog: {},
   Order Prefill: click
@@ -428,7 +422,7 @@ NamedInsuredInformation_OK: {
 
 AAAProductOwned_OK: {
   Membership Number: 4290023667710001,
-  Last name: Test,
+  Last name: Smith
 }
 
 ContactInformation_OK: {
@@ -485,9 +479,9 @@ AHIBXX_OK: {
    PLIGAFee: {TextField: '0.00'}
  },
  NamedInsuredDetails: {
-   NmdInsrdFrstNm: {TextField: 'Phil'},
+   NmdInsrdFrstNm: {TextField: 'contains=Phil'},
    NmdInsrdMidNm: {TextField: ''},
-   NmdInsrdLstNm: {TextField: 'Jones'},
+   NmdInsrdLstNm: {TextField: 'Smith'},
    NmdInsrdStrPobAddr1:  {TextField: '4417 N GEORGIA AVE'},
    NmdInsrdAddlAddr2: {TextField: ''},
    NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
@@ -506,9 +500,9 @@ TestData_AH34XX_Verification_OK: {
 
 AH34XX_OK: {
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
     NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Jones'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
@@ -545,9 +539,9 @@ TestData_AH67XX_Verification_OK: {
 
 AH67XX_OK: {
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
     NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Jones'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
@@ -576,9 +570,9 @@ TestData_AH62XX_Verification_OK: {
 
 AH62XX_OK: {
     NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Phil'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
     NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Jones'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'OKLAHOMA CITY'},
@@ -623,8 +617,6 @@ TestData_PA: {
 }
 
 PrefillTab_PA: {
-  First Name: Steve,
-  Last Name: Jobsik,
   Validate Address: click,
   Validate Address Dialog: {},
   Order Prefill: click
@@ -692,9 +684,9 @@ AHIBXX_PA: {
    PLIGAFee: {TextField: '0.00'}
  },
  NamedInsuredDetails: {
-   NmdInsrdFrstNm: {TextField: 'Steve'},
+   NmdInsrdFrstNm: {TextField: 'contains=Steve'},
    NmdInsrdMidNm: {TextField: ''},
-   NmdInsrdLstNm: {TextField: 'Jobsik'},
+   NmdInsrdLstNm: {TextField: 'Smith'},
    NmdInsrdStrPobAddr1:  {TextField: '2302 W GLENWOOD AVE'},
    NmdInsrdAddlAddr2: {TextField: ''},
    NmdInsrdCityNm: {TextField: 'PHILADELPHIA'},
@@ -713,9 +705,9 @@ TestData_AH34XX_Verification_PA: {
 
 AH34XX_PA: {
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
     NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Jobsik'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '2302 W GLENWOOD AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'PHILADELPHIA'},
@@ -752,9 +744,9 @@ TestData_AH67XX_Verification_PA: {
 
 AH67XX_PA: {
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
     NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Jobsik'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '2302 W GLENWOOD AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'PHILADELPHIA'},
@@ -783,9 +775,9 @@ TestData_AH62XX_Verification_PA: {
 
 AH62XX_PA: {
     NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Steve'},
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
     NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Jobsik'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '2302 W GLENWOOD AVE'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'PHILADELPHIA'},

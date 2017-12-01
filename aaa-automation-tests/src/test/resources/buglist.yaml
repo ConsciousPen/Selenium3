@@ -132,12 +132,12 @@ QC-44911:
               aaa.modules.e2e.auto_ss.TestScenario7.TC01_createPolicy]
       messages: ["Unable to locate element: {\"method\":\"xpath\",\"selector\":\"//input[@id='policyDataGatherForm:next_footer' or @id='crmForm:nextBtn_footer' or @id='policyDataGatherForm:next' or @id='policyDataGatherForm:nextButton_footer'",
                  "Errors: Time out. No session available."]
-QC-45066:
-  summary: "Regression: The 'Purchase Date' field is cleared after calculating premium"
+PAS-6610:
+  summary: "The 'Purchase Date' field is cleared after calculating premium"
   reason: PROD
   failures:
     - tests: [aaa.modules.deloitte.docgen.auto_ss.TestScenario4.TC01_CreatePolicy]
-      messages: ["Unable to locate element","policyDataGatherForm:nextButton_footer"]
+      messages: ['Unable to locate element: {"method":"id","selector":"policyDataGatherForm:nextButton_footer"}']
 QC-11111:
   summary: "OSI: Senior Discount related code is not in Master yet"
   reason: PROD
@@ -180,3 +180,11 @@ QC-11114:
   failures:
     - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas2186_RefundProcess]
       messages: ['Check Number']
+PAS-6667:
+  summary: "'WUAUCA' form is missing on 'On Demand Documents page'"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.docgen.home_ca.*.TestDocgenScenarios.testQuoteDocuments]
+      messages: ['WUAUCA']
+    - tests: [aaa.modules.docgen.home_ca.*.TestDocgenScenarios.testPolicyDocuments]
+      messages: ['WUAUCA']

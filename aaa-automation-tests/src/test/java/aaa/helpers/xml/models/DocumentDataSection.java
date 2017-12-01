@@ -24,16 +24,18 @@ public class DocumentDataSection {
 		return sectionName;
 	}
 
-	public void setSectionName(String sectionName) {
-		this.sectionName = sectionName;
-	}
-
 	public List<DocumentDataElement> getDocumentDataElements() {
 		return documentDataElements;
 	}
 
-	public void setDocumentDataElements(List<DocumentDataElement> documentDataElements) {
+	public DocumentDataSection setSectionName(String sectionName) {
+		this.sectionName = sectionName;
+		return this;
+	}
+
+	public DocumentDataSection setDocumentDataElements(List<DocumentDataElement> documentDataElements) {
 		this.documentDataElements = documentDataElements;
+		return this;
 	}
 
 	@Override
@@ -42,5 +44,29 @@ public class DocumentDataSection {
 				"sectionName='" + sectionName + '\'' +
 				", documentDataElements=" + documentDataElements +
 				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		DocumentDataSection that = (DocumentDataSection) o;
+
+		if (sectionName != null ? !sectionName.equals(that.sectionName) : that.sectionName != null) {
+			return false;
+		}
+		return documentDataElements != null ? documentDataElements.equals(that.documentDataElements) : that.documentDataElements == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = sectionName != null ? sectionName.hashCode() : 0;
+		result = 31 * result + (documentDataElements != null ? documentDataElements.hashCode() : 0);
+		return result;
 	}
 }

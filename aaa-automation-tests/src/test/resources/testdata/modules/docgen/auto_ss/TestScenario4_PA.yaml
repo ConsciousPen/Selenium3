@@ -1,7 +1,5 @@
 TestData: {
     PrefillTab: {
-      First Name: Fernando,
-      Last Name: Alonso,
       Validate Address: click,
       Validate Address Dialog: {},
       Order Prefill: click  
@@ -70,8 +68,8 @@ AA41PA: {
     CoPhnNum: {TextField: '(888) 222-0094'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: PA}
   },
   AgentDetails: {
@@ -128,9 +126,8 @@ AHRBXX: {
    PLIGAFee: {TextField: '0.00'}
  },
  NamedInsuredDetails: {
-   NmdInsrdFrstNm: {TextField: 'Fernando'},
-   NmdInsrdMidNm: {TextField: ''},
-   NmdInsrdLstNm: {TextField: 'Alonso'},
+   NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
    NmdInsrdStrPobAddr1:  {TextField: '2302 W GLENWOOD AVE'},
    NmdInsrdAddlAddr2: {TextField: ''},
    NmdInsrdCityNm: {TextField: 'PHILADELPHIA'},
