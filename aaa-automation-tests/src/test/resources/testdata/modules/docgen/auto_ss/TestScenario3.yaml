@@ -362,7 +362,7 @@ AARFIXX_AZ: {
   },
   NamedInsuredDetails: {
     NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: AZ},
     NmdInsrdStrPobAddr1: {TextField: 4101 S LAST CHANCE TRL},
     NmdInsrdAddlAddr2: {TextField: ''},
@@ -394,8 +394,8 @@ AARFIXX_AZ: {
   },
   DriverDetails: {
     DrvrTyp: {TextField: ''},
-    DrvrFrstNm: {TextField: 'Fernando'},
-    DrvrLstNm: {TextField: 'Alonso'}
+    DrvrFrstNm: {TextField: 'contains=Fernando'},
+    DrvrLstNm: {TextField: 'Smith'}
   },
   form: {
     PlcyNum: {TextField: ''},
