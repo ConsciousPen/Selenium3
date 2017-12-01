@@ -2,3 +2,23 @@
 PremiumsAndCoveragesQuoteTab_DataGather: {
   Payment plan: Mortgagee Bill
 }
+
+MortgageesTab_DataGather: {
+  Mortgagee: 'Yes',
+  MortgageeInformation: {
+    Name: Louie Espinoza,
+    Zip code: 92399,
+    Street address 1: 265 CHIPMAN AVE,
+    Loan number: 12345678,
+    Validate Address: '',
+    Validate Address Dialog: {}
+  }
+}
+
+PurchaseTab_DataGather: {
+  Change Minimum Down Payment: true,
+  Minimum Required Down Payment: 10,
+  PaymentAllocation: {
+    Cash: 10.15
+  }
+}

@@ -458,17 +458,15 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 * Bill generation on DD1 date (i.e. Start Date + one month)
 	 */
 	protected void generateInstallmentBill() {
-		LocalDateTime billDueDate = TimeSetterUtil.getInstance().getStartTime().plusMonths(1);
-		generateInstallmentBillOnDate(billDueDate);
+		generateInstallmentBillDueDate(TimeSetterUtil.getInstance().getStartTime().plusMonths(1));
 	}
+
 	/**
 	 * Bill generation for provided installment of the policy
 	 * @param installmentNumber number of the installment
 	 */
 	protected void generateInstallmentBill(int installmentNumber) {
-		LocalDateTime billDueDate = getTimePoints().getBillGenerationDate(
-			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
-		generateInstallmentBillOnDate(billDueDate);
+		generateInstallmentBillDueDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
 	}
 
 	protected void splitPolicyOnFirstDueDate() {
@@ -568,96 +566,115 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	/**
-	 * Cancellation Notice for the policy
+	 * Policy Cancellation due DD1 date (i.e. Start Date + one month)
 	 */
-	protected void automaticCancellationNotice(int installmentNumber) {
-		LocalDateTime cancellationNoticeDate = getTimePoints().getCancellationNoticeDate(
-			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
-		LocalDateTime expCancellationDate = getTimePoints().getCancellationTransactionDate(
-			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
-		TimeSetterUtil.getInstance().nextPhase(cancellationNoticeDate);
-		log.info("Cancellation Notice action started");
-		log.info("Cancellation Notice date: {}", cancellationNoticeDate);
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
-		mainApp().reopen();
-		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		new BillingBillsAndStatementsVerifier()
-			.setDueDate(expCancellationDate)
-			.setType(BillingConstants.BillsAndStatementsType.CANCELLATION_NOTICE)
-			.verifyPresent();
-		log.info("Cancellation Notice action completed successfully");
+	protected void automaticCancellation() {
+		automaticCancellationDueInsallmentDate(TimeSetterUtil.getInstance().getStartTime().plusMonths(1));
 	}
 
 	/**
-	 * Cancellation of the policy
+	 * Policy Cancellation for provided installment of the policy
+	 * @param installmentNumber number of the installment
 	 */
 	protected void automaticCancellation(int installmentNumber) {
-		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(
+		automaticCancellationDueInsallmentDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
+	}
+
+	/**
+	 * Cancellation Notice due DD1 date (i.e. Start Date + one month)
+	 */
+	protected void automaticCancellationNotice() {
+		automaticCancellationNoticeDueInsallmentDate(TimeSetterUtil.getInstance().getStartTime().plusMonths(1));
+	}
+
+	/**
+	 * Cancellation Notice for provided installment of the policy
+	 * @param installmentNumber number of the installment
+	 */
+	protected void automaticCancellationNotice(int installmentNumber) {
+		automaticCancellationNoticeDueInsallmentDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
+	}
+
+	protected void generateCollection(int installmentNumber) {
+		LocalDateTime collectionDate = getTimePoints().getEarnedPremiumWriteOff(
 			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
-		TimeSetterUtil.getInstance().nextPhase(cancellationDate);
-		log.info("Cancellation action started");
-		log.info("Cancellation date: {}", cancellationDate);
+		TimeSetterUtil.getInstance().nextPhase(collectionDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-		log.info("Cancellation action completed successfully");
+		Dollar totalDue = BillingSummaryPage.getTotalDue();
+		if (totalDue.moreThan(new Dollar(100))) {
+			log.info("Generate collection action started on {}", collectionDate);
+			generateCollectionFile();
+			log.info("Collection generated successfully");
+		}
+		else {
+			writeOffOnDate(collectionDate);
+			log.info("As total due < 100$, Collection not generated but write Off is generated");
+		}
 	}
 
 	/**
-	 * Generate 1st EP bill
+	 * Generate 1st EP bill due DD1 date (i.e. Start Date + one month)
+	 */
+	protected void generateFirstEarnedPremiumBill() {
+		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillFirst(TimeSetterUtil.getInstance().getStartTime().plusMonths(1)));
+	}
+
+	/**
+	 * Generate 1st EP bill for provided installment of the policy
+	 * @param installmentNumber number of the installment
 	 */
 	protected void generateFirstEarnedPremiumBill(int installmentNumber) {
-		LocalDateTime firstEPBillDate = getTimePoints().getEarnedPremiumBillFirst(
-			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
-		log.info("First EP bill generation started");
-		log.info("First EP bill generated date: {}", firstEPBillDate);
-		generateAndCheckEarnedPremiumBill(firstEPBillDate);
-		log.info("First EP bill generated successfully");
+		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillFirst(
+			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber)));
 	}
 
 	/**
-	 * Generate 2st EP bill
+	 * Generate 2nd EP bill due DD1 date (i.e. Start Date + one month)
+	 */
+	protected void generateSecondEarnedPremiumBill() {
+		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillSecond(TimeSetterUtil.getInstance().getStartTime().plusMonths(1)));
+	}
+
+	/**
+	 * Generate 2nd EP bill for provided installment of the policy
+	 * @param installmentNumber number of the installment
 	 */
 	protected void generateSecondEarnedPremiumBill(int installmentNumber) {
-		LocalDateTime secondEPBillDate = getTimePoints().getEarnedPremiumBillSecond(
-			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
-		log.info("Second EP bill generation started");
-		log.info("Second EP bill generated date: {}", secondEPBillDate);
-		generateAndCheckEarnedPremiumBill(secondEPBillDate);
-		log.info("Second EP bill generated successfully");
+		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillSecond(
+			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber)));
 	}
 
 	/**
-	 * Generate 3st EP bill
+	 * Generate 3rd EP bill due DD1 date (i.e. Start Date + one month)
+	 */
+	protected void generateThirdEarnedPremiumBill() {
+		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillThird(TimeSetterUtil.getInstance().getStartTime().plusMonths(1)));
+	}
+
+	/**
+	 * Generate 3rd EP bill for provided installment of the policy
+	 * @param installmentNumber number of the installment
 	 */
 	protected void generateThirdEarnedPremiumBill(int installmentNumber) {
-		LocalDateTime thirdEPBillDate = getTimePoints().getEarnedPremiumBillThird(
-			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
-		log.info("Third EP bill generation started");
-		log.info("Third EP bill generated date: {}", thirdEPBillDate);
-		generateAndCheckEarnedPremiumBill(thirdEPBillDate);
-		log.info("Third EP bill generated successfully");
+		generateAndCheckEarnedPremiumBill(getTimePoints().getEarnedPremiumBillThird(
+			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber)));
 	}
 
 	/**
-	 * Generate EP write off
+	 * Generate EP write off due DD1 date (i.e. Start Date + one month)
+	 */
+	protected void writeOff() {
+		writeOffOnDate(getTimePoints().getEarnedPremiumWriteOff(TimeSetterUtil.getInstance().getStartTime().plusMonths(1)));
+	}
+
+	/**
+	 * Generate EP write off for provided installment of the policy
+	 * @param installmentNumber number of the installment
 	 */
 	protected void writeOff(int installmentNumber) {
-		LocalDateTime writeOffDate = getTimePoints().getEarnedPremiumWriteOff(
-			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
-		TimeSetterUtil.getInstance().nextPhase(writeOffDate);
-		log.info("EP Write off generation action started");
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
-		mainApp().reopen();
-		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		new BillingPaymentsAndTransactionsVerifier()
-			.setTransactionDate(writeOffDate)
-			.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
-			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF)
-			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
-			.verifyPresent();
-		log.info("EP Write off generated successfully");
+		writeOffOnDate(getTimePoints().getEarnedPremiumWriteOff(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber)));
 	}
 
 	protected void addSuspenseEffDatePlus2() {
@@ -781,7 +798,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected void runCFTJobs() {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-		// JobUtils.executeJob(Jobs.policyTransactionLedgerJob);
+		JobUtils.executeJob(Jobs.policyTransactionLedgerJob);
 	}
 
 	private void acceptManualPaymentOnDate(LocalDateTime paymentDate) {
@@ -839,17 +856,50 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Accept payment action completed successfully");
 	}
 
+	private void automaticCancellationDueInsallmentDate(LocalDateTime installmentDate) {
+		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(installmentDate);
+		TimeSetterUtil.getInstance().nextPhase(cancellationDate);
+		log.info("Cancellation action started on {}", cancellationDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		log.info("Cancellation action completed successfully");
+	}
+
+	private void automaticCancellationNoticeDueInsallmentDate(LocalDateTime installmentDate) {
+		LocalDateTime cancellationNoticeDate = getTimePoints().getCancellationNoticeDate(installmentDate);
+		LocalDateTime expCancellationDate = getTimePoints().getCancellationTransactionDate(installmentDate);
+		TimeSetterUtil.getInstance().nextPhase(cancellationNoticeDate);
+		log.info("Cancellation Notice action started on {}", cancellationNoticeDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		new BillingBillsAndStatementsVerifier()
+			.setDueDate(expCancellationDate)
+			.setType(BillingConstants.BillsAndStatementsType.CANCELLATION_NOTICE)
+			.verifyPresent();
+		log.info("Cancellation Notice action completed successfully");
+	}
+
 	private void generateAndCheckEarnedPremiumBill(LocalDateTime date) {
 		TimeSetterUtil.getInstance().nextPhase(date);
+		log.info("Earned Premium bill generation started on {}", date);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL).verifyRowWithDueDate(date);
+		log.info("Earned Premium bill generated successfully");
 	}
 
-	private void generateInstallmentBillOnDate(LocalDateTime billDueDate) {
-		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		log.info("Installment bill generation started on {}", billDueDate);
+	private void generateCollectionFile() {
+		log.info("TODO collection file generation");
+	}
+
+	private void generateInstallmentBillDueDate(LocalDateTime billDueDate) {
+		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(billDueDate);
+		TimeSetterUtil.getInstance().nextPhase(billGenDate);
+		log.info("Installment bill generation started on {}", billGenDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
@@ -1007,6 +1057,21 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 			.setTransactionDate(waiveDate)
 			.verifyPresent();
 		log.info("Waive action completed successfully");
+	}
+
+	private void writeOffOnDate(LocalDateTime writeOffDate) {
+		TimeSetterUtil.getInstance().nextPhase(writeOffDate);
+		log.info("EP Write off generation action started on {}", writeOffDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		new BillingPaymentsAndTransactionsVerifier()
+			.setTransactionDate(writeOffDate)
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.ADJUSTMENT)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF)
+			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED)
+			.verifyPresent();
+		log.info("EP Write off generated successfully");
 	}
 
 	private void verifyPolicyStatusOnDate(LocalDateTime date, String policyStatus) {
