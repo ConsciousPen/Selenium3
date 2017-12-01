@@ -220,7 +220,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
 		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
-		// Should pick up oldest entry
+		// PAS-2714 using Oldest Entry Date
 		pas2712Fields.forEach(f -> CustomAssert.assertTrue("T".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue())));
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
