@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,11 +10,13 @@ import org.testng.annotations.AfterMethod;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
+import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
@@ -56,7 +59,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
-		precondsTestVINUpload(testData);
+		precondsTestVINUpload(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
@@ -122,7 +125,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
-		precondsTestVINUpload(testData);
+		precondsTestVINUpload(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
@@ -187,12 +190,12 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		List<TestData> testDataVehicleTab = new ArrayList<>();
 		testDataVehicleTab.add(firstVehicle);
 		testDataVehicleTab.add(secondVehicle);
-		TestData adjustedVehicleTab = new SimpleDataProvider().adjust("VehicleTab",testDataVehicleTab);
+		TestData adjustedVehicleTab = new SimpleDataProvider().adjust("VehicleTab", testDataVehicleTab);
 		TestData testData = getPolicyDefaultTD().adjust("VehicleTab", adjustedVehicleTab).resolveLinks();
 
 		//TestData testData = getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber).resolveLinks();
 
-		precondsTestVINUpload(testData);
+		precondsTestVINUpload(testData, VehicleTab.class);
 
 		//Verify that VIN which will be updated exists in the system, save value that will be updated
 		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "Yes");
@@ -217,7 +220,8 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
 		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
-		pas2712Fields.forEach(f -> CustomAssert.assertTrue("O".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue())));
+		// Should pick up oldest entry
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue("T".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue())));
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		// End PAS-2714 Renewal Update Vehicle
@@ -243,32 +247,60 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 				.getValue());
 	}
 
-	public void usingOldestEntryDate(String controlTableFile, String vinTableFile, String vinNumber) {
-		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber).resolveLinks();
+	/**
+	 * @author Viktor Petrenko
+	 * <p>
+	 * PAS-527 Renewal Refresh -Add New VIN & Update Existing
+	 *
+	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
+	 * @scenario
+	 * 0. Create customer
+	 * 1. Initiate Auto SS quote creation
+	 * 2. Go to the vehicle tab, fill info with not existing VIN and issue the quote
+	 * 3. Upload new data
+	 * 4. Make Endorsement
+	 * 5. Check that old vehicle was not changed
+	 * 6. Add new vehicle with same vin
+	 * 7. Check that data was retrieved from db
+	 * @details
+	 */
+	public void endorsement(String controlTableFile, String vinTableFile, String vinNumber) {
+		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
+				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
-		uploadFiles(controlTableFile, vinTableFile);
 
-		initiateQuote();
-		policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = createPolicy(testData);
+
+		uploadFiles(vinTableFile, controlTableFile);
+
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		vehicleTab.verifyFieldHasNotValue(AutoSSMetaData.VehicleTab.MAKE.getLabel(), "Other Make");
+		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.MODEL.getLabel(), "Model");
+
+		VehicleTab.buttonAddVehicle.click();
+		vehicleTab.getAssetList().fill(testData.getTestData("VehicleTab"));
+
+		vehicleTab.verifyFieldHasNotValue(AutoSSMetaData.VehicleTab.MAKE.getLabel(), "UT_SS");
+		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.MODEL.getLabel(), "UT_SS");
+
+		PremiumAndCoveragesTab.calculatePremium();
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-
-		CustomAssert.enableSoftMode();
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue()).isEqualToIgnoringCase("UT_SS");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue()).isEqualToIgnoringCase("UT_SS");
 
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
-		// Should be picked up oldest entry
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
 		pas2712Fields.forEach(f -> CustomAssert.assertTrue("C".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue())));
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
-	}
-
-	private void initiateQuote() {
-		mainApp().open();
-		createCustomerIndividual();
-		policy.initiate();
 	}
 
 	private void uploadFiles(String controlTableFile, String vinTableFile) {
@@ -279,9 +311,11 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
 	}
 
-	private void precondsTestVINUpload(TestData testData) {
-		initiateQuote();
-		policy.getDefaultView().fillUpTo(testData, VehicleTab.class, true);
+	private void precondsTestVINUpload(TestData testData, Class<? extends Tab> tab) {
+		mainApp().open();
+		createCustomerIndividual();
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(testData, tab, true);
 	}
 
 	private void renewalCreationSteps(String policyNumber) {
@@ -315,7 +349,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 	@AfterMethod(alwaysRun = true)
 	protected void vin_db_cleaner() {
 		String configNames = "('SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT', 'SYMBOL_2000_SS_TEST'"
-				+ ", 'SYMBOL_2000_ENTRY_DATE'), 'SYMBOL_2000_CA_SELECT_ENTRY_DATE'), 'SYMBOL_2000_ENTRY_DATE')";
+				+ ", 'SYMBOL_2000_CH_ENTRY_DATE', 'SYMBOL_2000_CA_SELECT_ENTRY_DATE')";
 		try {
 			String vehicleRefDatamodelId = DBService.get().getValue("SELECT DM.id FROM vehiclerefdatamodel DM " +
 					"JOIN vehiclerefdatavin DV ON DV.vehiclerefdatamodelid=DM.id " +

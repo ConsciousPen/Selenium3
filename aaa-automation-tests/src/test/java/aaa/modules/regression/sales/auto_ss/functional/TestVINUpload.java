@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -94,7 +95,8 @@ public class TestVINUpload extends AutoSSBaseTest {
 		CustomAssert.enableSoftMode();
 
 		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
-		pas2712Fields.forEach(f -> CustomAssert.assertTrue("K".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).getValue())));
+		// PAS-2714 using Oldest Entry Date
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue("C".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).getValue())));
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		// End PAS-2714 NB
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
@@ -110,15 +112,6 @@ public class TestVINUpload extends AutoSSBaseTest {
 		CustomAssert.assertAll();
 
 		log.info("Quote {} was successfully saved 'Add new VIN scenario' for NB is passed for VIN UPLOAD tests", quoteNumber);
-	}
-
-	private void goUploadExcel(String vinTableFile, String controlTableFile) {
-		//open Admin application and navigate to Administration tab
-		adminApp().open();
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, vinTableFile);
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
 	}
 
 	/**
@@ -219,7 +212,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 		String controlTableFile = getControlTableFile();
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
-		precondsTestVINUpload(testData,VehicleTab.class);
+		precondsTestVINUpload(testData, VehicleTab.class);
 
 		//Verify that VIN which will be updated exists in the system, save value that will be updated
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "Yes");
@@ -241,7 +234,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
 		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
-		pas2712Fields.forEach(f -> CustomAssert.assertTrue("SS".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue())));
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue("C".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue())));
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		// End PAS-2714 Renewal Update Vehicle
@@ -269,35 +262,78 @@ public class TestVINUpload extends AutoSSBaseTest {
 				.getValue());
 	}
 
-
+	/**
+	 * @author Viktor Petrenko
+	 * <p>
+	 * PAS-527 Renewal Refresh -Add New VIN & Update Existing
+	 *
+	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
+	 * @scenario
+	 * 0. Create customer
+	 * 1. Initiate Auto SS quote creation
+	 * 2. Go to the vehicle tab, fill info with not existing VIN and issue the quote
+	 * 3. Upload new data
+	 * 4. Make Endorsement
+	 * 5. Check that old vehicle was not changed
+	 * 6. Add new vehicle with same vin
+	 * 7. Check that data was retrieved from db
+	 * @details
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2714")
-	public void pas2714_usingOldestEntryDate(@Optional("UT") String state) {
-		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), "1HGEM215140028445");
-		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.UPDATED_VIN.get());
+	public void pas2714_Endorsement(@Optional("UT") String state) {
+
+		String vinNumber = "1FDEU15H7KL055795";
+		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
 		String controlTableFile = getControlTableFile();
+		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
+				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
-		goUploadExcel(vinTableFile,controlTableFile);
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = createPolicy(testData);
 
-		precondsTestVINUpload(testData, PremiumAndCoveragesTab.class);
+		goUploadExcel(vinTableFile, controlTableFile);
+
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		vehicleTab.verifyFieldHasNotValue(AutoSSMetaData.VehicleTab.MAKE.getLabel(), "Other Make");
+		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.MODEL.getLabel(), "Model");
+
+		VehicleTab.buttonAddVehicle.click();
+		vehicleTab.getAssetList().fill(testData.getTestData("VehicleTab"));
+
+		vehicleTab.verifyFieldHasNotValue(AutoSSMetaData.VehicleTab.MAKE.getLabel(), "UT_SS");
+		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.MODEL.getLabel(), "UT_SS");
+
+		PremiumAndCoveragesTab.calculatePremium();
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue()).isEqualToIgnoringCase("UT_SS");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue()).isEqualToIgnoringCase("UT_SS");
 
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
-
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
 		pas2712Fields.forEach(f -> CustomAssert.assertTrue("C".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue())));
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-
-		CustomAssert.enableSoftMode();
-		CustomAssert.disableSoftMode();
-
-		CustomAssert.assertAll();
-
 	}
 
-	private void precondsTestVINUpload(TestData testData,Class<? extends Tab> tab) {
+	private void goUploadExcel(String vinTableFile, String controlTableFile) {
+		//open Admin application and navigate to Administration tab
+		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
+		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, vinTableFile);
+		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
+	}
+
+	private void precondsTestVINUpload(TestData testData, Class<? extends Tab> tab) {
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
@@ -334,7 +370,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 	 */
 	@AfterMethod(alwaysRun = true)
 	protected void vin_db_cleaner() {
-		String configNames = "('SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT', 'SYMBOL_2000_SS_TEST')";
+		String configNames = "('SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT', 'SYMBOL_2000_SS_TEST','SYMBOL_2000_SS_ENTRY_DATE')";
 		try {
 			String vehicleRefDataModelId = DBService.get().getValue("SELECT DM.id FROM vehiclerefdatamodel DM " +
 					"JOIN vehiclerefdatavin DV ON DV.vehiclerefdatamodelid=DM.id " +

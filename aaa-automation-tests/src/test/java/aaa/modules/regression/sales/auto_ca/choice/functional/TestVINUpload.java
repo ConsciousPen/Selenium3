@@ -66,7 +66,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	/**
 	 *@author Viktor Petrenko
 	 *
-	 * PAS-2714 Correct VIN Data (VIN Matched - Liability Symbols)
+	 * PAS-2714 New Liability Symbols
 	 *
 	 * See detailed steps in template file
 	 * {@link TestVINUploadTemplate#updatedVinRenewal(String, String, String)}
@@ -74,7 +74,8 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-2714")
-	public void pas2714_usingOldestEntryDate(@Optional("CA") String state) {
-		usingOldestEntryDate("controlTable_CA_Choice.xlsx", "uploadAddedVIN_CA_CHOICE_.xlsx", "1FDEU15H7KL055795");
+	public void pas2714_Endorsement(@Optional("CA") String state) {
+		endorsement("controlTable_CA_Choice.xlsx", "uploadUpdatedVIN_CA_CHOICE.xlsx", "4T1BE30K46U656311");
 	}
+
 }
