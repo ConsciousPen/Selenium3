@@ -1,7 +1,17 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.NoSuchElementException;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
+import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -16,18 +26,10 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
-
-import java.time.LocalDateTime;
-import java.util.NoSuchElementException;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 public class TestVINUpload extends AutoSSBaseTest {
 
@@ -38,11 +40,13 @@ public class TestVINUpload extends AutoSSBaseTest {
 	/**
 	 * @author Lev Kazarnovskiy
 	 * <p>
+	 *
 	 * PAS-533 Quote Refresh -Add New VIN
 	 * PAS-1406 Data Refresh
 	 * PAS-1487 VIN No Match to Match but Year Doesn't Match
 	 * PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
 	 * PAS-6455 Make Entry Date Part of Key for VIN Table Upload
+	 * PAS-2714 New Liability Symbols
 	 *
 	 * @name Test VINupload 'Add new VIN' scenario for NB.
 	 * @scenario
@@ -56,17 +60,15 @@ public class TestVINUpload extends AutoSSBaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-533,PAS-1487,PAS-1551")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-533,PAS-1487,PAS-1551,PAS-2714,PAS-6455")
 	public void pas533_newVinAdded(@Optional("UT") String state) {
 
-		//		String vinNumber = "BBBKN3DD0E0344466";
-		String vinNumber = "1FDEU15H7KL055795";
 		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
 		String controlTableFile = getControlTableFile();
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
+				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), "1FDEU15H7KL055795");
 
-		precondsTestVINUpload(testData);
+		precondsTestVINUpload(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
@@ -76,13 +78,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("Quote {} is successfully saved for further use", quoteNumber);
 
-		//open Admin application and navigate to Administration tab
-		adminApp().open();
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-
-		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, vinTableFile);
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
+		goUploadExcel(vinTableFile, controlTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		mainApp().open();
@@ -91,9 +87,18 @@ public class TestVINUpload extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
 
 		policy.getDefaultView().fillFromTo(testData, FormsTab.class, PremiumAndCoveragesTab.class, true);
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		// Start PAS-2714 NB
+		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
 		CustomAssert.enableSoftMode();
+
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue("K".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).getValue())));
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		// End PAS-2714 NB
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.MODEL.getLabel(), "Gt");
 		vehicleTab.verifyFieldIsNotDisplayed(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel());
 		// PAS-1487  No Match to Match but Year Doesn't Match
@@ -104,8 +109,16 @@ public class TestVINUpload extends AutoSSBaseTest {
 
 		CustomAssert.assertAll();
 
-		log.info("Quote " + quoteNumber + " was successfully saved " +
-				"'Add new VIN scenario' for NB is passed for VIN UPLOAD tests");
+		log.info("Quote {} was successfully saved 'Add new VIN scenario' for NB is passed for VIN UPLOAD tests", quoteNumber);
+	}
+
+	private void goUploadExcel(String vinTableFile, String controlTableFile) {
+		//open Admin application and navigate to Administration tab
+		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
+		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, vinTableFile);
+		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
 	}
 
 	/**
@@ -139,7 +152,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
-		precondsTestVINUpload(testData);
+		precondsTestVINUpload(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
@@ -149,14 +162,10 @@ public class TestVINUpload extends AutoSSBaseTest {
 		purchaseTab.submitTab();
 
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		log.info("Policy " + policyNumber + " is successfully saved for further use");
 
-		adminApp().open();
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		log.info("Policy {} is successfully saved for further use", policyNumber);
 
-		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, vinTableFile);
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
+		goUploadExcel(vinTableFile, controlTableFile);
 
 		//Go back to MainApp, find created policy, initiate Renewal, verify if VIN value is applied
 		renewalCreationSteps(policyNumber);
@@ -178,8 +187,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 
 		verifyActivitiesAndUserNotes(vinNumber);
 
-		log.info("Renewal image for policy " + policyNumber + " was successfully saved " +
-				"'Add new VIN scenario' for Renewal is passed for VIN UPLOAD tests");
+		log.info("Renewal image for policy {} was successfully saved 'Add new VIN scenario' for Renewal is passed for VIN UPLOAD tests", policyNumber);
 	}
 
 	/**
@@ -211,7 +219,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 		String controlTableFile = getControlTableFile();
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
-		precondsTestVINUpload(testData);
+		precondsTestVINUpload(testData,VehicleTab.class);
 
 		//Verify that VIN which will be updated exists in the system, save value that will be updated
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "Yes");
@@ -222,17 +230,22 @@ public class TestVINUpload extends AutoSSBaseTest {
 		purchaseTab.submitTab();
 
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		log.info("Policy " + policyNumber + " is successfully saved for further use");
+		log.info("Policy {} is successfully saved for further use", policyNumber);
 
-		adminApp().open();
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-
-		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, vinTableFile);
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
+		goUploadExcel(vinTableFile, controlTableFile);
 
 		// Go back to MainApp, find created policy, create Renewal image and verify if VIN was updated and new values are applied
 		renewalCreationSteps(policyNumber);
+		// Start PAS-2714 Renewal Update Vehicle
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+
+		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue("SS".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue())));
+
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		// End PAS-2714 Renewal Update Vehicle
+
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
 		//Verify that fields are updated
@@ -256,11 +269,39 @@ public class TestVINUpload extends AutoSSBaseTest {
 				.getValue());
 	}
 
-	private void precondsTestVINUpload(TestData testData) {
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2714")
+	public void pas2714_usingOldestEntryDate(@Optional("UT") String state) {
+		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), "1HGEM215140028445");
+		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.UPDATED_VIN.get());
+		String controlTableFile = getControlTableFile();
+
+		goUploadExcel(vinTableFile,controlTableFile);
+
+		precondsTestVINUpload(testData, PremiumAndCoveragesTab.class);
+
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+
+		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
+
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue("C".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue())));
+
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+
+		CustomAssert.enableSoftMode();
+		CustomAssert.disableSoftMode();
+
+		CustomAssert.assertAll();
+
+	}
+
+	private void precondsTestVINUpload(TestData testData,Class<? extends Tab> tab) {
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
-		policy.getDefaultView().fillUpTo(testData, VehicleTab.class, true);
+		policy.getDefaultView().fillUpTo(testData, tab, true);
 	}
 
 	private void renewalCreationSteps(String policyNumber) {
@@ -295,11 +336,11 @@ public class TestVINUpload extends AutoSSBaseTest {
 	protected void vin_db_cleaner() {
 		String configNames = "('SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT', 'SYMBOL_2000_SS_TEST')";
 		try {
-			String VehiclerefdatamodelID = DBService.get().getValue("SELECT DM.id FROM vehiclerefdatamodel DM " +
+			String vehicleRefDataModelId = DBService.get().getValue("SELECT DM.id FROM vehiclerefdatamodel DM " +
 					"JOIN vehiclerefdatavin DV ON DV.vehiclerefdatamodelid=DM.id " +
 					"WHERE DV.version IN " + configNames).get();
 			DBService.get().executeUpdate("DELETE FROM vehiclerefdatavin V WHERE V.VERSION IN " + configNames);
-			DBService.get().executeUpdate("DELETE FROM vehiclerefdatamodel WHERE id='" + VehiclerefdatamodelID + "'");
+			DBService.get().executeUpdate("DELETE FROM vehiclerefdatamodel WHERE id='" + vehicleRefDataModelId + "'");
 			DBService.get().executeUpdate("DELETE FROM vehiclerefdatavincontrol VC WHERE VC.version IN " + configNames);
 			DBService.get().executeUpdate("UPDATE vehiclerefdatavincontrol SET EXPIRATIONDATE='99999999'");
 		} catch (NoSuchElementException e) {
