@@ -31,7 +31,7 @@ PremiumAndCoveragesTab : {
 }
 
 CancellationActionTab: {
-  Cancel Date: "$<today+2d">,
+  Cancel Date: $<today+2d>,
   Cancellation Reason: "Other",
   Other reason: "CFT test scenario 2",
   Authorized By: 'QA'
