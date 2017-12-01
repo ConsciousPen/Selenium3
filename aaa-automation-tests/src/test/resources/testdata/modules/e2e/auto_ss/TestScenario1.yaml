@@ -16,9 +16,6 @@ TestData_Endorsement: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
 }
 
 TestData_Endorsement_VA: {
@@ -30,9 +27,6 @@ TestData_Endorsement_VA: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
 }
 
 VehicleTab: {
@@ -49,10 +43,7 @@ TestData_Endorsement_NY: {
   AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DriverActivityReportsTab: {}
 }
 
 VehicleTab_NY: {
