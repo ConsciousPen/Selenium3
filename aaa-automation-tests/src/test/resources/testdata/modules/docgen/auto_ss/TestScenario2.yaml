@@ -1619,11 +1619,11 @@ AARFIXX_IN: {
   DriverDetails: {
     DrvrTyp: {TextField: 'E'},
     DrvrFrstNm: [
-      {TextField: 'Harry'},
+      {TextField: 'contains=Harry'},
       {TextField: 'Maria'}
     ],
     DrvrLstNm: [
-      {TextField: 'Kane'},
+      {TextField: 'Smith'},
       {TextField: 'Jefferson'}
     ]
   },
@@ -1798,8 +1798,8 @@ AA02IN: {
   DriverDetails: [
   {
     DrvrTyp: {TextField: 'A'},
-    DrvrFrstNm: {TextField: 'Harry'},
-    DrvrLstNm: {TextField: 'Kane'},
+    DrvrFrstNm: {TextField: 'contains=Harry'},
+    DrvrLstNm: {TextField: 'Smith'},
     DrvrSeqNum: {TextField: '1'},
     DrvrDOB: {DateTimeField: "contains=1962-12-04"},
     DrvrmrtlSts: {TextField: 'Married'},
@@ -3960,8 +3960,8 @@ AA02IN_ED: {
   DriverDetails: [
   {
     DrvrTyp: {TextField: 'A'},
-    DrvrFrstNm: {TextField: 'Harry'},
-    DrvrLstNm: {TextField: 'Kane'},
+    DrvrFrstNm: {TextField: 'contains=Harry'},
+    DrvrLstNm: {TextField: 'Smith'},
     DrvrSeqNum: {TextField: '1'},
     DrvrDOB: {DateTimeField: "contains=1962-12-04"},
     DrvrmrtlSts: {TextField: 'Married'},
@@ -5604,8 +5604,8 @@ AA02IN_Renewal: {
   DriverDetails: [
   {
     DrvrTyp: {TextField: 'A'},
-    DrvrFrstNm: {TextField: 'Harry'},
-    DrvrLstNm: {TextField: 'Kane'},
+    DrvrFrstNm: {TextField: 'contains=Harry'},
+    DrvrLstNm: {TextField: 'Smith'},
     DrvrSeqNum: {TextField: '1'},
     DrvrDOB: {DateTimeField: "contains=1962-12-04"},
     DrvrmrtlSts: {TextField: 'Married'},
