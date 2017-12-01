@@ -280,10 +280,10 @@ public class TestVINUpload extends AutoSSBaseTest {
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		assertSoftly(softly -> {
-					softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Conversion Van");
-					softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("No");
-					softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("AV - Custom Van");
-				});
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Conversion Van");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("No");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("AV - Custom Van");
+		});
 
 		VehicleTab.buttonSaveAndExit.click();
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
@@ -327,7 +327,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 		PremiumAndCoveragesTab.calculatePremium();
 	}
 
-	private void findAndRateQuote(TestData testData, String quoteNumber){
+	private void findAndRateQuote(TestData testData, String quoteNumber) {
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
 		policy.dataGather().start();
@@ -353,28 +353,27 @@ public class TestVINUpload extends AutoSSBaseTest {
 	 * Please refer to the files with appropriate names in each test in /resources/uploadingfiles/vinUploadFiles.
 	 */
 	@AfterMethod(alwaysRun = true)
-	@Test
-	protected void vin_db_cleaner() {
+	protected void vinTablesCleaner() {
 		String configNames = "('SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT', 'SYMBOL_2000_SS_TEST')";
 		try {
-			String VehicleRefDatamodelID = DBService.get().getValue("SELECT DM.id FROM vehiclerefdatamodel DM " +
+			String vehicleRefDataModelId = DBService.get().getValue("SELECT DM.id FROM vehiclerefdatamodel DM " +
 					"JOIN vehiclerefdatavin DV ON DV.vehiclerefdatamodelid=DM.id " +
 					"WHERE DV.version IN " + configNames).get();
 			DBService.get().executeUpdate("DELETE FROM vehiclerefdatavin V WHERE V.VERSION IN " + configNames);
-			DBService.get().executeUpdate("DELETE FROM vehiclerefdatamodel WHERE id='" + VehicleRefDatamodelID + "'");
-			DBService.get().executeUpdate("DELETE FROM vehiclerefdatavincontrol VC WHERE VC.version IN " + configNames);
-			DBService.get().executeUpdate("UPDATE vehiclerefdatavincontrol SET EXPIRATIONDATE='99999999'");
+			DBService.get().executeUpdate(String.format("DELETE FROM vehiclerefdatamodel WHERE id='%s'", vehicleRefDataModelId));
 		} catch (NoSuchElementException e) {
-			log.error("Configurations with names {} are not present in DB, after method have'n been executed fully", configNames);
+			log.error("VINs with version names {} are not found in VIN table. VIN table part of DB cleaner was not executed", configNames);
 		}
+		DBService.get().executeUpdate("DELETE FROM vehiclerefdatavincontrol VC WHERE VC.version IN " + configNames);
+		DBService.get().executeUpdate("UPDATE vehiclerefdatavincontrol SET expirationdate='99999999'");
 	}
 
-	protected String getControlTableFile() {
+	private String getControlTableFile() {
 		String defaultControlFileName = "controlTable_%s_SS.xlsx";
 		return String.format(defaultControlFileName, getState());
 	}
 
-	protected String getSpecificUploadFile(String type) {
+	private String getSpecificUploadFile(String type) {
 		String defaultAddedFileName = "upload%sVIN_%s_SS.xlsx";
 		return String.format(defaultAddedFileName, type, getState());
 	}

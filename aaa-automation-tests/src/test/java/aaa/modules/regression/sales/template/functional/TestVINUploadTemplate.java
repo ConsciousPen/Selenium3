@@ -16,6 +16,7 @@ import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.verification.CustomAssert;
@@ -291,7 +292,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		PremiumAndCoveragesTab.calculatePremium();
 	}
 
-	private void findAndRateQuote(TestData testData, String quoteNumber){
+	private void findAndRateQuote(TestData testData, String quoteNumber) {
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
 		policy.dataGather().start();
@@ -317,18 +318,18 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 	Please refer to the files with appropriate names in each test in /resources/uploadingfiles/vinUploadFiles.
 	 */
 	@AfterMethod(alwaysRun = true)
-	protected void vin_db_cleaner() {
+	protected void vinTablesCleaner() {
 		String configNames = "('SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT', 'SYMBOL_2000_SS_TEST')";
 		try {
-			String VehicleRefDataModelID = DBService.get().getValue("SELECT DM.id FROM vehiclerefdatamodel DM " +
+			String vehicleRefDataModelId = DBService.get().getValue("SELECT DM.id FROM vehiclerefdatamodel DM " +
 					"JOIN vehiclerefdatavin DV ON DV.vehiclerefdatamodelid=DM.id " +
 					"WHERE DV.version IN " + configNames).get();
 			DBService.get().executeUpdate("DELETE FROM vehiclerefdatavin V WHERE V.VERSION IN " + configNames);
-			DBService.get().executeUpdate("DELETE FROM vehiclerefdatamodel WHERE id='" + VehicleRefDataModelID + "'");
-			DBService.get().executeUpdate("DELETE FROM vehiclerefdatavincontrol VC WHERE VC.version IN " + configNames);
-			DBService.get().executeUpdate("UPDATE vehiclerefdatavincontrol SET expirationdate='99999999'");
+			DBService.get().executeUpdate(String.format("DELETE FROM vehiclerefdatamodel WHERE id='%s'", vehicleRefDataModelId));
 		} catch (NoSuchElementException e) {
-			log.error("Configurations with names {} are not present in DB, after method have'n been executed fully", configNames);
+			log.error("VINs with version names {} are not found in VIN table. VIN table part of DB cleaner was not executed", configNames);
 		}
+		DBService.get().executeUpdate("DELETE FROM vehiclerefdatavincontrol VC WHERE VC.version IN " + configNames);
+		DBService.get().executeUpdate("UPDATE vehiclerefdatavincontrol SET expirationdate='99999999'");
 	}
 }
