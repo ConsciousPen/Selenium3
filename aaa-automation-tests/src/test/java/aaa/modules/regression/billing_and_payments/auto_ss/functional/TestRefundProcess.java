@@ -2,13 +2,10 @@ package aaa.modules.regression.billing_and_payments.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.ACTION;
-import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.STATUS;
-import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON;
-import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE;
-import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE;
+import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.*;
 import java.util.HashMap;
 import java.util.Map;
+import org.testng.Assert;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -25,6 +22,7 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.db.DbAwaitHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.BillingAccountMetaData;
@@ -77,6 +75,18 @@ public class TestRefundProcess extends PolicyBilling {
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_GENERATION_ASYNC_JOB);
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_ASYNC_JOB);
 	}
+
+
+	@Test(description = "clearFolder")
+	public void clearFolder() {
+		try {
+			RemoteHelper.clearFolder("/home/DocGen/");
+
+		} catch (Exception e) {
+			Assert.fail("Clearing doc gen folder failed: \n", e);
+		}
+	}
+
 
 	@Test(description = "Precondition for TestRefundProcess tests")
 	public static void refundDocumentGenerationConfigCheck() {
