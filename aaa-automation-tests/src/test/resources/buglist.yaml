@@ -180,3 +180,11 @@ QC-11114:
   failures:
     - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas2186_RefundProcess]
       messages: ['Check Number']
+PAS-6667:
+  summary: "'WUAUCA' form is missing on 'On Demand Documents page'"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.docgen.home_ca.*.TestDocgenScenarios.testQuoteDocuments]
+      messages: ['WUAUCA']
+    - tests: [aaa.modules.docgen.home_ca.*.TestDocgenScenarios.testPolicyDocuments]
+      messages: ['WUAUCA']
