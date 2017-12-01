@@ -31,15 +31,7 @@ public class TableHeader {
 		}
 	}
 
-	public Sheet getSheet() {
-		return row.getSheet();
-	}
-
-	public int getRowNum() {
-		return row.getRowNum();
-	}
-
-	public Set<String> getHeaderNames() {
+	public Set<String> getColumnNames() {
 		return headerColumns.keySet();
 	}
 
@@ -47,15 +39,27 @@ public class TableHeader {
 		return headerColumns.size();
 	}
 
+	int getRowNumberOnSheet() {
+		return row.getRowNum();
+	}
+
+	Sheet getSheet() {
+		return row.getSheet();
+	}
+
 	@Override
 	public String toString() {
 		return "TableHeader{" +
-				"headerColumns=" + getHeaderNames() +
+				"headerColumns=" + getColumnNames() +
 				'}';
 	}
 
+	public boolean hasColumnName(String columnName) {
+		return headerColumns.containsKey(columnName);
+	}
+
 	public int getColumnNumber(String columnName) {
-		if (!headerColumns.containsKey(columnName)) {
+		if (!hasColumnName(columnName)) {
 			throw new IstfException(String.format("There is no column name \"%s\" in the table's header", columnName));
 		}
 		return headerColumns.get(columnName);

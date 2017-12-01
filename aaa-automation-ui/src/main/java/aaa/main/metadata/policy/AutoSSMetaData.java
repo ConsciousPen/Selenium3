@@ -269,13 +269,15 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<ComboBox> MARITAL_STATUS = declare("Marital Status", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> OCCUPATION = declare("Occupation", ComboBox.class);
 		public static final AssetDescriptor<TextBox> BASE_DATE = declare("Base Date", TextBox.class);
-		public static final AssetDescriptor<ComboBox> LICENSE_TYPE = declare("License Type", ComboBox.class);
+		public static final AssetDescriptor<AdvancedComboBox> LICENSE_TYPE = declare("License Type", AdvancedComboBox.class);
 		public static final AssetDescriptor<ComboBox> LICENSE_STATE = declare("License State", ComboBox.class);
 		public static final AssetDescriptor<TextBox> LICENSE_NUMBER = declare("License Number", TextBox.class);
 		public static final AssetDescriptor<TextBox> AGE_FIRST_LICENSED = declare("Age First Licensed", TextBox.class);
 		public static final AssetDescriptor<TextBox> TOTAL_YEAR_DRIVING_EXPERIENCE = declare("Total Years Driving Experience", TextBox.class);
 		public static final AssetDescriptor<ComboBox> AFFINITY_GROUP = declare("Affinity Group", ComboBox.class);
+		public static final AssetDescriptor<RadioGroup> SMART_DRIVER_COURSE_COMPLETED = declare("Smart Driver Course Completed?", RadioGroup.class);
 		public static final AssetDescriptor<ComboBox> MOST_RECENT_GPA = declare("Most Recent GPA", ComboBox.class);
+		public static final AssetDescriptor<RadioGroup> DISTANT_STUDENT = declare("Distant Student", RadioGroup.class);
 		public static final AssetDescriptor<ComboBox> DEFENSIVE_DRIVER_COURSE_COMPLETED = declare("Defensive Driver Course Completed?", ComboBox.class);
 		public static final AssetDescriptor<TextBox> DEFENSIVE_DRIVER_COURSE_COMPLETION_DATE = declare("Defensive Driver Course Completion Date", TextBox.class);
 		public static final AssetDescriptor<TextBox> DEFENSIVE_DRIVER_COURSE_CERTIFICATE_NUMBER = declare("Defensive Driver Course Certificate Number", TextBox.class);

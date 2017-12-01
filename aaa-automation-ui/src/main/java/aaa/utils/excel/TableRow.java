@@ -3,7 +3,9 @@ package aaa.utils.excel;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import org.apache.poi.ss.usermodel.Row;
+import toolkit.exceptions.IstfException;
 
 public class TableRow {
 	private ExcelTable table;
@@ -16,7 +18,7 @@ public class TableRow {
 		this.table = table;
 		this.header = table.getHeader();
 		this.rowNumber = rowNumber;
-		this.row = header.getSheet().getRow(header.getRowNum() + rowNumber);
+		this.row = header.getSheet().getRow(header.getRowNumberOnSheet() + rowNumber);
 		this.excelParser = new ExcelParser(header.getSheet());
 	}
 
@@ -34,7 +36,7 @@ public class TableRow {
 
 	public Map<String, String> getValues() {
 		Map<String, String> values = new HashMap<>(getHeader().getSize());
-		for (String columnName : getHeader().getHeaderNames()) {
+		for (String columnName : getHeader().getColumnNames()) {
 			values.put(columnName, getValue(columnName));
 		}
 		return values;
@@ -62,6 +64,22 @@ public class TableRow {
 
 	public LocalDateTime getDateValue(String headerColumnName) {
 		return excelParser.getDateValue(getRow(), getHeader().getColumnNumber(headerColumnName));
+	}
+
+	public boolean hasValue(String headerColumnName, Object cellValue) {
+		Object actualCellValue;
+		if (cellValue instanceof String) {
+			actualCellValue = getValue(headerColumnName);
+		} else if (cellValue instanceof Integer) {
+			actualCellValue = getIntValue(headerColumnName);
+		} else if (cellValue instanceof Boolean) {
+			actualCellValue = getBoolValue(headerColumnName);
+		} else if (cellValue instanceof LocalDateTime) {
+			actualCellValue = getDateValue(headerColumnName);
+		} else {
+			throw new IstfException("Unsupported cell value type class: " + cellValue.getClass().getSimpleName());
+		}
+		return Objects.equals(actualCellValue, cellValue);
 	}
 
 	private Row getRow() {

@@ -10,9 +10,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -104,14 +106,7 @@ public class ExcelParser {
 
 	public List<String> getRowValues(Row row, int fromColumnNumber, int toColumnNumber) {
 		int size = toColumnNumber - fromColumnNumber + 1;
-		List<String> rowValues = new ArrayList<>(size);
-		for (int cNumber = fromColumnNumber; cNumber < fromColumnNumber + size; cNumber++) {
-			String value = getValue(row, cNumber);
-			if (!value.isEmpty()) {
-				rowValues.add(value);
-			}
-		}
-		return rowValues;
+		return IntStream.range(fromColumnNumber, fromColumnNumber + size).mapToObj(cn -> getValue(row, cn)).filter(Objects::nonNull).collect(Collectors.toList());
 	}
 
 	public boolean getBoolValue(Row row, int columnNumber) {
@@ -120,9 +115,11 @@ public class ExcelParser {
 	}
 
 	public boolean getBoolValue(Cell cell) {
-		if (cell.getCellType() != Cell.CELL_TYPE_BOOLEAN) { // if boolean value stored as text
-			return Boolean.valueOf(getValue(cell));
+		if (cell.getCellType() == Cell.CELL_TYPE_STRING) { // if boolean value stored as text
+			String value = getValue(cell);
+			return StringUtils.isEmpty(value) ? null : Boolean.valueOf(value);
 		}
+		assertThat(cell.getCellType()).as("Cell is not a boolean type, unable to get value").isEqualTo(Cell.CELL_TYPE_BOOLEAN);
 		return cell.getBooleanCellValue();
 	}
 
@@ -132,9 +129,11 @@ public class ExcelParser {
 	}
 
 	public int getIntValue(Cell cell) {
-		if (cell.getCellType() != Cell.CELL_TYPE_NUMERIC) { // if number stored as text
-			return Integer.valueOf(getValue(cell));
+		if (cell.getCellType() == Cell.CELL_TYPE_STRING) { // if number stored as text
+			String value = getValue(cell);
+			return StringUtils.isEmpty(value) ? null : Integer.valueOf(value);
 		}
+		assertThat(cell.getCellType()).as("Cell is not a integer type, unable to get value", cell.getCellType()).isEqualTo(Cell.CELL_TYPE_NUMERIC);
 		return (int) cell.getNumericCellValue();
 	}
 
@@ -154,11 +153,10 @@ public class ExcelParser {
 	}
 
 	public String getValue(Cell cell) {
-		String value = "";
+		String value = null;
 		if (cell == null) {
 			return value;
 		}
-
 		try {
 			if (cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
 				FormulaEvaluator evaluator = cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
@@ -172,8 +170,7 @@ public class ExcelParser {
 		} catch (IllegalStateException e) {
 			throw new IstfException("Unable to get string value from cell located in " + getLocation(cell), e);
 		}
-
-		return value;
+		return StringUtils.isEmpty(value) ? null : value;
 	}
 
 	public Row getHeaderRow(String... headerColumnNames) {

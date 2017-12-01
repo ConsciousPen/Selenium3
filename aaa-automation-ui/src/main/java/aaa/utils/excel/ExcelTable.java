@@ -1,11 +1,11 @@
 package aaa.utils.excel;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import org.apache.poi.ss.usermodel.Sheet;
 import toolkit.exceptions.IstfException;
@@ -17,7 +17,7 @@ public class ExcelTable implements Iterable<TableRow> {
 	private int rowsNumber;
 
 	public ExcelTable(TableHeader header) {
-		this(header, header.getSheet().getLastRowNum() - header.getRowNum());
+		this(header, header.getSheet().getLastRowNum() - header.getRowNumberOnSheet());
 	}
 
 	public ExcelTable(TableHeader header, int rowsNumber) {
@@ -74,27 +74,34 @@ public class ExcelTable implements Iterable<TableRow> {
 	 */
 	public TableRow getRow(int rowNumber) {
 		return getRows().stream().filter(r -> r.getRowNumber() == rowNumber).findFirst()
-				.orElseThrow(() -> new IstfException("There is no row in table with number: " + rowNumber));
+				.orElseThrow(() -> new IstfException("There is no row number " + rowNumber + " in table"));
 	}
 
-	public TableRow getRow(String headerColumnName, String cellValue) {
-		return getRows().stream().filter(r -> Objects.equals(r.getValue(headerColumnName), cellValue)).findFirst()
-				.orElseThrow(() -> new IstfException(String.format("There is no row in table with value \"%1$s\" in column \"%2$s\"", cellValue, headerColumnName)));
+	public List<TableRow> getRows(String headerColumnName, Object cellValue) {
+		List<TableRow> foundRows = getRows().stream().filter(r -> r.hasValue(headerColumnName, cellValue)).collect(Collectors.toList());
+		if (foundRows.isEmpty()) {
+			throw new IstfException(String.format("There are no rows in table with value \"%1$s\" in column \"%2$s\"", cellValue, headerColumnName));
+		}
+		return foundRows;
 	}
 
-	public TableRow getRow(String headerColumnName, int cellValue) {
-		return getRows().stream().filter(r -> Objects.equals(r.getIntValue(headerColumnName), cellValue)).findFirst()
-				.orElseThrow(() -> new IstfException(String.format("There is no row in table with value \"%1$s\" in column \"%2$s\"", cellValue, headerColumnName)));
+	public TableRow getRow(String headerColumnName, Object cellValue) {
+		return getRows(headerColumnName, cellValue).get(0);
 	}
 
-	public TableRow getRow(String headerColumnName, boolean cellValue) {
-		return getRows().stream().filter(r -> Objects.equals(r.getBoolValue(headerColumnName), cellValue)).findFirst()
-				.orElseThrow(() -> new IstfException(String.format("There is no row in table with value \"%1$s\" in column \"%2$s\"", cellValue, headerColumnName)));
+	public List<TableRow> getRows(Map<String, Object> query) {
+		List<TableRow> foundRows = getRows();
+		for (Map.Entry<String, Object> columnNameAndCellValue : query.entrySet()) {
+			foundRows.removeIf(r -> !r.hasValue(columnNameAndCellValue.getKey(), columnNameAndCellValue.getValue()));
+		}
+		if (foundRows.isEmpty()) {
+			throw new IstfException("There are no rows in table with column names and cell values query: " + query.entrySet());
+		}
+		return foundRows;
 	}
 
-	public TableRow getRow(String headerColumnName, LocalDateTime cellValue) {
-		return getRows().stream().filter(r -> Objects.equals(r.getDateValue(headerColumnName), cellValue)).findFirst()
-				.orElseThrow(() -> new IstfException(String.format("There is no row in table with value \"%1$s\" in column \"%2$s\"", cellValue, headerColumnName)));
+	public TableRow getRow(Map<String, Object> query) {
+		return getRows(query).get(0);
 	}
 
 	class TableRowIterator implements Iterator<TableRow> {

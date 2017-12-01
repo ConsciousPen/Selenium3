@@ -6,7 +6,7 @@ import toolkit.datax.TestData;
 public abstract class TestDataGenerator<P extends OpenLPolicy> {
 	private TestData ratingDataPattern;
 
-	public TestData getRatingDataPattern() {
+	TestData getRatingDataPattern() {
 		return ratingDataPattern;
 	}
 
@@ -16,11 +16,11 @@ public abstract class TestDataGenerator<P extends OpenLPolicy> {
 
 	public abstract TestData getRatingData(P openLPolicy);
 
-	protected String getYesOrNo(boolean value) {
+	String getYesOrNo(boolean value) {
 		return value ? "Yes" : "No";
 	}
 
-	protected String getYesOrNo(String value) {
+	String getYesOrNo(String value) {
 		return "Y".equalsIgnoreCase(value) ? "Yes" : "No";
 	}
 }
