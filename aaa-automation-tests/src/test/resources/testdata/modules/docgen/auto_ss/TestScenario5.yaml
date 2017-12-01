@@ -111,8 +111,8 @@ AAIQAZ: {
   },
   DriverDetails: [
   {
-    DrvrFrstNm: {TextField: 'Fernando'},
-    DrvrLstNm: {TextField: 'Alonso'},
+    DrvrFrstNm: {TextField: 'contains=Fernando'},
+    DrvrLstNm: {TextField: 'Smith'},
     PlcyDrvrAutoDeadBenYN: {TextField: 'N'},
   },
   {

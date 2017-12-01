@@ -1013,11 +1013,11 @@ AARFIXX_AZ: {
   DriverDetails: {
   DrvrTyp: {TextField: 'E'},
   DrvrFrstNm: [
-    {TextField: 'Fernando'},
+    {TextField: 'contains=Fernando'},
     {TextField: 'Maria'}
   ],
   DrvrLstNm: [
-    {TextField: 'Alonso'},
+    {TextField: 'Smith'},
     {TextField: 'Jefferson'}
   ]
   },
@@ -1271,8 +1271,8 @@ AA02AZ: {
   DriverDetails: [
   {
     DrvrTyp: {TextField: 'A'},
-    DrvrFrstNm: {TextField: 'Fernando'},
-    DrvrLstNm: {TextField: 'Alonso'},
+    DrvrFrstNm: {TextField: 'contains=Fernando'},
+    DrvrLstNm: {TextField: 'Smith'},
     DrvrSeqNum: {TextField: '1'},
     DrvrDOB: {DateTimeField: "contains=1962-12-04"},
     DrvrmrtlSts: {TextField: 'Married'},
@@ -3470,8 +3470,8 @@ AA02AZ_ED: {
   DriverDetails: [
   {
     DrvrTyp: {TextField: 'A'},
-    DrvrFrstNm: {TextField: 'Fernando'},
-    DrvrLstNm: {TextField: 'Alonso'},
+    DrvrFrstNm: {TextField: 'contains=Fernando'},
+    DrvrLstNm: {TextField: 'Smith'},
     DrvrSeqNum: {TextField: '1'},
     DrvrDOB: {DateTimeField: "contains=1962-12-04"},
     DrvrmrtlSts: {TextField: 'Married'},
@@ -5299,8 +5299,8 @@ AA02AZ_Renewal: {
   DriverDetails: [
   {
     DrvrTyp: {TextField: 'A'},
-    DrvrFrstNm: {TextField: 'Fernando'},
-    DrvrLstNm: {TextField: 'Alonso'},
+    DrvrFrstNm: {TextField: 'contains=Fernando'},
+    DrvrLstNm: {TextField: 'Smith'},
     DrvrSeqNum: {TextField: '1'},
     DrvrDOB: {DateTimeField: "contains=1962-12-04"},
     DrvrmrtlSts: {TextField: 'Married'},

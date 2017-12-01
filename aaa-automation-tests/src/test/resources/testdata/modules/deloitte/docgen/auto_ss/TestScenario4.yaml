@@ -734,7 +734,7 @@ Driver3_VA: {
 AssignmentTab: {
   DriverVehicleRelationshipTable: [
     {
-      Driver: 'contains=Afflek',
+      Driver: 'contains=Ben',
       Select Vehicle: 'index=1'
     },
     {
