@@ -251,7 +251,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 	 * @author Viktor Petrenko
 	 * <p>
 	 * PAS-527 Renewal Refresh -Add New VIN & Update Existing
-	 *
+	 * PAS-2714 New liability symbols
 	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
 	 * @scenario
 	 * 0. Create customer

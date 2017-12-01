@@ -18,6 +18,10 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.http.HttpStub;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
+import aaa.helpers.product.PolicyHelper;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
@@ -266,7 +270,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 	 * @author Viktor Petrenko
 	 * <p>
 	 * PAS-527 Renewal Refresh -Add New VIN & Update Existing
-	 *
+	 * PAS-2714 New liability symbols
 	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
 	 * @scenario
 	 * 0. Create customer
@@ -324,6 +328,108 @@ public class TestVINUpload extends AutoSSBaseTest {
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 
+
+	/**
+	 * @author Viktor Petrenko
+	 * <p>
+	 * PAS-2716 Update VIN Refresh
+	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
+	 * @scenario
+	 * 0. Create customer
+	 * 1. Initiate Auto SS quote creation
+	 * 2. Go to the vehicle tab, fill info with not existing VIN and issue the quote
+	 * 3. Upload new data
+	 * 4. Make Endorsement
+	 * 5. Check that old vehicle was not changed
+	 * 6. Add new vehicle with same vin
+	 * 7. Check that data was retrieved from db
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
+	public void pas2716_AutomationRenewal(@Optional("UT") String state) {
+		LocalDateTime policyExpirationDate;
+		LocalDateTime policyEffectiveDate;
+		String vinNumber = "1FDEU15H7KL055795";
+		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
+		String controlTableFile = getControlTableFile();
+		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
+				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
+
+		//1. Retrieve active policy with 2 vehicles (VIN matched) created in previous build
+		String policyNumber = createPolicy(testData);
+		policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+		//2. Generate automated renewal image (in data gather status) according to renewal timeline
+		//3. Add new VIN versions/VIN data for vehicle VINs used above(4 new liability symbols prefilled in db)
+		//4. System rates renewal image according to renewal timeline
+		LocalDateTime renewOfferBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
+
+		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
+			TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+			JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+			HttpStub.executeAllBatches();
+			JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+			mainApp().open();
+			SearchPage.openPolicy(policyNumber);
+
+			PolicyHelper.verifyAutomatedRenewalGenerated(renewImageGenDate);
+		//5. Validate vehicle information in VRD and DB
+	}
+
+	/**
+	 * Manual Renewal after R-45
+	 */
+		//1. Retrieve active policy with 2 vehicles (VIN matched) created in previous build
+		//2. Generate automated renewal image (in data gather status) according to renewal timeline
+		//3. Add new VIN versions/VIN data for vehicle VINs used above(4 new liability symbols prefilled in db)
+		//4. Calculate renewal image premium manually after R-45
+		//5. Validate vehicle information in VRD and DB
+
+	/**
+	 * Manual Renewal after R-45
+	 */
+		//1. Retrieve active policy with 2 vehicles (VIN matched) created in previous build
+		//2. Generate automated renewal image (in data gather status) according to renewal timeline
+		//3. Add new VIN versions/VIN data for vehicle VINs used above(4 new liability symbols prefilled in db)
+		//4. System does NOT rate renewal automatically and Agent does NOT calculate premium manually
+		//5. Renewal image is Proposed according to renewal timeline
+		//6. Validate vehicle information in VRD and DB
+	/**
+	 * NB Refresh
+	 */
+		//1. Create quote with 2 vehicles (VIN matched)
+		//2. Add new VIN versions/VIN data for vehicle VINs used above(4 new liability symbols prefilled in db)
+		//3. Retrieve quote and navigate to P&C page
+		//4. System calculates premium
+		//5. Validate vehicle information in VRD and DB
+
+	/**
+	 * Entry date overlap between VIN versions
+	 */
+		//1. For VIN create VIN versions in Control/VIN Table with same product/state and with VALID set to "yes", entry dates that overlap
+		//2. Initiate new quote and add vehicle with VIN created above
+		//3. Validate vehicle information in VRD and DB
+	/**
+	 *
+	 * Entry date overlap between VIN versions
+	 */
+		//1. Create Auto policy with 2 vehicles
+		//2. Renewal term is inforce
+		//3. Add new VIN versions/VIN data for VINs used above
+		//4. Add new VIN versions/VIN data for vehicle3 to be added during endorsement (see notes)
+		//5. Initiate Prior Term (backdated) endorsement with effective date in previous term (for example R-5)
+		//6. Add new vehicle3
+		//7. Bind endorsement
+		//8. Roll on changes for renewal term with changes made in OOS endorsement
+
+	/**
+	 * Go to the admin -> administration -> Vin upload and upload two tables
+	 * @param vinTableFile
+	 * @param controlTableFile
+	 */
 	private void goUploadExcel(String vinTableFile, String controlTableFile) {
 		//open Admin application and navigate to Administration tab
 		adminApp().open();
