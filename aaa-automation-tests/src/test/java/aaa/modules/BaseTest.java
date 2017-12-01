@@ -30,7 +30,9 @@ import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.listeners.AaaTestListener;
 import aaa.main.enums.SearchEnum;
 import aaa.main.modules.customer.Customer;
+import aaa.main.modules.customer.CustomerActions;
 import aaa.main.modules.customer.CustomerType;
+import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
@@ -38,6 +40,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.utils.EntityLogger;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
+import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
@@ -420,6 +423,17 @@ public class BaseTest {
 		String customerNumber = createCustomerIndividual();
 		customer.initiateRenewalEntry().perform(td);
 		return customerNumber;
+	}
+
+	protected String initiateManualConversion(){
+		return initiateManualConversion(getStateTestData(tdCustomerIndividual, CustomerActions.InitiateRenewalEntry.class.getSimpleName(), "TestData"));
+	}
+
+	protected String initiateManualConversionR35() {
+		TestData td = getStateTestData(tdCustomerIndividual, CustomerActions.InitiateRenewalEntry.class.getSimpleName(), "TestData");
+		td.adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(), "Renewal Effective Date"),
+				new DefaultMarkupParser().parse("$<today+35d:MM/dd/yyyy>"));
+		return initiateManualConversion(td);
 	}
 
 	private void initTestDataForTest() {

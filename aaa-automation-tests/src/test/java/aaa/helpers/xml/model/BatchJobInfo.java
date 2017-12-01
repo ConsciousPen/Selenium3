@@ -28,48 +28,59 @@ public class BatchJobInfo {
 		return batchJobEnvironmentType;
 	}
 
-	public void setBatchJobEnvironmentType(String batchJobEnvironmentType) {
-		this.batchJobEnvironmentType = batchJobEnvironmentType;
-	}
 
 	public String getBatchJobApplicationName() {
 		return batchJobApplicationName;
 	}
 
-	public void setBatchJobApplicationName(String batchJobApplicationName) {
-		this.batchJobApplicationName = batchJobApplicationName;
-	}
 
 	public String getBatchJobName() {
 		return batchJobName;
 	}
 
-	public void setBatchJobName(String batchJobName) {
-		this.batchJobName = batchJobName;
-	}
 
 	public String getBatchJobServerName() {
 		return batchJobServerName;
 	}
 
-	public void setBatchJobServerName(String batchJobServerName) {
-		this.batchJobServerName = batchJobServerName;
-	}
 
 	public String getBatchJobIPAddress() {
 		return batchJobIPAddress;
 	}
 
-	public void setBatchJobIPAddress(String batchJobIPAddress) {
-		this.batchJobIPAddress = batchJobIPAddress;
-	}
 
 	public String getBatchJobCorrelationId() {
 		return batchJobCorrelationId;
 	}
 
-	public void setBatchJobCorrelationId(String batchJobCorrelationId) {
+	public BatchJobInfo setBatchJobEnvironmentType(String batchJobEnvironmentType) {
+		this.batchJobEnvironmentType = batchJobEnvironmentType;
+		return this;
+	}
+
+	public BatchJobInfo setBatchJobApplicationName(String batchJobApplicationName) {
+		this.batchJobApplicationName = batchJobApplicationName;
+		return this;
+	}
+
+	public BatchJobInfo setBatchJobName(String batchJobName) {
+		this.batchJobName = batchJobName;
+		return this;
+	}
+
+	public BatchJobInfo setBatchJobServerName(String batchJobServerName) {
+		this.batchJobServerName = batchJobServerName;
+		return this;
+	}
+
+	public BatchJobInfo setBatchJobIPAddress(String batchJobIPAddress) {
+		this.batchJobIPAddress = batchJobIPAddress;
+		return this;
+	}
+
+	public BatchJobInfo setBatchJobCorrelationId(String batchJobCorrelationId) {
 		this.batchJobCorrelationId = batchJobCorrelationId;
+		return this;
 	}
 
 	@Override
@@ -82,5 +93,45 @@ public class BatchJobInfo {
 				", batchJobIPAddress='" + batchJobIPAddress + '\'' +
 				", batchJobCorrelationId='" + batchJobCorrelationId + '\'' +
 				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		BatchJobInfo that = (BatchJobInfo) o;
+
+		if (batchJobEnvironmentType != null ? !batchJobEnvironmentType.equals(that.batchJobEnvironmentType) : that.batchJobEnvironmentType != null) {
+			return false;
+		}
+		if (batchJobApplicationName != null ? !batchJobApplicationName.equals(that.batchJobApplicationName) : that.batchJobApplicationName != null) {
+			return false;
+		}
+		if (batchJobName != null ? !batchJobName.equals(that.batchJobName) : that.batchJobName != null) {
+			return false;
+		}
+		if (batchJobServerName != null ? !batchJobServerName.equals(that.batchJobServerName) : that.batchJobServerName != null) {
+			return false;
+		}
+		if (batchJobIPAddress != null ? !batchJobIPAddress.equals(that.batchJobIPAddress) : that.batchJobIPAddress != null) {
+			return false;
+		}
+		return batchJobCorrelationId != null ? batchJobCorrelationId.equals(that.batchJobCorrelationId) : that.batchJobCorrelationId == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = batchJobEnvironmentType != null ? batchJobEnvironmentType.hashCode() : 0;
+		result = 31 * result + (batchJobApplicationName != null ? batchJobApplicationName.hashCode() : 0);
+		result = 31 * result + (batchJobName != null ? batchJobName.hashCode() : 0);
+		result = 31 * result + (batchJobServerName != null ? batchJobServerName.hashCode() : 0);
+		result = 31 * result + (batchJobIPAddress != null ? batchJobIPAddress.hashCode() : 0);
+		result = 31 * result + (batchJobCorrelationId != null ? batchJobCorrelationId.hashCode() : 0);
+		return result;
 	}
 }

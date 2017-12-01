@@ -44,80 +44,90 @@ public class StandardDocumentRequest {
 		return correlationId;
 	}
 
-	public void setCorrelationId(String correlationId) {
-		this.correlationId = correlationId;
-	}
-
 	public String getDocumentReturnMode() {
 		return documentReturnMode;
-	}
-
-	public void setDocumentReturnMode(String documentReturnMode) {
-		this.documentReturnMode = documentReturnMode;
 	}
 
 	public String getProductName() {
 		return productName;
 	}
 
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-
 	public String getProductType() {
 		return productType;
-	}
-
-	public void setProductType(String productType) {
-		this.productType = productType;
 	}
 
 	public String getRequestingAppName() {
 		return requestingAppName;
 	}
 
-	public void setRequestingAppName(String requestingAppName) {
-		this.requestingAppName = requestingAppName;
-	}
-
 	public String getRequestingUserId() {
 		return requestingUserId;
-	}
-
-	public void setRequestingUserId(String requestingUserId) {
-		this.requestingUserId = requestingUserId;
 	}
 
 	public String getState() {
 		return state;
 	}
 
-	public void setState(String state) {
-		this.state = state;
-	}
-
 	public List<DocumentPackage> getDocumentPackages() {
 		return documentPackages;
-	}
-
-	public void setDocumentPackages(List<DocumentPackage> documentPackages) {
-		this.documentPackages = documentPackages;
 	}
 
 	public String getStandardDocumentRequest() {
 		return standardDocumentRequest;
 	}
 
-	public void setStandardDocumentRequest(String standardDocumentRequest) {
-		this.standardDocumentRequest = standardDocumentRequest;
-	}
-
 	public BatchFileSummary getBatchFileSummary() {
 		return batchFileSummary;
 	}
 
-	public void setBatchFileSummary(BatchFileSummary batchFileSummary) {
+	public StandardDocumentRequest setCorrelationId(String correlationId) {
+		this.correlationId = correlationId;
+		return this;
+	}
+
+	public StandardDocumentRequest setDocumentReturnMode(String documentReturnMode) {
+		this.documentReturnMode = documentReturnMode;
+		return this;
+	}
+
+	public StandardDocumentRequest setProductName(String productName) {
+		this.productName = productName;
+		return this;
+	}
+
+	public StandardDocumentRequest setProductType(String productType) {
+		this.productType = productType;
+		return this;
+	}
+
+	public StandardDocumentRequest setRequestingAppName(String requestingAppName) {
+		this.requestingAppName = requestingAppName;
+		return this;
+	}
+
+	public StandardDocumentRequest setRequestingUserId(String requestingUserId) {
+		this.requestingUserId = requestingUserId;
+		return this;
+	}
+
+	public StandardDocumentRequest setState(String state) {
+		this.state = state;
+		return this;
+	}
+
+	public StandardDocumentRequest setDocumentPackages(List<DocumentPackage> documentPackages) {
+		this.documentPackages = documentPackages;
+		return this;
+	}
+
+	public StandardDocumentRequest setStandardDocumentRequest(String standardDocumentRequest) {
+		this.standardDocumentRequest = standardDocumentRequest;
+		return this;
+	}
+
+	public StandardDocumentRequest setBatchFileSummary(BatchFileSummary batchFileSummary) {
 		this.batchFileSummary = batchFileSummary;
+		return this;
 	}
 
 	@Override
@@ -134,6 +144,62 @@ public class StandardDocumentRequest {
 				", standardDocumentRequest='" + standardDocumentRequest + '\'' +
 				", batchFileSummary=" + batchFileSummary +
 				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		StandardDocumentRequest that = (StandardDocumentRequest) o;
+
+		if (correlationId != null ? !correlationId.equals(that.correlationId) : that.correlationId != null) {
+			return false;
+		}
+		if (documentReturnMode != null ? !documentReturnMode.equals(that.documentReturnMode) : that.documentReturnMode != null) {
+			return false;
+		}
+		if (productName != null ? !productName.equals(that.productName) : that.productName != null) {
+			return false;
+		}
+		if (productType != null ? !productType.equals(that.productType) : that.productType != null) {
+			return false;
+		}
+		if (requestingAppName != null ? !requestingAppName.equals(that.requestingAppName) : that.requestingAppName != null) {
+			return false;
+		}
+		if (requestingUserId != null ? !requestingUserId.equals(that.requestingUserId) : that.requestingUserId != null) {
+			return false;
+		}
+		if (state != null ? !state.equals(that.state) : that.state != null) {
+			return false;
+		}
+		if (documentPackages != null ? !documentPackages.equals(that.documentPackages) : that.documentPackages != null) {
+			return false;
+		}
+		if (standardDocumentRequest != null ? !standardDocumentRequest.equals(that.standardDocumentRequest) : that.standardDocumentRequest != null) {
+			return false;
+		}
+		return batchFileSummary != null ? batchFileSummary.equals(that.batchFileSummary) : that.batchFileSummary == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = correlationId != null ? correlationId.hashCode() : 0;
+		result = 31 * result + (documentReturnMode != null ? documentReturnMode.hashCode() : 0);
+		result = 31 * result + (productName != null ? productName.hashCode() : 0);
+		result = 31 * result + (productType != null ? productType.hashCode() : 0);
+		result = 31 * result + (requestingAppName != null ? requestingAppName.hashCode() : 0);
+		result = 31 * result + (requestingUserId != null ? requestingUserId.hashCode() : 0);
+		result = 31 * result + (state != null ? state.hashCode() : 0);
+		result = 31 * result + (documentPackages != null ? documentPackages.hashCode() : 0);
+		result = 31 * result + (standardDocumentRequest != null ? standardDocumentRequest.hashCode() : 0);
+		result = 31 * result + (batchFileSummary != null ? batchFileSummary.hashCode() : 0);
+		return result;
 	}
 }
 

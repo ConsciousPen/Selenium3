@@ -18,8 +18,9 @@ public class DocumentPackageData {
 		return documentDataSection;
 	}
 
-	public void setDocumentDataSection(List<DocumentDataSection> documentDataSection) {
+	public DocumentPackageData setDocumentDataSection(List<DocumentDataSection> documentDataSection) {
 		this.documentDataSection = documentDataSection;
+		return this;
 	}
 
 	@Override
@@ -27,5 +28,24 @@ public class DocumentPackageData {
 		return "DocumentPackageData{" +
 				"documentDataSection=" + documentDataSection +
 				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		DocumentPackageData that = (DocumentPackageData) o;
+
+		return documentDataSection != null ? documentDataSection.equals(that.documentDataSection) : that.documentDataSection == null;
+	}
+
+	@Override
+	public int hashCode() {
+		return documentDataSection != null ? documentDataSection.hashCode() : 0;
 	}
 }

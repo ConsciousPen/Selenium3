@@ -11,8 +11,9 @@ public class CreateDocuments {
 		return standardDocumentRequest;
 	}
 
-	public void setStandardDocumentRequest(StandardDocumentRequest standardDocumentRequest) {
+	public CreateDocuments setStandardDocumentRequest(StandardDocumentRequest standardDocumentRequest) {
 		this.standardDocumentRequest = standardDocumentRequest;
+		return this;
 	}
 
 	@Override
@@ -20,6 +21,25 @@ public class CreateDocuments {
 		return "CreateDocuments{" +
 				"standardDocumentRequest='" + standardDocumentRequest + '\'' +
 				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		CreateDocuments that = (CreateDocuments) o;
+
+		return standardDocumentRequest != null ? standardDocumentRequest.equals(that.standardDocumentRequest) : that.standardDocumentRequest == null;
+	}
+
+	@Override
+	public int hashCode() {
+		return standardDocumentRequest != null ? standardDocumentRequest.hashCode() : 0;
 	}
 }
 
