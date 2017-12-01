@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.enums.NavigationEnum;
@@ -83,12 +84,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
-
-		policy.getDefaultView().fillFromTo(testData, FormsTab.class, PremiumAndCoveragesTab.class, true);
+		findAndRateQuote(testData, quoteNumber);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
 		CustomAssert.enableSoftMode();
@@ -156,7 +152,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
 
 		//Go back to MainApp, find created policy, initiate Renewal, verify if VIN value is applied
-		renewalCreationSteps(policyNumber);
+		createAndRateRenewal(policyNumber);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
 		CustomAssert.enableSoftMode();
@@ -227,7 +223,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
 
 		// Go back to MainApp, find created policy, create Renewal image and verify if VIN was updated and new values are applied
-		renewalCreationSteps(policyNumber);
+		createAndRateRenewal(policyNumber);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
 		//Verify that fields are updated
@@ -247,8 +243,70 @@ public class TestVINUpload extends AutoSSBaseTest {
 
 		verifyActivitiesAndUserNotes(vinNumber);
 
-		log.info("Renewal image for policy " + PolicySummaryPage.labelPolicyNumber.getValue() + " was successfully created. \n" +
-				"'Update VIN scenario' is passed for VIN UPLOAD tests, Renewal Refresh works fine for Update");
+		log.info("Renewal image for policy {} was successfully created. \n'Update VIN scenario' is passed for VIN UPLOAD tests, Renewal Refresh works fine for Update", PolicySummaryPage.labelPolicyNumber
+				.getValue());
+	}
+
+	/**
+	 * @author Lev Kazarnovskiy
+	 *
+	 * PAS-4253 Restrict VIN Refresh by Vehicle Type
+	 * @name Restrict VIN Refresh by Vehicle Type.
+	 * @scenario
+	 * 0. Create customer
+	 * 1. Initiate Auto SS quote creation
+	 * 2. Go to the vehicle tab, enter vehicle info vin Stat Code with which vehicle should not be refreshed and bind the policy
+	 * 3. On Administration tab in Admin upload Excel files to update this VIN in the system
+	 * 4. Open application and quote
+	 * 5. Verify that VIN was NOT updated and all fields are populated with previous info
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4253")
+	public void pas4253_restrictVehicleRefresh(@Optional("UT") String state) {
+
+		String vinNumber = "1FDEU15H7KL055795";
+		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
+		String controlTableFile = getControlTableFile();
+
+		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
+				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber)
+				.adjust(TestData.makeKeyPath("VehicleTab", "Type"), "Conversion Van")
+				.adjust(TestData.makeKeyPath("VehicleTab", "Change Vehicle Confirmation"), "OK")
+				.adjust(TestData.makeKeyPath("VehicleTab", "Stat Code"), "AV - Custom Van");
+
+		precondsTestVINUpload(testData);
+
+		//Verify that VIN which will be uploaded is not exist yet in the system
+		assertSoftly(softly -> {
+					softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Conversion Van");
+					softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("No");
+					softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("AV - Custom Van");
+				});
+
+		VehicleTab.buttonSaveAndExit.click();
+		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		log.info("Quote {} is successfully saved for further use", quoteNumber);
+
+		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+
+		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
+		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, vinTableFile);
+		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
+
+		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
+		findAndRateQuote(testData, quoteNumber);
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+
+		assertSoftly(softly -> {
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Conversion Van");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("No");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("AV - Custom Van");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("OTHER");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel()).getValue()).isEqualTo("Model");
+		});
 	}
 
 	private void precondsTestVINUpload(TestData testData) {
@@ -258,7 +316,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 		policy.getDefaultView().fillUpTo(testData, VehicleTab.class, true);
 	}
 
-	private void renewalCreationSteps(String policyNumber) {
+	private void createAndRateRenewal(String policyNumber) {
 		LocalDateTime policyExpDate = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpDate));
@@ -267,6 +325,14 @@ public class TestVINUpload extends AutoSSBaseTest {
 		policy.renew().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		PremiumAndCoveragesTab.calculatePremium();
+	}
+
+	private void findAndRateQuote(TestData testData, String quoteNumber){
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
+		policy.getDefaultView().fillFromTo(testData, FormsTab.class, PremiumAndCoveragesTab.class, true);
 	}
 
 	private void verifyActivitiesAndUserNotes(String vinNumber) {
@@ -287,18 +353,19 @@ public class TestVINUpload extends AutoSSBaseTest {
 	 * Please refer to the files with appropriate names in each test in /resources/uploadingfiles/vinUploadFiles.
 	 */
 	@AfterMethod(alwaysRun = true)
+	@Test
 	protected void vin_db_cleaner() {
 		String configNames = "('SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT', 'SYMBOL_2000_SS_TEST')";
 		try {
-			String VehiclerefdatamodelID = DBService.get().getValue("SELECT DM.id FROM vehiclerefdatamodel DM " +
+			String VehicleRefDatamodelID = DBService.get().getValue("SELECT DM.id FROM vehiclerefdatamodel DM " +
 					"JOIN vehiclerefdatavin DV ON DV.vehiclerefdatamodelid=DM.id " +
 					"WHERE DV.version IN " + configNames).get();
 			DBService.get().executeUpdate("DELETE FROM vehiclerefdatavin V WHERE V.VERSION IN " + configNames);
-			DBService.get().executeUpdate("DELETE FROM vehiclerefdatamodel WHERE id='" + VehiclerefdatamodelID + "'");
+			DBService.get().executeUpdate("DELETE FROM vehiclerefdatamodel WHERE id='" + VehicleRefDatamodelID + "'");
 			DBService.get().executeUpdate("DELETE FROM vehiclerefdatavincontrol VC WHERE VC.version IN " + configNames);
 			DBService.get().executeUpdate("UPDATE vehiclerefdatavincontrol SET EXPIRATIONDATE='99999999'");
 		} catch (NoSuchElementException e) {
-			log.error("Configurations with names " + configNames + " are not present in DB, after method have'n been executed fully");
+			log.error("Configurations with names {} are not present in DB, after method have'n been executed fully", configNames);
 		}
 	}
 

@@ -30,7 +30,20 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-533")
 	public void testVINUpload_NewVINAdded(@Optional("CA") String state) {
-		testVINUpload_NewVINAdded("controlTable_CA_Choice.xlsx", "uploadAddedVIN_CA_CHOICE_.xlsx", "1FDEU15H7KL055795");
+		testVINUpload_NewVINAdded("controlTable_CA_CHOICE.xlsx", "uploadAddedVIN_CA_CHOICE.xlsx", "1FDEU15H7KL055795");
+	}
+
+	/**
+	 * @author Lev Kazarnovskiy
+	 * PAS-4253 Restrict VIN Refresh by Vehicle Type
+	 * See detailed steps in template file
+	 * {@link aaa.modules.regression.sales.template.functional.TestVINUploadTemplate#pas4253_restrictVehicleRefreshNB(String, String, String)}
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-4253")
+	public void pas4253_restrictVehicleRefreshNB(@Optional("CA") String state) {
+		pas4253_restrictVehicleRefreshNB("controlTable_CA_CHOICE.xlsx", "uploadAddedVIN_CA_CHOICE.xlsx", "1FDEU15H7KL055795");
 	}
 
 	/**
@@ -45,7 +58,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-527")
 	public void testVINUpload_NewVINAdded_Renewal(@Optional("CA") String state) {
-		testVINUpload_NewVINAdded_Renewal("controlTable_CA_Choice.xlsx", "uploadAddedVIN_CA_CHOICE_.xlsx", "1FDEU15H7KL055795");
+		testVINUpload_NewVINAdded_Renewal("controlTable_CA_CHOICE.xlsx", "uploadAddedVIN_CA_CHOICE.xlsx", "1FDEU15H7KL055795");
 	}
 
 	/**
@@ -60,6 +73,6 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-527")
 	public void testVINUpload_UpdatedVIN_Renewal(@Optional("CA") String state) {
-		testVINUpload_UpdatedVIN_Renewal("controlTable_CA_Choice.xlsx", "uploadUpdatedVIN_CA_CHOICE.xlsx", "4T1BE30K46U656311");
+		testVINUpload_UpdatedVIN_Renewal("controlTable_CA_CHOICE.xlsx", "uploadUpdatedVIN_CA_CHOICE.xlsx", "4T1BE30K46U656311");
 	}
 }
