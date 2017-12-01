@@ -1,7 +1,5 @@
 TestData: {
   PrefillTab: {
-    First Name: Fernando,
-    Last Name: Alonso,
     Validate Address: click,
     Validate Address Dialog: {},
     Order Prefill: click  
@@ -78,8 +76,8 @@ AASR22: {
     CoPhnNum: {TextField: '(800) 259-8008'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '4417 N GEORGIA AVE'},
     NmdInsrdCityNm: {'OKLAHOMA CITY'},
     NmdInsrdStAbrv: {TextField: 'OK'},
@@ -123,8 +121,8 @@ AA41XX: {
     CoPhnNum: {TextField: '(800) 259-8008'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: OK}
   },
   AgentDetails: {
@@ -157,8 +155,8 @@ AA10OK: {
     CoPhnNum: {TextField: '(800) 259-8008'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: OK}
   },
   AgentDetails: {
