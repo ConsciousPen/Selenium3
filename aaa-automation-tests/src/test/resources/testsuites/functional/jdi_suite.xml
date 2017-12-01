@@ -13,6 +13,7 @@
                 <methods>
                     <include name="precondJobAdding"/>
                     <include name="refundDocumentGenerationConfigCheck"/>
+                    <include name="eRefundLastPaymentMethodConfigCheck"/>
                     <include name="pas2186_RefundProcess"/>
                     <include name="pas352_RefundMethodAndDropdownLastPaymentMethod"/>
                 </methods>
@@ -24,7 +25,7 @@
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
-                    <include name="refundDocumentGenerationConfigCheck"/>
+                    <include name="eRefundLastPaymentMethodConfigCheck"/>
                     <include name="pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc"/>
                 </methods>
             </class>
@@ -35,7 +36,7 @@
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
-                    <include name="refundDocumentGenerationConfigCheck"/>
+                    <include name="eRefundLastPaymentMethodConfigCheck"/>
                     <include name="pas352_RefundMethodAndDropdownLastPaymentMethodEFT"/>
                 </methods>
             </class>

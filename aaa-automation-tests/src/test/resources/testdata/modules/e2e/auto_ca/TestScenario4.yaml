@@ -15,10 +15,7 @@ TestData_Endorsement: {
   AssignmentTab: '@AssignmentTab',
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DriverActivityReportsTab: {}
 }
 
 VehicleTab: {
