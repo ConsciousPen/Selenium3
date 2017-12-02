@@ -24,14 +24,13 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -41,6 +40,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 	private VehicleTab vehicleTab = new VehicleTab();
 	private UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 	private PurchaseTab purchaseTab = new PurchaseTab();
+	private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
 
 	/**
 	 * @author Lev Kazarnovskiy
@@ -70,9 +70,9 @@ public class TestVINUpload extends AutoSSBaseTest {
 
 		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
 		String controlTableFile = getControlTableFile();
-		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), "1FDEU15H7KL055795");
+		String vin = "1FDEU15H7KL055795";
 
+		TestData testData = getAdjustedTestData(vin);
 		precondsTestVINUpload(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
@@ -100,7 +100,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 
 		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
 		// PAS-2714 using Oldest Entry Date
-		pas2712Fields.forEach(f -> CustomAssert.assertTrue("C".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).getValue())));
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue("AK".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).getValue())));
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		// End PAS-2714 NB
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
@@ -116,6 +116,27 @@ public class TestVINUpload extends AutoSSBaseTest {
 		CustomAssert.assertAll();
 
 		log.info("Quote {} was successfully saved 'Add new VIN scenario' for NB is passed for VIN UPLOAD tests", quoteNumber);
+	}
+
+	private TestData getAdjustedTestData(String vin) {
+		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
+				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vin);
+
+		// Workaround for latest membership changes
+		// Start of  Rating DetailReports Tab
+		TestData addMemberSinceDialog = new SimpleDataProvider()
+				.adjust(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), new DefaultMarkupParser().parse("$<today:MM/dd/yyyy>"))
+				.adjust(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.BTN_OK.getLabel(), "click");
+		TestData aaaMembershipReportRow = new SimpleDataProvider()
+				.adjust("Action", "Add Member Since")
+				.adjust(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ADD_MEMBER_SINCE_DIALOG.getLabel(), addMemberSinceDialog);
+		// Adjust Rating details report tab
+		TestData testDataRatingDetailReportsTab = testData.getTestData(ratingDetailReportsTab.getMetaKey())
+				.adjust(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT.getLabel(), aaaMembershipReportRow);
+
+		testData.adjust(ratingDetailReportsTab.getMetaKey(), testDataRatingDetailReportsTab).resolveLinks();
+		// End Rating DetailReports Tab
+		return testData;
 	}
 
 	/**
@@ -291,8 +312,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 		String vinNumber = "1FDEU15H7KL055795";
 		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
 		String controlTableFile = getControlTableFile();
-		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
+		TestData testData = getAdjustedTestData(vinNumber);
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -323,11 +343,10 @@ public class TestVINUpload extends AutoSSBaseTest {
 
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
 		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
-		pas2712Fields.forEach(f -> CustomAssert.assertTrue("C".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue())));
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue("AC".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue())));
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
-
 
 	/**
 	 * @author Viktor Petrenko
@@ -367,63 +386,63 @@ public class TestVINUpload extends AutoSSBaseTest {
 		LocalDateTime renewOfferBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
 
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
-			TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-			JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-			HttpStub.executeAllBatches();
-			JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		HttpStub.executeAllBatches();
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
-			mainApp().open();
-			SearchPage.openPolicy(policyNumber);
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
 
-			PolicyHelper.verifyAutomatedRenewalGenerated(renewImageGenDate);
+		PolicyHelper.verifyAutomatedRenewalGenerated(renewImageGenDate);
 		//5. Validate vehicle information in VRD and DB
 	}
 
 	/**
 	 * Manual Renewal after R-45
 	 */
-		//1. Retrieve active policy with 2 vehicles (VIN matched) created in previous build
-		//2. Generate automated renewal image (in data gather status) according to renewal timeline
-		//3. Add new VIN versions/VIN data for vehicle VINs used above(4 new liability symbols prefilled in db)
-		//4. Calculate renewal image premium manually after R-45
-		//5. Validate vehicle information in VRD and DB
+	//1. Retrieve active policy with 2 vehicles (VIN matched) created in previous build
+	//2. Generate automated renewal image (in data gather status) according to renewal timeline
+	//3. Add new VIN versions/VIN data for vehicle VINs used above(4 new liability symbols prefilled in db)
+	//4. Calculate renewal image premium manually after R-45
+	//5. Validate vehicle information in VRD and DB
 
 	/**
 	 * Manual Renewal after R-45
 	 */
-		//1. Retrieve active policy with 2 vehicles (VIN matched) created in previous build
-		//2. Generate automated renewal image (in data gather status) according to renewal timeline
-		//3. Add new VIN versions/VIN data for vehicle VINs used above(4 new liability symbols prefilled in db)
-		//4. System does NOT rate renewal automatically and Agent does NOT calculate premium manually
-		//5. Renewal image is Proposed according to renewal timeline
-		//6. Validate vehicle information in VRD and DB
+	//1. Retrieve active policy with 2 vehicles (VIN matched) created in previous build
+	//2. Generate automated renewal image (in data gather status) according to renewal timeline
+	//3. Add new VIN versions/VIN data for vehicle VINs used above(4 new liability symbols prefilled in db)
+	//4. System does NOT rate renewal automatically and Agent does NOT calculate premium manually
+	//5. Renewal image is Proposed according to renewal timeline
+	//6. Validate vehicle information in VRD and DB
 	/**
 	 * NB Refresh
 	 */
-		//1. Create quote with 2 vehicles (VIN matched)
-		//2. Add new VIN versions/VIN data for vehicle VINs used above(4 new liability symbols prefilled in db)
-		//3. Retrieve quote and navigate to P&C page
-		//4. System calculates premium
-		//5. Validate vehicle information in VRD and DB
+	//1. Create quote with 2 vehicles (VIN matched)
+	//2. Add new VIN versions/VIN data for vehicle VINs used above(4 new liability symbols prefilled in db)
+	//3. Retrieve quote and navigate to P&C page
+	//4. System calculates premium
+	//5. Validate vehicle information in VRD and DB
 
 	/**
 	 * Entry date overlap between VIN versions
 	 */
-		//1. For VIN create VIN versions in Control/VIN Table with same product/state and with VALID set to "yes", entry dates that overlap
-		//2. Initiate new quote and add vehicle with VIN created above
-		//3. Validate vehicle information in VRD and DB
+	//1. For VIN create VIN versions in Control/VIN Table with same product/state and with VALID set to "yes", entry dates that overlap
+	//2. Initiate new quote and add vehicle with VIN created above
+	//3. Validate vehicle information in VRD and DB
 	/**
 	 *
 	 * Entry date overlap between VIN versions
 	 */
-		//1. Create Auto policy with 2 vehicles
-		//2. Renewal term is inforce
-		//3. Add new VIN versions/VIN data for VINs used above
-		//4. Add new VIN versions/VIN data for vehicle3 to be added during endorsement (see notes)
-		//5. Initiate Prior Term (backdated) endorsement with effective date in previous term (for example R-5)
-		//6. Add new vehicle3
-		//7. Bind endorsement
-		//8. Roll on changes for renewal term with changes made in OOS endorsement
+	//1. Create Auto policy with 2 vehicles
+	//2. Renewal term is inforce
+	//3. Add new VIN versions/VIN data for VINs used above
+	//4. Add new VIN versions/VIN data for vehicle3 to be added during endorsement (see notes)
+	//5. Initiate Prior Term (backdated) endorsement with effective date in previous term (for example R-5)
+	//6. Add new vehicle3
+	//7. Bind endorsement
+	//8. Roll on changes for renewal term with changes made in OOS endorsement
 
 	/**
 	 * Go to the admin -> administration -> Vin upload and upload two tables

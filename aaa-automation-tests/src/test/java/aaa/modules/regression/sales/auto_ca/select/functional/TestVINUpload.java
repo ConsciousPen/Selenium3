@@ -28,7 +28,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-533")
 	public void pas533_newVinAdded(@Optional("CA") String state) {
-		newVinAdded("controlTable_CA_SELECT.xlsx", "uploadAddedVIN_CA_SELECT.xlsx", "BBBKN3DD0E0344466");
+		newVinAdded("controlTable_CA_SELECT.xlsx", "uploadAddedVIN_CA_SELECT.xlsx", "1FDEU15H7KL055795");
 	}
 
 	/**
@@ -43,7 +43,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-527")
 	public void pas527_newVinAddedRenewal(@Optional("CA") String state) {
-		newVinAddedRenewal("controlTable_CA_SELECT.xlsx", "uploadAddedVIN_CA_SELECT.xlsx", "BBBKN3DD0E0344466");
+		newVinAddedRenewal("controlTable_CA_SELECT.xlsx", "uploadAddedVIN_CA_SELECT.xlsx", "1HGEM215140028445");
 	}
 
 	/**
@@ -73,6 +73,6 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-2714")
 	public void pas2714_Endorsement(@Optional("CA") String state) {
-		endorsement("controlTable_CA_SELECT.xlsx", "uploadUpdatedVIN_CA_SELECT.xlsx", "1HGEM215140028445");
+		endorsement("controlTable_CA_SELECT.xlsx", "uploadUpdatedVIN_CA_SELECT.xlsx", "1FDEU15H7KL055795");
 	}
 }

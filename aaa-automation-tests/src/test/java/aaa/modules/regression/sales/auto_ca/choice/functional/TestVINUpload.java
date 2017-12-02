@@ -29,7 +29,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-533,PAS-1406")
 	public void pas533_newVinAdded(@Optional("CA") String state) {
-		newVinAdded("controlTable_CA_Choice.xlsx", "uploadAddedVIN_CA_CHOICE_.xlsx", "BBBKN3DD0E0344466");
+		newVinAdded("controlTable_CA_Choice.xlsx", "uploadAddedVIN_CA_CHOICE_.xlsx", "1FDEU15H7KL055795");
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-2714")
 	public void pas2714_Endorsement(@Optional("CA") String state) {
-		endorsement("controlTable_CA_Choice.xlsx", "uploadUpdatedVIN_CA_CHOICE.xlsx", "4T1BE30K46U656311");
+		endorsement("controlTable_CA_Choice.xlsx", "uploadUpdatedVIN_CA_CHOICE.xlsx", "1FDEU15H7KL055795");
 	}
 
 }

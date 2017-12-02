@@ -17,13 +17,11 @@ import aaa.common.pages.SearchPage;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
@@ -34,6 +32,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 	private VehicleTab vehicleTab = new VehicleTab();
 	private UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 	private PurchaseTab purchaseTab = new PurchaseTab();
+	private MembershipTab membershipTab = new MembershipTab();
 
 	/**
 	 * @author Lev Kazarnovskiy
@@ -56,8 +55,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 	 */
 	public void newVinAdded(String controlTableFile, String vinTableFile, String vinNumber) {
 
-		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
+		TestData testData = getAdjustedTestData(vinNumber);
 
 		precondsTestVINUpload(testData, VehicleTab.class);
 
@@ -84,7 +82,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		CustomAssert.enableSoftMode();
 		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
-		pas2712Fields.forEach(f -> CustomAssert.assertTrue("K".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).getValue())));
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue("T".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).getValue())));
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		// End PAS-2714 NB
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
@@ -265,9 +263,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 	 * @details
 	 */
 	public void endorsement(String controlTableFile, String vinTableFile, String vinNumber) {
-		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
-
+		TestData testData = getAdjustedTestData(vinNumber);
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -287,20 +283,38 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		VehicleTab.buttonAddVehicle.click();
 		vehicleTab.getAssetList().fill(testData.getTestData("VehicleTab"));
 
-		vehicleTab.verifyFieldHasNotValue(AutoSSMetaData.VehicleTab.MAKE.getLabel(), "UT_SS");
-		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.MODEL.getLabel(), "UT_SS");
-
 		PremiumAndCoveragesTab.calculatePremium();
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue()).isEqualToIgnoringCase("UT_SS");
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue()).isEqualToIgnoringCase("UT_SS");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("Other Make");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualToIgnoringCase("Model");
 
+		PremiumAndCoveragesTab.tableRatingDetailsVehicles.getPagination().goToNextPage();
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
 		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
-		pas2712Fields.forEach(f -> CustomAssert.assertTrue("C".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue())));
-
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue("AC".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue())));
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("UT_SS");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualToIgnoringCase("Gt");
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+	}
+
+	private TestData getAdjustedTestData(String vinNumber) {
+		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
+				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
+		// Workaround for latest membership changes
+		// Start of  MembershipTab
+		TestData addMemberSinceDialog = new SimpleDataProvider()
+				.adjust(AutoCaMetaData.MembershipTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), new DefaultMarkupParser().parse("$<today:MM/dd/yyyy>"))
+				.adjust(AutoCaMetaData.MembershipTab.AddMemberSinceDialog.BTN_OK.getLabel(), "click")
+				.adjust(AutoCaMetaData.MembershipTab.AddMemberSinceDialog.BTN_CANCEL.getLabel(), "click");
+		TestData aaaMembershipReportRow = new SimpleDataProvider()
+				.adjust("Action", "Add Member Since")
+				.adjust("AddMemberSinceDialog", addMemberSinceDialog);
+		// Adjust membershipTab
+		TestData testMembershipTab = testData.getTestData(membershipTab.getMetaKey())
+				.adjust(AutoCaMetaData.MembershipTab.AAA_MEMBERSHIP_REPORT.getLabel(), aaaMembershipReportRow);
+		testData.adjust(membershipTab.getMetaKey(), testMembershipTab);
+		return testData.resolveLinks();
 	}
 
 	private void uploadFiles(String controlTableFile, String vinTableFile) {
@@ -348,8 +362,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 	*/
 	@AfterMethod(alwaysRun = true)
 	protected void vin_db_cleaner() {
-		String configNames = "('SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT', 'SYMBOL_2000_SS_TEST'"
-				+ ", 'SYMBOL_2000_CH_ENTRY_DATE', 'SYMBOL_2000_CA_SELECT_ENTRY_DATE')";
+		String configNames = "('SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT'";
 		try {
 			String vehicleRefDatamodelId = DBService.get().getValue("SELECT DM.id FROM vehiclerefdatamodel DM " +
 					"JOIN vehiclerefdatavin DV ON DV.vehiclerefdatamodelid=DM.id " +
