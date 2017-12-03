@@ -3,7 +3,6 @@ package aaa.modules.regression.billing_and_payments.auto_ss.functional;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.*;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.util.HashMap;
 import java.util.Map;
@@ -406,7 +405,7 @@ public class TestRefundProcess extends PolicyBilling {
 				BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).verify.value("");
 			}
 			//PAS-2727 start
-			assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).getValue().contains("Stop"));
+			CustomAssert.assertFalse(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).getValue().contains("Stop"));
 			//PAS-2727 end
 	}
 
