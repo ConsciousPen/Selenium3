@@ -208,24 +208,24 @@ public class TestRefundProcess extends PolicyBilling {
 	}
 
 	private void pas1939_voidedRefundTransactionCheck(Dollar refundAmount, String checkDate, String subtypeReason) {
-			Map<String, String> refundVoided1 = new HashMap<>();
-			refundVoided1.put(TRANSACTION_DATE, checkDate);
-			refundVoided1.put(TYPE, "Refund");
-			refundVoided1.put(SUBTYPE_REASON, subtypeReason);
-			CustomAssert.assertEquals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoided1).getIndex(), 2);
-			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoided1).getCell(ACTION).verify.value("");
-			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoided1).getCell(STATUS).verify.value("Voided");
-			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoided1).getCell(AMOUNT).verify.value(refundAmount.toString());
+		Map<String, String> refundVoided1 = new HashMap<>();
+		refundVoided1.put(TRANSACTION_DATE, checkDate);
+		refundVoided1.put(TYPE, "Refund");
+		refundVoided1.put(SUBTYPE_REASON, subtypeReason);
+		CustomAssert.assertEquals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoided1).getIndex(), 2);
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoided1).getCell(ACTION).verify.value("");
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoided1).getCell(STATUS).verify.value("Voided");
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoided1).getCell(AMOUNT).verify.value(refundAmount.toString());
 
-			Map<String, String> refundVoidedAdjustment1 = new HashMap<>();
-			refundVoidedAdjustment1.put(TRANSACTION_DATE, checkDate);
-			refundVoidedAdjustment1.put(TYPE, "Adjustment");
-			refundVoidedAdjustment1.put(SUBTYPE_REASON, "Refund Payment Voided");
-			CustomAssert.assertEquals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoidedAdjustment1).getIndex(), 1);
-			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoidedAdjustment1).getCell(ACTION).verify.value("");
-			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoidedAdjustment1).getCell(STATUS).verify.value("Applied");
-			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoidedAdjustment1).getCell(AMOUNT).verify.value(refundAmount.negate().toString());
-			//PAS-1939 End
+		Map<String, String> refundVoidedAdjustment1 = new HashMap<>();
+		refundVoidedAdjustment1.put(TRANSACTION_DATE, checkDate);
+		refundVoidedAdjustment1.put(TYPE, "Adjustment");
+		refundVoidedAdjustment1.put(SUBTYPE_REASON, "Refund Payment Voided");
+		CustomAssert.assertEquals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoidedAdjustment1).getIndex(), 1);
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoidedAdjustment1).getCell(ACTION).verify.value("");
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoidedAdjustment1).getCell(STATUS).verify.value("Applied");
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refundVoidedAdjustment1).getCell(AMOUNT).verify.value(refundAmount.negate().toString());
+		//PAS-1939 End
 	}
 
 	/**
@@ -386,24 +386,24 @@ public class TestRefundProcess extends PolicyBilling {
 	}
 
 	private void unissuedRefundActionsCheck(Map<String, String> refund1) {
-			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(STATUS).verify.value("Approved");
-			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).controls.links.get(1).verify.value("Void");
-			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).controls.links.get(2).verify.value("Issue");
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(STATUS).verify.value("Approved");
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).controls.links.get(1).verify.value("Void");
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).controls.links.get(2).verify.value("Issue");
 	}
 
 	private void pas1939_issuedRefundActionsCheck(Map<String, String> refund1, String policyNumber, String check) {
-			mainApp().reopen();
-			SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(STATUS).verify.value("Issued");
-			if ("Check".equals(check)) {
-				BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).controls.links.get(1).verify.value("Void");
-				BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).controls.links.get(2).verify.value("Clear");
-			} else {
-				BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).verify.value("");
-			}
-			//PAS-2727 start
-			CustomAssert.assertFalse(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).getValue().contains("Stop"));
-			//PAS-2727 end
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(STATUS).verify.value("Issued");
+		if ("Check".equals(check)) {
+			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).controls.links.get(1).verify.value("Void");
+			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).controls.links.get(2).verify.value("Clear");
+		} else {
+			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).verify.value("");
+		}
+		//PAS-2727 start
+		CustomAssert.assertFalse(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).getValue().contains("Stop"));
+		//PAS-2727 end
 	}
 
 	private static void checkRefundDocumentInDb(String state, String policyNumber, int numberOfDocuments) {
@@ -423,8 +423,8 @@ public class TestRefundProcess extends PolicyBilling {
 	}
 
 	private void unissuedRefundActionsCreditCard(Map<String, String> refund) {
-			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(TRANSACTION_DATE).verify.value(refund.get(TRANSACTION_DATE));
-			unissuedRefundActionsCheck(refund);
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(TRANSACTION_DATE).verify.value(refund.get(TRANSACTION_DATE));
+		unissuedRefundActionsCheck(refund);
 	}
 }
 
