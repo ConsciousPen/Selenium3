@@ -34,7 +34,7 @@ VehicleTab: {
 AssignmentTab: {
   DriverVehicleRelationshipTable: [{
     Vehicle: '2012, AUDI, A3',
-    Primary Driver: 'Sansa Stark'
+    Primary Driver: 'contains=Smith',
   }]
 }
 
