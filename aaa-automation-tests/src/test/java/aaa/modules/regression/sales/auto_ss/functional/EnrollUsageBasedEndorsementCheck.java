@@ -28,9 +28,9 @@ public class EnrollUsageBasedEndorsementCheck extends AutoSSBaseTest {
      * 2. User accesses the policy in 'Endorsement' mode
      * 3. There is at least one vehicle having  Enroll in Usage Based Insurance = Yes at the time of endorsement
      * 4. User clicks the 'Replace' option on a vehicle having  Enroll in Usage Based Insurance = Yes and Safety Score = “Unable to Score”
-     * and clicks 'OK' to confirm the replace action
+     * and clicks 'OK' to confirm the replace action -> vehicle has been replaced
      * 5. User has supplied Year(1996+), Make and Model for PPA or supplied a 17 digit VIN for a 1996+ PPA for the new vehicle
-     * 6. User  views the Usage Based Insurance program section
+     * 6. Check that Enroll in Usage Based Insurance? is Yes
      * @details
      */
     @Parameters({"state"})
