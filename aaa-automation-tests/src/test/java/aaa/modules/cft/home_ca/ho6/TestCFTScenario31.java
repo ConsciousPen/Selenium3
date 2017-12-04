@@ -20,14 +20,13 @@ public class TestCFTScenario31 extends ControlledFinancialBaseTest {
 	@Parameters({STATE_PARAM})
 	public void cftTestScenario31(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
-		// generateInstallmentBill();
+		generateInstallmentBill(1);
 		automaticCancellationNotice(1);
 		automaticCancellation(1);
 		generateFirstEarnedPremiumBill(1);
 		generateSecondEarnedPremiumBill(1);
 		generateThirdEarnedPremiumBill(1);
 		generateCollection(1);
-		// writeOff();
 	}
 
 	@Override
