@@ -1,8 +1,10 @@
 package aaa.helpers.openl.testdata_builder;
 
 import java.time.LocalDateTime;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.openl.model.OpenLPolicy;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -47,5 +49,77 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			return "Foreign";
 		}
 		return AdvancedComboBox.RANDOM_EXCEPT_MARK + "=Foreign";
+	}
+
+	String getVehicleTabUsage(String usage) {
+		switch (usage) {
+			case "A":
+				return "Artisan";
+			case "B":
+				return "Business";
+			case "F":
+				return "Farm";
+			case "P":
+			case "P1":
+			case "P2":
+			case "P3":
+				return "Pleasure";
+			case "W1":
+			case "W2":
+				return "Commute";
+			default:
+				throw new IstfException("Unknown mapping for usage: " + usage);
+		}
+	}
+
+	String getVehicleTabAntiTheft(String antiTheft) {
+		if ("N".equals(antiTheft)) {
+			return "None";
+		}
+		return "Vehicle Recovery Device";
+	}
+
+	String getVehicleTabAirBags(String airBagCode) {
+		switch (airBagCode) {
+			case "N":
+				return "None";
+			//TODO-dchubkov: add other codes
+			default:
+				throw new IstfException("Unknown mapping for airbagCode: " + airBagCode);
+		}
+	}
+
+	String getPremiumAndCoveragesTabCoverageKey(String coverageCD) {
+		switch (coverageCD) {
+			case "BI":
+				return AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel();
+			case "PD":
+				return AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel();
+			case "UMBI":
+				return AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel();
+			case "SP EQUIP":
+				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.SPECIAL_EQUIPMENT_COVERAGE.getLabel();
+			case "COMP":
+				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COMPREGENSIVE_DEDUCTIBLE.getLabel();
+			case "COLL":
+				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel();
+			case "UMPD":
+				return AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel();
+			case "PIP":
+				return AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION.getLabel();
+			default:
+				throw new IstfException("Unknown mapping for coverageCD: " + coverageCD);
+		}
+	}
+
+	String getPremiumAndCoveragesTabCoverageLimit(String limit) {
+		String[] limitRange = limit.split("/");
+		if (limitRange.length > 2) {
+			throw new IstfException("Unknown mapping for limit: " + limit);
+		}
+		if (limitRange.length == 1) {
+			return "contains=" + new Dollar(limit + "000");
+		}
+		return "contains=" + new Dollar(limitRange[0] + "000") + "/" + new Dollar(limitRange[1] + "000");
 	}
 }

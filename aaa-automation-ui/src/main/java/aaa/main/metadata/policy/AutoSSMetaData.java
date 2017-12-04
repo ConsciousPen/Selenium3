@@ -15,6 +15,7 @@ import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
 import aaa.toolkit.webdriver.customcontrols.FillableTable;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
+import aaa.toolkit.webdriver.customcontrols.UnverifiableDrivingRecordSurchargeCheckBoxes;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
@@ -415,7 +416,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<TextBox> OTHER_MODEL = declare("Other Model", TextBox.class);
 		public static final AssetDescriptor<TextBox> OTHER_SERIES = declare("Other Series", TextBox.class);
 		public static final AssetDescriptor<ComboBox> OTHER_BODY_STYLE = declare("Other Body Style", ComboBox.class);
-		public static final AssetDescriptor<ComboBox> STAT_CODE = declare("Stat Code", ComboBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<AdvancedComboBox> STAT_CODE = declare("Stat Code", AdvancedComboBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> STATED_AMOUNT =
 				declare("Stated Amount", TextBox.class, By.xpath(".//input[@id='policyDataGatherForm:vehicleInformation_vehicleRatingInfo_costPurchase']"));
 		public static final AssetDescriptor<ComboBox> EXISTING_DAMAGE = declare("Existing Damage", ComboBox.class);
@@ -622,9 +623,8 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<CheckBox> UNACCEPTABLE_RISK_SURCHARGE =
 				declare("Unacceptable Risk Surcharge", CheckBox.class, Waiters.AJAX, By.id("policyDataGatherForm:unacceptableRiskSurchargeCheckbox"));
 		public static final AssetDescriptor<TextBox> REASON = declare("Reason", TextBox.class, Waiters.AJAX, By.id("policyDataGatherForm:unacceptableRiskSurchargeReason"));
-		// public static final AssetDescriptor<CheckBox>
-		// UNVERIFIABLE_DRIVING_RECORD_SURCHARGE = declare("Unverifiable Driving
-		// Record Surcharge", CheckBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<UnverifiableDrivingRecordSurchargeCheckBoxes> UNVERIFIABLE_DRIVING_RECORD_SURCHARGE = declare("Unverifiable Driving Record Surcharge",
+				UnverifiableDrivingRecordSurchargeCheckBoxes.class, Waiters.AJAX, By.id("policyDataGatherForm:unverifiableDrivingRecordSurchargeTable:tbody_element"));
 
 		public static final AssetDescriptor<Button> CALCULATE_PREMIUM = declare("Calculate Premium", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:premiumRecalc"));
 		public static final AssetDescriptor<RadioGroup> ADDITIONAL_SAVINGS_OPTIONS =
@@ -663,16 +663,22 @@ public final class AutoSSMetaData {
 					declare("Comprehensive Deductible", ComboBox.class, By.xpath(".//span[normalize-space(.)='Comprehensive Deductible']/ancestor::tr[1]//select"));
 			public static final AssetDescriptor<ComboBox> FULL_SAFETY_GLASS =
 					declare("Full Safety Glass", ComboBox.class, By.xpath(".//span[normalize-space(.)='Full Safety Glass']/ancestor::tr[1]//select"));
+			public static final AssetDescriptor<ComboBox> RENTAL_REIMBURSEMENT =
+					declare("Rental Reimbursement", ComboBox.class, By.xpath(".//span[normalize-space(.)='Rental Reimbursement']/ancestor::tr[1]//select"));
 			public static final AssetDescriptor<TextBox> EXCESS_ELECTRONIC_EQUIPMENT =
 					declare("Excess Electronic Equipment", TextBox.class, By.xpath(".//span[normalize-space(.)='Excess Electronic Equipment']/ancestor::tr[1]//input"));
 			public static final AssetDescriptor<ComboBox> COLLISION_DEDUCTIBLE =
 					declare("Collision Deductible", ComboBox.class, By.xpath(".//span[normalize-space(.)='Collision Deductible']/ancestor::tr[1]//select"));
+			public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_COVERAGE =
+					declare("Special Equipment Coverage", TextBox.class, By.xpath(".//span[normalize-space(.)='Special Equipment Coverage']/ancestor::tr[1]//input"));
 			public static final AssetDescriptor<ComboBox> TRANSPORTATION_EXPENSE =
 					declare("Transportation Expense", ComboBox.class, By.xpath(".//span[normalize-space(.)='Transportation Expense']/ancestor::tr[1]//select"));
 			public static final AssetDescriptor<ComboBox> TOWING_AND_LABOR_COVERAGE =
 					declare("Towing and Labor Coverage", ComboBox.class, By.xpath(".//span[normalize-space(.)='Towing and Labor Coverage']/ancestor::tr[1]//select"));
 			public static final AssetDescriptor<ComboBox> NEW_CAR_ADDED_PROTECTION =
 					declare("New Car Added Protection", ComboBox.class, By.xpath(".//span[normalize-space(.)='New Car Added Protection']/ancestor::tr[1]//select"));
+			public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_PROPERTY_DAMAGE =
+					declare("Uninsured Motorist Property Damage", ComboBox.class, By.xpath(".//span[normalize-space(.)='Uninsured Motorist Property Damage']/ancestor::tr[1]//select"));
 			public static final AssetDescriptor<TextBox> PURCHASE_DATE = declare("Purchase Date", TextBox.class, By.xpath(".//span[normalize-space(.)='Purchase Date']/ancestor::tr[1]//input"));
 			// *** DO NOT DECLARE "Waive Liability" and "Vehicle Coverage" controls in this MetaData. They are added within DetailedVehicleCoveragesRepeatAssetList.class ***
 		}
