@@ -43,7 +43,7 @@ DataGather_WO_Discounts: {
 
 PrefillTab: {
   First Name: Gustavo,
-  Last Name: Catalan,
+  Last Name: Smith,
   Date of Birth: '$<today-37y-4d:MM/dd/yyyy>',
   Validate Address: click,
   Validate Address Dialog: {},
@@ -246,6 +246,151 @@ AAAProductOwned6: {
   Home: 'Yes'
 }
 
+GeneralTab_AShDiscount: {
+  GeneralTab: {
+    NamedInsuredInformation: [{}],
+    AAAProductOwned: {},
+    ContactInformation: {},
+    CurrentCarrierInformation: {},
+    PolicyInformation: '@PolicyInformation_ASh'
+  }
+}
+
+PolicyInformation_ASh: {
+  'Override ASD Level': 'Yes',
+  Advance Shopping Discount Override: 'Level 1',
+  ASD Overriden By: Tester Samouchka
+}
+
+GeneralTab_AShDiscount2: {
+  GeneralTab: {
+    NamedInsuredInformation: [{}],
+    AAAProductOwned: {},
+    ContactInformation: {},
+    CurrentCarrierInformation: {},
+    PolicyInformation: '@PolicyInformation_ASh2'
+  }
+}
+
+PolicyInformation_ASh2: {
+  'Override ASD Level': 'No',
+}
+
+GeneralTab_AShDiscount3: {
+  GeneralTab: {
+    NamedInsuredInformation: [{}],
+    AAAProductOwned: {},
+    ContactInformation: {},
+    CurrentCarrierInformation: '@CurrentCarrierInformationASh3',
+    PolicyInformation: '@PolicyInformation_ASh3'
+  }
+}
+
+CurrentCarrierInformationASh3: {
+  'Override Prefilled Current Carrier?': 'Yes',
+  'Agent Entered Current/Prior Carrier': 'AAA Insurance',
+  Agent Entered Inception Date:  '$<today+9d-190d:MM/dd/yyyy>',
+  Agent Entered Expiration Date:  '$<today+9d:MM/dd/yyyy>',
+  Agent Entered BI Limits: '$300,000/$500,000',
+}
+
+PolicyInformation_ASh3: {
+  Effective Date: $<today+8d>,
+}
+
+GeneralTab_AShDiscount4: {
+  GeneralTab: {
+    NamedInsuredInformation: [{}],
+    AAAProductOwned: {},
+    ContactInformation: {},
+    CurrentCarrierInformation: {},
+    PolicyInformation: '@PolicyInformation_ASh4'
+  }
+}
+
+PolicyInformation_ASh4: {
+  Source of Business: Spin,
+  'Source Policy #': '123321'
+}
+
+GeneralTab_AShDiscount5: {
+  GeneralTab: {
+    NamedInsuredInformation: [{}],
+    AAAProductOwned: {},
+    ContactInformation: {},
+    CurrentCarrierInformation: '@CurrentCarrierInformationASh5',
+    PolicyInformation: '@PolicyInformation_ASh5'
+  }
+}
+
+CurrentCarrierInformationASh5: {
+  'Agent Entered Current/Prior Carrier': 'Compliant w/o Ins-Military'
+}
+
+PolicyInformation_ASh5: {
+  Source of Business: New Business,
+}
+
+GeneralTab_AShDiscount6: {
+  GeneralTab: {
+    NamedInsuredInformation: [{}],
+    AAAProductOwned: {},
+    ContactInformation: {},
+    CurrentCarrierInformation: '@CurrentCarrierInformationASh6',
+    PolicyInformation: {}
+  }
+}
+
+CurrentCarrierInformationASh6: {
+  'Agent Entered Current/Prior Carrier': 'Compliant w/o Ins-Newly Purchased'
+}
+
+GeneralTab_AShDiscount7: {
+  GeneralTab: {
+    NamedInsuredInformation: [{}],
+    AAAProductOwned: {},
+    ContactInformation: {},
+    CurrentCarrierInformation: '@CurrentCarrierInformationASh7',
+    PolicyInformation: '@PolicyInformation_ASh7'
+  }
+}
+
+CurrentCarrierInformationASh7: {
+  'Agent Entered Current/Prior Carrier': 'GEICO'
+}
+
+PolicyInformation_ASh7: {
+  Effective Date:  $<today+4d>,
+}
+
+GeneralTab_AShDiscount8: {
+  GeneralTab: {
+    NamedInsuredInformation: [{}],
+    AAAProductOwned: {},
+    ContactInformation: {},
+    CurrentCarrierInformation: {},
+    PolicyInformation: '@PolicyInformation_ASh8'
+  }
+}
+
+PolicyInformation_ASh8: {
+  Effective Date:  $<today+8d>,
+}
+
+GeneralTab_AShDiscount9: {
+  GeneralTab: {
+    NamedInsuredInformation: [{}],
+    AAAProductOwned: {},
+    ContactInformation: {},
+    CurrentCarrierInformation: {},
+    PolicyInformation: '@PolicyInformation_ASh9'
+  }
+}
+
+PolicyInformation_ASh9: {
+  Authorized by: QA,
+}
+
 
 #-- Driver tab --
 
@@ -297,6 +442,18 @@ PremiumAndCoveragesTab_Discounts6: {
   }
 }
 
+PremiumAndCoveragesTab_AShDiscount7: {
+  PremiumAndCoveragesTab: {
+    Payment Plan: 'Five Pay - Low Down',
+    Policy Term: 'Semi-annual'
+  }
+}
+
+PremiumAndCoveragesTab_AShDiscount8: {
+  PremiumAndCoveragesTab: {
+    Payment Plan: 'Semi-Annual',
+  }
+}
 
 #-- Rating Detail Reports tab ----
 
@@ -363,7 +520,24 @@ PolicyLevel_Discounts5: {
   'Payment Plan Discount': 'Yes'
 }
 
+PolicyLevel_AShDiscount: {
+  'Advance Shopping Discount': 'Yes',
+}
 
+PolicyLevel_Underwriting: {
+  'Advance Shopping Discount Level': 'No Discount',
+  'Advance Shopping Discount Override': 'Level 1'
+}
+
+PolicyLevel_AShDiscount8: {
+  'Advance Shopping Discount': 'Yes',
+  'Payment Plan Discount': 'Yes'
+}
+
+PolicyLevel_Underwriting8: {
+  'Advance Shopping Discount Level': 'Level 1',
+  'Advance Shopping Discount Override': 'No'
+}
 
 #-- Check Discounts values on Premium and Coverages tab --
 
@@ -411,6 +585,13 @@ PolicyLevel_Discounts_Message7: {
   Discounts: 'Multi-Policy Discount (Home)|Loyalty Discount| Membership Discount|Payment Plan Discount'
 }
 
+PolicyLevel_Discounts_Message_ASh: {
+  Discounts: 'Advanced Shopping Discount'
+}
+
+PolicyLevel_Discounts_Message_PP: {
+  Discounts: 'Payment Plan Discount'
+}
 
 
 # =============== Test data for AZ state ---
