@@ -1,0 +1,100 @@
+package aaa.modules.regression.sales.auto_ca.select.functional.cin;
+
+import aaa.common.pages.SearchPage;
+import aaa.helpers.xml.models.Document;
+import aaa.main.enums.DocGenEnum;
+import aaa.main.enums.ProductConstants;
+import aaa.main.enums.SearchEnum;
+import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.policy.PolicyBaseTest;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.Assert;
+import toolkit.datax.TestData;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+/**
+ * @author Pavel_Mikhnevich
+ * @name Test Create CA Select Auto Policy
+ */
+public abstract class PolicyCINBaseTest extends PolicyBaseTest {
+
+    protected static final String DEFAULT_TEST_DATA_KEY = "TestData";
+    protected static final String STATE_PARAM = "state";
+    protected static final String DEFAULT_TEST_RENEWAL_KEY = "TestData_Renewal_";
+
+    /**
+     * Create a policy for test with specific data
+     *
+     * @scenario 1. Create Customer
+     * 2. Prepare a test-specific data
+     * 3. Create CA Select Auto Policy
+     * 4. Verify Policy status is 'Policy Active'
+     * @details
+     */
+    protected String createPolicyForTest() {
+        mainApp().open();
+        createCustomerIndividual();
+        TestData testData = preparePolicyTestData();
+        String policyNumber = createPolicy(testData);
+        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        return policyNumber;
+    }
+
+    /**
+     * Verify CIN document has been generated and has the right sequenceID
+     *
+     * @param documentsList list of documents in a package
+     * @param docBefore     document configured to be right before the CIN
+     * @param docAfter      document configured to be right after the CIN
+     */
+    protected void verifyDocumentOrder(@Nonnull List<Document> documentsList, @Nullable DocGenEnum.Documents docBefore, @Nullable DocGenEnum.Documents docAfter) {
+        Map<String, String> sequenceMap = documentsList.stream().collect(Collectors.toMap(Document::getTemplateId, Document::getSequence));
+
+        //check CIN has been generated
+        Assert.assertTrue(sequenceMap.containsKey(DocGenEnum.Documents.AHAUXX.getId()));
+        //check the order
+        if (sequenceMap.containsKey(DocGenEnum.Documents.AHAUXX.getId())) {
+            Long cinDocSequenceID = Long.parseLong(sequenceMap.get(DocGenEnum.Documents.AHAUXX.getId()));
+            //if docBefore set and generated, compare the order
+            if (docBefore != null && sequenceMap.containsKey(docBefore.getId())) {
+                Long docBeforeSequenceID = Long.parseLong(sequenceMap.get(docBefore.getId()));
+                Assert.assertTrue(docBeforeSequenceID.compareTo(cinDocSequenceID) < 0);
+            }
+            //if docAfter set and generated, compare the order
+            if (docAfter != null && sequenceMap.containsKey(docAfter.getId())) {
+                Long docAfterSequenceID = Long.parseLong(sequenceMap.get(docBefore.getId()));
+                Assert.assertTrue(docAfterSequenceID.compareTo(cinDocSequenceID) > 0);
+            }
+        }
+    }
+
+    /**
+     * Renew the policy specified with policy number
+     *
+     * @param policyNumber number of the policy to be renewed
+     * @param state
+     * @scenario 1. Change time to R-35
+     * 2. Create Manual Renewal for Policy (add driver which has chargeable violation)
+     * @details
+     */
+    protected void renewPolicy(String policyNumber, String state) {
+        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate); //-35
+        TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+        mainApp().reopen();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        policy.createRenewal(getTestSpecificTD(DEFAULT_TEST_RENEWAL_KEY + state));
+        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+    }
+
+    /*
+     * A placeholder for test-specific Policy population
+     */
+    protected abstract TestData preparePolicyTestData();
+}

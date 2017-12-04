@@ -17,9 +17,10 @@ public class DbXmlHelper implements AaaDocGenEntityQueries {
 
     /**
      * Select part of Document Generated xml from Oracle DB by Xpath
-     * @param docId generated Document Id
+     *
+     * @param docId            generated Document Id
      * @param selectPolicyData query which returns CLOB data
-     * @param xmlns Name Spaces which uses in Xpath
+     * @param xmlns            Name Spaces which uses in Xpath
      * @return XML content in String format
      */
     public static String getXmlByDocName(@Nonnull DocGenEnum.Documents docId, String selectPolicyData, DocGenEnum.XmlnsDbFormat... xmlns) {
@@ -36,17 +37,32 @@ public class DbXmlHelper implements AaaDocGenEntityQueries {
     }
 
     /**
+     * Select the generated Document xml from Oracle DB by policy number
+     *
+     * @param policyNumber
+     * @param eventName    name of a trigger event for document generation
+     * @return XML content in String format
+     */
+    public static String getXmlByPolicyNumber(@Nonnull String policyNumber, @Nonnull String eventName) {
+        Map<String, String> params = ImmutableMap.of(
+                "POLICY_NUMBER", policyNumber,
+                "EVENT_NAME", eventName
+        );
+
+        String query = StrSubstitutor.replace(GET_DOCUMENT_BY_POLICY_NUMBER, params);
+        return DBService.get().getValue(query).get();
+    }
+
+    /**
      * Select part of Document Generated xml from Oracle DB by Xpath
      * Includes all Name Spaces
-     * @param docId generated Document Id
+     *
+     * @param docId            generated Document Id
      * @param selectPolicyData query which returns CLOB data
      * @return XML content in String format
      */
     public static String getXmlByDocName(DocGenEnum.Documents docId, String selectPolicyData) {
         return getXmlByDocName(docId, selectPolicyData, DocGenEnum.XmlnsDbFormat.values());
     }
-
-
-
 
 }
