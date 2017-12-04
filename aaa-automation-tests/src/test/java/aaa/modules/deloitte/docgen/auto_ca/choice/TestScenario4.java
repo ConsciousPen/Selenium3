@@ -27,8 +27,8 @@ public class TestScenario4 extends AutoCaChoiceBaseTest {
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC02_checkAH63XX(String state) throws Exception {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(33));
-		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob, true);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents.AH63XX);
 	}
 }
