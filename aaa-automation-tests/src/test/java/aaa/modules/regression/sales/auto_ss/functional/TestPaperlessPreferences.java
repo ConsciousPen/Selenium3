@@ -15,14 +15,9 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
-
-import java.util.Arrays;
-import java.util.List;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 public class TestPaperlessPreferences extends AutoSSBaseTest {
 
@@ -87,6 +82,7 @@ public class TestPaperlessPreferences extends AutoSSBaseTest {
 
 		//PAS-266 start
 		documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES).click();
+		Waiters.SLEEP(6000).go();
 		documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.EDIT_PAPERLESS_PREFERENCES_BTN_DONE).click();
 		//PAS-282, PAS-268, PAS-266 end
 
