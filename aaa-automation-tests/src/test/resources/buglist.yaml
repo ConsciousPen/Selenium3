@@ -137,7 +137,7 @@ PAS-6610:
   reason: PROD
   failures:
     - tests: [aaa.modules.deloitte.docgen.auto_ss.TestScenario4.TC01_CreatePolicy]
-      messages: ['Unable to locate element: {"method":"id","selector":"policyDataGatherForm:nextButton_footer"}']
+      messages: ['Unable to locate element']
 QC-11111:
   summary: "OSI: Senior Discount related code is not in Master yet"
   reason: PROD
