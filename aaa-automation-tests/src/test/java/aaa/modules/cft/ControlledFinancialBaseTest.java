@@ -221,6 +221,16 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	/**
+	 * Accept Total Due payment
+	 * payment date = current application date 
+	 */
+	protected void acceptTotalDuePayment() {
+		log.info("Accept payment action started");
+		billingAccount.acceptPayment().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY), BillingSummaryPage.getTotalDue());
+		log.info("Accept payment action completed successfully");
+	}
+
+	/**
 	 * Accept TotalDue + Over payment on first bill generation date
 	 */
 	protected void acceptTotalDuePlusOverpaymentOnBillGenDate(Dollar overpayment) {
@@ -330,6 +340,27 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected void approveRefundTotalPremiumOnDD1() {
 		LocalDateTime refundDate = TimeSetterUtil.getInstance().getStartTime().plusMonths(1);
+		TimeSetterUtil.getInstance().nextPhase(refundDate);
+		log.info("Approve refund action started on {}", refundDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		CustomAssertions.assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS))
+			.hasValue(BillingConstants.BillingAccountPoliciesPolicyStatus.POLICY_CANCELLED);
+		Dollar refundAmount = BillingSummaryPage.getTotalPaid();
+		billingAccount.approveRefund().perform(refundAmount);
+		new BillingPaymentsAndTransactionsVerifier()
+			.setTransactionDate(refundDate)
+			.setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
+			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND)
+			.setAmount(refundAmount)
+			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPROVED)
+			.verifyPresent();
+		log.info("Approve refund action completed successfully");
+	}
+
+	protected void approveRefundTotalExpDatePlus25() {
+		LocalDateTime refundDate = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate().plusDays(25);
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
 		log.info("Approve refund action started on {}", refundDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
@@ -500,9 +531,19 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		manualFutureCancellationOnDate(cancellationDate);
 	}
 
-	protected void manualCancellationDD1Plus5(String keyPath) {
+	protected void manualCancellationOnDD1Plus5() {
 		LocalDateTime cancellationDate = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1).plusDays(5);
 		manualCancellationOnDate(cancellationDate);
+	}
+
+	protected void manualRefundOnExpDatePlus25() {
+		LocalDateTime refundDate = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate().plusDays(25);
+		TimeSetterUtil.getInstance().nextPhase(refundDate);
+		log.info("Manual Refund action started on {}", refundDate);
+		mainApp().reopen();
+		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		billingAccount.refund().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		log.info("Manual Refund action completed successfully");
 	}
 
 	protected void flatCancellationStartDatePlus16() {
@@ -549,8 +590,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		LocalDateTime reinstatementDate = getTimePoints().getCancellationNoticeDate(
 			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
 		TimeSetterUtil.getInstance().nextPhase(reinstatementDate);
-		log.info("Manual reinstatement action started");
-		log.info("Manual reinstatement date: {}", reinstatementDate);
+		log.info("Manual reinstatement action started on {}", reinstatementDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
@@ -599,12 +639,11 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		LocalDateTime collectionDate = getTimePoints().getEarnedPremiumWriteOff(
 			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(installmentNumber));
 		TimeSetterUtil.getInstance().nextPhase(collectionDate);
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		log.info("Generate collection action started on {}", collectionDate);
 		mainApp().reopen();
-		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		Dollar totalDue = BillingSummaryPage.getTotalDue();
 		if (totalDue.moreThan(new Dollar(100))) {
-			log.info("Generate collection action started on {}", collectionDate);
 			generateCollectionFile();
 			log.info("Collection generated successfully");
 		}
@@ -716,12 +755,11 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected void generateRenewalOffer() {
 		LocalDateTime renewalOfferDate = getTimePoints().getRenewOfferGenerationDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate());
-		TimeSetterUtil.getInstance().nextPhase(renewalOfferDate);
+		TimeSetterUtil.getInstance().nextPhase(renewalOfferDate.plusDays(13));
 		log.info("Renewal offer generation started on {}", renewalOfferDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().open();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PROPOSED).verify(1);
 		log.info("Renewal offer generated successfully");
@@ -741,6 +779,18 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 			.setTotalDue(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue()))
 			.verifyPresent();
 		log.info("Renewal offer bill generated successfully");
+	}
+
+	protected void verifyRenewCustomerDecline() {
+		LocalDateTime declineDate = getTimePoints().getRenewCustomerDeclineDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate());
+		TimeSetterUtil.getInstance().nextPhase(declineDate);
+		log.info("Verify renew customer decline on {}", declineDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().open();
+		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		CustomAssertions.assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS))
+			.hasValue(BillingConstants.BillingAccountPoliciesPolicyStatus.CUSTOMER_DECLINED);
+		log.info("Renew is declined");
 	}
 
 	protected void verifyEscheatmentOnExpDatePlus25Plus13Months() {
@@ -919,7 +969,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	private void issuedRefundOnDate(Dollar refundAmount, LocalDateTime refundDate) {
-		TimeSetterUtil.getInstance().nextPhase(refundDate);
+		TimeSetterUtil.getInstance().nextPhase(refundDate.plusDays(2));
 		log.info("Verify refund on {}", refundDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();

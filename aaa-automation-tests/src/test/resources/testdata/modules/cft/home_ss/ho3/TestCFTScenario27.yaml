@@ -1,6 +1,6 @@
 #---- Data Gather ----
 GeneralTab_DataGather: {
-  Effective date: $<today+1M-20d>'
+  Effective date: $<today+1M-20d>
 }
 
 PremiumsAndCoveragesQuoteTab_DataGather: {
