@@ -16,7 +16,8 @@ TestData_Endorsement: {
   AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {}
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
 }
 
 VehicleTab: {
@@ -33,7 +34,8 @@ TestData_Endorsement_AZ: {
   VehicleTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_AZ',
-  DriverActivityReportsTab: {}
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
 }
 
 PremiumAndCoveragesTab_AZ: {
@@ -51,7 +53,8 @@ TestData_Endorsement_NY: {
   AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {}
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
 }
 
 VehicleTab_NY: {
