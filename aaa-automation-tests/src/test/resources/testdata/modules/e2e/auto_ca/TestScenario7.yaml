@@ -38,7 +38,8 @@ TestData_EndorsementPlan: {
   PremiumAndCoveragesTab: {
     Payment Plan: Annual
   },
-  DriverActivityReportsTab: {}
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
 }
 
 TestData_EndorsementRP: {
@@ -54,7 +55,8 @@ TestData_EndorsementRP: {
   AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {}
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
 }
 
 TestData_EndorsementAP: {
@@ -75,5 +77,6 @@ TestData_EndorsementAP: {
   },
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {}
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
 }

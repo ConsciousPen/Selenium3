@@ -151,8 +151,10 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	@Test(description = "Precondition")
 	public static void eValueTerritoryChannelForVAConfigCheck() {
-		CustomAssert.assertEquals("Territory for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_TERRITORY_FOR_VA_CONFIG_CHECK).get(), "212");
-		CustomAssert.assertEquals("Channel for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_CHANNEL_FOR_VA_CONFIG_CHECK).get(), "AZ Club Agent");
+		CustomAssert
+				.assertEquals("Territory for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_TERRITORY_FOR_VA_CONFIG_CHECK).get(), "212");
+		CustomAssert.assertEquals("Channel for VA is not configured, please run eValueTerritoryChannelForVAConfigUpdate", DBService.get().getValue(EVALUE_CHANNEL_FOR_VA_CONFIG_CHECK)
+				.get(), "AZ Club Agent");
 	}
 
 	@Test(description = "Precondition")
@@ -886,6 +888,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	//TODO Replace below TCs with DataProvider when the Optional parameter State will be removed
+
 	/**
 	 * *@author Viktoriia Lutsenko
 	 * *@name Evalue acknowledgement document (AHEVAXX) generation.
@@ -1229,7 +1232,8 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		if(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY).isPresent()) {
+		if (documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY)
+				.isPresent()) {
 			documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION).getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY)
 					.setValue("Megha");
 		}
@@ -1244,7 +1248,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		}
 	}
 
-	private void checkBlueBoxMessages(String topic, List <String> messages) {
+	private void checkBlueBoxMessages(String topic, List<String> messages) {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1).verify.value(topic);
 		List<String> currentValues = Arrays.asList(PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).getValue().split("\n"));
@@ -1277,7 +1281,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 				.adjust("EndorsementActionTab", adjustedEndorsementActionData));
 	}
 
-	private void checkBlueBoxMessagesWithDiffData(int days, String messageInfo, List messageBullet, String messageInfo1, List messageBullet1, String membershipOrPrior) {
+	private void checkBlueBoxMessagesWithDiffData(int days, String messageInfo, List<String> messageBullet, String messageInfo1, List<String> messageBullet1, String membershipOrPrior) {
 		policy.dataGather().start();
 
 		checkBlueBoxMessages(messageInfo, messageBullet);
@@ -1305,7 +1309,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		PremiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
 
-		PolicySummaryPage.buttonPendedEndorsement.click();
 		simplifiedPendedEndorsementIssue();
 	}
 }

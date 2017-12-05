@@ -361,7 +361,6 @@ public class TestRefundProcess extends PolicyBilling {
 		//PAS-3619 Start
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell("Type").controls.links.get(1).click();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.enabled(false);
-		//TODO waiting for Mindaugase's fix
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.value("Visa-4113 expiring 01/22");
 		//PAS-3619 End
 		//PAS-2728 Start
@@ -460,5 +459,6 @@ public class TestRefundProcess extends PolicyBilling {
 		}
 		//PAS-443 end
 	}
+
 }
 

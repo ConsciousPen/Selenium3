@@ -41,5 +41,6 @@ TestData_EndorsementRP: {
   AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {}
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
 }
