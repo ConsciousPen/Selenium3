@@ -21,10 +21,11 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_086_ModifyPaymentPlan(@Optional("") String state) {
+		mainApp().open();
+
 		String policyNumber = getPoliciesByQuery("BCT_ONL_086_ModifyPaymentPlan", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
-		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
 //		int initialInstallmentsCount = BillingSummaryPage.tableInstallmentSchedule.getRowsCount();
@@ -42,10 +43,11 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 	@Test
 	public void BCT_ONL_185_Refund_Validation(@Optional("") String state) {
 		//TODO Test moved from Deloite's code as is, probably some additional steps should be added
+		mainApp().open();
+
 		String policyNumber = getPoliciesByQuery("BCT_ONL_185_Refund_Validation", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
-		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 
 		billingAccount.changePaymentPlan().perform("Standard Monthly (Renewal)");
@@ -62,10 +64,11 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 	@Test
 	public void BCT_ONL_186_Refund_Validation(@Optional("") String state) {
 		//TODO Test moved from Deloite's code as is, probably some additional steps should be added
+		mainApp().open();
+
 		String policyNumber = getPoliciesByQuery("BCT_ONL_186_Refund_Validation", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
-		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 
 		billingAccount.changePaymentPlan().start();
