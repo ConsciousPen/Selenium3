@@ -97,10 +97,9 @@ public class TestRefundProcess extends PolicyBilling {
 	public static void eRefundLastPaymentMethodConfigCheck() {
 		CustomAssert.enableSoftMode();
 		CustomAssert.assertTrue("Erefunds lookup value is not true, please run REFUND_CONFIG_INSERT", DBService.get().getValue(REFUND_CONFIG_CHECK).isPresent());
-		CustomAssert
-				.assertTrue("Erefund stub point is set incorrect, please run LAST_PAYMENT_METHOD_STUB_POINT_UPDATE", DBService.get()
-						.getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)).get()
-						.contains(APP_HOST));
+		CustomAssert.assertTrue("Erefund stub point is set incorrect, please run LAST_PAYMENT_METHOD_STUB_POINT_UPDATE", DBService.get()
+				.getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)).get()
+				.contains(APP_HOST));
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -122,7 +121,7 @@ public class TestRefundProcess extends PolicyBilling {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")//TODO when running suite, the test which has Depends on is not being executed
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-2186")
-	public void pas2186_RefundProcess(@Optional("VA") String state) {
+	public void pas2186_RefundProcessCheck(@Optional("VA") String state) {
 		Dollar refundAmount1 = new Dollar(25);
 		Dollar refundAmount2 = new Dollar(100);
 		String checkDate1 = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
@@ -161,8 +160,8 @@ public class TestRefundProcess extends PolicyBilling {
 		refund1.put(TRANSACTION_DATE, checkDate1);
 		refund1.put(TYPE, "Refund");
 		refund1.put(SUBTYPE_REASON, "Manual Refund");
-		unissuedRefundActionsCheck(refund1);
-		unissuedRefundRecordDetailsCheck(refundAmount1, checkDate1, refund1);
+		pas453_unissuedRefundActionsCheck(refund1, true);
+		unissuedRefundRecordDetailsCheck(refundAmount1, checkDate1, refund1, true);
 
 		//PAS-1939 Start
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).controls.links.get("Void").click();
@@ -174,7 +173,7 @@ public class TestRefundProcess extends PolicyBilling {
 
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
 		checkRefundDocumentInDb(state, policyNumber, 1);
-		pas1939_issuedRefundActionsCheck(refund1, policyNumber, "Check");
+		pas1939_issuedRefundActionsCheck(refund1, policyNumber, true);
 
 		Dollar totalDue = BillingSummaryPage.getTotalDue();
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue.add(refundAmount2));
@@ -188,9 +187,9 @@ public class TestRefundProcess extends PolicyBilling {
 		refund2.put(TRANSACTION_DATE, checkDate2);
 		refund2.put(TYPE, "Refund");
 		refund2.put(SUBTYPE_REASON, "Automated Refund");
-		unissuedRefundActionsCheck(refund2);
+		pas453_unissuedRefundActionsCheck(refund2, false);
 		//BUG PAS-4251, PAS-6144 - waiting for implementation, the fields display requirements will change
-		unissuedRefundRecordDetailsCheck(refundAmount2, checkDate2, refund2);
+		unissuedRefundRecordDetailsCheck(refundAmount2, checkDate2, refund2, false);
 
 		//PAS-1939 Start
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund2).getCell(ACTION).controls.links.get("Void").click();
@@ -201,7 +200,7 @@ public class TestRefundProcess extends PolicyBilling {
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
 		checkRefundDocumentInDb(state, policyNumber, 2);
-		pas1939_issuedRefundActionsCheck(refund2, policyNumber, "Check");
+		pas1939_issuedRefundActionsCheck(refund2, policyNumber, true);
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -245,7 +244,7 @@ public class TestRefundProcess extends PolicyBilling {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eRefundLastPaymentMethodConfigCheck")//TODO when running suite, the test which has Depends on is not being executed
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-352")
-	public void pas352_RefundMethodAndDropdownLastPaymentMethod(@Optional("VA") String state) {
+	public void pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard(@Optional("VA") String state) {
 
 		String message = "Credit Card Visa-4113 expiring 01/22";
 		String amount = "10";
@@ -345,7 +344,7 @@ public class TestRefundProcess extends PolicyBilling {
 		refund1.put(STATUS, "Approved");
 		refund1.put(TYPE, "Refund");
 		refund1.put(SUBTYPE_REASON, "Manual Refund");
-		unissuedRefundActionsCreditCard(refund1);
+		pas453_unissuedRefundActionsCheck(refund1, true);
 		//PAS-2719 End
 
 		//PAS-1939 Start
@@ -362,6 +361,7 @@ public class TestRefundProcess extends PolicyBilling {
 		//PAS-3619 Start
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell("Type").controls.links.get(1).click();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.enabled(false);
+		//TODO waiting for Mindaugase's fix
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.value("Visa-4113 expiring 01/22");
 		//PAS-3619 End
 		//PAS-2728 Start
@@ -372,30 +372,69 @@ public class TestRefundProcess extends PolicyBilling {
 		refund2.put(STATUS, "Issued");
 		refund2.put(TYPE, "Refund");
 		refund2.put(SUBTYPE_REASON, "Manual Refund");
-		pas1939_issuedRefundActionsCheck(refund2, policyNumber, "non-check");
+		pas1939_issuedRefundActionsCheck(refund2, policyNumber, false);
 		//PAS-2728 End
+
+		//PAS-453 Start
+		Dollar refundAmount3 = new Dollar(100);
+		Dollar totalDue = BillingSummaryPage.getTotalDue();
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue.add(refundAmount3));
+
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(1));
+		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+		String checkDate3 = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
+		Map<String, String> refund3 = new HashMap<>();
+		refund3.put(TRANSACTION_DATE, checkDate3);
+		refund3.put(TYPE, "Refund");
+		refund3.put(SUBTYPE_REASON, "Automated Refund");
+		pas453_unissuedRefundActionsCheck(refund3, false);
+		//BUG PAS-4251, PAS-6144 - waiting for implementation, the fields display requirements will change
+		unissuedRefundRecordDetailsCheck(refundAmount3, checkDate3, refund3, false);
+
+		//PAS-1939 Start
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund3).getCell(ACTION).controls.links.get("Void").click();
+		Page.dialogConfirmation.confirm();
+		pas1939_voidedRefundTransactionCheck(refundAmount3, checkDate3, "Automated Refund");
+		//PAS-1939 End
+
+		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+		pas1939_issuedRefundActionsCheck(refund2, policyNumber, false);
+
+		//TODO Victoria's steps here
+		//PAS-453 End
 	}
 
-	private void unissuedRefundRecordDetailsCheck(Dollar amount, String checkDate, Map<String, String> refund1) {
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(TYPE).controls.links.get(1).click();
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_NUMBER.getLabel(), TextBox.class).verify.value("Processing");
+	private void unissuedRefundRecordDetailsCheck(Dollar amount, String checkDate, Map<String, String> refund, boolean isManual) {
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(TYPE).controls.links.get(1).click();
+		if (!isManual) {
+			acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.value("Pending");
+			acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_NUMBER.getLabel(), TextBox.class).verify.value("Processing");
+		}
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_DATE.getLabel(), TextBox.class).verify.value(checkDate);
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYEE_NAME.getLabel(), TextBox.class).verify.present();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).verify.value(amount.toString());
 		acceptPaymentActionTab.back();
 	}
 
-	private void unissuedRefundActionsCheck(Map<String, String> refund1) {
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(STATUS).verify.value("Approved");
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).controls.links.get(1).verify.value("Void");
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).controls.links.get(2).verify.value("Issue");
+	private void pas453_unissuedRefundActionsCheck(Map<String, String> refund, boolean isManual) {
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(STATUS).verify.value("Approved");
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(ACTION).controls.links.get(1).verify.value("Void");
+		if (isManual) {
+			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(ACTION).controls.links.get(2).verify.value("Issue");
+		} else {
+			CustomAssert.assertFalse(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(ACTION).getValue().contains("Issue"));
+		}
 	}
 
-	private void pas1939_issuedRefundActionsCheck(Map<String, String> refund1, String policyNumber, String check) {
+	private void pas1939_issuedRefundActionsCheck(Map<String, String> refund1, String policyNumber, boolean isCheck) {
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(STATUS).verify.value("Issued");
-		if ("Check".equals(check)) {
+		if (isCheck) {
 			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).controls.links.get(1).verify.value("Void");
 			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).controls.links.get(2).verify.value("Clear");
 		} else {
@@ -420,11 +459,6 @@ public class TestRefundProcess extends PolicyBilling {
 			CustomAssert.assertEquals(Integer.parseInt(DBService.get().getValue(query2).get()), numberOfDocuments);
 		}
 		//PAS-443 end
-	}
-
-	private void unissuedRefundActionsCreditCard(Map<String, String> refund) {
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(TRANSACTION_DATE).verify.value(refund.get(TRANSACTION_DATE));
-		unissuedRefundActionsCheck(refund);
 	}
 }
 
