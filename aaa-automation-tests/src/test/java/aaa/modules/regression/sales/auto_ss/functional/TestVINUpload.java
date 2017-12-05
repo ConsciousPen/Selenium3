@@ -118,10 +118,21 @@ public class TestVINUpload extends AutoSSBaseTest {
 		log.info("Quote {} was successfully saved 'Add new VIN scenario' for NB is passed for VIN UPLOAD tests", quoteNumber);
 	}
 
+	/**
+	 * Fills Non existing vehicle + e
+	 * @param non-existing vin
+	 * @return
+	 */
 	private TestData getAdjustedTestData(String vin) {
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vin);
 
+		testData.adjust(ratingDetailReportsTab.getMetaKey(),  getAdjustedRatingDetailReportTab(testData)).resolveLinks();
+		// End Rating DetailReports Tab
+		return testData;
+	}
+
+	private TestData getAdjustedRatingDetailReportTab(TestData testData) {
 		// Workaround for latest membership changes
 		// Start of  Rating DetailReports Tab
 		TestData addMemberSinceDialog = new SimpleDataProvider()
@@ -131,12 +142,8 @@ public class TestVINUpload extends AutoSSBaseTest {
 				.adjust("Action", "Add Member Since")
 				.adjust(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ADD_MEMBER_SINCE_DIALOG.getLabel(), addMemberSinceDialog);
 		// Adjust Rating details report tab
-		TestData testDataRatingDetailReportsTab = testData.getTestData(ratingDetailReportsTab.getMetaKey())
+		return testData.getTestData(ratingDetailReportsTab.getMetaKey())
 				.adjust(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT.getLabel(), aaaMembershipReportRow);
-
-		testData.adjust(ratingDetailReportsTab.getMetaKey(), testDataRatingDetailReportsTab).resolveLinks();
-		// End Rating DetailReports Tab
-		return testData;
 	}
 
 	/**
@@ -237,6 +244,8 @@ public class TestVINUpload extends AutoSSBaseTest {
 		String controlTableFile = getControlTableFile();
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
 
+		testData.adjust(ratingDetailReportsTab.getMetaKey(),  getAdjustedRatingDetailReportTab(testData)).resolveLinks();
+
 		precondsTestVINUpload(testData, VehicleTab.class);
 
 		//Verify that VIN which will be updated exists in the system, save value that will be updated
@@ -259,7 +268,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
 		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
-		pas2712Fields.forEach(f -> CustomAssert.assertTrue("C".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue())));
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue("AC".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue())));
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		// End PAS-2714 Renewal Update Vehicle
@@ -330,8 +339,9 @@ public class TestVINUpload extends AutoSSBaseTest {
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.MODEL.getLabel(), "Model");
 
 		VehicleTab.buttonAddVehicle.click();
-		vehicleTab.getAssetList().fill(testData.getTestData("VehicleTab"));
+		policy.getDefaultView().fillUpTo(getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber),PremiumAndCoveragesTab.class);
 
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		vehicleTab.verifyFieldHasNotValue(AutoSSMetaData.VehicleTab.MAKE.getLabel(), "UT_SS");
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.MODEL.getLabel(), "UT_SS");
 

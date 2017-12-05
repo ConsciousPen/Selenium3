@@ -16,7 +16,6 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -82,7 +81,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		CustomAssert.enableSoftMode();
 		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
-		pas2712Fields.forEach(f -> CustomAssert.assertTrue("T".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).getValue())));
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue("C".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue())));
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		// End PAS-2714 NB
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
@@ -183,13 +182,24 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		TestData firstVehicle = getPolicyTD().getTestData("VehicleTab");
 		TestData secondVehicle = getPolicyTD().getTestData("VehicleTab").ksam("VIN", "Primary Use")
 				.adjust("VIN", vinNumber)
-				.adjust("Primary Use", "Pleasure (recreational driving only)").resolveLinks();
+				.adjust("Primary Use", "Pleasure (recreational driving only)")
+				.adjust("Odometer Reading", "20000").resolveLinks();
 
 		List<TestData> testDataVehicleTab = new ArrayList<>();
 		testDataVehicleTab.add(firstVehicle);
 		testDataVehicleTab.add(secondVehicle);
-		TestData adjustedVehicleTab = new SimpleDataProvider().adjust("VehicleTab", testDataVehicleTab);
-		TestData testData = getPolicyDefaultTD().adjust("VehicleTab", adjustedVehicleTab).resolveLinks();
+
+		List<TestData> listDataAssignmentTab = new ArrayList<>();
+		TestData firstAssignmentTab = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0);
+		TestData secondAssignmentTab = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0).ksam("Primary Driver");
+		listDataAssignmentTab.add(firstAssignmentTab);
+		listDataAssignmentTab.add(secondAssignmentTab);
+
+		TestData testDataAssignmentTab = new SimpleDataProvider().adjust("DriverVehicleRelationshipTable",listDataAssignmentTab);
+
+		TestData testData = getPolicyDefaultTD()
+				.adjust("VehicleTab", testDataVehicleTab)
+				.adjust("AssignmentTab", testDataAssignmentTab).resolveLinks();
 
 		//TestData testData = getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber).resolveLinks();
 
@@ -214,17 +224,16 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		renewalCreationSteps(policyNumber);
 
 		// Start PAS-2714 Renewal Update Vehicle
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-
-		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
-		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
-		// PAS-2714 using Oldest Entry Date
-		pas2712Fields.forEach(f -> CustomAssert.assertTrue("T".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue())));
-
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-		// End PAS-2714 Renewal Update Vehicle
-
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
+		vehicleTab.buttonAddVehicle.click();
+		policy.getDefaultView().fill(new SimpleDataProvider().adjust("VehicleTab",
+				secondVehicle.adjust("Type","Regular").adjust("Odometer Reading Date","$<today:MM/dd/yyyy>")));
+		listDataAssignmentTab.add(secondAssignmentTab);
+
+		testDataAssignmentTab = new SimpleDataProvider().adjust("DriverVehicleRelationshipTable",listDataAssignmentTab);
+
+		testData = getPolicyDefaultTD()
+				.adjust("AssignmentTab", testDataAssignmentTab).resolveLinks();
 
 		//Verify that fields are updated
 		CustomAssert.enableSoftMode();
@@ -234,6 +243,18 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel(), "TEST");
 		// PAS-1487  No Match to Match but Year Doesn't Match
 		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.YEAR.getLabel(), "2005");
+
+		policy.getDefaultView().fillFromTo(testData, AssignmentTab.class, PurchaseTab.class, false);
+
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+
+		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
+		// PAS-2714 using Oldest Entry Date
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue("O".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(4    ).getValue())));
+
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		// End PAS-2714 Renewal Update Vehicle
 
 		VehicleTab.buttonSaveAndExit.click();
 
@@ -263,33 +284,33 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 	 * @details
 	 */
 	public void endorsement(String controlTableFile, String vinTableFile, String vinNumber) {
-		TestData testData = getAdjustedTestData(vinNumber);
+		TestData testData = getAdjustedTestData(vinNumber).resolveLinks();
 
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy(testData);
 
-		uploadFiles(vinTableFile, controlTableFile);
+		uploadFiles(controlTableFile, vinTableFile);
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		vehicleTab.verifyFieldHasNotValue(AutoSSMetaData.VehicleTab.MAKE.getLabel(), "Other Make");
-		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.MODEL.getLabel(), "Model");
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
+		vehicleTab.verifyFieldHasNotValue(AutoCaMetaData.VehicleTab.MAKE.getLabel(), "Other Make");
+		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel(), "Model");
 
 		VehicleTab.buttonAddVehicle.click();
-		vehicleTab.getAssetList().fill(testData.getTestData("VehicleTab"));
+		policy.getDefaultView().fillUpTo(getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber), PremiumAndCoveragesTab.class);
 
 		PremiumAndCoveragesTab.calculatePremium();
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("Other Make");
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualToIgnoringCase("Model");
-
-		PremiumAndCoveragesTab.tableRatingDetailsVehicles.getPagination().goToNextPage();
+		// todo add pagination
+		//PremiumAndCoveragesTab.tableRatingDetailsVehicles.getPagination().goToNextPage();
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
 		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
 		pas2712Fields.forEach(f -> CustomAssert.assertTrue("AC".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue())));
@@ -300,7 +321,8 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 
 	private TestData getAdjustedTestData(String vinNumber) {
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
+				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber)
+				.adjust(TestData.makeKeyPath("VehicleTab", "Value($)"), "40000");
 		// Workaround for latest membership changes
 		// Start of  MembershipTab
 		TestData addMemberSinceDialog = new SimpleDataProvider()
@@ -314,7 +336,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		TestData testMembershipTab = testData.getTestData(membershipTab.getMetaKey())
 				.adjust(AutoCaMetaData.MembershipTab.AAA_MEMBERSHIP_REPORT.getLabel(), aaaMembershipReportRow);
 		testData.adjust(membershipTab.getMetaKey(), testMembershipTab);
-		return testData.resolveLinks();
+		return testData;
 	}
 
 	private void uploadFiles(String controlTableFile, String vinTableFile) {
@@ -339,7 +361,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		policy.renew().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 		PremiumAndCoveragesTab.calculatePremium();
 	}
 
@@ -362,7 +384,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 	*/
 	@AfterMethod(alwaysRun = true)
 	protected void vin_db_cleaner() {
-		String configNames = "('SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT'";
+		String configNames = "('SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT')";
 		try {
 			String vehicleRefDatamodelId = DBService.get().getValue("SELECT DM.id FROM vehiclerefdatamodel DM " +
 					"JOIN vehiclerefdatavin DV ON DV.vehiclerefdatamodelid=DM.id " +
