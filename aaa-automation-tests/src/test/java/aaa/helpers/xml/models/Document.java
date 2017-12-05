@@ -33,48 +33,56 @@ public class Document {
 		return documentDataSections;
 	}
 
-	public void setDocumentDataSections(List<DocumentDataSection> documentDataSections) {
-		this.documentDataSections = documentDataSections;
-	}
 
 	public String getDocumentsData() {
 		return documentsData;
 	}
 
-	public void setDocumentsData(String documentsData) {
-		this.documentsData = documentsData;
-	}
 
 	public String getSequence() {
 		return sequence;
-	}
-
-	public void setSequence(String sequence) {
-		this.sequence = sequence;
 	}
 
 	public String getTemplateId() {
 		return templateId;
 	}
 
-	public void setTemplateId(String templateId) {
-		this.templateId = templateId;
-	}
-
 	public String getxPathInfo() {
 		return xPathInfo;
-	}
-
-	public void setxPathInfo(String xPathInfo) {
-		this.xPathInfo = xPathInfo;
 	}
 
 	public String geteSignatureDocument() {
 		return eSignatureDocument;
 	}
 
-	public void seteSignatureDocument(String eSignatureDocument) {
+	public Document setDocumentDataSections(List<DocumentDataSection> documentDataSections) {
+		this.documentDataSections = documentDataSections;
+		return this;
+	}
+
+	public Document setDocumentsData(String documentsData) {
+		this.documentsData = documentsData;
+		return this;
+	}
+
+	public Document setSequence(String sequence) {
+		this.sequence = sequence;
+		return this;
+	}
+
+	public Document setTemplateId(String templateId) {
+		this.templateId = templateId;
+		return this;
+	}
+
+	public Document setxPathInfo(String xPathInfo) {
+		this.xPathInfo = xPathInfo;
+		return this;
+	}
+
+	public Document seteSignatureDocument(String eSignatureDocument) {
 		this.eSignatureDocument = eSignatureDocument;
+		return this;
 	}
 
 	@Override
@@ -87,5 +95,45 @@ public class Document {
 				", xPathInfo='" + xPathInfo + '\'' +
 				", eSignatureDocument='" + eSignatureDocument + '\'' +
 				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		Document document = (Document) o;
+
+		if (documentDataSections != null ? !documentDataSections.equals(document.documentDataSections) : document.documentDataSections != null) {
+			return false;
+		}
+		if (documentsData != null ? !documentsData.equals(document.documentsData) : document.documentsData != null) {
+			return false;
+		}
+		if (sequence != null ? !sequence.equals(document.sequence) : document.sequence != null) {
+			return false;
+		}
+		if (templateId != null ? !templateId.equals(document.templateId) : document.templateId != null) {
+			return false;
+		}
+		if (xPathInfo != null ? !xPathInfo.equals(document.xPathInfo) : document.xPathInfo != null) {
+			return false;
+		}
+		return eSignatureDocument != null ? eSignatureDocument.equals(document.eSignatureDocument) : document.eSignatureDocument == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = documentDataSections != null ? documentDataSections.hashCode() : 0;
+		result = 31 * result + (documentsData != null ? documentsData.hashCode() : 0);
+		result = 31 * result + (sequence != null ? sequence.hashCode() : 0);
+		result = 31 * result + (templateId != null ? templateId.hashCode() : 0);
+		result = 31 * result + (xPathInfo != null ? xPathInfo.hashCode() : 0);
+		result = 31 * result + (eSignatureDocument != null ? eSignatureDocument.hashCode() : 0);
+		return result;
 	}
 }

@@ -9,6 +9,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -16,6 +17,9 @@ import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomAssertions;
+import toolkit.verification.CustomSoftAssertions;
+
 
 public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 
@@ -79,7 +83,7 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		PurchaseTab purchaseTab = new PurchaseTab();
 		DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 		RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
-		
+		SoftAssertions softly = new SoftAssertions();
 		
 		mainApp().open();
 		
@@ -91,13 +95,12 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(getTestSpecificTD("DataGather_WO_Discounts"), PremiumAndCoveragesTab.class, true);
 		
-		CustomAssert.enableSoftMode();
 		
 		// check No Policy Level discounts displayed on Premium&Coverages tab - displayed only Passive Restraint Discount(2011, MERCEDES-BENZ, G55AMG)
-		checkDiscountsNotDisplayed(getTestSpecificTD("PolicyLevel_Discounts_MessageN"));
+		checkDiscountsNotDisplayed(getTestSpecificTD("PolicyLevel_Discounts_MessageN"), softly);
 		
 		// check all policy level discounts is None on Rating Details
-		checkPolicyLevelDiscountsValueRatingDetails(getTestSpecificTD("PolicyLevel_Discounts"));
+		checkPolicyLevelDiscountsValueRatingDetails(getTestSpecificTD("PolicyLevel_Discounts"), softly);
 	
 		// enter data to apply discounts
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
@@ -107,17 +110,17 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 	
 		// check discounts is displayed on Premium&Coverages tab
-		checkDiscountsDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message"));
+		checkDiscountsDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message"), softly);
 		
 		// enter data to apply discounts
 		premiumAndCoveragesTab.fillTab(getTestSpecificTD("PremiumAndCoveragesTab_Discounts"));
 		
 		// check discounts is displayed on Premium&Coverages tab
-		checkDiscountsDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message2"));
+		checkDiscountsDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message2"), softly);
 		// check discounts is not displayed on Premium&Coverages tab
-		checkDiscountsNotDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message2N"));
+		checkDiscountsNotDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message2N"), softly);
 		// check policy level discounts values on Rating Details
-		checkPolicyLevelDiscountsValueRatingDetails(getTestSpecificTD("PolicyLevel_Discounts2"));
+		checkPolicyLevelDiscountsValueRatingDetails(getTestSpecificTD("PolicyLevel_Discounts2"), softly);
 		
 		// enter data to update discount Multi-policy discount 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
@@ -129,11 +132,11 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		// check Multi-policy discount (Motorcycle, Life, Condo) is displayed on Premium&Coverages tab
-		checkDiscountsDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message3"));
+		checkDiscountsDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message3"), softly);
 		// check discounts is not displayed on Premium&Coverages tab
-		checkDiscountsNotDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message3N"));
+		checkDiscountsNotDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message3N"), softly);
 		// check Condo discount value on Rating Details
-		checkPolicyLevelDiscountsValueRatingDetails(getTestSpecificTD("PolicyLevel_Discounts3"));
+		checkPolicyLevelDiscountsValueRatingDetails(getTestSpecificTD("PolicyLevel_Discounts3"), softly);
 		String currentDiscounts = PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString();
 		premiumAndCoveragesTab.submitTab();
 		
@@ -141,7 +144,7 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		policy.getDefaultView().fillFromTo(getTestSpecificTD("DataGather_WO_Discounts"), DriverActivityReportsTab.class, PurchaseTab.class, true);
 		purchaseTab.submitTab();
 		
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		log.info("Policy created: "+policyNumber+" with Discounts: "+currentDiscounts);
@@ -160,7 +163,7 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		
 		currentDiscounts = PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString();
 		//check discounts is displayed on Premium&Coverages tab
-		checkDiscountsDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message4"));
+		checkDiscountsDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message4"), softly);
 
 		
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
@@ -183,9 +186,9 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		premiumAndCoveragesTab.fillTab(getTestSpecificTD("PremiumAndCoveragesTab_Discounts5"));
 		
 		//check discounts are displayed on Premium&Coverages tab
-		checkDiscountsDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message5"));
+		checkDiscountsDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message5"), softly);
 		//check discounts are not displayed on Premium&Coverages tab
-		checkDiscountsNotDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message5N"));
+		checkDiscountsNotDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message5N"), softly);
 		
 		currentDiscounts = PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString();
 		
@@ -200,13 +203,17 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		policy.endorse().perform(getTestSpecificTD("EndorsementPlus2M"));
 				
 		generalTab.fillTab(getTestSpecificTD("GeneralTab_Discounts6"));
+		
+		//order membership report
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
+		ratingDetailReportsTab.fillTab(getTestSpecificTD("RatingDetailReportsTab_Discounts"));
 				
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.fillTab(getTestSpecificTD("PremiumAndCoveragesTab_Discounts6"));
 				
 		//check discounts are displayed on Premium&Coverages tab
-		checkDiscountsDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message6"));
-		//check discounts are not displayed on Premium&Coverages tab		
+		checkDiscountsDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message6"), softly);
+		
 		currentDiscounts = PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString();
 				
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
@@ -222,7 +229,7 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		
 		//check discounts are displayed on Premium&Coverages tab
-		checkDiscountsDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message7"));
+		checkDiscountsDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message7"), softly);
 		
 		currentDiscounts = PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString();
 		
@@ -230,33 +237,175 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		
 		log.info("Policy manual Renewal created: "+policyNumber+" with Discounts: "+currentDiscounts);
 		
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
+		softly.assertAll();
 	}
 	
+	/**
+	 * @author Natalija Belakova
+	 * @name Policy Level discounts: Advanced Shopping Discount (US 29094)
+	 * @scenario
+	 * 1. Create quote without discounts and check discounts not displayed
+	 * 2. Enter data to apply/remove discounts and check discounts displayed/not displayed
+	 */
+	
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+	public void testAdvShoppingDiscount(@Optional("") String state) {
 
-	private void checkPolicyLevelDiscountsValueRatingDetails(TestData td_Discounts){
+		PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+		GeneralTab generalTab = new GeneralTab();
+		PurchaseTab purchaseTab = new PurchaseTab();
+		SoftAssertions softly = new SoftAssertions();
+		
+		mainApp().open();
+		
+		createCustomerIndividual();
+	
+		
+		// ----------- NB Quote
+		
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(getTestSpecificTD("DataGather_WO_Discounts"), PremiumAndCoveragesTab.class, true);
+		
+		// check No Policy Level discounts displayed on Premium&Coverages tab - displayed only Passive Restraint Discount(2011, MERCEDES-BENZ, G55AMG)
+		checkDiscountsNotDisplayed(getTestSpecificTD("PolicyLevel_Discounts_MessageN"), softly);
+		
+		// check all policy level discounts is None on Rating Details
+		checkPolicyLevelDiscountsValueRatingDetails(getTestSpecificTD("PolicyLevel_Discounts"), softly);
+	
+		// enter data to apply discount: Advanced Shopping
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get()); 
+		generalTab.fillTab(getTestSpecificTD("GeneralTab_AShDiscount"));
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		
+		// check Advanced Shopping discount is displayed on Premium&Coverages tab
+		checkDiscountsDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message_ASh"), softly);
+		
+		// check policy level discounts values on Rating Details
+		checkPolicyLevelDiscountsValueRatingDetails(getTestSpecificTD("PolicyLevel_AShDiscount"), softly);
+		// check underwriting values on Rating Details
+		checkPolicyLevelUnderwritingValueRatingDetails(getTestSpecificTD("PolicyLevel_Underwriting"), softly);
+		
+		// enter data to remove discount: Advanced Shopping
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get()); 
+		generalTab.fillTab(getTestSpecificTD("GeneralTab_AShDiscount2"));
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		
+		// check Advanced Shopping discount is not displayed on Premium&Coverages tab
+		checkDiscountsNotDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message_ASh"), softly);
+		
+		// enter data to apply discount: Advanced Shopping
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get()); 
+		generalTab.fillTab(getTestSpecificTD("GeneralTab_AShDiscount3"));
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+				
+		// check Advanced Shopping discount is displayed on Premium&Coverages tab
+		checkDiscountsDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message_ASh"), softly);
+		
+		// enter data to remove discount: Advanced Shopping
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get()); 
+		generalTab.fillTab(getTestSpecificTD("GeneralTab_AShDiscount4"));
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+						
+		// check Advanced Shopping discount is not displayed on Premium&Coverages tab
+		checkDiscountsNotDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message_ASh"), softly);
+		
+		// enter data to remove discount: Advanced Shopping
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get()); 
+		generalTab.fillTab(getTestSpecificTD("GeneralTab_AShDiscount5"));
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+								
+		// check Advanced Shopping discount is displayed on Premium&Coverages tab
+		checkDiscountsNotDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message_ASh"), softly);
+		
+		// enter data to remove discount: Advanced Shopping
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get()); 
+		generalTab.fillTab(getTestSpecificTD("GeneralTab_AShDiscount6"));
+		// enter data to apply discount: Payment Plan Discount
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+								
+		// check Advanced Shopping discount is not displayed on Premium&Coverages tab
+		checkDiscountsNotDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message_ASh"), softly);
+		
+		// enter data to remove discount: Advanced Shopping
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get()); 
+		generalTab.fillTab(getTestSpecificTD("GeneralTab_AShDiscount7"));
+		// enter data to remove discount: Payment Plan Discount
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.fillTab(getTestSpecificTD("PremiumAndCoveragesTab_AShDiscount7"));
+										
+		// check discounts is not displayed on Premium&Coverages tab
+		checkDiscountsNotDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message_ASh"), softly);
+		checkDiscountsNotDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message_PP"), softly);
+				
+		// enter data to apply discount: Advanced Shopping
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get()); 
+		generalTab.fillTab(getTestSpecificTD("GeneralTab_AShDiscount8"));
+		// enter data to apply discount: Payment Plan Discount
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.fillTab(getTestSpecificTD("PremiumAndCoveragesTab_AShDiscount8"));
+										
+		// check Advanced Shopping discount is displayed on Premium&Coverages tab
+		checkDiscountsDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message_ASh"), softly);
+		checkDiscountsDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message_PP"), softly);
+		
+		// check policy level discounts values on Rating Details
+		checkPolicyLevelDiscountsValueRatingDetails(getTestSpecificTD("PolicyLevel_AShDiscount8"), softly);
+		// check underwriting values on Rating Details
+		checkPolicyLevelUnderwritingValueRatingDetails(getTestSpecificTD("PolicyLevel_Underwriting8"), softly);
+		
+		String currentDiscounts = PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString();
+		
+		premiumAndCoveragesTab.submitTab();
+		
+		//issue policy
+		policy.getDefaultView().fillFromTo(getTestSpecificTD("DataGather_WO_Discounts"), DriverActivityReportsTab.class, PurchaseTab.class, true);
+		purchaseTab.submitTab();
+				
+		softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_PENDING);
+		
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		log.info("Policy created: "+policyNumber+" with Discounts: "+currentDiscounts);
+		
+		softly.assertAll(); 
+	}
+
+
+	private void checkPolicyLevelDiscountsValueRatingDetails(TestData td_Discounts, SoftAssertions  softAssertions){
 		
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
 		for (String discountName : td_Discounts.getKeys()) {		
-			CustomAssert.assertEquals(discountName+": ", td_Discounts.getValue(discountName), new PremiumAndCoveragesTab().getRatingDetailsQuoteInfoData().getValue(discountName));
+			softAssertions.assertThat(td_Discounts.getValue(discountName)).isEqualTo(new PremiumAndCoveragesTab().getRatingDetailsQuoteInfoData().getValue(discountName));
 		}
 		
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 	
-	private void checkDiscountsDisplayed(TestData td_Discounts){
+	private void checkPolicyLevelUnderwritingValueRatingDetails(TestData td_Discounts, SoftAssertions  softAssertions){
+		
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+
+		for (String discountName : td_Discounts.getKeys()) {		
+			softAssertions.assertThat(td_Discounts.getValue(discountName)).isEqualTo(new PremiumAndCoveragesTab().getRatingDetailsUnderwritingValueData().getValue(discountName));
+		}
+		
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+	}
+	
+	private void checkDiscountsDisplayed(TestData td_Discounts, SoftAssertions  softAssertions){
 		
 		for (String discountName : td_Discounts.getValue("Discounts").split("\\|")) {
-			CustomAssert.assertTrue(discountName+" is not displayed in Discount message, but must be displayed ", PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString().contains(discountName));
+			softAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).contains(discountName);
 		}
 	}
 	
-	private void checkDiscountsNotDisplayed(TestData td_Discounts){
+	private void checkDiscountsNotDisplayed(TestData td_Discounts, SoftAssertions  softAssertions){
 		
 		for (String discountName : td_Discounts.getValue("Discounts").split("\\|")) {
-			CustomAssert.assertFalse(discountName+" is displayed in Discount message, but not be displayed ", PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString().contains(discountName));
+			softAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain(discountName);
 		}
 	}
 

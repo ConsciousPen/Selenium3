@@ -1,0 +1,172 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="BCT Online Tests" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test" />
+
+    <!-- Billing And Payments -->
+
+    <test name="Billing and payment - BCT_ONL_030" preserve-order="true">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.bct.billing_and_payments.AcceptPaymentTest">
+                <methods>
+                    <include name="BCT_ONL_030_ProcessAcceptPayment"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Billing and payment - BCT_ONL_097" preserve-order="true">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.bct.billing_and_payments.BillGenerationTest">
+                <methods>
+                    <include name="BCT_ONL_097_GenerateBill"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Billing and payment - BCT_ONL_059" preserve-order="true">
+        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
+        <classes>
+            <class name="aaa.modules.bct.billing_and_payments.BillingHoldTest">
+                <methods>
+                    <include name="BCT_ONL_059_BillingHold"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Billing and payment - BCT_ONL_064" preserve-order="true">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.bct.billing_and_payments.BillingHoldTest">
+                <methods>
+                    <include name="BCT_ONL_064_BillingHold"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Billing and payment - BCT_ONL_076" preserve-order="true">
+        <parameter name="state" value="UT, NJ, PA" />
+        <classes>
+            <class name="aaa.modules.bct.billing_and_payments.DeclinePaymentTest">
+                <methods>
+                    <include name="BCT_ONL_076_Decline_Payment"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Billing and payment - BCT_ONL_120" preserve-order="true">
+        <parameter name="state" value="AZ" />
+        <classes>
+            <class name="aaa.modules.bct.billing_and_payments.DeclinePaymentTest">
+                <methods>
+                    <include name="BCT_ONL_120_Payments"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Billing and payment - BCT_ONL_121" preserve-order="true">
+        <parameter name="state" value="AZ" />
+        <classes>
+            <class name="aaa.modules.bct.billing_and_payments.DeclinePaymentTest">
+                <methods>
+                    <include name="BCT_ONL_121_Payments"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Billing and payment - BCT_ONL_122" preserve-order="true">
+        <parameter name="state" value="AZ" />
+        <classes>
+            <class name="aaa.modules.bct.billing_and_payments.DeclinePaymentTest">
+                <methods>
+                    <include name="BCT_ONL_122_Payments"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Billing and payment - BCT_ONL_031" preserve-order="true">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.bct.billing_and_payments.DefinePaymentMethodTest">
+                <methods>
+                    <include name="BCT_ONL_031_Define_Payment_Method"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Billing and payment - BCT_ONL_061" preserve-order="true">
+        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
+        <classes>
+            <class name="aaa.modules.bct.billing_and_payments.FeesTest">
+                <methods>
+                    <include name="BCT_ONL_061_ManageFees"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Billing and payment - BCT_ONL_032" preserve-order="true">
+        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
+        <classes>
+            <class name="aaa.modules.bct.billing_and_payments.ModifyPaymentMethodTest">
+                <methods>
+                    <include name="BCT_ONL_032_Modify_Payment_Method"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Billing and payment - BCT_ONL_086" preserve-order="true">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.bct.billing_and_payments.ModifyPaymentPlanTest">
+                <methods>
+                    <include name="BCT_ONL_086_ModifyPaymentPlan"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Billing and payment - BCT_ONL_185" preserve-order="true">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.bct.billing_and_payments.ModifyPaymentPlanTest">
+                <methods>
+                    <include name="BCT_ONL_185_Refund_Validation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Billing and payment - BCT_ONL_186" preserve-order="true">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.bct.billing_and_payments.ModifyPaymentPlanTest">
+                <methods>
+                    <include name="BCT_ONL_186_Refund_Validation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Billing and payment - BCT_ONL_037" preserve-order="true">
+        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
+        <classes>
+            <class name="aaa.modules.bct.billing_and_payments.RefundTransferTest">
+                <methods>
+                    <include name="BCT_ONL_037_RefundTransfer"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Billing and payment - BCT_ONL_038" preserve-order="true">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.bct.billing_and_payments.RefundTransferTest">
+                <methods>
+                    <include name="BCT_ONL_038_RefundTransfer"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>
