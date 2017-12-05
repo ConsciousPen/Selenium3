@@ -20,16 +20,20 @@ public class DataElementChoice {
 		return textField;
 	}
 
-	public void setTextField(String textField) {
-		this.textField = textField;
-	}
+
 
 	public String getDateTimeField() {
 		return dateTimeField;
 	}
 
-	public void setDateTimeField(String dateTimeField) {
+	public DataElementChoice setTextField(String textField) {
+		this.textField = textField;
+		return this;
+	}
+
+	public DataElementChoice setDateTimeField(String dateTimeField) {
 		this.dateTimeField = dateTimeField;
+		return this;
 	}
 
 	@Override
@@ -38,5 +42,29 @@ public class DataElementChoice {
 				"textField='" + textField + '\'' +
 				", dateTimeField='" + dateTimeField + '\'' +
 				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		DataElementChoice that = (DataElementChoice) o;
+
+		if (textField != null ? !textField.equals(that.textField) : that.textField != null) {
+			return false;
+		}
+		return dateTimeField != null ? dateTimeField.equals(that.dateTimeField) : that.dateTimeField == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = textField != null ? textField.hashCode() : 0;
+		result = 31 * result + (dateTimeField != null ? dateTimeField.hashCode() : 0);
+		return result;
 	}
 }

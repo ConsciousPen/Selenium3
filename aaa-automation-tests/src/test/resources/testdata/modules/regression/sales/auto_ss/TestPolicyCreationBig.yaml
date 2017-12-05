@@ -805,7 +805,7 @@ AssignmentTab_NY: {
 }
 
 AssignedDriver1_NY: {
-    Driver: 'contains=Torres',
+    Driver: 'contains=Fernando',
     Select Vehicle: 'index=1'
 }
 
