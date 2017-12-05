@@ -24,10 +24,9 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_005_CancelPolicy(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_005_CancelPolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_SS.get();
-
-		mainApp().open();
 
 		// Search and open the active policy
 		SearchPage.openPolicy(policyNumber);
@@ -41,8 +40,8 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 	@Test
 	public void BCT_ONL_008_CancelPolicy(@Optional("") String state) {
 		//TODO Test moved from Deloite's code as is, should be updated
-		String policyNumber = getPoliciesByQuery("BCT_ONL_008_CancelPolicy", "SelectPolicy").get(0);
 		mainApp().open();
+		String policyNumber = getPoliciesByQuery("BCT_ONL_008_CancelPolicy", "SelectPolicy").get(0);
 		SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.CANCELLATION_PENDING);
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
 	}
@@ -50,10 +49,9 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_009_CancelPolicy(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_009_CancelPolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.HOME_SS_HO3.get();
-
-		mainApp().open();
 		CustomAssert.enableSoftMode();
 
 		// Search and open the active policy
@@ -76,11 +74,11 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_012_CancelPolicy(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_012_CancelPolicy", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 		TestData tdBilling = testDataManager.billingAccount;
 
-		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
 
@@ -95,10 +93,9 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_013_CancelPolicy(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_013_CancelPolicy", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
-
-		mainApp().open();
 
 		// Search and open the active policy
 		SearchPage.openPolicy(policyNumber);
@@ -111,11 +108,11 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_015_CancelPolicy(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_015_CancelPolicy", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 		TestData tdBilling = testDataManager.billingAccount;
 
-		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
 
@@ -130,10 +127,9 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_112_Cancellation(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_112_Cancellation", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
-
-		mainApp().open();
 
 		// Search and open the active policy
 		SearchPage.openPolicy(policyNumber);

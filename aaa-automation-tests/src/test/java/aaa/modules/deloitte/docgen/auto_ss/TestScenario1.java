@@ -45,8 +45,8 @@ public class TestScenario1 extends AutoSSBaseTest {
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC03_RenewaOfferGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
-		JobUtils.executeJob(Jobs.doNotRenewJob, true);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(Jobs.doNotRenewJob);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents.AH65XX);
 	}
 }

@@ -44,7 +44,8 @@ TestData_EndorsementRP: {
   },
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {}
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
 }
 
 #---- Endorsement NY ----
@@ -62,7 +63,8 @@ TestData_EndorsementRP_NY: {
   AssignmentTab: {},  
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {}
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
 }
 
 #---- Endorsement VA ----
@@ -80,5 +82,6 @@ TestData_EndorsementRP_VA: {
   AssignmentTab: {},  
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {}
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
 }

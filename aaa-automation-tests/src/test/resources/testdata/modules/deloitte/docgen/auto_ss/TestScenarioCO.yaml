@@ -136,67 +136,67 @@ TestData_AddRenewal: {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
         Occurrence Date: $<today>,
-        Loss Payment Amount: 100
+        Loss Payment Amount: 1200
       },
       {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
         Occurrence Date: $<today>,
-        Loss Payment Amount: 100
+        Loss Payment Amount: 1200
       },
       {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
         Occurrence Date: $<today>,
-        Loss Payment Amount: 100
+        Loss Payment Amount: 1200
       },
       {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
         Occurrence Date: $<today>,
-        Loss Payment Amount: 100
+        Loss Payment Amount: 1200
       },
       {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
         Occurrence Date: $<today>,
-        Loss Payment Amount: 100
+        Loss Payment Amount: 1200
       },
       {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
         Occurrence Date: $<today>,
-        Loss Payment Amount: 100
+        Loss Payment Amount: 1200
       },
       {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
         Occurrence Date: $<today>,
-        Loss Payment Amount: 100
+        Loss Payment Amount: 1200
       },
       {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
         Occurrence Date: $<today>,
-        Loss Payment Amount: 100
+        Loss Payment Amount: 1200
       },
       {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
         Occurrence Date: $<today>,
-        Loss Payment Amount: 100
+        Loss Payment Amount: 1200
       },
       {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
         Occurrence Date: $<today>,
-        Loss Payment Amount: 100
+        Loss Payment Amount: 1200
       },
       {
         Type: 'At-Fault Accident',
         Description: 'Accident (Property Damage Only)',
         Occurrence Date: $<today>,
-        Loss Payment Amount: 100
+        Loss Payment Amount: 1200
       }
     ]
   },
@@ -209,18 +209,18 @@ TestData_AddRenewal: {
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {},
-  ErrorTab: {
-    ErrorsOverride: [{
-      Override: 'true',
-      Approval: 'true',
-      Duration: Life,
-      Reason for override: index=1
-    },
-    {
-      Override: 'true',
-      Approval: 'true',
-      Duration: Life,
-      Reason for override: index=1
-    }]
-  }
+#  ErrorTab: {
+#    ErrorsOverride: [{
+#      Override: 'true',
+#      Approval: 'true',
+#      Duration: Life,
+#      Reason for override: index=1
+#   },
+#    {
+#      Override: 'true',
+#      Approval: 'true',
+#      Duration: Life,
+#      Reason for override: index=1
+#    }]
+#  }
 }
