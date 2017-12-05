@@ -302,7 +302,19 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel(), "Model");
 
 		VehicleTab.buttonAddVehicle.click();
-		policy.getDefaultView().fillUpTo(getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber), PremiumAndCoveragesTab.class);
+		TestData secondVehicle = getPolicyTD().getTestData("VehicleTab").ksam("VIN", "Primary Use")
+				.adjust("VIN", vinNumber)
+				.adjust("Primary Use", "Pleasure (recreational driving only)")
+				.adjust("Odometer Reading", "20000").resolveLinks();
+		// Add Second Vehicle
+		List<TestData> testDataVehicleTab = new ArrayList<>();
+		testDataVehicleTab.add(getPolicyTD().getTestData("VehicleTab", "VIN"));
+		testDataVehicleTab.add(new SimpleDataProvider().adjust("VehicleTab",secondVehicle
+				.adjust("Type","Regular").adjust("Odometer Reading Date","$<today:MM/dd/yyyy>")));
+		testData = getPolicyDefaultTD()
+				.adjust("VehicleTab", testDataVehicleTab).resolveLinks();
+
+		policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class);
 
 		PremiumAndCoveragesTab.calculatePremium();
 
