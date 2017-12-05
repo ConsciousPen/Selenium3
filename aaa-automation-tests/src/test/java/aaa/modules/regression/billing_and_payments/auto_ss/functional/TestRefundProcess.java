@@ -120,7 +120,7 @@ public class TestRefundProcess extends PolicyBilling {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")//TODO when running suite, the test which has Depends on is not being executed
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-2186")
 	public void pas2186_RefundProcess(@Optional("VA") String state) {
 		Dollar refundAmount1 = new Dollar(25);
@@ -243,7 +243,7 @@ public class TestRefundProcess extends PolicyBilling {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eRefundLastPaymentMethodConfigCheck")//TODO when running suite, the test which has Depends on is not being executed
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eRefundLastPaymentMethodConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-352")
 	public void pas352_RefundMethodAndDropdownLastPaymentMethod(@Optional("VA") String state) {
 
@@ -271,7 +271,7 @@ public class TestRefundProcess extends PolicyBilling {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eRefundLastPaymentMethodConfigCheck")//TODO when running suite, the test which has Depends on is not being executed
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eRefundLastPaymentMethodConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-352")
 	public void pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc(@Optional("AZ") String state) {
 
@@ -299,7 +299,7 @@ public class TestRefundProcess extends PolicyBilling {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eRefundLastPaymentMethodConfigCheck")//TODO when running suite, the test which has Depends on is not being executed
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eRefundLastPaymentMethodConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-352")
 	public void pas352_RefundMethodAndDropdownLastPaymentMethodEFT(@Optional("MD") String state) {
 
@@ -375,6 +375,54 @@ public class TestRefundProcess extends PolicyBilling {
 		pas1939_issuedRefundActionsCheck(refund2, policyNumber, "non-check");
 		//PAS-2728 End
 	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Refund Message when only method is check
+	 * @scenario 1. Create new policy for DC
+	 * 2. go to manual refund
+	 * 3. see the message (Only check refund is currently available)
+	 * 4.see the message for CT (No payment method available for electronic refund)
+	 * @details
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eRefundLastPaymentMethodConfigCheck")
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-1952")
+	public void pas1952_MessageWhenOnlyMethodIsCheck(@Optional("DC") String state) {
+
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = createPolicy();
+		log.info("policyNumber: {}", policyNumber);
+
+		CustomAssert.enableSoftMode();
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		billingAccount.refund().start();
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.MESSAGE_WHEN_ONLY_PAYMENT_METHOD_CHECK.getLabel(), StaticElement.class).verify.value("Only check refund is currently available");
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+
+	}
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eRefundLastPaymentMethodConfigCheck")
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-1952")
+	public void pas1952_MessageWhenOnlyMethodIsCheckNoElectronicRefund(@Optional("CT") String state) {
+
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = createPolicy();
+		log.info("policyNumber: {}", policyNumber);
+
+		CustomAssert.enableSoftMode();
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		billingAccount.refund().start();
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.MESSAGE_WHEN_ONLY_PAYMENT_METHOD_CHECK.getLabel(), StaticElement.class).verify.value("No payment method available for electronic refund");
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+
+	}
+	
 
 	private void unissuedRefundRecordDetailsCheck(Dollar amount, String checkDate, Map<String, String> refund) {
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(TYPE).controls.links.get(1).click();

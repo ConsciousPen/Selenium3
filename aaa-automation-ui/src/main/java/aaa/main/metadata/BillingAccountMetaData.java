@@ -8,16 +8,7 @@ import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.FillableTable;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.CheckBox;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.DoubleComboBox;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.ListBox;
-import toolkit.webdriver.controls.RadioButton;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.TextBox;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.waiters.Waiters;
@@ -40,6 +31,7 @@ public final class BillingAccountMetaData {
         public static final AssetDescriptor<RadioButton> UPDATE_LIVES_VOLUME_NO = declare("Update Lives/Volume? NO", RadioButton.class, By.id("paymentForm:updateLivesVolume_radio:1"));
         public static final AssetDescriptor<StaticElement> PAYMENT_METHOD_MESSAGE_TABLE = declare("Payment Method message", StaticElement.class, By.id("paymentForm:refundAmountMessage"));
         public static final AssetDescriptor<StaticElement> PAYMENT_SUBMIT_REFUND = declare("Payment Submit Refund", StaticElement.class, By.id("paymentForm:saveButton_footer"));
+        public static final AssetDescriptor<StaticElement> MESSAGE_WHEN_ONLY_PAYMENT_METHOD_CHECK = declare("Payment Methods is only check", StaticElement.class, By.id("paymentForm:refundErrorReasonMessage"));
 
         //Fee specific fields
         public static final AssetDescriptor<ComboBox> TRANSACTION_TYPE = declare("Transaction Type", ComboBox.class);
