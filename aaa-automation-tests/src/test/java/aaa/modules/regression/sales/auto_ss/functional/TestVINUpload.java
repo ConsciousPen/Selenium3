@@ -55,6 +55,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6203, PAS-6455")
 
 	public void testVINandControlUpload(@Optional("UT") String state) {
 
