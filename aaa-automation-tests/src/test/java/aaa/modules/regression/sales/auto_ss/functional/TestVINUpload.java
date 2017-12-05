@@ -73,7 +73,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 
 		//save quote number to open it later
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		log.info("Quote " + quoteNumber + " is successfully saved for further use");
+		log.info("Quote {} is successfully saved for further use", quoteNumber);
 
 		//open Admin application and navigate to Administration tab
 		adminApp().open();
@@ -98,8 +98,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 
 		CustomAssert.assertAll();
 
-		log.info("Quote " + quoteNumber + " was successfully saved " +
-				"'Add new VIN scenario' for NB is passed for VIN UPLOAD tests");
+		log.info("Quote {} was successfully saved 'Add new VIN scenario' for NB is passed for VIN UPLOAD tests", quoteNumber);
 	}
 
 	/**
@@ -142,7 +141,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 		purchaseTab.submitTab();
 
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		log.info("Policy " + policyNumber + " is successfully saved for further use");
+		log.info("Policy {} is successfully saved for further use", policyNumber);
 
 		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
@@ -171,8 +170,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 
 		verifyActivitiesAndUserNotes(vinNumber);
 
-		log.info("Renewal image for policy " + policyNumber + " was successfully saved " +
-				"'Add new VIN scenario' for Renewal is passed for VIN UPLOAD tests");
+		log.info("Renewal image for policy {} was successfully saved 'Add new VIN scenario' for Renewal is passed for VIN UPLOAD tests", policyNumber);
 	}
 
 	/**
@@ -213,7 +211,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 		purchaseTab.submitTab();
 
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		log.info("Policy " + policyNumber + " is successfully saved for further use");
+		log.info("Policy {} is successfully saved for further use", policyNumber);
 
 		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
