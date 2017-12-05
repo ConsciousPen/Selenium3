@@ -969,7 +969,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	private void issuedRefundOnDate(Dollar refundAmount, LocalDateTime refundDate) {
-		TimeSetterUtil.getInstance().nextPhase(refundDate.plusDays(2));
+		TimeSetterUtil.getInstance().nextPhase(refundDate);
 		log.info("Verify refund on {}", refundDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();

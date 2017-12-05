@@ -2,7 +2,7 @@
 TestData_DataGather: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab',
-  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab',
+  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
