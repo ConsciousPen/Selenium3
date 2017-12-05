@@ -1,0 +1,8 @@
+DocToCheck_NY : {
+ DocumentsNames: [AADNNY1, AAINXX1, AAMTNY, AASANY, AAOANY, AAACNY]
+}
+
+SequencingConversionDocs_NY: {
+ DocumentsNamesInOrder: [AAINXX1, AA02NY, AHPNXX, FS20, AACDNYR, AADNNY2, AARTNY,
+    AARRNY, AASLNY, AAACNY, AADNNY1, AAMTNY, AASANY, AAOANY]
+}

@@ -6,32 +6,15 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
-    <test name="TestRefundProcess Common">
-        <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
-                <methods>
-                    <include name="precondJobAdding"/>
-                    <include name="refundDocumentGenerationConfigCheck"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TestRefundProcessSS">
-        <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
-                <methods>
-                    <include name="precondJobAdding"/>
-                    <include name="refundDocumentGenerationConfigCheck"/>
-                    <include name="pas2186_RefundProcess"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test name="TestRefundProcessVA">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
+                    <include name="precondJobAdding"/>
+                    <include name="refundDocumentGenerationConfigCheck"/>
+                    <include name="eRefundLastPaymentMethodConfigCheck"/>
+                    <include name="pas2186_RefundProcess"/>
                     <include name="pas352_RefundMethodAndDropdownLastPaymentMethod"/>
                 </methods>
             </class>
@@ -42,6 +25,7 @@
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
+                    <include name="eRefundLastPaymentMethodConfigCheck"/>
                     <include name="pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc"/>
                 </methods>
             </class>
@@ -52,6 +36,7 @@
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
+                    <include name="eRefundLastPaymentMethodConfigCheck"/>
                     <include name="pas352_RefundMethodAndDropdownLastPaymentMethodEFT"/>
                 </methods>
             </class>

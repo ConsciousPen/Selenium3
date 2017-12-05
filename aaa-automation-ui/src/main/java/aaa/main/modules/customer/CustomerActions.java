@@ -1669,7 +1669,7 @@ public final class CustomerActions {
         public AbstractAction submit() {
             Arrays.asList(Tab.buttonGo,Tab.buttonOk).forEach(Button::click);
             Page.dialogConfirmation.confirm();
-            log.info(getName() + " action has been finished.");
+            log.info("{} action has been finished.", getName());
             return this;
         }
     }

@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ss.functional.PreConditions;
+package aaa.modules.regression.sales.auto_ss.functional.preconditions;
 
 public interface TestAutoPolicyLockPreConditions {
 	String INSERT_QUERY = "INSERT INTO lookupValue "

@@ -1,5 +1,5 @@
 TestData: {
-  PrefillTab: '@PrefillTab',
+  PrefillTab: '@<auto_ca_choice>@DataGather@PrefillTab',
   GeneralTab: '@GeneralTab',
   DriverTab: ['@DriverTab', '@DriverTab2'],
   MembershipTab: '@MembershipTab',
@@ -10,18 +10,6 @@ TestData: {
   DriverActivityReportsTab: '@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   PurchaseTab: '@PurchaseTab'
-}
-
-PrefillTab: {
-  First Name: Sansa,
-  Last Name: Stark,
-  Zip Code: 94544,
-  Address Line 1: 8416 Briggs Drive,
-  Date of Birth: '$<today-38y:MM/dd/yyyy>',
-  Validate Address: click,
-  Validate Address Dialog: {
-    },
-  Order Prefill: click
 }
 
 GeneralTab: {
@@ -45,7 +33,7 @@ NamedInsuredInformation2: {
 AAAProductOwned: {
   Current AAA Member: 'Yes',
   Membership Number: 4290023667710001,
-  Member Last Name: Test,
+  Member Last Name: Smith
 }
 
 PolicyInformation: {

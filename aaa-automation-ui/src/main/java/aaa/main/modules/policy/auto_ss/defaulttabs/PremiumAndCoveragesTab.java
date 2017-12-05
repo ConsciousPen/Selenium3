@@ -103,6 +103,27 @@ public class PremiumAndCoveragesTab extends Tab {
 
 		return new SimpleDataProvider(map);
 	}
+	
+	public TestData getRatingDetailsUnderwritingValueData() {
+
+		Map<String, Object> map = new LinkedHashMap<>();
+		List<String> keys = tableRatingDetailsUnderwriting.getColumn(1).getValue();
+		List<String> values = tableRatingDetailsUnderwriting.getColumn(2).getValue();
+		CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
+
+		for (int i = 0; i < keys.size(); i++) {
+			map.put(keys.get(i), values.get(i));
+		}
+
+		keys = tableRatingDetailsUnderwriting.getColumn(4).getValue();
+		values = tableRatingDetailsUnderwriting.getColumn(5).getValue();
+		CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
+		for (int i = 0; i < keys.size(); i++) {
+			map.put(keys.get(i), values.get(i));
+		}
+
+		return new SimpleDataProvider(map);
+	}
 
 	public List<TestData> getRatingDetailsDriversData() {
 		final ByT pagePattern = ByT.xpath("//div[@id='ratingDetailsPopupForm:driverPanel_body']//center//td[@class='pageText']//*[text()='%s']");

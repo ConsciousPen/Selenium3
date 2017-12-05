@@ -22,11 +22,10 @@ public class ModifyPaymentMethodTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_032_Modify_Payment_Method(@Optional("") String state) {
-
+		mainApp().open();
 		IPolicy policy = PolicyType.AUTO_SS.get();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_032_ModifyPaymentMethod_PaymentPlan", "SelectPolicy").get(0);
 
-		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		if (PolicySummaryPage.buttonPendedEndorsement.isEnabled()) {
 			PolicySummaryPage.buttonPendedEndorsement.click();

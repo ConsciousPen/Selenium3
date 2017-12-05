@@ -17,9 +17,9 @@ public class BillGenerationTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_097_GenerateBill(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_097_GenerateBill", "SelectPolicy").get(0);
 
-		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
 		Dollar initialMinDue = BillingSummaryPage.getMinimumDue();
