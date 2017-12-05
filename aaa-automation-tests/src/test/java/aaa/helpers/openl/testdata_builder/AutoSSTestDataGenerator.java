@@ -31,7 +31,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 	@Override
 	public TestData getRatingData(AutoSSOpenLPolicy openLPolicy) {
-		TestData td = getRatingDataPattern();
+		TestData td = getRatingDataPattern().resolveLinks();
 		td.adjust(DataProviderFactory.dataOf(
 				new PrefillTab().getMetaKey(), getPrefillTabData(),
 				new GeneralTab().getMetaKey(), getGeneralTabData(openLPolicy),
@@ -57,11 +57,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		TestData aAAProductOwnedData = DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), getYesOrNo(openLPolicy.isHomeOwner()),
-				AutoSSMetaData.GeneralTab.AAAProductOwned.HOME.getLabel(), openLPolicy.getAaaHomePolicy(),
+				AutoSSMetaData.GeneralTab.AAAProductOwned.HOME.getLabel(), getYesOrNo(openLPolicy.getAaaHomePolicy()),
 				AutoSSMetaData.GeneralTab.AAAProductOwned.RENTERS.getLabel(), getYesOrNo(openLPolicy.getAaaRentersPolicy()),
 				AutoSSMetaData.GeneralTab.AAAProductOwned.CONDO.getLabel(), getYesOrNo(openLPolicy.getAaaCondoPolicy()),
-				AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE.getLabel(), openLPolicy.isAaaLifePolicy(),
-				AutoSSMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE.getLabel(), openLPolicy.isAaaMotorcyclePolicy()
+				AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE.getLabel(), getYesOrNo(openLPolicy.isAaaLifePolicy())
+				//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE.getLabel(), openLPolicy.isAaaMotorcyclePolicy()
 		);
 
 		TestData contactInformationData = DataProviderFactory.dataOf(/* to be done */);
@@ -74,8 +74,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		TestData policyInformationData = DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY),
-				AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM.getLabel(), getGeneralTabTerm(openLPolicy.getTerm()),
-				AutoSSMetaData.GeneralTab.PolicyInformation.ADVANCED_SHOPPING_DISCOUNTS.getLabel(), generalTabIsAdvanceShopping(openLPolicy.isAdvanceShopping())
+				AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM.getLabel(), getGeneralTabTerm(openLPolicy.getTerm())
+				//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.PolicyInformation.ADVANCED_SHOPPING_DISCOUNTS.getLabel(), generalTabIsAdvanceShopping(openLPolicy.isAdvanceShopping())
 				/* to be continued */);
 
 		return DataProviderFactory.dataOf(
@@ -211,17 +211,17 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				getRangedDollarValue(25_000, 50_000),
 				getRangedDollarValue(30_000, 60_000));
 
-		List<String> pbLimit50xx = Arrays.asList(new Dollar(50_000) + "/" + new Dollar(100_000));
-		List<String> pbLimit100xx = Arrays.asList(new Dollar(100_000) + "/" + new Dollar(300_000));
+		List<String> pbLimit50xx = Arrays.asList(getRangedDollarValue(50_000, 100_000));
+		List<String> pbLimit100xx = Arrays.asList(getRangedDollarValue(100_000, 300_000));
 
 		List<String> pbLimit200xx = Arrays.asList(
-				new Dollar(250_000) + "/" + new Dollar(500_000),
-				new Dollar(300_000) + "/" + new Dollar(500_000));
+				getRangedDollarValue(250_000, 500_000),
+				getRangedDollarValue(300_000, 500_000));
 
 		List<String> pbLimit500xx = Arrays.asList(
-				new Dollar(500_000) + "/" + new Dollar(500_000),
-				new Dollar(500_000) + "/" + new Dollar(1_000_000),
-				new Dollar(1_000_000) + "/" + new Dollar(1_000_000));
+				getRangedDollarValue(500_000, 500_000),
+				getRangedDollarValue(500_000, 1_000_000),
+				getRangedDollarValue(1_000_000, 1_000_000));
 
 		switch (priorBILimit) {
 			case "N":

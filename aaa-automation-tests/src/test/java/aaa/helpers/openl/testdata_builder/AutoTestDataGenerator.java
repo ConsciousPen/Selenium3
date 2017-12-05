@@ -114,12 +114,14 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 
 	String getPremiumAndCoveragesTabCoverageLimit(String limit) {
 		String[] limitRange = limit.split("/");
+		String returnLimit;
 		if (limitRange.length > 2) {
 			throw new IstfException("Unknown mapping for limit: " + limit);
 		}
-		if (limitRange.length == 1) {
-			return "contains=" + new Dollar(limit + "000");
+		returnLimit = "contains=" + new Dollar(limitRange[0] + "000").toString().replaceAll("\\.00", "");
+		if (limitRange.length == 2) {
+			returnLimit = returnLimit + "/" + new Dollar(limitRange[1] + "000").toString().replaceAll("\\.00", "");
 		}
-		return "contains=" + new Dollar(limitRange[0] + "000") + "/" + new Dollar(limitRange[1] + "000");
+		return returnLimit;
 	}
 }
