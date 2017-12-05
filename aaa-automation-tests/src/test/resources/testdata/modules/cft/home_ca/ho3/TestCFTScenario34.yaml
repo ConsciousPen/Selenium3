@@ -1,0 +1,37 @@
+TestData: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+  PurchaseTab: '@PurchaseTab'
+}
+
+EndorsementActionTab: {
+  Endorsement Date: $<startTime+2d>,
+  Endorsement Reason: 'Property/exposures'
+}
+
+PremiumsAndCoveragesQuoteTab: {
+  Payment plan: Annual
+}
+
+PurchaseTab: {
+  Change Minimum Down Payment: true,
+  Minimum Required Down Payment: 10,
+  PaymentAllocation: {
+    Cash: 10
+  }
+}
+
+#---- Data Gather ----
+PremiumsAndCoveragesQuoteTab_DataGather: {
+  Payment plan: Semi-Annual
+}
