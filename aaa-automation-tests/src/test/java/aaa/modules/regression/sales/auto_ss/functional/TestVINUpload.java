@@ -2,6 +2,7 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -238,7 +239,6 @@ public class TestVINUpload extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-527,PAS-544,PAS-1406,PAS-1487")
 	public void pas527_updatedVinRenewal(@Optional("UT") String state) {
-
 		String vinNumber = "1HGEM215140028445";
 		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.UPDATED_VIN.get());
 		String controlTableFile = getControlTableFile();
@@ -263,12 +263,26 @@ public class TestVINUpload extends AutoSSBaseTest {
 
 		// Go back to MainApp, find created policy, create Renewal image and verify if VIN was updated and new values are applied
 		renewalCreationSteps(policyNumber);
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
+		VehicleTab.buttonAddVehicle.click();
+
+		TestData secondVehicle = getPolicyTD().getTestData("VehicleTab")
+				.adjust("Type", "index=1")
+				.adjust("VIN", vinNumber);
+
+		List<TestData> listVehicleTab = new ArrayList<>();
+		listVehicleTab.add(getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber));
+		listVehicleTab.add(secondVehicle);
+
+		vehicleTab.getAssetList().fill(testData.adjust("VehicleTab", listVehicleTab));
+
 		// Start PAS-2714 Renewal Update Vehicle
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
 		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
-		pas2712Fields.forEach(f -> CustomAssert.assertTrue("AC".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue())));
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue("SS".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue())));
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		// End PAS-2714 Renewal Update Vehicle
@@ -505,7 +519,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 	 */
 	@AfterMethod(alwaysRun = true)
 	protected void vin_db_cleaner() {
-		String configNames = "('SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT', 'SYMBOL_2000_SS_TEST','SYMBOL_2000_SS_ENTRY_DATE')";
+		String configNames = "('SYMBOL_2000_SS_TEST')";
 		try {
 			String vehicleRefDataModelId = DBService.get().getValue("SELECT DM.id FROM vehiclerefdatamodel DM " +
 					"JOIN vehiclerefdatavin DV ON DV.vehiclerefdatamodelid=DM.id " +
