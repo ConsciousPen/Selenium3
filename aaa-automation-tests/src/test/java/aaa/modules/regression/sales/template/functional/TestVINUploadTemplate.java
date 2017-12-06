@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
+import org.openqa.selenium.By;
 import org.testng.annotations.AfterMethod;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.metadata.administration.AdministrationMetaData;
@@ -25,6 +26,7 @@ import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.verification.CustomAssert;
+import toolkit.webdriver.controls.Link;
 
 public class TestVINUploadTemplate extends PolicyBaseTest {
 
@@ -301,33 +303,46 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		vehicleTab.verifyFieldHasNotValue(AutoCaMetaData.VehicleTab.MAKE.getLabel(), "Other Make");
 		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel(), "Model");
 
-		VehicleTab.buttonAddVehicle.click();
+		// Build test data with 2 vehicles
 		TestData secondVehicle = getPolicyTD().getTestData("VehicleTab").ksam("VIN", "Primary Use")
 				.adjust("VIN", vinNumber)
 				.adjust("Primary Use", "Pleasure (recreational driving only)")
 				.adjust("Odometer Reading", "20000").resolveLinks();
-		// Add Second Vehicle
-		List<TestData> testDataVehicleTab = new ArrayList<>();
-		testDataVehicleTab.add(getPolicyTD().getTestData("VehicleTab", "VIN"));
-		testDataVehicleTab.add(new SimpleDataProvider().adjust("VehicleTab",secondVehicle
-				.adjust("Type","Regular").adjust("Odometer Reading Date","$<today:MM/dd/yyyy>")));
-		testData = getPolicyDefaultTD()
-				.adjust("VehicleTab", testDataVehicleTab).resolveLinks();
 
-		policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class);
+		TestData firstVehicle = getTestSpecificTD("TestData");
+		// Build test data with 2 assignments
+		TestData firstAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0);
+		TestData secondAssignment = firstAssignment.ksam("Primary Driver");
+
+		List<TestData> listDataAssignmentTab = new ArrayList<>();
+		listDataAssignmentTab.add(firstAssignment);
+		listDataAssignmentTab.add(secondAssignment);
+
+		TestData testDataAssignmentTab = new SimpleDataProvider().adjust("DriverVehicleRelationshipTable",listDataAssignmentTab);
+		// Add Second Vehicle to the vehicle tab
+		List<TestData> testDataVehicleTab = new ArrayList<>();
+		testDataVehicleTab.add(firstVehicle);
+		testDataVehicleTab.add(secondVehicle);
+		// add 2 vehicles + 2 assignments to the common testdata
+
+		TestData testData2 = getPolicyDefaultTD()
+				.adjust("VehicleTab", testDataVehicleTab)
+				.adjust("AssignmentTab", testDataAssignmentTab).resolveLinks();
+
+		policy.getDefaultView().fillFromTo(testData2,VehicleTab.class, PremiumAndCoveragesTab.class);
 
 		PremiumAndCoveragesTab.calculatePremium();
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("Other Make");
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualToIgnoringCase("Model");
-		// todo add pagination
-		//PremiumAndCoveragesTab.tableRatingDetailsVehicles.getPagination().goToNextPage();
+		String pageNumbers = "//*[@id='%1$s']/ancestor::div[@id='ratingDetailsPopupForm:vehiclePanel_body']//center//a[contains(text(),'%2$s')]";
+		new Link(By.xpath(String.format(pageNumbers, PremiumAndCoveragesTab.tableRatingDetailsVehicles.getLocator().toString().split(" ")[1], 2))).click();
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
 		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
-		pas2712Fields.forEach(f -> CustomAssert.assertTrue("AC".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue())));
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("UT_SS");
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualToIgnoringCase("Gt");
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue("C".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue())));
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue()).isEqualToIgnoringCase("CA_CH");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue()).isEqualToIgnoringCase("Gt");
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
 
