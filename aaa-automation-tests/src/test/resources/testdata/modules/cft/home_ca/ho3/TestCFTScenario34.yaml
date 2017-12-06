@@ -20,7 +20,7 @@ EndorsementActionTab: {
 }
 
 PremiumsAndCoveragesQuoteTab: {
-  Payment plan: Annual
+  Payment Plan: Annual
 }
 
 PurchaseTab: {
@@ -33,5 +33,5 @@ PurchaseTab: {
 
 #---- Data Gather ----
 PremiumsAndCoveragesQuoteTab_DataGather: {
-  Payment plan: Semi-Annual
+  Payment Plan: Semi-Annual
 }

@@ -9,7 +9,9 @@ Endorsement: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: '@DriverActivityReportsTab_Endorse',
-  DocumentsAndBindTab: {}
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
 }
 
 EndorsementActionTab_Endorse: {

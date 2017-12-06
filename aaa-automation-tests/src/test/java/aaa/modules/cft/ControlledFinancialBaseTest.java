@@ -4,6 +4,7 @@ package aaa.modules.cft;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.Map;
 
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
@@ -341,22 +342,29 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected void approveRefundTotalPremiumOnDD1() {
 		LocalDateTime refundDate = TimeSetterUtil.getInstance().getStartTime().plusMonths(1);
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
-		log.info("Approve refund action started on {}", refundDate);
+		log.info("Refund action started on {}", refundDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		CustomAssertions.assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS))
 			.hasValue(BillingConstants.BillingAccountPoliciesPolicyStatus.POLICY_CANCELLED);
 		Dollar refundAmount = BillingSummaryPage.getTotalPaid();
-		billingAccount.approveRefund().perform(refundAmount);
+		Map<String, String> query = new HashMap<>();
+		query.put(BillingPendingTransactionsTable.TYPE, BillingConstants.BillingPendingTransactionsType.REFUND);
+		query.put(BillingPendingTransactionsTable.SUBTYPE, BillingConstants.BillingPendingTransactionsSubtype.AUTOMATED_REFUND);
+		query.put(BillingPendingTransactionsTable.REASON, BillingConstants.BillingPendingTransactionsReason.OVERPAYMENT);
+		query.put(BillingPendingTransactionsTable.AMOUNT, refundAmount.toString());
+		query.put(BillingPendingTransactionsTable.STATUS, BillingConstants.BillingPendingTransactionsStatus.PENDING);
+		if (BillingSummaryPage.tablePendingTransactions.getRow(query).isPresent()) {
+			billingAccount.approveRefund().perform(refundAmount);
+		}
 		new BillingPaymentsAndTransactionsVerifier()
 			.setTransactionDate(refundDate)
 			.setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
 			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND)
-			.setAmount(refundAmount)
-			.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPROVED)
+			.setReason(BillingConstants.PaymentsAndOtherTransactionReason.OVERPAYMENT)
 			.verifyPresent();
-		log.info("Approve refund action completed successfully");
+		log.info("Refund action completed successfully");
 	}
 
 	protected void approveRefundTotalExpDatePlus25() {
@@ -820,8 +828,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		verifyPolicyStatusOnDate(date, ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
-	protected void verifyPolicyExpiredOnUpdatePolicyDate() {
-		LocalDateTime date = getTimePoints().getUpdatePolicyStatusDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate());
+	protected void verifyPolicyExpiredOnRenewCustomerDeclineDate() {
+		LocalDateTime date = getTimePoints().getRenewCustomerDeclineDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate()).plusHours(1);
 		verifyPolicyStatusOnDate(date, ProductConstants.PolicyStatus.POLICY_EXPIRED);
 	}
 
