@@ -1,12 +1,12 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 public class TestVINUpload extends TestVINUploadTemplate {
@@ -78,6 +78,20 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-2714")
 	public void pas2714_Endorsement(@Optional("CA") String state) {
 			endorsement("controlTable_CA_Choice.xlsx", "uploadAddedVIN_CA_CHOICE_.xlsx", "1FDEU15H7KL055795");
+	}
+
+
+	/**
+	 * @author Lev Kazarnovskiy
+	 * PAS-4253 Restrict VIN Refresh by Vehicle Type
+	 * See detailed steps in template file
+	 * {@link aaa.modules.regression.sales.template.functional.TestVINUploadTemplate#pas4253_restrictVehicleRefreshNB(String, String, String)}
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-4253")
+	public void pas4253_restrictVehicleRefreshNB(@Optional("CA") String state) {
+		pas4253_restrictVehicleRefreshNB("controlTable_CA_CHOICE.xlsx", "uploadAddedVIN_CA_CHOICE.xlsx", "1FDEU15H7KL055795");
 	}
 
 }

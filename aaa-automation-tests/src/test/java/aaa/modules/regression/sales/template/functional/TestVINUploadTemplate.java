@@ -361,7 +361,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 
 			TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
-					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Type"), "Conversion Van")
+					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.TYPE.getLabel()), "Conversion Van")
 					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Change Vehicle Confirmation"), "OK")
 					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Stat Code"), "AV - Custom Van");
 
