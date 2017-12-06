@@ -1,0 +1,24 @@
+TestData: {
+  PremiumAndCoveragesTab: {
+    Payment Plan: Eleven Pay - Standard,
+    #Recurring Payment: true,
+    #Personal Umbrella: '$1,000,000'
+  },
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab_WithAutopay'
+}
+
+# ----- Endorsement -----
+TestData_Endorsement: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Payment Plan: Semi-Annual
+  },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
