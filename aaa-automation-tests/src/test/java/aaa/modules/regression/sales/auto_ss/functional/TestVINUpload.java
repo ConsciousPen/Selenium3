@@ -16,10 +16,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import org.assertj.core.api.Assertions;
-import org.junit.Assert;
-import org.assertj.core.api.Assertions.*;
-import org.openqa.selenium.By;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -29,11 +25,13 @@ import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
-
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import toolkit.webdriver.controls.StaticElement;
+
+import static toolkit.verification.CustomAssertions.*;
+
+
 
 public class TestVINUpload extends AutoSSBaseTest {
 
@@ -71,13 +69,13 @@ public class TestVINUpload extends AutoSSBaseTest {
 		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, configExcelName);
 
 		//Verify that the proper number or rows were added in the Control table; one row will be added
-		Assertions.assertThat(UploadToVINTableTab.LBL_UPLOAD_SUCCESSFUl.getValue()).contains(added);
+		assertThat(UploadToVINTableTab.LBL_UPLOAD_SUCCESSFUl).valueContains(added);
 
 		//Uploading of VIN table
 		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, uploadExcelName);
 
 		//Verify that the proper number or rows were added in the VIN table; one row will be added
-		Assertions.assertThat(UploadToVINTableTab.LBL_UPLOAD_SUCCESSFUl.getValue()).contains(added);
+		assertThat(UploadToVINTableTab.LBL_UPLOAD_SUCCESSFUl).valueContains(added);
 
 		}
 
