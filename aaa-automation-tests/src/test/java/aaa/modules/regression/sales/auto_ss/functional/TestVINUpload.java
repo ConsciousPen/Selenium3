@@ -30,11 +30,56 @@ import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
+import static toolkit.verification.CustomAssertions.*;
+
+
+
 public class TestVINUpload extends AutoSSBaseTest {
 
 	private VehicleTab vehicleTab = new VehicleTab();
 	private UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 	private PurchaseTab purchaseTab = new PurchaseTab();
+
+	/**
+	 * @author Lev Kazarnovskiy/Chris Johns
+	 * <p>
+	 * PAS-6203
+	 * PAS-6455
+	 * @name Quick Test of VIN and Control Table Upload
+	 * @scenario Upload VIN and Control Tables and verify one row is added to the DB
+	 * Adding a simple  test for quicker verification of VIN and Control Table Changes
+	 * 1. On Administration tab, in Admin Side of PAS, upload VIN and Control Tables using latest table format
+	 * 2. Verify both tables were uploaded by validating the 'rows added' response on UI
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6203, PAS-6455")
+
+	public void testVINandControlUpload(@Optional("UT") String state) {
+
+		String added = "added: 1";
+		String uploadExcelName = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
+		String configExcelName = getControlTableFile();
+
+		//Open admin side of pas and navigate to administration tab
+		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+
+		//Uploading of VIN_Control table
+		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, configExcelName);
+
+		//Verify that the proper number or rows were added in the Control table; one row will be added
+		assertThat(UploadToVINTableTab.LBL_UPLOAD_SUCCESSFUl).valueContains(added);
+
+		//Uploading of VIN table
+		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, uploadExcelName);
+
+		//Verify that the proper number or rows were added in the VIN table; one row will be added
+		assertThat(UploadToVINTableTab.LBL_UPLOAD_SUCCESSFUl).valueContains(added);
+
+		}
+
 
 	/**
 	 * @author Lev Kazarnovskiy
