@@ -75,9 +75,9 @@ public class TestScenarioNY extends AutoSSBaseTest {
 	public void TC02_RenewaOfferBillGeneration(@Optional("") String state) {
 		LocalDateTime renewOfferBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferBillGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1, true);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2, true);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents.AACDNYR);
 	}
 	
@@ -86,7 +86,7 @@ public class TestScenarioNY extends AutoSSBaseTest {
 	public void TC03_UpdatePolicyStatus(@Optional("") String state) {
 		LocalDateTime updatePolicyStatusDate = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(updatePolicyStatusDate);
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob, true);
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 	}
 	
 	@Parameters({ "state" })
@@ -94,9 +94,9 @@ public class TestScenarioNY extends AutoSSBaseTest {
 	public void TC04_InsuranceRenewalReminder(@Optional("") String state) {
 		LocalDateTime insuranceRenewalReminderDate = getTimePoints().getInsuranceRenewalReminderDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(insuranceRenewalReminderDate);
-		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob, true);
-		JobUtils.executeJob(Jobs.aaaRenewalReminderGenerationAsyncJob, true);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+		JobUtils.executeJob(Jobs.aaaRenewalReminderGenerationAsyncJob);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents.AH64XX);
 	}

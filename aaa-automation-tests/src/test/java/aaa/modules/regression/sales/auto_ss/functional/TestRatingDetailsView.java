@@ -56,7 +56,7 @@ public class TestRatingDetailsView extends AutoSSBaseTest {
 
 		pas535Fields.forEach(f -> assertThat(
 				PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue().isEmpty() &&
-				PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue().isEmpty()).isEqualTo(true));
+				PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue().isEmpty()).isEqualTo(false));
 		// End of PAS-535 Modifies View Rating Details to display separate comp and coll symbols.
 		// Start of PAS-2712 Update UI (View Rating Details)
 		List<String> pas2712Fields = Arrays.asList("BI Symbol","PD Symbol","UM Symbol", "MP Symbol");

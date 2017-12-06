@@ -51,7 +51,8 @@ TestData_EndorsementRP: {
   },
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {}
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
 }
 
 TestData_EndorsementAP: {
@@ -65,7 +66,8 @@ TestData_EndorsementAP: {
   },
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {}
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
 }
 
 #---- Endorsement NY ----
@@ -95,7 +97,8 @@ TestData_EndorsementRP_NY: {
   AssignmentTab: {},  
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {}
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
 }
 
 TestData_EndorsementAP_NY: {
@@ -111,7 +114,8 @@ TestData_EndorsementAP_NY: {
   AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {}
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
 }
 
 #---- Endorsement VA ----
@@ -141,7 +145,8 @@ TestData_EndorsementRP_VA: {
   AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {}
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
 }
 
 TestData_EndorsementAP_VA: {
@@ -156,5 +161,6 @@ TestData_EndorsementAP_VA: {
   AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {}
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
 }

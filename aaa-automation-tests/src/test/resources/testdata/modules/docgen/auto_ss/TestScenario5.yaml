@@ -22,7 +22,7 @@ DriverTab2: {
   'Rel. to First Named Insured': Child,
   First Name: Mark,
   Last Name: Smith,
-  Date of Birth: 01/01/1999,
+  Date of Birth: $<today-17y>,
   Gender: Female,
   Marital Status: Married,
   Occupation: Employed,
@@ -41,8 +41,11 @@ DocumentsAndBindTab: {
     Auto Insurance Quote: 'Yes',
     Critical Information for Teenage Drivers and Their Parents: 'Yes'
   },
-    RequiredToBind: {
+  RequiredToBind: {
     Auto Insurance Application: Physically Signed
+  },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
   },
   Agreement: I agree
 }

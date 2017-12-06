@@ -48,7 +48,7 @@ TestData_MembershipValidation_MembershipNo_SomeMatch_AZ: {
 # ------------- Tabs ----------
 
 EndorsementActionTab: {
-    Endorsement Date: /today+1d,
+    Endorsement Date: '$<today+1d>',
     Endorsement Reason: Maintain Vehicle(s)
 }
 
@@ -145,7 +145,7 @@ NamedInsuredInformation_NoMatch: {
   InsuredSearchDialog: {},
   First Name: Joret,
   Last Name: Boldha,
-  Base Date: /today,
+  Base Date: '$<today>',
   Social Security Number: 223456789,
   "Has lived here for less than three years?": 'No',
   Residence: Own Home
@@ -155,7 +155,7 @@ NamedInsuredInformation_AllMatch: {
   InsuredSearchDialog: {},
   First Name: NAGABHUSHANAM,
   Last Name: VELUMULA,
-  Base Date: /today,
+  Base Date: '$<today>',
   Social Security Number: 223456789,
   "Has lived here for less than three years?": 'No',
   Residence: Own Home
@@ -165,7 +165,7 @@ NamedInsuredInformation_FNmatch: {
   InsuredSearchDialog: {},
   First Name: NAGABHUSHANAM,
   Last Name: Boldha,
-  Base Date: /today,
+  Base Date: '$<today>',
   Social Security Number: 223456789,
   "Has lived here for less than three years?": 'No',
   Residence: Own Home
@@ -175,7 +175,7 @@ NamedInsuredInformation_LNmatch: {
   InsuredSearchDialog: {},
   First Name: Joret,
   Last Name: VELUMULA,
-  Base Date: /today,
+  Base Date: '$<today>',
   Social Security Number: 223456789,
   "Has lived here for less than three years?": 'No',
   Residence: Own Home
