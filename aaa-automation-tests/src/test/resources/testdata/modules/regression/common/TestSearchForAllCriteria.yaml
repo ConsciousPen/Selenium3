@@ -30,7 +30,7 @@ CustomerType: {
 
 CustomerGeneralTab: {
   First Name: '$<rx:Mike\d{6}>',
-  Last Name: '$<rx:Tyson\d{6}>',
+  Last Name: Smith,
   Date of Birth: 06/30/1966,
   Gender: Male,
   Marital Status: Married,
