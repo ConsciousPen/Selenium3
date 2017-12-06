@@ -432,7 +432,7 @@ public class TestRefundProcess extends PolicyBilling {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.refund().start();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.MESSAGE_WHEN_ONLY_PAYMENT_METHOD_CHECK.getLabel(), StaticElement.class).verify
-				.value("Only check refund is currently available");
+				.value("Only check refund is currently available.");
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -451,7 +451,7 @@ public class TestRefundProcess extends PolicyBilling {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.refund().start();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.MESSAGE_WHEN_ONLY_PAYMENT_METHOD_CHECK.getLabel(), StaticElement.class).verify
-				.value("No payment method available for electronic refund");
+				.value("No payment method available for electronic refund.");
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
