@@ -2,7 +2,6 @@ package aaa.modules.regression.sales.template.functional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,9 +10,6 @@ import java.util.NoSuchElementException;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterMethod;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.Tab;
@@ -27,9 +23,6 @@ import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.DefaultMarkupParser;
-import org.openqa.selenium.By;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
@@ -129,7 +122,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 	public void newVinAddedRenewal(String controlTableFile, String vinTableFile, String vinNumber) {
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber);
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber);
 
 		precondsTestVINUpload(testData, VehicleTab.class);
 
@@ -188,11 +181,11 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 	 * @details
 	 */
 	public void updatedVinRenewal(String controlTableFile, String vinTableFile, String vinNumber) {
-		TestData firstVehicle = getPolicyTD().getTestData("VehicleTab");
-		TestData secondVehicle = getPolicyTD().getTestData("VehicleTab").ksam("VIN", "Primary Use")
-				.adjust("VIN", vinNumber)
-				.adjust("Primary Use", "Pleasure (recreational driving only)")
-				.adjust("Odometer Reading", "20000").resolveLinks();
+		TestData firstVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey());
+		TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey()).ksam(AutoCaMetaData.VehicleTab.VIN.getLabel(), AutoCaMetaData.VehicleTab.VIN.getLabel())
+				.adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), vinNumber)
+				.adjust(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Pleasure (recreational driving only)")
+				.adjust(AutoCaMetaData.VehicleTab.ODOMETER_READING.getLabel(), "20000").resolveLinks();
 		// Build Vehicle Tab
 		List<TestData> testDataVehicleTab = new ArrayList<>();
 		testDataVehicleTab.add(firstVehicle);
@@ -208,7 +201,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		TestData testDataAssignmentTab = new SimpleDataProvider().adjust("DriverVehicleRelationshipTable", listDataAssignmentTab);
 		// Adjust Vehicle and Assignment tabs
 		TestData testData = getPolicyDefaultTD()
-				.adjust("VehicleTab", testDataVehicleTab)
+				.adjust(vehicleTab.getMetaKey(), testDataVehicleTab)
 				.adjust("AssignmentTab", testDataAssignmentTab).resolveLinks();
 
 		precondsTestVINUpload(testData, VehicleTab.class);
@@ -233,14 +226,14 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 		VehicleTab.buttonAddVehicle.click();
 		// Add third vehicle to the quote
-		testDataVehicleTab.add(new SimpleDataProvider().adjust("VehicleTab", secondVehicle
-				.adjust("Type", "Regular").adjust("Odometer Reading Date", "$<today:MM/dd/yyyy>")));
+		testDataVehicleTab.add(new SimpleDataProvider().adjust(vehicleTab.getMetaKey(), secondVehicle
+				.adjust(AutoCaMetaData.VehicleTab.TYPE.getLabel(), "Regular").adjust(AutoCaMetaData.VehicleTab.ODOMETER_READING_DATE.getLabel(), "$<today:MM/dd/yyyy>")));
 
 		// Add third assignment and fill quote till P&C tab
 		listDataAssignmentTab.add(secondAssignment);
 		testDataAssignmentTab = new SimpleDataProvider().adjust("DriverVehicleRelationshipTable", listDataAssignmentTab);
 		testData = getPolicyDefaultTD()
-				.adjust("VehicleTab", testDataVehicleTab)
+				.adjust(vehicleTab.getMetaKey(), testDataVehicleTab)
 				.adjust("AssignmentTab", testDataAssignmentTab).resolveLinks();
 
 		policy.getDefaultView().fillFromTo(testData, VehicleTab.class, PurchaseTab.class, false);
@@ -309,9 +302,9 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 			vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel(), "Model");
 
 			// Build test data with 2 vehicles
-			TestData secondVehicle = getPolicyTD().getTestData("VehicleTab").ksam("VIN", "Primary Use")
-					.adjust("VIN", vinNumber)
-					.adjust("Primary Use", "Pleasure (recreational driving only)")
+			TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey()).ksam(AutoCaMetaData.VehicleTab.VIN.getLabel(), AutoCaMetaData.VehicleTab.VIN.getLabel())
+					.adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), vinNumber)
+					.adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), "Pleasure (recreational driving only)")
 					.adjust("Odometer Reading", "20000").resolveLinks();
 
 			TestData firstVehicle = getTestSpecificTD("TestData");
@@ -331,7 +324,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 			// add 2 vehicles + 2 assignments to the common testdata
 
 			TestData testData2 = getPolicyDefaultTD()
-					.adjust("VehicleTab", testDataVehicleTab)
+					.adjust(vehicleTab.getMetaKey(), testDataVehicleTab)
 					.adjust("AssignmentTab", testDataAssignmentTab).resolveLinks();
 
 			policy.getDefaultView().fillFromTo(testData2,VehicleTab.class, PremiumAndCoveragesTab.class);
@@ -367,10 +360,10 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		public void pas4253_restrictVehicleRefreshNB(String controlTableFile, String vinTableFile, String vinNumber) {
 
 			TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-					.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber)
-					.adjust(TestData.makeKeyPath("VehicleTab", "Type"), "Conversion Van")
-					.adjust(TestData.makeKeyPath("VehicleTab", "Change Vehicle Confirmation"), "OK")
-					.adjust(TestData.makeKeyPath("VehicleTab", "Stat Code"), "AV - Custom Van");
+					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
+					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Type"), "Conversion Van")
+					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Change Vehicle Confirmation"), "OK")
+					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Stat Code"), "AV - Custom Van");
 
 			precondsTestVINUpload(testData, VehicleTab.class);
 
@@ -407,8 +400,8 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 
 	private TestData getAdjustedTestData(String vinNumber) {
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath("VehicleTab", "VIN"), vinNumber)
-				.adjust(TestData.makeKeyPath("VehicleTab", "Value($)"), "40000");
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Value($)"), "40000");
 		// Workaround for latest membership changes
 		// Start of  MembershipTab
 		TestData addMemberSinceDialog = new SimpleDataProvider()
