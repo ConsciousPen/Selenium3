@@ -23,10 +23,10 @@ public class AcceptPaymentTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_030_ProcessAcceptPayment(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_030_ProcessAcceptPayment", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
-		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		Dollar initialMinDue = BillingSummaryPage.getMinimumDue();
 
