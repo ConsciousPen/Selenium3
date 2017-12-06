@@ -57,7 +57,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 	 */
 	public void newVinAdded(String controlTableFile, String vinTableFile, String vinNumber) {
 
-		TestData testData = getAdjustedTestData(vinNumber);
+		TestData testData = getTestDataWithSinceMembership(vinNumber);
 
 		precondsTestVINUpload(testData, VehicleTab.class);
 
@@ -284,7 +284,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		 * @details
 		 */
 		public void endorsement(String controlTableFile, String vinTableFile, String vinNumber) {
-			TestData testData = getAdjustedTestData(vinNumber).resolveLinks();
+			TestData testData = getTestDataWithSinceMembership(vinNumber).resolveLinks();
 
 			mainApp().open();
 			createCustomerIndividual();
@@ -301,31 +301,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 			vehicleTab.verifyFieldHasNotValue(AutoCaMetaData.VehicleTab.MAKE.getLabel(), "Other Make");
 			vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel(), "Model");
 
-			// Build test data with 2 vehicles
-			TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey()).ksam(AutoCaMetaData.VehicleTab.VIN.getLabel(), AutoCaMetaData.VehicleTab.VIN.getLabel())
-					.adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), vinNumber)
-					.adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), "Pleasure (recreational driving only)")
-					.adjust("Odometer Reading", "20000").resolveLinks();
-
-			TestData firstVehicle = getTestSpecificTD("TestData");
-			// Build test data with 2 assignments
-			TestData firstAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0);
-			TestData secondAssignment = firstAssignment.ksam("Primary Driver");
-
-			List<TestData> listDataAssignmentTab = new ArrayList<>();
-			listDataAssignmentTab.add(firstAssignment);
-			listDataAssignmentTab.add(secondAssignment);
-
-			TestData testDataAssignmentTab = new SimpleDataProvider().adjust("DriverVehicleRelationshipTable",listDataAssignmentTab);
-			// Add Second Vehicle to the vehicle tab
-			List<TestData> testDataVehicleTab = new ArrayList<>();
-			testDataVehicleTab.add(firstVehicle);
-			testDataVehicleTab.add(secondVehicle);
-			// add 2 vehicles + 2 assignments to the common testdata
-
-			TestData testData2 = getPolicyDefaultTD()
-					.adjust(vehicleTab.getMetaKey(), testDataVehicleTab)
-					.adjust("AssignmentTab", testDataAssignmentTab).resolveLinks();
+			TestData testData2 = getTestDataTwoVehicles(vinNumber);
 
 			policy.getDefaultView().fillFromTo(testData2,VehicleTab.class, PremiumAndCoveragesTab.class);
 
@@ -335,7 +311,9 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("Other Make");
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualToIgnoringCase("Model");
 			String pageNumbers = "//*[@id='%1$s']/ancestor::div[@id='ratingDetailsPopupForm:vehiclePanel_body']//center//a[contains(text(),'%2$s')]";
+
 			new Link(By.xpath(String.format(pageNumbers, PremiumAndCoveragesTab.tableRatingDetailsVehicles.getLocator().toString().split(" ")[1], 2))).click();
+
 			List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
 			pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
 			pas2712Fields.forEach(f -> CustomAssert.assertTrue("C".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue())));
@@ -344,7 +322,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		}
 
-		/**
+	/**
 		 * @author Lev Kazarnovskiy
 		 * PAS-4253 Restrict VIN Refresh by Vehicle Type
 		 * @name Restrict VIN Refresh by Vehicle Type.
@@ -398,7 +376,35 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 			});
 		}
 
-	private TestData getAdjustedTestData(String vinNumber) {
+	private TestData getTestDataTwoVehicles(String vinNumber) {
+		// Build test data with 2 vehicles
+		TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey()).ksam(AutoCaMetaData.VehicleTab.VIN.getLabel(), AutoCaMetaData.VehicleTab.VIN.getLabel())
+				.adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), vinNumber)
+				.adjust(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Pleasure (recreational driving only)")
+				.adjust("Odometer Reading", "20000").resolveLinks();
+
+		TestData firstVehicle = getTestSpecificTD("TestData");
+		// Build test data with 2 assignments
+		TestData firstAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0);
+		TestData secondAssignment = firstAssignment.ksam("Primary Driver");
+
+		List<TestData> listDataAssignmentTab = new ArrayList<>();
+		listDataAssignmentTab.add(firstAssignment);
+		listDataAssignmentTab.add(secondAssignment);
+
+		TestData testDataAssignmentTab = new SimpleDataProvider().adjust("DriverVehicleRelationshipTable",listDataAssignmentTab);
+		// Add Second Vehicle to the vehicle tab
+		List<TestData> testDataVehicleTab = new ArrayList<>();
+		testDataVehicleTab.add(firstVehicle);
+		testDataVehicleTab.add(secondVehicle);
+		// add 2 vehicles + 2 assignments to the common testdata
+
+		return getPolicyDefaultTD()
+				.adjust(vehicleTab.getMetaKey(), testDataVehicleTab)
+				.adjust("AssignmentTab", testDataAssignmentTab).resolveLinks();
+	}
+
+	private TestData getTestDataWithSinceMembership(String vinNumber) {
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Value($)"), "40000");

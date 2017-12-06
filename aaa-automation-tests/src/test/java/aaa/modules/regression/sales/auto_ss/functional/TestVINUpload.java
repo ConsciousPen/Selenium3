@@ -126,20 +126,6 @@ public class TestVINUpload extends AutoSSBaseTest {
 		return testData;
 	}
 
-	private TestData getAdjustedRatingDetailReportTab(TestData testData) {
-		// Workaround for latest membership changes
-		// Start of  Rating DetailReports Tab
-		TestData addMemberSinceDialog = new SimpleDataProvider()
-				.adjust(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), new DefaultMarkupParser().parse("$<today:MM/dd/yyyy>"))
-				.adjust(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.BTN_OK.getLabel(), "click");
-		TestData aaaMembershipReportRow = new SimpleDataProvider()
-				.adjust("Action", "Add Member Since")
-				.adjust(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ADD_MEMBER_SINCE_DIALOG.getLabel(), addMemberSinceDialog);
-		// Adjust Rating details report tab
-		return testData.getTestData(ratingDetailReportsTab.getMetaKey())
-				.adjust(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT.getLabel(), aaaMembershipReportRow);
-	}
-
 	/**
 	 * @author Lev Kazarnovskiy
 	 * <p>
@@ -425,6 +411,20 @@ public class TestVINUpload extends AutoSSBaseTest {
 		pas2712Fields.forEach(f -> CustomAssert.assertTrue("AC".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue())));
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+	}
+
+	private TestData getAdjustedRatingDetailReportTab(TestData testData) {
+		// Workaround for latest membership changes
+		// Start of  Rating DetailReports Tab
+		TestData addMemberSinceDialog = new SimpleDataProvider()
+				.adjust(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), new DefaultMarkupParser().parse("$<today:MM/dd/yyyy>"))
+				.adjust(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.BTN_OK.getLabel(), "click");
+		TestData aaaMembershipReportRow = new SimpleDataProvider()
+				.adjust("Action", "Add Member Since")
+				.adjust(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ADD_MEMBER_SINCE_DIALOG.getLabel(), addMemberSinceDialog);
+		// Adjust Rating details report tab
+		return testData.getTestData(ratingDetailReportsTab.getMetaKey())
+				.adjust(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT.getLabel(), aaaMembershipReportRow);
 	}
 
 	/**
