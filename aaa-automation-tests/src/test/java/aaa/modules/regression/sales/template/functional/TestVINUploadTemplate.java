@@ -95,8 +95,6 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		CustomAssert.disableSoftMode();
 
 		CustomAssert.assertAll();
-
-		log.info("{} Quote# {} was successfully saved 'Add new VIN scenario' for NB is passed for VIN UPLOAD tests", getPolicyType(), quoteNumber);
 	}
 
 	/**
@@ -159,8 +157,6 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		VehicleTab.buttonSaveAndExit.click();
 
 		verifyActivitiesAndUserNotes(vinNumber);
-
-		log.info("{}. Renewal image for policy {} was successfully saved 'Add new VIN scenario' for Renewal is passed for VIN UPLOAD tests", getPolicyType(), policyNumber);
 	}
 
 	/**
@@ -263,8 +259,6 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
-		log.info("{}. Renewal image for policy {} was successfully created. \n'Update VIN scenario' is passed for VIN UPLOAD tests, Renewal Refresh works fine for VINUpdate", getPolicyType(), PolicySummaryPage.labelPolicyNumber
-				.getValue());
 	}
 		/**
 		 * @author Viktor Petrenko
