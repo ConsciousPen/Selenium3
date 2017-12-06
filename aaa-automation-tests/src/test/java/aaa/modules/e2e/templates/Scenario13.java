@@ -14,6 +14,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
+import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.http.HttpStub;
@@ -32,10 +33,14 @@ import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
 import aaa.main.modules.policy.IPolicy;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
 
 public class Scenario13 extends ScenarioBaseTest {
@@ -89,6 +94,34 @@ public class Scenario13 extends ScenarioBaseTest {
 		payAndCheckBill(installmentDueDates.get(1));
 	}
 	
+	protected void deletePendingEndorsement() {
+		mainApp().open();
+		SearchPage.openBilling(policyNum);		
+		Dollar totalDueBeforeEndorsement =  new Dollar(BillingSummaryPage.getTotalDue());		
+		BillingSummaryPage.openPolicy(policyEffectiveDate);	
+		
+		//TestData endorsementTD = getTestSpecificTD("TestData_Endorsement1").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
+		//policy.endorse().perform(endorsementTD); 
+		//policy.getDefaultView().fillUpTo(endorsementTD, DocumentsAndBindTab.class);
+		//DocumentsAndBindTab.buttonSaveAndExit.click();
+		
+		TestData endorsementTD = getStateTestData(tdPolicy, "Endorsement", "TestData");
+		policy.endorse().performAndExit(endorsementTD);
+		
+		PolicySummaryPage.buttonPendedEndorsement.isEnabled();
+		PolicySummaryPage.buttonPendedEndorsement.click();		
+		policy.deletePendedTransaction().perform(new SimpleDataProvider()); 		
+		PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false); 
+		
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get()); 
+		BillingSummaryPage.getTotalDue().verify.equals(totalDueBeforeEndorsement);
+		
+		String reason = "Endorsement - " + endorsementTD.getValue(endorsementReasonDataKeys);
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(DateTimeUtils.getCurrentDateTime())
+			.setPolicy(policyNum).setType(PaymentsAndOtherTransactionType.PREMIUM)
+			.setSubtypeReason(reason).verifyPresent(false);
+	}
+	
 	protected void generateSecondBill() {
 		generateAndCheckBill(installmentDueDates.get(2));
 	}
@@ -130,10 +163,6 @@ public class Scenario13 extends ScenarioBaseTest {
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDates.get(5));
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
 		JobUtils.executeJob(Jobs.recurringPaymentsJob);
-		
-		
-		log.info("Bill Due Date is: "+billDueDate);
-		log.info("Installment Due Date is: "+installmentDueDates.get(5));
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -328,18 +357,41 @@ public class Scenario13 extends ScenarioBaseTest {
 		verifyRenewPremiumNotice(policyExpirationDate, billDate);	
 	}
 
-	/*
-	protected void createRenewalVersion2() {
-		mainApp().open();
+	
+	protected void createRenewalVersion() {
+		mainApp().open();		
 		SearchPage.openBilling(policyNum);
 		Dollar renewalBillAmount = new Dollar(BillingHelper.getBillCellValue(policyExpirationDate, BillingBillsAndStatmentsTable.MINIMUM_DUE)); 
+		BillingSummaryPage.openPolicy(policyExpirationDate);
 		
-		BillingSummaryPage.openPolicy(policyEffectiveDate);	
-		PolicySummaryPage.buttonRenewals.click();
-		new ProductRenewalsVerifier().setStatus(PolicyStatus.PROPOSED).verify(1);
-		policy.policyInquiry().start();
-	}
-	*/
+		TestData createVersionTD = getTestSpecificTD("TestData_CreateVersion");			
+		PolicySummaryPage.buttonRenewals.click();		
+		policy.policyInquiry().start(); 
+		new GeneralTab().createVersion(); 
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get()); 
+		new PremiumAndCoveragesTab().fillTab(createVersionTD);
+		PremiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+		
+		PolicySummaryPage.buttonRenewalQuoteVersion.isEnabled();
+		PolicySummaryPage.buttonRenewalQuoteVersion.click();		
+		Dollar premiumNewVersion = PolicySummaryPage.TransactionHistory.readEndingPremium(1);
+		Dollar premiumFirstRenewal = PolicySummaryPage.TransactionHistory.readEndingPremium(2);
+		PolicySummaryPage.buttonQuoteOverview.click();
+		
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(DateTimeUtils.getCurrentDateTime())
+			.setType(PaymentsAndOtherTransactionType.PREMIUM)
+			.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL)
+			.setAmount(premiumNewVersion.subtract(premiumFirstRenewal)).verifyPresent();
+		
+		new BillingBillsAndStatementsVerifier().setType(BillingConstants.BillsAndStatementsType.BILL)
+			.setDueDate(policyExpirationDate)
+			.setMinDue(renewalBillAmount).verifyPresent();
+		
+		BillingSummaryPage.getMinimumDue().verify.equals(renewalBillAmount);		
+	}	
 	
 	protected void payRenewalBill() {
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(policyExpirationDate);

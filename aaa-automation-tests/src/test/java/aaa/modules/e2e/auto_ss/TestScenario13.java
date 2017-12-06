@@ -29,6 +29,7 @@ public class TestScenario13 extends Scenario13 {
 		SoftAssertions.assertSoftly(softly -> {
 			generateFirstBill();
 			payFirstBill(); 
+			deletePendingEndorsement();
 			generateSecondBill();
 			paySecondBill();
 			generateThirdBill();
@@ -43,14 +44,14 @@ public class TestScenario13 extends Scenario13 {
 			paySixthBill();
 			refundGeneration(); 
 			cancelNoticeNotGenerated(); 
-			cancellationNotGenerated(); 
+			//cancellationNotGenerated(); 
 			renewalImageGeneration(); 
 			renewalPreviewGeneration(); 
 			renewalOfferGeneration(); 
 			generateRenewalBill(); 
+			createRenewalVersion();
 			payRenewalBill(); 
-			updatePolicyStatus();
-
+			updatePolicyStatus();			
 		});
 	}
 }
