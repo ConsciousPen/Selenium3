@@ -123,4 +123,9 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 	public static void lastPaymentMethodStubPointUpdate() {
 		DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE, APP_HOST));
 	}
+
+	@Test(description = "Precondition updating pending refund configuration")
+	public static void pendingRefundConfigurationUpdate() {
+		DBService.get().executeUpdate(PENDING_REFUND_CONFIGURATION_UPDATE);
+	}
 }

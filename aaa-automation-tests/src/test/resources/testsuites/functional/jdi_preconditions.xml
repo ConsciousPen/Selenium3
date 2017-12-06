@@ -3,7 +3,7 @@
     <!-- Listener commented out for local runs-->
     <listeners>
          <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
-     </listeners>-->
+     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
 
@@ -59,4 +59,5 @@
             </class>
         </classes>
     </test>
+
 </suite>

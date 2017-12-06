@@ -14,6 +14,7 @@
                     <include name="precondJobAdding"/>
                     <include name="refundDocumentGenerationConfigCheck"/>
                     <include name="eRefundLastPaymentMethodConfigCheck"/>
+                    <include name="pendingRefundPaymentMethodConfigCheck"/>
                     <include name="pas2186_RefundProcessCheck"/>
                     <include name="pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard"/>
                 </methods>
