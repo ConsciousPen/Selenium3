@@ -1,22 +1,22 @@
-package aaa.modules.regression.sales.auto_ca.select.functional.cin;
+package aaa.modules.regression.sales.template.functional;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import org.testng.Assert;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.xml.models.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.Assert;
 import toolkit.datax.TestData;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author Pavel_Mikhnevich
@@ -28,20 +28,26 @@ public abstract class PolicyCINBaseTest extends PolicyBaseTest {
     protected static final String STATE_PARAM = "state";
     protected static final String DEFAULT_TEST_RENEWAL_KEY = "TestData_Renewal_";
 
+    protected static String policyNumber;
+
     /**
      * Create a policy for test with specific data
      *
-     * @scenario 1. Create Customer
+     * @scenario
+     * 1. Create Customer
      * 2. Prepare a test-specific data
      * 3. Create CA Select Auto Policy
      * 4. Verify Policy status is 'Policy Active'
      * @details
      */
-    protected String createPolicyForTest() {
+    protected String createPolicyForTest(String activityType) {
         mainApp().open();
         createCustomerIndividual();
         TestData testData = preparePolicyTestData();
-        String policyNumber = createPolicy(testData);
+        if (activityType == "CLUE") {
+            testData.adjust(TestData.makeKeyPath(AutoCaMetaData.PrefillTab.class.getSimpleName(), AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel()), "ClueChargeable");
+        }
+        policyNumber = createPolicy(testData);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         return policyNumber;
     }
@@ -77,19 +83,21 @@ public abstract class PolicyCINBaseTest extends PolicyBaseTest {
     /**
      * Renew the policy specified with policy number
      *
-     * @param policyNumber number of the policy to be renewed
-     * @param state
-     * @scenario 1. Change time to R-35
+     * @param activityType
+     * @scenario
+     * 1. Change time to R-35
      * 2. Create Manual Renewal for Policy (add driver which has chargeable violation)
      * @details
      */
-    protected void renewPolicy(String policyNumber, String state) {
+    protected void renewPolicy(String activityType) {
         LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
         LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate); //-35
         TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+
         mainApp().reopen();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-        policy.createRenewal(getTestSpecificTD(DEFAULT_TEST_RENEWAL_KEY + state));
+        TestData renewalTestData = getTestSpecificTD(DEFAULT_TEST_RENEWAL_KEY + activityType);
+        policy.createRenewal(renewalTestData);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 

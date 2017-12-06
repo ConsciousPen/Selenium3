@@ -1,0 +1,15 @@
+PrefillTab: {
+   First Name: MvrChargeable,
+   Last Name: Activity,
+   Validate Address: click,
+   Validate Address Dialog: {
+     },
+   Order Prefill: click,
+}
+
+PremiumAndCoveragesTab: {
+   Product: CA Select,
+   Payment Plan: Annual,
+   Bodily Injury Liability: 'contains=$25,000/$50,000',
+   Property Damage Liability: 'contains=$25,000'
+ }

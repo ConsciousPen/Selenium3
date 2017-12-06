@@ -3,7 +3,7 @@
     <test name="CA CIN Auto Smoke Tests" preserve-order="true">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.cin.auto_ca.select.TestCINScenario1"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.cin.auto_ca.select.TestCinNewBusiness"/>
         </classes>
     </test>
 

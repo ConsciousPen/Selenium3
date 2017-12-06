@@ -597,7 +597,7 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<TextBox> MOBILE_PHONE_NUM = declare("Mobile Phone #", TextBox.class);
 
 		public static final AssetDescriptor<TextBox> CASE_NUMBER = declare("Case Number", TextBox.class);
-		public static final AssetDescriptor<TextBox> AUTHORIZED_BY = declare("Authorized By", TextBox.class);
+		public static final AssetDescriptor<TextBox> AUTHORIZED_BY = declare("Authorized By", TextBox.class, By.id("policyDataGatherForm:sedit_AAAInsuredBindInformation_authorizedBy"));
 
 		public static final class DocumentsForPrinting extends MetaData {
 
