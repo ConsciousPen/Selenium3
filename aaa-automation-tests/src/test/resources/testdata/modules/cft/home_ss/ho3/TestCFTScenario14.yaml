@@ -3,7 +3,7 @@ TestData: {
 }  
 
 GeneralTab_DataGather: {
-  Effective date: '/today+2d'
+  Effective date: '$<today+2d>'
 }
 
 ApplicantTab_DataGather: {

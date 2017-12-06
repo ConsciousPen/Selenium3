@@ -1,0 +1,90 @@
+TestData: {
+  AcceptPaymentActionTab: '@AcceptPaymentActionTab',
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  DriverTab: '@DriverTab',
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+AcceptPaymentActionTab: {
+  Payment Method: 'Cash'
+} 
+
+EndorsementActionTab: {
+    Endorsement Date: $<today+2d>,
+    Endorsement Reason: Maintain Vehicle(s)
+}
+
+DriverTab: {
+  Employee Benefit Type: 'Active employee',
+  Employee ID: '12345678'
+}
+
+# ---- Data Gather ----
+TestData_DataGather: {
+  PrefillTab: '@<auto_ca_choice>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ca_choice>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ca_choice>@DataGather@DriverTab',
+  MembershipTab: '@<auto_ca_choice>@DataGather@MembershipTab',
+  VehicleTab: ['@Vehicle1', '@Vehicle2'],
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: [{
+      Primary Driver: index=1}, {
+      Primary Driver: index=1
+    }] 
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
+}
+
+Vehicle1: {
+  VIN: 1GNWGPFG8B6548273,
+  Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 10,
+  Odometer Reading: 3000,
+}
+
+Vehicle2: {
+  VIN: WAUKJAFM8C6314628,
+  Primary Use: Pleasure (recreational driving only),
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Odometer Reading: 5000,
+}
+
+
+DocumentsAndBindTab: {
+  RequiredToBind: '@RequiredToBind',
+  #RequiredToIssue: { },
+  VehicleInformation: ['@VehicleInformation', '@VehicleInformation'],
+}
+
+RequiredToBind: {
+  Personal Auto Application: Physically Signed,
+  Deleting Uninsured Motorist Property Damage Coverage: Physically Signed
+}
+
+VehicleInformation: {
+  "Are there any additional interest(s)?": 'No'
+}
+
+
+
+
+
+PremiumAndCoveragesTab: {
+  Payment Plan: Semi-Annual
+}

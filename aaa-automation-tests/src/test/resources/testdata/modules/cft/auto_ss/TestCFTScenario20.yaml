@@ -1,0 +1,56 @@
+TestData: {
+  AcceptPaymentActionTab: '@AcceptPaymentActionTab',
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+AcceptPaymentActionTab: {
+  Payment Method: 'Cash'
+} 
+
+EndorsementActionTab: {
+    Endorsement Date: $<today+2d>,
+    Endorsement Reason: Maintain Vehicle(s)
+}
+
+DriverTab: {
+  Affinity Group: 'AAA Employee'
+}
+
+# ---- Data Gather ----
+TestData_DataGather: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@<auto_ss>@DataGather@GeneralTab',
+  DriverTab: '@<auto_ss>@DataGather@DriverTab',
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@Vehicle1', '@Vehicle2'],
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+Vehicle1: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273
+}
+
+Vehicle2: {
+  Usage: Pleasure,
+  VIN: 1B3BA46K4KF440231
+}
+
+PremiumAndCoveragesTab: {
+  Payment Plan: 'Semi-Annual',
+    Policy Term: Annual
+}

@@ -16,13 +16,13 @@ TestData_UT: {
 GeneralTab: {
   State: 'UT',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy', 
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab: {
@@ -124,7 +124,7 @@ NamedInsured: {
 
 AAAMembership: {
   Membership number: '4290023667710001',
-  Last name: Test,
+  Last name: Smith
 }
 
 DwellingAddress: {
@@ -160,7 +160,7 @@ OtherCompanionAutoPolicy: {
     "Companion Auto Pending with Discount?": 'No',
     Auto policy state: UT,
     Policy number: '345345345',
-    Effective date: '/today:MM/dd/yyyy',
+    Effective date: '$<today:MM/dd/yyyy>',
     Policy tier: 'index=1',
     Auto policy BI limit: 'index=1',
     Auto Insurance Persistency: '21'
@@ -180,7 +180,7 @@ PropertyValue: {
   Coverage A - Dwelling limit: 150000,
   ISO replacement cost: 145000,
   Reason replacement cost differs from the tool value: 'index=1',
-  Purchase date of home: '/today-1y:MM/dd/yyyy'
+  Purchase date of home: '$<today-1y:MM/dd/yyyy>'
 }
 
 DwellingAddress_PropertyInfoTab: {
@@ -223,13 +223,13 @@ TestData_AZ: {
 GeneralTab_AZ: {
   State: 'AZ',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy'
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>'
 }
 
 ApplicantTab_AZ: {
@@ -277,13 +277,13 @@ TestData_CO: {
 GeneralTab_CO: {
   State: 'CO',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab_CO: {
@@ -316,7 +316,7 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_CO:  {
   "Companion Auto Pending with Discount?": 'No',
   Auto policy state: CO, 
   Policy number: '345345345',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Policy tier: 'index=1',
   Auto policy BI limit: 'index=1',
   Auto Insurance Persistency: '21'
@@ -378,13 +378,13 @@ TestData_CT: {
 GeneralTab_CT: {
   State: 'CT',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab_CT: {
@@ -449,13 +449,13 @@ TestData_DC: {
 GeneralTab_DC: {
   State: 'DC',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab_DC: {
@@ -512,13 +512,13 @@ TestData_DE: {
 GeneralTab_DE: {
   State: 'DE',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab_DE: {
@@ -576,13 +576,13 @@ TestData_ID: {
 GeneralTab_ID: {
   State: 'ID',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab_ID: {
@@ -630,13 +630,13 @@ TestData_IN: {
 GeneralTab_IN: {
   State: 'IN',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab_IN: {
@@ -669,7 +669,7 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_IN:  {
   "Companion Auto Pending with Discount?": 'No',
   Auto policy state: IN, 
   Policy number: '345345345',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Policy tier: 'index=1',
   Auto policy BI limit: 'index=1',
   Auto Insurance Persistency: '21'
@@ -740,13 +740,13 @@ TestData_KS: {
 GeneralTab_KS: {
   State: 'KS',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab_KS: {
@@ -779,7 +779,7 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_KS:  {
   "Companion Auto Pending with Discount?": 'No',
   Auto policy state: KS, 
   Policy number: '345345345',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Policy tier: 'index=1',
   Auto policy BI limit: 'index=1',
   Auto Insurance Persistency: '21'
@@ -849,13 +849,13 @@ TestData_KY: {
 GeneralTab_KY: {
   State: 'KY',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab_KY: {
@@ -897,7 +897,7 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_KY:  {
   "Companion Auto Pending with Discount?": 'No',
   Auto policy state: KY, 
   Policy number: '345345345',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Policy tier: 'index=1',
   Auto policy BI limit: 'index=1',
   Auto Insurance Persistency: '21'
@@ -975,13 +975,13 @@ TestData_MD: {
 GeneralTab_MD: {
   State: 'MD',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab_MD: {
@@ -1047,13 +1047,13 @@ TestData_MT: {
 GeneralTab_MT: {
   State: 'MT',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab_MT: {
@@ -1110,13 +1110,13 @@ TestData_NJ: {
 GeneralTab_NJ: {
   State: 'NJ',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab_NJ: {
@@ -1174,13 +1174,13 @@ TestData_NV: {
 GeneralTab_NV: {
   State: 'NV',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab_NV: {
@@ -1237,13 +1237,13 @@ TestData_NY: {
 GeneralTab_NY: {
   State: 'NY',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab_NY: {
@@ -1300,13 +1300,13 @@ TestData_OH: {
 GeneralTab_OH: {
   State: 'OH',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab_OH: {
@@ -1339,7 +1339,7 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_OH:  {
   "Companion Auto Pending with Discount?": 'No',
   Auto policy state: OH, 
   Policy number: '345345345',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Policy tier: 'index=1',
   Auto policy BI limit: 'index=1',
   Auto Insurance Persistency: '21'
@@ -1410,13 +1410,13 @@ TestData_OK: {
 GeneralTab_OK: {
   State: 'OK',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab_OK: {
@@ -1449,7 +1449,7 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_OK:  {
   "Companion Auto Pending with Discount?": 'No',
   Auto policy state: OK, 
   Policy number: '345345345',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Policy tier: 'index=1',
   Auto policy BI limit: 'index=1',
   Auto Insurance Persistency: '21'
@@ -1519,13 +1519,13 @@ TestData_OR: {
 GeneralTab_OR: {
   State: 'OR',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab_OR: {
@@ -1581,13 +1581,13 @@ TestData_PA: {
 GeneralTab_PA: {
   State: 'PA',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab_PA: {
@@ -1608,7 +1608,7 @@ OtherCompanionAutoPolicy_PA: {
     "Companion Auto Pending with Discount?": 'No',
     Auto policy state: UT,
     Policy number: '345345345',
-    Effective date: '/today:MM/dd/yyyy',
+    Effective date: '$<today:MM/dd/yyyy>',
     #Policy tier: 'index=1',
     Auto policy BI limit: 'index=1',
     Auto Insurance Persistency: '21'
@@ -1658,13 +1658,13 @@ TestData_SD: {
 GeneralTab_SD: {
   State: 'SD',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab_SD: {
@@ -1750,13 +1750,13 @@ TestData_VA: {
 GeneralTab_VA: {
   State: 'VA',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab_VA: {
@@ -1814,13 +1814,13 @@ TestData_WV: {
 GeneralTab_WV: {
   State: 'WV',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab_WV: {
@@ -1905,13 +1905,13 @@ TestData_WY: {
 GeneralTab_WY: {
   State: 'WY',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   CalVet: null,
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab_WY: {

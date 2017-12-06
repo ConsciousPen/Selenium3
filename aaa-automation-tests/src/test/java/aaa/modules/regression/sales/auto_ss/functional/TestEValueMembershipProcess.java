@@ -49,7 +49,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest {
 
 	private static final String E_VALUE_DISCOUNT = "eValue Discount"; //PAS-440 - rumors have it, that discount might be renamed
 	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
-	private static final String MESSAGE_INFO_1 = "This customer is not eligible for the eValue discount due to the following reason(s):";
+	private static final String MESSAGE_INFO_1 = "This customer is not eligible for eValue discount due to one or more of the following reasons";
 	private static final String MESSAGE_BULLET_8 = "Does not have an active AAA membership";
 	private static final String MESSAGE_INFO_2 = "This customer is eligible for the eValue discount, but the following steps must be completed in order to bind.";
 
@@ -323,15 +323,15 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest {
 		CustomAssert.assertTrue(DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).toString().contains("AAA Membership Discount"));
 		CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
 		if ("TRUE".equals(membershipEligibilitySwitch)) {
-			PremiumAndCoveragesTab.tableGreyBox.getRow(1).getCell(1).verify.value(MESSAGE_INFO_1);
-			PremiumAndCoveragesTab.tableGreyBox.getRow(2).getCell(1).verify.contains(MESSAGE_BULLET_8);
+			PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1).verify.value(MESSAGE_INFO_1);
+			PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).verify.contains(MESSAGE_BULLET_8);
 			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("No");
 			CustomAssert.assertTrue("13.5%"
 					.equals(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDEXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()));
 			CustomAssert.assertTrue(DocGenHelper.getDocumentDataElemByName("DiscNm", DocGenEnum.Documents.AHDEXX, query).get(0).toString().contains("eValue Discount"));
 			CustomAssert.assertTrue(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
 		} else {
-			PremiumAndCoveragesTab.tableGreyBox.getRow(1).getCell(1).verify.value(MESSAGE_INFO_2);
+			PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1).verify.value(MESSAGE_INFO_2);
 			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("Yes");
 			CustomAssert.assertFalse(ahdexxDiscountTagPresentInTheForm(query, "eValue Discount"));
 		}
@@ -398,8 +398,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest {
 			PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "eValue Discount").getCell(6).verify.value("None");
 			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 			if ("TRUE".equals(membershipEligibilitySwitch)) {
-				PremiumAndCoveragesTab.tableGreyBox.getRow(1).getCell(1).verify.value(MESSAGE_INFO_1);
-				PremiumAndCoveragesTab.tableGreyBox.getRow(2).getCell(1).verify.contains(MESSAGE_BULLET_8);
+				PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1).verify.value(MESSAGE_INFO_1);
+				PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).verify.contains(MESSAGE_BULLET_8);
 				CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount"));
 				CustomAssert.assertTrue("13.5%"
 						.equals(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()

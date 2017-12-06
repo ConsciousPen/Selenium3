@@ -1,43 +1,6 @@
 package aaa.modules.docgen.auto_ss;
 
-import static aaa.main.enums.DocGenEnum.Documents.AA02AZ;
-import static aaa.main.enums.DocGenEnum.Documents.AA02IN;
-import static aaa.main.enums.DocGenEnum.Documents.AA02OK;
-import static aaa.main.enums.DocGenEnum.Documents.AA02PA;
-import static aaa.main.enums.DocGenEnum.Documents.AA10OK;
-import static aaa.main.enums.DocGenEnum.Documents.AA10PA;
-import static aaa.main.enums.DocGenEnum.Documents.AA10XX;
-import static aaa.main.enums.DocGenEnum.Documents.AA43AZ;
-import static aaa.main.enums.DocGenEnum.Documents.AA43IN;
-import static aaa.main.enums.DocGenEnum.Documents.AA43OK;
-import static aaa.main.enums.DocGenEnum.Documents.AA43PA;
-import static aaa.main.enums.DocGenEnum.Documents.AA52AZ;
-import static aaa.main.enums.DocGenEnum.Documents.AA52IN;
-import static aaa.main.enums.DocGenEnum.Documents.AA52IPAB;
-import static aaa.main.enums.DocGenEnum.Documents.AA52IPAC;
-import static aaa.main.enums.DocGenEnum.Documents.AA52OK;
-import static aaa.main.enums.DocGenEnum.Documents.AA52UPAB;
-import static aaa.main.enums.DocGenEnum.Documents.AA52UPAC;
-import static aaa.main.enums.DocGenEnum.Documents.AA53IN;
-import static aaa.main.enums.DocGenEnum.Documents.AA59XX;
-import static aaa.main.enums.DocGenEnum.Documents.AAAEOK;
-import static aaa.main.enums.DocGenEnum.Documents.AADNPAC;
-import static aaa.main.enums.DocGenEnum.Documents.AADNPAD;
-import static aaa.main.enums.DocGenEnum.Documents.AADNPAE;
-import static aaa.main.enums.DocGenEnum.Documents.AAFPPA;
-import static aaa.main.enums.DocGenEnum.Documents.AAGCAZ;
-import static aaa.main.enums.DocGenEnum.Documents.AALTPA;
-import static aaa.main.enums.DocGenEnum.Documents.AAPDXX;
-import static aaa.main.enums.DocGenEnum.Documents.AARFIXX;
-import static aaa.main.enums.DocGenEnum.Documents.AASDPA;
-import static aaa.main.enums.DocGenEnum.Documents.AASR22;
-import static aaa.main.enums.DocGenEnum.Documents.AASR26;
-import static aaa.main.enums.DocGenEnum.Documents.AH35XX;
-import static aaa.main.enums.DocGenEnum.Documents.AHAUXX;
-import static aaa.main.enums.DocGenEnum.Documents.AHNBXX;
-import static aaa.main.enums.DocGenEnum.Documents.AHPNXX;
-import static aaa.main.enums.DocGenEnum.Documents.AHRBXX;
-import static aaa.main.enums.DocGenEnum.Documents.F122G;
+import static aaa.main.enums.DocGenEnum.Documents.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -713,9 +676,9 @@ public class TestScenario2 extends AutoSSBaseTest {
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate_CurrentTerm);
 		Log.info("Policy Renewal Image Generation Date" + renewImageGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1,true);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2,true);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -729,7 +692,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 		LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate_CurrentTerm);
 		Log.info("Policy Renewal Preview Generation Date" + renewPreviewGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2,true);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -749,8 +712,8 @@ public class TestScenario2 extends AutoSSBaseTest {
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate_CurrentTerm);
 		Log.info("Policy Renewal Offer Generation Date" + renewOfferGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2,true);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob,true);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 
 		CustomAssert.enableSoftMode();
 		mainApp().open();
@@ -970,8 +933,8 @@ public class TestScenario2 extends AutoSSBaseTest {
 		LocalDateTime renewOfferBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate_CurrentTerm);
 		Log.info("Policy Renewal Offer Bill Generation Date" + renewOfferBillGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferBillGenDate);
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob,true);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob,true);
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		
 		CustomAssert.enableSoftMode();
 		mainApp().open();

@@ -45,9 +45,7 @@ Endorsement: {
     "Underinsured Motorist Stacked/Unstacked": Stacked
   },
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: Test
-  },
+  DocumentsAndBindTab: {},
 }
 
 # ------------- Tabs ----------
@@ -60,8 +58,6 @@ GeneralTab: {
 }
 
 NamedInsuredInformation: {
-  First Name: Fernando,
-  Last Name: Alonso,
   Social Security Number: 123456789,
   "Has lived here for less than three years?": 'No',
   Residence: Own Home,
@@ -69,7 +65,7 @@ NamedInsuredInformation: {
 
 AAAProductOwned: {
   Membership Number: 2234567890123450,
-  Last name: Test
+  Last name: Smith
 }
 
 ContactInformation: {
@@ -78,7 +74,7 @@ ContactInformation: {
 
 PolicyInformation: {
   Policy Type: Named Non Owner,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: Independent Agent,
   Agency: SMTestIA - 400001650,
@@ -236,8 +232,8 @@ AA41XX_AZ: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: AZ}
   },
   AgentDetails: {
@@ -254,7 +250,7 @@ AA41XX_AZ: {
     PlcyGrp: {TextField: PERSONAL AUTO},
     SpseExclNOPlcyYN: {TextField: Y},
     PlcyNum: {TextField: ''},
-    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+    TermEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
     SgntrOnFile: {TextField: ''}
   }
 }
@@ -270,8 +266,8 @@ AA41XX_IN: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: IN}
   },
   AgentDetails: {
@@ -288,7 +284,7 @@ AA41XX_IN: {
     PlcyGrp: {TextField: PERSONAL AUTO},
     SpseExclNOPlcyYN: {TextField: Y},
     PlcyNum: {TextField: ''},
-    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+    TermEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
     SgntrOnFile: {TextField: ''}
   }
 }
@@ -304,8 +300,8 @@ AA41XX_OK: {
     CoPhnNum: {TextField: '(800) 259-8008'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Phil'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: OK}
   },
   AgentDetails: {
@@ -322,7 +318,7 @@ AA41XX_OK: {
     PlcyGrp: {TextField: PERSONAL AUTO},
     SpseExclNOPlcyYN: {TextField: Y},
     PlcyNum: {TextField: ''},
-    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+    TermEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
     SgntrOnFile: {TextField: ''}
   }
 }
@@ -339,8 +335,8 @@ AA41PA: {
     CoPhnNum: {TextField: '(888) 222-0094'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'}
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'}
   },
   AgentDetails: {
     AgntNum: {TextField: 400018581}
@@ -349,7 +345,7 @@ AA41PA: {
     PlcyStAbrv: {TextField: PA},
     PlcyTransCd: {TextField: '0040'},
     PlcyNum: {TextField: ''},
-    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"}
+    TermEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"}
   }
 }
 
@@ -365,8 +361,8 @@ AARFIXX_AZ: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Fernando'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: AZ},
     NmdInsrdStrPobAddr1: {TextField: 4101 S LAST CHANCE TRL},
     NmdInsrdAddlAddr2: {TextField: ''},
@@ -398,8 +394,8 @@ AARFIXX_AZ: {
   },
   DriverDetails: {
     DrvrTyp: {TextField: ''},
-    DrvrFrstNm: {TextField: 'Fernando'},
-    DrvrLstNm: {TextField: 'Alonso'}
+    DrvrFrstNm: {TextField: 'contains=Fernando'},
+    DrvrLstNm: {TextField: 'Smith'}
   },
   form: {
     PlcyNum: {TextField: ''},
@@ -425,15 +421,15 @@ AA52UPAB: {
     AgntNum: {TextField: 400018581}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'}
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'}
   },
   form: {
     PlcyStAbrv: {TextField: PA},
     PlcyTransCd: {TextField: '0040'},
     PlcyNum: {TextField: ''},
-    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+    TermEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
   }
 }
 
@@ -452,15 +448,15 @@ AA52IPAB: {
     AgntNum: {TextField: 400018581}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'}
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'}
   },
   form: {
     PlcyStAbrv: {TextField: PA},
     PlcyTransCd: {TextField: '0040'},
     PlcyNum: {TextField: ''},
-    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+    TermEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
   }
 }
 
@@ -479,15 +475,15 @@ AA52UPAC: {
     AgntNum: {TextField: 400018581}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'}
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'}
   },
   form: {
     PlcyStAbrv: {TextField: PA},
     PlcyTransCd: {TextField: '0100'},
     PlcyNum: {TextField: ''},
-    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+    TermEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
   }
 }
 
@@ -506,14 +502,14 @@ AA52IPAC: {
     AgntNum: {TextField: 400018581}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'}
+    NmdInsrdFrstNm: {TextField: 'contains=Steve'},
+    NmdInsrdLstNm: {TextField: 'Smith'}
   },
   form: {
     PlcyStAbrv: {TextField: PA},
     PlcyTransCd: {TextField: '0100'},
     PlcyNum: {TextField: ''},
-    TermEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
-    EndrEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd'T00:00:00.000'"},
+    TermEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
+    EndrEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>T00:00:00.000"},
   }
 }

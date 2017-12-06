@@ -15,14 +15,14 @@ TestData_CA: {
 GeneralTab: {
   PolicyInfo: {
     Policy type: 'DP3',
-    Effective date: '/today:MM/dd/yyyy',
+    Effective date: '$<today:MM/dd/yyyy>',
     Lead source: 'AAA Magazines',
     },
   CurrentCarrier: {
     Carrier name: 'AAA - NCNU',
     Policy type: 'HO3',
     Continuous years with HO insurance: '5',
-    Base date with AAA: '/today:MM/dd/yyyy',
+    Base date with AAA: '$<today:MM/dd/yyyy>',
   }
 }
 
@@ -54,7 +54,7 @@ PropertyInfoTab: {
   },
   DetachedStructures: [{}],
   RentalInformation: {
-    Year first rented: '/today-5y:yyyy',
+    Year first rented: '$<today-5y:yyyy>',
     Property manager: 'index=1',
     "Are there any additional rental dwellings ?": "No"
   },

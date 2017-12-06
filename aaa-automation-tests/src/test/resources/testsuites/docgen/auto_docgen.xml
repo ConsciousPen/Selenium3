@@ -62,24 +62,68 @@
         </classes>
     </test>
     
-	<test name="TestScenario1_CA_Select">
+	<test name="Deloitte_CA_Select_TestScenario1">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.deloitte.docgen.auto_ca.select.TestScenario1" />
         </classes>
     </test>
     
-	<test name="TestScenario1_CA_Choice">
+	<test name="Deloitte_CA_Select_TestScenario2">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.deloitte.docgen.auto_ca.select.TestScenario2" />
+        </classes>
+    </test>
+    
+	<test name="Deloitte_CA_Choice_TestScenario1">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.deloitte.docgen.auto_ca.choice.TestScenario1" />
         </classes>
     </test>
     
-	<test name="TestScenario4_Deloitte">
+	<test name="Deloitte_CA_Choice_TestScenario2">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.deloitte.docgen.auto_ca.choice.TestScenario2" />
+        </classes>
+    </test>
+    
+	<!-- 
+	<test name="Deloitte_TestScenario1">
+        <parameter name="state" value="CT,MD,MT,VA,WV" />
+        <classes>
+            <class name="aaa.modules.deloitte.docgen.auto_ss.TestScenario1" />
+        </classes>
+    </test>
+     -->
+     
+	<test name="Deloitte_TestScenario4">
         <parameter name="state" value="AZ,IN,OH,VA" />
         <classes>
             <class name="aaa.modules.deloitte.docgen.auto_ss.TestScenario4" />
+        </classes>
+    </test>
+    
+	<test name="Deloitte_TestScenarioNY">
+        <parameter name="state" value="NY" />
+        <classes>
+            <class name="aaa.modules.deloitte.docgen.auto_ss.TestScenarioNY" />
+        </classes>
+    </test>
+    
+	<test name="Deloitte_TestScenarioCT">
+        <parameter name="state" value="CT" />
+        <classes>
+            <class name="aaa.modules.deloitte.docgen.auto_ss.TestScenarioCT" />
+        </classes>
+    </test>
+    
+	<test name="Deloitte_TestScenarioCO">
+        <parameter name="state" value="CO" />
+        <classes>
+            <class name="aaa.modules.deloitte.docgen.auto_ss.TestScenarioCO" />
         </classes>
     </test>
 </suite>

@@ -28,7 +28,7 @@ NamedInsuredInformation: {
 
 AAAProductOwned: {
   Membership Number: 4290023667710001,
-  Last name: Test,
+  Last name: Smith
 }
 
 ContactInformation: {
@@ -37,7 +37,7 @@ ContactInformation: {
 
 PolicyInformation: {
   Policy Type: Standard,
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Policy Term: Annual,
   Channel Type: AAA Agent,
   Agency: AAA NCNU - 500001005,

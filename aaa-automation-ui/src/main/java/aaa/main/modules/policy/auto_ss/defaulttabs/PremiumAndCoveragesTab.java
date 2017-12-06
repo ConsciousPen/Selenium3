@@ -44,7 +44,7 @@ public class PremiumAndCoveragesTab extends Tab {
     public static Table tableAAAPremiumSummary = new Table(By.id("policyDataGatherForm:AAAPremiumSummary"));
 	public static Table tableTermPremiumbyVehicle = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table"));
 	public static Table tablePolicyLevelLiabilityCoveragesPremium = new Table(By.xpath("//table[@id='policyDataGatherForm:policyTableTotalVehiclePremium']"));
-	public static Table tableGreyBox = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAEMemberDetailMVOComponent']//table"));
+	public static Table tableEValueMessages = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAEMemberDetailMVOComponent']//table"));
 
 	public static Button buttonCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalc"));
 	public static Button buttonViewRatingDetails = new Button(By.id("policyDataGatherForm:viewRatingDetails_Link_1"));
@@ -96,6 +96,27 @@ public class PremiumAndCoveragesTab extends Tab {
 
 		keys = tableRatingDetailsQuoteInfo.getColumn(3).getValue();
 		values = tableRatingDetailsQuoteInfo.getColumn(4).getValue();
+		CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
+		for (int i = 0; i < keys.size(); i++) {
+			map.put(keys.get(i), values.get(i));
+		}
+
+		return new SimpleDataProvider(map);
+	}
+	
+	public TestData getRatingDetailsUnderwritingValueData() {
+
+		Map<String, Object> map = new LinkedHashMap<>();
+		List<String> keys = tableRatingDetailsUnderwriting.getColumn(1).getValue();
+		List<String> values = tableRatingDetailsUnderwriting.getColumn(2).getValue();
+		CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
+
+		for (int i = 0; i < keys.size(); i++) {
+			map.put(keys.get(i), values.get(i));
+		}
+
+		keys = tableRatingDetailsUnderwriting.getColumn(4).getValue();
+		values = tableRatingDetailsUnderwriting.getColumn(5).getValue();
 		CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
 		for (int i = 0; i < keys.size(); i++) {
 			map.put(keys.get(i), values.get(i));

@@ -17,34 +17,32 @@ import aaa.rest.policy.personallines.PersonalLinesPolicyRest;
  */
 public class PolicyType {
 
-	public static final PolicyType AUTO_CA_SELECT = new PolicyType("AutoCA", "California Auto", true, new AutoCaPolicy());
-	public static final PolicyType AUTO_CA_CHOICE = new PolicyType("AutoCAC", "California Auto", true, new AutoCaPolicy());
-	public static final PolicyType AUTO_SS = new PolicyType("AutoSS", "Auto Signature Series", true, new AutoSSPolicy());
-	public static final PolicyType HOME_SS_HO3 = new PolicyType("HomeSS", "Homeowners Signature Series", new HomeSSPolicy());
-	public static final PolicyType HOME_SS_HO4 = new PolicyType("HomeSS_HO4", "Homeowners Signature Series", new HomeSSPolicy());
-	public static final PolicyType HOME_SS_HO6 = new PolicyType("HomeSS_HO6", "Homeowners Signature Series", new HomeSSPolicy());
-	public static final PolicyType HOME_SS_DP3 = new PolicyType("HomeSS_DP3", "Homeowners Signature Series", new HomeSSPolicy());
-	public static final PolicyType HOME_CA_HO3 = new PolicyType("HomeCA", "California Homeowners", new HomeCaPolicy());
-	public static final PolicyType HOME_CA_HO4 = new PolicyType("HOME_CA_HO4", "California Homeowners", new HomeCaPolicy());
-	public static final PolicyType HOME_CA_HO6 = new PolicyType("HOME_CA_HO6", "California Homeowners", new HomeCaPolicy());
-	public static final PolicyType HOME_CA_DP3 = new PolicyType("HOME_CA_DP3", "California Homeowners", new HomeCaPolicy());
-	public static final PolicyType PUP = new PolicyType("PUP", "Personal Umbrella Policy", new PupPolicy());
+	public static final PolicyType AUTO_CA_SELECT = new PolicyType("AutoCA", "California Auto", true, true, new AutoCaPolicy());
+	public static final PolicyType AUTO_CA_CHOICE = new PolicyType("AutoCAC", "California Auto", true, true, new AutoCaPolicy());
+	public static final PolicyType AUTO_SS = new PolicyType("AutoSS", "Auto Signature Series", true, false, new AutoSSPolicy());
+	public static final PolicyType HOME_SS_HO3 = new PolicyType("HomeSS", "Homeowners Signature Series", false, false, new HomeSSPolicy());
+	public static final PolicyType HOME_SS_HO4 = new PolicyType("HomeSS_HO4", "Homeowners Signature Series", false, false, new HomeSSPolicy());
+	public static final PolicyType HOME_SS_HO6 = new PolicyType("HomeSS_HO6", "Homeowners Signature Series", false, false, new HomeSSPolicy());
+	public static final PolicyType HOME_SS_DP3 = new PolicyType("HomeSS_DP3", "Homeowners Signature Series", false, false, new HomeSSPolicy());
+	public static final PolicyType HOME_CA_HO3 = new PolicyType("HomeCA", "California Homeowners", false, true, new HomeCaPolicy());
+	public static final PolicyType HOME_CA_HO4 = new PolicyType("HOME_CA_HO4", "California Homeowners", false, true, new HomeCaPolicy());
+	public static final PolicyType HOME_CA_HO6 = new PolicyType("HOME_CA_HO6", "California Homeowners", false, true, new HomeCaPolicy());
+	public static final PolicyType HOME_CA_DP3 = new PolicyType("HOME_CA_DP3", "California Homeowners", false, true, new HomeCaPolicy());
+	public static final PolicyType PUP = new PolicyType("PUP", "Personal Umbrella Policy", false, false, new PupPolicy());
 	protected IPolicy policy;
 	protected String shortName;
 	protected String fullName;
-	protected PolicyRest policyRest;
 	protected boolean isAutoPolicy;
+	protected boolean isCaProduct;
+	protected PolicyRest policyRest;
 
-	public PolicyType(String shortName, String fullName, IPolicy policy) {
-		this(shortName, fullName, false, policy);
-	}
-
-	public PolicyType(String shortName, String fullName, boolean isAutoPolicy, IPolicy policy) {
+	public PolicyType(String shortName, String fullName, boolean isAutoPolicy, boolean isCaProduct, IPolicy policy) {
 		this.shortName = shortName;
 		this.fullName = fullName;
-		this.policy = policy;
-		policyRest = new PersonalLinesPolicyRest(this);
 		this.isAutoPolicy = isAutoPolicy;
+		this.isCaProduct = isCaProduct;
+		this.policy = policy;
+		this.policyRest = new PersonalLinesPolicyRest(this);
 	}
 
 	public String getName() {
@@ -67,25 +65,32 @@ public class PolicyType {
 		return isAutoPolicy;
 	}
 
-	@Override
-	public boolean equals(Object anObject) {
-		if (anObject == null) {
-			return false;
-		}
-		if (!PolicyType.class.isAssignableFrom(anObject.getClass())) {
-			return false;
-		}
-		if (!(anObject instanceof PolicyType)) {
-			return false;
-		}
-		PolicyType policyType = (PolicyType) anObject;
-		if (this.shortName == null ? policyType.getShortName() != null : !this.shortName.equals(policyType.getShortName())) {
-			return false;
-		}
-		return this.fullName == null ? policyType.getName() == null : this.fullName.equals(policyType.getName());
+	public boolean isCaProduct() {
+		return isCaProduct;
 	}
 
 	public IPolicy get() {
 		return policy;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		PolicyType thatObject = (PolicyType) o;
+
+		return shortName.equals(thatObject.shortName) && fullName.equals(thatObject.fullName);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = shortName.hashCode();
+		result = 31 * result + fullName.hashCode();
+		return result;
 	}
 }

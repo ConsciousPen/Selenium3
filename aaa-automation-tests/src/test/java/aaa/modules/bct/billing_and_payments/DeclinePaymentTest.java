@@ -21,10 +21,10 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 	@Test
 	public void BCT_ONL_076_Decline_Payment(@Optional("") String state) {
 		//TODO Test moved from Deloite's code as is, probably some additional steps should be added
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_076_Decline_Payment", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
-		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
 		Dollar initialMinDue = BillingSummaryPage.getMinimumDue();
@@ -44,10 +44,10 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_120_Payments(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_120_Payments", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
-		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
 		Dollar initialTotalDue = BillingSummaryPage.getTotalDue();
@@ -79,10 +79,10 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_121_Payments(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_121_Payments", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
-		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
 		Dollar initialTotalDue = BillingSummaryPage.getTotalDue();
@@ -116,10 +116,10 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_122_Payments(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_122_Payments", "SelectPolicy").get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
-		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
 		Dollar initialTotalDue = BillingSummaryPage.getTotalDue();

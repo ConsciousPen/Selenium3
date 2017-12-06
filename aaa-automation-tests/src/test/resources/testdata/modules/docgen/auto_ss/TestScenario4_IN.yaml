@@ -1,7 +1,5 @@
 TestData: {
   PrefillTab: {
-    First Name: Fernando,
-    Last Name: Alonso,
     Validate Address: click,
     Validate Address Dialog: {},
     Order Prefill: click  
@@ -103,8 +101,8 @@ AASR22_EDOne_IN: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1: {TextField: '22616 ROCKVILLE RD'},
     NmdInsrdCityNm: {'EVANSVILLE'},
     NmdInsrdStAbrv: {TextField: 'IN'},
@@ -140,8 +138,8 @@ AASR22_EDOne_IN: {
     PlcyTransCd: {TextField: '0100'},
     PlcyStAbrv: {TextField: 'IN'},
     SR22CseNum: {TextField: '123'},
-    SgnDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
-    SR22CertEffDt: {DateTimeField: "contains=/today:yyyy-MM-dd"},
+    SgnDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
+    SR22CertEffDt: {DateTimeField: "contains=$<today:yyyy-MM-dd>"},
     SR22CertReqSt: {TextField: 'Indiana'},
     SSNum: {TextField: '6789'}
   }
@@ -162,8 +160,8 @@ AA41XX_EDTWO_IN: {
     CoPhnNum: {TextField: '(800) 207-3618'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStAbrv: {TextField: IN}
   },
   AgentDetails: {
@@ -218,9 +216,8 @@ AHRBXX_IN: {
     PLIGAFee: {TextField: '0.00'}
   },
   NamedInsuredDetails: {
-    NmdInsrdFrstNm: {TextField: 'Fernando'},
-    NmdInsrdMidNm: {TextField: ''},
-    NmdInsrdLstNm: {TextField: 'Alonso'},
+    NmdInsrdFrstNm: {TextField: 'contains=Harry'},
+    NmdInsrdLstNm: {TextField: 'Smith'},
     NmdInsrdStrPobAddr1:  {TextField: '22616 ROCKVILLE RD'},
     NmdInsrdAddlAddr2: {TextField: ''},
     NmdInsrdCityNm: {TextField: 'EVANSVILLE'},

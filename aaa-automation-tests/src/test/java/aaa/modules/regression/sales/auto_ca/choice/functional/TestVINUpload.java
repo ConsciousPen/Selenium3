@@ -11,53 +11,68 @@ import toolkit.utils.TestInfo;
 
 public class TestVINUpload extends TestVINUploadTemplate {
 
-    @Override
-    protected PolicyType getPolicyType() {
-        return PolicyType.AUTO_CA_CHOICE;
-    }
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_CA_CHOICE;
+	}
 
-    /**
-     * * @author Lev Kazarnovskiy
-     *
-     * PAS-1406 - Data Refresh - PAS-533 -Quote Refresh -Add New VIN
-     *
-     * See detailed steps in template file
-     * {@link aaa.modules.regression.sales.template.functional.TestVINUploadTemplate#testVINUpload_NewVINAdded(String, String, String)}
-     */
-    @Parameters({"state"})
-    @Test(groups = { Groups.FUNCTIONAL, Groups.MEDIUM })
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-533")
-    public void testVINUpload_NewVINAdded(@Optional("CA") String state) {
-        super.testVINUpload_NewVINAdded("VINconfig_CA_CHOICE.xlsx", "VINupload_CA_CHOICE.xlsx", "BBBKN3DD0E0344466");
-    }
+	//	TODO add logic to generate file names for CA states based on product type
 
-    /**
-     * * @author Lev Kazarnovskiy
-     *
-     * PAS-1406 - Data Refresh - PAS-527 -Renewal Refresh -Add New VIN & Update Existing
-     *
-     * See detailed steps in template file
-     * {@link aaa.modules.regression.sales.template.functional.TestVINUploadTemplate#testVINUpload_NewVINAdded_Renewal(String, String, String)}
-     */
-    @Parameters({"state"})
-    @Test(groups = { Groups.FUNCTIONAL, Groups.MEDIUM })
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-527")
-    public void testVINUpload_NewVINAdded_Renewal(@Optional("CA") String state) {
-        super.testVINUpload_NewVINAdded_Renewal("VINconfig_CA_CHOICE.xlsx", "VINupload_CA_CHOICE.xlsx", "BBBKN3DD0E0344466");
-    }
+	/**
+	 * @author Lev Kazarnovskiy
+	 *
+	 * PAS-1406 - Data Refresh - PAS-533 -Quote Refresh -Add New VIN
+	 *
+	 * See detailed steps in template file
+	 * {@link aaa.modules.regression.sales.template.functional.TestVINUploadTemplate#testVINUpload_NewVINAdded(String, String, String)}
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-533")
+	public void testVINUpload_NewVINAdded(@Optional("CA") String state) {
+		testVINUpload_NewVINAdded("controlTable_CA_CHOICE.xlsx", "uploadAddedVIN_CA_CHOICE.xlsx", "1FDEU15H7KL055795");
+	}
 
-    /**
-     * * @author Lev Kazarnovskiy
-     *
-     * PAS-1406 - Data Refresh - PAS-527 -Renewal Refresh -Add New VIN & Update Existing
-     *
-     * See detailed steps in template file
-     * {@link aaa.modules.regression.sales.template.functional.TestVINUploadTemplate#testVINUpload_UpdatedVIN_Renewal(String, String, String)}
-     */
-    @Parameters({"state"})
-    @Test(groups = { Groups.FUNCTIONAL, Groups.MEDIUM })
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-527")
-    public void testVINUpload_UpdatedVIN_Renewal(@Optional("CA") String state) {
-        super.testVINUpload_UpdatedVIN_Renewal("VINconfig_CA_CHOICE.xlsx", "VINupload_CA_CHOICE_UPDATE.xlsx", "4T1BE30K46U656311");
-    }
+	/**
+	 * @author Lev Kazarnovskiy
+	 * PAS-4253 Restrict VIN Refresh by Vehicle Type
+	 * See detailed steps in template file
+	 * {@link aaa.modules.regression.sales.template.functional.TestVINUploadTemplate#pas4253_restrictVehicleRefreshNB(String, String, String)}
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-4253")
+	public void pas4253_restrictVehicleRefreshNB(@Optional("CA") String state) {
+		pas4253_restrictVehicleRefreshNB("controlTable_CA_CHOICE.xlsx", "uploadAddedVIN_CA_CHOICE.xlsx", "1FDEU15H7KL055795");
+	}
+
+	/**
+	 * @author Lev Kazarnovskiy
+	 *
+	 * PAS-1406 - Data Refresh - PAS-527 -Renewal Refresh -Add New VIN & Update Existing
+	 *
+	 * See detailed steps in template file
+	 * {@link aaa.modules.regression.sales.template.functional.TestVINUploadTemplate#testVINUpload_NewVINAdded_Renewal(String, String, String)}
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-527")
+	public void testVINUpload_NewVINAdded_Renewal(@Optional("CA") String state) {
+		testVINUpload_NewVINAdded_Renewal("controlTable_CA_CHOICE.xlsx", "uploadAddedVIN_CA_CHOICE.xlsx", "1FDEU15H7KL055795");
+	}
+
+	/**
+	 * @author Lev Kazarnovskiy
+	 *
+	 * PAS-1406 - Data Refresh - PAS-527 -Renewal Refresh -Add New VIN & Update Existing
+	 *
+	 * See detailed steps in template file
+	 * {@link aaa.modules.regression.sales.template.functional.TestVINUploadTemplate#testVINUpload_UpdatedVIN_Renewal(String, String, String)}
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-527")
+	public void testVINUpload_UpdatedVIN_Renewal(@Optional("CA") String state) {
+		testVINUpload_UpdatedVIN_Renewal("controlTable_CA_CHOICE.xlsx", "uploadUpdatedVIN_CA_CHOICE.xlsx", "4T1BE30K46U656311");
+	}
 }

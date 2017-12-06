@@ -40,6 +40,10 @@ public final class BillingConstants {
 		public static final String HOLD = "On Hold";
 	}
 
+	public static final class BillingAccountPoliciesPolicyStatus {
+		public static final String CUSTOMER_DECLINED = "Customer Declined";
+	}
+
 	public static final class InstallmentScheduleBilledStatus {
 		public static final String BILLED = "Billed";
 		public static final String UNBILLED = "Unbilled";
@@ -56,7 +60,7 @@ public final class BillingConstants {
 		public static final String DISCARDED_CANCELLATION_NOTICE = "Discarded Cancellation Notice";
 		public static final String CANCELLATION_NOTICE = "Cancellation Notice";
 		public static final String CANCELLATION = "Cancellation";
-		public static final String OFFER = "Offer"; 
+		public static final String OFFER = "Offer";
 		public static final String DISCARDED_OFFER = "Discarded Offer";
 	}
 
@@ -70,6 +74,14 @@ public final class BillingConstants {
 
 	public static final class BillingPendingTransactionsType {
 		public static final String REFUND = "Refund";
+	}
+
+	public static final class BillingPendingTransactionsSubtype {
+		public static final String AUTOMATED_REFUND = "Automated Refund";
+	}
+
+	public static final class BillingPendingTransactionsStatus {
+		public static final String PENDING = "Pending";
 	}
 
 	public static final class PaymentsAndOtherTransactionSubtypeReason {
@@ -92,6 +104,7 @@ public final class BillingConstants {
 		public static final String CANCELLATION_INSURED_NON_PAYMENT_OF_PREMIUM = "Cancellation - Insured Non-Payment Of Premium";
 		public static final String CANCELLATION_INSURED_REQUEST_DUE_TO_HIGH_PREMIUM = "Cancellation - Insured Request - Due To High Premium";
 		public static final String PAYMENT_DECLINED = "Payment Declined";
+		public static final String PAYMENT_DISAPPROVED = "Payment Disapproved";
 		public static final String WRITE_OFF = "Write-off";
 		public static final String SERVICE_FEE = "Service Fee";
 		public static final String SERVICE_FEE_WAIVED = "Service Fee Waived";
@@ -105,6 +118,7 @@ public final class BillingConstants {
 		public static final String RENEWAL_POLICY_RENEWAL_PROPOSAL_REVERSAL = "Renewal - Policy Renewal Proposal Reversal";
 		public static final String REINSTATEMENT = "Reinstatement";
 		public static final String REINSTATEMENT_FEE = "Reinstatement Fee";
+		public static final String REINSTATEMENT_FEE_RENEWAL = "Reinstatement Fee - Renewal";
 		public static final String REINSTATEMENT_FEE_WITH_LAPSE = "Reinstatement with Lapse";
 		public static final String REINSTATEMENT_WITHOUT_LAPSE = "Reinstatement - Without Lapse: payment received within grace period";
 		public static final String REINSTATEMENT_WITH_LAPSE = "Reinstatement - Lapse: payment received within the lapse period";
@@ -124,12 +138,10 @@ public final class BillingConstants {
 		public static final String NON_EFT_INSTALLMENT_FEE_WAIVED = "Non EFT Installment Fee Waived";
 		public static final String SEISMIC_SAFETY_FEE = "Seismic Safety Fee";
 		public static final String OTHER = "Other";
+		public static final String REFUND_PAYMENT_VOIDED = "Refund Payment Voided";
+		public static final String ESCHEATMENT = "Escheatment";
 	}
 
-	public static final class BillingPendingTransactionsSubtype {
-		public static final String AUTOMATED_REFUND = "Automated Refund";
-	}
-	
 	public static final class PaymentsAndOtherTransactionReason {
 		public static final String COUNTERFEIT = "Counterfeit";
 		public static final String FEE_NO_RESTRICTION = "Fee + No Restriction";
@@ -142,7 +154,7 @@ public final class BillingConstants {
 	public static final class BillingPendingTransactionsReason {
 		public static final String OVERPAYMENT = "Overpayment";
 	}
-	
+
 	public static final class PaymentsAndOtherTransactionStatus {
 		public static final String APPLIED = "Applied";
 		public static final String APPROVED = "Approved";
@@ -151,12 +163,8 @@ public final class BillingConstants {
 		public static final String DECLINED = "Declined";
 		public static final String ISSUED = "Issued";
 		public static final String PENDING = "Pending";
+		public static final String VOIDED = "Voided";
 	}
-	
-	public static final class BillingPendingTransactionsStatus {
-		public static final String PENDING = "Pending";
-	}
-
 	public static final class PaymentsAndOtherTransactionAction {
 		public static final String DECLINE = "Decline";
 		public static final String TRANSFER = "Transfer";

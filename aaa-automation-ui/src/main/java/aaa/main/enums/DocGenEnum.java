@@ -5,11 +5,25 @@ import org.apache.commons.lang.StringUtils;
 public final class DocGenEnum {
 	private DocGenEnum() {
 	}
-
+	//TODO : will be good to sort doc alphabetically
 	public enum Documents {
 		AA11CO("Colorado Auto Insurance Application"),
 		AA16CO("MEDICAL PAYMENTS REJECTION OF COVERAGE"),
 		AA43CO("Named Driver Exclusion Endorsement"),
+		AA52NY("UM UIM Reject Elect Lower Limits"),
+		AA52MT("UM UIM Reject/Elect Lower Limits"),
+		AADNNY1("Identification Card Notice"),
+		AAINXX1("Renewal Cover Letter"),
+		AAMTNY("Multi-tier Disclosure Notice"),
+		AASANY("SUM Availability Notice"),
+		AAOANY("Optional Basic Economic Loss (OBEL) Availability Notice"),
+		AAACNY("Accident Prevention Course List - Notice To Policyholders"),
+		AA02NY("Personal Auto Policy Declarations"),
+		AACDNYR("Credit Disclosure Notice"),
+		AADNNY2("DWI Notice"),
+		AARTNY("Required Information Notice"),
+		AARRNY("Rental Car Reimbursement Notice"),
+		AASLNY("Supplelmental Spousal Liability Coverage"),
 		AADNCO("Colorado Private Passenger Automobile Insurance Summary Disclosure Form"),
 		AAIQCO("Auto Insurance Quote"),
 		AHAUXX("Consumer Information Notice"),
@@ -283,7 +297,22 @@ public final class DocGenEnum {
         AU08("Request for Additional Information"),
         AU09("Uprate Notice"),
         AU10("Potential Uprate"),
-        AAPNXX("")
+        AAPNXX(""),
+		AHEVAXX("eValue Discount Acknowledgement"),
+
+
+        FS20("FS-20", "Insurance Identification Card"),
+        AAIFNY2(""),
+        AAIFNYF(""),
+        AAIFNYC("Confirmation of Suspension of Physical Damage Coverage"),
+        AA02CO(""),
+        AA52COA(""),
+        AA52COB(""),
+        AA71COA(""),
+        AARNXX(""),
+        AHCAAG("Coverage Acceptance Statement"),
+        AH65XX(""),
+        AH63XX(""),
 		;
 
 		private String id;

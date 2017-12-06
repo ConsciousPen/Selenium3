@@ -27,13 +27,13 @@ NamedInsuredInformation2: {
   InsuredSearchDialog: {},
   First Name: Tom,
   Last Name: Harris,
-  Base Date: '/today:MM/dd/yyyy'
+  Base Date: '$<today:MM/dd/yyyy>'
 }
 
 AAAProductOwned: {
   Current AAA Member: 'Yes',
   Membership Number: 4290023667710001,
-  Member Last Name: Test,
+  Member Last Name: Smith
 }
 
 

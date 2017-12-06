@@ -1,6 +1,6 @@
 TestData: {
   CopyPolicyActionTab: {
-    Quote Effective Date: /today
+    Quote Effective Date: '$<today>'
   },
   MembershipTab: '@DataGather@MembershipTab',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
@@ -14,6 +14,6 @@ PremiumAndCoveragesTab: {
 
 TestData_BackDated: {
   CopyPolicyActionTab: {
-    Quote Effective Date: /today-1m,
+    Quote Effective Date: $<today-1m>,
   }
 }

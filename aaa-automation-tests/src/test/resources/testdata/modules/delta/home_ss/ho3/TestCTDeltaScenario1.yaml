@@ -16,11 +16,11 @@ TestData: {
 GeneralTab: {
   State: 'CT',
   Policy type: 'HO3',
-  Effective date: '/today:MM/dd/yyyy', 
+  Effective date: '$<today:MM/dd/yyyy>',
   Lead source: 'Book Roll',
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab: {
@@ -113,7 +113,7 @@ NamedInsured: {
 
 AAAMembership: {
   Membership number: '4290023667710001',
-  Last name: Test,
+  Last name: Smith
 }
 
 DwellingAddress: {
@@ -142,7 +142,7 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual:  {
   "Companion Auto Pending with Discount?": 'No',
   Auto policy state: CT, 
   Policy number: '345345345',
-  Effective date: '/today:MM/dd/yyyy',
+  Effective date: '$<today:MM/dd/yyyy>',
   Policy tier: 'index=1',
   Auto policy BI limit: 'index=1',
   Auto Insurance Persistency: '21'
@@ -161,7 +161,7 @@ DwellingAddress_PropertyInfoTab: {
 PropertyValue: {
   Coverage A - Dwelling limit: '75000', 
   ISO replacement cost: '75000', 
-  Purchase date of home: '/today-1y:MM/dd/yyyy', 
+  Purchase date of home: '$<today-1y:MM/dd/yyyy>',
   New loan: true
 }
 
@@ -240,7 +240,7 @@ AdditionalInterest: {
   Zip code: '06519', 
   Street address 1: '265 CHIPMAN AVE', 
   Description of interest: test,
-  Effective date: '/today:MM/dd/yyyy'
+  Effective date: '$<today:MM/dd/yyyy>'
 }
 
 # =========== TC02 Windstorm Mitigation discount ===========
@@ -348,7 +348,7 @@ TestData_Plus33Days: {
 }
 
 CancelNoticeActionTab_Plus33Days: {
-    Cancellation effective date: '/today+33d', 
+    Cancellation effective date: '$<today+33d>',
 }
 
 TestData_Plus34Days: {
@@ -356,7 +356,7 @@ TestData_Plus34Days: {
 }
 
 CancelNoticeActionTab_Plus34Days: {
-    Cancellation effective date: '/today+34d', 
+    Cancellation effective date: '$<today+34d>',
     Cancellation reason: 'Material Misrepresentation', 
     Description: test test
   }

@@ -15,7 +15,7 @@ GeneralTab: {
 
 PolicyInformation: {
   Policy Type: 'Named Non Owner',
-  Effective Date: '/today:MM/dd/yyyy',
+  Effective Date: '$<today:MM/dd/yyyy>',
   Channel Type: Phone (Direct Sales Unit),
   Agency: SMTestCC - 400000092,
   Sales Channel: Online,

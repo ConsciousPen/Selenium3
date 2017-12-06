@@ -1,14 +1,33 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="JDI Precondition configuration changes" verbose="1" parallel="false" thread-count="1">
-    <!-- Listener commented out for local runs
+<suite name="JDI Precondition configuration changes" verbose="1" parallel="false" thread-count="1024">
+    <!-- Listener commented out for local runs-->
     <listeners>
          <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
-     </listeners>-->
-
+     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
+
+
     <test name="EvalueInsertPreconditions">
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.EvalueInsertPreconditions"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.EvalueInsertSetup"/>
+        </classes>
+    </test>
+    <test name="Refund Related Jobs">
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="precondJobAdding"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="eValue Related Jobs">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
+                    <include name="precondJobAdding"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="TestEValueDiscountJobAdding">
@@ -40,4 +59,5 @@
             </class>
         </classes>
     </test>
+
 </suite>

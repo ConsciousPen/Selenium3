@@ -1,0 +1,31 @@
+TestData: {
+  DriverTab: {
+     Age First Licensed: 18,
+     Permit Before License: 'Yes',
+     Licence Type: 'Licensed (US)',
+     License State: 'CA',
+     'License #': G0585313,
+     ActivityInformation: ['@Activity1', '@Activity2', '@Activity3']
+  }
+}
+
+
+Activity1: {
+Type: "Major Violation",
+Occurrence Date: '$<today-15d:MM/dd/yyyy>',
+Description: "Hit and run"
+}
+
+
+Activity2: {
+Type: "Major Violation",
+Occurrence Date: '$<today-10d:MM/dd/yyyy>',
+Description: "Drag Racing"
+}
+
+
+Activity3: {
+Type: "10-yr Major Violation",
+Occurrence Date: '$<today-20d:MM/dd/yyyy>',
+Description: "Driving under the influence of alcohol"
+}

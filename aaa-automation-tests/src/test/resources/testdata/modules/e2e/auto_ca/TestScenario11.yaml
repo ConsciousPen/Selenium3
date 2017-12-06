@@ -1,13 +1,13 @@
 TestData: {
   PremiumAndCoveragesTab: {
     Payment Plan: Annual,
-    Bodily Injury Liability: 'contains=$500,000/$500,000',
-    Property Damage Liability: 'contains=$100,000'
+    #Bodily Injury Liability: 'contains=$500,000/$500,000',
+    #Property Damage Liability: 'contains=$100,000'
   },
 }
 
-# ----- Endorsement -----
-TestData_Endorsement: {
+# ----- Endorsement 1 -----
+TestData_Endorsement1: {
   GeneralTab: {},
   DriverTab: {},
   MembershipTab: {},
@@ -16,9 +16,7 @@ TestData_Endorsement: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DocumentsAndBindTab: {}
 }
 
 VehicleTab: {
@@ -35,3 +33,22 @@ AssignmentTab: {
     Primary Driver: 'index=1',
   }]
 }
+
+# ----- Endorsement 2 -----
+TestData_Endorsement2: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+PremiumAndCoveragesTab: {
+  Bodily Injury Liability: 'contains=$500,000/$500,000',
+  Property Damage Liability: 'contains=$100,000'
+}
+  

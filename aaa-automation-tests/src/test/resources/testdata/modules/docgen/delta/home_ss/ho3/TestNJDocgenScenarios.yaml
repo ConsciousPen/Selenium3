@@ -3,12 +3,12 @@ TestData_DeltaPolicyDocuments: {
   GeneralTab: {
     State: 'NJ',
     Policy type: 'HO3',
-    Effective date: '/today:MM/dd/yyyy',
+    Effective date: '$<today:MM/dd/yyyy>',
     Lead source: 'Book Roll',
     Extraordinary Life Circumstance: 'Military deployment overseas',
     Immediate prior carrier: 'index=2',
     Continuous years with immediate prior carrier: '5',
-    Property insurance base date with CSAA IG: '/today:MM/dd/yyyy',
+    Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
   },
   ErrorTab: {
     ErrorsOverride: {

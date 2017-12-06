@@ -1,19 +1,27 @@
 package aaa.modules.deloitte.docgen.auto_ca.choice;
 
 import aaa.common.Tab;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.NavigationEnum.AutoCaTab;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.enums.ProductConstants;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.actiontabs.PolicyDocGenActionTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.FormsTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
 import toolkit.verification.CustomAssert;
 
 /**
@@ -23,6 +31,7 @@ import toolkit.verification.CustomAssert;
  */
 public class TestScenario1 extends AutoCaChoiceBaseTest {
 	private PolicyDocGenActionTab docgenActionTab = policy.quoteDocGen().getView().getTab(PolicyDocGenActionTab.class);
+	private PremiumAndCoveragesTab premiumTab = policy.dataGather().getView().getTab(PremiumAndCoveragesTab.class);
 	
 	/** 
 	 * 1. Create CA Choice Quote
@@ -106,7 +115,10 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 		docgenActionTab.cancel();
 		
 		// 5
-		policy.calculatePremiumAndPurchase(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase")));
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
+		policy.dataGather().getView().fillFromTo(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase").resolveLinks()), DriverActivityReportsTab.class, PurchaseTab.class, true);
+		policy.dataGather().getView().getTab(PurchaseTab.class).submitTab();
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 		
@@ -122,7 +134,8 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 				Documents.AA47CA,
 				Documents.AA49CA,
 				Documents.AA02CA,
-				Documents.AA59XX
+				Documents.AA59XX,
+				Documents.AARFIXX
 				);
 		
 		// 7
@@ -155,7 +168,27 @@ public class TestScenario1 extends AutoCaChoiceBaseTest {
 				Documents.AADDCA);
 		docgenActionTab.cancel();
 		
+		// Check AA52CA for Endorsement
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
+		checkAA52CA();
+		Tab.buttonCancel.click();
+		Page.dialogConfirmation.buttonDeleteEndorsement.click();
+		
+		// Check AA52CA for Renew
+		policy.renew().start();
+		checkAA52CA();
+		Tab.buttonSaveAndExit.click();
+		
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
+	}
+
+	private void checkAA52CA(){
+		NavigationPage.toViewTab(AutoCaTab.FORMS.get());
+		FormsTab.tableSelectedPolicyForms.getRow("Name", "AA52CA").verify.present(false);
+		NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
+		premiumTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY).setValue("contains=No Coverage");
+		NavigationPage.toViewTab(AutoCaTab.FORMS.get());
+		FormsTab.tableSelectedPolicyForms.getRow("Name", "AA52CA").verify.present();
 	}
 }

@@ -115,7 +115,7 @@ public class TestPolicyOrderReports extends AutoSSBaseTest {
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.TYPE).setValue("At-Fault Accident");
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION).setValue("Accident (Property Damage Only)");
 		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE).setValue(DateTimeUtils.getCurrentDateTime().minusDays(30).format(DateTimeUtils.MM_DD_YYYY));
-		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).setValue("1600");
+		aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).setValue("1700");
 		
 		//030-144-19CT Driver can not be charged for the first Property Damage Claim > $1000
 		//030-144-15NY Points are applied for Property Damage accidents with amount > 2001

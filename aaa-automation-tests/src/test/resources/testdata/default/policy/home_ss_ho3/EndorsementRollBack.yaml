@@ -1,5 +1,5 @@
 TestData: {
   RollBackEndorsementActionTab: {
-    Endorsement Roll Back Date: /today,
+    Endorsement Roll Back Date: $<today>,
   }
 }
