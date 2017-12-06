@@ -1,7 +1,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -113,7 +113,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 
 	/**
 	 * Fills Non existing vehicle + e
-	 * @param non-existing vin
+	 * @param vin non -existing
 	 * @return
 	 */
 	private TestData getAdjustedTestData(String vin) {
@@ -331,7 +331,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 				.adjust(TestData.makeKeyPath("VehicleTab", "Change Vehicle Confirmation"), "OK")
 				.adjust(TestData.makeKeyPath("VehicleTab", "Stat Code"), "AV - Custom Van");
 
-		precondsTestVINUpload(testData);
+		precondsTestVINUpload(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		assertSoftly(softly -> {
