@@ -45,7 +45,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-527")
-	public void testVINUpload_NewVINAdded_Renewal(@Optional("CA") String state) {
+	public void pas527_newVidAddedRenewal(@Optional("CA") String state) {
 		newVinAddedRenewal("controlTable_CA_CHOICE.xlsx", "uploadAddedVIN_CA_CHOICE.xlsx", "1FDEU15H7KL055795");
 	}
 
@@ -71,7 +71,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	 * PAS-2714 New Liability Symbols
 	 *
 	 * See detailed steps in template file
-	 * {@link TestVINUploadTemplate#updatedVinRenewal(String, String, String)}
+	 * {@link TestVINUploadTemplate#endorsement(String, String, String)}
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
@@ -80,12 +80,11 @@ public class TestVINUpload extends TestVINUploadTemplate {
 			endorsement("controlTable_CA_Choice.xlsx", "uploadAddedVIN_CA_CHOICE_.xlsx", "1FDEU15H7KL055795");
 	}
 
-
 	/**
 	 * @author Lev Kazarnovskiy
 	 * PAS-4253 Restrict VIN Refresh by Vehicle Type
 	 * See detailed steps in template file
-	 * {@link aaa.modules.regression.sales.template.functional.TestVINUploadTemplate#pas4253_restrictVehicleRefreshNB(String, String, String)}
+	 * {@link TestVINUploadTemplate#pas4253_restrictVehicleRefreshNB#pas4253_restrictVehicleRefreshNB(String, String, String)}
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
