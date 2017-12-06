@@ -1,6 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -32,6 +32,7 @@ import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
+
 
 public class TestVINUpload extends AutoSSBaseTest {
 

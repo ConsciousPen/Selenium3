@@ -227,7 +227,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		VehicleTab.buttonAddVehicle.click();
 		// Add third vehicle to the quote
 		testDataVehicleTab.add(new SimpleDataProvider().adjust(vehicleTab.getMetaKey(), secondVehicle
-				.adjust(AutoCaMetaData.VehicleTab.TYPE.getLabel(), "Regular").adjust(AutoCaMetaData.VehicleTab.ODOMETER_READING_DATE.getLabel(), "$<today:MM/dd/yyyy>")));
+				.adjust(AutoCaMetaData.VehicleTab.TYPE.getLabel(), "Regular").adjust(AutoCaMetaData.VehicleTab.ODOMETER_READING_DATE.getLabel(),  new DefaultMarkupParser().parse("$<today:MM/dd/yyyy>"))));
 
 		// Add third assignment and fill quote till P&C tab
 		listDataAssignmentTab.add(secondAssignment);
