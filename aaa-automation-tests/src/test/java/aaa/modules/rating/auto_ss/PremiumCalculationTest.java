@@ -34,10 +34,9 @@ public class PremiumCalculationTest extends RatingBaseTest<AutoSSOpenLPolicy> {
 						AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel()));*/
 	}
 
-	@Parameters({"state"})
+	@Parameters({"state", "filePath", "policyNumbers"})
 	@Test(groups = {Groups.OPENL, Groups.HIGH})
-	public void premiumCalculationTest(@Optional("") String state) {
-		String openLFileName = getState() + "Tests-20170915.xls";
-		verifyPremiums(openLFileName, AutoSSOpenLFile.class);
+	public void premiumCalculationTest(@Optional("") String state, @Optional("src/test/resources/openl/auto_ss/ORTests-20170915.xls") String filePath, @Optional("") String policyNumbers) {
+		verifyPremiums(filePath, AutoSSOpenLFile.class, getPolicyNumbers(policyNumbers));
 	}
 }

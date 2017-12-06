@@ -2,6 +2,10 @@ package aaa.modules.rating;
 
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.common.Tab;
@@ -15,6 +19,7 @@ import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
 import toolkit.datax.TestData;
+import toolkit.exceptions.IstfException;
 
 public class RatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 	protected static final String OPENL_RATING_TESTS_FOLDER = "src/test/resources/openl";
@@ -25,15 +30,24 @@ public class RatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 		this.testDataGenerator = testDataGenerator;
 	}
 
-	protected <O extends OpenLFile<P>> void verifyPremiums(String openLFileName, Class<O> openLFileModelClass) {
+	protected TestData getRatingDataPattern() {
+		TestData td = getPolicyTD().mask(new PurchaseTab().getMetaKey());
+		if (getPolicyType().equals(PolicyType.PUP)) {
+			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
+		}
+		return td;
+	}
+
+	protected <O extends OpenLFile<P>> void verifyPremiums(String openLFilePath, Class<O> openLFileModelClass, List<Integer> policyNumbers) {
 		this.testDataGenerator.setRatingDataPattern(getRatingDataPattern());
-		OpenLFile<P> openLFile = getOpenLFileObject(openLFileName, openLFileModelClass);
+		OpenLFile<P> openLFile = getOpenLFileObject(openLFilePath, openLFileModelClass);
+		List<P> openLPolicies = policyNumbers.isEmpty() ? openLFile.getPolicies() : openLFile.getPolicies().stream().filter(p -> policyNumbers.contains(p.getNumber())).collect(Collectors.toList());
 
 		mainApp().open();
 		createCustomerIndividual();
 
-		for (P openLPolicy : openLFile.getPolicies()) {
-			log.info("Premium calculation verification initiated for OpenL test with policy: {}", openLPolicy);
+		for (P openLPolicy : openLPolicies) {
+			log.info("Premium calculation verification initiated for OpenL test with policy number {}", openLPolicy.getNumber());
 			TestData quoteRatingData = testDataGenerator.getRatingData(openLPolicy);
 
 			policy.initiate();
@@ -46,21 +60,30 @@ public class RatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 		}
 	}
 
-	protected <T> T getOpenLFileObject(String openLFileName, Class<T> openLFileModelClass) {
-		String filePath = OPENL_RATING_TESTS_FOLDER + "/" + openLFileName;
+	protected <T> T getOpenLFileObject(String openLFilePath, Class<T> openLFileModelClass) {
 		ExcelUnmarshaller eUnmarshaller = new ExcelUnmarshaller();
-		return eUnmarshaller.unmarshal(new File(filePath), openLFileModelClass);
+		return eUnmarshaller.unmarshal(new File(openLFilePath), openLFileModelClass);
 	}
 
 	protected String getExpectedPremium(OpenLFile<P> openLFile, int policyNumber) {
 		return String.valueOf(openLFile.getTests().stream().filter(t -> t.getPolicy() == policyNumber).findFirst().get().getTotalPremium());
 	}
 
-	protected TestData getRatingDataPattern() {
-		TestData td = getPolicyTD().mask(new PurchaseTab().getMetaKey());
-		if (getPolicyType().equals(PolicyType.PUP)) {
-			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
+	protected List<Integer> getPolicyNumbers(String policies) {
+		if (policies.isEmpty()) {
+			return Collections.emptyList();
 		}
-		return td;
+		String[] policyNumberStrings = policies.split(",");
+		List<Integer> policyNumbers = new ArrayList<>(policyNumberStrings.length);
+		for (String p : policyNumberStrings) {
+			int policyNumber;
+			try {
+				policyNumber = Integer.parseInt(p.trim());
+			} catch (NumberFormatException e) {
+				throw new IstfException(String.format("Unable get policy number from \"%s\" string.", p), e);
+			}
+			policyNumbers.add(policyNumber);
+		}
+		return policyNumbers;
 	}
 }

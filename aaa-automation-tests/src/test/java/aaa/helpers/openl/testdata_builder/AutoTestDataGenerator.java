@@ -44,11 +44,11 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		return dob.format(DateTimeUtils.MM_DD_YYYY);
 	}
 
-	String getDriverGetLicenseType(boolean isForeignLicense) {
+	String getDriverTabLicenseType(boolean isForeignLicense) {
 		if (isForeignLicense) {
 			return "Foreign";
 		}
-		return AdvancedComboBox.RANDOM_EXCEPT_MARK + "=Foreign";
+		return AdvancedComboBox.RANDOM_EXCEPT_MARK + "=Foreign|";
 	}
 
 	String getVehicleTabUsage(String usage) {
@@ -59,14 +59,19 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 				return "Business";
 			case "F":
 				return "Farm";
-			case "P":
-			case "P1":
-			case "P2":
-			case "P3":
-				return "Pleasure";
-			case "W1":
-			case "W2":
+			case "W1": // <15 miles to school or work
+			case "W2": // 15+ miles to school or work
 				return "Commute";
+			//For Tailer, Golf Cart and Motor Home
+			case "P":
+			case "P1": // Occupied Less than 30 Days a Year
+			case "P2": // Occupied 30-150 Days a Year
+			case "P3": // Occupied More than 150 Days a Year
+				return "Pleasure"; // or Nano in case of Nano policy
+			case "PT":
+				return "Traveling Primary Residence";
+			case "PR":
+				return "Non-Traveling Primary Residence";
 			default:
 				throw new IstfException("Unknown mapping for usage: " + usage);
 		}
@@ -82,8 +87,40 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	String getVehicleTabAirBags(String airBagCode) {
 		switch (airBagCode) {
 			case "N":
+				return "";
+			case "0004":
+				return getRandom("Both Front and Side", "Both Front and Side with Rear Side");
+			case "0002":
+				return getRandom("None", "Both Front");
+			case "000B":
+			case "000D":
+			case "000M":
+			case "0001":
+				return "Driver";
+			case "000C":
+			case "000E":
+			case "000F":
+			case "000L":
+			case "000U":
+			case "000G":
+			case "000J":
+			case "000K":
+			case "000X":
+			case "0003":
+			case "000R":
+			case "000S":
+				return "Both Front";
+			case "000H":
+			case "000I":
+			case "000Y":
+			case "000V":
+			case "000W":
+			case "0007":
+			case "0006":
+			case "000T":
+				return "Both Front and Side";
+			case "AUTOSB":
 				return "None";
-			//TODO-dchubkov: add other codes
 			default:
 				throw new IstfException("Unknown mapping for airbagCode: " + airBagCode);
 		}

@@ -1,5 +1,6 @@
 package aaa.helpers.openl.testdata_builder;
 
+import java.util.Random;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.helpers.openl.model.OpenLPolicy;
 import toolkit.datax.TestData;
@@ -36,6 +37,10 @@ public abstract class TestDataGenerator<P extends OpenLPolicy> {
 			from = from.replaceAll("\\.00", "");
 			to = to.replaceAll("\\.00", "");
 		}
-		return  from + "/" + to;
+		return from + "/" + to;
+	}
+
+	String getRandom(String... values) {
+		return values[new Random().nextInt(values.length)];
 	}
 }
