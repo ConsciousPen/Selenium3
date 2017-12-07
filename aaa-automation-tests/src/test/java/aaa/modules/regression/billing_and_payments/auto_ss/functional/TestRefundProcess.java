@@ -6,7 +6,6 @@ import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransaction
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import org.testng.Assert;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -24,7 +23,6 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.db.DbAwaitHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.BillingAccountMetaData;
@@ -38,7 +36,6 @@ import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
-import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
@@ -126,9 +123,11 @@ public class TestRefundProcess extends PolicyBilling {
 	public void pas2186_RefundProcessCheck(@Optional("VA") String state) {
 		Dollar refundAmount1 = new Dollar(25);
 		Dollar refundAmount2 = new Dollar(100);
+		Dollar refundAmount3 = new Dollar(100);
 		String checkDate1 = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String checkDate2 = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
-		String method = "Check";
+		String checkDate3 = TimeSetterUtil.getInstance().getCurrentTime().plusDays(2).format(DateTimeUtils.MM_DD_YYYY);
+		String paymentMethod = "Check";
 
 		precondJobAdding();
 
@@ -201,17 +200,23 @@ public class TestRefundProcess extends PolicyBilling {
 		pas1939_voidedRefundTransactionCheck(refundAmount2, checkDate2, "Automated Refund");
 		//PAS-1939 End
 
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(1));
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+
 		checkRefundDocumentInDb(state, policyNumber, 2);
-		pas1939_issuedRefundActionsCheck(refund2, policyNumber, false);
-		pas453_issuedUnprocessedRefundRecordDetailsCheck(refundAmount2, checkDate2, refund2, false, false);
+		Map<String, String> refund3 = new HashMap<>();
+		refund3.put(TRANSACTION_DATE, checkDate3);
+		refund3.put(TYPE, "Refund");
+		refund3.put(SUBTYPE_REASON, "Automated Refund");
+		pas1939_issuedRefundActionsCheck(refund3, policyNumber, false);
+		pas453_issuedUnprocessedRefundRecordDetailsCheck(refundAmount3, checkDate3, refund3, false, false);
 
-		//TODO Victoria's test. Maybe need a separate method for Issued Returned record check
-		pas1939_issuedRefundActionsCheck(refund2, policyNumber, true);
-		pas453_issuedProcessedRefundRecordDetailsCheck(refundAmount2, checkDate2, refund2, false, true, "paymentMethod");
+		pas453_disbursentEngineReturnedData(paymentMethod, policyNumber);
+		pas1939_issuedRefundActionsCheck(refund3, policyNumber, true);
+		pas453_issuedProcessedRefundRecordDetailsCheck(refundAmount3, checkDate3, refund3, false, true, paymentMethod);
 
-		pas453_disbursentEngineReturnedData(method, policyNumber);
+
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -259,9 +264,9 @@ public class TestRefundProcess extends PolicyBilling {
 
 		String message = "Credit Card Visa-4113 expiring 01/22";
 		String amount = "10";
-		String method = "Credit card";
+		String paymentMethod = "Credit card";
 		CustomAssert.enableSoftMode();
-		pas352_RefundMethodAndDropdownLastPaymentMethodTest(message, amount, method);
+		pas352_RefundMethodAndDropdownLastPaymentMethodTest(message, amount, paymentMethod);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -287,9 +292,9 @@ public class TestRefundProcess extends PolicyBilling {
 
 		String message = "Debit Card MasterCard-4444 expiring 05/20";
 		String amount = "22";
-		String method = "Debit card";
+		String paymentMethod = "Debit card";
 		CustomAssert.enableSoftMode();
-		pas352_RefundMethodAndDropdownLastPaymentMethodTest(message, amount, method);
+		pas352_RefundMethodAndDropdownLastPaymentMethodTest(message, amount, paymentMethod);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -315,14 +320,14 @@ public class TestRefundProcess extends PolicyBilling {
 
 		String message = "Checking/Savings (ACH) #,1542";
 		String amount = "33";
-		String method = "ACH";
+		String paymentMethod = "ACH";
 		CustomAssert.enableSoftMode();
-		pas352_RefundMethodAndDropdownLastPaymentMethodTest(message, amount, method);
+		pas352_RefundMethodAndDropdownLastPaymentMethodTest(message, amount, paymentMethod);
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
 
-	private void pas453_disbursentEngineReturnedData(String method, String policyNumber) {
+	private void pas453_disbursentEngineReturnedData(String paymentMethod, String policyNumber) {
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		String transactionNumber = DBService.get().getRows("select TRANSACTIONNUMBER from BILLINGTRANSACTION "
@@ -341,7 +346,7 @@ public class TestRefundProcess extends PolicyBilling {
 				.setRefundStatus("SUCC");
 
 
-		switch (method) {
+		switch (paymentMethod) {
 			case "ACH":
 				builder = builder.setTransactionNumber(transactionNumber)
 						.setPaymentType("EFT")
@@ -379,7 +384,7 @@ public class TestRefundProcess extends PolicyBilling {
 
 	}
 
-	private void pas352_RefundMethodAndDropdownLastPaymentMethodTest(String message, String amount, String method) {
+	private void pas352_RefundMethodAndDropdownLastPaymentMethodTest(String message, String amount, String paymentMethod) {
 		precondJobAdding();
 		mainApp().open();
 		createCustomerIndividual();
@@ -469,14 +474,21 @@ public class TestRefundProcess extends PolicyBilling {
 		pas1939_voidedRefundTransactionCheck(refundAmount3, checkDate3, "Automated Refund");
 		//PAS-1939 End
 
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(1));
+		Dollar refundAmount4 = new Dollar(100);
+		String checkDate4 = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
+		Map<String, String> refund4 = new HashMap<>();
+		refund4.put(TRANSACTION_DATE, checkDate4);
+		refund4.put(TYPE, "Refund");
+		refund4.put(SUBTYPE_REASON, "Automated Refund");
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
-		pas1939_issuedRefundActionsCheck(refund3, policyNumber, false);
-		pas453_issuedUnprocessedRefundRecordDetailsCheck(refundAmount3, checkDate3, refund3, false, false);
+		pas1939_issuedRefundActionsCheck(refund4, policyNumber, false);
+		pas453_issuedUnprocessedRefundRecordDetailsCheck(refundAmount4, checkDate4, refund4, false, false);
 
-		pas453_disbursentEngineReturnedData(method, policyNumber);
+		pas453_disbursentEngineReturnedData(paymentMethod, policyNumber);
 		pas1939_issuedRefundActionsCheck(refund2, policyNumber, false);
-		pas453_issuedProcessedRefundRecordDetailsCheck(refundAmount3, checkDate3, refund3, false, false, "paymentMethod");
+		pas453_issuedProcessedRefundRecordDetailsCheck(refundAmount4, checkDate4, refund4, false, false, message);
 		//PAS-453 End
 	}
 
@@ -539,8 +551,9 @@ public class TestRefundProcess extends PolicyBilling {
 				acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_NUMBER.getLabel(), TextBox.class).verify.present(false);
 				acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_DATE.getLabel(), TextBox.class).verify.present(false);
 			}
-			acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.value(paymentMethod);
-			acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYEE_NAME.getLabel(), TextBox.class).verify.present();
+			//TODO Should be returned when expiration date for credit/debit card will be implemented in new story
+			//acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.value(paymentMethod);
+			acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYEE_NAME.getLabel(), TextBox.class).verify.present(false);
 		}
 		acceptPaymentActionTab.back();
 	}
