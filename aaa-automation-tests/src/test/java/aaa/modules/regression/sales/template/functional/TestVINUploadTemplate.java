@@ -55,7 +55,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 	 * 5. Verify that VIN was uploaded and all fields are populated, VIN refresh works after premium calculation
 	 * @details
 	 */
-	public void newVinAdded(String controlTableFile, String vinTableFile, String vinNumber) {
+	protected void newVinAdded(String controlTableFile, String vinTableFile, String vinNumber) {
 
 		TestData testData = getTestDataWithSinceMembership(vinNumber);
 
@@ -119,7 +119,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 	 * 6. Verify that VIN was uploaded and all fields are populated
 	 * @details
 	 */
-	public void newVinAddedRenewal(String controlTableFile, String vinTableFile, String vinNumber) {
+	protected void newVinAddedRenewal(String controlTableFile, String vinTableFile, String vinNumber) {
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber);
@@ -180,7 +180,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 	 * 5. Verify that VIN was updated successfully and all fields are populated properly
 	 * @details
 	 */
-	public void updatedVinRenewal(String controlTableFile, String vinTableFile, String vinNumber) {
+	protected void updatedVinRenewal(String controlTableFile, String vinTableFile, String vinNumber) {
 		TestData firstVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey());
 		TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey()).ksam(AutoCaMetaData.VehicleTab.VIN.getLabel(), AutoCaMetaData.VehicleTab.VIN.getLabel())
 				.adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), vinNumber)
@@ -227,7 +227,8 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		VehicleTab.buttonAddVehicle.click();
 		// Add third vehicle to the quote
 		testDataVehicleTab.add(new SimpleDataProvider().adjust(vehicleTab.getMetaKey(), secondVehicle
-				.adjust(AutoCaMetaData.VehicleTab.TYPE.getLabel(), "Regular").adjust(AutoCaMetaData.VehicleTab.ODOMETER_READING_DATE.getLabel(),  new DefaultMarkupParser().parse("$<today:MM/dd/yyyy>"))));
+				.adjust(AutoCaMetaData.VehicleTab.TYPE.getLabel(), "Regular")
+				.adjust(AutoCaMetaData.VehicleTab.ODOMETER_READING_DATE.getLabel(), new DefaultMarkupParser().parse("$<today:MM/dd/yyyy>"))));
 
 		// Add third assignment and fill quote till P&C tab
 		listDataAssignmentTab.add(secondAssignment);
@@ -266,115 +267,116 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		log.info("{}. Renewal image for policy {} was successfully created. \n'Update VIN scenario' is passed for VIN UPLOAD tests, Renewal Refresh works fine for VINUpdate", getPolicyType(), PolicySummaryPage.labelPolicyNumber
 				.getValue());
 	}
-		/**
-		 * @author Viktor Petrenko
-		 * <p>
-		 * PAS-527 Renewal Refresh -Add New VIN & Update Existing
-		 * PAS-2714 New liability symbols
-		 * @name Test VINupload 'Add new VIN' scenario for Renewal.
-		 * @scenario
-		 * 0. Create customer
-		 * 1. Initiate Auto SS quote creation
-		 * 2. Go to the vehicle tab, fill info with not existing VIN and issue the quote
-		 * 3. Upload new data
-		 * 4. Make Endorsement
-		 * 5. Check that old vehicle was not changed
-		 * 6. Add new vehicle with same vin
-		 * 7. Check that data was retrieved from db
-		 * @details
-		 */
-		public void endorsement(String controlTableFile, String vinTableFile, String vinNumber) {
-			TestData testData = getTestDataWithSinceMembership(vinNumber).resolveLinks();
-
-			mainApp().open();
-			createCustomerIndividual();
-			String policyNumber = createPolicy(testData);
-
-			uploadFiles(controlTableFile, vinTableFile);
-
-			mainApp().reopen();
-			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-
-			policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-
-			NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
-			vehicleTab.verifyFieldHasNotValue(AutoCaMetaData.VehicleTab.MAKE.getLabel(), "Other Make");
-			vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel(), "Model");
-
-			TestData testData2 = getTestDataTwoVehicles(vinNumber);
-
-			policy.getDefaultView().fillFromTo(testData2,VehicleTab.class, PremiumAndCoveragesTab.class);
-
-			PremiumAndCoveragesTab.calculatePremium();
-
-			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("Other Make");
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualToIgnoringCase("Model");
-			String pageNumbers = "//*[@id='%1$s']/ancestor::div[@id='ratingDetailsPopupForm:vehiclePanel_body']//center//a[contains(text(),'%2$s')]";
-
-			new Link(By.xpath(String.format(pageNumbers, PremiumAndCoveragesTab.tableRatingDetailsVehicles.getLocator().toString().split(" ")[1], 2))).click();
-
-			List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
-			pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
-			pas2712Fields.forEach(f -> CustomAssert.assertTrue("C".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue())));
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue()).isEqualToIgnoringCase("CA_CH");
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue()).isEqualToIgnoringCase("Gt");
-			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-		}
 
 	/**
-		 * @author Lev Kazarnovskiy
-		 * PAS-4253 Restrict VIN Refresh by Vehicle Type
-		 * @name Restrict VIN Refresh by Vehicle Type.
-		 * @scenario
-		 * 0. Create customer
-		 * 1. Initiate Auto CA quote creation
-		 * 2. Go to the vehicle tab, enter vehicle info vin Stat Code with which vehicle should not be refreshed and bind the policy
-		 * 3. On Administration tab in Admin upload Excel files to update this VIN in the system
-		 * 4. Open application and quote
-		 * 5. Verify that VIN was NOT updated and all fields are populated with previous info
-		 * @details
-		 */
-		public void pas4253_restrictVehicleRefreshNB(String controlTableFile, String vinTableFile, String vinNumber) {
+	 * @author Viktor Petrenko
+	 * <p>
+	 * PAS-527 Renewal Refresh -Add New VIN & Update Existing
+	 * PAS-2714 New liability symbols
+	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
+	 * @scenario
+	 * 0. Create customer
+	 * 1. Initiate Auto SS quote creation
+	 * 2. Go to the vehicle tab, fill info with not existing VIN and issue the quote
+	 * 3. Upload new data
+	 * 4. Make Endorsement
+	 * 5. Check that old vehicle was not changed
+	 * 6. Add new vehicle with same vin
+	 * 7. Check that data was retrieved from db
+	 * @details
+	 */
+	public void endorsement(String controlTableFile, String vinTableFile, String vinNumber) {
+		TestData testData = getTestDataWithSinceMembership(vinNumber).resolveLinks();
 
-			TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
-					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.TYPE.getLabel()), "Conversion Van")
-					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Change Vehicle Confirmation"), "OK")
-					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Stat Code"), "AV - Custom Van");
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = createPolicy(testData);
 
-			precondsTestVINUpload(testData, VehicleTab.class);
+		uploadFiles(controlTableFile, vinTableFile);
 
-			//Verify that VIN which will be uploaded is not exist yet in the system
-			assertSoftly(softly -> {
-				softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Conversion Van");
-				softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("No");
-				softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("AV - Custom Van");
-			});
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
-			VehicleTab.buttonSaveAndExit.click();
-			String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-			log.info("Quote {} is successfully saved for further use", quoteNumber);
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
-			adminApp().open();
-			NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
+		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.MAKE.getLabel(), "Other Make");
+		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel(), "Model");
 
-			//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-			uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, vinTableFile);
-			uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
+		TestData testData2 = getTestDataTwoVehicles(vinNumber);
 
-			//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
-			findAndRateQuote(testData, quoteNumber);
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		policy.getDefaultView().fillFromTo(testData2, VehicleTab.class, PremiumAndCoveragesTab.class);
 
-			assertSoftly(softly -> {
-				softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Conversion Van");
-				softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("No");
-				softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("AV - Custom Van");
-				softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("OTHER");
-				softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).getValue()).isEqualTo("Model");
-			});
-		}
+		PremiumAndCoveragesTab.calculatePremium();
+
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("Other Make");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualToIgnoringCase("Model");
+		String pageNumbers = "//*[@id='%1$s']/ancestor::div[@id='ratingDetailsPopupForm:vehiclePanel_body']//center//a[contains(text(),'%2$s')]";
+
+		new Link(By.xpath(String.format(pageNumbers, PremiumAndCoveragesTab.tableRatingDetailsVehicles.getLocator().toString().split(" ")[1], 2))).click();
+
+		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
+		pas2712Fields.forEach(f -> CustomAssert.assertTrue("C".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue())));
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue()).isEqualToIgnoringCase("CA_CH");
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue()).isEqualToIgnoringCase("Gt");
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+	}
+
+	/**
+	 * @author Lev Kazarnovskiy
+	 * PAS-4253 Restrict VIN Refresh by Vehicle Type
+	 * @name Restrict VIN Refresh by Vehicle Type.
+	 * @scenario
+	 * 0. Create customer
+	 * 1. Initiate Auto CA quote creation
+	 * 2. Go to the vehicle tab, enter vehicle info vin Stat Code with which vehicle should not be refreshed and bind the policy
+	 * 3. On Administration tab in Admin upload Excel files to update this VIN in the system
+	 * 4. Open application and quote
+	 * 5. Verify that VIN was NOT updated and all fields are populated with previous info
+	 * @details
+	 */
+	protected void pas4253_restrictVehicleRefreshNB(String controlTableFile, String vinTableFile, String vinNumber) {
+
+		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.TYPE.getLabel()), "Conversion Van")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Change Vehicle Confirmation"), "OK")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Stat Code"), "AV - Custom Van");
+
+		precondsTestVINUpload(testData, VehicleTab.class);
+
+		//Verify that VIN which will be uploaded is not exist yet in the system
+		assertSoftly(softly -> {
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Conversion Van");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("No");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("AV - Custom Van");
+		});
+
+		VehicleTab.buttonSaveAndExit.click();
+		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		log.info("Quote {} is successfully saved for further use", quoteNumber);
+
+		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+
+		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
+		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, vinTableFile);
+		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
+
+		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
+		findAndRateQuote(testData, quoteNumber);
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+
+		assertSoftly(softly -> {
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Conversion Van");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("No");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("AV - Custom Van");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("OTHER");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).getValue()).isEqualTo("Model");
+		});
+	}
 
 	private TestData getTestDataTwoVehicles(String vinNumber) {
 		// Build test data with 2 vehicles
@@ -392,7 +394,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		listDataAssignmentTab.add(firstAssignment);
 		listDataAssignmentTab.add(secondAssignment);
 
-		TestData testDataAssignmentTab = new SimpleDataProvider().adjust("DriverVehicleRelationshipTable",listDataAssignmentTab);
+		TestData testDataAssignmentTab = new SimpleDataProvider().adjust("DriverVehicleRelationshipTable", listDataAssignmentTab);
 		// Add Second Vehicle to the vehicle tab
 		List<TestData> testDataVehicleTab = new ArrayList<>();
 		testDataVehicleTab.add(firstVehicle);
