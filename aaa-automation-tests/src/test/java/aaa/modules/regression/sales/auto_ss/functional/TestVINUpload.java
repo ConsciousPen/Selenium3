@@ -34,9 +34,6 @@ import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
 
-import static toolkit.verification.CustomAssertions.*;
-
-
 
 public class TestVINUpload extends AutoSSBaseTest {
 
