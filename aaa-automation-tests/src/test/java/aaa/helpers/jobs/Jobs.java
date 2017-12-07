@@ -100,6 +100,7 @@ public class Jobs {
 
 	public static Job aaaAutomatedProcessingInitiationJob = new Job("aaaAutomatedProcessingInitiationJob");
 
+	public static Job aaaCCardExpiryNoticeJob = new Job("aaaCCardExpiryNoticeJob");
 	
 	public enum JobState {
 		TRUE, FALSE, FAILED

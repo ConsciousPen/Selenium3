@@ -1,4 +1,4 @@
-package aaa.modules.deloitte.docgen.auto_ca.choice;
+package aaa.modules.regression.document_fulfillment.auto_ca.choice;
 
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;

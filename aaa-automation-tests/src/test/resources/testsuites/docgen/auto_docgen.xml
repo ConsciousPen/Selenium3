@@ -62,68 +62,75 @@
         </classes>
     </test>
     
-	<test name="Deloitte_CA_Select_TestScenario1">
+	<test name="Document_Fulfillment_CA_Select_TestScenario1">
         <parameter name="state" value="CA" />
         <classes>
-            <class name="aaa.modules.deloitte.docgen.auto_ca.select.TestScenario1" />
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.TestScenario1" />
         </classes>
     </test>
     
-	<test name="Deloitte_CA_Select_TestScenario2">
+	<test name="Document_Fulfillment_CA_Select_TestScenario2">
         <parameter name="state" value="CA" />
         <classes>
-            <class name="aaa.modules.deloitte.docgen.auto_ca.select.TestScenario2" />
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.TestScenario2" />
         </classes>
     </test>
     
-	<test name="Deloitte_CA_Choice_TestScenario1">
+	<test name="Document_Fulfillment_CA_Choice_TestScenario1">
         <parameter name="state" value="CA" />
         <classes>
-            <class name="aaa.modules.deloitte.docgen.auto_ca.choice.TestScenario1" />
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.TestScenario1" />
         </classes>
     </test>
     
-	<test name="Deloitte_CA_Choice_TestScenario2">
+	<test name="Document_Fulfillment_CA_Choice_TestScenario2">
         <parameter name="state" value="CA" />
         <classes>
-            <class name="aaa.modules.deloitte.docgen.auto_ca.choice.TestScenario2" />
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.choice.TestScenario2" />
         </classes>
     </test>
     
 	<!-- 
-	<test name="Deloitte_TestScenario1">
+	<test name="Document_Fulfillment_TestScenario1">
         <parameter name="state" value="CT,MD,MT,VA,WV" />
         <classes>
-            <class name="aaa.modules.deloitte.docgen.auto_ss.TestScenario1" />
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestScenario1" />
         </classes>
     </test>
      -->
      
-	<test name="Deloitte_TestScenario4">
+    <test name="Document_Fulfillment_TestScenario2">
         <parameter name="state" value="AZ,IN,OH,VA" />
         <classes>
-            <class name="aaa.modules.deloitte.docgen.auto_ss.TestScenario4" />
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestScenario2" />
+        </classes>
+    </test>
+     
+	<test name="Document_Fulfillment_TestScenario4">
+        <parameter name="state" value="AZ,IN,OH,VA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestScenario4" />
         </classes>
     </test>
     
-	<test name="Deloitte_TestScenarioNY">
+	<test name="Document_Fulfillment_TestScenarioNY">
         <parameter name="state" value="NY" />
         <classes>
-            <class name="aaa.modules.deloitte.docgen.auto_ss.TestScenarioNY" />
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestScenarioNY" />
         </classes>
     </test>
     
-	<test name="Deloitte_TestScenarioCT">
+	<test name="Document_Fulfillment_TestScenarioCT">
         <parameter name="state" value="CT" />
         <classes>
-            <class name="aaa.modules.deloitte.docgen.auto_ss.TestScenarioCT" />
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestScenarioCT" />
         </classes>
     </test>
     
-	<test name="Deloitte_TestScenarioCO">
+	<test name="Document_Fulfillment_TestScenarioCO">
         <parameter name="state" value="CO" />
         <classes>
-            <class name="aaa.modules.deloitte.docgen.auto_ss.TestScenarioCO" />
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestScenarioCO" />
         </classes>
     </test>
 </suite>
