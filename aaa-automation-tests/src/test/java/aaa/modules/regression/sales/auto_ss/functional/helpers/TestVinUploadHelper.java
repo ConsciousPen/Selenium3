@@ -123,6 +123,12 @@ public class TestVinUploadHelper extends AutoSSBaseTest {
 		return String.format(defaultAddedFileName, type, state);
 	}
 
+	public void pas2453_CommonChecks(ETCSCoreSoftAssertions softly) {
+		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Conversion Van");
+		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("No");
+		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("AV - Custom Van");
+	}
+
 	public enum UploadFilesTypes {
 		UPDATED_VIN("Updated"),
 		ADDED_VIN("Added");

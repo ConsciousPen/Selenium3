@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
+import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterMethod;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -22,14 +22,14 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import aaa.modules.regression.postconditions.DatabaseCleanHelper;
+import aaa.modules.regression.postconditions.TestVinUploadPostConditions;
 import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.db.DBService;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Link;
 
-public class TestVINUploadTemplate extends PolicyBaseTest {
+public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUploadPostConditions{
 
 	private VehicleTab vehicleTab = new VehicleTab();
 	private UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
@@ -75,26 +75,19 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
 
-		policy.getDefaultView().fillFromTo(testData, AssignmentTab.class, PremiumAndCoveragesTab.class, true);
-
 		// Start PAS-2714 NB
-		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-		CustomAssert.enableSoftMode();
-		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
-		pas2712Fields.forEach(f -> CustomAssert.assertTrue("C".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue())));
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+
+		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
+		pas2712Fields.forEach(f -> Assertions.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()).isEqualTo(true));
+		// PAS-2714 using Oldest Entry Date
+		pas2712Fields.forEach(f -> Assertions.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isEqualTo("C"));
 		// End PAS-2714 NB
+
+		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 
-		CustomAssert.enableSoftMode();
-		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.MODEL.getLabel(), "Gt");
-		vehicleTab.verifyFieldIsNotDisplayed(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel());
-		// PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
-		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "Yes");
-		CustomAssert.disableSoftMode();
-
-		CustomAssert.assertAll();
+		pas533_CommonChecks();
 
 		log.info("{} Quote# {} was successfully saved 'Add new VIN scenario' for NB is passed for VIN UPLOAD tests", getPolicyType(), quoteNumber);
 	}
@@ -144,23 +137,12 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		createAndRateRenewal(policyNumber);
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 
-		CustomAssert.enableSoftMode();
-		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.MODEL.getLabel(), "Gt");
-		vehicleTab.verifyFieldIsNotDisplayed(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel());
-		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel(), "TEST");
-		// PAS-1487  No Match to Match but Year Doesn't Match
-		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.YEAR.getLabel(), "2005");
-		// PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
-		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "Yes");
-		CustomAssert.disableSoftMode();
-
-		CustomAssert.assertAll();
+		pas533_CommonChecks();
 
 		VehicleTab.buttonSaveAndExit.click();
 
 		verifyActivitiesAndUserNotes(vinNumber);
 
-		log.info("{}. Renewal image for policy {} was successfully saved 'Add new VIN scenario' for Renewal is passed for VIN UPLOAD tests", getPolicyType(), policyNumber);
 	}
 
 	/**
@@ -181,28 +163,8 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 	 * @details
 	 */
 	protected void updatedVinRenewal(String controlTableFile, String vinTableFile, String vinNumber) {
-		TestData firstVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey());
-		TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey()).ksam(AutoCaMetaData.VehicleTab.VIN.getLabel(), AutoCaMetaData.VehicleTab.VIN.getLabel())
-				.adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), vinNumber)
-				.adjust(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Pleasure (recreational driving only)")
-				.adjust(AutoCaMetaData.VehicleTab.ODOMETER_READING.getLabel(), "20000").resolveLinks();
-		// Build Vehicle Tab
-		List<TestData> testDataVehicleTab = new ArrayList<>();
-		testDataVehicleTab.add(firstVehicle);
-		testDataVehicleTab.add(secondVehicle);
-		// Build Assignment Tab
-		TestData firstAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0);
-		TestData secondAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0).ksam("Primary Driver");
 
-		List<TestData> listDataAssignmentTab = new ArrayList<>();
-		listDataAssignmentTab.add(firstAssignment);
-		listDataAssignmentTab.add(secondAssignment);
-
-		TestData testDataAssignmentTab = new SimpleDataProvider().adjust("DriverVehicleRelationshipTable", listDataAssignmentTab);
-		// Adjust Vehicle and Assignment tabs
-		TestData testData = getPolicyDefaultTD()
-				.adjust(vehicleTab.getMetaKey(), testDataVehicleTab)
-				.adjust("AssignmentTab", testDataAssignmentTab).resolveLinks();
+		TestData testData = getTestDataTwoVehicles(vinNumber);
 
 		precondsTestVINUpload(testData, VehicleTab.class);
 
@@ -226,46 +188,41 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 		VehicleTab.buttonAddVehicle.click();
 		// Add third vehicle to the quote
-		testDataVehicleTab.add(new SimpleDataProvider().adjust(vehicleTab.getMetaKey(), secondVehicle
+		List<TestData> existingVehicles = testData.getTestDataList("VehicleTab");
+
+		TestData thirdVehicle = new SimpleDataProvider().adjust(vehicleTab.getMetaKey(), existingVehicles.get(1)
 				.adjust(AutoCaMetaData.VehicleTab.TYPE.getLabel(), "Regular")
-				.adjust(AutoCaMetaData.VehicleTab.ODOMETER_READING_DATE.getLabel(), new DefaultMarkupParser().parse("$<today:MM/dd/yyyy>"))));
-
+				.adjust(AutoCaMetaData.VehicleTab.ODOMETER_READING_DATE.getLabel(), new DefaultMarkupParser().parse("$<today:MM/dd/yyyy>")));
+		policy.getDefaultView().fill(thirdVehicle.resolveLinks());
 		// Add third assignment and fill quote till P&C tab
-		listDataAssignmentTab.add(secondAssignment);
-		testDataAssignmentTab = new SimpleDataProvider().adjust("DriverVehicleRelationshipTable", listDataAssignmentTab);
-		testData = getPolicyDefaultTD()
-				.adjust(vehicleTab.getMetaKey(), testDataVehicleTab)
-				.adjust("AssignmentTab", testDataAssignmentTab).resolveLinks();
+		List<TestData> existingAssignment = testData.getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable");
+		TestData testDataAssignmentTab = new SimpleDataProvider().adjust("DriverVehicleRelationshipTable", existingAssignment);
 
-		policy.getDefaultView().fillFromTo(testData, VehicleTab.class, PurchaseTab.class, false);
+		policy.getDefaultView().fill(new SimpleDataProvider().adjust("AssignmentTab", testDataAssignmentTab).resolveLinks());
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		// Start PAS-2714 Renewal Update Vehicle
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
-		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
+		pas2712Fields.forEach(f -> Assertions.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()).isEqualTo(true));
 		// PAS-2714 using Oldest Entry Date
-		pas2712Fields.forEach(f -> CustomAssert.assertTrue("O".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(4).getValue())));
+		pas2712Fields.forEach(f -> Assertions.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(4).getValue()).isEqualTo("O"));
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		// End PAS-2714 Renewal Update Vehicle
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 		//Verify that fields are updated
-		CustomAssert.enableSoftMode();
-		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "Yes");
-		vehicleTab.verifyFieldHasNotValue(AutoCaMetaData.VehicleTab.MAKE.getLabel(), oldModelValue);
-		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.MODEL.getLabel(), "TEST");
-		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel(), "TEST");
-		// PAS-1487  No Match to Match but Year Doesn't Match
-		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.YEAR.getLabel(), "2005");
+		assertSoftly(softly -> {
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("Yes");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE.getLabel()).getValue()).isNotEqualTo(oldModelValue);
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("TEST");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()).getValue()).isEqualTo("TEST");
+			// PAS-1487  No Match to Match but Year Doesn't Match
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.YEAR.getLabel()).getValue()).isEqualTo("2005");
+		});
 
 		VehicleTab.buttonSaveAndExit.click();
 
 		verifyActivitiesAndUserNotes(vinNumber);
-
-		CustomAssert.disableSoftMode();
-		CustomAssert.assertAll();
-		log.info("{}. Renewal image for policy {} was successfully created. \n'Update VIN scenario' is passed for VIN UPLOAD tests, Renewal Refresh works fine for VINUpdate", getPolicyType(), PolicySummaryPage.labelPolicyNumber
-				.getValue());
 	}
 
 	/**
@@ -300,8 +257,8 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
-		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.MAKE.getLabel(), "Other Make");
-		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel(), "Model");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE.getLabel()).getValue()).isEqualTo("Other Make");
+		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).getValue()).isEqualTo("Model");
 
 		TestData testData2 = getTestDataTwoVehicles(vinNumber);
 
@@ -317,8 +274,9 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		new Link(By.xpath(String.format(pageNumbers, PremiumAndCoveragesTab.tableRatingDetailsVehicles.getLocator().toString().split(" ")[1], 2))).click();
 
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
-		pas2712Fields.forEach(f -> CustomAssert.assertTrue(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()));
-		pas2712Fields.forEach(f -> CustomAssert.assertTrue("C".equalsIgnoreCase(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue())));
+		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()).isEqualTo(true));
+		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue()).isEqualToIgnoringCase("C"));
+
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue()).isEqualToIgnoringCase("CA_CH");
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue()).isEqualToIgnoringCase("Gt");
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
@@ -378,29 +336,44 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 		});
 	}
 
+	private void pas533_CommonChecks() {
+		assertSoftly(softly -> {
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel()).isPresent()).isEqualTo(false);
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("Gt");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.BODY_STYLE.getLabel()).getValue()).isEqualTo("TEST");
+			// PAS-1487  No Match to Match but Year Doesn't Match
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.YEAR.getLabel()).getValue()).isEqualTo("2005");
+			// PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("Yes");
+		});
+	}
+
 	private TestData getTestDataTwoVehicles(String vinNumber) {
 		// Build test data with 2 vehicles
+		TestData firstVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey());
+
 		TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey()).ksam(AutoCaMetaData.VehicleTab.VIN.getLabel(), AutoCaMetaData.VehicleTab.VIN.getLabel())
 				.adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), vinNumber)
 				.adjust(AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Pleasure (recreational driving only)")
-				.adjust("Odometer Reading", "20000").resolveLinks();
+				.adjust(AutoCaMetaData.VehicleTab.ODOMETER_READING.getLabel(), "20000").resolveLinks();
 
-		TestData firstVehicle = getTestSpecificTD("TestData");
-		// Build test data with 2 assignments
+		// Build Vehicle Tab
+		List<TestData> testDataVehicleTab = new ArrayList<>();
+		testDataVehicleTab.add(firstVehicle);
+		testDataVehicleTab.add(secondVehicle);
+
+		// Build Assignment Tab
 		TestData firstAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0);
-		TestData secondAssignment = firstAssignment.ksam("Primary Driver");
+		TestData secondAssignment = getPolicyDefaultTD().getTestData("AssignmentTab").getTestDataList("DriverVehicleRelationshipTable").get(0).ksam("Primary Driver");
 
 		List<TestData> listDataAssignmentTab = new ArrayList<>();
 		listDataAssignmentTab.add(firstAssignment);
 		listDataAssignmentTab.add(secondAssignment);
 
 		TestData testDataAssignmentTab = new SimpleDataProvider().adjust("DriverVehicleRelationshipTable", listDataAssignmentTab);
-		// Add Second Vehicle to the vehicle tab
-		List<TestData> testDataVehicleTab = new ArrayList<>();
-		testDataVehicleTab.add(firstVehicle);
-		testDataVehicleTab.add(secondVehicle);
-		// add 2 vehicles + 2 assignments to the common testdata
 
+
+		// add 2 vehicles + 2 assignments to the common testdata
 		return getPolicyDefaultTD()
 				.adjust(vehicleTab.getMetaKey(), testDataVehicleTab)
 				.adjust("AssignmentTab", testDataAssignmentTab).resolveLinks();
@@ -479,17 +452,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest {
 	 */
 	@AfterMethod(alwaysRun = true)
 	protected void vinTablesCleaner() {
-		String configNames = "('SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT', 'SYMBOL_2000_SS_TEST')";
-		try {
-			String vehicleRefDataModelId = DBService.get().getValue("SELECT DM.id FROM vehiclerefdatamodel DM " +
-					"JOIN vehiclerefdatavin DV ON DV.vehiclerefdatamodelid=DM.id " +
-					"WHERE DV.version IN " + configNames).get();
-			DBService.get().executeUpdate("DELETE FROM vehiclerefdatavin V WHERE V.VERSION IN " + configNames);
-			DBService.get().executeUpdate(String.format("DELETE FROM vehiclerefdatamodel WHERE id='%s'", vehicleRefDataModelId));
-		} catch (NoSuchElementException e) {
-			log.error("VINs with version names {} are not found in VIN table. VIN table part of DB cleaner was not executed", configNames);
-		}
-		DBService.get().executeUpdate("DELETE FROM vehiclerefdatavincontrol VC WHERE VC.version IN " + configNames);
-		DBService.get().executeUpdate("UPDATE vehiclerefdatavincontrol SET expirationdate='99999999'");
+		String configNames = "('SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT')";
+		DatabaseCleanHelper.cleanVinUploadTables(configNames);
 	}
 }

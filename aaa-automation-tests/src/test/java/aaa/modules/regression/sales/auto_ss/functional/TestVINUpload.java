@@ -5,7 +5,6 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -24,14 +23,12 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.regression.postconditions.DatabaseCleanHelper;
 import aaa.modules.regression.sales.auto_ss.functional.helpers.TestVinUploadHelper;
-import aaa.modules.regression.sales.auto_ss.functional.postconditions.TestVinUploadPostConditions;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
-import toolkit.verification.ETCSCoreSoftAssertions;
 
-public class TestVINUpload extends TestVinUploadHelper implements TestVinUploadPostConditions{
+public class TestVINUpload extends TestVinUploadHelper {
 
 	/**
 	 * @author Lev Kazarnovskiy
@@ -366,12 +363,6 @@ public class TestVINUpload extends TestVinUploadHelper implements TestVinUploadP
 		});
 	}
 
-	private void pas2453_CommonChecks(ETCSCoreSoftAssertions softly) {
-		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Conversion Van");
-		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("No");
-		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("AV - Custom Van");
-	}
-
 	/**
 	 * @author Lev Kazarnovskiy/Chris Johns
 	 * <p>
@@ -423,14 +414,6 @@ public class TestVINUpload extends TestVinUploadHelper implements TestVinUploadP
 	@AfterMethod(alwaysRun = true)
 	protected void vinTablesCleaner() {
 		String configNames = "('SYMBOL_2000_SS_TEST')";
-		try {
-			String vehicleRefDataModelId = DBService.get().getValue(String.format(SELECT_ID_FROM_VEHICLEREFDATAMODEL,configNames)).get();
-			DBService.get().executeUpdate(String.format(DELETE_FROM_VEHICLEREFDATAVIN_BY_VERSION,configNames));
-			DBService.get().executeUpdate(String.format(DELETE_FROM_VEHICLEREFDATAMODEL_BY_ID, vehicleRefDataModelId));
-		} catch (NoSuchElementException e) {
-			log.error("VINs with version names {} are not found in VIN table. VIN table part of DB cleaner was not executed", configNames);
-		}
-		DBService.get().executeUpdate(String.format(DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_VERSION,configNames));
-		DBService.get().executeUpdate(UPDATE);
+		DatabaseCleanHelper.cleanVinUploadTables(configNames);
 	}
 }
