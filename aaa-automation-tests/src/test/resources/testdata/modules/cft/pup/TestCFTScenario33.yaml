@@ -1,0 +1,18 @@
+TestData: {
+  AcceptPaymentActionTab: '@AcceptPaymentActionTab',
+  RefundActionTab: '@RefundActionTab'
+}
+
+AcceptPaymentActionTab: {
+  Payment Method: 'Cash'
+}  
+
+RefundActionTab: {
+  Payment Method: 'Cash',
+  Amount: 100
+}
+
+#---- Data Gather ----
+PremiumAndCoveragesQuoteTab_DataGather: {
+  Payment Plan: Quarterly
+}

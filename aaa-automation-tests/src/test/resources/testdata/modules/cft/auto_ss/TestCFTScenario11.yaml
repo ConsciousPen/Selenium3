@@ -1,0 +1,49 @@
+TestData: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    Authorized By: qa
+  }
+}
+
+EndorsementActionTab: {
+    Endorsement Date: $<today>,
+    Endorsement Reason: Maintain Vehicle(s)
+}
+
+PremiumAndCoveragesTab : {
+    Bodily Injury Liability: 'contains=$1,000,000/$1,000,000',
+    Calculate Premium: 'click',
+    Override Premium: {
+    Bodily Injury Liability By Flat Amount: '100',
+    Reason for Override: 'OTHER',
+    Other Reason: 'CFT tests'
+    }
+}
+
+#---- Data Gather ----
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Eleven Pay - Standard
+}
+
+PurchaseTab_DataGather: {
+  Change Minimum Down Payment: true,
+  Minimum Required Down Payment: 10,
+  PaymentAllocation: {
+    Cash: 10
+  }
+}
+
+PurchaseTab_DataGather_NJ: {
+  Change Minimum Down Payment: true,
+  Minimum Required Down Payment: 10,
+  PaymentAllocation: {
+    Cash: 21
+  }
+}
