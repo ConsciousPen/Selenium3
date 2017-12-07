@@ -11,6 +11,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.AutoCaSelectBaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -20,7 +21,7 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Dominykas Razgunas
- * @name Test Create
+ * @name Major Violation Validation
  * @scenario
  * 1. Create Customer with CA state
  * 2. Create Quote with CA State
@@ -29,12 +30,12 @@ import toolkit.utils.TestInfo;
  * 5. Validate Error message
  * @details
  */
-public class TestCAMajorViolationValidation extends AutoCaSelectBaseTest {
+public class TestMajorViolationValidation extends AutoCaSelectBaseTest {
 
     @Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-5843")
-    public void testCAMajorViolationValidation(@Optional("CA") String state) {
+    public void testMajorViolationValidation(@Optional("CA") String state) {
     	
         mainApp().open();
         createCustomerIndividual();
@@ -43,7 +44,7 @@ public class TestCAMajorViolationValidation extends AutoCaSelectBaseTest {
         testData.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), getTestSpecificTD("TestData").getTestData(new DriverTab().getMetaKey()));
 
         policy.initiate();
-        policy.getDefaultView().fillUpTo(testData, aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.class);
+        policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class);
 
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER_ACTIVITY_REPORTS.get());
 

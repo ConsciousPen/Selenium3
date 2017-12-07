@@ -391,7 +391,12 @@ ApplicantTab_KS: {
 PropertyInfoTab_KS: {
   DwellingAddress: '@home_ss_ho3@DataGather@DwellingAddress_PropertyInfoTab',
   AdditionalAddress: [{}],
-  PublicProtectionClass: {},
+  PublicProtectionClass: {
+  Fire Department type: 'S - Subscription based',
+  Public protection class: '1',
+  Distance to fire hydrant: '<=1000ft',
+  Fire protection area: '999'
+  },
   FireReport: {},
   PropertyValue: '@home_ss_ho3@DataGather@PropertyValue',
   Construction: '@home_ss_ho3@DataGather@Construction_KS',
