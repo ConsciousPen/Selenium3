@@ -1,4 +1,4 @@
-package aaa.modules.deloitte.docgen.auto_ss;
+package aaa.modules.regression.document_fulfillment.auto_ss;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -7,6 +7,8 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
@@ -39,5 +41,9 @@ public class TestScenarioCT extends AutoSSBaseTest {
 		policy.dataGather().getView().getTab(PurchaseTab.class).submitTab();
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AARFIXX);		
+		
+		JobUtils.executeJob(Jobs.aaaCCardExpiryNoticeJob);
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents._60_5006);
 	}
 }

@@ -1,4 +1,4 @@
-package aaa.modules.deloitte.docgen.auto_ss;
+package aaa.modules.regression.document_fulfillment.auto_ss;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
