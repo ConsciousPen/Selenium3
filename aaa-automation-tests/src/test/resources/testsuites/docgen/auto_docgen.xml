@@ -99,6 +99,13 @@
     </test>
      -->
      
+    <test name="Document_Fulfillment_TestScenario2">
+        <parameter name="state" value="AZ,IN,OH,VA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestScenario2" />
+        </classes>
+    </test>
+     
 	<test name="Document_Fulfillment_TestScenario4">
         <parameter name="state" value="AZ,IN,OH,VA" />
         <classes>
