@@ -6,6 +6,7 @@ import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransaction
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import org.testng.Assert;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -23,6 +24,7 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.db.DbAwaitHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.BillingAccountMetaData;
@@ -36,6 +38,7 @@ import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
+import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
@@ -80,6 +83,16 @@ public class TestRefundProcess extends PolicyBilling {
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_RECEIVE_INFO_JOB);
 	}
 
+	@Test(description = "clearFolder")
+	public void clearFolder() {
+		try {
+			RemoteHelper.clearFolder("/home/DocGen/");
+
+		} catch (IstfException e) {
+			Assert.fail("Clearing doc gen folder failed: \n", e);
+		}
+	}
+
 	@Test(description = "Precondition for TestRefundProcess tests")
 	public static void refundDocumentGenerationConfigCheck() {
 		CustomAssert.assertTrue("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.", DbAwaitHelper
@@ -118,7 +131,7 @@ public class TestRefundProcess extends PolicyBilling {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")//TODO when running suite, the test which has Depends on is not being executed
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "refundDocumentGenerationConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-2186")
 	public void pas2186_RefundProcessCheck(@Optional("VA") String state) {
 		Dollar refundAmount1 = new Dollar(25);
@@ -203,7 +216,6 @@ public class TestRefundProcess extends PolicyBilling {
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(1));
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
-
 		checkRefundDocumentInDb(state, policyNumber, 2);
 		Map<String, String> refund3 = new HashMap<>();
 		refund3.put(TRANSACTION_DATE, checkDate3);
@@ -215,8 +227,6 @@ public class TestRefundProcess extends PolicyBilling {
 		pas453_disbursentEngineReturnedData(paymentMethod, policyNumber);
 		pas1939_issuedRefundActionsCheck(refund3, policyNumber, true);
 		pas453_issuedProcessedRefundRecordDetailsCheck(refundAmount3, checkDate3, refund3, false, true, paymentMethod);
-
-
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -286,7 +296,7 @@ public class TestRefundProcess extends PolicyBilling {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eRefundLastPaymentMethodConfigCheck")//TODO when running suite, the test which has Depends on is not being executed
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eRefundLastPaymentMethodConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-352")
 	public void pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc(@Optional("AZ") String state) {
 
@@ -314,7 +324,7 @@ public class TestRefundProcess extends PolicyBilling {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eRefundLastPaymentMethodConfigCheck")//TODO when running suite, the test which has Depends on is not being executed
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eRefundLastPaymentMethodConfigCheck")
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-352")
 	public void pas352_RefundMethodAndDropdownLastPaymentMethodEFT(@Optional("MD") String state) {
 
@@ -385,6 +395,7 @@ public class TestRefundProcess extends PolicyBilling {
 	}
 
 	private void pas352_RefundMethodAndDropdownLastPaymentMethodTest(String message, String amount, String paymentMethod) {
+
 		precondJobAdding();
 		mainApp().open();
 		createCustomerIndividual();
@@ -430,11 +441,6 @@ public class TestRefundProcess extends PolicyBilling {
 		billingAccount.refund().start();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).setValue(message);
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(amount);
-		acceptPaymentActionTab.submitTab();
-
-		//PAS-3619 Start
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell("Type").controls.links.get(1).click();
-		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.enabled(false);
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.value("Visa ****4113 expiring 01/22");
 		//PAS-3619 End
 		//PAS-2728 Start
@@ -492,6 +498,54 @@ public class TestRefundProcess extends PolicyBilling {
 		//PAS-453 End
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name Refund Message when only method is check
+	 * @scenario 1. Create new policy for DC
+	 * 2. go to manual refund
+	 * 3. see the message (Only check refund is currently available)
+	 * 4.see the message for CT (No payment method available for electronic refund)
+	 * @details
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eRefundLastPaymentMethodConfigCheck")
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-1952")
+	public void pas1952_MessageWhenOnlyMethodIsCheck(@Optional("DC") String state) {
+
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = createPolicy();
+		log.info("policyNumber: {}", policyNumber);
+
+		CustomAssert.enableSoftMode();
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		billingAccount.refund().start();
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.MESSAGE_WHEN_ONLY_PAYMENT_METHOD_CHECK.getLabel(), StaticElement.class).verify
+				.value("Only check refund is currently available.");
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eRefundLastPaymentMethodConfigCheck")
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-1952")
+	public void pas1952_MessageWhenOnlyMethodIsCheckNoElectronicRefund(@Optional("CT") String state) {
+
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = createPolicy();
+		log.info("policyNumber: {}", policyNumber);
+
+		CustomAssert.enableSoftMode();
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		billingAccount.refund().start();
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.MESSAGE_WHEN_ONLY_PAYMENT_METHOD_CHECK.getLabel(), StaticElement.class).verify
+				.value("No payment method available for electronic refund.");
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
 	private void unissuedRefundRecordDetailsCheck(Dollar amount, String checkDate, Map<String, String> refund, boolean isManual) {
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(TYPE).controls.links.get(1).click();
 		if (!isManual) {
@@ -503,6 +557,16 @@ public class TestRefundProcess extends PolicyBilling {
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYEE_NAME.getLabel(), TextBox.class).verify.present();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).verify.value(amount.toString());
 		acceptPaymentActionTab.back();
+	}
+
+	private void pas453_unissuedRefundActionsCheck(Map<String, String> refund, boolean isManual) {
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(STATUS).verify.value("Approved");
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(ACTION).controls.links.get(1).verify.value("Void");
+		if (isManual) {
+			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(ACTION).controls.links.get(2).verify.value("Issue");
+		} else {
+			CustomAssert.assertFalse(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(ACTION).getValue().contains("Issue"));
+		}
 	}
 
 	private void pas453_issuedUnprocessedRefundRecordDetailsCheck(Dollar amount, String checkDate, Map<String, String> refund, boolean isManual, boolean isCheck) {
@@ -556,16 +620,6 @@ public class TestRefundProcess extends PolicyBilling {
 			acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYEE_NAME.getLabel(), TextBox.class).verify.present(false);
 		}
 		acceptPaymentActionTab.back();
-	}
-
-	private void pas453_unissuedRefundActionsCheck(Map<String, String> refund, boolean isManual) {
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(STATUS).verify.value("Approved");
-		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(ACTION).controls.links.get(1).verify.value("Void");
-		if (isManual) {
-			BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(ACTION).controls.links.get(2).verify.value("Issue");
-		} else {
-			CustomAssert.assertFalse(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(ACTION).getValue().contains("Issue"));
-		}
 	}
 
 	private void pas1939_issuedRefundActionsCheck(Map<String, String> refund1, String policyNumber, boolean isCheck) {
