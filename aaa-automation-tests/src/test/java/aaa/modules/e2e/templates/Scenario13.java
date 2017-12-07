@@ -77,13 +77,14 @@ public class Scenario13 extends ScenarioBaseTest {
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-		
+
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
 		//CustomAssert.assertEquals("Billing Installments count for Semi-Annual payment plan", installmentsCount, installmentDueDates.size()); 	
 		SoftAssertions.assertSoftly(softly -> {
 			softly.assertThat(installmentDueDates.size()).as("Billing Installments count for Monthly (Eleven Pay) payment plan").isEqualTo(installmentsCount);
 		});
+		
 	}
 	
 	protected void generateFirstBill() {
@@ -314,15 +315,15 @@ public class Scenario13 extends ScenarioBaseTest {
 		PolicySummaryPage.buttonRenewals.verify.enabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PROPOSED).verify(1);
-
+		
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE)
 				.setPaymentPlan("Semi-Annual").verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED)
-				.setPaymentPlan("Semi-Annual (Renewal)").verifyRowWithEffectiveDate(policyExpirationDate);
+				.setPaymentPlan("Semi-Annual (Renewal)").verifyRowWithEffectiveDate(policyExpirationDate); 
 		BillingSummaryPage.buttonHidePriorTerms.click();
-		
+
 		installmentDueDatesForRenewal = BillingHelper.getInstallmentDueDates();	
 		SoftAssertions.assertSoftly(softly -> {
 			softly.assertThat(installmentDueDatesForRenewal.size()).as("Billing Installments count for renewal is incorrect")
@@ -356,7 +357,6 @@ public class Scenario13 extends ScenarioBaseTest {
 		//Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
 		verifyRenewPremiumNotice(policyExpirationDate, billDate);	
 	}
-
 	
 	protected void createRenewalVersion() {
 		mainApp().open();		
