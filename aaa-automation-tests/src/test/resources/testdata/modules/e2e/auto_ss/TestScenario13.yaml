@@ -19,7 +19,7 @@ TestData_Endorsement: {
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
-    Authorized By: qa
+    #Authorized By: qa
   }
 }
 
