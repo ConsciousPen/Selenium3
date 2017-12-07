@@ -41,12 +41,11 @@ public class RatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 	protected <O extends OpenLFile<P>> void verifyPremiums(String openLFilePath, Class<O> openLFileModelClass, List<Integer> policyNumbers) {
 		this.testDataGenerator.setRatingDataPattern(getRatingDataPattern());
 		OpenLFile<P> openLFile = getOpenLFileObject(openLFilePath, openLFileModelClass);
-		List<P> openLPolicies = policyNumbers.isEmpty() ? openLFile.getPolicies() : openLFile.getPolicies().stream().filter(p -> policyNumbers.contains(p.getNumber())).collect(Collectors.toList());
 
 		mainApp().open();
 		createCustomerIndividual();
 
-		for (P openLPolicy : openLPolicies) {
+		for (P openLPolicy : getOpenLPolicies(openLFile, policyNumbers)) {
 			log.info("Premium calculation verification initiated for OpenL test with policy number {}", openLPolicy.getNumber());
 			TestData quoteRatingData = testDataGenerator.getRatingData(openLPolicy);
 
@@ -58,6 +57,13 @@ public class RatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 					softly.assertThat(PremiumAndCoveragesTab.totalTermPremium).hasValue(getExpectedPremium(openLFile, openLPolicy.getNumber())));
 			Tab.buttonCancel.click();
 		}
+	}
+
+	protected List<P> getOpenLPolicies(OpenLFile<P> openLFile, List<Integer> policyNumbers) {
+		if (policyNumbers.isEmpty()) {
+			return openLFile.getPolicies();
+		}
+		return openLFile.getPolicies().stream().filter(p -> policyNumbers.contains(p.getNumber())).collect(Collectors.toList());
 	}
 
 	protected <T> T getOpenLFileObject(String openLFilePath, Class<T> openLFileModelClass) {

@@ -48,7 +48,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		if (isForeignLicense) {
 			return "Foreign";
 		}
-		return AdvancedComboBox.RANDOM_EXCEPT_MARK + "=Foreign|";
+		return AdvancedComboBox.RANDOM_EXCEPT_MARK + "=Foreign|Not Licensed|Learner's Permit|";
 	}
 
 	String getVehicleTabUsage(String usage) {

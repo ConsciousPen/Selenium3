@@ -1,11 +1,13 @@
 package aaa.helpers.openl.testdata_builder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.NotImplementedException;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.helpers.TestDataHelper;
 import aaa.helpers.openl.model.OpenLCoverage;
 import aaa.helpers.openl.model.OpenLDriver;
 import aaa.helpers.openl.model.OpenLVehicle;
@@ -28,7 +30,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 	@Override
 	public TestData getRatingData(AutoSSOpenLPolicy openLPolicy) {
-		return DataProviderFactory.dataOf(
+		TestData td = DataProviderFactory.dataOf(
 				new PrefillTab().getMetaKey(), getPrefillTabData(),
 				new GeneralTab().getMetaKey(), getGeneralTabData(openLPolicy),
 				new DriverTab().getMetaKey(), getDriverTabData(openLPolicy),
@@ -36,19 +38,23 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				new VehicleTab().getMetaKey(), getVehicleTabData(openLPolicy),
 				new FormsTab().getMetaKey(), getFormsTabTabData(openLPolicy),
 				new PremiumAndCoveragesTab().getMetaKey(), getPremiumAndCoveragesTabData(openLPolicy));
+		TestData resultData = TestDataHelper.merge(getRatingDataPattern(), td);
+
+		if (!openLPolicy.isAAAMember()) {
+			resultData.mask(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+			resultData.mask(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.LAST_NAME.getLabel());
+		}
+
+		return resultData;
 	}
 
 	private TestData getPrefillTabData() {
-		return getRatingDataPattern().getTestData(new PrefillTab().getMetaKey());
+		return DataProviderFactory.emptyData();
 	}
 
 	private TestData getGeneralTabData(AutoSSOpenLPolicy openLPolicy) {
-		String hasLivedHereForLessThanThreeYearsValue = getRatingDataPattern().getTestDataList(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel()).get(0)
-				.getValue(AutoSSMetaData.GeneralTab.NamedInsuredInformation.HAS_LIVED_LESS_THAN_3_YEARS.getLabel());
-
 		TestData namedInsuredInformationData = DataProviderFactory.dataOf(
-				AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel(), getGeneralTabResidence(openLPolicy.isHomeOwner()),
-				AutoSSMetaData.GeneralTab.NamedInsuredInformation.HAS_LIVED_LESS_THAN_3_YEARS.getLabel(), hasLivedHereForLessThanThreeYearsValue
+				AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel(), getGeneralTabResidence(openLPolicy.isHomeOwner())
 				/* to be continued */);
 
 		TestData aAAProductOwnedData = DataProviderFactory.dataOf(
@@ -59,50 +65,23 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE.getLabel(), getYesOrNo(openLPolicy.isAaaLifePolicy())
 				//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE.getLabel(), openLPolicy.isAaaMotorcyclePolicy()
 		);
-		if (openLPolicy.isAAAMember()) {
-			aAAProductOwnedData.adjust(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), getRatingDataPattern().getValue(
-					new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()));
-			aAAProductOwnedData.adjust(AutoSSMetaData.GeneralTab.AAAProductOwned.LAST_NAME.getLabel(), getRatingDataPattern().getValue(
-					new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.LAST_NAME.getLabel()));
-		}
 
-		TestData contactInformationData = getRatingDataPattern().getTestData(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.CONTACT_INFORMATION.getLabel());
+		TestData contactInformationData = DataProviderFactory.emptyData();
 
 		TestData currentCarrierInformationData = DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.OVERRIDE_CURRENT_CARRIER.getLabel(), "Yes",
 				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_BI_LIMITS.getLabel(), getGeneralTabPriorBILimit(openLPolicy.getPriorBILimit()),
 				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel(), openLPolicy.getCappingDetails().get(0).getPlcyInceptionDate()
-						.format(DateTimeUtils.MM_DD_YYYY),
-				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), getRatingDataPattern().getValue(new GeneralTab().getMetaKey(),
-						AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel()),
-				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel(), getRatingDataPattern().getValue(new GeneralTab().getMetaKey(),
-						AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel()));
-
-		/* to be continued */
+						.format(DateTimeUtils.MM_DD_YYYY));
 
 		TestData policyInformationData = DataProviderFactory.dataOf(
-				AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TYPE.getLabel(), getRatingDataPattern().getValue(new GeneralTab().getMetaKey(),
-						AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TYPE.getLabel()),
-				AutoSSMetaData.GeneralTab.PolicyInformation.CHANNEL_TYPE.getLabel(), getRatingDataPattern().getValue(new GeneralTab().getMetaKey(),
-						AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AutoSSMetaData.GeneralTab.PolicyInformation.CHANNEL_TYPE.getLabel()),
-				AutoSSMetaData.GeneralTab.PolicyInformation.AGENCY.getLabel(), getRatingDataPattern().getValue(new GeneralTab().getMetaKey(),
-						AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AutoSSMetaData.GeneralTab.PolicyInformation.AGENCY.getLabel()),
-				AutoSSMetaData.GeneralTab.PolicyInformation.SALES_CHANNEL.getLabel(), getRatingDataPattern().getValue(new GeneralTab().getMetaKey(),
-						AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AutoSSMetaData.GeneralTab.PolicyInformation.SALES_CHANNEL.getLabel()),
-				AutoSSMetaData.GeneralTab.PolicyInformation.AGENCY_LOCATION.getLabel(), getRatingDataPattern().getValue(new GeneralTab().getMetaKey(),
-						AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AutoSSMetaData.GeneralTab.PolicyInformation.AGENCY_LOCATION.getLabel()),
-				AutoSSMetaData.GeneralTab.PolicyInformation.AGENT.getLabel(), getRatingDataPattern().getValue(new GeneralTab().getMetaKey(),
-						AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AutoSSMetaData.GeneralTab.PolicyInformation.AGENT.getLabel()),
-				AutoSSMetaData.GeneralTab.PolicyInformation.LEAD_SOURCE.getLabel(), getRatingDataPattern().getValue(new GeneralTab().getMetaKey(),
-						AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AutoSSMetaData.GeneralTab.PolicyInformation.LEAD_SOURCE.getLabel()),
-
 				AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY),
 				AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM.getLabel(), getGeneralTabTerm(openLPolicy.getTerm())
 				//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.PolicyInformation.ADVANCED_SHOPPING_DISCOUNTS.getLabel(), generalTabIsAdvanceShopping(openLPolicy.isAdvanceShopping())
 				/* to be continued */);
 
 		return DataProviderFactory.dataOf(
-				AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), namedInsuredInformationData,
+				AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), Arrays.asList(namedInsuredInformationData),
 				AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), aAAProductOwnedData,
 				AutoSSMetaData.GeneralTab.CONTACT_INFORMATION.getLabel(), contactInformationData,
 				AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), currentCarrierInformationData,
@@ -142,9 +121,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 
 			if (!isFirstDriver) {
+				driverData.adjust(AutoSSMetaData.DriverTab.DRIVER_SEARCH_DIALOG.getLabel(), DataProviderFactory.emptyData());
 				driverData.adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), driver.getName())
 						.adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), driver.getName());
-				driverData.adjust(AutoSSMetaData.DriverTab.DRIVER_SEARCH_DIALOG.getLabel(), DataProviderFactory.emptyData());
+				driverData.adjust(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), "Other"); //TODO-dchubkov: get random value?
+				driverData.adjust(AutoSSMetaData.DriverTab.OCCUPATION.getLabel(), "Self-Employed"); //TODO-dchubkov: get random value?
 			}
 			isFirstDriver = false;
 			driversTestData.add(driverData);
@@ -162,9 +143,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				AutoSSMetaData.RatingDetailReportsTab.InsuranceScoreOverrideRow.ACTION.getLabel(), "Override Score",
 				AutoSSMetaData.RatingDetailReportsTab.InsuranceScoreOverrideRow.EDIT_INSURANCE_SCORE.getLabel(), editInsuranceScoreDialogData);
 
-		TestData ratingDetailReportsTabData = DataProviderFactory.dataOf(AutoSSMetaData.RatingDetailReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel(), insuranceScoreOverrideData);
-		ratingDetailReportsTabData.adjust(getRatingDataPattern().getTestData(new RatingDetailReportsTab().getMetaKey()));
-		return ratingDetailReportsTabData;
+		return DataProviderFactory.dataOf(AutoSSMetaData.RatingDetailReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel(), insuranceScoreOverrideData);
 	}
 
 	private List<TestData> getVehicleTabData(AutoSSOpenLPolicy openLPolicy) {
