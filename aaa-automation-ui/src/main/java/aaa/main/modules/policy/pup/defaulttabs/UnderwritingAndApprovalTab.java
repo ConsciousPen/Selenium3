@@ -2,9 +2,9 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.modules.policy.pup.defaulttabs;
 
+import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
-import org.openqa.selenium.By;
 import toolkit.webdriver.controls.StaticElement;
 
 /**

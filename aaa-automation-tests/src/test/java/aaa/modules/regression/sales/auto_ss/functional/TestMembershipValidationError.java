@@ -117,12 +117,8 @@ public class TestMembershipValidationError extends AutoSSBaseTest {
 		// End of General tab
 
 		// Start of  Rating DetailReports Tab
-		TestData addMemberSinceDialog = new SimpleDataProvider()
-				.adjust(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), "/today-1y:MM/dd/yyyy")
-				.adjust(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.BTN_OK.getLabel(), "click");
-		TestData aaaMembershipReportRow = new SimpleDataProvider()
-				.adjust("Action", "Add Member Since")
-				.adjust(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ADD_MEMBER_SINCE_DIALOG.getLabel(), addMemberSinceDialog);
+		TestData addMemberSinceDialog = new SimpleDataProvider().adjust(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), "/today-1y:MM/dd/yyyy").adjust(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.BTN_OK.getLabel(), "click");
+		TestData aaaMembershipReportRow = new SimpleDataProvider().adjust("Action", "Add Member Since").adjust(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ADD_MEMBER_SINCE_DIALOG.getLabel(), addMemberSinceDialog);
 
 		// Rating DetailReports Tab
 		TestData testDataRatingDetailReportsTab = testData.getTestData(ratingDetailReportsTab.getMetaKey())

@@ -174,13 +174,13 @@ QC-11113:
   failures:
     - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodEFT,
     aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethod]
+    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard]
       messages: ['Visa-4113 expiring 01/22']
 QC-11114:
   summary: "OSI: PAS-4251, PAS-6144 - waiting for implementation, the fields display requirements will change"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas2186_RefundProcess]
+    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas2186_RefundProcessCheck]
       messages: ['Check Number']
 PAS-6667:
   summary: "'WUAUCA' form is missing on 'On Demand Documents page'"

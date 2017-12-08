@@ -4,11 +4,12 @@
  */
 package aaa.main.modules.policy.abstract_tabs;
 
+import java.text.DecimalFormat;
+import org.openqa.selenium.By;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.main.metadata.policy.HomeSSMetaData;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
@@ -17,8 +18,6 @@ import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
-
-import java.text.DecimalFormat;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
