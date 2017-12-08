@@ -6,7 +6,6 @@ import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransaction
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import org.testng.Assert;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -24,7 +23,6 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.db.DbAwaitHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.BillingAccountMetaData;
@@ -38,7 +36,6 @@ import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
-import toolkit.exceptions.IstfException;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssert;
@@ -83,15 +80,6 @@ public class TestRefundProcess extends PolicyBilling {
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_RECEIVE_INFO_JOB);
 	}
 
-	@Test(description = "clearFolder")
-	public void clearFolder() {
-		try {
-			RemoteHelper.clearFolder("/home/DocGen/");
-
-		} catch (IstfException e) {
-			Assert.fail("Clearing doc gen folder failed: \n", e);
-		}
-	}
 
 	@Test(description = "Precondition for TestRefundProcess tests")
 	public static void refundDocumentGenerationConfigCheck() {
@@ -493,7 +481,7 @@ public class TestRefundProcess extends PolicyBilling {
 		pas453_issuedUnprocessedRefundRecordDetailsCheck(refundAmount4, checkDate4, refund4, false, false);
 
 		pas453_disbursentEngineReturnedData(paymentMethod, policyNumber);
-		pas1939_issuedRefundActionsCheck(refund2, policyNumber, false);
+		pas1939_issuedRefundActionsCheck(refund4, policyNumber, false);
 		pas453_issuedProcessedRefundRecordDetailsCheck(refundAmount4, checkDate4, refund4, false, false, message);
 		//PAS-453 End
 	}
