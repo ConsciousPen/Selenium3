@@ -360,7 +360,7 @@ CurrentCarrierInformationASh7: {
 }
 
 PolicyInformation_ASh7: {
-  Effective Date:  $<today+4d>,
+  Effective Date:  $<today+7d>,
 }
 
 GeneralTab_AShDiscount8: {
@@ -444,16 +444,11 @@ PremiumAndCoveragesTab_Discounts6: {
 
 PremiumAndCoveragesTab_AShDiscount7: {
   PremiumAndCoveragesTab: {
-    Payment Plan: 'Five Pay - Low Down',
+    Payment Plan: 'Semi-Annual',
     Policy Term: 'Semi-annual'
   }
 }
 
-PremiumAndCoveragesTab_AShDiscount8: {
-  PremiumAndCoveragesTab: {
-    Payment Plan: 'Semi-Annual',
-  }
-}
 
 #-- Rating Detail Reports tab ----
 

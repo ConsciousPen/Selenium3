@@ -44,7 +44,8 @@ public abstract class Tab {
 	public static Button buttonSaveAndExit = new Button(By.id("topSaveAndExitLink"));
 	public static Button buttonYes = new Button(By.xpath("//input[(@value = 'Yes' or @value = 'YES') and not(@class = 'hidden') and not(contains(@style,'none'))]"));
 	public static Button buttonGo = new Button(By.xpath("//input[(@value = 'Go' or @value = 'GO') and not(@class = 'hidden') and not(contains(@style,'none'))]"));
-
+	public static Button buttonCreateVersion = new Button(By.id("topCreateQuoteVersionLink"));
+	
 	public static Link linkAdminApp = new Link(By.id("logoutForm:switchToAdmin"));
 	public static Link linkMainApp = new Link(By.id("logoutForm:switchToApp"));
 
@@ -227,5 +228,14 @@ public abstract class Tab {
 
 	public String getPolicyNumber(){
 		return labelPolicyNumber.getValue();
+	}
+	
+	public Tab createVersion() {
+		buttonCreateVersion.click();
+		if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
+			new TextBox(By.xpath("//input[@id='quoteVersionCreationPopupForm:quoteVersionDescription']")).setValue("new version");
+			Page.dialogConfirmation.confirm();
+		}
+		return this;
 	}
 }

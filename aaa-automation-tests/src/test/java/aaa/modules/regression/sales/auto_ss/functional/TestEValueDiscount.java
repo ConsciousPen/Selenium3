@@ -121,7 +121,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@Test(description = "Precondition")
 	public static void paperlessPreferencesConfigCheck() {
 		CustomAssert
-				.assertTrue("paperless preference stub endpoint. Please run paperlessPreferencesConfigUpdate", DBService.get().getValue(String.format(PAPERLESS_PRFERENCE_STUB_POINT, APP_HOST)).get()
+				.assertTrue("paperless preference stub endpoint. Please run paperlessPreferencesStubEndpointUpdate", DBService.get().getValue(String.format(PAPERLESS_PRFERENCE_STUB_POINT, APP_HOST)).get()
 						.contains(APP_HOST));
 	}
 
@@ -972,7 +972,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	private boolean isTotalTermPremiumEquals0() {
-		return PremiumAndCoveragesTab.totalTermPremium.getValue().equals("$0.00");
+		return "$0.00".equals(PremiumAndCoveragesTab.totalTermPremium.getValue());
 	}
 
 	private void verifyBILimits(ComboBox biAsset) {

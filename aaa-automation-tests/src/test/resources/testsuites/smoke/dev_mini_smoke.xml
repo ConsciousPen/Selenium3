@@ -3,49 +3,42 @@
     <test name="AZ Auto Smoke Tests" preserve-order="true">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
         </classes>
     </test>
     <test name="CA Auto Smoke Tests" preserve-order="true">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyCreation"/>
             <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyEndorsementAdd"/>
         </classes>
     </test>
     <test name="CA Choice Auto Smoke Tests" preserve-order="true">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.TestPolicyCreation"/>
             <class name="aaa.modules.regression.service.auto_ca.choice.TestPolicyEndorsementAdd"/>
         </classes>
     </test>
     <test name="UT HSS Smoke Tests" preserve-order="true">
         <parameter name="state" value="UT"/>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
             <class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
         </classes>
     </test>
     <test name="UT PUP Smoke Tests" preserve-order="true">
         <parameter name="state" value="UT"/>
         <classes>
-            <class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
             <class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
         </classes>
     </test>
     <test name="CA HSS Smoke Tests" preserve-order="true">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyCreation"/>
             <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyEndorsement"/>
         </classes>
     </test>
     <test name="CA PUP Smoke Tests" preserve-order="true">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
             <class name="aaa.modules.regression.service.pup.TestPolicyEndorsement"/>
         </classes>
     </test>

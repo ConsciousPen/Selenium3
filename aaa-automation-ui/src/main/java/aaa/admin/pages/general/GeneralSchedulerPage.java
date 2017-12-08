@@ -51,10 +51,16 @@ public class GeneralSchedulerPage extends AdminPage {
         PENDING_UPDATE_JOB("pendingUpdateJob"),
         CFT_DCS_EOD_JOB("cftDcsEodJob"),
         AAA_REFUND_DISBURSEMENT_ASYNC_JOB("aaaRefundDisbursementAsyncJob"),
-        AAA_REFUND_GENERATION_ASYNC_JOB("aaaRefundGenerationAsyncJob"),
-        RENEWAL_OFFER_GENERATION_PART_1("Renewal_Offer_Generation_Part1"),
-        RENEWAL_OFFER_GENERATION_PART_2("Renewal_Offer_Generation_Part2");
-
+	    AAA_REFUND_DISBURSEMENT_RECEIVE_INFO_JOB("aaaRefundsDisbursementReceiveInfoAsyncJob"),
+	    AAA_REFUND_GENERATION_ASYNC_JOB("aaaRefundGenerationAsyncJob"),
+	    RENEWAL_OFFER_GENERATION_PART_1("Renewal_Offer_Generation_Part1"),
+	    RENEWAL_OFFER_GENERATION_PART_2("Renewal_Offer_Generation_Part2"),
+	    AUTOMATED_PROCESSING_RUN_REPORTS_SERVICES_JOB("automatedProcessingRunReportsServicesJob"),
+	    AUTOMATED_PROCESSING_STRATEGY_STATUS_UPDATE_JOB("automatedProcessingStrategyStatusUpdateJob"),
+	    AUTOMATED_PROCESSING_BYPASSING_AND_ERRORS_REPORT_GENERATION_JOB("automatedProcessingBypassingAndErrorsReportGenerationJob"),
+	    AAA_MEMBERSHIP_RENEWAL_BATCH_RECEIVE_ASYNC_JOB("aaaMembershipRenewalBatchReceiveAsyncJob"),
+	    AAA_MEMBERSHIP_RENEWAL_BATCH_ORDER_ASYNC_JOB("aaaMembershipRenewalBatchOrderAsyncJob"),
+	    RENEWAL_IMAGE_RATING_ASYNC_TASK_JOB("renewalImageRatingAsyncTaskJob");
 
         String id;
 
