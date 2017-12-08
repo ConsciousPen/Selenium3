@@ -1,16 +1,18 @@
 /* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
-package aaa.modules.regression.sales.home_ss.dp3;
-
+package aaa.modules.regression.sales.home_ss.dp3.functional;
 
 import static aaa.common.enums.NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES;
 import static aaa.common.enums.NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE;
 import static org.assertj.core.api.Assertions.assertThat;
-import java.util.Arrays;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.modules.policy.home_ss.defaulttabs.*;
+import aaa.main.modules.policy.home_ss.defaulttabs.DocumentsTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.modules.policy.HomeSSDP3BaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -18,12 +20,9 @@ import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-
 public class TestRenovationDiscounts extends HomeSSDP3BaseTest {
 
-	private final PremiumsAndCoveragesQuoteTab premium =  new PremiumsAndCoveragesQuoteTab();
-
-
+	private final PremiumsAndCoveragesQuoteTab premium = new PremiumsAndCoveragesQuoteTab();
 
 	/**
 	 * @author Dominykas Razgunas
@@ -37,15 +36,15 @@ public class TestRenovationDiscounts extends HomeSSDP3BaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-4317")
-    public void testRenovationDiscounts(@Optional("KS") String state) {
-        String expectedValue = "Safe Home";
-        String infoTabName = new PropertyInfoTab().getMetaKey();
-        String docTabName = new DocumentsTab().getMetaKey();
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-4317")
+	public void pas4317_RenovationDiscounts(@Optional("KS") String state) {
+		String expectedValue = "Safe Home";
+		String infoTabName = new PropertyInfoTab().getMetaKey();
+		String docTabName = new DocumentsTab().getMetaKey();
 
-        mainApp().open();
-        createCustomerIndividual();
+		mainApp().open();
+		createCustomerIndividual();
 
 		TestData testData = getPolicyTD();
 
@@ -57,7 +56,6 @@ public class TestRenovationDiscounts extends HomeSSDP3BaseTest {
 		documents.adjust(getTestSpecificTD("TestData").getTestData(docTabName));
 		testData.adjust(docTabName, documents);
 
-
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(testData, PremiumsAndCoveragesQuoteTab.class, true);
 
@@ -67,17 +65,15 @@ public class TestRenovationDiscounts extends HomeSSDP3BaseTest {
 		policy.getDefaultView().fillFromTo(testData, MortgageesTab.class, PurchaseTab.class, true);
 		new PurchaseTab().submitTab();
 
-        policy.renew().start().submit();
+		policy.renew().start().submit();
 
-		Arrays.asList(PREMIUMS_AND_COVERAGES, PREMIUMS_AND_COVERAGES_QUOTE).forEach(t->NavigationPage.toViewTab(t.get()));
-
+		NavigationPage.toViewTab(PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(PREMIUMS_AND_COVERAGES_QUOTE.get());
 
 		premium.calculatePremium();
 		assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getColumn(1).getValue()).contains(expectedValue);
 
-
-
-    }
+	}
 }
 
 
