@@ -76,7 +76,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("Quote {} is successfully saved for further use", quoteNumber);
 
-		new VinUploadCommonMethods().uploadFiles(vinTableFile, controlTableFile);
+		vinMethods.uploadFiles(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
