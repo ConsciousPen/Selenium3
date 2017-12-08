@@ -14,8 +14,9 @@
                     <include name="precondJobAdding"/>
                     <include name="refundDocumentGenerationConfigCheck"/>
                     <include name="eRefundLastPaymentMethodConfigCheck"/>
-                    <include name="pas2186_RefundProcess"/>
-                    <include name="pas352_RefundMethodAndDropdownLastPaymentMethod"/>
+                    <include name="pendingRefundPaymentMethodConfigCheck"/>
+                    <include name="pas2186_RefundProcessCheck"/>
+                    <include name="pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard"/>
                 </methods>
             </class>
         </classes>
@@ -198,4 +199,12 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing"/>
         </classes>
     </test>
+
+    <test name="TestEValueMembershipProcess">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess"/>
+        </classes>
+    </test>
+
 </suite>

@@ -171,4 +171,5 @@ public interface EvalueInsertSetupPreConditions {
 			+ "set value = 'http://%s:9098/aaa-external-stub-services-app/ws/billing/lastPayment'\n"
 			+ "where propertyname = 'lastPaymentService.lastPaymentServiceUrl'";
 
+	String PENDING_REFUND_CONFIGURATION_UPDATE = "update BILLINGREFUNDPAYMENTMETHOD set DEFAULTREFUNDMETHOD = 'pendingRefund' where id = (select id from BILLINGREFUNDPAYMENTMETHOD)";
 }

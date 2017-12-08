@@ -5,7 +5,6 @@
 package aaa.main.modules.policy.home_ss.defaulttabs;
 
 import org.openqa.selenium.By;
-
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import toolkit.webdriver.controls.StaticElement;

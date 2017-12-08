@@ -3,7 +3,6 @@
 package aaa.admin.metadata.product;
 
 import org.openqa.selenium.By;
-
 import com.exigen.ipb.etcsa.controls.AdvancedSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import com.exigen.ipb.etcsa.controls.productfactory.DatePicker;
@@ -12,7 +11,6 @@ import com.exigen.ipb.etcsa.controls.productfactory.ProductFactoryCheckBox;
 import com.exigen.ipb.etcsa.controls.productfactory.custom.PFButton;
 import com.exigen.ipb.etcsa.controls.productfactory.custom.PFComboBox;
 import com.exigen.ipb.etcsa.controls.productfactory.custom.PFTextBox;
-
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
