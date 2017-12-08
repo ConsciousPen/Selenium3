@@ -10,7 +10,7 @@ TestData: {
   VehicleTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {
-     Payment Plan: 'Monthly'
+     Payment Plan: 'Monthly (Renewal)'
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {}

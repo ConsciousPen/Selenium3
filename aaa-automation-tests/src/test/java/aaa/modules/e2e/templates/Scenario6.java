@@ -2,11 +2,8 @@ package aaa.modules.e2e.templates;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
-import toolkit.datax.TestData;
-import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -37,9 +34,10 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomAssert;
 
 public class Scenario6 extends ScenarioBaseTest {
 

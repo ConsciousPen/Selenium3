@@ -3,14 +3,11 @@
 package aaa.rest.platform.policy;
 
 import java.util.HashMap;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import com.sun.org.apache.xerces.internal.dom.DocumentImpl;
-
 import aaa.main.modules.policy.PolicyType;
 import aaa.rest.platform.PlatformRestServiceUtils;
 import toolkit.db.DBService;
