@@ -31,6 +31,13 @@ public class TestScenario14 extends Scenario14 {
 			renewalBillGeneration(); 
 			updatePolicyStatus();	
 			payRenewalBill(); 
+			getExpirationDateForRenewal(); 
+			renewalImageGeneration_Renewal(); 
+			renewalPreviewGeneration_Renewal(); 
+			renewalOfferGeneration_Renewal(); 
+			renewalBillGeneration_Renewal();
+			payRenewalBill_Renewal();
+			updatePolicyStatus_Renewal(); 
 		});
 	}
 
