@@ -374,6 +374,8 @@ public class TestRefundProcess extends PolicyBilling {
 						.setRefundAmount("100.00")
 						.setCheckNumber("123456789");
 				break;
+			default:
+				log.info("never reached");
 		}
 
 		File disbursementEngineFile = DisbursementEngineHelper.createFile(builder);
