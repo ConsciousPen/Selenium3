@@ -3,7 +3,6 @@
 package aaa.main.modules.customer.actiontabs;
 
 import org.openqa.selenium.By;
-
 import aaa.common.ActionTab;
 import aaa.common.Tab;
 import aaa.common.pages.Page;

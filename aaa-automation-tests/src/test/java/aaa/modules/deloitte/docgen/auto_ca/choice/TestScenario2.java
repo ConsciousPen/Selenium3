@@ -2,7 +2,7 @@ package aaa.modules.deloitte.docgen.auto_ca.choice;
 
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.datax.TestData;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.billing.BillingPendingTransactionsVerifier;
 import aaa.helpers.constants.Groups;
@@ -14,7 +14,7 @@ import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.IBillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import toolkit.datax.TestData;
 
 public class TestScenario2 extends AutoCaChoiceBaseTest {
 	private IBillingAccount billing = new BillingAccount();

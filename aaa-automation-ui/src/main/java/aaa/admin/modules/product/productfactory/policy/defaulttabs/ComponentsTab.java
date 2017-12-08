@@ -3,8 +3,6 @@
 package aaa.admin.modules.product.productfactory.policy.defaulttabs;
 
 import org.openqa.selenium.By;
-
-
 import aaa.admin.metadata.product.ProductMetaData;
 import aaa.admin.pages.product.CommonProductFactoryPage;
 import aaa.common.Tab;
