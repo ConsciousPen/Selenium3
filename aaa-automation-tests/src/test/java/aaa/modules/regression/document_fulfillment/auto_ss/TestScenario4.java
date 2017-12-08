@@ -1,4 +1,4 @@
-package aaa.modules.deloitte.docgen.auto_ss;
+package aaa.modules.regression.document_fulfillment.auto_ss;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -26,7 +26,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 	private DocumentsAndBindTab documentsAndBindTab = policy.getDefaultView().getTab(DocumentsAndBindTab.class);
 	private GenerateOnDemandDocumentActionTab docgenActionTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 	
-	private String policyNumber = "WVSS933607583";
+	private String policyNumber;
 	
 	@Parameters({ "state" })
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })

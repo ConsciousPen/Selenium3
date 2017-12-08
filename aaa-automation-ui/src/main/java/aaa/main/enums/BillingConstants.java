@@ -140,6 +140,7 @@ public final class BillingConstants {
 		public static final String OTHER = "Other";
 		public static final String REFUND_PAYMENT_VOIDED = "Refund Payment Voided";
 		public static final String ESCHEATMENT = "Escheatment";
+		public static final String SMALL_BALANCE_WRITE_OFF = "Small Balance Write-off";
 	}
 
 	public static final class PaymentsAndOtherTransactionReason {
