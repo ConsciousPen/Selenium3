@@ -29,6 +29,7 @@ public final class BillingConstants {
 		public static final String ANNUAL = "Annual";
 		public static final String MONTHLY = "Monthly";
 		public static final String MONTHLY_RENEWAL = "Monthly (Renewal)";
+		public static final String STANDARD_MONTHLY_RENEWAL = "Standard Monthly (Renewal)";
 	}
 
 	public static final class PolicyTerm {
