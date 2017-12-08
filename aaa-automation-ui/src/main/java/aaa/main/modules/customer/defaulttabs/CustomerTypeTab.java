@@ -3,7 +3,6 @@
 package aaa.main.modules.customer.defaulttabs;
 
 import org.openqa.selenium.By;
-
 import aaa.common.DefaultTab;
 import aaa.common.Tab;
 import aaa.common.pages.Page;

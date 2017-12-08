@@ -14,8 +14,9 @@
                     <include name="precondJobAdding"/>
                     <include name="refundDocumentGenerationConfigCheck"/>
                     <include name="eRefundLastPaymentMethodConfigCheck"/>
-                    <include name="pas2186_RefundProcess"/>
-                    <include name="pas352_RefundMethodAndDropdownLastPaymentMethod"/>
+                    <include name="pendingRefundPaymentMethodConfigCheck"/>
+                    <include name="pas2186_RefundProcessCheck"/>
+                    <include name="pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard"/>
                 </methods>
             </class>
         </classes>
@@ -27,6 +28,28 @@
                 <methods>
                     <include name="eRefundLastPaymentMethodConfigCheck"/>
                     <include name="pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestRefundProcessCT">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="eRefundLastPaymentMethodConfigCheck"/>
+                    <include name="pas1952_MessageWhenOnlyMethodIsCheckNoElectronicRefund"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestRefundProcessDC">
+        <parameter name="state" value="DC"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="eRefundLastPaymentMethodConfigCheck"/>
+                    <include name="pas1952_MessageWhenOnlyMethodIsCheck"/>
                 </methods>
             </class>
         </classes>
@@ -176,4 +199,12 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing"/>
         </classes>
     </test>
+
+    <test name="TestEValueMembershipProcess">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess"/>
+        </classes>
+    </test>
+
 </suite>

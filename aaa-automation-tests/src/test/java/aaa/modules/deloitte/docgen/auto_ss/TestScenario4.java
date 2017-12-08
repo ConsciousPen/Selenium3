@@ -3,7 +3,6 @@ package aaa.modules.deloitte.docgen.auto_ss;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.verification.CustomAssert;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AutoSSTab;
 import aaa.common.pages.NavigationPage;
@@ -21,6 +20,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
+import toolkit.verification.CustomAssert;
 
 public class TestScenario4 extends AutoSSBaseTest {
 	private DocumentsAndBindTab documentsAndBindTab = policy.getDefaultView().getTab(DocumentsAndBindTab.class);

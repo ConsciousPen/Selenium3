@@ -1,27 +1,28 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static aaa.main.metadata.policy.AutoSSMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY;
+import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.FIRST_NAME;
+import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.LAST_NAME;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.AutoSSBaseTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static aaa.main.metadata.policy.AutoSSMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY;
-import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.FIRST_NAME;
-import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.LAST_NAME;
 
 public class TestDddViolation extends AutoSSBaseTest {
 	private static final List<String> DRIVERS_WITHOUT_DISCOUNT = Arrays.asList("DriverInformationMinor2", "DriverInformationMajor2", "DriverInformationAlcohol2");
