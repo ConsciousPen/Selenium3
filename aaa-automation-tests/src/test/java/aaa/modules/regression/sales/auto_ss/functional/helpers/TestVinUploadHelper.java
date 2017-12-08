@@ -118,9 +118,9 @@ public class TestVinUploadHelper extends AutoSSBaseTest {
 		return String.format(defaultControlFileName, getState());
 	}
 
-	protected static String getSpecificUploadFile(String type, String state) {
+	protected static String getSpecificUploadFile(String type) {
 		String defaultAddedFileName = "upload%sVIN_%s_SS.xlsx";
-		return String.format(defaultAddedFileName, type, state);
+		return String.format(defaultAddedFileName, type, getState());
 	}
 
 	public void pas2453_CommonChecks(ETCSCoreSoftAssertions softly) {

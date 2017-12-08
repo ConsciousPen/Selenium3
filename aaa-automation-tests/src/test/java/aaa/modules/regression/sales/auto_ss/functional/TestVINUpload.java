@@ -59,7 +59,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-533,PAS-1487,PAS-1551,PAS-2714,PAS-6455")
 	public void pas533_newVinAdded(@Optional("UT") String state) {
 
-		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get(), getState());
+		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
 		String controlTableFile = getControlTableFile();
 
 		TestData testData = getAdjustedTestData(newVin);
@@ -174,7 +174,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-527,PAS-544,PAS-1406,PAS-1487")
 	public void pas527_updatedVinRenewal(@Optional("UT") String state) {
 
-		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.UPDATED_VIN.get(),getState());
+		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.UPDATED_VIN.get());
 		String controlTableFile = getControlTableFile();
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), updatableVin);
 
@@ -261,7 +261,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2714")
 	public void pas2714_Endorsement(@Optional("UT") String state) {
 
-		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get(), getState());
+		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
 		String controlTableFile = getControlTableFile();
 		TestData testData = getAdjustedTestData(newVin);
 
@@ -321,7 +321,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4253")
 	public void pas4253_RestrictVehicleRefresh(@Optional("UT") String state) {
 
-		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get(), getState());
+		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
 		String controlTableFile = getControlTableFile();
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
@@ -375,7 +375,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 	public void pas6203_VinAndControlTablesUpload(@Optional("UT") String state) {
 
 		String added = "added: 1";
-		String uploadExcelName = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get(), getState());
+		String uploadExcelName = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
 		String configExcelName = getControlTableFile();
 
 		//Open admin side of pas and navigate to administration tab
