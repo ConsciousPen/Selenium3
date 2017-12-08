@@ -11,6 +11,9 @@ import toolkit.utils.TestInfo;
 
 public class TestVINUpload extends TestVINUploadTemplate {
 
+	private String newVin = "1FDEU15H7KL055795";
+	private String updatableVin = "1HGEM215140028445";
+
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_CA_SELECT;
@@ -30,7 +33,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-533")
 	public void pas533_newVinAdded(@Optional("CA") String state) {
-		newVinAdded(getSpecificUploadFile(UploadFileType.ADDED_VIN.get()), "1FDEU15H7KL055795");
+		newVinAdded(getSpecificUploadFile(UploadFileType.ADDED_VIN.get()), newVin);
 	}
 
 	/**
@@ -43,7 +46,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-4253")
 	public void pas4253_restrictVehicleRefreshNB(@Optional("CA") String state) {
-		pas4253_restrictVehicleRefreshNB(getSpecificUploadFile(UploadFileType.ADDED_VIN.get()), "1FDEU15H7KL055795");
+		pas4253_restrictVehicleRefreshNB(getSpecificUploadFile(UploadFileType.ADDED_VIN.get()), newVin);
 	}
 
 	/**
@@ -58,7 +61,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-527")
 	public void pas527_newVinAddedRenewal(@Optional("CA") String state) {
-		newVinAddedRenewal(getSpecificUploadFile(UploadFileType.ADDED_VIN.get()), "1HGEM215140028445");
+		newVinAddedRenewal(getSpecificUploadFile(UploadFileType.ADDED_VIN.get()),newVin);
 	}
 
 	/**
@@ -73,7 +76,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-527")
 	public void pas527_updatedVinRenewal(@Optional("CA") String state) {
-		updatedVinRenewal(getSpecificUploadFile(UploadFileType.UPDATED_VIN.get()), "1HGEM215140028445");
+		updatedVinRenewal(getSpecificUploadFile(UploadFileType.UPDATED_VIN.get()), updatableVin);
 	}
 
 	/**
@@ -88,6 +91,6 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-2714")
 	public void pas2714_Endorsement(@Optional("CA") String state) {
-		endorsement(getSpecificUploadFile(UploadFileType.ADDED_VIN.get()), "1FDEU15H7KL055795");
+		endorsement(getSpecificUploadFile(UploadFileType.ADDED_VIN.get()), newVin);
 	}
 }

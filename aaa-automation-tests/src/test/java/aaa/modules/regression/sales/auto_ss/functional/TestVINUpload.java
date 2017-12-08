@@ -41,6 +41,8 @@ public class TestVINUpload extends AutoSSBaseTest {
 	private UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 	private PurchaseTab purchaseTab = new PurchaseTab();
 	private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
+	private String newVin = "1FDEU15H7KL055795";
+	private String updatableVin = "1HGEM215140028445";
 
 	/**
 	 * @author Lev Kazarnovskiy/Chris Johns
@@ -111,9 +113,8 @@ public class TestVINUpload extends AutoSSBaseTest {
 
 		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
 		String controlTableFile = getControlTableFile();
-		String vin = "1FDEU15H7KL055795";
 
-		TestData testData = getAdjustedTestData(vin);
+		TestData testData = getAdjustedTestData(newVin);
 		precondsTestVINUpload(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
@@ -191,11 +192,10 @@ public class TestVINUpload extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-527,PAS-544,PAS-1406,PAS-1487,PAS-1551")
 	public void pas527_NewVinAddedRenewal(@Optional("UT") String state) {
 
-		String vinNumber = "1FDEU15H7KL055795";
 		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
 		String controlTableFile = getControlTableFile();
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), vinNumber);
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), newVin);
 
 		precondsTestVINUpload(testData, VehicleTab.class);
 
@@ -230,7 +230,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 
 		VehicleTab.buttonSaveAndExit.click();
 
-		verifyActivitiesAndUserNotes(vinNumber);
+		verifyActivitiesAndUserNotes(newVin);
 	}
 
 	/**
@@ -256,10 +256,10 @@ public class TestVINUpload extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-527,PAS-544,PAS-1406,PAS-1487")
 	public void pas527_updatedVinRenewal(@Optional("UT") String state) {
-		String vinNumber = "1HGEM215140028445";
+
 		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.UPDATED_VIN.get());
 		String controlTableFile = getControlTableFile();
-		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), vinNumber);
+		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), updatableVin);
 
 		testData.adjust(ratingDetailReportsTab.getMetaKey(),  getAdjustedRatingDetailReportTab(testData)).resolveLinks();
 
@@ -285,10 +285,10 @@ public class TestVINUpload extends AutoSSBaseTest {
 
 		TestData secondVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
 				.adjust(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "index=1")
-				.adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), vinNumber);
+				.adjust(AutoSSMetaData.VehicleTab.VIN.getLabel(), updatableVin);
 
 		List<TestData> listVehicleTab = new ArrayList<>();
-		listVehicleTab.add(getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), vinNumber));
+		listVehicleTab.add(getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), updatableVin));
 		listVehicleTab.add(secondVehicle);
 
 		vehicleTab.getAssetList().fill(testData.adjust(vehicleTab.getMetaKey(), listVehicleTab));
@@ -321,7 +321,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 
 		VehicleTab.buttonSaveAndExit.click();
 
-		verifyActivitiesAndUserNotes(vinNumber);
+		verifyActivitiesAndUserNotes(updatableVin);
 	}
 
 	/**
@@ -343,12 +343,11 @@ public class TestVINUpload extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4253")
 	public void pas4253_restrictVehicleRefresh(@Optional("UT") String state) {
 
-		String vinNumber = "1FDEU15H7KL055795";
 		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
 		String controlTableFile = getControlTableFile();
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), vinNumber)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), newVin)
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.TYPE.getLabel()), "Conversion Van")
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Change Vehicle Confirmation"), "OK")
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.STAT_CODE.getLabel()), "AV - Custom Van");
@@ -408,10 +407,9 @@ public class TestVINUpload extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2714")
 	public void pas2714_Endorsement(@Optional("UT") String state) {
 
-		String vinNumber = "1FDEU15H7KL055795";
 		String vinTableFile = getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
 		String controlTableFile = getControlTableFile();
-		TestData testData = getAdjustedTestData(vinNumber);
+		TestData testData = getAdjustedTestData(newVin);
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -429,7 +427,7 @@ public class TestVINUpload extends AutoSSBaseTest {
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.MODEL.getLabel(), "Model");
 
 		VehicleTab.buttonAddVehicle.click();
-		policy.getDefaultView().fillUpTo(getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), vinNumber),PremiumAndCoveragesTab.class);
+		policy.getDefaultView().fillUpTo(getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), newVin),PremiumAndCoveragesTab.class);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		vehicleTab.verifyFieldHasNotValue(AutoSSMetaData.VehicleTab.MAKE.getLabel(), "UT_SS");
