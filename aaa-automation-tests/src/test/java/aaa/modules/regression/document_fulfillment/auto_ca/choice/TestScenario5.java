@@ -19,8 +19,8 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
 
 public class TestScenario5 extends AutoCaChoiceBaseTest {
-	private String policyNumber = "CAAC950628730";
-	private LocalDateTime policyExpirationDate = TimeSetterUtil.getInstance().parse("12/08/2018", DateTimeUtils.MM_DD_YYYY);
+	private String policyNumber;
+	private LocalDateTime policyExpirationDate;
 	
 	@Parameters({ "state" })
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
