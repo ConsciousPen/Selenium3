@@ -7,12 +7,12 @@ import toolkit.datax.TestData;
 import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.CheckBox;
-import toolkit.webdriver.controls.composite.assets.AbstractContainer;
+import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
-public class UnverifiableDrivingRecordSurchargeCheckBoxes extends AbstractContainer<TestData, TestData> {
-	private static final String DRIVER_SELECTION_BY_CONTAINS_KEY = "contains=";
-	private static final String DRIVER_SELECTION_BY_NUMBER_KEY = "number=";
+public class UnverifiableDrivingRecordSurchargeCheckBoxes extends AssetList {
+	public static final String DRIVER_SELECTION_BY_CONTAINS_KEY = "contains=";
+	public static final String DRIVER_SELECTION_BY_NUMBER_KEY = "number=";
 	private ByT driverCheckboxSelectionByNumberTemplate = ByT.id("policyDataGatherForm:unverifiableDrivingRecordSurchargeTable:%1$s:unverifiableDrivingRecordSurchargeCheckbox']");
 	private ByT driverCheckboxSelectionByNameTemplate =
 			ByT.xpath(".//span[contains(@id, 'unverifiableDrivingRecordSurchargeLabel') and text()='\\u00a0\\u00a0%1$s']/preceding-sibling::input[@type='checkbox']");
@@ -51,26 +51,6 @@ public class UnverifiableDrivingRecordSurchargeCheckBoxes extends AbstractContai
 				checkBoxDriver = new CheckBox(new ByChained(this.locator, driverCheckboxSelectionByNameTemplate.format(driverKey)));
 			}
 			checkBoxDriver.setValue(enableDriver);
-		}
-	}
-
-	@Override
-	public TestData.Type testDataType() {
-		return TestData.Type.TESTDATA;
-	}
-
-	@Override
-	protected TestData normalize(Object rawValue) {
-		if (rawValue instanceof TestData) {
-			return (TestData) rawValue;
-		}
-		throw new IllegalArgumentException("Value " + rawValue + " has incorrect type " + rawValue.getClass());
-	}
-
-	@Override
-	public void fill(TestData td) {
-		if (td.containsKey(name) && !td.getTestDataList(name).isEmpty()) {
-			setValue(td);
 		}
 	}
 }

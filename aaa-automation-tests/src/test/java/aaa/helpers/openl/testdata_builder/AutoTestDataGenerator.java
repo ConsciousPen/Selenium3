@@ -87,7 +87,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	String getVehicleTabAirBags(String airBagCode) {
 		switch (airBagCode) {
 			case "N":
-				return "";
+				return "None";
 			case "0004":
 				return getRandom("Both Front and Side", "Both Front and Side with Rear Side");
 			case "0002":
@@ -119,8 +119,8 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case "0006":
 			case "000T":
 				return "Both Front and Side";
-			case "AUTOSB":
-				return "None";
+			case "AUTOSB": //TODO-dchubkov: need to double check
+				return "";
 			default:
 				throw new IstfException("Unknown mapping for airbagCode: " + airBagCode);
 		}

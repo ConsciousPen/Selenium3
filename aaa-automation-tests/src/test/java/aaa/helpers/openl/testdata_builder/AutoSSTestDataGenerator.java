@@ -20,6 +20,8 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
+import aaa.toolkit.webdriver.customcontrols.UnverifiableDrivingRecordSurchargeCheckBoxes;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
@@ -44,7 +46,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			resultData.mask(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
 			resultData.mask(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.LAST_NAME.getLabel());
 		}
-
 		return resultData;
 	}
 
@@ -101,7 +102,9 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), TimeSetterUtil.getInstance().getCurrentTime().minusYears(driver.getDriverAge()).format(DateTimeUtils.MM_DD_YYYY),
 					AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel(), driver.getDriverAge() - driver.getTyde(),
 					AutoSSMetaData.DriverTab.LICENSE_TYPE.getLabel(), getDriverTabLicenseType(driver.isForeignLicense()),
-					AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel(), "None"
+					AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel(), "None",
+					AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), AdvancedComboBox.RANDOM_MARK,
+					AutoSSMetaData.DriverTab.OCCUPATION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|"
 			);
 
 			if (driver.isSmartDriver()) {
@@ -121,11 +124,9 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 
 			if (!isFirstDriver) {
-				driverData.adjust(AutoSSMetaData.DriverTab.DRIVER_SEARCH_DIALOG.getLabel(), DataProviderFactory.emptyData());
-				driverData.adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), driver.getName())
+				driverData.adjust(AutoSSMetaData.DriverTab.DRIVER_SEARCH_DIALOG.getLabel(), DataProviderFactory.emptyData())
+						.adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), driver.getName())
 						.adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), driver.getName());
-				driverData.adjust(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), "Other"); //TODO-dchubkov: get random value?
-				driverData.adjust(AutoSSMetaData.DriverTab.OCCUPATION.getLabel(), "Self-Employed"); //TODO-dchubkov: get random value?
 			}
 			isFirstDriver = false;
 			driversTestData.add(driverData);
@@ -160,13 +161,19 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					AutoSSMetaData.VehicleTab.USAGE.getLabel(), getVehicleTabUsage(vehicle.getUsage()),
 					AutoSSMetaData.VehicleTab.ANTI_THEFT.getLabel(), getVehicleTabAntiTheft(vehicle.getAntiTheftString()),
 					AutoSSMetaData.VehicleTab.AIR_BAGS.getLabel(), getVehicleTabAirBags(vehicle.getAirbagCode()),
-					AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + vehicle.getStatCode(),
-					AutoSSMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel(), true,
+					/*AutoSSMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel(), "Yes",
 					AutoSSMetaData.VehicleTab.ZIP_CODE.getLabel(), vehicle.getAddress().get(0).getZip(),
 					AutoSSMetaData.VehicleTab.ADDRESS_LINE_1.getLabel(), "5800 NE CENTER COMMONS WAY",
-					AutoSSMetaData.VehicleTab.STATE.getLabel(), vehicle.getAddress().get(0).getState());
+					AutoSSMetaData.VehicleTab.STATE.getLabel(), vehicle.getAddress().get(0).getState(),
+					AutoSSMetaData.VehicleTab.VALIDATE_ADDRESS_BTN.getLabel(), "click",*/
 
-			/* to be done */
+					AutoSSMetaData.VehicleTab.MAKE.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|",
+					AutoSSMetaData.VehicleTab.MODEL.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|OTHER",
+					AutoSSMetaData.VehicleTab.SERIES.getLabel(), "OTHER",
+					AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|",
+					AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + vehicle.getStatCode(),
+					AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel(), "$<rx:\\d{3}>00");
+
 			vehiclesTestData.add(vehicleData);
 		}
 		return vehiclesTestData;
@@ -184,8 +191,14 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			throw new NotImplementedException("Test data generation for enabled isEMember is not implemented.");
 		}
 
+		boolean firstDriver = true;
 		for (OpenLDriver driver : openLPolicy.getDrivers()) {
-			unverifiableDrivingRecordSurchargeData.put(driver.getName(), driver.isUnverifiableDrivingRecord());
+			if (firstDriver) {
+				unverifiableDrivingRecordSurchargeData.put(UnverifiableDrivingRecordSurchargeCheckBoxes.DRIVER_SELECTION_BY_CONTAINS_KEY + "Smith", driver.isUnverifiableDrivingRecord());
+				firstDriver = false;
+			} else {
+				unverifiableDrivingRecordSurchargeData.put(driver.getName() + " " + driver.getName(), driver.isUnverifiableDrivingRecord());
+			}
 		}
 
 		List<TestData> detailedVehicleCoveragesList = new ArrayList<>(openLPolicy.getVehicles().size());

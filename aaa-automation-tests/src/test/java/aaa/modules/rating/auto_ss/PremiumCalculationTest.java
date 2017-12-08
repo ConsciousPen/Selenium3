@@ -25,13 +25,7 @@ public class PremiumCalculationTest extends RatingBaseTest<AutoSSOpenLPolicy> {
 
 	@Override
 	protected TestData getRatingDataPattern() {
-		return super.getRatingDataPattern()
-				.mask(new DriverTab().getMetaKey(), new VehicleTab().getMetaKey());
-
-		//not necessary
-				/*.mask(new DriverActivityReportsTab().getMetaKey(), new DocumentsAndBindTab().getMetaKey())
-				.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(),
-						AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE.getLabel()));*/
+		return super.getRatingDataPattern().mask(new DriverTab().getMetaKey(), new VehicleTab().getMetaKey());
 	}
 
 	@Parameters({"state", "filePath", "policyNumbers"})

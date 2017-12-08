@@ -262,7 +262,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<ComboBox> REASON = declare("Reason", ComboBox.class, By.id("policyDataGatherForm:driverMVOInformation_driver_nonDriverReason"));
 		public static final AssetDescriptor<ComboBox> CARRIER = declare("Carrier", ComboBox.class, By.id("policyDataGatherForm:driverMVOInformation_driver_carrierName"));
 		public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class);
-		public static final AssetDescriptor<ComboBox> REL_TO_FIRST_NAMED_INSURED = declare("Rel. to First Named Insured", ComboBox.class);
+		public static final AssetDescriptor<AdvancedComboBox> REL_TO_FIRST_NAMED_INSURED = declare("Rel. to First Named Insured", AdvancedComboBox.class);
 		public static final AssetDescriptor<TextBox> FIRST_NAME = declare("First Name", TextBox.class);
 		public static final AssetDescriptor<TextBox> MIDDLE_NAME = declare("Middle Name", TextBox.class);
 		public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last Name", TextBox.class);
@@ -271,7 +271,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<TextBox> AGE = declare("Age", TextBox.class);
 		public static final AssetDescriptor<ComboBox> GENDER = declare("Gender", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> MARITAL_STATUS = declare("Marital Status", ComboBox.class);
-		public static final AssetDescriptor<ComboBox> OCCUPATION = declare("Occupation", ComboBox.class);
+		public static final AssetDescriptor<AdvancedComboBox> OCCUPATION = declare("Occupation", AdvancedComboBox.class);
 		public static final AssetDescriptor<TextBox> BASE_DATE = declare("Base Date", TextBox.class);
 		public static final AssetDescriptor<AdvancedComboBox> LICENSE_TYPE = declare("License Type", AdvancedComboBox.class);
 		public static final AssetDescriptor<ComboBox> LICENSE_STATE = declare("License State", ComboBox.class);
@@ -408,14 +408,14 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<ComboBox> CHOOSE_VIN = declare("Choose VIN", ComboBox.class);
 		public static final AssetDescriptor<StaticElement> VIN_MATCHED = declare("VIN Matched", StaticElement.class);
 		public static final AssetDescriptor<TextBox> YEAR = declare("Year", TextBox.class);
-		public static final AssetDescriptor<ComboBox> MAKE = declare("Make", ComboBox.class);
-		public static final AssetDescriptor<ComboBox> MODEL = declare("Model", ComboBox.class);
+		public static final AssetDescriptor<AdvancedComboBox> MAKE = declare("Make", AdvancedComboBox.class);
+		public static final AssetDescriptor<AdvancedComboBox> MODEL = declare("Model", AdvancedComboBox.class);
 		public static final AssetDescriptor<ComboBox> SERIES = declare("Series", ComboBox.class);
-		public static final AssetDescriptor<ComboBox> BODY_STYLE = declare("Body Style", ComboBox.class);
+		public static final AssetDescriptor<AdvancedComboBox> BODY_STYLE = declare("Body Style", AdvancedComboBox.class);
 		public static final AssetDescriptor<TextBox> OTHER_MAKE = declare("Other Make", TextBox.class);
 		public static final AssetDescriptor<TextBox> OTHER_MODEL = declare("Other Model", TextBox.class);
 		public static final AssetDescriptor<TextBox> OTHER_SERIES = declare("Other Series", TextBox.class);
-		public static final AssetDescriptor<ComboBox> OTHER_BODY_STYLE = declare("Other Body Style", ComboBox.class);
+		public static final AssetDescriptor<AdvancedComboBox> OTHER_BODY_STYLE = declare("Other Body Style", AdvancedComboBox.class);
 		public static final AssetDescriptor<AdvancedComboBox> STAT_CODE = declare("Stat Code", AdvancedComboBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> STATED_AMOUNT =
 				declare("Stated Amount", TextBox.class, By.xpath(".//input[@id='policyDataGatherForm:vehicleInformation_vehicleRatingInfo_costPurchase']"));
@@ -624,7 +624,7 @@ public final class AutoSSMetaData {
 				declare("Unacceptable Risk Surcharge", CheckBox.class, Waiters.AJAX, By.id("policyDataGatherForm:unacceptableRiskSurchargeCheckbox"));
 		public static final AssetDescriptor<TextBox> REASON = declare("Reason", TextBox.class, Waiters.AJAX, By.id("policyDataGatherForm:unacceptableRiskSurchargeReason"));
 		public static final AssetDescriptor<UnverifiableDrivingRecordSurchargeCheckBoxes> UNVERIFIABLE_DRIVING_RECORD_SURCHARGE = declare("Unverifiable Driving Record Surcharge",
-				UnverifiableDrivingRecordSurchargeCheckBoxes.class, Waiters.AJAX, By.id("policyDataGatherForm:unverifiableDrivingRecordSurchargeTable:tbody_element"));
+				UnverifiableDrivingRecordSurchargeCheckBoxes.class, MetaData.class, By.id("policyDataGatherForm:unverifiableDrivingRecordSurchargeTable:tbody_element"));
 
 		public static final AssetDescriptor<Button> CALCULATE_PREMIUM = declare("Calculate Premium", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:premiumRecalc"));
 		public static final AssetDescriptor<RadioGroup> ADDITIONAL_SAVINGS_OPTIONS =
