@@ -263,8 +263,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	public void pas3697_membershipEligibilityConfigurationFalseForActiveMembership(@Optional("VA") String state) {
 		/*mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VASS926232035");*/
-
-		precondJobAdding();
+		mainApp().open();
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
 
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
@@ -307,10 +307,11 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
 	public void pas3697_membershipEligibilityConfigurationFalseForPendingMembership(@Optional("VA") String state) {
-/*		mainApp().open();
+		/*mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VASS926232038");
 		//precondJobAdding();*/
 
+		mainApp().open();
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
 
 		String membershipDiscountEligibilitySwitch = "FALSE";
@@ -358,6 +359,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VASS926232040");
 		//precondJobAdding();*/
 
+		mainApp().open();
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
 
 		String membershipDiscountEligibilitySwitch = "FALSE";
@@ -430,6 +432,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
 	public void pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal(@Optional("VA") String state) {
 
+		mainApp().open();
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
 
 		String membershipEligibilitySwitch = "FALSE";
