@@ -26,17 +26,13 @@ import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum;
-import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueMembershipProcessPreConditions;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
@@ -45,7 +41,7 @@ import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
-public class TestEValueMembershipProcess extends AutoSSBaseTest {
+public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestEValueMembershipProcessPreConditions {
 
 	private static final String E_VALUE_DISCOUNT = "eValue Discount"; //PAS-440 - rumors have it, that discount might be renamed
 	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
@@ -60,46 +56,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest {
 	private ErrorTab errorTab = new ErrorTab();
 	private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
 
-	private static final String RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_CHECK = "select  value\n"
-			+ "from PROPERTYCONFIGURERENTITY\n"
-			+ "where propertyname ='retrieveMembershipSummaryServiceImpl.endpointRetrieveMembershipSummaryUri'";
 
-	private static final String MEMBERSHIP_ELIGIBILITY_CHECK_FOR_VA_EXISTS = "SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n"
-			+ "FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n"
-			+ "    (SELECT ID \n"
-			+ "    FROM LOOKUPLIST \n"
-			+ "    WHERE LOOKUPNAME='AAAeMemberQualifications')\n"
-			+ "and riskstatecd = 'VA'\n"
-			+ "and productCD = 'AAA_SS'\n"
-			+ "and code = 'membershipEligibility'\n"
-			+ "and EXPIRATION is null";
-
-	private static final String MEMBERSHIP_ELIGIBILITY_SWITCH_FOR_VA_CHECK = "select displayValue from \n"
-			+ "(SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n"
-			+ "FROM LOOKUPVALUE WHERE LOOKUPLIST_ID IN \n"
-			+ "    (SELECT ID \n"
-			+ "    FROM LOOKUPLIST \n"
-			+ "    WHERE LOOKUPNAME='AAAeMemberQualifications')\n"
-			+ "and riskstatecd = 'VA'\n"
-			+ "and productCD = 'AAA_SS'\n"
-			+ "and code = 'membershipEligibility'\n"
-			+ "and EXPIRATION is null)";
-
-	private static final String EVALUE_MEMBERSHIP_ELIGIBILITY_CONFIG_INSERT = "INSERT INTO LOOKUPVALUE\n" +
-			"(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n" +
-			"values\n" +
-			"('BaseProductLookupValue', 'membershipEligibility', 'TRUE', 'AAA_SS', 'VA', null, null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n";
-
-	private static final String MEMBERSHIP_ELIGIBILITY_SWITCH_FOR_VA_UPDATE = "update LOOKUPVALUE\n"
-			+ "set displayValue = '%s'\n"
-			+ "WHERE LOOKUPLIST_ID IN \n"
-			+ "    (SELECT ID \n"
-			+ "    FROM LOOKUPLIST \n"
-			+ "    WHERE LOOKUPNAME='AAAeMemberQualifications')\n"
-			+ "and riskstatecd = 'VA'\n"
-			+ "and productCD = 'AAA_SS'\n"
-			+ "and code = 'membershipEligibility'\n"
-			+ "and EXPIRATION is null";
 
 	@Test(description = "Check membership endpoint")
 	public static void retrieveMembershipSummaryEndpointCheck() {
@@ -125,7 +82,29 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest {
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_MEMBERSHIP_RENEWAL_BATCH_RECEIVE_ASYNC_JOB);
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_MEMBERSHIP_RENEWAL_BATCH_ORDER_ASYNC_JOB);
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.RENEWAL_IMAGE_RATING_ASYNC_TASK_JOB);
+	}
 
+	//@Test
+	private void preconditionMembershipEligibilityCheck(String membershipEligibilitySwitch) {
+		if (!DBService.get().getValue(MEMBERSHIP_ELIGIBILITY_CHECK_FOR_VA_EXISTS).isPresent()) {
+			DBService.get().executeUpdate(EVALUE_MEMBERSHIP_ELIGIBILITY_CONFIG_INSERT);
+			log.info("INSERT MEMBERSHIP ELIGIBILITY CONFIGURATION IS REQUIRED");
+		}
+		if (DBService.get().getValue(MEMBERSHIP_ELIGIBILITY_SWITCH_FOR_VA_CHECK).get().equals(membershipEligibilitySwitch)) {
+			log.info("MEMBERSHIP ELIGIBILITY CONFIGURATION IS CORRECT, NO UPDATES REQUIRED");
+		} else {
+			DBService.get().executeUpdate(String.format(MEMBERSHIP_ELIGIBILITY_SWITCH_FOR_VA_UPDATE, membershipEligibilitySwitch));
+			log.info("UPDATE OF MEMBERSHIP ELIGIBILITY CONFIGURATION to {} was executed here", membershipEligibilitySwitch);
+			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
+		}
+	}
+
+	//@Test
+	private void postconditionMembershipEligibilityCheck() {
+		String eligibilitySwitch = "TRUE";
+		DBService.get().executeUpdate(String.format(MEMBERSHIP_ELIGIBILITY_SWITCH_FOR_VA_UPDATE, eligibilitySwitch));
+		log.info("UPDATE OF MEMBERSHIP ELIGIBILITY CONFIGURATION To TRUE WAS EXECUTED HERE");
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
 	}
 
 	/**
@@ -142,9 +121,36 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
 	public void pas3697_membershipEligibilityConfigurationTrueForActiveMembership(@Optional("VA") String state) {
-		precondJobAdding();
+		/*		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VASS926232040");
+		//precondJobAdding();*/
 
-		membershipEligibilityConfiguration("TRUE", "Active", true, true);
+		String membershipDiscountEligibilitySwitch = "TRUE";
+		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
+
+		membershipEligibilityPolicyCreation("Active");
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		CustomAssert.enableSoftMode();
+		jobsNBplus15plus30runNoChecks();
+		//implementEmailCheck from Admin Log?
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
+		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
+		transactionHistoryRecordCountCheck(1);
+		latestTransactionMembershipAndEvalueDiscountsNbPlus15Check(true, true, membershipDiscountEligibilitySwitch);
+
+		jobsNBplus15plus30runNoChecks();
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
+		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
+		transactionHistoryRecordCountCheck(1);
+		latestTransactionMembershipAndEvalueDiscountsNbPlus30Check(policyNumber, true, true, membershipDiscountEligibilitySwitch);
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
 
 	/**
@@ -162,7 +168,36 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
 	public void pas3697_membershipEligibilityConfigurationTrueForPendingMembership(@Optional("VA") String state) {
 
-		membershipEligibilityConfiguration("TRUE", "Pending", false, false);
+		/*		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VASS926232040");
+		//precondJobAdding();*/
+
+		String membershipDiscountEligibilitySwitch = "TRUE";
+		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
+
+		membershipEligibilityPolicyCreation("Pending");
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		CustomAssert.enableSoftMode();
+		jobsNBplus15plus30runNoChecks();
+		//implementEmailCheck from Admin Log?
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
+		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
+		transactionHistoryRecordCountCheck(2);
+		latestTransactionMembershipAndEvalueDiscountsNbPlus15Check(true, true, membershipDiscountEligibilitySwitch);
+
+		jobsNBplus15plus30runNoChecks();
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
+		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
+		transactionHistoryRecordCountCheck(3);
+		latestTransactionMembershipAndEvalueDiscountsNbPlus30Check(policyNumber, false, false, membershipDiscountEligibilitySwitch);
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
 
 	/**
@@ -180,7 +215,36 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
 	public void pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership(@Optional("VA") String state) {
 
-		membershipEligibilityConfiguration("TRUE", "Not Active", false, false);
+		/*		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VASS926232040");
+		//precondJobAdding();*/
+
+		String membershipDiscountEligibilitySwitch = "TRUE";
+		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
+
+		membershipEligibilityPolicyCreation("Non-Active");
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		CustomAssert.enableSoftMode();
+		jobsNBplus15plus30runNoChecks();
+		//implementEmailCheck from Admin Log?
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
+		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
+		transactionHistoryRecordCountCheck(2);
+		latestTransactionMembershipAndEvalueDiscountsNbPlus15Check(true, true, membershipDiscountEligibilitySwitch);
+
+		jobsNBplus15plus30runNoChecks();
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
+		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
+		transactionHistoryRecordCountCheck(3);
+		latestTransactionMembershipAndEvalueDiscountsNbPlus30Check(policyNumber, false, false, membershipDiscountEligibilitySwitch);
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
 
 	/**
@@ -197,8 +261,36 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
 	public void pas3697_membershipEligibilityConfigurationFalseForActiveMembership(@Optional("VA") String state) {
+		/*mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VASS926232035");*/
 
-		membershipEligibilityConfiguration("FALSE", "Active", true, true);
+		precondJobAdding();
+
+		String membershipDiscountEligibilitySwitch = "FALSE";
+		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
+
+		membershipEligibilityPolicyCreation("Active");
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		CustomAssert.enableSoftMode();
+		jobsNBplus15plus30runNoChecks();
+		//implementEmailCheck from Admin Log?
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
+		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
+		transactionHistoryRecordCountCheck(1);
+
+		jobsNBplus15plus30runNoChecks();
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
+		membershipLogicActivitiesAndNotesCheck(false, "already processed by previous job");
+		transactionHistoryRecordCountCheck(1);
+		latestTransactionMembershipAndEvalueDiscountsNbPlus30Check(policyNumber, true, true, membershipDiscountEligibilitySwitch);
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
 
 	/**
@@ -215,8 +307,37 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
 	public void pas3697_membershipEligibilityConfigurationFalseForPendingMembership(@Optional("VA") String state) {
+/*		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VASS926232038");
+		//precondJobAdding();*/
 
-		membershipEligibilityConfiguration("FALSE", "Pending", false, true);
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
+
+		String membershipDiscountEligibilitySwitch = "FALSE";
+		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
+
+		membershipEligibilityPolicyCreation("Pending");
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		CustomAssert.enableSoftMode();
+		jobsNBplus15plus30runNoChecks();
+		//implementEmailCheck from Admin Log?
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
+		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
+		transactionHistoryRecordCountCheck(1);
+
+		jobsNBplus15plus30runNoChecks();
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
+		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
+		transactionHistoryRecordCountCheck(2);
+		latestTransactionMembershipAndEvalueDiscountsNbPlus30Check(policyNumber, false, true, membershipDiscountEligibilitySwitch);
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
 
 	/**
@@ -233,8 +354,38 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
 	public void pas3697_membershipEligibilityConfigurationFalseForNotActiveMembership(@Optional("VA") String state) {
+/*		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, "VASS926232040");
+		//precondJobAdding();*/
 
-		membershipEligibilityConfiguration("FALSE", "Not Active", false, true);
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
+
+		String membershipDiscountEligibilitySwitch = "FALSE";
+		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);
+
+		membershipEligibilityPolicyCreation("Non-Active");
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		CustomAssert.enableSoftMode();
+		jobsNBplus15plus30runNoChecks();
+		//implementEmailCheck from Admin Log?
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
+		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
+		transactionHistoryRecordCountCheck(2);
+		latestTransactionMembershipAndEvalueDiscountsNbPlus15Check(true, true, membershipDiscountEligibilitySwitch);
+
+		jobsNBplus15plus30runNoChecks();
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
+		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
+		transactionHistoryRecordCountCheck(3);
+		latestTransactionMembershipAndEvalueDiscountsNbPlus30Check(policyNumber, false, true, membershipDiscountEligibilitySwitch);
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
 
 	/**
@@ -278,6 +429,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
 	public void pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal(@Optional("VA") String state) {
+
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
 
 		String membershipEligibilitySwitch = "FALSE";
 		String membershipStatusActive = "Cancelled";
@@ -337,90 +490,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest {
 		}
 	}
 
-	private void membershipEligibilityConfiguration(String membershipEligibilitySwitch, String membershipStatusActive, boolean membershipDiscountPresent, boolean eValueDiscountPresent) {
-
-		preconditionMembershipEligibilityCheck(membershipEligibilitySwitch);
-		membershipEligibilityPolicyCreation(membershipStatusActive);
-
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		if ("Pending".equals(membershipStatusActive)) {
-			TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
-			JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-			JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
-		} else {
-			jobsNBplus15plus30(policyNumber, "NBplus15", membershipStatusActive, membershipStatusActive);
-		}
-
-		jobsNBplus15plus30(policyNumber, "NBplus30", membershipStatusActive, membershipStatusActive);
-
-		lastTransactionHistoryOpen();
-
-		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDRXX", "ENDORSEMENT_ISSUE");
-
-		if ("Not Active".equals(membershipStatusActive) || "Pending".equals(membershipStatusActive)) {
-			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-			generalTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()).verify.value("No");
-		}
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		if (membershipDiscountPresent) {
-			CustomAssert.assertTrue(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount"));
-			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-			PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(2).verify.value("Yes");
-			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-			if (DBService.get().getValue(query).isPresent()) {
-				CustomAssert.assertFalse(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
-			}
-		} else {
-			CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount"));
-			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-			PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(3).verify.value("None");
-			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-			CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
-			lastTransactionHistoryExit();
-			Efolder.isDocumentExist("Endorsement", "DISCOUNT REMOVED");
-		}
-
-		if (eValueDiscountPresent) {
-			lastTransactionHistoryOpen();
-			CustomAssert.assertTrue(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT));
-			premiumAndCoveragesTab.getInquiryAssetList().getStaticElement("Apply eValue Discount").verify.value("Yes");
-			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-			PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, E_VALUE_DISCOUNT).getCell(5).verify.value("Yes");
-			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-			if (DBService.get().getValue(query).isPresent()) {
-				CustomAssert.assertFalse(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount"));
-			}
-		} else {
-			lastTransactionHistoryOpen();
-			CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT));
-			premiumAndCoveragesTab.getInquiryAssetList().getStaticElement("Apply eValue Discount").verify.value("No");
-			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-			PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "eValue Discount").getCell(6).verify.value("None");
-			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-			if ("TRUE".equals(membershipEligibilitySwitch)) {
-				PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1).verify.value(MESSAGE_INFO_1);
-				PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).verify.contains(MESSAGE_BULLET_8);
-				CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount"));
-				CustomAssert.assertTrue("13.5%"
-						.equals(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-								.getTextField()));
-				CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
-				CustomAssert.assertTrue("5.0%"
-						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-								.getTextField()));
-				lastTransactionHistoryExit();
-				Efolder.isDocumentExist("Endorsement", "DISCOUNT REMOVED");
-			} else {
-				CustomAssert.assertFalse(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount"));
-				CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
-				lastTransactionHistoryExit();
-				Efolder.isDocumentExist("Endorsement", "DISCOUNT REMOVED");
-			}
-		}
-
-		postconditionMembershipEligibilityCheck();
-	}
-
 	private void lastTransactionHistoryExit() {
 		premiumAndCoveragesTab.cancel();
 		Tab.buttonCancel.click();
@@ -429,10 +498,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest {
 	private void lastTransactionHistoryOpen() {
 		if (PolicySummaryPage.buttonTransactionHistory.isPresent()) {
 			PolicySummaryPage.buttonTransactionHistory.click();
-			PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(2).verify.value(ProductConstants.TransactionHistoryType.ENDORSEMENT);
-			PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(2).controls.links.get(1).click();
-			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		}
+		PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(2).controls.links.get(1).click();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 	}
 
 	private boolean ahdrxxDiscountTagPresentInTheForm(String query, String discountTag) {
@@ -497,6 +565,241 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest {
 		Efolder.isDocumentExist("Endorsement", "DISCOUNT REMOVED");
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
+	}
+
+
+
+	private void membershipEligibilityPolicyCreation(String membershipStatus) {
+		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+		testEValueDiscount.eValueQuoteCreation();
+
+
+		/*mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, "QVASS926232136");*/
+
+		//CustomAssert.enableSoftMode();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		if ("Active".equals(membershipStatus)) {
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("5251111111111118");
+		} else if ("Pending".equals(membershipStatus)) {
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Membership Pending");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("");
+		} else if ("Cancelled".equals(membershipStatus)) {
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("3111111111111121");
+		} else {
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");//Membership Pending
+			List<String> inactiveMembershipNumberList = new ArrayList<>();
+			//TODO check othe membership number for better randomization
+			//inactiveMembershipNumberList.add("4333333333333457");//Expired                - bad
+			//inactiveMembershipNumberList.add("9920702826992041");//Inactive               - error
+			inactiveMembershipNumberList.add("4343433333333335");//FutureDated
+			//inactiveMembershipNumberList.add("4222222222222123");//No Hit                   - error
+			//inactiveMembershipNumberList.add("8800400000000002");//Lapsed                     - Active
+			//inactiveMembershipNumberList.add("4290061311384005");//Pending                  //TODO updated to Active based on some logic
+			//inactiveMembershipNumberList.add("4333333333333338");//Expired                     - error
+			String randomInactiveMembershipNumber = inactiveMembershipNumberList.get(random.nextInt(inactiveMembershipNumberList.size()));
+			log.info("Value used {}", randomInactiveMembershipNumber);
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER)
+					.setValue(randomInactiveMembershipNumber);
+		}
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
+		ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.ORDER_REPORT).click();
+		if (ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).isPresent()) {
+			if ("".equals(ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
+					.getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.MEMBER_SINCE_DATE.getLabel()).getValue())) {
+
+				ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
+						.getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ACTION.getLabel()).controls.links.get(1).click();
+
+				ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT)
+						.getAsset(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ADD_MEMBER_SINCE_DIALOG.getLabel(), AssetList.class)
+						.getAsset(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), TextBox.class).setValue("11/14/2016");
+
+				Page.dialogConfirmation.confirm();
+			}
+
+			log.info("Membership number used: {}", ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
+					.getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.MEMBERSHIP_NO.getLabel()).getValue());
+			log.info("Member Since Date used or returned: {}", ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
+					.getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.MEMBER_SINCE_DATE.getLabel()).getValue());
+			log.info("Membership Status returned: {}", ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
+					.getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.STATUS.getLabel()).getValue());
+		}
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+		PremiumAndCoveragesTab.calculatePremium();
+		premiumAndCoveragesTab.saveAndExit();
+		testEValueDiscount.simplifiedQuoteIssue();
+	}
+
+	//@Test
+	private void jobsNBplus15plus30runNoChecks() {
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
+		JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
+		//JobUtils.executeJob(Jobs.automatedProcessingRunReportsServicesJob);
+		JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
+		//JobUtils.executeJob(Jobs.automatedProcessingStrategyStatusUpdateJob);
+		//BUG PAS-6162 automatedProcessingBypassingAndErrorsReportGenerationJob is failing with Error, failed to retrieve 'placeholder' Report Entity
+		//JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
+	}
+
+	private void eValueDiscountStatusCheck(String policyNumber, String status) {
+		String getEvalueStatusSQL = "select evalueStatus from (\n"
+				+ "    select ps.policynumber, emd.evaluestatus\n"
+				+ "    from PolicySummary ps, AAAEMemberDetailsEntity emd\n"
+				+ "    where ps.ememberdetail_id = emd.id\n"
+				+ "    and ps.policynumber = '%s'\n"
+				+ "    order by emd.id desc)\n"
+				+ "where rownum = 1";
+		CustomAssert.assertEquals(DBService.get().getValue(String.format(getEvalueStatusSQL, policyNumber)).get(), status);
+	}
+
+	private void membershipLogicActivitiesAndNotesCheck(boolean presence, String status) {
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+		if (presence) {
+			//TODO check apostrophe in the message
+/*			String membershipLogicNote = "Evalue information / Status was updated as : '" + status + "' for the policy based on Preferences and Membership logic.";
+			NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", membershipLogicNote).getCell("Date/Time").verify
+					.contains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));*/
+			NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", status).getCell("Date/Time").verify
+					.contains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
+		} else {
+			if (NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "for the policy based on Preferences and Membership logic").isPresent()) {
+				int rowNum = NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "for the policy based on Preferences and Membership logic").getIndex();
+				CustomAssert.assertFalse(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(rowNum).getCell("Date/Time").getValue()
+						.contains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY)));
+			}
+		}
+	}
+
+	private void transactionHistoryRecordCountCheck(int rowCount) {
+		PolicySummaryPage.buttonTransactionHistory.click();
+		CustomAssert.assertEquals(PolicySummaryPage.tableTransactionHistory.getRowsCount(), rowCount);
+	}
+
+	private void latestTransactionMembershipAndEvalueDiscountsNbPlus15Check(boolean membershipDiscountPresent, boolean eValueDiscountPresent, String membershipEligibilitySwitch) {
+		lastTransactionHistoryOpen();
+		if (!membershipDiscountPresent) {
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+			generalTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()).verify.value("No");
+		}
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		if (membershipDiscountPresent) {
+			CustomAssert.assertTrue(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount"));
+			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+			PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(2).verify.value("Yes");
+			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		} else {
+			CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount"));
+			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+			PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(3).verify.value("None");
+			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		}
+		lastTransactionHistoryExit();
+		if (eValueDiscountPresent) {
+			lastTransactionHistoryOpen();
+			CustomAssert.assertTrue(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT));
+			premiumAndCoveragesTab.getInquiryAssetList().getStaticElement("Apply eValue Discount").verify.value("Yes");
+			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+			if (PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, E_VALUE_DISCOUNT).isPresent()) {
+				PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, E_VALUE_DISCOUNT).getCell(5).verify.value("Yes");
+			} else {
+				PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, E_VALUE_DISCOUNT).getCell(4).verify.value("Yes");
+			}
+			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		} else {
+			lastTransactionHistoryOpen();
+			CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT));
+			premiumAndCoveragesTab.getInquiryAssetList().getStaticElement("Apply eValue Discount").verify.value("No");
+			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+			PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "eValue Discount").getCell(6).verify.value("None");
+			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+			if ("TRUE".equals(membershipEligibilitySwitch)) {
+				PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1).verify.value(MESSAGE_INFO_1);
+				PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).verify.contains(MESSAGE_BULLET_8);
+			}
+			lastTransactionHistoryExit();
+		}
+	}
+
+	private void latestTransactionMembershipAndEvalueDiscountsNbPlus30Check(String policyNumber, boolean membershipDiscountPresent, boolean eValueDiscountPresent, String membershipEligibilitySwitch) {
+		lastTransactionHistoryOpen();
+
+		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDRXX", "ENDORSEMENT_ISSUE");
+
+		if (!membershipDiscountPresent) {
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+			generalTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()).verify.value("No");
+		}
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		if (membershipDiscountPresent) {
+			CustomAssert.assertTrue(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount"));
+			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+			PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(2).verify.value("Yes");
+			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+			if (DBService.get().getValue(query).isPresent()) {
+				CustomAssert.assertFalse(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
+			}
+			lastTransactionHistoryExit();
+		} else {
+			CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount"));
+			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+			PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(3).verify.value("None");
+			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+			CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
+			lastTransactionHistoryExit();
+			Efolder.isDocumentExist("Endorsement", "DISCOUNT REMOVED");
+		}
+
+		if (eValueDiscountPresent) {
+			lastTransactionHistoryOpen();
+			CustomAssert.assertTrue(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT));
+			premiumAndCoveragesTab.getInquiryAssetList().getStaticElement("Apply eValue Discount").verify.value("Yes");
+			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+			if (PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, E_VALUE_DISCOUNT).isPresent()) {
+				PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, E_VALUE_DISCOUNT).getCell(5).verify.value("Yes");
+			} else {
+				PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, E_VALUE_DISCOUNT).getCell(4).verify.value("Yes");
+			}
+			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+			if (DBService.get().getValue(query).isPresent()) {
+				CustomAssert.assertFalse(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount"));
+			}
+			lastTransactionHistoryExit();
+		} else {
+			lastTransactionHistoryOpen();
+			CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT));
+			premiumAndCoveragesTab.getInquiryAssetList().getStaticElement("Apply eValue Discount").verify.value("No");
+			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+			PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "eValue Discount").getCell(6).verify.value("None");
+			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+			if ("TRUE".equals(membershipEligibilitySwitch)) {
+				PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1).verify.value(MESSAGE_INFO_1);
+				PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).verify.contains(MESSAGE_BULLET_8);
+				CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount"));
+				CustomAssert.assertTrue("13.5%"
+						.equals(DocGenHelper.getDocumentDataElemByName("eValDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+								.getTextField()));
+				CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
+				CustomAssert.assertTrue("5.0%"
+						.equals(DocGenHelper.getDocumentDataElemByName("AAAMemDiscAmt", DocGenEnum.Documents.AHDRXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+								.getTextField()));
+				lastTransactionHistoryExit();
+				Efolder.isDocumentExist("Endorsement", "DISCOUNT REMOVED");
+			} else {
+				CustomAssert.assertFalse(ahdrxxDiscountTagPresentInTheForm(query, "eValue Discount"));
+				CustomAssert.assertTrue(ahdrxxDiscountTagPresentInTheForm(query, "AAA Membership Discount"));
+				lastTransactionHistoryExit();
+				Efolder.isDocumentExist("Endorsement", "DISCOUNT REMOVED");
+			}
+			lastTransactionHistoryExit();
+		}
 	}
 
 	private void jobsNBplus15plus30(String policyNumber, String plusX, String membershipSetToActive, String membershipOriginallyActive) {
@@ -569,101 +872,24 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest {
 		//JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
 	}
 
-	@Test
-	private void preconditionMembershipEligibilityCheck(String membershipEligibilitySwitch) {
-		if (!DBService.get().getValue(MEMBERSHIP_ELIGIBILITY_CHECK_FOR_VA_EXISTS).isPresent()) {
-			DBService.get().executeUpdate(EVALUE_MEMBERSHIP_ELIGIBILITY_CONFIG_INSERT);
-			log.info("INSERT MEMBERSHIP ELIGIBILITY CONFIGURATION IS REQUIRED");
-		}
-		if (DBService.get().getValue(MEMBERSHIP_ELIGIBILITY_SWITCH_FOR_VA_CHECK).get().equals(membershipEligibilitySwitch)) {
-			log.info("MEMBERSHIP ELIGIBILITY CONFIGURATION IS CORRECT, NO UPDATES REQUIRED");
-		} else {
-			DBService.get().executeUpdate(String.format(MEMBERSHIP_ELIGIBILITY_SWITCH_FOR_VA_UPDATE, membershipEligibilitySwitch));
-			log.info("UPDATE OF MEMBERSHIP ELIGIBILITY CONFIGURATION to {} was executed here", membershipEligibilitySwitch);
-			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
-		}
-	}
+	/*@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3697")
+	public void issue(@Optional("VA") String state) {
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, "QVASS926232040");
 
-	@Test
-	private void postconditionMembershipEligibilityCheck() {
-		String eligibilitySwitch = "TRUE";
-		DBService.get().executeUpdate(String.format(MEMBERSHIP_ELIGIBILITY_SWITCH_FOR_VA_UPDATE, eligibilitySwitch));
-		log.info("UPDATE OF MEMBERSHIP ELIGIBILITY CONFIGURATION To TRUE WAS EXECUTED HERE");
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
-	}
-
-	private void membershipEligibilityPolicyCreation(String membershipStatus) {
-		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-		testEValueDiscount.eValueQuoteCreation();
-
-
-		/*mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, "QVASS926232136");*/
-
-		//CustomAssert.enableSoftMode();
 		policy.dataGather().start();
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		if ("Active".equals(membershipStatus)) {
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("5251111111111118");
-		} else if ("Pending".equals(membershipStatus)) {
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Membership Pending");
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("");
-		} else if ("Cancelled".equals(membershipStatus)) {
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("3111111111111121");
-		} else {
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");//Membership Pending
-			List<String> inactiveMembershipNumberList = new ArrayList<>();
-			//TODO check othe membership number for better randomization
-			//inactiveMembershipNumberList.add("4333333333333457");//Expired                - bad
-			//inactiveMembershipNumberList.add("9920702826992041");//Inactive               - error
-			inactiveMembershipNumberList.add("4343433333333335");//FutureDated
-			//inactiveMembershipNumberList.add("4222222222222123");//No Hit                   - error
-			//inactiveMembershipNumberList.add("8800400000000002");//Lapsed                     - Active
-			//inactiveMembershipNumberList.add("4290061311384005");//Pending                  //TODO updated to Active based on some logic
-			//inactiveMembershipNumberList.add("4333333333333338");//Expired                     - error
-			String randomInactiveMembershipNumber = inactiveMembershipNumberList.get(random.nextInt(inactiveMembershipNumberList.size()));
-			log.info("Value used {}", randomInactiveMembershipNumber);
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER)
-					.setValue(randomInactiveMembershipNumber);
-		}
-
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
-		ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.ORDER_REPORT).click();
-		if (ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).isPresent()) {
-			if ("".equals(ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
-					.getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.MEMBER_SINCE_DATE.getLabel()).getValue())) {
-
-				ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
-						.getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ACTION.getLabel()).controls.links.get(1).click();
-
-				ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT)
-						.getAsset(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ADD_MEMBER_SINCE_DIALOG.getLabel(), AssetList.class)
-						.getAsset(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), TextBox.class).setValue("11/14/2016");
-
-				Page.dialogConfirmation.confirm();
-			}
-
-			log.info("Membership number used: {}", ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
-					.getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.MEMBERSHIP_NO.getLabel()).getValue());
-			log.info("Member Since Date used or returned: {}", ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
-					.getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.MEMBER_SINCE_DATE.getLabel()).getValue());
-			log.info("Membership Status returned: {}", ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
-					.getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.STATUS.getLabel()).getValue());
-		}
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-		PremiumAndCoveragesTab.calculatePremium();
-		premiumAndCoveragesTab.saveAndExit();
-		testEValueDiscount.simplifiedQuoteIssue();
-	}
 
-	private void jobsNBplus15plus30runNoChecks() {
-		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
-		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-		JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
-		JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
-		JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
-	}
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("Yes");
+
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS).verify.value("Yes");
+		documentsAndBindTab.saveAndExit();
+
+		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+		testEValueDiscount.simplifiedQuoteIssue();
+	}*/
+
 }

@@ -168,14 +168,14 @@ QC-11112:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas265_MinimumStateLimitsForBIPreBind]
       messages: ['Bodily Injury Limit has incorrect lower limit', 'expected', 'ComboBox {Bodily Injury Liability: {PremiumAndCoveragesTab: By.xpath:']
-QC-11113:
-  summary: "OSI: Waiting for Mindaugas to implement proper stub config"
+PAS-6210:
+  summary: "View eRefunds and the Debit/Credit Card - Auto"
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodEFT,
     aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc,
     aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard]
-      messages: ['Visa-4113 expiring 01/22']
+      messages: ['Visa ****4113 expiring 01/22']
 QC-11114:
   summary: "OSI: PAS-4251, PAS-6144 - waiting for implementation, the fields display requirements will change"
   reason: PROD
@@ -190,3 +190,11 @@ PAS-6667:
       messages: ['WUAUCA']
     - tests: [aaa.modules.docgen.home_ca.*.TestDocgenScenarios.testPolicyDocuments]
       messages: ['WUAUCA']
+PAS-6539:
+  summary: "View eRefunds and the Debit/Credit Card - Auto"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodEFT,
+    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc,
+    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard]
+      messages: ['paymentMethod']
