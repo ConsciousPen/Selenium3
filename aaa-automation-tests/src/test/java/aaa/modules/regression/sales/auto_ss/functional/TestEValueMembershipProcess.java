@@ -318,6 +318,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
 		transactionHistoryRecordCountCheck(2);
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, true, membershipDiscountEligibilitySwitch);
+		//BUG PAS-7149 AHDRXX is generated when MembershipEligibility=FALSE and eValue discount is not removed
 		checkDocumentContentAHDRXX(policyNumber, false, false, false);
 
 		CustomAssert.disableSoftMode();
@@ -365,6 +366,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		transactionHistoryRecordCountCheck(3);
 		latestTransactionMembershipAndEvalueDiscountsCheck(false, true, membershipDiscountEligibilitySwitch);
 
+		//BUG PAS-7149 AHDRXX is generated when MembershipEligibility=FALSE and eValue discount is not removed
 		checkDocumentContentAHDRXX(policyNumber, false, false, false);
 
 		CustomAssert.disableSoftMode();
@@ -720,7 +722,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			}
 
 		} else {
-			//BUG to ask Karen Membership not needed, AHDRXX still generated for Pending and Inactive memberships
+			//BUG PAS-7149 AHDRXX is generated when MembershipEligibility=FALSE and eValue discount is not removed
 			CustomAssert.assertFalse(DBService.get().getValue(query).isPresent());
 		}
 	}
