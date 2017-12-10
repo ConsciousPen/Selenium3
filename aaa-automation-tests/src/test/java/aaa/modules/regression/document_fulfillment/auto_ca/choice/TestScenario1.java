@@ -1,4 +1,4 @@
-package aaa.modules.deloitte.docgen.auto_ca.choice;
+package aaa.modules.regression.document_fulfillment.auto_ca.choice;
 
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;

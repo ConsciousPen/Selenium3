@@ -2,22 +2,25 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common.pages;
 
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import org.openqa.selenium.By;
+import com.exigen.ipb.etcsa.base.app.ILogin;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.common.metadata.LoginPageMeta;
-import com.exigen.ipb.etcsa.base.app.ILogin;
-import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.BrowserController;
-import toolkit.webdriver.controls.*;
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.Link;
+import toolkit.webdriver.controls.ListBox;
+import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
-
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class LoginPage extends Page implements ILogin {
 
@@ -49,10 +52,7 @@ public class LoginPage extends Page implements ILogin {
 
 	public static boolean isPageDisplayed() {
 		TextBox user = login.getAsset(LoginPageMeta.USER.getLabel(), TextBox.class);
-		if (user.isPresent() && user.isVisible())
-			return true;
-		else
-			return false;
+		return user.isPresent() && user.isVisible();
 	}
 
 	public void verifyDisplayed() {
@@ -85,6 +85,7 @@ public class LoginPage extends Page implements ILogin {
 		lnkSwitchToAdmin.click();
 	}
 
+	@Override
 	public void logout() {
 		if (Tab.buttonSaveAndExit.isPresent() && Tab.buttonSaveAndExit.isVisible()) {
 			Tab.buttonSaveAndExit.click();
@@ -161,12 +162,11 @@ public class LoginPage extends Page implements ILogin {
 	}
 
 	private void setApplicationLogFileName(String state) {
-		String metghodName =  "TestNameWasNotFound";
+		String methodName = "TestNameWasNotFound";
 		StackTraceElement result = Arrays.stream(Thread.currentThread().getStackTrace()).filter(s -> s.getClassName().startsWith("aaa.modules")).reduce((a, b) -> b).orElse(null);
 		if (result != null) {
-			metghodName = result.getClassName() + "." + result.getMethodName();
+			methodName = result.getClassName() + "." + result.getMethodName();
 		}
-		BrowserController.get().open(BrowserController.get().driver().getCurrentUrl().replace("#noback", "") + "&scenarioName=" + metghodName + "_" + state);
+		BrowserController.get().open(BrowserController.get().driver().getCurrentUrl().replace("#noback", "") + "&scenarioName=" + methodName + "_" + state);
 	}
-
 }

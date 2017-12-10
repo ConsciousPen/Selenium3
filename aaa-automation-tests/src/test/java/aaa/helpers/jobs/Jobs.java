@@ -113,6 +113,8 @@ public class Jobs {
 	public static Job renewalImageRatingAsyncTaskJob = new Job("renewalImageRatingAsyncTaskJob");
 
 
+	public static Job aaaCCardExpiryNoticeJob = new Job("aaaCCardExpiryNoticeJob");
+
 	public enum JobState {
 		TRUE, FALSE, FAILED
 	}
