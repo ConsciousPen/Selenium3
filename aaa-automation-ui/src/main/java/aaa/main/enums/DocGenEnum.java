@@ -317,6 +317,7 @@ public final class DocGenEnum {
 		ACPPNUBI(""),
 		AADNUBI(""),
 		AHPNCAA(""),
+		AA02DC("")
 		;
 
 		private String id;
