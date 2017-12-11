@@ -168,7 +168,7 @@ QC-11112:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas265_MinimumStateLimitsForBIPreBind]
       messages: ['Bodily Injury Limit has incorrect lower limit', 'expected', 'ComboBox {Bodily Injury Liability: {PremiumAndCoveragesTab: By.xpath:']
-PAS-6539:
+PAS-6210:
   summary: "View eRefunds and the Debit/Credit Card - Auto"
   reason: PROD
   failures:
