@@ -34,7 +34,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 
 	private String newVin = "1FDEU15H7KL055795";
 	private String updatableVin = "1HGEM215140028445";
-	private VinUploadCommonMethods vinMethods = new VinUploadCommonMethods();
+	private VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType().getShortName());
 
 	/**
 	 * @author Lev Kazarnovskiy
@@ -63,7 +63,6 @@ public class TestVINUpload extends TestVinUploadHelper {
 	public void pas533_newVinAdded(@Optional("UT") String state) {
 
 		String vinTableFile = vinMethods.getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
-		String controlTableFile = vinMethods.getControlTableFile();
 
 		TestData testData = getAdjustedTestData(newVin);
 		vinMethods.precondsTestVINUpload(testData, VehicleTab.class);

@@ -7,10 +7,15 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.postconditions.TestVinUploadPostConditions;
 import toolkit.datax.TestData;
 
-public class VinUploadCommonMethods extends PolicyBaseTest implements TestVinUploadPostConditions {
+public class VinUploadCommonMethods extends PolicyBaseTest {
+
+	private final String policyType ;
+
+	public VinUploadCommonMethods(String policyType){
+		this.policyType = policyType;
+	}
 
 	/**
 	 * Go to the admin -> administration -> Vin upload and upload two tables
@@ -59,9 +64,9 @@ public class VinUploadCommonMethods extends PolicyBaseTest implements TestVinUpl
 				.verify.present("PAS-544 - Activities and User Notes may be broken: VIN refresh record is missed in Activities and User Notes:");
 	}
 
-	public String getSpecificUploadFile(String type) {
+	public String getSpecificUploadFile(String fileType) {
 		String defaultFileName = null;
-		switch (getPolicyType().getShortName()) {
+		switch (policyType) {
 			case "AutoSS":
 				defaultFileName = "%sVIN_%s_SS.xlsx";
 				break;
@@ -75,12 +80,12 @@ public class VinUploadCommonMethods extends PolicyBaseTest implements TestVinUpl
 				log.info("Name of VIN Table file was not selected correctly");
 				break;
 		}
-		return String.format(defaultFileName, type, getState());
+		return String.format(defaultFileName, fileType, getState());
 	}
 
 	public String getControlTableFile() {
 		String defaultControlFileName = null;
-		switch (getPolicyType().getShortName()) {
+		switch (policyType) {
 			case "AutoSS":
 				defaultControlFileName = "controlTable_%s_SS.xlsx";
 				break;
