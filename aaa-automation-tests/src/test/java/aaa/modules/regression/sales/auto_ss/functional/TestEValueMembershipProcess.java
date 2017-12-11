@@ -260,7 +260,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		CustomAssert.enableSoftMode();
 		jobsNBplus15plus30runNoChecks();
 		//implementEmailCheck from Admin Log?
-		mainApp().reopen();
+		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
@@ -305,14 +305,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		CustomAssert.enableSoftMode();
 		jobsNBplus15plus30runNoChecks();
 		//implementEmailCheck from Admin Log?
-		mainApp().reopen();
+		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
 		transactionHistoryRecordCountCheck(1);
 
 		jobsNBplus15plus30runNoChecks();
-		mainApp().reopen();
+		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		eValueDiscountStatusCheck(policyNumber, "ACTIVE");
 		membershipLogicActivitiesAndNotesCheck(true, "ACTIVE");
