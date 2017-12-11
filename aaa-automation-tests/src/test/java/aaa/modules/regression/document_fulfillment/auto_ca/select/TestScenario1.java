@@ -213,9 +213,8 @@ public class TestScenario1 extends AutoCaSelectBaseTest {
 	public void TC03_BillingDocuments(@Optional("") String state) {
 		CustomAssert.enableSoftMode();
 		mainApp().open();
-		SearchPage.openPolicy(policyNum);
-		
-		BillingSummaryPage.open();
+		SearchPage.openBilling(policyNum);
+
 		billing.generateFutureStatement().perform();
 		new BillingBillsAndStatementsVerifier().setType("Bill").verify(1).verifyPresent();
 		
