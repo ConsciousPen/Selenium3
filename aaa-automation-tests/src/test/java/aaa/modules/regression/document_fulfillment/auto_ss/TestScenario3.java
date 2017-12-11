@@ -50,7 +50,7 @@ public class TestScenario3 extends AutoSSBaseTest {
 	}
 	
 	@Parameters({ "state" })
-	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC04_RenewaBillGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
