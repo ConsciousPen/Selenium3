@@ -32,7 +32,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 	private VehicleTab vehicleTab = new VehicleTab();
 	private PurchaseTab purchaseTab = new PurchaseTab();
 	private MembershipTab membershipTab = new MembershipTab();
-	protected VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType().getShortName());
+	protected VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType());
 
 	/**
 	 * @author Lev Kazarnovskiy

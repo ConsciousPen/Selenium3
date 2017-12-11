@@ -34,7 +34,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 
 	private String newVin = "1FDEU15H7KL055795";
 	private String updatableVin = "1HGEM215140028445";
-	private VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType().getShortName());
+	private VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType());
 
 	/**
 	 * @author Lev Kazarnovskiy

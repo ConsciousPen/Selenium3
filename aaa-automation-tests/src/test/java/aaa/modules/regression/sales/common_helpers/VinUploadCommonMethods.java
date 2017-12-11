@@ -5,6 +5,7 @@ import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTa
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
@@ -13,8 +14,8 @@ public class VinUploadCommonMethods extends PolicyBaseTest {
 
 	private final String policyType ;
 
-	public VinUploadCommonMethods(String policyType){
-		this.policyType = policyType;
+	public VinUploadCommonMethods(PolicyType policyType){
+		this.policyType = policyType.getShortName();
 	}
 
 	/**
@@ -69,8 +70,7 @@ public class VinUploadCommonMethods extends PolicyBaseTest {
 				defaultFileName = "%sVIN_%s_CHOICE.xlsx";
 				break;
 			default:
-				log.info("Name of VIN Table file was not selected correctly");
-				break;
+				throw new IllegalArgumentException("Name of VIN Table file was not selected correctly");
 		}
 		return String.format(defaultFileName, fileType, getState());
 	}
@@ -88,8 +88,7 @@ public class VinUploadCommonMethods extends PolicyBaseTest {
 				defaultControlFileName = "controlTable_%s_CHOICE.xlsx";
 				break;
 			default:
-				log.info("Name of control file was not selected correctly");
-				break;
+				throw new IllegalArgumentException("Name of VIN Table file was not selected correctly");
 		}
 		return String.format(defaultControlFileName, getState());
 	}
