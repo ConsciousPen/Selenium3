@@ -266,7 +266,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	protected void acceptTotalDuePlusOverpaymentOnRenewCustomerDeclineDate(Dollar overpayment) {
-		LocalDateTime paymentDate = getTimePoints().getRenewCustomerDeclineDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate());;
+		LocalDateTime paymentDate = getTimePoints().getRenewCustomerDeclineDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate());
 		acceptTotalDuePlusOverpaymentOnDate(overpayment, paymentDate);
 		log.info("Validate Customer declined status on {}", paymentDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(BillingConstants.BillingAccountPoliciesPolicyStatus.CUSTOMER_DECLINED).verifyPresent();
@@ -829,7 +829,12 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	protected void verifyPolicyExpiredOnRenewCustomerDeclineDate() {
-		LocalDateTime date = getTimePoints().getRenewCustomerDeclineDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate()).plusHours(1);
+		LocalDateTime date = getTimePoints().getRenewCustomerDeclineDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate());
+		verifyPolicyStatusOnDate(date, ProductConstants.PolicyStatus.POLICY_EXPIRED);
+	}
+
+	protected void verifyPolicyExpiredOnUpdatePolicyStatusDate() {
+		LocalDateTime date = getTimePoints().getUpdatePolicyStatusDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyExpDate());
 		verifyPolicyStatusOnDate(date, ProductConstants.PolicyStatus.POLICY_EXPIRED);
 	}
 
@@ -854,9 +859,9 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	protected void runCFTJobs() {
-		JobUtils.executeJob(Jobs.cftDcsEodJob);
-		JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-		JobUtils.executeJob(Jobs.policyTransactionLedgerJob);
+		// JobUtils.executeJob(Jobs.cftDcsEodJob);
+		// JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		// JobUtils.executeJob(Jobs.policyTransactionLedgerJobNonMonthly);
 	}
 
 	private void acceptManualPaymentOnDate(LocalDateTime paymentDate) {
