@@ -8,7 +8,7 @@ TestData: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
-    Authorized By: qa
+#    Authorized By: qa
   }
 }
 
@@ -22,8 +22,8 @@ DriverTab: {
 }
 
 PremiumAndCoveragesTab : {
-    Bodily Injury Liability: 'contains=$1,000,000/$1,000,000',
-    Calculate Premium: 'click',
+#    Bodily Injury Liability: 'contains=$1,000,000/$1,000,000',
+#    Calculate Premium: 'click',
     Override Premium: {
     Bodily Injury Liability By Flat Amount: '200',
     Reason for Override: 'OTHER',
