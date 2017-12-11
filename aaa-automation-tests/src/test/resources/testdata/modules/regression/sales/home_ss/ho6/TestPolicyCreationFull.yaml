@@ -77,11 +77,7 @@ MortgageesTab: {
 
   LegalPropetyAddress: {
     Validate Address: true,
-    Validate Address Dialog: {
-            #Street number: 265,
-            #Street name: CHIPMAN AVE,
-            #Select Address: "/default"
-            }
+    Validate Address Dialog: {}
   },
   MortgageeInformation: {
     Name: 'Chuck Norris',
