@@ -8,9 +8,7 @@ TestData: {
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  },
+  DocumentsAndBindTab: {},
   CancellationActionTab: '@CancellationActionTab',
   ReinstatementActionTab: '@ReinstatementActionTab'
 }

@@ -8,9 +8,7 @@ TestData: {
   FormsTab: '@FormsTab',
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DocumentsAndBindTab: {}
 }
 
 EndorsementActionTab: {
@@ -28,9 +26,7 @@ TestData_OOS: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DocumentsAndBindTab: {}
 }
 
 EndorsementActionTab_OOS: {

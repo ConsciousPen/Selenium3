@@ -7,10 +7,7 @@ TestData: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa,
-    Case Number: 123
-  }
+  DocumentsAndBindTab: {}
 }
 
 TestData_KY: {
@@ -22,10 +19,7 @@ TestData_KY: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa,
-    Case Number: 123
-  }
+  DocumentsAndBindTab: {}
 }
 
 EndorsementActionTab: {
@@ -42,9 +36,7 @@ TestData_OOS: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DocumentsAndBindTab: {}
 }
 
 EndorsementActionTab_OOS: {

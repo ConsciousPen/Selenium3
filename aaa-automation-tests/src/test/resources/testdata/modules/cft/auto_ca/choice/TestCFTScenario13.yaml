@@ -18,9 +18,7 @@ TestData: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    Authorized By: qa
-  }
+  DocumentsAndBindTab: {}
 }  
 
 GeneralTab_DataGather: {
