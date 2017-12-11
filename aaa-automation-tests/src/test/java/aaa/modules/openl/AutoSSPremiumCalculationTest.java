@@ -1,4 +1,4 @@
-package aaa.modules.rating.auto_ss;
+package aaa.modules.openl;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -10,11 +10,10 @@ import aaa.helpers.openl.testdata_builder.AutoSSTestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
-import aaa.modules.rating.RatingBaseTest;
 import toolkit.datax.TestData;
 
-public class PremiumCalculationTest extends RatingBaseTest<AutoSSOpenLPolicy> {
-	public PremiumCalculationTest() {
+public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpenLPolicy> {
+	public AutoSSPremiumCalculationTest() {
 		super(new AutoSSTestDataGenerator());
 	}
 
@@ -28,9 +27,9 @@ public class PremiumCalculationTest extends RatingBaseTest<AutoSSOpenLPolicy> {
 		return super.getRatingDataPattern().mask(new DriverTab().getMetaKey(), new VehicleTab().getMetaKey());
 	}
 
-	@Parameters({"state", "filePath", "policyNumbers"})
+	@Parameters({"state", "fileName", "policyNumbers"})
 	@Test(groups = {Groups.OPENL, Groups.HIGH})
-	public void premiumCalculationTest(@Optional("") String state, @Optional("src/test/resources/openl/auto_ss/ORTests-20170915.xls") String filePath, @Optional("") String policyNumbers) {
-		verifyPremiums(filePath, AutoSSOpenLFile.class, getPolicyNumbers(policyNumbers));
+	public void premiumCalculationTest(@Optional("") String state, String fileName, @Optional("") String policyNumbers) {
+		verifyPremiums(fileName, AutoSSOpenLFile.class, getPolicyNumbers(policyNumbers));
 	}
 }

@@ -1,4 +1,4 @@
-package aaa.modules.rating;
+package aaa.modules.openl;
 
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.io.File;
@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
 import aaa.common.Tab;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
@@ -21,13 +23,23 @@ import aaa.utils.excel.bind.ExcelUnmarshaller;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 
-public class RatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
-	protected static final String OPENL_RATING_TESTS_FOLDER = "src/test/resources/openl";
-	protected static final Logger log = LoggerFactory.getLogger(RatingBaseTest.class);
+public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
+	protected static final Logger log = LoggerFactory.getLogger(OpenLRatingBaseTest.class);
+	protected String testsDir;
 	private TestDataGenerator<P> testDataGenerator;
 
-	public RatingBaseTest(TestDataGenerator<P> testDataGenerator) {
+	public OpenLRatingBaseTest(TestDataGenerator<P> testDataGenerator) {
 		this.testDataGenerator = testDataGenerator;
+	}
+
+	protected String getTestsDir() {
+		return testsDir;
+	}
+
+	@BeforeTest
+	@Parameters({"testsDir"})
+	public void setTestsDir(String testsDir) {
+		this.testsDir = testsDir;
 	}
 
 	protected TestData getRatingDataPattern() {
@@ -38,15 +50,15 @@ public class RatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 		return td;
 	}
 
-	protected <O extends OpenLFile<P>> void verifyPremiums(String openLFilePath, Class<O> openLFileModelClass, List<Integer> policyNumbers) {
+	protected <O extends OpenLFile<P>> void verifyPremiums(String openLFileName, Class<O> openLFileModelClass, List<Integer> policyNumbers) {
 		this.testDataGenerator.setRatingDataPattern(getRatingDataPattern());
-		OpenLFile<P> openLFile = getOpenLFileObject(openLFilePath, openLFileModelClass);
+		OpenLFile<P> openLFile = getOpenLFileObject(openLFileName, openLFileModelClass);
 
 		mainApp().open();
 		createCustomerIndividual();
 
 		for (P openLPolicy : getOpenLPolicies(openLFile, policyNumbers)) {
-			log.info("Premium calculation verification initiated for OpenL test with policy number {}", openLPolicy.getNumber());
+			log.info("Premium calculation verification initiated for test with policy number {} from {} OpenL filename", openLPolicy.getNumber(), openLFileName);
 			TestData quoteRatingData = testDataGenerator.getRatingData(openLPolicy);
 
 			policy.initiate();
@@ -66,9 +78,9 @@ public class RatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 		return openLFile.getPolicies().stream().filter(p -> policyNumbers.contains(p.getNumber())).collect(Collectors.toList());
 	}
 
-	protected <T> T getOpenLFileObject(String openLFilePath, Class<T> openLFileModelClass) {
+	protected <T> T getOpenLFileObject(String openLFileName, Class<T> openLFileModelClass) {
 		ExcelUnmarshaller eUnmarshaller = new ExcelUnmarshaller();
-		return eUnmarshaller.unmarshal(new File(openLFilePath), openLFileModelClass);
+		return eUnmarshaller.unmarshal(new File(getTestsDir() + "/" + openLFileName), openLFileModelClass);
 	}
 
 	protected String getExpectedPremium(OpenLFile<P> openLFile, int policyNumber) {

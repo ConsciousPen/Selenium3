@@ -1,13 +1,13 @@
 package aaa.helpers.openl.testdata_builder;
 
 import org.apache.commons.lang3.NotImplementedException;
-import aaa.helpers.openl.model.auto_ca.AutoCaCOpenLPolicy;
+import aaa.helpers.openl.model.pup.PUPOpenLPolicy;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 
-public class AutoCaCTestDataGenerator extends TestDataGenerator<AutoCaCOpenLPolicy> {
+public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	@Override
-	public TestData getRatingData(AutoCaCOpenLPolicy openLPolicy) {
+	public TestData getRatingData(PUPOpenLPolicy openLPolicy) {
 		return DataProviderFactory.emptyData();
 	}
 

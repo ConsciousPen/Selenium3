@@ -1,5 +1,6 @@
 package aaa.helpers.openl.testdata_builder;
 
+import org.apache.commons.lang3.NotImplementedException;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -13,5 +14,6 @@ public class HomeCaTestDataGenerator extends TestDataGenerator<HomeCaOpenLPolicy
 	@Override
 	public void setRatingDataPattern(TestData ratingDataPattern) {
 		//TODO-dchubkov: to be implemented
+		throw new NotImplementedException("setRatingDataPattern(TestData ratingDataPattern) not implemented yet");
 	}
 }

@@ -21,7 +21,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
-import aaa.toolkit.webdriver.customcontrols.UnverifiableDrivingRecordSurchargeCheckBoxes;
+import aaa.toolkit.webdriver.customcontrols.UnverifiableDrivingRecordSurcharge;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
@@ -103,7 +103,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel(), driver.getDriverAge() - driver.getTyde(),
 					AutoSSMetaData.DriverTab.LICENSE_TYPE.getLabel(), getDriverTabLicenseType(driver.isForeignLicense()),
 					AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel(), "None",
-					AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), AdvancedComboBox.RANDOM_MARK,
+					AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=First Named Insured|",
 					AutoSSMetaData.DriverTab.OCCUPATION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|"
 			);
 
@@ -191,11 +191,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			throw new NotImplementedException("Test data generation for enabled isEMember is not implemented.");
 		}
 
-		boolean firstDriver = true;
+		boolean isFirstDriver = true;
 		for (OpenLDriver driver : openLPolicy.getDrivers()) {
-			if (firstDriver) {
-				unverifiableDrivingRecordSurchargeData.put(UnverifiableDrivingRecordSurchargeCheckBoxes.DRIVER_SELECTION_BY_CONTAINS_KEY + "Smith", driver.isUnverifiableDrivingRecord());
-				firstDriver = false;
+			if (isFirstDriver) {
+				unverifiableDrivingRecordSurchargeData.put(UnverifiableDrivingRecordSurcharge.DRIVER_SELECTION_BY_CONTAINS_KEY + "Smith", driver.isUnverifiableDrivingRecord());
+				isFirstDriver = false;
 			} else {
 				unverifiableDrivingRecordSurchargeData.put(driver.getName() + " " + driver.getName(), driver.isUnverifiableDrivingRecord());
 			}
@@ -207,7 +207,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			OpenLVehicle vehicle = openLPolicy.getVehicles().stream().filter(v -> v.getNumber() == vehicleNumber).findFirst().get();
 			for (OpenLCoverage coverage : vehicle.getCoverages()) {
 				Map<String, Object> coverageData = new HashMap<>();
-				coverageData.put(getPremiumAndCoveragesTabCoverageKey(coverage.getCoverageCD()), getPremiumAndCoveragesTabCoverageLimit(coverage.getLimit()));
+				coverageData.put(getPremiumAndCoveragesTabCoverageKey(coverage.getCoverageCD()), getPremiumAndCoveragesTabCoverageLimit(coverage.getCoverageCD(), coverage.getLimit()));
 				detailedVehicleCoveragesList.add(new SimpleDataProvider(coverageData));
 			}
 		}

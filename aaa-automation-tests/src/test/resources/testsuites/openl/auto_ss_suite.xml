@@ -1,0 +1,27 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Auto SS OpenL Rating Tests" verbose="1" parallel="methods" thread-count="1024">
+    <listeners>
+        <!--<listener class-name="aaa.helpers.listeners.AlterSuiteListener"/> -->
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
+    <parameter name="testsDir" value="src/test/resources/openl/auto_ss"/>
+
+    <test name="AutoSS [CO] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="CO"/>
+        <parameter name="fileName" value="COTests-20171006.xls"/>
+        <parameter name="policyNumbers" value="1,2,3"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+
+    <test name="AutoSS [OR] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="OR"/>
+        <parameter name="fileName" value="ORTests-20170915.xls"/>
+        <parameter name="policyNumbers" value="2"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+</suite>

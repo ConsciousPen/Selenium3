@@ -149,7 +149,10 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 	}
 
-	String getPremiumAndCoveragesTabCoverageLimit(String limit) {
+	String getPremiumAndCoveragesTabCoverageLimit(String coverageCD, String limit) {
+		if ("SP EQUIP".equals(coverageCD)) {
+			return new Dollar(limit).toString();
+		}
 		String[] limitRange = limit.split("/");
 		String returnLimit;
 		if (limitRange.length > 2) {

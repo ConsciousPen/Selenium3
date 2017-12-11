@@ -14,6 +14,17 @@ import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
+/**
+ * Control for enabling/disabling drivers in "Unacceptable Risk Surcharge" section in Premium & Coverages tab.
+ * Test data should contain driver's name as a key and appropriate boolean value. Is is also allowed to set value by part of driver's name and index in list, e.g.:
+ * <pre>
+ * {@code Unverifiable Driving Record Surcharge {
+ *     'DriverFirstName DriverLastName' = false,        // set value by driver full name<n>
+ *     'contains=Smith' = true,                         // set value by part of driver's name<p>
+ *     'number=3' = false                               // set value by driver number in surcharges list<p>
+ * }}</pre>
+ *
+ */
 public class UnverifiableDrivingRecordSurcharge extends AssetList {
 	public static final String DRIVER_SELECTION_BY_CONTAINS_KEY = "contains=";
 	public static final String DRIVER_SELECTION_BY_NUMBER_KEY = "number=";
