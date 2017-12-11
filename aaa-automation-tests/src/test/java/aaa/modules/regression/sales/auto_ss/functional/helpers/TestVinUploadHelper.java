@@ -2,7 +2,6 @@ package aaa.modules.regression.sales.auto_ss.functional.helpers;
 
 import java.time.LocalDateTime;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -11,7 +10,6 @@ import aaa.common.pages.SearchPage;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
-import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;

@@ -2,19 +2,17 @@ package aaa.modules.regression.sales.common_helpers;
 
 import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
-import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import toolkit.datax.TestData;
 
 public class VinUploadCommonMethods extends PolicyBaseTest {
 
-	private final String policyType ;
+	private final String policyType;
 
-	public VinUploadCommonMethods(PolicyType policyType){
+	public VinUploadCommonMethods(PolicyType policyType) {
 		this.policyType = policyType.getShortName();
 	}
 
@@ -64,7 +62,8 @@ public class VinUploadCommonMethods extends PolicyBaseTest {
 			case "AutoSS":
 				defaultFileName = "%sVIN_%s_SS.xlsx";
 				break;
-			case "AutoCA":defaultFileName = "%sVIN_%s_SELECT.xlsx";
+			case "AutoCA":
+				defaultFileName = "%sVIN_%s_SELECT.xlsx";
 				break;
 			case "AutoCAC":
 				defaultFileName = "%sVIN_%s_CHOICE.xlsx";

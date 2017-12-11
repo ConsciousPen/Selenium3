@@ -27,7 +27,7 @@ import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.Link;
 
-public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUploadPostConditions{
+public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUploadPostConditions {
 
 	private VehicleTab vehicleTab = new VehicleTab();
 	private PurchaseTab purchaseTab = new PurchaseTab();
@@ -292,11 +292,11 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 	 */
 	protected void pas4253_restrictVehicleRefreshNB(String vinTableFile, String vinNumber) {
 
-			TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
-					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
-					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.TYPE.getLabel()), "Conversion Van")
-					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Change Vehicle Confirmation"), "OK")
-					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()), "AV - Custom Van");
+		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.TYPE.getLabel()), "Conversion Van")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Change Vehicle Confirmation"), "OK")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()), "AV - Custom Van");
 
 		precondsTestVINUpload(testData, VehicleTab.class);
 
@@ -366,7 +366,6 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 
 		TestData testDataAssignmentTab = new SimpleDataProvider().adjust("DriverVehicleRelationshipTable", listDataAssignmentTab);
 
-
 		// add 2 vehicles + 2 assignments to the common testdata
 		return getPolicyDefaultTD()
 				.adjust(vehicleTab.getMetaKey(), testDataVehicleTab)
@@ -420,14 +419,14 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 	}
 
 	/**
-	Info in each xml file for this test could be used only once, so for running of tests properly DB should be cleaned after
-	each test method. So newly added values should be deleted from Vehiclerefdatavin, Vehiclerefdatamodel and VEHICLEREFDATAVINCONTROL
-	tables. Default values should be set for EXPIRATIONDATE field for default rows in VEHICLEREFDATAVINCONTROL table.
+	 Info in each xml file for this test could be used only once, so for running of tests properly DB should be cleaned after
+	 each test method. So newly added values should be deleted from Vehiclerefdatavin, Vehiclerefdatamodel and VEHICLEREFDATAVINCONTROL
+	 tables. Default values should be set for EXPIRATIONDATE field for default rows in VEHICLEREFDATAVINCONTROL table.
 
-	'SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT' are names of configurations which are used and listed in excel
-	files for each product (choice config, select config and Signature Series config ONLY for UT state). So if they will be changed there
-	this after method should be updated. But such updates are not supposed to be done.
-	Please refer to the files with appropriate names in each test in /resources/uploadingfiles/vinUploadFiles.
+	 'SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT' are names of configurations which are used and listed in excel
+	 files for each product (choice config, select config and Signature Series config ONLY for UT state). So if they will be changed there
+	 this after method should be updated. But such updates are not supposed to be done.
+	 Please refer to the files with appropriate names in each test in /resources/uploadingfiles/vinUploadFiles.
 	 */
 	@AfterMethod(alwaysRun = true)
 	protected void vinTablesCleaner() {
