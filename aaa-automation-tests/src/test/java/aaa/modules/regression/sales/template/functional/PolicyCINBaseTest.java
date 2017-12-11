@@ -101,6 +101,10 @@ public abstract class PolicyCINBaseTest extends PolicyBaseTest {
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 
+    protected TestData adjustKey(String key, String value) {
+        return null;
+    }
+
     /*
      * A placeholder for test-specific Policy population
      */

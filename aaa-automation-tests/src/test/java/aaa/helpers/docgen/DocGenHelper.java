@@ -268,8 +268,23 @@ public class DocGenHelper {
 
     public static DocumentPackage getDocumentPackage(String policyNumber, String eventName) {
         String xmlDocData = DbXmlHelper.getXmlByPolicyNumber(policyNumber, eventName);
-        return XmlHelper.xmlToModel(xmlDocData, DocumentPackage.class);
+
+        //In fact decision is made based on 'aaaDocGenSerializer.callDCSInstant' property from the conf table
+        //Currently there's no defined clean way to do that, thus such a hook will work for now
+        DocumentPackage documentPackage;
+        boolean callDCSInstantly = !xmlDocData.startsWith("<doc:CreateDocuments");
+        if(callDCSInstantly) {
+            documentPackage = XmlHelper.xmlToModel(xmlDocData, DocumentPackage.class);
+        }
+        else {
+            CreateDocuments doc = XmlHelper.xmlToModel(xmlDocData, CreateDocuments.class);
+            //get the only document package
+            documentPackage = doc.getStandardDocumentRequest().getDocumentPackages().get(0);
+        }
+        return documentPackage;
     }
+
+
 
     private static boolean isRequestValid(DocumentWrapper dw, String policyNumber, DocGenEnum.Documents[] documents) {
         if (documents.length > 0) {

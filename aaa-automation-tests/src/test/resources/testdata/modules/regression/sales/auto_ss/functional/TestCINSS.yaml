@@ -1,0 +1,18 @@
+PrefillTab: {
+   First Name: MvrChargeable,
+   Last Name: Activity,
+   Zip Code: 85027,
+   Address Line 1: 11 W BEHREND DR,
+   Validate Address: click,
+   Validate Address Dialog: {
+     },
+   Order Prefill: click,
+}
+
+PremiumAndCoveragesTab: {
+   Product: CA Select,
+   Payment Plan: Annual,
+   Bodily Injury Liability: 'contains=$25,000/$50,000',
+   Property Damage Liability: 'contains=$25,000'
+ }
+
