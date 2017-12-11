@@ -284,8 +284,8 @@ public class Scenario9 extends ScenarioBaseTest {
 	}
 		
 	protected void generateEarnedPremiumWriteOff() {
-		LocalDateTime earnedPremiumWriteOffDate = getTimePoints().getEarnedPremiumWriteOff(policyExpirationDate); 
-		TimeSetterUtil.getInstance().nextPhase(earnedPremiumWriteOffDate); 
+		//LocalDateTime earnedPremiumWriteOffDate = getTimePoints().getEarnedPremiumWriteOff(policyExpirationDate); 
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(60).with(DateTimeUtils.closestFutureWorkingDay)); 
 		JobUtils.executeJob(Jobs.earnedPremiumWriteoffProcessingJob); 
 		
 		mainApp().open();
