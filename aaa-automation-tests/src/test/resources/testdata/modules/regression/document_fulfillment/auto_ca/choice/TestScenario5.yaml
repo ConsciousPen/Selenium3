@@ -1,0 +1,8 @@
+TestData: {
+  PurchaseTab: {
+    PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa'],
+    PaymentAllocation: {
+      Visa: /rest
+    }
+  }
+}

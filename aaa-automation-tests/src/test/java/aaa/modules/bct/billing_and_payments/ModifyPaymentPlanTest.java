@@ -50,13 +50,13 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 
 		SearchPage.openBilling(policyNumber);
 
-		billingAccount.changePaymentPlan().perform("Standard Monthly (Renewal)");
+		billingAccount.changePaymentPlan().perform(BillingConstants.PaymentPlan.STANDARD_MONTHLY_RENEWAL);
 
 		BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PAYMENT_PLAN)
-				.verify.valueByRegex("Standard Monthly (Renewal)");
+				.verify.value(BillingConstants.PaymentPlan.STANDARD_MONTHLY_RENEWAL);
 
 		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
-				.setReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.INSTALLMENT_FEE)
+				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.INSTALLMENT_FEE)
 				.setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPLIED).setAmount(new Dollar(3)).verify(1);
 	}
 

@@ -1,0 +1,19 @@
+TestData: {
+ EndorsementTab: '@EndorsementTab',
+ PersonalPropertyTab: '@PersonalPropertyTab'
+}
+
+EndorsementTab: {
+  'HS 04 61': '@Endorsement_HO61'
+}
+
+Endorsement_HO61: {
+  Action: 'Add'
+}
+
+PersonalPropertyTab: {
+  Cameras: {
+   Limit of liability: '5000',
+   Description: 'aaa'
+  }
+}

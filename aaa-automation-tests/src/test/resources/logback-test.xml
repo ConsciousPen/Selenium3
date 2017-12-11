@@ -55,6 +55,7 @@
     </logger>
     <logger name="org.openqa" level="OFF"/>
     <logger name="org.apache.cxf" level="OFF"/>
+    <logger name="org.apache.cxf.services.BatchJobExecutorService.BatchJobExecutorPort.BatchJobTrigger" level="INFO"/>
     <logger name="org.apache.http" level="OFF"/>
     <logger name="com.exigen.istf.exec.core.statistics" level="OFF"/>
     <logger name="com.exigen.istf.exec.core.browser.impl" level="OFF"/>
