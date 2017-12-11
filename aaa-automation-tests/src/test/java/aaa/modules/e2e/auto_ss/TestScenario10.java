@@ -31,8 +31,8 @@ public class TestScenario10 extends Scenario10 {
 			generateSecondBill();
 			paySecondBill();
 			generateThirdBill();
-			payThirdBill();
 			renewalImageGeneration();
+			payThirdBill();
 			renewalPreviewGeneration();
 			renewalOfferGeneration();
 			generateRenewalBill();

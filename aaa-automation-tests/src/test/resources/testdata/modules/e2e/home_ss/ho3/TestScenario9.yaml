@@ -14,8 +14,7 @@ TestData_Endorsement: {
   ReportsTab: {},
   PropertyInfoTab: {
     PropertyValue: {
-      Coverage A - Dwelling limit: 175000, 
-      Reason replacement cost differs from the tool value: 'index=1'
+      Coverage A - Dwelling limit: 174000, 
     }
   },
   ProductOfferingTab: {},

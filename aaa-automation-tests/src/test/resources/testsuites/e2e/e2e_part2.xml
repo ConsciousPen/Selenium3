@@ -10,6 +10,8 @@
         <suite-file path="./Scenario9.xml" />
         <suite-file path="./Scenario10.xml" />
         <suite-file path="./Scenario11.xml" />
+        <!-- suite-file path="./Scenario12.xml" />
+        <suite-file path="./Scenario13.xml" /-->
     </suite-files>
 
 </suite>
