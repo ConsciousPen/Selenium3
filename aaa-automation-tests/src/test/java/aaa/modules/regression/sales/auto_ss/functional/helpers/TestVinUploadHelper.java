@@ -66,6 +66,13 @@ public class TestVinUploadHelper extends AutoSSBaseTest {
 		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("Yes");
 	}
 
+	public void precondsTestVINUpload(TestData testData, Class<? extends Tab> tab) {
+		mainApp().open();
+		createCustomerIndividual();
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(testData, tab, true);
+	}
+
 	protected void createAndRateRenewal(String policyNumber) {
 		LocalDateTime policyExpDate = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
 

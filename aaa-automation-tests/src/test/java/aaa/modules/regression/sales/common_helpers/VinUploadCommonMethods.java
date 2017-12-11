@@ -50,13 +50,6 @@ public class VinUploadCommonMethods extends PolicyBaseTest {
 		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
 	}
 
-	public void precondsTestVINUpload(TestData testData, Class<? extends Tab> tab) {
-		mainApp().open();
-		createCustomerIndividual();
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(testData, tab, true);
-	}
-
 	public void verifyActivitiesAndUserNotes(String vinNumber) {
 		//method added for verification of PAS-544 - Activities and User Notes
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();

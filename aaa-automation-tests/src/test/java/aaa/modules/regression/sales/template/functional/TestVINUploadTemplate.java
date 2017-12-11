@@ -10,6 +10,7 @@ import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterMethod;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -56,7 +57,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 
 		TestData testData = getTestDataWithSinceMembership(vinNumber);
 
-		vinMethods.precondsTestVINUpload(testData, VehicleTab.class);
+		precondsTestVINUpload(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
@@ -112,7 +113,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber);
 
-		vinMethods.precondsTestVINUpload(testData, VehicleTab.class);
+		precondsTestVINUpload(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
@@ -160,7 +161,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 
 		TestData testData = getTestDataTwoVehicles(vinNumber);
 
-		vinMethods.precondsTestVINUpload(testData, VehicleTab.class);
+		precondsTestVINUpload(testData, VehicleTab.class);
 
 		//Verify that VIN which will be updated exists in the system, save value that will be updated
 		vehicleTab.verifyFieldHasValue(AutoCaMetaData.VehicleTab.VIN_MATCHED.getLabel(), "Yes");
@@ -297,7 +298,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Change Vehicle Confirmation"), "OK")
 					.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()), "AV - Custom Van");
 
-		vinMethods.precondsTestVINUpload(testData, VehicleTab.class);
+		precondsTestVINUpload(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		assertSoftly(softly -> {
@@ -390,6 +391,13 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 				.adjust(AutoCaMetaData.MembershipTab.AAA_MEMBERSHIP_REPORT.getLabel(), aaaMembershipReportRow);
 		testData.adjust(membershipTab.getMetaKey(), testMembershipTab);
 		return testData;
+	}
+
+	public void precondsTestVINUpload(TestData testData, Class<? extends Tab> tab) {
+		mainApp().open();
+		createCustomerIndividual();
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(testData, tab, true);
 	}
 
 	private void createAndRateRenewal(String policyNumber) {

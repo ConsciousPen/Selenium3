@@ -65,7 +65,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 		String vinTableFile = vinMethods.getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get());
 
 		TestData testData = getAdjustedTestData(newVin);
-		vinMethods.precondsTestVINUpload(testData, VehicleTab.class);
+		precondsTestVINUpload(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
@@ -124,7 +124,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), newVin);
 
-		vinMethods.precondsTestVINUpload(testData, VehicleTab.class);
+		precondsTestVINUpload(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "No");
@@ -179,7 +179,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 
 		testData.adjust(ratingDetailReportsTab.getMetaKey(), getTestDataWithMembershipSinceDate(testData)).resolveLinks();
 
-		vinMethods.precondsTestVINUpload(testData, VehicleTab.class);
+		precondsTestVINUpload(testData, VehicleTab.class);
 
 		//Verify that VIN which will be updated exists in the system, save value that will be updated
 		vehicleTab.verifyFieldHasValue(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel(), "Yes");
@@ -327,7 +327,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Change Vehicle Confirmation"), "OK")
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.STAT_CODE.getLabel()), "AV - Custom Van");
 
-		vinMethods.precondsTestVINUpload(testData, VehicleTab.class);
+		precondsTestVINUpload(testData, VehicleTab.class);
 
 		//Verify that VIN which will be uploaded is not exist yet in the system
 		assertSoftly(this::pas2453_CommonChecks);
