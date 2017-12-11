@@ -70,8 +70,7 @@ public class VinUploadCommonMethods extends PolicyBaseTest {
 			case "AutoSS":
 				defaultFileName = "%sVIN_%s_SS.xlsx";
 				break;
-			case "AutoCA":
-				defaultFileName = "%sVIN_%s_SELECT.xlsx";
+			case "AutoCA":defaultFileName = "%sVIN_%s_SELECT.xlsx";
 				break;
 			case "AutoCAC":
 				defaultFileName = "%sVIN_%s_CHOICE.xlsx";

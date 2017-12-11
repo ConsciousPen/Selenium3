@@ -190,11 +190,3 @@ PAS-6667:
       messages: ['WUAUCA']
     - tests: [aaa.modules.docgen.home_ca.*.TestDocgenScenarios.testPolicyDocuments]
       messages: ['WUAUCA']
-PAS-6539:
-  summary: "View eRefunds and the Debit/Credit Card - Auto"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodEFT,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc,
-    aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard]
-      messages: ['paymentMethod']
