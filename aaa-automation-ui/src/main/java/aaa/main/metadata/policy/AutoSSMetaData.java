@@ -631,7 +631,7 @@ public final class AutoSSMetaData {
 		// UNVERIFIABLE_DRIVING_RECORD_SURCHARGE = declare("Unverifiable Driving
 		// Record Surcharge", CheckBox.class, Waiters.AJAX);
 
-		public static final AssetDescriptor<Button> CALCULATE_PREMIUM = declare("Calculate Premium", Button.class, Waiters.AJAX.then(Waiters.AJAX), By.id("policyDataGatherForm:premiumRecalc"));
+		public static final AssetDescriptor<Button> CALCULATE_PREMIUM = declare("Calculate Premium", Button.class, Waiters.AJAX.then(Waiters.SLEEP(5000)), By.id("policyDataGatherForm:premiumRecalc"));
 		public static final AssetDescriptor<RadioGroup> ADDITIONAL_SAVINGS_OPTIONS =
 			declare("Additional Savings Options", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:visibleRadio']"));
 		public static final AssetDescriptor<CheckBox> MEMBERSHIP = declare("Membership", CheckBox.class, By.xpath("//td[text()='Membership']//input"));
