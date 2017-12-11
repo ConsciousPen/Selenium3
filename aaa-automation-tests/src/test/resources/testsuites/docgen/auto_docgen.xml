@@ -141,6 +141,13 @@
         </classes>
     </test>
     
+	<test name="Document_Fulfillment_TestScenario5">
+        <parameter name="state" value="DC" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.TestScenario5" />
+        </classes>
+    </test>
+    
 	<test name="Document_Fulfillment_TestScenarioNY">
         <parameter name="state" value="NY" />
         <classes>
