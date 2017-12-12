@@ -9,6 +9,5 @@ public interface TestVinUploadPostConditions {
 
 	String DELETE_FROM_VEHICLEREFDATAMODEL_BY_ID = "DELETE FROM vehiclerefdatamodel WHERE id='%s'";
 	String DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_VERSION = "DELETE FROM vehiclerefdatavincontrol VC WHERE VC.version IN %1$s";
-	//todo research what is going on below.
-	String UPDATE = "UPDATE vehiclerefdatavincontrol SET expirationdate='99999999'";
+	String UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE = "UPDATE vehiclerefdatavincontrol VC SET expirationdate='99999999' WHERE VC.STATECD='%1$s'";
 }
