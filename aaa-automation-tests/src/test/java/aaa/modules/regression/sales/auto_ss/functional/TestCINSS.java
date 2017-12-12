@@ -20,19 +20,36 @@ import java.util.List;
 public class TestCINSS extends PolicyCINBaseTest {
     /**
      * @author Rokas Lazdauskas
-     * @name Test CIN Document generation for CA Select New Business
+     * @name Test CIN Document generation for AZ Select New Business
      * @scenario
      * @details
      */
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6341")
     @Parameters({STATE_PARAM})
-    public void cftTestScenario1(@Optional("AZ") String state) {
-        String policyNumber = createPolicyForTest("CLUE");
+    public void testCinClue(@Optional("AZ") String state) {
+        String policyNumber = createPolicyForTest(CLUE);
         //get all the documents in the package
         List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber);
         //check the document sequence
-        verifyDocumentOrder(documentsList, DocGenEnum.Documents._55_3333, DocGenEnum.Documents._55_3500);
+        verifyDocumentOrder(documentsList, DocGenEnum.Documents.AA02AZ, DocGenEnum.Documents.AA41XX);
+    }
+
+    /**
+     * @author Rokas Lazdauskas
+     * @name Test CIN Document generation for AZ Select New Business
+     * @scenario
+     * @details
+     */
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6341")
+    @Parameters({STATE_PARAM})
+    public void testCinMVR(@Optional("AZ") String state) {
+        String policyNumber = createPolicyForTest(MVR);
+        //get all the documents in the package
+        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber);
+        //check the document sequence
+        verifyDocumentOrder(documentsList, DocGenEnum.Documents.AA02AZ, DocGenEnum.Documents.AA41XX);
     }
 
     @Override
@@ -45,7 +62,6 @@ public class TestCINSS extends PolicyCINBaseTest {
         TestData testData = getPolicyTD();
         testData.adjust(TestData.makeKeyPath(AutoCaMetaData.PrefillTab.class.getSimpleName()), getTestSpecificTD("PrefillTab"))
                 .adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName()), getTestSpecificTD("PremiumAndCoveragesTab"));
-
         return testData;
     }
 }

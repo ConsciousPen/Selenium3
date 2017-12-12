@@ -86,9 +86,9 @@ ReportsTab: {
   AAAMembershipReport: [{Report: 'Order report'}],
   FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
-  CLUEreport: [{Report: 'Order report'}]
+  CLUEreport: [{Report: 'Order report'}],
 #  Description of interest:
-  #ISO360Report: [{Report: 'Order report'}]
+  ISO360Report: [{Report: 'Order report'}]
 }
 
 PropertyInfoTab: {
@@ -96,7 +96,12 @@ PropertyInfoTab: {
     Number of family units: 'index=1'
     },
    AdditionalAddress: [{}],
-   PublicProtectionClass: {},
+   PublicProtectionClass: {
+     Fire department type: 'T - Tax based',
+     Public protection class: '5',
+     Distance to fire hydrant: '<=1000ft',
+     Fire protection area: '100'
+   },
    FireReport: {},
    PropertyValue: {
     Coverage A - Dwelling limit: 75000,
