@@ -1030,8 +1030,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementDueDate.format(DateTimeUtils.MM_DD_YYYY),
-			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber()));
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionContains(1, String.format("Endorsement effective %1$s", endorsementDueDate.format(DateTimeUtils.MM_DD_YYYY)));
 		log.info("Endorsment action completed successfully");
 	}
 
