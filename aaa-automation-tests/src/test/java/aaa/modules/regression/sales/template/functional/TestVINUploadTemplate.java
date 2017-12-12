@@ -10,8 +10,6 @@ import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterMethod;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.admin.metadata.administration.AdministrationMetaData;
-import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -19,22 +17,22 @@ import aaa.common.pages.SearchPage;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
-import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.postconditions.DatabaseCleanHelper;
 import aaa.modules.regression.postconditions.TestVinUploadPostConditions;
+import aaa.modules.regression.sales.common_helpers.VinUploadCommonMethods;
 import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.Link;
 
-public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUploadPostConditions{
+public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUploadPostConditions {
 
 	private VehicleTab vehicleTab = new VehicleTab();
-	private UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 	private PurchaseTab purchaseTab = new PurchaseTab();
 	private MembershipTab membershipTab = new MembershipTab();
+	protected VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType());
 
 	/**
 	 * @author Lev Kazarnovskiy
@@ -55,7 +53,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 	 * 5. Verify that VIN was uploaded and all fields are populated, VIN refresh works after premium calculation
 	 * @details
 	 */
-	protected void newVinAdded(String controlTableFile, String vinTableFile, String vinNumber) {
+	protected void newVinAdded(String vinTableFile, String vinNumber) {
 
 		TestData testData = getTestDataWithSinceMembership(vinNumber);
 
@@ -70,7 +68,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 		log.info("Quote {} is successfully saved for further use", quoteNumber);
 
 		//open Admin application and navigate to Administration tab
-		uploadFiles(controlTableFile, vinTableFile);
+		vinMethods.uploadFiles(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
@@ -88,8 +86,6 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 
 		pas533_CommonChecks();
-
-		log.info("{} Quote# {} was successfully saved 'Add new VIN scenario' for NB is passed for VIN UPLOAD tests", getPolicyType(), quoteNumber);
 	}
 
 	/**
@@ -112,7 +108,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 	 * 6. Verify that VIN was uploaded and all fields are populated
 	 * @details
 	 */
-	protected void newVinAddedRenewal(String controlTableFile, String vinTableFile, String vinNumber) {
+	protected void newVinAddedRenewal(String vinTableFile, String vinNumber) {
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber);
@@ -131,7 +127,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 		log.info("Policy {} is successfully saved for further use", policyNumber);
 
 		//open Admin application and navigate to Administration tab
-		uploadFiles(controlTableFile, vinTableFile);
+		vinMethods.uploadFiles(vinTableFile);
 
 		//Go back to MainApp, find created policy, initiate Renewal, verify if VIN value is applied
 		createAndRateRenewal(policyNumber);
@@ -141,8 +137,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 
 		VehicleTab.buttonSaveAndExit.click();
 
-		verifyActivitiesAndUserNotes(vinNumber);
-
+		vinMethods.verifyActivitiesAndUserNotes(vinNumber);
 	}
 
 	/**
@@ -162,7 +157,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 	 * 5. Verify that VIN was updated successfully and all fields are populated properly
 	 * @details
 	 */
-	protected void updatedVinRenewal(String controlTableFile, String vinTableFile, String vinNumber) {
+	protected void updatedVinRenewal(String vinTableFile, String vinNumber) {
 
 		TestData testData = getTestDataTwoVehicles(vinNumber);
 
@@ -181,7 +176,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 		log.info("Policy {} is successfully saved for further use", policyNumber);
 
 		//open Admin application and navigate to Administration tab
-		uploadFiles(controlTableFile, vinTableFile);
+		vinMethods.uploadFiles(vinTableFile);
 
 		//Go back to MainApp, find created policy, create Renewal image and verify if VIN was updated and new values are applied
 		createAndRateRenewal(policyNumber);
@@ -222,7 +217,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 
 		VehicleTab.buttonSaveAndExit.click();
 
-		verifyActivitiesAndUserNotes(vinNumber);
+		vinMethods.verifyActivitiesAndUserNotes(vinNumber);
 	}
 
 	/**
@@ -242,14 +237,14 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 	 * 7. Check that data was retrieved from db
 	 * @details
 	 */
-	public void endorsement(String controlTableFile, String vinTableFile, String vinNumber) {
+	protected void endorsement(String vinTableFile, String vinNumber) {
 		TestData testData = getTestDataWithSinceMembership(vinNumber).resolveLinks();
 
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy(testData);
 
-		uploadFiles(controlTableFile, vinTableFile);
+		vinMethods.uploadFiles(vinTableFile);
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -295,13 +290,13 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 	 * 5. Verify that VIN was NOT updated and all fields are populated with previous info
 	 * @details
 	 */
-	protected void pas4253_restrictVehicleRefreshNB(String controlTableFile, String vinTableFile, String vinNumber) {
+	protected void pas4253_restrictVehicleRefreshNB(String vinTableFile, String vinNumber) {
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.TYPE.getLabel()), "Conversion Van")
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Change Vehicle Confirmation"), "OK")
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Stat Code"), "AV - Custom Van");
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.STAT_CODE.getLabel()), "AV - Custom Van");
 
 		precondsTestVINUpload(testData, VehicleTab.class);
 
@@ -320,8 +315,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
 
 		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, vinTableFile);
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
+		vinMethods.uploadFiles(vinTableFile);
 
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
@@ -372,7 +366,6 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 
 		TestData testDataAssignmentTab = new SimpleDataProvider().adjust("DriverVehicleRelationshipTable", listDataAssignmentTab);
 
-
 		// add 2 vehicles + 2 assignments to the common testdata
 		return getPolicyDefaultTD()
 				.adjust(vehicleTab.getMetaKey(), testDataVehicleTab)
@@ -399,15 +392,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 		return testData;
 	}
 
-	private void uploadFiles(String controlTableFile, String vinTableFile) {
-		adminApp().open();
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, vinTableFile);
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
-	}
-
-	private void precondsTestVINUpload(TestData testData, Class<? extends Tab> tab) {
+	public void precondsTestVINUpload(TestData testData, Class<? extends Tab> tab) {
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
@@ -433,26 +418,19 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 		policy.getDefaultView().fillFromTo(testData, AssignmentTab.class, PremiumAndCoveragesTab.class, true);
 	}
 
-	private void verifyActivitiesAndUserNotes(String vinNumber) {
-		//method added for verification of PAS-544 - Activities and User Notes
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "VIN data has been updated for the following vehicle(s): " + vinNumber)
-				.verify.present("PAS-544 - Activities and User Notes may be broken: VIN refresh record is missed in Activities and User Notes:");
-	}
+	/**
+	 Info in each xml file for this test could be used only once, so for running of tests properly DB should be cleaned after
+	 each test method. So newly added values should be deleted from Vehiclerefdatavin, Vehiclerefdatamodel and VEHICLEREFDATAVINCONTROL
+	 tables. Default values should be set for EXPIRATIONDATE field for default rows in VEHICLEREFDATAVINCONTROL table.
 
-	/*
-	Info in each xml file for this test could be used only once, so for running of tests properly DB should be cleaned after
-	each test method. So newly added values should be deleted from Vehiclerefdatavin, Vehiclerefdatamodel and VEHICLEREFDATAVINCONTROL
-	tables. Default values should be set for EXPIRATIONDATE field for default rows in VEHICLEREFDATAVINCONTROL table.
-
-	'SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT', 'SYMBOL_2000_SS_TEST' are names of configurations which are used and listed in excel
-	files for each product (choice config, select config and Signature Series config ONLY for UT state). So if they will be changed there
-	this after method should be updated. But such updates are not supposed to be done.
-	Please refer to the files with appropriate names in each test in /resources/uploadingfiles/vinUploadFiles.
+	 'SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT' are names of configurations which are used and listed in excel
+	 files for each product (choice config, select config and Signature Series config ONLY for UT state). So if they will be changed there
+	 this after method should be updated. But such updates are not supposed to be done.
+	 Please refer to the files with appropriate names in each test in /resources/uploadingfiles/vinUploadFiles.
 	 */
 	@AfterMethod(alwaysRun = true)
 	protected void vinTablesCleaner() {
 		String configNames = "('SYMBOL_2000_CHOICE_T', 'SYMBOL_2000_CA_SELECT')";
-		DatabaseCleanHelper.cleanVinUploadTables(configNames);
+		DatabaseCleanHelper.cleanVinUploadTables(configNames, getState());
 	}
 }

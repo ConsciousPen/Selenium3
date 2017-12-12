@@ -3,8 +3,11 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.
  */
 package aaa.main.modules.policy.home_ss.defaulttabs;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
+import toolkit.webdriver.controls.Button;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -21,8 +24,16 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 		super(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class);
 	}
 
+	public Button btnCalculatePremium() {
+		return getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.CALCULATE_PREMIUM.getLabel(), Button.class);
+	}
+
 	@Override
 	public void calculatePremium() {
-		btnCalculatePremium.click();
+		if (!btnCalculatePremium().isPresent()) {
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+			NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		}
+		btnCalculatePremium().click();
 	}
 }
