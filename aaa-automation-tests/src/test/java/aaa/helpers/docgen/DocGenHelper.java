@@ -204,7 +204,7 @@ public class DocGenHelper {
      * Extracts list of documents from {@link DocumentPackage} model
      *
      * @param policyNumber
-     * @param eventName {@link aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames} event that triggered document generation
+     * @param eventName    {@link aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames} event that triggered document generation
      */
     public static List<Document> getDocumentsList(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {
         DocumentPackage docPackage = getDocumentPackage(policyNumber, eventName);
@@ -269,22 +269,19 @@ public class DocGenHelper {
     public static DocumentPackage getDocumentPackage(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {
         String xmlDocData = DbXmlHelper.getXmlByPolicyNumber(policyNumber, eventName);
 
-        //In fact decision is made based on 'aaaDocGenSerializer.callDCSInstant' property from the conf table
-        //Currently there's no defined clean way to do that, thus such a hook will work for now
+        //TODO: Change this to 'always cast to DocumentPackage' once all VDMS get aaaDocGenSerializer.callDCSInstant set to TRUE
+        //In the meantime, this hook will work fine
         DocumentPackage documentPackage;
         boolean callDCSInstantly = !xmlDocData.startsWith("<doc:CreateDocuments");
-        if(callDCSInstantly) {
+        if (callDCSInstantly) {
             documentPackage = XmlHelper.xmlToModel(xmlDocData, DocumentPackage.class);
-        }
-        else {
+        } else {
             CreateDocuments doc = XmlHelper.xmlToModel(xmlDocData, CreateDocuments.class);
             //get the only document package
             documentPackage = doc.getStandardDocumentRequest().getDocumentPackages().get(0);
         }
         return documentPackage;
     }
-
-
 
     private static boolean isRequestValid(DocumentWrapper dw, String policyNumber, DocGenEnum.Documents[] documents) {
         if (documents.length > 0) {

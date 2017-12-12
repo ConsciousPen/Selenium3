@@ -15,6 +15,7 @@ import toolkit.datax.TestData;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,28 +29,23 @@ public abstract class PolicyCINBaseTest extends PolicyBaseTest {
     protected static final String DEFAULT_TEST_DATA_KEY = "TestData";
     protected static final String STATE_PARAM = "state";
     protected static final String DEFAULT_TEST_RENEWAL_KEY = "TestData_Renewal_";
-    protected static final String CLUE_CHARGEABLE_DRIVER_NAME = "ClueChargeable";
-    protected static final String PROPERTY = "PROPERTY";
     protected static final String CLUE = "CLUE";
     protected static final String MVR = "MVR";
 
     /**
      * Create a policy for test with specific data
      *
-     * @scenario 1. Create Customer
+     * @scenario
+     * 1. Create Customer
      * 2. Prepare a test-specific data
      * 3. Create CA Select Auto Policy
      * 4. Verify Policy status is 'Policy Active'
      * @details
      */
-    protected String createPolicyForTest(String activityType) {
+    protected String createPolicyForTest(TestData policyTestData) {
         mainApp().open();
         createCustomerIndividual();
-        TestData testData = preparePolicyTestData();
-        if (activityType.equals(CLUE)) {
-            testData.adjust(TestData.makeKeyPath(AutoCaMetaData.PrefillTab.class.getSimpleName(), AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel()), CLUE_CHARGEABLE_DRIVER_NAME);
-        }
-        String policyNumber = createPolicy(testData);
+        String policyNumber = createPolicy(policyTestData);
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         return policyNumber;
     }
@@ -86,7 +82,8 @@ public abstract class PolicyCINBaseTest extends PolicyBaseTest {
      * Renew the policy specified with policy number
      *
      * @param activityType
-     * @scenario 1. Change time to R-35
+     * @scenario
+     * 1. Change time to R-35
      * 2. Create Manual Renewal for Policy (add driver which has chargeable violation)
      * @details
      */
@@ -101,8 +98,11 @@ public abstract class PolicyCINBaseTest extends PolicyBaseTest {
         PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 
-    /*
-     * A placeholder for test-specific Policy population
-     */
-    protected abstract TestData preparePolicyTestData();
+    protected TestData preparePolicyTestData(Map<String, String> adjustmentMap, String... adjustmentKeys) {
+        //get common policy TestData
+        TestData testData = getPolicyTD();
+        //adjust TestData with a subset of keys
+        Arrays.stream(adjustmentKeys).forEach(key -> testData.adjust(adjustmentMap.get(key), getTestSpecificTD(key)));
+        return testData;
+    }
 }

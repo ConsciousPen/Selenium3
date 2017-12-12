@@ -9,6 +9,7 @@ import aaa.main.enums.DocGenEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.PolicyCINBaseTest;
+import com.google.inject.internal.ImmutableMap;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -16,19 +17,29 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 import java.util.List;
+import java.util.Map;
 
 public class TestCinNewBusiness extends PolicyCINBaseTest {
+
+    private Map<String, String> adjustmentMap = ImmutableMap.of(
+            "PrefillTabMVR", TestData.makeKeyPath(AutoCaMetaData.PrefillTab.class.getSimpleName()),
+            "PremiumAndCoveragesTab", TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName()),
+            "AAAProductOwned", TestData.makeKeyPath(AutoCaMetaData.GeneralTab.class.getSimpleName()),
+            "PrefillTabClue", TestData.makeKeyPath(AutoCaMetaData.PrefillTab.class.getSimpleName())
+    );
 
     /**
      * @author Rokas Lazdauskas
      * @name Test CIN Document generation (MVR activity)
-     * @details
+     * @details TODO: Change testCaseID
      */
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-6341")
     @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-6341")
     public void testCinNewBusinessMvr(@Optional("CA") String state) {
-        String policyNumber = createPolicyForTest(MVR);
+        TestData policyTestData = preparePolicyTestData(adjustmentMap,
+                "PrefillTabMVR", "PremiumAndCoveragesTab", "AAAProductOwned");
+        String policyNumber = createPolicyForTest(policyTestData);
         //get all the documents in the package
         List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
         //check the document sequence
@@ -38,13 +49,15 @@ public class TestCinNewBusiness extends PolicyCINBaseTest {
     /**
      * @author Rokas Lazdauskas
      * @name Test CIN Document generation (CLUE activity)
-     * @details
+     * @details TODO: Change testCaseID
      */
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-6341")
     @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-6341")
     public void testCinNewBusinessClue(@Optional("CA") String state) {
-        String policyNumber = createPolicyForTest(CLUE);
+        TestData policyTestData = preparePolicyTestData(adjustmentMap,
+                "PrefillTabClue", "PremiumAndCoveragesTab", "AAAProductOwned");
+        String policyNumber = createPolicyForTest(policyTestData);
         //get all the documents in the package
         List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
         //check the document sequence
@@ -54,14 +67,5 @@ public class TestCinNewBusiness extends PolicyCINBaseTest {
     @Override
     protected PolicyType getPolicyType() {
         return PolicyType.AUTO_CA_SELECT;
-    }
-
-    @Override
-    protected TestData preparePolicyTestData() {
-        TestData testData = getPolicyTD();
-        testData.adjust(TestData.makeKeyPath(AutoCaMetaData.PrefillTab.class.getSimpleName()), getTestSpecificTD("PrefillTab"))
-                .adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName()), getTestSpecificTD("PremiumAndCoveragesTab"))
-                .adjust(TestData.makeKeyPath(AutoCaMetaData.GeneralTab.class.getSimpleName(),AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()), getTestSpecificTD("AAAProductOwned"));
-        return testData;
     }
 }

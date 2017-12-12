@@ -1,19 +1,28 @@
-PrefillTab: {
-   First Name: MvrChargeable,
-   Last Name: Activity,
-   Validate Address: click,
-   Validate Address Dialog: {
-     },
-   Order Prefill: click,
+PrefillTabMVR: {
+  First Name: MvrChargeable,
+  Last Name: Activity,
+  Validate Address: click,
+  Validate Address Dialog: {
+  },
+  Order Prefill: click,
+}
+
+PrefillTabClue: {
+  First Name: ClueChargeable,
+  Last Name: Activity,
+  Validate Address: click,
+  Validate Address Dialog: {
+  },
+  Order Prefill: click,
 }
 
 PremiumAndCoveragesTab: {
-   Product: CA Choice,
-   Payment Plan: Annual,
-   Bodily Injury Liability: 'contains=$100,000/$300,000',
-   Property Damage Liability: 'contains=$100,000'
+  Product: CA Choice,
+  Payment Plan: Annual,
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Property Damage Liability: 'contains=$100,000'
 }
 
 AAAProductOwned: {
-   Current AAA Member: 'No'
+  Current AAA Member: 'No'
 }

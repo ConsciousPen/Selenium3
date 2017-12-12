@@ -1,10 +1,19 @@
-PrefillTab: {
+PrefillTabMVR: {
    First Name: MvrChargeable,
    Last Name: Activity,
    Validate Address: click,
    Validate Address Dialog: {
      },
    Order Prefill: click,
+}
+
+PrefillTabClue: {
+  First Name: ClueChargeable,
+  Last Name: Activity,
+  Validate Address: click,
+  Validate Address Dialog: {
+  },
+  Order Prefill: click,
 }
 
 PremiumAndCoveragesTab: {

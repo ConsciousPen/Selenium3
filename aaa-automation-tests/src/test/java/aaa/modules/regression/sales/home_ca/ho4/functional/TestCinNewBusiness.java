@@ -1,9 +1,5 @@
 package aaa.modules.regression.sales.home_ca.ho4.functional;
 
-import java.util.List;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
@@ -13,21 +9,34 @@ import aaa.main.enums.DocGenEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.PolicyCINBaseTest;
+import com.google.inject.internal.ImmutableMap;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
+import java.util.List;
+import java.util.Map;
+
 public class TestCinNewBusiness extends PolicyCINBaseTest {
+
+    private Map<String, String> adjustmentMap = ImmutableMap.of(
+            "NamedInsuredProperty", TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.class.getSimpleName(), HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel()),
+            "PublicProtectionClass", TestData.makeKeyPath(HomeCaMetaData.ReportsTab.class.getSimpleName(), HomeCaMetaData.ReportsTab.PUBLIC_PROTECTION_CLASS.getLabel())
+    );
+
     /**
      * @author Rokas Lazdauskas
      * @name Test CIN Document generation (PROPERTY activity)
      * @details
      */
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-6341")
     @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-6341")
     public void testCinNewBusinessProperty(@Optional("CA") String state) {
-        mainApp().open();
-        String policyNumber = createPolicyForTest(PROPERTY);
+        TestData policyTestData = preparePolicyTestData(adjustmentMap, "NamedInsuredProperty", "PublicProtectionClass");
+        String policyNumber = createPolicyForTest(policyTestData);
         //get all the documents in the package
         List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
         //check the document sequence
@@ -37,13 +46,5 @@ public class TestCinNewBusiness extends PolicyCINBaseTest {
     @Override
     protected PolicyType getPolicyType() {
         return PolicyType.HOME_CA_HO4;
-    }
-
-    @Override
-    protected TestData preparePolicyTestData() {
-        TestData testData = getPolicyTD();
-        testData.adjust(TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.class.getSimpleName(), HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeCaMetaData.ApplicantTab.NamedInsured.FIRST_NAME.getLabel()), "PropChargeable")
-                .adjust(TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.class.getSimpleName(), HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeCaMetaData.ApplicantTab.NamedInsured.LAST_NAME.getLabel()), "Activity");
-        return testData;
     }
 }

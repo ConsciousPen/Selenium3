@@ -11,7 +11,6 @@ import aaa.modules.regression.sales.template.functional.PolicyCINBaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 import java.util.List;
@@ -21,13 +20,13 @@ public class TestCinRenewal extends PolicyCINBaseTest {
     /**
      * @author Rokas Lazdauskas
      * @name Test CIN Document generation (MVR Activity)
-     * @details
+     * @details TODO: Change testCaseID
      */
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-6341")
     @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-6341")
     public void testCinRenewalMvr(@Optional("CA") String state) {
-        String policyNumber = createPolicyForTest("N/A");
+        String policyNumber = createPolicyForTest(getPolicyDefaultTD());
         renewPolicy(MVR, policyNumber);
         List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
         verifyDocumentOrder(documentsList, DocGenEnum.Documents.AA02CA, DocGenEnum.Documents.AA09CA);
@@ -36,13 +35,13 @@ public class TestCinRenewal extends PolicyCINBaseTest {
     /**
      * @author Rokas Lazdauskas
      * @name Test CIN Document generation (CLUE Activity)
-     * @details
+     * @details TODO: Change testCaseID
      */
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-6341")
     @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-6341")
     public void testCinRenewalClue(@Optional("CA") String state) {
-        String policyNumber = createPolicyForTest("N/A");
+        String policyNumber = createPolicyForTest(getPolicyDefaultTD());
         renewPolicy(CLUE, policyNumber);
         List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
         verifyDocumentOrder(documentsList, DocGenEnum.Documents.AA02CA, DocGenEnum.Documents.AA09CA);
@@ -52,11 +51,4 @@ public class TestCinRenewal extends PolicyCINBaseTest {
     protected PolicyType getPolicyType() {
         return PolicyType.AUTO_CA_CHOICE;
     }
-
-    @Override
-    protected TestData preparePolicyTestData() {
-        return getPolicyDefaultTD();
-    }
-
-    ;
 }
