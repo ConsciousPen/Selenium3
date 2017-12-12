@@ -2,6 +2,7 @@ package aaa.modules.regression.sales.auto_ca.choice.functional;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.xml.models.Document;
 import aaa.main.enums.DocGenEnum;
@@ -28,7 +29,7 @@ public class TestCinRenewal extends PolicyCINBaseTest {
     public void testCinRenewalMvr(@Optional("CA") String state) {
         String policyNumber = createPolicyForTest("N/A");
         renewPolicy(MVR, policyNumber);
-        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber);
+        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
         verifyDocumentOrder(documentsList, DocGenEnum.Documents.AA02CA, DocGenEnum.Documents.AA09CA);
     }
 
@@ -43,7 +44,7 @@ public class TestCinRenewal extends PolicyCINBaseTest {
     public void testCinRenewalClue(@Optional("CA") String state) {
         String policyNumber = createPolicyForTest("N/A");
         renewPolicy(CLUE, policyNumber);
-        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber);
+        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
         verifyDocumentOrder(documentsList, DocGenEnum.Documents.AA02CA, DocGenEnum.Documents.AA09CA);
     }
 

@@ -2,11 +2,13 @@ package aaa.modules.regression.sales.home_ca.ho3.functional;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.xml.models.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
 import aaa.modules.regression.sales.template.functional.PolicyCINBaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -27,9 +29,11 @@ public class TestCinNewBusiness extends PolicyCINBaseTest {
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6341")
     @Parameters({STATE_PARAM})
     public void cinHomeTestScenario(@Optional("CA") String state) {
-        String policyNumber = createPolicyForTest("N/A");
+        mainApp().open();
+        new ReportsTab().fillTab(getPolicyDefaultTD());
+        String policyNumber = createPolicyForTest("N/A"); //QCAH3926232065
         //get all the documents in the package
-        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber);
+        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
         //check the document sequence
         verifyDocumentOrder(documentsList, DocGenEnum.Documents._61_2006, null);
     }
@@ -42,7 +46,7 @@ public class TestCinNewBusiness extends PolicyCINBaseTest {
     @Override
     protected TestData preparePolicyTestData() {
         TestData testData = getPolicyTD();
-        testData.adjust(TestData.makeKeyPath(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(),HomeCaMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS.getLabel()), getTestSpecificTD("PublicProtectionClass"));
+        testData.adjust(TestData.makeKeyPath(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(), HomeCaMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS.getLabel()), getTestSpecificTD("PublicProtectionClass"));
         //TODO:Add mocked data and deal with ISO360Report
         return testData;
     }

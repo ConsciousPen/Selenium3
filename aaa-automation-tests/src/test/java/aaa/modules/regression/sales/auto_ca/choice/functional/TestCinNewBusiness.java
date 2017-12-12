@@ -2,6 +2,7 @@ package aaa.modules.regression.sales.auto_ca.choice.functional;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.xml.models.Document;
 import aaa.main.enums.DocGenEnum;
@@ -29,7 +30,7 @@ public class TestCinNewBusiness extends PolicyCINBaseTest {
     public void testCinNewBusinessMvr(@Optional("CA") String state) {
         String policyNumber = createPolicyForTest(MVR);
         //get all the documents in the package
-        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber);
+        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
         //check the document sequence
         verifyDocumentOrder(documentsList, DocGenEnum.Documents.AA02CA, DocGenEnum.Documents.WUAECA);
     }
@@ -45,7 +46,7 @@ public class TestCinNewBusiness extends PolicyCINBaseTest {
     public void testCinNewBusinessClue(@Optional("CA") String state) {
         String policyNumber = createPolicyForTest(CLUE);
         //get all the documents in the package
-        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber);
+        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
         //check the document sequence
         verifyDocumentOrder(documentsList, DocGenEnum.Documents.AA02CA, DocGenEnum.Documents.WUAECA);
     }

@@ -17,7 +17,7 @@ import toolkit.utils.TestInfo;
 
 import java.util.List;
 
-public class TestCINSS extends PolicyCINBaseTest {
+public class TestCinNewBusiness extends PolicyCINBaseTest {
     /**
      * @author Rokas Lazdauskas
      * @name Test CIN Document generation for AZ Select New Business
@@ -30,7 +30,7 @@ public class TestCINSS extends PolicyCINBaseTest {
     public void testCinClue(@Optional("AZ") String state) {
         String policyNumber = createPolicyForTest(CLUE);
         //get all the documents in the package
-        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber);
+        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
         //check the document sequence
         verifyDocumentOrder(documentsList, DocGenEnum.Documents.AA02AZ, DocGenEnum.Documents.AA41XX);
     }
@@ -47,7 +47,7 @@ public class TestCINSS extends PolicyCINBaseTest {
     public void testCinMVR(@Optional("AZ") String state) {
         String policyNumber = createPolicyForTest(MVR);
         //get all the documents in the package
-        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber);
+        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
         //check the document sequence
         verifyDocumentOrder(documentsList, DocGenEnum.Documents.AA02AZ, DocGenEnum.Documents.AA41XX);
     }

@@ -1,6 +1,16 @@
 package aaa.helpers.docgen;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import aaa.helpers.db.DbXmlHelper;
+import aaa.helpers.docgen.searchNodes.SearchBy;
+import aaa.helpers.ssh.RemoteHelper;
+import aaa.helpers.xml.XmlHelper;
+import aaa.helpers.xml.models.*;
+import aaa.main.enums.DocGenEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import toolkit.exceptions.IstfException;
+import toolkit.verification.CustomAssert;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
@@ -11,17 +21,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import aaa.helpers.xml.models.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.Assert;
-import aaa.helpers.db.DbXmlHelper;
-import aaa.helpers.docgen.searchNodes.SearchBy;
-import aaa.helpers.ssh.RemoteHelper;
-import aaa.helpers.xml.XmlHelper;
-import aaa.main.enums.DocGenEnum;
-import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssert;
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 
 public class DocGenHelper {
     public static final String DOCGEN_SOURCE_FOLDER = "/home/DocGen/";
@@ -204,9 +204,10 @@ public class DocGenHelper {
      * Extracts list of documents from {@link DocumentPackage} model
      *
      * @param policyNumber
+     * @param eventName {@link aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames} event that triggered document generation
      */
-    public static List<Document> getDocumentsList(String policyNumber) {
-        DocumentPackage docPackage = getDocumentPackage(policyNumber);
+    public static List<Document> getDocumentsList(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {
+        DocumentPackage docPackage = getDocumentPackage(policyNumber, eventName);
         return docPackage.getDocuments();
     }
 
@@ -265,8 +266,8 @@ public class DocGenHelper {
         return XmlHelper.xmlToModelByPartOfXml(xmlDocData, Document.class);
     }
 
-    public static DocumentPackage getDocumentPackage(String policyNumber) {
-        String xmlDocData = DbXmlHelper.getXmlByPolicyNumber(policyNumber);
+    public static DocumentPackage getDocumentPackage(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {
+        String xmlDocData = DbXmlHelper.getXmlByPolicyNumber(policyNumber, eventName);
 
         //In fact decision is made based on 'aaaDocGenSerializer.callDCSInstant' property from the conf table
         //Currently there's no defined clean way to do that, thus such a hook will work for now
