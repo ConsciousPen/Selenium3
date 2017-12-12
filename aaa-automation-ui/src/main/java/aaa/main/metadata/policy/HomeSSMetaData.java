@@ -35,6 +35,7 @@ public final class HomeSSMetaData {
 		// PolicyInfo
 		public static final AssetDescriptor<ComboBox> STATE = declare("State", ComboBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy type", ComboBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<TextBox> CONVERSION_DATE = declare("Conversion Date", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> EFFECTIVE_DATE = declare("Effective date", TextBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> APPLICATION_TYPE = declare("Application type", ComboBox.class, Waiters.AJAX);
 		public static final AssetDescriptor<TextBox> SOURCE_POLICY = declare("Source Policy #", TextBox.class);
