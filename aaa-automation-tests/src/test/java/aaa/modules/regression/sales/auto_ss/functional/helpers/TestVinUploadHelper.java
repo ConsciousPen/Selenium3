@@ -14,10 +14,12 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.regression.sales.common_helpers.VinUploadCommonMethods;
 import toolkit.datax.DefaultMarkupParser;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
@@ -27,11 +29,12 @@ public class TestVinUploadHelper extends AutoSSBaseTest {
 	protected static VehicleTab vehicleTab = new VehicleTab();
 	protected static UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 	protected static PurchaseTab purchaseTab = new PurchaseTab();
-	protected static RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
+	private static RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
+	private static VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(PolicyType.AUTO_SS);
 
 	protected void pas2716_CommonSteps(String vinNumber, String vinTableFile, String controlTableFile, String policyNumber, LocalDateTime policyExpirationDate) {
 		//2. Generate automated renewal image (in data gather status) according to renewal timeline
-		goUploadExcel(vinTableFile, controlTableFile);
+		vinMethods.uploadFiles(vinTableFile, controlTableFile);
 		moveTimeAndRunRenewJobs(policyExpirationDate);
 		//3. Add new VIN versions/VIN data for vehicle VINs used above(4 new liability symbols prefilled in db)
 		mainApp().open();
@@ -116,21 +119,7 @@ public class TestVinUploadHelper extends AutoSSBaseTest {
 		return testData.adjust(ratingDetailReportsTab.getMetaKey(), ratingDetailsReportTab).resolveLinks();
 	}
 
-	/**
-	 * Go to the admin -> administration -> Vin upload and upload two tables
-	 * @param vinTableFile
-	 * @param controlTableFile
-	 */
-	protected void goUploadExcel(String vinTableFile, String controlTableFile) {
-		//open Admin application and navigate to Administration tab
-		adminApp().open();
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
-		//Uploading of VinUpload info, then uploading of the updates for VIN_Control table
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_TABLE_OPTION, vinTableFile);
-		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
-	}
-
-	public void precondsTestVINUpload(TestData testData, Class<? extends Tab> tab) {
+	protected void precondsTestVINUpload(TestData testData, Class<? extends Tab> tab) {
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
@@ -150,16 +139,6 @@ public class TestVinUploadHelper extends AutoSSBaseTest {
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("Yes");
 			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel()).isPresent()).isEqualTo(false);
 		});
-	}
-
-	protected void pas527_NewVinAddedCommonVehicleChecks(ETCSCoreSoftAssertions softly) {
-		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("Gt");
-		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()).getValue()).isEqualTo("UT_SS");
-		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel()).isVisible()).isEqualTo(false);
-		// PAS-1487  No Match to Match but Year Doesn't Match
-		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.YEAR.getLabel()).getValue()).isEqualTo("2005");
-		// PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
-		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("Yes");
 	}
 
 	protected void createAndRateRenewal(String policyNumber, LocalDateTime date) {

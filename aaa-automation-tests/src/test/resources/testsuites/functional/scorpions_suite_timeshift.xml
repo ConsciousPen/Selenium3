@@ -15,6 +15,7 @@
                     <include name="pas2716_AutomatedRenewal_ExpirationDate"/>
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus35"/>
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
+                    <include name="pas2716_BackDatedEndorsement"/>
                 </methods>
             </class>
         </classes>

@@ -8,18 +8,16 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.regression.sales.common_helpers.VinUploadCommonMethods.*;
+import aaa.modules.regression.sales.common_helpers.VinUploadCommonMethods;
 import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 public class TestVINUpload extends TestVINUploadTemplate {
-	private static final String PAS2716_VIN_NUMBER = "1FDEU15H7KL055795";
-	private static final String PAS2716_CONTROLTABLEFILE = "controlTable_CA_CHOICE.xlsx";
-	private static final String PAS2716_VINTABLEFILE = "uploadAddedVIN_CA_CHOICE.xlsx";
-
-	private String newVin = "1FDEU15H7KL055795";
-	private String updatableVin = "4T1BE30K46U656311";
+	private static final String VIN_NUMBER = "1FDEU15H7KL055795";
+	private static final String CONTROLTABLE_FILE_NAME = "controlTable_CA_CHOICE.xlsx";
+	private static final String VINTABLE_FILE_NAME = "uploadAddedVIN_CA_CHOICE.xlsx";
+	private static final String UPDATABLE_VIN = "4T1BE30K46U656311";
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -39,7 +37,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-533,PAS-1406")
 	public void pas533_newVinAdded(@Optional("CA") String state) {
-		newVinAdded(vinMethods.getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get()), newVin);
+		newVinAdded(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get()), VIN_NUMBER);
 	}
 
 	/**
@@ -54,7 +52,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-527")
 	public void pas527_newVidAddedRenewal(@Optional("CA") String state) {
-		newVinAddedRenewal(vinMethods.getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get()), newVin);
+		newVinAddedRenewal(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get()), VIN_NUMBER);
 	}
 
 	/**
@@ -70,7 +68,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-527,PAS-1406")
 	public void pas527_updatedVinRenewal(@Optional("CA") String state) {
-		updatedVinRenewal(vinMethods.getSpecificUploadFile(UploadFilesTypes.UPDATED_VIN.get()), updatableVin);
+		updatedVinRenewal(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.UPDATED_VIN.get()), UPDATABLE_VIN);
 	}
 
 	/**
@@ -85,7 +83,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-2714")
 	public void pas2714_Endorsement(@Optional("CA") String state) {
-			endorsement(vinMethods.getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get()), newVin);
+			endorsement(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get()), VIN_NUMBER);
 	}
 
 	/**
@@ -98,7 +96,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-4253")
 	public void pas4253_restrictVehicleRefreshNB(@Optional("CA") String state) {
-		pas4253_restrictVehicleRefreshNB(vinMethods.getSpecificUploadFile(UploadFilesTypes.ADDED_VIN.get()), newVin);
+		pas4253_restrictVehicleRefreshNB(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get()), VIN_NUMBER);
 	}
 
 	/**
@@ -118,14 +116,14 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDate(@Optional("CA") String state) {
-		TestData testData = getTestDataWithSinceMembership(PAS2716_VIN_NUMBER);
+		TestData testData = getTestDataWithSinceMembership(VIN_NUMBER);
 		String policyNumber = createPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		uploadFiles(PAS2716_CONTROLTABLEFILE,PAS2716_VINTABLEFILE);
-		/**
+		vinMethods.uploadFiles(CONTROLTABLE_FILE_NAME, VINTABLE_FILE_NAME);
+		/*
 		 * Automated Renewal R-Expiration Date
 		 */
-		pas2716_AutomatedRenewal(policyNumber,policyExpirationDate, PAS2716_VIN_NUMBER);
+		pas2716_AutomatedRenewal(policyNumber,policyExpirationDate, VIN_NUMBER);
 	}
 
 	/**
@@ -145,14 +143,14 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDateMinus45(@Optional("CA") String state) {
-		TestData testData = getTestDataWithSinceMembership(PAS2716_VIN_NUMBER);
+		TestData testData = getTestDataWithSinceMembership(VIN_NUMBER);
 		String policyNumber = createPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		uploadFiles(PAS2716_CONTROLTABLEFILE,PAS2716_VINTABLEFILE);
-		/**
+		vinMethods.uploadFiles(CONTROLTABLE_FILE_NAME, VINTABLE_FILE_NAME);
+		/*
 		 * Automated Renewal R-45 Expiration Date
 		 */
-		pas2716_AutomatedRenewal(policyNumber,policyExpirationDate.minusDays(45), PAS2716_VIN_NUMBER);
+		pas2716_AutomatedRenewal(policyNumber,policyExpirationDate.minusDays(45), VIN_NUMBER);
 	}
 
 	/**
@@ -172,13 +170,13 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDateMinus35(@Optional("CA") String state) {
-		TestData testData = getTestDataWithSinceMembership(PAS2716_VIN_NUMBER);
+		TestData testData = getTestDataWithSinceMembership(VIN_NUMBER);
 		String policyNumber = createPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		uploadFiles(PAS2716_CONTROLTABLEFILE, PAS2716_VINTABLEFILE);
-		/**
+		vinMethods.uploadFiles(CONTROLTABLE_FILE_NAME, VINTABLE_FILE_NAME);
+		/*
 		 * Automated Renewal R-35 Expiration Date
 		 */
-		pas2716_AutomatedRenewal(policyNumber,policyExpirationDate.minusDays(35), PAS2716_VIN_NUMBER);
+		pas2716_AutomatedRenewal(policyNumber,policyExpirationDate.minusDays(35), VIN_NUMBER);
 	}
 }
