@@ -31,7 +31,12 @@ public class TestScenario15 extends Scenario15 {
 			paySecondBill(); 
 			removeAutoPay(); 
 			generateThirdBill(); 
+			renewalImageGeneration();
 			payThirdBill();
+			generateCancelNotice(); 
+			generateCancellation();
+			renewalPreviewNotGenerated(); 
+			renewalOfferNotGenerated();			
 		});
 		
 	}
