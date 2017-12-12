@@ -111,24 +111,20 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	/**
 	 * Endorsement of the policy
-	 * today(suite start time) + 16 day
+	 * today(suite start time) + 16 days
 	 */
-	protected void endorseOOSPolicyEffDatePlus16Days() {
-		LocalDateTime endorsePlus16 = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
-		TimeSetterUtil.getInstance().nextPhase(endorsePlus16);
-		log.info("OOS Endorsment action started");
-		log.info("OOS Endorsement date: {}", endorsePlus16);
+	protected void endorseOOSPolicyOnStartDatePlus16() {
+		LocalDateTime date = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
+		TimeSetterUtil.getInstance().nextPhase(date);
+		log.info("OOS Endorsment action started on {}", date);
 		mainApp().reopen();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		policy.endorse().performAndFill(getTestSpecificTD("TestData_OOS"));
-		String endorseDate = getTestSpecificTD("TestData_OOS").getValue("EndorsementActionTab", "Endorsement Date");
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Endorsement effective %1$s for Policy %2$s", endorseDate,
-			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber()));
+		String endorsementDate = getTestSpecificTD("TestData_OOS").getValue("EndorsementActionTab", "Endorsement Date");
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionContains(1, String.format("Endorsement effective %1$s", endorsementDate));
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
-		// PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
 		policy.rollOn().perform(false, false);
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		// PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		log.info("OOS Endorsment action completed successfully");
 	}
 
@@ -956,7 +952,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	private void generateCollectionFile() {
-		log.info("TODO collection file generation");
+		log.info("*** TODO *** collection file generation");
 	}
 
 	private void generateInstallmentBillDueDate(LocalDateTime billDueDate) {
