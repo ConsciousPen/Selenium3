@@ -1,18 +1,110 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="JDI Functional with time shifting sequential run" verbose="1" parallel="false" thread-count="1">
+<suite name="JDI Functional with time shifting" verbose="1" parallel="tests" thread-count="1024">
     <!--The tests are updating configuration on the fly and sequential execution is needed-->
-
-    <!-- Listener commented out for local runs
+    <!-- Listener commented out for local runs-->
     <listeners>
-         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
-     </listeners>-->
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
-
-
-    <test name="TestEValueMembershipProcess">
+    <test name="TestEValueMembershipProcess Preconditions">
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="precondJobAdding"/>
+                    <include name="refundDocumentGenerationConfigCheck"/>
+                    <include name="eRefundLastPaymentMethodConfigCheck"/>
+                </methods>
+            </class>
         </classes>
     </test>
-
+    <test name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationFalseForNotActiveMembership">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForNotActiveMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationFalseForPendingMembership">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForPendingMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationTrueForActiveMembership">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationTrueForActiveMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas3697_membershipEligibilityConfigurationTrueForPendingMembership">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationTrueForPendingMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

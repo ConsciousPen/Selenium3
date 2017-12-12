@@ -23,15 +23,25 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition for AHDRXX form generation")
 	public static void ahdrxxConfigCheckUpdate() {
-		if (!DBService.get().getValue(AHDRXX_CONFIG_CHECK).isPresent()) {
-			DBService.get().executeUpdate(AHDRXX_CONFIG_INSERT);
+		List<String> configForStatesLimits = Arrays.asList(
+				"VA"
+				, "DC");
+		for (String configForStatesLimit : configForStatesLimits) {
+			if (!DBService.get().getValue(String.format(AHDRXX_CONFIG_CHECK, configForStatesLimit)).isPresent()) {
+				DBService.get().executeUpdate(String.format(AHDRXX_CONFIG_INSERT, configForStatesLimit));
+			}
 		}
 	}
 
 	@Test(description = "Precondition for AHDEXX form generation")
 	public static void ahdexxConfigCheckUpdate() {
-		if (!DBService.get().getValue(AHDEXX_CONFIG_CHECK).isPresent()) {
-			DBService.get().executeUpdate(AHDEXX_CONFIG_INSERT);
+		List<String> configForStatesLimits = Arrays.asList(
+				"VA"
+				, "DC");
+		for (String configForStatesLimit : configForStatesLimits) {
+			if (!DBService.get().getValue(String.format(AHDEXX_CONFIG_CHECK, configForStatesLimit)).isPresent()) {
+				DBService.get().executeUpdate(String.format(AHDEXX_CONFIG_INSERT, configForStatesLimit));
+			}
 		}
 	}
 
