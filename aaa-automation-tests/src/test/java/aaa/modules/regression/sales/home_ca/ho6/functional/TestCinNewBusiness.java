@@ -1,5 +1,9 @@
-package aaa.modules.regression.sales.home_ca.ho3.functional;
+package aaa.modules.regression.sales.home_ca.ho6.functional;
 
+import java.util.List;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
@@ -8,15 +12,9 @@ import aaa.helpers.xml.models.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
 import aaa.modules.regression.sales.template.functional.PolicyCINBaseTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
-import java.util.List;
 
 public class TestCinNewBusiness extends PolicyCINBaseTest {
     /**
@@ -25,7 +23,7 @@ public class TestCinNewBusiness extends PolicyCINBaseTest {
      * @details
      */
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6341")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-6341")
     @Parameters({STATE_PARAM})
     public void testCinNewBusinessProperty(@Optional("CA") String state) {
         mainApp().open();
@@ -38,7 +36,7 @@ public class TestCinNewBusiness extends PolicyCINBaseTest {
 
     @Override
     protected PolicyType getPolicyType() {
-        return PolicyType.HOME_CA_HO3;
+        return PolicyType.HOME_CA_HO6;
     }
 
     @Override
