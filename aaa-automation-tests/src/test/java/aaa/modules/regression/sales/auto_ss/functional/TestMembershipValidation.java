@@ -1,14 +1,22 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
+import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.auto_ss.defaulttabs.CreateQuoteVersionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
@@ -206,6 +214,49 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 		validate_Manual_Renewal(tdSpecificNB, tdSpecificEnd, false);
 	}
 
+	/**
+	 * @author Maris Strazds
+	 * @name Test Membership validation - validate that rule doesn't fire at manual renewal if Membership dummy number is used
+	 * @scenario
+	 * 1. Create Customer.
+	 * 2. Create Auto SS Policy.
+	 * 3. Initiate Manual renewal for the policy.
+	 * 4. Enter Membership DUMMY number.
+	 * 5. Fill All other required data and bind.
+	 * 6. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6668")
+	public void pas6668_Validate_Override_Manual_Renewal_DummyNumber(@Optional("AZ") String state) {
+		TestData tdSpecificNB = getTestSpecificTD("TestData_MembershipValidation_MembershipNo_SomeMatch").resolveLinks();
+		TestData tdSpecificEnd = getTestSpecificTD("TestData_MembershipValidation_Renewal_DummyNumber").resolveLinks();
+		validate_Manual_Renewal(tdSpecificNB, tdSpecificEnd, false);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Test Membership validation - validate that rule doesn't fire at automated renewal if Membership dummy number is used
+	 * @scenario
+	 * 1. Create Customer.
+	 * 2. Create Auto SS Policy.
+	 * 3. Run renewal batch jobs to generate renewal image
+	 * 4. Retrieve renewal image
+	 * 5. Enter Membership DUMMY number.
+	 * 5. Fill All other required data and bind.
+	 * 6. Verify that Error is not displayed - "Membership Validation Failed. Please review the Membership Report and confirm..."
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6668")
+	public void pas6668_Validate_Override_Automated_Renewal_DummyNumber(@Optional("AZ") String state) {
+		TestData tdSpecificNB = getTestSpecificTD("TestData_MembershipValidation_MembershipNo_SomeMatch").resolveLinks();
+		TestData tdSpecificEnd = getTestSpecificTD("TestData_MembershipValidation_Renewal_DummyNumber").resolveLinks();
+		validate_Automated_Renewal(tdSpecificNB, tdSpecificEnd, false);
+	}
+
 	private void goToBindAndVerifyError(ErrorEnum.Errors errorCode) {
 		DocumentsAndBindTab.btnPurchase.click();
 		new ErrorTab().verify.errorsPresent(errorCode);
@@ -243,9 +294,6 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
 		checkAndOverrideErrors(ruleShouldFire);
-
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE); //just to see that bind was successful
-
 	}
 
 	private void validate_Manual_Renewal(TestData tdSpecificNB, TestData tdSpecificEnd, Boolean ruleShouldFire) {
@@ -264,6 +312,42 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 		checkAndOverrideErrors(ruleShouldFire);
 	}
 
+	private void validate_Automated_Renewal(TestData tdSpecificNB, TestData tdSpecificEnd, Boolean ruleShouldFire) {
+		TestData testData = getPolicyTD().adjust(tdSpecificNB);
+
+		mainApp().open();
+		createCustomerIndividual();
+		createPolicy(testData);
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
+		log.info("Policy Renewal Image Generation Date" + renewImageGenDate);
+		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+		PolicySummaryPage.buttonRenewals.click();
+
+		PolicySummaryPage.tableRenewals.getRow(1).getCell("Action").controls.comboBoxes.getFirst().setValue("Data Gathering");
+		PolicySummaryPage.tableRenewals.getRow(1).getCell("Action").controls.buttons.get("Go").click();
+
+		CreateQuoteVersionTab createQuoteVersionTab = new CreateQuoteVersionTab();
+		createQuoteVersionTab.getAssetList().getAsset(AutoSSMetaData.CreateQuoteVersionTab.DESCRIPTION).setValue("test");
+		createQuoteVersionTab.submitTab();
+
+		policy.getDefaultView().fillUpTo(tdSpecificEnd, DocumentsAndBindTab.class, true);
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new DocumentsAndBindTab().submitTab();
+		checkAndOverrideErrors(ruleShouldFire);
+
+	}
+
 	////if rule should fire, check the error and override
 	private void checkAndOverrideErrors(boolean ruleShouldFire) {
 		if (ruleShouldFire) {
@@ -271,6 +355,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 			new ErrorTab().overrideAllErrors();
 			new DocumentsAndBindTab().submitTab();
 		}
+		PolicySummaryPage.labelPolicyStatus.isVisible(); //this indicates that transaction was completed and errors was not displayed
 
 	}
 

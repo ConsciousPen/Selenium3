@@ -38,6 +38,19 @@ TestData_MembershipValidation_End_Ren_MembershipYes_AZ: {
   EndorsementActionTab: '@EndorsementActionTab'
 
 }
+
+########### For renewal TCs with Membership dummy number
+TestData_MembershipValidation_Renewal_DummyNumber_AZ: {
+  GeneralTab: '@GeneralTab_Renewal_DummyNumber',
+  DriverTab: {},
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  EndorsementActionTab: '@EndorsementActionTab'
+
+}
+
 ############ For Endorsement and Renewal TCs
 TestData_MembershipValidation_MembershipNo_SomeMatch_AZ: {
   PrefillTab: '@PrefillTab_DOBnoMatch',   #adjust DOB to match or not
@@ -53,7 +66,7 @@ EndorsementActionTab: {
 }
 
 PrefillTab_DOBmatch: {
-   Date of Birth: 8/25/1974, #DOB has to match with DOB from Membership report response
+   Date of Birth: 1/2/1960, #DOB has to match with DOB from Membership report response
    Validate Address: click,
    Validate Address Dialog: {},
    Order Prefill: click
@@ -132,10 +145,19 @@ GeneralTab_End_Ren_MembershipYes: {
   PolicyInformation: '@PolicyInformation_End_Ren'
 }
 
-RatingDetailReportsTab: {
-  Order Report: click
+###########
+GeneralTab_Renewal_DummyNumber: {
+#  NamedInsuredInformation: '@NamedInsuredInformation',
+  AAAProductOwned: '@AAAProductOwned_DummyNumber',
+#  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+#  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation_End_Ren'
 }
+##########
 
+RatingDetailReportsTab: {
+  Order Report: click,
+}
 
 PolicyInformation_End_Ren: {
   Authorized by: qa
@@ -153,8 +175,8 @@ NamedInsuredInformation_NoMatch: {
 
 NamedInsuredInformation_AllMatch: {
   InsuredSearchDialog: {},
-  First Name: NAGABHUSHANAM,
-  Last Name: VELUMULA,
+  First Name: Ronhald,
+  Last Name: Ronaldjo,
   Base Date: '$<today>',
   Social Security Number: 223456789,
   "Has lived here for less than three years?": 'No',
@@ -163,7 +185,7 @@ NamedInsuredInformation_AllMatch: {
 
 NamedInsuredInformation_FNmatch: {
   InsuredSearchDialog: {},
-  First Name: NAGABHUSHANAM,
+  First Name: Ronhald,
   Last Name: Boldha,
   Base Date: '$<today>',
   Social Security Number: 223456789,
@@ -174,7 +196,7 @@ NamedInsuredInformation_FNmatch: {
 NamedInsuredInformation_LNmatch: {
   InsuredSearchDialog: {},
   First Name: Joret,
-  Last Name: VELUMULA,
+  Last Name: Ronaldjo,
   Base Date: '$<today>',
   Social Security Number: 223456789,
   "Has lived here for less than three years?": 'No',
@@ -184,7 +206,13 @@ NamedInsuredInformation_LNmatch: {
 
 AAAProductOwned: {
   Current AAA Member: 'Yes',
-  Membership Number: 4290023667710001,
+  Membership Number: 9436258506738011,
+  Last name: TestXXXXXX
+}
+
+AAAProductOwned_DummyNumber: {
+  Current AAA Member: 'Yes',
+  Membership Number: 9999995555555551,
   Last name: TestXXXXXX
 }
 
