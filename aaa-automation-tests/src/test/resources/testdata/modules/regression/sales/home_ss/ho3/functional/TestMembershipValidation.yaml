@@ -1,0 +1,135 @@
+TestData_MembershipValidationHO3: {
+  GeneralTab: '@<home_ss_ho3>@DataGather@GeneralTab_AZ',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
+  EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+}
+
+ApplicantTab: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@DwellingAddress',
+  PreviousDwellingAddress: '@PreviousDwellingAddress',
+  MailingAddress: '@MailingAddress',
+  NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_AZ'
+}
+
+PropertyInfoTab: {
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: '@AdditionalAddress',
+  PublicProtectionClass: '@PublicProtectionClass',
+  FireReport: {},
+  PropertyValue: '@<home_ss_ho3>@DataGather@PropertyValue',
+  Construction: '@Construction',
+  #AdditionalQuestions: {},
+  Interior: '@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  PetsOrAnimals: '@PetsOrAnimals',
+  Stoves: '@Stoves',
+  RecreationalEquipment: '@RecreationalEquipment',
+}
+
+MortgageesTab: {
+  Mortgagee: 'No',
+  Use legal named insured: 'No',
+  "Use legal property address": 'No',
+  "Is there an additional insured?": 'No',
+  "Is there an additional interest?": 'No',
+}
+
+# ------------- Applicant Tab -------------
+# First name, Last name & Date of birth: Added Valid Active Membership number
+
+NamedInsured: {
+  First name: 'NAGABHUSHANAM',
+  Last name: 'VELUMULA',
+  Date of birth: 8/25/1974,
+  Relationship to primary named insured:  Primary Insured,
+  Social security number: 1234567890,
+  Employer: '1234567890',
+}
+
+# Membership number, Last name: Added Valid Active Membership number
+AAAMembership: {
+  Current AAA Member: 'Yes',
+  Membership number: '4290023667710001',
+  Last name: 'VELUMULA',
+}
+
+DwellingAddress: {
+   Zip code: '85003',
+   Street address 1: '267 CHIPMAN AVE',
+   City: 'Phoenix',
+   Retirement Community: 'None',
+   Validate Address: true,
+   Validate Address Dialog: {}
+}
+
+PreviousDwellingAddress: {
+  "Has there been another dwelling address within the last 3 consecutive years?": 'No',
+}
+
+MailingAddress: {
+  "Is the mailing address different from the dwelling address?": 'No',
+}
+
+OtherActiveAAAPolicies: {
+  Other active AAA policies: "No",
+}
+
+# ------------- PropertyInfo Tab -------------
+
+AdditionalAddress: {
+  Are there any additional address: 'No'
+}
+
+PublicProtectionClass: {
+  Fire department type: 'index=1',
+  Public protection class: 'index=1',
+  Distance to fire hydrant: 'index=1',
+  Fire protection area: '7'
+}
+
+Construction: {
+    Year built: 2009,
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: 'index=1',
+    Construction type: 'index=1'
+  }
+
+Interior: {
+  Dwelling usage: Primary,
+  Number of residents: '3',
+  Number of stories: 'index=1'
+}
+
+DetachedStructures: {
+  "Are there any detached structures on the property?": 'No',
+}
+
+PetsOrAnimals: {
+  "Are any insured-owned pets or animals kept on the property?": 'No',
+}
+
+Stoves: {
+  "Does the property have a wood-burning stove?": 'No',
+}
+
+RecreationalEquipment: {
+  Swimming pool: 'index=0',
+  "Spa/hot tub": 'index=0',
+  Trampoline: 'index=0'
+}
