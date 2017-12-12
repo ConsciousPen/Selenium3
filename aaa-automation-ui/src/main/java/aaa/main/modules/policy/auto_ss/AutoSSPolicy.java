@@ -4,7 +4,6 @@ package aaa.main.modules.policy.auto_ss;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import aaa.EntityLogger;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
@@ -12,11 +11,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyActions;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.modules.policy.auto_ss.views.DefaultView;
 import aaa.main.pages.summary.QuoteSummaryPage;
 import toolkit.datax.TestData;
@@ -69,7 +64,12 @@ public class AutoSSPolicy implements IPolicy {
         endorse().performAndFill(td);
     }
 
-    @Override
+	@Override
+	public void createPriorTermEndorsement(TestData td) {
+		priorTermEndorsement().performAndFill(td);
+	}
+
+	@Override
     public void purchase(TestData td) {
     	dataGather().start();
 	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
@@ -111,7 +111,12 @@ public class AutoSSPolicy implements IPolicy {
         return new AutoSSPolicyActions.Endorse();
     }
 
-    @Override
+	@Override
+	public PolicyActions.PriorTermEndorsement priorTermEndorsement() {
+		return new AutoSSPolicyActions.PriorTermEndorsement();
+	}
+
+	@Override
     public PolicyActions.Renew renew() {
         return new AutoSSPolicyActions.Renew();
     }

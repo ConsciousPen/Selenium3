@@ -252,7 +252,7 @@ Vehicle5: {
   Other Make: Make,
   Other Model: Model,
   Other Body Style: Coupe,
-  Stat Code: 'AC - Small SUV',
+  Stat Code: 'Small SUV',
   Stated Amount: 2000
 }
 

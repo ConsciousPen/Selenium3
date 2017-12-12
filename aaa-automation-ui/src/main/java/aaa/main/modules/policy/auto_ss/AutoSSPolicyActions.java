@@ -4,6 +4,7 @@
  */
 package aaa.main.modules.policy.auto_ss;
 
+import org.openqa.selenium.By;
 import aaa.common.AbstractAction;
 import aaa.common.Tab;
 import aaa.common.Workspace;
@@ -14,7 +15,6 @@ import aaa.main.modules.policy.auto_ss.actiontabs.GenerateOnDemandDocumentAction
 import aaa.main.modules.policy.auto_ss.defaulttabs.CreateQuoteVersionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.views.*;
-import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.TextBox;
 
@@ -57,7 +57,39 @@ public final class AutoSSPolicyActions {
         }
     }
 
-    public static class Renew extends PolicyActions.Renew {
+	public static class PriorTermEndorsement extends PolicyActions.PriorTermEndorsement {
+
+		@Override
+		public Workspace getView() {
+			return new EndorseView();
+		}
+
+		@Override
+		public AbstractAction performAndFill(TestData td) {
+			start();
+			getView().fill(td);
+			submit();
+			new DataGather().getView().fill(td);
+			return this;
+		}
+
+		@Override
+		public AbstractAction performAndExit(TestData td) {
+			start();
+			getView().fill(td);
+			submit();
+			Tab.buttonSaveAndExit.click();
+
+			if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
+				new TextBox(By.xpath("//textarea[@id='policyDataGatherForm:newbusinessnotes']")).setValue("save as incomplete");
+				Page.dialogConfirmation.confirm();
+			}
+
+			return this;
+		}
+	}
+
+	public static class Renew extends PolicyActions.Renew {
 	    // private TextBox textBoxRenewalDate = getView().getTab(RenewActionTab.class).getAssetList().getAsset(
 	    //         AutoSSMetaData.RenewActionTab.RENEWAL_DATE.getLabel(), TextBox.class);
 
@@ -375,4 +407,6 @@ public final class AutoSSPolicyActions {
             return new RescindCancellationView();
         }
     }
+
 }
+

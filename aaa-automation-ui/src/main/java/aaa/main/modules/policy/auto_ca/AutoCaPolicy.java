@@ -2,6 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.modules.policy.auto_ca;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import aaa.EntityLogger;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
@@ -12,8 +14,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.modules.policy.auto_ca.views.DefaultView;
 import aaa.main.pages.summary.QuoteSummaryPage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import toolkit.datax.TestData;
 
 /**
@@ -66,6 +67,11 @@ public class AutoCaPolicy implements IPolicy {
 	}
 
 	@Override
+	public void createPriorTermEndorsement(TestData td) {
+		throw new NotImplementedException();
+	}
+
+	@Override
 	public void calculatePremium(TestData td) {
 		dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.MEMBERSHIP.get());
@@ -103,6 +109,11 @@ public class AutoCaPolicy implements IPolicy {
 	@Override
 	public PolicyActions.Endorse endorse() {
 		return new AutoCaPolicyActions.Endorse();
+	}
+
+	@Override
+	public PolicyActions.PriorTermEndorsement priorTermEndorsement() {
+		return null;
 	}
 
 	@Override

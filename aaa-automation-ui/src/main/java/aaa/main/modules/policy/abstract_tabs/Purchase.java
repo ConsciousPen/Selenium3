@@ -1,7 +1,14 @@
 package aaa.main.modules.policy.abstract_tabs;
 
-import aaa.main.enums.BillingConstants;
 import org.openqa.selenium.By;
+import aaa.common.Tab;
+import aaa.common.components.Dialog;
+import aaa.main.enums.BillingConstants;
+import aaa.main.enums.ErrorEnum;
+import aaa.main.metadata.policy.PurchaseMetaData;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
+import aaa.toolkit.webdriver.customcontrols.PaymentMethodAllocationControl;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
@@ -9,10 +16,6 @@ import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
-import aaa.common.Tab;
-import aaa.common.components.Dialog;
-import aaa.main.metadata.policy.PurchaseMetaData;
-import aaa.toolkit.webdriver.customcontrols.PaymentMethodAllocationControl;
 
 public abstract class Purchase extends Tab {
     public Table tablePaymentPlan = new Table(By.id("purchaseForm:PaymentPlanTable"));
@@ -50,6 +53,12 @@ public abstract class Purchase extends Tab {
 
     @Override
     public Tab fillTab(TestData td) {
+        ErrorTab errorTab = new ErrorTab();
+        if(errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME.getCode())){
+            errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME);
+            DocumentsAndBindTab.btnPurchase.click();
+            DocumentsAndBindTab.confirmPurchase.buttonYes.click();
+        }
         String value = remainingBalanceDueToday.getValue();
         td.adjust(TestData.makeKeyPath(getAssetList().getName(), PurchaseMetaData.PurchaseTab.PAYMENT_ALLOCATION.getLabel(), PaymentMethodAllocationControl.BALANCE_DUE_KEY), value);
         super.fillTab(td);
