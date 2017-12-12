@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.admin.metadata.administration.AdministrationMetaData;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -131,7 +130,7 @@ public class TestVinUploadHelper extends AutoSSBaseTest {
 		uploadToVINTableTab.uploadExcel(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION, controlTableFile);
 	}
 
-	protected void precondsTestVINUpload(TestData testData, Class<? extends Tab> tab) {
+	public void precondsTestVINUpload(TestData testData, Class<? extends Tab> tab) {
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
@@ -153,6 +152,16 @@ public class TestVinUploadHelper extends AutoSSBaseTest {
 		});
 	}
 
+	protected void pas527_NewVinAddedCommonVehicleChecks(ETCSCoreSoftAssertions softly) {
+		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL.getLabel()).getValue()).isEqualTo("Gt");
+		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()).getValue()).isEqualTo("UT_SS");
+		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel()).isVisible()).isEqualTo(false);
+		// PAS-1487  No Match to Match but Year Doesn't Match
+		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.YEAR.getLabel()).getValue()).isEqualTo("2005");
+		// PAS-1551 Refresh Unbound/Quote - No Match to Match Flag not Updated
+		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("Yes");
+	}
+
 	protected void createAndRateRenewal(String policyNumber, LocalDateTime date) {
 		TimeSetterUtil.getInstance().nextPhase(date);
 		mainApp().open();
@@ -170,45 +179,9 @@ public class TestVinUploadHelper extends AutoSSBaseTest {
 		policy.getDefaultView().fillFromTo(testData, FormsTab.class, PremiumAndCoveragesTab.class, true);
 	}
 
-	protected void verifyActivitiesAndUserNotes(String vinNumber) {
-		//method added for verification of PAS-544 - Activities and User Notes
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "VIN data has been updated for the following vehicle(s): " + vinNumber)
-				.verify.present("PAS-544 - Activities and User Notes may be broken: VIN refresh record is missed in Activities and User Notes:");
-	}
-
-	protected static String getControlTableFile() {
-		String defaultControlFileName = "controlTable_%s_SS.xlsx";
-		return String.format(defaultControlFileName, getState());
-	}
-
-	protected static String getVinTableFile(String type, String state) {
-		String defaultAddedFileName = "upload%sVIN_%s_SS.xlsx";
-		return String.format(defaultAddedFileName, type, state);
-	}
-
-	public void pas2453_CommonChecks(ETCSCoreSoftAssertions softly) {
+	protected void pas2453_CommonChecks(ETCSCoreSoftAssertions softly) {
 		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.TYPE.getLabel()).getValue()).isEqualTo("Conversion Van");
 		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.VIN_MATCHED.getLabel()).getValue()).isEqualTo("No");
 		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel()).getValue()).isEqualTo("AV - Custom Van");
-	}
-
-	public enum UploadFilesTypes {
-		UPDATED_VIN("Updated"),
-		ADDED_VIN("Added");
-
-		private String type;
-
-		UploadFilesTypes(String type) {
-			set(type);
-		}
-
-		public void set(String type) {
-			this.type = type;
-		}
-
-		public String get() {
-			return type;
-		}
 	}
 }
