@@ -355,7 +355,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 			billingAccount.approveRefund().perform(refundAmount);
 		}
 		new BillingPaymentsAndTransactionsVerifier()
-			.setTransactionDate(refundDate)
 			.setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
 			.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.AUTOMATED_REFUND)
 			.setReason(BillingConstants.PaymentsAndOtherTransactionReason.OVERPAYMENT)
