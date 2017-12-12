@@ -5,6 +5,7 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.xml.models.Document;
 import aaa.main.enums.DocGenEnum;
+import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.PolicyCINBaseTest;
 import org.testng.annotations.Optional;
@@ -15,7 +16,7 @@ import toolkit.utils.TestInfo;
 
 import java.util.List;
 
-public class TestCINNewBusiness extends PolicyCINBaseTest {
+public class TestCinNewBusiness extends PolicyCINBaseTest {
     /**
      * @author Rokas Lazdauskas
      * @name Test CIN Document generation for CA Select New Business
@@ -41,6 +42,7 @@ public class TestCINNewBusiness extends PolicyCINBaseTest {
     @Override
     protected TestData preparePolicyTestData() {
         TestData testData = getPolicyTD();
+        testData.adjust(TestData.makeKeyPath(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(),HomeCaMetaData.PropertyInfoTab.PUBLIC_PROTECTION_CLASS.getLabel()), getTestSpecificTD("PublicProtectionClass"));
         //TODO:Add mocked data and deal with ISO360Report
         return testData;
     }

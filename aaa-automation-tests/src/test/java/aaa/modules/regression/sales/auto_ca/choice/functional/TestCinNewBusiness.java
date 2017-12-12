@@ -59,7 +59,8 @@ public class TestCinNewBusiness extends PolicyCINBaseTest {
     protected TestData preparePolicyTestData() {
         TestData testData = getPolicyTD();
         testData.adjust(TestData.makeKeyPath(AutoCaMetaData.PrefillTab.class.getSimpleName()), getTestSpecificTD("PrefillTab"))
-                .adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName()), getTestSpecificTD("PremiumAndCoveragesTab"));
+                .adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName()), getTestSpecificTD("PremiumAndCoveragesTab"))
+                .adjust(TestData.makeKeyPath(AutoCaMetaData.GeneralTab.class.getSimpleName(),AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()), getTestSpecificTD("AAAProductOwned"));
         return testData;
     }
 }

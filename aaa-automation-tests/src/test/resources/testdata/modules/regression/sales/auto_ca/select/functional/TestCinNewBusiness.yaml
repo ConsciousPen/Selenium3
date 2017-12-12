@@ -13,3 +13,7 @@ PremiumAndCoveragesTab: {
    Bodily Injury Liability: 'contains=$25,000/$50,000',
    Property Damage Liability: 'contains=$25,000'
  }
+
+ AAAProductOwned: {
+   Current AAA Member: 'No'
+ }

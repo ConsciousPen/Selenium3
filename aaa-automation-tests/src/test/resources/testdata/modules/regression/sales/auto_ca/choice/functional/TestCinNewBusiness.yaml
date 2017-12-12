@@ -12,4 +12,8 @@ PremiumAndCoveragesTab: {
    Payment Plan: Annual,
    Bodily Injury Liability: 'contains=$100,000/$300,000',
    Property Damage Liability: 'contains=$100,000'
- }
+}
+
+AAAProductOwned: {
+   Current AAA Member: 'No'
+}
