@@ -86,9 +86,9 @@ ReportsTab: {
   AAAMembershipReport: [{Report: 'Order report'}],
   FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
-  CLUEreport: [{Report: 'Order report'}],
+  CLUEreport: [{Report: 'Order report'}]
 #  Description of interest:
-  ISO360Report: [{Report: 'Order report'}]
+  #ISO360Report: [{Report: 'Order report'}]
 }
 
 PropertyInfoTab: {
