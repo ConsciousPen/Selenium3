@@ -204,10 +204,9 @@ public class DocGenHelper {
      * Extracts list of documents from {@link DocumentPackage} model
      *
      * @param policyNumber
-     * @param eventName    name of a trigger event for document generation
      */
-    public static List<Document> getDocumentsList(String policyNumber, String eventName) {
-        DocumentPackage docPackage = getDocumentPackage(policyNumber, eventName);
+    public static List<Document> getDocumentsList(String policyNumber) {
+        DocumentPackage docPackage = getDocumentPackage(policyNumber);
         return docPackage.getDocuments();
     }
 
@@ -266,8 +265,8 @@ public class DocGenHelper {
         return XmlHelper.xmlToModelByPartOfXml(xmlDocData, Document.class);
     }
 
-    public static DocumentPackage getDocumentPackage(String policyNumber, String eventName) {
-        String xmlDocData = DbXmlHelper.getXmlByPolicyNumber(policyNumber, eventName);
+    public static DocumentPackage getDocumentPackage(String policyNumber) {
+        String xmlDocData = DbXmlHelper.getXmlByPolicyNumber(policyNumber);
 
         //In fact decision is made based on 'aaaDocGenSerializer.callDCSInstant' property from the conf table
         //Currently there's no defined clean way to do that, thus such a hook will work for now

@@ -40,16 +40,10 @@ public class DbXmlHelper implements AaaDocGenEntityQueries {
      * Select the generated Document xml from Oracle DB by policy number
      *
      * @param policyNumber
-     * @param eventName    name of a trigger event for document generation
      * @return XML content in String format
      */
-    public static String getXmlByPolicyNumber(@Nonnull String policyNumber, @Nonnull String eventName) {
-        Map<String, String> params = ImmutableMap.of(
-                "POLICY_NUMBER", policyNumber,
-                "EVENT_NAME", eventName
-        );
-
-        String query = StrSubstitutor.replace(GET_DOCUMENT_BY_POLICY_NUMBER, params);
+    public static String getXmlByPolicyNumber(@Nonnull String policyNumber) {
+        String query = String.format(AaaDocGenEntityQueries.GET_DOCUMENT_BY_POLICY_NUMBER, policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
         return DBService.get().getValue(query).get();
     }
 

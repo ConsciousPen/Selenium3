@@ -30,7 +30,7 @@ public class TestCINSS extends PolicyCINBaseTest {
     public void cftTestScenario1(@Optional("AZ") String state) {
         String policyNumber = createPolicyForTest("CLUE");
         //get all the documents in the package
-        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE.name());
+        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber);
         //check the document sequence
         verifyDocumentOrder(documentsList, DocGenEnum.Documents._55_3333, DocGenEnum.Documents._55_3500);
     }

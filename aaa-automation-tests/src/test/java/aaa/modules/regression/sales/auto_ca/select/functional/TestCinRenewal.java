@@ -36,7 +36,7 @@ public class TestCinRenewal extends PolicyCINBaseTest {
         renewPolicy("MVR");
 
         //Get actual value
-        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER.name());
+        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber);
         verifyDocumentOrder(documentsList, DocGenEnum.Documents._55_3333, DocGenEnum.Documents._55_3500);
     }
 
@@ -59,7 +59,7 @@ public class TestCinRenewal extends PolicyCINBaseTest {
         renewPolicy("CLUE");
 
         //Get actual value
-        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER.name());
+        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber);
         verifyDocumentOrder(documentsList, DocGenEnum.Documents._55_3333, DocGenEnum.Documents._55_3500);
     }
 
