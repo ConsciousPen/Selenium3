@@ -73,13 +73,13 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 
 		billingAccount.changePaymentPlan().start();
 		ChangePaymentPlanActionTab tab = new ChangePaymentPlanActionTab();
-		tab.getAssetList().getAsset(BillingAccountMetaData.ChangePaymentPlanActionTab.PAYMENT_PLAN).setValue("Standard Monthly (Renewal)");
+		tab.getAssetList().getAsset(BillingAccountMetaData.ChangePaymentPlanActionTab.PAYMENT_PLAN).setValue(BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
 		tab.buttonOk.click();
-		Page.dialogConfirmation.labelMessage.verify.contains("As you requested, we have changed your payment plan from Annual (Renewal) to Standard Monthly (Renewal) and your minimum due has changed. Your policy is set up on automatic payment and the new minimum due will be withdrawn from your account on or after your renewal date. An updated renewal statement will not be available. Do you agree to these changes?");
+		Page.dialogConfirmation.labelMessage.verify.contains("As you requested, we have changed your payment plan from Standard Monthly (Renewal) to Semi-Annual (Renewal) and your minimum due has changed. Your policy is set up on automatic payment and the new minimum due will be withdrawn from your account on or after your renewal date. An updated renewal statement will not be available. Do you agree to these changes?");
 		Page.dialogConfirmation.confirm();
 
 		BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.PAYMENT_PLAN)
-				.verify.valueByRegex("Standard Monthly (Renewal)");
+				.verify.value(BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
 
 		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
 				.setReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.INSTALLMENT_FEE)
