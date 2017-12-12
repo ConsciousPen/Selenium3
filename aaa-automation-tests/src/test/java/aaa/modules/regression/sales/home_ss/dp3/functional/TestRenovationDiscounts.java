@@ -36,7 +36,7 @@ public class TestRenovationDiscounts extends HomeSSDP3BaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-4317")
 	public void pas4317_RenovationDiscounts(@Optional("KS") String state) {
 		String expectedValue = "Safe Home";
