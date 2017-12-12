@@ -1,0 +1,5 @@
+TestData_Cancellation: {
+  Cancel Date: $<today>,
+  Cancellation Reason: 'New Business Rescission - NSF on Down Payment',
+  Authorized By: QA
+}
