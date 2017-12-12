@@ -7,7 +7,7 @@
     <parameter name="timeshift-scenario-mode" value="test"/>
 
     <test name="Auto SS Scenario 15 for Semi-annual term" parallel="none">
-        <parameter name="state" value="UT, AZ" />
+        <parameter name="state" value="UT, AZ, CO, IN, KS, OH, OR, PA, SD, VA" />
         <classes>
             <class name="aaa.modules.e2e.auto_ss.TestScenario15"/>
         </classes>

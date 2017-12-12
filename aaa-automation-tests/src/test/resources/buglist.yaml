@@ -190,3 +190,13 @@ PAS-6667:
       messages: ['WUAUCA']
     - tests: [aaa.modules.docgen.home_ca.*.TestDocgenScenarios.testPolicyDocuments]
       messages: ['WUAUCA']
+PAS-6612:
+  summary: "Regression: Auto CA/ Property HSS CA: Can't change payment plan on Billing tab"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.home_ca.ho3.TestScenario10.TC01_createPolicy, 
+    aaa.modules.e2e.auto_ca.TestScenario10.TC01_createPolicy]
+      messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Quarterly} in table 'Billing Account Policies' is present"]
+    - tests: [aaa.modules.e2e.auto_ca.TestScenario12.TC01_createPolicy, 
+    aaa.modules.e2e.home_ca.ho3.TestScenario12.TC01_createPolicy] 
+      messages: ["Row with values {Policy Status=Policy Active, Payment Plan=Semi-Annual} in table 'Billing Account Policies' is present"]
