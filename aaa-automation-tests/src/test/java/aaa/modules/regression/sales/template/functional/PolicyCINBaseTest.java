@@ -45,7 +45,8 @@ public abstract class PolicyCINBaseTest extends PolicyBaseTest {
         mainApp().open();
         createCustomerIndividual();
         TestData testData = preparePolicyTestData();
-        if (activityType == "CLUE") {
+        System.out.println();
+        if (activityType.equals(CLUE)) {
             testData.adjust(TestData.makeKeyPath(AutoCaMetaData.PrefillTab.class.getSimpleName(), AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel()), CLUE_CHARGEABLE_DRIVER_NAME);
         }
         String policyNumber = createPolicy(testData);
