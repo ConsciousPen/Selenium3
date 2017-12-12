@@ -6,7 +6,6 @@ TestData: {
     Get Vehicle Details: click,
     Vehicle Eligibility Response: Vehicle Eligible,
     AAA UBI Device Status: Active,
-    Device Voucher Number: 1GNWGPFG8B6548273,
     Grant Participation Discount: click
   },
   ErrorTab: {
