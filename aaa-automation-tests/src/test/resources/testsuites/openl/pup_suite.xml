@@ -5,9 +5,9 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
-    <parameter name="tests_dir" value="src/test/resources/openl/pup"/>
+    <parameter name="testsDir" value="src/test/resources/openl/pup"/>
 
-    <test name="Premium Calculation Test" preserve-order="true">
+    <test name="PUP [OR] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="OR"/>
         <parameter name="fileName" value="ORTests-20170915.xls"/>
         <parameter name="policyNumbers" value="2"/>

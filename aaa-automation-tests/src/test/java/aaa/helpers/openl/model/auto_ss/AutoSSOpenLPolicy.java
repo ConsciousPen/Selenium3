@@ -39,7 +39,7 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private int insuredAge;
 	private int noOfVehiclesExcludingTrailer;
 	private boolean multiCar;
-	private boolean supplementalSpousalLiability;
+	private boolean supplementalSpousalLiability; // OR specific
 
 	@ExcelTableElement(sheetName = "Batch- CappingDetails")
 	private List<OpenLCappingDetails> cappingDetails;

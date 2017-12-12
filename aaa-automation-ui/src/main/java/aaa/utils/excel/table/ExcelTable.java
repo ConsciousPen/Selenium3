@@ -1,6 +1,8 @@
-package aaa.utils.excel;
+package aaa.utils.excel.table;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +19,17 @@ public class ExcelTable implements Iterable<TableRow> {
 	private int rowsNumber;
 
 	public ExcelTable(TableHeader header) {
-		this(header, header.getSheet().getLastRowNum() - header.getRowNumberOnSheet());
+		this(header, header.getSheet().getLastRowNum() - header.getRowNumberOnSheet() + 1);
 	}
 
+	/**
+	 * Get ExcelTable object with {@link TableHeader} and {@code rowsNumber} number of rows
+	 *
+	 * @param header {@link TableHeader} object of this table
+	 * @param rowsNumber number of table's rows excluding header row, should be positive number
+	 */
 	public ExcelTable(TableHeader header, int rowsNumber) {
+		assertThat(rowsNumber).as("Number of table's rows should be greater than 0").isPositive();
 		this.header = header;
 		this.rowsNumber = rowsNumber;
 	}
@@ -40,11 +49,11 @@ public class ExcelTable implements Iterable<TableRow> {
 				tableRows.add(new TableRow(this, rowNumber));
 			}
 		}
-		return tableRows;
+		return Collections.unmodifiableList(tableRows);
 	}
 
 	/**
-	 * Without header row
+	 * Get table's rows number without header row
 	 */
 	public int getRowsNumber() {
 		return rowsNumber;
@@ -70,7 +79,7 @@ public class ExcelTable implements Iterable<TableRow> {
 	}
 
 	/**
-	 * Starts from 1st index (0 belongs to header)
+	 * Get {@link TableRow} object by table's row number. Index starts from 1 (0 belongs to header)
 	 */
 	public TableRow getRow(int rowNumber) {
 		return getRows().stream().filter(r -> r.getRowNumber() == rowNumber).findFirst()

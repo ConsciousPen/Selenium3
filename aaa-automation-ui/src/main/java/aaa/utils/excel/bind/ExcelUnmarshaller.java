@@ -11,12 +11,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import aaa.utils.excel.ExcelParser;
-import aaa.utils.excel.ExcelTable;
-import aaa.utils.excel.TableRow;
+import aaa.utils.excel.table.ExcelTable;
+import aaa.utils.excel.table.TableRow;
 import toolkit.exceptions.IstfException;
 
 public class ExcelUnmarshaller {
 	public <T> T unmarshal(File excelFile, Class<T> excelFileModel) {
+		return unmarshal(excelFile, excelFileModel, false);
+	}
+
+	public <T> T unmarshal(File excelFile, Class<T> excelFileModel, boolean strictMatch) {
 		T excelFileInstance = getInstance(excelFileModel);
 		ExcelParser excelParser = new ExcelParser(excelFile);
 
@@ -106,13 +110,13 @@ public class ExcelUnmarshaller {
 				setFieldValue(tableRowField, tableInstance, row.getBoolValue(columnName));
 				break;
 			case "java.lang.String":
-				setFieldValue(tableRowField, tableInstance, row.getValue(columnName));
+				setFieldValue(tableRowField, tableInstance, row.getStringValue(columnName));
 				break;
 			case "java.time.LocalDateTime":
 				setFieldValue(tableRowField, tableInstance, row.getDateValue(columnName));
 				break;
 			case "java.util.List":
-				String linkedRowsIds = row.getValue(getHeaderColumnName(tableRowField));
+				String linkedRowsIds = row.getStringValue(getHeaderColumnName(tableRowField));
 				if (linkedRowsIds.isEmpty()) {
 					break;
 				}
@@ -162,7 +166,7 @@ public class ExcelUnmarshaller {
 	}
 
 	private String getPrimaryKeyValue(Field primaryKeyField, TableRow tableRow) {
-		return tableRow.getValue(getHeaderColumnName(primaryKeyField));
+		return tableRow.getStringValue(getHeaderColumnName(primaryKeyField));
 	}
 
 	private String getPrimaryKeysSeparator(Field primaryKeyField) {

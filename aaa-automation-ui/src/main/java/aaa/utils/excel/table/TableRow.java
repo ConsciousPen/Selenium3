@@ -1,7 +1,11 @@
-package aaa.utils.excel;
+package aaa.utils.excel.table;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import org.apache.poi.ss.usermodel.Row;
@@ -12,14 +16,16 @@ public class TableRow {
 	private TableHeader header;
 	private Row row;
 	private int rowNumber;
-	private ExcelParser excelParser;
+	//private ExcelParser excelParser;
+	private List<TableCell> tableCells;
 
 	public TableRow(ExcelTable table, int rowNumber) {
+		assertThat(rowNumber).isPositive().as("Table row number should be greater than 0");
 		this.table = table;
 		this.header = table.getHeader();
 		this.rowNumber = rowNumber;
-		this.row = header.getSheet().getRow(header.getRowNumberOnSheet() + rowNumber);
-		this.excelParser = new ExcelParser(header.getSheet());
+		this.row = header.getSheet().getRow(header.getRowNumberOnSheet() + rowNumber - 1);
+		//this.excelParser = new ExcelParser(header.getSheet());
 	}
 
 	public ExcelTable getTable() {
@@ -34,10 +40,24 @@ public class TableRow {
 		return this.rowNumber;
 	}
 
-	public Map<String, String> getValues() {
-		Map<String, String> values = new HashMap<>(getHeader().getSize());
-		for (String columnName : getHeader().getColumnNames()) {
-			values.put(columnName, getValue(columnName));
+	public int getRowNumberOnSheet() {
+		return getRow().getRowNum() + 1;
+	}
+
+	public List<TableCell> getCells() {
+		if (tableCells == null) {
+			tableCells = new ArrayList<>(getHeader().getSize());
+			for (String columnName : getHeader().getColumnNames()) {
+				tableCells.add(new TableCell(this, getHeader().getColumnNumber(columnName)));
+			}
+		}
+		return Collections.unmodifiableList(this.tableCells);
+	}
+
+	public Map<String, Object> getValues() {
+		Map<String, Object> values = new HashMap<>(getHeader().getSize());
+		for (TableCell cell : this) {
+			values.put(cell.getColumnName(), cell.getValue());
 		}
 		return values;
 	}
@@ -50,8 +70,14 @@ public class TableRow {
 				'}';
 	}
 
-	public String getValue(String headerColumnName) {
-		return excelParser.getValue(getRow(), getHeader().getColumnNumber(headerColumnName));
+	public String getStringValue(String headerColumnName) {
+		return getCell(headerColumnName).getStringValue();
+		//return excelParser.getStringValue(getRow(), getHeader().getColumnNumber(headerColumnName));
+	}
+
+	private TableCell getCell(String headerColumnName) {
+		return getCells().stream().filter(c -> c.getColumnName().equals(headerColumnName)).findFirst()
+				.orElseThrow(() -> new IstfException(String.format("There is no cell with \"%s\" column name in the table's header", headerColumnName)));
 	}
 
 	public boolean getBoolValue(String headerColumnName) {
@@ -69,7 +95,7 @@ public class TableRow {
 	public boolean hasValue(String headerColumnName, Object cellValue) {
 		Object actualCellValue;
 		if (cellValue instanceof String) {
-			actualCellValue = getValue(headerColumnName);
+			actualCellValue = getStringValue(headerColumnName);
 		} else if (cellValue instanceof Integer) {
 			actualCellValue = getIntValue(headerColumnName);
 		} else if (cellValue instanceof Boolean) {
@@ -82,7 +108,7 @@ public class TableRow {
 		return Objects.equals(actualCellValue, cellValue);
 	}
 
-	private Row getRow() {
+	Row getRow() {
 		return this.row;
 	}
 }

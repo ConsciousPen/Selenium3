@@ -1,6 +1,5 @@
 package aaa.modules.openl;
 
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,12 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
-import aaa.common.Tab;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.modules.policy.PolicyBaseTest;
@@ -54,20 +51,20 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 		this.testDataGenerator.setRatingDataPattern(getRatingDataPattern());
 		OpenLFile<P> openLFile = getOpenLFileObject(openLFileName, openLFileModelClass);
 
-		mainApp().open();
-		createCustomerIndividual();
+		/*mainApp().open();
+		createCustomerIndividual();*/
 
 		for (P openLPolicy : getOpenLPolicies(openLFile, policyNumbers)) {
 			log.info("Premium calculation verification initiated for test with policy number {} from {} OpenL filename", openLPolicy.getNumber(), openLFileName);
 			TestData quoteRatingData = testDataGenerator.getRatingData(openLPolicy);
 
-			policy.initiate();
+			/*policy.initiate();
 			policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
 			new PremiumAndCoveragesTab().fillTab(quoteRatingData);
 
 			assertSoftly(softly ->
 					softly.assertThat(PremiumAndCoveragesTab.totalTermPremium).hasValue(getExpectedPremium(openLFile, openLPolicy.getNumber())));
-			Tab.buttonCancel.click();
+			Tab.buttonCancel.click();*/
 		}
 	}
 
