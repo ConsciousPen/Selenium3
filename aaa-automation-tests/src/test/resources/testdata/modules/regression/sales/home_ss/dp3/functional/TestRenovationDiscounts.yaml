@@ -1,0 +1,46 @@
+
+# --------- TestData Roof Renovation ------------
+
+TestData: {
+  PropertyInfoTab: {
+
+  Construction:{
+    Year built: '$<today-78y:yyyy>',
+    Square footage: 1,
+    Roof type: Laminate / Architectural,
+    Roof shape: 'index=1',
+    Construction type: 'index=1',
+    Hail-resistance rating: 'index=1'
+  },
+    HomeRenovation: {
+    'Plumbing renovation': '100% Copper',
+    'Plumbing % complete': '100',
+    'Plumbing Month of completion': '1',
+    'Plumbing Year of completion': '$<today-5y:yyyy>',
+    'Electrical renovation': '100% Circuit/Romex',
+    'Electrical % complete': '100',
+    'Electrical Month of completion': '1',
+    'Electrical Year of completion': '$<today-5y:yyyy>',
+    'Roof renovation': '100% Replace',
+    'Roof % complete': '100',
+    'Roof Month of completion': '1',
+    'Roof Year of completion': '$<today-5y:yyyy>',
+    'Heating/cooling renovation': 'Forced Air',
+    'Heating/cooling % complete': '100',
+    'Heating/cooling Month of completion': '1',
+    'Heating/cooling Year of completion': '$<today-5y:yyyy>'
+    }
+    },
+
+  DocumentsTab:{
+    DocumentsToBind:{
+    'Proof of plumbing, electrical, heating/cooling system and roof renovations': 'Yes'
+    },
+    DocumentsToIssue: {
+            Signed policy application: Physically Signed
+          }
+
+    }
+}
+
+
