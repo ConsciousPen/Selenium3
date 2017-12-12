@@ -23,10 +23,7 @@ UnderlyingRisksPropertyTab: {
     Public protection class: 4,
     Excluded: 'No',
     Validate Address: '',
-    Validate Address Dialog: {
-      Street number: 265,
-      Street Name: CHIPMAN AVE
-    }
+    Validate Address Dialog: {}
   }
   ]
 }

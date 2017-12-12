@@ -1,0 +1,7 @@
+TestData: {
+  PremiumAndCoveragesTab: { 
+    Policy Term: Semi-annual, 
+    Payment Plan: Five Pay - Standard
+  }, 
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab_WithAutopay'
+}

@@ -2,7 +2,7 @@
 TestData_DataGather: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab',
-  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab',
+  ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: '@EndorsementTab',
@@ -12,6 +12,19 @@ TestData_DataGather: {
   DocumentsTab: '@DocumentsTab',
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
+}
+
+PublicProtectionClass_DataGather: {
+  Fire department type: 'S - Subscription based',
+  Subscription to fire department/station: 'No',
+  Public protection class: '1',
+  Distance to fire hydrant: '<=1000ft',
+  Fire protection area: '100'
+}
+
+Riskmeter_DataGather: {
+  Distance to Coast(miles): '1',
+  Elevation(feet): '2'
 }
 
 GeneralTab: {
@@ -35,6 +48,16 @@ ApplicantTab: {
   NamedInsuredInformation: '@NamedInsuredInformation',
   AgentInfo: '@AgentInfo',
   OtherActiveAAAPolicies: {},
+}
+
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  FirelineReport: [{Report: 'Order Report'}],
+  PublicProtectionClass: [{Report: 'Order Report'}],
+  CLUEreport: [{Report: 'Order report'}]
+  #ISO360Report: [{Report: 'Order report'}]
 }
 
 PropertyInfoTab: {
@@ -689,7 +712,7 @@ DwellingAddress_KS: {
   Zip code: '66006',
   Street address 1: 265 CHIPMAN AVE,
   Validate Address: true,
-  Validate Address Dialog: {Select Address: override}
+  Validate Address Dialog: {}
 } 
 
 OtherActiveAAAPolicies_KS: {
@@ -1324,12 +1347,7 @@ ReportsTab_OK: {
 PropertyInfoTab_OK: {
   DwellingAddress: '@DwellingAddress_PropertyInfoTab',
   AdditionalAddress: [{}],
-  PublicProtectionClass: {
-    Fire department type: 'index=1',
-    Public protection class: 'index=1',
-    Distance to fire hydrant: 'index=1',
-    Fire protection area: '7'
-  },
+  PublicProtectionClass: {},
   FireReport: {},
   PropertyValue: '@PropertyValue',
   Construction: '@Construction_OK',
@@ -1745,4 +1763,3 @@ ReportsTab_WY: {
   PublicProtectionClass: [{Report: 'Order Report'}],
   CLUEreport: [{Report: 'Order report'}]
 }
-

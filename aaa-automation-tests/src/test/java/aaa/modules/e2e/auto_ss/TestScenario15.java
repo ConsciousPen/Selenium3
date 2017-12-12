@@ -4,11 +4,12 @@ import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.e2e.templates.Scenario10;
+import aaa.modules.e2e.templates.Scenario15;
 import toolkit.datax.TestData;
 
-public class TestScenario10 extends Scenario10 {
+public class TestScenario15 extends Scenario15 { 
 	
 	@Override
 	protected PolicyType getPolicyType() {
@@ -19,27 +20,25 @@ public class TestScenario10 extends Scenario10 {
 	@Test
 	public void TC01_createPolicy(@Optional("") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
-
 		TestData policyCreationTD = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
 
 		createTestPolicy(policyCreationTD);
+		
 		SoftAssertions.assertSoftly(softly -> {
-			generateFirstBill();
-			payFirstBill();
-			generateSecondBill();
-			paySecondBill();
-			generateThirdBill();
+			generateFirstBill(); 
+			payFirstBill(); 
+			generateSecondBill(); 
+			paySecondBill(); 
+			removeAutoPay(); 
+			generateThirdBill(); 
 			renewalImageGeneration();
 			payThirdBill();
-			renewalPreviewGeneration();
-			renewalOfferGeneration();
-			generateRenewalBill();
-			enableAutoPay();
-			changePaymentPlan();
-			payRenewalBill();
-			updatePolicyStatus();
-			generateFirstBillOfRenewal();
-			payFirstBillOfRenewal();
+			generateCancelNotice(); 
+			generateCancellation();
+			renewalPreviewNotGenerated(); 
+			renewalOfferNotGenerated();			
 		});
+		
 	}
+
 }
