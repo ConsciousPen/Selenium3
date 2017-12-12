@@ -2,6 +2,7 @@ package aaa.modules.regression.sales.auto_ca.select.functional;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.xml.models.Document;
 import aaa.main.enums.DocGenEnum;
@@ -29,7 +30,7 @@ public class TestCinNewBusiness extends PolicyCINBaseTest {
     public void testCinNewBusinessMvr(@Optional("CA") String state) {
         String policyNumber = createPolicyForTest(MVR);
         //get all the documents in the package
-        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber);
+        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
         //check the document sequence
         verifyDocumentOrder(documentsList, DocGenEnum.Documents._55_1007, DocGenEnum.Documents._55_3333);
     }
@@ -45,7 +46,7 @@ public class TestCinNewBusiness extends PolicyCINBaseTest {
     public void testCinNewBusinessClue(@Optional("CA") String state) {
         String policyNumber = createPolicyForTest(CLUE);
         //get all the documents in the package
-        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber);
+        List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
         //check the document sequence
         verifyDocumentOrder(documentsList, DocGenEnum.Documents._55_1007, DocGenEnum.Documents._55_3333);
     }
@@ -59,7 +60,8 @@ public class TestCinNewBusiness extends PolicyCINBaseTest {
     protected TestData preparePolicyTestData() {
         TestData testData = getPolicyTD();
         testData.adjust(TestData.makeKeyPath(AutoCaMetaData.PrefillTab.class.getSimpleName()), getTestSpecificTD("PrefillTab"))
-                .adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName()), getTestSpecificTD("PremiumAndCoveragesTab"));
+                .adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName()), getTestSpecificTD("PremiumAndCoveragesTab"))
+                .adjust(TestData.makeKeyPath(AutoCaMetaData.GeneralTab.class.getSimpleName(),AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()), getTestSpecificTD("AAAProductOwned"));
         return testData;
     }
 }

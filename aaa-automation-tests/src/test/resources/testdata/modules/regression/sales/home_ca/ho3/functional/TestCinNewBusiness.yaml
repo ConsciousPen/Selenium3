@@ -1,0 +1,6 @@
+PublicProtectionClass: {
+   Fire department type: 'T - Tax based',
+   Public protection class: '5',
+   Distance to fire hydrant: '<=1000ft',
+   Fire protection area: '100'
+ }
