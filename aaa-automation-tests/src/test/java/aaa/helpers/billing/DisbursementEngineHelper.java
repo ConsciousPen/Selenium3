@@ -14,7 +14,7 @@ import toolkit.utils.logging.CustomLogger;
 
 public class DisbursementEngineHelper {
 
-	private static final String DISBURSEMENT_ENGINE_PATH = "/AAA/JobFolders/DSB_E_DSBCTRL_PASSYS_7035_D/inbound/";
+	public static String DISBURSEMENT_ENGINE_PATH = "/AAA/JobFolders/%1$s/inbound/%2$s";
 
 	/**
 	 * This method is used for prepare disbursement engine file with data specified by input parameters.
@@ -40,7 +40,7 @@ public class DisbursementEngineHelper {
 		LocalDateTime date = DateTimeUtils.getCurrentDateTime();
 
 		do {
-			fileName = date.format(DATE_PATTERN) + "_" + date.format(TIME_PATTERN) + "_DSB_E_DSBCTRL_PASSYS_7035_D.csv";
+			fileName = date.format(DATE_PATTERN) + "_" + date.format(TIME_PATTERN) + "_DSB_E_DSBCTRL_PASSYS_XXXX_D.csv";
 			file = new File(CustomLogger.getLogDirectory().concat("/DisbursementEngine_Files/"), fileName);
 			date = date.plusSeconds(1);
 		} while (file.exists());
@@ -58,10 +58,10 @@ public class DisbursementEngineHelper {
 		return file;
 	}
 
-	public static synchronized void copyFileToServer(File file) {
+	public static synchronized void copyFileToServer(File file, String folderName) {
 		if (file == null)
 			throw new IstfException("Disbursement engine file is NULL");
-		RemoteHelper.uploadFile(file.getAbsolutePath(), DISBURSEMENT_ENGINE_PATH + file.getName());
+		RemoteHelper.uploadFile(file.getAbsolutePath(), String.format(DISBURSEMENT_ENGINE_PATH, folderName, file.getName()));
 	}
 
 	public static class DisbursementEngineFileBuilder {

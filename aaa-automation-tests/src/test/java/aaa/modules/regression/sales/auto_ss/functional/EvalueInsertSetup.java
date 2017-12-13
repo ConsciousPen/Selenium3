@@ -143,4 +143,9 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 	public static void pendingRefundConfigurationUpdate() {
 		DBService.get().executeUpdate(PENDING_REFUND_CONFIGURATION_UPDATE);
 	}
+
+	@Test(description = "Precondition updating Authentication stub end points")
+	public static void authenticationStubPointUpdate() {
+		DBService.get().executeUpdate(String.format(AUTHENTICATION_STUB_POINT_UPDATE, APP_HOST));
+	}
 }
