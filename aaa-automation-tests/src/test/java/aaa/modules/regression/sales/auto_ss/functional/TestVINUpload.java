@@ -504,7 +504,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 
-		vinMethods.uploadFiles(vinTableFile, controlTableFile);
+		vinMethods.uploadFiles(controlTableFile,vinTableFile);
 
 		// 2. Renewal term is inforce) R-35
 		// According to controlTableFile
@@ -540,76 +540,8 @@ public class TestVINUpload extends TestVinUploadHelper {
 		new DocumentsAndBindTab().submitTab();
 		// 7. Roll on changes for renewal term with changes made in OOS endorsement
 		policy.rollOn().perform(false, false);
-	}
 
-	/**
-	 * @author Viktor Petrenko
-	 * <p>
-	 * PAS-2716 Update VIN Refresh
-	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
-	 * @scenario
-	 * 1. Create Auto policy with 2 vehicles
-	 * 2. Renewal term is inforce) R-45
-	 * 3. Add new VIN versions/VIN data for vehicle3 to be added during endorsement (see notes)e
-	 * 4. Initiate Prior Term (backdated) endorsement with effective date in previous term (for example R-5)
-	 * 5. Add new vehicle3
-	 * 6. Bind endorsement
-	 * 7. Roll on changes for renewal term with changes made in OOS endorsement
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
-	public void pas2716_BackDatedEndorsement(@Optional("UT") String state) {
-		String vinTableFile = "backdatedVinTable_UT_SS.xlsx" ;
-		String controlTableFile =  "backdatedControlTable_UT_SS.xlsx";
-		TestData testData = getTestDataWithMembershipSinceDate(getPolicyTD().adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN));
-
-		// 1. Create Auto policy with 2 vehicles
-		vinMethods.uploadFiles(vinTableFile, controlTableFile);
-
-		String policyNumber = createPreconds(testData);
-
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-
-		// 2. Renewal term is inforce) R-35
-		// According to controlTableFile
-		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		Dollar totalDue = BillingSummaryPage.getTotalDue();
-		new BillingAccount().acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
-		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(1));
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-		openAndSearchPolicy(policyNumber);
-		// 4. Initiate Prior Term (backdated) endorsement with effective date in previous term (for example R-5)
-		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusMonths(1));
-		openAndSearchPolicy(policyNumber);
-
-		policy.createPriorTermEndorsement(getPolicyTD("Endorsement", "TestData_Plus10Day")
-				.adjust(TestData.makeKeyPath("EndorsementActionTab", "Endorsement Date"),
-						policyExpirationDate.minusDays(1).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))));
-
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		new GeneralTab().getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.AUTHORIZED_BY.getLabel(),TextBox.class).setValue("Me");
-		// 5. Add new vehicle
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		TestData twoVehicles = addSecondVehicle(NEW_VIN,testData)
-				.adjust("DriverActivityReportsTab", DataProviderFactory.emptyData());
-
-		policy.getDefaultView().fillFromTo(twoVehicles,VehicleTab.class,DocumentsAndBindTab.class);
-		// 6. Bind endorsement
-		new DocumentsAndBindTab().submitTab();
-		// 	Each vehicle must have a unique Vehicle Identification Number (200031) [for]
-		// Needed for this case.
-		new ErrorTab().overrideAllErrors();
-		new DocumentsAndBindTab().submitTab();
-		new ErrorTab().overrideAllErrors();
-		new DocumentsAndBindTab().submitTab();
-		// 7. Roll on changes for renewal term with changes made in OOS endorsement
-		policy.rollOn().perform(false, false);
-
+		policy.dataGather().start();
 	}
 
 	public void killChromeDrivers() throws IOException {
