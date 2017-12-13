@@ -61,7 +61,7 @@ public class PrefillTab extends Tab {
 	}
 
 	public Link getNamedInsuredListChangeLink(int row) {
-		return getNamedInsuredRow(row).getCell(tblInsuredsList.getColumnsCount()).controls.links.get("View Details", Waiters.AJAX);
+		return getNamedInsuredRow(row).getCell(tblInsuredsList.getColumnsCount()).controls.links.get("View/Edit", Waiters.AJAX);
 	}
 
 	public Row getAdditionalPoliciesRow(int rowNum) {
