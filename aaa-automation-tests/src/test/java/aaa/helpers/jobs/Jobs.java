@@ -1,16 +1,20 @@
 package aaa.helpers.jobs;
 
+import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Jobs {
 
 	private static ConcurrentHashMap<String, JobState> jobsState = new ConcurrentHashMap<>();
 
-	/*public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1",
-			Arrays.asList("/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/outbound",
-					"/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/outbound",
-					"/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4001_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4001_D/outbound"));*/
-	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1");
+	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1",
+			Arrays.asList(
+					"/home/mp2/pas/sit/2/inbound",
+					"/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/outbound",
+					"/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/inbound",
+					"/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/outbound",
+					"/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4001_D/inbound",
+					"/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4001_D/outbound"));
 
 	public static Job renewalOfferGenerationPart2 = new Job("Renewal_Offer_Generation_Part2");
 
