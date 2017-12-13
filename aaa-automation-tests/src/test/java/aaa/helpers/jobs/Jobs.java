@@ -9,7 +9,7 @@ public class Jobs {
 
 	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1",
 			Arrays.asList(
-					"/home/mp2/pas/sit/2/inbound",
+					"/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/inbound",
 					"/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/outbound",
 					"/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/inbound",
 					"/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/outbound",
