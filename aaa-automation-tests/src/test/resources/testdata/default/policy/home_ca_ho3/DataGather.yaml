@@ -57,7 +57,7 @@ NamedInsured: {
 }
 
 AAAMembership: {
-  Current AAA Member: No
+  Current AAA Member: 'No',
 #  Membership number: '4290023667710001',
 #  Last name: Smith
 }
