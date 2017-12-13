@@ -28,11 +28,12 @@ public class TestScenario2 extends AutoSSBaseTest {
 		createCustomerIndividual();
 		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks()));
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AARFIXX);
 	}
 	
 	@Parameters({ "state" })
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC02_CheckDocgen(@Optional("") String state) {
+	public void TC02_RenewOfferGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);

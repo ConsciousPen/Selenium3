@@ -42,9 +42,13 @@ public class Scenario14 extends ScenarioBaseTest {
 	protected LocalDateTime policyEffectiveDate;
 	protected LocalDateTime policyExpirationDate; 	
 	protected LocalDateTime policyExpirationDate_FirstRenewal;
+	protected LocalDateTime pligaOrMvleFeeLastTransactionDate;
 	
 	protected List<LocalDateTime> installmentDueDates;
 	protected int installmentsCount = 1; 
+	
+	protected String policyTerm = "Semi-annual";
+	protected Integer totalVehiclesNumber;
 	
 	protected void createTestPolicy(TestData policyCreationTD) {
 		policy = getPolicyType().get();		
@@ -52,6 +56,9 @@ public class Scenario14 extends ScenarioBaseTest {
 		
 		createCustomerIndividual();	
 		policyNum = createPolicy(policyCreationTD); 
+		
+		//policyTerm = getPolicyTerm(policyCreationTD);
+		totalVehiclesNumber = getVehiclesNumber(policyCreationTD);
 		
 		//PolicySummaryPage.labelPolicyStatus.verify.value(PolicyStatus.POLICY_ACTIVE);
 		SoftAssertions.assertSoftly(softly -> {
@@ -67,6 +74,8 @@ public class Scenario14 extends ScenarioBaseTest {
 		SoftAssertions.assertSoftly(softly -> {
 			softly.assertThat(installmentDueDates.size()).as("Billing Installments count for Semi-Annual payment plan and Semi-annual term policy").isEqualTo(installmentsCount);
 		});		
+		
+		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}
 	
 	protected void renewalImageGeneration() {
@@ -122,14 +131,15 @@ public class Scenario14 extends ScenarioBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferGenDate)
 				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
 
+		/*
 		if (getState().equals(Constants.States.CA)) {
 			verifyCaRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
 		}
-		/*
+		*/
 		if (verifyPligaOrMvleFee(renewOfferGenDate, policyTerm, totalVehiclesNumber)) {
 			pligaOrMvleFeeLastTransactionDate = renewOfferGenDate;
 		}
-		*/
+		
 	}
 
 	// Skip this step for CA
@@ -143,12 +153,12 @@ public class Scenario14 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 
-		//Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
+		Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
 		// TODO Renew premium verification was excluded, due to unexpected installment calculations
 		// if (!getState().equals(States.KY) && !getState().equals(States.WV)) {
-		verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billGenDate, installmentsCount);
+		verifyRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), billGenDate, pligaOrMvleFee, installmentsCount);
 		// }
-		verifyRenewPremiumNotice(policyExpirationDate, billGenDate);
+		verifyRenewPremiumNotice(policyExpirationDate, billGenDate, pligaOrMvleFee);
 	}
 	
 	protected void updatePolicyStatus() {
@@ -206,10 +216,10 @@ public class Scenario14 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate_FirstRenewal);
 
-		//Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
+		Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
 		// TODO Renew premium verification was excluded, due to unexpected installment calculations
 		// if (!getState().equals(States.KY) && !getState().equals(States.WV)) {
-		verifyRenewalOfferPaymentAmount(policyExpirationDate_FirstRenewal, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate_FirstRenewal), billGenDate, installmentsCount);
+		verifyRenewalOfferPaymentAmount(policyExpirationDate_FirstRenewal, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate_FirstRenewal), billGenDate, pligaOrMvleFee, installmentsCount);
 		// }
 		verifyRenewPremiumNotice(policyExpirationDate_FirstRenewal, billGenDate);
 	}
