@@ -1,15 +1,21 @@
-package aaa.utils.excel.parse.table;
+package aaa.utils.excel.io.entity;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import aaa.utils.excel.io.celltype.BaseCellType;
+import aaa.utils.excel.io.celltype.CellType;
 import toolkit.exceptions.IstfException;
 
 public class ExcelTable implements Iterable<TableRow> {
@@ -17,9 +23,10 @@ public class ExcelTable implements Iterable<TableRow> {
 	private TableHeader header;
 	private List<TableRow> tableRows;
 	private int rowsNumber;
+	private Set<BaseCellType<?>> cellTypes;
 
 	public ExcelTable(TableHeader header) {
-		this(header, header.getSheet().getLastRowNum() - header.getRowNumberOnSheet() + 1);
+		this(header, header.getSheet().getLastRowNum() - header.getRowNumberOnSheet() + 1, getBaseCellTypes());
 	}
 
 	/**
@@ -28,10 +35,20 @@ public class ExcelTable implements Iterable<TableRow> {
 	 * @param header {@link TableHeader} object of this table
 	 * @param rowsNumber number of table's rows excluding header row, should be positive number
 	 */
-	public ExcelTable(TableHeader header, int rowsNumber) {
+	public ExcelTable(TableHeader header, int rowsNumber, Set<BaseCellType<?>> cellTypes) {
+		assertThat(header).as("TableHeader should not be null").isNotNull();
 		assertThat(rowsNumber).as("Number of table's rows should be greater than 0").isPositive();
+		assertThat(cellTypes).as("Cell Types set should not be empty or null").isNotEmpty().isNotNull();
 		this.header = header;
 		this.rowsNumber = rowsNumber;
+		this.tableRows = new ArrayList<>(rowsNumber);
+		this.cellTypes = new HashSet<>(cellTypes);
+		for (int rowNumber = 1; rowNumber <= rowsNumber; rowNumber++) {
+			Row row = header.getSheet().getRow(header.getRowNumberOnSheet() + rowNumber - 1);
+			ExcelRow excelRow = new ExcelRow(row, cellTypes);
+			tableRows.add(new TableRow(excelRow, header, rowNumber));
+		}
+
 	}
 
 	public TableHeader getHeader() {
@@ -43,12 +60,6 @@ public class ExcelTable implements Iterable<TableRow> {
 	}
 
 	public List<TableRow> getRows() {
-		if (tableRows == null) {
-			tableRows = new ArrayList<>(rowsNumber);
-			for (int rowNumber = 1; rowNumber <= rowsNumber; rowNumber++) {
-				tableRows.add(new TableRow(this, rowNumber));
-			}
-		}
 		return Collections.unmodifiableList(tableRows);
 	}
 
@@ -57,6 +68,10 @@ public class ExcelTable implements Iterable<TableRow> {
 	 */
 	public int getRowsNumber() {
 		return rowsNumber;
+	}
+
+	private static Set<BaseCellType<?>> getBaseCellTypes() {
+		return Arrays.stream(CellType.values()).map(CellType::get).collect(Collectors.toSet());
 	}
 
 	@Override
@@ -118,7 +133,7 @@ public class ExcelTable implements Iterable<TableRow> {
 		private int endIndex;
 
 		TableRowIterator(int endIndex) {
-			this(0, endIndex);
+			this(1, endIndex);
 		}
 
 		TableRowIterator(int startIndex, int endIndex) {

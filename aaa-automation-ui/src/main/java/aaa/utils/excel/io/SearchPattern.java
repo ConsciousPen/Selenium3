@@ -1,4 +1,4 @@
-package aaa.utils.excel;
+package aaa.utils.excel.io;
 
 public class SearchPattern {
 	private String searchPattern;

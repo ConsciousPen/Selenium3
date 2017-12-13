@@ -1,4 +1,4 @@
-package aaa.utils.excel.parse.table;
+package aaa.utils.excel.io.entity;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import aaa.utils.excel.ExcelParser;
+import aaa.utils.excel.io.celltype.CellType;
 import toolkit.exceptions.IstfException;
 
 public class TableHeader {
@@ -35,9 +35,8 @@ public class TableHeader {
 		this.row = row;
 		this.headerColumns = new HashMap<>();
 
-		ExcelParser excelParser = new ExcelParser(row.getSheet());
 		for (int columnNumber = fromColumnNumber; columnNumber <= fromColumnNumber + headerSize - 1; columnNumber++) {
-			String value = excelParser.getStringValue(row, columnNumber);
+			String value = (String) CellType.STRING.get().getValueFrom(row.getCell(columnNumber - 1));
 			if (value != null) {
 				this.headerColumns.put(value, columnNumber);
 			}
@@ -46,6 +45,10 @@ public class TableHeader {
 
 	public Set<String> getColumnNames() {
 		return headerColumns.keySet();
+	}
+
+	public Set<Integer> getColumnIndexes() {
+		return (Set<Integer>) headerColumns.values();
 	}
 
 	public int getSize() {
@@ -71,15 +74,13 @@ public class TableHeader {
 		return headerColumns.containsKey(columnName);
 	}
 
-	public int getColumnNumber(String columnName) {
-		if (!hasColumnName(columnName)) {
-			throw new IstfException(String.format("There is no column name \"%s\" in the table's header", columnName));
-		}
+	public int getColumnIndex(String columnName) {
+		assertThat(hasColumnName(columnName)).as("There is no column name \"%s\" in the table's header", columnName);
 		return headerColumns.get(columnName);
 	}
 
-	public String getColumnName(int columnNumber) {
-		return headerColumns.entrySet().stream().filter(hc -> hc.getValue() == columnNumber).findFirst().map(Map.Entry::getKey)
-				.orElseThrow(() -> new IstfException(String.format("There is no column number %s in the table's header", columnNumber)));
+	public String getColumnName(int columnIndex) {
+		return headerColumns.entrySet().stream().filter(hc -> hc.getValue() == columnIndex).findFirst().map(Map.Entry::getKey)
+				.orElseThrow(() -> new IstfException(String.format("There is no column index %s in the table's header", columnIndex)));
 	}
 }

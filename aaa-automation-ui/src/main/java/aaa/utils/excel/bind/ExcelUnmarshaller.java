@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import aaa.utils.excel.ExcelParser;
-import aaa.utils.excel.parse.table.ExcelTable;
-import aaa.utils.excel.parse.table.TableRow;
+import aaa.utils.excel.io.ExcelReader;
+import aaa.utils.excel.io.entity.ExcelTable;
+import aaa.utils.excel.io.entity.TableRow;
 import toolkit.exceptions.IstfException;
 
 public class ExcelUnmarshaller {
@@ -22,12 +22,12 @@ public class ExcelUnmarshaller {
 
 	public <T> T unmarshal(File excelFile, Class<T> excelFileModel, boolean strictMatch) {
 		T excelFileInstance = getInstance(excelFileModel);
-		ExcelParser excelParser = new ExcelParser(excelFile);
+		ExcelReader excelReader = new ExcelReader(excelFile);
 
 		for (Field tableField : getAllFields(excelFileModel, true)) {
-			excelParser.switchSheet(getSheetName(tableField));
+			excelReader.switchSheet(getSheetName(tableField));
 			List<Field> tableRowFields = getAllFields(getTableRowType(tableField));
-			ExcelTable excelTable = excelParser.getTable(isLowestTable(tableField), getHeaderColumnNames(tableRowFields));
+			ExcelTable excelTable = excelReader.getTable(isLowestTable(tableField), getHeaderColumnNames(tableRowFields));
 
 			List<Object> tableFields = new ArrayList<>();
 			for (TableRow row : excelTable) {
@@ -121,8 +121,8 @@ public class ExcelUnmarshaller {
 					break;
 				}
 				List<Field> linkedTableRowFields = getAllFields(getTableRowType(tableRowField));
-				ExcelParser excelParser = new ExcelParser(row.getTable().getSheet()).switchSheet(getSheetName(tableRowField));
-				ExcelTable excelTable = excelParser.getTable(isLowestTable(tableRowField), getHeaderColumnNames(linkedTableRowFields));
+				ExcelReader excelReader = new ExcelReader(row.getTable().getSheet()).switchSheet(getSheetName(tableRowField));
+				ExcelTable excelTable = excelReader.getTable(isLowestTable(tableRowField), getHeaderColumnNames(linkedTableRowFields));
 
 				List<Object> linkedTableRows = new ArrayList<>();
 				for (TableRow linkedTableRow : excelTable) {
