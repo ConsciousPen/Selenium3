@@ -1,0 +1,18 @@
+TestData_UBI: {
+  VehicleTab: {
+    Usage: Pleasure,
+    VIN: 1GNWGPFG8B6548273,
+    'Enroll in Usage Based Insurance?': 'Yes',
+    Get Vehicle Details: click,
+    Grant Participation Discount: click
+  },
+  ErrorTab: {
+    ErrorsOverride: [{
+      Override: 'true',
+      Approval: 'true',
+      Duration: Life,
+      Reason for override: index=1
+    }]
+  },
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab_WithAutopay'
+}
