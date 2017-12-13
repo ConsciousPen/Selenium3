@@ -57,8 +57,9 @@ NamedInsured: {
 }
 
 AAAMembership: {
-  Membership number: '4290023667710001',
-  Last name: Smith
+  Current AAA Member: No
+#  Membership number: '4290023667710001',
+#  Last name: Smith
 }
 
 DwellingAddress: {
@@ -83,7 +84,7 @@ AgentInfo: {
 
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Order report'}],
+#  AAAMembershipReport: [{Report: 'Order report'}],
   FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
   CLUEreport: [{Report: 'Order report'}]

@@ -37,8 +37,9 @@ NamedInsuredInformation: {
 }
 
 AAAProductOwned: {
-  Membership Number: 4290023667710001,
-  Last name: Smith
+  Current AAA Member: 'No',
+#  Membership Number: 4290023667710001,
+#  Last name: Smith
 }
 
 ContactInformation: {
@@ -78,7 +79,7 @@ RatingDetailReportsTab: {
   Customer Agreement: Customer Agrees,
   Sales Agent Agreement: I Agree,
   Order Report: click,
-  AAAMembershipReport: [{}],
+#  AAAMembershipReport: [{}],
   OrderInsuranceScoreReport: [{}]
 }
 

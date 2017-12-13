@@ -38,7 +38,7 @@ ApplicantTab: {
 
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Order report'}],
+#  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -123,8 +123,9 @@ NamedInsured: {
 }
 
 AAAMembership: {
-  Membership number: '4290023667710001',
-  Last name: Smith
+  Current AAA Member: No
+#  Membership number: '4290023667710001',
+#  Last name: Smith
 }
 
 DwellingAddress: {
@@ -193,7 +194,7 @@ HomeRenovation: {
 
 Construction: {
   Year built: 2009,
-  Square footage: 1,
+  Square footage: 100,
   Roof type: Laminate / Architectural,
   Roof shape: 'index=1',
   Construction type: 'index=1'
