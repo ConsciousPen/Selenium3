@@ -38,11 +38,40 @@ public class VerifyMembershipErrorMsg extends HomeCaDP3BaseTest
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-6052")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-6051, PAS-6880, PAS-7072")
     public void TC01_verifyMembershipMsg_NB(@Optional("CA") String state) {
 
         TestData _td = getTestSpecificTD("TestData");
+        TestData _tdDUMMY = getTestSpecificTD("TestData_DUMMY");
         boolean bTakeScreenshots = false;
+
+        // Associate Customer Number
+        mainApp().open();
+        TestData _tdCleanCustomer2 = getTestSpecificTD("TestData_CleanCustomer2");
+        createCustomerIndividual(_tdCleanCustomer2);
+        createPolicy(_td);
+        if (bTakeScreenshots) {
+            ScreenshotManager.getInstance().makeScreenshot("HO_DP3_NB_Clean2");
+        }
+        mainApp().close();
+
+        // DUMMY NUMBER
+        //TODO:Utilizing One Number, Will Add Other Dummy numbers later.
+        mainApp().open();
+        TestData _tdDummyCustomer = getTestSpecificTD("TestData_DummyCustomer");
+        createCustomerIndividual(_tdDummyCustomer);
+        //Initiate Quote. Given Data to Provoke Uw Rule Firing.
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(_tdDUMMY, BindTab.class, true);
+        BindTab _bindTab = new BindTab();
+        _bindTab.btnPurchase.click();
+        //Verify Membership Mis-Match Error Message
+        ErrorTab _errorTab = new ErrorTab();
+        _errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
+        if (bTakeScreenshots) {
+            ScreenshotManager.getInstance().makeScreenshot("HO_DP3_NB_DummyNumber");
+        }
+        mainApp().close();
 
         // Clean Test Data
         //Open App
@@ -73,15 +102,15 @@ public class VerifyMembershipErrorMsg extends HomeCaDP3BaseTest
         //Initiate Quote. Given Data to Provoke Uw Rule Firing.
         policy.initiate();
         policy.getDefaultView().fillUpTo(_td, BindTab.class, true);
-        BindTab _bindTab = new BindTab();
+        _bindTab = new BindTab();
         _bindTab.btnPurchase.click();
 
         //Verify Membership Mis-Match Error Message
-        ErrorTab _errorTab = new ErrorTab();
+        _errorTab = new ErrorTab();
         _errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
 
         //Screenshot Verifies Successful Test
-        ScreenshotManager.getInstance().makeScreenshot("HO_DP3_NB_Dirty_ALL");
+        //ScreenshotManager.getInstance().makeScreenshot("HO_DP3_NB_Dirty_ALL");
 
         //Close App to prevent Memory Leaks.
         mainApp().close();
@@ -89,11 +118,50 @@ public class VerifyMembershipErrorMsg extends HomeCaDP3BaseTest
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6052")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-6051, PAS-6880, PAS-7072")
     public void TC02_verifyMembershipMsg_Endorsement(@Optional("CA") String state) {
 
-        boolean bTakeScreenshots = false;
+        boolean bTakeScreenshots = true;
         String _persistantPolicyNumber = "";
+
+        // ASSOCIATE INSURED
+        mainApp().open();
+        TestData _tdCleanCustomer2 = getTestSpecificTD("TestData_CleanCustomer2");
+        TestData _td = getTestSpecificTD("TestData_NonMember");
+        createCustomerIndividual(_tdCleanCustomer2);
+        String _persistantPolicyNumberA = createPolicy(_td);
+        //Go to Created Policy.
+        SearchPage.openPolicy(_persistantPolicyNumberA);
+        // Build Test Data to work with
+        TestData _myEndoTD = getTestSpecificTD("Endorsement_CleanData");
+        // Begin Endorsement. Use Default data for Endorsement Reason Page. Using Custom Data From Adjustment.
+        policy.endorse().perform(_myEndoTD.adjust(getPolicyTD("Endorsement", "TestData")));
+        policy.getDefaultView().fillUpTo(_myEndoTD, PurchaseTab.class, false);
+        if (bTakeScreenshots) {
+            ScreenshotManager.getInstance().makeScreenshot("HO_DP3_Endo_Clean2");
+        }
+        mainApp().close();
+
+        // DUMMY NUMBER DATA
+        mainApp().open();
+        TestData _tdDummyCustomer = getTestSpecificTD("TestData_DummyCustomer");
+        createCustomerIndividual(_tdDummyCustomer);
+        String _persistantPolicyNumberB = createPolicy(_td);
+        //Go to Created Policy.
+        SearchPage.openPolicy(_persistantPolicyNumberB);
+        // Build Test Data to work with
+        _myEndoTD = getTestSpecificTD("Endorsement_DummyData");
+        // Begin Endorsement. Use Default data for Endorsement Reason Page. Using Custom Data From Adjustment.
+        policy.endorse().perform(_myEndoTD.adjust(getPolicyTD("Endorsement", "TestData")));
+        policy.getDefaultView().fillUpTo(_myEndoTD, PurchaseTab.class, false);
+        if (bTakeScreenshots) {
+            ScreenshotManager.getInstance().makeScreenshot("HO_DP3_Endo_Dummy");
+        }
+        //Verify Membership Mis-Match Error Message
+        ErrorTab _errorTab = new ErrorTab();
+        _errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
+
+        mainApp().close();
 
         //Clean Data
         //Open App
@@ -103,18 +171,16 @@ public class VerifyMembershipErrorMsg extends HomeCaDP3BaseTest
         TestData _tdOtherCustomer = getTestSpecificTD("TestData_OtherCustomer");
         TestData _tdCleanCustomer = getTestSpecificTD("TestData_CleanCustomer");
         TestData _tdDirtyCustomer = getTestSpecificTD("TestData_DirtyCustomer_ALL");
-        TestData _td = getTestSpecificTD("TestData_NonMember");
+        _td = getTestSpecificTD("TestData_NonMember");
 
         createCustomerIndividual(_tdCleanCustomer);
         _persistantPolicyNumber = createPolicy(_td);
-
-
 
         //Go to Created Policy.
         SearchPage.openPolicy(_persistantPolicyNumber);
 
         // Build Test Data to work with
-        TestData _myEndoTD = getTestSpecificTD("Endorsement_CleanData");
+        _myEndoTD = getTestSpecificTD("Endorsement_CleanData");
         // Begin Endorsement. Use Default data for Endorsement Reason Page. Using Custom Data From Adjustment.
         //policy.createEndorsement(_myEndoTD.adjust(getPolicyTD("Endorsement", "TestData")));
 
@@ -149,7 +215,7 @@ public class VerifyMembershipErrorMsg extends HomeCaDP3BaseTest
         if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_DP3_Endo_Dirty");}
 
         //Verify Membership Mis-Match Error Message
-        ErrorTab _errorTab = new ErrorTab();
+        _errorTab = new ErrorTab();
         _errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
 
         mainApp().close();
@@ -157,12 +223,14 @@ public class VerifyMembershipErrorMsg extends HomeCaDP3BaseTest
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6052")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-6051, PAS-6880, PAS-7072")
     public void TC03_verifyMembershipMsg_Renewal(@Optional("CA") String state) {
 
-        boolean bTakeScreenshots = false;
+        boolean bTakeScreenshots = true;
         String _persistantPolicyNumber_Clean = "";
         String _persistantPolicyNumber_Dirty = "";
+        String _persistantPolicyNumber_Dummy = "";
+        String _persistantPolicyNumber_Associate = "";
 
         //Clean Data
         //Open App
@@ -171,9 +239,25 @@ public class VerifyMembershipErrorMsg extends HomeCaDP3BaseTest
         //Create Customer using Custom Data
         TestData _tdCleanCustomer = getTestSpecificTD("TestData_CleanCustomer");
         TestData _tdDirtyCustomer = getTestSpecificTD("TestData_DirtyCustomer_ALL");
+        TestData _tdDummyCustomer = getTestSpecificTD("TestData_DummyCustomer");
+        TestData _tdAssociateCustomer = getTestSpecificTD("TestData_CleanCustomer2");
         TestData _td = getTestSpecificTD("TestData_NonMember");
         TestData _myTDCleanRenew = getTestSpecificTD("TestData_AddCleanRenewal");
         TestData _myTDDirtyRenew = getTestSpecificTD("TestData_AddDirtyRenewal");
+        TestData _myTDDummyRenew = getTestSpecificTD("TestData_AddDummyRenewal");
+        TestData _myTDAssociateRenew = getTestSpecificTD("TestData_AddAssociateRenewal");
+
+        createCustomerIndividual(_tdDummyCustomer);
+        _persistantPolicyNumber_Dummy = createPolicy(_td);
+        if (bTakeScreenshots) {
+            ScreenshotManager.getInstance().makeScreenshot("HO_DP3_Renewal_DummySetup");
+        }
+
+        createCustomerIndividual(_tdAssociateCustomer);
+        _persistantPolicyNumber_Associate = createPolicy(_td);
+        if (bTakeScreenshots) {
+            ScreenshotManager.getInstance().makeScreenshot("HO_DP3_Renewal_AssociateSetup");
+        }
 
         createCustomerIndividual(_tdCleanCustomer);
         _persistantPolicyNumber_Clean = createPolicy(_td);
@@ -183,11 +267,18 @@ public class VerifyMembershipErrorMsg extends HomeCaDP3BaseTest
         _persistantPolicyNumber_Dirty = createPolicy(_td);
         if (bTakeScreenshots){ScreenshotManager.getInstance().makeScreenshot("HO_DP3_Renewal_DirtySetup");}
 
-        mainApp().close();
+        // DUMMY RENEW
+        SearchPage.openPolicy(_persistantPolicyNumber_Dummy);
+        policy.renew().performAndFill(_myTDDummyRenew);
+        if (bTakeScreenshots) {ScreenshotManager.getInstance().makeScreenshot("HO_DP3_Renewal_Dummy");}
+
+        // Associate RENEW
+        SearchPage.openPolicy(_persistantPolicyNumber_Associate);
+        policy.renew().performAndFill(_myTDAssociateRenew);
+        if (bTakeScreenshots) {ScreenshotManager.getInstance().makeScreenshot("HO_DP3_Renewal_Associate");}
 
         // Do Manual Renewals
         //Clean
-        mainApp().open();
         SearchPage.openPolicy(_persistantPolicyNumber_Clean);
 
         //If Renew Image is Available, click it.

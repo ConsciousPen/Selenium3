@@ -4,7 +4,11 @@ TestData_CleanCustomer: {
   GeneralTab: '@GeneralTab_CleanCustomer',
   RelationshipTab: {}
 }
-
+TestData_CleanCustomer2: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_CleanCustomer2',
+  RelationshipTab: {}
+}
 TestData_DirtyCustomer_First: {
   CustomerType: '@CustomerType',
   GeneralTab: '@GeneralTab_DirtyCustomer_First',
@@ -25,10 +29,14 @@ TestData_DirtyCustomer_ALL: {
   GeneralTab: '@GeneralTab_DirtyCustomer_ALL',
   RelationshipTab: {}
 }
-
 TestData_OtherCustomer: {
   CustomerType: '@CustomerType',
   GeneralTab: '@GeneralTab_OtherCustomer',
+  RelationshipTab: {}
+}
+TestData_DummyCustomer: {
+  CustomerType: '@CustomerType',
+  GeneralTab: '@GeneralTab_DummyCustomer',
   RelationshipTab: {}
 }
 
@@ -37,42 +45,52 @@ CustomerType: {
 }
 
 GeneralTab_CleanCustomer: {
-  First Name: NONA,
-  Last Name: HOVE,
-  Date of Birth: 08/03/1940,
+  First Name: Wu,
+  Last Name: Nov1,
+  Date of Birth: 01/02/1960,
   Gender: Female,
   Marital Status: Married,
-  Zip Code: '90210',
+  Zip Code: '90255',
+  Address Line 1: 6586 PORCUPINE WAY
+}
+
+GeneralTab_CleanCustomer2: {
+  First Name: Wu,
+  Last Name: Nov2,
+  Date of Birth: 01/02/1960,
+  Gender: Female,
+  Marital Status: Married,
+  Zip Code: '90255',
   Address Line 1: 6586 PORCUPINE WAY
 }
 
 GeneralTab_DirtyCustomer_First: {
-  First Name: DIRTYF,
-  Last Name: HOVE,
-  Date of Birth: 08/03/1940,
+  First Name: DIRTY,
+  Last Name: Nov1,
+  Date of Birth: 01/02/1960,
   Gender: Female,
   Marital Status: Married,
-  Zip Code: '90210',
+  Zip Code: '90255',
   Address Line 1: 6586 PORCUPINE WAY
 }
 
 GeneralTab_DirtyCustomer_Last: {
-  First Name: NONA,
-  Last Name: DIRTYL,
-  Date of Birth: 08/03/1940,
+  First Name: Wu,
+  Last Name: DIRTY,
+  Date of Birth: 01/02/1960,
   Gender: Female,
   Marital Status: Married,
-  Zip Code: '90210',
+  Zip Code: '90255',
   Address Line 1: 6586 PORCUPINE WAY
 }
 
 GeneralTab_DirtyCustomer_DOB: {
-  First Name: NONA,
-  Last Name: HOVE,
-  Date of Birth: 12/25/1988,
+  First Name: Wu,
+  Last Name: Nov1,
+  Date of Birth: 12/04/1988,
   Gender: Female,
   Marital Status: Married,
-  Zip Code: '90210',
+  Zip Code: '90255',
   Address Line 1: 6586 PORCUPINE WAY
 }
 
@@ -82,7 +100,7 @@ GeneralTab_DirtyCustomer_ALL: {
   Date of Birth: 12/25/1988,
   Gender: Female,
   Marital Status: Married,
-  Zip Code: '90210',
+  Zip Code: '90255',
   Address Line 1: 6586 PORCUPINE WAY
 }
 
@@ -92,7 +110,17 @@ GeneralTab_OtherCustomer: {
   Date of Birth: 11/12/1987,
   Gender: Male,
   Marital Status: Single,
-  Zip Code: '90210',
+  Zip Code: '90255',
+  Address Line 1: 6586 PORCUPINE WAY
+}
+
+GeneralTab_DummyCustomer: {
+  First Name: Other,
+  Last Name: Customer1,
+  Date of Birth: 11/12/1987,
+  Gender: Male,
+  Marital Status: Single,
+  Zip Code: '90255',
   Address Line 1: 6586 PORCUPINE WAY
 }
 
@@ -130,6 +158,59 @@ TestData_AddDirtyRenewal: {
     #NamedInsured: ['@NamedInsured', '@NamedInsured2_Dirty'],
     NamedInsured: '@NamedInsured',
     AAAMembership: '@AAAMembership_Dirty',
+    DwellingAddress: {},
+    PreviousDwellingAddress: {},
+    MailingAddress: {},
+    NamedInsuredInformation: {},
+    AgentInfo: {},
+    OtherActiveAAAPolicies: {}
+  },
+  ReportsTab: {
+    Sales Agent Agreement: 'I Agree',
+    AAAMembershipReport: [{Report: 'Order report'}]
+  },
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+TestData_AddDummyRenewal: {
+  GeneralTab: {},
+  ApplicantTab: {
+    #NamedInsured: ['@NamedInsured', '@NamedInsured2_Dirty'],
+    NamedInsured: '@NamedInsured',
+    AAAMembership: '@AAAMembership_DUMMY',
+    DwellingAddress: {},
+    PreviousDwellingAddress: {},
+    MailingAddress: {},
+    NamedInsuredInformation: {},
+    AgentInfo: {},
+    OtherActiveAAAPolicies: {}
+  },
+  ReportsTab: {
+    Sales Agent Agreement: 'I Agree',
+    AAAMembershipReport: [{Report: 'Order report'}]
+  },
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_AddAssociateRenewal: {
+  GeneralTab: {},
+  ApplicantTab: {
+    #NamedInsured: ['@NamedInsured', '@NamedInsured2_Dirty'],
+    NamedInsured: '@NamedInsured',
+    AAAMembership: '@AAAMembership_Clean',
     DwellingAddress: {},
     PreviousDwellingAddress: {},
     MailingAddress: {},
@@ -205,8 +286,8 @@ NamedInsured2_Clean: {
 }
 AAAMembership_Clean: {
   Current AAA Member: 'Yes',
-  Membership number: '4290051293803718',
-  Last name: 'HOVE'
+  Membership number: '8800400000000007',
+  Last name: 'Nov1'
 }
 AAAMembership_CleanEndo: {
   Current AAA Member: 'No'
@@ -251,8 +332,41 @@ NamedInsured2_Dirty: {
 }
 AAAMembership_Dirty: {
   Current AAA Member: 'Yes',
-  Membership number: '4290051293803718',
+  Membership number: '8800400000000007',
   Last name: 'DIRTYL'
+}
+
+Endorsement_DummyData: {
+  GeneralTab: {},
+    ApplicantTab: {
+      #NamedInsured: ['@NamedInsured', '@NamedInsured2_Clean'],
+      NamedInsured: '@NamedInsured',
+      AAAMembership: '@AAAMembership_DUMMY',
+      DwellingAddress: {},
+      PreviousDwellingAddress: {},
+      MailingAddress: {},
+      NamedInsuredInformation: {},
+      AgentInfo: {},
+      OtherActiveAAAPolicies: {}
+    },
+    ReportsTab: {
+      Sales Agent Agreement: 'I Agree',
+      AAAMembershipReport: [{Report: 'Order report'}]
+    },
+    PropertyInfoTab: {},
+    ProductOfferingTab: {},
+    EndorsementTab: {},
+    PremiumsAndCoveragesQuoteTab: {},
+    MortgageesTab: {},
+    UnderwritingAndApprovalTab: {},
+    DocumentsTab: {},
+    BindTab: {},
+    PurchaseTab: {}
+}
+AAAMembership_DUMMY: {
+  Current AAA Member: 'Yes',
+  Membership number: '9999999999999995',
+  Last name: DUMMY
 }
 
 # --------------------Test Data For H04 policy---------------------------------
@@ -270,6 +384,21 @@ TestData: {
   BindTab: '@BindTab',
   PurchaseTab: '@PurchaseTab'
 }
+TestData_DUMMY: {
+  GeneralTab: '@GeneralTab',
+  ApplicantTab: '@ApplicantTab_DUMMY',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  ProductOfferingTab: '@ProductOfferingTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@BindTab',
+  PurchaseTab: '@PurchaseTab'
+}
+
 TestData_OtherPerson: {
   GeneralTab: '@GeneralTab',
   ApplicantTab: '@ApplicantTab_Other',
@@ -329,6 +458,16 @@ ApplicantTab_NonMember: {
     AgentInfo: '@AgentInfo',
     OtherActiveAAAPolicies: '@OtherActiveAAAPolicies'
   }
+ApplicantTab_DUMMY: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership_DUMMYNB',
+  DwellingAddress: '@DwellingAddress',
+  PreviousDwellingAddress: '@PreviousDwellingAddress',
+  MailingAddress: '@MailingAddress',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AgentInfo: '@AgentInfo',
+  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
+}
 
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
@@ -396,11 +535,15 @@ NamedInsured: {
 }
 
 AAAMembership: {
-  Membership number: '4290051293803718',
-  Last name: HOVE,
+  Membership number: '8800400000000007',
+  Last name: Nov1,
 }
 AAAMembership_NonMember: {
   Current AAA Member: 'No'
+}
+AAAMembership_DUMMYNB: {
+  Membership number: '9999999999999995',
+    Last name: Nov1
 }
 
 DwellingAddress: {
@@ -525,22 +668,14 @@ HomeRenovation: {
 }
 
 PetsOrAnimals: {
-  "Are any insured-owned pets or animals kept on the property?": 'Yes',
-  Animal type: Livestock - Cow,
-  Animal count: 2
+  "Are any insured-owned pets or animals kept on the property?": 'No'
 }
 
 Stoves: {
-  "Does the property have a wood-burning stove?": 'Yes',
-  "Is the stove the sole source of heat?": 'No',
-  "Was the stove installed by a licensed contractor?": 'Yes',
-  "Does the dwelling have at least one smoke detector per story?": 'Yes'
+  "Does the property have a wood-burning stove?": 'No'
 }
 
 RecreationalEquipment: {
-  Swimming pool: 'index=1',
-  "Spa/hot tub": 'index=1',
-  Trampoline: 'index=1'
 }
 
 # ------------- Mortgagees Tab -------------
