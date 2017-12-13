@@ -1,0 +1,17 @@
+TestData: {
+  PremiumAndCoveragesTab: {
+    Payment Plan: Annual,
+    Policy Term: Annual,
+    Medical Payments: 'contains=No Coverage'
+  },
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Auto Insurance Application: Physically Signed,
+      Medical Payments Rejection of Coverage: Physically Signed
+    },
+    Agreement: I agree,
+    RequiredToIssue: {
+      Proof of Prior Insurance: 'Yes'
+    }
+  }
+}

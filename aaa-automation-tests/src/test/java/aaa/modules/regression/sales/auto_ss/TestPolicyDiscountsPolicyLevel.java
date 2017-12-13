@@ -331,20 +331,19 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		// enter data to remove discount: Advanced Shopping
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get()); 
 		generalTab.fillTab(getTestSpecificTD("GeneralTab_AShDiscount7"));
-		// enter data to remove discount: Payment Plan Discount
+		// enter data to apply discount: Payment Plan Discount for semi-annual
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.fillTab(getTestSpecificTD("PremiumAndCoveragesTab_AShDiscount7"));
 										
 		// check discounts is not displayed on Premium&Coverages tab
 		checkDiscountsNotDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message_ASh"), softly);
-		checkDiscountsNotDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message_PP"), softly);
+		checkDiscountsDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message_PP"), softly);
 				
 		// enter data to apply discount: Advanced Shopping
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get()); 
 		generalTab.fillTab(getTestSpecificTD("GeneralTab_AShDiscount8"));
-		// enter data to apply discount: Payment Plan Discount
+		
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.fillTab(getTestSpecificTD("PremiumAndCoveragesTab_AShDiscount8"));
 										
 		// check Advanced Shopping discount is displayed on Premium&Coverages tab
 		checkDiscountsDisplayed(getTestSpecificTD("PolicyLevel_Discounts_Message_ASh"), softly);

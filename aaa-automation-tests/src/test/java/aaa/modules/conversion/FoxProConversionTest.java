@@ -1,8 +1,12 @@
 package aaa.modules.conversion;
 
+import aaa.common.Tab;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingHelper;
+import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.conversion.ConversionPolicyData;
 import aaa.helpers.conversion.ConversionUtils;
@@ -12,9 +16,15 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
+import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.policy.pup.defaulttabs.BindTab;
+import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.ITestContext;
@@ -23,6 +33,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 
@@ -59,43 +70,42 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION})
 	public void foxProCAPUPConversionTest_customerDeclined1(@Optional("CA") String state, ITestContext context) {
-		foxProConversion_customerDeclined("1.xml", context);
+		foxProConversion_renewWithLapse("1.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION})
 	public void foxProCAPUPConversionTest_customerDeclined2(@Optional("CA") String state, ITestContext context) {
-		foxProConversion_customerDeclined("2.xml", context);
+		foxProConversion_renewWithLapse("2.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION})
 	public void foxProCAPUPConversionTest_customerDeclined3(@Optional("CA") String state, ITestContext context) {
-		foxProConversion_customerDeclined("3.xml", context);
+		foxProConversion_renewWithLapse("3.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION})
 	public void foxProCAPUPConversionTest_customerDeclined4(@Optional("CA") String state, ITestContext context) {
-		foxProConversion_customerDeclined("4.xml", context);
+		foxProConversion_renewWithLapse("4.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION})
 	public void foxProCAPUPConversionTest_customerDeclined5(@Optional("CA") String state, ITestContext context) {
-		foxProConversion_customerDeclined("5.xml", context);
+		foxProConversion_renewWithLapse("5.xml", context);
 	}
 
 	public void foxProConversion(String file, ITestContext context) {
 		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
-		ConversionPolicyData data = new FoxProConversionData(file, effDate);
+		Map<String, String> policies = getPrimaryPoliciesForPup();
+		ConversionPolicyData data = new FoxProConversionData(file, effDate, policies.get("Primary_HO3"), policies.get("Primary_Auto"));
 		String policyNum = ConversionUtils.importPolicy(data, context);
-//		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-//		new BillingAccount().update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay")
-//				.adjust(TestData.makeKeyPath("UpdateBillingAccountActionTab","Billing Account Name Type"), "Individual"));
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
+		fillPolicy(effDate);
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 
 		//TODO Verify coverages
@@ -124,13 +134,14 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
-	public void foxProConversion_customerDeclined(String file, ITestContext context) {
+	public void foxProConversion_renewWithLapse(String file, ITestContext context) {
 		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
-		ConversionPolicyData data = new FoxProConversionData(file, effDate);
+		ConversionPolicyData data = new FoxProConversionData(file, effDate, "CAH3951727547", "CAAC951727567");
 		String policyNum = ConversionUtils.importPolicy(data, context);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
+		fillPolicy(effDate);
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
@@ -139,16 +150,10 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 		SearchPage.openPolicy(policyNum);
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(effDate));
-		mainApp().open();
-		SearchPage.openBilling(policyNum);
-
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(effDate));
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-//		BillingSummaryPage.showPriorTerms();
-//		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(effDate.minusYears(1));
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(effDate);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(effDate));
@@ -156,8 +161,43 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-//		BillingSummaryPage.showPriorTerms();
-//		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(effDate.minusYears(1));
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(effDate);
+
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getPayLapsedRenewLong(effDate).plusDays(1));
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
+		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(effDate);
+
+		SearchPage.openPolicy(policyNum);
+		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.CUSTOMER_DECLINED).verify(1);
+		policy.manualRenewalWithOrWithoutLapse().perform(getPolicyTD("ManualRenewalWithOrWithoutLapse", "TestData"));
+
+		SearchPage.openPolicy(policyNum);
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		PolicySummaryPage.verifyLapseExistFlagPresent();
+
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		BillingSummaryPage.showPriorTerms();
+		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(effDate);
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getPayLapsedRenewLong(effDate).plusDays(1))
+				.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
+	}
+
+	private void fillPolicy(LocalDateTime effDate) {
+		policy.dataGather().start();
+		PrefillTab prefillTab = new PrefillTab();
+		prefillTab.getNamedInsuredListChangeLink(2).click();
+		prefillTab.fillTab(new SimpleDataProvider()
+				.adjust(PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(), new SimpleDataProvider())
+				.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(), "NamedInsured"), getTestSpecificTD("NamedInsured2")));
+		prefillTab.getNamedInsuredListChangeLink(1).click();
+
+		policy.getDefaultView().fillUpTo(getPolicyTD()
+				.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(), "NamedInsured"), getTestSpecificTD("NamedInsured"))
+				.mask(TestData.makeKeyPath(PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(), "ActiveUnderlyingPolicies"))
+				.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.GeneralTab.class.getSimpleName(), "PolicyInfo"), getTestSpecificTD("PolicyInfo"))
+				.adjust(PersonalUmbrellaMetaData.UnderlyingRisksAllResidentsTab.class.getSimpleName(), getTestSpecificTD("UnderlyingRisksAllResidentsTab"))
+				, BindTab.class);
+		Tab.buttonSaveAndExit.click();
 	}
 }

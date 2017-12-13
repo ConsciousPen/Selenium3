@@ -92,6 +92,7 @@ public final class DocGenEnum {
 		_60_5001("60 5001", "Fee + No Restriction Form"),
 		_60_5002("60 5002", "No Fee + No Restriction Form"),
 		_60_5003("60 5003", "Payment Restriction Form"),
+		_60_5004("60 5004", ""),
 		AH61XX(""),
 		HS61PA("NOTICE OF CANCELLATION OR REFUSAL TO RENEW"),
 		_55_3500("55 3500", "Refund Check"),
@@ -311,6 +312,13 @@ public final class DocGenEnum {
         AHCAAG("Coverage Acceptance Statement"),
         AH65XX(""),
         AH63XX(""),
+        _60_5006("60 5006", ""),
+        AAPNUBI(""),
+		ACPPNUBI(""),
+		AADNUBI(""),
+		AHPNCAA(""),
+		AA02DC(""),
+		AA16NV("Rejection of Medical Payments Coverage"),
 		;
 
 		private String id;
