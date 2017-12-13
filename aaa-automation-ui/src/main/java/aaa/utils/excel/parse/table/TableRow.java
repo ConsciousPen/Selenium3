@@ -1,23 +1,24 @@
-package aaa.utils.excel.table;
+package aaa.utils.excel.parse.table;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import org.apache.poi.ss.usermodel.Row;
 import toolkit.exceptions.IstfException;
 
-public class TableRow {
+public class TableRow implements Iterable<TableCell> {
 	private ExcelTable table;
 	private TableHeader header;
 	private Row row;
 	private int rowNumber;
 	//private ExcelParser excelParser;
-	private List<TableCell> tableCells;
+	private List<TableCell<?>> tableCells;
 
 	public TableRow(ExcelTable table, int rowNumber) {
 		assertThat(rowNumber).isPositive().as("Table row number should be greater than 0");
@@ -44,7 +45,7 @@ public class TableRow {
 		return getRow().getRowNum() + 1;
 	}
 
-	public List<TableCell> getCells() {
+	public List<TableCell<?>> getCells() {
 		if (tableCells == null) {
 			tableCells = new ArrayList<>(getHeader().getSize());
 			for (String columnName : getHeader().getColumnNames()) {
@@ -56,7 +57,7 @@ public class TableRow {
 
 	public Map<String, Object> getValues() {
 		Map<String, Object> values = new HashMap<>(getHeader().getSize());
-		for (TableCell cell : this) {
+		for (TableCell<?> cell : this) {
 			values.put(cell.getColumnName(), cell.getValue());
 		}
 		return values;
@@ -75,40 +76,37 @@ public class TableRow {
 		//return excelParser.getStringValue(getRow(), getHeader().getColumnNumber(headerColumnName));
 	}
 
-	private TableCell getCell(String headerColumnName) {
+	public TableCell<?> getCell(String headerColumnName) {
 		return getCells().stream().filter(c -> c.getColumnName().equals(headerColumnName)).findFirst()
 				.orElseThrow(() -> new IstfException(String.format("There is no cell with \"%s\" column name in the table's header", headerColumnName)));
 	}
 
 	public boolean getBoolValue(String headerColumnName) {
-		return excelParser.getBoolValue(getRow(), getHeader().getColumnNumber(headerColumnName));
+		return getCell(headerColumnName).getBoolValue();
+		//return excelParser.getBoolValue(getRow(), getHeader().getColumnNumber(headerColumnName));
 	}
 
 	public int getIntValue(String headerColumnName) {
-		return excelParser.getIntValue(getRow(), getHeader().getColumnNumber(headerColumnName));
+		return getCell(headerColumnName).getIntValue();
+		//return excelParser.getIntValue(getRow(), getHeader().getColumnNumber(headerColumnName));
 	}
 
 	public LocalDateTime getDateValue(String headerColumnName) {
-		return excelParser.getDateValue(getRow(), getHeader().getColumnNumber(headerColumnName));
+		return getCell(headerColumnName).getDateValue();
+		//return excelParser.getDateValue(getRow(), getHeader().getColumnNumber(headerColumnName));
 	}
 
-	public boolean hasValue(String headerColumnName, Object cellValue) {
-		Object actualCellValue;
-		if (cellValue instanceof String) {
-			actualCellValue = getStringValue(headerColumnName);
-		} else if (cellValue instanceof Integer) {
-			actualCellValue = getIntValue(headerColumnName);
-		} else if (cellValue instanceof Boolean) {
-			actualCellValue = getBoolValue(headerColumnName);
-		} else if (cellValue instanceof LocalDateTime) {
-			actualCellValue = getDateValue(headerColumnName);
-		} else {
-			throw new IstfException("Unsupported cell value type class: " + cellValue.getClass().getSimpleName());
-		}
-		return Objects.equals(actualCellValue, cellValue);
+	public boolean hasValue(String headerColumnName, Object expectedValue) {
+		return Objects.equals(getCell(headerColumnName).getValue(), expectedValue);
 	}
 
 	Row getRow() {
 		return this.row;
+	}
+
+	@Override
+	public Iterator<TableCell> iterator() {
+		//todo to be implemented
+		return null;
 	}
 }

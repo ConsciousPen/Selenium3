@@ -27,8 +27,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.exigen.ipb.etcsa.utils.ExcelUtils;
-import aaa.utils.excel.table.ExcelTable;
-import aaa.utils.excel.table.TableHeader;
+import aaa.utils.excel.parse.celltype.BaseCellType;
+import aaa.utils.excel.parse.celltype.CellType;
+import aaa.utils.excel.parse.table.ExcelTable;
+import aaa.utils.excel.parse.table.TableHeader;
 import toolkit.exceptions.IstfException;
 
 public class ExcelParser {
@@ -36,7 +38,7 @@ public class ExcelParser {
 
 	private Workbook workbook;
 	private Sheet sheet;
-	private Set<CellType<?>> availableCellTypes;
+	private Set<BaseCellType<?>> availableCellTypes;
 
 	public ExcelParser(File excelFile) {
 		this.workbook = ExcelUtils.getWorkbook(excelFile.getAbsolutePath());
@@ -61,11 +63,12 @@ public class ExcelParser {
 		this.sheet = sheet;
 	}
 
-	public void registerCellTypes(CellType<?>... cellTypes) {
+	public ExcelParser registerCellType(BaseCellType<?>... cellTypes) {
 		Collections.addAll(getAvailableCellTypes(), cellTypes);
+		return this;
 	}
 
-	private Set<CellType<?>> getAvailableCellTypes() {
+	private Set<BaseCellType<?>> getAvailableCellTypes() {
 		if (this.availableCellTypes == null) {
 			this.availableCellTypes = new HashSet<>();
 			registerBaseCellTypes();
@@ -74,9 +77,9 @@ public class ExcelParser {
 	}
 
 	private void registerBaseCellTypes() {
-		registerCellTypes(
-				new BooleanCellType(this));
-		//TODO-dchubkov: add all common cell types
+		for (CellType cellType : CellType.values()) {
+			registerCellType(cellType.get());
+		}
 	}
 
 	public List<Sheet> getSheets() {
@@ -152,12 +155,7 @@ public class ExcelParser {
 	}
 
 	public boolean getBoolValue(Cell cell) {
-		if (cell.getCellType() == Cell.CELL_TYPE_STRING) { // if boolean value stored as text
-			String value = getStringValue(cell);
-			return StringUtils.isEmpty(value) ? null : Boolean.valueOf(value);
-		}
-		assertThat(cell.getCellType()).as("Cell is not a boolean type, unable to get value").isEqualTo(Cell.CELL_TYPE_BOOLEAN);
-		return cell.getBooleanCellValue();
+		return getValue(cell, CellType.BOOLEAN.get());
 	}
 
 	public int getIntValue(Row row, int columnNumber) {
@@ -200,10 +198,12 @@ public class ExcelParser {
 		return getStringValue(row.getCell(columnNumber - 1));
 	}
 
-	public CellType<?> getCellType(Cell cell) {
-		for (CellType<?> cellType : getAvailableCellTypes()) {
+	@SuppressWarnings("unchecked")
+	public <C extends BaseCellType<T>, T> C getCellType(Cell cell) {
+		//TODO: get rid of @SuppressWarnings
+		for (BaseCellType<?> cellType : getAvailableCellTypes()) {
 			if (cellType.isTypeOf(cell)) {
-				return cellType;
+				return (C) cellType;
 			}
 		}
 		throw new IstfException(String.format("Unable to get value for cell located in \"%s\". Unknown cell type.", getLocation(cell)));
@@ -215,13 +215,22 @@ public class ExcelParser {
 		return getValue(row.getCell(columnNumber - 1));
 	}
 
-	public Object getValue(Cell cell) {
+	/*public Object getValue(Cell cell) {
 		for (CellType<?> cellType : getAvailableCellTypes()) {
 			if (cellType.isTypeOf(cell)) {
-				return cellType.getValueFor(cell);
+				return cellType.getValueFrom(cell);
 			}
 		}
 		throw new IstfException(String.format("Unable to get value for cell located in \"%s\". Unknown cell type.", getLocation(cell)));
+	}*/
+
+	public <T> T getValue(Cell cell) {
+		return getValue(cell, getCellType(cell));
+	}
+
+	public <T> T getValue(Cell cell, BaseCellType<T> cellType) {
+		assertThat(cellType.isTypeOf(cell)).as("Unable to get value with type %s from cell, located in %s", cellType.getName(), getLocation(cell));
+		return cellType.getValueFrom(cell);
 	}
 
 	public String getStringValue(Cell cell) {

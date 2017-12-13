@@ -1,4 +1,4 @@
-package aaa.utils.excel.table;
+package aaa.utils.excel.parse.table;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;

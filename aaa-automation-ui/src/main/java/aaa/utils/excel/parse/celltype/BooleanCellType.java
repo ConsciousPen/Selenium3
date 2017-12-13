@@ -1,14 +1,11 @@
-package aaa.utils.excel;
+package aaa.utils.excel.parse.celltype;
 
 import org.apache.poi.ss.usermodel.Cell;
 
-public class BooleanCellType extends CellType<Boolean> {
-	public BooleanCellType(ExcelParser excelParser) {
-		super(excelParser);
-	}
+public class BooleanCellType extends BaseCellType<Boolean> {
 
 	@Override
-	public Boolean getValueFor(Cell cell) {
+	public Boolean getValueFrom(Cell cell) {
 		if (isStoredAsText(cell)) {
 			return Boolean.valueOf(getParser(cell).getStringValue(cell).trim());
 		}
