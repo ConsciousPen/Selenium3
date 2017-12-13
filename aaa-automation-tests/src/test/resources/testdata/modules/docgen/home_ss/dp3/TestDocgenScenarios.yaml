@@ -22,7 +22,7 @@ TestData_PolicyDocuments_PA: {
 
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Order report'}],
+#  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -39,7 +39,7 @@ ReportsTab: {
 
 ReportsTab_NJ: {  
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Order report'}],
+#  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   RiskMeterReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -56,7 +56,7 @@ ReportsTab_NJ: {
 
 ReportsTab_PA: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Order report'}],
+#  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
   CLUEreport: [{Report: 'Order report'}],

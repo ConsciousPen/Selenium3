@@ -15,7 +15,7 @@ TestData_ChangePlan: {
   ApplicantTab: {},
   ReportsTab: {
     Sales Agent Agreement: 'I Agree',
-    AAAMembershipReport: [{Report: 'Order report'}],
+ #   AAAMembershipReport: [{Report: 'Order report'}],
   },
   PropertyInfoTab: {},
   ProductOfferingTab: {},

@@ -37,7 +37,7 @@ ApplicantTab: {
 
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Order report'}],
+#  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
   CLUEreport: [{Report: 'Order report'}]
@@ -127,9 +127,9 @@ NamedInsured: {
 }
 
 AAAMembership: {
-  Current AAA Member: 'Yes',
-  Membership number: '4290023667710001',
-  Last name: Smith,
+  Current AAA Member: 'No',
+#  Membership number: '4290023667710001',
+#  Last name: Smith,
 }
 
 DwellingAddress: {
