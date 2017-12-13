@@ -8,9 +8,9 @@ public class Jobs {
 	private static ConcurrentHashMap<String, JobState> jobsState = new ConcurrentHashMap<>();
 
 	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1",
-			Arrays.asList("/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/outbound",
-					"/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/outbound",
-					"/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4001_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4001_D/outbound"));
+		Arrays.asList("/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4004_D/outbound",
+			"/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_DMVFED_3051_D/outbound",
+			"/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4001_D/inbound", "/home/mp2/pas/sit/PAS_B_EXGPAS_PASHUB_4001_D/outbound"));
 
 	public static Job renewalOfferGenerationPart2 = new Job("Renewal_Offer_Generation_Part2");
 
@@ -37,7 +37,7 @@ public class Jobs {
 	public static Job offCycleBillingInvoiceAsyncJob = new Job("aaaOffCycleBillingInvoiceAsyncJob");
 
 	public static Job collectionFeedBatch_earnedPremiumWriteOff = new Job("collectionFeedBatch_earnedPremiumWriteOff");
-	
+
 	public static Job earnedPremiumWriteoffProcessingJob = new Job("earnedPremiumWriteoffProcessingJob");
 
 	public static Job aaaDocGenBatchJob = new Job("aaaDocGenBatchJob");
@@ -48,7 +48,7 @@ public class Jobs {
 
 	public static Job refundGenerationJob = new Job("refundGenerationJob");
 
-	//public static Job automatedProcessingInitiationJob = new Job("automatedProcessingInitiationJob"); BASE job not used anymore, aaaAutomatedProcessingInitiationJob is used instead
+	// public static Job automatedProcessingInitiationJob = new Job("automatedProcessingInitiationJob"); BASE job not used anymore, aaaAutomatedProcessingInitiationJob is used instead
 
 	public static Job automatedProcessingRunReportsServicesJob = new Job("automatedProcessingRunReportsServicesJob");
 
@@ -90,6 +90,8 @@ public class Jobs {
 
 	public static Job policyTransactionLedgerJob = new Job("policyTransactionLedgerJob");
 
+	public static Job policyTransactionLedgerNonMonthlyJob = new Job("policyTransactionLedgerNonMonthlyJob");
+
 	public static Job cftDcsEodJob = new Job("cftDcsEodJob");
 
 	public static Job aaaCreditDisclosureNoticeJob = new Job("aaaCreditDisclosureNoticeJob");
@@ -101,9 +103,11 @@ public class Jobs {
 	public static Job aaaAutomatedProcessingInitiationJob = new Job("aaaAutomatedProcessingInitiationJob");
 
 	public static Job aaaCCardExpiryNoticeJob = new Job("aaaCCardExpiryNoticeJob");
-	
+
 	public enum JobState {
-		TRUE, FALSE, FAILED
+		TRUE,
+		FALSE,
+		FAILED
 	}
 
 	public static void setJobState(String jobName, JobState state) {

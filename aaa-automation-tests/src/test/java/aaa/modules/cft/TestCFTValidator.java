@@ -27,6 +27,8 @@ import toolkit.utils.SSHController;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.waiters.Waiters;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.modules.cft.csv.model.FinancialPSFTGLObject;
 import aaa.modules.cft.csv.model.Footer;
 import aaa.modules.cft.csv.model.Header;
@@ -34,11 +36,14 @@ import aaa.modules.cft.csv.model.Record;
 import aaa.modules.cft.report.ReportGeneratorService;
 
 import com.exigen.ipb.etcsa.utils.ExcelUtils;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.istf.exec.testng.TimeShiftTestUtil;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 
 public class TestCFTValidator extends ControlledFinancialBaseTest {
 
+	private static final String REMOTE_DOWNLOAD_FOLDER_PROP = "test.remotefile.location";
 	private static final String DOWNLOAD_DIR = System.getProperty("user.dir") + PropertyProvider.getProperty("test.downloadfiles.location");
 	private static final String SOURCE_DIR = "/home/mp2/pas/sit/FIN_E_EXGPAS_PSFTGL_7000_D/outbound";
 	private static final String SQL_GET_LEDGER_DATA = "select le.LEDGERACCOUNTNO, sum (case when le.entrytype = 'CREDIT' then (to_number(le.entryamt) * -1) else to_number(le.entryamt) end) as AMOUNT from ledgertransaction lt, ledgerentry le where lt.id = le.ledgertransaction_id group by  le.LEDGERACCOUNTNO";
@@ -61,9 +66,9 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		File cftResultDir = new File(CFT_VALIDATION_DIRECTORY);
 		checkDirectory(downloadDir);
 		checkDirectory(cftResultDir);
-		// We configured CFT job to stay on the same date when all cft scenarios were finished, so time switching not needed
-		// TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusYears(1).plusMonths(13).plusDays(25));
-		runCFTJobs();
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(26));
+		JobUtils.executeJob(Jobs.policyTransactionLedgerNonMonthlyJob);
+		// runCFTJobs();
 		// get map from OR reports
 		opReportApp().open();
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
@@ -73,15 +78,17 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		Waiters.SLEEP(15000).go(); // add agile wait till file occurs, awaitatility (IGarkusha added dependency, read in www)
 		// condition that download/remote download folder listfiles.size==2
 		// moving data from monitor to download dir
-		// String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
-		// String monitorAddress = monitorInfo.substring(monitorInfo.indexOf("selenium=") + 9, monitorInfo.indexOf(":"));
-		// SSHController sshControllerRemote = new SSHController(
-		// monitorAddress,
-		// PropertyProvider.getProperty("test.ssh.user"),
-		// PropertyProvider.getProperty("test.ssh.password"));
-		// sshControllerRemote.downloadFolder(new File(PropertyProvider.getProperty("test.remotefile.location")),downloadDir);
-		// //add wait till files will appear in the folder
-		// Waiters.SLEEP(15000).go(); // add agile wait till file occurs in local folder, awaitatility (IGarkusha added dependency, read in www)
+		String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
+		if (StringUtils.isNotEmpty(remoteFileLocation)) {
+			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
+			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf("selenium=") + 9, monitorInfo.indexOf(":"));
+			SSHController sshControllerRemote = new SSHController(
+				monitorAddress,
+				PropertyProvider.getProperty("test.ssh.user"),
+				PropertyProvider.getProperty("test.ssh.password"));
+			sshControllerRemote.downloadFolder(new File(remoteFileLocation), downloadDir);
+			Waiters.SLEEP(15000).go(); // add agile wait till file occurs in local folder, awaitatility (IGarkusha added dependency, read in www)
+		}
 		Map<String, Double> accountsMapSummaryFromOR = getExcelValues();
 		// Remote path from server -
 		sshController.downloadFolder(new File(SOURCE_DIR), downloadDir);
