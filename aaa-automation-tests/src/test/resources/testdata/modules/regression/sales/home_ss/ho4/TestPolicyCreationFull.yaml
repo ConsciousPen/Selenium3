@@ -1,6 +1,5 @@
-# --------- TEST DATA FOR FULL TEST -----------
-TestDataFull: {
-  GeneralTab: '@GeneralTab',
+TestDataFull_UT: {
+  GeneralTab: '@<home_ss_ho4>@DataGather@GeneralTab_UT',
   ApplicantTab: '@ApplicantTab',
   ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab',
@@ -11,17 +10,6 @@ TestDataFull: {
   DocumentsTab: '@DocumentsTab',
   BindTab: '@<home_ss_ho3>@DataGather@BindTab',
   PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
-}
-
-GeneralTab: {
-  State: 'UT',
-  Policy type: 'HO4',
-  Application type: 'New',
-  Commission Type: 'New Business',
-  Lead source: 'AAA Teen',
-  Suppress Print: 'Print documents',
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
 }
 
 ApplicantTab: {
@@ -75,15 +63,8 @@ MortgageesTab: {
   'Use legal property address': 'Yes',
   'Is there an additional insured?': 'Yes',
   'Is there a certificate holder?': 'Yes',
-
-  LegalPropetyAddress: {
-    Validate Address: true,
-    Validate Address Dialog: {}
-  },
-  AdditionalInsured: {
-    Interest: 'Trust',
-    Name: 'Pasha Ulybasha'
-  },
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  AdditionalInsured: '@AdditionalInsured',
   CertificateHolders: {
     Name: 'Chuck Norris',
     Zip code: '84003',
@@ -92,6 +73,16 @@ MortgageesTab: {
   },
 }
 
+LegalPropetyAddress: {
+   Validate Address: true,
+   Validate Address Dialog: {}
+}
+
+AdditionalInsured: {
+    Interest: 'Trust',
+    Name: 'Pasha Ulybasha'
+}
+  
 UnderwritingAndApprovalTab: {
   "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
   "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
@@ -115,7 +106,7 @@ NamedInsured: {
   Prefix: 'Mrs.',
    First Name: 'Test',
    Middle name: 'MiddleName',
-   Last name: 'Testovich',
+   #Last name: Smith,
    Suffix: 'Jr.',
    Relationship to primary named insured: 'Primary Insured',
    Marital status: 'Married',
@@ -219,3 +210,382 @@ RecreationalEquipment: {
   Spa/hot tub: 'Restricted access',
   Trampoline: 'Restricted access in-ground with safety net',
 }
+
+# --------- TestData AZ -----------
+
+TestDataFull_AZ: {
+  GeneralTab: '@<home_ss_ho4>@DataGather@GeneralTab_AZ',
+  ApplicantTab: '@ApplicantTab_AZ',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_AZ',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+}
+
+ApplicantTab_AZ: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_AZ',
+  PreviousDwellingAddress: '@PreviousDwellingAddress',
+  MailingAddress: '@MailingAddress',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_AZ',
+  OtherActiveAAAPolicies: {},
+}
+
+MortgageesTab_AZ: {
+  'Use legal named insured': 'Yes',
+  'Use legal property address': 'Yes',
+  'Is there an additional insured?': 'Yes',
+  'Is there a certificate holder?': 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  AdditionalInsured: '@AdditionalInsured',
+  CertificateHolders: {
+    Name: 'Chuck Norris',
+    Zip code: '85118',
+    Street Address 1: 'Power Str',
+    Street Address 2: 'He is a very cool guy',
+  },
+}
+
+# --------- TestData CO -----------
+
+TestDataFull_CO: {
+  GeneralTab: '@<home_ss_ho4>@DataGather@GeneralTab_CO',
+  ApplicantTab: '@ApplicantTab_CO',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_CO',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+}
+
+ApplicantTab_CO: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_CO',
+  PreviousDwellingAddress: '@PreviousDwellingAddress',
+  MailingAddress: '@MailingAddress',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_CO',
+  OtherActiveAAAPolicies: {},
+}
+
+MortgageesTab_CO: {
+  'Use legal named insured': 'Yes',
+  'Use legal property address': 'Yes',
+  'Is there an additional insured?': 'Yes',
+  'Is there a certificate holder?': 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  AdditionalInsured: '@AdditionalInsured',
+  CertificateHolders: {
+    Name: 'Chuck Norris',
+    Zip code: '81401',
+    Street Address 1: 'Power Str',
+    Street Address 2: 'He is a very cool guy',
+  },
+}
+
+# --------- TestData CT -----------
+
+TestDataFull_CT: {
+  GeneralTab: '@<home_ss_ho4>@DataGather@GeneralTab_CT',
+  ApplicantTab: '@ApplicantTab_CT',
+  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_CT',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_CT',
+  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab_CT',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+}
+
+ApplicantTab_CT: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_CT',
+  PreviousDwellingAddress: '@PreviousDwellingAddress',
+  MailingAddress: '@MailingAddress',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_CT',
+  OtherActiveAAAPolicies: {},
+}
+
+MortgageesTab_CT: {
+  'Use legal named insured': 'Yes',
+  'Use legal property address': 'Yes',
+  'Is there an additional insured?': 'Yes',
+  'Is there a certificate holder?': 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  AdditionalInsured: '@AdditionalInsured',
+  CertificateHolders: {
+    Name: 'Chuck Norris',
+    Zip code: '06770',
+    Street Address 1: 'Power Str',
+    Street Address 2: 'He is a very cool guy',
+  },
+}
+
+# --------- TestData DC -----------
+
+TestDataFull_DC: {
+  GeneralTab: '@<home_ss_ho4>@DataGather@GeneralTab_DC',
+  ApplicantTab: '@ApplicantTab_DC',
+  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_DC',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_DC',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+}
+
+ApplicantTab_DC: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_DC',
+  PreviousDwellingAddress: '@PreviousDwellingAddress',
+  MailingAddress: '@MailingAddress',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_DC',
+  OtherActiveAAAPolicies: {},
+}
+
+MortgageesTab_DC: {
+  'Use legal named insured': 'Yes',
+  'Use legal property address': 'Yes',
+  'Is there an additional insured?': 'Yes',
+  'Is there a certificate holder?': 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  AdditionalInsured: '@AdditionalInsured',
+  CertificateHolders: {
+    Name: 'Chuck Norris',
+    Zip code: '20009',
+    Street Address 1: 'Power Str',
+    Street Address 2: 'He is a very cool guy',
+  },
+}
+
+# --------- TestData DE -----------
+
+TestDataFull_DE: {
+  GeneralTab: '@<home_ss_ho4>@DataGather@GeneralTab_DE',
+  ApplicantTab: '@ApplicantTab_DE',
+  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_DE',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_DE',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+}
+
+ApplicantTab_DE: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_DE',
+  PreviousDwellingAddress: '@PreviousDwellingAddress',
+  MailingAddress: '@MailingAddress',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_DE',
+  OtherActiveAAAPolicies: {},
+}
+
+MortgageesTab_DE: {
+  'Use legal named insured': 'Yes',
+  'Use legal property address': 'Yes',
+  'Is there an additional insured?': 'Yes',
+  'Is there a certificate holder?': 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  AdditionalInsured: '@AdditionalInsured',
+  CertificateHolders: {
+    Name: 'Chuck Norris',
+    Zip code: '19702',
+    Street Address 1: 'Power Str',
+    Street Address 2: 'He is a very cool guy',
+  },
+}
+
+# --------- TestData ID -----------
+
+TestDataFull_ID: {
+  GeneralTab: '@<home_ss_ho4>@DataGather@GeneralTab_ID',
+  ApplicantTab: '@ApplicantTab_ID',
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_ID',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+}
+
+ApplicantTab_ID: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_ID',
+  PreviousDwellingAddress: '@PreviousDwellingAddress',
+  MailingAddress: '@MailingAddress',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_ID',
+  OtherActiveAAAPolicies: {},
+}
+
+MortgageesTab_ID: {
+  'Use legal named insured': 'Yes',
+  'Use legal property address': 'Yes',
+  'Is there an additional insured?': 'Yes',
+  'Is there a certificate holder?': 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  AdditionalInsured: '@AdditionalInsured',
+  CertificateHolders: {
+    Name: 'Chuck Norris',
+    Zip code: '83607',
+    Street Address 1: 'Power Str',
+    Street Address 2: 'He is a very cool guy',
+  },
+}
+
+# --------- TestData IN -----------
+
+TestDataFull_IN: {
+  GeneralTab: '@<home_ss_ho4>@DataGather@GeneralTab_IN',
+  ApplicantTab: '@ApplicantTab_IN',
+  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_IN',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_IN',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+}
+
+ApplicantTab_IN: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_IN',
+  PreviousDwellingAddress: '@PreviousDwellingAddress',
+  MailingAddress: '@MailingAddress',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_IN',
+  OtherActiveAAAPolicies: {},
+}
+
+MortgageesTab_IN: {
+  'Use legal named insured': 'Yes',
+  'Use legal property address': 'Yes',
+  'Is there an additional insured?': 'Yes',
+  'Is there a certificate holder?': 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  AdditionalInsured: '@AdditionalInsured',
+  CertificateHolders: {
+    Name: 'Chuck Norris',
+    Zip code: '47714',
+    Street Address 1: 'Power Str',
+    Street Address 2: 'He is a very cool guy',
+  },
+}
+
+# --------- TestData KS -----------
+
+TestDataFull_KS: {
+  GeneralTab: '@<home_ss_ho4>@DataGather@GeneralTab_KS',
+  ApplicantTab: '@ApplicantTab_KS',
+  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_KS',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_KS',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+}
+
+ApplicantTab_KS: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_KS',
+  PreviousDwellingAddress: '@PreviousDwellingAddress',
+  MailingAddress: '@MailingAddress',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_KS',
+  OtherActiveAAAPolicies: {},
+}
+
+MortgageesTab_KS: {
+  'Use legal named insured': 'Yes',
+  'Use legal property address': 'Yes',
+  'Is there an additional insured?': 'Yes',
+  'Is there a certificate holder?': 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  AdditionalInsured: '@AdditionalInsured',
+  CertificateHolders: {
+    Name: 'Chuck Norris',
+    Zip code: '67210',
+    Street Address 1: 'Power Str',
+    Street Address 2: 'He is a very cool guy',
+  },
+}
+
+# --------- TestData KY -----------
+
+TestDataFull_KY: {
+  GeneralTab: '@<home_ss_ho4>@DataGather@GeneralTab_KY',
+  ApplicantTab: '@ApplicantTab_KY',
+  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_KY',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_KY',
+  UnderwritingAndApprovalTab: '@<home_ss_ho4>@DataGather@UnderwritingAndApprovalTab_KY',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+}
+
+ApplicantTab_KY: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_KY',
+  PreviousDwellingAddress: '@PreviousDwellingAddress',
+  MailingAddress: '@MailingAddress',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_KY',
+  OtherActiveAAAPolicies: {},
+}
+
+MortgageesTab_KY: {
+  'Use legal named insured': 'Yes',
+  'Use legal property address': 'Yes',
+  'Is there an additional insured?': 'Yes',
+  'Is there a certificate holder?': 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  AdditionalInsured: '@AdditionalInsured',
+  CertificateHolders: {
+    Name: 'Chuck Norris',
+    Zip code: '41180',
+    Street Address 1: 'Power Str',
+    Street Address 2: 'He is a very cool guy',
+  },
+}
+
