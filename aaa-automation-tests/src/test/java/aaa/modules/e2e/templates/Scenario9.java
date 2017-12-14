@@ -273,7 +273,7 @@ public class Scenario9 extends ScenarioBaseTest {
 	}
 	
 	protected void customerDeclineRenewal() {
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate).plusHours(1));
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -283,20 +283,20 @@ public class Scenario9 extends ScenarioBaseTest {
 	}
 		
 	protected void generateEarnedPremiumWriteOff() {
-		LocalDateTime earnedPremiumWriteOffDate = getTimePoints().getEarnedPremiumWriteOff(policyExpirationDate); 
-		TimeSetterUtil.getInstance().nextPhase(earnedPremiumWriteOffDate); 
+		//LocalDateTime earnedPremiumWriteOffDate = getTimePoints().getEarnedPremiumWriteOff(policyExpirationDate); 
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(60).with(DateTimeUtils.closestFutureWorkingDay)); 
 		JobUtils.executeJob(Jobs.earnedPremiumWriteoffProcessingJob); 
 		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-		//new BillingPaymentsAndTransactionsVerifier().setTransactionDate(earnedPremiumWriteOffDate).setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF).verifyPresent(); 
 		
 		HashMap<String, String> writeOffTransaction = new HashMap<>();
-		writeOffTransaction.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, earnedPremiumWriteOffDate.format(DateTimeUtils.MM_DD_YYYY));
+		//writeOffTransaction.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, earnedPremiumWriteOffDate.format(DateTimeUtils.MM_DD_YYYY));
+		writeOffTransaction.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, DateTimeUtils.getCurrentDateTime().format(DateTimeUtils.MM_DD_YYYY));
 		writeOffTransaction.put(BillingPaymentsAndOtherTransactionsTable.TYPE, PaymentsAndOtherTransactionType.ADJUSTMENT);
 		writeOffTransaction.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, PaymentsAndOtherTransactionSubtypeReason.EARNED_PREMIUM_WRITE_OFF); 
 		writeOffTransaction.put(BillingPaymentsAndOtherTransactionsTable.AMOUNT, "(" + currentTermDueAmount.toString() + ")");
-
+		
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(writeOffTransaction).verify.present();
 	}
 	

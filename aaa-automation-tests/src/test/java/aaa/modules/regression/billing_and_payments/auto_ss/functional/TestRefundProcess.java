@@ -80,7 +80,6 @@ public class TestRefundProcess extends PolicyBilling {
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_RECEIVE_INFO_JOB);
 	}
 
-
 	@Test(description = "Precondition for TestRefundProcess tests")
 	public static void refundDocumentGenerationConfigCheck() {
 		CustomAssert.assertTrue("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.", DbAwaitHelper
@@ -329,10 +328,10 @@ public class TestRefundProcess extends PolicyBilling {
 		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
 
 		String transactionNumber = DBService.get().getRows("select TRANSACTIONNUMBER from BILLINGTRANSACTION "
-				+ "where account_id = (select id from BILLINGACCOUNT where ACCOUNTNUMBER = '"+ billingAccountNumber +"') "
+				+ "where account_id = (select id from BILLINGACCOUNT where ACCOUNTNUMBER = '" + billingAccountNumber + "') "
 				+ "order by CREATIONDATE desc").get(0).get("TRANSACTIONNUMBER");
 
-		if (transactionNumber == null){
+		if (transactionNumber == null) {
 			CustomAssert.assertTrue("Transaction number isn't found in DB", transactionNumber != null);
 			return;
 		}
@@ -342,7 +341,6 @@ public class TestRefundProcess extends PolicyBilling {
 				.setPolicyNumber(policyNumber)
 				.setProductType("PA")
 				.setRefundStatus("SUCC");
-
 
 		switch (paymentMethod) {
 			case "ACH":
@@ -381,11 +379,9 @@ public class TestRefundProcess extends PolicyBilling {
 		File disbursementEngineFile = DisbursementEngineHelper.createFile(builder);
 		DisbursementEngineHelper.copyFileToServer(disbursementEngineFile);
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementRecieveInfoJob);
-
 	}
 
 	private void pas352_RefundMethodAndDropdownLastPaymentMethodTest(String message, String amount, String paymentMethod) {
-
 		precondJobAdding();
 		mainApp().open();
 		createCustomerIndividual();
@@ -433,6 +429,7 @@ public class TestRefundProcess extends PolicyBilling {
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(amount);
 		//BUG PAS-6539 View eRefunds and the Debit/Credit Card - Auto
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).verify.value("Visa ****4113 expiring 01/22");
+		acceptPaymentActionTab.submitTab();
 		//PAS-3619 End
 		//PAS-2728 Start
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
@@ -615,7 +612,7 @@ public class TestRefundProcess extends PolicyBilling {
 	}
 
 	private void pas1939_issuedRefundActionsCheck(Map<String, String> refund1, String policyNumber, boolean isCheck) {
-		mainApp().reopen();
+		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(STATUS).verify.value("Issued");
 		if (isCheck) {

@@ -1,0 +1,15 @@
+TestData: {
+  InitiateRenewalEntryActionTab: '@InitiateRenewalEntryActionTab',
+}
+
+InitiateRenewalEntryActionTab: {
+  Previous Policy Number: '$<rx:\d{10}>',
+  Previous Source System: MAIG,
+  Risk State: VA,
+  Renewal Effective Date: '$<today+45d:MM/dd/yyyy>',
+  Renewal Policy Premium: 0,
+  Policy Term: Annual,
+  Enrolled in Autopay: 'No'
+}
+
+

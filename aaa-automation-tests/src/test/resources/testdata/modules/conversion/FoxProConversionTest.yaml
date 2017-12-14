@@ -1,0 +1,20 @@
+NamedInsured: {
+  #Relationship to primary named insured: "Primary Insured",
+  Gender: Male,
+  Marital status: Single,
+  Date of birth: "08/08/1977",
+  Occupation: index=1
+}
+
+NamedInsured2: {
+  Marital status: Single
+}
+
+PolicyInfo: {
+  Agent: index=1
+}
+
+UnderlyingRisksAllResidentsTab: {
+  Add other residents: "No",
+  Confirm no residents: click
+}
