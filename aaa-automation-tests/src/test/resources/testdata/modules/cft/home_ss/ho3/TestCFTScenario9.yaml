@@ -1,9 +1,20 @@
 # --- Data Gather
-GeneralTab_DataGather: {
-  Effective date: '$<today+2d>'
+TestData_DataGather: {
+  GeneralTab: '@<home_ss_ho3>@DataGather@GeneralTab',
+  ApplicantTab: '@ApplicantTab',
+  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab',
+  PropertyInfoTab: '@<home_ss_ho3>@DataGather@PropertyInfoTab',
+  ProductOfferingTab: '@<home_ss_ho3>@DataGather@ProductOfferingTab',
+  EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@<home_ss_ho3>@DataGather@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
+  UnderwritingAndApprovalTab: '@<home_ss_ho3>@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
 }
 
-ApplicantTab_DataGather: {
+ApplicantTab: {
   NamedInsured: ['@NamedInsured1','@NamedInsured2'],
   AAAMembership: '@<home_ss_ho3>@DataGather@AAAMembership',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress',
@@ -14,14 +25,11 @@ ApplicantTab_DataGather: {
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo'
 }
 
-PremiumsAndCoveragesQuoteTab_DataGather: {
-  Payment plan: Eleven Pay Standard
-}
-
 NamedInsured1: {
   Relationship to primary named insured:  Primary Insured,
   Social security number: 1234567890,
-  Employer: '1234567890'
+  Employer: '1234567890',
+  AAA employee: 'Yes'
 }
 
 NamedInsured2: {
@@ -30,5 +38,13 @@ NamedInsured2: {
   Relationship to primary named insured:  Other,
   Marital status: Single,
   Social security number: 1234567899,
-  Date of birth: '$<today-40y>'
+  Date of birth: '$<today-40y>',
+  AAA employee: 'Yes'
+}
+
+GeneralTab_DataGather: {
+  Effective date: '$<today+2d>'
+}
+PremiumsAndCoveragesQuoteTab_DataGather: {
+  Payment plan: Eleven Pay Standard
 }

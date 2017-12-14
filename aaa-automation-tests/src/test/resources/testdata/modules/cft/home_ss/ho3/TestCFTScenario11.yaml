@@ -19,6 +19,7 @@ EndorsementActionTab: {
 }
 
 PremiumsAndCoveragesQuoteTab: {
+  Calculate Premium: 'click',
   Override Premium: {
     Remarks: 'Only Erich Maria Remarque',
     Override Premium By Flat Amount: '100',

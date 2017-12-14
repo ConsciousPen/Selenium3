@@ -48,6 +48,7 @@ TestData_DataGather: {
   DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
+
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
   AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
@@ -56,16 +57,36 @@ GeneralTab: {
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
 }
 
-#DriverTab_DataGather: {
-#  DriverTab: ['@DriverTab1', '@DriverTab2']
-#}
-#
-#VehicleTab_DataGather: {
-#  VehicleTab: ['@VehicleTab1', '@VehicleTab2']
-#}
+DriverTab1: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 400064773,
+  Affinity Group: 'AAA Employee'
+}
 
-PremiumAndCoveragesTab_DataGather: {
-  Payment Plan: Eleven Pay - Standard
+DriverTab2: {
+  DriverSearchDialog: {},
+  Named Insured: 'index=0',
+  'Rel. to First Named Insured': Spouse,
+  Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: 400064774,
+  Affinity Group: 'AAA Employee'
+}
+
+VehicleTab1: {
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273,
+}
+
+VehicleTab2: {
+  Usage: Pleasure,
+  VIN: WDCYC7BB0B6729451,
 }
 
 NamedInsuredInformation1: {
@@ -84,32 +105,12 @@ NamedInsuredInformation2: {
   Residence: Own Home
 }
 
-DriverTab1: {
-  Occupation: Self-Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: 400064773
+GeneralTab_DataGather: {
+  PolicyInformation: {
+    Effective Date: '$<today+2d>',
+  }
 }
 
-DriverTab2: {
-  DriverSearchDialog: {},
-  Named Insured: 'index=0',
-  'Rel. to First Named Insured': Spouse,
-  Date of Birth: 01/01/1981,
-  Gender: Female,
-  Marital Status: Married,
-  Occupation: Employed,
-  Age First Licensed: 18,
-  License Type: 'Licensed (US)',
-  License Number: 400064774
-}
-
-VehicleTab1: {
-  Usage: Pleasure,
-  VIN: 1GNWGPFG8B6548273,
-}
-
-VehicleTab2: {
-  Usage: Pleasure,
-  VIN: WDCYC7BB0B6729451,
+PremiumAndCoveragesTab_DataGather: {
+  Payment Plan: Eleven Pay - Standard
 }
