@@ -21,7 +21,7 @@
     </test>
 
 	<test name="Home SS Scenario10 with HO3" parallel="none">
-        <parameter name="state" value="UT" />
+        <parameter name="state" value="UT, AZ" />
         <classes>
             <class name="aaa.modules.e2e.home_ss.ho3.TestScenario10"/>
         </classes>
