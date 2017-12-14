@@ -1,5 +1,7 @@
 package aaa.modules.conversion;
 
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingHelper;
@@ -12,9 +14,11 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData.*;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -101,18 +105,7 @@ public class MaigConversionTest extends AutoSSBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		policy.dataGather().start();
-		policy.getDefaultView().fill(getPolicyTD().adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(), PrefillTab.DATE_OF_BIRTH.getLabel()), "08/08/1977")
-				.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), "NamedInsuredInformation[0]", "Base Date"), effDate.format(DateTimeUtils.MM_DD_YYYY))
-				.mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), GeneralTab.POLICY_INFORMATION.getLabel()))
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), DriverTab.GENDER.getLabel()), "index=1")
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), DriverTab.MARITAL_STATUS.getLabel()), "index=1")
-				.adjust(TestData.makeKeyPath(VehicleTab.class.getSimpleName(), VehicleTab.TYPE.getLabel()), "Private Passenger Auto")
-				.adjust(PremiumAndCoveragesTab.class.getSimpleName(), new SimpleDataProvider())
-				.mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE.getLabel()))
-				.mask(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), DocumentsAndBindTab.AGREEMENT.getLabel()))
-				.adjust(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), DocumentsAndBindTab.AUTHORIZED_BY.getLabel()), "qa")
-				.mask(new PurchaseTab().getMetaKey()));
+		fillPolicy(effDate);
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 
 		//TODO Verify coverages
@@ -149,6 +142,7 @@ public class MaigConversionTest extends AutoSSBaseTest {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
+		fillPolicy(effDate);
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
@@ -157,16 +151,10 @@ public class MaigConversionTest extends AutoSSBaseTest {
 		SearchPage.openPolicy(policyNum);
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(effDate));
-		mainApp().open();
-		SearchPage.openBilling(policyNum);
-
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(effDate));
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-//		BillingSummaryPage.showPriorTerms();
-//		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(effDate.minusYears(1));
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(effDate);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(effDate));
@@ -174,8 +162,36 @@ public class MaigConversionTest extends AutoSSBaseTest {
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
-//		BillingSummaryPage.showPriorTerms();
-//		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(effDate.minusYears(1));
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(effDate);
+
+		BillingSummaryPage.openPolicy(1);
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
+		new aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab().getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY).click();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab().submitTab();
+
+		SearchPage.openPolicy(policyNum);
+		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		BillingSummaryPage.showPriorTerms();
+		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(effDate);
+	}
+
+	private void fillPolicy(LocalDateTime effDate) {
+		policy.dataGather().start();
+		policy.getDefaultView().fill(getPolicyTD().adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(), PrefillTab.DATE_OF_BIRTH.getLabel()), "08/08/1977")
+				.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), "NamedInsuredInformation[0]", "Base Date"), effDate.format(DateTimeUtils.MM_DD_YYYY))
+				.mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), GeneralTab.POLICY_INFORMATION.getLabel()))
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), DriverTab.GENDER.getLabel()), "index=1")
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), DriverTab.MARITAL_STATUS.getLabel()), "index=1")
+				.adjust(TestData.makeKeyPath(VehicleTab.class.getSimpleName(), VehicleTab.TYPE.getLabel()), "Private Passenger Auto")
+				.adjust(PremiumAndCoveragesTab.class.getSimpleName(), new SimpleDataProvider())
+				.mask(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName(), DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE.getLabel()))
+				.mask(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), DocumentsAndBindTab.AGREEMENT.getLabel()))
+				.adjust(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), DocumentsAndBindTab.AUTHORIZED_BY.getLabel()), "qa")
+				.mask(new PurchaseTab().getMetaKey()));
 	}
 }

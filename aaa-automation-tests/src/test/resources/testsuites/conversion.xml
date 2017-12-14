@@ -6,11 +6,23 @@
 	</listeners>
 	<parameter name="timeshift-scenario-mode" value="method" />
 
-	<test name="Conversion Test" preserve-order="true">
+	<test name="HDES Conversion Test" preserve-order="true">
 		<parameter name="state" value="CA" />
 		<classes>
 			<class name="aaa.modules.conversion.HdesConversionTest" />
+		</classes>
+	</test>
+
+	<test name="Sis Conversion Test" preserve-order="true">
+		<parameter name="state" value="CA" />
+		<classes>
 			<class name="aaa.modules.conversion.SisConversionTest" />
+		</classes>
+	</test>
+
+	<test name="FoxPro Conversion Test" preserve-order="true">
+		<parameter name="state" value="CA" />
+		<classes>
 			<class name="aaa.modules.conversion.FoxProConversionTest" />
 		</classes>
 	</test>
