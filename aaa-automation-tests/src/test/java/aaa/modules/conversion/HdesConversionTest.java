@@ -330,7 +330,8 @@ public class HdesConversionTest extends HomeCaHO3BaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(effDate);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getPayLapsedRenewLong(effDate).plusDays(1)).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getPayLapsedRenewLong(effDate).plusDays(1))
+				.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
 	public void hdesCAConversion_renewAfterPayment(String file, ITestContext context) {
@@ -355,10 +356,10 @@ public class HdesConversionTest extends HomeCaHO3BaseTest {
 		SearchPage.openBilling(policyNum);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(effDate);
 
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getPayLapsedRenewLong(effDate));
-		mainApp().open();
-		SearchPage.openBilling(policyNum);
-		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(effDate);
+//		TimeSetterUtil.getInstance().nextPhase(effDate.plusDays(15));
+//		mainApp().open();
+//		SearchPage.openBilling(policyNum);
+//		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(effDate);
 
 		Dollar rAmount = BillingHelper.getBillMinDueAmount(effDate, BillingConstants.BillsAndStatementsType.OFFER);
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), rAmount);

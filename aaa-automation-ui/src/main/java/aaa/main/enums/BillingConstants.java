@@ -34,7 +34,7 @@ public final class BillingConstants {
 
 	public static final class PolicyTerm {
 		public static final String ANNUAL = "Annual";
-		public static final String SEMI_ANNUAL = "Semi-Annual";
+		public static final String SEMI_ANNUAL = "Semi-annual";
 	}
 
 	public static final class BillingAccountPoliciesBillingStatus {
