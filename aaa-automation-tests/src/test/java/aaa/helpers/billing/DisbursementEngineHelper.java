@@ -31,7 +31,7 @@ public class DisbursementEngineHelper {
 	 * cardSubType - Debit, Credit
 	 * refundStatus - SUCC - success, ERR - for error
 	 */
-	public static synchronized File createFile(DisbursementEngineFileBuilder builder) {
+	public static synchronized File createFile(DisbursementEngineFileBuilder builder, String fileNameLastPart) {
 		final DateTimeFormatter DATE_TIME_PATTERN = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 		final DateTimeFormatter DATE_PATTERN = DateTimeFormatter.ofPattern("MMddyyyy");
 		final DateTimeFormatter TIME_PATTERN = DateTimeFormatter.ofPattern("HHmmss");
@@ -40,14 +40,14 @@ public class DisbursementEngineHelper {
 		LocalDateTime date = DateTimeUtils.getCurrentDateTime();
 
 		do {
-			fileName = date.format(DATE_PATTERN) + "_" + date.format(TIME_PATTERN) + "_DSB_E_DSBCTRL_PASSYS_XXXX_D.csv";
+			fileName = date.format(DATE_PATTERN) + "_" + date.format(TIME_PATTERN) + "_" + fileNameLastPart + ".csv";
 			file = new File(CustomLogger.getLogDirectory().concat("/DisbursementEngine_Files/"), fileName);
 			date = date.plusSeconds(1);
 		} while (file.exists());
 		file.getParentFile().mkdir();
 
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-			String header = MessageFormat.format("H|DEV|DSBCTRL|PASSYS|DSB_E_DSBCTRL_PASSYS_7035_D|ETLNONPROD|71DCF95E-C|{0}|{1}|C48192E5-E|1\n", fileName, date.format(DATE_TIME_PATTERN));
+			String header = MessageFormat.format("H|DEV|DSBCTRL|PASSYS|{0}|ETLNONPROD|71DCF95E-C|{1}|{2}|C48192E5-E|1\n", fileNameLastPart, fileName, date.format(DATE_TIME_PATTERN));
 			bw.write(header);
 			bw.write(builder.buildData(date.format(DATE_PATTERN)));
 			bw.write(builder.buildTrail());
