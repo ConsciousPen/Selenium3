@@ -19,7 +19,7 @@ import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 
-public class TestRFI extends AutoSSBaseTest {
+public class TestRfiNano extends AutoSSBaseTest {
 
 	private final InquiryAssetList inquiryAssetList = new InquiryAssetList(new GeneralTab().getAssetList().getLocator(), AutoSSMetaData.GeneralTab.class);
 	private final ErrorTab errorTab = new ErrorTab();
@@ -60,10 +60,12 @@ public class TestRFI extends AutoSSBaseTest {
 	 * Proof of equivalent new car added protection coverage with prior carrier for new vehicle(s)	new car added protection; date is more than 30 days ago
 	 * @details
 	 */
+
+
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-349")
-	public void pas349_rfiAuto(@Optional("VA") String state) {
+	public void pas349_rfiNano(@Optional("VA") String state) {
 		createQuoteWithCustomData();
 
 		CustomAssert.enableSoftMode();
@@ -83,35 +85,13 @@ public class TestRFI extends AutoSSBaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
 		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).verify.value("Not Signed");
-		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS).verify.value("Not Signed");
-
-		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_CURRENT_INSURANCE_FOR).verify.value("No");
-		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT).verify.value("No");
-		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION).verify.value("No");
-		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PRIOR_INSURANCE).verify.value("No");
-		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PURCHASE_DATE_BILL_OF_SALE_FOR_NEW_VEHICLES).verify.value("No");
-		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES).verify.value("No");
-		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER).verify.value("No");
-		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PHOTOS_FOR_SALVATAGE_VEHICLE_WITH_PHYSICAL_DAMAGE_COVERAGE).verify.value("No");
-
 		documentsAndBindTab.saveAndExit();
 	}
 
 	private static void rfiDocumentContentCheck(String policyNum) {
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNum, "AARFIXX", "POLICY_ISSUE");
 		DocGenHelper.getDocumentDataSectionsByName("CoverageDetails", DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements();
-
-		rfiTagCheck(query, "PrevInsDiscYN");
-		rfiTagCheck(query, "GoodStuDiscYN");
-		rfiTagCheck(query, "VehNwAddPrtcYN");
-		rfiTagCheck(query, "CurInsDrvrYN");
-		rfiTagCheck(query, "SmrtDrvrCrseCertYN");
-		rfiTagCheck(query, "VehNwAddPrtcPrevCrirYN");
-		rfiTagCheck(query, "SalvVehYN");
 		rfiTagCheck(query, "PsnlAutoApplYN");
-		rfiTagCheck(query, "CanMVRYN");
-		//TODO UBITrmCndtnYN is N, but the RFI contains it. Kinda illogical
-		rfiTagCheck(query, "UBITrmCndtnYN");
 	}
 
 	private static void rfiTagCheck(String query, String tag) {
