@@ -1,5 +1,6 @@
 package aaa.modules.regression.preconditions;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import org.testng.annotations.Test;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.enums.NavigationEnum;
@@ -13,7 +14,7 @@ public class JobAdding extends BaseTest{
 		adminApp().open();
 		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
 
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.RENEWAL_OFFER_GENERATION_PART_1);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.RENEWAL_OFFER_GENERATION_PART_2);
+		assertThat(GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.RENEWAL_OFFER_GENERATION_PART_1)).isEqualTo(true);
+		assertThat(GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.RENEWAL_OFFER_GENERATION_PART_2)).isEqualTo(true);
 	}
 }

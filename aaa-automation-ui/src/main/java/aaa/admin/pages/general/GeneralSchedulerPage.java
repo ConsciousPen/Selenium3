@@ -95,7 +95,7 @@ public class GeneralSchedulerPage extends AdminPage {
             waitForJob();
 
             int counterAfter = getJobCounter(jobName);
-            if ((getJobStatus(jobName).equals("Idle")) & (counterAfter > counterBefore)) {
+            if (getJobStatus(jobName).equals("Idle") & (counterAfter > counterBefore)) {
                 if (getJobResult(jobName).equals("Success")) {
                     log.info(String.format("[JOBS] Job %s running time: %s seconds", jobName.get(), (System.currentTimeMillis() - startTime) / 1000));
                     return;
@@ -123,12 +123,14 @@ public class GeneralSchedulerPage extends AdminPage {
             new TextBox(By.id("jobsForm:groupName")).setValue(jobName.get());
             new ComboBox(By.id("jobsForm:job_0_class")).setValue(jobName.get());
             Tab.buttonSave.click();
-
-            log.info(String.format("[JOBS] Job " + jobName.get() + " was created"));
-
+	        log.info("[JOBS] Job {} was created", jobName.get());
             return true;
         }
-        return false;
+        else if(tableScheduledJobs.getRow(1, jobName.get()).isPresent()){
+	        log.info("{} is present", jobName.get());
+	        return true;
+        }
+	    return false;
     }
 
     public static String getJobStatus(Job jobName) {
