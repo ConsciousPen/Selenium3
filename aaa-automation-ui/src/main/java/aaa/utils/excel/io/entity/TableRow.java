@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
+import com.atlassian.util.concurrent.NotNull;
 import aaa.utils.excel.io.celltype.BaseCellType;
 import toolkit.exceptions.IstfException;
 
@@ -25,7 +26,7 @@ public class TableRow implements Iterable<ExcelCell<?>> {
 		this.header = header;
 		this.rowNumber = rowNumber;
 		this.cells = new ArrayList<>(excelRow.getCells());
-		this.cells.removeIf(c -> !header.getColumnIndexes().contains(c.getCellIndex()));
+		this.cells.removeIf(c -> !header.getColumnIndexes().contains(c.getCellNumber()));
 	}
 
 	public TableHeader getHeader() {
@@ -45,7 +46,12 @@ public class TableRow implements Iterable<ExcelCell<?>> {
 	}
 
 	public List<Integer> getCellIndexes() {
-		return getCells().stream().map(ExcelCell::getCellIndex).sorted().collect(Collectors.toList());
+		return getCells().stream().map(ExcelCell::getCellNumber).sorted().collect(Collectors.toList());
+	}
+
+	public int getLastCellNum() {
+		List<Integer> cellIndexes = getCellIndexes();
+		return cellIndexes.get(cellIndexes.size());
 	}
 
 	public int getSize() {
@@ -55,8 +61,17 @@ public class TableRow implements Iterable<ExcelCell<?>> {
 	public Map<String, Object> getValues() {
 		Map<String, Object> values = new HashMap<>(getSize());
 		for (ExcelCell<?> cell : this) {
-			String columnName = getHeader().getColumnName(cell.getCellIndex());
+			String columnName = getHeader().getColumnName(cell.getCellNumber());
 			values.put(columnName, cell.getValue());
+		}
+		return values;
+	}
+
+	public Map<String, String> getStringValues() {
+		Map<String, String> values = new HashMap<>(getSize());
+		for (ExcelCell<?> cell : this) {
+			String columnName = getHeader().getColumnName(cell.getCellNumber());
+			values.put(columnName, cell.getStringValue());
 		}
 		return values;
 	}
@@ -73,8 +88,10 @@ public class TableRow implements Iterable<ExcelCell<?>> {
 				'}';
 	}
 
+	@NotNull
 	@Override
-	public @NotNull Iterator<ExcelCell<?>> iterator() {
+	public
+	Iterator<ExcelCell<?>> iterator() {
 		return new CellIterator(getCellIndexes(), getExcelRow());
 	}
 
@@ -93,11 +110,11 @@ public class TableRow implements Iterable<ExcelCell<?>> {
 
 	public ExcelCell<?> getCell(String headerColumnName) {
 		int cellIndex = getCellIndex(headerColumnName);
-		return getCells().stream().filter(c -> c.getCellIndex() == cellIndex).findFirst().get();
+		return getCells().stream().filter(c -> c.getCellNumber() == cellIndex).findFirst().get();
 	}
 
 	public ExcelCell<?> getCell(int cellIndex) {
-		return getCells().stream().filter(c -> c.getCellIndex() == cellIndex).findFirst()
+		return getCells().stream().filter(c -> c.getCellNumber() == cellIndex).findFirst()
 				.orElseThrow(() -> new IstfException(String.format("There is no cell with %s column index in the table's header", cellIndex)));
 	}
 

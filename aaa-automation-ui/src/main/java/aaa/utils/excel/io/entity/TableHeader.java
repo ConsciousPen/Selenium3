@@ -4,39 +4,37 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import aaa.utils.excel.io.celltype.CellType;
 import toolkit.exceptions.IstfException;
 
 public class TableHeader {
 	private Map<String, Integer> headerColumns;
-	private Row row;
+	private ExcelRow excelRow;
 
-	public TableHeader(Row row) {
-		this(row, 1);
+	public TableHeader(ExcelRow excelRow) {
+		this(excelRow, 1);
 	}
 
-	public TableHeader(Row row, int fromColumnNumber) {
-		this(row, fromColumnNumber, row.getLastCellNum() - fromColumnNumber + 2);
+	public TableHeader(ExcelRow excelRow, int fromColumnNumber) {
+		this(excelRow, fromColumnNumber, excelRow.getLastCellNum() - fromColumnNumber + 1);
 	}
 
 	/**
 	 * Get TableHeader object
 	 *
-	 * @param row {@link Row} object of table's header
+	 * @param excelRow {@link ExcelRow} object of table's header
 	 * @param fromColumnNumber first header's column number on sheet, index starts from 1
 	 * @param headerSize number of cells in header, should be positive
 	 */
-	public TableHeader(Row row, int fromColumnNumber, int headerSize) {
-		assertThat(row).as("Row should not be null").isNotNull();
+	public TableHeader(ExcelRow excelRow, int fromColumnNumber, int headerSize) {
+		assertThat(excelRow).as("Row should not be null").isNotNull();
 		assertThat(fromColumnNumber).isPositive().as("First header's column number on sheet should be greater than 0");
 		assertThat(headerSize).isPositive().as("Header size should be greater than 0");
-		this.row = row;
+		this.excelRow = excelRow;
 		this.headerColumns = new HashMap<>();
 
 		for (int columnNumber = fromColumnNumber; columnNumber <= fromColumnNumber + headerSize - 1; columnNumber++) {
-			String value = (String) CellType.STRING.get().getValueFrom(row.getCell(columnNumber - 1));
+			String value = excelRow.getStringValue(columnNumber);
 			if (value != null) {
 				this.headerColumns.put(value, columnNumber);
 			}
@@ -56,11 +54,11 @@ public class TableHeader {
 	}
 
 	int getRowNumberOnSheet() {
-		return row.getRowNum() + 1;
+		return excelRow.getRow().getRowNum() + 1;
 	}
 
 	Sheet getSheet() {
-		return row.getSheet();
+		return excelRow.getRow().getSheet();
 	}
 
 	@Override

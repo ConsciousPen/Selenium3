@@ -23,6 +23,8 @@ import org.slf4j.LoggerFactory;
 import com.exigen.ipb.etcsa.utils.ExcelUtils;
 import aaa.utils.excel.io.celltype.BaseCellType;
 import aaa.utils.excel.io.celltype.CellType;
+import aaa.utils.excel.io.entity.ExcelCell;
+import aaa.utils.excel.io.entity.ExcelRow;
 import aaa.utils.excel.io.entity.ExcelTable;
 import aaa.utils.excel.io.entity.TableHeader;
 import toolkit.exceptions.IstfException;
@@ -98,29 +100,64 @@ public class ExcelReader {
 		return this;
 	}
 
-	public List<String> getRowValues(Row row) {
-		return getRowValues(row, 1);
+	public ExcelRow getRow(int rowNumber) {
+		return new ExcelRow(getCurrentSheet().getRow(rowNumber - 1), getAvailableCellTypes());
 	}
 
-	public List<String> getRowValues(Row row, int fromColumnNumber) {
-		assertThat(row).as("Row should not be null").isNotNull();
-		return getRowValues(row, fromColumnNumber, row.getLastCellNum() + 1);
+	public ExcelCell<?> getCell(int rowNumber, int cellNumber) {
+		return getRow(rowNumber).getCell(cellNumber);
 	}
 
-	/**
-	 * Get all non-null String cell values from {@code row} starting inclusively from {@code fromColumnNumber} and up to inclusively {@code toColumnNumber}
+	public List<Object> getRowValues(int rowNumber) {
+		return getRowValues(rowNumber, 1);
+	}
+
+	public List<Object> getRowValues(int rowNumber, int fromColumnNumber) {
+		ExcelRow row = getRow(rowNumber);
+		return getRowValues(rowNumber, fromColumnNumber, row.getLastCellNum());
+	}
+
+
+	 /**
+	 * Get all non-null Object cell values from provided {@code rowNumber} starting inclusively from {@code fromColumnNumber} and up to inclusively {@code toColumnNumber}
 	 *
-	 * @param row {@link Row} object where value should be taken
+	 * @param rowNumber row number from which values should be taken, index starts from 1
 	 * @param fromColumnNumber the inclusive initial column number on sheet to get values from. Should be positive, index starts from 1
 	 * @param toColumnNumber the inclusive last column number on sheet to get values from. Should be greater than {@code fromColumnNumber}
 	 *
 	 * @return List of non-null String cell values found on provided {@code row} within {@code fromColumnNumber/toColumnNumber} bounds
 	 */
-	public List<String> getRowValues(Row row, int fromColumnNumber, int toColumnNumber) {
+	public List<Object> getRowValues(int rowNumber, int fromColumnNumber, int toColumnNumber) {
 		assertThat(fromColumnNumber).as("From column number should be greater than 0").isPositive();
 		assertThat(toColumnNumber).as("To column number should be greater than from column number").isGreaterThan(fromColumnNumber);
 		int size = toColumnNumber - fromColumnNumber + 1;
-		return IntStream.range(fromColumnNumber, fromColumnNumber + size).mapToObj(cn -> getStringValue(row, cn)).filter(Objects::nonNull).collect(Collectors.toList());
+		return IntStream.range(fromColumnNumber, fromColumnNumber + size).mapToObj(cn -> getCell(rowNumber, cn).getValue()).filter(Objects::nonNull).collect(Collectors.toList());
+	}
+
+	public List<String> getRowStringValues(int rowNumber) {
+		return getRowStringValues(rowNumber, 1);
+	}
+
+	public List<String> getRowStringValues(int rowNumber, int fromColumnNumber) {
+		ExcelRow row = getRow(rowNumber);
+		return getRowStringValues(rowNumber, fromColumnNumber, row.getLastCellNum());
+	}
+
+
+	/**
+	 * Get all non-null String cell values from provided {@code rowNumber} starting inclusively from {@code fromColumnNumber} and up to inclusively {@code toColumnNumber}
+	 *
+	 * @param rowNumber row number from which values should be taken, index starts from 1
+	 * @param fromColumnNumber the inclusive initial column number on sheet to get values from. Should be positive, index starts from 1
+	 * @param toColumnNumber the inclusive last column number on sheet to get values from. Should be greater than {@code fromColumnNumber}
+	 *
+	 * @return List of non-null String cell values found on provided {@code row} within {@code fromColumnNumber/toColumnNumber} bounds
+	 */
+	public List<String> getRowStringValues(int rowNumber, int fromColumnNumber, int toColumnNumber) {
+		assertThat(fromColumnNumber).as("From column number should be greater than 0").isPositive();
+		assertThat(toColumnNumber).as("To column number should be greater than from column number").isGreaterThan(fromColumnNumber);
+		int size = toColumnNumber - fromColumnNumber + 1;
+		return IntStream.range(fromColumnNumber, fromColumnNumber + size).mapToObj(cn -> getCell(rowNumber, cn).getStringValue()).filter(Objects::nonNull).collect(Collectors.toList());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -215,16 +252,16 @@ public class ExcelReader {
 		}
 		return StringUtils.isEmpty(value) ? null : value;
 	}*/
-	public Row getRow(String... valuesInCells) {
+	public ExcelRow getRow(String... valuesInCells) {
 		return getRow(true, valuesInCells);
 	}
 
-	public Row getRow(boolean isLowest, String... valuesInCells) {
+	public ExcelRow getRow(boolean isLowest, String... valuesInCells) {
 		Set<String> expectedColumnNames = new HashSet<>(Arrays.asList(valuesInCells));
 		List<Row> foundRows = new ArrayList<>();
 		Map<Integer, Pair<Row, String>> foundRowsWithPartialMatch = new HashMap<>();
-		for (Row row : this.sheet) {
-			List<String> rowValues = getRowValues(row);
+		for (Row row : getCurrentSheet()) {
+			List<String> rowValues = getRowStringValues(row.getRowNum() + 1);
 			Set<String> columnNames = new HashSet<>(expectedColumnNames);
 			if (rowValues.containsAll(columnNames)) {
 				foundRows.add(row);
@@ -248,13 +285,13 @@ public class ExcelReader {
 			throw new IstfException(errorMessage);
 		}
 
-		Row headerRow = foundRows.get(foundRows.size() - 1);
-		List<String> extraHeaderColumns = new ArrayList<>(getRowValues(headerRow));
+		ExcelRow row = new ExcelRow(foundRows.get(foundRows.size() - 1), getAvailableCellTypes());
+		List<String> extraHeaderColumns = new ArrayList<>(row.getStringValues());
 		extraHeaderColumns.removeAll(expectedColumnNames);
 		if (!extraHeaderColumns.isEmpty()) {
 			log.warn("Found header row contains extra column names: {}", extraHeaderColumns);
 		}
-		return headerRow;
+		return row;
 	}
 
 	/**

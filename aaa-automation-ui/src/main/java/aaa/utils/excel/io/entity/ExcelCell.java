@@ -21,7 +21,7 @@ public class ExcelCell<T> {
 		return cellType;
 	}
 
-	public int getCellIndex() {
+	public int getCellNumber() {
 		return getCell().getColumnIndex() + 1;
 	}
 

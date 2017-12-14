@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.jetbrains.annotations.NotNull;
+import com.atlassian.util.concurrent.NotNull;
 import aaa.utils.excel.io.celltype.BaseCellType;
 import toolkit.exceptions.IstfException;
 
@@ -43,7 +43,12 @@ public class ExcelRow implements Iterable<ExcelCell<?>> {
 	}
 
 	public List<Integer> getCellIndexes() {
-		return getCells().stream().map(ExcelCell::getCellIndex).sorted().collect(Collectors.toList());
+		return getCells().stream().map(ExcelCell::getCellNumber).sorted().collect(Collectors.toList());
+	}
+
+	public int getLastCellNum() {
+		List<Integer> cellIndexes = getCellIndexes();
+		return cellIndexes.get(cellIndexes.size());
 	}
 
 	public int getSize() {
@@ -52,6 +57,10 @@ public class ExcelRow implements Iterable<ExcelCell<?>> {
 
 	public List<Object> getValues() {
 		return getCells().stream().map(ExcelCell::getValue).collect(Collectors.toList());
+	}
+
+	public List<String> getStringValues() {
+		return getCells().stream().map(ExcelCell::getStringValue).collect(Collectors.toList());
 	}
 
 	Row getRow() {
@@ -72,33 +81,35 @@ public class ExcelRow implements Iterable<ExcelCell<?>> {
 		return String.format("sheet name: \"%1$s\", row number: %2$s, column number: %3$s", cell.getSheet().getSheetName(), cell.getRowIndex() + 1, cell.getColumnIndex() + 1);
 	}
 
+	@NotNull
 	@Override
-	public @NotNull Iterator<ExcelCell<?>> iterator() {
+	public
+	Iterator<ExcelCell<?>> iterator() {
 		return new CellIterator(getCellIndexes(), this);
 	}
 
-	public ExcelCell<?> getCell(int cellIndex) {
-		return getCells().stream().filter(c -> c.getCellIndex() == cellIndex).findFirst()
-				.orElseThrow(() -> new IstfException(String.format("There is no cell with %s column index", cellIndex)));
+	public ExcelCell<?> getCell(int cellNumber) {
+		return getCells().stream().filter(c -> c.getCellNumber() == cellNumber).findFirst()
+				.orElseThrow(() -> new IstfException(String.format("There is no cell with %s column index", cellNumber)));
 	}
 
-	public String getStringValue(int cellIndex) {
-		return getCell(cellIndex).getStringValue();
+	public String getStringValue(int cellNumber) {
+		return getCell(cellNumber).getStringValue();
 	}
 
-	public boolean getBoolValue(int cellIndex) {
-		return getCell(cellIndex).getBoolValue();
+	public boolean getBoolValue(int cellNumber) {
+		return getCell(cellNumber).getBoolValue();
 	}
 
-	public int getIntValue(int cellIndex) {
-		return getCell(cellIndex).getIntValue();
+	public int getIntValue(int cellNumber) {
+		return getCell(cellNumber).getIntValue();
 	}
 
-	public LocalDateTime getDateValue(int cellIndex) {
-		return getCell(cellIndex).getDateValue();
+	public LocalDateTime getDateValue(int cellNumber) {
+		return getCell(cellNumber).getDateValue();
 	}
 
-	public boolean hasValue(int cellIndex, Object expectedValue) {
-		return Objects.equals(getCell(cellIndex).getValue(), expectedValue);
+	public boolean hasValue(int cellNumber, Object expectedValue) {
+		return Objects.equals(getCell(cellNumber).getValue(), expectedValue);
 	}
 }
