@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -11,6 +12,8 @@ import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.docgen.DocGenHelper;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
@@ -19,6 +22,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import ch.qos.logback.core.db.DBHelper;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.ComboBox;
@@ -32,6 +36,7 @@ public class TestRFI extends AutoSSBaseTest {
 	private final DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
 	private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 	private final PurchaseTab purchaseTab = new PurchaseTab();
+	private final TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 
 	/**
 	 * @author Oleg Stasyuk
@@ -67,59 +72,61 @@ public class TestRFI extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-349")
 	public void pas349_RFI1(@Optional("VA") String state) {
-		initiateQuote();
+		createQuoteWithCustomData();
 
 		CustomAssert.enableSoftMode();
-		//verifyContactInformationSection();
-		//changeFNIAndVerifyContactInformationSection();
-		bindPolicy();
-		verifyPolicyStatus();
+		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
+
+
+		rfiDocumentContentCheck(policyNumber);
+
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
 
-	/**
-	 * Steps: #1-#4
-	 */
-	private void initiateQuote() {
-		mainApp().open();
-		//createCustomerIndividual();
 
-		SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, "700032338");
+	private void createQuoteWithCustomData() {
+		mainApp().open();
+		createCustomerIndividual();
+		//SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, "700032338");
 
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData"), DocumentsAndBindTab.class, false);
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-	}
-
-	/**
-	 * Steps: #5-#7
-	 */
-
-
-	/**
-	 * Steps: #13-#14
-	 */
-	private void bindPolicy() {
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		addPhoneNumberToInsured(1, "2223334445");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		policy.bind().submit();
-		purchaseTab.fillTab(getTestSpecificTD("TestData")).submitTab();
+
+		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).verify.value("Not Signed");
+		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS).verify.value("Not Signed");
+
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_CURRENT_INSURANCE_FOR).verify.value("No");
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT).verify.value("No");
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION).verify.value("No");
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PRIOR_INSURANCE).verify.value("No");
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PURCHASE_DATE_BILL_OF_SALE_FOR_NEW_VEHICLES).verify.value("No");
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES).verify.value("No");
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER).verify.value("No");
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PHOTOS_FOR_SALVATAGE_VEHICLE_WITH_PHYSICAL_DAMAGE_COVERAGE).verify.value("No");
+
+		documentsAndBindTab.saveAndExit();
 	}
 
-	/**
-	 * Steps: #15
-	 */
-	private void verifyPolicyStatus() {
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNum = PolicySummaryPage.getPolicyNumber();
-		log.info("policyNum: {}", policyNum);
+	private static void rfiDocumentContentCheck(String policyNum) {
+		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNum, "AARFIXX", "POLICY_ISSUE");
+		DocGenHelper.getDocumentDataSectionsByName("CoverageDetails", DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements();
+
+		rfiTagCheck(query, "PrevInsDiscYN");
+		rfiTagCheck(query, "GoodStuDiscYN");
+		rfiTagCheck(query, "VehNwAddPrtcYN");
+		rfiTagCheck(query, "CurInsDrvrYN");
+		rfiTagCheck(query, "SmrtDrvrCrseCertYN");
+		rfiTagCheck(query, "VehNwAddPrtcPrevCrirYN");
+		rfiTagCheck(query, "SalvVehYN");
+		rfiTagCheck(query, "PsnlAutoApplYN");
+		rfiTagCheck(query, "CanMVRYN");
+		//TODO UBITrmCndtnYN is N, but the RFI contains it. Kinda illogical
+		rfiTagCheck(query, "UBITrmCndtnYN");
 	}
 
-
-	private void addPhoneNumberToInsured(int insuredNumber, String phoneNumber) {
-		generalTab.viewInsured(insuredNumber);
-		generalTab.getContactInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.ContactInformation.HOME_PHONE_NUMBER).setValue(phoneNumber);
+	private static void rfiTagCheck(String query, String tag) {
+		CustomAssert.assertEquals(tag + "has a problem.", DocGenHelper.getDocumentDataElemByName(tag, DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField(), "Y");
 	}
 }

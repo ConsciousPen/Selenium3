@@ -1,7 +1,7 @@
 TestData: {
   PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
   GeneralTab: '@GeneralTab',
-  DriverTab: ['@DriverTab1', '@DriverTab2', '@DriverTab3'],
+  DriverTab: ['@DriverTab1', '@DriverTab2', '@DriverTab3', '@DriverTab4'],
   RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
   VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
   AssignmentTab: '@AssignmentTab_VA',
@@ -15,7 +15,7 @@ TestData: {
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
   AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
-  ContactInformation: '@ContactInformation',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation'
 }
@@ -46,9 +46,6 @@ NamedInsuredInformation2: {
   #Residence: Own Home,
 #}
 
-ContactInformation: {
-  Email: temp@gmail.com
-}
 
 DriverTab1: {
   Occupation: Self-Employed,
@@ -62,11 +59,11 @@ DriverTab2: {
   DriverSearchDialog: {},
   Named Insured: 'index=0',
   'Rel. to First Named Insured': Child,
-  Date of Birth: 01/01/1999,
+  Date of Birth: '$<today-19y:MM/dd/yyyy>',
   Gender: Female,
   Marital Status: Single,
   Occupation: Student,
-  Age First Licensed: 16,
+  Age First Licensed: 17,
   License Type: 'Licensed (Canadian)',
   License Number: 400064774,
   Most Recent GPA: A Student,
@@ -93,10 +90,28 @@ DriverTab3: {
   License Number: 400064771
 }
 
+DriverTab4: {
+  DriverSearchDialog: {},
+  Named Insured: 'contains=not a Named Insured',
+  Driver Type: 'Not Available for Rating',
+  Reason: 'Insured with another carrier',
+  Carrier: 'Allstate',
+  Rel. to First Named Insured: Child,
+  First Name: 'to be excluded',
+  Last Name: 'driver',
+  Date of Birth: 01/01/1994,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: 400064772
+}
+
 VehicleTab1: {
   Usage: Pleasure,
   VIN: 1G1YL2D7XG5100001,
-  Year: 2017,
+  Year: '$<today:yyyy>',
   Make: OTHER,
   Other Make: KIA,
   Other Model: vehicle,
@@ -109,13 +124,19 @@ VehicleTab1: {
 VehicleTab2: {
   Usage: Pleasure,
   VIN: 1G1YL2D7XG5100002,
-  Year: 2017,
+  Year: '$<today:yyyy>',
   Make: OTHER,
   Other Make: FORD,
   Other Model: Model,
   Other Body Style: Sedan,
   Stat Code: 'Small SUV',
-  Stated Amount: 30000
+  Stated Amount: 30000,
+      'Enroll in Usage Based Insurance?': 'Yes',
+      Get Vehicle Details: click,
+      Vehicle Eligibility Response: Vehicle Eligible,
+      AAA UBI Device Status: Active,
+      Device Voucher Number: 1GNWGPFG8B6548273,
+      Grant Participation Discount: click
 }
 
 AssignmentTab_VA: {
@@ -131,6 +152,7 @@ AssignedDriver2: {
     Driver: 'contains=Jenny',
     Select Vehicle: 'index=2'
 }
+
 
 PremiumAndCoveragesTab: {
   Bodily Injury Liability: 'contains=$50,000/$100,000',

@@ -1337,8 +1337,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		log.info("policyNum: {}", policyNum);
 	}
 
-	public void simplifiedQuoteIssue() {
+	public String simplifiedQuoteIssue() {
 		simplifiedQuoteIssue("");
+		return PolicySummaryPage.getPolicyNumber();
 	}
 
 	/**
@@ -1346,7 +1347,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 *
 	 * @param paymentMethod - DC - Debit Card, CC - Credit Card, ACH - EFT
 	 */
-	public void simplifiedQuoteIssue(String paymentMethod) {
+	public String simplifiedQuoteIssue(String paymentMethod) {
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.AGREEMENT).setValue("I agree");
@@ -1366,6 +1367,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			purchaseTabData.adjust("PurchaseTab", getTestSpecificTD("PurchaseTab_" + paymentMethod));
 		}
 		new PurchaseTab().fillTab(purchaseTabData).submitTab();
+		return PolicySummaryPage.getPolicyNumber();
 	}
 
 	public void simplifiedPendedEndorsementIssue() {
