@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ca.ho3.functional;
+package aaa.modules.docgen.home_ca.ho6.functional;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ import aaa.helpers.xml.models.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.regression.sales.template.functional.PolicyCINBaseTest;
+import aaa.modules.docgen.template.functional.PolicyCINBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -28,11 +28,11 @@ public class TestCinNewBusiness extends PolicyCINBaseTest {
 	/**
 	 * @author Rokas Lazdauskas
 	 * @name Test CIN Document generation (PROPERTY activity)
-	 * @details TODO: Change testCaseID
+	 * @details
 	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6341")
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-6341")
 	public void testCinNewBusinessProperty(@Optional("CA") String state) {
 		TestData policyTestData = preparePolicyTestData(adjustmentMap, "NamedInsuredProperty", "PublicProtectionClass");
 		String policyNumber = createPolicyForTest(policyTestData);
@@ -44,6 +44,6 @@ public class TestCinNewBusiness extends PolicyCINBaseTest {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_CA_HO3;
+		return PolicyType.HOME_CA_HO6;
 	}
 }

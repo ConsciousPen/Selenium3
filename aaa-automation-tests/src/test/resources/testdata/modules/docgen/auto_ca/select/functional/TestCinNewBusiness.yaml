@@ -23,6 +23,6 @@ PremiumAndCoveragesTab: {
    Property Damage Liability: 'contains=$25,000'
  }
 
- AAAProductOwned: {
+AAAProductOwned: {
    Current AAA Member: 'No'
- }
+}

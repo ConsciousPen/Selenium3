@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ca.select.functional;
+package aaa.modules.docgen.auto_ca.choice.functional;
 
 import java.util.List;
 import org.testng.annotations.Optional;
@@ -11,7 +11,7 @@ import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.xml.models.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.regression.sales.template.functional.PolicyCINBaseTest;
+import aaa.modules.docgen.template.functional.PolicyCINBaseTest;
 import toolkit.utils.TestInfo;
 
 public class TestCinRenewal extends PolicyCINBaseTest {
@@ -23,12 +23,12 @@ public class TestCinRenewal extends PolicyCINBaseTest {
 	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-6341")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-6341")
 	public void testCinRenewalMvr(@Optional("CA") String state) {
 		String policyNumber = createPolicyForTest(getPolicyDefaultTD());
 		renewPolicy(MVR, policyNumber);
 		List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-		verifyDocumentOrder(documentsList, DocGenEnum.Documents._55_1007, DocGenEnum.Documents._55_3333);
+		verifyDocumentOrder(documentsList, DocGenEnum.Documents.AA02CA, DocGenEnum.Documents.AA09CA);
 	}
 
 	/**
@@ -38,16 +38,16 @@ public class TestCinRenewal extends PolicyCINBaseTest {
 	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-6341")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-6341")
 	public void testCinRenewalClue(@Optional("CA") String state) {
 		String policyNumber = createPolicyForTest(getPolicyDefaultTD());
 		renewPolicy(CLUE, policyNumber);
 		List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
-		verifyDocumentOrder(documentsList, DocGenEnum.Documents._55_1007, DocGenEnum.Documents._55_3333);
+		verifyDocumentOrder(documentsList, DocGenEnum.Documents.AA02CA, DocGenEnum.Documents.AA09CA);
 	}
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_CA_SELECT;
+		return PolicyType.AUTO_CA_CHOICE;
 	}
 }

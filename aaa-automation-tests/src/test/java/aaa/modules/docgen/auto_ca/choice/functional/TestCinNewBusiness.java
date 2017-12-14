@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ca.select.functional;
+package aaa.modules.docgen.auto_ca.choice.functional;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ import aaa.helpers.xml.models.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.regression.sales.template.functional.PolicyCINBaseTest;
+import aaa.modules.docgen.template.functional.PolicyCINBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -29,12 +29,12 @@ public class TestCinNewBusiness extends PolicyCINBaseTest {
 
 	/**
 	 * @author Rokas Lazdauskas
-	 * @name Test CIN Document generation (MVR activity)
+	 * @name Test CIN Document generation (MVR activity exists)
 	 * @details TODO: Change testCaseID
 	 */
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-6341")
+	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-6341")
 	public void testCinNewBusinessMvr(@Optional("CA") String state) {
 		TestData policyTestData = preparePolicyTestData(adjustmentMap,
 				"PrefillTabMVR", "PremiumAndCoveragesTab", "AAAProductOwned");
@@ -42,17 +42,17 @@ public class TestCinNewBusiness extends PolicyCINBaseTest {
 		//get all the documents in the package
 		List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
 		//check the document sequence
-		verifyDocumentOrder(documentsList, DocGenEnum.Documents._55_1007, DocGenEnum.Documents._55_3333);
+		verifyDocumentOrder(documentsList, DocGenEnum.Documents.AA02CA, DocGenEnum.Documents.WUAECA);
 	}
 
 	/**
 	 * @author Rokas Lazdauskas
-	 * @name Test CIN Document generation (CLUE activity)
+	 * @name Test CIN Document generation (CLUE activity exists)
 	 * @details TODO: Change testCaseID
 	 */
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.DOCGEN, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-6341")
+	@Test(groups = {Groups.DOCGEN, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-6341")
 	public void testCinNewBusinessClue(@Optional("CA") String state) {
 		TestData policyTestData = preparePolicyTestData(adjustmentMap,
 				"PrefillTabClue", "PremiumAndCoveragesTab", "AAAProductOwned");
@@ -60,11 +60,11 @@ public class TestCinNewBusiness extends PolicyCINBaseTest {
 		//get all the documents in the package
 		List<Document> documentsList = DocGenHelper.getDocumentsList(policyNumber, AaaDocGenEntityQueries.EventNames.POLICY_ISSUE);
 		//check the document sequence
-		verifyDocumentOrder(documentsList, DocGenEnum.Documents._55_1007, DocGenEnum.Documents._55_3333);
+		verifyDocumentOrder(documentsList, DocGenEnum.Documents.AA02CA, DocGenEnum.Documents.WUAECA);
 	}
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_CA_SELECT;
+		return PolicyType.AUTO_CA_CHOICE;
 	}
 }

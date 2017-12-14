@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.template.functional;
+package aaa.modules.docgen.template.functional;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -24,7 +24,6 @@ import toolkit.datax.TestData;
  */
 public abstract class PolicyCINBaseTest extends PolicyBaseTest {
 
-	protected static final String DEFAULT_TEST_DATA_KEY = "TestData";
 	protected static final String STATE_PARAM = "state";
 	protected static final String DEFAULT_TEST_RENEWAL_KEY = "TestData_Renewal_";
 	protected static final String CLUE = "CLUE";
