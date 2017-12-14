@@ -12,10 +12,8 @@
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
-                    <include name="precondJobAdding"/>
-                    <include name="refundDocumentGenerationConfigCheck"/>
-                    <include name="eRefundLastPaymentMethodConfigCheck"/>
                     <include name="pendingRefundPaymentMethodConfigCheck"/>
+                    <include name="refundDocumentGenerationConfigCheck"/>
                     <include name="pas2186_RefundProcessCheck"/>
                     <include name="pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard"/>
                 </methods>
@@ -53,10 +51,6 @@
                     <include name="eValueAcknowledgementConfigCheck"/>
                     <include name="eValueConfigCheck"/>
                     <include name="eValueMembershipConfigCheck"/>
-                    <include name="eValuePriorBiCurrentBiConfigCheck"/>
-                    <include name="eValueTerritoryChannelForVAConfigCheck"/>
-                    <include name="paperlessPreferencesConfigCheck"/>
-                    <include name="precondJobAdding"/>
 
                     <include name="pas436_eValueDiscountVariations"/>
                     <include name="pas3693_eValueConfiguration"/>
