@@ -68,7 +68,7 @@ public class HomeSSPolicy implements IPolicy {
 
 	@Override
 	public void createPriorTermEndorsement(TestData td) {
-		throw new NotImplementedException();
+		priorTermEndorsement().performAndFill(td);
 	}
 
 	@Override
@@ -115,7 +115,7 @@ public class HomeSSPolicy implements IPolicy {
 
 	@Override
 	public PolicyActions.PriorTermEndorsement priorTermEndorsement() {
-		return null;
+		return new HomeSSPolicyActions.PriorTermEndorsement();
 	}
 
 	@Override

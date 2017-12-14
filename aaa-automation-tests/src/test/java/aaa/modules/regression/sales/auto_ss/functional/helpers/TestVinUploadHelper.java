@@ -34,7 +34,7 @@ public class TestVinUploadHelper extends AutoSSBaseTest {
 
 	protected void pas2716_CommonSteps(String vinNumber, String vinTableFile, String controlTableFile, String policyNumber, LocalDateTime policyExpirationDate) {
 		//2. Generate automated renewal image (in data gather status) according to renewal timeline
-		vinMethods.uploadFiles(vinTableFile, controlTableFile);
+		vinMethods.uploadFiles(controlTableFile, vinTableFile);
 		moveTimeAndRunRenewJobs(policyExpirationDate);
 		//3. Add new VIN versions/VIN data for vehicle VINs used above(4 new liability symbols prefilled in db)
 		mainApp().open();

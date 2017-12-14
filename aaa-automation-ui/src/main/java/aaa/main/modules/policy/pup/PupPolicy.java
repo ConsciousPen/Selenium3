@@ -71,7 +71,7 @@ public class PupPolicy implements IPolicy {
 
 	@Override
 	public void createPriorTermEndorsement(TestData td) {
-		throw new NotImplementedException();
+		priorTermEndorsement().performAndFill(td);
 	}
 
 	@Override
@@ -115,7 +115,7 @@ public class PupPolicy implements IPolicy {
 
 	@Override
 	public PolicyActions.PriorTermEndorsement priorTermEndorsement() {
-		return null;
+		return new PupPolicyActions.PriorTermEndorsement();
 	}
 
 	@Override

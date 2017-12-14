@@ -14,7 +14,6 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.modules.policy.auto_ca.views.DefaultView;
 import aaa.main.pages.summary.QuoteSummaryPage;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import toolkit.datax.TestData;
 
 /**
@@ -68,7 +67,7 @@ public class AutoCaPolicy implements IPolicy {
 
 	@Override
 	public void createPriorTermEndorsement(TestData td) {
-		throw new NotImplementedException();
+		priorTermEndorsement().performAndFill(td);
 	}
 
 	@Override
@@ -113,7 +112,7 @@ public class AutoCaPolicy implements IPolicy {
 
 	@Override
 	public PolicyActions.PriorTermEndorsement priorTermEndorsement() {
-		return null;
+		return new AutoCaPolicyActions.PriorTermEndorsement();
 	}
 
 	@Override

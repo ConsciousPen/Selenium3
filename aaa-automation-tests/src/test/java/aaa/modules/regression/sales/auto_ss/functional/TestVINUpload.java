@@ -44,8 +44,6 @@ public class TestVINUpload extends TestVinUploadHelper {
 
 	private static final String NEW_VIN = "1FDEU15H7KL055795";
 	private static final String UPDATABLE_VIN = "1HGEM215140028445";
-	private final String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
-	private final String pas2716ControlTableFileName = vinMethods.getControlTableFile();
 
 	/**
 	 * @author Lev Kazarnovskiy
@@ -410,7 +408,8 @@ public class TestVINUpload extends TestVinUploadHelper {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDate(@Optional("UT") String state) {
 		TestData testData = getTestDataSinceMembershipVin(NEW_VIN);
-
+		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
+		String pas2716ControlTableFileName = vinMethods.getControlTableFile(getState());
 		/*
 		 * Automated Renewal R-Expiration Date
 		 */
@@ -438,6 +437,8 @@ public class TestVINUpload extends TestVinUploadHelper {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDateMinus45(@Optional("UT") String state) {
 		TestData testData = getTestDataSinceMembershipVin(NEW_VIN);
+		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
+		String pas2716ControlTableFileName = vinMethods.getControlTableFile(getState());
 		/*
 		 * Automated Renewal R-45
 		 */
@@ -466,6 +467,8 @@ public class TestVINUpload extends TestVinUploadHelper {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDateMinus35(@Optional("UT") String state) {
 		TestData testData = getTestDataSinceMembershipVin(NEW_VIN);
+		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
+		String pas2716ControlTableFileName = vinMethods.getControlTableFile(getState());
 		/*
 		 * Automated Renewal R-35
 		 */

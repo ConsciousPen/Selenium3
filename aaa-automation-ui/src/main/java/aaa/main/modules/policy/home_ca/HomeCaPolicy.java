@@ -67,7 +67,7 @@ public class HomeCaPolicy implements IPolicy {
 
 	@Override
 	public void createPriorTermEndorsement(TestData td) {
-
+		priorTermEndorsement().performAndFill(td);
 	}
 
 	@Override
@@ -115,7 +115,7 @@ public class HomeCaPolicy implements IPolicy {
 
 	@Override
 	public PolicyActions.PriorTermEndorsement priorTermEndorsement() {
-		return null;
+		return new HomeCaPolicyActions.PriorTermEndorsement();
 	}
 
 	@Override
