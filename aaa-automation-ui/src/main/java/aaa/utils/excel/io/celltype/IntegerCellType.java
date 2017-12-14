@@ -9,7 +9,7 @@ import aaa.utils.excel.io.entity.ExcelCell;
 public class IntegerCellType extends CellType<Integer> {
 	@Override
 	public Integer getValueFrom(ExcelCell cell) {
-		assertThat(isTypeOf(cell)).as("Cell type is not a %s type, unable to get value", getEndType());
+		assertThat(isTypeOf(cell)).as("Cell type is not a %s type, unable to get value", getEndType()).isTrue();
 		if (hasTextValue(cell)) {
 			return Integer.valueOf(getText(cell));
 		}

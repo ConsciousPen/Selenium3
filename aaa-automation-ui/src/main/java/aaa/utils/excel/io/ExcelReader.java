@@ -28,7 +28,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.utils.excel.io.celltype.CellType;
-import aaa.utils.excel.io.celltype.CellTypes;
 import aaa.utils.excel.io.entity.ExcelCell;
 import aaa.utils.excel.io.entity.ExcelRow;
 import aaa.utils.excel.io.entity.ExcelTable;
@@ -47,7 +46,7 @@ public class ExcelReader {
 	}
 
 	public ExcelReader(File excelFile, String sheetName) {
-		this(excelFile, sheetName, getBaseCellTypes());
+		this(excelFile, sheetName, ExcelCell.getBaseTypes());
 	}
 
 	public ExcelReader(File excelFile, String sheetName, CellType<?>... allowableCellTypes) {
@@ -57,7 +56,7 @@ public class ExcelReader {
 	}
 
 	public ExcelReader(Sheet sheet) {
-		this(sheet, getBaseCellTypes());
+		this(sheet, ExcelCell.getBaseTypes());
 	}
 
 	public ExcelReader(Sheet sheet, CellType<?>... allowableCellTypes) {
@@ -67,7 +66,7 @@ public class ExcelReader {
 	}
 
 	public List<Sheet> getSheets() {
-		return IntStream.range(0, getWorkbook().getNumberOfSheets()).mapToObj(sheetNumber -> getWorkbook().getSheetAt(sheetNumber)).collect(Collectors.toList());
+		return IntStream.rangeClosed(0, getWorkbook().getNumberOfSheets()).mapToObj(sheetNumber -> getWorkbook().getSheetAt(sheetNumber)).collect(Collectors.toList());
 	}
 
 	public List<String> getSheetNames() {
@@ -88,10 +87,6 @@ public class ExcelReader {
 
 	public Set<CellType<?>> getCellTypes() {
 		return Collections.unmodifiableSet(this.allowableCellTypes);
-	}
-
-	private static CellType<?>[] getBaseCellTypes() {
-		return Arrays.stream(CellTypes.values()).map(CellTypes::get).toArray(CellType<?>[]::new);
 	}
 
 	public ExcelReader registerCellType(CellType<?>... cellTypes) {
@@ -135,7 +130,7 @@ public class ExcelReader {
 	public List<Object> getRowValues(int rowNumber, int fromColumnNumber, int toColumnNumber) {
 		assertThat(fromColumnNumber).as("From column number should be greater than 0").isPositive();
 		ExcelRow row = getRow(rowNumber);
-		return IntStream.range(fromColumnNumber, toColumnNumber).filter(row::hasCell).mapToObj(row::getValue).collect(Collectors.toList());
+		return IntStream.rangeClosed(fromColumnNumber, toColumnNumber).filter(row::hasCell).mapToObj(row::getValue).collect(Collectors.toList());
 	}
 
 	public List<String> getRowStringValues(int rowNumber) {
@@ -159,7 +154,7 @@ public class ExcelReader {
 	public List<String> getRowStringValues(int rowNumber, int fromColumnNumber, int toColumnNumber) {
 		assertThat(fromColumnNumber).as("From column number should be greater than 0").isPositive();
 		ExcelRow row = getRow(rowNumber);
-		return IntStream.range(fromColumnNumber, toColumnNumber).filter(row::hasCell).mapToObj(row::getStringValue).collect(Collectors.toList());
+		return IntStream.rangeClosed(fromColumnNumber, toColumnNumber).filter(row::hasCell).mapToObj(row::getStringValue).collect(Collectors.toList());
 	}
 
 	public ExcelRow getRow(String... valuesInCells) {
@@ -229,7 +224,7 @@ public class ExcelReader {
 	}
 
 	private Workbook getWorkbook(File file) {
-		assertThat(file).exists().as("File \"%s\" does not exist", file.getAbsolutePath());
+		assertThat(file).as("File \"%s\" does not exist", file.getAbsolutePath()).exists();
 		Workbook wb;
 		String exceptionMessage = "Can't read from input stream. File might be corrupted or has wrong extension.";
 		byte[] buf = new byte[1024];

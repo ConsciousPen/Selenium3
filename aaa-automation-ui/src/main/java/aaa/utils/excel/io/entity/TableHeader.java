@@ -31,6 +31,8 @@ public class TableHeader {
 		assertThat(excelRow).as("Row should not be null").isNotNull();
 		assertThat(fromColumnNumber).as("First header's column number on sheet should be greater than 0").isPositive();
 		assertThat(headerSize).as("Header size should be greater than 0").isPositive();
+		assertThat(excelRow.getCellTypes().contains(ExcelCell.Type.STRING.get())).as("Header's row cell types should contain at least %s cell type", ExcelCell.Type.STRING.get()).isTrue();
+
 		this.excelRow = excelRow;
 		this.headerColumns = new HashMap<>();
 
@@ -78,7 +80,7 @@ public class TableHeader {
 	}
 
 	public int getColumnIndex(String columnName) {
-		assertThat(hasColumnName(columnName)).as("There is no column name \"%s\" in the table's header", columnName);
+		assertThat(hasColumnName(columnName)).as("There is no column name \"%s\" in the table's header", columnName).isTrue();
 		return headerColumns.get(columnName);
 	}
 

@@ -132,7 +132,7 @@ public class ExcelUnmarshaller {
 					List<String> linkedTableRowIds = Arrays.asList(linkedRowsIds.split(getPrimaryKeysSeparator(primaryKeyField)));
 					if (linkedTableRowIds.contains(getPrimaryKeyValue(primaryKeyField, linkedTableRow))) {
 						for (Field linkedTableRowField : linkedTableRowFields) {
-							setFieldValue(linkedTableRowField, linkedTableRowInstance, linkedTableRow);
+							setFieldValue(linkedTableRowField, linkedTableRowInstance, linkedTableRow, excelReader);
 						}
 						linkedTableRows.add(linkedTableRowInstance);
 					}
@@ -151,7 +151,7 @@ public class ExcelUnmarshaller {
 		}
 		try {
 			field.set(classInstance, value);
-		} catch (IllegalAccessException e) {
+		} catch (IllegalAccessException | IllegalArgumentException e) {
 			throw new IstfException(String.format("Unable set value to the field \"%1$s\" in class \"%2$s\"", field.getName(), classInstance.getClass().getName()), e);
 		}
 	}

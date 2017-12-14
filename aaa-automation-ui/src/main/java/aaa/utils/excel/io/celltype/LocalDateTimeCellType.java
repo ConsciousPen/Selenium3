@@ -27,7 +27,7 @@ public class LocalDateTimeCellType extends CellType<LocalDateTime> {
 
 	@Override
 	public LocalDateTime getValueFrom(ExcelCell cell) {
-		assertThat(isTypeOf(cell)).as("Cell type is not a %s type, unable to get value", getEndType());
+		assertThat(isTypeOf(cell)).as("Cell type is not a %s type, unable to get value", getEndType()).isTrue();
 		if (hasTextValue(cell)) {
 			return TimeSetterUtil.getInstance().parse(getText(cell), getFormatter(cell));
 		}

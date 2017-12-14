@@ -20,7 +20,7 @@ class CellIterator implements Iterator<ExcelCell> {
 
 	@Override
 	public boolean hasNext() {
-		return currentIndex < endIndex && getCell(currentIndex).getValue() != null;
+		return currentIndex < endIndex;
 	}
 
 	@Override

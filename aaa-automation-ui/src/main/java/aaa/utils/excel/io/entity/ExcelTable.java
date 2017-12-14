@@ -71,7 +71,7 @@ public class ExcelTable implements Iterable<TableRow> {
 	@Override
 	@Nonnull
 	public Iterator<TableRow> iterator() {
-		return new TableRowIterator(rowsNumber);
+		return new TableRowIterator(getRowsNumber());
 	}
 
 	@Override
@@ -122,18 +122,14 @@ public class ExcelTable implements Iterable<TableRow> {
 		private int currentIndex;
 		private int endIndex;
 
-		TableRowIterator(int endIndex) {
-			this(1, endIndex);
-		}
-
-		TableRowIterator(int startIndex, int endIndex) {
-			this.currentIndex = startIndex;
-			this.endIndex = endIndex;
+		TableRowIterator(int rowsNumber) {
+			this.currentIndex = 1;
+			this.endIndex = rowsNumber;
 		}
 
 		@Override
 		public boolean hasNext() {
-			return currentIndex < endIndex && getRows().get(currentIndex) != null;
+			return currentIndex <= endIndex;
 		}
 
 		@Override
@@ -141,7 +137,7 @@ public class ExcelTable implements Iterable<TableRow> {
 			if (!hasNext()) {
 				throw new NoSuchElementException("ExcelTable does not have next TableRow");
 			}
-			TableRow returnRow = getRows().get(currentIndex);
+			TableRow returnRow = getRow(currentIndex);
 			currentIndex++;
 			return returnRow;
 		}

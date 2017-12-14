@@ -8,7 +8,7 @@ public class BooleanCellType extends CellType<Boolean> {
 
 	@Override
 	public Boolean getValueFrom(ExcelCell cell) {
-		assertThat(isTypeOf(cell)).as("Cell type is not a %s type, unable to get value", getEndType());
+		assertThat(isTypeOf(cell)).as("Cell type is not a %s type, unable to get value", getEndType()).isTrue();
 		return hasTextValue(cell) ? Boolean.valueOf(getText(cell)) : cell.getPoiCell().getBooleanCellValue();
 	}
 

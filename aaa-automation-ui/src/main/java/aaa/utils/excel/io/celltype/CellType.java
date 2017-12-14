@@ -43,7 +43,7 @@ public abstract class CellType<T> {
 	}
 
 	protected String getText(ExcelCell cell) {
-		return CellTypes.STRING.get().getText(cell);
+		return ExcelCell.Type.STRING.get().getText(cell);
 	}
 
 	@Override
