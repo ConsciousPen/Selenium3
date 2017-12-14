@@ -39,6 +39,13 @@ public class TestScenario15 extends Scenario15 {
 				generateCancellation(); 
 				renewalOfferNotGenerated();	
 			}
+			else if (getState().equals(Constants.States.KY)) {
+				payThirdBill(); 
+				generateCancelNotice();
+				renewalPreviewGeneration(); 
+				generateCancellation();
+				renewalOfferNotGenerated();
+			}
 			else if (getState().equals(Constants.States.SD)) {
 				payThirdBill(); 
 				generateCancelNotice(); 
