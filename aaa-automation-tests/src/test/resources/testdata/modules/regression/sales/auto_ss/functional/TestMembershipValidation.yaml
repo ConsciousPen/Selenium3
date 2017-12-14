@@ -129,7 +129,7 @@ GeneralTab_MembershipNo: {
 
 ############## For Endorsement and renewal TCs
 GeneralTab_MembershipNo_SomeMatch: {
-  NamedInsuredInformation: '@NamedInsuredInformation_LNmatch',    #adjust what to match (FN, LN)
+  NamedInsuredInformation: '@NamedInsuredInformation_FNmatch',    #adjust what to match (FN, LN)
   AAAProductOwned: '@AAAProductOwned_MembershipNo',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
@@ -340,7 +340,7 @@ GeneralTab_MembershipNo_PAS6800: {
 
 ############## For Endorsement and renewal TCs
 GeneralTab_MembershipNo_SomeMatch_PAS6800: {
-  NamedInsuredInformation: '@NamedInsuredInformation_FNmatch_PAS6800',    #adjust what to match (FN, LN)
+  NamedInsuredInformation: '@NamedInsuredInformation_LNmatch_PAS6800',    #adjust what to match (FN, LN)
   AAAProductOwned: '@AAAProductOwned_MembershipNo_PAS6800',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
