@@ -70,7 +70,7 @@ public abstract class PolicyCINBaseTest extends PolicyBaseTest {
 			}
 			//if docAfter set and generated, compare the order
 			if (docAfter != null && sequenceMap.containsKey(docAfter.getId())) {
-				Long docAfterSequenceID = Long.parseLong(sequenceMap.get(docBefore.getId()));
+				Long docAfterSequenceID = Long.parseLong(sequenceMap.get(docAfter.getId()));
 				Assert.assertTrue(docAfterSequenceID.compareTo(cinDocSequenceID) > 0);
 			}
 		}
