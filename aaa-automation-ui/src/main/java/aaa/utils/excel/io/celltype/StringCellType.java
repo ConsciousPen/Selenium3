@@ -1,69 +1,50 @@
 package aaa.utils.excel.io.celltype;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.DateUtil;
+import aaa.utils.excel.io.entity.ExcelCell;
 
-public class StringCellType extends BaseCellType<String> {
+public class StringCellType extends CellType<String> {
 	@Override
-	public String getValueFrom(Cell cell) {
-		Cell c = normalizeCell(cell);
-		//assertThat(isTypeOf(cell)).as("Cell type is not a %s type, unable to get value", getName());
-		if (isStoredAsText(c)) {
-			return getText(c);
-		}
+	public String getValueFrom(ExcelCell cell) {
+		String value = "";
+		Cell c = cell.getPoiCell();
 		switch (c.getCellType()) {
+			case Cell.CELL_TYPE_STRING:
+				return getText(cell);
 			case Cell.CELL_TYPE_NUMERIC:
-				if (DateUtil.isCellDateFormatted(cell)) {
-					value = getDateTimeCellValue(cell).toString();
+				if (DateUtil.isCellDateFormatted(c)) {
+					value = new DataFormatter().formatCellValue(c);
 				} else {
-					DecimalFormat df = new DecimalFormat("0", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
-					df.setMaximumFractionDigits(340); //340 = DecimalFormat.DOUBLE_FRACTION_DIGITS
-					value = df.format(cell.getNumericCellValue());
+					value = String.valueOf(CellTypes.INTEGER.get().getValueFrom(cell));
 				}
 				break;
-			case Cell.CELL_TYPE_STRING:
-			case Cell.CELL_TYPE_FORMULA:
-				value = cell.getStringCellValue().replace("\n", "").trim();
-				break;
 			case Cell.CELL_TYPE_BOOLEAN:
-				value = String.valueOf(cell.getBooleanCellValue()).trim();
+				value = String.valueOf(CellTypes.BOOLEAN.get().getValueFrom(cell));
 				break;
 			case Cell.CELL_TYPE_ERROR:
-				value = "Error: " + String.valueOf(cell.getErrorCellValue()).trim();
+				value = "Error: " + String.valueOf(c.getErrorCellValue()).trim();
 				break;
-			case Cell.CELL_TYPE_BLANK:
 			default:
 				break;
 		}
 
+		return value;
 	}
 
 	@Override
-	public boolean isTypeOf(Cell cell) {
-		return isStoredAsText(cell);
-	}
-
-	public boolean isStoredAsDate(Cell cell) {
-		return CellType.LOCAL_DATE_TIME.get().isTypeOf(cell);
-	}
-
-	public boolean isStoredAsInteger(Cell cell) {
-		return CellType.INTEGER.get().isTypeOf(cell);
-	}
-
-	public boolean isStoredAsBoolean(Cell cell) {
-		return CellType.BOOLEAN.get().isTypeOf(cell);
-	}
-
-	public boolean isStoredAsFormula(Cell cell) {
-		return cell.getCellType() == Cell.CELL_TYPE_FORMULA;
+	public boolean isTypeOf(ExcelCell cell) {
+		return hasTextValue(cell);
 	}
 
 	@Override
-	protected String getText(Cell cell) {
-		return normalizeCell(cell).getStringCellValue().replace("\n", "").trim();
+	protected String getText(ExcelCell cell) {
+		return cell.getPoiCell().getStringCellValue().replace("\n", "").trim();
+	}
+
+	@Override
+	public boolean hasTextValue(ExcelCell cell) {
+		return true;
 	}
 }

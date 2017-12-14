@@ -2,7 +2,6 @@ package aaa.utils.excel.io.entity;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -14,7 +13,6 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import aaa.utils.excel.io.celltype.BaseCellType;
 import aaa.utils.excel.io.celltype.CellType;
 import toolkit.exceptions.IstfException;
 
@@ -23,10 +21,10 @@ public class ExcelTable implements Iterable<TableRow> {
 	private TableHeader header;
 	private List<TableRow> tableRows;
 	private int rowsNumber;
-	private Set<BaseCellType<?>> cellTypes;
+	private Set<CellType<?>> cellTypes;
 
 	public ExcelTable(TableHeader header) {
-		this(header, header.getSheet().getLastRowNum() - header.getRowNumberOnSheet() + 1, getBaseCellTypes());
+		this(header, header.getSheet().getLastRowNum() - header.getRowNumberOnSheet() + 1, header.getExcelRow().getCellTypes());
 	}
 
 	/**
@@ -35,7 +33,7 @@ public class ExcelTable implements Iterable<TableRow> {
 	 * @param header {@link TableHeader} object of this table
 	 * @param rowsNumber number of table's rows excluding header row, should be positive number
 	 */
-	public ExcelTable(TableHeader header, int rowsNumber, Set<BaseCellType<?>> cellTypes) {
+	public ExcelTable(TableHeader header, int rowsNumber, Set<CellType<?>> cellTypes) {
 		assertThat(header).as("TableHeader should not be null").isNotNull();
 		assertThat(rowsNumber).as("Number of table's rows should be greater than 0").isPositive();
 		assertThat(cellTypes).as("Cell Types set should not be empty or null").isNotEmpty().isNotNull();
@@ -70,10 +68,6 @@ public class ExcelTable implements Iterable<TableRow> {
 		return rowsNumber;
 	}
 
-	private static Set<BaseCellType<?>> getBaseCellTypes() {
-		return Arrays.stream(CellType.values()).map(CellType::get).collect(Collectors.toSet());
-	}
-
 	@Override
 	@Nonnull
 	public Iterator<TableRow> iterator() {
@@ -103,9 +97,7 @@ public class ExcelTable implements Iterable<TableRow> {
 
 	public List<TableRow> getRows(String headerColumnName, Object cellValue) {
 		List<TableRow> foundRows = getRows().stream().filter(r -> r.hasValue(headerColumnName, cellValue)).collect(Collectors.toList());
-		if (foundRows.isEmpty()) {
-			throw new IstfException(String.format("There are no rows in table with value \"%1$s\" in column \"%2$s\"", cellValue, headerColumnName));
-		}
+		assertThat(foundRows).as("There are no rows in table with value \"%1$s\" in column \"%2$s\"", cellValue, headerColumnName).isNotEmpty();
 		return foundRows;
 	}
 
@@ -114,13 +106,11 @@ public class ExcelTable implements Iterable<TableRow> {
 	}
 
 	public List<TableRow> getRows(Map<String, Object> query) {
-		List<TableRow> foundRows = getRows();
+		List<TableRow> foundRows = new ArrayList<>(getRows());
 		for (Map.Entry<String, Object> columnNameAndCellValue : query.entrySet()) {
 			foundRows.removeIf(r -> !r.hasValue(columnNameAndCellValue.getKey(), columnNameAndCellValue.getValue()));
 		}
-		if (foundRows.isEmpty()) {
-			throw new IstfException("There are no rows in table with column names and cell values query: " + query.entrySet());
-		}
+		assertThat(foundRows).as("There are no rows in table with column names and cell values query: " + query.entrySet()).isNotEmpty();
 		return foundRows;
 	}
 

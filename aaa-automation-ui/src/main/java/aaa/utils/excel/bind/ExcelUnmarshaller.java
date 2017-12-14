@@ -33,7 +33,7 @@ public class ExcelUnmarshaller {
 			for (TableRow row : excelTable) {
 				Object tableInstance = getInstance(getTableRowType(tableField));
 				for (Field tableRowField : tableRowFields) {
-					setFieldValue(tableRowField, tableInstance, row);
+					setFieldValue(tableRowField, tableInstance, row, excelReader);
 				}
 				tableFields.add(tableInstance);
 			}
@@ -98,7 +98,7 @@ public class ExcelUnmarshaller {
 		return (boolean) getAnnotationDefaultValue(ExcelTableElement.class, "isLowest");
 	}
 
-	private void setFieldValue(Field tableRowField, Object tableInstance, TableRow row) {
+	private void setFieldValue(Field tableRowField, Object tableInstance, TableRow row, ExcelReader excelReader) {
 		String columnName = getHeaderColumnName(tableRowField);
 		switch (tableRowField.getType().getName()) {
 			case "int":
@@ -121,7 +121,7 @@ public class ExcelUnmarshaller {
 					break;
 				}
 				List<Field> linkedTableRowFields = getAllFields(getTableRowType(tableRowField));
-				ExcelReader excelReader = new ExcelReader(row.getTable().getSheet()).switchSheet(getSheetName(tableRowField));
+				excelReader.switchSheet(getSheetName(tableRowField));
 				ExcelTable excelTable = excelReader.getTable(isLowestTable(tableRowField), getHeaderColumnNames(linkedTableRowFields));
 
 				List<Object> linkedTableRows = new ArrayList<>();

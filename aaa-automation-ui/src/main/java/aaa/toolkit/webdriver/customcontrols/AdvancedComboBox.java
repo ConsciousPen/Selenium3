@@ -63,7 +63,7 @@ public class AdvancedComboBox extends ComboBox {
 	protected void setRawValue(String value) {
 		if (value.startsWith(RANDOM_EXCEPT_MARK)) {
 			String[] parsedValue = value.split("=");
-			assertThat(parsedValue.length).isEqualTo(2).as("'%s' should be followed with '=' and list of options separated with '|' to be excluded from random selection.", RANDOM_MARK);
+			assertThat(parsedValue.length).as("'%s' should be followed with '=' and list of options separated with '|' to be excluded from random selection.", RANDOM_MARK).isEqualTo(2);
 			String[] excludedValues = parsedValue[1].split("\\|", -1);
 			if (Arrays.asList(excludedValues).contains(SELECTED_MARK)) {
 				excludedValues = ArrayUtils.removeElement(excludedValues, SELECTED_MARK);

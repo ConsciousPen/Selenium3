@@ -1,7 +1,13 @@
 package aaa.utils.excel.io;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -9,20 +15,20 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.POIXMLException;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.exigen.ipb.etcsa.utils.ExcelUtils;
-import aaa.utils.excel.io.celltype.BaseCellType;
 import aaa.utils.excel.io.celltype.CellType;
+import aaa.utils.excel.io.celltype.CellTypes;
 import aaa.utils.excel.io.entity.ExcelCell;
 import aaa.utils.excel.io.entity.ExcelRow;
 import aaa.utils.excel.io.entity.ExcelTable;
@@ -34,29 +40,30 @@ public class ExcelReader {
 
 	private Workbook workbook;
 	private Sheet sheet;
-	private Set<BaseCellType<?>> availableCellTypes;
+	private Set<CellType<?>> allowableCellTypes;
 
 	public ExcelReader(File excelFile) {
-		this.workbook = ExcelUtils.getWorkbook(excelFile.getAbsolutePath());
-		this.sheet = ExcelUtils.getSheet(this.workbook);
-		registerBaseCellTypes();
+		this(excelFile, null);
 	}
 
 	public ExcelReader(File excelFile, String sheetName) {
-		this.workbook = ExcelUtils.getWorkbook(excelFile.getAbsolutePath());
-		this.sheet = ExcelUtils.getSheet(this.workbook, sheetName);
-		registerBaseCellTypes();
+		this(excelFile, sheetName, getBaseCellTypes());
 	}
 
-	public ExcelReader(File excelFile, SearchPattern sheetNamePattern) {
-		this.workbook = ExcelUtils.getWorkbook(excelFile.getAbsolutePath());
-		this.sheet = getSheet(sheetNamePattern);
-		registerBaseCellTypes();
+	public ExcelReader(File excelFile, String sheetName, CellType<?>... allowableCellTypes) {
+		this.workbook = getWorkbook(excelFile);
+		this.sheet = getSheet(workbook, sheetName);
+		this.allowableCellTypes = new HashSet<>(Arrays.asList(allowableCellTypes));
 	}
 
 	public ExcelReader(Sheet sheet) {
+		this(sheet, getBaseCellTypes());
+	}
+
+	public ExcelReader(Sheet sheet, CellType<?>... allowableCellTypes) {
 		this.workbook = sheet.getWorkbook();
 		this.sheet = sheet;
+		this.allowableCellTypes = new HashSet<>(Arrays.asList(allowableCellTypes));
 	}
 
 	public List<Sheet> getSheets() {
@@ -79,33 +86,32 @@ public class ExcelReader {
 		return getCurrentSheet().getLastRowNum() + 1;
 	}
 
-	public final Sheet getSheet(SearchPattern sheetNamePattern) {
-		for (Sheet sheet : getSheets()) {
-			if (sheetNamePattern.matches(sheet.getSheetName())) {
-				return sheet;
-			}
-		}
-		throw new IstfException(String.format("There is no sheet in list %1$s with name which matches pattern: %2$s", getSheetNames(), sheetNamePattern));
+	public Set<CellType<?>> getCellTypes() {
+		return Collections.unmodifiableSet(this.allowableCellTypes);
 	}
 
-	public ExcelReader registerCellType(BaseCellType<?>... cellTypes) {
-		Collections.addAll(getAvailableCellTypes(), cellTypes);
+	private static CellType<?>[] getBaseCellTypes() {
+		return Arrays.stream(CellTypes.values()).map(CellTypes::get).toArray(CellType<?>[]::new);
+	}
+
+	public ExcelReader registerCellType(CellType<?>... cellTypes) {
+		Collections.addAll(allowableCellTypes, cellTypes);
 		return this;
 	}
 
 	public ExcelReader switchSheet(String sheetName) {
-		Sheet sheet = ExcelUtils.getSheet(this.workbook, sheetName);
+		Sheet sheet = getSheet(getWorkbook(), sheetName);
 		assertThat(sheet).as("Can't find sheet with name \"%s\"", sheetName).isNotNull();
 		this.sheet = sheet;
 		return this;
 	}
 
 	public ExcelRow getRow(int rowNumber) {
-		return new ExcelRow(getCurrentSheet().getRow(rowNumber - 1), getAvailableCellTypes());
+		return new ExcelRow(getCurrentSheet().getRow(rowNumber - 1), getCellTypes());
 	}
 
-	public ExcelCell<?> getCell(int rowNumber, int cellNumber) {
-		return getRow(rowNumber).getCell(cellNumber);
+	public ExcelCell getCell(int rowNumber, int columnNumber) {
+		return getRow(rowNumber).getCell(columnNumber);
 	}
 
 	public List<Object> getRowValues(int rowNumber) {
@@ -117,8 +123,7 @@ public class ExcelReader {
 		return getRowValues(rowNumber, fromColumnNumber, row.getLastCellNum());
 	}
 
-
-	 /**
+	/**
 	 * Get all non-null Object cell values from provided {@code rowNumber} starting inclusively from {@code fromColumnNumber} and up to inclusively {@code toColumnNumber}
 	 *
 	 * @param rowNumber row number from which values should be taken, index starts from 1
@@ -129,9 +134,8 @@ public class ExcelReader {
 	 */
 	public List<Object> getRowValues(int rowNumber, int fromColumnNumber, int toColumnNumber) {
 		assertThat(fromColumnNumber).as("From column number should be greater than 0").isPositive();
-		assertThat(toColumnNumber).as("To column number should be greater than from column number").isGreaterThan(fromColumnNumber);
-		int size = toColumnNumber - fromColumnNumber + 1;
-		return IntStream.range(fromColumnNumber, fromColumnNumber + size).mapToObj(cn -> getCell(rowNumber, cn).getValue()).filter(Objects::nonNull).collect(Collectors.toList());
+		ExcelRow row = getRow(rowNumber);
+		return IntStream.range(fromColumnNumber, toColumnNumber).filter(row::hasCell).mapToObj(row::getValue).collect(Collectors.toList());
 	}
 
 	public List<String> getRowStringValues(int rowNumber) {
@@ -142,7 +146,6 @@ public class ExcelReader {
 		ExcelRow row = getRow(rowNumber);
 		return getRowStringValues(rowNumber, fromColumnNumber, row.getLastCellNum());
 	}
-
 
 	/**
 	 * Get all non-null String cell values from provided {@code rowNumber} starting inclusively from {@code fromColumnNumber} and up to inclusively {@code toColumnNumber}
@@ -155,103 +158,10 @@ public class ExcelReader {
 	 */
 	public List<String> getRowStringValues(int rowNumber, int fromColumnNumber, int toColumnNumber) {
 		assertThat(fromColumnNumber).as("From column number should be greater than 0").isPositive();
-		assertThat(toColumnNumber).as("To column number should be greater than from column number").isGreaterThan(fromColumnNumber);
-		int size = toColumnNumber - fromColumnNumber + 1;
-		return IntStream.range(fromColumnNumber, fromColumnNumber + size).mapToObj(cn -> getCell(rowNumber, cn).getStringValue()).filter(Objects::nonNull).collect(Collectors.toList());
+		ExcelRow row = getRow(rowNumber);
+		return IntStream.range(fromColumnNumber, toColumnNumber).filter(row::hasCell).mapToObj(row::getStringValue).collect(Collectors.toList());
 	}
 
-	@SuppressWarnings("unchecked")
-	public <C extends BaseCellType<T>, T> C getCellType(Cell cell) {
-		//TODO: get rid of @SuppressWarnings
-		for (BaseCellType<?> cellType : getAvailableCellTypes()) {
-			if (cellType.isTypeOf(cell)) {
-				return (C) cellType;
-			}
-		}
-		throw new IstfException(String.format("Unable to get value for cell located in \"%s\". Unknown cell type.", getLocation(cell)));
-	}
-
-	/*public <T> T getValue(Row row, int columnNumber) {
-		assertThat(row).as("Row should not be null").isNotNull();
-		assertThat(columnNumber).as("Column number should be greater than 0").isPositive();
-		return getValue(row.getCell(columnNumber - 1));
-	}
-
-	public <T> T getValue(Cell cell) {
-		return getValue(cell, getCellType(cell));
-	}
-
-	public <T> T getValue(Cell cell, BaseCellType<T> cellType) {
-		assertThat(cellType.isTypeOf(cell)).as("Unable to get value with type %s from cell, located in %s", cellType.getName(), getLocation(cell));
-		return cellType.getValueFrom(cell);
-	}
-
-	public boolean getBoolValue(Row row, int columnNumber) {
-		assertThat(row).as("Row should not be null").isNotNull();
-		assertThat(columnNumber).as("Column number should be greater than 0").isPositive();
-		return getBoolValue(row.getCell(columnNumber - 1));
-	}
-
-	public boolean getBoolValue(Cell cell) {
-		return getValue(cell, CellType.BOOLEAN.get());
-	}
-
-	public int getIntValue(Row row, int columnNumber) {
-		assertThat(row).as("Row should not be null").isNotNull();
-		assertThat(columnNumber).as("Column number should be greater than 0").isPositive();
-		return getIntValue(row.getCell(columnNumber - 1));
-	}
-
-	public int getIntValue(Cell cell) {
-		return getValue(cell, CellType.INTEGER.get());
-	}
-
-	public LocalDateTime getDateValue(Row row, int columnNumber) {
-		assertThat(row).as("Row should not be null").isNotNull();
-		assertThat(columnNumber).as("Column number should be greater than 0").isPositive();
-		return getDateValue(row.getCell(columnNumber - 1));
-	}
-
-	public LocalDateTime getDateValue(Cell cell) {
-		return getValue(cell, CellType.LOCAL_DATE_TIME.get());
-	}
-
-	*/
-
-	/**
-	 * Get string cell value within provided row by column number on sheet
-	 *
-	 * @param row {@link Row} object where value should be taken
-	 * @param columnNumber column number on sheet where cell's value should be taken. Should be positive and index starts from 1
-	 *
-	 * @return String cell value within provided row by column number on sheet
-	 *//*
-	public String getStringValue(Row row, int columnNumber) {
-		assertThat(row).as("Row should not be null").isNotNull();
-		assertThat(columnNumber).as("Column number should be greater than 0").isPositive();
-		return getStringValue(row.getCell(columnNumber - 1));
-	}
-
-	public String getStringValue(Cell cell) {
-		String value = null;
-		if (cell == null) {
-			return value;
-		}
-		try {
-			if (cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
-				FormulaEvaluator evaluator = cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
-				cell = evaluator.evaluateInCell(cell);
-				value = ExcelUtils.getCellValue(cell);
-			} else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC && DateUtil.isCellDateFormatted(cell)) {
-				value = new DataFormatter().formatCellValue(cell);
-			} else {
-				value = ExcelUtils.getCellValue(cell);
-			}
-		} catch (IllegalStateException e) {
-			throw new IstfException("Unable to get string value from cell located in " + getLocation(cell), e);
-		}
-		return StringUtils.isEmpty(value) ? null : value;
-	}*/
 	public ExcelRow getRow(String... valuesInCells) {
 		return getRow(true, valuesInCells);
 	}
@@ -285,7 +195,7 @@ public class ExcelReader {
 			throw new IstfException(errorMessage);
 		}
 
-		ExcelRow row = new ExcelRow(foundRows.get(foundRows.size() - 1), getAvailableCellTypes());
+		ExcelRow row = new ExcelRow(foundRows.get(foundRows.size() - 1), getCellTypes());
 		List<String> extraHeaderColumns = new ArrayList<>(row.getStringValues());
 		extraHeaderColumns.removeAll(expectedColumnNames);
 		if (!extraHeaderColumns.isEmpty()) {
@@ -314,26 +224,59 @@ public class ExcelReader {
 	 */
 	public ExcelTable getTable(int headerRowNumber) {
 		assertThat(headerRowNumber).as("Header row number should be greater than 0").isPositive();
-		TableHeader header = new TableHeader(getCurrentSheet().getRow(headerRowNumber - 1));
+		TableHeader header = new TableHeader(getRow(headerRowNumber));
 		return new ExcelTable(header);
 	}
 
-	private Set<BaseCellType<?>> getAvailableCellTypes() {
-		if (this.availableCellTypes == null) {
-			this.availableCellTypes = new HashSet<>();
-			registerBaseCellTypes();
+	private Workbook getWorkbook(File file) {
+		assertThat(file).exists().as("File \"%s\" does not exist", file.getAbsolutePath());
+		Workbook wb;
+		String exceptionMessage = "Can't read from input stream. File might be corrupted or has wrong extension.";
+		byte[] buf = new byte[1024];
+		byte[] content;
+		int n;
+
+		InputStream fileToRead = null;
+		try {
+			fileToRead = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
-		return this.availableCellTypes;
+
+		// Get byte array content from filePath
+		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+			while ((n = fileToRead.read(buf)) >= 0) {
+				baos.write(buf, 0, n);
+			}
+			content = baos.toByteArray();
+		} catch (IOException e) {
+			throw new IstfException(exceptionMessage, e);
+		} finally {
+			try {
+				fileToRead.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		try {
+			// Try to create workbook for file with 'xlsx' extension;
+			wb = new XSSFWorkbook(new ByteArrayInputStream(content));
+		} catch (POIXMLException e) {
+			// If failed then try to create for file with 'xls' extension;
+			try {
+				wb = new HSSFWorkbook(new ByteArrayInputStream(content));
+			} catch (IOException e1) {
+				throw new IstfException(exceptionMessage, e1.getCause());
+			}
+		} catch (IOException e) {
+			throw new IstfException(exceptionMessage, e);
+		}
+
+		return wb;
 	}
 
-	private void registerBaseCellTypes() {
-		for (CellType cellType : CellType.values()) {
-			registerCellType(cellType.get());
-		}
-	}
-
-	private String getLocation(Cell cell) {
-		assertThat(cell).as("Cell should not be null").isNotNull();
-		return String.format("sheet name: \"%1$s\", row number: %2$s, column number: %3$s", cell.getSheet().getSheetName(), cell.getRowIndex() + 1, cell.getColumnIndex() + 1);
+	private Sheet getSheet(Workbook wb, String sheetName) {
+		return sheetName == null ? wb.getSheetAt(0) : wb.getSheet(sheetName);
 	}
 }

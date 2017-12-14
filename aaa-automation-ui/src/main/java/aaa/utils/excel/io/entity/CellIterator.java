@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-class CellIterator implements Iterator<ExcelCell<?>> {
+class CellIterator implements Iterator<ExcelCell> {
 	List<Integer> cellIndexes;
 	ExcelRow excelRow;
 	private int currentIndex;
@@ -24,16 +24,16 @@ class CellIterator implements Iterator<ExcelCell<?>> {
 	}
 
 	@Override
-	public ExcelCell<?> next() {
+	public ExcelCell next() {
 		if (!hasNext()) {
 			throw new NoSuchElementException("There is no next cell");
 		}
-		ExcelCell<?> returnCell = getCell(currentIndex);
+		ExcelCell returnCell = getCell(currentIndex);
 		currentIndex++;
 		return returnCell;
 	}
 
-	private ExcelCell<?> getCell(int iteratorIndex) {
+	private ExcelCell getCell(int iteratorIndex) {
 		return excelRow.getCell(cellIndexes.get(iteratorIndex));
 	}
 }

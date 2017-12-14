@@ -2,6 +2,7 @@ package aaa.utils.excel.io.entity;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -28,8 +29,8 @@ public class TableHeader {
 	 */
 	public TableHeader(ExcelRow excelRow, int fromColumnNumber, int headerSize) {
 		assertThat(excelRow).as("Row should not be null").isNotNull();
-		assertThat(fromColumnNumber).isPositive().as("First header's column number on sheet should be greater than 0");
-		assertThat(headerSize).isPositive().as("Header size should be greater than 0");
+		assertThat(fromColumnNumber).as("First header's column number on sheet should be greater than 0").isPositive();
+		assertThat(headerSize).as("Header size should be greater than 0").isPositive();
 		this.excelRow = excelRow;
 		this.headerColumns = new HashMap<>();
 
@@ -46,19 +47,23 @@ public class TableHeader {
 	}
 
 	public Set<Integer> getColumnIndexes() {
-		return (Set<Integer>) headerColumns.values();
+		return new HashSet<>(headerColumns.values());
 	}
 
 	public int getSize() {
 		return headerColumns.size();
 	}
 
+	public ExcelRow getExcelRow() {
+		return excelRow;
+	}
+
 	int getRowNumberOnSheet() {
-		return excelRow.getRow().getRowNum() + 1;
+		return getExcelRow().getRowNumber();
 	}
 
 	Sheet getSheet() {
-		return excelRow.getRow().getSheet();
+		return excelRow.getPoiRow().getSheet();
 	}
 
 	@Override
