@@ -38,7 +38,7 @@ ApplicantTab: {
 
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
-#  AAAMembershipReport: [{Report: 'Order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -130,9 +130,8 @@ NamedInsured: {
 }
 
 AAAMembership: {
-  Current AAA Member: 'No',
-#  Membership number: '4290023667710001',
-#  Last name: Smith
+  Membership number: '4290023667710001',
+  Last name: Smith
 }
 
 DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress'
@@ -645,7 +644,7 @@ ApplicantTab_CT: {
 
 ReportsTab_CT: {
   Sales Agent Agreement: 'I Agree',
-#  AAAMembershipReport: [{Report: 'Order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   RiskMeterReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -790,7 +789,7 @@ ApplicantTab_DC: {
 
 ReportsTab_DC: {
   Sales Agent Agreement: 'I Agree',
-#  AAAMembershipReport: [{Report: 'Order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -956,7 +955,7 @@ ApplicantTab_DE: {
 
 ReportsTab_DE: {
   Sales Agent Agreement: 'I Agree',
-#  AAAMembershipReport: [{Report: 'Order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   RiskMeterReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -1230,7 +1229,7 @@ ApplicantTab_IN: {
 
 ReportsTab_IN: {
   Sales Agent Agreement: 'I Agree',
-#  AAAMembershipReport: [{Report: 'Order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -1403,7 +1402,7 @@ ApplicantTab_KS: {
 
 ReportsTab_KS: {
   Sales Agent Agreement: 'I Agree',
-#  AAAMembershipReport: [{Report: 'Order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -1575,7 +1574,7 @@ ApplicantTab_KY: {
   
 ReportsTab_KY: {
   Sales Agent Agreement: 'I Agree',
-#  AAAMembershipReport: [{Report: 'Order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -1754,7 +1753,7 @@ ApplicantTab_MD: {
  
 ReportsTab_MD: {
   Sales Agent Agreement: 'I Agree',
-#  AAAMembershipReport: [{Report: 'Order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   #InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   RiskMeterReport: [{Report: 'Order Report'}],
@@ -1902,7 +1901,7 @@ ApplicantTab_MT: {
 
 ReportsTab_MT: {
   Sales Agent Agreement: 'I Agree',
-#  AAAMembershipReport: [{Report: 'Order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -2042,7 +2041,7 @@ ApplicantTab_NJ: {
  
 ReportsTab_NJ: {
   Sales Agent Agreement: 'I Agree',
-#  AAAMembershipReport: [{Report: 'Order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   RiskMeterReport: [{Report: 'Order Report'}],
@@ -2326,7 +2325,7 @@ ApplicantTab_NY: {
 
 ReportsTab_NY: {
   Sales Agent Agreement: 'I Agree',
-#  AAAMembershipReport: [{Report: 'Order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -2464,7 +2463,7 @@ ApplicantTab_OH: {
 
 ReportsTab_OH: {
   Sales Agent Agreement: 'I Agree',
-#  AAAMembershipReport: [{Report: 'Order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -2631,7 +2630,7 @@ ApplicantTab_OK: {
 
 ReportsTab_OK: {
   Sales Agent Agreement: 'I Agree',
-#  AAAMembershipReport: [{Report: 'Order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -2936,7 +2935,7 @@ ApplicantTab_PA: {
   
 ReportsTab_PA: {
   Sales Agent Agreement: 'I Agree',
-#  AAAMembershipReport: [{Report: 'Order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -3075,7 +3074,7 @@ ApplicantTab_SD: {
 
 ReportsTab_SD: {
   Sales Agent Agreement: 'I Agree',
-#  AAAMembershipReport: [{Report: 'Order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -3229,7 +3228,7 @@ ApplicantTab_VA: {
 
 ReportsTab_VA: {
   Sales Agent Agreement: 'I Agree',
-#  AAAMembershipReport: [{Report: 'Order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   RiskMeterReport: [{Report: 'Order Report'}],
@@ -3369,7 +3368,7 @@ ApplicantTab_WV: {
   
 ReportsTab_WV: {
   Sales Agent Agreement: 'I Agree',
-#  AAAMembershipReport: [{Report: 'Order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -3522,7 +3521,7 @@ ApplicantTab_WY: {
   
 ReportsTab_WY: {
   Sales Agent Agreement: 'I Agree',
-#  AAAMembershipReport: [{Report: 'Order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
