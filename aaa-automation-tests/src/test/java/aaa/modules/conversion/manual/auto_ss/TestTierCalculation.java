@@ -1,4 +1,4 @@
-package aaa.modules.conversion.manual;
+package aaa.modules.conversion.manual.auto_ss;
 
 import static aaa.main.metadata.BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT;
 import static aaa.main.metadata.policy.AutoSSMetaData.DocumentsAndBindTab.AGREEMENT;
@@ -44,7 +44,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.conversion.manual.ConvHomeSsDp3BaseTest;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -53,13 +53,13 @@ import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.RadioGroup;
 
 @SuppressWarnings("InstanceVariableMayNotBeInitialized")
-public class TestTierCalculation extends AutoSSBaseTest {
+public class TestTierCalculation extends ConvHomeSsDp3BaseTest {
     private final Tab generalTab = new GeneralTab();
     private final Tab driverReportTab = new DriverActivityReportsTab();
     private final Tab premiumCovTab = new PremiumAndCoveragesTab();
     private final DocumentsAndBindTab documentsTab = new DocumentsAndBindTab();
-    private String policyNumberNb ;
-    private String policyNumberConv ;
+    private String policyNumberNb;
+    private String policyNumberConv;
     private Dollar premiumValue;
 
     /**
@@ -83,7 +83,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4145")
-    public void pas4145_calculateTierNyConversionCheckNB(@Optional("NY") String state) {
+    public void pas4145_calculateTierNyConversionCheckNB(@Optional("AZ") String state) {
         //Prepare TD
         TestData policyData = DataProviderFactory.emptyData().adjust(getPolicyTD().resolveLinks());
         policyData.adjust(generalTab.getMetaKey(), getTestSpecificTD("TestData").getTestData(generalTab.getMetaKey()));
@@ -99,7 +99,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         Tab.buttonTopCancel.click();
 
         //Initiate manual conversion policy
-        initiateManualConversion(getTestSpecificTD("TestData"));
+        initiateManualConversion();
         TestData policy2 = DataProviderFactory.emptyData().adjust(policyData.resolveLinks()).resolveLinks();
         policy.getDefaultView().fillUpTo(prepareConvTD(policyData)
                 , PremiumAndCoveragesTab.class, true);
@@ -118,7 +118,6 @@ public class TestTierCalculation extends AutoSSBaseTest {
         CustomAssert.assertEquals(nbParams, convParams);
 
     }
-
 
     /**
      * * @author Igor Garkusha
@@ -142,7 +141,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         BillingSummaryPage.linkAcceptPayment.click();
         Tab acceptPayment = new AcceptPaymentActionTab();
         acceptPayment.fillTab(getTestSpecificTD("TestData").
-                adjust(TestData.makeKeyPath(acceptPayment.getMetaKey(),AMOUNT.getLabel()),premiumValue.add(20).toString())).submitTab();
+                adjust(TestData.makeKeyPath(acceptPayment.getMetaKey(), AMOUNT.getLabel()), premiumValue.add(20).toString())).submitTab();
         proposePolicyIfNeeded();
         TimeSetterUtil.getInstance().nextPhase(effDate);
         JobUtils.executeJob(Jobs.policyStatusUpdateJob);
@@ -206,5 +205,5 @@ public class TestTierCalculation extends AutoSSBaseTest {
                 adjust(TestData.makeKeyPath(premiumCovTab.getMetaKey(), PAYMENT_PLAN.getLabel()), "Annual (Renewal)").
                 adjust(TestData.makeKeyPath(new DriverTab().getMetaKey(), LICENSE_STATE.getLabel()), "NY").
                 adjust(TestData.makeKeyPath(new VehicleTab().getMetaKey(), AutoSSMetaData.VehicleTab.TYPE.getLabel()), "Private Passenger Auto");
-   }
+    }
 }

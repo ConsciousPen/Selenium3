@@ -426,7 +426,11 @@ public class BaseTest {
 	}
 
 	protected String initiateManualConversion(){
-		return initiateManualConversion(getStateTestData(tdCustomerIndividual, CustomerActions.InitiateRenewalEntry.class.getSimpleName(), "TestData"));
+		return initiateManualConversion(prepareManualConversionTd());
+	}
+
+	protected TestData prepareManualConversionTd(){
+		return getStateTestData(tdCustomerIndividual, CustomerActions.InitiateRenewalEntry.class.getSimpleName(), "TestData");
 	}
 
 	protected String initiateManualConversionR35() {

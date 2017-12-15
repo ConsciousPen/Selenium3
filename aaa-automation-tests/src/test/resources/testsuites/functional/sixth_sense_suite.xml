@@ -13,7 +13,7 @@
     </test>
     <test name="Test Calculate Tier for NY converted policies">
         <classes>
-            <class name="aaa.modules.conversion.manual.TestTierCalculation"/>
+            <class name="aaa.modules.conversion.manual.auto_ss.TestTierCalculation"/>
         </classes>
     </test>
     <test name="Test Enroll Usage Based Endorsement">
