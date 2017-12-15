@@ -1,33 +1,33 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Conversion Test" verbose="1" parallel="methods" thread-count="1024">
+<suite name="Conversion Test" verbose="1" parallel="tests" thread-count="1024">
 	<listeners>
 		<!--<listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>-->
 		<listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
 	</listeners>
-	<parameter name="timeshift-scenario-mode" value="method" />
+	<parameter name="timeshift-scenario-mode" value="method"/>
 
-	<test name="HDES Conversion Test" preserve-order="true">
+	<test name="HDES Conversion Test" parallel="methods" thread-count="200">
 		<parameter name="state" value="CA" />
 		<classes>
 			<class name="aaa.modules.conversion.HdesConversionTest" />
 		</classes>
 	</test>
 
-	<test name="Sis Conversion Test" preserve-order="true">
+	<test name="Sis Conversion Test" parallel="methods" thread-count="200">
 		<parameter name="state" value="CA" />
 		<classes>
 			<class name="aaa.modules.conversion.SisConversionTest" />
 		</classes>
 	</test>
 
-	<test name="FoxPro Conversion Test" preserve-order="true">
+	<test name="FoxPro Conversion Test" parallel="methods" thread-count="200">
 		<parameter name="state" value="CA" />
 		<classes>
 			<class name="aaa.modules.conversion.FoxProConversionTest" />
 		</classes>
 	</test>
 
-	<test name="MAIG Conversion Test" preserve-order="true">
+	<test name="MAIG Conversion Test" parallel="methods" thread-count="200">
 		<classes>
 			<class name="aaa.modules.conversion.MaigConversionTest" />
 		</classes>
