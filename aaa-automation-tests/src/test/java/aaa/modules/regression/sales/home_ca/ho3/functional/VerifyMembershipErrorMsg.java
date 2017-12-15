@@ -50,8 +50,8 @@ public class VerifyMembershipErrorMsg extends HomeCaHO3BaseTest {
 
 
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6049")
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6051, PAS-6880, PAS-7072")
     public void TC01_verifyMembershipMsg_NB(@Optional("CA") String state) {
 
         TestData _td = getTestSpecificTD("TestData");
@@ -188,8 +188,8 @@ public class VerifyMembershipErrorMsg extends HomeCaHO3BaseTest {
     }
 
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6049")
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6051, PAS-6880, PAS-7072")
     public void TC02_verifyMembershipMsg_Endorsement(@Optional("CA") String state) {
 
         boolean bTakeScreenshots = true;
@@ -293,8 +293,8 @@ public class VerifyMembershipErrorMsg extends HomeCaHO3BaseTest {
     }
 
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6049")
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6051, PAS-6880, PAS-7072")
     public void TC03_verifyMembershipMsg_Renewal(@Optional("CA") String state) {
 
         boolean bTakeScreenshots = false;

@@ -37,7 +37,7 @@ public class VerifyMembershipErrorMsg extends HomeCaHO6BaseTest
 
 
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL})
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-6051, PAS-6880, PAS-7072")
     public void TC01_verifyMembershipMsg_NB(@Optional("CA") String state) {
 
@@ -117,7 +117,7 @@ public class VerifyMembershipErrorMsg extends HomeCaHO6BaseTest
     }
 
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL})
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-6051, PAS-6880, PAS-7072")
     public void TC02_verifyMembershipMsg_Endorsement(@Optional("CA") String state) {
 
@@ -224,7 +224,7 @@ public class VerifyMembershipErrorMsg extends HomeCaHO6BaseTest
     }
 
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL})
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-6051, PAS-6880, PAS-7072")
     public void TC03_verifyMembershipMsg_Renewal(@Optional("CA") String state) {
 
