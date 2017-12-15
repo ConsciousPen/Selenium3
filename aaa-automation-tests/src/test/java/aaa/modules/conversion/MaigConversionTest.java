@@ -1,5 +1,8 @@
 package aaa.modules.conversion;
 
+import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER;
+import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.AAAProductOwned.LAST_NAME;
+import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -185,6 +188,8 @@ public class MaigConversionTest extends AutoSSBaseTest {
 		policy.getDefaultView().fill(getPolicyTD().adjust(TestData.makeKeyPath(PrefillTab.class.getSimpleName(), PrefillTab.DATE_OF_BIRTH.getLabel()), "08/08/1977")
 				.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), "NamedInsuredInformation[0]", "Base Date"), effDate.format(DateTimeUtils.MM_DD_YYYY))
 				.mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), GeneralTab.POLICY_INFORMATION.getLabel()))
+				.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AAA_PRODUCT_OWNED.getLabel(), CURRENT_AAA_MEMBER.getLabel()), "No")
+				.mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AAA_PRODUCT_OWNED.getLabel(), LAST_NAME.getLabel()))
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), DriverTab.GENDER.getLabel()), "index=1")
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), DriverTab.MARITAL_STATUS.getLabel()), "index=1")
 				.adjust(TestData.makeKeyPath(VehicleTab.class.getSimpleName(), VehicleTab.TYPE.getLabel()), "Private Passenger Auto")

@@ -65,7 +65,8 @@ public final class AutoCaMetaData {
 
 		public static final AssetDescriptor<MultiInstanceAfterAssetList> NAMED_INSURED_INFORMATION = declare("NamedInsuredInformation", MultiInstanceAfterAssetList.class, NamedInsuredInformation.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_InsuredInformationMVO']"));
 		public static final AssetDescriptor<ComboBox> FIRST_NAMED_INSURED = declare("First Named Insured", ComboBox.class);
-
+		
+		public static final AssetDescriptor<RadioGroup> IS_THERE_ANY_THIRD_PATRY_DESIGNEE = declare("Is there any Third Party Designee?", RadioGroup.class);
 		public static final AssetDescriptor<AssetList> THIRD_PARTY_DESIGNEE_INFORMATION = declare("ThirdPartyDesigneeInformation", AssetList.class, ThirdPartyDesigneeInformation.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAAutoThirdPartyDesignee']"));
 
 		public static final class NamedInsuredInformation extends MetaData {
@@ -200,7 +201,6 @@ public final class AutoCaMetaData {
 		}
 
 		public static final class ThirdPartyDesigneeInformation extends MetaData {
-			public static final AssetDescriptor<RadioGroup> IS_THERE_ANY_THIRD_PATRY_DESIGNEE = declare("Is there any Third Party Designee?", RadioGroup.class);
 			public static final AssetDescriptor<TextBox> NAME = declare("Name", TextBox.class);
 			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip Code", TextBox.class);
 			public static final AssetDescriptor<TextBox> ADDRESS_LINE_1 = declare("Address Line 1", TextBox.class);
