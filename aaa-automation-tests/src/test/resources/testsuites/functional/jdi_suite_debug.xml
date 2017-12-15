@@ -7,7 +7,7 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-     <test name="TestRefundProcessVA">
+     <test name="TestRefundProcessVA2">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -18,7 +18,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestRefundProcessVA2">
+    <test name="TestRefundProcessVA1">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -29,7 +29,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestRefundProcessAZ">
+    <test name="TestRefundProcessAZ1">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -41,7 +41,7 @@
         </classes>
     </test>
 
-    <test name="TestRefundProcessMD">
+    <test name="TestRefundProcessMD1">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
