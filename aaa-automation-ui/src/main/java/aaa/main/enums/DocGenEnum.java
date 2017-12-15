@@ -320,6 +320,7 @@ public final class DocGenEnum {
 		AA02DC(""),
 		AA16NV("Rejection of Medical Payments Coverage"),
 		AARIVA(""),
+		AHTPCCA(""),
 		;
 
 		private String id;
