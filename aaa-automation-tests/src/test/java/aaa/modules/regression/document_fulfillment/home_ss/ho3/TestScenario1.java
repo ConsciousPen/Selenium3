@@ -26,8 +26,10 @@ public class TestScenario1 extends HomeSSHO3BaseTest {
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC01_CreatePolicy(String state) throws Exception {
 		mainApp().open();
-		policyNumber = getCopiedPolicy();
+		createCustomerIndividual();
+		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData")));
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+		DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.HS_04_59);
 	}
 	
 	@Parameters({"state"})
