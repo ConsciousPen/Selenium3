@@ -30,7 +30,7 @@ public class HelperCommon{
 		return "http://" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
 	}
 
-	private void emailUpdateSwaggerUi(String policyNumber, String emailAddress, String authorizedBy) {
+	private static void emailUpdateSwaggerUi(String policyNumber, String emailAddress, String authorizedBy) {
 		By customerV1EndorsementsPost = SwaggerUiTab.policyV1EndorsementsPost.getLocator();
 		Application.open(swaggerUiUrl);
 		SwaggerUiTab swaggerUiTab = new SwaggerUiTab();
@@ -58,7 +58,7 @@ public class HelperCommon{
 		driver.switchTo().defaultContent();
 	}
 
-	public void runJsonRequest(String url, RestBodyRequest request) {
+	public static void runJsonRequest(String url, RestBodyRequest request) {
 		Client client = null;
 		Response response = null;
 		try {
@@ -86,7 +86,7 @@ public class HelperCommon{
 		}
 	}
 
-	public void executeRequest(String policyNumber, String emailAddressChanged, String authorizedBy) {
+	public static void executeRequest(String policyNumber, String emailAddressChanged, String authorizedBy) {
 		if (Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.USE_SWAGGER))) {
 			emailUpdateSwaggerUi(policyNumber, emailAddressChanged, authorizedBy);
 		} else {
@@ -98,4 +98,14 @@ public class HelperCommon{
 		}
 	}
 
+
+	public static void executeRequestRFI(String policyNumber, String date) {
+		if (Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.USE_SWAGGER))) {
+			//emailUpdateSwaggerUi(policyNumber, emailAddressChanged, authorizedBy);
+		} else {
+			RetrieveRfiDocuments request = new RetrieveRfiDocuments();
+			String requestUrl = urlBuilder(PropertyProvider.getProperty(CustomTestProperties.DXP_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT)) + policyNumber+"/"+date;
+			runJsonRequest(requestUrl, request);
+		}
+	}
 }

@@ -1,11 +1,13 @@
 /* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
-package aaa.modules.regression.sales.auto_ss.functional;
+package aaa.modules.regression.service.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import java.time.format.DateTimeFormatter;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -15,6 +17,9 @@ import aaa.main.enums.DocGenEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
+import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
+import aaa.modules.regression.service.helper.HelperCommon;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -74,6 +79,31 @@ public class TestRFI extends AutoSSBaseTest {
 		CustomAssert.assertAll();
 	}
 
+	/**
+	 * @author Oleg Stasyuk
+	 * @name RFI
+	 * @scenario
+	 * 1.Initiate quote creation.
+	 * NANO
+	 * @details
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-349")
+	public void pas349_rfiNano(@Optional("VA") String state) {
+		createQuoteWithCustomDataNano(state);
+
+		CustomAssert.enableSoftMode();
+		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
+		rfiDocumentContentCheckNano(policyNumber);
+
+		HelperCommon.executeRequestRFI(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
+	}
+
 	private void createQuoteWithCustomData() {
 		mainApp().open();
 		createCustomerIndividual();
@@ -90,10 +120,23 @@ public class TestRFI extends AutoSSBaseTest {
 		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION).verify.value("No");
 		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PRIOR_INSURANCE).verify.value("No");
 		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PURCHASE_DATE_BILL_OF_SALE_FOR_NEW_VEHICLES).verify.value("No");
-		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES).verify.value("No");
+		documentsAndBindTab.getRequiredToIssueAssetList()
+				.getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES).verify.value("No");
 		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER).verify.value("No");
 		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PHOTOS_FOR_SALVATAGE_VEHICLE_WITH_PHYSICAL_DAMAGE_COVERAGE).verify.value("No");
 
+		documentsAndBindTab.saveAndExit();
+	}
+
+	private void createQuoteWithCustomDataNano(String state) {
+		mainApp().open();
+		createCustomerIndividual();
+
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(testDataManager.getDefault(TestPolicyNano.class).getTestData("TestData_" + state), DocumentsAndBindTab.class, false);
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+
+		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).verify.value("Not Signed");
 		documentsAndBindTab.saveAndExit();
 	}
 
@@ -114,7 +157,16 @@ public class TestRFI extends AutoSSBaseTest {
 		rfiTagCheck(query, "UBITrmCndtnYN");
 	}
 
-	private static void rfiTagCheck(String query, String tag) {
-		CustomAssert.assertEquals(tag + "has a problem.", DocGenHelper.getDocumentDataElemByName(tag, DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField(), "Y");
+	private static void rfiDocumentContentCheckNano(String policyNum) {
+		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNum, "AARFIXX", "POLICY_ISSUE");
+		DocGenHelper.getDocumentDataSectionsByName("CoverageDetails", DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements();
+		rfiTagCheck(query, "PsnlAutoApplYN");
 	}
+
+	private static void rfiTagCheck(String query, String tag) {
+		CustomAssert.assertEquals(
+				tag + "has a problem.", DocGenHelper.getDocumentDataElemByName(tag, DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+						.getTextField(), "Y");
+	}
+
 }
