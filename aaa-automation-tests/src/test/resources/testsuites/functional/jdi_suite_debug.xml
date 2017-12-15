@@ -12,9 +12,18 @@
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
-                    <include name="pendingRefundPaymentMethodConfigCheck"/>
                     <include name="refundDocumentGenerationConfigCheck"/>
                     <include name="pas2186_RefundProcessCheck"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestRefundProcessVA2">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="pendingRefundPaymentMethodConfigCheck"/>
                     <include name="pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard"/>
                 </methods>
             </class>
