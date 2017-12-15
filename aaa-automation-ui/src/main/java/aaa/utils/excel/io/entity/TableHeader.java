@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.apache.poi.ss.usermodel.Sheet;
-import toolkit.exceptions.IstfException;
 
 public class TableHeader {
 	private Map<String, Integer> headerColumns;
@@ -31,7 +30,7 @@ public class TableHeader {
 		assertThat(excelRow).as("Row should not be null").isNotNull();
 		assertThat(fromColumnNumber).as("First header's column number on sheet should be greater than 0").isPositive();
 		assertThat(headerSize).as("Header size should be greater than 0").isPositive();
-		assertThat(excelRow.getCellTypes().contains(ExcelCell.Type.STRING.get())).as("Header's row cell types should contain at least %s cell type", ExcelCell.Type.STRING.get()).isTrue();
+		assertThat(excelRow.getCellTypes().contains(ExcelCell.STRING_TYPE)).as("Header's row cell types should contain at least %s cell type", ExcelCell.STRING_TYPE).isTrue();
 
 		this.excelRow = excelRow;
 		this.headerColumns = new HashMap<>();
@@ -45,7 +44,7 @@ public class TableHeader {
 	}
 
 	public Set<String> getColumnNames() {
-		return headerColumns.keySet();
+		return new HashSet<>(headerColumns.keySet());
 	}
 
 	public Set<Integer> getColumnIndexes() {
@@ -79,13 +78,17 @@ public class TableHeader {
 		return headerColumns.containsKey(columnName);
 	}
 
+	public boolean hasColumnIndex(int columnIndex) {
+		return getColumnIndexes().contains(columnIndex);
+	}
+
 	public int getColumnIndex(String columnName) {
 		assertThat(hasColumnName(columnName)).as("There is no column name \"%s\" in the table's header", columnName).isTrue();
 		return headerColumns.get(columnName);
 	}
 
 	public String getColumnName(int columnIndex) {
-		return headerColumns.entrySet().stream().filter(hc -> hc.getValue() == columnIndex).findFirst().map(Map.Entry::getKey)
-				.orElseThrow(() -> new IstfException(String.format("There is no column index %s in the table's header", columnIndex)));
+		assertThat(hasColumnIndex(columnIndex)).as("There is no column with %s index in table's header", columnIndex).isTrue();
+		return getColumnNames().stream().filter(cn -> getColumnIndex(cn) == columnIndex).findFirst().get();
 	}
 }

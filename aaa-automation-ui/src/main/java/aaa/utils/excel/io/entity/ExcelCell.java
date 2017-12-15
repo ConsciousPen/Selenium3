@@ -2,7 +2,6 @@ package aaa.utils.excel.io.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -17,13 +16,22 @@ import aaa.utils.excel.io.celltype.LocalDateTimeCellType;
 import aaa.utils.excel.io.celltype.StringCellType;
 
 public class ExcelCell {
-	private Cell cell;
-	private Set<CellType<?>> allowableCellTypes;
-	private Set<CellType<?>> cellTypes;
+	public static final CellType<Boolean> BOOLEAN_TYPE = new BooleanCellType();
+	public static final CellType<String> STRING_TYPE = new StringCellType();
+	public static final CellType<Integer> INTEGER_TYPE = new IntegerCellType();
+	public static final CellType<LocalDateTime> LOCAL_DATE_TIME_TYPE = new LocalDateTimeCellType();
+
+	protected Cell cell;
+	protected Set<CellType<?>> allowableCellTypes;
+	protected Set<CellType<?>> cellTypes;
 
 	public ExcelCell(Cell cell, Set<CellType<?>> allowableCellTypes) {
 		this.cell = normalizeCell(cell);
 		this.allowableCellTypes = new HashSet<>(allowableCellTypes);
+	}
+
+	public static CellType<?>[] getBaseTypes() {
+		return new CellType<?>[] {BOOLEAN_TYPE, STRING_TYPE, INTEGER_TYPE, LOCAL_DATE_TIME_TYPE};
 	}
 
 	public Set<CellType<?>> getCellTypes() {
@@ -44,26 +52,26 @@ public class ExcelCell {
 
 	public Object getValue() {
 		Set<CellType<?>> cellTypes = new HashSet<>(getCellTypes());
-		if (cellTypes.remove(Type.STRING.get()) && cellTypes.isEmpty()) {
+		if (cellTypes.remove(STRING_TYPE) && cellTypes.isEmpty()) {
 			return getStringValue();
 		}
 		return cellTypes.stream().findFirst().get().getValueFrom(this);
 	}
 
 	public Boolean getBoolValue() {
-		return (Boolean) getValue(Type.BOOLEAN.get());
+		return getValue(BOOLEAN_TYPE);
 	}
 
 	public String getStringValue() {
-		return (String) getValue(Type.STRING.get());
+		return getValue(STRING_TYPE);
 	}
 
 	public int getIntValue() {
-		return (Integer) getValue(Type.INTEGER.get());
+		return getValue(INTEGER_TYPE);
 	}
 
 	public LocalDateTime getDateValue() {
-		return (LocalDateTime) getValue(Type.LOCAL_DATE_TIME.get());
+		return getValue(LOCAL_DATE_TIME_TYPE);
 	}
 
 	public Cell getPoiCell() {
@@ -105,27 +113,5 @@ public class ExcelCell {
 			return evaluator.evaluateInCell(cell);
 		}
 		return cell;
-	}
-
-	public static CellType<?>[] getBaseTypes() {
-		return Arrays.stream(Type.values()).map(Type::get).toArray(CellType<?>[]::new);
-	}
-
-	public enum Type {
-		BOOLEAN(new BooleanCellType()),
-		STRING(new StringCellType()),
-		INTEGER(new IntegerCellType()),
-		LOCAL_DATE_TIME(new LocalDateTimeCellType());
-
-		private final CellType<?> cellType;
-
-		<T> Type(CellType<T> cellType) {
-			this.cellType = cellType;
-		}
-
-		@SuppressWarnings("unchecked")
-		public <T> CellType<T> get() {
-			return (CellType<T>) cellType;
-		}
 	}
 }

@@ -202,9 +202,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		}
 
 		List<TestData> detailedVehicleCoveragesList = new ArrayList<>(openLPolicy.getVehicles().size());
-		for (int i = 1; i <= openLPolicy.getVehicles().size(); i++) {
-			int vehicleNumber = i;
-			OpenLVehicle vehicle = openLPolicy.getVehicles().stream().filter(v -> v.getNumber() == vehicleNumber).findFirst().get();
+		for (OpenLVehicle vehicle : openLPolicy.getVehicles()) {
 			for (OpenLCoverage coverage : vehicle.getCoverages()) {
 				Map<String, Object> coverageData = new HashMap<>();
 				coverageData.put(getPremiumAndCoveragesTabCoverageKey(coverage.getCoverageCD()), getPremiumAndCoveragesTabCoverageLimit(coverage.getCoverageCD(), coverage.getLimit()));

@@ -4,21 +4,19 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import com.atlassian.util.concurrent.NotNull;
 import aaa.utils.excel.io.celltype.CellType;
 import toolkit.exceptions.IstfException;
 
-public class ExcelRow implements Iterable<ExcelCell> {
+public class ExcelRow {
 	protected Row row;
 	protected Set<CellType<?>> cellTypes;
-	protected List<ExcelCell> cells;
+	private List<ExcelCell> cells;
 
 	public ExcelRow(Row row, Set<CellType<?>> cellTypes) {
 		this.row = row;
@@ -33,7 +31,7 @@ public class ExcelRow implements Iterable<ExcelCell> {
 		return row.getRowNum() + 1;
 	}
 
-	public List<ExcelCell> getCells() {
+	public List<? extends ExcelCell> getCells() {
 		return Collections.unmodifiableList(this.cells);
 	}
 
@@ -64,12 +62,6 @@ public class ExcelRow implements Iterable<ExcelCell> {
 
 	Row getPoiRow() {
 		return row;
-	}
-
-	@NotNull
-	@Override
-	public Iterator<ExcelCell> iterator() {
-		return new CellIterator(getCellIndexes(), this);
 	}
 
 	public ExcelCell getCell(int columnNumber) {

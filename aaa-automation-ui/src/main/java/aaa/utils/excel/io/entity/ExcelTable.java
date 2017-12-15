@@ -19,7 +19,7 @@ import toolkit.exceptions.IstfException;
 public class ExcelTable implements Iterable<TableRow> {
 
 	private TableHeader header;
-	private List<TableRow> tableRows;
+	private List<TableRow> rows;
 	private int rowsNumber;
 	private Set<CellType<?>> cellTypes;
 
@@ -39,14 +39,11 @@ public class ExcelTable implements Iterable<TableRow> {
 		assertThat(cellTypes).as("Cell Types set should not be empty or null").isNotEmpty().isNotNull();
 		this.header = header;
 		this.rowsNumber = rowsNumber;
-		this.tableRows = new ArrayList<>(rowsNumber);
 		this.cellTypes = new HashSet<>(cellTypes);
-		for (int rowNumber = 1; rowNumber <= rowsNumber; rowNumber++) {
-			Row row = header.getSheet().getRow(header.getRowNumberOnSheet() + rowNumber - 1);
-			ExcelRow excelRow = new ExcelRow(row, cellTypes);
-			tableRows.add(new TableRow(excelRow, header, rowNumber));
-		}
+	}
 
+	public Set<CellType<?>> getCellTypes() {
+		return new HashSet<>(cellTypes);
 	}
 
 	public TableHeader getHeader() {
@@ -58,7 +55,14 @@ public class ExcelTable implements Iterable<TableRow> {
 	}
 
 	public List<TableRow> getRows() {
-		return Collections.unmodifiableList(tableRows);
+		if (rows == null) {
+			this.rows = new ArrayList<>(rowsNumber);
+			for (int rowNumber = 1; rowNumber <= rowsNumber; rowNumber++) {
+				Row row = getHeader().getSheet().getRow(getHeader().getRowNumberOnSheet() + rowNumber - 1);
+				rows.add(new TableRow(row, this, rowNumber));
+			}
+		}
+		return Collections.unmodifiableList(this.rows);
 	}
 
 	/**
@@ -79,12 +83,12 @@ public class ExcelTable implements Iterable<TableRow> {
 		return "ExcelTable{" +
 				"header=" + header +
 				", rowsNumber=" + getRowsNumber() +
-				", tableRows=" + tableRows +
+				", tableRows=" + getRows() +
 				'}';
 	}
 
 	public boolean hasRow(int rowNumber) {
-		return getRows().stream().anyMatch(tRow -> tRow.getRowNumber() == rowNumber);
+		return getRows().stream().anyMatch(r -> r.getRowNumber() == rowNumber);
 	}
 
 	/**

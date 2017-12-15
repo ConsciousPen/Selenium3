@@ -1,5 +1,6 @@
 package aaa.utils.excel.bind;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -10,36 +11,57 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import aaa.utils.excel.io.ExcelReader;
 import aaa.utils.excel.io.entity.ExcelTable;
 import aaa.utils.excel.io.entity.TableRow;
 import toolkit.exceptions.IstfException;
 
 public class ExcelUnmarshaller {
+	protected static Logger log = LoggerFactory.getLogger(ExcelUnmarshaller.class);
+
 	public <T> T unmarshal(File excelFile, Class<T> excelFileModel) {
 		return unmarshal(excelFile, excelFileModel, false);
 	}
 
 	public <T> T unmarshal(File excelFile, Class<T> excelFileModel, boolean strictMatch) {
+		log.debug(String.format("Getting \"%1$s\" object model from provided excel file%2$s.", excelFileModel.getSimpleName(), strictMatch ? " with strict match parsing" : ""));
 		T excelFileInstance = getInstance(excelFileModel);
 		ExcelReader excelReader = new ExcelReader(excelFile);
 
 		for (Field tableField : getAllFields(excelFileModel, true)) {
-			excelReader.switchSheet(getSheetName(tableField));
 			List<Field> tableRowFields = getAllFields(getTableRowType(tableField));
-			ExcelTable excelTable = excelReader.getTable(isLowestTable(tableField), getHeaderColumnNames(tableRowFields));
+			ExcelTable excelTable = getExcelTable(excelReader, tableField);
 
 			List<Object> tableFields = new ArrayList<>();
 			for (TableRow row : excelTable) {
 				Object tableInstance = getInstance(getTableRowType(tableField));
 				for (Field tableRowField : tableRowFields) {
-					setFieldValue(tableRowField, tableInstance, row, excelReader);
+					setFieldValue(tableRowField, tableInstance, row, excelReader, strictMatch);
 				}
 				tableFields.add(tableInstance);
 			}
 			setFieldValue(tableField, excelFileInstance, tableFields);
 		}
+		log.debug("Excel unmarshalling was successful.");
 		return excelFileInstance;
+	}
+
+	private ExcelTable getExcelTable(ExcelReader excelReader, Field tableField) {
+		int rowNumber;
+		if (tableField.isAnnotationPresent(ExcelTableElement.class)) {
+			rowNumber = tableField.getAnnotation(ExcelTableElement.class).headerRowNumber();
+		} else {
+			rowNumber = (int) getAnnotationDefaultValue(ExcelTableElement.class, "headerRowNumber");
+		}
+
+		excelReader.switchSheet(getSheetName(tableField));
+		if (rowNumber < 0) {
+			List<Field> tableRowFields = getAllFields(getTableRowType(tableField));
+			return excelReader.getTable(isLowestTable(tableField), getHeaderColumnNames(tableRowFields));
+		}
+		return excelReader.getTable(rowNumber);
 	}
 
 	private <T> T getInstance(Class<T> clazz) {
@@ -59,7 +81,7 @@ public class ExcelUnmarshaller {
 		for (Class<?> clazz : getThisAndAllSuperClasses(tableClass)) {
 			for (Field field : clazz.getDeclaredFields()) {
 				if (isAccessible(field, tableClass)) {
-					if (onlyTables && !isTableField(field)) {
+					if (field.isAnnotationPresent(ExcelTransient.class) || onlyTables && !isTableField(field)) {
 						continue;
 					}
 					allTableFields.add(field);
@@ -75,9 +97,8 @@ public class ExcelUnmarshaller {
 
 	private boolean isTableField(Field field) {
 		boolean isTableField = List.class.equals(field.getType());
-		if (!isTableField && field.isAnnotationPresent(ExcelTableElement.class)) {
-			throw new IstfException(String.format("\"%1$s\" annotation should be assigned to the \"%2$s\" type only!", ExcelTableElement.class.getName(), List.class.getName()));
-		}
+		assertThat(!isTableField && field.isAnnotationPresent(ExcelTableElement.class))
+				.as("\"%1$s\" annotation should be assigned to the \"%2$s\" type only!", ExcelTableElement.class.getName(), List.class.getName()).isFalse();
 		return isTableField;
 	}
 
@@ -98,8 +119,18 @@ public class ExcelUnmarshaller {
 		return (boolean) getAnnotationDefaultValue(ExcelTableElement.class, "isLowest");
 	}
 
-	private void setFieldValue(Field tableRowField, Object tableInstance, TableRow row, ExcelReader excelReader) {
+	private void setFieldValue(Field tableRowField, Object tableInstance, TableRow row, ExcelReader excelReader, boolean strictMatch) {
 		String columnName = getHeaderColumnName(tableRowField);
+		if (!row.hasColumnName(columnName)) {
+			String field = tableRowField.getType().getName() + " " + tableRowField.getName();
+			String className = tableInstance.getClass().getName();
+			if (strictMatch) {
+				throw new IstfException(String.format("Unable to unmarshal %1$s field in class %2$s, there is no \"%3$s\" column in table's header", field, className, columnName));
+			}
+			log.warn(String.format("There is no column \"%1$s\" in table's header for %2$s field in class %3$s, default value for this type is set", columnName, field, className));
+			return;
+		}
+
 		switch (tableRowField.getType().getName()) {
 			case "int":
 			case "Integer":
@@ -116,13 +147,12 @@ public class ExcelUnmarshaller {
 				setFieldValue(tableRowField, tableInstance, row.getDateValue(columnName));
 				break;
 			case "java.util.List":
-				String linkedRowsIds = row.getStringValue(getHeaderColumnName(tableRowField));
+				String linkedRowsIds = row.getStringValue(columnName);
 				if (linkedRowsIds.isEmpty()) {
 					break;
 				}
 				List<Field> linkedTableRowFields = getAllFields(getTableRowType(tableRowField));
-				excelReader.switchSheet(getSheetName(tableRowField));
-				ExcelTable excelTable = excelReader.getTable(isLowestTable(tableRowField), getHeaderColumnNames(linkedTableRowFields));
+				ExcelTable excelTable = getExcelTable(excelReader, tableRowField);
 
 				List<Object> linkedTableRows = new ArrayList<>();
 				for (TableRow linkedTableRow : excelTable) {
@@ -132,7 +162,7 @@ public class ExcelUnmarshaller {
 					List<String> linkedTableRowIds = Arrays.asList(linkedRowsIds.split(getPrimaryKeysSeparator(primaryKeyField)));
 					if (linkedTableRowIds.contains(getPrimaryKeyValue(primaryKeyField, linkedTableRow))) {
 						for (Field linkedTableRowField : linkedTableRowFields) {
-							setFieldValue(linkedTableRowField, linkedTableRowInstance, linkedTableRow, excelReader);
+							setFieldValue(linkedTableRowField, linkedTableRowInstance, linkedTableRow, excelReader, strictMatch);
 						}
 						linkedTableRows.add(linkedTableRowInstance);
 					}
@@ -177,9 +207,7 @@ public class ExcelUnmarshaller {
 	}
 
 	private Class<?> getTableRowType(Field tableField) {
-		if (!List.class.equals(tableField.getType())) {
-			throw new IstfException(String.format("Excel Table field has \"%1$s\" type but should be \"%2$s\"", tableField.getType(), List.class.getName()));
-		}
+		assertThat(List.class.equals(tableField.getType())).as("Excel Table field has \"%1$s\" type but should be \"%2$s\"", tableField.getType(), List.class.getName()).isTrue();
 		ParameterizedType parameterizedType = (ParameterizedType) tableField.getGenericType();
 		return (Class<?>) parameterizedType.getActualTypeArguments()[0];
 	}

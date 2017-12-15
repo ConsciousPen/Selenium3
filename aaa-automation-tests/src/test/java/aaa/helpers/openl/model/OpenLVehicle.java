@@ -22,13 +22,13 @@ public class OpenLVehicle {
 	private String usage;
 	private int vehicleAge;
 
-	@ExcelTableElement(sheetName = "Batch- Address")
+	@ExcelTableElement(sheetName = "Batch- Address", headerRowNumber = OpenLFile.ADDRESS_HEADER_ROW_NUMBER)
 	private List<OpenLAddress> address;
 
-	@ExcelTableElement(sheetName = "Batch- CoverageAZ")
+	@ExcelTableElement(sheetName = "Batch- CoverageAZ", headerRowNumber = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
 	private List<OpenLCoverage> coverages;
 
-	@ExcelTableElement(sheetName = "Batch- DriverAZ")
+	@ExcelTableElement(sheetName = "Batch- DriverAZ", headerRowNumber = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
 	private List<OpenLDriver> ratedDriver;
 
 	public int getNumber() {

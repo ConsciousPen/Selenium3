@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLCappingDetails;
 import aaa.helpers.openl.model.OpenLDriver;
+import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.utils.excel.bind.ExcelTableElement;
@@ -41,13 +42,13 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private boolean multiCar;
 	private boolean supplementalSpousalLiability; // OR specific
 
-	@ExcelTableElement(sheetName = "Batch- CappingDetails")
+	@ExcelTableElement(sheetName = "Batch- CappingDetails", headerRowNumber = OpenLFile.CAPPINGDETAILS_HEADER_ROW_NUMBER)
 	private List<OpenLCappingDetails> cappingDetails;
 
-	@ExcelTableElement(sheetName = "Batch- VehicleAZ")
+	@ExcelTableElement(sheetName = "Batch- VehicleAZ", headerRowNumber = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
 	private List<OpenLVehicle> vehicles;
 
-	@ExcelTableElement(sheetName = "Batch- DriverAZ")
+	@ExcelTableElement(sheetName = "Batch- DriverAZ", headerRowNumber = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
 	private List<OpenLDriver> drivers;
 
 	public int getTerm() {

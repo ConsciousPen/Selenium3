@@ -180,12 +180,12 @@ public class ExcelReader {
 		}
 
 		if (foundRows.isEmpty()) {
-			String errorMessage = String.format("Unable to find header row with all these column names: %1$s on sheet \"%2$s\"", expectedColumnNames, getCurrentSheet().getSheetName());
+			String errorMessage = String.format("Unable to find row with all these values: %1$s on sheet \"%2$s\"", expectedColumnNames, getCurrentSheet().getSheetName());
 			if (!foundRowsWithPartialMatch.isEmpty()) {
 				int bestMatch = foundRowsWithPartialMatch.keySet().stream().min(Integer::compare).get();
 				int rowNumber = foundRowsWithPartialMatch.get(bestMatch).getLeft().getRowNum();
 				String missedVales = foundRowsWithPartialMatch.get(bestMatch).getRight();
-				errorMessage = String.format("%1$s\nBest match was found in row #%2$s with missed column names: %3$s", errorMessage, rowNumber, missedVales);
+				errorMessage = String.format("%1$s\nBest match was found in row #%2$s with missed cell values: %3$s", errorMessage, rowNumber, missedVales);
 			}
 			throw new IstfException(errorMessage);
 		}
@@ -194,7 +194,7 @@ public class ExcelReader {
 		List<String> extraHeaderColumns = new ArrayList<>(row.getStringValues());
 		extraHeaderColumns.removeAll(expectedColumnNames);
 		if (!extraHeaderColumns.isEmpty()) {
-			log.warn("Found header row contains extra column names: {}", extraHeaderColumns);
+			log.warn("Found row contains extra cell values: {}", extraHeaderColumns);
 		}
 		return row;
 	}

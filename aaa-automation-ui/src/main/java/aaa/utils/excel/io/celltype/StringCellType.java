@@ -17,11 +17,11 @@ public class StringCellType extends CellType<String> {
 				if (DateUtil.isCellDateFormatted(c)) {
 					value = new DataFormatter().formatCellValue(c);
 				} else {
-					value = String.valueOf(ExcelCell.Type.INTEGER.get().getValueFrom(cell));
+					value = String.valueOf(ExcelCell.INTEGER_TYPE.getValueFrom(cell));
 				}
 				break;
 			case Cell.CELL_TYPE_BOOLEAN:
-				value = String.valueOf(ExcelCell.Type.BOOLEAN.get().getValueFrom(cell));
+				value = String.valueOf(ExcelCell.BOOLEAN_TYPE.getValueFrom(cell));
 				break;
 			case Cell.CELL_TYPE_ERROR:
 				value = "Error: " + String.valueOf(c.getErrorCellValue()).trim();

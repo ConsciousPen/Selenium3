@@ -11,22 +11,22 @@ import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.utils.excel.bind.ExcelTableElement;
 
 public class AutoSSOpenLFile extends OpenLFile<AutoSSOpenLPolicy> {
-	@ExcelTableElement(sheetName = "Batch- PolicyAZ")
+	@ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowNumber = POLICY_HEADER_ROW_NUMBER)
 	private List<AutoSSOpenLPolicy> policies;
 
-	@ExcelTableElement(sheetName = "Batch- CappingDetails")
+	@ExcelTableElement(sheetName = CAPPINGDETAILS_SHEET_NAME, headerRowNumber = CAPPINGDETAILS_HEADER_ROW_NUMBER)
 	private List<OpenLCappingDetails> cappingDetails;
 
-	@ExcelTableElement(sheetName = "Batch- VehicleAZ")
+	@ExcelTableElement(sheetName = VEHICLE_SHEET_NAME, headerRowNumber = VEHICLE_HEADER_ROW_NUMBER)
 	private List<OpenLVehicle> vehicles;
 
-	@ExcelTableElement(sheetName = "Batch- Address")
+	@ExcelTableElement(sheetName = ADDRESS_SHEET_NAME, headerRowNumber = ADDRESS_HEADER_ROW_NUMBER)
 	private List<OpenLAddress> address;
 
-	@ExcelTableElement(sheetName = "Batch- DriverAZ")
+	@ExcelTableElement(sheetName = DRIVER_SHEET_NAME, headerRowNumber = DRIVER_HEADER_ROW_NUMBER)
 	private List<OpenLDriver> drivers;
 
-	@ExcelTableElement(sheetName = "Batch- CoverageAZ")
+	@ExcelTableElement(sheetName = COVERAGE_SHEET_NAME, headerRowNumber = COVERAGE_HEADER_ROW_NUMBER)
 	private List<OpenLCoverage> coverages;
 
 	public List<OpenLCappingDetails> getCappingDetails() {

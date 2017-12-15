@@ -7,112 +7,85 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-import com.atlassian.util.concurrent.NotNull;
-import aaa.utils.excel.io.celltype.CellType;
-import toolkit.exceptions.IstfException;
+import javax.annotation.Nonnull;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 
-public class TableRow implements Iterable<ExcelCell> {
-	private ExcelRow excelRow;
-	protected List<ExcelCell> cells;
-	private TableHeader header;
+public class TableRow extends ExcelRow implements Iterable<TableCell> {
+	protected List<TableCell> cells;
+	private ExcelTable table;
 	private int rowNumber;
 
-	public TableRow(ExcelRow excelRow, TableHeader header, int rowNumber) {
-		this.excelRow = excelRow;
-		this.header = header;
+	public TableRow(Row row, ExcelTable table, int rowNumber) {
+		super(row, table.getCellTypes());
+		this.table = table;
 		this.rowNumber = rowNumber;
-		this.cells = new ArrayList<>(excelRow.getCells());
-		this.cells.removeIf(c -> !header.getColumnIndexes().contains(c.getColumnNumber()));
 	}
 
-	public TableHeader getHeader() {
-		return header;
+	public ExcelTable getTable() {
+		return table;
 	}
 
+	public Map<String, Object> getTableValues() {
+		Map<String, Object> values = new HashMap<>(getSize());
+		for (TableCell cell : this) {
+			values.put(cell.getHeaderColumnName(), cell.getValue());
+		}
+		return values;
+	}
+
+	public Map<String, String> getTableStringValues() {
+		Map<String, String> values = new HashMap<>(getSize());
+		for (TableCell cell : this) {
+			values.put(cell.getHeaderColumnName(), cell.getStringValue());
+		}
+		return values;
+	}
+
+	@Override
 	public int getRowNumber() {
 		return this.rowNumber;
 	}
 
-	public List<ExcelCell> getCells() {
-		return Collections.unmodifiableList(cells);
-	}
-
-	public List<Integer> getCellIndexes() {
-		return getCells().stream().map(ExcelCell::getColumnNumber).sorted().collect(Collectors.toList());
-	}
-
-	public int getLastCellNum() {
-		List<Integer> cellIndexes = getCellIndexes();
-		return cellIndexes.get(cellIndexes.size() - 1);
-	}
-
-	public int getSize() {
-		return getCells().size();
-	}
-
-	public Map<String, Object> getValues() {
-		Map<String, Object> values = new HashMap<>(getSize());
-		for (ExcelCell cell : this) {
-			String columnName = getHeader().getColumnName(cell.getColumnNumber());
-			values.put(columnName, cell.getValue());
+	@Override
+	public List<TableCell> getCells() {
+		if (cells == null) {
+			cells = new ArrayList<>();
+			for (Cell cell : getPoiRow()) {
+				cells.add(new TableCell(cell, this, getCellTypes()));
+			}
 		}
-		return values;
-	}
-
-	public Map<String, String> getStringValues() {
-		Map<String, String> values = new HashMap<>(getSize());
-		for (ExcelCell cell : this) {
-			String columnName = getHeader().getColumnName(cell.getColumnNumber());
-			values.put(columnName, cell.getStringValue());
-		}
-		return values;
-	}
-
-	Set<CellType<?>> getCellTypes() {
-		return getExcelRow().getCellTypes();
-	}
-
-	ExcelRow getExcelRow() {
-		return excelRow;
+		return Collections.unmodifiableList(this.cells);
 	}
 
 	@Override
 	public String toString() {
 		return "TableRow{" +
 				"rowNumber=" + rowNumber +
-				", values=" + getValues().entrySet() +
+				", values=" + getTableValues().entrySet() +
 				'}';
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
-	public Iterator<ExcelCell> iterator() {
-		return new CellIterator(getCellIndexes(), getExcelRow());
+	public Iterator<TableCell> iterator() {
+		return new CellIterator<>(getCellIndexes(), this);
 	}
 
 	public boolean hasColumnName(String headerColumnName) {
-		return getHeader().getColumnNames().contains(headerColumnName);
+		return getTable().getHeader().getColumnNames().contains(headerColumnName);
 	}
 
 	public boolean hasCellIndex(int columnIndex) {
-		return getHeader().getColumnIndexes().contains(columnIndex);
+		return getTable().getHeader().getColumnIndexes().contains(columnIndex);
 	}
 
 	public Integer getCellIndex(String headerColumnName) {
-		return getHeader().getColumnIndexes().stream().filter(i -> getHeader().getColumnName(i).equals(headerColumnName)).findFirst()
-				.orElseThrow(() -> new IstfException(String.format("There is no cell with \"%s\" column name in the table's header", headerColumnName)));
+		return getTable().getHeader().getColumnIndex(headerColumnName);
 	}
 
-	public ExcelCell getCell(String headerColumnName) {
-		int cellIndex = getCellIndex(headerColumnName);
-		return getCells().stream().filter(c -> c.getColumnNumber() == cellIndex).findFirst().get();
-	}
-
-	public ExcelCell getCell(int cellIndex) {
-		return getCells().stream().filter(c -> c.getColumnNumber() == cellIndex).findFirst()
-				.orElseThrow(() -> new IstfException(String.format("There is no cell with %s column index in the table's header", cellIndex)));
+	public TableCell getCell(String headerColumnName) {
+		return getCells().stream().filter(c -> c.getHeaderColumnName().equals(headerColumnName)).findFirst().get();
 	}
 
 	public Object getValue(String headerColumnName) {
@@ -135,12 +108,8 @@ public class TableRow implements Iterable<ExcelCell> {
 		return getCell(headerColumnName).getDateValue();
 	}
 
-	public boolean hasCell(int columnNumber) {
-		return getCellIndexes().contains(columnNumber);
-	}
-
 	public boolean hasCell(String headerColumnName) {
-		int columnNumber = getHeader().getColumnIndex(headerColumnName);
+		int columnNumber = getTable().getHeader().getColumnIndex(headerColumnName);
 		return hasCell(columnNumber);
 	}
 

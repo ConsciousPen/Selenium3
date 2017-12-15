@@ -17,7 +17,7 @@ public class OpenLTest {
 		this.policy = policy;
 	}
 
-	public int getTotalPremium() {
+	public Integer getTotalPremium() {
 		return totalPremium;
 	}
 
