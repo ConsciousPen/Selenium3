@@ -95,11 +95,6 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 		DBService.get().executeUpdate(EVALUE_TERRITORY_CHANNEL_FOR_VA_CONFIG_UPDATE);
 	}
 
-	@Test(description = "Precondition for eValue Membership Eligibility configurations")
-	public static void eValueMembershipEligibilityConfigInsert() {
-		DBService.get().executeUpdate(EVALUE_MEMBERSHIP_ELIGIBILITY_CONFIG_INSERT);
-	}
-
 	@Test(description = "Precondition Refund/Payment handling, turning on pcDisbursementEngine related functionality")
 	public static void refundDocumentGenerationConfigInsert() {
 		DBService.get().executeUpdate(REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL);

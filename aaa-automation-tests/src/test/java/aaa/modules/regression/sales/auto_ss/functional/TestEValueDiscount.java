@@ -160,7 +160,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@Test(description = "Precondition")
 	public static void eValueMembershipConfigCheck() {
 		CustomAssert.enableSoftMode();
-		CustomAssert.assertTrue("eValue configuration for membership not require. Please run eValueMembershipConfigInsert", DBService.get().getValue(EVALUE_MEMBERSHIP_CONFIG_CHECK).isPresent());
+		CustomAssert.assertTrue("eValue configuration for membership not require. Please run eValueMembershipAcknowledgementConfigInsert", DBService.get().getValue(EVALUE_MEMBERSHIP_CONFIG_CHECK).isPresent());
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
