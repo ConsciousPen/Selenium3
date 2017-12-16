@@ -7,6 +7,9 @@ public interface EvalueInsertSetupPreConditions {
 
 	String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
 
+	String DELETE_OLD_TASKS1 = "delete from ACT_RU_identitylink";
+	String DELETE_OLD_TASKS2 = "delete from ACT_RU_TASK";
+
 	String DOC_GEN_WEB_CLIENT = "update propertyconfigurerentity\n"
 			+ "set value = 'http://soaqa3.tent.trt.csaa.pri/3.1/StandardDocumentService'\n"
 			+ "where propertyname = 'docGenwebClient.endpointUri'";
