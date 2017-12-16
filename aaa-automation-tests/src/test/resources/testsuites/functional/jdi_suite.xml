@@ -256,4 +256,10 @@
         </classes>
     </test>
 
+    <test name="TestRFI">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestRFI"/>
+        </classes>
+    </test>
 </suite>

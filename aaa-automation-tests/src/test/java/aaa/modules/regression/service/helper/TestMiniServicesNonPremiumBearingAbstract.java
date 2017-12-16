@@ -51,7 +51,7 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 
 		String emailAddressChanged = "osi.test@email.com";
 		String authorizedBy = "John Smith";
-		helperCommon.executeRequest(policyNumber, emailAddressChanged, authorizedBy);
+		HelperCommon.executeContactInfoRequest(policyNumber, emailAddressChanged, authorizedBy);
 
 		emailUpdateTransactionHistoryCheck(policyNumber);
 		emailAddressChangedInEndorsementCheck(emailAddressChanged, authorizedBy);

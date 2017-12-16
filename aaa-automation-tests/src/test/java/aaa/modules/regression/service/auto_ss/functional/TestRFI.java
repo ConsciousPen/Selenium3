@@ -4,6 +4,7 @@ package aaa.modules.regression.service.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -20,6 +21,7 @@ import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.HelperCommon;
+import aaa.modules.regression.service.helper.RfiDocumentResponse;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssert;
@@ -35,6 +37,47 @@ public class TestRFI extends AutoSSBaseTest {
 	private final PurchaseTab purchaseTab = new PurchaseTab();
 	private final TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 
+	private static void rfiDocumentContentCheck(String policyNum) {
+		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNum, "AARFIXX", "POLICY_ISSUE");
+		DocGenHelper.getDocumentDataSectionsByName("CoverageDetails", DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements();
+
+		rfiTagCheck(query, "PrevInsDiscYN", "Y");
+		rfiTagCheck(query, "GoodStuDiscYN", "Y");
+		rfiTagCheck(query, "VehNwAddPrtcYN", "Y");
+		rfiTagCheck(query, "CurInsDrvrYN", "Y");
+		rfiTagCheck(query, "SmrtDrvrCrseCertYN", "Y");
+		rfiTagCheck(query, "VehNwAddPrtcPrevCrirYN", "Y");
+		rfiTagCheck(query, "SalvVehYN", "Y");
+		rfiTagCheck(query, "PsnlAutoApplYN", "Y");
+		rfiTagCheck(query, "CanMVRYN", "Y");
+		//TODO UBITrmCndtnYN is N, but the RFI contains it. Kinda illogical
+		rfiTagCheck(query, "UBITrmCndtnYN", "N");
+	}
+
+	private static void rfiDocumentContentCheckNano(String policyNum) {
+		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNum, "AARFIXX", "POLICY_ISSUE");
+		DocGenHelper.getDocumentDataSectionsByName("CoverageDetails", DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements();
+		rfiTagCheck(query, "PsnlAutoApplYN", "Y");
+	}
+
+	private static void rfiTagCheck(String query, String tag, String tagValue) {
+		CustomAssert.assertEquals(
+				tag + "has a problem.", DocGenHelper.getDocumentDataElemByName(tag, DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
+						.getTextField(), tagValue);
+	}
+
+	private void createQuoteWithCustomDataNano(String state) {
+		mainApp().open();
+		createCustomerIndividual();
+
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(testDataManager.getDefault(TestPolicyNano.class).getTestData("TestData_" + state), DocumentsAndBindTab.class, false);
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+
+		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).verify.value("Not Signed");
+		documentsAndBindTab.saveAndExit();
+	}
+
 	/**
 	 * @author Oleg Stasyuk
 	 * @name RFI
@@ -42,7 +85,6 @@ public class TestRFI extends AutoSSBaseTest {
 	 * 1.Initiate quote creation.
 	 * Insured1
 	 * Proof of Prior Insurance (including original inception date of policy and prior BI limits)	Prior BI overridden by agent
-	 *
 	 *
 	 * Driver1
 	 * Proof of Good Student
@@ -52,7 +94,7 @@ public class TestRFI extends AutoSSBaseTest {
 	 * Smart Driver Course Completed?
 	 *
 	 * Driver3 - Not Available for Rating, insured with other carrier
-	 *    Proof of Current Insurance for all "Not Available for Rating" drivers
+	 * Proof of Current Insurance for all "Not Available for Rating" drivers
 	 *
 	 * Driver4 - Not Available for Rating
 	 *
@@ -75,6 +117,18 @@ public class TestRFI extends AutoSSBaseTest {
 		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
 		rfiDocumentContentCheck(policyNumber);
 
+		RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel());
+		policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS.getLabel());
+		policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_CURRENT_INSURANCE_FOR.getLabel());
+		policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT.getLabel());
+		policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION.getLabel());
+		policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PRIOR_INSURANCE.getLabel());
+		policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PURCHASE_DATE_BILL_OF_SALE_FOR_NEW_VEHICLES.getLabel());
+		policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES.getLabel());
+		policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER.getLabel());
+		policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PHOTOS_FOR_SALVATAGE_VEHICLE_WITH_PHYSICAL_DAMAGE_COVERAGE.getLabel());
+
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -84,7 +138,7 @@ public class TestRFI extends AutoSSBaseTest {
 	 * @name RFI
 	 * @scenario
 	 * 1.Initiate quote creation.
-	 * NANO
+	 * NANO - Auto Insurance Application
 	 * @details
 	 */
 
@@ -98,7 +152,8 @@ public class TestRFI extends AutoSSBaseTest {
 		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
 		rfiDocumentContentCheckNano(policyNumber);
 
-		HelperCommon.executeRequestRFI(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		policyServiceRfiStatusCheck(result, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION.getLabel());
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -120,53 +175,17 @@ public class TestRFI extends AutoSSBaseTest {
 		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION).verify.value("No");
 		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PRIOR_INSURANCE).verify.value("No");
 		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PURCHASE_DATE_BILL_OF_SALE_FOR_NEW_VEHICLES).verify.value("No");
-		documentsAndBindTab.getRequiredToIssueAssetList()
-				.getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES).verify.value("No");
+		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES).verify.value("No");
 		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER).verify.value("No");
 		documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PHOTOS_FOR_SALVATAGE_VEHICLE_WITH_PHYSICAL_DAMAGE_COVERAGE).verify.value("No");
 
 		documentsAndBindTab.saveAndExit();
 	}
 
-	private void createQuoteWithCustomDataNano(String state) {
-		mainApp().open();
-		createCustomerIndividual();
-
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(testDataManager.getDefault(TestPolicyNano.class).getTestData("TestData_" + state), DocumentsAndBindTab.class, false);
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-
-		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).verify.value("Not Signed");
-		documentsAndBindTab.saveAndExit();
-	}
-
-	private static void rfiDocumentContentCheck(String policyNum) {
-		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNum, "AARFIXX", "POLICY_ISSUE");
-		DocGenHelper.getDocumentDataSectionsByName("CoverageDetails", DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements();
-
-		rfiTagCheck(query, "PrevInsDiscYN");
-		rfiTagCheck(query, "GoodStuDiscYN");
-		rfiTagCheck(query, "VehNwAddPrtcYN");
-		rfiTagCheck(query, "CurInsDrvrYN");
-		rfiTagCheck(query, "SmrtDrvrCrseCertYN");
-		rfiTagCheck(query, "VehNwAddPrtcPrevCrirYN");
-		rfiTagCheck(query, "SalvVehYN");
-		rfiTagCheck(query, "PsnlAutoApplYN");
-		rfiTagCheck(query, "CanMVRYN");
-		//TODO UBITrmCndtnYN is N, but the RFI contains it. Kinda illogical
-		rfiTagCheck(query, "UBITrmCndtnYN");
-	}
-
-	private static void rfiDocumentContentCheckNano(String policyNum) {
-		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNum, "AARFIXX", "POLICY_ISSUE");
-		DocGenHelper.getDocumentDataSectionsByName("CoverageDetails", DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements();
-		rfiTagCheck(query, "PsnlAutoApplYN");
-	}
-
-	private static void rfiTagCheck(String query, String tag) {
-		CustomAssert.assertEquals(
-				tag + "has a problem.", DocGenHelper.getDocumentDataElemByName(tag, DocGenEnum.Documents.AARFIXX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-						.getTextField(), "Y");
+	private void policyServiceRfiStatusCheck(RfiDocumentResponse[] result, String rfiName) {
+		RfiDocumentResponse allDocuments = Arrays.stream(result).filter(doc -> rfiName.equals(doc.documentName)).findFirst().orElse(null);
+		CustomAssert.assertTrue(allDocuments != null);
+		CustomAssert.assertTrue("NS".equals(allDocuments.status));
 	}
 
 }
