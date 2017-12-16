@@ -22,9 +22,8 @@ import toolkit.datax.TestData;
  * @author Pavel_Mikhnevich
  * @name Test Create CA Select Auto Policy
  */
-public abstract class PolicyCINBaseTest extends PolicyBaseTest {
+public abstract class PolicyCINTemplate extends PolicyBaseTest {
 
-	protected static final String STATE_PARAM = "state";
 	protected static final String DEFAULT_TEST_RENEWAL_KEY = "TestData_Renewal_";
 	protected static final String CLUE = "CLUE";
 	protected static final String MVR = "MVR";

@@ -11,10 +11,10 @@ import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.xml.models.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.docgen.template.functional.PolicyCINBaseTest;
+import aaa.modules.docgen.template.functional.PolicyCINTemplate;
 import toolkit.utils.TestInfo;
 
-public class TestCinRenewal extends PolicyCINBaseTest {
+public class TestCinRenewal extends PolicyCINTemplate {
 
 	/**
 	 * @author Rokas Lazdauskas

@@ -14,11 +14,11 @@ import aaa.helpers.xml.models.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.docgen.template.functional.PolicyCINBaseTest;
+import aaa.modules.docgen.template.functional.PolicyCINTemplate;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-public class TestCinNewBusiness extends PolicyCINBaseTest {
+public class TestCinNewBusiness extends PolicyCINTemplate {
 
 	private Map<String, String> adjustmentMap = ImmutableMap.of(
 			"PrefillTabMVR", TestData.makeKeyPath(AutoCaMetaData.PrefillTab.class.getSimpleName()),
