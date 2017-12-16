@@ -67,11 +67,6 @@ public interface EvalueInsertSetupPreConditions {
 			+ "('BaseProductLookupValue', 'priorBILimits', '25000/50000', 'AAA_SS', '%s', TO_DATE('1-MAY-2017'), TO_DATE('1-MAY-2018'),\n"
 			+ "(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))";
 
-	String EVALUE_MEMBERSHIP_ELIGIBILITY_CONFIG_INSERT = "INSERT INTO LOOKUPVALUE\n"
-			+ "(dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-			+ "values\n"
-			+ "('BaseProductLookupValue', 'membershipEligibility', 'FALSE', 'AAA_SS', 'VA',(select SYSDATE-10 from dual), (select SYSDATE-6 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeMemberQualifications'))\n";
-
 	String REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL = "INSERT INTO LOOKUPVALUE\n"
 			+ "(dtype, code, displayValue, productCd, riskStateCd, lookuplist_id)\n"
 			+ "values\n"
@@ -172,4 +167,8 @@ public interface EvalueInsertSetupPreConditions {
 			+ "where propertyname = 'lastPaymentService.lastPaymentServiceUrl'";
 
 	String PENDING_REFUND_CONFIGURATION_UPDATE = "update BILLINGREFUNDPAYMENTMETHOD set DEFAULTREFUNDMETHOD = 'pendingRefund' where id = (select id from BILLINGREFUNDPAYMENTMETHOD)";
+
+	String AUTHENTICATION_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
+			+ "set value = 'http://%s:9098/aaa-external-stub-services-app/ws/local/authentication'\n"
+			+ "where propertyname = 'oAuthClient.oAuthPingUri'";
 }

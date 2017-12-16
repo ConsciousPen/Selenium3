@@ -1,0 +1,56 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="JDI Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <!-- Listener commented out for local runs-->
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+
+     <test name="TestRefundProcessVA2">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="refundDocumentGenerationConfigCheck"/>
+                    <include name="pas2186_RefundProcessCheck"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestRefundProcessVA1">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="pendingRefundPaymentMethodConfigCheck"/>
+                    <include name="pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestRefundProcessAZ1">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="eRefundLastPaymentMethodConfigCheck"/>
+                    <include name="pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="TestRefundProcessMD1">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="eRefundLastPaymentMethodConfigCheck"/>
+                    <include name="pas352_RefundMethodAndDropdownLastPaymentMethodEFT"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>

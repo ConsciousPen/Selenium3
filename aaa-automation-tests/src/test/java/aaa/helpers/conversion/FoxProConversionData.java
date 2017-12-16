@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public class FoxProConversionData extends ConversionPolicyData {
 
-	public FoxProConversionData(String fileName, LocalDateTime effectiveDate) {
+	public FoxProConversionData(String fileName, LocalDateTime effectiveDate, String ho3Policy, String autoPolicy) {
 		super(ConversionType.FOXPRO, fileName, effectiveDate);
 		conversionType = ConversionType.FOXPRO;
 
@@ -16,5 +16,8 @@ public class FoxProConversionData extends ConversionPolicyData {
 
 		values.put("//agentCd", "70683577");
 		values.put("//subProducerCd", "70683577");
+
+		values.put("//AAAPupPrefill[policyType[.='HO3']]/policyNumber", ho3Policy);
+		values.put("//AAAPupPrefill[policyType[.='Auto']]/policyNumber", autoPolicy);
 	}
 }

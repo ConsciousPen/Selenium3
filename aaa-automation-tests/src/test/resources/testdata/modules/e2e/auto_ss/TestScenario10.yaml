@@ -1,42 +1,13 @@
 TestData: {
-  GeneralTab: '@GeneralTab', 
   PremiumAndCoveragesTab: {
     Payment Plan: Quarterly,  
-    #Personal Umbrella: '$1,000,000'
   }, 
-  DocumentsAndBindTab: '@DocumentsAndBindTab', 
   PurchaseTab: '@PurchaseTab'
-}
-
-GeneralTab: {
-  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
-  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
-  ContactInformation: '@<auto_ss>@DataGather@ContactInformation', 
-  CurrentCarrierInformation: {
-    'Override Prefilled Current Carrier?': 'Yes', 
-    'Agent Entered Current/Prior Carrier': 'AAA Insurance', 
-    Agent Entered Inception Date: '$<today-1y:MM/dd/yyyy>',
-    Agent Entered Expiration Date: '$<today:MM/dd/yyyy>',
-    Agent Entered Policy Number: '12345678', 
-    Agent Entered BI Limits: '$50,000/$100,000'
-  }, 
-  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation',
-}
-
-DocumentsAndBindTab: {
-  RequiredToBind: {
-    Auto Insurance Application: Physically Signed
-  }, 
-  Agreement: I agree, 
-  RequiredToIssue: {
-    Proof of Prior Insurance: 'Yes', 
-  }, 
 }
 
 PurchaseTab: {
   PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa'],
   Activate Autopay: false,
-  #Autopay Selection: 'index=1',
   PaymentAllocation: {
     Visa: /rest
   }

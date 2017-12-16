@@ -82,7 +82,7 @@ public class TestPaperlessPreferences extends AutoSSBaseTest {
 
 		//PAS-266 start
 		documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES).click();
-		Waiters.SLEEP(6000).go();
+		Waiters.SLEEP(15000).go();
 		documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.EDIT_PAPERLESS_PREFERENCES_BTN_DONE).click();
 		//PAS-282, PAS-268, PAS-266 end
 
