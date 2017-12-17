@@ -1,42 +1,35 @@
 package aaa.utils.excel.io.entity;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import javax.annotation.Nonnull;
 
-class CellIterator<C extends ExcelCell, R extends ExcelRow> implements Iterator<C> {
-	List<Integer> cellIndexes;
-	R excelRow;
+class CellIterator implements Iterator<ExcelCell> {
+	private ExcelRow row;
+	private List<Integer> cellIndexes;
 	private int currentIndex;
-	private int endIndex;
 
 	@Nonnull
-	CellIterator(List<Integer> cellIndexes, R excelRow) {
-		this.cellIndexes = new ArrayList<>(cellIndexes);
-		this.excelRow = excelRow;
-		this.currentIndex = 0;
-		this.endIndex = cellIndexes.size();
+	CellIterator(ExcelRow row) {
+		this.row = row;
+		this.cellIndexes = row.getColumnNumbers();
+		this.currentIndex = row.getFirstColumnNumber();
 	}
 
 	@Override
 	public boolean hasNext() {
-		return currentIndex < endIndex;
+		return row.hasColumn(currentIndex);
 	}
 
 	@Override
-	public C next() {
+	public ExcelCell next() {
 		if (!hasNext()) {
 			throw new NoSuchElementException("There is no next cell");
 		}
-		C returnCell = getCell(currentIndex);
-		currentIndex++;
+		ExcelCell returnCell = row.getCell(currentIndex);
+		cellIndexes.remove(currentIndex);
+		currentIndex = cellIndexes.get(0);
 		return returnCell;
-	}
-
-	@SuppressWarnings("unchecked")
-	private C getCell(int iteratorIndex) {
-		return (C) excelRow.getCell(cellIndexes.get(iteratorIndex));
 	}
 }

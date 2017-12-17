@@ -1,13 +1,13 @@
 package aaa.utils.excel.io.entity;
 
-import java.util.Set;
+import java.util.Arrays;
 import org.apache.poi.ss.usermodel.Cell;
 import aaa.utils.excel.io.celltype.CellType;
 
 public class TableCell extends ExcelCell {
 	private TableRow tableRow;
 
-	public TableCell(Cell cell, TableRow tableRow, Set<CellType<?>> allowableCellTypes) {
+	public TableCell(Cell cell, TableRow tableRow, CellType<?>... allowableCellTypes) {
 		super(cell, allowableCellTypes);
 		this.tableRow = tableRow;
 	}
@@ -32,7 +32,7 @@ public class TableCell extends ExcelCell {
 				", Row number=" + getRowNumber() +
 				", Column number=" + getColumnNumber() +
 				", Header column name=" + getHeaderColumnName() +
-				", Cell Types=" + getCellTypes() +
+				", Cell Types=" + Arrays.toString(getCellTypes()) +
 				", Cell value=" + getStringValue() +
 				'}';
 	}

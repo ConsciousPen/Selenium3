@@ -22,7 +22,7 @@ import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
 import aaa.utils.excel.io.ExcelReader;
-import aaa.utils.excel.io.entity.TableCell;
+import aaa.utils.excel.io.entity.ExcelCell;
 import aaa.utils.excel.io.entity.TableRow;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
@@ -92,14 +92,10 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 				.orElseThrow(() -> new IstfException("There is no rating test with policy number " + policyNumber));
 
 		if (test.getTotalPremium() == null) {
-			int expectedPremium = 0;
+			int expectedPremium;
 			ExcelReader excelReader = new ExcelReader(getOpenLFile(openLFileName), OpenLFile.TESTS_SHEET_NAME);
 			TableRow row = excelReader.getTable(OpenLFile.TESTS_HEADER_ROW_NUMBER).getRow("policy", policyNumber);
-			for (TableCell cell : row) {
-				if (cell.getHeaderColumnName().startsWith("_res_.$Value")) {
-					expectedPremium += cell.getIntValue();
-				}
-			}
+			expectedPremium = row.getCellsContains("_res_.$Value").stream().mapToInt(ExcelCell::getIntValue).sum();
 			return expectedPremium;
 		}
 		return test.getTotalPremium();

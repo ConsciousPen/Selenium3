@@ -1,70 +1,38 @@
 package aaa.utils.excel.io.entity;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Row;
 
-public class TableHeader {
-	private Map<String, Integer> headerColumns;
-	private ExcelRow excelRow;
+public class TableHeader extends ExcelRow {
+	private ExcelTable table;
+	private Map<Integer, String> columnNames;
 
-	public TableHeader(ExcelRow excelRow) {
-		this(excelRow, 1);
-	}
 
-	public TableHeader(ExcelRow excelRow, int fromColumnNumber) {
-		this(excelRow, fromColumnNumber, excelRow.getLastCellNum() - fromColumnNumber + 1);
-	}
-
-	/**
-	 * Get TableHeader object
-	 *
-	 * @param excelRow {@link ExcelRow} object of table's header
-	 * @param fromColumnNumber first header's column number on sheet, index starts from 1
-	 * @param headerSize number of cells in header, should be positive
-	 */
-	public TableHeader(ExcelRow excelRow, int fromColumnNumber, int headerSize) {
-		assertThat(excelRow).as("Row should not be null").isNotNull();
-		assertThat(fromColumnNumber).as("First header's column number on sheet should be greater than 0").isPositive();
-		assertThat(headerSize).as("Header size should be greater than 0").isPositive();
-		assertThat(excelRow.getCellTypes().contains(ExcelCell.STRING_TYPE)).as("Header's row cell types should contain at least %s cell type", ExcelCell.STRING_TYPE).isTrue();
-
-		this.excelRow = excelRow;
-		this.headerColumns = new HashMap<>();
-
-		for (int columnNumber = fromColumnNumber; columnNumber <= fromColumnNumber + headerSize - 1; columnNumber++) {
-			String value = excelRow.getStringValue(columnNumber);
-			if (value != null) {
-				this.headerColumns.put(value, columnNumber);
-			}
+	public TableHeader(Row row, ExcelTable table) {
+		super(row, ExcelCell.STRING_TYPE);
+		this.table = table;
+		this.columnNames = new HashMap<>();
+		for (Map.Entry<Integer, ExcelCell> cellEntry : getCellsMap().entrySet()) {
+			columnNames.put(cellEntry.getKey(), cellEntry.getValue().getStringValue());
 		}
 	}
 
-	public Set<String> getColumnNames() {
-		return new HashSet<>(headerColumns.keySet());
+	@Override
+	public int getRowNumber() {
+		return 0;
 	}
 
-	public Set<Integer> getColumnIndexes() {
-		return new HashSet<>(headerColumns.values());
-	}
-
-	public int getSize() {
-		return headerColumns.size();
-	}
-
-	public ExcelRow getExcelRow() {
-		return excelRow;
+	public List<String> getColumnNames() {
+		return new ArrayList<>(columnNames.values());
 	}
 
 	int getRowNumberOnSheet() {
-		return getExcelRow().getRowNumber();
-	}
-
-	Sheet getSheet() {
-		return excelRow.getPoiRow().getSheet();
+		return getPoiRow().getRowNum() + 1;
 	}
 
 	@Override
@@ -75,20 +43,32 @@ public class TableHeader {
 	}
 
 	public boolean hasColumnName(String columnName) {
-		return headerColumns.containsKey(columnName);
+		return getColumnNames().contains(columnName);
 	}
 
-	public boolean hasColumnIndex(int columnIndex) {
-		return getColumnIndexes().contains(columnIndex);
-	}
 
-	public int getColumnIndex(String columnName) {
+	public int getColumnNumber(String columnName) {
 		assertThat(hasColumnName(columnName)).as("There is no column name \"%s\" in the table's header", columnName).isTrue();
-		return headerColumns.get(columnName);
+		return columnNames.entrySet().stream().filter(c -> c.getValue().equals(columnName)).findFirst().get().getKey();
 	}
 
-	public String getColumnName(int columnIndex) {
-		assertThat(hasColumnIndex(columnIndex)).as("There is no column with %s index in table's header", columnIndex).isTrue();
-		return getColumnNames().stream().filter(cn -> getColumnIndex(cn) == columnIndex).findFirst().get();
+	public String getColumnName(int columnNumber) {
+		assertThat(hasColumn(columnNumber)).as("There is no column with %s index in table's header", columnNumber).isTrue();
+		return this.columnNames.get(columnNumber);
+	}
+
+	@Override
+	public boolean getBoolValue(int columnNumber) {
+		throw new UnsupportedOperationException("Table header cells don't have boolean values");
+	}
+
+	@Override
+	public int getIntValue(int columnNumber) {
+		throw new UnsupportedOperationException("Table header cells don't have int values");
+	}
+
+	@Override
+	public LocalDateTime getDateValue(int columnNumber) {
+		throw new UnsupportedOperationException("Table header cells don't have LocalDateTime values");
 	}
 }

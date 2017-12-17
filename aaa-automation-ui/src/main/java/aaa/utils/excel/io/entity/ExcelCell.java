@@ -2,11 +2,10 @@ package aaa.utils.excel.io.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import aaa.utils.excel.io.celltype.BooleanCellType;
@@ -22,24 +21,28 @@ public class ExcelCell {
 	public static final CellType<LocalDateTime> LOCAL_DATE_TIME_TYPE = new LocalDateTimeCellType();
 
 	protected Cell cell;
-	protected Set<CellType<?>> allowableCellTypes;
-	protected Set<CellType<?>> cellTypes;
+	protected CellType<?>[] allowableCellTypes;
+	protected CellType<?>[] cellTypes;
 
-	public ExcelCell(Cell cell, Set<CellType<?>> allowableCellTypes) {
+	public ExcelCell(Cell cell) {
+		this(cell, getBaseTypes());
+	}
+
+	public ExcelCell(Cell cell, CellType<?>... allowableCellTypes) {
 		this.cell = normalizeCell(cell);
-		this.allowableCellTypes = new HashSet<>(allowableCellTypes);
+		this.allowableCellTypes = allowableCellTypes.clone();
 	}
 
 	public static CellType<?>[] getBaseTypes() {
 		return new CellType<?>[] {BOOLEAN_TYPE, STRING_TYPE, INTEGER_TYPE, LOCAL_DATE_TIME_TYPE};
 	}
 
-	public Set<CellType<?>> getCellTypes() {
+	public CellType<?>[] getCellTypes() {
 		if (cellTypes == null) {
-			cellTypes = allowableCellTypes.stream().filter(t -> t.isTypeOf(this)).collect(Collectors.toSet());
+			cellTypes = Arrays.stream(allowableCellTypes).filter(t -> t.isTypeOf(this)).toArray(CellType<?>[]::new);
 			assertThat(cellTypes).as("Cell has unknown or unsupported cell type").isNotEmpty();
 		}
-		return Collections.unmodifiableSet(cellTypes);
+		return cellTypes.clone();
 	}
 
 	public int getColumnNumber() {
@@ -51,7 +54,7 @@ public class ExcelCell {
 	}
 
 	public Object getValue() {
-		Set<CellType<?>> cellTypes = new HashSet<>(getCellTypes());
+		Set<CellType<?>> cellTypes = new HashSet<>(Arrays.asList(getCellTypes()));
 		if (cellTypes.remove(STRING_TYPE) && cellTypes.isEmpty()) {
 			return getStringValue();
 		}
@@ -84,13 +87,13 @@ public class ExcelCell {
 				"Sheet name=" + getPoiCell().getSheet().getSheetName() +
 				", Row number=" + getRowNumber() +
 				", Column number=" + getColumnNumber() +
-				", Cell Types=" + getCellTypes() +
+				", Cell Types=" + Arrays.toString(getCellTypes()) +
 				", Cell value=" + getStringValue() +
 				'}';
 	}
 
 	public <T> boolean hasType(CellType<T> cellType) {
-		return getCellTypes().contains(cellType);
+		return Arrays.stream(getCellTypes()).anyMatch(t -> t.equals(cellType));
 	}
 
 	public <T> T getValue(CellType<T> cellType) {

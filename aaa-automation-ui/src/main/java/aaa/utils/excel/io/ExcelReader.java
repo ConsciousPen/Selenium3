@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -18,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.poi.POIXMLException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -31,7 +31,6 @@ import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.ExcelCell;
 import aaa.utils.excel.io.entity.ExcelRow;
 import aaa.utils.excel.io.entity.ExcelTable;
-import aaa.utils.excel.io.entity.TableHeader;
 import toolkit.exceptions.IstfException;
 
 public class ExcelReader {
@@ -39,7 +38,7 @@ public class ExcelReader {
 
 	private Workbook workbook;
 	private Sheet sheet;
-	private Set<CellType<?>> allowableCellTypes;
+	private CellType<?>[] allowableCellTypes;
 
 	public ExcelReader(File excelFile) {
 		this(excelFile, null);
@@ -52,7 +51,7 @@ public class ExcelReader {
 	public ExcelReader(File excelFile, String sheetName, CellType<?>... allowableCellTypes) {
 		this.workbook = getWorkbook(excelFile);
 		this.sheet = getSheet(workbook, sheetName);
-		this.allowableCellTypes = new HashSet<>(Arrays.asList(allowableCellTypes));
+		this.allowableCellTypes = allowableCellTypes.clone();
 	}
 
 	public ExcelReader(Sheet sheet) {
@@ -62,7 +61,7 @@ public class ExcelReader {
 	public ExcelReader(Sheet sheet, CellType<?>... allowableCellTypes) {
 		this.workbook = sheet.getWorkbook();
 		this.sheet = sheet;
-		this.allowableCellTypes = new HashSet<>(Arrays.asList(allowableCellTypes));
+		this.allowableCellTypes = allowableCellTypes.clone();
 	}
 
 	public List<Sheet> getSheets() {
@@ -85,12 +84,12 @@ public class ExcelReader {
 		return getCurrentSheet().getLastRowNum() + 1;
 	}
 
-	public Set<CellType<?>> getCellTypes() {
-		return Collections.unmodifiableSet(this.allowableCellTypes);
+	public CellType<?>[] getCellTypes() {
+		return this.allowableCellTypes.clone();
 	}
 
 	public ExcelReader registerCellType(CellType<?>... cellTypes) {
-		Collections.addAll(allowableCellTypes, cellTypes);
+		allowableCellTypes = ArrayUtils.addAll(allowableCellTypes, cellTypes);
 		return this;
 	}
 
@@ -115,7 +114,7 @@ public class ExcelReader {
 
 	public List<Object> getRowValues(int rowNumber, int fromColumnNumber) {
 		ExcelRow row = getRow(rowNumber);
-		return getRowValues(rowNumber, fromColumnNumber, row.getLastCellNum());
+		return getRowValues(rowNumber, fromColumnNumber, row.getLastColumnNumber());
 	}
 
 	/**
@@ -130,7 +129,7 @@ public class ExcelReader {
 	public List<Object> getRowValues(int rowNumber, int fromColumnNumber, int toColumnNumber) {
 		assertThat(fromColumnNumber).as("From column number should be greater than 0").isPositive();
 		ExcelRow row = getRow(rowNumber);
-		return IntStream.rangeClosed(fromColumnNumber, toColumnNumber).filter(row::hasCell).mapToObj(row::getValue).collect(Collectors.toList());
+		return IntStream.rangeClosed(fromColumnNumber, toColumnNumber).filter(row::hasColumn).mapToObj(row::getValue).collect(Collectors.toList());
 	}
 
 	public List<String> getRowStringValues(int rowNumber) {
@@ -139,7 +138,7 @@ public class ExcelReader {
 
 	public List<String> getRowStringValues(int rowNumber, int fromColumnNumber) {
 		ExcelRow row = getRow(rowNumber);
-		return getRowStringValues(rowNumber, fromColumnNumber, row.getLastCellNum());
+		return getRowStringValues(rowNumber, fromColumnNumber, row.getLastColumnNumber());
 	}
 
 	/**
@@ -154,7 +153,7 @@ public class ExcelReader {
 	public List<String> getRowStringValues(int rowNumber, int fromColumnNumber, int toColumnNumber) {
 		assertThat(fromColumnNumber).as("From column number should be greater than 0").isPositive();
 		ExcelRow row = getRow(rowNumber);
-		return IntStream.rangeClosed(fromColumnNumber, toColumnNumber).filter(row::hasCell).mapToObj(row::getStringValue).collect(Collectors.toList());
+		return IntStream.rangeClosed(fromColumnNumber, toColumnNumber).filter(row::hasColumn).mapToObj(row::getStringValue).collect(Collectors.toList());
 	}
 
 	public ExcelRow getRow(String... valuesInCells) {
@@ -207,8 +206,8 @@ public class ExcelReader {
 	}
 
 	public ExcelTable getTable(boolean isLowest, String... headerColumnNames) {
-		TableHeader header = new TableHeader(getRow(isLowest, headerColumnNames));
-		return new ExcelTable(header);
+		Row headerRow = getRow(isLowest, headerColumnNames).getPoiRow();
+		return new ExcelTable(headerRow, getCellTypes());
 	}
 
 	/**
@@ -219,8 +218,7 @@ public class ExcelReader {
 	 */
 	public ExcelTable getTable(int headerRowNumber) {
 		assertThat(headerRowNumber).as("Header row number should be greater than 0").isPositive();
-		TableHeader header = new TableHeader(getRow(headerRowNumber));
-		return new ExcelTable(header);
+		return new ExcelTable(getRow(headerRowNumber).getPoiRow(), getCellTypes());
 	}
 
 	private Workbook getWorkbook(File file) {
