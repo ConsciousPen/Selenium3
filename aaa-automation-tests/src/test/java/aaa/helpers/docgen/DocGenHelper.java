@@ -16,11 +16,7 @@ import aaa.helpers.db.DbXmlHelper;
 import aaa.helpers.docgen.searchNodes.SearchBy;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.helpers.xml.XmlHelper;
-import aaa.helpers.xml.models.CreateDocuments;
-import aaa.helpers.xml.models.Document;
-import aaa.helpers.xml.models.DocumentDataElement;
-import aaa.helpers.xml.models.DocumentDataSection;
-import aaa.helpers.xml.models.StandardDocumentRequest;
+import aaa.helpers.xml.models.*;
 import aaa.main.enums.DocGenEnum;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;
@@ -78,13 +74,13 @@ public class DocGenHelper {
 				policyNumber, generatedByJob ? " by job" : "",
 				documents.length > 0 ? String.format(" and %1$s documents: %2$s", documentsExistence ? "contains all" : "does not contain", Arrays.asList(documents)) : ""));
 
-
 		final int searchRetryDelay = 5;
 		int searchAttempt = 1;
 		DocumentWrapper documentWrapper = getDocumentRequest(generatedByJob, policyNumber, documentsExistence ? documents : new DocGenEnum.Documents[0]);
 		while (documentsExistence && searchAttempt < 3 && !isRequestValid(documentWrapper, policyNumber, documents)) {
 			searchAttempt++;
-			log.warn(String.format("Found documents are related to other policy number(s), probably desired document is not generated yet, performing search attempt #%1$s after %2$s seconds...", searchAttempt, searchRetryDelay));
+			log.warn(String
+					.format("Found documents are related to other policy number(s), probably desired document is not generated yet, performing search attempt #%1$s after %2$s seconds...", searchAttempt, searchRetryDelay));
 			try {
 				TimeUnit.SECONDS.sleep(searchRetryDelay);
 			} catch (InterruptedException e) {
@@ -119,11 +115,12 @@ public class DocGenHelper {
 	public static DocumentWrapper getDocumentRequest(boolean generatedByJob, String policyNumber, DocGenEnum.Documents... documents) {
 		List<String> documentsFilePaths = waitForDocumentsAppearance(generatedByJob, policyNumber, documents);
 		if (documentsFilePaths.size() > 1) {
-			log.warn(String.format("More than one (%1$s) xml document files were found with quote/policy number \"%2$s\"%3$s:\n%4$s.\nNewest one (last modified) will be used for getting CreateDocuments model.",
-					documentsFilePaths.size(),
-					policyNumber,
-					documents.length > 0 ? " and documents: " + Arrays.asList(documents) : "",
-					documentsFilePaths));
+			log.warn(String
+					.format("More than one (%1$s) xml document files were found with quote/policy number \"%2$s\"%3$s:\n%4$s.\nNewest one (last modified) will be used for getting CreateDocuments model.",
+							documentsFilePaths.size(),
+							policyNumber,
+							documents.length > 0 ? " and documents: " + Arrays.asList(documents) : "",
+							documentsFilePaths));
 		}
 
 		String content = RemoteHelper.getFileContent(documentsFilePaths.get(0));
@@ -170,40 +167,53 @@ public class DocGenHelper {
 		return date.atZone(ZoneId.of(zoneId)).format(DATE_TIME_FIELD_FORMAT);
 	}
 
+	/**
+	 * Extracts data from Document model
+	 * Extract only Data Sections which have corresponding sectionName Tag
+	 *
+	 * @param sectionName      section name to select
+	 * @param docId            generated Document Id
+	 * @param selectPolicyData query which returns CLOB data
+	 */
+	public static List<DocumentDataSection> getDocumentDataSectionsByName(String sectionName, DocGenEnum.Documents docId, String selectPolicyData) {
+		Document doc = getDocument(docId, selectPolicyData);
+		return doc.getDocumentDataSections().stream().
+				filter(v -> v.getSectionName().equals(sectionName)).collect(Collectors.toList());
+	}
 
-    /**
-     * Extracts data from Document model
-     * Extract only Data Sections which have corresponding sectionName Tag
-     * @param sectionName section name to select
-     * @param docId generated Document Id
-     * @param selectPolicyData query which returns CLOB data
-     */
-    public static List<DocumentDataSection> getDocumentDataSectionsByName(String sectionName, DocGenEnum.Documents docId, String selectPolicyData) {
-        Document doc = getDocument(docId, selectPolicyData);
-        return doc.getDocumentDataSections().stream().
-                filter(v -> v.getSectionName().equals(sectionName)).collect(Collectors.toList());
-    }
-
-    /**
-     * Extracts data from Document model
-     * Extract only Data Sections which contains dataElemName
-     * Data Section will contains only node with expected dataElemName
-     * @param dataElemName elem Name which will be in the section
-     * @param docId generated Document Id
-     * @param selectPolicyData query which returns CLOB data
-     */
-    public static List<DocumentDataSection> getDocumentDataElemByName(String dataElemName, DocGenEnum.Documents docId, String selectPolicyData) {
-        Document doc = getDocument(docId, selectPolicyData);
+	/**
+	 * Extracts data from Document model
+	 * Extract only Data Sections which contains dataElemName
+	 * Data Section will contains only node with expected dataElemName
+	 *
+	 * @param dataElemName     elem Name which will be in the section
+	 * @param docId            generated Document Id
+	 * @param selectPolicyData query which returns CLOB data
+	 */
+	public static List<DocumentDataSection> getDocumentDataElemByName(String dataElemName, DocGenEnum.Documents docId, String selectPolicyData) {
+		Document doc = getDocument(docId, selectPolicyData);
 		doc.getDocumentDataSections().forEach(v1 -> v1.setDocumentDataElements(v1.getDocumentDataElements().stream().
 				filter(inner -> inner.getName().equals(dataElemName)).collect(Collectors.toList())));
 		return doc.getDocumentDataSections().stream().filter(list -> !list.getDocumentDataElements().isEmpty()).
 				collect(Collectors.toList());
-    }
+	}
+
+	/**
+	 * Extracts list of documents from {@link DocumentPackage} model
+	 *
+	 * @param policyNumber
+	 * @param eventName    {@link aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames} event that triggered document generation
+	 */
+	public static List<Document> getDocumentsList(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {
+		DocumentPackage docPackage = getDocumentPackage(policyNumber, eventName);
+		return docPackage.getDocuments();
+	}
 
 	/**
 	 * Find DataElem in the document
+	 *
 	 * @param dataElemName elem Name which will be in the section
-	 * @param document generated Document
+	 * @param document     generated Document
 	 */
 	public static DocumentDataElement getDocumentDataElemByName(String dataElemName, Document document) {
 		List<DocumentDataSection> sections = document.getDocumentDataSections().stream()
@@ -217,9 +227,9 @@ public class DocGenHelper {
 	/**
 	 * Wait for document(s) request appearance in database for specific <b>docId</b> with timeout {@link DocGenHelper#DOCUMENT_GENERATION_TIMEOUT}
 	 *
-	 * @param docId documents ids to be used for waiting xml document.
+	 * @param docId       documents ids to be used for waiting xml document.
 	 * @param quoteNumber quote/policy number
-	 *@param eventName event name of the generated document
+	 * @param eventName   event name of the generated document
 	 */
 	public static Document waitForDocumentsAppearanceInDB(DocGenEnum.Documents docId, String quoteNumber, String eventName) {
 		final long conditionCheckPoolingIntervalInSeconds = 1;
@@ -235,13 +245,16 @@ public class DocGenHelper {
 			} catch (Exception e) {
 				document = null;
 			}
-			if (document != null) return document;
+			if (document != null) {
+				return document;
+			}
 			try {
 				TimeUnit.SECONDS.sleep(conditionCheckPoolingIntervalInSeconds);
 			} catch (InterruptedException e) {
 				log.debug(e.getMessage());
 			}
-		} while (timeout > System.currentTimeMillis());
+		}
+		while (timeout > System.currentTimeMillis());
 		long searchTime = System.currentTimeMillis() - searchStart;
 
 		CustomAssert.assertTrue(MessageFormat.format("Xml document \"{0}\" found. Search time:  \"{1}\"", docId.getId(), searchTime), document != null);
@@ -249,10 +262,27 @@ public class DocGenHelper {
 		return document;
 	}
 
-    public static Document getDocument(DocGenEnum.Documents value, String query) {
-        String xmlDocData = DbXmlHelper.getXmlByDocName(value, query);
-        return XmlHelper.xmlToModelByPartOfXml(xmlDocData, Document.class);
-    }
+	public static Document getDocument(DocGenEnum.Documents value, String query) {
+		String xmlDocData = DbXmlHelper.getXmlByDocName(value, query);
+		return XmlHelper.xmlToModelByPartOfXml(xmlDocData, Document.class);
+	}
+
+	public static DocumentPackage getDocumentPackage(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {
+		String xmlDocData = DbXmlHelper.getXmlByPolicyNumber(policyNumber, eventName);
+
+		//TODO: Change this to 'always cast to DocumentPackage' once all VDMS get aaaDocGenSerializer.callDCSInstant set to TRUE
+		//In the meantime, this hook will work fine
+		DocumentPackage documentPackage;
+		boolean callDCSInstantly = !xmlDocData.startsWith("<doc:CreateDocuments");
+		if (callDCSInstantly) {
+			documentPackage = XmlHelper.xmlToModel(xmlDocData, DocumentPackage.class);
+		} else {
+			CreateDocuments doc = XmlHelper.xmlToModel(xmlDocData, CreateDocuments.class);
+			//get the only document package
+			documentPackage = doc.getStandardDocumentRequest().getDocumentPackages().get(0);
+		}
+		return documentPackage;
+	}
 
 	private static boolean isRequestValid(DocumentWrapper dw, String policyNumber, DocGenEnum.Documents[] documents) {
 		if (documents.length > 0) {
