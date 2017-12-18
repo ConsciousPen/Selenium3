@@ -1430,7 +1430,11 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		checkBlueBoxMessages(messageInfo, messageBullet);
 
 		selectMembershipOrPriorInsur(membershipOrPrior, "No");
-		checkBlueBoxMessages(messageInfo1, messageBullet1);
+		if(12 == days || 18 == days){
+			checkBlueBoxMessages(messageInfo1, messageBullet1);
+		}else {
+			checkBlueBoxMessages(messageInfo, messageBullet);
+		}
 
 		selectMembershipOrPriorInsur(membershipOrPrior, "Yes");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -1445,7 +1449,11 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		checkBlueBoxMessages(messageInfo, messageBullet);
 		selectMembershipOrPriorInsur(membershipOrPrior, "No");
-		checkBlueBoxMessages(messageInfo1, messageBullet1);
+		if(12 == days || 18 == days){
+			checkBlueBoxMessages(messageInfo1, messageBullet1);
+		}else {
+			checkBlueBoxMessages(messageInfo, messageBullet);
+		}
 
 		PremiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
