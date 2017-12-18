@@ -8,7 +8,7 @@ Endorsement: {
   AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {}, #'@DriverActivityReportsTab_Endorse',
+  DriverActivityReportsTab: {},
   DocumentsAndBindTab: {}
 }
 
@@ -16,11 +16,6 @@ EndorsementActionTab_Endorse: {
   Endorsement Date: $<today>,
   Endorsement Reason: Maintain Vehicle(s)
 }
-
-#DriverActivityReportsTab_Endorse: {
-#  Sales Agent Agreement: I Agree,
-#  Validate Driving History: click
-#}
 
 DriverTab_Endorse: {
     ADB Coverage: 'Yes'

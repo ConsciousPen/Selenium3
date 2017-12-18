@@ -124,11 +124,9 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		policy.endorse().performAndFill(getTestSpecificTD("TestData_OOS"));
 		String endorsementDate = getTestSpecificTD("TestData_OOS").getValue("EndorsementActionTab", "Endorsement Date");
 		assertSoftly(softly -> {
-			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(
-				ActivitiesAndUserNotesTable.DESCRIPTION,
+			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesTable.DESCRIPTION,
 				String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementDate, policyNumber)).isPresent());
 		});
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionContains(1, String.format("Endorsement effective %1$s", endorsementDate));
 		assertSoftly(softly -> {
 			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
 		});
@@ -161,23 +159,23 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 		log.info("OOS Endorsement action started on {}", firstEPBillDate);
 		mainApp().reopen();
-		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-
+		String policyNumber = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
+		SearchPage.openPolicy(policyNumber);
 		String endorseDate = getTimePoints().getCancellationDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1))
 			.minusDays(2).format(DateTimeUtils.MM_DD_YYYY);
 		policy.endorse().performAndFill(getTestSpecificTD("TestData_OOSEndorsement").adjust(keyPath, endorseDate));
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Endorsement effective %1$s for Policy %2$s", endorseDate,
-			BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber()));
+		assertSoftly(softly -> {
+			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesTable.DESCRIPTION,
+				String.format("Bind Endorsement effective %1$s for Policy %2$s", endorseDate, policyNumber)).isPresent());
+		});
 		assertSoftly(softly -> {
 			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
 		});
-
 		policy.rollOn().perform(true, false);
 		assertSoftly(softly -> {
 			softly.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		});
 		log.info("OOS Endorsement action completed successfully");
-
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		Dollar amount = new Dollar(BillingSummaryPage.tableBillsStatements
 			.getRowContains(BillingConstants.BillingBillsAndStatmentsTable.TYPE, BillingConstants.BillsAndStatementsType.BILL)
@@ -190,14 +188,15 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 			.setAmount(amount.negate())
 			.verifyPresent();
 	}
+
 	protected void declineSuspensePaymentCancellationDate() {
 		LocalDateTime declineDate = getTimePoints().getCancellationDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
 		TimeSetterUtil.getInstance().nextPhase(declineDate);
 		log.info("Decline Suspense Payment action started");
 		log.info("Action date: {}", declineDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-
 		LocalDateTime suspenseDate = TimeSetterUtil.getInstance().getStartTime().plusDays(16);
 		HashMap<String, String> map = new HashMap<>();
 		map.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, suspenseDate.format(DateTimeUtils.MM_DD_YYYY));
@@ -620,10 +619,13 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Manual reinstatement action started on {}", reinstatementDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
-		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		String policyNumber = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
+		SearchPage.openPolicy(policyNumber);
 		policy.reinstate().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Reinstatement for Policy %1$s", BillingAccountInformationHolder.getCurrentBillingAccountDetails()
-			.getCurrentPolicyDetails().getPolicyNumber()));
+		assertSoftly(softly -> {
+			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesTable.DESCRIPTION,
+				String.format("Bind Reinstatement for Policy %1$s", policyNumber)).isPresent());
+		});
 		log.info("Manual reinstatement action completed successfully");
 	}
 
@@ -1115,10 +1117,13 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("Manual reinstatement action started on {}", reinstatementDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
-		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
+		String policyNumber = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
+		SearchPage.openPolicy(policyNumber);
 		policy.reinstate().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
-		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("Bind Reinstatement for Policy %1$s", BillingAccountInformationHolder.getCurrentBillingAccountDetails()
-			.getCurrentPolicyDetails().getPolicyNumber()));
+		assertSoftly(softly -> {
+			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesTable.DESCRIPTION,
+				String.format("Bind Reinstatement for Policy %1$s", policyNumber)).isPresent());
+		});
 		log.info("Manual reinstatement action completed successfully");
 	}
 

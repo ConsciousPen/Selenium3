@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.charset.Charset;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +26,8 @@ import org.testng.annotations.Test;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.db.DBService;
+import toolkit.db.DatasourceSupplier;
+import toolkit.db.impl.HikariDatasourceSupplier;
 import toolkit.utils.SSHController;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.waiters.Waiters;
@@ -57,10 +62,15 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		PropertyProvider.getProperty(TestProperties.SSH_USER),
 		PropertyProvider.getProperty(TestProperties.SSH_PASSWORD));
 
+	private static DatasourceSupplier datasourceSupplier = new HikariDatasourceSupplier();
+	private static Connection conn = null;
+
 	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
-	public void validate(@Optional(StringUtils.EMPTY) String state) throws SftpException, JSchException, IOException {
+	public void validate(@Optional(StringUtils.EMPTY) String state) throws SftpException, JSchException, IOException, SQLException {
+
+		refreshReports();
 
 		File downloadDir = new File(DOWNLOAD_DIR);
 		File cftResultDir = new File(CFT_VALIDATION_DIRECTORY);
@@ -244,4 +254,51 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		}
 	}
 
+	private static void refreshReports() throws SQLException {
+		String databaseURL = PropertyProvider.getProperty(TestProperties.APP_HOST);
+		String user = PropertyProvider.getProperty(TestProperties.SSH_USER);
+		String password = PropertyProvider.getProperty(TestProperties.SSH_PASSWORD);
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conn = DriverManager.getConnection(databaseURL, user, password);
+			if (conn != null) {
+				log.info("Connected to the database");
+			}
+		} catch (ClassNotFoundException ex) {
+			System.out.println("Could not find database driver class");
+			ex.printStackTrace();
+		} catch (SQLException ex) {
+			System.out.println("An error occurred. Maybe user/password is invalid");
+			ex.printStackTrace();
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+		if (conn != null) {
+			conn.close();
+			log.info("Connection to {} closed", databaseURL);
+		}
+	}
+
+	// Connection con = null;
+	// CallableStatement proc = null;
+	//
+	// try {
+	// con = getConnection();
+	// proc = con.prepareCall("{ call REFRESH_MV_COMPLETE }");
+	// proc.execute();
+	// } finally {
+	// try {
+	// proc.close();
+	// } catch (SQLException e) {
+	//
+	// }
+	// con.close();
+	// }
+	// }
 }
