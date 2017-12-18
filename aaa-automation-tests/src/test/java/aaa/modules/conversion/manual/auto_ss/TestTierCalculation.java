@@ -44,7 +44,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.conversion.manual.ConvHomeSsDp3BaseTest;
+import aaa.modules.conversion.manual.ConvHomeSsHO3BaseTest;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -53,7 +53,7 @@ import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.RadioGroup;
 
 @SuppressWarnings("InstanceVariableMayNotBeInitialized")
-public class TestTierCalculation extends ConvHomeSsDp3BaseTest {
+public class TestTierCalculation extends ConvHomeSsHO3BaseTest {
     private final Tab generalTab = new GeneralTab();
     private final Tab driverReportTab = new DriverActivityReportsTab();
     private final Tab premiumCovTab = new PremiumAndCoveragesTab();

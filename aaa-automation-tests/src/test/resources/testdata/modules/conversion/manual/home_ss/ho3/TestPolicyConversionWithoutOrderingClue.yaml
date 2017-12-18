@@ -1,0 +1,17 @@
+TestData: {
+  GeneralTab: {
+    Lead source: 'Hybrid Conversion'
+              },
+  ApplicantTab:{
+               NamedInsured:{Marital status: 'Civil Union'},
+
+               AAAMembership:{
+               Current AAA Member: 'Yes',
+               Membership number: '4290023667710001',
+               Last name: Smith}
+               },
+
+
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree'}
+  }
