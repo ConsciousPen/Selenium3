@@ -106,6 +106,12 @@ public class HdesConversionTest extends HomeCaHO3BaseTest {
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION})
+	public void hdesCAHO6ConversionTest6(@Optional("CA") String state, ITestContext context) {
+		hdesCAConversion("HO6/6.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION})
 	public void hdesCAHO3ConversionTest_renewWithLapse1(@Optional("CA") String state, ITestContext context) {
 		hdesCAConversion_renewWithLapse("HO3/1.xml", context);
 	}
@@ -178,6 +184,12 @@ public class HdesConversionTest extends HomeCaHO3BaseTest {
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION})
+	public void hdesCAHO6ConversionTest_renewWithLapse6(@Optional("CA") String state, ITestContext context) {
+		hdesCAConversion_renewWithLapse("HO6/6.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION})
 	public void hdesCAHO3ConversionTest_renewAfterPayment1(@Optional("CA") String state, ITestContext context) {
 		hdesCAConversion_renewAfterPayment("HO3/1.xml", context);
 	}
@@ -246,6 +258,12 @@ public class HdesConversionTest extends HomeCaHO3BaseTest {
 	@Test(groups = {Groups.REGRESSION})
 	public void hdesCAHO6ConversionTest_renewAfterPayment5(@Optional("CA") String state, ITestContext context) {
 		hdesCAConversion_renewAfterPayment("HO6/5.xml", context);
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION})
+	public void hdesCAHO6ConversionTest_renewAfterPayment6(@Optional("CA") String state, ITestContext context) {
+		hdesCAConversion_renewAfterPayment("HO6/6.xml", context);
 	}
 
 	public void hdesCAConversion(String file, ITestContext context) {
