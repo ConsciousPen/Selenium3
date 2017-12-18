@@ -33,7 +33,7 @@ DocumentsAndBindTab: {
 # ----- Second Renewal -----
 TestData_SecondRenewal: {
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_SecondRenewal', 
-  DocumentsAndBindTab: '@DocumentsAndBindTab'
+  DocumentsAndBindTab: {}
 }
 
 PremiumAndCoveragesTab_SecondRenewal: {
