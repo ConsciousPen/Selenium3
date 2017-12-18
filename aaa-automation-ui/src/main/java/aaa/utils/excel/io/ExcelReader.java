@@ -1,11 +1,9 @@
 package aaa.utils.excel.io;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -19,12 +17,11 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.poi.POIXMLException;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.utils.excel.io.celltype.CellType;
@@ -36,6 +33,7 @@ import toolkit.exceptions.IstfException;
 public class ExcelReader {
 	protected static Logger log = LoggerFactory.getLogger(ExcelReader.class);
 
+	private File file;
 	private Workbook workbook;
 	private Sheet sheet;
 	private CellType<?>[] allowableCellTypes;
@@ -48,8 +46,9 @@ public class ExcelReader {
 		this(excelFile, sheetName, ExcelCell.getBaseTypes());
 	}
 
-	public ExcelReader(File excelFile, String sheetName, CellType<?>... allowableCellTypes) {
-		this.workbook = getWorkbook(excelFile);
+	public ExcelReader(File file, String sheetName, CellType<?>... allowableCellTypes) {
+		this.file = file;
+		this.workbook = getWorkbook(file);
 		this.sheet = getSheet(workbook, sheetName);
 		this.allowableCellTypes = allowableCellTypes.clone();
 	}
@@ -64,16 +63,20 @@ public class ExcelReader {
 		this.allowableCellTypes = allowableCellTypes.clone();
 	}
 
+	public File getFile() {
+		return file;
+	}
+
+	public Workbook getWorkbook() {
+		return workbook;
+	}
+
 	public List<Sheet> getSheets() {
 		return IntStream.rangeClosed(0, getWorkbook().getNumberOfSheets()).mapToObj(sheetNumber -> getWorkbook().getSheetAt(sheetNumber)).collect(Collectors.toList());
 	}
 
 	public List<String> getSheetNames() {
 		return getSheets().stream().map(Sheet::getSheetName).collect(Collectors.toList());
-	}
-
-	public Workbook getWorkbook() {
-		return workbook;
 	}
 
 	public Sheet getCurrentSheet() {
@@ -86,6 +89,14 @@ public class ExcelReader {
 
 	public CellType<?>[] getCellTypes() {
 		return this.allowableCellTypes.clone();
+	}
+
+	public ExcelRow getFirstRow() {
+		return getRow(getCurrentSheet().getFirstRowNum() + 1);
+	}
+
+	public ExcelRow getLastRow() {
+		return getRow(getCurrentSheet().getLastRowNum() + 1);
 	}
 
 	public ExcelReader registerCellType(CellType<?>... cellTypes) {
@@ -157,7 +168,7 @@ public class ExcelReader {
 	}
 
 	public ExcelRow getRow(String... valuesInCells) {
-		return getRow(true, valuesInCells);
+		return getRow(false, valuesInCells);
 	}
 
 	public ExcelRow getRow(boolean isLowest, String... valuesInCells) {
@@ -202,7 +213,7 @@ public class ExcelReader {
 	 * Only columns with unique names from array will be searched. Returns <b>last</b> found ExcelTable
 	 */
 	public ExcelTable getTable(String... headerColumnNames) {
-		return getTable(true, headerColumnNames);
+		return getTable(false, headerColumnNames);
 	}
 
 	public ExcelTable getTable(boolean isLowest, String... headerColumnNames) {
@@ -221,49 +232,34 @@ public class ExcelReader {
 		return new ExcelTable(getRow(headerRowNumber).getPoiRow(), getCellTypes());
 	}
 
-	private Workbook getWorkbook(File file) {
-		assertThat(file).as("File \"%s\" does not exist", file.getAbsolutePath()).exists();
-		Workbook wb;
-		String exceptionMessage = "Can't read from input stream. File might be corrupted or has wrong extension.";
-		byte[] buf = new byte[1024];
-		byte[] content;
-		int n;
-
-		InputStream fileToRead = null;
-		try {
-			fileToRead = new FileInputStream(file);
-		} catch (FileNotFoundException e) {
+	public void write() {
+		File writeFile = new File("D:\\AAA\\Mocks & Stubs\\PolicyPreferenceApiMockData2.xls");
+		try (FileOutputStream outputStream = new FileOutputStream(writeFile);
+				Workbook workbook = getWorkbook()) {
+			workbook.write(outputStream);
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
 
-		// Get byte array content from filePath
-		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-			while ((n = fileToRead.read(buf)) >= 0) {
-				baos.write(buf, 0, n);
-			}
-			content = baos.toByteArray();
-		} catch (IOException e) {
-			throw new IstfException(exceptionMessage, e);
-		} finally {
+	private Workbook getWorkbook(File file) {
+		assertThat(file).as("File \"%s\" does not exist", file.getAbsolutePath()).exists();
+		/*try (InputStream targetStream = new FileInputStream(file);
+				Workbook wb = WorkbookFactory.create(targetStream)) {
+			return wb;
+		} catch (IOException | InvalidFormatException e) {
+			throw new IstfException("Unable to get workbook from file: " + file.getAbsolutePath(), e);
+		}*/
+		Workbook wb = null;
+		try (InputStream targetStream = new FileInputStream(file)) {
 			try {
-				fileToRead.close();
-			} catch (IOException e) {
+				//TODO-dchubkov: replace with try-with-resources construction
+				wb = WorkbookFactory.create(targetStream);
+			} catch (IOException | InvalidFormatException e) {
 				e.printStackTrace();
 			}
-		}
-
-		try {
-			// Try to create workbook for file with 'xlsx' extension;
-			wb = new XSSFWorkbook(new ByteArrayInputStream(content));
-		} catch (POIXMLException e) {
-			// If failed then try to create for file with 'xls' extension;
-			try {
-				wb = new HSSFWorkbook(new ByteArrayInputStream(content));
-			} catch (IOException e1) {
-				throw new IstfException(exceptionMessage, e1.getCause());
-			}
 		} catch (IOException e) {
-			throw new IstfException(exceptionMessage, e);
+			e.printStackTrace();
 		}
 
 		return wb;

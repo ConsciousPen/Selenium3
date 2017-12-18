@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import org.apache.poi.ss.usermodel.Cell;
@@ -35,9 +36,15 @@ public class LocalDateTimeCellType extends CellType<LocalDateTime> {
 	}
 
 	@Override
+	public void setValueTo(ExcelCell cell, LocalDateTime value) {
+		Date date = Date.from(value.atZone(ZoneId.systemDefault()).toInstant());
+		cell.getPoiCell().setCellValue(date);
+	}
+
+	@Override
 	public boolean isTypeOf(ExcelCell cell) {
 		Cell c = cell.getPoiCell();
-		return c.getCellType() == Cell.CELL_TYPE_NUMERIC && DateUtil.isCellDateFormatted(c) || hasTextValue(cell);
+		return c.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.NUMERIC && DateUtil.isCellDateFormatted(c) || hasTextValue(cell);
 	}
 
 	@Override

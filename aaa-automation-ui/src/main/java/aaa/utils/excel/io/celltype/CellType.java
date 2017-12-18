@@ -2,7 +2,6 @@ package aaa.utils.excel.io.celltype;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.Objects;
-import org.apache.poi.ss.usermodel.Cell;
 import aaa.utils.excel.io.entity.ExcelCell;
 
 public abstract class CellType<T> {
@@ -34,22 +33,25 @@ public abstract class CellType<T> {
 		return Objects.hash(endType);
 	}
 
-	public abstract T getValueFrom(ExcelCell cell);
-
-	public abstract boolean isTypeOf(ExcelCell cell);
-
-	public boolean hasTextValue(ExcelCell cell) {
-		return cell.getPoiCell().getCellType() == Cell.CELL_TYPE_STRING || cell.getPoiCell().getCellType() == Cell.CELL_TYPE_BLANK;
-	}
-
-	protected String getText(ExcelCell cell) {
-		return ExcelCell.STRING_TYPE.getText(cell);
-	}
-
 	@Override
 	public String toString() {
 		return "CellType{" +
 				"endType=" + endType +
 				'}';
+	}
+
+	public abstract T getValueFrom(ExcelCell cell);
+
+	public abstract void setValueTo(ExcelCell cell, T value);
+
+	public abstract boolean isTypeOf(ExcelCell cell);
+
+	public boolean hasTextValue(ExcelCell cell) {
+		org.apache.poi.ss.usermodel.CellType type = cell.getPoiCell().getCellTypeEnum();
+		return type == org.apache.poi.ss.usermodel.CellType.STRING  || type == org.apache.poi.ss.usermodel.CellType.BLANK;
+	}
+
+	protected String getText(ExcelCell cell) {
+		return ExcelCell.STRING_TYPE.getText(cell);
 	}
 }

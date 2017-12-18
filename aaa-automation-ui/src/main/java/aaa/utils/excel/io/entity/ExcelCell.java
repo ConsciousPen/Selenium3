@@ -8,6 +8,8 @@ import java.util.Objects;
 import java.util.Set;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import aaa.utils.excel.io.celltype.BooleanCellType;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.celltype.IntegerCellType;
@@ -19,7 +21,7 @@ public class ExcelCell {
 	public static final CellType<String> STRING_TYPE = new StringCellType();
 	public static final CellType<Integer> INTEGER_TYPE = new IntegerCellType();
 	public static final CellType<LocalDateTime> LOCAL_DATE_TIME_TYPE = new LocalDateTimeCellType();
-
+	protected static Logger log = LoggerFactory.getLogger(ExcelCell.class);
 	protected Cell cell;
 	protected CellType<?>[] allowableCellTypes;
 	protected CellType<?>[] cellTypes;
@@ -92,26 +94,44 @@ public class ExcelCell {
 				'}';
 	}
 
-	public <T> boolean hasType(CellType<T> cellType) {
-		return Arrays.stream(getCellTypes()).anyMatch(t -> t.equals(cellType));
-	}
-
 	public <T> T getValue(CellType<T> cellType) {
 		assertThat(hasType(cellType)).as("Unable to get value with type %s from cell %s", cellType.getEndType(), this).isTrue();
 		return cellType.getValueFrom(this);
 	}
 
-	public boolean hasValue(Object expectedValue) {
-		for (CellType<?> actualCellType : getCellTypes()) {
-			if (actualCellType.getEndType().isAssignableFrom(expectedValue.getClass())) {
-				return Objects.equals(getValue(actualCellType), expectedValue);
-			}
+	public <T> boolean setValue(T value) {
+		return setValue(value, getType(value));
+	}
+
+	public <T> boolean setValue(T value, CellType<T> valueType) {
+		assertThat(valueType).as("%s cell does not have appropriate type to set %s value type", this, value.getClass()).isNotNull();
+		if (hasValue(value, valueType)) {
+			log.warn("{} already has \"{}\" value", this, value);
+			return false;
 		}
-		return Objects.equals(getValue(), expectedValue);
+		valueType.setValueTo(this, value);
+		return true;
+	}
+
+	public <T> boolean hasType(CellType<T> cellType) {
+		return Arrays.stream(getCellTypes()).anyMatch(t -> t.equals(cellType));
+	}
+
+	public <T> boolean hasValue(T expectedValue) {
+		return hasValue(expectedValue, getType(expectedValue));
+	}
+
+	public <T> boolean hasValue(T expectedValue, CellType<T> cellType) {
+		return cellType != null ? Objects.equals(getValue(cellType), expectedValue) : Objects.equals(getValue(), expectedValue);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> CellType<T> getType(T value) {
+		return (CellType<T>) Arrays.stream(getCellTypes()).filter(type -> type.getEndType().isAssignableFrom(value.getClass())).findFirst().orElse(null);
 	}
 
 	private Cell normalizeCell(Cell cell) {
-		if (cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
+		if (cell.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.FORMULA) {
 			FormulaEvaluator evaluator = cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
 			return evaluator.evaluateInCell(cell);
 		}

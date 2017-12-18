@@ -18,9 +18,14 @@ public class IntegerCellType extends CellType<Integer> {
 	}
 
 	@Override
+	public void setValueTo(ExcelCell cell, Integer value) {
+		cell.getPoiCell().setCellValue(value.doubleValue());
+	}
+
+	@Override
 	public boolean isTypeOf(ExcelCell cell) {
 		Cell c = cell.getPoiCell();
-		return c.getCellType() == Cell.CELL_TYPE_NUMERIC && !DateUtil.isCellDateFormatted(c) || hasTextValue(cell);
+		return c.getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.NUMERIC && !DateUtil.isCellDateFormatted(c) || hasTextValue(cell);
 	}
 
 	@Override

@@ -39,13 +39,18 @@ public class TableRow extends ExcelRow {
 		return values;
 	}
 
+	int getRowNumberOnSheet() {
+		return getPoiRow().getRowNum() + 1;
+	}
+
 	@Override
 	public int getRowNumber() {
 		return this.rowNumber;
 	}
 
-	int getRowNumberOnSheet() {
-		return getPoiRow().getRowNum() + 1;
+	@Override
+	public List<Integer> getColumnNumbers() {
+		return new ArrayList<>(tableCells.keySet());
 	}
 
 	@Override
@@ -79,7 +84,6 @@ public class TableRow extends ExcelRow {
 	public TableCell getCell(String headerColumnName) {
 		return getCells().stream().filter(c -> c.getHeaderColumnName().equals(headerColumnName)).findFirst().get();
 	}
-
 
 	public List<TableCell> getCellsContains(String headerColumnNamePattern) {
 		return getCells().stream().filter(c -> c.getHeaderColumnName().contains(headerColumnNamePattern)).collect(Collectors.toList());

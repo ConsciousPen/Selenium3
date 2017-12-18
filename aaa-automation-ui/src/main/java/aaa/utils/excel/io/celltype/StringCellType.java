@@ -10,20 +10,20 @@ public class StringCellType extends CellType<String> {
 	public String getValueFrom(ExcelCell cell) {
 		String value = "";
 		Cell c = cell.getPoiCell();
-		switch (c.getCellType()) {
-			case Cell.CELL_TYPE_STRING:
+		switch (c.getCellTypeEnum()) {
+			case STRING:
 				return getText(cell);
-			case Cell.CELL_TYPE_NUMERIC:
+			case NUMERIC:
 				if (DateUtil.isCellDateFormatted(c)) {
 					value = new DataFormatter().formatCellValue(c);
 				} else {
 					value = String.valueOf(ExcelCell.INTEGER_TYPE.getValueFrom(cell));
 				}
 				break;
-			case Cell.CELL_TYPE_BOOLEAN:
+			case BOOLEAN:
 				value = String.valueOf(ExcelCell.BOOLEAN_TYPE.getValueFrom(cell));
 				break;
-			case Cell.CELL_TYPE_ERROR:
+			case ERROR:
 				value = "Error: " + String.valueOf(c.getErrorCellValue()).trim();
 				break;
 			default:
@@ -31,6 +31,11 @@ public class StringCellType extends CellType<String> {
 		}
 
 		return value;
+	}
+
+	@Override
+	public void setValueTo(ExcelCell cell, String value) {
+		cell.getPoiCell().setCellValue(value);
 	}
 
 	@Override

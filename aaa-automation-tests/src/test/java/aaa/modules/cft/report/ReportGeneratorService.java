@@ -1,21 +1,6 @@
 package aaa.modules.cft.report;
 
-
-import aaa.modules.cft.report.model.DataSourceKey;
-import aaa.modules.cft.report.model.EntryStatus;
-import aaa.modules.cft.report.model.ReportEntry;
-import com.exigen.ipb.etcsa.utils.ExcelUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.ss.util.CellUtil;
-import org.apache.poi.xssf.model.StylesTable;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFColor;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import java.awt.Color;
+import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,6 +8,24 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellUtil;
+import org.apache.poi.xssf.model.StylesTable;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import com.exigen.ipb.etcsa.utils.ExcelUtils;
+import aaa.modules.cft.report.model.DataSourceKey;
+import aaa.modules.cft.report.model.EntryStatus;
+import aaa.modules.cft.report.model.ReportEntry;
 
 public class ReportGeneratorService {
 
@@ -33,13 +36,13 @@ public class ReportGeneratorService {
         //create rows with color scheme explanation
         XSSFCellStyle xssfCellExp1 = stylesTable.createCellStyle();
         xssfCellExp1.setFillForegroundColor(new XSSFColor(new Color(196, 215, 155)));
-        xssfCellExp1.setFillPattern(CellStyle.SOLID_FOREGROUND);
+        xssfCellExp1.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         XSSFCellStyle xssfCellExp2 = stylesTable.createCellStyle();
         xssfCellExp2.setFillForegroundColor(new XSSFColor(new Color(192, 0, 0)));
-        xssfCellExp2.setFillPattern(CellStyle.SOLID_FOREGROUND);
+        xssfCellExp2.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         XSSFCellStyle xssfCellExp3 = stylesTable.createCellStyle();
         xssfCellExp3.setFillForegroundColor(new XSSFColor(new Color(246, 142, 56)));
-        xssfCellExp3.setFillPattern(CellStyle.SOLID_FOREGROUND);
+        xssfCellExp3.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         Row expRow1 = sheet.createRow(1);
         CellUtil.createCell(expRow1, 1, StringUtils.EMPTY, xssfCellExp1);
         CellUtil.createCell(expRow1, 2, "- Matched");
@@ -58,8 +61,8 @@ public class ReportGeneratorService {
         XSSFCellStyle xssfCellStyle = stylesTable.createCellStyle();
         setBorderToCellStyle(xssfCellStyle);
         xssfCellStyle.setFillForegroundColor(new XSSFColor(new Color(231, 235, 247)));
-        xssfCellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
-        xssfCellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+        xssfCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        xssfCellStyle.setAlignment(HorizontalAlignment.CENTER);
         CellUtil.createCell(headerRow, 1, "ETL", xssfCellStyle);
         CellUtil.createCell(headerRow, 2, StringUtils.EMPTY, xssfCellStyle);
         CellUtil.createCell(headerRow, 4, "ETL vs TBR", xssfCellStyle);
@@ -218,21 +221,21 @@ public class ReportGeneratorService {
         switch (status) {
             case MATCHED: {
                 style.setFillForegroundColor(new XSSFColor(new Color(196, 215, 155)));
-                style.setFillPattern(CellStyle.SOLID_FOREGROUND);
+                style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
                 break;
             }
             case MISSED: {
                 style.setFillForegroundColor(new XSSFColor(new Color(192, 0, 0)));
-                style.setFillPattern(CellStyle.SOLID_FOREGROUND);
+                style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
                 break;
             }
             case COLLISION: {
                 style.setFillForegroundColor(new XSSFColor(new Color(246, 142, 56)));
-                style.setFillPattern(CellStyle.SOLID_FOREGROUND);
+                style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
                 break;
             }
         }
-        style.setAlignment(CellStyle.ALIGN_CENTER);
+        style.setAlignment(HorizontalAlignment.CENTER);
     }
 
     private static void setBorderToCellStyle(XSSFCellStyle style) {

@@ -1,7 +1,6 @@
 package aaa.utils.excel.io.celltype;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import org.apache.poi.ss.usermodel.Cell;
 import aaa.utils.excel.io.entity.ExcelCell;
 
 public class BooleanCellType extends CellType<Boolean> {
@@ -13,8 +12,13 @@ public class BooleanCellType extends CellType<Boolean> {
 	}
 
 	@Override
+	public void setValueTo(ExcelCell cell, Boolean value) {
+		cell.getPoiCell().setCellValue(value);
+	}
+
+	@Override
 	public boolean isTypeOf(ExcelCell cell) {
-		return cell.getPoiCell().getCellType() == Cell.CELL_TYPE_BOOLEAN || hasTextValue(cell);
+		return cell.getPoiCell().getCellTypeEnum() == org.apache.poi.ss.usermodel.CellType.BOOLEAN || hasTextValue(cell);
 	}
 
 	@Override
