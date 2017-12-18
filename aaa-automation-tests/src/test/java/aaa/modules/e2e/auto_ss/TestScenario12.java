@@ -23,11 +23,20 @@ public class TestScenario12 extends Scenario12 {
 		createTestPolicy(policyCreationTD);
 		SoftAssertions.assertSoftly(softly -> {
 			generateFirstBill();
-			payFirstBill();
+			//payFirstBill();
+			
+			generateCancelNotice();
+			generateCancellation();
+			createRemittanceFile();
+			payCancellationNoticeByRemittance();
+			policyReinstatement();
+			generateRefund();
+			
 			renewalImageGeneration();
 			renewalPreviewGeneration();
 			renewalOfferGeneration();
 			generateRenewalBill();
+			
 			changePaymentPlan();
 			enableAutoPay();
 			payRenewalBill();
@@ -47,6 +56,7 @@ public class TestScenario12 extends Scenario12 {
 			updatePolicyStatus_FirstRenewal();
 			generateFirstBillOfSecondRenewal();
 			payFirstBillOfSecondRenewal();
+			
 		});
 	}
 }
