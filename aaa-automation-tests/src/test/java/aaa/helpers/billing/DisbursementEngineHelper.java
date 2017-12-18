@@ -14,7 +14,7 @@ import toolkit.utils.logging.CustomLogger;
 
 public class DisbursementEngineHelper {
 
-	private static final String DISBURSEMENT_ENGINE_PATH = "/AAA/JobFolders/DSB_E_DSBCTRL_PASSYS_7035_D/inbound/";
+	public static String DISBURSEMENT_ENGINE_PATH = "/AAA/JobFolders/%1$s/inbound/%2$s";
 
 	/**
 	 * This method is used for prepare disbursement engine file with data specified by input parameters.
@@ -31,7 +31,7 @@ public class DisbursementEngineHelper {
 	 * cardSubType - Debit, Credit
 	 * refundStatus - SUCC - success, ERR - for error
 	 */
-	public static synchronized File createFile(DisbursementEngineFileBuilder builder) {
+	public static synchronized File createFile(DisbursementEngineFileBuilder builder, String fileNameLastPart) {
 		final DateTimeFormatter DATE_TIME_PATTERN = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 		final DateTimeFormatter DATE_PATTERN = DateTimeFormatter.ofPattern("MMddyyyy");
 		final DateTimeFormatter TIME_PATTERN = DateTimeFormatter.ofPattern("HHmmss");
@@ -40,14 +40,14 @@ public class DisbursementEngineHelper {
 		LocalDateTime date = DateTimeUtils.getCurrentDateTime();
 
 		do {
-			fileName = date.format(DATE_PATTERN) + "_" + date.format(TIME_PATTERN) + "_DSB_E_DSBCTRL_PASSYS_7035_D.csv";
+			fileName = date.format(DATE_PATTERN) + "_" + date.format(TIME_PATTERN) + "_" + fileNameLastPart + ".csv";
 			file = new File(CustomLogger.getLogDirectory().concat("/DisbursementEngine_Files/"), fileName);
 			date = date.plusSeconds(1);
 		} while (file.exists());
 		file.getParentFile().mkdir();
 
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-			String header = MessageFormat.format("H|DEV|DSBCTRL|PASSYS|DSB_E_DSBCTRL_PASSYS_7035_D|ETLNONPROD|71DCF95E-C|{0}|{1}|C48192E5-E|1\n", fileName, date.format(DATE_TIME_PATTERN));
+			String header = MessageFormat.format("H|DEV|DSBCTRL|PASSYS|{0}|ETLNONPROD|71DCF95E-C|{1}|{2}|C48192E5-E|1\n", fileNameLastPart, fileName, date.format(DATE_TIME_PATTERN));
 			bw.write(header);
 			bw.write(builder.buildData(date.format(DATE_PATTERN)));
 			bw.write(builder.buildTrail());
@@ -58,10 +58,10 @@ public class DisbursementEngineHelper {
 		return file;
 	}
 
-	public static synchronized void copyFileToServer(File file) {
+	public static synchronized void copyFileToServer(File file, String folderName) {
 		if (file == null)
 			throw new IstfException("Disbursement engine file is NULL");
-		RemoteHelper.uploadFile(file.getAbsolutePath(), DISBURSEMENT_ENGINE_PATH + file.getName());
+		RemoteHelper.uploadFile(file.getAbsolutePath(), String.format(DISBURSEMENT_ENGINE_PATH, folderName, file.getName()));
 	}
 
 	public static class DisbursementEngineFileBuilder {

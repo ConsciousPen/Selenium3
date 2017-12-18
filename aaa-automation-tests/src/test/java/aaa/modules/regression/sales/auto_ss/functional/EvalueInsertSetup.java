@@ -11,6 +11,12 @@ import toolkit.db.DBService;
 @Listeners({AaaTestListener.class})
 public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
+	@Test(description = "Delete old tasks")
+	public static void deleteOldTasksUpdate() {
+		DBService.get().executeUpdate(DELETE_OLD_TASKS1);
+		DBService.get().executeUpdate(DELETE_OLD_TASKS2);
+	}
+
 	@Test(description = "Precondition updating Payperless Preferences Endpoint to a Stub")
 	public static void paperlessPreferencesStubEndpointUpdate() {
 		DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE, APP_HOST));
@@ -95,11 +101,6 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 		DBService.get().executeUpdate(EVALUE_TERRITORY_CHANNEL_FOR_VA_CONFIG_UPDATE);
 	}
 
-	@Test(description = "Precondition for eValue Membership Eligibility configurations")
-	public static void eValueMembershipEligibilityConfigInsert() {
-		DBService.get().executeUpdate(EVALUE_MEMBERSHIP_ELIGIBILITY_CONFIG_INSERT);
-	}
-
 	@Test(description = "Precondition Refund/Payment handling, turning on pcDisbursementEngine related functionality")
 	public static void refundDocumentGenerationConfigInsert() {
 		DBService.get().executeUpdate(REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL);
@@ -142,5 +143,10 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 	@Test(description = "Precondition updating pending refund configuration")
 	public static void pendingRefundConfigurationUpdate() {
 		DBService.get().executeUpdate(PENDING_REFUND_CONFIGURATION_UPDATE);
+	}
+
+	@Test(description = "Precondition updating Authentication stub end points")
+	public static void authenticationStubPointUpdate() {
+		DBService.get().executeUpdate(String.format(AUTHENTICATION_STUB_POINT_UPDATE, APP_HOST));
 	}
 }

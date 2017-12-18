@@ -21,6 +21,7 @@ public final class BillingAccountMetaData {
         public static final AssetDescriptor<TextBox> AMOUNT = declare("Amount", TextBox.class);
         public static final AssetDescriptor<ComboBox> INVOICE = declare("Invoice", ComboBox.class);
         public static final AssetDescriptor<ComboBox> PAYMENT_METHOD = declare("Payment Method", ComboBox.class);
+        public static final AssetDescriptor<StaticElement> TRANSACTION_ID = declare("Transaction ID", StaticElement.class);
         public static final AssetDescriptor<TextBox> CHECK_NUMBER = declare("Check Number", TextBox.class);
         public static final AssetDescriptor<TextBox> CHECK_DATE = declare("Check Date", TextBox.class);
         public static final AssetDescriptor<TextBox> PAYEE_NAME = declare("Payee Name", TextBox.class);

@@ -112,6 +112,8 @@ public class Jobs {
 
 	public static Job renewalImageRatingAsyncTaskJob = new Job("renewalImageRatingAsyncTaskJob");
 
+	public static Job aaaRefundsDisbursementRejectionsAsyncJob = new Job("aaaRefundsDisbursementRejectionsAsyncJob");
+
 
 	public static Job aaaCCardExpiryNoticeJob = new Job("aaaCCardExpiryNoticeJob");
 

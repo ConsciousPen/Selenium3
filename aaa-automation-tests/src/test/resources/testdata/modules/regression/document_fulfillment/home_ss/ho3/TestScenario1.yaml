@@ -1,0 +1,12 @@
+TestData: {
+  EndorsementTab: {
+    HS 04 59: {
+      Name of relative: Test,
+      'Does the facility provide living services such as dining, therapy, medical supervision, housekeeping and social activities?': 'Yes',
+      Name of facility: Test,
+      Zip code: 85118,
+      Street address 1: Test,
+      Coverage C limit: 10000
+    }
+  }
+}

@@ -31,6 +31,7 @@ import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditions.TestRefundProcessPreConditions;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import toolkit.config.PropertyProvider;
@@ -43,28 +44,13 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 
-public class TestRefundProcess extends PolicyBilling {
+public class TestRefundProcess extends PolicyBilling implements TestRefundProcessPreConditions {
 
 	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
 	private TestData tdBilling = testDataManager.billingAccount;
 	private TestData tdRefund = tdBilling.getTestData("Refund", "TestData_Check");
 	private BillingAccount billingAccount = new BillingAccount();
 	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
-
-	private static final String REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL = "select dtype, code, displayValue, productCd, riskStateCd, lookuplist_id from LOOKUPVALUE " +
-			"where lookuplist_ID = (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup') " +
-			"and code = 'pcDisbursementEngine' " +
-			"and RISKSTATECD = 'VA' " +
-			"and DISPLAYVALUE = 'TRUE' ";
-
-	private static final String REFUND_CONFIG_CHECK = "select * from LOOKUPVALUE " +
-			" WHERE LOOKUPLIST_ID IN (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME LIKE '%Rollout%' and CODE='eRefunds' and DISPLAYVALUE='TRUE' )";
-
-	private static final String LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK = "select value from PROPERTYCONFIGURERENTITY " +
-			" where propertyname = 'lastPaymentService.lastPaymentServiceUrl' and value = 'http://%s:9098/aaa-external-stub-services-app/ws/billing/lastPayment'";
-
-	private static final String PENDING_REFUND_PAYMENT_METHOD_CONFIG_CHECK = "select defaultrefundmethod from BILLINGREFUNDPAYMENTMETHOD\n"
-			+ "where id = (select id from BILLINGREFUNDPAYMENTMETHOD)";
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -78,6 +64,7 @@ public class TestRefundProcess extends PolicyBilling {
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_GENERATION_ASYNC_JOB);
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_ASYNC_JOB);
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_RECEIVE_INFO_JOB);
+		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUNDS_DISBURSMENT_REJECTIONS_ASYNC_JOB);
 	}
 
 	@Test(description = "Precondition for TestRefundProcess tests")
@@ -98,6 +85,9 @@ public class TestRefundProcess extends PolicyBilling {
 		CustomAssert.assertTrue("Erefunds lookup value is not true, please run REFUND_CONFIG_INSERT", DBService.get().getValue(REFUND_CONFIG_CHECK).isPresent());
 		CustomAssert.assertTrue("Erefund stub point is set incorrect, please run LAST_PAYMENT_METHOD_STUB_POINT_UPDATE", DBService.get()
 				.getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)).get()
+				.contains(APP_HOST));
+		CustomAssert.assertTrue("Authentication stub point is set incorrect, please run AUTHENTICATION_STUB_POINT_UPDATE", DBService.get()
+				.getValue(String.format(AUTHENTICATION_STUB_END_POINT_CHECK, APP_HOST)).get()
 				.contains(APP_HOST));
 
 		CustomAssert.disableSoftMode();
@@ -128,9 +118,7 @@ public class TestRefundProcess extends PolicyBilling {
 		String checkDate2 = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeUtils.MM_DD_YYYY);
 		String checkDate3 = TimeSetterUtil.getInstance().getCurrentTime().plusDays(2).format(DateTimeUtils.MM_DD_YYYY);
 		String paymentMethod = "Check";
-
 		precondJobAdding();
-
 		mainApp().open();
 		createCustomerIndividual();
 		getPolicyType().get().createPolicy(getPolicyTD());
@@ -164,6 +152,10 @@ public class TestRefundProcess extends PolicyBilling {
 		refund1.put(SUBTYPE_REASON, "Manual Refund");
 		pas453_unissuedRefundActionsCheck(refund1, true);
 		unissuedRefundRecordDetailsCheck(refundAmount1, checkDate1, refund1, true);
+
+		//PAS-6615 start
+		getRefundTransactionID();
+		//PAS-6615 end
 
 		//PAS-1939 Start
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund1).getCell(ACTION).controls.links.get("Void").click();
@@ -211,7 +203,7 @@ public class TestRefundProcess extends PolicyBilling {
 		pas1939_issuedRefundActionsCheck(refund3, policyNumber, false);
 		pas453_issuedUnprocessedRefundRecordDetailsCheck(refundAmount3, checkDate3, refund3, false, false);
 
-		pas453_disbursentEngineReturnedData(paymentMethod, policyNumber);
+		getResponseFromPC(paymentMethod, policyNumber, "R", "SUCC", "DSB_E_DSBCTRL_PASSYS_7035_D");
 		pas1939_issuedRefundActionsCheck(refund3, policyNumber, true);
 		pas453_issuedProcessedRefundRecordDetailsCheck(refundAmount3, checkDate3, refund3, false, true, paymentMethod);
 
@@ -324,63 +316,6 @@ public class TestRefundProcess extends PolicyBilling {
 		CustomAssert.assertAll();
 	}
 
-	private void pas453_disbursentEngineReturnedData(String paymentMethod, String policyNumber) {
-		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
-
-		String transactionNumber = DBService.get().getRows("select TRANSACTIONNUMBER from BILLINGTRANSACTION "
-				+ "where account_id = (select id from BILLINGACCOUNT where ACCOUNTNUMBER = '" + billingAccountNumber + "') "
-				+ "order by CREATIONDATE desc").get(0).get("TRANSACTIONNUMBER");
-
-		if (transactionNumber == null) {
-			CustomAssert.assertTrue("Transaction number isn't found in DB", transactionNumber != null);
-			return;
-		}
-
-		DisbursementEngineHelper.DisbursementEngineFileBuilder builder = new DisbursementEngineHelper.DisbursementEngineFileBuilder()
-				.setRefundMethod("R")
-				.setPolicyNumber(policyNumber)
-				.setProductType("PA")
-				.setRefundStatus("SUCC");
-
-		switch (paymentMethod) {
-			case "ACH":
-				builder = builder.setTransactionNumber(transactionNumber)
-						.setPaymentType("EFT")
-						.setRefundAmount("100.00")
-						.setAccountLast4("1542")
-						.setAccountType("CHKG");
-				break;
-			case "Credit card":
-				builder = builder.setTransactionNumber(transactionNumber)
-						.setPaymentType("CRDC")
-						.setRefundAmount("100.00")
-						.setAccountLast4("4113")
-						.setAccountType("VISA")
-						.setCardSubType("Credit");
-				break;
-			case "Debit card":
-				builder = builder.setTransactionNumber(transactionNumber)
-						.setPaymentType("CRDC")
-						.setRefundAmount("100.00")
-						.setAccountLast4("4444")
-						.setAccountType("MASTR")
-						.setCardSubType("Debit");
-				break;
-			case "Check":
-				builder = builder.setTransactionNumber(transactionNumber)
-						.setPaymentType("CHCK")
-						.setRefundAmount("100.00")
-						.setCheckNumber("123456789");
-				break;
-			default:
-				log.info("never reached");
-		}
-
-		File disbursementEngineFile = DisbursementEngineHelper.createFile(builder);
-		DisbursementEngineHelper.copyFileToServer(disbursementEngineFile);
-		JobUtils.executeJob(Jobs.aaaRefundDisbursementRecieveInfoJob);
-	}
-
 	private void pas352_RefundMethodAndDropdownLastPaymentMethodTest(String message, String amount, String paymentMethod) {
 		precondJobAdding();
 		mainApp().open();
@@ -408,7 +343,6 @@ public class TestRefundProcess extends PolicyBilling {
 		//PAS-2719 Start
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(amount);
 		acceptPaymentActionTab.submitTab();
-
 		String transactionDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		Map<String, String> refund1 = new HashMap<>();
 		refund1.put(TRANSACTION_DATE, transactionDate);
@@ -423,6 +357,14 @@ public class TestRefundProcess extends PolicyBilling {
 		Page.dialogConfirmation.confirm();
 		pas1939_voidedRefundTransactionCheck(new Dollar(amount), transactionDate, "Manual Refund");
 		//PAS-1939 End
+
+		//PAS-2732 Start
+		manualRefundPerform(message, amount);
+		getResponseFromPC(paymentMethod, policyNumber, "M", "ERR", "DSB_E_DSBCTRL_PASSYS_7036_D");
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		pas1939_voidedRefundTransactionCheck(new Dollar(amount), transactionDate, "Manual Refund");
+		//PAS-2732 End
 
 		billingAccount.refund().start();
 		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).setValue(message);
@@ -480,7 +422,7 @@ public class TestRefundProcess extends PolicyBilling {
 		pas1939_issuedRefundActionsCheck(refund4, policyNumber, false);
 		pas453_issuedUnprocessedRefundRecordDetailsCheck(refundAmount4, checkDate4, refund4, false, false);
 
-		pas453_disbursentEngineReturnedData(paymentMethod, policyNumber);
+		getResponseFromPC(paymentMethod, policyNumber, "R", "SUCC", "DSB_E_DSBCTRL_PASSYS_7035_D");
 		pas1939_issuedRefundActionsCheck(refund4, policyNumber, false);
 		pas453_issuedProcessedRefundRecordDetailsCheck(refundAmount4, checkDate4, refund4, false, false, message);
 		//PAS-453 End
@@ -642,5 +584,99 @@ public class TestRefundProcess extends PolicyBilling {
 		//PAS-443 end
 	}
 
+	/**
+	 *
+	 * @param paymentMethod - can be "ACH", "Credit Card", "Debit Card".
+	 * @param policyNumber - current policy number
+	 * @param refundMethod - can be "M" - manual or "R" - automation
+	 * @param refundStatus - can be "SUCC" - success response from PC and "ERR" - failed response from PC
+	 * @param folderName - name of the folder where the file will be generate e.g. "DSB_E_DSBCTRL_PASSYS_7035_D", "DSB_E_DSBCTRL_PASSYS_7036_D"
+	 */
+	private void getResponseFromPC(String paymentMethod, String policyNumber, String refundMethod, String refundStatus, String folderName) {
+
+		String transactionID = getRefundTransactionID();
+
+		if (transactionID == null) {
+			CustomAssert.assertTrue("Transaction number isn't found on UI", transactionID != null);
+			return;
+		}
+
+		DisbursementEngineHelper.DisbursementEngineFileBuilder builder = new DisbursementEngineHelper.DisbursementEngineFileBuilder()
+				.setRefundMethod(refundMethod)
+				.setPolicyNumber(policyNumber)
+				.setProductType("PA")
+				.setRefundStatus(refundStatus);
+
+		switch (paymentMethod) {
+			case "ACH":
+				builder = builder.setTransactionNumber(transactionID)
+						.setPaymentType("EFT")
+						.setRefundAmount("100.00")
+						.setAccountLast4("1542")
+						.setAccountType("CHKG");
+				break;
+			case "Credit card":
+				builder = builder.setTransactionNumber(transactionID)
+						.setPaymentType("CRDC")
+						.setRefundAmount("100.00")
+						.setAccountLast4("4113")
+						.setAccountType("VISA")
+						.setCardSubType("Credit");
+				break;
+			case "Debit card":
+				builder = builder.setTransactionNumber(transactionID)
+						.setPaymentType("CRDC")
+						.setRefundAmount("100.00")
+						.setAccountLast4("4444")
+						.setAccountType("MASTR")
+						.setCardSubType("Debit");
+				break;
+			case "Check":
+				builder = builder.setTransactionNumber(transactionID)
+						.setPaymentType("CHCK")
+						.setRefundAmount("100.00")
+						.setCheckNumber("123456789");
+				break;
+			default:
+				log.info("never reached");
+
+		}
+		File disbursementEngineFile = DisbursementEngineHelper.createFile(builder, folderName);
+		DisbursementEngineHelper.copyFileToServer(disbursementEngineFile, folderName);
+		if ("ERR".equals(refundStatus)) {
+			JobUtils.executeJob(Jobs.aaaRefundsDisbursementRejectionsAsyncJob);
+		} else if ("SUCC".equals(refundStatus)) {
+			JobUtils.executeJob(Jobs.aaaRefundDisbursementRecieveInfoJob);
+		}
+	}
+
+	private void manualRefundPerform(String message, String amount) {
+		if (!BillingSummaryPage.tableBillingGeneralInformation.isPresent()) {
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		}
+		billingAccount.refund().start();
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD.getLabel(), ComboBox.class).setValue(message);
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel(), TextBox.class).setValue(amount);
+		acceptPaymentActionTab.submitTab();
+	}
+
+	//	PAS-6615 check that TransactionID in DB is the same as on UI
+	private String getRefundTransactionID() {
+		BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains("Type", "Refund").getCell(TYPE).controls.links.get("Refund").click();
+		acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID.getLabel(), StaticElement.class).isPresent();
+		String transactionID = acceptPaymentActionTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.TRANSACTION_ID.getLabel(), StaticElement.class).getValue();
+		acceptPaymentActionTab.back();
+		CustomAssert.assertEquals("TranzactionID in DB is differen from TranzactionID on UI", getRefundTransactionIDFromDB(), transactionID);
+		return transactionID;
+	}
+
+	private String getRefundTransactionIDFromDB() {
+		String billingAccountNumber = BillingSummaryPage.labelBillingAccountNumber.getValue();
+
+		String transactionIDFromDB = DBService.get().getRows("select TRANSACTIONNUMBER from BILLINGTRANSACTION "
+				+ "where account_id = (select id from BILLINGACCOUNT where ACCOUNTNUMBER = '" + billingAccountNumber + "') "
+				+ "order by CREATIONDATE desc").get(0).get("TRANSACTIONNUMBER");
+		return transactionIDFromDB;
+	}
 }
 

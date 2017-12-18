@@ -51,6 +51,9 @@ public class BaseTest {
 
 	protected static Logger log = LoggerFactory.getLogger(BaseTest.class);
 
+	protected static final String TEST_DATA_KEY = "TestData";
+	protected static final String STATE_PARAM = "state";
+
 	private static TestData tdCustomerIndividual;
 	private static TestData tdCustomerNonIndividual;
 	public String customerNumber;
