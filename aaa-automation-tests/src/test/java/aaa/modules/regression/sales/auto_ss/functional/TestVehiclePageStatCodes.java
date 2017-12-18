@@ -37,91 +37,90 @@ import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestVehiclePageStatCodes extends AutoSSBaseTest {
 
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.LOW})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6166")
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.LOW})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6166")
 
-    public void vehPageStatCodes(@Optional("") String state) {
+	public void pas6166_vehPageStatCodes(@Optional("") String state) {
 
-//Adjust default test data to use a junk vin on the vehicle tab (junk vin will not have vin match) and enter other vehicle info fields
-        TestData testData = getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), "1FDEU15H7KL055795")
-                .adjust(TestData.makeKeyPath("VehicleTab","Make"), "OTHER")
-                .adjust(TestData.makeKeyPath("VehicleTab","Other Make"), "OTHER")
-                .adjust(TestData.makeKeyPath("VehicleTab","Other Model"), "OTHER")
-                .adjust(TestData.makeKeyPath("VehicleTab","Other Body Style"), "Sedan")
-                .adjust(TestData.makeKeyPath("VehicleTab","Stated Amount"), "11000")
-                .adjust(TestData.makeKeyPath("VehicleTab","Stat Code"), "Midsize car");
+		//Adjust default test data to use a junk vin on the vehicle tab (junk vin will not have vin match) and enter other vehicle info fields
+		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath("VehicleTab", "VIN"), "1FDEU15H7KL055795")
+				.adjust(TestData.makeKeyPath("VehicleTab", "Make"), "OTHER")
+				.adjust(TestData.makeKeyPath("VehicleTab", "Other Make"), "OTHER")
+				.adjust(TestData.makeKeyPath("VehicleTab", "Other Model"), "OTHER")
+				.adjust(TestData.makeKeyPath("VehicleTab", "Other Body Style"), "Sedan")
+				.adjust(TestData.makeKeyPath("VehicleTab", "Stated Amount"), "11000")
+				.adjust(TestData.makeKeyPath("VehicleTab", "Stat Code"), "Midsize car");
 
-//Create new customer
-        mainApp().open();
-        createCustomerIndividual();
+		//Create new customer
+		mainApp().open();
+		createCustomerIndividual();
 
-//Initiate a new ss auto quote, enter all data until the Vehicle Tab, Use Junk Vin Mentioned in above test data
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(testData, VehicleTab.class, true);
+		//Initiate a new ss auto quote, enter all data until the Vehicle Tab, Use Junk Vin Mentioned in above test data
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(testData, VehicleTab.class, true);
 
-//Create a new list of Current Stat Codes available for selection on the Vehicle Page
-        List <String> availStatCodes = new ArrayList<>();
-        availStatCodes.addAll(new VehicleTab().getAssetList().getAsset(AutoSSMetaData.VehicleTab.STAT_CODE).getAllValues());
+		//Create a new list of Current Stat Codes available for selection on the Vehicle Page
+		List<String> availStatCodes = new ArrayList<>();
+		availStatCodes.addAll(new VehicleTab().getAssetList().getAsset(AutoSSMetaData.VehicleTab.STAT_CODE).getAllValues());
 
-//Create a lit of Values that should be available in the STAT Code dropdown
-        ArrayList<String> correctStatSymbols = new ArrayList<>();
-        correctStatSymbols.addAll(Arrays.asList(
-                "",
-                "Small SUV",
-                "Midsize High Exposure Vehicle",
-                "Large SUV",
-                "Midsize car",
-                "Large High Exposure Vehicle",
-                "Midsize SUV",
-                "Small car",
-                "Standard pickup or Utility Truck",
-                "Large car",
-                "Small pickup or Utility Truck",
-                "Passenger Van",
-                "Small High Exposure Vehicle",
-                "Crossover/Station Wagon"
-        ));
+		//Create a lit of Values that should be available in the STAT Code dropdown
+		ArrayList<String> correctStatSymbols = new ArrayList<>();
+		correctStatSymbols.addAll(Arrays.asList(
+				"",
+				"Small SUV",
+				"Midsize High Exposure Vehicle",
+				"Large SUV",
+				"Midsize car",
+				"Large High Exposure Vehicle",
+				"Midsize SUV",
+				"Small car",
+				"Standard pickup or Utility Truck",
+				"Large car",
+				"Small pickup or Utility Truck",
+				"Passenger Van",
+				"Small High Exposure Vehicle",
+				"Crossover/Station Wagon"
+		));
 
+		//Create a lit of Values that should NOT be available in the STAT Code dropdown
+		ArrayList<String> oldStatSymbols = new ArrayList<>();
+		oldStatSymbols.addAll(Arrays.asList(
+				"AC - Small SUV",
+				"AD - Midsize High Exposure Vehicle",
+				"AE - Large SUV",
+				"AI - Midsize car",
+				"AJ - Large High Exposure Vehicle",
+				"AK - Midsize SUV",
+				"AN - Small car",
+				"AO - Standard pickup or Utility Truck",
+				"AQ - Large car",
+				"AR - Small pickup or Utility Truck",
+				"AX - Passenger Van",
+				"AY - Small High Exposure Vehicle",
+				"AZ - Crossover/Station Wagon"
+		));
 
-//Create a lit of Values that should NOT be available in the STAT Code dropdown
-        ArrayList<String> oldStatSymbols = new ArrayList<>();
-        oldStatSymbols.addAll(Arrays.asList(
-                "AC - Small SUV",
-                "AD - Midsize High Exposure Vehicle",
-                "AE - Large SUV",
-                "AI - Midsize car",
-                "AJ - Large High Exposure Vehicle",
-                "AK - Midsize SUV",
-                "AN - Small car",
-                "AO - Standard pickup or Utility Truck",
-                "AQ - Large car",
-                "AR - Small pickup or Utility Truck",
-                "AX - Passenger Van",
-                "AY - Small High Exposure Vehicle",
-                "AZ - Crossover/Station Wagon"
-        ));
+		//Verify the stat symbols were removed from the list of stat codes by comparing the Expected List of Values with the Actual Dropdown Values
+		assertThat(availStatCodes).doesNotContainAnyElementsOf(oldStatSymbols);
+		assertThat(availStatCodes).containsExactlyElementsOf(correctStatSymbols);
+		log.info("SUCCESS: No STAT Code Symbols Present in STAT Code Dropdown during quote creation!");
 
-//Verify the stat symbols were removed from the list of stat codes by comparing the Expected List of Values with the Actual Dropdown Values
-        assertThat(availStatCodes).doesNotContainAnyElementsOf(oldStatSymbols);
-        assertThat(availStatCodes).containsExactlyElementsOf(correctStatSymbols);
-        log.info("SUCCESS: No STAT Code Symbols Present in STAT Code Dropdown during quote creation!");
+		//continue to bind: fill data until the
+		policy.getDefaultView().fillFromTo(testData, VehicleTab.class, DocumentsAndBindTab.class, true);
+		//Save and Exit so that the simplifiedQuoteCreation method can be called - it starts from the consolidated page
+		//NOTE: Refactor may be needed to include 'simplifiedQuoteIssue' into the base tests//I steal it's use here as to not re-invent the wheel
+		new DocumentsAndBindTab().saveAndExit();
+		new TestEValueDiscount().simplifiedQuoteIssue();
 
-//continue to bind: fill data until the
-        policy.getDefaultView().fillFromTo(testData, VehicleTab.class, DocumentsAndBindTab.class, true);
-        //Save and Exit so that the simplifiedQuoteCreation method can be called - it starts from the consolidated page
-        //NOTE: Refactor may be needed to include 'simplifiedQuoteIssue' into the base tests//I steal it's use here as to not re-invent the wheel
-        new DocumentsAndBindTab().saveAndExit();
-        new TestEValueDiscount().simplifiedQuoteIssue();
+		//Endorse the policy
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 
-//Endorse the policy
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		//Verify the stat symbols were removed from the list of stat codes by comparing the Expected List of Values with the Actual Dropdown Values
+		assertThat(availStatCodes).doesNotContainAnyElementsOf(oldStatSymbols);
+		assertThat(availStatCodes).containsExactlyElementsOf(correctStatSymbols);
+		log.info("SUCCESS: No STAT Code Symbols Present in STAT Code Dropdown during endorsement!");
 
-//Verify the stat symbols were removed from the list of stat codes by comparing the Expected List of Values with the Actual Dropdown Values
-        assertThat(availStatCodes).doesNotContainAnyElementsOf(oldStatSymbols);
-        assertThat(availStatCodes).containsExactlyElementsOf(correctStatSymbols);
-        log.info("SUCCESS: No STAT Code Symbols Present in STAT Code Dropdown during endorsement!");
-
-    }
+	}
 }
