@@ -7,7 +7,9 @@ TestData: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {}
+  DocumentsAndBindTab: {
+    Case Number: 123
+  }
 }
 
 TestData_KY: {
@@ -19,7 +21,9 @@ TestData_KY: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {}
+  DocumentsAndBindTab: {
+    Case Number: 123  
+  }
 }
 
 EndorsementActionTab: {
