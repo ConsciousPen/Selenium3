@@ -44,7 +44,7 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 
-public class TestRefundProcess extends PolicyBilling implements TestRefundProcessPreConditions{
+public class TestRefundProcess extends PolicyBilling implements TestRefundProcessPreConditions {
 
 	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
 	private TestData tdBilling = testDataManager.billingAccount;
@@ -203,7 +203,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		pas1939_issuedRefundActionsCheck(refund3, policyNumber, false);
 		pas453_issuedUnprocessedRefundRecordDetailsCheck(refundAmount3, checkDate3, refund3, false, false);
 
-	    getResponseFromPC(paymentMethod, policyNumber, "R", "SUCC", "DSB_E_DSBCTRL_PASSYS_7035_D");
+		getResponseFromPC(paymentMethod, policyNumber, "R", "SUCC", "DSB_E_DSBCTRL_PASSYS_7035_D");
 		pas1939_issuedRefundActionsCheck(refund3, policyNumber, true);
 		pas453_issuedProcessedRefundRecordDetailsCheck(refundAmount3, checkDate3, refund3, false, true, paymentMethod);
 
@@ -643,9 +643,9 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		}
 		File disbursementEngineFile = DisbursementEngineHelper.createFile(builder, folderName);
 		DisbursementEngineHelper.copyFileToServer(disbursementEngineFile, folderName);
-		if("ERR".equals(refundStatus)){
+		if ("ERR".equals(refundStatus)) {
 			JobUtils.executeJob(Jobs.aaaRefundsDisbursementRejectionsAsyncJob);
-		}else if ("SUCC".equals(refundStatus)){
+		} else if ("SUCC".equals(refundStatus)) {
 			JobUtils.executeJob(Jobs.aaaRefundDisbursementRecieveInfoJob);
 		}
 	}

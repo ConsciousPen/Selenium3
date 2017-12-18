@@ -393,9 +393,11 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipEligibilitySwitch = "TRUE";
 		String membershipStatusActive = "Cancelled";
 
+		CustomAssert.enableSoftMode();
 		renewalMembershipProcessCheck(membershipEligibilitySwitch, membershipStatusActive);
-
 		postconditionMembershipEligibilityCheck();
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
 
 	/**
@@ -421,9 +423,11 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipEligibilitySwitch = "FALSE";
 		String membershipStatusActive = "Cancelled";
 
+		CustomAssert.enableSoftMode();
 		renewalMembershipProcessCheck(membershipEligibilitySwitch, membershipStatusActive);
-
 		postconditionMembershipEligibilityCheck();
+		CustomAssert.disableSoftMode();
+		CustomAssert.assertAll();
 	}
 
 	private void renewalMembershipProcessCheck(String membershipEligibilitySwitch, String membershipStatus) {
@@ -701,6 +705,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AHDRXX", "ENDORSEMENT_ISSUE");
 
 		if (isGenerated) {
+			lastTransactionHistoryExit();
 			Efolder.isDocumentExist("Endorsement", "DISCOUNT REMOVED");
 
 			if (isMembershipDataPresent) {
