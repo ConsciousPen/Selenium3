@@ -51,7 +51,7 @@ PropertyInfoTab: {
 # ------------ PropertyInfo Tab --------------
 PublicProtectionClass: {
   Fire department type: 'S - Subscription based',
-  Subscription to fire department/station: 'No',
+  Subscription to fire department/station: 'Yes',
   Public protection class: '1',
   Distance to fire hydrant: '<=1000ft',
   Fire protection area: '100'
@@ -117,6 +117,7 @@ DocumentsTab1: {
     Proof of central fire alarm: 'No',
     Proof of central theft alarm: 'No',
     "Proof of plumbing, electrical, heating/cooling system and roof renovations": 'No',
+    Proof of subscription to fire department: 'No'
   },
   DocumentsToIssue: {
     Signed policy application: Not Signed
@@ -129,6 +130,7 @@ DocumentsTab2: {
     Proof of central fire alarm: 'No',
     Proof of central theft alarm: 'No',
     Proof of home renovations for the Home Modernization discount: 'No',
+    Proof of subscription to fire department: 'No'
   },
   DocumentsToIssue: {
     Signed policy application: Not Signed

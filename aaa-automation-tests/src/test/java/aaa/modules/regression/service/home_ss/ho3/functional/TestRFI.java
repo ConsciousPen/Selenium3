@@ -63,6 +63,7 @@ public class TestRFI extends HomeSSHO3BaseTest {
 		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM).verify.value("No");
 		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM).verify.value("No");
 		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS).verify.value("No");
+		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT).verify.value("No");
 		documentsTab.saveAndExit();
 
 		CustomAssert.enableSoftMode();
@@ -75,6 +76,7 @@ public class TestRFI extends HomeSSHO3BaseTest {
 		rfiTagCheck(query, "GrnHoDiscYN", "Y");
 		rfiTagCheck(query, "RtCntrlAlrmForThft", "Y");
 		rfiTagCheck(query, "RtCntrlAlrmForFire", "Y");
+		rfiTagCheck(query, "SubFireDepYN", "Y");
 
 		RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), "NS");
@@ -82,6 +84,7 @@ public class TestRFI extends HomeSSHO3BaseTest {
 		policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "false");
 		policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "false");
 		policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS.getLabel(), "false");
+		policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "false");
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
@@ -115,6 +118,7 @@ public class TestRFI extends HomeSSHO3BaseTest {
 		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM).verify.value("No");
 		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM).verify.value("No");
 		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION).verify.value("No");
+		documentsTab.getRequiredToBindAssetList().getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT).verify.value("No");
 		documentsTab.saveAndExit();
 
 		CustomAssert.enableSoftMode();
@@ -127,6 +131,7 @@ public class TestRFI extends HomeSSHO3BaseTest {
 		rfiTagCheck(query, "GrnHoDiscYN", "Y");
 		rfiTagCheck(query, "RtCntrlAlrmForThft", "Y");
 		rfiTagCheck(query, "RtCntrlAlrmForFire", "Y");
+		rfiTagCheck(query, "SubFireDepYN", "Y");
 
 		RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), "NS");
@@ -134,6 +139,7 @@ public class TestRFI extends HomeSSHO3BaseTest {
 		policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "false");
 		policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "false");
 		policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION.getLabel(), "false");
+		policyServiceRfiStatusCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "false");
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
