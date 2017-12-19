@@ -201,3 +201,9 @@ PAS-6539:
     aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc,
     aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess.pas352_RefundMethodAndDropdownLastPaymentMethodCreditCard]
       messages: ['paymentMethod']
+PAS-7265:
+  summary: "Paperless preference reason isn't displayed in AHDRXX document in case Paperless is Pending at NB+30"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess.pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending]
+      messages: ['Y']
