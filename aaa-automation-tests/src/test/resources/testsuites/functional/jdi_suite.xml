@@ -6,42 +6,33 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
-    <test name="TestRefundProcessVA">
-        <parameter name="state" value="VA"/>
+    <test name="eValue Related Jobs">
         <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
                 <methods>
                     <include name="precondJobAdding"/>
-                    <include name="refundDocumentGenerationConfigCheck"/>
-                    <include name="eRefundLastPaymentMethodConfigCheck"/>
-                    <include name="pas2186_RefundProcess"/>
-                    <include name="pas352_RefundMethodAndDropdownLastPaymentMethod"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="TestRefundProcessAZ">
-        <parameter name="state" value="AZ"/>
+    <test name="TestEValueDiscountJobAdding">
         <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
                 <methods>
-                    <include name="eRefundLastPaymentMethodConfigCheck"/>
-                    <include name="pas352_RefundMethodAndDropdownLastPaymentMethodDebitCardMc"/>
+                    <include name="precondJobAdding"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="TestRefundProcessMD">
-        <parameter name="state" value="MD"/>
+ <!--   <test name="TestEValueMembershipProcessJobAdding">
         <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
                 <methods>
-                    <include name="eRefundLastPaymentMethodConfigCheck"/>
-                    <include name="pas352_RefundMethodAndDropdownLastPaymentMethodEFT"/>
+                    <include name="precondJobAdding"/>
                 </methods>
             </class>
         </classes>
-    </test>
+    </test>-->
     <test name="TestEValueDiscountVA">
         <parameter name="state" value="VA"/>
         <classes>
