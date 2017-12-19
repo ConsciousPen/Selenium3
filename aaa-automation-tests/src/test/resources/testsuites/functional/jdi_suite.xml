@@ -171,6 +171,7 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
                 <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
                     <include name="pas3697_membershipEligibilityConfigurationTrueForActiveMembership"/>
                     <include name="pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal"/>
                     <include name="pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
@@ -188,6 +189,7 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
                 <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
                     <include name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending"/>
                 </methods>
             </class>
