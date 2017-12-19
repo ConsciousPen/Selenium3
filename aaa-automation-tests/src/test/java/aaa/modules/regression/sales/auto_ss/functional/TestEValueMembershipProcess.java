@@ -47,7 +47,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
 	private static final String MESSAGE_INFO_1 = "This customer is not eligible for eValue discount due to one or more of the following reasons:";
 	private static final String MESSAGE_BULLET_8 = "Does not have an active AAA membership";
-	private static final String MESSAGE_INFO_4 = "eValue Discount Requirements";
+	private static final String MESSAGE_INFO_4 = "eValue Discount Requirements:";
 
 	private Random random = new Random();
 	private GeneralTab generalTab = new GeneralTab();
@@ -481,8 +481,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	}
 
 	private void lastTransactionHistoryExit() {
-		premiumAndCoveragesTab.cancel();
-		Tab.buttonCancel.click();
+		if (Tab.buttonCancel.isPresent()) {
+			premiumAndCoveragesTab.cancel();
+			Tab.buttonCancel.click();
+		}
 	}
 
 	private void lastTransactionHistoryOpen() {
