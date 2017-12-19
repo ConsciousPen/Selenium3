@@ -16,7 +16,7 @@ import aaa.helpers.db.DbXmlHelper;
 import aaa.helpers.docgen.searchNodes.SearchBy;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.helpers.xml.XmlHelper;
-import aaa.helpers.xml.models.*;
+import aaa.helpers.xml.model.*;
 import aaa.main.enums.DocGenEnum;
 import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssert;

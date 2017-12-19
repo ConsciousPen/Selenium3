@@ -2,7 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.admin.modules.cem.groupsinformation;
 
-import aaa.EntityLogger;
+import aaa.utils.EntityLogger;
 import aaa.admin.modules.cem.groupsinformation.GroupInformationActions.DeleteGroupsInformation;
 import aaa.admin.modules.cem.groupsinformation.GroupInformationActions.EditGroupsInformation;
 import aaa.admin.modules.cem.groupsinformation.defaulttabs.CreateGroupInformationTab;
