@@ -73,7 +73,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestRefundProcessAZ1">
+        <test name="TestRefundProcessAZ1">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
