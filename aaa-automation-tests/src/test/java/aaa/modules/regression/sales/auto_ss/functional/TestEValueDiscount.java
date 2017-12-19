@@ -18,6 +18,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import aaa.admin.pages.general.GeneralSchedulerPage;
+import aaa.common.Tab;
 import aaa.common.components.Efolder;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -1230,8 +1231,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		prefillEvalueTestData(membershipStatus, currentCarrier);
 		fillPremiumAndCoveragesTab(evalueIsSelected);
 		fillDriverActivityReportsTab();
-		TestData tdPolicyCreation = fillDocumentAndBindTab(evalueIsPresent);
-		new PurchaseTab().fillTab(tdPolicyCreation).submitTab();
+		fillDocumentAndBindTab(evalueIsPresent);
+		Tab.buttonSaveAndExit.click();
+		simplifiedQuoteIssue();
 
 		validateEvalueStatus(evalueStatus);
 		validatePolicyStatus();
@@ -1274,7 +1276,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		driverActivityReportsTab.submitTab();
 	}
 
-	private TestData fillDocumentAndBindTab(boolean evalueIsPresent) {
+	private void fillDocumentAndBindTab(boolean evalueIsPresent) {
 		DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 		String metaKey = documentsAndBindTab.getMetaKey();
 		String evalueAcknowledgementKey = TestData.makeKeyPath(metaKey,
@@ -1288,8 +1290,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		if (evalueIsPresent) {
 			tdPolicyCreation = tdPolicyCreation.adjust(evalueAcknowledgementKey, "Physically Signed");
 		}
-		documentsAndBindTab.fillTab(tdPolicyCreation).submitTab();
-		return tdPolicyCreation;
+		documentsAndBindTab.fillTab(tdPolicyCreation);
 	}
 
 	private void validateEvalueStatus(String expectedEvalueStatus) {
