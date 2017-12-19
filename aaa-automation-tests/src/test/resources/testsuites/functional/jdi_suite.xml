@@ -62,6 +62,17 @@
             </class>
         </classes>
     </test>
+    <test name="TestRefundProcessVA3">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="refundDocumentGenerationConfigCheck"/>
+                    <include name="pas2727_ManualChkRefundFromDe"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="TestRefundProcessVA1">
         <parameter name="state" value="VA"/>
         <classes>
@@ -73,7 +84,7 @@
             </class>
         </classes>
     </test>
-        <test name="TestRefundProcessAZ1">
+    <test name="TestRefundProcessAZ1">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
