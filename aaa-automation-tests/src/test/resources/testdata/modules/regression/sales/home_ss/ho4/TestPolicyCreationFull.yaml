@@ -557,7 +557,7 @@ TestDataFull_KY: {
   EndorsementTab: '@EndorsementTab',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_KY',
-  UnderwritingAndApprovalTab: '@<home_ss_ho4>@DataGather@UnderwritingAndApprovalTab_KY',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_KY',
   DocumentsTab: '@DocumentsTab',
   BindTab: '@<home_ss_ho3>@DataGather@BindTab',
   PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
@@ -587,6 +587,12 @@ MortgageesTab_KY: {
     Street Address 1: 'Power Str',
     Street Address 2: 'He is a very cool guy',
   },
+}
+
+UnderwritingAndApprovalTab_KY: {
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is any business or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No"
 }
 
 # --------- TestData MD -----------
@@ -1017,7 +1023,7 @@ TestDataFull_VA: {
   ApplicantTab: '@ApplicantTab_VA',
   ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_VA',
   PropertyInfoTab: '@PropertyInfoTab',
-  EndorsementTab: '@EndorsementTab',
+  EndorsementTab: {},
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@MortgageesTab_VA',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
@@ -1094,4 +1100,46 @@ MortgageesTab_WV: {
   },
 }
 
+
+# --------- TestData WY -----------
+
+TestDataFull_WY: {
+  GeneralTab: '@<home_ss_ho4>@DataGather@GeneralTab_WY',
+  ApplicantTab: '@ApplicantTab_WY',
+  ReportsTab: '@<home_ss_ho3>@DataGather@ReportsTab_WY',
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: '@EndorsementTab',
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
+  MortgageesTab: '@MortgageesTab_WY',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: '@<home_ss_ho3>@DataGather@BindTab',
+  PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
+}
+
+ApplicantTab_WY: {
+  NamedInsured: '@NamedInsured',
+  AAAMembership: '@AAAMembership',
+  DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_WY',
+  PreviousDwellingAddress: '@PreviousDwellingAddress',
+  MailingAddress: '@MailingAddress',
+  NamedInsuredInformation: '@NamedInsuredInformation',
+  AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_WY',
+  OtherActiveAAAPolicies: {},
+}
+
+MortgageesTab_WY: {
+  'Use legal named insured': 'Yes',
+  'Use legal property address': 'Yes',
+  'Is there an additional insured?': 'Yes',
+  'Is there a certificate holder?': 'Yes',
+  LegalPropetyAddress: '@LegalPropetyAddress',
+  AdditionalInsured: '@AdditionalInsured',
+  CertificateHolders: {
+    Name: 'Chuck Norris',
+    Zip code: '82604',
+    Street Address 1: 'Power Str',
+    Street Address 2: 'He is a very cool guy',
+  },
+}
 
