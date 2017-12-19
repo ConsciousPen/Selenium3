@@ -1,12 +1,14 @@
 package aaa.utils.excel.io.entity;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -16,56 +18,59 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
+import aaa.utils.excel.io.entity.iterator.RowIterator;
 
 public class ExcelTable implements Iterable<TableRow> {
 	protected static Logger log = LoggerFactory.getLogger(ExcelTable.class);
 
 	private Set<Integer> columnNumbers;
 	private Row headerRow;
+	private ExcelSheet sheet;
 	private Integer rowsNumber;
-	private CellType<?>[] cellTypes;
+	private Set<CellType<?>> cellTypes;
 	private TableHeader header;
 	private List<TableRow> rows;
 
-	public ExcelTable(Row headerRow) {
-		this(headerRow, ExcelCell.getBaseTypes());
+	public ExcelTable(Row headerRow, ExcelSheet sheet, ExcelManager excelManager) {
+		this(headerRow, sheet, ExcelCell.getBaseTypes());
 	}
 
-	public ExcelTable(Row headerRow, CellType<?>... cellTypes) {
-		//TODO: get last row in table instead of last row on sheet
-		this(headerRow, null, null, null, cellTypes);
+	public ExcelTable(Row headerRow, ExcelSheet sheet, CellType<?>... cellTypes) {
+		this(headerRow, sheet, null, null, null, cellTypes);
 	}
 
-	public ExcelTable(Row headerRow, Integer rowsNumber, Integer firstColumnNumber, Integer lastColumnNumber, CellType<?>... cellTypes) {
+	public ExcelTable(Row headerRow, ExcelSheet sheet, Integer rowsNumber, Integer firstColumnNumber, Integer lastColumnNumber, CellType<?>... cellTypes) {
 		setColumnNumbers(headerRow, firstColumnNumber, lastColumnNumber);
 		this.headerRow = removeNonTableCells(headerRow);
+		this.sheet = sheet;
 		this.rowsNumber = rowsNumber != null ? rowsNumber : calculateTableRowsNumber(headerRow);
-		this.cellTypes = cellTypes.length != 0 ? cellTypes.clone() : ExcelCell.getBaseTypes();
+		this.cellTypes = new HashSet<>(Arrays.asList(cellTypes));
 	}
 
 	public CellType<?>[] getCellTypes() {
-		return this.cellTypes.clone();
+		return this.cellTypes.toArray(new CellType<?>[this.cellTypes.size()]);
 	}
 
 	public TableHeader getHeader() {
 		if (header == null) {
-			header = new TableHeader(getHeaderRow(), this);
+			header = new TableHeader(getHeaderRow(), getSheet(),this);
 		}
 		return header;
 	}
 
-	public Sheet getSheet() {
-		return getHeaderRow().getSheet();
+	public ExcelSheet getSheet() {
+		return sheet;
 	}
 
 	public List<TableRow> getRows() {
 		if (this.rows == null) {
 			this.rows = new ArrayList<>(this.rowsNumber);
 			for (int rowNumber = 1; rowNumber <= this.rowsNumber; rowNumber++) {
-				Row row = getSheet().getRow(getHeaderRow().getRowNum() + rowNumber);
+				Row row = getSheet().getPoiSheet().getRow(getHeaderRow().getRowNum() + rowNumber);
 				row = removeNonTableCells(row);
-				this.rows.add(new TableRow(row, this, rowNumber));
+				this.rows.add(new TableRow(row, getSheet(), this, rowNumber));
 			}
 		}
 		return new ArrayList<>(this.rows);
@@ -94,6 +99,22 @@ public class ExcelTable implements Iterable<TableRow> {
 		return rowsNumber;
 	}
 
+	public int getFirstRowNum() {
+		return 1;
+	}
+
+	public int getLastRowNum() {
+		return this.rowsNumber;
+	}
+
+	public TableRow getFirstRow() {
+		return getRow(getFirstRowNum());
+	}
+
+	public TableRow getLastRow() {
+		return getRow(getLastRowNum());
+	}
+
 	Row getHeaderRow() {
 		return headerRow;
 	}
@@ -101,28 +122,41 @@ public class ExcelTable implements Iterable<TableRow> {
 	@Override
 	@Nonnull
 	public Iterator<TableRow> iterator() {
-		return new TableRowIterator(getRowsNumber());
+		return new RowIterator<>(getFirstRowNum(), getLastRowNum(), this::getRow);
 	}
 
 	@Override
 	public String toString() {
 		return "ExcelTable{" +
-				"header=" + getHeader() +
+				"sheet=" + getSheet() +
+				", header=" + getHeader() +
 				", rowsNumber=" + getRowsNumber() +
 				", tableRows=" + getRows() +
 				'}';
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		ExcelTable that = (ExcelTable) o;
+		return Objects.equals(headerRow, that.headerRow) &&
+				Objects.equals(rowsNumber, that.rowsNumber) &&
+				Objects.equals(cellTypes, that.cellTypes);
+	}
+
+	@Override
+	public int hashCode() {
+
+		return Objects.hash(headerRow, rowsNumber, cellTypes);
+	}
+
 	public boolean hasRow(int rowNumber) {
 		return rowNumber > 0 && rowNumber <= getRowsNumber();
-	}
-
-	public TableRow getFirstRow() {
-		return getRow(1);
-	}
-
-	public TableRow getLastRow() {
-		return getRow(this.rowsNumber);
 	}
 
 	/**
@@ -156,6 +190,32 @@ public class ExcelTable implements Iterable<TableRow> {
 		return getRows(query).get(0);
 	}
 
+	public ExcelTable registerCellType(CellType<?>... cellTypes) {
+		this.cellTypes.addAll(Arrays.asList(cellTypes));
+		getRows().forEach(r -> r.registerCellType(cellTypes));
+		return this;
+	}
+
+	public ExcelTable save() {
+		getSheet().save();
+		return this;
+	}
+
+	public ExcelTable save(File destinationFile) {
+		getSheet().save(destinationFile);
+		return this;
+	}
+
+	public ExcelTable close() {
+		getSheet().close();
+		return this;
+	}
+
+	public ExcelTable saveAndClose() {
+		getSheet().saveAndClose();
+		return this;
+	}
+
 	private void setColumnNumbers(Row headerRow, Integer firstColumnNumber, Integer lastColumnNumber) {
 		if (firstColumnNumber == null) {
 			firstColumnNumber = headerRow.getFirstCellNum() + 1;
@@ -178,7 +238,7 @@ public class ExcelTable implements Iterable<TableRow> {
 
 		Set<String> rowValues = new HashSet<>();
 		for (Cell cell : nonEmptyCells) {
-			String cellValue = new ExcelCell(cell, ExcelCell.STRING_TYPE).getStringValue();
+			String cellValue = new ExcelCell(cell, sheet, ExcelCell.STRING_TYPE).getStringValue();
 			if (cellValue.isEmpty()) {
 				log.warn("Table's header has empty cell value in column number {}, cells from this column will be excluded from table ExcelTable instance", cell.getColumnIndex() + 1);
 				this.columnNumbers.remove(cell.getColumnIndex() + 1);
@@ -200,7 +260,7 @@ public class ExcelTable implements Iterable<TableRow> {
 				return rowNumber - headerRow.getRowNum() - 1;
 			}
 		}
-		return sheet.getLastRowNum() - headerRow.getRowNum() - 1;
+		return sheet.getLastRowNum() - headerRow.getRowNum();
 	}
 
 	private List<Cell> getNonEmptyPoiCells(Row row, Set<Integer> columnNumbers) {
@@ -221,30 +281,5 @@ public class ExcelTable implements Iterable<TableRow> {
 			}
 		}
 		return row;
-	}
-
-	class TableRowIterator implements Iterator<TableRow> {
-		private int currentIndex;
-		private int endIndex;
-
-		TableRowIterator(int rowsNumber) {
-			this.currentIndex = 1;
-			this.endIndex = rowsNumber;
-		}
-
-		@Override
-		public boolean hasNext() {
-			return currentIndex <= endIndex;
-		}
-
-		@Override
-		public TableRow next() {
-			if (!hasNext()) {
-				throw new NoSuchElementException("ExcelTable does not have next TableRow");
-			}
-			TableRow returnRow = getRow(currentIndex);
-			currentIndex++;
-			return returnRow;
-		}
 	}
 }

@@ -13,8 +13,8 @@ public class TableRow extends ExcelRow {
 	private int rowNumber;
 	private Map<Integer, TableCell> tableCells;
 
-	public TableRow(Row row, ExcelTable table, int rowNumber) {
-		super(row, table.getCellTypes());
+	public TableRow(Row row, ExcelSheet sheet, ExcelTable table, int rowNumber) {
+		super(row, sheet, table.getCellTypes());
 		this.table = table;
 		this.rowNumber = rowNumber;
 	}

@@ -1,118 +1,115 @@
-package aaa.utils.excel.io;
+package aaa.utils.excel.io.entity;
 
-import static toolkit.verification.CustomAssertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import javax.annotation.Nonnull;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
-import aaa.utils.excel.io.entity.ExcelCell;
-import aaa.utils.excel.io.entity.ExcelRow;
-import aaa.utils.excel.io.entity.ExcelTable;
+import aaa.utils.excel.io.entity.iterator.RowIterator;
 import toolkit.exceptions.IstfException;
 
-public class ExcelReader {
-	protected static Logger log = LoggerFactory.getLogger(ExcelReader.class);
+public class ExcelSheet implements Iterable<ExcelRow> {
+	protected static Logger log = LoggerFactory.getLogger(ExcelSheet.class);
 
-	private File file;
-	private Workbook workbook;
 	private Sheet sheet;
+	private int sheetNumber;
+	private ExcelManager excelManager;
 	private CellType<?>[] allowableCellTypes;
+	private Set<ExcelTable> tables;
 
-	public ExcelReader(File excelFile) {
-		this(excelFile, null);
+	public ExcelSheet(Sheet sheet, int sheetNumber, ExcelManager excelManager) {
+		this(sheet, sheetNumber, excelManager, ExcelCell.getBaseTypes());
 	}
 
-	public ExcelReader(File excelFile, String sheetName) {
-		this(excelFile, sheetName, ExcelCell.getBaseTypes());
-	}
-
-	public ExcelReader(File file, String sheetName, CellType<?>... allowableCellTypes) {
-		this.file = file;
-		this.workbook = getWorkbook(file);
-		this.sheet = getSheet(workbook, sheetName);
-		this.allowableCellTypes = allowableCellTypes.clone();
-	}
-
-	public ExcelReader(Sheet sheet) {
-		this(sheet, ExcelCell.getBaseTypes());
-	}
-
-	public ExcelReader(Sheet sheet, CellType<?>... allowableCellTypes) {
-		this.workbook = sheet.getWorkbook();
+	public ExcelSheet(Sheet sheet, int sheetNumber, ExcelManager excelManager, CellType<?>[] allowableCellTypes) {
 		this.sheet = sheet;
+		this.sheetNumber = sheetNumber;
+		this.excelManager = excelManager;
 		this.allowableCellTypes = allowableCellTypes.clone();
+		this.tables = new HashSet<>();
 	}
 
-	public File getFile() {
-		return file;
+	public int getSheetNumber() {
+		return sheetNumber;
 	}
 
-	public Workbook getWorkbook() {
-		return workbook;
-	}
-
-	public List<Sheet> getSheets() {
-		return IntStream.rangeClosed(0, getWorkbook().getNumberOfSheets()).mapToObj(sheetNumber -> getWorkbook().getSheetAt(sheetNumber)).collect(Collectors.toList());
-	}
-
-	public List<String> getSheetNames() {
-		return getSheets().stream().map(Sheet::getSheetName).collect(Collectors.toList());
-	}
-
-	public Sheet getCurrentSheet() {
-		return sheet;
-	}
-
-	public int getLastRowNum() {
-		return getCurrentSheet().getLastRowNum() + 1;
+	public ExcelManager getExcelManager() {
+		return excelManager;
 	}
 
 	public CellType<?>[] getCellTypes() {
 		return this.allowableCellTypes.clone();
 	}
 
+	/**
+	 * @return only previously added tables by {@link #addTable(ExcelTable)} or found by {@link #getTable(String...)}, {@link #getTable(boolean, String...)} and {@link #getTable(int)} methods
+	 */
+	public List<ExcelTable> getTables() {
+		return new ArrayList<>(this.tables);
+	}
+
+	public String getSheetName() {
+		return getPoiSheet().getSheetName();
+	}
+
+	public int getFirstRowNum() {
+		return getPoiSheet().getFirstRowNum() + 1;
+	}
+
+	public int getLastRowNum() {
+		return getPoiSheet().getLastRowNum() + 1;
+	}
+
 	public ExcelRow getFirstRow() {
-		return getRow(getCurrentSheet().getFirstRowNum() + 1);
+		return getRow(getFirstRowNum());
 	}
 
 	public ExcelRow getLastRow() {
-		return getRow(getCurrentSheet().getLastRowNum() + 1);
+		return getRow(getLastRowNum());
 	}
 
-	public ExcelReader registerCellType(CellType<?>... cellTypes) {
-		allowableCellTypes = ArrayUtils.addAll(allowableCellTypes, cellTypes);
+	Sheet getPoiSheet() {
+		return sheet;
+	}
+
+	@Override
+	@Nonnull
+	public Iterator<ExcelRow> iterator() {
+		return new RowIterator<>(getFirstRowNum(), getLastRowNum(), this::getRow);
+	}
+
+	public ExcelSheet addTable(ExcelTable table) {
+		this.tables.add(table);
 		return this;
 	}
 
-	public ExcelReader switchSheet(String sheetName) {
-		Sheet sheet = getSheet(getWorkbook(), sheetName);
-		assertThat(sheet).as("Can't find sheet with name \"%s\"", sheetName).isNotNull();
-		this.sheet = sheet;
+	/**
+	 * Register cell types for next found ExcelTables and ExcelRows and update cell types for found {@link #tables}
+	 */
+	public ExcelSheet registerCellType(CellType<?>... cellTypes) {
+		allowableCellTypes = ArrayUtils.addAll(allowableCellTypes, cellTypes);
+		getTables().forEach(t -> t.registerCellType(allowableCellTypes));
 		return this;
 	}
 
 	public ExcelRow getRow(int rowNumber) {
-		return new ExcelRow(getCurrentSheet().getRow(rowNumber - 1), getCellTypes());
+		return new ExcelRow(getPoiSheet().getRow(rowNumber - 1), this, getCellTypes());
 	}
 
 	public ExcelCell getCell(int rowNumber, int columnNumber) {
@@ -175,7 +172,7 @@ public class ExcelReader {
 		Set<String> expectedColumnNames = new HashSet<>(Arrays.asList(valuesInCells));
 		List<Row> foundRows = new ArrayList<>();
 		Map<Integer, Pair<Row, String>> foundRowsWithPartialMatch = new HashMap<>();
-		for (Row row : getCurrentSheet()) {
+		for (Row row : getPoiSheet()) {
 			List<String> rowValues = getRowStringValues(row.getRowNum() + 1);
 			Set<String> columnNames = new HashSet<>(expectedColumnNames);
 			if (rowValues.containsAll(columnNames)) {
@@ -190,7 +187,7 @@ public class ExcelReader {
 		}
 
 		if (foundRows.isEmpty()) {
-			String errorMessage = String.format("Unable to find row with all these values: %1$s on sheet \"%2$s\"", expectedColumnNames, getCurrentSheet().getSheetName());
+			String errorMessage = String.format("Unable to find row with all these values: %1$s on sheet \"%2$s\"", expectedColumnNames, getPoiSheet().getSheetName());
 			if (!foundRowsWithPartialMatch.isEmpty()) {
 				int bestMatch = foundRowsWithPartialMatch.keySet().stream().min(Integer::compare).get();
 				int rowNumber = foundRowsWithPartialMatch.get(bestMatch).getLeft().getRowNum();
@@ -200,7 +197,7 @@ public class ExcelReader {
 			throw new IstfException(errorMessage);
 		}
 
-		ExcelRow row = new ExcelRow(foundRows.get(foundRows.size() - 1), getCellTypes());
+		ExcelRow row = new ExcelRow(foundRows.get(foundRows.size() - 1), this, getCellTypes());
 		List<String> extraHeaderColumns = new ArrayList<>(row.getStringValues());
 		extraHeaderColumns.removeAll(expectedColumnNames);
 		if (!extraHeaderColumns.isEmpty()) {
@@ -218,54 +215,52 @@ public class ExcelReader {
 
 	public ExcelTable getTable(boolean isLowest, String... headerColumnNames) {
 		Row headerRow = getRow(isLowest, headerColumnNames).getPoiRow();
-		return new ExcelTable(headerRow, getCellTypes());
+		ExcelTable t = new ExcelTable(headerRow, this, getCellTypes());
+		return addTable(t).getTable(t);
 	}
 
 	/**
 	 *  Get ExcelTable object on current sheet with all non-null header column names found in {@code headerRowNumber} row number.
 	 *
-	 * @param headerRowNumber Table's header row number on {@link #getCurrentSheet()} sheet. Index starts from 1
-	 * @return ExcelTable object representation of found excel table
+	 * @param headerRowNumber Table's header row number on current sheet. Index starts from 1
+	 * @return {@link ExcelTable} object representation of found excel table
 	 */
 	public ExcelTable getTable(int headerRowNumber) {
 		assertThat(headerRowNumber).as("Header row number should be greater than 0").isPositive();
-		return new ExcelTable(getRow(headerRowNumber).getPoiRow(), getCellTypes());
+		ExcelTable t = new ExcelTable(getRow(headerRowNumber).getPoiRow(), this, getCellTypes());
+		return addTable(t).getTable(t);
 	}
 
-	public void write() {
-		File writeFile = new File("D:\\AAA\\Mocks & Stubs\\PolicyPreferenceApiMockData2.xls");
-		try (FileOutputStream outputStream = new FileOutputStream(writeFile);
-				Workbook workbook = getWorkbook()) {
-			workbook.write(outputStream);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	ExcelTable getTable(ExcelTable table) {
+		return this.tables.stream().filter(t -> t.equals(table)).findFirst().orElseThrow(() -> new IstfException("Table element does not exist in internal tables collection"));
 	}
 
-	private Workbook getWorkbook(File file) {
-		assertThat(file).as("File \"%s\" does not exist", file.getAbsolutePath()).exists();
-		/*try (InputStream targetStream = new FileInputStream(file);
-				Workbook wb = WorkbookFactory.create(targetStream)) {
-			return wb;
-		} catch (IOException | InvalidFormatException e) {
-			throw new IstfException("Unable to get workbook from file: " + file.getAbsolutePath(), e);
-		}*/
-		Workbook wb = null;
-		try (InputStream targetStream = new FileInputStream(file)) {
-			try {
-				//TODO-dchubkov: replace with try-with-resources construction
-				wb = WorkbookFactory.create(targetStream);
-			} catch (IOException | InvalidFormatException e) {
-				e.printStackTrace();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return wb;
+	public ExcelSheet save() {
+		getExcelManager().save();
+		return this;
 	}
 
-	private Sheet getSheet(Workbook wb, String sheetName) {
-		return sheetName == null ? wb.getSheetAt(0) : wb.getSheet(sheetName);
+	public ExcelSheet save(File destinationFile) {
+		getExcelManager().save(destinationFile);
+		return this;
 	}
+
+	public ExcelSheet close() {
+		getExcelManager().close();
+		return this;
+	}
+
+	public ExcelSheet saveAndClose() {
+		getExcelManager().saveAndClose();
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "ExcelSheet{" +
+				"sheetNumber=" + getSheetNumber() +
+				", sheetName=" + getSheetName() +
+				'}';
+	}
+
 }

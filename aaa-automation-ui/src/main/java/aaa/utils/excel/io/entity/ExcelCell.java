@@ -1,11 +1,13 @@
 package aaa.utils.excel.io.entity;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.slf4j.Logger;
@@ -21,30 +23,37 @@ public class ExcelCell {
 	public static final CellType<String> STRING_TYPE = new StringCellType();
 	public static final CellType<Integer> INTEGER_TYPE = new IntegerCellType();
 	public static final CellType<LocalDateTime> LOCAL_DATE_TIME_TYPE = new LocalDateTimeCellType();
+
 	protected static Logger log = LoggerFactory.getLogger(ExcelCell.class);
 	protected Cell cell;
-	protected CellType<?>[] allowableCellTypes;
-	protected CellType<?>[] cellTypes;
+	protected ExcelSheet sheet;
+	protected Set<CellType<?>> allowableCellTypes;
+	protected Set<CellType<?>> cellTypes;
 
-	public ExcelCell(Cell cell) {
-		this(cell, getBaseTypes());
+	public ExcelCell(Cell cell, ExcelSheet sheet) {
+		this(cell, sheet, getBaseTypes());
 	}
 
-	public ExcelCell(Cell cell, CellType<?>... allowableCellTypes) {
+	public ExcelCell(Cell cell, ExcelSheet sheet, CellType<?>... allowableCellTypes) {
 		this.cell = normalizeCell(cell);
-		this.allowableCellTypes = allowableCellTypes.clone();
+		this.sheet = sheet;
+		this.allowableCellTypes = new HashSet<>(Arrays.asList(allowableCellTypes));
 	}
 
 	public static CellType<?>[] getBaseTypes() {
 		return new CellType<?>[] {BOOLEAN_TYPE, STRING_TYPE, INTEGER_TYPE, LOCAL_DATE_TIME_TYPE};
 	}
 
+	public ExcelSheet getSheet() {
+		return sheet;
+	}
+
 	public CellType<?>[] getCellTypes() {
 		if (cellTypes == null) {
-			cellTypes = Arrays.stream(allowableCellTypes).filter(t -> t.isTypeOf(this)).toArray(CellType<?>[]::new);
+			cellTypes = allowableCellTypes.stream().filter(t -> t.isTypeOf(this)).collect(Collectors.toSet());
 			assertThat(cellTypes).as("Cell has unknown or unsupported cell type").isNotEmpty();
 		}
-		return cellTypes.clone();
+		return cellTypes.toArray(new CellType<?>[this.cellTypes.size()]);
 	}
 
 	public int getColumnNumber() {
@@ -61,6 +70,10 @@ public class ExcelCell {
 			return getStringValue();
 		}
 		return cellTypes.stream().findFirst().get().getValueFrom(this);
+	}
+
+	public <T> ExcelCell setValue(T value) {
+		return setValue(value, getType(value));
 	}
 
 	public Boolean getBoolValue() {
@@ -94,23 +107,24 @@ public class ExcelCell {
 				'}';
 	}
 
+	@SuppressWarnings("unchecked")
+	public <C extends ExcelCell> C registerCellType(CellType<?>... cellTypes) {
+		this.cellTypes = new HashSet<>(Arrays.asList(cellTypes));
+		return (C) this;
+	}
+
 	public <T> T getValue(CellType<T> cellType) {
 		assertThat(hasType(cellType)).as("Unable to get value with type %s from cell %s", cellType.getEndType(), this).isTrue();
 		return cellType.getValueFrom(this);
 	}
 
-	public <T> boolean setValue(T value) {
-		return setValue(value, getType(value));
-	}
-
-	public <T> boolean setValue(T value, CellType<T> valueType) {
+	public <T> ExcelCell setValue(T value, CellType<T> valueType) {
 		assertThat(valueType).as("%s cell does not have appropriate type to set %s value type", this, value.getClass()).isNotNull();
 		if (hasValue(value, valueType)) {
 			log.warn("{} already has \"{}\" value", this, value);
-			return false;
 		}
 		valueType.setValueTo(this, value);
-		return true;
+		return this;
 	}
 
 	public <T> boolean hasType(CellType<T> cellType) {
@@ -128,6 +142,36 @@ public class ExcelCell {
 	@SuppressWarnings("unchecked")
 	public <T> CellType<T> getType(T value) {
 		return (CellType<T>) Arrays.stream(getCellTypes()).filter(type -> type.getEndType().isAssignableFrom(value.getClass())).findFirst().orElse(null);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <C extends ExcelCell> C save() {
+		getSheet().save();
+		return (C) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public <C extends ExcelCell> C save(File destinationFile) {
+		getSheet().save(destinationFile);
+		return (C) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public <C extends ExcelCell> C close() {
+		getSheet().close();
+		return (C) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public <C extends ExcelCell> C saveAndClose() {
+		getSheet().saveAndClose();
+		return (C) this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public <C extends ExcelCell> C saveAndClose(File destinationFile) {
+		getSheet().getExcelManager().saveAndClose(destinationFile);
+		return (C) this;
 	}
 
 	private Cell normalizeCell(Cell cell) {

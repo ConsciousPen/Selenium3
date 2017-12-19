@@ -21,7 +21,7 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
-import aaa.utils.excel.io.ExcelReader;
+import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.entity.ExcelCell;
 import aaa.utils.excel.io.entity.TableRow;
 import toolkit.datax.TestData;
@@ -93,9 +93,10 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 
 		if (test.getTotalPremium() == null) {
 			int expectedPremium;
-			ExcelReader excelReader = new ExcelReader(getOpenLFile(openLFileName), OpenLFile.TESTS_SHEET_NAME);
-			TableRow row = excelReader.getTable(OpenLFile.TESTS_HEADER_ROW_NUMBER).getRow("policy", policyNumber);
+			ExcelManager excelManager = new ExcelManager(getOpenLFile(openLFileName));
+			TableRow row = excelManager.getSheet(OpenLFile.TESTS_SHEET_NAME).getTable(OpenLFile.TESTS_HEADER_ROW_NUMBER).getRow("policy", policyNumber);
 			expectedPremium = row.getCellsContains("_res_.$Value").stream().mapToInt(ExcelCell::getIntValue).sum();
+			excelManager.close();
 			return expectedPremium;
 		}
 		return test.getTotalPremium();

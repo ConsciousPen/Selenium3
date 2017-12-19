@@ -29,14 +29,13 @@ public abstract class CellType<T> {
 
 	@Override
 	public int hashCode() {
-
 		return Objects.hash(endType);
 	}
 
 	@Override
 	public String toString() {
 		return "CellType{" +
-				"endType=" + endType +
+				"endType=" + getEndType() +
 				'}';
 	}
 
@@ -48,7 +47,7 @@ public abstract class CellType<T> {
 
 	public boolean hasTextValue(ExcelCell cell) {
 		org.apache.poi.ss.usermodel.CellType type = cell.getPoiCell().getCellTypeEnum();
-		return type == org.apache.poi.ss.usermodel.CellType.STRING  || type == org.apache.poi.ss.usermodel.CellType.BLANK;
+		return type == org.apache.poi.ss.usermodel.CellType.STRING || type == org.apache.poi.ss.usermodel.CellType.BLANK;
 	}
 
 	protected String getText(ExcelCell cell) {

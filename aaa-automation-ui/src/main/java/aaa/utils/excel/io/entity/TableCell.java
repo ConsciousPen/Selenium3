@@ -8,7 +8,7 @@ public class TableCell extends ExcelCell {
 	private TableRow tableRow;
 
 	public TableCell(Cell cell, TableRow tableRow, CellType<?>... allowableCellTypes) {
-		super(cell, allowableCellTypes);
+		super(cell, tableRow.getSheet(), allowableCellTypes);
 		this.tableRow = tableRow;
 	}
 

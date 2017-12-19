@@ -13,7 +13,8 @@ import java.util.List;
 import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import aaa.utils.excel.io.ExcelReader;
+import aaa.utils.excel.io.ExcelManager;
+import aaa.utils.excel.io.entity.ExcelSheet;
 import aaa.utils.excel.io.entity.ExcelTable;
 import aaa.utils.excel.io.entity.TableRow;
 import toolkit.exceptions.IstfException;
@@ -28,27 +29,27 @@ public class ExcelUnmarshaller {
 	public <T> T unmarshal(File excelFile, Class<T> excelFileModel, boolean strictMatch) {
 		log.debug(String.format("Getting \"%1$s\" object model from provided excel file%2$s.", excelFileModel.getSimpleName(), strictMatch ? " with strict match parsing" : ""));
 		T excelFileInstance = getInstance(excelFileModel);
-		ExcelReader excelReader = new ExcelReader(excelFile);
+		ExcelManager excelManager = new ExcelManager(excelFile);
 
 		for (Field tableField : getAllFields(excelFileModel, true)) {
 			List<Field> tableRowFields = getAllFields(getTableRowType(tableField));
-			ExcelTable excelTable = getExcelTable(excelReader, tableField);
 
 			List<Object> tableFields = new ArrayList<>();
-			for (TableRow row : excelTable) {
+			for (TableRow row : getExcelTable(excelManager, tableField)) {
 				Object tableInstance = getInstance(getTableRowType(tableField));
 				for (Field tableRowField : tableRowFields) {
-					setFieldValue(tableRowField, tableInstance, row, excelReader, strictMatch);
+					setFieldValue(tableRowField, tableInstance, row, strictMatch);
 				}
 				tableFields.add(tableInstance);
 			}
 			setFieldValue(tableField, excelFileInstance, tableFields);
 		}
 		log.debug("Excel unmarshalling was successful.");
+		excelManager.close();
 		return excelFileInstance;
 	}
 
-	private ExcelTable getExcelTable(ExcelReader excelReader, Field tableField) {
+	private ExcelTable getExcelTable(ExcelManager excelManager, Field tableField) {
 		int rowNumber;
 		if (tableField.isAnnotationPresent(ExcelTableElement.class)) {
 			rowNumber = tableField.getAnnotation(ExcelTableElement.class).headerRowNumber();
@@ -56,12 +57,12 @@ public class ExcelUnmarshaller {
 			rowNumber = (int) getAnnotationDefaultValue(ExcelTableElement.class, "headerRowNumber");
 		}
 
-		excelReader.switchSheet(getSheetName(tableField));
+		ExcelSheet sheet = excelManager.getSheet(getSheetName(tableField));
 		if (rowNumber < 0) {
 			List<Field> tableRowFields = getAllFields(getTableRowType(tableField));
-			return excelReader.getTable(isLowestTable(tableField), getHeaderColumnNames(tableRowFields));
+			return sheet.getTable(isLowestTable(tableField), getHeaderColumnNames(tableRowFields));
 		}
-		return excelReader.getTable(rowNumber);
+		return sheet.getTable(rowNumber);
 	}
 
 	private <T> T getInstance(Class<T> clazz) {
@@ -119,7 +120,7 @@ public class ExcelUnmarshaller {
 		return (boolean) getAnnotationDefaultValue(ExcelTableElement.class, "isLowest");
 	}
 
-	private void setFieldValue(Field tableRowField, Object tableInstance, TableRow row, ExcelReader excelReader, boolean strictMatch) {
+	private void setFieldValue(Field tableRowField, Object tableInstance, TableRow row, boolean strictMatch) {
 		String columnName = getHeaderColumnName(tableRowField);
 		if (!row.hasColumnName(columnName)) {
 			String field = tableRowField.getType().getName() + " " + tableRowField.getName();
@@ -152,7 +153,7 @@ public class ExcelUnmarshaller {
 					break;
 				}
 				List<Field> linkedTableRowFields = getAllFields(getTableRowType(tableRowField));
-				ExcelTable excelTable = getExcelTable(excelReader, tableRowField);
+				ExcelTable excelTable = getExcelTable(row.getSheet().getExcelManager(), tableRowField);
 
 				List<Object> linkedTableRows = new ArrayList<>();
 				for (TableRow linkedTableRow : excelTable) {
@@ -162,7 +163,7 @@ public class ExcelUnmarshaller {
 					List<String> linkedTableRowIds = Arrays.asList(linkedRowsIds.split(getPrimaryKeysSeparator(primaryKeyField)));
 					if (linkedTableRowIds.contains(getPrimaryKeyValue(primaryKeyField, linkedTableRow))) {
 						for (Field linkedTableRowField : linkedTableRowFields) {
-							setFieldValue(linkedTableRowField, linkedTableRowInstance, linkedTableRow, excelReader, strictMatch);
+							setFieldValue(linkedTableRowField, linkedTableRowInstance, linkedTableRow, strictMatch);
 						}
 						linkedTableRows.add(linkedTableRowInstance);
 					}
