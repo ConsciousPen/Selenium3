@@ -28,6 +28,7 @@ import toolkit.webdriver.controls.composite.table.Row;
  * Created by lkazarnovskiy on 8/8/2017.
  */
 public abstract class CommonErrorTab extends Tab {
+	private static final String KEY_ERRORS = "Errors";
 	public Button buttonOverride = new Button(By.id("errorsForm:overrideRules"));
 	public Button buttonApproval = new Button(By.id("errorsForm:referForApproval"));
 	public Verify verify = new Verify();
@@ -44,10 +45,14 @@ public abstract class CommonErrorTab extends Tab {
 
 	@Override
 	public Tab fillTab(TestData td) {
-		if ("all".equalsIgnoreCase(td.getValue(getMetaKey()))) {
-			overrideAllErrors();
-		} else if ("by code".equalsIgnoreCase(td.getValue(getMetaKey()))) {
-			overrrideErrors(td.getList("by code"));
+		TestData errorsTD = td.getTestData(getMetaKey());
+		if (td != null && td.containsKey(KEY_ERRORS)) {
+			List<String> values = td.getList(KEY_ERRORS);
+			if (values.contains("All")) {
+				overrideAllErrors();
+			} else {
+				overrrideErrors(values);
+			}
 		} else {
 			assetList.fill(td);
 		}
