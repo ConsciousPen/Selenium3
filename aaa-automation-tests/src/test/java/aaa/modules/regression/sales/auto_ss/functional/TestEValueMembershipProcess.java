@@ -520,7 +520,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-5837")
 	public void pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending(@Optional("DC") String state) {
 		mainApp().open();
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusMonths(1));
 
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		preconditionMembershipEligibilityCheck(membershipDiscountEligibilitySwitch);

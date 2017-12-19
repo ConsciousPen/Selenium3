@@ -119,24 +119,10 @@
             </class>
         </classes>
     </test>
-
-    <test name="TestContactInformation">
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestContactInformation"/>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestContactInformation"/>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestContactInformation"/>
-        </classes>
-    </test>
     <test name="TestEndorsementActionRules">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEndorsementActionRules"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestEndorsementActionRules"/>
-        </classes>
-    </test>
-    <test name="TestNonPremiumBearingEndorsementsCA">
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing"/>
-            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing"/>
         </classes>
     </test>
 
