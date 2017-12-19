@@ -18,6 +18,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import aaa.admin.pages.general.GeneralSchedulerPage;
+import aaa.common.Tab;
 import aaa.common.components.Efolder;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -28,7 +29,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.DbAwaitHelper;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.xml.models.Document;
+import aaa.helpers.xml.model.Document;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -160,7 +161,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@Test(description = "Precondition")
 	public static void eValueMembershipConfigCheck() {
 		CustomAssert.enableSoftMode();
-		CustomAssert.assertTrue("eValue configuration for membership not require. Please run eValueMembershipConfigInsert", DBService.get().getValue(EVALUE_MEMBERSHIP_CONFIG_CHECK).isPresent());
+		CustomAssert.assertTrue("eValue configuration for membership not require. Please run eValueMembershipAcknowledgementConfigInsert", DBService.get().getValue(EVALUE_MEMBERSHIP_CONFIG_CHECK).isPresent());
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -1230,8 +1231,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		prefillEvalueTestData(membershipStatus, currentCarrier);
 		fillPremiumAndCoveragesTab(evalueIsSelected);
 		fillDriverActivityReportsTab();
-		TestData tdPolicyCreation = fillDocumentAndBindTab(evalueIsPresent);
-		new PurchaseTab().fillTab(tdPolicyCreation).submitTab();
+		fillDocumentAndBindTab(evalueIsPresent);
+		Tab.buttonSaveAndExit.click();
+		simplifiedQuoteIssue();
 
 		validateEvalueStatus(evalueStatus);
 		validatePolicyStatus();
@@ -1274,7 +1276,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		driverActivityReportsTab.submitTab();
 	}
 
-	private TestData fillDocumentAndBindTab(boolean evalueIsPresent) {
+	private void fillDocumentAndBindTab(boolean evalueIsPresent) {
 		DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 		String metaKey = documentsAndBindTab.getMetaKey();
 		String evalueAcknowledgementKey = TestData.makeKeyPath(metaKey,
@@ -1288,8 +1290,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		if (evalueIsPresent) {
 			tdPolicyCreation = tdPolicyCreation.adjust(evalueAcknowledgementKey, "Physically Signed");
 		}
-		documentsAndBindTab.fillTab(tdPolicyCreation).submitTab();
-		return tdPolicyCreation;
+		documentsAndBindTab.fillTab(tdPolicyCreation);
 	}
 
 	private void validateEvalueStatus(String expectedEvalueStatus) {
@@ -1422,6 +1423,10 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	private void checkBlueBoxMessagesWithDiffData(int days, String messageInfo, List<String> messageBullet, String messageInfo1, List<String> messageBullet1, String membershipOrPrior) {
+
+		int effDateWhenMembershipIsRequired = 12;
+		int effDateWhenPriorInsurIsRequired = 18;
+
 		policy.dataGather().start();
 
 		checkBlueBoxMessages(messageInfo, messageBullet);
@@ -1429,7 +1434,11 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		checkBlueBoxMessages(messageInfo, messageBullet);
 
 		selectMembershipOrPriorInsur(membershipOrPrior, "No");
-		checkBlueBoxMessages(messageInfo1, messageBullet1);
+		if(effDateWhenMembershipIsRequired == days || effDateWhenPriorInsurIsRequired == days){
+			checkBlueBoxMessages(messageInfo1, messageBullet1);
+		}else {
+			checkBlueBoxMessages(messageInfo, messageBullet);
+		}
 
 		selectMembershipOrPriorInsur(membershipOrPrior, "Yes");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -1444,7 +1453,11 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		checkBlueBoxMessages(messageInfo, messageBullet);
 		selectMembershipOrPriorInsur(membershipOrPrior, "No");
-		checkBlueBoxMessages(messageInfo1, messageBullet1);
+		if(effDateWhenMembershipIsRequired == days || effDateWhenPriorInsurIsRequired == days){
+			checkBlueBoxMessages(messageInfo1, messageBullet1);
+		}else {
+			checkBlueBoxMessages(messageInfo, messageBullet);
+		}
 
 		PremiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
