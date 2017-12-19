@@ -1,5 +1,6 @@
 TestData_UT: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -21,6 +22,7 @@ TestData_UT: {
 
 TestData_AZ: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -43,6 +45,7 @@ TestData_AZ: {
 
 TestData_CA: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -64,6 +67,7 @@ TestData_CA: {
 
 TestData_CO: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -85,6 +89,7 @@ TestData_CO: {
 
 TestData_CT: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-85, NONE],
   Renew generate preview: [-73, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -106,6 +111,7 @@ TestData_CT: {
 
 TestData_DC: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -127,6 +133,7 @@ TestData_DC: {
 
 TestData_DE: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -148,6 +155,7 @@ TestData_DE: {
 
 TestData_ID: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -169,6 +177,7 @@ TestData_ID: {
 
 TestData_IN: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -190,6 +199,7 @@ TestData_IN: {
 
 TestData_KS: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -211,6 +221,7 @@ TestData_KS: {
 
 TestData_KY: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-92, NONE],
   Renew generate preview: [-84, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -232,6 +243,7 @@ TestData_KY: {
 
 TestData_MD: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-60, NEXT],
   Renew generate offer: [-35, PREVIOUS],
@@ -253,6 +265,7 @@ TestData_MD: {
 
 TestData_MT: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-75, NONE],
   Renew generate preview: [-57, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -274,6 +287,7 @@ TestData_MT: {
 
 TestData_NJ: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-69, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -295,6 +309,7 @@ TestData_NJ: {
 
 TestData_NV: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -316,6 +331,7 @@ TestData_NV: {
 
 TestData_NY: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-63, NONE],
   Renew generate preview: [-45, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -338,6 +354,7 @@ TestData_NY: {
 
 TestData_OH: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -359,6 +376,7 @@ TestData_OH: {
 
 TestData_OK: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -380,6 +398,7 @@ TestData_OK: {
 
 TestData_OR: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -401,6 +420,7 @@ TestData_OR: {
 
 TestData_PA: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-69, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -423,6 +443,7 @@ TestData_PA: {
 
 TestData_SD: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-69, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -444,6 +465,7 @@ TestData_SD: {
 
 TestData_VA: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-52, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -465,6 +487,7 @@ TestData_VA: {
 
 TestData_WV: {
   Renew generate image: [-96, NONE],
+  Renew reports: [-63, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-45, NONE],
   Renew generate offer: [-35, PREVIOUS],
@@ -487,6 +510,7 @@ TestData_WV: {
 TestData_WY: {
   Renew generate image: [-96, NONE],
   Renew check uw rules: [-75, NONE],
+  Renew reports: [-63, NONE],
   Renew generate preview: [-57, NONE],
   Renew generate offer: [-35, PREVIOUS],
   Bill generation: [-20, PREVIOUS],
