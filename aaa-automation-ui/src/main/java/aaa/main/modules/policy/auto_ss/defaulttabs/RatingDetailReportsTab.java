@@ -4,8 +4,12 @@
  */
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
+import java.util.LinkedHashMap;
+import org.apache.commons.lang.StringUtils;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -20,7 +24,23 @@ public class RatingDetailReportsTab extends Tab {
 
 	@Override
 	public Tab submitTab() {
+		if (getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).isPresent()
+				&& StringUtils.isBlank(getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
+				.getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.MEMBER_SINCE_DATE.getLabel()).getValue())) {
+
+			getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1)
+					.getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ACTION.getLabel()).controls.links.get(1).click();
+			getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getAsset(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.ADD_MEMBER_SINCE_DIALOG)
+					.fill(createTestData());
+		}
 		buttonNext.click();
 		return this;
+	}
+
+	private TestData createTestData() {
+		LinkedHashMap data = new LinkedHashMap();
+		data.put(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), "11/14/2016");
+		data.put(AutoSSMetaData.RatingDetailReportsTab.AddMemberSinceDialog.BTN_OK.getLabel(), "true");
+		return new SimpleDataProvider(data);
 	}
 }

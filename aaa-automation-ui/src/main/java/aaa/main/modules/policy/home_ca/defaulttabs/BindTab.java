@@ -5,12 +5,12 @@
 package aaa.main.modules.policy.home_ca.defaulttabs;
 
 import org.openqa.selenium.By;
-
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.waiters.Waiters;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -18,7 +18,7 @@ import aaa.main.metadata.policy.HomeCaMetaData;
  * LABEL>ActionTab (to prevent duplication). Modify this class if tab filling
  * procedure has to be customized, extra asset list to be added, custom testdata
  * key to be defined, etc.
- * 
+ *
  * @category Generated
  */
 public class BindTab extends Tab {
@@ -27,8 +27,8 @@ public class BindTab extends Tab {
 	}
 
 	public Button btnPurchase = new Button(
-		By.xpath("//input[@id='policyDataGatherForm:moveToBilling_footer' or @id='policyDataGatherForm:moveToBilling_RenewalSave_footer' or @id='policyDataGatherForm:moveToBilling_EndorsementPurchase_footer' or @id='policyDataGatherForm:moveToBilling_RenewalPropose_footer']"),
-		Waiters.AJAX);
+			By.xpath("//input[@id='policyDataGatherForm:moveToBilling_footer' or @id='policyDataGatherForm:moveToBilling_RenewalSave_footer' or @id='policyDataGatherForm:moveToBilling_EndorsementPurchase_footer' or @id='policyDataGatherForm:moveToBilling_RenewalPropose_footer']"),
+			Waiters.AJAX);
 	public Dialog confirmPurchase = new Dialog("//div[@id='policyDataGatherForm:confirmPurchaseDialog_container']");
 	public Dialog confirmEndorsementPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialogA_container']");
 	public Dialog confirmRenewPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialog-1_container']");
@@ -36,6 +36,17 @@ public class BindTab extends Tab {
 	@Override
 	public Tab submitTab() {
 		btnPurchase.click();
+		ErrorTab errorTab = new ErrorTab();
+		if (errorTab.isVisible() && errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_HO_CA_MEM_LASTNAME.getMessage())) {
+			errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_HO_CA_MEM_LASTNAME);
+			errorTab.override();
+			btnPurchase.click();
+		}
+		confirmPurchase();
+		return this;
+	}
+
+	protected void confirmPurchase() {
 		if (confirmEndorsementPurchase.isPresent() && confirmEndorsementPurchase.isVisible()) {
 			confirmEndorsementPurchase.confirm();
 		} else if (confirmRenewPurchase.isPresent() && confirmRenewPurchase.isVisible()) {
@@ -43,6 +54,6 @@ public class BindTab extends Tab {
 		} else {
 			confirmPurchase.confirm();
 		}
-		return this;
 	}
+
 }

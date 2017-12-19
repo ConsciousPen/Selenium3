@@ -5,9 +5,9 @@
 package aaa.main.modules.policy.auto_ca.defaulttabs;
 
 import org.openqa.selenium.By;
-
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.assets.AssetList;
@@ -19,7 +19,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
  * LABEL>ActionTab (to prevent duplication). Modify this class if tab filling
  * procedure has to be customized, extra asset list to be added, custom testdata
  * key to be defined, etc.
- * 
+ *
  * @category Generated
  */
 public class DocumentsAndBindTab extends Tab {
@@ -31,27 +31,40 @@ public class DocumentsAndBindTab extends Tab {
 	public static Dialog confirmPurchase = new Dialog("//div[@id='policyDataGatherForm:confirmPurchaseDialog_container']");
 	public static Dialog confirmEndorsementPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialogA_container']");
 
+	public AssetList getDocumentsForPrintingAssetList() {
+		return getAssetList().getAsset(AutoCaMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING.getLabel(), AssetList.class);
+	}
+
+	public AssetList getRequiredToBindAssetList() {
+		return getAssetList().getAsset(AutoCaMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(), AssetList.class);
+	}
+
+	public AssetList getRequiredToIssueAssetList() {
+		return getAssetList().getAsset(AutoCaMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel(), AssetList.class);
+	}
+
+	public AssetList getVehicleInformationAssetList() {
+		return getAssetList().getAsset(AutoCaMetaData.DocumentsAndBindTab.VEHICLE_INFORMATION.getLabel(), AssetList.class);
+	}
+
 	@Override
 	public Tab submitTab() {
 		btnPurchase.click();
+		ErrorTab errorTab = new ErrorTab();
+		if (errorTab.isVisible() && errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME.getMessage())) {
+			errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_AUTO_CA_MEM_LASTNAME);
+			errorTab.override();
+			btnPurchase.click();
+		}
+		confirmPurchase();
+		return this;
+	}
+
+	protected void confirmPurchase() {
 		if (confirmPurchase.isPresent() && confirmPurchase.isVisible()) {
 			confirmPurchase.confirm();
 		} else if (confirmEndorsementPurchase.isPresent() && confirmEndorsementPurchase.isVisible()) {
 			confirmEndorsementPurchase.confirm();
 		}
-		return this;
-	}
-	
-	public AssetList getDocumentsForPrintingAssetList() {
-    	return getAssetList().getAsset(AutoCaMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING.getLabel(), AssetList.class);
-	}
-	public AssetList getRequiredToBindAssetList() {
-    	return getAssetList().getAsset(AutoCaMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(), AssetList.class);
-	}
-	public AssetList getRequiredToIssueAssetList() {
-    	return getAssetList().getAsset(AutoCaMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel(), AssetList.class);
-	}
-	public AssetList getVehicleInformationAssetList() {
-    	return getAssetList().getAsset(AutoCaMetaData.DocumentsAndBindTab.VEHICLE_INFORMATION.getLabel(), AssetList.class);
 	}
 }

@@ -4,10 +4,11 @@
  */
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
+import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import org.openqa.selenium.By;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.AssetList;
@@ -19,7 +20,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
  * LABEL>ActionTab (to prevent duplication). Modify this class if tab filling
  * procedure has to be customized, extra asset list to be added, custom testdata
  * key to be defined, etc.
- * 
+ *
  * @category Generated
  */
 public class DocumentsAndBindTab extends Tab {
@@ -29,17 +30,43 @@ public class DocumentsAndBindTab extends Tab {
 
 	//public static Button btnPurchase = new Button(By.id("policyDataGatherForm:moveToBilling_footer"), Waiters.AJAX);
 	//public static Dialog confirmPurchase = new Dialog("//div[@id='policyDataGatherForm:confirmPurchaseDialog_container']");
-	public static Button btnGenerateDocuments = new Button(By.id("policyDataGatherForm:generate_link"),Waiters.AJAX);
+	public static Button btnGenerateDocuments = new Button(By.id("policyDataGatherForm:generate_link"), Waiters.AJAX);
 	public static Button btnPurchase = new Button(By.xpath(".//input[contains(@id, 'policyDataGatherForm:moveToBilling')]"), Waiters.AJAX);
 	public static Dialog confirmPurchase = new Dialog("//div[@id='policyDataGatherForm:confirmPurchaseDialog_container']");
 	public static Dialog confirmEndorsementPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialogA_container']");
 	public static Dialog confirmRenewal = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialog-1_content']");
 	public static StaticElement helpIconPaperlessPreferences = new StaticElement(By.xpath("//label[@id='policyDataGatherForm:paperlessPreferences_enrolledInPaperless_helpText']"));
 
+	public AssetList getDocumentsForPrintingAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING.getLabel(), AssetList.class);
+	}
+
+	public AssetList getRequiredToBindAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(), AssetList.class);
+	}
+
+	public AssetList getRequiredToIssueAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel(), AssetList.class);
+	}
+
+	public AssetList getEnterRecipientEmailAddressDialogAssetList() {
+		return getDocumentsForPrintingAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.ENTER_RECIPIENT_EMAIL_ADDRESS_DIALOG.getLabel(), AssetList.class);
+	}
+
 	@Override
 	public Tab submitTab() {
 		btnPurchase.click();
-		//confirmPurchase.confirm();
+		ErrorTab errorTab = new ErrorTab();
+		if (errorTab.isVisible() && errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME.getMessage())) {
+			errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_AUTO_SS_MEM_LASTNAME);
+			errorTab.override();
+			btnPurchase.click();
+		}
+		confirmPurchase();
+		return this;
+	}
+
+	protected void confirmPurchase() {
 		if (confirmPurchase.isPresent() && confirmPurchase.isVisible()) {
 			confirmPurchase.confirm();
 		} else if (confirmEndorsementPurchase.isPresent() && confirmEndorsementPurchase.isVisible()) {
@@ -47,20 +74,6 @@ public class DocumentsAndBindTab extends Tab {
 		} else if (confirmRenewal.isPresent() && confirmRenewal.isVisible()) {
 			confirmRenewal.confirm();
 		}
-		return this;
-	}
-	
-	public AssetList getDocumentsForPrintingAssetList() {
-    	return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENTS_FOR_PRINTING.getLabel(), AssetList.class);
-	}
-	public AssetList getEnterRecipientEmailAddressDialogAssetList() {
-		return getDocumentsForPrintingAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentsForPrinting.ENTER_RECIPIENT_EMAIL_ADDRESS_DIALOG.getLabel(), AssetList.class);
-	}
-	public AssetList getRequiredToBindAssetList() {
-    	return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(), AssetList.class);
-	}
-	public AssetList getRequiredToIssueAssetList() {
-    	return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel(), AssetList.class);
 	}
 
 	public AssetList getPaperlessPreferencesAssetList() {
