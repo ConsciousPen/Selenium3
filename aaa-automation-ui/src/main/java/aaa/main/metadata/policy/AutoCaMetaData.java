@@ -3,10 +3,13 @@
 package aaa.main.metadata.policy;
 
 import org.openqa.selenium.By;
+
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
+
 import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.AgencyAutoCaAssetList;
+import aaa.toolkit.webdriver.customcontrols.CalendarBox;
 import aaa.toolkit.webdriver.customcontrols.DetailedVehicleCoveragesRepeatAssetList;
 import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
@@ -683,6 +686,12 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<StaticElement> DOCUMENT_NUMBER = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, StaticElement.class, Waiters.AJAX);
 			public static final AssetDescriptor<StaticElement> DOCUMENT_NAME = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, StaticElement.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT = declare("Free Form Text", TextBox.class, Waiters.AJAX, false, By.id("policyDataGatherForm:uwLetterMsg_AU03"));
+		
+			// CAU08
+			public static final AssetDescriptor<CalendarBox> CAU08_NON_RENEWAL_DATE = declare("CAU08 Non-Renewal Date", CalendarBox.class, Waiters.AJAX, false,
+					By.xpath("//input[@id='policyDataGatherForm:uwLetterCancDt_CAU08InputDate']"));
+			public static final AssetDescriptor<TextBox> CAU08_FREE_FORM_TEXT = declare("CAU08 Free Form Text", TextBox.class, Waiters.AJAX, false,
+					By.xpath("//textarea[@id='policyDataGatherForm:uwLetterMsg_CAU08']"));
 		}
 	}
 

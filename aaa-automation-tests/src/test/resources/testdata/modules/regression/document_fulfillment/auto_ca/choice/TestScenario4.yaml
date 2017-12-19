@@ -1,0 +1,4 @@
+TestData: {
+  'CAU08 Non-Renewal Date': $<today>,
+  CAU08 Free Form Text: Test
+}

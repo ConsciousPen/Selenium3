@@ -322,6 +322,7 @@ public final class DocGenEnum {
 		AARIVA(""),
 		AHTPCCA(""),
 		HS_04_59("HS 04 59", ""),
+		F1455(""),
 		;
 
 		private String id;
