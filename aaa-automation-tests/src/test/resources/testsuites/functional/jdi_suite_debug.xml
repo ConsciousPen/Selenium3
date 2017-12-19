@@ -7,7 +7,43 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-     <test name="TestRefundProcessVA2">
+    <test name="eValue Related Jobs">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
+                    <include name="precondJobAdding"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestEValueDiscountJobAdding">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
+                    <include name="precondJobAdding"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestEValueMembershipProcessJobAdding">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="precondJobAdding"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestRefundProcessJobAdding">
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="precondJobAdding"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestRefundProcessVA2">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -40,7 +76,6 @@
             </class>
         </classes>
     </test>
-
     <test name="TestRefundProcessMD1">
         <parameter name="state" value="MD"/>
         <classes>
@@ -53,4 +88,67 @@
         </classes>
     </test>
 
+    <test name="TestEValueDiscountVA">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
+                <methods>
+                    <include name="eValueAcknowledgementConfigCheck"/>
+                    <include name="eValueConfigCheck"/>
+                    <include name="eValueMembershipConfigCheck"/>
+                    <include name="eValuePriorBiCurrentBiConfigCheck"/>
+                    <include name="eValueTerritoryChannelForVAConfigCheck"/>
+                    <include name="paperlessPreferencesConfigCheck"/>
+                    <include name="precondJobAdding"/>
+                    <include name="pas436_eValueDiscountVariations"/>
+                    <include name="pas3007_eValueMembershipConfiguration"/>
+                    <include name="pas3693_eValueConfiguration"/>
+                    <include name="pas3694_eValueBlueBoxAndStaticText"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestPaperlessPreferencesVA">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences">
+                <methods>
+                    <include name="eValueConfigCheck"/>
+                    <include name="pas283_eValuePaperlessPreferences"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="TestContactInformation">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestContactInformation"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestContactInformation"/>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestContactInformation"/>
+        </classes>
+    </test>
+    <test name="TestEndorsementActionRules">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEndorsementActionRules"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestEndorsementActionRules"/>
+        </classes>
+    </test>
+    <test name="TestNonPremiumBearingEndorsementsCA">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesNonPremiumBearing"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesNonPremiumBearing"/>
+        </classes>
+    </test>
+
+    <test name="TestEValueMembershipProcessDC">
+        <parameter name="state" value="DC"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
