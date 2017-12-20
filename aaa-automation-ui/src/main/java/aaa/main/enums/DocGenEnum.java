@@ -326,6 +326,7 @@ public final class DocGenEnum {
 		HS_04_59("HS 04 59", ""),
 		F1455(""),
 		AH61XXA(""),
+		AA57CA(""),
 		;
 
 		private String id;
