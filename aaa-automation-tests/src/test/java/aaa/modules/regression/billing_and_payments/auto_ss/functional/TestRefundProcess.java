@@ -371,7 +371,9 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 		//PAS-455 start
 		String paymentAndRefundAmount = "9";
-		allocationPaymentPerform(paymentAndRefundAmount);
+		String allocationPaymentAmount = "3";
+		String paymantMethod = "Cash";
+		allocationPaymentPerform(paymentAndRefundAmount, allocationPaymentAmount, paymantMethod);
 		allocationManualRefundPerform(paymentAndRefundAmount, message);
 		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
 		getResponseFromPC(paymentMethod, policyNumber, "M", "ERR", "DSB_E_DSBCTRL_PASSYS_7036_D");
@@ -698,10 +700,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		return transactionIDFromDB;
 	}
 
-	private void allocationPaymentPerform (String paymentAmount) {
-
-		String paymantMethod = "Cash";
-		String allocationPaymentAmount = "3";
+	private void allocationPaymentPerform (String paymentAmount, String allocationPaymentAmount, String paymantMethod) {
 
 		billingAccount.acceptPayment().start();
 
