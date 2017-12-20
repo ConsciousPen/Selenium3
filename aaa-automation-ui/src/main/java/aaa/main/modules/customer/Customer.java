@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import com.exigen.ipb.etcsa.base.config.CustomTestProperties;
 
-import aaa.utils.EntityLogger;
-import aaa.utils.EntityLogger.EntityType;
+import aaa.EntityLogger;
+import aaa.EntityLogger.EntityType;
 import aaa.common.Workspace;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.SearchPage;

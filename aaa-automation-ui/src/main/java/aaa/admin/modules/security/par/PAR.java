@@ -5,7 +5,7 @@ package aaa.admin.modules.security.par;
 import java.util.ArrayList;
 import java.util.List;
 
-import aaa.utils.EntityLogger;
+import aaa.EntityLogger;
 import aaa.admin.modules.security.par.defaulttabs.GeneralPARTab;
 import aaa.admin.modules.security.par.views.DefaultView;
 import aaa.admin.pages.security.PARPage;

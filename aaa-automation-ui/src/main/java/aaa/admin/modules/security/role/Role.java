@@ -4,7 +4,7 @@ package aaa.admin.modules.security.role;
 
 import com.exigen.ipb.etcsa.base.app.Application.AppType;
 
-import aaa.utils.EntityLogger;
+import aaa.EntityLogger;
 import aaa.admin.metadata.security.RoleMetaData.SearchByField;
 import aaa.admin.modules.security.ChannelType;
 import aaa.admin.modules.security.role.defaulttabs.GeneralRoleTab;
