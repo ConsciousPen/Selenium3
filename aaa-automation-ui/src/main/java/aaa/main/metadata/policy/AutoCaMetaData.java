@@ -246,6 +246,7 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<ComboBox> TYPE = declare("Type", ComboBox.class);
 			public static final AssetDescriptor<TextBox> OCCURENCE_DATE = declare("Occurrence Date", TextBox.class);
 			public static final AssetDescriptor<ComboBox> DESCRIPTION = declare("Description", ComboBox.class);
+			public static final AssetDescriptor<TextBox> SUSPENSION_DATE = declare("Suspension Date", TextBox.class);
 			public static final AssetDescriptor<TextBox> LOSS_PAYMENT_AMOUNT = declare("Loss Payment Amount", TextBox.class);
 			public static final AssetDescriptor<TextBox> ACCIDENT_POINTS = declare("Accident Points", TextBox.class);
 			public static final AssetDescriptor<TextBox> CONVICTION_POINTS = declare("Conviction Points", TextBox.class);
@@ -680,6 +681,12 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<StaticElement> DOCUMENT_NUMBER = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, StaticElement.class, Waiters.AJAX);
 			public static final AssetDescriptor<StaticElement> DOCUMENT_NAME = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, StaticElement.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT = declare("Free Form Text", TextBox.class, Waiters.AJAX, false, By.id("policyDataGatherForm:uwLetterMsg_AU03"));
+
+			// CAU08
+			public static final AssetDescriptor<CalendarBox> CAU08_NON_RENEWAL_DATE = declare("CAU08 Non-Renewal Date", CalendarBox.class, Waiters.AJAX, false,
+					By.xpath("//input[@id='policyDataGatherForm:uwLetterCancDt_CAU08InputDate']"));
+			public static final AssetDescriptor<TextBox> CAU08_FREE_FORM_TEXT = declare("CAU08 Free Form Text", TextBox.class, Waiters.AJAX, false,
+					By.xpath("//textarea[@id='policyDataGatherForm:uwLetterMsg_CAU08']"));
 		}
 	}
 
