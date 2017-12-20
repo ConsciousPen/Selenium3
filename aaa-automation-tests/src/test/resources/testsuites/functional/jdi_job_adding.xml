@@ -1,8 +1,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="JDI Functional Test Suite" verbose="1" parallel="false" thread-count="1024">
-
+<suite name="JDI Job Adding" verbose="1" parallel="false" thread-count="1">
+    <listeners>
+        <!-- Listener commented out for local runs-->
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <!--<listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>-->
+    </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
-
     <test name="eValue Related Jobs">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
@@ -21,7 +24,6 @@
             </class>
         </classes>
     </test>
-
     <test name="TestEValueMembershipProcessJobAdding">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
@@ -31,7 +33,6 @@
             </class>
         </classes>
     </test>
-
     <test name="TestRefundProcessJobAdding">
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -41,6 +42,4 @@
             </class>
         </classes>
     </test>
-
-
 </suite>
