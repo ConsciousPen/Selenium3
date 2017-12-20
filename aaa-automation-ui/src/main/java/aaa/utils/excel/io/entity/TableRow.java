@@ -1,11 +1,13 @@
 package aaa.utils.excel.io.entity;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
 public class TableRow extends ExcelRow {
@@ -13,8 +15,8 @@ public class TableRow extends ExcelRow {
 	private int rowNumber;
 	private Map<Integer, TableCell> tableCells;
 
-	public TableRow(Row row, ExcelSheet sheet, ExcelTable table, int rowNumber) {
-		super(row, sheet, table.getCellTypes());
+	public TableRow(Row row, ExcelTable table, int rowNumber) {
+		super(row, table.getSheet(), table.getCellTypes());
 		this.table = table;
 		this.rowNumber = rowNumber;
 	}
@@ -49,20 +51,8 @@ public class TableRow extends ExcelRow {
 	}
 
 	@Override
-	public List<Integer> getColumnNumbers() {
-		return new ArrayList<>(tableCells.keySet());
-	}
-
-	@Override
 	public List<TableCell> getCells() {
-		if (tableCells == null) {
-			tableCells = new HashMap<>();
-			for (Map.Entry<Integer, ExcelCell> cellEntry : getCellsMap().entrySet()) {
-				ExcelCell c = cellEntry.getValue();
-				tableCells.put(cellEntry.getKey(), new TableCell(c.getPoiCell(), this, c.getCellTypes()));
-			}
-		}
-		return new ArrayList<>(this.tableCells.values());
+		return new ArrayList<>(getCellsMap().values());
 	}
 
 	@Override
@@ -82,6 +72,7 @@ public class TableRow extends ExcelRow {
 	}
 
 	public TableCell getCell(String headerColumnName) {
+		assertThat(hasColumnName(headerColumnName)).as("There is no column name \"%s\" in the table's header", headerColumnName).isTrue();
 		return getCells().stream().filter(c -> c.getHeaderColumnName().equals(headerColumnName)).findFirst().get();
 	}
 
@@ -115,5 +106,25 @@ public class TableRow extends ExcelRow {
 
 	public boolean hasValue(String headerColumnName, Object expectedValue) {
 		return getCell(headerColumnName).hasValue(expectedValue);
+	}
+
+	void excludeColumns(String... columnNames) {
+		for (String cName : columnNames) {
+			for (TableCell cell : getCells()) {
+				if (cell.getHeaderColumnName().equals(cName)) {
+					this.tableCells.remove(getColumnNumber(cName));
+				}
+			}
+		}
+	}
+
+	private Map<Integer, TableCell> getCellsMap() {
+		if (this.tableCells == null) {
+			this.tableCells = new HashMap<>();
+			for (Cell cell : getPoiRow()) {
+				this.tableCells.put(cell.getColumnIndex() + 1, new TableCell(cell, this));
+			}
+		}
+		return new HashMap<>(this.tableCells);
 	}
 }

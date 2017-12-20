@@ -13,7 +13,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javax.annotation.Nonnull;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -30,18 +29,18 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 	private Sheet sheet;
 	private int sheetNumber;
 	private ExcelManager excelManager;
-	private CellType<?>[] allowableCellTypes;
+	private Set<CellType<?>> allowableCellTypes;
 	private Set<ExcelTable> tables;
 
 	public ExcelSheet(Sheet sheet, int sheetNumber, ExcelManager excelManager) {
 		this(sheet, sheetNumber, excelManager, ExcelCell.getBaseTypes());
 	}
 
-	public ExcelSheet(Sheet sheet, int sheetNumber, ExcelManager excelManager, CellType<?>[] allowableCellTypes) {
+	public ExcelSheet(Sheet sheet, int sheetNumber, ExcelManager excelManager, Set<CellType<?>> allowableCellTypes) {
 		this.sheet = sheet;
 		this.sheetNumber = sheetNumber;
 		this.excelManager = excelManager;
-		this.allowableCellTypes = allowableCellTypes.clone();
+		this.allowableCellTypes = new HashSet<>(allowableCellTypes);
 		this.tables = new HashSet<>();
 	}
 
@@ -53,8 +52,8 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 		return excelManager;
 	}
 
-	public CellType<?>[] getCellTypes() {
-		return this.allowableCellTypes.clone();
+	public Set<CellType<?>> getCellTypes() {
+		return new HashSet<>(this.allowableCellTypes);
 	}
 
 	/**
@@ -103,13 +102,13 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 	 * Register cell types for next found ExcelTables and ExcelRows and update cell types for found {@link #tables}
 	 */
 	public ExcelSheet registerCellType(CellType<?>... cellTypes) {
-		allowableCellTypes = ArrayUtils.addAll(allowableCellTypes, cellTypes);
-		getTables().forEach(t -> t.registerCellType(allowableCellTypes));
+		this.allowableCellTypes.addAll(Arrays.asList(cellTypes));
+		getTables().forEach(t -> t.registerCellType(cellTypes));
 		return this;
 	}
 
 	public ExcelRow getRow(int rowNumber) {
-		return new ExcelRow(getPoiSheet().getRow(rowNumber - 1), this, getCellTypes());
+		return new ExcelRow(getPoiSheet().getRow(rowNumber - 1), this);
 	}
 
 	public ExcelCell getCell(int rowNumber, int columnNumber) {
@@ -197,7 +196,7 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 			throw new IstfException(errorMessage);
 		}
 
-		ExcelRow row = new ExcelRow(foundRows.get(foundRows.size() - 1), this, getCellTypes());
+		ExcelRow row = new ExcelRow(foundRows.get(foundRows.size() - 1), this);
 		List<String> extraHeaderColumns = new ArrayList<>(row.getStringValues());
 		extraHeaderColumns.removeAll(expectedColumnNames);
 		if (!extraHeaderColumns.isEmpty()) {
@@ -215,7 +214,7 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 
 	public ExcelTable getTable(boolean isLowest, String... headerColumnNames) {
 		Row headerRow = getRow(isLowest, headerColumnNames).getPoiRow();
-		ExcelTable t = new ExcelTable(headerRow, this, getCellTypes());
+		ExcelTable t = new ExcelTable(headerRow, this);
 		return addTable(t).getTable(t);
 	}
 
@@ -227,7 +226,7 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 	 */
 	public ExcelTable getTable(int headerRowNumber) {
 		assertThat(headerRowNumber).as("Header row number should be greater than 0").isPositive();
-		ExcelTable t = new ExcelTable(getRow(headerRowNumber).getPoiRow(), this, getCellTypes());
+		ExcelTable t = new ExcelTable(getRow(headerRowNumber).getPoiRow(), this);
 		return addTable(t).getTable(t);
 	}
 
@@ -252,6 +251,11 @@ public class ExcelSheet implements Iterable<ExcelRow> {
 
 	public ExcelSheet saveAndClose() {
 		getExcelManager().saveAndClose();
+		return this;
+	}
+
+	public ExcelSheet saveAndClose(File destinationFile) {
+		getExcelManager().saveAndClose(destinationFile);
 		return this;
 	}
 
