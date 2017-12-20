@@ -52,37 +52,6 @@
         </classes>
     </test>
 
-    <test name="TestEValueDiscountVA">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
-                <methods>
-                    <include name="eValueAcknowledgementConfigCheck"/>
-                    <include name="eValueConfigCheck"/>
-                    <include name="eValueMembershipConfigCheck"/>
-                    <include name="eValuePriorBiCurrentBiConfigCheck"/>
-                    <include name="eValueTerritoryChannelForVAConfigCheck"/>
-                    <include name="paperlessPreferencesConfigCheck"/>
-                    <include name="precondJobAdding"/>
-                    <include name="pas436_eValueDiscountVariations"/>
-                    <include name="pas3007_eValueMembershipConfiguration"/>
-                    <include name="pas3693_eValueConfiguration"/>
-                    <include name="pas3694_eValueBlueBoxAndStaticText"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="TestPaperlessPreferencesVA">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences">
-                <methods>
-                    <include name="eValueConfigCheck"/>
-                    <include name="pas283_eValuePaperlessPreferences"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test name="TestEndorsementActionRules">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEndorsementActionRules"/>
