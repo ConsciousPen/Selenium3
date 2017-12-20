@@ -54,7 +54,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDiscountPreConditions {
 
 	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
-	private static final String E_VALUE_DISCOUNT = "eValue Discount"; //PAS-440 - rumors have it, that discount might be renamed
+	private static final String E_VALUE_DISCOUNT = "eValue Discount"; //PAS-440, PAS-235 - rumors have it, that discount might be renamed
 
 	private static final ImmutableList<String> EXPECTED_BI_LIMITS = ImmutableList.of(
 			"$25,000/$50,000",
@@ -232,7 +232,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-436")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-436", "PAS-231"})
 	public void pas436_eValueDiscountVariations(@Optional("VA") String state) {
 		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", true, true, "Pending");
 		testEvalueDiscount("AAAProductOwned_Active", "CurrentCarrierInformation", false, false, "");
@@ -265,14 +265,14 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		CustomAssert.enableSoftMode();
 		policy.dataGather().start();
 
-		//PAS-439 start
+		//PAS-439, PAS-234 start
 		generalTab.getInquiryAssetList().assetFieldsAbsence("Apply eValue Discount");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		//Check field properties and default value of eValue Discount
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.present();
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.enabled();
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).verify.value("No");
-		//PAS-439 end
+		//PAS-439, PAS-234 end
 		//PAS-305 start
 		CustomAssert.assertFalse(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT));
 		//PAS-305 end
@@ -701,7 +701,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-278")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-278", "PAS-721"})
 	public void pas278_eValueeSignedPledgeDocumentAHEVAXX(@Optional("VA") String state) {
 
 		eValueQuoteCreation();
@@ -777,6 +777,12 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
 		Efolder.isDocumentExist("Miscellaneous", "ACKNOWLEDGEMENT FORM");
 		//PAS-264 end
+
+		//PAS-721 Start
+		String queryFull2 = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNum, "AHEPXX", "ADHOC_DOC_GENERATE");
+		CustomAssert.assertFalse(DBService.get().getValue(queryFull2).isPresent());
+		//PAS-721 End
+
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
@@ -796,23 +802,23 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValuePriorBiConfigCheck")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-436")
-	public void pas436_eValuePriorBiConfigurationDependency(@Optional("VA") String state) {
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-232"})
+	public void pas232_eValuePriorBiConfigurationDependency(@Optional("VA") String state) {
 		eValueQuoteCreation();
 		CustomAssert.enableSoftMode();
 
 		policy.dataGather().start();
-		pas436_eValuePriorBiConfigurationDependencyCheck("$25,000/$50,000", "$50,000/$100,000");
+		pas232_eValuePriorBiConfigurationDependencyCheck("$25,000/$50,000", "$50,000/$100,000");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE).setValue(TimeSetterUtil
 				.getInstance().getCurrentTime().minusDays(8).format(DateTimeUtils.MM_DD_YYYY));
-		pas436_eValuePriorBiConfigurationDependencyCheck("$20,000/$40,000", "$25,000/$50,000");
+		pas232_eValuePriorBiConfigurationDependencyCheck("$20,000/$40,000", "$25,000/$50,000");
 
 		CustomAssert.disableSoftMode();
 		CustomAssert.assertAll();
 	}
 
-	private void pas436_eValuePriorBiConfigurationDependencyCheck(String disableEvaluePriorBiLimit, String enableEvaluePriorBiLimit) {
+	private void pas232_eValuePriorBiConfigurationDependencyCheck(String disableEvaluePriorBiLimit, String enableEvaluePriorBiLimit) {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_BI_LIMITS).setValue(disableEvaluePriorBiLimit);
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());

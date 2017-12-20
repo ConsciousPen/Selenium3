@@ -13,13 +13,7 @@ import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.modules.regression.sales.template.functional.TestContactInformationAbstract;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.utils.TestInfo;
@@ -47,7 +41,7 @@ public class TestContactInformation extends TestContactInformationAbstract {
      */
     @Parameters({"state"})
     @Test(groups = { Groups.FUNCTIONAL, Groups.MEDIUM })
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-270")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = {"PAS-270", "PAS-267"})
     public void pas270_contactInformation(@Optional("CA") String state)  {
         initiateQuote(DocumentsAndBindTab.class);
 

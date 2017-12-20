@@ -107,9 +107,11 @@ public class TestInstallmentFees extends PolicyBilling {
 		//check Info Message about saving by switching to EFT
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.update().start();
+		//PAS-241 Start
 		String installmentSavingInfo =
 				String.format("This customer can save %s per installment if enrolled into AutoPay with a checking/savings account.", nonEftInstallmentFee.subtract(eftInstallmentFeeACH).toString()
 						.replace(".00", ""));
+		//PAS-241 End
 		CustomAssert.assertTrue(BillingAccount.tableInstallmentSavingInfo.getRow(1).getCell(2).getValue().equals(installmentSavingInfo));
 
 		//PAS-3846 start - will change in future

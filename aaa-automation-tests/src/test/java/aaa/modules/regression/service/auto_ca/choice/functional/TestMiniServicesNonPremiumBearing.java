@@ -42,7 +42,7 @@ public class TestMiniServicesNonPremiumBearing extends TestMiniServicesNonPremiu
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE)
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-1441", "PAS-5986", "PAS-343"})
 	public void pas1441_emailChangeOutOfPas(@Optional("CA") String state) {
 
 		CustomAssert.enableSoftMode();
