@@ -1,0 +1,39 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="BCT Online Tests" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test" />
+
+    <test name="Sales - BCT_ONL_023" preserve-order="true">
+        <parameter name="state" value="AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
+        <classes>
+            <class name="aaa.modules.bct.sales.CopyQuoteTest">
+                <methods>
+                    <include name="BCT_ONL_023_CopyQuote"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Sales - BCT_ONL_025" preserve-order="true">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.bct.sales.CopyQuoteTest">
+                <methods>
+                    <include name="BCT_ONL_025_CopyQuote"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Sales - BCT_ONL_040" preserve-order="true">
+        <parameter name="state" value="AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY" />
+        <classes>
+            <class name="aaa.modules.bct.sales.CopyQuoteTest">
+                <methods>
+                    <include name="BCT_ONL_040_CopyQuote"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

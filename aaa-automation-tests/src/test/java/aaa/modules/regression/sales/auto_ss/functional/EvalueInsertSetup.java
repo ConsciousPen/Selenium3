@@ -60,9 +60,13 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 		}
 	}
 
-	@Test(description = "Precondition for Current and Prior BI Limits configurations")
-	public static void eValuePriorBiCurrentBiConfigUpdateInsert() {
+	@Test(description = "Precondition for Prior BI Limits configurations")
+	public static void eValuePriorBiConfigUpdateInsert() {
 		DBService.get().executeUpdate(EVALUE_PRIOR_BI_CONFIG_INSERT);
+	}
+
+	@Test(description = "Precondition for Current BI Limits configurations")
+	public static void eValueCurrentBiConfigUpdateInsert() {
 		DBService.get().executeUpdate(EVALUE_CURRENT_BI_CONFIG_INSERT);
 	}
 
@@ -95,6 +99,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 	public static void paymentCentralStubEndPointUpdate() {
 		DBService.get().executeUpdate(String.format(PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE, APP_HOST));
 	}
+
 	@Test(description = "Precondition")
 	public static void eValueMembershipAcknowledgementConfigInsert() { DBService.get().executeUpdate(EVALUE_MEMBERSHIP_CONFIG_ACKNOWLEDGEMENT_INSERT); }
 

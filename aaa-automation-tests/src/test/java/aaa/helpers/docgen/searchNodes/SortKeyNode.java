@@ -2,8 +2,8 @@ package aaa.helpers.docgen.searchNodes;
 
 import java.util.ArrayList;
 import java.util.List;
-import aaa.helpers.xml.models.DocumentDataElement;
-import aaa.helpers.xml.models.StandardDocumentRequest;
+import aaa.helpers.xml.model.DocumentDataElement;
+import aaa.helpers.xml.model.StandardDocumentRequest;
 
 public class SortKeyNode extends SearchBy<SortKeyNode, DocumentDataElement>{
 	public DataElementChoiceSKNode dataElementChoice = new DataElementChoiceSKNode();

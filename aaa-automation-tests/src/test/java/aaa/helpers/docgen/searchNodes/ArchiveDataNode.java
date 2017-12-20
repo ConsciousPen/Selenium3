@@ -1,10 +1,9 @@
 package aaa.helpers.docgen.searchNodes;
 
-import aaa.helpers.xml.models.ArchiveData;
-import aaa.helpers.xml.models.StandardDocumentRequest;
-
 import java.util.ArrayList;
 import java.util.List;
+import aaa.helpers.xml.model.ArchiveData;
+import aaa.helpers.xml.model.StandardDocumentRequest;
 
 public final class ArchiveDataNode extends SearchBy<ArchiveDataNode, ArchiveData> {
 	public DocumentDataElementADNode documentDataElement = new DocumentDataElementADNode();

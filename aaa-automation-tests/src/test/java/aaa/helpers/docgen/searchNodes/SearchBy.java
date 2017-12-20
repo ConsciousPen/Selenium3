@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 import org.apache.commons.lang3.tuple.Pair;
-import aaa.helpers.xml.models.StandardDocumentRequest;
+import aaa.helpers.xml.model.StandardDocumentRequest;
 
 public abstract class SearchBy<N, D> {
 	public static StandardDocumentRequestNode standardDocumentRequest = new StandardDocumentRequestNode();

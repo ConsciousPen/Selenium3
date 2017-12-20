@@ -1,10 +1,9 @@
 package aaa.helpers.docgen.searchNodes;
 
-import aaa.helpers.xml.models.DistributionChannel;
-import aaa.helpers.xml.models.StandardDocumentRequest;
-
 import java.util.ArrayList;
 import java.util.List;
+import aaa.helpers.xml.model.DistributionChannel;
+import aaa.helpers.xml.model.StandardDocumentRequest;
 
 public final class DistributionChannelNode extends SearchBy<DistributionChannelNode, DistributionChannel> {
 	public DistributionChannelNode deliveryStatus(String value) {

@@ -1,0 +1,43 @@
+TestData: {
+  DriverTab: '@DriverTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab'
+}
+
+DriverTab: {
+  Occupation: Self Employed,
+  Age First Licensed: 37,
+  Permit Before License: 'No',
+  License State: CA,
+  "License #": C1234567,
+  ActivityInformation: [
+    {
+      Type: '10-yr Major Violation',
+      Occurrence Date: $<today-600d>,
+      Description: Driving under the influence of alcohol
+    },
+    {
+      Type: 'Suspension/Revocation',
+      Description: Alcohol Related Suspension,
+      Suspension Date: $<today-200d>,
+      Reinstatement Date: $<today+100d>
+    }
+  ]
+}
+
+PremiumAndCoveragesTab: {
+  Payment Plan: Semi-Annual,
+  Bodily Injury Liability: 'contains=$50,000/$100,000',
+  Uninsured Motorists Bodily Injury: 'contains=$25,000/$50,000'
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    Personal Auto Application: Physically Signed,
+    Deleting Uninsured Motorist Property Damage Coverage: Physically Signed,
+    'Reducing Uninsured/Underinsured Motorist Coverage': Physically Signed
+  },
+  VehicleInformation: {
+    "Are there any additional interest(s)?": 'No'
+  }
+}

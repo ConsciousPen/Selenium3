@@ -18,11 +18,12 @@ public class CopyQuoteTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_023_CopyQuote(@Optional("") String state) {
+		mainApp().open();
+
 		String quoteNumber = getPoliciesByQuery("BCT_ONL_023_CopyQuote", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_SS.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_SS);
 
-		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
 
 		policy.copyQuote().perform(getStateTestData(tdPolicy, "CopyFromQuote", "TestData"));
@@ -36,11 +37,12 @@ public class CopyQuoteTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_025_CopyQuote(@Optional("") String state) {
+		mainApp().open();
+
 		String quoteNumber = getPoliciesByQuery("BCT_ONL_025_CopyQuote", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_CA_SELECT);
 
-		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
 
 		policy.copyQuote().perform(getStateTestData(tdPolicy, "CopyFromQuote", "TestData"));
@@ -54,11 +56,12 @@ public class CopyQuoteTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_040_CopyQuote(@Optional("") String state) {
+		mainApp().open();
+
 		String quoteNumber = getPoliciesByQuery("BCT_ONL_040_CopyQuote", "SelectPolicy").get(0);
 		IPolicy policy = PolicyType.HOME_SS_HO3.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.HOME_SS_HO3);
 
-		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
 
 		policy.copyQuote().perform(getStateTestData(tdPolicy, "CopyFromQuote", "TestData"));
