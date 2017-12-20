@@ -18,7 +18,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.iterator.RowIterator;
 
@@ -33,29 +32,29 @@ public class ExcelTable implements Iterable<TableRow> {
 	private TableHeader header;
 	private List<TableRow> rows;
 
-	public ExcelTable(Row headerRow, ExcelSheet sheet, ExcelManager excelManager) {
+	public ExcelTable(Row headerRow, ExcelSheet sheet) {
 		this(headerRow, sheet, ExcelCell.getBaseTypes());
 	}
 
-	public ExcelTable(Row headerRow, ExcelSheet sheet, CellType<?>... cellTypes) {
+	public ExcelTable(Row headerRow, ExcelSheet sheet, Set<CellType<?>> cellTypes) {
 		this(headerRow, sheet, null, null, null, cellTypes);
 	}
 
-	public ExcelTable(Row headerRow, ExcelSheet sheet, Integer rowsNumber, Integer firstColumnNumber, Integer lastColumnNumber, CellType<?>... cellTypes) {
+	public ExcelTable(Row headerRow, ExcelSheet sheet, Integer rowsNumber, Integer firstColumnNumber, Integer lastColumnNumber, Set<CellType<?>> cellTypes) {
 		setColumnNumbers(headerRow, firstColumnNumber, lastColumnNumber);
 		this.headerRow = removeNonTableCells(headerRow);
 		this.sheet = sheet;
 		this.rowsNumber = rowsNumber != null ? rowsNumber : calculateTableRowsNumber(headerRow);
-		this.cellTypes = new HashSet<>(Arrays.asList(cellTypes));
+		this.cellTypes = new HashSet<>(cellTypes);
 	}
 
-	public CellType<?>[] getCellTypes() {
-		return this.cellTypes.toArray(new CellType<?>[this.cellTypes.size()]);
+	public Set<CellType<?>> getCellTypes() {
+		return new HashSet<>(this.cellTypes);
 	}
 
 	public TableHeader getHeader() {
 		if (header == null) {
-			header = new TableHeader(getHeaderRow(), getSheet(),this);
+			header = new TableHeader(getHeaderRow(), this);
 		}
 		return header;
 	}
@@ -70,7 +69,7 @@ public class ExcelTable implements Iterable<TableRow> {
 			for (int rowNumber = 1; rowNumber <= this.rowsNumber; rowNumber++) {
 				Row row = getSheet().getPoiSheet().getRow(getHeaderRow().getRowNum() + rowNumber);
 				row = removeNonTableCells(row);
-				this.rows.add(new TableRow(row, getSheet(), this, rowNumber));
+				this.rows.add(new TableRow(row, this, rowNumber));
 			}
 		}
 		return new ArrayList<>(this.rows);
@@ -97,6 +96,14 @@ public class ExcelTable implements Iterable<TableRow> {
 	 */
 	public int getRowsNumber() {
 		return rowsNumber;
+	}
+
+	public List<Integer> getColumnNumbers() {
+		return new ArrayList<>(this.columnNumbers);
+	}
+
+	public List<String> getColumnNames() {
+		return new ArrayList<>(getHeader().getColumnNames());
 	}
 
 	public int getFirstRowNum() {
@@ -216,6 +223,22 @@ public class ExcelTable implements Iterable<TableRow> {
 		return this;
 	}
 
+	public ExcelTable saveAndClose(File destinationFile) {
+		getSheet().saveAndClose(destinationFile);
+		return this;
+	}
+
+	public ExcelTable excludeColumns(String... columnNames) {
+		for (TableRow row : this) {
+			row.excludeColumns(columnNames);
+		}
+		for (String cName : columnNames) {
+			this.columnNumbers.removeIf(cNumber -> cNumber == getHeader().getColumnNumber(cName));
+		}
+		getHeader().excludeColumns(columnNames);
+		return this;
+	}
+
 	private void setColumnNumbers(Row headerRow, Integer firstColumnNumber, Integer lastColumnNumber) {
 		if (firstColumnNumber == null) {
 			firstColumnNumber = headerRow.getFirstCellNum() + 1;
@@ -238,7 +261,7 @@ public class ExcelTable implements Iterable<TableRow> {
 
 		Set<String> rowValues = new HashSet<>();
 		for (Cell cell : nonEmptyCells) {
-			String cellValue = new ExcelCell(cell, sheet, ExcelCell.STRING_TYPE).getStringValue();
+			String cellValue = new ExcelCell(cell, new ExcelRow(headerRow, getSheet())).getStringValue();
 			if (cellValue.isEmpty()) {
 				log.warn("Table's header has empty cell value in column number {}, cells from this column will be excluded from table ExcelTable instance", cell.getColumnIndex() + 1);
 				this.columnNumbers.remove(cell.getColumnIndex() + 1);

@@ -34,14 +34,15 @@ public class ExcelManager {
 	private Workbook workbook;
 	private Map<Integer, ExcelSheet> sheets;
 
+	@SuppressWarnings("ZeroLengthArrayAllocation")
 	public ExcelManager(File excelFile) {
-		this(excelFile, ExcelCell.getBaseTypes());
+		this(excelFile, new CellType<?>[0]);
 	}
 
 	public ExcelManager(File file, CellType<?>... allowableCellTypes) {
 		this.isOpened = false;
 		this.file = file;
-		this.allowableCellTypes = new HashSet<>(Arrays.asList(allowableCellTypes));
+		this.allowableCellTypes = allowableCellTypes.length != 0 ? new HashSet<>(Arrays.asList(allowableCellTypes)) : ExcelCell.getBaseTypes();
 	}
 
 	public boolean isOpened() {
@@ -52,8 +53,8 @@ public class ExcelManager {
 		return file;
 	}
 
-	public CellType<?>[] getCellTypes() {
-		return this.allowableCellTypes.toArray(new CellType<?>[this.allowableCellTypes.size()]);
+	public Set<CellType<?>> getCellTypes() {
+		return new HashSet<>(this.allowableCellTypes);
 	}
 
 	public List<ExcelSheet> getSheets() {

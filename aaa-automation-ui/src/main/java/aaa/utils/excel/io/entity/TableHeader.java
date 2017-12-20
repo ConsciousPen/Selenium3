@@ -13,21 +13,23 @@ public class TableHeader extends ExcelRow {
 	private ExcelTable table;
 	private Map<Integer, String> columnNames;
 
-	public TableHeader(Row row, ExcelSheet sheet, ExcelTable table) {
-		super(row, sheet, ExcelCell.STRING_TYPE);
+	public TableHeader(Row row, ExcelTable table) {
+		super(row, table.getSheet());
 		this.table = table;
-		this.columnNames = new HashMap<>();
-		for (Map.Entry<Integer, ExcelCell> cellEntry : getCellsMap().entrySet()) {
-			columnNames.put(cellEntry.getKey(), cellEntry.getValue().getStringValue());
-		}
+		this.cellTypes.removeIf(t -> !t.equals(ExcelCell.STRING_TYPE));
+		assertThat(this.cellTypes).as("Table header row should have type " + ExcelCell.STRING_TYPE).isNotEmpty();
 	}
 
 	public List<String> getColumnNames() {
-		return new ArrayList<>(columnNames.values());
+		return new ArrayList<>(getColumnNamesMap().values());
 	}
 
 	int getRowNumberOnSheet() {
 		return getPoiRow().getRowNum() + 1;
+	}
+
+	public ExcelTable getTable() {
+		return table;
 	}
 
 	@Override
@@ -68,11 +70,27 @@ public class TableHeader extends ExcelRow {
 
 	public int getColumnNumber(String columnName) {
 		assertThat(hasColumnName(columnName)).as("There is no column name \"%s\" in the table's header", columnName).isTrue();
-		return columnNames.entrySet().stream().filter(c -> c.getValue().equals(columnName)).findFirst().get().getKey();
+		return getColumnNamesMap().entrySet().stream().filter(c -> c.getValue().equals(columnName)).findFirst().get().getKey();
 	}
 
 	public String getColumnName(int columnNumber) {
 		assertThat(hasColumn(columnNumber)).as("There is no column with %s index in table's header", columnNumber).isTrue();
-		return this.columnNames.get(columnNumber);
+		return getColumnNamesMap().get(columnNumber);
+	}
+
+	void excludeColumns(String... columnNames) {
+		for (String column : columnNames) {
+			this.columnNames.remove(getColumnNumber(column));
+		}
+	}
+
+	private Map<Integer, String> getColumnNamesMap() {
+		if (this.columnNames == null) {
+			this.columnNames = new HashMap<>();
+			for (ExcelCell cell : getCells()) {
+				this.columnNames.putIfAbsent(cell.getColumnNumber(), cell.getStringValue());
+			}
+		}
+		return this.columnNames;
 	}
 }
