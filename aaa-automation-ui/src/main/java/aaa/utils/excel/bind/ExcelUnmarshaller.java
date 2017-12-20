@@ -66,20 +66,21 @@ public class ExcelUnmarshaller {
 		ExcelSheet sheet = excelManager.getSheet(getSheetName(tableField));
 		if (rowNumber < 0) {
 			List<String> headerColumnNames = getHeaderColumnNames(tableRowFields);
-			return sheet.getTable(isLowestTable(tableField), headerColumnNames.toArray(new String[headerColumnNames.size()]));
+			table = sheet.getTable(isLowestTable(tableField), headerColumnNames.toArray(new String[headerColumnNames.size()]));
+		} else {
+			table = sheet.getTable(rowNumber);
 		}
 
-		table = sheet.getTable(rowNumber);
 		List<String> expectedFieldsColumns = getHeaderColumnNames(tableRowFields);
 		List<String> missingFieldColumns = table.getColumnNames().stream().filter(cn -> !expectedFieldsColumns.contains(cn)).collect(Collectors.toList());
 
 		if (!missingFieldColumns.isEmpty()) {
-			String message = String.format("Extra header column(s) detected in excel table on sheet \"%1$s\" without binded field(s) from class \"%2$s\": %3$s ",
+			String message = String.format("Extra header column(s) detected in excel table on sheet \"%1$s\" without binded field(s) from class \"%2$s\": %3$s.",
 					table.getSheet().getSheetName(), getTableRowType(tableField).getName(), missingFieldColumns);
 			if (strictMatch) {
 				throw new IstfException("Excel unmarshalling with strict match has been failed. " + message);
 			}
-			log.warn("{}. Result object will not have missed field(s)", message);
+			log.warn("{} Result object will not have missed field(s)", message);
 			table.excludeColumns(missingFieldColumns.toArray(new String[missingFieldColumns.size()]));
 		}
 		return table;
@@ -92,12 +93,12 @@ public class ExcelUnmarshaller {
 
 		if (!fieldsWithMissingColumns.isEmpty()) {
 			List<String> missingTableColumns = getHeaderColumnNames(fieldsWithMissingColumns);
-			String message = String.format("Missed header column(s) detected in excel table on sheet \"%1$s\" for field(s) from class \"%2$s\": %3$s",
-					table.getSheet().getSheetName(), missingTableColumns, getTableRowType(tableField).getName());
+			String message = String.format("Missed header column(s) detected in excel table on sheet \"%1$s\" for field(s) from class \"%2$s\": %3$s.",
+					table.getSheet().getSheetName(), getTableRowType(tableField).getName(), missingTableColumns);
 			if (strictMatch) {
 				throw new IstfException("Excel unmarshalling with strict match has been failed. " + message);
 			}
-			log.warn("{}. Field(s) with missed column(s) in result object will have default value(s) of appropriate type(s)", message);
+			log.warn("{} Field(s) with missed column(s) in result object will have default value(s) of appropriate type(s)", message);
 		}
 		fields.removeAll(fieldsWithMissingColumns);
 		return fields;
@@ -182,15 +183,15 @@ public class ExcelUnmarshaller {
 				}
 				List<Field> linkedTableRowFields = getAllFields(getTableRowType(tableRowField));
 				ExcelTable table = getExcelTable(row.getSheet().getExcelManager(), tableRowField, linkedTableRowFields, strictMatch);
+				linkedTableRowFields = getFilteredFields(table, tableRowField, linkedTableRowFields, strictMatch);
 
 				List<Object> linkedTableRows = new ArrayList<>();
+				Class<?> linkedTableRowClass = getTableRowType(tableRowField);
+				Field primaryKeyField = getPrimaryKeyField(linkedTableRowClass);
+				List<String> linkedTableRowIds = Arrays.asList(linkedRowsIds.split(getPrimaryKeysSeparator(primaryKeyField)));
 				for (TableRow linkedTableRow : table) {
-					Class<?> linkedTableRowClass = getTableRowType(tableRowField);
 					Object linkedTableRowInstance = getInstance(linkedTableRowClass);
-					Field primaryKeyField = getPrimaryKeyField(linkedTableRowClass);
-					List<String> linkedTableRowIds = Arrays.asList(linkedRowsIds.split(getPrimaryKeysSeparator(primaryKeyField)));
 					if (linkedTableRowIds.contains(getPrimaryKeyValue(primaryKeyField, linkedTableRow))) {
-						linkedTableRowFields = getFilteredFields(table, tableRowField, linkedTableRowFields, strictMatch);
 						for (Field linkedTableRowField : linkedTableRowFields) {
 							setFieldValue(linkedTableRowField, linkedTableRowInstance, linkedTableRow, strictMatch);
 						}

@@ -15,7 +15,7 @@ public class OpenLVehicle {
 	private int compSymbol;
 	private String id;
 	private boolean isHybrid;
-	private boolean isTelematic;
+	private boolean isTelematic; // OR specific
 	private int modelYear;
 	private boolean newCarAddedProtection;
 	private String statCode;

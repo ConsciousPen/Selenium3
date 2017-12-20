@@ -58,7 +58,6 @@ public class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyBaseTest {
 			log.info("Premium calculation verification initiated for test with policy number {} from {} OpenL filename", openLPolicy.getNumber(), openLFileName);
 			TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy);
 			String expectedPremium = String.valueOf(getExpectedPremium(openLFileName, openLPolicy.getNumber()));
-
 			policy.initiate();
 			policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
 			new PremiumAndCoveragesTab().fillTab(quoteRatingData);
