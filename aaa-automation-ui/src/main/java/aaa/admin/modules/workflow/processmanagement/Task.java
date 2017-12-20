@@ -5,7 +5,7 @@ package aaa.admin.modules.workflow.processmanagement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import aaa.utils.EntityLogger;
+import aaa.EntityLogger;
 import aaa.admin.modules.workflow.processmanagement.views.DefaultView;
 import aaa.admin.pages.workflow.ProcessManagementPage;
 import aaa.common.Workspace;

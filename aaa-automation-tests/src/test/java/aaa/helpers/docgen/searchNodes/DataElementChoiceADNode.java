@@ -1,7 +1,7 @@
 package aaa.helpers.docgen.searchNodes;
 
-import aaa.helpers.xml.model.DataElementChoice;
-import aaa.helpers.xml.model.StandardDocumentRequest;
+import aaa.helpers.xml.models.DataElementChoice;
+import aaa.helpers.xml.models.StandardDocumentRequest;
 
 import java.util.ArrayList;
 import java.util.List;

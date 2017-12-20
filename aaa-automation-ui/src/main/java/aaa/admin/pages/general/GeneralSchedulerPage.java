@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.base.app.Application;
 import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import com.exigen.ipb.etcsa.base.app.LoginPage;
-import aaa.utils.JobRunner;
+import aaa.JobRunner;
 import aaa.admin.pages.AdminPage;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.AdminAppLeftMenu;

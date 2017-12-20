@@ -17,7 +17,7 @@ import com.exigen.ipb.etcsa.base.app.AdminApplication;
 import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import com.exigen.ipb.etcsa.base.app.MainApplication;
 import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
-import aaa.utils.EntityLogger;
+import aaa.EntityLogger;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.metadata.LoginPageMeta;

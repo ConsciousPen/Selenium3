@@ -1,7 +1,7 @@
 package aaa.helpers.docgen.searchNodes;
 
-import aaa.helpers.xml.model.ArchiveData;
-import aaa.helpers.xml.model.StandardDocumentRequest;
+import aaa.helpers.xml.models.ArchiveData;
+import aaa.helpers.xml.models.StandardDocumentRequest;
 
 import java.util.ArrayList;
 import java.util.List;

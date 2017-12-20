@@ -2,7 +2,7 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.admin.modules.cem.majorlargeaccount;
 
-import aaa.utils.EntityLogger;
+import aaa.EntityLogger;
 import aaa.admin.metadata.cem.CemMetaData;
 import aaa.admin.modules.cem.majorlargeaccount.MajorLargeAccountActions.DeleteMajorLargeAccount;
 import aaa.admin.modules.cem.majorlargeaccount.MajorLargeAccountActions.EditMajorLargeAccount;

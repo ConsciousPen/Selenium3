@@ -1,6 +1,6 @@
 package aaa.admin.modules.commission.bulkadjustment;
 
-import aaa.utils.EntityLogger;
+import aaa.EntityLogger;
 import aaa.admin.modules.commission.bulkadjustment.BulkAdjustmentActions.AddBulkAdjustmentRule;
 import aaa.admin.modules.commission.bulkadjustment.BulkAdjustmentActions.DeleteBulkAdjustment;
 import aaa.admin.modules.commission.bulkadjustment.BulkAdjustmentActions.EditBulkAdjustment;

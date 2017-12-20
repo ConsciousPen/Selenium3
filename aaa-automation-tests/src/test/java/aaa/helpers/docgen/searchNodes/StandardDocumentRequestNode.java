@@ -1,6 +1,6 @@
 package aaa.helpers.docgen.searchNodes;
 
-import aaa.helpers.xml.model.StandardDocumentRequest;
+import aaa.helpers.xml.models.StandardDocumentRequest;
 
 import java.util.List;
 
