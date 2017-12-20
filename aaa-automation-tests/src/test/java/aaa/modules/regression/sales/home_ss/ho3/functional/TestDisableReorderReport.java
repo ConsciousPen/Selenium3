@@ -2,6 +2,7 @@ package aaa.modules.regression.sales.home_ss.ho3.functional;
 
 import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.INSURANCE_SCORE_REPORT;
 import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.InsuranceScoreReportRow.CUSTOMER_AGREEMENT;
+import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.InsuranceScoreReportRow.ORDER_INSURANCE_SCORE;
 import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.SALES_AGENT_AGREEMENT;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.testng.annotations.Optional;
@@ -60,7 +61,7 @@ public class TestDisableReorderReport extends HomeSSHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
         new ApplicantTab().fillTab(getTestSpecificTD("TestData"));
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-        reportTab.tblInsuranceScoreReport.getRow(2).getCell("Order Insurance Score").
+        reportTab.tblInsuranceScoreReport.getRow(2).getCell(ORDER_INSURANCE_SCORE.getLabel()).
                 controls.radioGroups.get(1).setValue("Yes");
         reportTab.getAssetList().getAsset(INSURANCE_SCORE_REPORT.getLabel(), FillableTable.class).
                 getAsset(CUSTOMER_AGREEMENT.getLabel(), RadioGroup.class).setValue("Customer agrees");
