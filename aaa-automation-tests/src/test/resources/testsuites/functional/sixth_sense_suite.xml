@@ -27,6 +27,7 @@
         </classes>
     </test>
     <test name="Test Disable Reorder Report at Mid Term and Renewal">
+        <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport"/>
         </classes>

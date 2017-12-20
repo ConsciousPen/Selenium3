@@ -42,7 +42,7 @@ public class TestDisableReorderReport extends HomeSSHO3BaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6795")
-    public void pas5847_removingSPPDoesNotLowerTotalPremium(@Optional("PA") String state) {
+    public void pas6795_disableReorderReport(@Optional("PA") String state) {
 
         mainApp().open();
 
@@ -68,8 +68,7 @@ public class TestDisableReorderReport extends HomeSSHO3BaseTest {
         assertThat(reportTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst().isPresent()).isFalse();
         assertThat(reportTab.tblInsuranceScoreReport.getRow(2).getCell("Report").controls.links.getFirst().isPresent()).isFalse();
 
-        Tab.buttonTopCancel.click();
-        Page.dialogConfirmation.confirm();
+        reportTab.cancel();
         policy.renew().perform(new SimpleDataProvider());
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
         assertThat(reportTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst().isPresent()).isFalse();
