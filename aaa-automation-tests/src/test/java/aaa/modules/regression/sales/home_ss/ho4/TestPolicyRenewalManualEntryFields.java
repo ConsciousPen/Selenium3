@@ -36,7 +36,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class TestPolicyRenewalManualEntryFields extends HomeSSHO4BaseTest {
 
     @Parameters({"state"})
-    @Test(groups = {Groups.REGRESSION})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4)
     public void testPolicyRenewal(@Optional("") String state) {
 
