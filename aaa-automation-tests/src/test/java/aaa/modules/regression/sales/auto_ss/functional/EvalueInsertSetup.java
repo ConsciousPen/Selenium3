@@ -11,6 +11,12 @@ import toolkit.db.DBService;
 @Listeners({AaaTestListener.class})
 public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
+	@Test(description = "Delete old tasks")
+	public static void deleteOldTasksUpdate() {
+		DBService.get().executeUpdate(DELETE_OLD_TASKS1);
+		DBService.get().executeUpdate(DELETE_OLD_TASKS2);
+	}
+
 	@Test(description = "Precondition updating Payperless Preferences Endpoint to a Stub")
 	public static void paperlessPreferencesStubEndpointUpdate() {
 		DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE, APP_HOST));

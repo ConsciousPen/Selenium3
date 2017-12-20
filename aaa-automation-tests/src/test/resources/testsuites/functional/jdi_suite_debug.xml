@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="JDI Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
+<suite name="JDI Debug Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <!-- Listener commented out for local runs-->
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
@@ -7,6 +7,7 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
+    <test name="TestRefundProcessVA2">
      <test name="TestRefundProcessVA2">
         <parameter name="state" value="VA"/>
         <classes>
@@ -53,4 +54,22 @@
         </classes>
     </test>
 
+    <test name="TestEndorsementActionRules">
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEndorsementActionRules"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestEndorsementActionRules"/>
+        </classes>
+    </test>
+
+    <test name="TestEValueMembershipProcessDC">
+        <parameter name="state" value="DC"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

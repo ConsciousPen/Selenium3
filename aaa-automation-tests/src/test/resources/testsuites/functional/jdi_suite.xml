@@ -6,15 +6,7 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
-    <test name="Refund Related Jobs">
-        <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
-                <methods>
-                    <include name="precondJobAdding"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
+
     <test name="eValue Related Jobs">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
@@ -58,6 +50,17 @@
                 <methods>
                     <include name="refundDocumentGenerationConfigCheck"/>
                     <include name="pas2186_RefundProcessCheck"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestRefundProcessVA3">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+                <methods>
+                    <include name="refundDocumentGenerationConfigCheck"/>
+                    <include name="pas2727_ManualChkRefundFromDe"/>
                 </methods>
             </class>
         </classes>
@@ -129,13 +132,13 @@
                     <include name="eValueTerritoryChannelForVAConfigCheck"/>
                     <include name="paperlessPreferencesConfigCheck"/>
                     <include name="precondJobAdding"/>
+                    <include name="pas232_eValuePriorBiConfigurationDependency"/>
                     <include name="pas233_eValueTerritoryChannelDependency"/>
                     <include name="pas265_MinimumStateLimitsForBIPreBind"/>
                     <include name="pas278_eValueeSignedPledgeDocumentAHEVAXX"/>
                     <include name="pas300_eValueStatusConsViewPaperPrefPendingVa"/>
                     <include name="pas300_eValueStatusConsViewPaperPrefYes"/>
                     <include name="pas305_eValueDiscountApplied"/>
-                    <include name="pas325_eValueCommissionRelatedFields"/>
                     <include name="pas325_eValueCommissionRelatedFields"/>
                     <include name="pas436_eValueDiscountVariations"/>
                     <include name="pas436_eValuePriorBiCurrentBiConfigurationDependency"/>
@@ -250,10 +253,33 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesNonPremiumBearing"/>
         </classes>
     </test>
-    <test name="TestEValueMembershipProcess">
+    <test name="TestEValueMembershipProcessVA">
         <parameter name="state" value="VA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas3697_membershipEligibilityConfigurationTrueForActiveMembership"/>
+                    <include name="pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal"/>
+                    <include name="pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
+                    <include name="pas3697_membershipEligibilityConfigurationTrueForPendingMembership"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForNotActiveMembership"/>
+                    <include name="pas3697_membershipEligibilityConfigurationFalseForPendingMembership"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestEValueMembershipProcessDC">
+        <parameter name="state" value="DC"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
+                <methods>
+                    <include name="retrieveMembershipSummaryEndpointCheck"/>
+                    <include name="pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
