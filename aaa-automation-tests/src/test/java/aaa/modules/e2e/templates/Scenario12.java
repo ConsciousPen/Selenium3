@@ -124,7 +124,7 @@ public class Scenario12 extends ScenarioBaseTest {
 	
 	protected void createRemittanceFile() {
 		LocalDateTime date = getTimePoints().getCancellationDate(installmentDueDates.get(1));
-		TimeSetterUtil.getInstance().nextPhase(date.plusDays(40).with(DateTimeUtils.closestFutureWorkingDay));
+		TimeSetterUtil.getInstance().nextPhase(date.plusDays(41).with(DateTimeUtils.closestFutureWorkingDay));
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		Dollar cnAmount = BillingHelper.getBillDueAmount(getTimePoints().getCancellationTransactionDate(installmentDueDates.get(1)),
@@ -200,7 +200,29 @@ public class Scenario12 extends ScenarioBaseTest {
 	}
 	
 	protected void renewalOfferGeneration() {
-		renewalOfferGeneration(policyEffectiveDate, policyExpirationDate, installmentDueDates);
+		LocalDateTime renewDateOffer = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+		TimeSetterUtil.getInstance().nextPhase(renewDateOffer);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNum);
+		PolicySummaryPage.buttonRenewals.verify.enabled();
+		PolicySummaryPage.buttonRenewals.click();
+		new ProductRenewalsVerifier().setStatus(PolicyStatus.PROPOSED).verify(1);
+
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+
+		BillingSummaryPage.showPriorTerms();
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
+		verifyRenewOfferGenerated(installmentDueDates);
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewDateOffer)
+				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
+		/*
+		if (verifyPligaOrMvleFee(renewDateOffer, policyTerm, totalVehiclesNumber)) {
+			pligaOrMvleFeeLastTransactionDate = renewDateOffer;
+		}
+		*/
 	}
 	
 	//Skip this step for CA
@@ -372,8 +394,31 @@ public class Scenario12 extends ScenarioBaseTest {
 		renewalPreviewGeneration(policyExpirationDate_FirstRenewal);
 	}
 	
-	protected void renewalOfferGeneration_FirstRenewal() {
-		renewalOfferGeneration(policyExpirationDate, policyExpirationDate_FirstRenewal, installmentDueDates_FirstRenewal);
+	protected void renewalOfferGeneration_FirstRenewal() {		
+		LocalDateTime renewDateOffer = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate_FirstRenewal);
+		TimeSetterUtil.getInstance().nextPhase(renewDateOffer);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNum);
+		PolicySummaryPage.buttonRenewals.verify.enabled();
+		PolicySummaryPage.buttonRenewals.click();
+		new ProductRenewalsVerifier().setStatus(PolicyStatus.PROPOSED).verify(1);
+
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+
+		BillingSummaryPage.showPriorTerms();
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate_FirstRenewal);
+		verifyRenewOfferGenerated(installmentDueDates_FirstRenewal);
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewDateOffer)
+				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
+		/*
+		if (verifyPligaOrMvleFee(renewDateOffer, policyTerm, totalVehiclesNumber)) {
+			pligaOrMvleFeeLastTransactionDate = renewDateOffer;
+		}
+		*/
 	}
 	
 	protected void changePaymentPlan_FirstRenewal() {
@@ -483,32 +528,6 @@ public class Scenario12 extends ScenarioBaseTest {
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PREMIUM_CALCULATED).verify(1);
 	}
 
-	private void renewalOfferGeneration(LocalDateTime policyEffectiveDate, LocalDateTime policyExpirationDate, List<LocalDateTime> installmentDueDates) {
-		LocalDateTime renewDateOffer = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
-		TimeSetterUtil.getInstance().nextPhase(renewDateOffer);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
-		mainApp().open();
-		SearchPage.openPolicy(policyNum);
-		PolicySummaryPage.buttonRenewals.verify.enabled();
-		PolicySummaryPage.buttonRenewals.click();
-		new ProductRenewalsVerifier().setStatus(PolicyStatus.PROPOSED).verify(1);
-
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-
-		BillingSummaryPage.showPriorTerms();
-		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
-		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		verifyRenewOfferGenerated(installmentDueDates);
-		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewDateOffer)
-				.setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
-		/*
-		if (verifyPligaOrMvleFee(renewDateOffer, policyTerm, totalVehiclesNumber)) {
-			pligaOrMvleFeeLastTransactionDate = renewDateOffer;
-		}
-		*/
-	}
-	
 	private void payCashAndCheckBill(LocalDateTime installmentDueDate) {
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDate);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);

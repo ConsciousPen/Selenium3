@@ -24,6 +24,14 @@ public class TestScenario12 extends Scenario12 {
 		SoftAssertions.assertSoftly(softly -> {
 			generateFirstBill();
 			payFirstBill();
+			/*
+			generateCancelNotice();
+			generateCancellation();
+			createRemittanceFile();
+			payCancellationNoticeByRemittance();
+			policyReinstatement();
+			generateRefund();
+			*/
 			renewalImageGeneration();
 			renewalPreviewGeneration();
 			renewalOfferGeneration();
