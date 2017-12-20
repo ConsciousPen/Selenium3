@@ -48,6 +48,7 @@ public class XlsUpdater {
 				.getRow("ID", "A10")
 				.getCell("notificationId")
 				.setValue(value2)
+				//!!!saveAndClose must be performed when done working with ExcelManager
 				.saveAndClose(writeFile2); //writeFile can be replaced by new File(ORIGIN_STUB_PATH + modifiedFileName2)
 
 		//Write to server
