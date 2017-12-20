@@ -7,12 +7,10 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.openl.model.pup.PUPOpenLFile;
 import aaa.helpers.openl.model.pup.PUPOpenLPolicy;
 import aaa.helpers.openl.testdata_builder.PUPTestDataGenerator;
+import aaa.helpers.openl.testdata_builder.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
 
 public class PUPPremiumCalculationTest extends OpenLRatingBaseTest<PUPOpenLPolicy> {
-	public PUPPremiumCalculationTest() {
-		super(new PUPTestDataGenerator());
-	}
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -22,6 +20,7 @@ public class PUPPremiumCalculationTest extends OpenLRatingBaseTest<PUPOpenLPolic
 	@Parameters({"state", "fileName", "policyNumbers"})
 	@Test(groups = {Groups.OPENL, Groups.HIGH})
 	public void premiumCalculationTest(@Optional("") String state, String fileName, @Optional("") String policyNumbers) {
-		verifyPremiums(fileName, PUPOpenLFile.class, getPolicyNumbers(policyNumbers));
+		TestDataGenerator<PUPOpenLPolicy> tdGenerator = new PUPTestDataGenerator(getState(), getRatingDataPattern());
+		verifyPremiums(fileName, PUPOpenLFile.class, tdGenerator, getPolicyNumbers(policyNumbers));
 	}
 }
