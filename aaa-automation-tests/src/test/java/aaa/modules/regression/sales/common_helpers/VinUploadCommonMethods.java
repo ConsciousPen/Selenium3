@@ -11,9 +11,11 @@ import aaa.modules.policy.PolicyBaseTest;
 public class VinUploadCommonMethods extends PolicyBaseTest {
 
 	private final String policyType;
+	private final String state;
 
-	public VinUploadCommonMethods(PolicyType policyType) {
+	public VinUploadCommonMethods(PolicyType policyType, String state) {
 		this.policyType = policyType.getShortName();
+		this.state = state;
 	}
 
 	/**
@@ -75,24 +77,6 @@ public class VinUploadCommonMethods extends PolicyBaseTest {
 	}
 
 	public String getControlTableFile() {
-		String defaultControlFileName = null;
-		switch (policyType) {
-			case "AutoSS":
-				defaultControlFileName = "controlTable_%s_SS.xlsx";
-				break;
-			case "AutoCA":
-				defaultControlFileName = "controlTable_%s_SELECT.xlsx";
-				break;
-			case "AutoCAC":
-				defaultControlFileName = "controlTable_%s_CHOICE.xlsx";
-				break;
-			default:
-				throw new IllegalArgumentException("Name of VIN Table file was not selected correctly");
-		}
-		return String.format(defaultControlFileName, getState());
-	}
-
-	public String getControlTableFile(String state) {
 		String defaultControlFileName = null;
 		switch (policyType) {
 			case "AutoSS":

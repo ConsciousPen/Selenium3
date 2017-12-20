@@ -40,7 +40,7 @@ import toolkit.webdriver.controls.TextBox;
 public class TestVINUpload extends TestVinUploadHelper {
 	protected TestData tdBilling = testDataManager.billingAccount;
 
-	private VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType());
+	private VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType(),getState());
 
 	private static final String NEW_VIN = "1FDEU15H7KL055795";
 	private static final String UPDATABLE_VIN = "1HGEM215140028445";
@@ -409,7 +409,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 	public void pas2716_AutomatedRenewal_ExpirationDate(@Optional("UT") String state) {
 		TestData testData = getTestDataSinceMembershipVin(NEW_VIN);
 		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
-		String pas2716ControlTableFileName = vinMethods.getControlTableFile(getState());
+		String pas2716ControlTableFileName = vinMethods.getControlTableFile();
 		/*
 		 * Automated Renewal R-Expiration Date
 		 */
@@ -422,7 +422,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 	/**
 	 * @author Viktor Petrenko
 	 * <p>
-	 * PAS-2716 Update VIN Refresh
+	 * PAS-2716 Update VIN Refresh R
 	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
 	 * @scenario
 	 * 0. Retrieve active policy with (VIN matched)
@@ -438,7 +438,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 	public void pas2716_AutomatedRenewal_ExpirationDateMinus45(@Optional("UT") String state) {
 		TestData testData = getTestDataSinceMembershipVin(NEW_VIN);
 		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
-		String pas2716ControlTableFileName = vinMethods.getControlTableFile(getState());
+		String pas2716ControlTableFileName = vinMethods.getControlTableFile();
 		/*
 		 * Automated Renewal R-45
 		 */
@@ -452,7 +452,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 	/**
 	 * @author Viktor Petrenko
 	 * <p>
-	 * PAS-2716 Update VIN Refresh
+	 * PAS-2716 Update VIN Refresh R-35
 	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
 	 * @scenario
 	 * 0. Retrieve active policy with (VIN matched)
@@ -468,7 +468,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 	public void pas2716_AutomatedRenewal_ExpirationDateMinus35(@Optional("UT") String state) {
 		TestData testData = getTestDataSinceMembershipVin(NEW_VIN);
 		String pas2716VinTableFileName = vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get());
-		String pas2716ControlTableFileName = vinMethods.getControlTableFile(getState());
+		String pas2716ControlTableFileName = vinMethods.getControlTableFile();
 		/*
 		 * Automated Renewal R-35
 		 */
@@ -482,7 +482,7 @@ public class TestVINUpload extends TestVinUploadHelper {
 	/**
 	 * @author Viktor Petrenko
 	 * <p>
-	 * PAS-2716 Update VIN Refresh
+	 * PAS-2716 Update VIN Refresh R-45
 	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
 	 * @scenario
 	 * 1. Create Auto policy with 2 vehicles

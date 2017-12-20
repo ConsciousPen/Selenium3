@@ -35,7 +35,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 	private VehicleTab vehicleTab = new VehicleTab();
 	private PurchaseTab purchaseTab = new PurchaseTab();
 	private MembershipTab membershipTab = new MembershipTab();
-	protected VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType());
+	protected VinUploadCommonMethods vinMethods = new VinUploadCommonMethods(getPolicyType(),getState());
 
 	protected void pas2716_AutomatedRenewal(String policyNumber,LocalDateTime nextPhaseDate,String  vinNumber) {
 		//2. Generate automated renewal image (in data gather status) according to renewal timeline
@@ -94,7 +94,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 	 */
 	protected void newVinAdded(String vinTableFile, String vinNumber) {
 
-		TestData testData = getTestDataWithSinceMembership(vinNumber);
+		TestData testData = getTestDataWithSinceMembershipAndSpecificVinNumber(vinNumber);
 
 		precondsTestVINUpload(testData, VehicleTab.class);
 
@@ -277,7 +277,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 	 * @details
 	 */
 	protected void endorsement(String vinTableFile, String vinNumber) {
-		TestData testData = getTestDataWithSinceMembership(vinNumber).resolveLinks();
+		TestData testData = getTestDataWithSinceMembershipAndSpecificVinNumber(vinNumber).resolveLinks();
 
 		String policyNumber = createPreconds(testData);
 
@@ -409,11 +409,15 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 				.adjust("AssignmentTab", testDataAssignmentTab).resolveLinks();
 	}
 
-	protected TestData getTestDataWithSinceMembership(String vinNumber) {
+	protected TestData getTestDataWithSinceMembershipAndSpecificVinNumber(String vinNumber) {
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoCaMetaData.VehicleTab.VIN.getLabel()), vinNumber)
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), "Value($)"), "40000");
 		// Workaround for latest membership changes
+		return getTestWithSinceMembership(testData);
+	}
+
+	public TestData getTestWithSinceMembership(TestData testData) {
 		// Start of  MembershipTab
 		TestData addMemberSinceDialog = new SimpleDataProvider()
 				.adjust(AutoCaMetaData.MembershipTab.AddMemberSinceDialog.MEMBER_SINCE.getLabel(), new DefaultMarkupParser().parse("$<today:MM/dd/yyyy>"))
@@ -425,8 +429,7 @@ public class TestVINUploadTemplate extends PolicyBaseTest implements TestVinUplo
 		// Adjust membershipTab
 		TestData testMembershipTab = testData.getTestData(membershipTab.getMetaKey())
 				.adjust(AutoCaMetaData.MembershipTab.AAA_MEMBERSHIP_REPORT.getLabel(), aaaMembershipReportRow);
-		testData.adjust(membershipTab.getMetaKey(), testMembershipTab);
-		return testData;
+		return testData.adjust(membershipTab.getMetaKey(), testMembershipTab);
 	}
 
 	protected String createPreconds(TestData testData) {

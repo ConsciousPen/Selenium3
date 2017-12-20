@@ -16,9 +16,7 @@ import toolkit.utils.TestInfo;
 public class TestVINUpload extends TestVINUploadTemplate {
 
 	private static final String UPDATABLE_VIN = "1HGEM215140028445";
-	private static final String VIN_NUMBER = "1FDEU15H7KL055795";
-	private static final String CONTROLTABLE_FILE_NAME = "controlTable_CA_SELECT.xlsx";
-	private static final String VINTABLE_FIL_ENAME = "uploadAddedVIN_CA_SELECT.xlsx";
+	private static final String NEW_VIN = "1FDEU15H7KL055795";
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -101,7 +99,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	/**
 	 * @author Viktor Petrenko
 	 * <p>
-	 * PAS-2716 Update VIN Refresh
+	 * PAS-2716 Update VIN Refresh R
 	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
 	 * @scenario
 	 * 0. Retrieve active policy with (VIN matched)
@@ -115,20 +113,20 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDate(@Optional("CA") String state) {
-		TestData testData = getTestDataWithSinceMembership(VIN_NUMBER);
+		TestData testData = getTestDataWithSinceMembershipAndSpecificVinNumber(NEW_VIN);
 		String policyNumber = createPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		vinMethods.uploadFiles(CONTROLTABLE_FILE_NAME, VINTABLE_FIL_ENAME);
+		vinMethods.uploadFiles(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get()));
 		/*
 		 * Automated Renewal R-Expiration Date
 		 */
-		pas2716_AutomatedRenewal(policyNumber,policyExpirationDate, VIN_NUMBER);
+		pas2716_AutomatedRenewal(policyNumber,policyExpirationDate, NEW_VIN);
 	}
 
 	/**
 	 * @author Viktor Petrenko
 	 * <p>
-	 * PAS-2716 Update VIN Refresh
+	 * PAS-2716 Update VIN Refresh  R-45
 	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
 	 * @scenario
 	 * 0. Retrieve active policy with (VIN matched)
@@ -142,20 +140,20 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDateMinus45(@Optional("CA") String state) {
-		TestData testData = getTestDataWithSinceMembership(VIN_NUMBER);
+		TestData testData = getTestDataWithSinceMembershipAndSpecificVinNumber(NEW_VIN);
 		String policyNumber = createPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		vinMethods.uploadFiles(CONTROLTABLE_FILE_NAME, VINTABLE_FIL_ENAME);
+		vinMethods.uploadFiles(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get()));
 		/*
 		 * Automated Renewal R-45 Expiration Date
 		 */
-		pas2716_AutomatedRenewal(policyNumber,policyExpirationDate.minusDays(45), VIN_NUMBER);
+		pas2716_AutomatedRenewal(policyNumber,policyExpirationDate.minusDays(45), NEW_VIN);
 	}
 
 	/**
 	 * @author Viktor Petrenko
 	 * <p>
-	 * PAS-2716 Update VIN Refresh
+	 * PAS-2716 Update VIN Refresh  R-35
 	 * @name Test VINupload 'Add new VIN' scenario for Renewal.
 	 * @scenario
 	 * 0. Retrieve active policy with (VIN matched)
@@ -169,14 +167,14 @@ public class TestVINUpload extends TestVINUploadTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2716")
 	public void pas2716_AutomatedRenewal_ExpirationDateMinus35(@Optional("CA") String state) {
-		TestData testData = getTestDataWithSinceMembership(VIN_NUMBER);
+		TestData testData = getTestDataWithSinceMembershipAndSpecificVinNumber(NEW_VIN);
 		String policyNumber = createPreconds(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		vinMethods.uploadFiles(CONTROLTABLE_FILE_NAME, VINTABLE_FIL_ENAME);
+		vinMethods.uploadFiles(vinMethods.getSpecificUploadFile(VinUploadCommonMethods.UploadFilesTypes.ADDED_VIN.get()));
 		/*
 		 * Automated Renewal R-35 Expiration Date
 		 */
-		pas2716_AutomatedRenewal(policyNumber,policyExpirationDate.minusDays(35), VIN_NUMBER);
+		pas2716_AutomatedRenewal(policyNumber,policyExpirationDate.minusDays(35), NEW_VIN);
 	}
 
 }
