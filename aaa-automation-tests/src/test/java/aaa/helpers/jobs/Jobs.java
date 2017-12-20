@@ -90,7 +90,7 @@ public class Jobs {
 
 	public static Job policyTransactionLedgerJob = new Job("policyTransactionLedgerJob");
 
-	public static Job policyTransactionLedgerNonMonthlyJob = new Job("policyTransactionLedgerNonMonthlyJob");
+	public static Job policyTransactionLedgerJob_NonMonthly = new Job("policyTransactionLedgerJob_NonMonthly");
 
 	public static Job cftDcsEodJob = new Job("cftDcsEodJob");
 
