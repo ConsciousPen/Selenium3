@@ -32,6 +32,6 @@ public class TestScenario4 extends AutoCaChoiceBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(33));
 		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents.AH63XX);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, Documents.AH63XX, Documents.AH61XXA);
 	}
 }
