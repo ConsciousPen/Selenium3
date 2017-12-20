@@ -1,4 +1,4 @@
-package aaa.helpers.xml.models;
+package aaa.helpers.xml.model;
 
 import aaa.main.enums.DocGenEnum;
 

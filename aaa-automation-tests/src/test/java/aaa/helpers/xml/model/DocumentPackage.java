@@ -1,4 +1,4 @@
-package aaa.helpers.xml.models;
+package aaa.helpers.xml.model;
 
 import java.util.ArrayList;
 import java.util.List;
