@@ -4,9 +4,6 @@ package aaa.main.modules.policy.auto_ss;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import aaa.utils.EntityLogger;
-import aaa.EntityLogger;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -16,6 +13,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.modules.policy.auto_ss.views.DefaultView;
 import aaa.main.pages.summary.QuoteSummaryPage;
+import aaa.utils.EntityLogger;
 import toolkit.datax.TestData;
 
 /**
