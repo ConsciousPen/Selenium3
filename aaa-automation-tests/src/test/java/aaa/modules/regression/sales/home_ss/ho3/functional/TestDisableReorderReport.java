@@ -68,7 +68,7 @@ public class TestDisableReorderReport extends HomeSSHO3BaseTest {
         assertThat(reportTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst().isPresent()).isFalse();
         assertThat(reportTab.tblInsuranceScoreReport.getRow(2).getCell("Report").controls.links.getFirst().isPresent()).isFalse();
 
-        reportTab.cancel();
+        reportTab.cancel(true);
         policy.renew().perform(new SimpleDataProvider());
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
         assertThat(reportTab.tblInsuranceScoreOverride.getRow(1).getCell(6).controls.links.getFirst().isPresent()).isFalse();
