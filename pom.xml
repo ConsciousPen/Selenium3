@@ -100,6 +100,12 @@
             <groupId>com.exigen.istf</groupId>
             <artifactId>istf-core</artifactId>
             <version>3.6.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.poi</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.exigen.istf</groupId>

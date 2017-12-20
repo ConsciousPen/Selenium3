@@ -29,14 +29,10 @@ public class ExcelRow implements Iterable<ExcelCell> {
 		this(row, sheet, ExcelCell.getBaseTypes());
 	}
 
-	public ExcelRow(Row row, ExcelSheet sheet, CellType<?>... cellTypes) {
+	public ExcelRow(Row row, ExcelSheet sheet, Set<CellType<?>> cellTypes) {
 		this.row = row;
 		this.sheet = sheet;
-		this.cellTypes = new HashSet<>(Arrays.asList(cellTypes));
-		this.cells = new HashMap<>(row.getLastCellNum() + 1);
-		for (Cell cell : row) {
-			cells.put(cell.getColumnIndex() + 1, new ExcelCell(cell, sheet, cellTypes));
-		}
+		this.cellTypes = new HashSet<>(cellTypes);
 	}
 
 	public ExcelSheet getSheet() {
@@ -48,11 +44,11 @@ public class ExcelRow implements Iterable<ExcelCell> {
 	}
 
 	public List<? extends ExcelCell> getCells() {
-		return new ArrayList<>(this.cells.values());
+		return new ArrayList<>(getCellsMap().values());
 	}
 
 	public List<Integer> getColumnNumbers() {
-		return new ArrayList<>(cells.keySet());
+		return new ArrayList<>(getCellsMap().keySet());
 	}
 
 
@@ -66,7 +62,7 @@ public class ExcelRow implements Iterable<ExcelCell> {
 	}
 
 	public int getSize() {
-		return this.cells.size();
+		return getCellsMap().size();
 	}
 
 	public List<Object> getValues() {
@@ -77,17 +73,18 @@ public class ExcelRow implements Iterable<ExcelCell> {
 		return getCells().stream().map(ExcelCell::getStringValue).collect(Collectors.toList());
 	}
 
-	CellType<?>[] getCellTypes() {
-		return this.cellTypes.toArray(new CellType<?>[this.cellTypes.size()]);
+	Set<CellType<?>> getCellTypes() {
+		return new HashSet<>(this.cellTypes);
 	}
 
 	public Row getPoiRow() {
 		return row;
 	}
 
-	public ExcelCell getCell(int columnNumber) {
+	@SuppressWarnings("unchecked")
+	public <C extends ExcelCell> C getCell(int columnNumber) {
 		assertThat(hasColumn(columnNumber)).as("There is no cell with %s column number", columnNumber).isTrue();
-		return this.cells.get(columnNumber);
+		return (C) getCellsMap().get(columnNumber);
 	}
 
 	public Object getValue(int columnNumber) {
@@ -111,17 +108,12 @@ public class ExcelRow implements Iterable<ExcelCell> {
 	}
 
 	public boolean hasColumn(int columnNumber) {
-		return this.cells.containsKey(columnNumber);
+		return getCellsMap().containsKey(columnNumber);
 	}
 
 	public boolean hasValue(int columnNumber, Object expectedValue) {
 		return Objects.equals(getCell(columnNumber).getValue(), expectedValue);
 	}
-
-	protected final Map<Integer, ExcelCell> getCellsMap() {
-		return new HashMap<>(cells);
-	}
-
 
 	@SuppressWarnings("unchecked")
 	public <R extends ExcelRow> R save() {
@@ -147,6 +139,12 @@ public class ExcelRow implements Iterable<ExcelCell> {
 		return (R) this;
 	}
 
+	@SuppressWarnings("unchecked")
+	public <R extends ExcelRow> R saveAndClose(File destinationFile) {
+		getSheet().saveAndClose(destinationFile);
+		return (R) this;
+	}
+
 	@Override
 	@Nonnull
 	public Iterator<ExcelCell> iterator() {
@@ -158,5 +156,15 @@ public class ExcelRow implements Iterable<ExcelCell> {
 		this.cellTypes.addAll(Arrays.asList(cellTypes));
 		getCells().forEach(c -> c.registerCellType(cellTypes));
 		return (R) this;
+	}
+
+	private Map<Integer, ExcelCell> getCellsMap() {
+		if (this.cells == null) {
+			this.cells = new HashMap<>();
+			for (Cell cell : getPoiRow()) {
+				this.cells.put(cell.getColumnIndex() + 1, new ExcelCell(cell, this));
+			}
+		}
+		return new HashMap<>(this.cells);
 	}
 }

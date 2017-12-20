@@ -1,0 +1,17 @@
+TestData: {
+ ApplicantTab: {
+  NamedInsured: '@NamedInsuredInformation'
+ }
+}
+
+
+NamedInsuredInformation: {
+  Add: 'click',
+  CustomerSearchDialog: {},
+  First name: 'First Name1',
+  Last name: 'Last Name',
+  Relationship to primary named insured: Spouse,
+  Marital status: 'Single',
+  Date of birth: '09/05/1979',
+  Social security number: '123456789',
+  Occupation: 'index=1'}

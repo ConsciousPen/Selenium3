@@ -26,34 +26,28 @@ public class ExcelCell {
 
 	protected static Logger log = LoggerFactory.getLogger(ExcelCell.class);
 	protected Cell cell;
-	protected ExcelSheet sheet;
-	protected Set<CellType<?>> allowableCellTypes;
+	protected ExcelRow row;
 	protected Set<CellType<?>> cellTypes;
 
-	public ExcelCell(Cell cell, ExcelSheet sheet) {
-		this(cell, sheet, getBaseTypes());
-	}
-
-	public ExcelCell(Cell cell, ExcelSheet sheet, CellType<?>... allowableCellTypes) {
+	public ExcelCell(Cell cell, ExcelRow row) {
 		this.cell = normalizeCell(cell);
-		this.sheet = sheet;
-		this.allowableCellTypes = new HashSet<>(Arrays.asList(allowableCellTypes));
+		this.row = row;
 	}
 
-	public static CellType<?>[] getBaseTypes() {
-		return new CellType<?>[] {BOOLEAN_TYPE, STRING_TYPE, INTEGER_TYPE, LOCAL_DATE_TIME_TYPE};
+	public static Set<CellType<?>> getBaseTypes() {
+		return new HashSet<>(Arrays.asList(BOOLEAN_TYPE, STRING_TYPE, INTEGER_TYPE, LOCAL_DATE_TIME_TYPE));
 	}
 
-	public ExcelSheet getSheet() {
-		return sheet;
+	public ExcelRow getRow() {
+		return row;
 	}
 
-	public CellType<?>[] getCellTypes() {
+	public Set<CellType<?>> getCellTypes() {
 		if (cellTypes == null) {
-			cellTypes = allowableCellTypes.stream().filter(t -> t.isTypeOf(this)).collect(Collectors.toSet());
+			cellTypes = filterAndGetValidCellTypes(getRow().getCellTypes());
 			assertThat(cellTypes).as("Cell has unknown or unsupported cell type").isNotEmpty();
 		}
-		return cellTypes.toArray(new CellType<?>[this.cellTypes.size()]);
+		return new HashSet<>(this.cellTypes);
 	}
 
 	public int getColumnNumber() {
@@ -61,15 +55,15 @@ public class ExcelCell {
 	}
 
 	public int getRowNumber() {
-		return getPoiCell().getRowIndex() + 1;
+		return getRow().getRowNumber();
 	}
 
 	public Object getValue() {
-		Set<CellType<?>> cellTypes = new HashSet<>(Arrays.asList(getCellTypes()));
-		if (cellTypes.remove(STRING_TYPE) && cellTypes.isEmpty()) {
+		Set<CellType<?>> typesCopy = getCellTypes();
+		if (typesCopy.remove(STRING_TYPE) && typesCopy.isEmpty()) {
 			return getStringValue();
 		}
-		return cellTypes.stream().findFirst().get().getValueFrom(this);
+		return typesCopy.stream().findFirst().get().getValueFrom(this);
 	}
 
 	public <T> ExcelCell setValue(T value) {
@@ -99,17 +93,19 @@ public class ExcelCell {
 	@Override
 	public String toString() {
 		return "ExcelCell{" +
-				"Sheet name=" + getPoiCell().getSheet().getSheetName() +
+				"Sheet name=" + getRow().getSheet().getSheetName() +
 				", Row number=" + getRowNumber() +
 				", Column number=" + getColumnNumber() +
-				", Cell Types=" + Arrays.toString(getCellTypes()) +
+				", Cell Types=" + getCellTypes() +
 				", Cell value=" + getStringValue() +
 				'}';
 	}
 
 	@SuppressWarnings("unchecked")
 	public <C extends ExcelCell> C registerCellType(CellType<?>... cellTypes) {
-		this.cellTypes = new HashSet<>(Arrays.asList(cellTypes));
+		Set<CellType<?>> typesCopy = getCellTypes();
+		typesCopy.addAll(Arrays.asList(cellTypes));
+		this.cellTypes = typesCopy;
 		return (C) this;
 	}
 
@@ -120,7 +116,7 @@ public class ExcelCell {
 
 	public <T> ExcelCell setValue(T value, CellType<T> valueType) {
 		assertThat(valueType).as("%s cell does not have appropriate type to set %s value type", this, value.getClass()).isNotNull();
-		if (hasValue(value, valueType)) {
+		if (valueType.isTypeOf(this) && hasValue(value, valueType)) {
 			log.warn("{} already has \"{}\" value", this, value);
 		}
 		valueType.setValueTo(this, value);
@@ -128,7 +124,7 @@ public class ExcelCell {
 	}
 
 	public <T> boolean hasType(CellType<T> cellType) {
-		return Arrays.stream(getCellTypes()).anyMatch(t -> t.equals(cellType));
+		return getCellTypes().stream().anyMatch(t -> t.equals(cellType));
 	}
 
 	public <T> boolean hasValue(T expectedValue) {
@@ -141,37 +137,41 @@ public class ExcelCell {
 
 	@SuppressWarnings("unchecked")
 	public <T> CellType<T> getType(T value) {
-		return (CellType<T>) Arrays.stream(getCellTypes()).filter(type -> type.getEndType().isAssignableFrom(value.getClass())).findFirst().orElse(null);
+		return (CellType<T>) getCellTypes().stream().filter(t -> t.getEndType().isAssignableFrom(value.getClass())).findFirst().orElse(null);
 	}
 
 	@SuppressWarnings("unchecked")
 	public <C extends ExcelCell> C save() {
-		getSheet().save();
+		getRow().save();
 		return (C) this;
 	}
 
 	@SuppressWarnings("unchecked")
 	public <C extends ExcelCell> C save(File destinationFile) {
-		getSheet().save(destinationFile);
+		getRow().save(destinationFile);
 		return (C) this;
 	}
 
 	@SuppressWarnings("unchecked")
 	public <C extends ExcelCell> C close() {
-		getSheet().close();
+		getRow().close();
 		return (C) this;
 	}
 
 	@SuppressWarnings("unchecked")
 	public <C extends ExcelCell> C saveAndClose() {
-		getSheet().saveAndClose();
+		getRow().saveAndClose();
 		return (C) this;
 	}
 
 	@SuppressWarnings("unchecked")
 	public <C extends ExcelCell> C saveAndClose(File destinationFile) {
-		getSheet().getExcelManager().saveAndClose(destinationFile);
+		getRow().getSheet().getExcelManager().saveAndClose(destinationFile);
 		return (C) this;
+	}
+
+	protected Set<CellType<?>> filterAndGetValidCellTypes(Set<CellType<?>> cellTypes) {
+		return cellTypes.stream().filter(t -> t.isTypeOf(this)).collect(Collectors.toSet());
 	}
 
 	private Cell normalizeCell(Cell cell) {

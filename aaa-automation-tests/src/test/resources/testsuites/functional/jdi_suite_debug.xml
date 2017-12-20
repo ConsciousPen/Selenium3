@@ -8,6 +8,7 @@
     <parameter name="timeshift-scenario-mode" value="test"/>
 
     <test name="TestRefundProcessVA2">
+     <test name="TestRefundProcessVA2">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
@@ -40,6 +41,7 @@
             </class>
         </classes>
     </test>
+
     <test name="TestRefundProcessMD1">
         <parameter name="state" value="MD"/>
         <classes>
