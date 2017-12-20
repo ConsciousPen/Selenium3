@@ -35,8 +35,7 @@ public class TestScenario12 extends Scenario12 {
 			renewalImageGeneration();
 			renewalPreviewGeneration();
 			renewalOfferGeneration();
-			generateRenewalBill();
-			
+			generateRenewalBill();	
 			changePaymentPlan();
 			enableAutoPay();
 			payRenewalBill();
