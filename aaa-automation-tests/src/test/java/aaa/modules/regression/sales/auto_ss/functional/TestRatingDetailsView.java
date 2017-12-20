@@ -36,7 +36,7 @@ public class TestRatingDetailsView extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-535")
-	public void pas535_pas2712_veryNewSymbolsPresence(@Optional("AZ") String state) {
+	public void pas535_verifyNewSymbolsPresence(@Optional("AZ") String state) {
 		TestData testDataAdjusted = getPolicyTD().adjust("VehicleTab",getTestSpecificTD("TestData").getTestDataList("VehicleTab")).resolveLinks();
 
 		mainApp().open();
@@ -56,10 +56,10 @@ public class TestRatingDetailsView extends AutoSSBaseTest {
 
 		pas535Fields.forEach(f -> assertThat(
 				PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue().isEmpty() &&
-				PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue().isEmpty()).isEqualTo(true));
+				PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue().isEmpty()).isEqualTo(false));
 		// End of PAS-535 Modifies View Rating Details to display separate comp and coll symbols.
 		// Start of PAS-2712 Update UI (View Rating Details)
-		List<String> pas2712Fields = Arrays.asList("BI Symbol","PD Symbol","UM Symbol", "PD Symbol");
+		List<String> pas2712Fields = Arrays.asList("BI Symbol","PD Symbol","UM Symbol", "MP Symbol");
 		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).isPresent()).isEqualTo(true));
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Stat Code").isPresent()).isEqualTo(false);
 		// End of PAS-2712 Update UI (View Rating Details)

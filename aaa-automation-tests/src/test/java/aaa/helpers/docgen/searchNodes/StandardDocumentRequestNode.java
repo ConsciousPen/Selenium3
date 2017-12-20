@@ -1,8 +1,7 @@
 package aaa.helpers.docgen.searchNodes;
 
-import aaa.helpers.xml.models.StandardDocumentRequest;
-
 import java.util.List;
+import aaa.helpers.xml.model.StandardDocumentRequest;
 
 public class StandardDocumentRequestNode extends SearchBy<StandardDocumentRequestNode, StandardDocumentRequest> {
 	public DocumentPackageNode documentPackage = new DocumentPackageNode();

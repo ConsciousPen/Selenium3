@@ -292,7 +292,15 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<StaticElement> ORDER_DATE = declare("Order Date", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> RECEIPT_DATE = declare("Receipt Date", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> STATUS = declare("Status", StaticElement.class);
-			public static final AssetDescriptor<Link> ACTION = declare("Action", Link.class);
+			public static final AssetDescriptor<Link> ACTION = declare("Action", Link.class, Waiters.AJAX);
+
+			public static final AssetDescriptor<AssetList> ADD_MEMBER_SINCE_DIALOG = declare("AddMemberSinceDialog", AssetList.class, AddMemberSinceDialog.class);
+
+		}
+		public static final class AddMemberSinceDialog extends MetaData {
+			public static final AssetDescriptor<TextBox> MEMBER_SINCE = declare("Member Since", TextBox.class,Waiters.AJAX, By.xpath("//input[@id='memberSinceDateFrom:popupMemberSinceDateInputDate']"));
+			public static final AssetDescriptor<Button> BTN_OK = declare("OK", Button.class,Waiters.AJAX, By.xpath("//*[@id='memberSinceDateFrom:addMemberSinceDateButton']"));
+			public static final AssetDescriptor<Button> BTN_CANCEL = declare("Cancel", Button.class,Waiters.AJAX, By.xpath("//*[@id='memberSinceDateFrom:cancelMemberSinceDateButton']"));
 		}
 	}
 
@@ -686,7 +694,7 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<StaticElement> DOCUMENT_NUMBER = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM, StaticElement.class, Waiters.AJAX);
 			public static final AssetDescriptor<StaticElement> DOCUMENT_NAME = declare(DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NAME, StaticElement.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> FREE_FORM_TEXT = declare("Free Form Text", TextBox.class, Waiters.AJAX, false, By.id("policyDataGatherForm:uwLetterMsg_AU03"));
-		
+
 			// CAU08
 			public static final AssetDescriptor<CalendarBox> CAU08_NON_RENEWAL_DATE = declare("CAU08 Non-Renewal Date", CalendarBox.class, Waiters.AJAX, false,
 					By.xpath("//input[@id='policyDataGatherForm:uwLetterCancDt_CAU08InputDate']"));
